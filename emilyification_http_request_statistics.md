@@ -313,3 +313,237 @@ If someone asks “where’s the dashboard?”
 They’ve already missed the point.
 
 **Proceed to implementation.**
+
+---
+
+# PART 5 — REFERENCE IMPLEMENTATION (MINIMAL, DROP-SAFE)
+## The Parasite That Never Bites the Host
+
+### 5.1 Common Wire Format (Binary, Fixed-Size)
+**Goal:** zero allocations, no JSON, stable ABI across languages.
+
+**Record (little-endian, 64-bit aligned):**
+```
+struct TelemetryRecord {
+  u64 ts_ns;
+  u64 path_hash;
+  u32 method;        // enum
+  u16 status;
+  u16 http_version;  // enum
+  u32 req_bytes;
+  u32 resp_bytes;
+  u32 latency_us;
+  u32 ip_prefix;     // IPv4 /24 packed; IPv6 -> 0
+  u8  tls;           // 0/1
+  u8  reserved[7];   // pad to 64 bytes
+}
+```
+
+**Rules**
+- Fixed 64 bytes for SIMD-friendly batching.
+- Path hashing uses a stable, non-cryptographic 64-bit hash (e.g., xxHash64).
+- Method + HTTP version are enums, not strings.
+- IPv6 is supported via separate optional record type (not on hot path).
+
+### 5.2 Runtime Controls (Fail-Open)
+**Shared knobs**
+- `EMILY_TELEMETRY_ENABLED=1|0` (checked once per second by worker)
+- `EMILY_TELEMETRY_RATE=0-100` (sample percent, drop others)
+- `EMILY_RING_SIZE=N` (power of two)
+
+**Guarantees**
+- Disable at runtime without restart.
+- Drop on overflow.
+- Never log on failure.
+
+### 5.3 Python (WSGI / ASGI) — Minimal Middleware
+```python
+# emily_telemetry.py
+import time
+import collections
+import threading
+import os
+import socket
+import struct
+import xxhash
+
+RING = collections.deque(maxlen=int(os.getenv("EMILY_RING_SIZE", "65536")))
+ENABLED = True
+LOCK = threading.Lock()  # used only by worker, never on request path
+
+def _hash_path(path: str) -> int:
+    return xxhash.xxh64(path, seed=0).intdigest()
+
+def _record(method, path, status, req_bytes, resp_bytes, latency_us, ip_prefix, tls, http_version):
+    ts_ns = time.monotonic_ns()
+    return struct.pack(
+        "<QQIHHIIIIB7x",
+        ts_ns,
+        _hash_path(path),
+        method,
+        status,
+        http_version,
+        req_bytes,
+        resp_bytes,
+        latency_us,
+        ip_prefix,
+        1 if tls else 0,
+    )
+
+def middleware(app):
+    def _inner(environ, start_response):
+        start = time.monotonic_ns()
+        status_holder = {}
+
+        def _sr(status, headers, exc_info=None):
+            status_holder["status"] = int(status.split()[0])
+            return start_response(status, headers, exc_info)
+
+        result = app(environ, _sr)
+        end = time.monotonic_ns()
+        try:
+            path = environ.get("PATH_INFO", "/")
+            method = _method_enum(environ.get("REQUEST_METHOD", "GET"))
+            req_bytes = int(environ.get("CONTENT_LENGTH") or 0)
+            resp_bytes = int(environ.get("CONTENT_LENGTH") or 0)
+            latency_us = int((end - start) / 1000)
+            ip_prefix = _ip_prefix_24(environ.get("REMOTE_ADDR", "0.0.0.0"))
+            tls = environ.get("wsgi.url_scheme") == "https"
+            http_version = _http_enum(environ.get("SERVER_PROTOCOL", "HTTP/1.1"))
+            RING.append(_record(method, path, status_holder.get("status", 0), req_bytes,
+                                resp_bytes, latency_us, ip_prefix, tls, http_version))
+        except Exception:
+            pass  # fail open
+        return result
+    return _inner
+
+def _worker():
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+    sock.connect("/var/run/emily.sock")
+    while True:
+        if not RING:
+            time.sleep(0.001)
+            continue
+        batch = []
+        while RING and len(batch) < 256:
+            batch.append(RING.popleft())
+        try:
+            sock.send(b"".join(batch))
+        except Exception:
+            pass
+
+threading.Thread(target=_worker, daemon=True).start()
+```
+
+**Notes**
+- The request path does a single `deque.append` and no logging.
+- Any exception is swallowed on the hot path.
+
+### 5.4 Golang (net/http) — Zero-Block Handler
+```go
+// emily_telemetry.go
+type TelemetryRecord struct {
+	TsNs       uint64
+	PathHash   uint64
+	Method     uint32
+	Status     uint16
+	HttpVer    uint16
+	ReqBytes   uint32
+	RespBytes  uint32
+	LatencyUs  uint32
+	IpPrefix   uint32
+	Tls        uint8
+	_          [7]byte
+}
+
+var ring = make(chan TelemetryRecord, 65536)
+
+func Telemetry(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		rw := &statusWriter{ResponseWriter: w, status: 200}
+		next.ServeHTTP(rw, r)
+		rec := TelemetryRecord{
+			TsNs:      uint64(time.Now().UnixNano()),
+			PathHash:  xxhash.Sum64String(r.URL.Path),
+			Method:    methodEnum(r.Method),
+			Status:    uint16(rw.status),
+			HttpVer:   httpEnum(r.Proto),
+			ReqBytes:  uint32(r.ContentLength),
+			RespBytes: uint32(rw.bytes),
+			LatencyUs: uint32(time.Since(start).Microseconds()),
+			IpPrefix:  ipPrefix24(r.RemoteAddr),
+			Tls:       boolToByte(r.TLS != nil),
+		}
+		select {
+		case ring <- rec:
+		default:
+			// drop on pressure
+		}
+	})
+}
+
+func telemetryWorker(sockPath string) {
+	conn, _ := net.Dial("unixgram", sockPath)
+	buf := make([]byte, 0, 256*64)
+	for {
+		buf = buf[:0]
+		for i := 0; i < 256; i++ {
+			rec := <-ring
+			buf = append(buf, (*(*[64]byte)(unsafe.Pointer(&rec)))[:]...)
+		}
+		conn.Write(buf)
+	}
+}
+```
+
+### 5.5 Nginx (lua-nginx-module)
+```nginx
+log_by_lua_block {
+  local ts = ngx.now() * 1000000000
+  local path = ngx.var.uri
+  local status = ngx.status
+  local req = tonumber(ngx.var.request_length) or 0
+  local resp = tonumber(ngx.var.bytes_sent) or 0
+  local latency = tonumber(ngx.var.request_time) * 1000000
+  local tls = ngx.var.https == "on" and 1 or 0
+  local record = emily.pack(ts, path, status, req, resp, latency, tls, ngx.req.http_version())
+  emily.send(record)
+}
+```
+
+**Rules**
+- `emily.pack` must use a preallocated buffer.
+- `emily.send` must be non-blocking UDP or unixgram.
+
+### 5.6 Apache (Named Pipe)
+**LogFormat**
+```
+LogFormat "%t %m %U %>s %{req_bytes}n %{resp_bytes}n %D" emily
+CustomLog "|/usr/local/bin/emily_pipe" emily
+```
+
+**External daemon**
+- Parse tokens into fixed-size record.
+- Emit over UDP/unix socket.
+- Drop on backpressure.
+
+### 5.7 Aggregator Worker (All Envs)
+**Responsibilities**
+- Batch 256 records at a time.
+- Optional: aggregate counts into 1-second windows.
+- Emit over UDP or unixgram.
+- Never write to disk in hot path.
+
+### 5.8 On-Host Collector (Local-First)
+**Inputs**
+- UDP/unix socket from workers.
+
+**Outputs**
+- In-memory aggregates (24h rolling)
+- Optional: rotate daily snapshots to local disk *outside* request path
+
+**Never**
+- Call external services
+- Expose raw IPs
+- Persist beyond policy
