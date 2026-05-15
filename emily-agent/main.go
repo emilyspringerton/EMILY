@@ -76,7 +76,7 @@ func loadConfig() Config {
 	return Config{
 		Port:            envOr("PORT", "8080"),
 		ConversationDir: envOr("CONVERSATION_DIR", "./conversations"),
-		Model:           envOr("MODEL", "gpt-4o"),
+		Model:           envOr("MODEL", "gpt-5.4-mini"),
 		ValidatorModel:  envOr("VALIDATOR_MODEL", "gpt-4o-mini"),
 		APIKey:          os.Getenv("OPENAI_API_KEY"),
 		GitCommit:       gitCommit,
