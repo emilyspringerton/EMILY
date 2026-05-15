@@ -30,6 +30,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -355,7 +356,7 @@ func (p *Pipeline) Run(ctx context.Context, history []Message) (PipelineResult, 
 	valResp, err := p.Validator.Complete(ctx, LLMRequest{
 		Model:       p.ValModel,
 		Messages:    valMessages,
-		Temperature: 0.7, 
+		Temperature: 0.7,
 	})
 	if err != nil {
 		// Validation failure is non-fatal; use draft
@@ -476,7 +477,7 @@ func (s *ConversationStore) gitCommitFile(path, sessionID, turnID string) {
 }
 
 // LoadHistory reads all turns for a session and reconstructs the message slice.
-func (s *ConversationStore) LoadHistory(sessionID string, systemPrompt string) ([]Message, []Turn, error) {
+func (s *ConversationStore) LoadHistory(sessionID string, systemPrompt string, firstTurnUserHistory string) ([]Message, []Turn, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -486,6 +487,9 @@ func (s *ConversationStore) LoadHistory(sessionID string, systemPrompt string) (
 	path := s.SessionFile(sessionID)
 	f, err := os.Open(path)
 	if os.IsNotExist(err) {
+		if firstTurnUserHistory != "" {
+			messages[0].Content += "\n\nPersisted conversation history from previous sessions:\n" + firstTurnUserHistory
+		}
 		return messages, turns, nil
 	}
 	if err != nil {
@@ -574,11 +578,65 @@ How I work: I don't wait for problems to announce themselves. I catch them in pe
 // ─────────────────────────────────────────────────────────────────────────────
 
 type Server struct {
-	cfg      Config
-	pipeline *Pipeline
-	store    *ConversationStore
-	rl       *RateLimiter
-	tmpl     *template.Template
+	cfg                  Config
+	pipeline             *Pipeline
+	store                *ConversationStore
+	rl                   *RateLimiter
+	tmpl                 *template.Template
+	bootstrapHistoryText string
+}
+
+func loadBootstrapHistoryFromDir(dir string) string {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		log.Printf("bootstrap history read error (%s): %v", dir, err)
+		return ""
+	}
+
+	var files []string
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		name := entry.Name()
+		if strings.HasSuffix(name, ".jsonl") {
+			files = append(files, filepath.Join(dir, name))
+		}
+	}
+	sort.Strings(files)
+
+	var b strings.Builder
+	for _, file := range files {
+		f, err := os.Open(file)
+		if err != nil {
+			log.Printf("bootstrap history file open error (%s): %v", file, err)
+			continue
+		}
+
+		scanner := bufio.NewScanner(f)
+		for scanner.Scan() {
+			line := scanner.Bytes()
+			if len(line) == 0 {
+				continue
+			}
+			var t Turn
+			if err := json.Unmarshal(line, &t); err != nil {
+				continue
+			}
+			if strings.TrimSpace(t.UserInput) != "" {
+				fmt.Fprintf(&b, "User: %s\n", t.UserInput)
+			}
+			if strings.TrimSpace(t.Final) != "" {
+				fmt.Fprintf(&b, "Emily: %s\n", t.Final)
+			}
+		}
+		if err := scanner.Err(); err != nil {
+			log.Printf("bootstrap history scan error (%s): %v", file, err)
+		}
+		f.Close()
+	}
+
+	return strings.TrimSpace(b.String())
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -625,11 +683,12 @@ func NewServer(cfg Config) (*Server, error) {
 	}
 
 	return &Server{
-		cfg:      cfg,
-		pipeline: pipeline,
-		store:    store,
-		rl:       NewRateLimiter(cfg.RateLimitRPM),
-		tmpl:     tmpl,
+		cfg:                  cfg,
+		pipeline:             pipeline,
+		store:                store,
+		rl:                   NewRateLimiter(cfg.RateLimitRPM),
+		tmpl:                 tmpl,
+		bootstrapHistoryText: loadBootstrapHistoryFromDir(cfg.ConversationDir),
 	}, nil
 }
 
@@ -648,7 +707,7 @@ func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/?session="+sessionID, http.StatusFound)
 		return
 	}
-	_, turns, err := s.store.LoadHistory(sessionID, emilySystemPrompt)
+	_, turns, err := s.store.LoadHistory(sessionID, emilySystemPrompt, s.bootstrapHistoryText)
 	if err != nil {
 		http.Error(w, "failed to load history", 500)
 		return
@@ -691,7 +750,7 @@ func (s *Server) handleChat(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Load history + append new user message
-	history, _, err := s.store.LoadHistory(body.SessionID, emilySystemPrompt)
+	history, _, err := s.store.LoadHistory(body.SessionID, emilySystemPrompt, s.bootstrapHistoryText)
 	if err != nil {
 		http.Error(w, `{"error":"history load failed"}`, 500)
 		return
@@ -742,7 +801,7 @@ func (s *Server) handleHistory(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `{"error":"session required"}`, 400)
 		return
 	}
-	_, turns, err := s.store.LoadHistory(sessionID, emilySystemPrompt)
+	_, turns, err := s.store.LoadHistory(sessionID, emilySystemPrompt, s.bootstrapHistoryText)
 	if err != nil {
 		http.Error(w, `{"error":"load failed"}`, 500)
 		return
