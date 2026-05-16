@@ -13,15 +13,6 @@
 // Usage:
 //   OPENAI_API_KEY=sk-...  go run main.go
 //   ANTHROPIC_API_KEY=sk-ant-...  go run main.go   (auto-detected)
-//
-// Optional env vars:
-//   PORT              (default: 8080)
-//   CONVERSATION_DIR  (default: ./conversations)
-//   MODEL             (default: gpt-4o)
-//   VALIDATOR_MODEL   (default: gpt-4o-mini)
-//   GIT_COMMIT        (default: true)
-//   RATE_LIMIT_RPM    (default: 20)
-//   MAX_TOOL_ITERS    (default: 10)   <- safety ceiling on agentic loop
 
 package main
 
@@ -76,7 +67,7 @@ func loadConfig() Config {
 	return Config{
 		Port:            envOr("PORT", "8080"),
 		ConversationDir: envOr("CONVERSATION_DIR", "./conversations"),
-		Model:           envOr("MODEL", "gpt-5.4-mini"),
+		Model:           envOr("MODEL", "gpt-4o-mini"),
 		ValidatorModel:  envOr("VALIDATOR_MODEL", "gpt-4o-mini"),
 		APIKey:          os.Getenv("OPENAI_API_KEY"),
 		GitCommit:       gitCommit,
