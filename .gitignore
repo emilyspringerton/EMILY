@@ -9,5 +9,9 @@ emily-collect/
 # construct artifacts
 EMILY_CONSTRUCT.txt
 
+# integration runtime state
+signals/observations/.last-processed
+signals/tasks/.last-processed
+
 # Go build cache
 *.test
