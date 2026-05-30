@@ -1,0 +1,13 @@
+# compiled binary
+emily-agent/emily-agent
+
+# runtime state dirs
+emily-agent/conversations/
+emily-agent/emily-state/
+emily-collect/
+
+# construct artifacts
+EMILY_CONSTRUCT.txt
+
+# Go build cache
+*.test
