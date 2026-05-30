@@ -55,27 +55,27 @@ const (
 
 // RoadmapItem is one initiative on Emily's evolution roadmap.
 type RoadmapItem struct {
-	ID          string               `json:"id"`
-	Name        string               `json:"name"`
-	Description string               `json:"description"`
-	Priority    int                  `json:"priority"` // lower = higher priority
-	Status      string               `json:"status"`   // queued|in_progress|complete|blocked
+	ID          string                `json:"id"`
+	Name        string                `json:"name"`
+	Description string                `json:"description"`
+	Priority    int                   `json:"priority"` // lower = higher priority
+	Status      string                `json:"status"`   // queued|in_progress|complete|blocked
 	Criteria    []AcceptanceCriterion `json:"criteria"`
-	MaxIters    int                  `json:"max_iters"`
-	Notes       string               `json:"notes,omitempty"`
+	MaxIters    int                   `json:"max_iters"`
+	Notes       string                `json:"notes,omitempty"`
 }
 
 // CycleState is persisted between cycles so Emily remembers her context.
 type CycleState struct {
-	Version          int           `json:"version"`
-	CycleNumber      int           `json:"cycle_number"`
-	LastCycleAt      time.Time     `json:"last_cycle_at"`
-	ActiveTaskID     string        `json:"active_task_id,omitempty"`
-	ActiveTask       *ImprovementTask `json:"active_task,omitempty"`
-	Roadmap          []RoadmapItem `json:"roadmap"`
-	CompletedTasks   []ImprovementTask `json:"completed_tasks,omitempty"`
-	Metrics          CycleMetrics  `json:"metrics"`
-	NextCyclePlan    string        `json:"next_cycle_plan,omitempty"`
+	Version        int               `json:"version"`
+	CycleNumber    int               `json:"cycle_number"`
+	LastCycleAt    time.Time         `json:"last_cycle_at"`
+	ActiveTaskID   string            `json:"active_task_id,omitempty"`
+	ActiveTask     *ImprovementTask  `json:"active_task,omitempty"`
+	Roadmap        []RoadmapItem     `json:"roadmap"`
+	CompletedTasks []ImprovementTask `json:"completed_tasks,omitempty"`
+	Metrics        CycleMetrics      `json:"metrics"`
+	NextCyclePlan  string            `json:"next_cycle_plan,omitempty"`
 }
 
 // CycleMetrics tracks health across cycles.
@@ -151,9 +151,18 @@ func (ac *AutonomousCycle) RunOnce() error {
 	influence := ac.emiree.State.Influence()
 	log.Printf("[cycle %d] emiree: %s", state.CycleNumber, ac.emiree.State.Summary())
 	task, reason := ac.pickTask(state)
-	// Apply gear influence to task max_iters
+	// Apply gear influence to task max_iters without shortening an
+	// already-running task below the work it has accumulated. Emiree may shift
+	// into a more conservative gear between cycles, but that should not force a
+	// task into partial completion simply because it already used more iterations
+	// than the new gear would have allowed from scratch.
 	if task != nil && influence.MaxIters > 0 {
-		task.MaxIters = influence.MaxIters
+		minAllowed := len(task.Iterations) + 1
+		if influence.MaxIters > minAllowed {
+			task.MaxIters = influence.MaxIters
+		} else if task.MaxIters < minAllowed {
+			task.MaxIters = minAllowed
+		}
 	}
 	rec.Action = reason
 	log.Printf("[cycle %d] decide: %s", state.CycleNumber, reason)
@@ -172,9 +181,15 @@ func (ac *AutonomousCycle) RunOnce() error {
 			state.Metrics.ItersRun++
 			rec.Outcome = result
 			log.Printf("[cycle %d] act: %s", state.CycleNumber, result)
-			if task.Status == "success" {
+			switch task.Status {
+			case "success":
 				state.Metrics.TasksCompleted++
 				state.CompletedTasks = append(state.CompletedTasks, *task)
+				state.ActiveTaskID = ""
+				state.ActiveTask = nil
+			case "partial", "failed":
+				// Terminal-but-not-successful tasks must not pin the active slot forever;
+				// the roadmap item is marked blocked in runIteration for operator review.
 				state.ActiveTaskID = ""
 				state.ActiveTask = nil
 			}
@@ -190,7 +205,9 @@ func (ac *AutonomousCycle) RunOnce() error {
 	if task != nil && task.Status == "running" {
 		state.ActiveTask = task
 	}
-	state.Metrics.SuccessfulCycles++
+	if rec.Error == "" {
+		state.Metrics.SuccessfulCycles++
+	}
 	rec.EndedAt = time.Now()
 
 	triageFindings := 0
@@ -242,18 +259,29 @@ func (ac *AutonomousCycle) RunDaemon() {
 }
 
 // pickTask selects what to work on this cycle.
-// Priority: resume active task > pick highest-priority queued item.
+// Priority: resume active task > highest-priority executable roadmap item.
 func (ac *AutonomousCycle) pickTask(state *CycleState) (*ImprovementTask, string) {
-	// Resume in-progress task
-	if state.ActiveTask != nil && state.ActiveTask.Status == "running" {
-		return state.ActiveTask, fmt.Sprintf("resume active task: %s", state.ActiveTask.ID)
+	// Resume any non-terminal active task. Older state files may persist an
+	// ActiveTask with status pending before the first iteration, while current
+	// cycles persist it as running between iterations.
+	if state.ActiveTask != nil {
+		switch state.ActiveTask.Status {
+		case "pending", "running":
+			return state.ActiveTask, fmt.Sprintf("resume active task: %s", state.ActiveTask.ID)
+		case "success", "partial", "failed":
+			state.ActiveTaskID = ""
+			state.ActiveTask = nil
+		}
 	}
 
-	// Find highest-priority queued roadmap item
+	// Find the highest-priority executable roadmap item. The canonical roadmap
+	// ships some always-on initiatives as in_progress even before an ActiveTask is
+	// materialized; treating those as executable lets a fresh state begin with the
+	// actual highest-priority work instead of skipping to later queued items.
 	var best *RoadmapItem
 	for i := range state.Roadmap {
 		item := &state.Roadmap[i]
-		if item.Status != "queued" {
+		if !isExecutableRoadmapStatus(item.Status) {
 			continue
 		}
 		if best == nil || item.Priority < best.Priority {
@@ -261,10 +289,10 @@ func (ac *AutonomousCycle) pickTask(state *CycleState) (*ImprovementTask, string
 		}
 	}
 	if best == nil {
-		return nil, "no queued tasks"
+		return nil, "no executable tasks"
 	}
 
-	// Promote roadmap item to active task
+	// Promote roadmap item to active task.
 	best.Status = "in_progress"
 	maxIters := best.MaxIters
 	if maxIters <= 0 {
@@ -280,6 +308,15 @@ func (ac *AutonomousCycle) pickTask(state *CycleState) (*ImprovementTask, string
 	state.ActiveTaskID = task.ID
 	state.ActiveTask = task
 	return task, fmt.Sprintf("start new task: %s (%s)", best.ID, best.Name)
+}
+
+func isExecutableRoadmapStatus(status string) bool {
+	switch status {
+	case "", "queued", "in_progress":
+		return true
+	default:
+		return false
+	}
 }
 
 // runIteration runs one RSI iteration on the active task.
@@ -312,6 +349,12 @@ func (ac *AutonomousCycle) runIteration(ctx context.Context, state *CycleState, 
 		task.Status = "partial"
 		t := time.Now()
 		task.CompletedAt = &t
+		for i := range state.Roadmap {
+			if state.Roadmap[i].ID == task.ID {
+				state.Roadmap[i].Status = "blocked"
+				state.Roadmap[i].Notes = fmt.Sprintf("Reached max_iters (%d) without satisfying all criteria; last pass count %d/%d. Requires review or a revised task.", task.MaxIters, passCount(rec.Results), len(rec.Results))
+			}
+		}
 		return fmt.Sprintf("task %s reached max_iters (%d), status=partial", task.ID, task.MaxIters), nil
 	}
 

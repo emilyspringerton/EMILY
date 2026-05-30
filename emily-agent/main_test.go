@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"os"
 	"path/filepath"
 	"strings"
@@ -58,5 +59,90 @@ func TestConversationStoreWritesMarkdownIndexAndSearch(t *testing.T) {
 	}
 	if len(results) != 1 || results[0].Path != filepath.ToSlash(filepath.Join("conversations", "2026", "05", "2026-05-30-14-45-design-the-git-workflow-for-emily-memory.md")) {
 		t.Fatalf("unexpected search results: %#v", results)
+	}
+}
+
+type scriptedLLM struct {
+	calls int
+}
+
+func (s *scriptedLLM) Complete(ctx context.Context, req LLMRequest) (LLMResponse, error) {
+	s.calls++
+	if len(req.Messages) > 0 && strings.Contains(req.Messages[0].Content, "objective evaluator") {
+		return LLMResponse{
+			Content: `{"results":[{"name":"done","passes":false,"value":"artifact lacks done marker","gap":"Add the done marker."}],"all_pass":false,"analysis":"The artifact omits the required done marker.","next_focus":"done: add the done marker so the only criterion can pass."}`,
+		}, nil
+	}
+	return LLMResponse{Content: "draft artifact"}, nil
+}
+
+func (s *scriptedLLM) Name() string { return "scripted" }
+
+func TestPickTaskStartsHighestPriorityInProgressItem(t *testing.T) {
+	cycle := &AutonomousCycle{}
+	state := &CycleState{Roadmap: []RoadmapItem{
+		{ID: "prime-triage", Name: "Prime triage", Priority: 0, Status: "in_progress", MaxIters: 3},
+		{ID: "bob-agent", Name: "Bob", Priority: 6, Status: "queued", MaxIters: 6},
+	}}
+
+	task, reason := cycle.pickTask(state)
+	if task == nil {
+		t.Fatalf("expected task, got nil (%s)", reason)
+	}
+	if task.ID != "prime-triage" {
+		t.Fatalf("expected in-progress prime-triage to be selected first, got %q", task.ID)
+	}
+	if state.ActiveTaskID != "prime-triage" || state.ActiveTask == nil {
+		t.Fatalf("expected active task to be materialized, got id=%q task=%#v", state.ActiveTaskID, state.ActiveTask)
+	}
+}
+
+func TestPickTaskClearsTerminalActiveTask(t *testing.T) {
+	cycle := &AutonomousCycle{}
+	state := &CycleState{
+		ActiveTaskID: "old",
+		ActiveTask:   &ImprovementTask{ID: "old", Status: "partial"},
+		Roadmap: []RoadmapItem{
+			{ID: "next", Name: "Next", Priority: 1, Status: "queued", MaxIters: 2},
+		},
+	}
+
+	task, _ := cycle.pickTask(state)
+	if task == nil || task.ID != "next" {
+		t.Fatalf("expected next queued task after terminal active task, got %#v", task)
+	}
+	if state.ActiveTaskID != "next" {
+		t.Fatalf("expected active task id to move to next, got %q", state.ActiveTaskID)
+	}
+}
+
+func TestRunIterationMarksMaxIterPartialAsBlocked(t *testing.T) {
+	cycle := &AutonomousCycle{pipeline: &Pipeline{Generator: &scriptedLLM{}, GenModel: "test"}}
+	state := &CycleState{Roadmap: []RoadmapItem{
+		{ID: "demo", Name: "Demo", Priority: 1, Status: "in_progress", MaxIters: 1},
+	}}
+	task := &ImprovementTask{
+		ID:          "demo",
+		Description: "Produce an artifact with a done marker.",
+		Criteria:    []AcceptanceCriterion{{Name: "done", Description: "artifact includes a done marker", Target: "done marker present"}},
+		MaxIters:    1,
+		Status:      "pending",
+	}
+
+	result, err := cycle.runIteration(context.Background(), state, task)
+	if err != nil {
+		t.Fatalf("runIteration: %v", err)
+	}
+	if !strings.Contains(result, "status=partial") {
+		t.Fatalf("expected partial result, got %q", result)
+	}
+	if task.Status != "partial" || task.CompletedAt == nil {
+		t.Fatalf("expected task partial with completion time, got status=%q completed=%v", task.Status, task.CompletedAt)
+	}
+	if state.Roadmap[0].Status != "blocked" {
+		t.Fatalf("expected roadmap item blocked, got %q", state.Roadmap[0].Status)
+	}
+	if !strings.Contains(state.Roadmap[0].Notes, "Reached max_iters (1)") {
+		t.Fatalf("expected review note, got %q", state.Roadmap[0].Notes)
 	}
 }
