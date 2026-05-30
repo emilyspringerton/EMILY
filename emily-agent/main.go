@@ -998,12 +998,13 @@ Agents: Bob (database, not yet deployed). Data collection: ArXiv, Reddit, Wikipe
 // -----------------------------------------------------------------------------
 
 type Server struct {
-	cfg       Config
-	pipeline  *Pipeline
-	store     *ConversationStore
-	rl        *RateLimiter
-	tmpl      *template.Template
-	collector *CollectorPipeline // nil if EMILY_COLLECT_DIR unset
+	cfg         Config
+	pipeline    *Pipeline
+	store       *ConversationStore
+	rl          *RateLimiter
+	tmpl        *template.Template
+	collector   *CollectorPipeline   // nil if EMILY_COLLECT_DIR unset
+	integration *IntegrationStore    // nil if signals/ dir not found
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -1064,6 +1065,11 @@ func NewServer(cfg Config) (*Server, error) {
 			log.Printf("collector start failed (continuing without): %v", err)
 			srv.collector = nil
 		}
+	}
+	srv.integration = buildIntegrationStore()
+	if srv.integration != nil {
+		registerIntegrationTools(dispatcher, srv.integration)
+		log.Printf("integration store: signals dir=%s", srv.integration.signalsDir)
 	}
 	return srv, nil
 }
@@ -1529,6 +1535,9 @@ func main() {
 	mux.HandleFunc("/roadmap", srv.handleRoadmap)
 	mux.HandleFunc("/status", srv.handleStatus)
 	mux.HandleFunc("/collect", srv.handleCollect)
+	mux.HandleFunc("/integration/observations", srv.handleIntegrationObservations)
+	mux.HandleFunc("/integration/task", srv.handleIntegrationTask)
+	mux.HandleFunc("/integration/triage", srv.handleIntegrationTriage)
 	mux.HandleFunc("/agent/result", srv.handleAgentResult)
 
 	addr := ":" + cfg.Port

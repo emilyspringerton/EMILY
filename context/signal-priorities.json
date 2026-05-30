@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "updated_at": "2026-05-30",
+  "description": "Emily Prime strategic signal weights — which FatBaby signal types are currently most relevant. Weights 0.0–1.0; CEO visibility threshold triggers escalation email.",
+  "signal_weights": {
+    "activist_risk":              1.0,
+    "nomination_rejection":       0.95,
+    "auditor_change":             0.90,
+    "governance_entrenchment":    0.85,
+    "director_friction":          0.75,
+    "director_decay":             0.70,
+    "compensation_concern":       0.55,
+    "abstention_spike":           0.50,
+    "broker_nonvote_anomaly":     0.40,
+    "director_link":              0.35,
+    "family_control":             0.30,
+    "high_trust_director":        0.05
+  },
+  "ceo_visibility_threshold": 0.80,
+  "escalation_criteria": {
+    "director_departure_always":  true,
+    "auditor_change_always":      true,
+    "eps_miss_threshold_pct":     15,
+    "governance_health_index_min": 0.50,
+    "activist_risk_always":       true
+  },
+  "weekly_pulse_day": "monday",
+  "weekly_pulse_hour_utc": 7
+}
