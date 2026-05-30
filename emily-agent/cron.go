@@ -100,14 +100,15 @@ type CycleRecord struct {
 
 // AutonomousCycle runs one 5-minute execution cycle.
 type AutonomousCycle struct {
-	cfg      CronConfig
-	pipeline *Pipeline
-	state    *CycleState
+	cfg         CronConfig
+	pipeline    *Pipeline
+	state       *CycleState
+	integration *IntegrationStore // optional; enables prime triage each cycle
 }
 
 // NewAutonomousCycle creates a cycle runner.
 func NewAutonomousCycle(cfg CronConfig, p *Pipeline) *AutonomousCycle {
-	return &AutonomousCycle{cfg: cfg, pipeline: p}
+	return &AutonomousCycle{cfg: cfg, pipeline: p, integration: buildIntegrationStore()}
 }
 
 // RunOnce executes exactly one cycle. Designed to be called by cron.
@@ -171,7 +172,7 @@ func (ac *AutonomousCycle) RunOnce() error {
 		log.Printf("[cycle %d] act: idle", state.CycleNumber)
 	}
 
-	// PHASE 4: PLAN — update state for next cycle
+	// PHASE 4: PLAN — update state, run Prime triage if integration is wired
 	rec.Phase = PhasePlan
 	state.LastCycleAt = time.Now()
 	if task != nil && task.Status == "running" {
@@ -179,6 +180,14 @@ func (ac *AutonomousCycle) RunOnce() error {
 	}
 	state.Metrics.SuccessfulCycles++
 	rec.EndedAt = time.Now()
+
+	if ac.integration != nil {
+		if triageResult, triageErr := ac.runPrimeTriageCycle(ctx, ac.integration); triageErr != nil {
+			log.Printf("[cycle %d] triage warn: %v", state.CycleNumber, triageErr)
+		} else {
+			log.Printf("[cycle %d] triage: %s", state.CycleNumber, triageResult)
+		}
+	}
 
 	if err := ac.saveState(state); err != nil {
 		return fmt.Errorf("save state: %w", err)
@@ -410,8 +419,28 @@ func (ac *AutonomousCycle) releaseLock() {
 
 // --- Default roadmap: the bootstrap sequence from emily-ground-zero-protocol.md ---
 
+// runPrimeTriageCycle is called from the autonomous cycle when the prime-triage
+// roadmap item is active. It reads FatBaby observations, triages them, and
+// issues directed tasks for high-relevance findings.
+func (ac *AutonomousCycle) runPrimeTriageCycle(ctx context.Context, store *IntegrationStore) (string, error) {
+	return runPrimeTriage(ctx, store, ac.pipeline)
+}
+
 func defaultRoadmap() []RoadmapItem {
 	return []RoadmapItem{
+		{
+			ID:          "prime-triage",
+			Name:        "Emily Prime triage loop — active each cycle",
+			Description: "Each cron cycle: read FatBaby observations from signals/observations/, score strategic relevance against signal-priorities.json, issue DirectedTasks to signals/tasks/ for high-relevance findings, flag CEO-visibility observations for Gmail escalation.",
+			Priority:    0,
+			Status:      "in_progress",
+			Criteria: []AcceptanceCriterion{
+				{Name: "reads_observations", Description: "Emily Prime reads FatBaby observations from signals/observations/", Target: "observation count increases after fatbaby_commit_to_prime"},
+				{Name: "issues_tasks", Description: "directed tasks written to signals/tasks/ for relevance >= 0.75", Target: "task file present with correct schema"},
+				{Name: "ceo_visibility", Description: "high-relevance observations trigger Gmail alert", Target: "alert sent for activist_risk and auditor_change observations"},
+			},
+			MaxIters: 3,
+		},
 		{
 			ID:          "rsi-self-improve",
 			Name:        "RSI engine self-improvement",
