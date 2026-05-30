@@ -104,11 +104,17 @@ type AutonomousCycle struct {
 	pipeline    *Pipeline
 	state       *CycleState
 	integration *IntegrationStore // optional; enables prime triage each cycle
+	emiree      *EmireeAgent      // witch engine governing RSI operational state
 }
 
 // NewAutonomousCycle creates a cycle runner.
 func NewAutonomousCycle(cfg CronConfig, p *Pipeline) *AutonomousCycle {
-	return &AutonomousCycle{cfg: cfg, pipeline: p, integration: buildIntegrationStore()}
+	return &AutonomousCycle{
+		cfg:         cfg,
+		pipeline:    p,
+		integration: buildIntegrationStore(),
+		emiree:      NewEmireeAgent(cfg.StateDir),
+	}
 }
 
 // RunOnce executes exactly one cycle. Designed to be called by cron.
@@ -140,9 +146,15 @@ func (ac *AutonomousCycle) RunOnce() error {
 	log.Printf("[cycle %d] observe: active_task=%s roadmap_items=%d",
 		state.CycleNumber, state.ActiveTaskID, len(state.Roadmap))
 
-	// PHASE 2: DECIDE — pick what to work on this cycle
+	// PHASE 2: DECIDE — pick what to work on this cycle (gear-aware)
 	rec.Phase = PhaseDecide
+	influence := ac.emiree.State.Influence()
+	log.Printf("[cycle %d] emiree: %s", state.CycleNumber, ac.emiree.State.Summary())
 	task, reason := ac.pickTask(state)
+	// Apply gear influence to task max_iters
+	if task != nil && influence.MaxIters > 0 {
+		task.MaxIters = influence.MaxIters
+	}
 	rec.Action = reason
 	log.Printf("[cycle %d] decide: %s", state.CycleNumber, reason)
 
@@ -181,13 +193,24 @@ func (ac *AutonomousCycle) RunOnce() error {
 	state.Metrics.SuccessfulCycles++
 	rec.EndedAt = time.Now()
 
+	triageFindings := 0
 	if ac.integration != nil {
 		if triageResult, triageErr := ac.runPrimeTriageCycle(ctx, ac.integration); triageErr != nil {
 			log.Printf("[cycle %d] triage warn: %v", state.CycleNumber, triageErr)
 		} else {
 			log.Printf("[cycle %d] triage: %s", state.CycleNumber, triageResult)
+			// Count how many tasks were issued to feed back into Emiree
+			if strings.Contains(triageResult, "tasks_written=") {
+				fmt.Sscanf(triageResult[strings.Index(triageResult, "tasks_written="):], "tasks_written=%d", &triageFindings)
+			}
 		}
 	}
+
+	// Feed outcome back into Emiree; it updates state, saves, returns next gear.
+	rsiOutcome := buildRSIOutcome(task, triageFindings)
+	nextInfluence := ac.emiree.Tick(rsiOutcome)
+	log.Printf("[cycle %d] emiree after: %s | next: max_iters=%d pace=%ds",
+		state.CycleNumber, ac.emiree.State.Summary(), nextInfluence.MaxIters, nextInfluence.PaceSeconds)
 
 	if err := ac.saveState(state); err != nil {
 		return fmt.Errorf("save state: %w", err)
@@ -524,6 +547,33 @@ func defaultRoadmap() []RoadmapItem {
 			MaxIters: 6,
 		},
 	}
+}
+
+// buildRSIOutcome maps a completed task (or nil) + triage count to RSIOutcome.
+func buildRSIOutcome(task *ImprovementTask, triageFindings int) RSIOutcome {
+	out := RSIOutcome{TriageFindings: triageFindings}
+	if task == nil {
+		return out
+	}
+	out.TaskID = task.ID
+	out.MaxIterations = task.MaxIters
+	out.Iterations = len(task.Iterations)
+	out.Converged = task.Status == "success"
+
+	// First-pass rate: fraction of criteria passing on iteration 1
+	if len(task.Iterations) > 0 {
+		first := task.Iterations[0]
+		passing := 0
+		for _, r := range first.Results {
+			if r.Passes {
+				passing++
+			}
+		}
+		if len(first.Results) > 0 {
+			out.FirstPassRate = float64(passing) / float64(len(first.Results))
+		}
+	}
+	return out
 }
 
 // AddRoadmapItem adds an item to the roadmap from the HTTP API.

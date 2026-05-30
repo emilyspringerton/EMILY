@@ -1017,6 +1017,7 @@ type Server struct {
 	collector   *CollectorPipeline   // nil if EMILY_COLLECT_DIR unset
 	integration *IntegrationStore    // nil if signals/ dir not found
 	gmail       *GmailClient         // nil if GMAIL_* env vars not set
+	emiree      *EmireeAgent         // witch engine; always present
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -1088,6 +1089,9 @@ func NewServer(cfg Config) (*Server, error) {
 		registerGmailTools(dispatcher, srv.gmail)
 		log.Printf("gmail: CEO address=%s", srv.gmail.creds.CEOAddress)
 	}
+	stateDir := envOr("EMILY_STATE_DIR", "./emily-state")
+	srv.emiree = NewEmireeAgent(stateDir)
+	log.Printf("emiree: %s", srv.emiree.State.Summary())
 	return srv, nil
 }
 
@@ -1511,6 +1515,41 @@ input.focus();
 </body>
 </html>`
 
+// handleEmiree: GET returns witch state + fingerprint; POST injects a manual RSI outcome.
+func (s *Server) handleEmiree(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	switch r.Method {
+	case http.MethodGet:
+		type response struct {
+			State       WitchState   `json:"state"`
+			Influence   GearInfluence `json:"influence"`
+			Summary     string       `json:"summary"`
+			Fingerprint string       `json:"fingerprint"`
+		}
+		json.NewEncoder(w).Encode(response{
+			State:       s.emiree.State,
+			Influence:   s.emiree.State.Influence(),
+			Summary:     s.emiree.State.Summary(),
+			Fingerprint: s.emiree.State.FractalFingerprint(40, 14),
+		})
+	case http.MethodPost:
+		// Allow manual outcome injection for testing / bootstrapping.
+		var outcome RSIOutcome
+		if err := json.NewDecoder(r.Body).Decode(&outcome); err != nil {
+			http.Error(w, `{"error":"invalid json"}`, 400)
+			return
+		}
+		influence := s.emiree.Tick(outcome)
+		json.NewEncoder(w).Encode(map[string]any{
+			"state":     s.emiree.State,
+			"influence": influence,
+			"summary":   s.emiree.State.Summary(),
+		})
+	default:
+		http.Error(w, "method not allowed", 405)
+	}
+}
+
 // -----------------------------------------------------------------------------
 // Main
 // -----------------------------------------------------------------------------
@@ -1555,6 +1594,7 @@ func main() {
 	mux.HandleFunc("/integration/observations", srv.handleIntegrationObservations)
 	mux.HandleFunc("/integration/task", srv.handleIntegrationTask)
 	mux.HandleFunc("/integration/triage", srv.handleIntegrationTriage)
+	mux.HandleFunc("/emiree", srv.handleEmiree)
 	mux.HandleFunc("/agent/result", srv.handleAgentResult)
 
 	addr := ":" + cfg.Port
