@@ -15,6 +15,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -38,63 +40,132 @@ type CriteriaResult struct {
 type IterationRecord struct {
 	Number     int              `json:"number"`
 	Timestamp  time.Time        `json:"timestamp"`
-	Artifact   string           `json:"artifact"`  // the generated output
+	Artifact   string           `json:"artifact"` // the generated output
 	Results    []CriteriaResult `json:"results"`
 	AllPass    bool             `json:"all_pass"`
-	Analysis   string           `json:"analysis"`  // why things passed/failed
+	Analysis   string           `json:"analysis"`   // why things passed/failed
 	NextFocus  string           `json:"next_focus"` // what iteration n+1 should try
 	TokensUsed int              `json:"tokens_used"`
 }
 
 // ImprovementTask is a complete RSI task specification and its execution state.
 type ImprovementTask struct {
-	ID          string               `json:"id"`
-	Description string               `json:"description"`
+	ID          string                `json:"id"`
+	Description string                `json:"description"`
 	Criteria    []AcceptanceCriterion `json:"criteria"`
-	MaxIters    int                  `json:"max_iters"`
-	Iterations  []IterationRecord    `json:"iterations"`
-	Status      string               `json:"status"` // pending|running|success|partial|failed
-	StartedAt   time.Time            `json:"started_at"`
-	CompletedAt *time.Time           `json:"completed_at,omitempty"`
-	Lessons     []string             `json:"lessons,omitempty"`
+	MaxIters    int                   `json:"max_iters"`
+	Iterations  []IterationRecord     `json:"iterations"`
+	Status      string                `json:"status"` // pending|running|success|partial|failed
+	StartedAt   time.Time             `json:"started_at"`
+	CompletedAt *time.Time            `json:"completed_at,omitempty"`
+	Lessons     []string              `json:"lessons,omitempty"`
 }
 
 // RSILoop runs iterative improvement loops backed by an LLM pipeline.
 type RSILoop struct {
 	pipeline *Pipeline
+	stateDir string
 }
 
-// NewRSILoop creates an RSI engine.
+// NewRSILoop creates an RSI engine backed by the default Emily state directory.
 func NewRSILoop(p *Pipeline) *RSILoop {
-	return &RSILoop{pipeline: p}
+	return NewRSILoopWithStateDir(p, filepath.Join(defaultCronConfig().StateDir, "rsi-tasks"))
+}
+
+// NewRSILoopWithStateDir creates an RSI engine that persists task JSON snapshots
+// under stateDir. Tests and embedders can pass a temp directory to keep runs
+// isolated from the process working directory.
+func NewRSILoopWithStateDir(p *Pipeline, stateDir string) *RSILoop {
+	return &RSILoop{pipeline: p, stateDir: stateDir}
 }
 
 // Run executes the improvement loop, updating task in place.
 func (r *RSILoop) Run(ctx context.Context, task *ImprovementTask) error {
+	if task == nil {
+		return fmt.Errorf("rsi run: nil task")
+	}
 	task.Status = "running"
 	task.StartedAt = time.Now()
+	if err := r.saveTask(task); err != nil {
+		return err
+	}
 
 	for i := 0; i < task.MaxIters; i++ {
 		rec, err := r.runIteration(ctx, task)
 		if err != nil {
 			task.Status = "failed"
+			t := time.Now()
+			task.CompletedAt = &t
+			_ = r.saveTask(task)
 			return fmt.Errorf("iteration %d: %w", i+1, err)
 		}
 		task.Iterations = append(task.Iterations, rec)
+		if err := r.saveTask(task); err != nil {
+			task.Status = "failed"
+			t := time.Now()
+			task.CompletedAt = &t
+			return err
+		}
 
 		if rec.AllPass {
 			task.Status = "success"
 			t := time.Now()
 			task.CompletedAt = &t
 			task.Lessons = r.extractLessons(ctx, task)
-			return nil
+			return r.saveTask(task)
 		}
 	}
 
 	task.Status = "partial"
 	t := time.Now()
 	task.CompletedAt = &t
+	return r.saveTask(task)
+}
+
+func (r *RSILoop) saveTask(task *ImprovementTask) error {
+	if strings.TrimSpace(r.stateDir) == "" {
+		return nil
+	}
+	if task == nil {
+		return fmt.Errorf("rsi save task: nil task")
+	}
+	if strings.TrimSpace(task.ID) == "" {
+		return fmt.Errorf("rsi save task: missing task id")
+	}
+	if err := os.MkdirAll(r.stateDir, 0o755); err != nil {
+		return fmt.Errorf("rsi state dir: %w", err)
+	}
+	data, err := json.MarshalIndent(task, "", "  ")
+	if err != nil {
+		return fmt.Errorf("rsi marshal task: %w", err)
+	}
+	path := filepath.Join(r.stateDir, safeTaskID(task.ID)+".json")
+	tmp := path + ".tmp"
+	if err := os.WriteFile(tmp, append(data, '\n'), 0o644); err != nil {
+		return fmt.Errorf("rsi write task: %w", err)
+	}
+	if err := os.Rename(tmp, path); err != nil {
+		_ = os.Remove(tmp)
+		return fmt.Errorf("rsi commit task: %w", err)
+	}
 	return nil
+}
+
+func safeTaskID(id string) string {
+	id = strings.TrimSpace(id)
+	var b strings.Builder
+	for _, r := range id {
+		switch {
+		case r >= 'a' && r <= 'z', r >= 'A' && r <= 'Z', r >= '0' && r <= '9', r == '-', r == '_', r == '.':
+			b.WriteRune(r)
+		default:
+			b.WriteByte('-')
+		}
+	}
+	if b.Len() == 0 {
+		return "task"
+	}
+	return b.String()
 }
 
 func (r *RSILoop) runIteration(ctx context.Context, task *ImprovementTask) (IterationRecord, error) {
@@ -315,9 +386,9 @@ func (s *Server) handleRSI(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var req struct {
-		Description string               `json:"description"`
+		Description string                `json:"description"`
 		Criteria    []AcceptanceCriterion `json:"criteria"`
-		MaxIters    int                  `json:"max_iters"`
+		MaxIters    int                   `json:"max_iters"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, `{"error":"invalid json"}`, 400)
