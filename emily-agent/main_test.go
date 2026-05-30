@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -77,6 +78,35 @@ func (s *scriptedLLM) Complete(ctx context.Context, req LLMRequest) (LLMResponse
 }
 
 func (s *scriptedLLM) Name() string { return "scripted" }
+
+func TestRSILoopPersistsTaskSnapshots(t *testing.T) {
+	dir := t.TempDir()
+	loop := NewRSILoopWithStateDir(&Pipeline{Generator: &scriptedLLM{}, GenModel: "test"}, dir)
+	task := &ImprovementTask{
+		ID:          "demo/task 1",
+		Description: "Produce an artifact with a done marker.",
+		Criteria:    []AcceptanceCriterion{{Name: "done", Description: "artifact includes a done marker", Target: "done marker present"}},
+		MaxIters:    1,
+		Status:      "pending",
+	}
+
+	if err := loop.Run(context.Background(), task); err != nil {
+		t.Fatalf("Run: %v", err)
+	}
+
+	path := filepath.Join(dir, "demo-task-1.json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("expected persisted task snapshot: %v", err)
+	}
+	var persisted ImprovementTask
+	if err := json.Unmarshal(data, &persisted); err != nil {
+		t.Fatalf("persisted task is not valid JSON: %v\n%s", err, string(data))
+	}
+	if persisted.ID != task.ID || persisted.Status != "partial" || len(persisted.Iterations) != 1 {
+		t.Fatalf("unexpected persisted task: %#v", persisted)
+	}
+}
 
 func TestPickTaskStartsHighestPriorityInProgressItem(t *testing.T) {
 	cycle := &AutonomousCycle{}
