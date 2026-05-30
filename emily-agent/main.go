@@ -1005,6 +1005,7 @@ type Server struct {
 	tmpl        *template.Template
 	collector   *CollectorPipeline   // nil if EMILY_COLLECT_DIR unset
 	integration *IntegrationStore    // nil if signals/ dir not found
+	gmail       *GmailClient         // nil if GMAIL_* env vars not set
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -1070,6 +1071,11 @@ func NewServer(cfg Config) (*Server, error) {
 	if srv.integration != nil {
 		registerIntegrationTools(dispatcher, srv.integration)
 		log.Printf("integration store: signals dir=%s", srv.integration.signalsDir)
+	}
+	srv.gmail = buildGmailClient()
+	if srv.gmail != nil {
+		registerGmailTools(dispatcher, srv.gmail)
+		log.Printf("gmail: CEO address=%s", srv.gmail.creds.CEOAddress)
 	}
 	return srv, nil
 }
