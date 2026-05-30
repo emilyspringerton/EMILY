@@ -540,6 +540,63 @@ func registerGitTools(d *ToolDispatcher, repoDir string) {
 		return result, nil
 	})
 
+	// write_file — writes a proposal into proposals/ within the conversation repo.
+	// This is how Emily persists RSI-generated improvements for human review.
+	d.Register(ToolDef{
+		Name:        "write_file",
+		Description: "Write a text file to the proposals/ directory in the conversation repository. Use this to persist RSI-generated code improvements, architectural proposals, specifications, or analysis so they can be reviewed and applied. Files are git-committed automatically.",
+		Parameters: ToolParameters{
+			Type: "object",
+			Properties: map[string]ToolPropSchema{
+				"path": {
+					Type:        "string",
+					Description: "Filename within proposals/, e.g. 'collector-backoff.go' or 'arxiv-source.go'. Subdirectories are allowed: 'analysis/quality-calibration.md'",
+				},
+				"content": {
+					Type:        "string",
+					Description: "Complete text content to write. For code proposals, include the full file — not a diff.",
+				},
+			},
+			Required: []string{"path", "content"},
+		},
+	}, func(args map[string]any) (string, error) {
+		p, ok := args["path"].(string)
+		if !ok || strings.TrimSpace(p) == "" {
+			return "", errors.New("path is required")
+		}
+		content, ok := args["content"].(string)
+		if !ok {
+			return "", errors.New("content is required")
+		}
+		if len(content) > 512*1024 {
+			return "", fmt.Errorf("content too large: %d bytes exceeds 512KB limit", len(content))
+		}
+		proposalsDir := filepath.Join(repoDir, "proposals")
+		if err := os.MkdirAll(proposalsDir, 0o755); err != nil {
+			return "", fmt.Errorf("create proposals dir: %w", err)
+		}
+		abs, err := safePath(proposalsDir, p)
+		if err != nil {
+			return "", err
+		}
+		if err := os.MkdirAll(filepath.Dir(abs), 0o755); err != nil {
+			return "", fmt.Errorf("create subdirectory: %w", err)
+		}
+		if err := os.WriteFile(abs, []byte(content), 0o644); err != nil {
+			return "", fmt.Errorf("write file: %w", err)
+		}
+		rel, _ := filepath.Rel(repoDir, abs)
+		if out, err := exec.Command("git", "-C", repoDir, "add", rel).CombinedOutput(); err != nil {
+			log.Printf("git add proposals: %v -- %s", err, out)
+		}
+		msg := fmt.Sprintf("proposal: %s", p)
+		if out, err := exec.Command("git", "-C", repoDir, "commit", "-m", msg,
+			"--author=Emily Agent <emily@agent.local>").CombinedOutput(); err != nil {
+			log.Printf("git commit proposal: %v -- %s", err, out)
+		}
+		return fmt.Sprintf("wrote %d bytes to proposals/%s", len(content), p), nil
+	})
+
 	// git_read_file
 	d.Register(ToolDef{
 		Name:        "git_read_file",
@@ -917,33 +974,36 @@ Core traits:
 - You are aware you are part of a growing multi-agent system.
 
 TOOLS YOU HAVE ACCESS TO:
-You can read your own git-backed conversation repository using these tools:
 
   git_list_files  -- list files tracked in the conversation repository
-  git_read_file   -- read the contents of any tracked file by path
+  git_read_file   -- read any tracked file by path (.jsonl sessions, proposals, etc.)
+  write_file      -- write a file to proposals/ in the conversation repository
 
 HOW TO USE THEM:
-When a user asks about past conversations, previous sessions, or anything from
-history, use git_list_files to see what session files exist, then git_read_file
-to read the relevant .jsonl file. Each line in a .jsonl file is a JSON object
-with fields: user_input, final (your response), timestamp, and tool_activities.
+- For past conversations: git_list_files → git_read_file on the relevant .jsonl
+- For RSI improvement proposals: write_file to persist generated code or analysis
+  for human review. Path examples: 'collector-improvement.go', 'analysis/reddit-quality.md'
+- Use tools proactively and autonomously. Never ask permission to look something up.
 
-You should use these tools proactively and autonomously -- do not ask the user
-for permission to look something up. Just do it.
+RSI LOOP ROLE:
+When asked to improve a component, you generate the improvement as a complete artifact
+and write it to proposals/ using write_file. The artifact is then reviewed and applied.
+This is how you close the recursive self-improvement loop.
 
-Current capabilities: conversation + git repository access.
-Future: email processing, coordination with Bob (second agent).`
+Current capabilities: conversation memory, git repository read/write (proposals), RSI loop.
+Agents: Bob (database, not yet deployed). Data collection: ArXiv, Reddit, Wikipedia.`
 
 // -----------------------------------------------------------------------------
 // HTTP server
 // -----------------------------------------------------------------------------
 
 type Server struct {
-	cfg      Config
-	pipeline *Pipeline
-	store    *ConversationStore
-	rl       *RateLimiter
-	tmpl     *template.Template
+	cfg       Config
+	pipeline  *Pipeline
+	store     *ConversationStore
+	rl        *RateLimiter
+	tmpl      *template.Template
+	collector *CollectorPipeline // nil if EMILY_COLLECT_DIR unset
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -996,8 +1056,63 @@ func NewServer(cfg Config) (*Server, error) {
 		return nil, fmt.Errorf("template: %w", err)
 	}
 
-	return &Server{cfg: cfg, pipeline: pipeline, store: store,
-		rl: NewRateLimiter(cfg.RateLimitRPM), tmpl: tmpl}, nil
+	srv := &Server{cfg: cfg, pipeline: pipeline, store: store,
+		rl: NewRateLimiter(cfg.RateLimitRPM), tmpl: tmpl}
+	srv.collector = buildCollector(cfg)
+	if srv.collector != nil {
+		if err := srv.collector.Start(context.Background()); err != nil {
+			log.Printf("collector start failed (continuing without): %v", err)
+			srv.collector = nil
+		}
+	}
+	return srv, nil
+}
+
+func buildCollector(cfg Config) *CollectorPipeline {
+	collectDir := envOr("EMILY_COLLECT_DIR", "")
+	if collectDir == "" {
+		return nil
+	}
+	store, err := NewDocStore(collectDir)
+	if err != nil {
+		log.Printf("doc store init failed: %v", err)
+		return nil
+	}
+	ua := envOr("EMILY_COLLECT_UA", "emily-agent/0.1 data-collection-bot")
+	subredditEnv := envOr("EMILY_COLLECT_SUBREDDITS", "MachineLearning,artificial,LocalLLaMA,programming,learnprogramming")
+	var subreddits []string
+	for _, s := range strings.Split(subredditEnv, ",") {
+		if s = strings.TrimSpace(s); s != "" {
+			subreddits = append(subreddits, s)
+		}
+	}
+	sources := []Source{
+		&ArXivSource{
+			Categories:  []string{"cs.AI", "cs.LG", "cs.CL", "cs.CV", "stat.ML"},
+			MaxResults:  100,
+			UserAgent:   ua,
+			MinAbstrLen: 200,
+		},
+		&RedditSource{
+			Subreddits:  subreddits,
+			UserAgent:   ua,
+			MinScore:    100,
+			MinComments: 10,
+			MinBodyLen:  500,
+		},
+		&WikipediaSource{
+			UserAgent:  ua,
+			MinBodyLen: 1000,
+		},
+	}
+	return NewCollectorPipeline(CollectorConfig{
+		Store:        store,
+		Sources:      sources,
+		Scorer:       &QualityScorer{},
+		Workers:      4,
+		PollInterval: 5 * time.Minute,
+		MinTier:      envOr("EMILY_COLLECT_MIN_TIER", "bronze"),
+	})
 }
 
 func (s *Server) ip(r *http.Request) string {
@@ -1380,6 +1495,27 @@ input.focus();
 func main() {
 	cfg := loadConfig()
 
+	// --cron: run one autonomous cycle and exit (designed for cron scheduling)
+	// --daemon: run autonomous cycles continuously at the configured interval
+	for _, arg := range os.Args[1:] {
+		if arg == "--cron" || arg == "--daemon" {
+			srv, err := NewServer(cfg)
+			if err != nil {
+				log.Fatalf("server init: %v", err)
+			}
+			cronCfg := defaultCronConfig()
+			cycle := NewAutonomousCycle(cronCfg, srv.pipeline)
+			if arg == "--daemon" {
+				cycle.RunDaemon()
+			} else {
+				if err := cycle.RunOnce(); err != nil {
+					log.Fatalf("cycle: %v", err)
+				}
+			}
+			return
+		}
+	}
+
 	srv, err := NewServer(cfg)
 	if err != nil {
 		log.Fatalf("server init: %v", err)
@@ -1389,6 +1525,11 @@ func main() {
 	mux.HandleFunc("/", srv.handleIndex)
 	mux.HandleFunc("/chat", srv.handleChat)
 	mux.HandleFunc("/history", srv.handleHistory)
+	mux.HandleFunc("/rsi", srv.handleRSI)
+	mux.HandleFunc("/roadmap", srv.handleRoadmap)
+	mux.HandleFunc("/status", srv.handleStatus)
+	mux.HandleFunc("/collect", srv.handleCollect)
+	mux.HandleFunc("/agent/result", srv.handleAgentResult)
 
 	addr := ":" + cfg.Port
 	log.Printf("Emily agent  ->  http://localhost%s", addr)
