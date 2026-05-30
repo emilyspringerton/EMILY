@@ -6,7 +6,7 @@
 //   - Native tool-calling with agentic loop (no regex)
 //   - Tools: git_list_files, git_read_file (sandboxed to conversation dir)
 //   - Two-pass hallucination validation after tool loop completes
-//   - Git-backed JSONL conversation history (auto-commit each turn)
+//   - Git-backed markdown conversation memory plus JSONL session history (auto-commit each turn)
 //   - Token-bucket rate limiter per IP
 //   - Embedded web chat UI with tool-call activity shown inline
 //
@@ -47,6 +47,7 @@ type Config struct {
 	ValidatorModel  string
 	APIKey          string
 	GitCommit       bool
+	GitPush         bool
 	RateLimitRPM    int
 	MaxToolIters    int
 }
@@ -55,6 +56,10 @@ func loadConfig() Config {
 	gitCommit := true
 	if v := os.Getenv("GIT_COMMIT"); v == "false" {
 		gitCommit = false
+	}
+	gitPush := false
+	if v := os.Getenv("GIT_PUSH"); v == "true" {
+		gitPush = true
 	}
 	rpm, _ := strconv.Atoi(envOr("RATE_LIMIT_RPM", "20"))
 	if rpm <= 0 {
@@ -66,11 +71,12 @@ func loadConfig() Config {
 	}
 	return Config{
 		Port:            envOr("PORT", "8080"),
-		ConversationDir: envOr("CONVERSATION_DIR", "./conversations"),
+		ConversationDir: envOr("CONVERSATION_DIR", "./fartco-memory"),
 		Model:           envOr("MODEL", "gpt-4o-mini"),
 		ValidatorModel:  envOr("VALIDATOR_MODEL", "gpt-4o-mini"),
 		APIKey:          os.Getenv("OPENAI_API_KEY"),
 		GitCommit:       gitCommit,
+		GitPush:         gitPush,
 		RateLimitRPM:    rpm,
 		MaxToolIters:    maxIters,
 	}
@@ -802,7 +808,7 @@ func (p *Pipeline) Run(ctx context.Context, history []Message) (PipelineResult, 
 }
 
 // -----------------------------------------------------------------------------
-// Conversation store -- JSONL per session, git-committed
+// Conversation store -- Git-backed markdown memory with JSONL session history
 // -----------------------------------------------------------------------------
 
 type Turn struct {
@@ -817,17 +823,36 @@ type Turn struct {
 	ToolActivities []ToolActivity `json:"tool_activities,omitempty"`
 }
 
+type ConversationDoc struct {
+	SessionID string
+	Title     string
+	Slug      string
+	Started   time.Time
+	Updated   time.Time
+	Path      string
+	Tags      []string
+	Turns     []Turn
+}
+
+type SearchResult struct {
+	Path      string `json:"path"`
+	Title     string `json:"title"`
+	Timestamp string `json:"timestamp,omitempty"`
+	Snippet   string `json:"snippet"`
+}
+
 type ConversationStore struct {
 	dir       string
 	gitCommit bool
+	gitPush   bool
 	mu        sync.Mutex
 }
 
-func NewConversationStore(dir string, gitCommit bool) (*ConversationStore, error) {
+func NewConversationStore(dir string, gitCommit bool, gitPush bool) (*ConversationStore, error) {
 	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return nil, err
 	}
-	s := &ConversationStore{dir: dir, gitCommit: gitCommit}
+	s := &ConversationStore{dir: dir, gitCommit: gitCommit, gitPush: gitPush}
 	if gitCommit {
 		s.ensureGitRepo()
 	}
@@ -845,6 +870,10 @@ func (s *ConversationStore) ensureGitRepo() {
 }
 
 func (s *ConversationStore) SessionFile(id string) string {
+	return filepath.Join(s.dir, "sessions", id+".jsonl")
+}
+
+func (s *ConversationStore) legacySessionFile(id string) string {
 	return filepath.Join(s.dir, id+".jsonl")
 }
 
@@ -852,6 +881,9 @@ func (s *ConversationStore) AppendTurn(sessionID string, turn Turn) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	if err := os.MkdirAll(filepath.Join(s.dir, "sessions"), 0o755); err != nil {
+		return err
+	}
 	path := s.SessionFile(sessionID)
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o644)
 	if err != nil {
@@ -865,23 +897,63 @@ func (s *ConversationStore) AppendTurn(sessionID string, turn Turn) error {
 	}
 	f.Close()
 
+	turns, err := s.loadTurnsLocked(sessionID)
+	if err != nil {
+		return err
+	}
+	doc := buildConversationDoc(sessionID, turns)
+	if err := s.writeConversationDoc(doc); err != nil {
+		return err
+	}
+	if err := s.writeIndex(); err != nil {
+		return err
+	}
+	if err := s.writeTopicPages(); err != nil {
+		return err
+	}
+
 	if s.gitCommit {
-		s.gitCommitFile(path, sessionID, turn.ID)
+		s.gitCommitGenerated(sessionID, turn.ID, filepath.Join(s.dir, filepath.FromSlash(doc.Path)), path)
 	}
 	return nil
 }
 
-func (s *ConversationStore) gitCommitFile(path, sessionID, turnID string) {
-	rel, _ := filepath.Rel(s.dir, path)
-	if out, err := exec.Command("git", "-C", s.dir, "add", rel).CombinedOutput(); err != nil {
+func (s *ConversationStore) gitCommitGenerated(sessionID, turnID string, paths ...string) {
+	args := []string{"-C", s.dir, "add"}
+	for _, path := range paths {
+		if path == "" {
+			continue
+		}
+		rel, _ := filepath.Rel(s.dir, path)
+		args = append(args, rel)
+	}
+	args = append(args, "conversations/index.md", "conversations/topics")
+	if out, err := exec.Command("git", args...).CombinedOutput(); err != nil {
 		log.Printf("git add: %v -- %s", err, out)
 		return
 	}
-	msg := fmt.Sprintf("turn %s session %s", turnID, sessionID)
-	if out, err := exec.Command("git", "-C", s.dir, "commit", "-m", msg,
-		"--author=Emily Agent <emily@agent.local>").CombinedOutput(); err != nil {
+	msg := fmt.Sprintf("Conversation: %s with CEO", conversationCommitSlug(paths))
+	body := fmt.Sprintf("session: %s\nturn: %s", sessionID, turnID)
+	if out, err := exec.Command("git", "-C", s.dir, "commit", "-m", msg, "-m", body,
+		"--author=Emily Springerton <emily@fartcoamerica.com>").CombinedOutput(); err != nil {
 		log.Printf("git commit: %v -- %s", err, out)
+		return
 	}
+	if s.gitPush {
+		if out, err := exec.Command("git", "-C", s.dir, "push").CombinedOutput(); err != nil {
+			log.Printf("git push: %v -- %s", err, out)
+		}
+	}
+}
+
+func conversationCommitSlug(paths []string) string {
+	for _, path := range paths {
+		base := filepath.Base(path)
+		if strings.HasSuffix(base, ".md") {
+			return strings.TrimSuffix(base, ".md")
+		}
+	}
+	return "conversation-turn"
 }
 
 func (s *ConversationStore) LoadHistory(sessionID, systemPrompt string) ([]Message, []Turn, error) {
@@ -889,17 +961,83 @@ func (s *ConversationStore) LoadHistory(sessionID, systemPrompt string) ([]Messa
 	defer s.mu.Unlock()
 
 	messages := []Message{{Role: "system", Content: systemPrompt}}
-	var turns []Turn
-
-	f, err := os.Open(s.SessionFile(sessionID))
-	if os.IsNotExist(err) {
-		return messages, turns, nil
-	}
+	turns, err := s.loadTurnsLocked(sessionID)
 	if err != nil {
 		return nil, nil, err
 	}
+	for _, t := range turns {
+		messages = append(messages, Message{Role: "user", Content: t.UserInput})
+		messages = append(messages, Message{Role: "assistant", Content: t.Final})
+	}
+	return messages, turns, nil
+}
+
+func (s *ConversationStore) Search(query string, limit int) ([]SearchResult, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	query = strings.TrimSpace(strings.ToLower(query))
+	if query == "" {
+		return nil, nil
+	}
+	if limit <= 0 || limit > 50 {
+		limit = 20
+	}
+	var results []SearchResult
+	root := filepath.Join(s.dir, "conversations")
+	if _, err := os.Stat(root); os.IsNotExist(err) {
+		return results, nil
+	}
+	err := filepath.WalkDir(root, func(path string, d os.DirEntry, err error) error {
+		if err != nil || d.IsDir() || !strings.HasSuffix(path, ".md") {
+			return nil
+		}
+		if strings.Contains(path, string(filepath.Separator)+"topics"+string(filepath.Separator)) || filepath.Base(path) == "index.md" {
+			return nil
+		}
+		b, err := os.ReadFile(path)
+		if err != nil {
+			return nil
+		}
+		content := string(b)
+		lower := strings.ToLower(content)
+		idx := strings.Index(lower, query)
+		if idx == -1 {
+			return nil
+		}
+		rel, _ := filepath.Rel(s.dir, path)
+		results = append(results, SearchResult{
+			Path:      filepath.ToSlash(rel),
+			Title:     markdownTitle(content),
+			Timestamp: markdownField(content, "Date"),
+			Snippet:   snippet(content, idx, len(query)),
+		})
+		if len(results) >= limit {
+			return io.EOF
+		}
+		return nil
+	})
+	if err == io.EOF {
+		return results, nil
+	}
+	return results, err
+}
+
+func (s *ConversationStore) loadTurnsLocked(sessionID string) ([]Turn, error) {
+	path := s.SessionFile(sessionID)
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		path = s.legacySessionFile(sessionID)
+	}
+	f, err := os.Open(path)
+	if os.IsNotExist(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
 	defer f.Close()
 
+	var turns []Turn
 	scanner := bufio.NewScanner(f)
 	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
 	for scanner.Scan() {
@@ -912,10 +1050,309 @@ func (s *ConversationStore) LoadHistory(sessionID, systemPrompt string) ([]Messa
 			continue
 		}
 		turns = append(turns, t)
-		messages = append(messages, Message{Role: "user", Content: t.UserInput})
-		messages = append(messages, Message{Role: "assistant", Content: t.Final})
 	}
-	return messages, turns, scanner.Err()
+	return turns, scanner.Err()
+}
+
+func buildConversationDoc(sessionID string, turns []Turn) ConversationDoc {
+	started := time.Now().UTC()
+	updated := started
+	if len(turns) > 0 {
+		started = turns[0].Timestamp.UTC()
+		updated = turns[len(turns)-1].Timestamp.UTC()
+	}
+	title := titleFromInput(sessionID, "Conversation")
+	if len(turns) > 0 {
+		title = titleFromInput(sessionID, turns[0].UserInput)
+	}
+	slug := slugify(title, 80)
+	if slug == "" {
+		slug = slugify(sessionID, 80)
+	}
+	name := fmt.Sprintf("%s-%s-%s.md", started.Format("2006-01-02"), started.Format("15-04"), slug)
+	path := filepath.Join("conversations", started.Format("2006"), started.Format("01"), name)
+	return ConversationDoc{
+		SessionID: sessionID,
+		Title:     title,
+		Slug:      slug,
+		Started:   started,
+		Updated:   updated,
+		Path:      filepath.ToSlash(path),
+		Tags:      inferTags(title + "\n" + strings.Join(turnTexts(turns), "\n")),
+		Turns:     turns,
+	}
+}
+
+func (s *ConversationStore) writeConversationDoc(doc ConversationDoc) error {
+	path := filepath.Join(s.dir, filepath.FromSlash(doc.Path))
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		return err
+	}
+	var b strings.Builder
+	fmt.Fprintf(&b, "# Conversation: %s - %s\n\n", doc.Started.Format("2006-01-02"), doc.Title)
+	fmt.Fprintf(&b, "**Date:** %s\n", doc.Started.Format("2006-01-02 15:04 MST"))
+	fmt.Fprintf(&b, "**Updated:** %s\n", doc.Updated.Format("2006-01-02 15:04 MST"))
+	fmt.Fprintf(&b, "**Session:** `%s`\n", doc.SessionID)
+	fmt.Fprintf(&b, "**Participants:** CEO, Emily\n")
+	fmt.Fprintf(&b, "**Topic:** %s\n", doc.Title)
+	fmt.Fprintf(&b, "**Status:** Active\n\n---\n\n")
+	for _, t := range doc.Turns {
+		stamp := t.Timestamp.UTC().Format("15:04")
+		fmt.Fprintf(&b, "## CEO [%s]\n%s\n\n", stamp, cleanMarkdown(t.UserInput))
+		fmt.Fprintf(&b, "## Emily [%s]\n%s\n\n", stamp, cleanMarkdown(t.Final))
+		if t.ValidationNote != "" || len(t.ToolActivities) > 0 {
+			fmt.Fprintf(&b, "### Turn Metadata\n")
+			fmt.Fprintf(&b, "- Turn ID: `%s`\n", t.ID)
+			fmt.Fprintf(&b, "- Model: `%s`\n", t.Model)
+			fmt.Fprintf(&b, "- Validated: `%t`\n", t.Validated)
+			if t.ValidationNote != "" {
+				fmt.Fprintf(&b, "- Validation note: %s\n", cleanInline(t.ValidationNote))
+			}
+			if len(t.ToolActivities) > 0 {
+				fmt.Fprintf(&b, "- Tool calls:\n")
+				for _, a := range t.ToolActivities {
+					status := "ok"
+					if a.IsError {
+						status = "error"
+					}
+					fmt.Fprintf(&b, "  - `%s` (%s): %s\n", a.Name, status, cleanInline(a.Result))
+				}
+			}
+			fmt.Fprintf(&b, "\n")
+		}
+		fmt.Fprintf(&b, "---\n\n")
+	}
+	writeChecklistSection(&b, "Decisions Made", inferDecisions(doc.Turns))
+	writeChecklistSection(&b, "Action Items", inferActionItems(doc.Turns))
+	fmt.Fprintf(&b, "## Related Conversations\n")
+	fmt.Fprintf(&b, "- [Conversation Index](../../index.md)\n\n")
+	fmt.Fprintf(&b, "## Tags\n")
+	for _, tag := range doc.Tags {
+		fmt.Fprintf(&b, "#%s ", tag)
+	}
+	fmt.Fprintf(&b, "\n")
+	return os.WriteFile(path, []byte(b.String()), 0o644)
+}
+
+func (s *ConversationStore) writeIndex() error {
+	docs, err := s.allConversationDocs()
+	if err != nil {
+		return err
+	}
+	path := filepath.Join(s.dir, "conversations", "index.md")
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		return err
+	}
+	var b strings.Builder
+	fmt.Fprintf(&b, "# Conversation Index\n\n")
+	fmt.Fprintf(&b, "Generated from Git-backed markdown conversation memory.\n\n")
+	current := ""
+	for _, doc := range docs {
+		month := doc.Started.Format("January 2006")
+		if month != current {
+			if current != "" {
+				fmt.Fprintf(&b, "\n")
+			}
+			current = month
+			fmt.Fprintf(&b, "## %s\n", month)
+		}
+		rel, _ := filepath.Rel(filepath.Dir(path), filepath.Join(s.dir, filepath.FromSlash(doc.Path)))
+		fmt.Fprintf(&b, "- [%s - %s](%s) — session `%s`\n", doc.Started.Format("2006-01-02 15:04"), doc.Title, filepath.ToSlash(rel), doc.SessionID)
+	}
+	return os.WriteFile(path, []byte(b.String()), 0o644)
+}
+
+func (s *ConversationStore) writeTopicPages() error {
+	docs, err := s.allConversationDocs()
+	if err != nil {
+		return err
+	}
+	byTag := map[string][]ConversationDoc{}
+	for _, doc := range docs {
+		for _, tag := range doc.Tags {
+			byTag[tag] = append(byTag[tag], doc)
+		}
+	}
+	dir := filepath.Join(s.dir, "conversations", "topics")
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return err
+	}
+	for tag, taggedDocs := range byTag {
+		var b strings.Builder
+		fmt.Fprintf(&b, "# Topic: %s\n\n", tag)
+		for _, doc := range taggedDocs {
+			rel, _ := filepath.Rel(dir, filepath.Join(s.dir, filepath.FromSlash(doc.Path)))
+			fmt.Fprintf(&b, "- [%s - %s](%s)\n", doc.Started.Format("2006-01-02 15:04"), doc.Title, filepath.ToSlash(rel))
+		}
+		if err := os.WriteFile(filepath.Join(dir, tag+".md"), []byte(b.String()), 0o644); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *ConversationStore) allConversationDocs() ([]ConversationDoc, error) {
+	var docs []ConversationDoc
+	seen := map[string]bool{}
+	paths := []string{filepath.Join(s.dir, "sessions")}
+	for _, root := range paths {
+		_ = filepath.WalkDir(root, func(path string, d os.DirEntry, err error) error {
+			if err != nil || d.IsDir() || !strings.HasSuffix(path, ".jsonl") {
+				return nil
+			}
+			sessionID := strings.TrimSuffix(filepath.Base(path), ".jsonl")
+			seen[sessionID] = true
+			return nil
+		})
+	}
+	_ = filepath.WalkDir(s.dir, func(path string, d os.DirEntry, err error) error {
+		if err != nil || d.IsDir() || !strings.HasSuffix(path, ".jsonl") || filepath.Dir(path) != s.dir {
+			return nil
+		}
+		seen[strings.TrimSuffix(filepath.Base(path), ".jsonl")] = true
+		return nil
+	})
+	for sessionID := range seen {
+		turns, err := s.loadTurnsLocked(sessionID)
+		if err != nil || len(turns) == 0 {
+			continue
+		}
+		docs = append(docs, buildConversationDoc(sessionID, turns))
+	}
+	sortConversationDocs(docs)
+	return docs, nil
+}
+
+func sortConversationDocs(docs []ConversationDoc) {
+	for i := 1; i < len(docs); i++ {
+		for j := i; j > 0 && docs[j].Started.After(docs[j-1].Started); j-- {
+			docs[j], docs[j-1] = docs[j-1], docs[j]
+		}
+	}
+}
+
+func titleFromInput(sessionID, input string) string {
+	words := strings.Fields(cleanInline(input))
+	if len(words) == 0 {
+		return sessionID
+	}
+	limit := 7
+	if len(words) < limit {
+		limit = len(words)
+	}
+	title := strings.Join(words[:limit], " ")
+	return strings.Trim(title, " .,!?:;`*_#[](){}")
+}
+
+func inferTags(text string) []string {
+	lower := strings.ToLower(text)
+	candidates := []string{"architecture", "git", "memory", "workflow", "tasks", "decisions", "search", "oauth", "infrastructure", "emily-personality", "rsi", "integration"}
+	var tags []string
+	for _, tag := range candidates {
+		needle := strings.ReplaceAll(tag, "-", " ")
+		if strings.Contains(lower, needle) || strings.Contains(lower, tag) {
+			tags = append(tags, tag)
+		}
+	}
+	if len(tags) == 0 {
+		tags = append(tags, "conversation")
+	}
+	return tags
+}
+
+func turnTexts(turns []Turn) []string {
+	texts := make([]string, 0, len(turns)*2)
+	for _, t := range turns {
+		texts = append(texts, t.UserInput, t.Final)
+	}
+	return texts
+}
+
+func inferDecisions(turns []Turn) []string {
+	return inferBullets(turns, []string{"decide", "decision", "use ", "choose", "selected"})
+}
+
+func inferActionItems(turns []Turn) []string {
+	return inferBullets(turns, []string{"todo", "action", "next", "build", "create", "implement"})
+}
+
+func inferBullets(turns []Turn, keywords []string) []string {
+	seen := map[string]bool{}
+	var items []string
+	for _, text := range turnTexts(turns) {
+		for _, line := range strings.Split(text, "\n") {
+			clean := strings.TrimSpace(strings.TrimLeft(line, "-*0123456789.[] "))
+			lower := strings.ToLower(clean)
+			if len(clean) < 8 || len(clean) > 180 {
+				continue
+			}
+			for _, keyword := range keywords {
+				if strings.Contains(lower, keyword) && !seen[clean] {
+					seen[clean] = true
+					items = append(items, clean)
+					break
+				}
+			}
+			if len(items) >= 8 {
+				return items
+			}
+		}
+	}
+	return items
+}
+
+func writeChecklistSection(b *strings.Builder, title string, items []string) {
+	fmt.Fprintf(b, "## %s\n", title)
+	if len(items) == 0 {
+		fmt.Fprintf(b, "- [ ] No explicit %s captured automatically.\n\n", strings.ToLower(title))
+		return
+	}
+	for _, item := range items {
+		fmt.Fprintf(b, "- [ ] %s\n", cleanInline(item))
+	}
+	fmt.Fprintf(b, "\n")
+}
+
+func cleanMarkdown(s string) string {
+	s = strings.ReplaceAll(s, "\r\n", "\n")
+	return strings.TrimSpace(s)
+}
+
+func cleanInline(s string) string {
+	s = strings.ReplaceAll(s, "\n", " ")
+	s = strings.ReplaceAll(s, "\r", " ")
+	return strings.Join(strings.Fields(s), " ")
+}
+
+func markdownTitle(content string) string {
+	for _, line := range strings.Split(content, "\n") {
+		if strings.HasPrefix(line, "# Conversation:") {
+			return strings.TrimSpace(strings.TrimPrefix(line, "# Conversation:"))
+		}
+	}
+	return "Conversation"
+}
+
+func markdownField(content, name string) string {
+	prefix := "**" + name + ":**"
+	for _, line := range strings.Split(content, "\n") {
+		if strings.HasPrefix(line, prefix) {
+			return strings.TrimSpace(strings.TrimPrefix(line, prefix))
+		}
+	}
+	return ""
+}
+
+func snippet(content string, idx int, queryLen int) string {
+	start := idx - 120
+	if start < 0 {
+		start = 0
+	}
+	end := idx + queryLen + 120
+	if end > len(content) {
+		end = len(content)
+	}
+	return cleanInline(content[start:end])
 }
 
 // -----------------------------------------------------------------------------
@@ -1014,10 +1451,10 @@ type Server struct {
 	store       *ConversationStore
 	rl          *RateLimiter
 	tmpl        *template.Template
-	collector   *CollectorPipeline   // nil if EMILY_COLLECT_DIR unset
-	integration *IntegrationStore    // nil if signals/ dir not found
-	gmail       *GmailClient         // nil if GMAIL_* env vars not set
-	emiree      *EmireeAgent         // witch engine; always present
+	collector   *CollectorPipeline // nil if EMILY_COLLECT_DIR unset
+	integration *IntegrationStore  // nil if signals/ dir not found
+	gmail       *GmailClient       // nil if GMAIL_* env vars not set
+	emiree      *EmireeAgent       // witch engine; always present
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -1044,7 +1481,7 @@ func NewServer(cfg Config) (*Server, error) {
 		validator = NewOpenAIClient(cfg.APIKey)
 	}
 
-	store, err := NewConversationStore(cfg.ConversationDir, cfg.GitCommit)
+	store, err := NewConversationStore(cfg.ConversationDir, cfg.GitCommit, cfg.GitPush)
 	if err != nil {
 		return nil, fmt.Errorf("store: %w", err)
 	}
@@ -1247,6 +1684,26 @@ func (s *Server) handleHistory(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(turns)
+}
+
+func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	query := r.URL.Query().Get("q")
+	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	results, err := s.store.Search(query, limit)
+	if err != nil {
+		log.Printf("search: %v", err)
+		http.Error(w, `{"error":"search failed"}`, http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"query":   query,
+		"results": results,
+	})
 }
 
 // -----------------------------------------------------------------------------
@@ -1521,10 +1978,10 @@ func (s *Server) handleEmiree(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		type response struct {
-			State       WitchState   `json:"state"`
+			State       WitchState    `json:"state"`
 			Influence   GearInfluence `json:"influence"`
-			Summary     string       `json:"summary"`
-			Fingerprint string       `json:"fingerprint"`
+			Summary     string        `json:"summary"`
+			Fingerprint string        `json:"fingerprint"`
 		}
 		json.NewEncoder(w).Encode(response{
 			State:       s.emiree.State,
@@ -1587,6 +2044,7 @@ func main() {
 	mux.HandleFunc("/", srv.handleIndex)
 	mux.HandleFunc("/chat", srv.handleChat)
 	mux.HandleFunc("/history", srv.handleHistory)
+	mux.HandleFunc("/search", srv.handleSearch)
 	mux.HandleFunc("/rsi", srv.handleRSI)
 	mux.HandleFunc("/roadmap", srv.handleRoadmap)
 	mux.HandleFunc("/status", srv.handleStatus)
@@ -1599,8 +2057,8 @@ func main() {
 
 	addr := ":" + cfg.Port
 	log.Printf("Emily agent  ->  http://localhost%s", addr)
-	log.Printf("Conversations: %s | git: %v | rpm: %d | max-tool-iters: %d",
-		cfg.ConversationDir, cfg.GitCommit, cfg.RateLimitRPM, cfg.MaxToolIters)
+	log.Printf("Conversations: %s | git: %v | push: %v | rpm: %d | max-tool-iters: %d",
+		cfg.ConversationDir, cfg.GitCommit, cfg.GitPush, cfg.RateLimitRPM, cfg.MaxToolIters)
 
 	if err := http.ListenAndServe(addr, mux); err != nil {
 		log.Fatalf("server: %v", err)
