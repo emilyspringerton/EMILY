@@ -70,7 +70,7 @@ func loadConfig() Config {
 		maxIters = 10
 	}
 	return Config{
-		Port:            envOr("PORT", "8080"),
+		Port:            envOr("PORT", "8086"),
 		ConversationDir: envOr("CONVERSATION_DIR", "./fartco-memory"),
 		Model:           envOr("MODEL", "gpt-4o-mini"),
 		ValidatorModel:  envOr("VALIDATOR_MODEL", "gpt-4o-mini"),
