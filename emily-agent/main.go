@@ -1461,8 +1461,11 @@ func NewServer(cfg Config) (*Server, error) {
 	var generator LLMClient
 	if key := os.Getenv("ANTHROPIC_API_KEY"); key != "" {
 		generator = NewAnthropicClient(key)
-		if cfg.Model == "gpt-4o" {
-			cfg.Model = "claude-sonnet-4-20250514"
+		switch cfg.Model {
+		case "gpt-4o":
+			cfg.Model = "claude-sonnet-4-6"
+		case "gpt-4o-mini", "":
+			cfg.Model = "claude-haiku-4-5-20251001"
 		}
 		log.Println("provider: Anthropic")
 	} else {
