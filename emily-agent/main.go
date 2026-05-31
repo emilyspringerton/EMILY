@@ -44,8 +44,6 @@ type Config struct {
 	Port            string
 	ConversationDir string
 	Model           string
-	ValidatorModel  string
-	APIKey          string
 	GitCommit       bool
 	GitPush         bool
 	RateLimitRPM    int
@@ -71,10 +69,8 @@ func loadConfig() Config {
 	}
 	return Config{
 		Port:            envOr("PORT", "8086"),
-		ConversationDir: envOr("CONVERSATION_DIR", "./fartco-memory"),
-		Model:           envOr("MODEL", "gpt-4o-mini"),
-		ValidatorModel:  envOr("VALIDATOR_MODEL", "gpt-4o-mini"),
-		APIKey:          os.Getenv("OPENAI_API_KEY"),
+		ConversationDir: envOr("CONVERSATION_DIR", "./emily-memory"),
+		Model:           envOr("MODEL", "claude-haiku-4-5-20251001"),
 		GitCommit:       gitCommit,
 		GitPush:         gitPush,
 		RateLimitRPM:    rpm,
@@ -1458,31 +1454,19 @@ type Server struct {
 }
 
 func NewServer(cfg Config) (*Server, error) {
-	var generator LLMClient
-	if key := os.Getenv("ANTHROPIC_API_KEY"); key != "" {
-		generator = NewAnthropicClient(key)
-		switch cfg.Model {
-		case "gpt-4o":
-			cfg.Model = "claude-sonnet-4-6"
-		case "gpt-4o-mini", "":
-			cfg.Model = "claude-haiku-4-5-20251001"
-		}
-		log.Println("provider: Anthropic")
-	} else {
-		generator = NewOpenAIClient(cfg.APIKey)
-		log.Println("provider: OpenAI")
+	key := os.Getenv("ANTHROPIC_API_KEY")
+	if key == "" {
+		return nil, errors.New("ANTHROPIC_API_KEY is required")
 	}
-
-	var validator LLMClient
-	valModel := cfg.ValidatorModel
-	if key := os.Getenv("ANTHROPIC_API_KEY"); key != "" {
-		validator = NewAnthropicClient(key)
-		if valModel == "gpt-4o-mini" {
-			valModel = "claude-haiku-4-5-20251001"
-		}
-	} else if cfg.APIKey != "" {
-		validator = NewOpenAIClient(cfg.APIKey)
+	generator := NewAnthropicClient(key)
+	// Normalise any legacy GPT model names to Claude equivalents.
+	switch cfg.Model {
+	case "gpt-4o":
+		cfg.Model = "claude-sonnet-4-6"
+	case "gpt-4o-mini", "":
+		cfg.Model = "claude-haiku-4-5-20251001"
 	}
+	log.Printf("provider: Anthropic  model: %s", cfg.Model)
 
 	store, err := NewConversationStore(cfg.ConversationDir, cfg.GitCommit, cfg.GitPush)
 	if err != nil {
@@ -1498,9 +1482,9 @@ func NewServer(cfg Config) (*Server, error) {
 
 	pipeline := &Pipeline{
 		Generator:    generator,
-		Validator:    validator,
+		Validator:    nil, // validation pass disabled — Anthropic only
 		GenModel:     cfg.Model,
-		ValModel:     valModel,
+		ValModel:     "",
 		Dispatcher:   dispatcher,
 		MaxToolIters: cfg.MaxToolIters,
 	}
