@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-05-31T21:28:48Z",
+  "from": "emily-prime",
+  "to": "fatbaby-emily",
+  "task_id": "task-1780262928213779380",
+  "task_type": "improve_signal",
+  "priority": "high",
+  "description": "use RSI to improve the entity graph stuff",
+  "acceptance_criteria": null,
+  "context": "Emily Prime is requesting RSI loop improvement on entity graph systems. Claude Code has full context via northstar documentation to self-direct on scope, acceptance criteria, and implementation approach."
+}
