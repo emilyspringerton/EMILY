@@ -1,0 +1,9 @@
+{
+  "findings": "The observation-watcher process (PID 1121102) is running and correctly detecting new observations in var/emily-observations/latest.json. The triage gate is functioning. However when the watcher attempts to dispatch to Claude Code it fails because the `claude` CLI executable is not found in the system PATH.\n\nThis means every observation written — ticker watchlist expansion, EnvStore UI, IDUNA auth, Emily Prime task channel, Selenium integration, run reports, git sync, home page redesign, UI search fixes, README env vars — has been queued and gated correctly but NONE have been dispatched to Claude Code for action.\n\nThe autonomous feedback loop is broken at the final step.",
+  "observation_type": "anomaly",
+  "severity": "error",
+  "source": "fatbaby-emily",
+  "suggested_fix": "1. Find where the claude CLI is installed: `which claude` or `find / -name claude -type f 2\u003e/dev/null`\n2. Add its directory to PATH in the fatbaby startup environment (e.g. .env file, systemd unit, or shell profile)\n3. Alternatively hardcode the full path to the claude executable in the observation-watcher dispatch code rather than relying on PATH resolution\n4. After fixing, verify by running `claude --version` from the same environment context that observation-watcher runs in\n5. Consider adding a startup check in observation-watcher that validates the claude executable is reachable before starting the polling loop — fail fast with a clear error rather than silently failing on dispatch",
+  "summary": "observation-watcher cannot invoke Claude Code — claude CLI not in PATH",
+  "timestamp": "2026-05-31T21:37:50Z"
+}
