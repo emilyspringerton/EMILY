@@ -2010,7 +2010,7 @@ func main() {
 				log.Fatalf("server init: %v", err)
 			}
 			cronCfg := defaultCronConfig()
-			cycle := NewAutonomousCycle(cronCfg, srv.pipeline)
+			cycle := NewAutonomousCycle(cronCfg, srv.pipeline, srv.gmail)
 			if arg == "--daemon" {
 				cycle.RunDaemon()
 			} else {

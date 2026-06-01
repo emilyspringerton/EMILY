@@ -105,15 +105,17 @@ type AutonomousCycle struct {
 	state       *CycleState
 	integration *IntegrationStore // optional; enables prime triage each cycle
 	emiree      *EmireeAgent      // witch engine governing RSI operational state
+	gmail       *GmailClient      // optional; enables CEO escalation alerts from triage
 }
 
 // NewAutonomousCycle creates a cycle runner.
-func NewAutonomousCycle(cfg CronConfig, p *Pipeline) *AutonomousCycle {
+func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *AutonomousCycle {
 	return &AutonomousCycle{
 		cfg:         cfg,
 		pipeline:    p,
 		integration: buildIntegrationStore(),
 		emiree:      NewEmireeAgent(cfg.StateDir),
+		gmail:       gmail,
 	}
 }
 
@@ -486,10 +488,11 @@ func (ac *AutonomousCycle) releaseLock() {
 // --- Default roadmap: the bootstrap sequence from emily-ground-zero-protocol.md ---
 
 // runPrimeTriageCycle is called from the autonomous cycle when the prime-triage
-// roadmap item is active. It reads FatBaby observations, triages them, and
-// issues directed tasks for high-relevance findings.
+// roadmap item is active. It reads FatBaby observations, triages them, issues
+// directed tasks for high-relevance findings, and sends Gmail alerts for
+// CEO-visible observations (when gmail credentials are configured).
 func (ac *AutonomousCycle) runPrimeTriageCycle(ctx context.Context, store *IntegrationStore) (string, error) {
-	return runPrimeTriage(ctx, store, ac.pipeline)
+	return runPrimeTriage(ctx, store, ac.pipeline, ac.gmail)
 }
 
 func defaultRoadmap() []RoadmapItem {
@@ -649,7 +652,7 @@ func (ac *AutonomousCycle) AddRoadmapItem(item RoadmapItem) error {
 // handleRoadmap: GET returns current roadmap; POST adds an item.
 func (s *Server) handleRoadmap(w http.ResponseWriter, r *http.Request) {
 	cronCfg := defaultCronConfig()
-	cycle := NewAutonomousCycle(cronCfg, s.pipeline)
+	cycle := NewAutonomousCycle(cronCfg, s.pipeline, s.gmail)
 
 	switch r.Method {
 	case http.MethodGet:
@@ -690,7 +693,7 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cronCfg := defaultCronConfig()
-	cycle := NewAutonomousCycle(cronCfg, s.pipeline)
+	cycle := NewAutonomousCycle(cronCfg, s.pipeline, s.gmail)
 
 	// Try dashboard.txt first (human-readable)
 	if r.Header.Get("Accept") == "text/plain" {

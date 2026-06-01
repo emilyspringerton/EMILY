@@ -20,6 +20,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -709,7 +710,11 @@ func buildIntegrationStore() *IntegrationStore {
 
 // PrimeTriageContext holds context for the autonomous triage cycle.
 // Called from cron.go when the cycle picks up triage work.
-func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipeline) (string, error) {
+// runPrimeTriage reads FatBaby observations, scores strategic relevance, writes
+// directed tasks for high-relevance findings, and sends Gmail alerts for CEO-visible
+// observations that haven't been escalated before (deduped via a cursor file).
+// gmail may be nil — in that case escalations are counted but no email is sent.
+func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipeline, gmail *GmailClient) (string, error) {
 	priorities, err := store.LoadSignalPriorities()
 	if err != nil {
 		return "", fmt.Errorf("load priorities: %w", err)
@@ -722,8 +727,19 @@ func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipe
 		return "no observations to triage", nil
 	}
 
+	// Load escalation cursor so we don't re-send alerts for observations already escalated.
+	escalationCursorPath := filepath.Join(store.signalsDir, "observations", ".escalation-cursor")
+	lastEscalated := ""
+	if b, err := os.ReadFile(escalationCursorPath); err == nil {
+		lastEscalated = strings.TrimSpace(string(b))
+	}
+
 	tasksWritten := 0
 	escalations := 0
+	alertsSent := 0
+	newLastEscalated := lastEscalated
+
+	// obs is sorted newest-first; iterate newest-first so the cursor advances to latest.
 	for _, o := range obs {
 		t := Triage(o, priorities)
 		if task := TaskFromTriage(o, t); task != nil {
@@ -733,8 +749,26 @@ func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipe
 		}
 		if t.RequiresCEOVisibility {
 			escalations++
+			// Only alert for observations newer than the escalation cursor.
+			if o.Timestamp > lastEscalated && gmail != nil {
+				alert := FormatSignalAlert(o, t)
+				if sendErr := gmail.SendAlert(ctx, alert); sendErr != nil {
+					log.Printf("triage: gmail send failed: %v", sendErr)
+				} else {
+					alertsSent++
+					if o.Timestamp > newLastEscalated {
+						newLastEscalated = o.Timestamp
+					}
+				}
+			}
 		}
 	}
-	return fmt.Sprintf("triage complete observations=%d tasks_written=%d escalations=%d",
-		len(obs), tasksWritten, escalations), nil
+
+	// Persist cursor so the next cycle doesn't re-send the same alerts.
+	if newLastEscalated != lastEscalated {
+		_ = os.WriteFile(escalationCursorPath, []byte(newLastEscalated), 0o644)
+	}
+
+	return fmt.Sprintf("triage complete observations=%d tasks_written=%d escalations=%d alerts_sent=%d",
+		len(obs), tasksWritten, escalations, alertsSent), nil
 }
