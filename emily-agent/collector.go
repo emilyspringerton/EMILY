@@ -701,13 +701,22 @@ func (a *ArXivSource) parseAtom(raw []byte, since time.Time, minAbstr int) ([]Co
 
 // ---------------------------------------------------------------------------
 // QualityScorer — deterministic, no ML, no external dependencies
-// Gold >= 7.5, Silver >= 5.0, Bronze < 5.0
+// Score range: 0–10 (max achievable ~8.0 without spam).
+// Gold >= 6.5, Silver >= 4.5, Bronze < 4.5
+//
+// Score breakdown:
+//   Length       0–3 pts  (saturates at 3000 chars)
+//   Sentence     0–2 pts  (saturates at 15 sentences)
+//   Vocabulary   0–2 pts  (type/token ratio)
+//   Citations    0–1 pt   (numbered refs or [n] markers)
+//   Spam penalty 0–3 pts  (deducted for ad/promo phrases)
 // ---------------------------------------------------------------------------
 
 var (
 	reSentenceEnd = regexp.MustCompile(`[.!?]+\s`)
 	reSpam        = regexp.MustCompile(`(?i)(click here|buy now|limited time offer|free download|#ad\b|sponsored content|affiliate link|promo code|discount code|sign up now|subscribe now|act now|order today)`)
 	reWordToken   = regexp.MustCompile(`\b\w{3,}\b`)
+	reCitation    = regexp.MustCompile(`\[\d+\]|\^\d+\b|\(\d{4}\)`)
 )
 
 type QualityScorer struct{}
@@ -736,17 +745,24 @@ func (q *QualityScorer) Score(doc CollectedDoc) (score float64, tier string) {
 		vocabScore = math.Min(float64(len(unique))/float64(len(words))*4.0, 2.0)
 	}
 
+	// Citation richness: 0–1 pt (numbered refs like [1], ^2, or (2024) indicate
+	// sourced content vs. opinion/spam). Saturates at 5 distinct citation markers.
+	citationHits := len(reCitation.FindAllString(body, -1))
+	citationScore := math.Min(float64(citationHits)/5.0, 1.0)
+
 	// Spam penalty: deduct up to 3 pts
 	spamHits := float64(len(reSpam.FindAllString(body, -1)))
 	spamPenalty := math.Min(spamHits*1.5, 3.0)
 
-	total := lengthScore + sentenceScore + vocabScore - spamPenalty
+	total := lengthScore + sentenceScore + vocabScore + citationScore - spamPenalty
 	total = math.Round(math.Max(0, math.Min(10, total))*100) / 100
 
+	// Thresholds calibrated against achievable max (~8.0 for dense cited content):
+	// gold 10-20%, silver 30-50%, bronze remainder.
 	switch {
-	case total >= 7.5:
+	case total >= 6.5:
 		tier = "gold"
-	case total >= 5.0:
+	case total >= 4.5:
 		tier = "silver"
 	default:
 		tier = "bronze"
