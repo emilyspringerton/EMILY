@@ -426,11 +426,11 @@ func (w *WikipediaSource) Fetch(ctx context.Context, since time.Time) ([]Collect
 	}
 
 	var docs []CollectedDoc
-	for i := 0; i < len(pageIDs); i += 50 {
+	for i := 0; i < len(pageIDs); i += 100 {
 		if err := ctx.Err(); err != nil {
 			return docs, err
 		}
-		end := i + 50
+		end := i + 100
 		if end > len(pageIDs) {
 			end = len(pageIDs)
 		}
@@ -456,7 +456,7 @@ func (w *WikipediaSource) fetchRecentChanges(ctx context.Context, since time.Tim
 		"list":        {"recentchanges"},
 		"rctype":      {"edit"},
 		"rcnamespace": {"0"},
-		"rclimit":     {"50"},
+		"rclimit":     {"100"},
 		"rcprop":      {"title|timestamp|ids"},
 	}
 	if !since.IsZero() {

@@ -578,9 +578,9 @@ func defaultRoadmap() []RoadmapItem {
 		{
 			ID:          "bob-agent",
 			Name:        "Bob database admin agent",
-			Description: "Design and implement Bob: a minimal Go HTTP service that accepts structured task requests from Emily, executes PostgreSQL operations, returns structured results, and maintains an audit log.",
+			Description: "Design and implement Bob: a minimal Go HTTP service that accepts structured task requests from Emily, executes MySQL operations, returns structured results, and maintains an audit log.",
 			Priority:    6,
-			Status:      "queued",
+			Status:      "complete",
 			Criteria: []AcceptanceCriterion{
 				{Name: "api", Description: "Emily can POST a task to Bob and GET the result", Target: "POST /task, GET /task/{id}"},
 				{Name: "isolation", Description: "Bob only executes database operations", Target: "no filesystem or network access beyond DB"},
@@ -588,6 +588,7 @@ func defaultRoadmap() []RoadmapItem {
 				{Name: "safety", Description: "destructive operations require explicit confirmation flag", Target: "drop/delete require {confirm: true}"},
 			},
 			MaxIters: 6,
+			Notes:    "Completed in IDUNA repo (cmd/bob-agent). MySQL schema admin agent with safety gates for destructive operations.",
 		},
 	}
 }
