@@ -4,6 +4,8 @@ emily-agent/emily-agent
 # runtime state dirs
 emily-agent/conversations/
 emily-agent/emily-state/
+emily-agent/emily-memory/
+emily-agent/fartco-memory/
 emily-collect/
 
 # construct artifacts
