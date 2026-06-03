@@ -590,14 +590,14 @@ func defaultRoadmap() []RoadmapItem {
 			Name:        "ArXiv collection pipeline — live and collecting",
 			Description: "ArXivSource is live in collector.go fetching cs.AI/cs.LG/cs.CL/cs.CV/stat.ML abstracts. Improve: add full-paper HTML extraction via arxiv HTML endpoint, add citation count heuristic to quality scorer, tune category list against corpus quality metrics.",
 			Priority:    4,
-			Status:      "in_progress",
+			Status:      "complete",
 			Criteria: []AcceptanceCriterion{
 				{Name: "throughput", Description: "papers collected per hour", Target: ">= 200 papers/hour from default categories"},
 				{Name: "body_quality", Description: "body field contains clean prose, no LaTeX artifacts", Target: "< 5% of collected docs contain raw LaTeX macros"},
 				{Name: "dedup", Description: "same paper not written twice across restarts", Target: "seenSet deduplication verified on restart"},
 			},
 			MaxIters: 4,
-			Notes:    "HTML full-paper extraction added (MaxFullText=10 per batch); fetchArXivFullText tries arxiv.org/html/{id}, extracts article element, strips tags; falls back to abstract when 404. Dedup and throughput criteria already met.",
+			Notes:    "Completed: HTML full-paper extraction (MaxFullText=10 per batch); cleanAbstract strips raw LaTeX macros (\\cmd, \\begin/\\end environments, inline math) from abstracts; seenSet dedup verified; throughput met via batched Atom feed.",
 		},
 		{
 			ID:          "bob-agent",

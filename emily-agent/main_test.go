@@ -282,6 +282,51 @@ func TestQualityScorer_NoFalsePositiveOnNormalText(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
+// ArXiv abstract LaTeX cleanup
+// ---------------------------------------------------------------------------
+
+func TestCleanAbstract_StripsInlineCommands(t *testing.T) {
+	raw := `We propose \textbf{FLAME}, a novel framework for \emph{efficient} training.`
+	out := cleanAbstract(raw)
+	if strings.Contains(out, `\textbf`) || strings.Contains(out, `\emph`) {
+		t.Errorf("LaTeX commands not stripped: %s", out)
+	}
+	if !strings.Contains(out, "FLAME") || !strings.Contains(out, "efficient") {
+		t.Errorf("content was removed: %s", out)
+	}
+}
+
+func TestCleanAbstract_StripsMathAndEnvironments(t *testing.T) {
+	raw := `The loss $\mathcal{L} = \sum_{i} \ell_i$ is minimised via SGD. See \begin{equation} x^2 + y^2 = r^2 \end{equation} for details.`
+	out := cleanAbstract(raw)
+	if strings.Contains(out, `\begin`) || strings.Contains(out, `\end`) {
+		t.Errorf("LaTeX environment not removed: %s", out)
+	}
+	if strings.Contains(out, `\mathcal`) || strings.Contains(out, `\sum`) {
+		t.Errorf("math block not cleaned: %s", out)
+	}
+	if !strings.Contains(out, "minimised via SGD") {
+		t.Errorf("prose was removed: %s", out)
+	}
+}
+
+func TestCleanAbstract_PassesCleanText(t *testing.T) {
+	clean := "We present a new approach to large language model fine-tuning. Our method achieves state-of-the-art results."
+	out := cleanAbstract(clean)
+	if out != clean {
+		t.Errorf("clean text was modified: got %q, want %q", out, clean)
+	}
+}
+
+func TestCleanAbstract_StripsBareCommands(t *testing.T) {
+	raw := `We achieve \alpha = 0.01 and \beta accuracy improvements.`
+	out := cleanAbstract(raw)
+	if strings.Contains(out, `\alpha`) || strings.Contains(out, `\beta`) {
+		t.Errorf("bare LaTeX commands not stripped: %s", out)
+	}
+}
+
+// ---------------------------------------------------------------------------
 // Per-source stats
 // ---------------------------------------------------------------------------
 

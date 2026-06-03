@@ -700,6 +700,39 @@ type arxivEntry struct {
 	} `xml:"category"`
 }
 
+// reLatexMacro matches raw LaTeX commands that leak into arxiv abstracts.
+// Common forms: \textbf{...}, \emph{...}, \cite{...}, \mathbb{R}, \alpha, etc.
+// We strip the command but keep the content (for \textbf{word} → word).
+var (
+	reLatexCmd      = regexp.MustCompile(`\\[a-zA-Z]+\{([^}]*)\}`)    // \cmd{content} → content
+	reLatexCmdBare  = regexp.MustCompile(`\\[a-zA-Z]+\b`)              // bare \cmd → ""
+	reLatexEnv      = regexp.MustCompile(`(?s)\\begin\{[^}]+\}.*?\\end\{[^}]+\}`) // \begin{...}...\end{...}
+	reLatexMath     = regexp.MustCompile(`\$\$[^$]+\$\$|\$[^$\n]+\$`) // $$...$$ and $...$
+	reLatexBraces   = regexp.MustCompile(`[{}]`)
+)
+
+// cleanAbstract strips raw LaTeX markup from an arxiv abstract, returning
+// plain prose. Environments and math blocks are removed entirely; inline
+// commands like \textbf{word} have their content preserved.
+func cleanAbstract(text string) string {
+	// Remove LaTeX environments first (may contain nested braces).
+	text = reLatexEnv.ReplaceAllString(text, " ")
+	// Remove display and inline math.
+	text = reLatexMath.ReplaceAllString(text, " ")
+	// Inline commands: \cmd{content} → content.
+	for reLatexCmd.MatchString(text) {
+		text = reLatexCmd.ReplaceAllString(text, "$1")
+	}
+	// Bare commands: \alpha → "".
+	text = reLatexCmdBare.ReplaceAllString(text, "")
+	// Remove stray braces left over.
+	text = reLatexBraces.ReplaceAllString(text, "")
+	// Collapse excess whitespace.
+	text = regexp.MustCompile(`[ \t]+`).ReplaceAllString(text, " ")
+	text = regexp.MustCompile(`\n{3,}`).ReplaceAllString(text, "\n\n")
+	return strings.TrimSpace(text)
+}
+
 // reHTMLTag strips HTML tags. Used to extract plain text from arxiv HTML papers.
 var reHTMLTag = regexp.MustCompile(`<[^>]+>`)
 
@@ -783,7 +816,7 @@ func (a *ArXivSource) parseAtom(raw []byte, since time.Time, minAbstr int) ([]Co
 		}
 
 		title := strings.TrimSpace(strings.ReplaceAll(entry.Title, "\n", " "))
-		abstract := strings.TrimSpace(entry.Summary)
+		abstract := cleanAbstract(strings.TrimSpace(entry.Summary))
 		if len(abstract) < minAbstr {
 			continue
 		}
