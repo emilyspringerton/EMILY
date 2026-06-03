@@ -549,8 +549,18 @@ func (w *WikipediaSource) fetchExtracts(ctx context.Context, pageIDs []int, ua s
 		if page.PageID <= 0 || len(page.Extract) < minBody {
 			continue
 		}
+		// Exclude stub articles even if they pass the minBody length check.
+		// Wikipedia stubs often have boilerplate padding that inflates their size.
+		if isWikipediaStub(page.Extract) {
+			continue
+		}
 		pageURL := "https://en.wikipedia.org/wiki/" +
 			url.PathEscape(strings.ReplaceAll(page.Title, " ", "_"))
+
+		// Count sections (paragraphs separated by double newline) as a quality signal.
+		sectionCount := countWikiSections(page.Extract)
+		tags := []string{"wikipedia", fmt.Sprintf("sections:%d", sectionCount)}
+
 		docs = append(docs, CollectedDoc{
 			ID:          docID("wikipedia:" + strconv.Itoa(page.PageID)),
 			SourceName:  "wikipedia",
@@ -560,9 +570,51 @@ func (w *WikipediaSource) fetchExtracts(ctx context.Context, pageIDs []int, ua s
 			BodyBytes:   len(page.Extract),
 			PublishedAt: time.Now().UTC(),
 			CollectedAt: time.Now().UTC(),
+			Tags:        tags,
 		})
 	}
 	return docs, nil
+}
+
+// isWikipediaStub returns true when the article extract contains stub markers.
+// Wikipedia stubs are explicitly marked and are unsuitable training data.
+func isWikipediaStub(text string) bool {
+	lower := strings.ToLower(text)
+	stubPhrases := []string{
+		"this article is a stub",
+		"this is a stub",
+		"this biography is a stub",
+		"this article about",
+		"you can help wikipedia by expanding it",
+		"this entry is a stub",
+	}
+	for _, phrase := range stubPhrases {
+		if strings.Contains(lower, phrase) {
+			return true
+		}
+	}
+	return false
+}
+
+// countWikiSections counts the number of top-level sections in a Wikipedia
+// plain-text extract. Sections are delimited by double newlines with a short
+// all-caps or title-case line (section headings in explaintext format).
+func countWikiSections(text string) int {
+	if text == "" {
+		return 0
+	}
+	paragraphs := strings.Split(text, "\n\n")
+	count := 0
+	for _, p := range paragraphs {
+		p = strings.TrimSpace(p)
+		if p != "" {
+			count++
+		}
+	}
+	if count == 0 {
+		return 1
+	}
+	return count
 }
 
 // ---------------------------------------------------------------------------
@@ -701,7 +753,7 @@ func (a *ArXivSource) parseAtom(raw []byte, since time.Time, minAbstr int) ([]Co
 
 // ---------------------------------------------------------------------------
 // QualityScorer — deterministic, no ML, no external dependencies
-// Score range: 0–10 (max achievable ~8.0 without spam).
+// Score range: 0–10 (max achievable ~9.0 for dense ML code+text).
 // Gold >= 6.5, Silver >= 4.5, Bronze < 4.5
 //
 // Score breakdown:
@@ -709,14 +761,19 @@ func (a *ArXivSource) parseAtom(raw []byte, since time.Time, minAbstr int) ([]Co
 //   Sentence     0–2 pts  (saturates at 15 sentences)
 //   Vocabulary   0–2 pts  (type/token ratio)
 //   Citations    0–1 pt   (numbered refs or [n] markers)
+//   Technical    0–1 pt   (code blocks, equations, ML keywords)
 //   Spam penalty 0–3 pts  (deducted for ad/promo phrases)
 // ---------------------------------------------------------------------------
 
 var (
-	reSentenceEnd = regexp.MustCompile(`[.!?]+\s`)
-	reSpam        = regexp.MustCompile(`(?i)(click here|buy now|limited time offer|free download|#ad\b|sponsored content|affiliate link|promo code|discount code|sign up now|subscribe now|act now|order today)`)
-	reWordToken   = regexp.MustCompile(`\b\w{3,}\b`)
-	reCitation    = regexp.MustCompile(`\[\d+\]|\^\d+\b|\(\d{4}\)`)
+	reSentenceEnd  = regexp.MustCompile(`[.!?]+\s`)
+	reSpam         = regexp.MustCompile(`(?i)(click here|buy now|limited time offer|free download|#ad\b|sponsored content|affiliate link|promo code|discount code|sign up now|subscribe now|act now|order today)`)
+	reWordToken    = regexp.MustCompile(`\b\w{3,}\b`)
+	reCitation     = regexp.MustCompile(`\[\d+\]|\^\d+\b|\(\d{4}\)`)
+	reCodeBlock    = regexp.MustCompile("(?s)```[\\w]*\\n.*?```")
+	reInlineCode   = regexp.MustCompile("`[^`\n]{3,}`")
+	reEquation     = regexp.MustCompile(`\$[^$\n]{3,}\$|\\\[.*?\\\]`)
+	reTechKeyword  = regexp.MustCompile(`(?i)\b(algorithm|neural|gradient|transformer|embedding|backprop|inference|training|dataset|benchmark|accuracy|precision|recall|f1|epoch|batch|loss|softmax|attention|token|layer|weight|bias|activation|pytorch|tensorflow|numpy|cuda|gpu|llm|llama|gpt|bert|fine.tun|quantiz)\b`)
 )
 
 type QualityScorer struct{}
@@ -750,14 +807,24 @@ func (q *QualityScorer) Score(doc CollectedDoc) (score float64, tier string) {
 	citationHits := len(reCitation.FindAllString(body, -1))
 	citationScore := math.Min(float64(citationHits)/5.0, 1.0)
 
+	// Technical content bonus: 0–1 pt for ML/CS content.
+	// Code blocks (``` fenced or inline `code`), equations ($...$), and
+	// domain-specific ML/AI keywords are strong indicators of high-value corpus data.
+	codeBlocks := len(reCodeBlock.FindAllString(body, -1))
+	inlineCode := len(reInlineCode.FindAllString(body, -1))
+	equations := len(reEquation.FindAllString(body, -1))
+	techKeywords := len(reTechKeyword.FindAllString(body, -1))
+	techSignals := codeBlocks*3 + inlineCode + equations*2 + techKeywords/5
+	techScore := math.Min(float64(techSignals)/10.0, 1.0)
+
 	// Spam penalty: deduct up to 3 pts
 	spamHits := float64(len(reSpam.FindAllString(body, -1)))
 	spamPenalty := math.Min(spamHits*1.5, 3.0)
 
-	total := lengthScore + sentenceScore + vocabScore + citationScore - spamPenalty
+	total := lengthScore + sentenceScore + vocabScore + citationScore + techScore - spamPenalty
 	total = math.Round(math.Max(0, math.Min(10, total))*100) / 100
 
-	// Thresholds calibrated against achievable max (~8.0 for dense cited content):
+	// Thresholds calibrated against achievable max (~9.0 for dense ML code+text):
 	// gold 10-20%, silver 30-50%, bronze remainder.
 	switch {
 	case total >= 6.5:

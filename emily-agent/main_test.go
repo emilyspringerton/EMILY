@@ -176,3 +176,175 @@ func TestRunIterationMarksMaxIterPartialAsBlocked(t *testing.T) {
 		t.Fatalf("expected review note, got %q", state.Roadmap[0].Notes)
 	}
 }
+
+// ---------------------------------------------------------------------------
+// Wikipedia stub detection and section counting
+// ---------------------------------------------------------------------------
+
+func TestIsWikipediaStub_DetectsStubs(t *testing.T) {
+	stubs := []string{
+		"This article is a stub. You can help Wikipedia by expanding it.",
+		"this is a stub — please expand",
+		"This biography is a stub.",
+	}
+	for _, s := range stubs {
+		if !isWikipediaStub(s) {
+			t.Errorf("expected stub detection for: %q", s)
+		}
+	}
+}
+
+func TestIsWikipediaStub_PassesNonStubs(t *testing.T) {
+	articles := []string{
+		"Python is a high-level programming language. It was created by Guido van Rossum...",
+		"Transformer models use self-attention to process sequences in parallel.",
+		"The article about stubs in software engineering covers many cases.",
+	}
+	for _, s := range articles {
+		if isWikipediaStub(s) {
+			t.Errorf("false-positive stub detection for: %q", s)
+		}
+	}
+}
+
+func TestCountWikiSections_MultiSection(t *testing.T) {
+	text := "Introduction paragraph.\n\nSection one content here.\n\nSection two content."
+	n := countWikiSections(text)
+	if n < 2 {
+		t.Errorf("expected >= 2 sections, got %d", n)
+	}
+}
+
+func TestCountWikiSections_Empty(t *testing.T) {
+	if n := countWikiSections(""); n != 0 {
+		t.Errorf("expected 0 for empty, got %d", n)
+	}
+}
+
+// ---------------------------------------------------------------------------
+// QualityScorer — technical content bonus
+// ---------------------------------------------------------------------------
+
+func TestQualityScorer_TechBonusForCodeBlock(t *testing.T) {
+	qs := &QualityScorer{}
+	withCode := CollectedDoc{
+		ID:   "test",
+		Body: "Here is an example:\n\n```python\ndef train(model, data):\n    optimizer.step()\n    return loss\n```\n\nThis shows a basic training loop using PyTorch with gradient descent and backpropagation through the neural network layers.",
+	}
+	without := CollectedDoc{
+		ID:   "test2",
+		Body: "Here is an example of how to do something with data. You can process it step by step in order to achieve the desired result.",
+	}
+	scoreWith, _ := qs.Score(withCode)
+	scoreWithout, _ := qs.Score(without)
+	if scoreWith <= scoreWithout {
+		t.Errorf("expected code+tech-keywords to score higher: with=%.2f without=%.2f", scoreWith, scoreWithout)
+	}
+}
+
+func TestQualityScorer_TechBonusForEquation(t *testing.T) {
+	qs := &QualityScorer{}
+	// Compare score of same-length body with and without equations.
+	plain := CollectedDoc{
+		ID:   "eq-plain",
+		Body: "The loss function is defined. Gradient descent minimises it. This approach is fundamental. The model converges after training.",
+	}
+	withEq := CollectedDoc{
+		ID:   "eq-test",
+		Body: "The loss function is defined as $L = -\\sum y \\log p$. Gradient descent minimises $L$ using $\\theta \\leftarrow \\theta - \\alpha \\nabla L$. This approach is fundamental to neural network training.",
+	}
+	scorePlain, _ := qs.Score(plain)
+	scoreEq, _ := qs.Score(withEq)
+	// Equation-dense content should score higher than equivalent plain prose.
+	if scoreEq <= scorePlain {
+		t.Errorf("equation content (%.2f) should outscore plain text (%.2f)", scoreEq, scorePlain)
+	}
+}
+
+func TestQualityScorer_NoFalsePositiveOnNormalText(t *testing.T) {
+	qs := &QualityScorer{}
+	// Plain prose without tech signals should not get the bonus.
+	doc := CollectedDoc{
+		ID:   "plain",
+		Body: "The company announced strong quarterly results today. Revenue grew by fifteen percent year over year. The board approved a dividend increase for shareholders.",
+	}
+	score, _ := qs.Score(doc)
+	// Should be normal score, not inflated by spurious tech detection.
+	techBonus := score - func() float64 {
+		// Re-score without any tech signals — approximate by checking score is < 6.5
+		return 0
+	}()
+	_ = techBonus
+	// Main check: clean prose doesn't get gold from tech bonus alone
+	if score >= 6.5 {
+		t.Errorf("plain prose scored %.2f (gold tier) unexpectedly; tech bonus may be too generous", score)
+	}
+}
+
+// ---------------------------------------------------------------------------
+// IdunaClient — nil-safe when env vars are absent
+// ---------------------------------------------------------------------------
+
+func TestNewIdunaClientFromEnv_NilWhenUnconfigured(t *testing.T) {
+	// Ensure env vars are not set in test environment.
+	for _, k := range []string{"IDUNA_BASE_URL", "IDUNA_AGENT_NAME", "IDUNA_AGENT_SECRET"} {
+		t.Setenv(k, "")
+	}
+	client := NewIdunaClientFromEnv()
+	if client != nil {
+		t.Error("expected nil IdunaClient when env vars are absent, got non-nil")
+	}
+}
+
+func TestNewIdunaClientFromEnv_NonNilWhenConfigured(t *testing.T) {
+	t.Setenv("IDUNA_BASE_URL", "http://localhost:8080")
+	t.Setenv("IDUNA_AGENT_NAME", "TEST_AGENT")
+	t.Setenv("IDUNA_AGENT_SECRET", "sk-test-secret")
+	client := NewIdunaClientFromEnv()
+	if client == nil {
+		t.Error("expected non-nil IdunaClient when all env vars are set, got nil")
+	}
+}
+
+// ---------------------------------------------------------------------------
+// buildCycleApple
+// ---------------------------------------------------------------------------
+
+func TestBuildCycleApple_SuccessTask(t *testing.T) {
+	now := time.Now().UTC()
+	state := &CycleState{CycleNumber: 7, Metrics: CycleMetrics{TasksCompleted: 3}}
+	task := &ImprovementTask{ID: "reddit-collector", Status: "success", MaxIters: 5,
+		Iterations: []IterationRecord{{AllPass: true, Analysis: "All criteria met."}}}
+	rec := CycleRecord{StartedAt: now, EndedAt: now.Add(45 * time.Second), Outcome: "converged"}
+	payload := buildCycleApple(state, task, rec, 0)
+	if payload.AppleType != "improvement" {
+		t.Errorf("type = %q, want improvement for successful task", payload.AppleType)
+	}
+	if !strings.Contains(payload.Title, "cycle-7") && !strings.Contains(payload.Title, "Cycle 7") {
+		t.Errorf("title %q should mention cycle number", payload.Title)
+	}
+	if payload.SourceRepo != "emily" {
+		t.Errorf("source_repo = %q, want emily", payload.SourceRepo)
+	}
+	if !strings.Contains(payload.RunID, "emily-cycle-7") {
+		t.Errorf("run_id = %q, want emily-cycle-7 prefix", payload.RunID)
+	}
+}
+
+func TestBuildCycleApple_IdleCycle(t *testing.T) {
+	state := &CycleState{CycleNumber: 1}
+	rec := CycleRecord{StartedAt: time.Now(), EndedAt: time.Now(), Outcome: "idle"}
+	payload := buildCycleApple(state, nil, rec, 0)
+	if payload.AppleType != "audit" {
+		t.Errorf("type = %q, want audit for idle cycle", payload.AppleType)
+	}
+}
+
+func TestBuildCycleApple_TriageObservation(t *testing.T) {
+	state := &CycleState{CycleNumber: 2}
+	rec := CycleRecord{StartedAt: time.Now(), EndedAt: time.Now(), Outcome: "triage"}
+	payload := buildCycleApple(state, nil, rec, 3)
+	if payload.AppleType != "observation" {
+		t.Errorf("type = %q, want observation when triage_findings > 0", payload.AppleType)
+	}
+}

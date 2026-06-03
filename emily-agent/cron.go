@@ -106,6 +106,7 @@ type AutonomousCycle struct {
 	integration *IntegrationStore // optional; enables prime triage each cycle
 	emiree      *EmireeAgent      // witch engine governing RSI operational state
 	gmail       *GmailClient      // optional; enables CEO escalation alerts from triage
+	iduna       *IdunaClient      // optional; submits Apples to IDUNA after each cycle
 }
 
 // NewAutonomousCycle creates a cycle runner.
@@ -116,6 +117,7 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 		integration: buildIntegrationStore(),
 		emiree:      NewEmireeAgent(cfg.StateDir),
 		gmail:       gmail,
+		iduna:       NewIdunaClientFromEnv(),
 	}
 }
 
@@ -238,6 +240,21 @@ func (ac *AutonomousCycle) RunOnce() error {
 		log.Printf("[cycle %d] warn: could not save cycle record: %v", state.CycleNumber, err)
 	}
 	ac.updateDashboard(state, rec)
+
+	// Submit Apple to IDUNA — best-effort, never blocks or fails the cycle.
+	if ac.iduna != nil {
+		appleCtx, appleCancel := context.WithTimeout(context.Background(), 10*time.Second)
+		go func() {
+			defer appleCancel()
+			payload := buildCycleApple(state, task, rec, triageFindings)
+			id, err := ac.iduna.PostApple(appleCtx, payload)
+			if err != nil {
+				log.Printf("[cycle %d] apple: submit failed (non-fatal): %v", state.CycleNumber, err)
+			} else {
+				log.Printf("[cycle %d] apple: submitted id=%d type=%s", state.CycleNumber, id, payload.AppleType)
+			}
+		}()
+	}
 
 	log.Printf("[cycle %d] complete in %s", state.CycleNumber, time.Since(rec.StartedAt).Round(time.Second))
 	return nil
@@ -621,6 +638,73 @@ func buildRSIOutcome(task *ImprovementTask, triageFindings int) RSIOutcome {
 		}
 	}
 	return out
+}
+
+// buildCycleApple constructs the Apple payload for a completed RSI cycle.
+// apple_type is "improvement" when a task succeeded, "observation" when triage
+// found new tasks, "audit" for idle/monitoring cycles.
+func buildCycleApple(state *CycleState, task *ImprovementTask, rec CycleRecord, triageFindings int) ApplePayload {
+	appleType := "audit"
+	title := fmt.Sprintf("Cycle %d — idle (no queued tasks)", state.CycleNumber)
+	var bodyLines []string
+
+	if task != nil {
+		switch task.Status {
+		case "success":
+			appleType = "improvement"
+			title = fmt.Sprintf("Cycle %d — %s: converged", state.CycleNumber, task.ID)
+		case "running":
+			appleType = "improvement"
+			title = fmt.Sprintf("Cycle %d — %s: iteration %d", state.CycleNumber, task.ID, len(task.Iterations))
+		default:
+			appleType = "observation"
+			title = fmt.Sprintf("Cycle %d — %s: %s", state.CycleNumber, task.ID, task.Status)
+		}
+		bodyLines = append(bodyLines,
+			fmt.Sprintf("## Task: %s", task.ID),
+			fmt.Sprintf("**Status:** %s  **Iterations:** %d/%d",
+				task.Status, len(task.Iterations), task.MaxIters),
+			"",
+			"**Description:** "+task.Description,
+		)
+		if len(task.Iterations) > 0 {
+			last := task.Iterations[len(task.Iterations)-1]
+			bodyLines = append(bodyLines, "",
+				"### Last iteration",
+				fmt.Sprintf("- All criteria pass: %v", last.AllPass),
+				"- Analysis: "+last.Analysis,
+			)
+		}
+	} else if triageFindings > 0 {
+		appleType = "observation"
+		title = fmt.Sprintf("Cycle %d — triage: %d new tasks", state.CycleNumber, triageFindings)
+	}
+
+	bodyLines = append(bodyLines, "",
+		"## Cycle summary",
+		fmt.Sprintf("- Cycle: %d", state.CycleNumber),
+		fmt.Sprintf("- Duration: %s", rec.EndedAt.Sub(rec.StartedAt).Round(time.Second)),
+		fmt.Sprintf("- Outcome: %s", rec.Outcome),
+		fmt.Sprintf("- Total completed tasks: %d", state.Metrics.TasksCompleted),
+		fmt.Sprintf("- Triage findings this cycle: %d", triageFindings),
+	)
+
+	meta, _ := json.Marshal(map[string]any{
+		"cycle_number":    state.CycleNumber,
+		"task_id":         func() string { if task != nil { return task.ID }; return "" }(),
+		"triage_findings": triageFindings,
+		"consecutive_failures": state.Metrics.ConsecFailures,
+		"duration_s":      int(rec.EndedAt.Sub(rec.StartedAt).Seconds()),
+	})
+
+	return ApplePayload{
+		SourceRepo: "emily",
+		RunID:      fmt.Sprintf("emily-cycle-%d-%s", state.CycleNumber, rec.StartedAt.UTC().Format("20060102T150405Z")),
+		AppleType:  appleType,
+		Title:      title,
+		Body:       strings.Join(bodyLines, "\n"),
+		Metadata:   json.RawMessage(meta),
+	}
 }
 
 // AddRoadmapItem adds an item to the roadmap from the HTTP API.
