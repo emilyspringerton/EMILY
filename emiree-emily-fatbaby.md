@@ -90,9 +90,35 @@ Neither loop has an off switch. Both are always running. The audit trail is what
 
 ---
 
+---
+
+## IDUNA — The Trust Root (2026-06-03)
+
+All agents — Emiree, Emily Prime, FatBaby-Emily, Jon, Bob — authenticate through IDUNA, the Platform IAM and Governance Service. IDUNA is intentionally not owned by any single agent. It is shared infrastructure.
+
+**Bootstrap sequence:**
+1. Provision MySQL and set `MYSQL_DSN`
+2. Run `go run ./cmd/bootstrap` in the IDUNA repo — migrates DB, seeds agent permissions from `config/agents.json`, generates secrets
+3. Source `var/agent-secrets.env` — provides `IDUNA_SECRET_<AGENTNAME>` for each agent
+4. Start IDUNA, then agents authenticate with their credentials
+
+**Config-as-code:** `IDUNA/config/agents.json` declares all agent identities and their minimum-necessary permissions. Changing an agent's authority means editing the file and re-running bootstrap. No admin UI required.
+
+**Agent permissions (declared, not inherited via roles):**
+- EMIREE: `emiree.super`, `emily-prime.operator`, `fatbaby.operator`, `governance.admin`
+- EMILY-PRIME: `emily-prime.operator`, `fatbaby.operator`, `governance.admin`
+- FATBABY-EMILY: `fatbaby.operator`, `governance.admin`, `secwatch.execute`
+- JON: `fatbaby.operator`, `signalapi.read`, `jon.setups.write`
+- BOB: `bob.db.admin` only — scoped strictly to DB tasks
+
+Full startup guide: `PRRJECT_FATBABY/docs/system-bootstrap.md`
+
+---
+
 ## What Success Looks Like
 
 - A material signal surfaces at 11pm. CEO has a clear summary by 7am.
 - FatBaby's watchlist expands to a new sector without a human writing a ticket.
 - Every decision last month is traceable: observation → reasoning → action → outcome.
+- System comes online with `go run ./cmd/bootstrap && source var/agent-secrets.env && go run .` — no manual UI steps.
 - The witch runs the show. The show is open. Anyone can read the spells.
