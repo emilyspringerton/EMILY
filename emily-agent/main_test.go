@@ -282,6 +282,84 @@ func TestQualityScorer_NoFalsePositiveOnNormalText(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
+// Per-source stats
+// ---------------------------------------------------------------------------
+
+func TestCollectorPipelinePerSourceStats(t *testing.T) {
+	dir := t.TempDir()
+	store, err := NewDocStore(dir)
+	if err != nil {
+		t.Fatalf("NewDocStore: %v", err)
+	}
+	pipe := NewCollectorPipeline(CollectorConfig{
+		Store:   store,
+		Scorer:  &QualityScorer{},
+		Workers: 1,
+		MinTier: "bronze",
+	})
+	// Manually call processOne to increment per-source counter.
+	pipe.seen = newDocSeenSet(nil)
+	pipe.processOne(CollectedDoc{
+		ID: "test-1", SourceName: "reddit",
+		Body: strings.Repeat("word sentence. ", 100), // enough to be bronze+
+	})
+	pipe.processOne(CollectedDoc{
+		ID: "test-2", SourceName: "arxiv",
+		Body: strings.Repeat("abstract sentence. ", 100),
+	})
+	pipe.processOne(CollectedDoc{
+		ID: "test-3", SourceName: "reddit",
+		Body: strings.Repeat("another sentence. ", 100),
+	})
+	stats := pipe.Stats()
+	if stats.PerSource["reddit"] != 2 {
+		t.Errorf("reddit count = %d, want 2", stats.PerSource["reddit"])
+	}
+	if stats.PerSource["arxiv"] != 1 {
+		t.Errorf("arxiv count = %d, want 1", stats.PerSource["arxiv"])
+	}
+}
+
+// ---------------------------------------------------------------------------
+// stripHTML
+// ---------------------------------------------------------------------------
+
+func TestStripHTML_RemovesTags(t *testing.T) {
+	input := `<html><body><article><h1>Title</h1><p>First paragraph.</p><p>Second paragraph with <strong>emphasis</strong>.</p></article></body></html>`
+	out := stripHTML(input)
+	if strings.Contains(out, "<") || strings.Contains(out, ">") {
+		t.Errorf("stripHTML left HTML tags in output: %s", out)
+	}
+	if !strings.Contains(out, "First paragraph") {
+		t.Errorf("stripHTML removed text content: %s", out)
+	}
+	if !strings.Contains(out, "emphasis") {
+		t.Errorf("stripHTML removed emphasised text: %s", out)
+	}
+}
+
+func TestStripHTML_DecodesEntities(t *testing.T) {
+	out := stripHTML("&amp; &lt;tag&gt; &quot;quoted&quot;")
+	if strings.Contains(out, "&amp;") || strings.Contains(out, "&lt;") {
+		t.Errorf("HTML entities not decoded: %s", out)
+	}
+	if !strings.Contains(out, "&") || !strings.Contains(out, "<") {
+		t.Errorf("entity decoding incorrect: %s", out)
+	}
+}
+
+func TestStripHTML_RemovesScriptAndStyle(t *testing.T) {
+	input := `<p>Visible text</p><script>alert("xss")</script><style>.hidden{display:none}</style>`
+	out := stripHTML(input)
+	if strings.Contains(out, "alert") || strings.Contains(out, "display:none") {
+		t.Errorf("script/style not stripped: %s", out)
+	}
+	if !strings.Contains(out, "Visible text") {
+		t.Errorf("visible text was removed: %s", out)
+	}
+}
+
+// ---------------------------------------------------------------------------
 // IdunaClient — nil-safe when env vars are absent
 // ---------------------------------------------------------------------------
 

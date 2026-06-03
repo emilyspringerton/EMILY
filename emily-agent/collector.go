@@ -628,6 +628,10 @@ type ArXivSource struct {
 	MaxResults  int      // per request, max 200 per arxiv API limits
 	UserAgent   string
 	MinAbstrLen int
+	// MaxFullText controls how many full-paper HTML fetches are attempted per
+	// batch. 0 = abstract-only (default). Each full-text fetch costs one HTTP
+	// call at ~1s delay; set to 10–20 for best quality without slowing the cycle.
+	MaxFullText int
 	client      *http.Client
 }
 
@@ -696,6 +700,75 @@ type arxivEntry struct {
 	} `xml:"category"`
 }
 
+// reHTMLTag strips HTML tags. Used to extract plain text from arxiv HTML papers.
+var reHTMLTag = regexp.MustCompile(`<[^>]+>`)
+
+// stripHTML removes HTML tags and decodes common entities, returning plain text.
+func stripHTML(s string) string {
+	// Remove script and style blocks entirely.
+	s = regexp.MustCompile(`(?is)<(script|style)[^>]*>.*?</(script|style)>`).ReplaceAllString(s, " ")
+	// Replace block-level tags with newlines.
+	s = regexp.MustCompile(`(?i)</(p|div|section|h[1-6]|li|br|tr)>`).ReplaceAllString(s, "\n")
+	// Strip all remaining tags.
+	s = reHTMLTag.ReplaceAllString(s, "")
+	// Decode common HTML entities.
+	replacer := strings.NewReplacer(
+		"&amp;", "&", "&lt;", "<", "&gt;", ">",
+		"&quot;", `"`, "&#39;", "'", "&nbsp;", " ",
+		"&mdash;", "—", "&ndash;", "–", "&hellip;", "…",
+	)
+	s = replacer.Replace(s)
+	// Normalise whitespace: collapse runs of blanks, trim.
+	s = regexp.MustCompile(`[ \t]+`).ReplaceAllString(s, " ")
+	s = regexp.MustCompile(`\n{3,}`).ReplaceAllString(s, "\n\n")
+	return strings.TrimSpace(s)
+}
+
+// fetchArXivFullText attempts to retrieve the plain-text content of a paper
+// from the arxiv HTML endpoint (https://arxiv.org/html/{id}). Returns ("", nil)
+// when the HTML version is unavailable (404) or the content is too short.
+// Caller is responsible for rate-limiting between calls.
+func (a *ArXivSource) fetchArXivFullText(ctx context.Context, paperID, ua string) (string, error) {
+	htmlURL := "https://arxiv.org/html/" + paperID
+	req, err := http.NewRequestWithContext(ctx, "GET", htmlURL, nil)
+	if err != nil {
+		return "", err
+	}
+	if ua != "" {
+		req.Header.Set("User-Agent", ua)
+	}
+	resp, err := a.client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode == 404 || resp.StatusCode == 403 {
+		return "", nil // HTML version unavailable — normal for older papers
+	}
+	if resp.StatusCode != 200 {
+		return "", fmt.Errorf("arxiv html status=%d id=%s", resp.StatusCode, paperID)
+	}
+
+	raw, err := io.ReadAll(io.LimitReader(resp.Body, 2<<20)) // 2 MB cap
+	if err != nil {
+		return "", err
+	}
+
+	// Extract the <article> element if present (arxiv HTML papers use <article>).
+	article := string(raw)
+	if start := strings.Index(article, "<article"); start >= 0 {
+		if end := strings.LastIndex(article, "</article>"); end > start {
+			article = article[start : end+len("</article>")]
+		}
+	}
+
+	text := stripHTML(article)
+	if len(text) < 2000 {
+		return "", nil // too short — likely a redirect or unavailable stub
+	}
+	return text, nil
+}
+
 func (a *ArXivSource) parseAtom(raw []byte, since time.Time, minAbstr int) ([]CollectedDoc, error) {
 	var feed arxivFeed
 	if err := xml.Unmarshal(raw, &feed); err != nil {
@@ -748,6 +821,42 @@ func (a *ArXivSource) parseAtom(raw []byte, since time.Time, minAbstr int) ([]Co
 			Tags:        tags,
 		})
 	}
+
+	// Best-effort full-paper HTML enrichment: fetch up to MaxFullText papers.
+	// Each fetch costs ~1 HTTP call; we sleep 1s between calls to respect arxiv's
+	// usage policy. Abstract body is kept as fallback when HTML is unavailable.
+	if a.MaxFullText > 0 && len(docs) > 0 {
+		ua := a.UserAgent
+		if ua == "" {
+			ua = "emily-agent/0.1 data-collection-bot"
+		}
+		limit := a.MaxFullText
+		if limit > len(docs) {
+			limit = len(docs)
+		}
+		enrichCtx, enrichCancel := context.WithTimeout(context.Background(), time.Duration(limit)*3*time.Second)
+		defer enrichCancel()
+		for i := 0; i < limit; i++ {
+			doc := &docs[i]
+			// Extract paper ID from URL: https://arxiv.org/abs/{id}
+			paperID := strings.TrimPrefix(doc.URL, "https://arxiv.org/abs/")
+			fullText, err := a.fetchArXivFullText(enrichCtx, paperID, ua)
+			if err != nil {
+				log.Printf("arxiv fulltext id=%s err=%v", paperID, err)
+			} else if fullText != "" {
+				doc.Body = doc.Title + "\n\n" + fullText
+				doc.BodyBytes = len(doc.Body)
+				doc.Tags = append(doc.Tags, "full_paper")
+			}
+			// Polite delay between HTML fetches.
+			select {
+			case <-enrichCtx.Done():
+				return docs, nil
+			case <-time.After(time.Second):
+			}
+		}
+	}
+
 	return docs, nil
 }
 
@@ -889,16 +998,17 @@ func (s *docSeenSet) size() int {
 // ---------------------------------------------------------------------------
 
 type CollectionStats struct {
-	DocsCollected   int64      `json:"docs_collected"`
-	DocsRejected    int64      `json:"docs_rejected"`
-	DocsDuplicate   int64      `json:"docs_duplicate"`
-	DocsGold        int64      `json:"docs_gold"`
-	DocsSilver      int64      `json:"docs_silver"`
-	DocsBronze      int64      `json:"docs_bronze"`
-	ErrorCount      int64      `json:"error_count"`
-	SeenSetSize     int        `json:"seen_set_size"`
-	LastCollectedAt *time.Time `json:"last_collected_at,omitempty"`
-	Running         bool       `json:"running"`
+	DocsCollected   int64            `json:"docs_collected"`
+	DocsRejected    int64            `json:"docs_rejected"`
+	DocsDuplicate   int64            `json:"docs_duplicate"`
+	DocsGold        int64            `json:"docs_gold"`
+	DocsSilver      int64            `json:"docs_silver"`
+	DocsBronze      int64            `json:"docs_bronze"`
+	ErrorCount      int64            `json:"error_count"`
+	SeenSetSize     int              `json:"seen_set_size"`
+	LastCollectedAt *time.Time       `json:"last_collected_at,omitempty"`
+	Running         bool             `json:"running"`
+	PerSource       map[string]int64 `json:"per_source,omitempty"` // collected count by source name
 }
 
 // ---------------------------------------------------------------------------
@@ -923,14 +1033,18 @@ type CollectorPipeline struct {
 	running bool
 	cancel  context.CancelFunc
 
-	docsCollected  atomic.Int64
-	docsRejected   atomic.Int64
-	docsDuplicate  atomic.Int64
-	docsGold       atomic.Int64
-	docsSilver     atomic.Int64
-	docsBronze     atomic.Int64
-	errorCount     atomic.Int64
+	docsCollected   atomic.Int64
+	docsRejected    atomic.Int64
+	docsDuplicate   atomic.Int64
+	docsGold        atomic.Int64
+	docsSilver      atomic.Int64
+	docsBronze      atomic.Int64
+	errorCount      atomic.Int64
 	lastCollectedAt atomic.Pointer[time.Time]
+
+	// per-source counters: source_name → collected count
+	perSourceMu sync.Mutex
+	perSource   map[string]int64
 }
 
 func NewCollectorPipeline(cfg CollectorConfig) *CollectorPipeline {
@@ -946,7 +1060,7 @@ func NewCollectorPipeline(cfg CollectorConfig) *CollectorPipeline {
 	if cfg.MinTier == "" {
 		cfg.MinTier = "bronze"
 	}
-	return &CollectorPipeline{cfg: cfg}
+	return &CollectorPipeline{cfg: cfg, perSource: make(map[string]int64)}
 }
 
 // Start loads the seen set (O(n) scan of existing corpus) then launches the
@@ -1004,9 +1118,17 @@ func (p *CollectorPipeline) Stats() CollectionStats {
 
 	var lastAt *time.Time
 	if t := p.lastCollectedAt.Load(); t != nil {
-		copy := *t
-		lastAt = &copy
+		cp := *t
+		lastAt = &cp
 	}
+
+	p.perSourceMu.Lock()
+	perSource := make(map[string]int64, len(p.perSource))
+	for k, v := range p.perSource {
+		perSource[k] = v
+	}
+	p.perSourceMu.Unlock()
+
 	return CollectionStats{
 		DocsCollected:   p.docsCollected.Load(),
 		DocsRejected:    p.docsRejected.Load(),
@@ -1018,6 +1140,7 @@ func (p *CollectorPipeline) Stats() CollectionStats {
 		SeenSetSize:     seenSize,
 		LastCollectedAt: lastAt,
 		Running:         running,
+		PerSource:       perSource,
 	}
 }
 
@@ -1107,6 +1230,10 @@ func (p *CollectorPipeline) processOne(doc CollectedDoc) {
 
 	p.seen.mark(doc.ID)
 	p.docsCollected.Add(1)
+
+	p.perSourceMu.Lock()
+	p.perSource[doc.SourceName]++
+	p.perSourceMu.Unlock()
 
 	now := time.Now().UTC()
 	p.lastCollectedAt.Store(&now)

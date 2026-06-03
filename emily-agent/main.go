@@ -1543,6 +1543,7 @@ func buildCollector(cfg Config) *CollectorPipeline {
 			MaxResults:  100,
 			UserAgent:   ua,
 			MinAbstrLen: 200,
+			MaxFullText: 10, // fetch full HTML for top 10 papers per batch
 		},
 		&RedditSource{
 			Subreddits:  subreddits,
