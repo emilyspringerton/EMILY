@@ -78,9 +78,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   EMILY-PRIME via M2M, queries `/api/v1/apples`, prints tabular view. Flags: `--full`,
   `--limit=N`, filter by source_repo. Apple #4 filed. DONE 2026-06-07.
 
-- [ ] **Cross-repo status script** — A single script (maybe in EMILY repo) that:
-  git pull all repos, shows pending backlog items per repo, shows last Apple per agent.
-  Output: one screen, actionable. Dependency: Apples dashboard ✓.
+- [x] **Cross-repo status script** — `EMILY/scripts/status.sh` written. Git status for all
+  5 repos (branch, dirty count, last commit, backlog stats) + last Apple per agent from IDUNA.
+  DONE 2026-06-07.
 
 - [ ] **PRRJECT_FATBABY → IDUNA Apple filing** — FatBaby-Emily observations currently write
   to var/emily-observations/. Add an Apple post step: when FatBaby generates an observation,
