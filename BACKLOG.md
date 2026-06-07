@@ -72,12 +72,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything)
 
-- [x] **emily CLI (emily.cli repo)** — Full Go CLI for operator interface. Repo:
-  `/home/fatbaby/emily.cli` (github.com/emilyspringerton/emily.cli). v0.3.0 live.
-  Commands: `emily observe` (fire observations + auto Apple), `emily apples list|get|post`,
-  `emily watch` (IDUNA tail -f), `emily status` (cross-repo git + IDUNA), `emily sync`
-  (FatBaby→IDUNA). Binary at `~/.local/bin/emily`. Apple #39 (#40 for RSI cycle).
-  DONE 2026-06-07.
+- [x] **emily CLI (emily.cli repo)** — Full Go CLI v0.5.0. 69 tests, 5 packages.
+  Commands: observe (stdin+auto-Apple), apples (list/post/get), watch (IDUNA tail -f),
+  status (--watch live dashboard), sync (--watch daemon), install (--cron/--systemd),
+  prime-task (directed tasks→EMILY/signals/tasks), agents (activity dashboard), help.
+  Apples #37–#48. README.md complete. DONE 2026-06-07.
 
 - [x] **Apples dashboard query** — `EMILY/scripts/apples.sh` written. Authenticates as
   EMILY-PRIME via M2M, queries `/api/v1/apples`, prints tabular view. Flags: `--full`,
@@ -117,9 +116,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   when the IDUNA CLI is built. Currently Tyler is seeded via migration. The CLI path is
   the programmatic future.
 
-- [ ] **PRRJECT_FATBABY Emily Prime loop** — Full directed improvement loop where Emily Prime
-  reads FatBaby observations, issues improvement tasks, FatBaby executes, loop closes.
-  Ref: emily-prime-spec.md. Requires: cross-repo observability ✓, Apple filing ✓.
+- [x] **PRRJECT_FATBABY Emily Prime loop (CLI layer)** — `emily prime-task` command writes
+  directed task JSON to EMILY/signals/tasks/. Observation-watcher picks up within 10s and
+  invokes Claude Code on FatBaby. Loop: operator→CLI→tasks/→watcher→claude. Apple #44.
+  DONE 2026-06-07. (Full autonomous loop requires obs-watcher running with --prime-tasks flag.)
+
+- [ ] **Obs-watcher with --prime-tasks** — Start observation-watcher with
+  `--prime-tasks /home/fatbaby/EMILY/signals/tasks` so it polls the tasks dir alongside
+  FatBaby observations. Currently tasks are written but not picked up (watcher not running).
+  Command: `cd /home/fatbaby/PRRJECT_FATBABY && go run ./cmd/observation-watcher --prime-tasks /home/fatbaby/EMILY/signals/tasks --dangerously-skip-permissions`
+  Human action required to start the process.
 
 ---
 
