@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-07 | Ref: Apple #3 (IDUNA) | Emily Prime decision
+### Last updated: 2026-06-07 | RSI master loop + Bloomberg TUI — Claude Code build
 
 ---
 
@@ -123,13 +123,45 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   invokes Claude Code on FatBaby. Loop: operator→CLI→tasks/→watcher→claude. Apple #44.
   DONE 2026-06-07. (Full autonomous loop requires obs-watcher running with --prime-tasks flag.)
 
-- [ ] **Obs-watcher with --prime-tasks** — Start observation-watcher with
-  `--prime-tasks /home/fatbaby/EMILY/signals/tasks` so it polls the tasks dir alongside
-  FatBaby observations. Currently tasks are written but not picked up (watcher not running).
-  Command: `cd /home/fatbaby/PRRJECT_FATBABY && go run ./cmd/observation-watcher --prime-tasks /home/fatbaby/EMILY/signals/tasks --dangerously-skip-permissions`
-  Human action required to start the process.
+- [x] **Obs-watcher with --prime-tasks** — `emily start` launches observation-watcher with
+  `--prime-tasks EMILY/signals/tasks` automatically. Already wired in cmd/start.go.
+  Auto-detects EMILY sibling dir if not specified. DONE 2026-06-07.
+
+- [x] **RSI master loop (rsi-loop.sh)** — `EMILY/scripts/rsi-loop.sh` orchestrates the
+  full tic-toc RSI cycle: TIC (emily prime-task --preset rsi-token-report) → TOCK (wait for
+  Claude Code completion via claude-runs/ polling) → ENTROPY (TYLER/emily.sh N iterations) →
+  ANALYZE (emily observe posts observation → triggers next cycle). Configurable via env vars:
+  MAX_ITERS, TYLER_ITERS, SLEEP_BETWEEN, DRY_RUN, SKIP_TYLER. Writes per-iteration state to
+  EMILY/var/rsi-loop-state.json. DONE 2026-06-07.
+
+- [x] **emily tui — Bloomberg terminal** — `emily tui` command (v0.6.0). Three-column live
+  dashboard: repos+tasks+token budget | Apple feed (auto-refresh) | process health+RSI loop+
+  actions. Hotkeys: F1=fire RSI task, F2=run Tyler, F3=start system, F4=tail logs, r=refresh,
+  q=quit. Uses tview (first external dep). 15s auto-refresh. DONE 2026-06-07.
 
 ---
+
+## SECTION 6: RSI TIGHTENING (next horizon)
+
+- [ ] **rsi-loop.sh: task completion detection via Apple** — Instead of polling claude-runs/
+  file count, poll IDUNA for a new Apple with run_id matching the task_id. This makes
+  completion detection precise regardless of claude-runs/ layout.
+  Depends: IDUNA running + emily CLI auth.
+
+- [ ] **emily tui: token spend from IDUNA Apples** — Parse token_used field from
+  rsi_iteration Apple bodies for actual spend (vs current rough estimate of 8.2k/run).
+  Adds real cost visibility to the Bloomberg terminal.
+
+- [ ] **emily tui: keyboard command input bar** — Add a bottom input field (tview.InputField)
+  so operators can type `emily prime-task "..."` directly from the TUI without leaving.
+
+- [ ] **rsi-loop.sh: FatBaby + EMILY combined tick** — After the TOCK phase, also trigger a
+  FatBaby Emily tick (`POST /tick` to emily-agent HTTP endpoint) so the health sweep runs in
+  the same cycle. One RSI iteration covers both EMILY and FatBaby observation loops.
+
+- [ ] **rsi-loop.sh preset rotation** — Cycle through multiple prime-task presets per loop:
+  rsi-token-report, entity-graph-refinement, eps-coverage-review. Prevents the loop from
+  only optimizing one surface. Configurable via PRESET_LIST env var.
 
 ## BACKLOG PROTOCOL
 
