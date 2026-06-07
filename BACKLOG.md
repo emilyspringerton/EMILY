@@ -82,10 +82,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   5 repos (branch, dirty count, last commit, backlog stats) + last Apple per agent from IDUNA.
   DONE 2026-06-07.
 
-- [ ] **PRRJECT_FATBABY → IDUNA Apple filing** — FatBaby-Emily observations currently write
-  to var/emily-observations/. Add an Apple post step: when FatBaby generates an observation,
-  post it as an Apple (type: `signal_observation`). Emily Prime can then query by type.
-  Dependency: EMILY RSI → IDUNA ✓.
+- [x] **PRRJECT_FATBABY → IDUNA Apple filing** — `EMILY/scripts/sync-fatbaby.sh` syncs
+  observation files to IDUNA as `signal_observation` Apples. State-tracked (EMILY/var/
+  fatbaby-synced.txt) to avoid duplicates. 9 historical observations backfilled, Apples #6–14.
+  Run on cron or after each FatBaby cycle. DONE 2026-06-07.
 
 ---
 
