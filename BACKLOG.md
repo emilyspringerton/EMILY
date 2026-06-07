@@ -74,10 +74,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything)
 
-- [ ] **Apples dashboard query** — Write a script (or add to emily.sh) that queries
-  `GET /api/v1/apples` and prints a summary: last 10 apples, by agent, type, timestamp.
-  This is Emily Prime's "what is the system doing" view. Takes 20 minutes.
-  Dependency: IDUNA live ✓.
+- [x] **Apples dashboard query** — `EMILY/scripts/apples.sh` written. Authenticates as
+  EMILY-PRIME via M2M, queries `/api/v1/apples`, prints tabular view. Flags: `--full`,
+  `--limit=N`, filter by source_repo. Apple #4 filed. DONE 2026-06-07.
 
 - [ ] **Cross-repo status script** — A single script (maybe in EMILY repo) that:
   git pull all repos, shows pending backlog items per repo, shows last Apple per agent.
