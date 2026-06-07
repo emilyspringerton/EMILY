@@ -72,6 +72,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything)
 
+- [x] **emily CLI (emily.cli repo)** — Full Go CLI for operator interface. Repo:
+  `/home/fatbaby/emily.cli` (github.com/emilyspringerton/emily.cli). v0.3.0 live.
+  Commands: `emily observe` (fire observations + auto Apple), `emily apples list|get|post`,
+  `emily watch` (IDUNA tail -f), `emily status` (cross-repo git + IDUNA), `emily sync`
+  (FatBaby→IDUNA). Binary at `~/.local/bin/emily`. Apple #39 (#40 for RSI cycle).
+  DONE 2026-06-07.
+
 - [x] **Apples dashboard query** — `EMILY/scripts/apples.sh` written. Authenticates as
   EMILY-PRIME via M2M, queries `/api/v1/apples`, prints tabular view. Flags: `--full`,
   `--limit=N`, filter by source_repo. Apple #4 filed. DONE 2026-06-07.
