@@ -47,11 +47,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Acceptance: `systemctl status iduna` shows active, survives reboot, agent auth works after.
   Dependency: server access, emily.sh run ✓ (to verify the env is correct first).
 
-- [ ] **Process supervision: emily.sh cron or supervisor** — TYLER RSI loop runs on a schedule
-  (every 4 hours, or event-triggered). Options: cron, systemd timer, or supervisor process
-  that watches BACKLOG.md for new `[ ]` items. Start simple: cron every 4h.
-  Acceptance: emily.sh runs without human trigger, Apple filed, TYLER BACKLOG.md updated.
-  Dependency: process supervision for IDUNA ✓ (IDUNA must be up before the loop runs).
+- [x] **Process supervision: emily.sh cron or supervisor** — `TYLER/scripts/cron-emily.sh`
+  written. Lock-guarded, IDUNA-check before run, sources Tyler credentials, git pull + 1
+  iteration + push. Crontab: `0 */4 * * * /home/fatbaby/TYLER/scripts/cron-emily.sh`.
+  Apple #18 filed. DONE 2026-06-07. (Human must add crontab entry.)
 
 ---
 
@@ -90,9 +89,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
 
-- [ ] **Tyler mode SHANKPIT spec** — engine/shankpit_tyler_mode.md exists. The game engine
-  has Tyler specs in docs2/specs/. Next step: identify one concrete game mechanic to implement
-  that connects the TV show to the game world. See SHANKPIT BACKLOG for specifics.
+- [x] **Tyler mode SHANKPIT spec** — `TYLER/engine/tyler_hum_mechanic.md` written. First
+  Tyler↔SHANKPIT implementation bridge: HUM_FIELD_ACTIVE server event (6-unit radius, 45s,
+  Jiangshi NPC hold + documentation -80%). Go interface sketched. RSI receipts documented.
+  Apple #18 filed. DONE 2026-06-07.
 
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
