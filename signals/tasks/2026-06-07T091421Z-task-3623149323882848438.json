@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-06-07T09:14:21Z",
+  "from": "operator-cli",
+  "to": "fatbaby-emily",
+  "task_id": "task-3623149323882848438",
+  "task_type": "rsi_loop",
+  "priority": "normal",
+  "description": "emily.cli prime-task command live — operator can now direct FatBaby tasks from the CLI",
+  "acceptance_criteria": [
+    "emily prime-task command exists and is documented"
+  ],
+  "context": "emily.cli v0.5.0 is live. The CLI now has a prime-task command that closes the operator→Emily Prime→FatBaby directed loop. This is the first task filed via that loop."
+}
