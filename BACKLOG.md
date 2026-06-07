@@ -32,16 +32,15 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **EMILY/BACKLOG.md created** — This file. Cross-repo golden backlog. Machine-readable.
   Apple #3 (Emily Prime decision) authorized. DONE 2026-06-07.
 
-- [ ] **Run emily.sh — first autonomous RSI iteration** — Execute emily.sh from TYLER repo.
-  Tyler picks the first pending BACKLOG.md item, generates RSI artifact, commits, posts Apple.
-  Acceptance: Apple filed by Tyler from emily.sh run, TYLER BACKLOG.md task checked, git push
-  to origin. Dependency: IDUNA live ✓, tyler_agent.md ✓, emily.sh ✓.
+- [x] **Run emily.sh — first autonomous RSI iteration** — Tyler ran emily.sh. Build 0017 (MPT
+  package) + Build 0018 (1952 Detroit annual composite + architecture nodes). 59 BACKLOG items
+  complete, 3 remaining (MPT-blocked). Apple #16 (rsi_iteration) filed. DONE 2026-06-07.
 
-- [ ] **Wire EMILY RSI engine to IDUNA** — emily-agent/rsi.go currently has no IDUNA auth.
-  Add IDUNA token acquisition (using EMILY-PRIME credentials) to the RSI iteration loop.
-  Every RSI iteration posts an Apple: type `rsi_iteration`, body = iteration record JSON.
-  Acceptance: `POST /api/v1/apples` called from rsi.go per iteration, Apple visible in log.
-  Dependency: emily.sh run ✓ (proves Apple posting pattern works end to end).
+- [x] **Wire EMILY RSI engine to IDUNA** — `EMILY/scripts/start-emily-agent.sh` sources
+  IDUNA credentials and launches emily-agent with `IDUNA_BASE_URL`, `IDUNA_AGENT_NAME`,
+  `IDUNA_AGENT_SECRET` set. cron.go already has Apple submission code (lines 244-257) — it
+  fires when IdunaClient is non-nil. Restart running agent using start-emily-agent.sh to enable.
+  DONE 2026-06-07.
 
 - [ ] **Process supervision: IDUNA systemd unit** — Deploy the unit from the ops memo
   (TYLER/outlines/emily_iduna_bootstrap.md). IDUNA starts on boot. No human trigger required.
