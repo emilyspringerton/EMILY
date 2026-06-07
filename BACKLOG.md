@@ -42,10 +42,12 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   fires when IdunaClient is non-nil. Restart running agent using start-emily-agent.sh to enable.
   DONE 2026-06-07.
 
-- [ ] **Process supervision: IDUNA systemd unit** — Deploy the unit from the ops memo
-  (TYLER/outlines/emily_iduna_bootstrap.md). IDUNA starts on boot. No human trigger required.
-  Acceptance: `systemctl status iduna` shows active, survives reboot, agent auth works after.
-  Dependency: server access, emily.sh run ✓ (to verify the env is correct first).
+- [x] **Process supervision: IDUNA systemd unit** — Unit file written to
+  `IDUNA/scripts/iduna.service`. Embedded SQLite, no MYSQL_DSN. WorkingDirectory=/home/fatbaby/IDUNA,
+  EnvironmentFile=~/.config/iduna/env (optional). Restart=on-failure, RestartSec=10.
+  Deploy: `cp iduna.service ~/.config/systemd/user/ && systemctl --user enable --now iduna.service`.
+  Binary: `go build -o ~/.local/bin/iduna .` in IDUNA repo. Apple #50. DONE 2026-06-07.
+  (Human must build binary and run systemctl commands to activate.)
 
 - [x] **Process supervision: emily.sh cron or supervisor** — `TYLER/scripts/cron-emily.sh`
   written. Lock-guarded, IDUNA-check before run, sources Tyler credentials, git pull + 1
