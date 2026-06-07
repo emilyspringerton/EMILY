@@ -18,6 +18,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -260,20 +261,24 @@ func (ac *AutonomousCycle) RunOnce() error {
 	return nil
 }
 
-// RunDaemon runs cycles on the configured interval. Use for development;
-// in production prefer cron + RunOnce.
+// RunDaemon runs cycles at approximately the configured interval.
+// A ±60s jitter is added to avoid synchronising with external schedules
+// and to reduce token waste from perfectly-timed back-to-back runs.
 func (ac *AutonomousCycle) RunDaemon() {
-	log.Printf("Emily daemon starting — cycle interval %s", ac.cfg.Interval)
+	log.Printf("Emily daemon starting — base interval %s (±60s jitter)", ac.cfg.Interval)
 	for {
 		start := time.Now()
 		if err := ac.RunOnce(); err != nil {
 			log.Printf("cycle error: %v", err)
 		}
 		elapsed := time.Since(start)
-		sleep := ac.cfg.Interval - elapsed
-		if sleep > 0 {
-			time.Sleep(sleep)
+		jitter := time.Duration(rand.Int63n(120)-60) * time.Second // ±60s
+		sleep := ac.cfg.Interval + jitter - elapsed
+		if sleep < 30*time.Second {
+			sleep = 30 * time.Second // floor: never spin faster than 30s
 		}
+		log.Printf("daemon sleeping %s before next cycle", sleep.Round(time.Second))
+		time.Sleep(sleep)
 	}
 }
 
