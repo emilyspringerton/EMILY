@@ -109,6 +109,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   RSI receipts: TYLER-047, Camera Op Entry 40, VC-001 Day 222, Jiangshi Memo #028 (binding
   coefficient under review), EMILY-SPRING-020. S06E04 added to TYLER backlog. DONE 2026-06-08.
 
+- [x] **TYLER S06E04: "The Third Photograph"** — Build 0064. AMPLIFICATION confirmed (named).
+  Tyler returns A-269 (Day 224), stays 6h, radius 45ft→71ft. Camera Op finds edge at 70ft
+  before Tyler measures 71ft. Third photograph: taken from inside construction threshold (1952);
+  Tyler doesn't know if he chose it. A-270 visited: found construction, expected size, no
+  amplification — contrast confirms duration mechanism. AMPL-001 ledger opened. RSI receipts:
+  TYLER-048, Camera Op Entry 41, VC-001 Day 224, EMILY-SPRING-021. TYLER commit 0544f25.
+  DONE 2026-06-08.
+
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
 
