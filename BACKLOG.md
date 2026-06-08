@@ -164,9 +164,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   a completion Apple via `emily observe -s success` (best-effort, skipped if emily/IDUNA
   offline). EMILY commit d34269e, PRRJECT_FATBABY commit 9347348. DONE 2026-06-08.
 
-- [ ] **emily tui: token spend from IDUNA Apples** — Parse token_used field from
-  rsi_iteration Apple bodies for actual spend (vs current rough estimate of 8.2k/run).
-  Adds real cost visibility to the Bloomberg terminal.
+- [x] **emily tui: token spend from IDUNA Apples** — runReportFooter now includes
+  tokens_used field (Claude fills it in); tui.go reads actual token counts from
+  claude-runs/*.json. When any today's run has tokens_used > 0, displays "(actual)"
+  in green with real per-run cost; falls back to 8.2k/run estimate otherwise.
+  emily.cli commit 628a6da (v0.8.0), PRRJECT_FATBABY commit 3736982. DONE 2026-06-08.
 
 - [x] **emily tui: keyboard command input bar** — Row 3 CMD bar (tview.InputField). Press ':'
   to focus. Commands: pt/prime-task, eo/observe, tyler [N], start, refresh. Rune hotkeys
