@@ -155,13 +155,60 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **emily tui: keyboard command input bar** — Add a bottom input field (tview.InputField)
   so operators can type `emily prime-task "..."` directly from the TUI without leaving.
 
-- [ ] **rsi-loop.sh: FatBaby + EMILY combined tick** — After the TOCK phase, also trigger a
-  FatBaby Emily tick (`POST /tick` to emily-agent HTTP endpoint) so the health sweep runs in
-  the same cycle. One RSI iteration covers both EMILY and FatBaby observation loops.
+- [x] **rsi-loop.sh: FatBaby + EMILY combined tick** — After TOCK phase, POSTs to
+  `$FATBABY_AGENT_URL/tick` (default http://localhost:8080/tick). HTTP 200 = sweep accepted;
+  non-200 is a warning (agent offline) and does not abort the loop. Skip with SKIP_FATBABY_TICK=1.
+  DONE 2026-06-08.
 
-- [ ] **rsi-loop.sh preset rotation** — Cycle through multiple prime-task presets per loop:
-  rsi-token-report, entity-graph-refinement, eps-coverage-review. Prevents the loop from
-  only optimizing one surface. Configurable via PRESET_LIST env var.
+- [x] **rsi-loop.sh preset rotation** — Cycles through PRESET_LIST env var (default:
+  rsi-token-report entity-graph-refinement eps-coverage-review). Each iteration uses
+  next preset in the list (modulo). Prevents loop from only optimizing one surface.
+  DONE 2026-06-08.
+
+---
+
+## SECTION 7: SIGNAL QUALITY (from 2026-06-08 FatBaby observations)
+
+- [x] **director_long_tenure spurious entities from BA filings** — Proposal-topic nodes
+  ("Rights Code", "Special Meetings", "Written Consent", "Political Activity", etc.) were
+  persisted as NodeDirector in var/entity-graph/nodes.ndjson from 2011–2013 Boeing 8-Ks
+  where reProposalSplitter missed the boundary. Fixed via: (1) 13 new nonNameWords in parser.go
+  blocking future ingestion; (2) isSpuriousName() guard in ScoreLongTenure() skipping existing
+  graph store nodes. Both in PRRJECT_FATBABY. go test ./... passes. DONE 2026-06-08.
+
+- [ ] **extractProposals() regex — BA-style filing boundary miss** — Observation gap 2026-06-08:
+  "0 proposals parsed despite directors found — proposal-splitter regex likely did not match
+  filing text format". reProposalSplitter misses some BA 8-K proposal boundaries, causing
+  dirBody to span the full body. This explains 0 proposals in most runs today (only 2 of 15+
+  runs parsed any proposals). Fix: add reProposalSplitter alternation for BA-format boundaries
+  (e.g., "Shareholder Proposal Relating to..." as a prose splitter), or extend reProseSplitter.
+  Requires actual failing filing text as test fixture.
+  Ref: PRRJECT_FATBABY/internal/entitygraph/parser.go extractProposals().
+
+- [ ] **governance_health_index always score=0** — Every ticker's health index is scoring 0
+  (critical) in every run on 2026-06-08. Either the scoring calculation is broken or the
+  calibration thresholds produce 0 for all current data. Investigate
+  internal/entitygraph/signals.go health score calculation.
+
+- [ ] **Signal accuracy feedback loop: precision always 0** — All accuracy_scores have
+  precision=0 with 100% pending predictions across all signal types. The confirmation/refutation
+  mechanism exists (AccuracyRecord) but nothing is closing the loop. Need a mechanism to
+  confirm or refute predictions from subsequent filings or price data.
+
+- [ ] **director_link always 0** — No director_link signals in any of today's 15+ runs.
+  Cross-board director linkage should fire when directors appear at multiple tickers. Either
+  the edge-building logic isn't finding cross-ticker matches, or the scoring threshold is too
+  high. Investigate BuildEdgesFromFiling + ScoreDirectorLinks.
+
+- [x] **`eo` alias for `emily observe`** — Human observation 2026-06-08: "dedicated emily
+  observe command eo". `emily eo` now routes to RunObserve (wired in main.go). DONE 2026-06-08.
+
+- [ ] **APPLES dedicated git repo auto-sync** — Human observation 2026-06-08: "auto git sync
+  all apples with dedicated APPLES repo in real-ish time". Spec: new `APPLES` repo (or
+  subdirectory) that `emily sync --watch` commits to as a git-native Apples archive. Enables
+  offline audit, branching on Apple history, and cross-machine Apple portability without IDUNA.
+
+---
 
 ## BACKLOG PROTOCOL
 

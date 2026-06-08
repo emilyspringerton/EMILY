@@ -37,6 +37,10 @@ SLEEP_BETWEEN="${SLEEP_BETWEEN:-30}"
 DRY_RUN="${DRY_RUN:-0}"
 SKIP_TYLER="${SKIP_TYLER:-0}"
 SKIP_WAIT="${SKIP_WAIT:-0}"
+SKIP_FATBABY_TICK="${SKIP_FATBABY_TICK:-0}"
+# PRESET_LIST: space-separated prime-task presets to cycle through each iteration.
+# Default covers token efficiency + entity graph + EPS coverage for broad RSI surface.
+PRESET_LIST="${PRESET_LIST:-rsi-token-report entity-graph-refinement eps-coverage-review}"
 
 EMILY_ROOT="${EMILY_ROOT:-/home/fatbaby/EMILY}"
 TYLER_ROOT="${TYLER_ROOT:-/home/fatbaby/TYLER}"
@@ -102,7 +106,7 @@ echo "╠═══════════════════════�
 printf "║  Max iterations: %-10s  Tyler builds/cycle: %-10s    ║\n" "${MAX_ITERS:-∞}" "$TYLER_ITERS"
 printf "║  Sleep between:  %-10s  Dry run: %-10s              ║\n" "${SLEEP_BETWEEN}s" "$DRY_RUN"
 echo "╠══════════════════════════════════════════════════════════════════╣"
-echo "║  TIC  → emily prime-task --preset rsi-token-report             ║"
+echo "║  TIC  → emily prime-task --preset (rotates across PRESET_LIST) ║"
 echo "║  TOCK → observation-watcher dispatches Claude Code             ║"
 echo "║  ENTR → TYLER/emily.sh $TYLER_ITERS (entropy injection)             ║"
 echo "║  ANLZ → emily observe → Emily Prime reads → next TIC           ║"
@@ -132,17 +136,21 @@ while true; do
   log "═══ ITERATION $ITER $([ "$MAX_ITERS" -gt 0 ] && echo "/ $MAX_ITERS" || echo "/ ∞") ═══"
   write_state "$ITER" "pending" "tic"
 
-  # ── TIC: Ask Emily Prime ─────────────────────────────────────────────────
-  log "[TIC] Dispatching RSI token-efficiency task to Emily Prime..."
+  # ── TIC: Ask Emily Prime (preset rotates each iteration) ────────────────
+  PRESET_ARRAY=($PRESET_LIST)
+  PRESET_COUNT=${#PRESET_ARRAY[@]}
+  PRESET_IDX=$(( (ITER - 1) % PRESET_COUNT ))
+  CURRENT_PRESET="${PRESET_ARRAY[$PRESET_IDX]}"
+  log "[TIC] Dispatching RSI task to Emily Prime (preset: $CURRENT_PRESET, iter $ITER, cycle $((PRESET_IDX+1))/$PRESET_COUNT)..."
   TASK_ID="dry-run-$ITER"
   if [ "$DRY_RUN" != "1" ]; then
-    TASK_RESULT=$(emily prime-task --preset rsi-token-report --json 2>/dev/null || echo "{}")
+    TASK_RESULT=$(emily prime-task --preset "$CURRENT_PRESET" --json 2>/dev/null || echo "{}")
     TASK_ID=$(echo "$TASK_RESULT" | grep -o '"task_id":"[^"]*"' | cut -d'"' -f4 || echo "task-$ITER")
     APPLE_ID=$(echo "$TASK_RESULT" | grep -o '"apple_id":[0-9]*' | cut -d: -f2 || echo "")
     log "  task written: $TASK_ID${APPLE_ID:+ (Apple #$APPLE_ID)}"
     log "  obs-watcher picks up within 10s → claude --dangerously-skip-permissions"
   else
-    log "  [dry-run] emily prime-task --preset rsi-token-report --json"
+    log "  [dry-run] emily prime-task --preset $CURRENT_PRESET --json"
     TASK_ID="dry-run-$ITER"
   fi
   write_state "$ITER" "$TASK_ID" "tock"
@@ -180,6 +188,21 @@ while true; do
       sleep 10
     done
     echo ""
+  fi
+  # ── FATBABY TICK: trigger FatBaby emily-agent health sweep ───────────────
+  if [ "$SKIP_FATBABY_TICK" = "1" ]; then
+    log "[TICK] Skipping FatBaby tick (SKIP_FATBABY_TICK=1)"
+  elif [ "$DRY_RUN" = "1" ]; then
+    log "[TICK] [dry-run] would POST $FATBABY_ROOT/emily-agent :8080/tick"
+  else
+    FATBABY_AGENT_URL="${FATBABY_AGENT_URL:-http://localhost:8080}"
+    log "[TICK] Triggering FatBaby emily-agent health sweep ($FATBABY_AGENT_URL/tick)..."
+    TICK_HTTP=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$FATBABY_AGENT_URL/tick" --max-time 10 2>/dev/null || echo "000")
+    if [ "$TICK_HTTP" = "200" ]; then
+      log "  ✓ FatBaby tick accepted (HTTP 200) — emily-agent will observe and publish"
+    else
+      log "  WARN: FatBaby tick returned HTTP $TICK_HTTP (emily-agent offline?) — continuing"
+    fi
   fi
   write_state "$ITER" "$TASK_ID" "entropy"
 
