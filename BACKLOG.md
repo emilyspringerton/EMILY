@@ -192,10 +192,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Requires actual failing filing text as test fixture.
   Ref: PRRJECT_FATBABY/internal/entitygraph/parser.go extractProposals().
 
-- [ ] **governance_health_index always score=0** — Every ticker's health index is scoring 0
-  (critical) in every run on 2026-06-08. Either the scoring calculation is broken or the
-  calibration thresholds produce 0 for all current data. Investigate
-  internal/entitygraph/signals.go health score calculation.
+- [x] **governance_health_index always score=0** — Root cause: 11 spurious nomination_rejection
+  signals from 2011-2013 BA proxy 8-Ks (entities: "Rights Code", "Written Consent", etc.) each
+  carried 0.40 penalty, driving BA health to 0.0. Fixed via isSpuriousName(s.Entity) guard in
+  ScoreGovernanceHealthWithPenalties(). Test: TestScoreGovernanceHealth_SpuriousEntityIgnored.
+  PRRJECT_FATBABY commit 093ec0a. DONE 2026-06-08.
 
 - [ ] **Signal accuracy feedback loop: precision always 0** — All accuracy_scores have
   precision=0 with 100% pending predictions across all signal types. The confirmation/refutation
