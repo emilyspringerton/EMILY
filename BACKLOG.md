@@ -240,10 +240,12 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **`eo` alias for `emily observe`** — Human observation 2026-06-08: "dedicated emily
   observe command eo". `emily eo` now routes to RunObserve (wired in main.go). DONE 2026-06-08.
 
-- [ ] **APPLES dedicated git repo auto-sync** — Human observation 2026-06-08: "auto git sync
-  all apples with dedicated APPLES repo in real-ish time". Spec: new `APPLES` repo (or
-  subdirectory) that `emily sync --watch` commits to as a git-native Apples archive. Enables
-  offline audit, branching on Apple history, and cross-machine Apple portability without IDUNA.
+- [x] **APPLES dedicated git repo auto-sync** — Human observation 2026-06-08: "auto git sync
+  all apples with dedicated APPLES repo in real-ish time". Implemented `--apples-git-dir PATH`
+  flag on `emily sync` (one-shot and --watch). Each successfully posted Apple is written as
+  `<gitDir>/<YYYYMMDD>/<id>_<apple-type>.json` and auto-committed with `git commit -m "apple: #N
+  type — title"`. Best-effort (git failures logged, sync continues). emily.cli commit 0974e10.
+  DONE 2026-06-08.
 
 ---
 
