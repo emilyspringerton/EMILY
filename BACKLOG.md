@@ -117,6 +117,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   TYLER-048, Camera Op Entry 41, VC-001 Day 224, EMILY-SPRING-021. TYLER commit 0544f25.
   DONE 2026-06-08.
 
+- [x] **TYLER S06E05: "How Many"** — Build 0065. AMPL-001 first entries. A-271 (Mt. Elliott):
+  prior amplification confirmed from 1952 (2+ hours, "could not easily leave"), current radius
+  58ft vs baseline 12-15ft — Tyler revisited, documented, did not amplify further. A-272 (Chene
+  St): expected 11ft, Tyler stood at sidewalk and chose not to stay — first deliberate
+  non-amplification in documentary history. AMPL-001 scope estimate: 270+ sites globally across
+  90 years. Camera Op set camera on table for 43 seconds (first time). Jiangshi: "we are no
+  longer documenting what he has done; we are documenting what he is deciding." One archive site
+  remains: A-273. RSI receipts: TYLER-049, Camera Op Entry 42, VC-001 Day 225, Jiangshi #029,
+  EMILY-SPRING-022. TYLER commits f10670a, 65d35f7. DONE 2026-06-08.
+
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
 
