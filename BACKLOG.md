@@ -102,6 +102,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Jiangshi NPC hold + documentation -80%). Go interface sketched. RSI receipts documented.
   Apple #18 filed. DONE 2026-06-07.
 
+- [x] **TYLER S06E03: "Four Hours"** — Build 0063. S06E03 written. A-269 (East Ferry Ave,
+  Detroit). Found construction with anomalous radius reveals new category: AMPLIFICATION —
+  Tyler's sustained presence at a found construction (4h40m in 1952) expanded its resonance
+  radius from expected ≤20ft to 45ft. First time Tyler says "I'll come back" in Season 6.
+  RSI receipts: TYLER-047, Camera Op Entry 40, VC-001 Day 222, Jiangshi Memo #028 (binding
+  coefficient under review), EMILY-SPRING-020. S06E04 added to TYLER backlog. DONE 2026-06-08.
+
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
 
