@@ -159,8 +159,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   rsi_iteration Apple bodies for actual spend (vs current rough estimate of 8.2k/run).
   Adds real cost visibility to the Bloomberg terminal.
 
-- [ ] **emily tui: keyboard command input bar** — Add a bottom input field (tview.InputField)
-  so operators can type `emily prime-task "..."` directly from the TUI without leaving.
+- [x] **emily tui: keyboard command input bar** — Row 3 CMD bar (tview.InputField). Press ':'
+  to focus. Commands: pt/prime-task, eo/observe, tyler [N], start, refresh. Rune hotkeys
+  (r, q) bypass while focused; F1-F4 still fire. emily.cli commit fabe5f1 (v0.7.0). DONE 2026-06-08.
 
 - [x] **rsi-loop.sh: FatBaby + EMILY combined tick** — After TOCK phase, POSTs to
   `$FATBABY_AGENT_URL/tick` (default http://localhost:8080/tick). HTTP 200 = sweep accepted;
