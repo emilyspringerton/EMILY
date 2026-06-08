@@ -221,10 +221,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   mechanism exists (AccuracyRecord) but nothing is closing the loop. Need a mechanism to
   confirm or refute predictions from subsequent filings or price data.
 
-- [ ] **director_link always 0** — No director_link signals in any of today's 15+ runs.
-  Cross-board director linkage should fire when directors appear at multiple tickers. Either
-  the edge-building logic isn't finding cross-ticker matches, or the scoring threshold is too
-  high. Investigate BuildEdgesFromFiling + ScoreDirectorLinks.
+- [x] **director_link always 0** — Root cause: name variants for the same person created
+  split nodes (e.g. "Susan L. Wagner" at BLK and "Sue Wagner" at AAPL stored as separate
+  nodes → no multi-ticker filings → no cross-board links). Fixed via: (1) NamesMatch now
+  uses last-name + first-initial matching (ignores middle initials, Jr./Sr. suffixes);
+  (2) UpsertPerson fuzzy-scans existing nodes on create; (3) mergeNameVariants() merge
+  pass in LoadNodesFromDir retroactively consolidates existing split records.
+  Tests: TestNamesMatch_MiddleInitialVariants, TestScoreDirectorLinks_CrossBoardViaNameVariant.
+  PRRJECT_FATBABY commit 2bfeb1f. DONE 2026-06-08.
 
 - [x] **`eo` alias for `emily observe`** — Human observation 2026-06-08: "dedicated emily
   observe command eo". `emily eo` now routes to RunObserve (wired in main.go). DONE 2026-06-08.
