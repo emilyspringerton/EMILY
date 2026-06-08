@@ -158,10 +158,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
 
-- [ ] **rsi-loop.sh: task completion detection via Apple** — Instead of polling claude-runs/
-  file count, poll IDUNA for a new Apple with run_id matching the task_id. This makes
-  completion detection precise regardless of claude-runs/ layout.
-  Depends: IDUNA running + emily CLI auth.
+- [x] **rsi-loop.sh: task completion detection via Apple** — TOCK phase now tries IDUNA
+  Apple polling (Apple ID > pre-TIC snapshot) as primary, falls back to claude-runs/ file
+  count when IDUNA unavailable. obs-watcher runReportFooter now instructs Claude to post
+  a completion Apple via `emily observe -s success` (best-effort, skipped if emily/IDUNA
+  offline). EMILY commit d34269e, PRRJECT_FATBABY commit 9347348. DONE 2026-06-08.
 
 - [ ] **emily tui: token spend from IDUNA Apples** — Parse token_used field from
   rsi_iteration Apple bodies for actual spend (vs current rough estimate of 8.2k/run).
