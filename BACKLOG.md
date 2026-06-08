@@ -117,6 +117,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   TYLER-048, Camera Op Entry 41, VC-001 Day 224, EMILY-SPRING-021. TYLER commit 0544f25.
   DONE 2026-06-08.
 
+- [x] **TYLER S06E06 (Season Finale): "The Usual Place"** — Build 0066. A-273, East Kirby St,
+  340ft radius. Tyler visited since before 1929 — "The usual place. Cold." AMPL-001-MAX opened
+  (incalculable). Binding coefficient retired. COEFF-002 initiated. AMPL-001-SCOPE floor: 300+.
+  Tyler: "I think I know what I am" — did not finish. Camera Op at threshold, already inside
+  field. Tyler handed camera back without speaking. Jiangshi reclassification pending. Season 6
+  complete. RSI receipts: TYLER-050, Camera Op Entry 43, VC-001 Day 226, Jiangshi #030,
+  EMILY-SPRING-023. TYLER commits aa40078, efb2631. DONE 2026-06-08.
+
 - [x] **TYLER S06E05: "How Many"** — Build 0065. AMPL-001 first entries. A-271 (Mt. Elliott):
   prior amplification confirmed from 1952 (2+ hours, "could not easily leave"), current radius
   58ft vs baseline 12-15ft — Tyler revisited, documented, did not amplify further. A-272 (Chene
