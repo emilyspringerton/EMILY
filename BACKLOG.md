@@ -192,14 +192,23 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   blocking future ingestion; (2) isSpuriousName() guard in ScoreLongTenure() skipping existing
   graph store nodes. Both in PRRJECT_FATBABY. go test ./... passes. DONE 2026-06-08.
 
-- [ ] **extractProposals() regex — BA-style filing boundary miss** — Observation gap 2026-06-08:
-  "0 proposals parsed despite directors found — proposal-splitter regex likely did not match
-  filing text format". reProposalSplitter misses some BA 8-K proposal boundaries, causing
-  dirBody to span the full body. This explains 0 proposals in most runs today (only 2 of 15+
-  runs parsed any proposals). Fix: add reProposalSplitter alternation for BA-format boundaries
-  (e.g., "Shareholder Proposal Relating to..." as a prose splitter), or extend reProseSplitter.
-  Requires actual failing filing text as test fixture.
-  Ref: PRRJECT_FATBABY/internal/entitygraph/parser.go extractProposals().
+- [~] **extractProposals() regex — NOT a code bug (investigated 2026-06-08)** — Observation gap
+  "0 proposals parsed despite directors found" is a FALSE ALARM. Root cause: (1) the regex
+  DOES work correctly — TestParseItem507_BALiveFixture passes with 6 proposals found on actual
+  BA cleaned_text; (2) `directors_found` in the observation is the TOTAL accumulated graph node
+  count (not this-batch count), so seeing directors > 0 with proposals = 0 is expected when the
+  batch contains no proxy vote 8-Ks; (3) event store cursor at 67657 is PAST all proxy vote
+  8-Ks (last was at seq ≤ 63759). Recent batches process other 8-K types (earnings, etc.) that
+  have no Item 5.07. Observation wording is misleading; no code fix needed. Closed 2026-06-08.
+
+- [x] **governance_health_index score=0 for ALL clean tickers (double-counting)** — Signal IDs
+  like `director_long_tenure_{name}_{ticker}` have no date component; every batch re-generates
+  identical IDs. DeduplicateSignals(historicalSignals) at load time keeps 1 per ID, but
+  combined = historicalSignals + allSignals then has 2 copies. AMZN with 20 long-tenured
+  directors: 40×0.03 = 1.20 penalty → score = 0. Fix: added
+  `combined = entitygraph.DeduplicateSignals(combined)` before governance health scoring loop
+  in cmd/entity-graph/main.go. Test: TestDeduplicateSignals_CombinedHistoricalAndBatch.
+  PRRJECT_FATBABY commit 43e9214. DONE 2026-06-08.
 
 - [x] **governance_health_index always score=0** — Root cause: 11 spurious nomination_rejection
   signals from 2011-2013 BA proxy 8-Ks (entities: "Rights Code", "Written Consent", etc.) each
