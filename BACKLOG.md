@@ -216,10 +216,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   ScoreGovernanceHealthWithPenalties(). Test: TestScoreGovernanceHealth_SpuriousEntityIgnored.
   PRRJECT_FATBABY commit 093ec0a. DONE 2026-06-08.
 
-- [ ] **Signal accuracy feedback loop: precision always 0** — All accuracy_scores have
-  precision=0 with 100% pending predictions across all signal types. The confirmation/refutation
-  mechanism exists (AccuracyRecord) but nothing is closing the loop. Need a mechanism to
-  confirm or refute predictions from subsequent filings or price data.
+- [x] **Signal accuracy feedback loop: precision always 0** — Root cause: all filing-tied
+  signals used DetectedAt=today (batch run date) instead of the SEC filing date. Historical
+  2010-2025 proxy votes got detectedAt=2026-06-08, ValidThrough=2027-06-08 → 100% pending,
+  precision=0, AccuracyAdjustedPenalties never calibrated. Fixed: signalTimestamps(filingDate)
+  helper uses filingDate as detectedAt for historical filings so prediction windows expire in
+  the past, immediately enabling confirmed/refuted resolution. Composite/graph-state signals
+  (activist_risk, director_link, etc.) still use today. PRRJECT_FATBABY commit a4e0a14.
+  DONE 2026-06-08.
 
 - [x] **director_link always 0** — Root cause: name variants for the same person created
   split nodes (e.g. "Susan L. Wagner" at BLK and "Sue Wagner" at AAPL stored as separate
