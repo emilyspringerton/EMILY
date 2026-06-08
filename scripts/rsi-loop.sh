@@ -156,23 +156,53 @@ while true; do
   write_state "$ITER" "$TASK_ID" "tock"
 
   # ── TOCK: Wait for Claude to complete ────────────────────────────────────
+  # Primary: poll IDUNA for a new Apple (filed by Claude via 'emily observe').
+  # Fallback: poll claude-runs/ file count (works without IDUNA).
   if [ "$SKIP_WAIT" = "1" ]; then
     log "[TOCK] Skipping wait (SKIP_WAIT=1)"
   elif [ "$DRY_RUN" = "1" ]; then
-    log "[TOCK] [dry-run] would wait for claude-runs/ new file (max 3 min)"
+    log "[TOCK] [dry-run] would wait for IDUNA Apple or claude-runs/ new file (max 3 min)"
   else
     log "[TOCK] Waiting for Claude Code to complete task (max 3 min)..."
     WAIT_START=$(date +%s)
     MAX_WAIT=180
     INITIAL_RUNS=$(ls "$CLAUDE_RUNS_DIR" 2>/dev/null | wc -l || echo 0)
-    PROGRESS_DOTS=0
+
+    # Try to get initial Apple ID from IDUNA (best-effort; falls back to 0 if unavailable).
+    INITIAL_APPLE_ID=0
+    if command -v emily >/dev/null 2>&1; then
+      _APPLE_JSON=$(emily apples list -n 1 --json 2>/dev/null || echo "[]")
+      INITIAL_APPLE_ID=$(echo "$_APPLE_JSON" | python3 -c "import sys,json; a=json.load(sys.stdin); print(a[0]['id'] if a else 0)" 2>/dev/null || echo 0)
+    fi
+    IDUNA_AVAILABLE=0
+    [ "$INITIAL_APPLE_ID" != "0" ] && IDUNA_AVAILABLE=1
+    if [ "$IDUNA_AVAILABLE" = "1" ]; then
+      log "  IDUNA available — primary detection: Apple ID > $INITIAL_APPLE_ID"
+    else
+      log "  IDUNA not available — fallback detection: claude-runs/ file count"
+    fi
+
     while true; do
+      DETECTED=0
+      # Primary: IDUNA Apple detection.
+      if [ "$IDUNA_AVAILABLE" = "1" ]; then
+        _APPLE_JSON=$(emily apples list -n 1 --json 2>/dev/null || echo "[]")
+        _LATEST_ID=$(echo "$_APPLE_JSON" | python3 -c "import sys,json; a=json.load(sys.stdin); print(a[0]['id'] if a else 0)" 2>/dev/null || echo 0)
+        if [ "$_LATEST_ID" != "$INITIAL_APPLE_ID" ] && [ "$_LATEST_ID" != "0" ]; then
+          log "  ✓ Apple #$_LATEST_ID filed → IDUNA completion detected (task_id=$TASK_ID)"
+          DETECTED=1
+        fi
+      fi
+      # Fallback: claude-runs/ file count.
       CURRENT_RUNS=$(ls "$CLAUDE_RUNS_DIR" 2>/dev/null | wc -l || echo 0)
       if [ "$CURRENT_RUNS" -gt "$INITIAL_RUNS" ]; then
-        LATEST=$(ls -t "$CLAUDE_RUNS_DIR" 2>/dev/null | head -1 || echo "unknown")
-        log "  ✓ Claude run detected → $LATEST (total: $CURRENT_RUNS)"
-        break
+        LATEST_RUN=$(ls -t "$CLAUDE_RUNS_DIR" 2>/dev/null | head -1 || echo "unknown")
+        log "  ✓ claude-runs/ completion detected → $LATEST_RUN (total: $CURRENT_RUNS)"
+        DETECTED=1
       fi
+
+      [ "$DETECTED" = "1" ] && break
+
       NOW=$(date +%s)
       ELAPSED=$((NOW - WAIT_START))
       if [ "$ELAPSED" -ge "$MAX_WAIT" ]; then
@@ -183,7 +213,6 @@ while true; do
         log "  ⚠ obs-watcher not running — task queued but not dispatched. Skipping wait."
         break
       fi
-      PROGRESS_DOTS=$((PROGRESS_DOTS + 1))
       printf "  ... ${ELAPSED}s elapsed\r"
       sleep 10
     done
