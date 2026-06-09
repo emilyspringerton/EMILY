@@ -365,9 +365,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `updateManifest()` after each `archiveAppleToGit()`. Appends entry, amends the Apple commit.
   MJOLNIR reads MANIFEST.json for fast offline index. emily.cli commit 4775961. DONE 2026-06-09.
 
-- [ ] **MJOLNIR docs: Emily Prime integration spec** — Emily Prime to author
-  `EMILY/docs/MJOLNIR_INTEGRATION.md`. Directed task issued 2026-06-09T22:37:13Z
-  (task-3146266896637121286). Dependency: MJOLNIR northstar complete ✓.
+- [x] **MJOLNIR docs: Emily Prime integration spec** — `EMILY/docs/MJOLNIR_INTEGRATION.md` authored.
+  Covers Apple severity thresholds, device token resolution, morning briefing design, FCM env vars,
+  codebase seams, Android registration flow, notification channels. EMILY commit (pending). DONE 2026-06-09.
 
 ---
 
