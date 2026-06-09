@@ -175,6 +175,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   SECOND-CATEGORY REFUSAL: purpose-based, Tyler said no to amplifying absence. RSI receipts:
   TYLER-055, Camera Op Entry 48, Jiangshi #035. TYLER commit 5ffaf0c. DONE 2026-06-09.
 
+- [x] **TYLER S07E06: "What Stays"** — Build 0072. Vienna days 257-264. A-284: Musikhaus Vogt 31ft,
+  violin C major, unambiguous presence. A-285: Café Bernstein 47ft/2h40m, "presence is what still
+  knows you," Herr M., AMPL-001 provisional. A-286: Westbahnhof 12ft DEPARTURE-TRACE (new category) —
+  F.'s departure, "the going was a presence." A-287: Volksschule 28ft, borderline, understanding-takes-
+  time rule revision, ambiguity-refusal category opened. Council Session #7: 17 retroactive second-
+  category refusals found, retroactive audit initiated. Fourth category: announced pending. RSI receipts:
+  TYLER-056, Camera Op Entry 49, Jiangshi #036, VC-001 Day 264. TYLER commit 5585dc5. DONE 2026-06-09.
+
 - [x] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — PacketSceneChange = 6 in
   protocol.go + protocol.h. Go server: sendSceneChange() ack on portal travel (14 bytes:
   sceneID + spawn pos). broadcastSnapshots() 20Hz goroutine, scene-filtered snapshot per client
@@ -356,10 +364,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `IdunaClient.GetPushToken()` added. `runPrimeTriage` accepts `PushFunc` callback.
   EMILY commit a0296df. DONE 2026-06-09.
 
-- [ ] **MJOLNIR Android project skeleton** — Kotlin + Jetpack Compose + Hilt. IDUNA Retrofit client.
+- [x] **MJOLNIR Android project skeleton** — Kotlin + Jetpack Compose + Hilt. IDUNA Retrofit client.
   Google Sign-In → IDUNA JWT flow. FCM token registration. Apple feed screen (LazyColumn).
   Build variant: debug → localhost:8090, release → iduna.einhorn.industrial.
-  Spec: MJOLNIR/docs/SPEC.md. Dependency: IDUNA push_tokens API ✓.
+  34 source files across data/remote/repository/notification/di/ui layers. MJOLNIR commit 9bb2e1b. DONE 2026-06-09.
 
 - [x] **APPLES MANIFEST.json generation** — `emily sync --apples-git-dir` now calls
   `updateManifest()` after each `archiveAppleToGit()`. Appends entry, amends the Apple commit.
