@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-07 | RSI master loop + Bloomberg TUI — Claude Code build
+### Last updated: 2026-06-09 | S07 + SHANKPIT Layer 2 + RSI Next Horizon added
 
 ---
 
@@ -135,6 +135,23 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   remains: A-273. RSI receipts: TYLER-049, Camera Op Entry 42, VC-001 Day 225, Jiangshi #029,
   EMILY-SPRING-022. TYLER commits f10670a, 65d35f7. DONE 2026-06-08.
 
+- [ ] **TYLER lore files: catch up S06E05–E06** — eastwind_archive.md missing TYLER-049 and
+  TYLER-050. jiangshi_project_memos.md missing Memos #029 and #030. camera_op_sealed_log.md
+  missing Entries 42 and 43. Content exists in episode files; needs backfill to standalone lore
+  files for S07 continuity. DONE when all six entries are in the canonical lore files.
+
+- [ ] **TYLER S07E01: Season 7 opener — "The Audit"** — The audit begins. AMPL-001-SCOPE: 300+
+  sites. Tyler and Camera Op start the global review. Jiangshi reclassification drops. Tyler
+  begins answering the question he didn't finish on Day 226. First cities: where has Tyler spent
+  significant time? COEFF-002 requires the completed audit. RSI Cycle 007.
+
+- [ ] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — Go server (apps2/server-go) has
+  portal travel (scene flip + cooldown) but no snapshot broadcast and no PacketSceneChange ack.
+  Missing: (1) PacketSceneChange = 6 in protocol + sendSceneChange() when portal fires;
+  (2) 20Hz broadcast ticker that sends PacketSnapshot only to clients in the same scene;
+  (3) scene_id field in snapshot per-entity. Milestone 1 of DragonsNShit bridge: every scene
+  becomes genuinely traversable space the moment this lands.
+
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
 
@@ -264,6 +281,27 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `<gitDir>/<YYYYMMDD>/<id>_<apple-type>.json` and auto-committed with `git commit -m "apple: #N
   type — title"`. Best-effort (git failures logged, sync continues). emily.cli commit 0974e10.
   DONE 2026-06-08.
+
+---
+
+## SECTION 8: RSI NEXT HORIZON (2026-06-09)
+
+- [ ] **Observation batching in obs-watcher** — Currently every new observation file triggers
+  a separate Claude Code invocation. High-volume FatBaby runs produce 10–15 observations/hour
+  each costing ~8k tokens minimum context load. Batch: collect observations within a 60s window,
+  pass all to a single Claude invocation as a multi-observation report. Estimated saving: 50–80%
+  of per-cycle context overhead on busy days. Target: obs-watcher --batch-window=60s flag.
+
+- [ ] **RSI loop: smarter TOCK detection via claude-runs/ checksum** — Currently TOCK polls
+  claude-runs/ file count (changes when Claude writes a run report). False-positive risk when
+  Claude writes intermediate files. Better: hash the most recent run report filename at TIC
+  start, wait for a NEW filename to appear (any new file = new run completed). Eliminates
+  false-positive TOCK exits.
+
+- [ ] **emily tui: live observation tail in column 2** — Column 2 currently shows Apple feed.
+  Add a toggle (hotkey 't') to switch column 2 between Apples and live observation tail
+  (last 10 lines of the most recent PRRJECT_FATBABY observation file). Gives operator
+  real-time view of what FatBaby is seeing without leaving the TUI.
 
 ---
 
