@@ -166,7 +166,9 @@ while true; do
     log "[TOCK] Waiting for Claude Code to complete task (max 3 min)..."
     WAIT_START=$(date +%s)
     MAX_WAIT=180
-    INITIAL_RUNS=$(ls "$CLAUDE_RUNS_DIR" 2>/dev/null | wc -l || echo 0)
+    # Capture latest run report filename at TIC so TOCK detects a NEW file, not count change.
+    # Using newest filename avoids false-positives from intermediate writes or concurrent access.
+    INITIAL_LATEST_RUN=$(ls -t "$CLAUDE_RUNS_DIR" 2>/dev/null | head -1 || echo "")
 
     # Try to get initial Apple ID from IDUNA (best-effort; falls back to 0 if unavailable).
     INITIAL_APPLE_ID=0
@@ -179,7 +181,7 @@ while true; do
     if [ "$IDUNA_AVAILABLE" = "1" ]; then
       log "  IDUNA available — primary detection: Apple ID > $INITIAL_APPLE_ID"
     else
-      log "  IDUNA not available — fallback detection: claude-runs/ file count"
+      log "  IDUNA not available — fallback detection: claude-runs/ new filename"
     fi
 
     while true; do
@@ -193,11 +195,11 @@ while true; do
           DETECTED=1
         fi
       fi
-      # Fallback: claude-runs/ file count.
-      CURRENT_RUNS=$(ls "$CLAUDE_RUNS_DIR" 2>/dev/null | wc -l || echo 0)
-      if [ "$CURRENT_RUNS" -gt "$INITIAL_RUNS" ]; then
-        LATEST_RUN=$(ls -t "$CLAUDE_RUNS_DIR" 2>/dev/null | head -1 || echo "unknown")
-        log "  ✓ claude-runs/ completion detected → $LATEST_RUN (total: $CURRENT_RUNS)"
+      # Fallback: claude-runs/ new filename (more reliable than count — avoids false-positives
+      # from concurrent writes or intermediate files).
+      CURRENT_LATEST_RUN=$(ls -t "$CLAUDE_RUNS_DIR" 2>/dev/null | head -1 || echo "")
+      if [ -n "$CURRENT_LATEST_RUN" ] && [ "$CURRENT_LATEST_RUN" != "$INITIAL_LATEST_RUN" ]; then
+        log "  ✓ claude-runs/ new file detected → $CURRENT_LATEST_RUN"
         DETECTED=1
       fi
 
