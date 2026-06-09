@@ -161,6 +161,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   RSI receipts: TYLER-053, Camera Op Entry 46, Jiangshi #033, VC-001 Day 233, EMILY-SPRING-026.
   DONE 2026-06-09.
 
+- [x] **TYLER S07E04: "The Paris Sites"** — Build 0070. Paris phase complete. 6 sites.
+  A-276 (86ft, 1928, faction argument), A-277 (19ft, 1933, light), A-278 FIRST PRE-AWARENESS
+  REFUSAL (11ft, 12min, Tyler felt pull and left — had a 1931 rule; still left 11ft), A-279
+  (8ft, 1932, inattentive coffee). Mechanism confirmed: proportionate to presence, not attention.
+  Refusal-trace: new construction sub-type. RSI receipts: TYLER-054, Camera Op Entry 47,
+  Jiangshi #034, VC-001 Day 238, EMILY-SPRING-027. DONE 2026-06-09.
+
 - [x] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — PacketSceneChange = 6 in
   protocol.go + protocol.h. Go server: sendSceneChange() ack on portal travel (14 bytes:
   sceneID + spawn pos). broadcastSnapshots() 20Hz goroutine, scene-filtered snapshot per client
