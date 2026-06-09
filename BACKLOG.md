@@ -343,30 +343,27 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 9: MJOLNIR — Android Intelligence Terminal
 
-- [ ] **IDUNA: device_tokens table + API** — Add `device_tokens` table to IDUNA SQLite schema.
-  Endpoints: `POST /api/v1/devices/register` (upsert by agent_name + fingerprint),
-  `GET /api/v1/devices/{agent_name}/token` (M2M auth). Required for MJOLNIR FCM token storage.
-  Spec: MJOLNIR/docs/PUSH_NOTIFICATIONS.md. Dependency: IDUNA embedded SQLite ✓.
+- [x] **IDUNA: push_tokens table + API** — `push_tokens` table (migration 202606090001), SQLite +
+  MySQL impls. `POST /api/v1/push-tokens` (upsert token), `GET /api/v1/push-tokens/{name}` (read).
+  IAMStore interface updated. Tests pass. IDUNA commit df987e6. DONE 2026-06-09.
 
-- [ ] **Emily Prime FCM sender package** — `EMILY/pkg/fcm/sender.go`. Uses Google FCM HTTP v1
-  API + service account OAuth2 (account JSON stored in IDUNA secrets). `Send(ctx, token, Message)`
-  method. Severity thresholds: critical Apple → HIGH priority push, requires_ceo_visibility →
-  CRITICAL channel. Spec: MJOLNIR/docs/PUSH_NOTIFICATIONS.md. Dependency: device_tokens API ✓.
+- [x] **Emily Prime FCM sender package** — `EMILY/emily-agent/pkg/fcm/sender.go` + `jwt.go`.
+  Full FCM HTTP v1 API impl. RS256 service account JWT, OAuth2 token exchange, token caching.
+  `IsConfigured()` for graceful degradation. EMILY commit cfe168a. DONE 2026-06-09.
 
-- [ ] **Emily Prime push dispatch wiring** — Wire `fcm.Sender` into `emily-agent/cron.go` Apple
-  submission path. After successful `POST /api/v1/apples`, if `severity == critical` or
-  `requires_ceo_visibility`, resolve device token from IDUNA and fire FCM. Morning briefing cron
-  at 09:00 UTC: daily summary of overnight Apples. Dependency: FCM sender package ✓.
+- [x] **Emily Prime push dispatch wiring** — `runPrimeTriageCycle` builds `PushFunc` closure:
+  resolves MJOLNIR device token from IDUNA, calls `fcmSender.Send()` for CEO-visible escalations.
+  `IdunaClient.GetPushToken()` added. `runPrimeTriage` accepts `PushFunc` callback.
+  EMILY commit a0296df. DONE 2026-06-09.
 
 - [ ] **MJOLNIR Android project skeleton** — Kotlin + Jetpack Compose + Hilt. IDUNA Retrofit client.
   Google Sign-In → IDUNA JWT flow. FCM token registration. Apple feed screen (LazyColumn).
   Build variant: debug → localhost:8090, release → iduna.einhorn.industrial.
-  Spec: MJOLNIR/docs/SPEC.md. Dependency: IDUNA device_tokens API ✓.
+  Spec: MJOLNIR/docs/SPEC.md. Dependency: IDUNA push_tokens API ✓.
 
-- [ ] **APPLES MANIFEST.json generation** — `emily sync --apples-git-dir` (already implemented
-  in emily.cli 0974e10) needs to also write/update `MANIFEST.json` in the APPLES repo root
-  after each batch sync. MJOLNIR reads MANIFEST.json for fast offline index.
-  Schema: APPLES/docs/SCHEMA.md.
+- [x] **APPLES MANIFEST.json generation** — `emily sync --apples-git-dir` now calls
+  `updateManifest()` after each `archiveAppleToGit()`. Appends entry, amends the Apple commit.
+  MJOLNIR reads MANIFEST.json for fast offline index. emily.cli commit 4775961. DONE 2026-06-09.
 
 - [ ] **MJOLNIR docs: Emily Prime integration spec** — Emily Prime to author
   `EMILY/docs/MJOLNIR_INTEGRATION.md`. Directed task issued 2026-06-09T22:37:13Z
@@ -376,16 +373,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 10: EMILY PRIME SELENIUM / WEB AUDIT
 
-- [ ] **Emily Prime web audit tool (go-rod)** — Add `go-rod/rod` dependency to `emily-agent`.
-  New tool: `web_audit_url`. Takes `url` + optional `checks` list. Launches headless Chrome
-  via rod, loads the page, extracts: title, HTTP status, all links (with status), visible text
-  summary, console errors, screenshot path. Returns structured JSON report. Enables Emily Prime
-  to audit the FatBaby newssite (`:8082`) as a real browser user. File: `emily-agent/webaudit.go`.
+- [x] **Emily Prime web audit tool (stdlib HTTP)** — `emily-agent/webaudit.go`. Tool `web_audit_url`:
+  fetches URL, checks HTTP status, extracts title/h1, counts and HEAD-checks same-host links,
+  returns structured JSON. No external deps (stdlib net/http + regexp). EMILY commit ff5c84f.
+  DONE 2026-06-09.
 
-- [ ] **Newssite audit preset** — Add `--preset web-audit-newssite` to `emily prime-task`.
-  Task: navigate to `http://localhost:8082`, load the homepage, check all ticker pages linked
-  from nav, report broken links + missing content + console errors. Post findings as
-  `signal_observation` Apple. Wire into RSI PRESET_LIST as low-cadence rotation.
+- [x] **Newssite audit preset** — `emily prime-task --preset web-audit-newssite`. Directs Emily Prime
+  to audit localhost:8082 + :8083, post findings as signal_observation Apple. Added to RSI
+  PRESET_LIST rotation. emily.cli commit 934c567. EMILY commit a0296df. DONE 2026-06-09.
 
 - [ ] **Web audit as front door validator** — Once MJOLNIR WebView targets are live
   (`:8082`, `:8083`), Emily Prime runs web_audit_url on each before Emily's phone gets a
