@@ -39,8 +39,8 @@ SKIP_TYLER="${SKIP_TYLER:-0}"
 SKIP_WAIT="${SKIP_WAIT:-0}"
 SKIP_FATBABY_TICK="${SKIP_FATBABY_TICK:-0}"
 # PRESET_LIST: space-separated prime-task presets to cycle through each iteration.
-# Default covers token efficiency + entity graph + EPS coverage for broad RSI surface.
-PRESET_LIST="${PRESET_LIST:-rsi-token-report entity-graph-refinement eps-coverage-review}"
+# Default covers token efficiency + entity graph + EPS coverage + newssite audit for broad RSI surface.
+PRESET_LIST="${PRESET_LIST:-rsi-token-report entity-graph-refinement eps-coverage-review web-audit-newssite}"
 
 EMILY_ROOT="${EMILY_ROOT:-/home/fatbaby/EMILY}"
 TYLER_ROOT="${TYLER_ROOT:-/home/fatbaby/TYLER}"

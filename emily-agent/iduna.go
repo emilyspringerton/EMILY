@@ -137,3 +137,42 @@ func (c *IdunaClient) PostApple(ctx context.Context, payload ApplePayload) (int6
 	}
 	return result.ID, nil
 }
+
+// GetPushToken returns the current FCM device token for the given agent name.
+// Returns ("", nil) if no token is registered. Used by Emily Prime before
+// firing FCM push notifications to MJOLNIR.
+func (c *IdunaClient) GetPushToken(ctx context.Context, agentName string) (string, error) {
+	if err := c.authenticate(ctx); err != nil {
+		return "", fmt.Errorf("iduna authenticate: %w", err)
+	}
+	c.mu.Lock()
+	tok := c.token
+	c.mu.Unlock()
+
+	req, err := http.NewRequestWithContext(ctx, "GET",
+		c.baseURL+"/api/v1/push-tokens/"+agentName, nil)
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Authorization", "Bearer "+tok)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("iduna get push token: %w", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode == http.StatusNotFound {
+		return "", nil
+	}
+	raw, _ := io.ReadAll(io.LimitReader(resp.Body, 4*1024))
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("iduna get push token status %d: %s", resp.StatusCode, raw)
+	}
+	var result struct {
+		FCMToken string `json:"fcm_token"`
+	}
+	if err := json.Unmarshal(raw, &result); err != nil {
+		return "", fmt.Errorf("iduna get push token parse: %w", err)
+	}
+	return result.FCMToken, nil
+}

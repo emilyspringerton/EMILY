@@ -24,6 +24,8 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"emily-agent/pkg/fcm"
 )
 
 // CronConfig controls the autonomous cycle.
@@ -108,11 +110,12 @@ type AutonomousCycle struct {
 	emiree      *EmireeAgent      // witch engine governing RSI operational state
 	gmail       *GmailClient      // optional; enables CEO escalation alerts from triage
 	iduna       *IdunaClient      // optional; submits Apples to IDUNA after each cycle
+	fcmSender   *fcm.Sender       // optional; fires push notifications to MJOLNIR on CEO-visible escalations
 }
 
 // NewAutonomousCycle creates a cycle runner.
 func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *AutonomousCycle {
-	return &AutonomousCycle{
+	ac := &AutonomousCycle{
 		cfg:         cfg,
 		pipeline:    p,
 		integration: buildIntegrationStore(),
@@ -120,6 +123,16 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 		gmail:       gmail,
 		iduna:       NewIdunaClientFromEnv(),
 	}
+	if fcm.IsConfigured() {
+		sender, err := fcm.NewFromEnv()
+		if err != nil {
+			log.Printf("fcm: init failed (push notifications disabled): %v", err)
+		} else {
+			ac.fcmSender = sender
+			log.Printf("fcm: sender initialized (project=%s)", os.Getenv("FCM_PROJECT_ID"))
+		}
+	}
+	return ac
 }
 
 // RunOnce executes exactly one cycle. Designed to be called by cron.
@@ -514,7 +527,32 @@ func (ac *AutonomousCycle) releaseLock() {
 // directed tasks for high-relevance findings, and sends Gmail alerts for
 // CEO-visible observations (when gmail credentials are configured).
 func (ac *AutonomousCycle) runPrimeTriageCycle(ctx context.Context, store *IntegrationStore) (string, error) {
-	return runPrimeTriage(ctx, store, ac.pipeline, ac.gmail)
+	var push PushFunc
+	if ac.fcmSender != nil && ac.iduna != nil {
+		sender := ac.fcmSender
+		iduna := ac.iduna
+		const mjolnirAgent = "mjolnir-emily"
+		push = func(title, body string, data map[string]string) {
+			pushCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
+			deviceToken, err := iduna.GetPushToken(pushCtx, mjolnirAgent)
+			if err != nil || deviceToken == "" {
+				log.Printf("fcm: no device token for %s (push skipped): %v", mjolnirAgent, err)
+				return
+			}
+			if err := sender.Send(pushCtx, deviceToken, fcm.Message{
+				Title:    title,
+				Body:     body,
+				Priority: "high",
+				Data:     data,
+			}); err != nil {
+				log.Printf("fcm: send failed (non-fatal): %v", err)
+			} else {
+				log.Printf("fcm: push sent to %s", mjolnirAgent)
+			}
+		}
+	}
+	return runPrimeTriage(ctx, store, ac.pipeline, ac.gmail, push)
 }
 
 func defaultRoadmap() []RoadmapItem {

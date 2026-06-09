@@ -714,7 +714,11 @@ func buildIntegrationStore() *IntegrationStore {
 // directed tasks for high-relevance findings, and sends Gmail alerts for CEO-visible
 // observations that haven't been escalated before (deduped via a cursor file).
 // gmail may be nil — in that case escalations are counted but no email is sent.
-func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipeline, gmail *GmailClient) (string, error) {
+// PushFunc is a best-effort push notification callback. title, body, and data
+// are forwarded to FCM. If nil, no push is attempted.
+type PushFunc func(title, body string, data map[string]string)
+
+func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipeline, gmail *GmailClient, push PushFunc) (string, error) {
 	priorities, err := store.LoadSignalPriorities()
 	if err != nil {
 		return "", fmt.Errorf("load priorities: %w", err)
@@ -750,15 +754,31 @@ func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipe
 		if t.RequiresCEOVisibility {
 			escalations++
 			// Only alert for observations newer than the escalation cursor.
-			if o.Timestamp > lastEscalated && gmail != nil {
-				alert := FormatSignalAlert(o, t)
-				if sendErr := gmail.SendAlert(ctx, alert); sendErr != nil {
-					log.Printf("triage: gmail send failed: %v", sendErr)
-				} else {
-					alertsSent++
-					if o.Timestamp > newLastEscalated {
-						newLastEscalated = o.Timestamp
+			if o.Timestamp > lastEscalated {
+				if gmail != nil {
+					alert := FormatSignalAlert(o, t)
+					if sendErr := gmail.SendAlert(ctx, alert); sendErr != nil {
+						log.Printf("triage: gmail send failed: %v", sendErr)
+					} else {
+						alertsSent++
+						if o.Timestamp > newLastEscalated {
+							newLastEscalated = o.Timestamp
+						}
 					}
+				}
+				// FCM push to MJOLNIR — best-effort, never blocks triage.
+				if push != nil {
+					title := fmt.Sprintf("[%s] %s", strings.ToUpper(o.Severity), o.Source)
+					body := o.Summary
+					if len(body) > 140 {
+						body = body[:139] + "…"
+					}
+					go push(title, body, map[string]string{
+						"severity":   o.Severity,
+						"source":     o.Source,
+						"obs_type":   o.ObservationType,
+						"timestamp":  o.Timestamp,
+					})
 				}
 			}
 		}
