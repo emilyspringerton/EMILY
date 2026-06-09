@@ -146,6 +146,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   for first time. RSI receipts: TYLER-051, Camera Op Entry 44, Jiangshi #031. TYLER commit
   c074b90. DONE 2026-06-09.
 
+- [x] **TYLER S07E02: "Paris"** — Build 0068. First audit measurement. A-274, Rue de Fleurus,
+  163ft. Tyler and Camera Op + Exchange Student in Paris. Paris Correspondent on site. Construction
+  type revised: DUAL-LAYER — found construction (Gertrude Stein salon 1903-1938) + Tyler
+  unintentional amplification (1931). Tyler in room for first time since 1931: 41-second threshold
+  pause; told room its measurement. Jiangshi Council Session #6 concluded: reclassification term
+  proposed, SEALED, deferred to tomorrow. RSI receipts: TYLER-052, Camera Op Entry 45, Jiangshi
+  #032, VC-001 Day 232, EMILY-SPRING-025. DONE 2026-06-09.
+
 - [x] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — PacketSceneChange = 6 in
   protocol.go + protocol.h. Go server: sendSceneChange() ack on portal travel (14 bytes:
   sceneID + spawn pos). broadcastSnapshots() 20Hz goroutine, scene-filtered snapshot per client
