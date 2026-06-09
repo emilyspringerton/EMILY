@@ -367,7 +367,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 - [x] **MJOLNIR docs: Emily Prime integration spec** — `EMILY/docs/MJOLNIR_INTEGRATION.md` authored.
   Covers Apple severity thresholds, device token resolution, morning briefing design, FCM env vars,
-  codebase seams, Android registration flow, notification channels. EMILY commit (pending). DONE 2026-06-09.
+  codebase seams, Android registration flow, notification channels. EMILY commit 3341a26. DONE 2026-06-09.
+
+- [x] **Emily Prime morning briefing FCM push** — `emily-agent/briefing.go`. `briefingDue()` gate:
+  09:00 UTC ±30 min, sentinel file prevents duplicate. `runMorningBriefing()` fetches last 200 Apples
+  from IDUNA, filters to 24h window, groups by type, builds push title + body, fires via PushFunc.
+  `IdunaClient.ListApples()` added to iduna.go. Wired into `RunOnce()` PLAN phase in cron.go.
+  EMILY commit (pending). DONE 2026-06-09.
 
 ---
 

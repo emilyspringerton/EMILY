@@ -241,6 +241,33 @@ func (ac *AutonomousCycle) RunOnce() error {
 		}
 	}
 
+	// Morning briefing: 09:00 UTC ±30 min, once per calendar day.
+	if briefingDue(ac.cfg.StateDir) {
+		var push PushFunc
+		if ac.fcmSender != nil && ac.iduna != nil {
+			sender := ac.fcmSender
+			iduna := ac.iduna
+			push = func(title, body string, data map[string]string) {
+				pushCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+				defer cancel()
+				deviceToken, err := iduna.GetPushToken(pushCtx, "mjolnir-emily")
+				if err != nil || deviceToken == "" {
+					log.Printf("briefing: no device token (push skipped): %v", err)
+					return
+				}
+				if err := sender.Send(pushCtx, deviceToken, fcm.Message{
+					Title:    title,
+					Body:     body,
+					Priority: "normal",
+					Data:     data,
+				}); err != nil {
+					log.Printf("briefing: send failed: %v", err)
+				}
+			}
+		}
+		runMorningBriefing(ctx, ac.iduna, push, ac.cfg.StateDir)
+	}
+
 	// Feed outcome back into Emiree; it updates state, saves, returns next gear.
 	rsiOutcome := buildRSIOutcome(task, triageFindings)
 	nextInfluence := ac.emiree.Tick(rsiOutcome)

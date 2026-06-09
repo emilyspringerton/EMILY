@@ -176,3 +176,79 @@ func (c *IdunaClient) GetPushToken(ctx context.Context, agentName string) (strin
 	}
 	return result.FCMToken, nil
 }
+
+// AppleListItem is a summary record from GET /api/v1/apples.
+type AppleListItem struct {
+	ID         int64     `json:"id"`
+	AgentID    string    `json:"agent_id"`
+	SourceRepo string    `json:"source_repo"`
+	RunID      string    `json:"run_id"`
+	AppleType  string    `json:"apple_type"`
+	Title      string    `json:"title"`
+	RecordedAt time.Time `json:"recorded_at"`
+}
+
+// ListApples returns up to limit Apples, optionally filtered by apple_type and source_repo.
+// Empty strings skip the filter. Apples are returned newest-first.
+func (c *IdunaClient) ListApples(ctx context.Context, appleType, sourceRepo string, limit int) ([]AppleListItem, error) {
+	if err := c.authenticate(ctx); err != nil {
+		return nil, fmt.Errorf("iduna authenticate: %w", err)
+	}
+	c.mu.Lock()
+	tok := c.token
+	c.mu.Unlock()
+
+	u := c.baseURL + fmt.Sprintf("/api/v1/apples?limit=%d", limit)
+	if appleType != "" {
+		u += "&apple_type=" + appleType
+	}
+	if sourceRepo != "" {
+		u += "&source_repo=" + sourceRepo
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", u, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "Bearer "+tok)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("iduna list apples: %w", err)
+	}
+	defer resp.Body.Close()
+	raw, _ := io.ReadAll(io.LimitReader(resp.Body, 256*1024))
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("iduna list apples status %d: %s", resp.StatusCode, raw)
+	}
+
+	var result struct {
+		Apples []struct {
+			ID         int64  `json:"id"`
+			AgentID    string `json:"agent_id"`
+			SourceRepo string `json:"source_repo"`
+			RunID      string `json:"run_id"`
+			AppleType  string `json:"apple_type"`
+			Title      string `json:"title"`
+			RecordedAt string `json:"recorded_at"`
+		} `json:"apples"`
+	}
+	if err := json.Unmarshal(raw, &result); err != nil {
+		return nil, fmt.Errorf("iduna list apples parse: %w", err)
+	}
+
+	items := make([]AppleListItem, 0, len(result.Apples))
+	for _, a := range result.Apples {
+		t, _ := time.Parse(time.RFC3339Nano, a.RecordedAt)
+		items = append(items, AppleListItem{
+			ID:         a.ID,
+			AgentID:    a.AgentID,
+			SourceRepo: a.SourceRepo,
+			RunID:      a.RunID,
+			AppleType:  a.AppleType,
+			Title:      a.Title,
+			RecordedAt: t,
+		})
+	}
+	return items, nil
+}
