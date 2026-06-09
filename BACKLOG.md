@@ -421,6 +421,27 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ---
 
+## SECTION 12: HEIMDAL — Sprint Planning Interface
+
+- [x] **HEIMDAL sprint planning interface** — Full pipeline:
+  MJOLNIR sends raw requirement text → IDUNA `POST /api/v1/heimdal/sprints` → Emily Prime
+  translates via Claude haiku into `RoadmapItem` with `AcceptanceCriterion[]` → adds to RSI
+  roadmap → patches sprint status to "queued" → FCM push to MJOLNIR.
+  IDUNA: `heimdal_sprints` table (migration 202606090003), HeimdalHandler (submit/list/get/patch),
+  `heimdal.submit` + `heimdal.process` permissions, SprintItem auth struct + store methods.
+  EMILY: `heimdal.go` (translateRequirement via claude-haiku, IdunaClient HEIMDAL methods,
+  runHeimdalCycle on AutonomousCycle), cron.go PLAN phase integration.
+  MJOLNIR: SprintItem.kt model, IdunaApi sprint endpoints, HeimdalRepository.kt,
+  HeimdalViewModel.kt, HeimdalScreen.kt (requirement input + sprint list with status chips),
+  HEIMDAL icon (FlashOn) in ApplesFeedScreen, `heimdal` route in MainActivity.
+  DONE 2026-06-09.
+
+- [ ] **HEIMDAL status feedback** — When an RSI task (heimdal-N) completes or is blocked,
+  patch the corresponding HEIMDAL sprint to `complete` or `blocked` and send FCM push.
+  Requires: emily-agent checks task completion for heimdal-* IDs and calls PatchHeimdalSprint.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**

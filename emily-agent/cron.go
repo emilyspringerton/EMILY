@@ -251,6 +251,35 @@ func (ac *AutonomousCycle) RunOnce() error {
 		}()
 	}
 
+	// HEIMDAL sprint cycle: translate pending sprint requirements into RSI roadmap items.
+	if ac.iduna != nil {
+		heimdalCtx, heimdalCancel := context.WithTimeout(context.Background(), 60*time.Second)
+		go func() {
+			defer heimdalCancel()
+			var push PushFunc
+			if ac.fcmSender != nil && ac.iduna != nil {
+				sender := ac.fcmSender
+				iduna := ac.iduna
+				push = func(title, body string, data map[string]string) {
+					pushCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+					defer cancel()
+					deviceToken, err := iduna.GetPushToken(pushCtx, "mjolnir-emily")
+					if err != nil || deviceToken == "" {
+						return
+					}
+					_ = sender.Send(pushCtx, deviceToken, fcm.Message{
+						Title:    title,
+						Body:     body,
+						Priority: "high",
+						Data:     data,
+					})
+				}
+			}
+			result := ac.runHeimdalCycle(heimdalCtx, push)
+			log.Printf("[cycle %d] %s", state.CycleNumber, result)
+		}()
+	}
+
 	// Morning briefing: 09:00 UTC ±30 min, once per calendar day.
 	if briefingDue(ac.cfg.StateDir) {
 		var push PushFunc
