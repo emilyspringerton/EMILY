@@ -154,6 +154,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   proposed, SEALED, deferred to tomorrow. RSI receipts: TYLER-052, Camera Op Entry 45, Jiangshi
   #032, VC-001 Day 232, EMILY-SPRING-025. DONE 2026-06-09.
 
+- [x] **TYLER S07E03: "The Word"** — Build 0069. Jiangshi reclassification term delivered:
+  RESONANT CUSTODIAN. Tyler accepts: "That's accurate." Council Session #6 closed. A-275, Rue
+  de l'Odéon, 29ft, 1924 — Tyler wrong about Russian, mechanism proportionate to presence not
+  outcome. Day 226 sentence: term part complete; remainder ("why he stayed") still open.
+  RSI receipts: TYLER-053, Camera Op Entry 46, Jiangshi #033, VC-001 Day 233, EMILY-SPRING-026.
+  DONE 2026-06-09.
+
 - [x] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — PacketSceneChange = 6 in
   protocol.go + protocol.h. Go server: sendSceneChange() ack on portal travel (14 bytes:
   sceneID + spawn pos). broadcastSnapshots() 20Hz goroutine, scene-filtered snapshot per client
