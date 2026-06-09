@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-06-09T22:37:13Z",
+  "from": "operator-cli",
+  "to": "emily-prime",
+  "task_id": "task-3146266896637121286",
+  "task_type": "documentation",
+  "priority": "high",
+  "description": "Write MJOLNIR integration documentation. The MJOLNIR northstar and spec have been authored (MJOLNIR/docs/NORTHSTAR.md, SPEC.md, PUSH_NOTIFICATIONS.md, APPLES_INTEGRATION.md). Your job is to (1) review those docs and write the EMILY-side integration spec: EMILY/docs/MJOLNIR_INTEGRATION.md covering how Emily Prime will send FCM push notifications, which Apple types trigger pushes, and the IDUNA device token resolution flow; (2) add the IDUNA-side backlog items (device_tokens table + API endpoints) to EMILY/BACKLOG.md Section 9; (3) write a brief architectural note in EMILY/context/mjolnir-context.md so future Emily sessions know about the mobile push channel. Commit each file as you complete it.",
+  "acceptance_criteria": [
+    "EMILY/docs/MJOLNIR_INTEGRATION.md written: FCM sender design, Apple severity thresholds for push, device token resolution via IDUNA, morning briefing cron spec",
+    "EMILY/BACKLOG.md Section 9 MJOLNIR entries added: at minimum IDUNA device_tokens schema, FCM sender package, Emily Prime push dispatch wiring",
+    "EMILY/context/mjolnir-context.md written: 1-2 paragraphs for future sessions explaining what MJOLNIR is and how Emily Prime connects to it",
+    "All three files committed and pushed"
+  ],
+  "context": "MJOLNIR is Emily Springerton's Android intelligence terminal. It receives push notifications from Emily Prime via Firebase Cloud Messaging and displays the Apple feed from IDUNA. The northstar docs are complete. Emily Prime now needs to author the integration layer that makes her the sender. This is the mobile last-mile of the autonomous loop: when Emily Prime fires a critical Apple, it lands on Emily's phone in seconds."
+}

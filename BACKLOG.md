@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-09 | S07E05 Vienna 1938 (Build 0071) + S07E06 spec added
+### Last updated: 2026-06-09 | MJOLNIR northstar + Selenium web audit added
 
 ---
 
@@ -338,6 +338,59 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   most-recently modified .json in var/emily-observations/. Also fixed F1 TOCK detection to
   use latestFileInDir (filename sentinel) mirroring rsi-loop.sh fix. emily.cli commit c0075d2
   (v0.9.0). DONE 2026-06-09.
+
+---
+
+## SECTION 9: MJOLNIR — Android Intelligence Terminal
+
+- [ ] **IDUNA: device_tokens table + API** — Add `device_tokens` table to IDUNA SQLite schema.
+  Endpoints: `POST /api/v1/devices/register` (upsert by agent_name + fingerprint),
+  `GET /api/v1/devices/{agent_name}/token` (M2M auth). Required for MJOLNIR FCM token storage.
+  Spec: MJOLNIR/docs/PUSH_NOTIFICATIONS.md. Dependency: IDUNA embedded SQLite ✓.
+
+- [ ] **Emily Prime FCM sender package** — `EMILY/pkg/fcm/sender.go`. Uses Google FCM HTTP v1
+  API + service account OAuth2 (account JSON stored in IDUNA secrets). `Send(ctx, token, Message)`
+  method. Severity thresholds: critical Apple → HIGH priority push, requires_ceo_visibility →
+  CRITICAL channel. Spec: MJOLNIR/docs/PUSH_NOTIFICATIONS.md. Dependency: device_tokens API ✓.
+
+- [ ] **Emily Prime push dispatch wiring** — Wire `fcm.Sender` into `emily-agent/cron.go` Apple
+  submission path. After successful `POST /api/v1/apples`, if `severity == critical` or
+  `requires_ceo_visibility`, resolve device token from IDUNA and fire FCM. Morning briefing cron
+  at 09:00 UTC: daily summary of overnight Apples. Dependency: FCM sender package ✓.
+
+- [ ] **MJOLNIR Android project skeleton** — Kotlin + Jetpack Compose + Hilt. IDUNA Retrofit client.
+  Google Sign-In → IDUNA JWT flow. FCM token registration. Apple feed screen (LazyColumn).
+  Build variant: debug → localhost:8090, release → iduna.einhorn.industrial.
+  Spec: MJOLNIR/docs/SPEC.md. Dependency: IDUNA device_tokens API ✓.
+
+- [ ] **APPLES MANIFEST.json generation** — `emily sync --apples-git-dir` (already implemented
+  in emily.cli 0974e10) needs to also write/update `MANIFEST.json` in the APPLES repo root
+  after each batch sync. MJOLNIR reads MANIFEST.json for fast offline index.
+  Schema: APPLES/docs/SCHEMA.md.
+
+- [ ] **MJOLNIR docs: Emily Prime integration spec** — Emily Prime to author
+  `EMILY/docs/MJOLNIR_INTEGRATION.md`. Directed task issued 2026-06-09T22:37:13Z
+  (task-3146266896637121286). Dependency: MJOLNIR northstar complete ✓.
+
+---
+
+## SECTION 10: EMILY PRIME SELENIUM / WEB AUDIT
+
+- [ ] **Emily Prime web audit tool (go-rod)** — Add `go-rod/rod` dependency to `emily-agent`.
+  New tool: `web_audit_url`. Takes `url` + optional `checks` list. Launches headless Chrome
+  via rod, loads the page, extracts: title, HTTP status, all links (with status), visible text
+  summary, console errors, screenshot path. Returns structured JSON report. Enables Emily Prime
+  to audit the FatBaby newssite (`:8082`) as a real browser user. File: `emily-agent/webaudit.go`.
+
+- [ ] **Newssite audit preset** — Add `--preset web-audit-newssite` to `emily prime-task`.
+  Task: navigate to `http://localhost:8082`, load the homepage, check all ticker pages linked
+  from nav, report broken links + missing content + console errors. Post findings as
+  `signal_observation` Apple. Wire into RSI PRESET_LIST as low-cadence rotation.
+
+- [ ] **Web audit as front door validator** — Once MJOLNIR WebView targets are live
+  (`:8082`, `:8083`), Emily Prime runs web_audit_url on each before Emily's phone gets a
+  push linking to them. Guard: if audit fails (5xx, broken links > 3), suppress push and
+  post escalation Apple instead. Dependency: web audit tool ✓, MJOLNIR Milestone 2 ✓.
 
 ---
 

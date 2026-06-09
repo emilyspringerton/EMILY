@@ -1475,6 +1475,7 @@ func NewServer(cfg Config) (*Server, error) {
 
 	dispatcher := NewToolDispatcher()
 	registerGitTools(dispatcher, cfg.ConversationDir)
+	registerWebAuditTools(dispatcher)
 	log.Printf("tools registered: %d", len(dispatcher.Defs()))
 	for _, t := range dispatcher.Defs() {
 		log.Printf("  * %s", t.Name)
