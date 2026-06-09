@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-09 | S07 + SHANKPIT Layer 2 + RSI Next Horizon added
+### Last updated: 2026-06-09 | S07E05 Vienna 1938 (Build 0071) + S07E06 spec added
 
 ---
 
@@ -167,6 +167,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   (8ft, 1932, inattentive coffee). Mechanism confirmed: proportionate to presence, not attention.
   Refusal-trace: new construction sub-type. RSI receipts: TYLER-054, Camera Op Entry 47,
   Jiangshi #034, VC-001 Day 238, EMILY-SPRING-027. DONE 2026-06-09.
+
+- [x] **TYLER S07E05: "Vienna 1938"** — Build 0071. Vienna phase open. Days 239-255. 4 sites
+  (A-280 through A-283). Ichthyosapiens contact F. introduced — left Vienna July 1938, conceded
+  witness methodology, gave Tyler records, survived the war. A-282 FIRST COMPREHENDED
+  AMPLIFICATION (52ft, 6hrs, rule revised: stay for presence/refuse for absence). A-283
+  SECOND-CATEGORY REFUSAL: purpose-based, Tyler said no to amplifying absence. RSI receipts:
+  TYLER-055, Camera Op Entry 48, Jiangshi #035. TYLER commit 5ffaf0c. DONE 2026-06-09.
 
 - [x] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — PacketSceneChange = 6 in
   protocol.go + protocol.h. Go server: sendSceneChange() ack on portal travel (14 bytes:
