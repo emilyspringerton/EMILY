@@ -146,12 +146,12 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   for first time. RSI receipts: TYLER-051, Camera Op Entry 44, Jiangshi #031. TYLER commit
   c074b90. DONE 2026-06-09.
 
-- [ ] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — Go server (apps2/server-go) has
-  portal travel (scene flip + cooldown) but no snapshot broadcast and no PacketSceneChange ack.
-  Missing: (1) PacketSceneChange = 6 in protocol + sendSceneChange() when portal fires;
-  (2) 20Hz broadcast ticker that sends PacketSnapshot only to clients in the same scene;
-  (3) scene_id field in snapshot per-entity. Milestone 1 of DragonsNShit bridge: every scene
-  becomes genuinely traversable space the moment this lands.
+- [x] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — PacketSceneChange = 6 in
+  protocol.go + protocol.h. Go server: sendSceneChange() ack on portal travel (14 bytes:
+  sceneID + spawn pos). broadcastSnapshots() 20Hz goroutine, scene-filtered snapshot per client
+  (18 bytes/entity: clientID+sceneID+pos+yaw). yaw tracked per-client from UserCmds. sync.Mutex
+  on clients map. Tests: scene isolation, constant collision check, yaw. SHANKPIT commits
+  beb975b, 57fd055. DONE 2026-06-09.
 
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
