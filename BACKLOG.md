@@ -403,6 +403,24 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ---
 
+## SECTION 11: MJOLNIR INTELLIGENCE + SOURCE BROWSER
+
+- [x] **MJOLNIR camera → Emily Prime intelligence** — Full pipeline:
+  CameraX capture (CameraScreen.kt) → base64 → IDUNA `POST /api/v1/intelligence/observe`
+  → Emily Prime vision cycle (vision.go, claude-haiku-4-5) → analysis stored + Apple posted.
+  IntelligenceScreen.kt (observation history), ObservationDetailScreen.kt (analysis view).
+  IDUNA: camera_observations table, intelligence handler (migration 202606090002).
+  EMILY: vision.go + IdunaClient.ListPendingObservations/CompleteObservation + runVisionCycle
+  in cron.go PLAN phase. IDUNA commit ff8c3fb, EMILY commit 3433f36, MJOLNIR commit 46277f4.
+  DONE 2026-06-09.
+
+- [x] **MJOLNIR offline multi-repo source browser** — MultiRepoSyncWorker.kt: JGit clone/pull
+  EMILY + TYLER + IDUNA + MJOLNIR + APPLES on WiFi (daily, 24h periodic work). SourceBrowserScreen.kt:
+  repo list → depth-4 file tree → dark monospace code viewer (200k cap, h+v scroll).
+  Scheduled from MjolnirApp on startup. MJOLNIR commit 46277f4. DONE 2026-06-09.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
