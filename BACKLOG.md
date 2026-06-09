@@ -287,11 +287,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 8: RSI NEXT HORIZON (2026-06-09)
 
-- [ ] **Observation batching in obs-watcher** — Currently every new observation file triggers
-  a separate Claude Code invocation. High-volume FatBaby runs produce 10–15 observations/hour
-  each costing ~8k tokens minimum context load. Batch: collect observations within a 60s window,
-  pass all to a single Claude invocation as a multi-observation report. Estimated saving: 50–80%
-  of per-cycle context overhead on busy days. Target: obs-watcher --batch-window=60s flag.
+- [x] **Observation batching in obs-watcher** — `--batch-window=Xs` flag added. Directory-scan
+  mode: collects all new obs files, gates trivials, invokes Claude once for the batch with a
+  consolidated prompt. Separate `.last-batch-processed` cursor. Estimated 50-80% token reduction
+  on busy entity-graph days. PRRJECT_FATBABY commit 29cc503. DONE 2026-06-09.
 
 - [ ] **RSI loop: smarter TOCK detection via claude-runs/ checksum** — Currently TOCK polls
   claude-runs/ file count (changes when Claude writes a run report). False-positive risk when
