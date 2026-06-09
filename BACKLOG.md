@@ -373,7 +373,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   09:00 UTC ±30 min, sentinel file prevents duplicate. `runMorningBriefing()` fetches last 200 Apples
   from IDUNA, filters to 24h window, groups by type, builds push title + body, fires via PushFunc.
   `IdunaClient.ListApples()` added to iduna.go. Wired into `RunOnce()` PLAN phase in cron.go.
-  EMILY commit (pending). DONE 2026-06-09.
+  EMILY commit b2718b1. DONE 2026-06-09.
 
 ---
 
