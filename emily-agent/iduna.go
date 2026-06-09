@@ -252,3 +252,83 @@ func (c *IdunaClient) ListApples(ctx context.Context, appleType, sourceRepo stri
 	}
 	return items, nil
 }
+
+// CameraObservation is a pending intelligence request from MJOLNIR.
+type CameraObservation struct {
+	ID        int64  `json:"id"`
+	AgentName string `json:"agent_name"`
+	ImageData string `json:"image_data"` // base64
+	MediaType string `json:"media_type"`
+	Prompt    string `json:"prompt"`
+	Status    string `json:"status"`
+}
+
+// ListPendingObservations returns camera observations with status=pending.
+func (c *IdunaClient) ListPendingObservations(ctx context.Context) ([]CameraObservation, error) {
+	if err := c.authenticate(ctx); err != nil {
+		return nil, fmt.Errorf("iduna authenticate: %w", err)
+	}
+	c.mu.Lock()
+	tok := c.token
+	c.mu.Unlock()
+
+	req, err := http.NewRequestWithContext(ctx, "GET",
+		c.baseURL+"/api/v1/intelligence/observations?status=pending&limit=10", nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "Bearer "+tok)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("iduna list observations: %w", err)
+	}
+	defer resp.Body.Close()
+	raw, _ := io.ReadAll(io.LimitReader(resp.Body, 256*1024))
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("iduna list observations status %d: %s", resp.StatusCode, raw)
+	}
+
+	var result struct {
+		Observations []CameraObservation `json:"observations"`
+	}
+	if err := json.Unmarshal(raw, &result); err != nil {
+		return nil, fmt.Errorf("iduna list observations parse: %w", err)
+	}
+	return result.Observations, nil
+}
+
+// CompleteObservation stores the analysis result for a camera observation.
+func (c *IdunaClient) CompleteObservation(ctx context.Context, id int64, analysis string, appleID int64) error {
+	if err := c.authenticate(ctx); err != nil {
+		return fmt.Errorf("iduna authenticate: %w", err)
+	}
+	c.mu.Lock()
+	tok := c.token
+	c.mu.Unlock()
+
+	body, _ := json.Marshal(map[string]any{
+		"analysis": analysis,
+		"apple_id": appleID,
+		"status":   "done",
+	})
+	req, err := http.NewRequestWithContext(ctx, "PATCH",
+		fmt.Sprintf("%s/api/v1/intelligence/observations/%d", c.baseURL, id),
+		bytes.NewReader(body))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+tok)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("iduna complete observation: %w", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		raw, _ := io.ReadAll(io.LimitReader(resp.Body, 4*1024))
+		return fmt.Errorf("iduna complete observation status %d: %s", resp.StatusCode, raw)
+	}
+	return nil
+}

@@ -241,6 +241,16 @@ func (ac *AutonomousCycle) RunOnce() error {
 		}
 	}
 
+	// Vision cycle: drain pending camera_observations from IDUNA.
+	if ac.iduna != nil {
+		visionCtx, visionCancel := context.WithTimeout(context.Background(), 60*time.Second)
+		go func() {
+			defer visionCancel()
+			result := runVisionCycle(visionCtx, ac.iduna)
+			log.Printf("[cycle %d] %s", state.CycleNumber, result)
+		}()
+	}
+
 	// Morning briefing: 09:00 UTC ±30 min, once per calendar day.
 	if briefingDue(ac.cfg.StateDir) {
 		var push PushFunc
