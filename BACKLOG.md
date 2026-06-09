@@ -135,15 +135,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   remains: A-273. RSI receipts: TYLER-049, Camera Op Entry 42, VC-001 Day 225, Jiangshi #029,
   EMILY-SPRING-022. TYLER commits f10670a, 65d35f7. DONE 2026-06-08.
 
-- [ ] **TYLER lore files: catch up S06E05–E06** — eastwind_archive.md missing TYLER-049 and
-  TYLER-050. jiangshi_project_memos.md missing Memos #029 and #030. camera_op_sealed_log.md
-  missing Entries 42 and 43. Content exists in episode files; needs backfill to standalone lore
-  files for S07 continuity. DONE when all six entries are in the canonical lore files.
+- [x] **TYLER lore files: catch up S06E05–E06** — TYLER-049/050 → eastwind_archive.md.
+  Memos #029-030 → jiangshi_project_memos.md. Entries 42-43 → camera_op_sealed_log.md.
+  TYLER commit c074b90. DONE 2026-06-09.
 
-- [ ] **TYLER S07E01: Season 7 opener — "The Audit"** — The audit begins. AMPL-001-SCOPE: 300+
-  sites. Tyler and Camera Op start the global review. Jiangshi reclassification drops. Tyler
-  begins answering the question he didn't finish on Day 226. First cities: where has Tyler spent
-  significant time? COEFF-002 requires the completed audit. RSI Cycle 007.
+- [x] **TYLER S07E01: "The First City"** — Build 0067. Season 7 opener. Exchange Student
+  cross-city CARDINAL-3 analysis (8 cities, 200-400 sites). First audit site: A-274, Rue de
+  Fleurus, Paris 1931. Tyler knew Gertrude Stein. Stayed 23 days (wrote "two weeks"). Jiangshi
+  reclassification memo: no new term, cedes audit methodology. Tyler reads own notation aloud
+  for first time. RSI receipts: TYLER-051, Camera Op Entry 44, Jiangshi #031. TYLER commit
+  c074b90. DONE 2026-06-09.
 
 - [ ] **SHANKPIT Layer 2: scene-isolated snapshot broadcast** — Go server (apps2/server-go) has
   portal travel (scene flip + cooldown) but no snapshot broadcast and no PacketSceneChange ack.
