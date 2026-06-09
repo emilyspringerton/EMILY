@@ -175,6 +175,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   on clients map. Tests: scene isolation, constant collision check, yaw. SHANKPIT commits
   beb975b, 57fd055. DONE 2026-06-09.
 
+- [x] **SHANKPIT cross-scene attack guard (Go server)** — gameWorld replaces world{} stub in
+  apps2/server-go. RayTrace filters clients by sceneID (same-scene only) before ray-sphere
+  intersection (hitbox r=0.4, chest-height center). Per-shot shankPlayer uses real client
+  pos + sceneID from clientInfo. Vec3.Sub/Len/Dot added to ballistics.go. Tests:
+  TestCrossSceneAttackGuard, TestCrossSceneNoHit, TestShooterDoesNotHitSelf. go test passes.
+  SHANKPIT commit 0924011. DONE 2026-06-09.
+
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
 
