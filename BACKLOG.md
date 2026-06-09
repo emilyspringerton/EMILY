@@ -292,16 +292,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   consolidated prompt. Separate `.last-batch-processed` cursor. Estimated 50-80% token reduction
   on busy entity-graph days. PRRJECT_FATBABY commit 29cc503. DONE 2026-06-09.
 
-- [ ] **RSI loop: smarter TOCK detection via claude-runs/ checksum** — Currently TOCK polls
-  claude-runs/ file count (changes when Claude writes a run report). False-positive risk when
-  Claude writes intermediate files. Better: hash the most recent run report filename at TIC
-  start, wait for a NEW filename to appear (any new file = new run completed). Eliminates
-  false-positive TOCK exits.
+- [x] **RSI loop: smarter TOCK detection via claude-runs/ filename sentinel** — rsi-loop.sh
+  TOCK now captures INITIAL_LATEST_RUN (newest filename) at TIC, then detects completion
+  when a different filename appears. Eliminates false-positive exits from file count changes.
+  EMILY commit 49b6908. DONE 2026-06-09.
 
-- [ ] **emily tui: live observation tail in column 2** — Column 2 currently shows Apple feed.
-  Add a toggle (hotkey 't') to switch column 2 between Apples and live observation tail
-  (last 10 lines of the most recent PRRJECT_FATBABY observation file). Gives operator
-  real-time view of what FatBaby is seeing without leaving the TUI.
+- [x] **emily tui: live observation tail in column 2** — 't' hotkey toggles col2 between
+  Apple feed and obs tail (last 10 lines of most-recent obs file). renderObsTailPanel() reads
+  most-recently modified .json in var/emily-observations/. Also fixed F1 TOCK detection to
+  use latestFileInDir (filename sentinel) mirroring rsi-loop.sh fix. emily.cli commit c0075d2
+  (v0.9.0). DONE 2026-06-09.
 
 ---
 
