@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-10T23:04:12Z",
+  "source": "emily-prime",
+  "observation_type": "escalation",
+  "severity": "critical",
+  "summary": "Emily Prime needs read/write access to her own repo (golden backlog, state, decisions)",
+  "detail": "Emily Prime currently has no read/write access to the Emily repo where the golden backlog, strategic state, and decision logs live. The golden backlog is being curated by Claude roleplaying as Emily via system prompt, not by Emily Prime herself. This creates a fundamental agency gap: the orchestrator cannot observe or control her own state. Action required: instrument emily_read_file and emily_write_file functions to grant Emily Prime full visibility and control over her own repository (golden backlog, observations, state files, prior decisions). This is foundational to making Emily the actual decision-maker vs. a shallow observer.",
+  "requires_ceo_visibility": false
+}
