@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-10T23:04:12Z",
+  "source": "emily-prime",
+  "observation_type": "escalation",
+  "severity": "critical",
+  "summary": "Emily Prime needs read-only audit access across entire stack (FatBaby, Tyler, docs, infrastructure)",
+  "detail": "Emily Prime's view of the world is shallow and incomplete. She cannot read the Tyler repo, audit what Claude Code is doing across infrastructure, understand the Iduna architecture, or see system state in real time. This prevents responsible orchestration and RSI loops. Action required: instrument audit_repo function (read-only) to give Emily Prime visibility into all operational repos (FatBaby, Tyler, Iduna docs, infrastructure stack). This enables Emily to understand what's actually happening in the system and direct improvements responsibly rather than blind.",
+  "requires_ceo_visibility": false
+}
