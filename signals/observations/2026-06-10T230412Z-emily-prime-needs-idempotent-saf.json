@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-10T23:04:12Z",
+  "source": "emily-prime",
+  "observation_type": "escalation",
+  "severity": "critical",
+  "summary": "Emily Prime needs idempotent-safe write access to Iduna with guardrails",
+  "detail": "Emily Prime currently has zero write access to Iduna, the core execution system. But if she's to be the orchestrator, she needs the ability to make safe, idempotent changes to Iduna (and only idempotent changes). Action required: instrument iduna_safe_write function with idempotency constraints and rollback validation. Writes should be tagged with Emily's decision context, reversible if needed, and validated before commit. This gives Emily Prime agency over the core system while preventing rogue decisions (non-idempotent, irreversible changes require human approval).",
+  "requires_ceo_visibility": false
+}
