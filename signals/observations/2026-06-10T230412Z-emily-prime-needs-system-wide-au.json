@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-10T23:04:12Z",
+  "source": "emily-prime",
+  "observation_type": "escalation",
+  "severity": "high",
+  "summary": "Emily Prime needs system-wide audit telemetry to observe actual infrastructure behavior",
+  "detail": "Emily Prime cannot see what's happening in real time across FatBaby, Tyler, Claude Code executions, Iduna changes, or the broader stack. She relies on passive observations and has no active audit loop. This prevents responsive orchestration. Action required: instrument emily_observe_system function to pull audit telemetry (recent commits, task executions, observation timelines, infrastructure health, error rates, resource usage) across the stack. Emily needs a dashboard-like capability to see the heartbeat of the system and react to anomalies or bottlenecks.",
+  "requires_ceo_visibility": false
+}
