@@ -370,8 +370,18 @@ func (c *AnthropicClient) Complete(ctx context.Context, req LLMRequest) (LLMResp
 	}
 
 	body := map[string]any{
-		"model": req.Model, "messages": msgs,
-		"max_tokens": maxTokens, "system": systemPrompt,
+		"model":      req.Model,
+		"messages":   msgs,
+		"max_tokens": maxTokens,
+	}
+	// Prompt caching: wrap the system prompt in the content-block array form so the
+	// API caches the fixed system prefix. RSI tasks make 10+ calls with the same
+	// rsiGeneratorPrompt/rsiEvaluatorPrompt; cached reads cost 10% of normal input
+	// tokens, saving ~90% on the ~700 system-prompt tokens re-sent each call.
+	if systemPrompt != "" {
+		body["system"] = []map[string]any{
+			{"type": "text", "text": systemPrompt, "cache_control": map[string]any{"type": "ephemeral"}},
+		}
 	}
 	if len(req.Tools) > 0 {
 		var tools []map[string]any
@@ -392,6 +402,7 @@ func (c *AnthropicClient) Complete(ctx context.Context, req LLMRequest) (LLMResp
 	httpReq.Header.Set("Content-Type", "application/json")
 	httpReq.Header.Set("x-api-key", c.APIKey)
 	httpReq.Header.Set("anthropic-version", "2023-06-01")
+	httpReq.Header.Set("anthropic-beta", "prompt-caching-2024-07-31")
 
 	resp, err := http.DefaultClient.Do(httpReq)
 	if err != nil {

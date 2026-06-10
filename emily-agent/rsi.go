@@ -277,9 +277,16 @@ func (r *RSILoop) buildGenerationPrompt(task *ImprovementTask, iterNum int) stri
 				if cr.Passes {
 					passing = append(passing, cr.Name)
 				} else {
+					// Truncate the measured value to keep prompt size bounded across
+					// iterations — the gap field (the fix) is more useful than the
+					// full quoted artifact span.
+					measured := cr.Value
+					if len(measured) > 120 {
+						measured = measured[:120] + "…"
+					}
 					failing = append(failing,
 						fmt.Sprintf("  FAIL %-20s  measured: %q  target: %q  gap: %s",
-							cr.Name, cr.Value, targetFor[cr.Name], cr.Gap))
+							cr.Name, measured, targetFor[cr.Name], cr.Gap))
 				}
 			}
 			fmt.Fprintf(&sb, "Iteration %d — passing: [%s]\n", prev.Number, strings.Join(passing, ", "))
