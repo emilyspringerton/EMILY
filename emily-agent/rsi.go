@@ -309,10 +309,30 @@ func (r *RSILoop) buildGenerationPrompt(task *ImprovementTask, iterNum int) stri
 }
 
 func (r *RSILoop) extractLessons(ctx context.Context, task *ImprovementTask) []string {
-	if len(task.Iterations) == 0 {
+	// Single-pass successes have no multi-iteration dynamics worth recording.
+	if len(task.Iterations) <= 1 {
 		return nil
 	}
-	itersJSON, _ := json.MarshalIndent(task.Iterations, "", "  ")
+	// Strip the artifact field before marshaling: artifacts can be 1–4 kT each and
+	// are irrelevant to the lessons prompt. Pass only the evaluation results.
+	type lessonIter struct {
+		Number    int              `json:"number"`
+		Results   []CriteriaResult `json:"results"`
+		AllPass   bool             `json:"all_pass"`
+		Analysis  string           `json:"analysis"`
+		NextFocus string           `json:"next_focus"`
+	}
+	stripped := make([]lessonIter, len(task.Iterations))
+	for i, it := range task.Iterations {
+		stripped[i] = lessonIter{
+			Number:    it.Number,
+			Results:   it.Results,
+			AllPass:   it.AllPass,
+			Analysis:  it.Analysis,
+			NextFocus: it.NextFocus,
+		}
+	}
+	itersJSON, _ := json.MarshalIndent(stripped, "", "  ")
 	prompt := fmt.Sprintf(
 		"Task: %s\n\nIteration history:\n%s\n\nExtract 3-5 concise lessons as a JSON array of strings. No markdown, no prose outside the array.",
 		task.Description, string(itersJSON),
