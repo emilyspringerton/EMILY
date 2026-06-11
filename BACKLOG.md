@@ -444,21 +444,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 13: OBSERVATION → BACKLOG CURATION PIPELINE (added Emily Prime 2026-06-11)
 
-- [ ] **FatBaby observation → golden backlog curation pipeline (CLI + Emily Prime autonomous)** —
-  All FatBaby observations that carry product or system-level intent must eventually land in this
-  backlog. Currently there is no instrumented path — curation is a manual act via Claude roleplay
-  (see EMILY/signals/observations/2026-06-10T230827Z-emily-prime-infrastructure-gap.json).
-  Required implementation:
-  (1) `emily backlog curate [--all]` CLI command: reads PRRJECT_FATBABY/var/emily-observations/
-  in reverse-chron order, skips already-curated timestamps (cursor: EMILY/var/backlog-curated.txt),
-  appends `[ ]` item(s) to this file, commits BACKLOG.md, posts curation Apple to IDUNA.
-  (2) Emily Prime autonomous path: during runPrimeTriageCycle, when an observation carries novel
-  product/system content (severity: info, no existing backlog match), Emily Prime invokes
-  emily_write_file to append to BACKLOG.md and auto-commits.
-  (3) State file: EMILY/var/backlog-curated.txt — tracks curated obs timestamps, parallel to
-  fatbaby-synced.txt. Idempotent: curating the same obs twice is a no-op.
-  Dependency: emily_read_file / emily_write_file (pending Sec 12 infra gap resolution).
-  ADDED: 2026-06-11.
+- [x] **FatBaby observation → golden backlog curation pipeline (CLI + Emily Prime autonomous)** —
+  (1) `emily backlog curate [--all]` CLI: mtime-sorted, trivial filter, INTAKE QUEUE append,
+  git commit, Apple. State: EMILY/var/backlog-curated.txt. emily.cli commit ab28096.
+  (2) Emily Prime autonomous: runBacklogCuration() in runPrimeTriageCycle — max 5 obs/cycle,
+  trivial filter, emilyGitAddCommit. emily-agent commit 8e74bf4.
+  (3) emily_read_file / emily_write_file / emily_list_files agent tools: sandboxed, auto-commit.
+  DONE 2026-06-11.
 
 - [ ] **Backlog intake: EmilyOS mobility edition — bare-metal exokernel, ISO2424242** —
   FatBaby observation `2026-06-11T00:54:39Z`: "emily os mobility edition bare metal exokernel

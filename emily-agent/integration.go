@@ -17,6 +17,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -108,9 +109,10 @@ type TriageResult struct {
 // ---------------------------------------------------------------------------
 
 type IntegrationStore struct {
-	signalsDir string // path to signals/
-	gitRoot    string // git repo root
-	mu         sync.Mutex
+	signalsDir  string // path to signals/
+	gitRoot     string // git repo root (EMILY)
+	fatBabyRoot string // PRRJECT_FATBABY root (for backlog curation)
+	mu          sync.Mutex
 }
 
 func NewIntegrationStore(signalsDir, gitRoot string) (*IntegrationStore, error) {
@@ -119,7 +121,11 @@ func NewIntegrationStore(signalsDir, gitRoot string) (*IntegrationStore, error) 
 			return nil, fmt.Errorf("integration_store mkdir %s: %w", sub, err)
 		}
 	}
-	return &IntegrationStore{signalsDir: signalsDir, gitRoot: gitRoot}, nil
+	fatBabyRoot := os.Getenv("FATBABY_ROOT")
+	if fatBabyRoot == "" {
+		fatBabyRoot = "/home/fatbaby/PRRJECT_FATBABY"
+	}
+	return &IntegrationStore{signalsDir: signalsDir, gitRoot: gitRoot, fatBabyRoot: fatBabyRoot}, nil
 }
 
 func (s *IntegrationStore) WriteObservation(obs Observation) error {
@@ -762,6 +768,172 @@ func buildIntegrationStore() *IntegrationStore {
 // are forwarded to FCM. If nil, no push is attempted.
 type PushFunc func(title, body string, data map[string]string)
 
+// runBacklogCuration reads uncurated FatBaby observations and appends non-trivial
+// ones to EMILY/BACKLOG.md as INTAKE QUEUE items. Idempotent via state file.
+// Called from runPrimeTriage each cycle — max 5 items per cycle to stay bounded.
+func (s *IntegrationStore) runBacklogCuration() (int, error) {
+	if s.fatBabyRoot == "" || s.gitRoot == "" {
+		return 0, nil
+	}
+	obsDir := filepath.Join(s.fatBabyRoot, "var", "emily-observations")
+	backlogPath := filepath.Join(s.gitRoot, "BACKLOG.md")
+	stateFile := filepath.Join(s.gitRoot, "var", "backlog-curated.txt")
+
+	if err := os.MkdirAll(filepath.Dir(stateFile), 0755); err != nil {
+		return 0, fmt.Errorf("mkdir var: %w", err)
+	}
+
+	curated := loadCuratedSet(stateFile)
+	entries, err := os.ReadDir(obsDir)
+	if err != nil {
+		return 0, nil // obs dir may not exist yet
+	}
+
+	// Sort by mtime descending (newest first).
+	type obsEntry struct {
+		name  string
+		mtime int64
+	}
+	var oes []obsEntry
+	for _, e := range entries {
+		n := e.Name()
+		if e.IsDir() || strings.HasPrefix(n, ".") || n == "latest.json" || !strings.HasSuffix(n, ".json") {
+			continue
+		}
+		info, _ := e.Info()
+		if info != nil {
+			oes = append(oes, obsEntry{name: n, mtime: info.ModTime().UnixNano()})
+		}
+	}
+	sort.Slice(oes, func(i, j int) bool { return oes[i].mtime > oes[j].mtime })
+
+	const maxPerCycle = 5
+	today := time.Now().UTC().Format("2006-01-02")
+	var lines []string
+	var newKeys []string
+
+	for _, oe := range oes {
+		if len(lines) >= maxPerCycle {
+			break
+		}
+		key := strings.TrimSuffix(oe.name, ".json")
+		if _, seen := curated[key]; seen {
+			continue
+		}
+		data, err := os.ReadFile(filepath.Join(obsDir, oe.name))
+		if err != nil {
+			newKeys = append(newKeys, key) // mark as seen even if unreadable
+			continue
+		}
+		var obs struct {
+			Timestamp string `json:"timestamp"`
+			Summary   string `json:"summary"`
+		}
+		if err := json.Unmarshal(data, &obs); err != nil || obs.Summary == "" {
+			newKeys = append(newKeys, key)
+			continue
+		}
+		if isTrivialBacklogObs(obs.Summary) {
+			newKeys = append(newKeys, key) // mark as seen but don't append
+			continue
+		}
+		summary := obs.Summary
+		if len(summary) > 120 {
+			summary = summary[:119] + "…"
+		}
+		// Escape markdown bold markers.
+		summary = strings.ReplaceAll(summary, "**", "*")
+		ts := obs.Timestamp
+		if ts == "" {
+			ts = key
+		}
+		lines = append(lines, fmt.Sprintf("- [ ] **%s** — obs `%s`. CURATED: %s.", summary, ts, today))
+		newKeys = append(newKeys, key)
+	}
+
+	if len(lines) > 0 {
+		if err := appendToBacklogMd(backlogPath, lines); err != nil {
+			log.Printf("backlog curation: append failed: %v", err)
+		} else {
+			msg := fmt.Sprintf("emily-prime: backlog curate %d obs -> INTAKE QUEUE (%s)", len(lines), today)
+			emilyGitAddCommit(s.gitRoot, "BACKLOG.md", msg)
+		}
+	}
+
+	// Update state file with all processed keys (including trivials and empties).
+	if len(newKeys) > 0 {
+		f, err := os.OpenFile(stateFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err == nil {
+			w := bufio.NewWriter(f)
+			for _, k := range newKeys {
+				fmt.Fprintln(w, k)
+			}
+			w.Flush()
+			f.Close()
+		}
+	}
+
+	return len(lines), nil
+}
+
+// isTrivialBacklogObs returns true for RSI completion pings and other status noise.
+func isTrivialBacklogObs(summary string) bool {
+	lower := strings.ToLower(summary)
+	for _, s := range []string{"rsi loop iteration", "tic-toc cycle done", "fatbaby+tyler tic-toc", "prime task complete:"} {
+		if strings.Contains(lower, s) {
+			return true
+		}
+	}
+	return false
+}
+
+// appendToBacklogMd adds lines to the INTAKE QUEUE section of BACKLOG.md,
+// creating the section if absent.
+func appendToBacklogMd(path string, lines []string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	content := string(data)
+	block := strings.Join(lines, "\n") + "\n"
+
+	const intakeMarker = "## INTAKE QUEUE"
+	if idx := strings.Index(content, intakeMarker); idx >= 0 {
+		searchFrom := idx + len(intakeMarker)
+		insertPos := len(content)
+		if next := strings.Index(content[searchFrom:], "\n## "); next >= 0 {
+			insertPos = searchFrom + next + 1
+		}
+		content = content[:insertPos] + block + content[insertPos:]
+	} else {
+		const protocol = "## BACKLOG PROTOCOL"
+		const header = "\n## INTAKE QUEUE (curated by emily backlog curate)\n\nItems below have been auto-curated from FatBaby observations. Emily Prime reviews\nand promotes them into the appropriate section when she plans the next sprint.\n\n"
+		if idx2 := strings.Index(content, protocol); idx2 >= 0 {
+			content = content[:idx2] + header + block + "\n---\n\n" + content[idx2:]
+		} else {
+			content += header + block
+		}
+	}
+	return os.WriteFile(path, []byte(content), 0644)
+}
+
+// loadCuratedSet reads EMILY/var/backlog-curated.txt and returns the set of file keys.
+func loadCuratedSet(stateFile string) map[string]struct{} {
+	m := make(map[string]struct{})
+	f, err := os.Open(stateFile)
+	if err != nil {
+		return m
+	}
+	defer f.Close()
+	s := bufio.NewScanner(f)
+	for s.Scan() {
+		if k := strings.TrimSpace(s.Text()); k != "" {
+			m[k] = struct{}{}
+		}
+	}
+	return m
+}
+
 func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipeline, gmail *GmailClient, push PushFunc) (string, error) {
 	priorities, err := store.LoadSignalPriorities()
 	if err != nil {
@@ -833,6 +1005,16 @@ func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipe
 		_ = os.WriteFile(escalationCursorPath, []byte(newLastEscalated), 0o644)
 	}
 
-	return fmt.Sprintf("triage complete observations=%d tasks_written=%d escalations=%d alerts_sent=%d",
-		len(obs), tasksWritten, escalations, alertsSent), nil
+	// Autonomous backlog curation: append uncurated FatBaby obs to INTAKE QUEUE.
+	curated := 0
+	if store.fatBabyRoot != "" {
+		if n, err := store.runBacklogCuration(); err != nil {
+			log.Printf("triage: backlog curation error (non-fatal): %v", err)
+		} else {
+			curated = n
+		}
+	}
+
+	return fmt.Sprintf("triage complete observations=%d tasks_written=%d escalations=%d alerts_sent=%d backlog_curated=%d",
+		len(obs), tasksWritten, escalations, alertsSent, curated), nil
 }
