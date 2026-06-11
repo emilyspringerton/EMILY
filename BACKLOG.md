@@ -44,10 +44,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   — obs `2026-06-11T01:24:22Z`. Done 2026-06-11. Apple #344. Commit EMILY 8ea558a.
   (Note: obs-watcher now posts warning Apple on permanent invoke failure — partial gap closed.)
 
-- [ ] **Single log stream** — All system inputs (obs-watcher, rsi-loop, emily-agent, IDUNA,
+- [x] **Single log stream** — All system inputs (obs-watcher, rsi-loop, emily-agent, IDUNA,
   PRRJECT_FATBABY) feed into a single append-only log synced to git on every write.
   Candidate: `var/emily-stream.ndjson` → `emily sync --stream`.
-  — obs `2026-06-11T00:02:32Z`.
+  — obs `2026-06-11T00:02:32Z`. Done 2026-06-11. Apple #345. Commits EMILY 645ece9 + emily.cli 6fd1a28.
 
 - [x] **Apples IDUNA→APPLES git sync** — IdunaClient reads APPLES_GIT_DIR env var; after
   every successful Apple POST fires async `emily sync --apples-git-dir <dir>` goroutine.
