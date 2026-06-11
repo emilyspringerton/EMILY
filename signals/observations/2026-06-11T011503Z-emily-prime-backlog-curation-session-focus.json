@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-11T01:15:03Z",
+  "source": "emily-prime",
+  "observation_type": "memo",
+  "severity": "high",
+  "summary": "SESSION FOCUS: FatBaby observations → golden backlog curation pipeline. Most recent uncurated observation requires intake.",
+  "detail": "MEMO — Emily Prime to Emily Prime.\n\nMost recent FatBaby observation (2026-06-11T00:54:39Z):\n  'emily os mobility edition bare metal exokernel ISO2424242'\n\nThis observation is uncurated — it has not been evaluated and added to EMILY/BACKLOG.md. It represents a new product initiative (EmilyOS as a bare-metal exokernel for mobile/embedded hardware) that must enter the golden backlog before it can be planned, resourced, or acted on.\n\nSESSION FOCUS:\nAll FatBaby observations that carry product or system-level intent must eventually land in the golden backlog. Today there is no instrumented pipeline for this — curation is currently a manual act performed by Claude Code roleplaying as Emily Prime (see EMILY/signals/observations/2026-06-10T230827Z-emily-prime-infrastructure-gap.json). That must change.\n\nRequired instrumentation:\n1. CLI path: `emily backlog curate [--all]` — reads uncurated obs files, appends [ ] items to BACKLOG.md, commits, posts curation Apple, writes cursor to EMILY/var/backlog-curated.txt.\n2. Emily Prime autonomous path: during triage, when an observation has novel product/system content (severity: info, no existing backlog match), Emily Prime invokes emily_write_file to append to BACKLOG.md and commits the change.\n3. State tracking: EMILY/var/backlog-curated.txt — parallel to fatbaby-synced.txt — tracks which obs timestamps have been curated.\n\nThis requirement has been added to EMILY/BACKLOG.md as Section 13, item 1. The EmilyOS observation has been added as item 2 (pending curation pipeline).\n\nACTION: Implement Section 13 item 1 (curation pipeline CLI) as the first task of this session.",
+  "latest_uncurated_observation": {
+    "timestamp": "2026-06-11T00:54:39Z",
+    "summary": "emily os mobility edition bare metal exokernel ISO2424242",
+    "file": "PRRJECT_FATBABY/var/emily-observations/2026-06-11T00-54-39Z.json",
+    "status": "uncurated"
+  },
+  "recent_uncurated_observations": [
+    { "timestamp": "2026-06-11T00:54:39Z", "summary": "emily os mobility edition bare metal exokernel ISO2424242" },
+    { "timestamp": "2026-06-11T00:52:56Z", "summary": "fatbaby custom terminal v0 northstar — the emily way — repo named PITVIPER" },
+    { "timestamp": "2026-06-11T00:51:58Z", "summary": "news site stock charts + fatbaby standalone SDL2 terminal (PITVIPER repo)" },
+    { "timestamp": "2026-06-11T00:02:32Z", "summary": "all system inputs need to feed into a single log stream synced to git" },
+    { "timestamp": "2026-06-11T00:01:38Z", "summary": "feed apples as context to save tokens — mid-short term whole-system memory for emily prime" },
+    { "timestamp": "2026-06-11T00:00:18Z", "summary": "EmilyOS Debian vs Arch? own BAZEL-equivalent SOC2 software repository" },
+    { "timestamp": "2026-06-10T23:59:02Z", "summary": "implement basic haiku → FABLE advisor tool for emily prime" },
+    { "timestamp": "2026-06-10T23:56:50Z", "summary": "emily prime haiku/sonnet → FABLE advisor for HEIMDAL sprint planning" },
+    { "timestamp": "2026-06-10T23:54:59Z", "summary": "emily prime API — split RSI token budget into cheaper model bucket" },
+    { "timestamp": "2026-06-10T23:38:51Z", "summary": "emily prime should have all api capabilities of emily.cli" },
+    { "timestamp": "2026-06-10T23:36:46Z", "summary": "wire all control surface of the whole system into emily prime agent" },
+    { "timestamp": "2026-06-10T23:35:13Z", "summary": "APPLES must all be synced to git repo via IDUNA (she is source of truth)" },
+    { "timestamp": "2026-06-10T23:33:35Z", "summary": "review all golden docs + update emily prime system prompt — agents don't know about control surfaces" },
+    { "timestamp": "2026-06-10T23:29:39Z", "summary": "obs-watcher should fire observations into golden backlog as emily prime; separate task runner for RSI reads from backlog" }
+  ],
+  "backlog_section_added": "SECTION 13 — OBSERVATION → BACKLOG CURATION PIPELINE",
+  "requires_ceo_visibility": false
+}

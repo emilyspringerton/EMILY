@@ -442,6 +442,35 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ---
 
+## SECTION 13: OBSERVATION → BACKLOG CURATION PIPELINE (added Emily Prime 2026-06-11)
+
+- [ ] **FatBaby observation → golden backlog curation pipeline (CLI + Emily Prime autonomous)** —
+  All FatBaby observations that carry product or system-level intent must eventually land in this
+  backlog. Currently there is no instrumented path — curation is a manual act via Claude roleplay
+  (see EMILY/signals/observations/2026-06-10T230827Z-emily-prime-infrastructure-gap.json).
+  Required implementation:
+  (1) `emily backlog curate [--all]` CLI command: reads PRRJECT_FATBABY/var/emily-observations/
+  in reverse-chron order, skips already-curated timestamps (cursor: EMILY/var/backlog-curated.txt),
+  appends `[ ]` item(s) to this file, commits BACKLOG.md, posts curation Apple to IDUNA.
+  (2) Emily Prime autonomous path: during runPrimeTriageCycle, when an observation carries novel
+  product/system content (severity: info, no existing backlog match), Emily Prime invokes
+  emily_write_file to append to BACKLOG.md and auto-commits.
+  (3) State file: EMILY/var/backlog-curated.txt — tracks curated obs timestamps, parallel to
+  fatbaby-synced.txt. Idempotent: curating the same obs twice is a no-op.
+  Dependency: emily_read_file / emily_write_file (pending Sec 12 infra gap resolution).
+  ADDED: 2026-06-11.
+
+- [ ] **Backlog intake: EmilyOS mobility edition — bare-metal exokernel, ISO2424242** —
+  FatBaby observation `2026-06-11T00:54:39Z`: "emily os mobility edition bare metal exokernel
+  ISO2424242". New product initiative: EmilyOS as a bare-metal exokernel OS targeting
+  mobile/embedded hardware. ISO identifier: ISO2424242. Northstar to be drafted; new repo
+  to be created (candidate name: EmilyOS/). Related pending observations: EmilyOS Arch vs Debian
+  + BAZEL-equivalent repo (2026-06-11T00:00:18Z); PITVIPER standalone SDL2 terminal
+  (2026-06-11T00:52:56Z). Status: INTAKE PENDING curation pipeline above.
+  ADDED: 2026-06-11 (first item produced by curation session focus).
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
