@@ -205,10 +205,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   + queues it on the next cron cycle. Returns queued item + sprint_id.
   — obs `2026-06-10T23:56:50Z`. Done 2026-06-11. Apple #336.
 
-- [ ] **Emily Prime API** — Emily Prime needs a stable API so external orchestration
+- [x] **Emily Prime API** — Emily Prime needs a stable API so external orchestration
   (cron, HEIMDAL webhooks, MJOLNIR) can drive RSI loops without a human at the terminal.
   Split token usage: cheap haiku for classification, Sonnet/Opus only for implementation.
-  — obs `2026-06-10T23:54:59Z`.
+  — obs `2026-06-10T23:54:59Z`. Done 2026-06-11. Apple #346. Commit EMILY 4e6886b.
 
 ---
 
