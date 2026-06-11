@@ -165,10 +165,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Remaining gaps: northstars for PRRJECT_FATBABY/TYLER/EMILY/IDUNA still missing.
   — obs `2026-06-10T23:33:35Z`. Done 2026-06-11. Apple #334.
 
-- [ ] **emily prime API parity with emily.cli** — Emily Prime (emily-agent) should expose
-  all commands available in emily.cli so external orchestration can drive her without a
-  human on the terminal. Spec: `POST /api/v1/emily/run { "command": "backlog promote" }`.
-  — obs `2026-06-10T23:38:51Z`.
+- [x] **emily prime API parity with emily.cli** — `POST /api/v1/emily/run { "command": "..." }`
+  wired into emily-agent. Whitelist: observe/obs/apples/status/sync/backlog/primetask/agents/watch.
+  Single-quote-aware arg split, 60s default / 300s max timeout. Returns exit_code/stdout/stderr/duration.
+  — obs `2026-06-10T23:38:51Z`. Done 2026-06-11. Apple #335.
 
 ---
 
