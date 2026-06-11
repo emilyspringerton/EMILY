@@ -205,11 +205,17 @@ func (ac *AutonomousCycle) RunOnce() error {
 				state.CompletedTasks = append(state.CompletedTasks, *task)
 				state.ActiveTaskID = ""
 				state.ActiveTask = nil
+				if strings.HasPrefix(task.ID, "heimdal-") {
+					go ac.notifyHeimdalStatus(task, "complete")
+				}
 			case "partial", "failed":
 				// Terminal-but-not-successful tasks must not pin the active slot forever;
 				// the roadmap item is marked blocked in runIteration for operator review.
 				state.ActiveTaskID = ""
 				state.ActiveTask = nil
+				if strings.HasPrefix(task.ID, "heimdal-") {
+					go ac.notifyHeimdalStatus(task, "blocked")
+				}
 			}
 		}
 	} else {

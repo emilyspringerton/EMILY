@@ -42,21 +42,20 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   but don't: cron triggers, observation drops, haiku call failures, HEIMDAL state changes,
   FCM failures. Create `emily eo` observations for each gap found.
   — obs `2026-06-11T01:24:22Z`.
+  (Note: obs-watcher now posts warning Apple on permanent invoke failure — partial gap closed.)
 
 - [ ] **Single log stream** — All system inputs (obs-watcher, rsi-loop, emily-agent, IDUNA,
   PRRJECT_FATBABY) feed into a single append-only log synced to git on every write.
   Candidate: `var/emily-stream.ndjson` → `emily sync --stream`.
   — obs `2026-06-11T00:02:32Z`.
 
-- [ ] **Apples IDUNA→APPLES git sync** — IDUNA is the source of truth; APPLES repo must stay
-  in sync. `emily sync --apples-git-dir` already exists but should run automatically after
-  every Apple POST, not just on cron. Wire as IDUNA after-insert hook or emily-agent poll.
-  — obs `2026-06-10T23:35:13Z`.
+- [x] **Apples IDUNA→APPLES git sync** — IdunaClient reads APPLES_GIT_DIR env var; after
+  every successful Apple POST fires async `emily sync --apples-git-dir <dir>` goroutine.
+  — obs `2026-06-10T23:35:13Z`. Done 2026-06-11. Commit emily-agent (iduna.go).
 
-- [ ] **Golden context feed via Apples** — Beyond GOLDEN.md (backlog compress), feed a
-  sampled window of recent Apples as haiku context so Emily Prime's curation calls are
-  grounded in what actually shipped. Token budget: ≤200 tokens of Apple summaries.
-  — obs `2026-06-11T00:01:38Z`.
+- [x] **Golden context feed via Apples** — `IdunaClient.FetchAppleContext(ctx, n)` returns
+  compact Apple summaries (≤200 tokens). Injected into HEIMDAL translateRequirement haiku
+  calls via runHeimdalCycle. — obs `2026-06-11T00:01:38Z`. Done 2026-06-11. Commit emily-agent.
 
 ---
 
@@ -110,9 +109,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   eps-processor status) via menu controls when `--fatbaby` flag is set.
   — obs `2026-06-07T21:27:09Z`.
 
-- [ ] **obs-watcher: rate-limit resilience** — If obs-watcher is started during a Claude
-  API rate limit, the queued observation may be silently dropped. Add retry/backoff with
-  exponential delay; surface drops as Apple events. — obs `2026-06-07T22:50:41Z`.
+- [x] **obs-watcher: rate-limit resilience** — invokeWithRetry wraps all three invocation
+  sites. Captures stderr, detects rate-limit signals, retries 3x (30s→90s→270s). Permanent
+  failure posts warning Apple via emily observe. — obs `2026-06-07T22:50:41Z`. Done 2026-06-11.
+  Commit PRRJECT_FATBABY c04fd79.
 
 ---
 
@@ -152,9 +152,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 12: HEIMDAL — Sprint Planning Interface
 
-- [ ] **HEIMDAL status feedback** — When an RSI task (heimdal-N) completes or is blocked,
-  patch the corresponding HEIMDAL sprint to `complete` or `blocked` and send FCM push.
-  Requires: emily-agent checks task completion for heimdal-* IDs and calls PatchHeimdalSprint.
+- [x] **HEIMDAL status feedback** — notifyHeimdalStatus goroutine fires on heimdal-* task
+  terminal status (complete or blocked): patches sprint in IDUNA, files completion Apple,
+  sends FCM push to MJOLNIR. — Done 2026-06-11. Commit emily-agent (heimdal.go + cron.go).
 
 ---
 

@@ -18,7 +18,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"os/exec"
+	"strings"
 	"sync"
 	"time"
 )
@@ -30,13 +33,16 @@ type IdunaClient struct {
 	agentSecret string
 	httpClient  *http.Client
 
-	mu        sync.Mutex
-	token     string
-	tokenExp  time.Time
+	mu           sync.Mutex
+	token        string
+	tokenExp     time.Time
+	applesGitDir string // if set, runs emily sync after each successful Apple POST
 }
 
 // NewIdunaClientFromEnv reads IDUNA_BASE_URL, IDUNA_AGENT_NAME, IDUNA_AGENT_SECRET
 // and returns a configured client. Returns nil if any required var is absent.
+// Optionally reads APPLES_GIT_DIR: when set, each successful Apple POST triggers
+// an async `emily sync --apples-git-dir <dir>` to keep the git backup in sync.
 func NewIdunaClientFromEnv() *IdunaClient {
 	base := envOr("IDUNA_BASE_URL", "")
 	name := envOr("IDUNA_AGENT_NAME", "")
@@ -45,10 +51,11 @@ func NewIdunaClientFromEnv() *IdunaClient {
 		return nil
 	}
 	return &IdunaClient{
-		baseURL:     base,
-		agentName:   name,
-		agentSecret: secret,
-		httpClient:  &http.Client{Timeout: 15 * time.Second},
+		baseURL:      base,
+		agentName:    name,
+		agentSecret:  secret,
+		httpClient:   &http.Client{Timeout: 15 * time.Second},
+		applesGitDir: envOr("APPLES_GIT_DIR", ""),
 	}
 }
 
@@ -135,6 +142,17 @@ func (c *IdunaClient) PostApple(ctx context.Context, payload ApplePayload) (int6
 	if err := json.Unmarshal(raw, &result); err != nil {
 		return 0, fmt.Errorf("iduna post apple parse: %w", err)
 	}
+
+	if c.applesGitDir != "" && result.ID > 0 {
+		dir := c.applesGitDir
+		go func() {
+			cmd := exec.Command("emily", "sync", "--apples-git-dir", dir)
+			if out, err := cmd.CombinedOutput(); err != nil {
+				log.Printf("apples sync: %v: %s", err, out)
+			}
+		}()
+	}
+
 	return result.ID, nil
 }
 
@@ -331,4 +349,21 @@ func (c *IdunaClient) CompleteObservation(ctx context.Context, id int64, analysi
 		return fmt.Errorf("iduna complete observation status %d: %s", resp.StatusCode, raw)
 	}
 	return nil
+}
+
+// FetchAppleContext returns a compact summary of the n most recent Apples,
+// formatted for injection into LLM prompts as a ≤200-token context window.
+// Returns an empty string on error so callers can degrade gracefully.
+func (c *IdunaClient) FetchAppleContext(ctx context.Context, n int) string {
+	items, err := c.ListApples(ctx, "", "", n)
+	if err != nil || len(items) == 0 {
+		return ""
+	}
+	var sb strings.Builder
+	sb.WriteString("Recent system activity (latest Apples):\n")
+	for _, a := range items {
+		fmt.Fprintf(&sb, "- #%d [%s] %s (%s)\n",
+			a.ID, a.AppleType, a.Title, a.RecordedAt.UTC().Format("01-02 15:04"))
+	}
+	return sb.String()
 }

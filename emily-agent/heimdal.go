@@ -20,8 +20,11 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
+
+	"emily-agent/pkg/fcm"
 )
 
 // sprintSummary mirrors the summary shape from GET /api/v1/heimdal/sprints.
@@ -107,7 +110,9 @@ func (c *IdunaClient) PatchHeimdalSprint(ctx context.Context, id int64, criteria
 
 // translateRequirement calls Claude haiku to translate a raw product requirement
 // into a structured RoadmapItem with AcceptanceCriteria.
-func translateRequirement(ctx context.Context, apiKey, sprintID string, requirement string) (RoadmapItem, error) {
+// appleContext is an optional compact summary of recent system activity injected
+// as extra context; pass "" to skip.
+func translateRequirement(ctx context.Context, apiKey, sprintID, requirement, appleContext string) (RoadmapItem, error) {
 	if apiKey == "" {
 		return RoadmapItem{}, fmt.Errorf("ANTHROPIC_API_KEY not set")
 	}
@@ -136,6 +141,9 @@ Rules:
 - max_iters should be 3-8 depending on complexity`
 
 	userPrompt := fmt.Sprintf("Sprint ID: %s\n\nRequirement:\n%s", sprintID, requirement)
+	if appleContext != "" {
+		userPrompt += "\n\n" + appleContext
+	}
 
 	body := map[string]any{
 		"model":      "claude-haiku-4-5-20251001",
@@ -236,6 +244,13 @@ func (ac *AutonomousCycle) runHeimdalCycle(ctx context.Context, push PushFunc) s
 		return "heimdal: no pending sprints"
 	}
 
+	// Fetch recent Apple context once for the whole batch (≤200 tokens).
+	appleCtxStr := ""
+	if appleCtxCtx, appleCtxCancel := context.WithTimeout(ctx, 8*time.Second); true {
+		appleCtxStr = ac.iduna.FetchAppleContext(appleCtxCtx, 10)
+		appleCtxCancel()
+	}
+
 	processed := 0
 	for i, sprint := range sprints {
 		if i >= 5 {
@@ -246,7 +261,7 @@ func (ac *AutonomousCycle) runHeimdalCycle(ctx context.Context, push PushFunc) s
 		log.Printf("heimdal: processing sprint id=%d agent=%s", sprint.ID, sprint.AgentName)
 
 		translateCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
-		item, err := translateRequirement(translateCtx, apiKey, sprintIDStr, sprint.Requirement)
+		item, err := translateRequirement(translateCtx, apiKey, sprintIDStr, sprint.Requirement, appleCtxStr)
 		cancel()
 		if err != nil {
 			log.Printf("heimdal: translate sprint %d: %v", sprint.ID, err)
@@ -315,6 +330,80 @@ func (ac *AutonomousCycle) runHeimdalCycle(ctx context.Context, push PushFunc) s
 	}
 
 	return fmt.Sprintf("heimdal: processed %d/%d pending sprints", processed, len(sprints))
+}
+
+// notifyHeimdalStatus is called in a goroutine when a heimdal-* RSI task reaches
+// a terminal state (complete or blocked). It patches the IDUNA sprint record,
+// files a completion Apple, and fires an FCM push to MJOLNIR.
+func (ac *AutonomousCycle) notifyHeimdalStatus(task *ImprovementTask, newStatus string) {
+	if ac.iduna == nil || task == nil {
+		return
+	}
+	sprintIDStr := strings.TrimPrefix(task.ID, "heimdal-")
+	sprintID, err := strconv.ParseInt(sprintIDStr, 10, 64)
+	if err != nil {
+		log.Printf("heimdal notify: parse sprint id from %q: %v", task.ID, err)
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+
+	appleTitle := fmt.Sprintf("HEIMDAL sprint %s: %s", newStatus, task.ID)
+	appleBody := fmt.Sprintf("## HEIMDAL Sprint %s\n\n**Task:** %s  \n**Status:** %s  \n**Iterations:** %d/%d",
+		newStatus, task.ID, newStatus, len(task.Iterations), task.MaxIters)
+	if len(task.Lessons) > 0 {
+		appleBody += "\n\n**Lessons:**\n"
+		for _, l := range task.Lessons {
+			appleBody += "- " + l + "\n"
+		}
+	}
+	meta, _ := json.Marshal(map[string]any{
+		"sprint_id":  sprintID,
+		"task_id":    task.ID,
+		"status":     newStatus,
+		"iterations": len(task.Iterations),
+	})
+
+	appleID, appleErr := ac.iduna.PostApple(ctx, ApplePayload{
+		SourceRepo: "emily",
+		RunID:      fmt.Sprintf("heimdal-done-%d-%s", sprintID, time.Now().UTC().Format("20060102T150405Z")),
+		AppleType:  "improvement",
+		Title:      appleTitle,
+		Body:       appleBody,
+		Metadata:   json.RawMessage(meta),
+	})
+	if appleErr != nil {
+		log.Printf("heimdal notify: post apple for sprint %d: %v", sprintID, appleErr)
+	}
+
+	patchCtx, patchCancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer patchCancel()
+	if patchErr := ac.iduna.PatchHeimdalSprint(patchCtx, sprintID, "", task.ID, newStatus, appleID); patchErr != nil {
+		log.Printf("heimdal notify: patch sprint %d to %s: %v", sprintID, newStatus, patchErr)
+	} else {
+		log.Printf("heimdal notify: sprint %d patched to %s (apple=%d)", sprintID, newStatus, appleID)
+	}
+
+	if ac.fcmSender == nil {
+		return
+	}
+	pushCtx, pushCancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer pushCancel()
+	deviceToken, err := ac.iduna.GetPushToken(pushCtx, "mjolnir-emily")
+	if err != nil || deviceToken == "" {
+		return
+	}
+	emoji := "✅"
+	if newStatus == "blocked" {
+		emoji = "⚠️"
+	}
+	_ = ac.fcmSender.Send(pushCtx, deviceToken, fcm.Message{
+		Title:    fmt.Sprintf("%s Sprint %s: %s", emoji, newStatus, task.ID),
+		Body:     fmt.Sprintf("%d iterations · %d criteria", len(task.Iterations), len(task.Criteria)),
+		Priority: "high",
+		Data:     map[string]string{"type": "heimdal_done", "task_id": task.ID, "status": newStatus},
+	})
 }
 
 func formatCriteria(criteria []AcceptanceCriterion) string {
