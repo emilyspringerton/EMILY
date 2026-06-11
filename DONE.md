@@ -100,3 +100,10 @@
 
 - [x] **FatBaby observation → golden backlog curation pipeline (CLI + Emily Prime autonomous)** —
 
+
+## Archived 2026-06-11
+
+### SECTION 1: FOUNDATION (current sprint)
+
+- [x] **IDUNA login page + admin dashboard** — `/admin/login` (agent creds → cookie → redirect), `/admin` (overview, users, agents, audit, apples). RequireCookieAuth middleware. Static files wired. README updated. IDUNA commit b173665. Apple #328. — obs `2026-06-10T22:01:42Z`. Done: 2026-06-11.
+

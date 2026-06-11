@@ -21,10 +21,6 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 1: FOUNDATION (current sprint)
 
-- [ ] **IDUNA login page + admin dashboard** — Build the IDUNA web UI: login page (JWT auth),
-  admin dashboard listing agents, push_tokens, apples, heimdal sprints. Should live at `:8080/admin`.
-  Dependency: IDUNA embedded SQLite ✓. — obs `2026-06-10T22:01:42Z`.
-
 ---
 
 ## SECTION 2: MONEYPRINTERTURBO (video pipeline)

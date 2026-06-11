@@ -6,12 +6,9 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 38 open, 0 done (archived), 11 intake pending
+## BACKLOG STATUS: 37 open, 0 done (archived), 11 intake pending
 
 ## OPEN ITEMS
-
-### SECTION 1: FOUNDATION (current sprint) (1 open, 0 done)
-• IDUNA login page + admin dashboard — Build the IDUNA web UI: login page (JWT auth),
 
 ### SECTION 2: MONEYPRINTERTURBO (video pipeline) (3 open, 0 done)
 • MPT Pexels API key — Set YOUR_PEXELS_API_KEY_HERE in MoneyPrinterTurbo/config.toml.
