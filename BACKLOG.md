@@ -223,10 +223,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   also sorted. Two regression tests added. — obs `2026-05-30T22:14:19Z`. Done 2026-06-11.
   Commit PRRJECT_FATBABY 284db04. Apple #333.
 
-- [ ] **Newssite: 500 errors investigation** — News site returns 500s (IDUNA related? index
-  too large? dependent processes down?). `emily start (all)` does not start it reliably.
-  Fix start integration and debug the 500 root cause. — obs `2026-06-07T21:43:40Z`,
-  `2026-06-07T21:18:53Z`.
+- [x] **Newssite: 500 errors investigation** — Root cause: `serveFrontPage` fell back to
+  `ReadLatest` (full 191MB store scan) when `docIdx==nil` at startup; client timeouts → 500.
+  Fix: 2s context bound on fallback scan; exceeded → 200 self-refreshing loading page.
+  `emily start --newssite` and `--all` added (newssite was missing entirely).
+  — obs `2026-06-07T21:43:40Z`. Done 2026-06-11. Apple #337.
 
 - [ ] **Newssite: Emily-authored governance commentary ingest endpoint** — Add an ingest
   endpoint so Emily Prime can POST original governance commentary articles directly to the
