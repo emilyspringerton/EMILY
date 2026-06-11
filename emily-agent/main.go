@@ -46,7 +46,8 @@ type Config struct {
 	EmilyRoot       string
 	FatBabyRoot     string
 	IDUNARoot       string
-	Model           string
+	Model           string // haiku — classification, triage, translate
+	SonnetModel     string // sonnet/opus — implementation-tier RSI generation
 	GitCommit       bool
 	GitPush         bool
 	RateLimitRPM    int
@@ -77,6 +78,7 @@ func loadConfig() Config {
 		FatBabyRoot:     envOr("FATBABY_ROOT", "/home/fatbaby/PRRJECT_FATBABY"),
 		IDUNARoot:       envOr("IDUNA_ROOT", "/home/fatbaby/IDUNA"),
 		Model:           envOr("MODEL", "claude-haiku-4-5-20251001"),
+		SonnetModel:     envOr("SONNET_MODEL", "claude-sonnet-4-6"),
 		GitCommit:       gitCommit,
 		GitPush:         gitPush,
 		RateLimitRPM:    rpm,
@@ -1468,6 +1470,8 @@ type Server struct {
 	integration *IntegrationStore  // nil if signals/ dir not found
 	gmail       *GmailClient       // nil if GMAIL_* env vars not set
 	emiree      *EmireeAgent       // witch engine; always present
+	cycle       *AutonomousCycle   // RSI cycle; exposes /api/v1/emily/cycle etc.
+	cycleMu     sync.Mutex         // guards concurrent cycle triggers
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -1483,7 +1487,7 @@ func NewServer(cfg Config) (*Server, error) {
 	case "gpt-4o-mini", "":
 		cfg.Model = "claude-haiku-4-5-20251001"
 	}
-	log.Printf("provider: Anthropic  model: %s", cfg.Model)
+	log.Printf("provider: Anthropic  model: %s  sonnet: %s", cfg.Model, cfg.SonnetModel)
 
 	store, err := NewConversationStore(cfg.ConversationDir, cfg.GitCommit, cfg.GitPush)
 	if err != nil {
@@ -1535,6 +1539,8 @@ func NewServer(cfg Config) (*Server, error) {
 	stateDir := envOr("EMILY_STATE_DIR", "./emily-state")
 	srv.emiree = NewEmireeAgent(stateDir)
 	log.Printf("emiree: %s", srv.emiree.State.Summary())
+	cronCfg := defaultCronConfig()
+	srv.cycle = NewAutonomousCycle(cronCfg, pipeline, srv.gmail)
 	return srv, nil
 }
 
@@ -2064,6 +2070,9 @@ func main() {
 	mux.HandleFunc("/api/v1/emily/run", srv.handleRun)
 	mux.HandleFunc("/api/v1/emily/fable/advice", srv.handleFableAdvice)
 	mux.HandleFunc("/api/v1/emily/fable/execute", srv.handleFableExecute)
+	mux.HandleFunc("/api/v1/emily/cycle", srv.handleCycleTrigger)
+	mux.HandleFunc("/api/v1/emily/state", srv.handleCycleState)
+	mux.HandleFunc("/api/v1/emily/roadmap/items", srv.handleRoadmapItems)
 
 	addr := ":" + cfg.Port
 	log.Printf("Emily agent  ->  http://localhost%s", addr)
