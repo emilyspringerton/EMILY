@@ -161,10 +161,22 @@ func (s *IntegrationStore) WriteTask(task DirectedTask) error {
 	if task.TaskID == "" {
 		task.TaskID = fmt.Sprintf("task-%d", time.Now().UnixNano())
 	}
+
+	// Deduplication: skip if an identical task (same type + description) was written
+	// in the last 4 hours. The triage cycle runs every 5 minutes and re-scores the
+	// same observations on each pass; without this guard, a single high-relevance
+	// observation generates a new task file every cycle, flooding the dispatch queue
+	// and causing duplicate Claude Code sessions (~100K tokens each).
+	tasksDir := filepath.Join(s.signalsDir, "tasks")
+	if s.recentDuplicateExists(tasksDir, task.TaskType, task.Description) {
+		log.Printf("integration: skipping duplicate task type=%s (identical task pending within 4h)", task.TaskType)
+		return nil
+	}
+
 	fname := fmt.Sprintf("%s-%s.json",
 		strings.ReplaceAll(task.Timestamp, ":", ""),
 		task.TaskID)
-	path := filepath.Join(s.signalsDir, "tasks", fname)
+	path := filepath.Join(tasksDir, fname)
 	data, err := json.MarshalIndent(task, "", "  ")
 	if err != nil {
 		return err
@@ -174,6 +186,38 @@ func (s *IntegrationStore) WriteTask(task DirectedTask) error {
 	}
 	s.gitCommit(path, "task: "+task.Description)
 	return nil
+}
+
+// recentDuplicateExists scans the tasks directory for a task with matching type
+// and description written within the last 4 hours. Caller must hold s.mu.
+func (s *IntegrationStore) recentDuplicateExists(dir, taskType, description string) bool {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return false
+	}
+	// Cutoff in filename format: RFC3339 with colons stripped, e.g. "2026-06-10T102648Z".
+	cutoff := strings.ReplaceAll(
+		time.Now().UTC().Add(-4*time.Hour).Format(time.RFC3339), ":", "")
+	for _, e := range entries {
+		if e.IsDir() || !strings.HasSuffix(e.Name(), ".json") || strings.HasPrefix(e.Name(), ".") {
+			continue
+		}
+		if e.Name() < cutoff {
+			continue
+		}
+		data, err := os.ReadFile(filepath.Join(dir, e.Name()))
+		if err != nil {
+			continue
+		}
+		var t DirectedTask
+		if err := json.Unmarshal(data, &t); err != nil {
+			continue
+		}
+		if t.TaskType == taskType && t.Description == description {
+			return true
+		}
+	}
+	return false
 }
 
 // ReadObservations returns the N most recent observations (sorted descending).

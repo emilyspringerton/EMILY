@@ -1473,7 +1473,7 @@ func NewServer(cfg Config) (*Server, error) {
 	// Normalise any legacy GPT model names to Claude equivalents.
 	switch cfg.Model {
 	case "gpt-4o":
-		cfg.Model = "claude-sonnet-4-6"
+		cfg.Model = "claude-haiku-4-5-20250101"
 	case "gpt-4o-mini", "":
 		cfg.Model = "claude-haiku-4-5-20251001"
 	}
