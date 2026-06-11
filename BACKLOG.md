@@ -90,17 +90,6 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
 
-- [ ] **TUI: process handling broken on clean reboot** — TUI process list no longer works
-  after a fresh boot. Was working previously. Root cause unknown; likely systemd or PATH
-  issue. — obs `2026-06-10T00:25:48Z`.
-
-- [ ] **TUI: hang on graceful exit (ctrl+q) still present** — Even after the ctrl+c fix,
-  a hang sometimes occurs when quitting with 'q'. Investigate tview/tcell teardown.
-  — obs `2026-06-07T22:53:25Z`.
-
-- [ ] **TUI: graceful ctrl+c exit** — Ensure ctrl+c always cleanly exits the TUI session
-  without leaving terminal in raw mode. — obs `2026-06-07T21:26:18Z`.
-
 - [ ] **TUI: show real-time clock** — Add a live clock (HH:MM:SS) to the TUI header bar.
   — obs `2026-06-07T21:27:44Z`.
 

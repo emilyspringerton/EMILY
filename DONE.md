@@ -107,3 +107,10 @@
 
 - [x] **IDUNA login page + admin dashboard** — `/admin/login` (agent creds → cookie → redirect), `/admin` (overview, users, agents, audit, apples). RequireCookieAuth middleware. Static files wired. README updated. IDUNA commit b173665. Apple #328. — obs `2026-06-10T22:01:42Z`. Done: 2026-06-11.
 
+
+## Archived 2026-06-11
+
+### SECTION 6: RSI TIGHTENING (next horizon)
+
+- [x] **TUI: process list + quit hang (clean reboot + ctrl+q)** — Root causes: (1) `systemctl --user` blocking without timeout on fresh boot → added `context.WithTimeout(2s)` + "D-Bus timeout" fallback message; (2) goroutines calling `QueueUpdateDraw` after `app.Stop()` → added `tuiLogger.stopped` guard, 'q' now calls `ticker.Stop()` + `logger.setStopped()` before `app.Stop()`; (3) emily-agent missing from process list → added. emily.cli commit 807318d. Apple #329. — obs `2026-06-10T00:25:48Z`, `2026-06-07T22:53:25Z`, `2026-06-07T21:26:18Z`. Done: 2026-06-11.
+

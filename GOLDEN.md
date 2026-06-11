@@ -6,7 +6,7 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 37 open, 0 done (archived), 11 intake pending
+## BACKLOG STATUS: 34 open, 0 done (archived), 11 intake pending
 
 ## OPEN ITEMS
 
@@ -30,10 +30,7 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • MySQL wire protocol embedded server — go-mysql-server as in-process backend.
 • Tyler IDUNA agent registration via iduna CLI — `iduna agents register --id tyler`
 
-### SECTION 6: RSI TIGHTENING (next horizon) (9 open, 0 done)
-• TUI: process handling broken on clean reboot — TUI process list no longer works
-• TUI: hang on graceful exit (ctrl+q) still present — Even after the ctrl+c fix,
-• TUI: graceful ctrl+c exit — Ensure ctrl+c always cleanly exits the TUI session
+### SECTION 6: RSI TIGHTENING (next horizon) (6 open, 0 done)
 • TUI: show real-time clock — Add a live clock (HH:MM:SS) to the TUI header bar.
 • TUI: fatbaby mode — TUI should show PRRJECT_FATBABY data (signal feed, entity graph,
 • emily cli status: show all fatbaby processes — `emily status --fatbaby` should list
