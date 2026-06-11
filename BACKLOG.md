@@ -38,10 +38,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything)
 
-- [ ] **Apple instrumentation audit** — Enumerate all system events that should post an Apple
+- [x] **Apple instrumentation audit** — Enumerate all system events that should post an Apple
   but don't: cron triggers, observation drops, haiku call failures, HEIMDAL state changes,
   FCM failures. Create `emily eo` observations for each gap found.
-  — obs `2026-06-11T01:24:22Z`.
+  — obs `2026-06-11T01:24:22Z`. Done 2026-06-11. Apple #344. Commit EMILY 8ea558a.
   (Note: obs-watcher now posts warning Apple on permanent invoke failure — partial gap closed.)
 
 - [ ] **Single log stream** — All system inputs (obs-watcher, rsi-loop, emily-agent, IDUNA,
