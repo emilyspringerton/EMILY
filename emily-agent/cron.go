@@ -301,6 +301,17 @@ func (ac *AutonomousCycle) RunOnce() error {
 					Data:     data,
 				}); err != nil {
 					log.Printf("briefing: send failed: %v", err)
+					// File an escalation Apple so the failure is visible in the audit trail.
+					if iduna != nil {
+						failCtx, fcancel := context.WithTimeout(context.Background(), 8*time.Second)
+						defer fcancel()
+						_, _ = iduna.PostApple(failCtx, ApplePayload{
+							AppleType:  "escalation",
+							SourceRepo: "EMILY",
+							Title:      "morning briefing FCM send failed",
+							Body:       fmt.Sprintf("error: %v\ntitle: %s", err, title),
+						})
+					}
 				}
 			}
 		}

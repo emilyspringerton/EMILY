@@ -73,12 +73,26 @@ func runMorningBriefing(ctx context.Context, iduna *IdunaClient, push PushFunc, 
 	log.Printf("briefing: firing morning push — %d apples in 24h", len(recent))
 
 	go push(title, body, map[string]string{
-		"deep_link":      "mjolnir://feed",
-		"briefing_date":  time.Now().UTC().Format("2006-01-02"),
-		"apple_count":    fmt.Sprintf("%d", len(recent)),
+		"deep_link":     "mjolnir://feed",
+		"briefing_date": time.Now().UTC().Format("2006-01-02"),
+		"apple_count":   fmt.Sprintf("%d", len(recent)),
 	})
 
 	markBriefingSent(stateDir)
+
+	// File a status Apple so the briefing is visible in the audit trail.
+	if iduna != nil {
+		go func() {
+			appleCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
+			_, _ = iduna.PostApple(appleCtx, ApplePayload{
+				AppleType:  "status",
+				SourceRepo: "EMILY",
+				Title:      fmt.Sprintf("morning briefing sent — %d apples in 24h", len(recent)),
+				Body:       body,
+			})
+		}()
+	}
 }
 
 // buildBriefingMessage turns a list of recent Apples into push title + body.
