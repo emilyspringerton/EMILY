@@ -497,6 +497,77 @@ and promotes them into the appropriate section when she plans the next sprint.
 - [ ] **i want an emily.cli command that ensures all observations have been added to the golden backlog** — obs `2026-06-10T22:53:31Z`. CURATED: 2026-06-11.
 - [ ] **IDUNA LOGIN PAGE and ADMIN DASHBOARD - is it built? if not build it - if it is built add to the readme how to get to th…** — obs `2026-06-10T22:01:42Z`. CURATED: 2026-06-11.
 - [ ] **RSI cycle 6: conditional rules inlining + dedup process list** — obs `2026-06-10T20:34:42Z`. CURATED: 2026-06-11.
+- [ ] **what is emily sync? is it pulling observations from fatbaby and pushing them to emily prime to curate the golden backlo…** — obs `2026-06-11T01:26:02Z`. CURATED: 2026-06-11.
+- [ ] **prime task complete: token efficiency RSI cycle 3 — extractLessons + batch-window optimisations** — obs `2026-06-10T15:26:13Z`. CURATED: 2026-06-11.
+- [ ] **RSI token efficiency: prompt caching implemented (task-5310742279807206135)** — obs `2026-06-10T10:24:15Z`. CURATED: 2026-06-11.
+- [ ] **prime task complete** — obs `2026-06-10T10:20:14Z`. CURATED: 2026-06-11.
+- [ ] ** go run . apples list
+error: iduna auth: Post "http://localhost:8080/api/v1/auth/agent": dial tcp [::1]:8080: connect: …** — obs `2026-06-10T00:51:05Z`. CURATED: 2026-06-11.
+- [ ] **gpt-2 c fork git@github.com:emilyspringerton/gpt2-alpine-c.git parity with og gpt-2 repo (we may heve to build tensorfl…** — obs `2026-06-10T00:50:04Z`. CURATED: 2026-06-11.
+- [ ] **gpt-2 as an entropy source** — obs `2026-06-10T00:48:37Z`. CURATED: 2026-06-11.
+- [ ] **i think there is a tui bug with the process handling it no longer works on a clean reboot it used to** — obs `2026-06-10T00:25:48Z`. CURATED: 2026-06-11.
+- [ ] **RSI cycle: S07E05 Vienna 1938 complete (Build 0071) — FIRST COMPREHENDED AMPLIFICATION (A-282, 52ft, rule revised), S…** — obs `2026-06-09T09:35:53Z`. CURATED: 2026-06-11.
+- [ ] **RSI cycle: S07E03 RESONANT CUSTODIAN, S07E04 Paris complete (FIRST PRE-AWARENESS REFUSAL), SHANKPIT cross-scene attack …** — obs `2026-06-09T09:22:40Z`. CURATED: 2026-06-11.
+- [ ] **S07E02 'Paris' complete: A-274 Rue de Fleurus 163ft, dual-layer construction (Stein salon + Tyler 1931), Council Sessio…** — obs `2026-06-09T09:10:08Z`. CURATED: 2026-06-11.
+- [ ] **RSI cycle complete: TYLER S07E02 'Paris' (Build 0068) — A-274 measured 163ft, dual-layer construction (Stein salon + …** — obs `2026-06-09T09:09:55Z`. CURATED: 2026-06-11.
+- [ ] **RSI cycle complete: TYLER S07E02 'Paris' (Build 0068) — A-274 measured 163ft, dual-layer construction (Stein salon + …** — obs `2026-06-09T09:09:55Z`. CURATED: 2026-06-11.
+- [ ] **RSI session complete: golden backlog synced, TYLER S07E01, SHANKPIT Layer 2 portal ack + scene snapshot, obs batching, …** — obs `2026-06-09T02:00:00Z`. CURATED: 2026-06-11.
+- [ ] **RSI session complete: golden backlog synced, TYLER S07E01, SHANKPIT Layer 2 portal ack + scene snapshot, obs batching, …** — obs `2026-06-09T02:00:00Z`. CURATED: 2026-06-11.
+- [ ] **RSI cycle complete: director_long_tenure noise fixed, preset rotation + FatBaby tick wired, eo alias added, golden back…** — obs `2026-06-08T21:37:59Z`. CURATED: 2026-06-11.
+- [ ] **tuo** — obs `2026-06-08T21:25:37Z`. CURATED: 2026-06-11.
+- [ ] **dedicated emily observe command eo** — obs `2026-06-08T09:42:56Z`. CURATED: 2026-06-11.
+- [ ] **auto git sync all apples with dedicated APPLES repo in real-ish time** — obs `2026-06-08T09:41:45Z`. CURATED: 2026-06-11.
+- [ ] **add emily.cli to emily.cli status including the pid of the tui** — obs `2026-06-07T23:00:33Z`. CURATED: 2026-06-11.
+- [ ] **fosho the bug with the emily.cli tui hang still exists even if we hit q to exit gracefully (unsure if it always happens…** — obs `2026-06-07T22:53:25Z`. CURATED: 2026-06-11.
+- [ ] **if fatbaby observation watcher is started during a claude rate limit a prime task may be skipped** — obs `2026-06-07T22:50:41Z`. CURATED: 2026-06-11.
+- [ ] **filing observations are intentionally uneditable but what happens when a human screws up and types the wrong thing? do …** — obs `2026-06-07T22:05:53Z`. CURATED: 2026-06-11.
+- [ ] **TYLER expand the role of the phoen** — obs `2026-06-07T22:04:47Z`. CURATED: 2026-06-11.
+- [ ] **ensure observation watcher correctly invokes claude** — obs `2026-06-07T21:58:51Z`. CURATED: 2026-06-11.
+- [ ] **it seems like some of our RSI work leaves dirty stuff in EMILY repo - i think the rsi stuff should be commiting it or w…** — obs `2026-06-07T21:56:51Z`. CURATED: 2026-06-11.
+- [ ] **add TYLER specific cutscene functionality - audit the capabilities of SHANKPIT for scripting cutscenes like in ffxi (di…** — obs `2026-06-07T21:55:11Z`. CURATED: 2026-06-11.
+- [ ] **news site 500s - iduna related? too big of an index to query? dependent processes? (i started the news site manualy)** — obs `2026-06-07T21:43:40Z`. CURATED: 2026-06-11.
+- [ ] **emily cli status should show all of the fatbaby processes if we pass a fatbaby flag** — obs `2026-06-07T21:35:59Z`. CURATED: 2026-06-11.
+- [ ] **the tui should show the real time if possible** — obs `2026-06-07T21:27:44Z`. CURATED: 2026-06-11.
+- [ ] **TUI should show fatbaby data via menu controls (fatbaby mode)** — obs `2026-06-07T21:27:09Z`. CURATED: 2026-06-11.
+- [ ] **TUI hang ensure fixed (gracfully exit the session when we kill it with ctrl c** — obs `2026-06-07T21:26:18Z`. CURATED: 2026-06-11.
+- [ ] **fatbaby@localhost:~/emily.cli$ systemctl --user status daemon-reload
+Failed to connect to bus: Permission denied
+fatbab…** — obs `2026-06-07T21:23:23Z`. CURATED: 2026-06-11.
+- [ ] **fatbaby news site does not start via emily cli start (all)** — obs `2026-06-07T21:18:53Z`. CURATED: 2026-06-11.
+- [ ] **tic toc rsi loop should send an in universe "memo" to emily in the TYLER repo - then we need to commit and push that an…** — obs `2026-06-07T20:52:45Z`. CURATED: 2026-06-11.
+- [ ] **tic toc rsi loop should send an in universe `memo` to emily in the TYLER repo - then we need to commit and push that an…** — obs `2026-06-07T20:52:31Z`. CURATED: 2026-06-11.
+- [ ] **tic toc rsi loop should send an in universe memo to emily in the TYLER repo - then we need to commit and push that and …** — obs `2026-06-07T20:52:16Z`. CURATED: 2026-06-11.
+- [ ] **RSI session 4 complete (Iterations 6-8). emily.cli: PROCESSES panel (obs-watcher, emily-sync.service, latest obs, prime…** — obs `2026-06-07T09:41:20Z`. CURATED: 2026-06-11.
+- [ ] **RSI session 3 complete. Iterations 3-5: COMMANDS.md v0.5.0, IDUNA systemd unit (scripts/iduna.service), 9 obs synced (A…** — obs `2026-06-07T09:36:21Z`. CURATED: 2026-06-11.
+- [ ] **emily.cli RSI cycle — all backlog sections complete** — obs `2026-06-07T09:21:54Z`. CURATED: 2026-06-11.
+- [ ] **emily.cli v0.5.0 full RSI loop closed** — obs `2026-06-07T09:14:56Z`. CURATED: 2026-06-11.
+- [ ] **emily.cli v0.5.0 RSI cycle complete** — obs `2026-06-07T09:05:51Z`. CURATED: 2026-06-11.
+- [ ] **emily.cli SECTION 1 CORE BACKLOG complete** — obs `2026-06-07T08:04:35Z`. CURATED: 2026-06-11.
+- [ ] **emily.cli v0.3.0 RSI cycle complete** — obs `2026-06-07T08:02:42Z`. CURATED: 2026-06-11.
+- [ ] **emily v0.2.0 auto-Apple test** — obs `2026-06-07T07:54:52Z`. CURATED: 2026-06-11.
+- [ ] **emily.cli RSI self-test — checking observe auto-Apple** — obs `2026-06-07T07:54:44Z`. CURATED: 2026-06-11.
+- [ ] **emily observe should auto-post an Apple to IDUNA when credentials are available — the observation should be visible i…** — obs `2026-06-07T07:53:41Z`. CURATED: 2026-06-11.
+- [ ] **emily.cli first real observation — CLI is live** — obs `2026-06-07T02:49:12Z`. CURATED: 2026-06-11.
+- [ ] **RSI: Item 5.02 leadership parser + dividend-watcher — 5 new signal types, dataset report Tier 1+2 complete** — obs `2026-06-04T10:00:00Z`. CURATED: 2026-06-11.
+- [ ] **RSI: Form 4 insider watcher + governance health trend — insider signals now flow into entity-graph** — obs `2026-06-04T08:00:00Z`. CURATED: 2026-06-11.
+- [ ] **IDUNA bootstrap + vision docs complete — system can now come online without manual steps** — obs `2026-06-03T13:30:00Z`. CURATED: 2026-06-11.
+- [ ] **Jon Stockwell agent implemented — EINHORN_INDUSTRIAL options strategist live** — obs `2026-06-03T12:00:00Z`. CURATED: 2026-06-11.
+- [ ] **observation-watcher cannot invoke Claude Code — claude CLI not in PATH** — obs `2026-05-31T21:37:50Z`. CURATED: 2026-06-11.
+- [ ] **Expand ticker coverage using a static curated watchlist — not dynamic discovery — to avoid O(n²) and rate limit is…** — obs `2026-05-31T21:06:30Z`. CURATED: 2026-06-11.
+- [ ] **observation-watcher must inject full reporting and git sync requirements into the Claude Code prompt** — obs `2026-05-31T20:56:45Z`. CURATED: 2026-06-11.
+- [ ] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11.
+- [ ] **Feature: create a GitHub issue automatically whenever Emily writes an observation** — obs `2026-05-31T20:41:56Z`. CURATED: 2026-06-11.
+- [ ] **UX: ticker search should auto-navigate on click and on Enter key — remove redundant Go button step** — obs `2026-05-31T20:39:51Z`. CURATED: 2026-06-11.
+- [ ] **Bug: newssite articles use publication date not filing date — historical filings appear as breaking news** — obs `2026-05-30T22:14:19Z`. CURATED: 2026-06-11.
+- [ ] **Feature request: self-improving model training pipeline — user data flywheel for Emily fine-tuning** — obs `2026-05-30T22:10:22Z`. CURATED: 2026-06-11.
+- [ ] **Feature request: full GTM funnel — Ask Emily free tier, Emily+ subscription, community editorial engine, Merkle query…** — obs `2026-05-30T22:02:43Z`. CURATED: 2026-06-11.
+- [ ] **Feature request: newssite ingest endpoint for Emily-authored governance commentary articles** — obs `2026-05-30T21:53:49Z`. CURATED: 2026-06-11.
+- [ ] **EDGAR submissions endpoint returning truncated JSON for all 5 major bank tickers — BAC, C, GS, JPM, MS** — obs `2026-05-30T21:45:32Z`. CURATED: 2026-06-11.
+- [ ] **entity-graph cannot detect 8-K documents from persisted store — form/source_type field mismatch, 846 docs unprocessab…** — obs `2026-05-30T21:32:12Z`. CURATED: 2026-06-11.
+- [ ] **entity-graph parsing all 8-K subtypes — Item 5.07 not found in non-proxy filings, producing 100% parse failure rate** — obs `2026-05-30T21:29:24Z`. CURATED: 2026-06-11.
+- [ ] **entity-graph reads 0 filings despite 846 source documents in var/secwatch** — obs `2026-05-30T09:52:12Z`. CURATED: 2026-06-11.
+- [ ] **eps-processor ticker map has only 2 entries — all press releases are being dropped silently** — obs `2026-05-30T09:46:52Z`. CURATED: 2026-06-11.
+- [ ] **eps-processor ticker map has only 2 entries — all press releases are being dropped silently** — obs `2026-05-30T09:42:55Z`. CURATED: 2026-06-11.
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
