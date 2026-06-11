@@ -6,7 +6,9 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 30 open, 4 done (archived), 11 intake pending
+## BACKLOG STATUS: 24 open, 10 done (archived), 11 intake pending
+
+## COMPLETE (no open items): S6:RSI · S12:HEIMDAL
 
 ## OPEN ITEMS
 
@@ -15,11 +17,9 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • S01E01 cold open compiled clip — Once MPT is running, run the cold open compilation.
 • MPT → TYLER RSI trigger — When emily.sh produces a new episode script, auto-invoke
 
-### SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything) (4 open, 0 done)
+### SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything) (2 open, 2 done)
 • Apple instrumentation audit — Enumerate all system events that should post an Apple
 • Single log stream — All system inputs (obs-watcher, rsi-loop, emily-agent, IDUNA,
-• Apples IDUNA→APPLES git sync — IDUNA is the source of truth; APPLES repo must stay
-• Golden context feed via Apples — Beyond GOLDEN.md (backlog compress), feed a
 
 ### SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority) (3 open, 0 done)
 • SHANKPIT → MPT bridge — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
@@ -30,15 +30,8 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • MySQL wire protocol embedded server — go-mysql-server as in-process backend.
 • Tyler IDUNA agent registration via iduna CLI — `iduna agents register --id tyler`
 
-### SECTION 6: RSI TIGHTENING (next horizon) (2 open, 4 done)
-• TUI: fatbaby mode — TUI should show PRRJECT_FATBABY data (signal feed, entity graph,
-• obs-watcher: rate-limit resilience — If obs-watcher is started during a Claude
-
 ### SECTION 10: EMILY PRIME SELENIUM / WEB AUDIT (1 open, 0 done)
 • Web audit as front door validator — Once MJOLNIR WebView targets are live
-
-### SECTION 12: HEIMDAL — Sprint Planning Interface (1 open, 0 done)
-• HEIMDAL status feedback — When an RSI task (heimdal-N) completes or is blocked,
 
 ### SECTION 13: GOLDEN DOCS + SYSTEM CONTEXT HYGIENE (2 open, 0 done)
 • Golden docs audit — Review all northstar/golden documentation across all repos
@@ -56,9 +49,8 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • FABLE→HEIMDAL integration — Wire emily prime haiku/sonnet FABLE advisor into
 • Emily Prime API — Emily Prime needs a stable API so external orchestration
 
-### SECTION 17: NEWSSITE + GTM (product growth) (6 open, 0 done)
+### SECTION 17: NEWSSITE + GTM (product growth) (5 open, 1 done)
 • Newssite: stock charts — Build an in-house charting library for the newssite.
-• Newssite: use filing date not publication date — Historical filings appear as
 • Newssite: 500 errors investigation — News site returns 500s (IDUNA related? index
 • Newssite: Emily-authored governance commentary ingest endpoint — Add an ingest
 • GTM funnel — Full product funnel: Ask Emily free tier, Emily+ subscription,
