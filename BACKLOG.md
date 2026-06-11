@@ -229,7 +229,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `emily start --newssite` and `--all` added (newssite was missing entirely).
   — obs `2026-06-07T21:43:40Z`. Done 2026-06-11. Apple #337.
 
-- [ ] **Newssite: Emily-authored governance commentary ingest endpoint** — Add an ingest
+- [x] **Newssite: Emily-authored governance commentary ingest endpoint** — Add an ingest
   endpoint so Emily Prime can POST original governance commentary articles directly to the
   newssite CMS. — obs `2026-05-30T21:53:49Z`.
 
