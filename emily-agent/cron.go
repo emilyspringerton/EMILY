@@ -163,6 +163,12 @@ func (ac *AutonomousCycle) RunOnce() error {
 	state.Metrics.TotalCycles++
 	log.Printf("[cycle %d] observe: active_task=%s roadmap_items=%d",
 		state.CycleNumber, state.ActiveTaskID, len(state.Roadmap))
+	sPath := streamPath(ac.cfg.StateDir)
+	appendStream(sPath, StreamEntry{
+		Type:  "cycle_start",
+		Cycle: state.CycleNumber,
+		Msg:   fmt.Sprintf("active_task=%s roadmap_items=%d", state.ActiveTaskID, len(state.Roadmap)),
+	})
 
 	// PHASE 2: DECIDE — pick what to work on this cycle (gear-aware)
 	rec.Phase = PhaseDecide
@@ -369,11 +375,30 @@ func (ac *AutonomousCycle) RunOnce() error {
 				log.Printf("[cycle %d] apple: submit failed (non-fatal): %v", state.CycleNumber, err)
 			} else {
 				log.Printf("[cycle %d] apple: submitted id=%d type=%s", state.CycleNumber, id, payload.AppleType)
+				appendStream(sPath, StreamEntry{
+					Type:  "apple_filed",
+					Cycle: state.CycleNumber,
+					Msg:   payload.Title,
+					Data:  map[string]any{"id": id, "apple_type": payload.AppleType},
+				})
 			}
 		}()
 	}
 
-	log.Printf("[cycle %d] complete in %s", state.CycleNumber, time.Since(rec.StartedAt).Round(time.Second))
+	duration := time.Since(rec.StartedAt).Round(time.Second)
+	log.Printf("[cycle %d] complete in %s", state.CycleNumber, duration)
+	appendStream(sPath, StreamEntry{
+		Type:  "cycle_end",
+		Cycle: state.CycleNumber,
+		Msg:   rec.Outcome,
+		Data: map[string]any{
+			"duration_s":   duration.Seconds(),
+			"phase":        string(rec.Phase),
+			"error":        rec.Error,
+			"total_cycles": state.Metrics.TotalCycles,
+			"tasks_done":   state.Metrics.TasksCompleted,
+		},
+	})
 	return nil
 }
 
