@@ -248,7 +248,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 Items below require `ANTHROPIC_API_KEY` for haiku routing or manual triage.
 Run: `emily backlog promote --limit=50 --batch=15`
 
-- [ ] **UX: ticker search should auto-navigate on click and on Enter key — remove redundant Go button step** — obs `2026-05-31T20:39:51Z`. CURATED: 2026-06-11.
+- [x] **UX: ticker search should auto-navigate on click and on Enter key — remove redundant Go button step** — Form submit + datalist selection now navigate directly to /ticker/{q}; /search intermediate step eliminated. 'change' event added for cross-browser compat. — obs `2026-05-31T20:39:51Z`. Done 2026-06-11. Apple #339.
 - [ ] **Feature: create a GitHub issue automatically whenever Emily writes an observation** — obs `2026-05-31T20:41:56Z`. CURATED: 2026-06-11.
 - [ ] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11.
 - [ ] **observation-watcher must inject full reporting and git sync requirements into the Claude Code prompt** — obs `2026-05-31T20:56:45Z`. CURATED: 2026-06-11.
