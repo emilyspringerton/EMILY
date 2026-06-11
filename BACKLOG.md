@@ -490,6 +490,56 @@ and promotes them into the appropriate section when she plans the next sprint.
 
 ---
 
+- [ ] **emily prime should have all of the api capabilities of the emily.cli command** — obs `2026-06-10T23:38:51Z`. CURATED: 2026-06-11.
+- [ ] **how are these prime-task s getting fired off? is that claude via the observation watcher? or is that claude larping as …** — obs `2026-06-10T23:36:46Z`. CURATED: 2026-06-11.
+- [ ] **the apples need to all be synced into the git repo APPLES (IDUNA needs to do it because she is the APPLES source of tru…** — obs `2026-06-10T23:35:13Z`. CURATED: 2026-06-11.
+- [ ] **i think we may need to review all of the golden documentations in all the repos and update the emily prime system propt…** — obs `2026-06-10T23:33:35Z`. CURATED: 2026-06-11.
+- [ ] **the observation watcher needs to fire the observations into the golden backlog as emily prime - a separate task runner …** — obs `2026-06-10T23:29:39Z`. CURATED: 2026-06-11.
+- [ ] **i want an emily.cli command that ensures all observations have been added to the golden backlog** — obs `2026-06-10T22:53:31Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 171 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:27:27Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 170 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:23:48Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 169 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:20:09Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 168 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:16:30Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 167 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:12:51Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 166 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:09:13Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 165 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:05:34Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 164 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T22:01:55Z`. CURATED: 2026-06-11.
+- [ ] **IDUNA LOGIN PAGE and ADMIN DASHBOARD - is it built? if not build it - if it is built add to the readme how to get to th…** — obs `2026-06-10T22:01:42Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 163 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:58:16Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 162 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:54:37Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 161 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:50:58Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 160 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:47:19Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 159 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:43:40Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 158 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:40:01Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 157 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:36:21Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 156 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:32:43Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 155 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:29:04Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 154 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:25:25Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 153 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:21:47Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 152 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:18:08Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 151 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:14:29Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 150 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:10:50Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 149 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:07:11Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 148 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T21:03:32Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 147 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:59:53Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 146 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:56:14Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 145 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:52:35Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 144 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:48:56Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 143 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:45:17Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 142 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:41:39Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 141 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:38:00Z`. CURATED: 2026-06-11.
+- [ ] **RSI cycle 6: conditional rules inlining + dedup process list** — obs `2026-06-10T20:34:42Z`. CURATED: 2026-06-11.
+- [ ] **prime task complete: prime-task dedup gate (task-2869191005352699116)** — obs `2026-06-10T20:29:52Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 140 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:08:40Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 139 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:05:01Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 138 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T20:01:22Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 137 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T19:57:43Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 136 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T19:54:04Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 135 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T19:50:25Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 134 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T19:46:46Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 133 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T19:43:07Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 132 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T19:39:28Z`. CURATED: 2026-06-11.
+- [ ] **RSI loop iteration 131 complete — FatBaby+Tyler tic-toc cycle done** — obs `2026-06-10T19:35:48Z`. CURATED: 2026-06-11.
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
