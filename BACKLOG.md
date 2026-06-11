@@ -250,7 +250,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **UX: ticker search should auto-navigate on click and on Enter key — remove redundant Go button step** — Form submit + datalist selection now navigate directly to /ticker/{q}; /search intermediate step eliminated. 'change' event added for cross-browser compat. — obs `2026-05-31T20:39:51Z`. Done 2026-06-11. Apple #339.
 - [ ] **Feature: create a GitHub issue automatically whenever Emily writes an observation** — obs `2026-05-31T20:41:56Z`. CURATED: 2026-06-11.
-- [ ] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11.
+- [x] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11. Apple #342 2026-06-11.
 - [x] **observation-watcher must inject full reporting and git sync requirements into the Claude Code prompt** — runReportFooter updated: Apple now required (not optional), BACKLOG.md marking step added, git add -A. — obs `2026-05-31T20:56:45Z`. Done 2026-06-11. Apple #340.
 - [x] **EDGAR submissions endpoint returning truncated JSON for all 5 major bank tickers — BAC, C, GS, JPM, MS** — maxBodyBytes increased from 64MB to 256MB in secwatch/client.go. — obs `2026-05-30T21:45:32Z`. Done 2026-06-11. Apple #341.
 - [x] **entity-graph cannot detect 8-K documents from persisted store — form/source_type field mismatch** — buildFilingIndexes now returns form type map; 4th detection path via filing_discovered events recovers 880/1104 legacy docs. — obs `2026-05-30T21:32:12Z`. Done 2026-06-11. Apple #338.
