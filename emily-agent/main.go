@@ -43,6 +43,9 @@ import (
 type Config struct {
 	Port            string
 	ConversationDir string
+	EmilyRoot       string
+	FatBabyRoot     string
+	IDUNARoot       string
 	Model           string
 	GitCommit       bool
 	GitPush         bool
@@ -70,6 +73,9 @@ func loadConfig() Config {
 	return Config{
 		Port:            envOr("PORT", "8086"),
 		ConversationDir: envOr("CONVERSATION_DIR", "./emily-memory"),
+		EmilyRoot:       envOr("EMILY_ROOT", "/home/fatbaby/EMILY"),
+		FatBabyRoot:     envOr("FATBABY_ROOT", "/home/fatbaby/PRRJECT_FATBABY"),
+		IDUNARoot:       envOr("IDUNA_ROOT", "/home/fatbaby/IDUNA"),
 		Model:           envOr("MODEL", "claude-haiku-4-5-20251001"),
 		GitCommit:       gitCommit,
 		GitPush:         gitPush,
@@ -1487,6 +1493,7 @@ func NewServer(cfg Config) (*Server, error) {
 	dispatcher := NewToolDispatcher()
 	registerGitTools(dispatcher, cfg.ConversationDir)
 	registerWebAuditTools(dispatcher)
+	registerEmilyPrimeTools(dispatcher, cfg.EmilyRoot, cfg.FatBabyRoot, cfg.IDUNARoot)
 	log.Printf("tools registered: %d", len(dispatcher.Defs()))
 	for _, t := range dispatcher.Defs() {
 		log.Printf("  * %s", t.Name)
