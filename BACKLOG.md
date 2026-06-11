@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-11 | manual promote pass; sections 14-17 added; INTAKE 48→18
+### Last updated: 2026-06-11 | S6 items done (--fatbaby, obs amend, TUI fixes) — Apple #330
 
 ---
 
@@ -90,26 +90,29 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
 
-- [ ] **TUI: show real-time clock** — Add a live clock (HH:MM:SS) to the TUI header bar.
-  — obs `2026-06-07T21:27:44Z`.
+- [x] **TUI: show real-time clock** — Already implemented via 1s clockTicker in tui.go.
+  Verified 2026-06-11. Apple #330.
+
+- [x] **emily cli status: show all fatbaby processes** — `emily status --fatbaby` lists
+  all PRRJECT_FATBABY processes (newssite, signalapi, eps-processor, eps-reconciler,
+  entity-graph, observation-watcher, secwatch) + IDUNA health. Also works in --watch mode.
+  — obs `2026-06-07T21:35:59Z`. Apple #330. Committed emily.cli 8e0d1be.
+
+- [x] **emily cli status: include emily.cli TUI PID** — `emily status` now reads
+  `/tmp/emily-tui.pid` and checks liveness via kill -0. — obs `2026-06-07T23:00:33Z`.
+  Apple #330. Committed emily.cli 8e0d1be.
+
+- [x] **emily observe: typo correction mechanism** — `emily obs amend <key> <correction>`
+  appends a correction note (original summary preserved); Amendment+AmendedAt fields added
+  to obs.Payload JSON schema. — obs `2026-06-07T22:05:53Z`. Apple #330. Committed emily.cli 8e0d1be.
 
 - [ ] **TUI: fatbaby mode** — TUI should show PRRJECT_FATBABY data (signal feed, entity graph,
   eps-processor status) via menu controls when `--fatbaby` flag is set.
   — obs `2026-06-07T21:27:09Z`.
 
-- [ ] **emily cli status: show all fatbaby processes** — `emily status --fatbaby` should list
-  all PRRJECT_FATBABY processes and their PIDs. — obs `2026-06-07T21:35:59Z`.
-
-- [ ] **emily cli status: include emily.cli TUI PID** — `emily status` output should include
-  the PID of the running TUI process (if any). — obs `2026-06-07T23:00:33Z`.
-
 - [ ] **obs-watcher: rate-limit resilience** — If obs-watcher is started during a Claude
   API rate limit, the queued observation may be silently dropped. Add retry/backoff with
   exponential delay; surface drops as Apple events. — obs `2026-06-07T22:50:41Z`.
-
-- [ ] **emily observe: typo correction mechanism** — Observations are intentionally
-  immutable, but humans make typos. Add `emily obs amend <key> "<corrected text>"` that
-  appends a correction note (original preserved). — obs `2026-06-07T22:05:53Z`.
 
 ---
 

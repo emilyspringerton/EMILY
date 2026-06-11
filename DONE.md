@@ -114,3 +114,11 @@
 
 - [x] **TUI: process list + quit hang (clean reboot + ctrl+q)** — Root causes: (1) `systemctl --user` blocking without timeout on fresh boot → added `context.WithTimeout(2s)` + "D-Bus timeout" fallback message; (2) goroutines calling `QueueUpdateDraw` after `app.Stop()` → added `tuiLogger.stopped` guard, 'q' now calls `ticker.Stop()` + `logger.setStopped()` before `app.Stop()`; (3) emily-agent missing from process list → added. emily.cli commit 807318d. Apple #329. — obs `2026-06-10T00:25:48Z`, `2026-06-07T22:53:25Z`, `2026-06-07T21:26:18Z`. Done: 2026-06-11.
 
+- [x] **TUI: show real-time clock** — Verified: already implemented via 1s clockTicker + `time.Now().Format("2006-01-02 15:04:05")` in `renderHeader`. No code change needed. Apple #330. Done: 2026-06-11.
+
+- [x] **emily cli status: show all fatbaby processes** — `emily status --fatbaby` lists PRRJECT_FATBABY services (newssite, signalapi, eps-processor, eps-reconciler, entity-graph, observation-watcher, secwatch) + IDUNA health endpoint. Works in --watch mode too. — obs `2026-06-07T21:35:59Z`. Apple #330. Committed emily.cli 8e0d1be. Done: 2026-06-11.
+
+- [x] **emily cli status: include emily.cli TUI PID** — `emily status` reads `/tmp/emily-tui.pid`, verifies liveness with kill -0. — obs `2026-06-07T23:00:33Z`. Apple #330. Committed emily.cli 8e0d1be. Done: 2026-06-11.
+
+- [x] **emily observe: typo correction mechanism** — `emily obs amend <key> <correction>` appends Amendment+AmendedAt fields to observation JSON in-place; original summary preserved. obs.Payload schema updated. — obs `2026-06-07T22:05:53Z`. Apple #330. Committed emily.cli 8e0d1be. Done: 2026-06-11.
+
