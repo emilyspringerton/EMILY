@@ -879,8 +879,20 @@ func (s *IntegrationStore) runBacklogCuration() (int, error) {
 // isTrivialBacklogObs returns true for RSI completion pings and other status noise.
 func isTrivialBacklogObs(summary string) bool {
 	lower := strings.ToLower(summary)
-	for _, s := range []string{"rsi loop iteration", "tic-toc cycle done", "fatbaby+tyler tic-toc", "prime task complete:"} {
+	trivial := []string{
+		"rsi loop iteration", "tic-toc cycle done", "fatbaby+tyler tic-toc",
+		"prime task complete", "rsi cycle complete", "rsi session complete",
+		"rsi session ", "emily.cli v0.", "emily.cli rsi", "emily.cli section",
+		"emily.cli first real", "emily v0.2", "emily v0.3", "rsi: rsi loop",
+	}
+	for _, s := range trivial {
 		if strings.Contains(lower, s) {
+			return true
+		}
+	}
+	// Single-word typos / test observations.
+	for _, t := range []string{"tuo", "test", "ok"} {
+		if strings.EqualFold(strings.TrimSpace(summary), t) {
 			return true
 		}
 	}
@@ -1015,6 +1027,58 @@ func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipe
 		}
 	}
 
-	return fmt.Sprintf("triage complete observations=%d tasks_written=%d escalations=%d alerts_sent=%d backlog_curated=%d",
-		len(obs), tasksWritten, escalations, alertsSent, curated), nil
+	// Autonomous backlog promotion: classify INTAKE QUEUE items into numbered sections.
+	// Throttled internally to at most once per 30 min; no-ops if emily CLI unavailable.
+	promoted := 0
+	if store.gitRoot != "" {
+		if n, err := store.runBacklogPromotion(ctx); err != nil {
+			log.Printf("triage: backlog promotion error (non-fatal): %v", err)
+		} else if n > 0 {
+			promoted = n
+			log.Printf("triage: promoted %d items from INTAKE QUEUE", n)
+		}
+	}
+
+	return fmt.Sprintf("triage complete observations=%d tasks_written=%d escalations=%d alerts_sent=%d backlog_curated=%d backlog_promoted=%d",
+		len(obs), tasksWritten, escalations, alertsSent, curated, promoted), nil
+}
+
+// runBacklogPromotion calls `emily backlog promote` to classify INTAKE QUEUE items.
+// Throttled to at most once per 30 minutes via a cursor file so haiku spend stays bounded.
+func (s *IntegrationStore) runBacklogPromotion(ctx context.Context) (int, error) {
+	// Throttle: skip if promoted within the last 30 minutes.
+	cursorPath := filepath.Join(s.gitRoot, "var", "backlog-promote-cursor")
+	if data, err := os.ReadFile(cursorPath); err == nil {
+		if t, err := time.Parse(time.RFC3339, strings.TrimSpace(string(data))); err == nil {
+			if time.Since(t) < 30*time.Minute {
+				return 0, nil
+			}
+		}
+	}
+
+	emilyBin, err := exec.LookPath("emily")
+	if err != nil {
+		return 0, nil // emily CLI not installed; skip silently
+	}
+
+	cmd := exec.CommandContext(ctx, emilyBin, "backlog", "promote",
+		"--limit=15", "--batch=10", "--no-apple", "--json")
+	cmd.Env = os.Environ() // inherit ANTHROPIC_API_KEY, EMILY_ROOT, etc.
+
+	out, err := cmd.Output()
+	if err != nil {
+		return 0, fmt.Errorf("emily backlog promote: %w", err)
+	}
+
+	// Update cursor on success.
+	_ = os.WriteFile(cursorPath, []byte(time.Now().UTC().Format(time.RFC3339)), 0644)
+
+	var result struct {
+		Promoted int `json:"promoted"`
+		Removed  int `json:"removed"`
+	}
+	if jsonErr := json.Unmarshal(out, &result); jsonErr != nil {
+		return 0, fmt.Errorf("parse promote output: %w", jsonErr)
+	}
+	return result.Promoted + result.Removed, nil
 }
