@@ -2061,6 +2061,7 @@ func main() {
 	mux.HandleFunc("/integration/triage", srv.handleIntegrationTriage)
 	mux.HandleFunc("/emiree", srv.handleEmiree)
 	mux.HandleFunc("/agent/result", srv.handleAgentResult)
+	mux.HandleFunc("/api/v1/emily/run", srv.handleRun)
 
 	addr := ":" + cfg.Port
 	log.Printf("Emily agent  ->  http://localhost%s", addr)
