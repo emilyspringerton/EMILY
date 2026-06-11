@@ -195,15 +195,15 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 16: EMILY PRIME AI TIER (FABLE + API)
 
-- [ ] **FABLE advisor (basic)** — Implement haiku→FABLE advisor tool for emily prime.
-  FABLE is the planning/advisory model tier. Basic: emily prime calls haiku with a system
-  prompt trained on the golden backlog + recent Apples, returns a prioritized sprint
-  recommendation. — obs `2026-06-10T23:59:02Z`.
+- [x] **FABLE advisor (basic)** — `GET /api/v1/emily/fable/advice` reads GOLDEN.md + recent
+  Apples via haiku, returns `FableAdvice{recommendations[3], summary, generated_at}` with
+  `FableItem{priority,title,rationale,section,effort}`.
+  — obs `2026-06-10T23:59:02Z`. Done 2026-06-11. Apple #336.
 
-- [ ] **FABLE→HEIMDAL integration** — Wire emily prime haiku/sonnet FABLE advisor into
-  HEIMDAL sprint planning API. Flow: emily prime generates FABLE advice → structured
-  HEIMDAL sprint created in IDUNA → FCM push to Emily's phone.
-  — obs `2026-06-10T23:56:50Z`.
+- [x] **FABLE→HEIMDAL integration** — `POST /api/v1/emily/fable/execute` generates FABLE
+  advice then files top recommendation as a HEIMDAL sprint in IDUNA; Emily Prime translates
+  + queues it on the next cron cycle. Returns queued item + sprint_id.
+  — obs `2026-06-10T23:56:50Z`. Done 2026-06-11. Apple #336.
 
 - [ ] **Emily Prime API** — Emily Prime needs a stable API so external orchestration
   (cron, HEIMDAL webhooks, MJOLNIR) can drive RSI loops without a human at the terminal.
