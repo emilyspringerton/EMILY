@@ -471,6 +471,25 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ---
 
+
+## INTAKE QUEUE (curated by emily backlog curate)
+
+Items below have been auto-curated from FatBaby observations. Emily Prime reviews
+and promotes them into the appropriate section when she plans the next sprint.
+
+- [ ] **find all the gaps in the instrumentation where we should be publishing apples but are not and create new observations f…** — obs `2026-06-11T01:24:22Z`. CURATED: 2026-06-11.
+- [ ] **emily os mobility edition bare metal exokernel ISO2424242** — obs `2026-06-11T00:54:39Z`. CURATED: 2026-06-11.
+- [ ] **the fatbaby custom terminal v0 northstar the built the emily way the repo is named PITVIPER** — obs `2026-06-11T00:52:56Z`. CURATED: 2026-06-11.
+- [ ] **the news site should have stock charts - do it the emily way - lets build our own charting library so we can easily add…** — obs `2026-06-11T00:51:58Z`. CURATED: 2026-06-11.
+- [ ] **all system inputs need to feed into a single log stream that is continuously synced to git** — obs `2026-06-11T00:02:32Z`. CURATED: 2026-06-11.
+- [ ] **HACK feed a certain amount of apples as context to save tokens for claude having to read certain files he will glean co…** — obs `2026-06-11T00:01:38Z`. CURATED: 2026-06-11.
+- [ ] **EmilyOS Debian first or Arch? we want to have our own BAZEL or BAZEL equivalent soc2 software repository** — obs `2026-06-11T00:00:18Z`. CURATED: 2026-06-11.
+- [ ] **implement basic haiku -> FABLE advisor tool for emily prime** — obs `2026-06-10T23:59:02Z`. CURATED: 2026-06-11.
+- [ ] **implement emily prime haiku/sonnet -> advisor FABLE for planning sprints indo HEIMDAL sprint planning API - we need to …** — obs `2026-06-10T23:56:50Z`. CURATED: 2026-06-11.
+- [ ] **we need to have an emily prime api so we can use her agent to help direct the rsi loops so we can split the token usage…** — obs `2026-06-10T23:54:59Z`. CURATED: 2026-06-11.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
