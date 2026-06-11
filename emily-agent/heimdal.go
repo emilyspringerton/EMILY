@@ -265,6 +265,16 @@ func (ac *AutonomousCycle) runHeimdalCycle(ctx context.Context, push PushFunc) s
 		cancel()
 		if err != nil {
 			log.Printf("heimdal: translate sprint %d: %v", sprint.ID, err)
+			if ac.iduna != nil {
+				failCtx, fcancel := context.WithTimeout(context.Background(), 8*time.Second)
+				defer fcancel()
+				_, _ = ac.iduna.PostApple(failCtx, ApplePayload{
+					AppleType:  "escalation",
+					SourceRepo: "EMILY",
+					Title:      fmt.Sprintf("HEIMDAL haiku translate failed: sprint %d", sprint.ID),
+					Body:       fmt.Sprintf("sprint_id: %d\nrequirement: %s\nerror: %v", sprint.ID, sprint.Requirement, err),
+				})
+			}
 			continue
 		}
 

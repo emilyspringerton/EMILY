@@ -194,6 +194,16 @@ func (ac *AutonomousCycle) RunOnce() error {
 			rec.Error = err.Error()
 			rec.Outcome = "error"
 			log.Printf("[cycle %d] act: error: %v", state.CycleNumber, err)
+			if ac.iduna != nil {
+				failCtx, fcancel := context.WithTimeout(context.Background(), 8*time.Second)
+				defer fcancel()
+				_, _ = ac.iduna.PostApple(failCtx, ApplePayload{
+					AppleType:  "escalation",
+					SourceRepo: "EMILY",
+					Title:      fmt.Sprintf("cycle %d act error: %v", state.CycleNumber, err),
+					Body:       fmt.Sprintf("task_id: %s\nerror: %v\nconsec_failures: %d", task.ID, err, state.Metrics.ConsecFailures),
+				})
+			}
 		} else {
 			state.Metrics.ConsecFailures = 0
 			state.Metrics.ItersRun++
@@ -238,6 +248,16 @@ func (ac *AutonomousCycle) RunOnce() error {
 	if ac.integration != nil {
 		if triageResult, triageErr := ac.runPrimeTriageCycle(ctx, ac.integration); triageErr != nil {
 			log.Printf("[cycle %d] triage warn: %v", state.CycleNumber, triageErr)
+			if ac.iduna != nil {
+				warnCtx, warnCancel := context.WithTimeout(context.Background(), 8*time.Second)
+				defer warnCancel()
+				_, _ = ac.iduna.PostApple(warnCtx, ApplePayload{
+					AppleType:  "observation",
+					SourceRepo: "EMILY",
+					Title:      fmt.Sprintf("cycle %d prime-triage warning", state.CycleNumber),
+					Body:       fmt.Sprintf("error: %v", triageErr),
+				})
+			}
 		} else {
 			log.Printf("[cycle %d] triage: %s", state.CycleNumber, triageResult)
 			// Count how many tasks were issued to feed back into Emiree
@@ -630,6 +650,14 @@ func (ac *AutonomousCycle) runPrimeTriageCycle(ctx context.Context, store *Integ
 				Data:     data,
 			}); err != nil {
 				log.Printf("fcm: send failed (non-fatal): %v", err)
+				failCtx, fcancel := context.WithTimeout(context.Background(), 8*time.Second)
+				defer fcancel()
+				_, _ = iduna.PostApple(failCtx, ApplePayload{
+					AppleType:  "escalation",
+					SourceRepo: "EMILY",
+					Title:      "prime-triage FCM send failed",
+					Body:       fmt.Sprintf("error: %v\ntoken: %s\ntitle: %s", err, deviceToken, title),
+				})
 			} else {
 				log.Printf("fcm: push sent to %s", mjolnirAgent)
 			}
