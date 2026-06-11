@@ -6,7 +6,7 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 34 open, 0 done (archived), 11 intake pending
+## BACKLOG STATUS: 30 open, 4 done (archived), 11 intake pending
 
 ## OPEN ITEMS
 
@@ -30,13 +30,9 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • MySQL wire protocol embedded server — go-mysql-server as in-process backend.
 • Tyler IDUNA agent registration via iduna CLI — `iduna agents register --id tyler`
 
-### SECTION 6: RSI TIGHTENING (next horizon) (6 open, 0 done)
-• TUI: show real-time clock — Add a live clock (HH:MM:SS) to the TUI header bar.
+### SECTION 6: RSI TIGHTENING (next horizon) (2 open, 4 done)
 • TUI: fatbaby mode — TUI should show PRRJECT_FATBABY data (signal feed, entity graph,
-• emily cli status: show all fatbaby processes — `emily status --fatbaby` should list
-• emily cli status: include emily.cli TUI PID — `emily status` output should include
 • obs-watcher: rate-limit resilience — If obs-watcher is started during a Claude
-• emily observe: typo correction mechanism — Observations are intentionally
 
 ### SECTION 10: EMILY PRIME SELENIUM / WEB AUDIT (1 open, 0 done)
 • Web audit as front door validator — Once MJOLNIR WebView targets are live
