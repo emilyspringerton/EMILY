@@ -160,10 +160,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 13: GOLDEN DOCS + SYSTEM CONTEXT HYGIENE
 
-- [ ] **Golden docs audit** — Review all northstar/golden documentation across all repos
-  (EMILY, PRRJECT_FATBABY, IDUNA, TYLER, SHANKPIT, MJOLNIR, emily.cli). Ensure GOLDEN.md
-  refs are current and emily prime system prompt reflects 2026-06-11 architecture.
-  — obs `2026-06-10T23:33:35Z`.
+- [x] **Golden docs audit** — CLAUDE.md added to EMILY, IDUNA, SHANKPIT, emily.cli, APPLES
+  (5 missing repos; PRRJECT_FATBABY/TYLER/MJOLNIR already had them). All committed + pushed.
+  Remaining gaps: northstars for PRRJECT_FATBABY/TYLER/EMILY/IDUNA still missing.
+  — obs `2026-06-10T23:33:35Z`. Done 2026-06-11. Apple #334.
 
 - [ ] **emily prime API parity with emily.cli** — Emily Prime (emily-agent) should expose
   all commands available in emily.cli so external orchestration can drive her without a
@@ -174,10 +174,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 14: EMILYOS (bare-metal exokernel)
 
-- [ ] **EmilyOS northstar** — Draft the EmilyOS northstar doc. Product: bare-metal exokernel
-  OS targeting mobile/embedded hardware. ISO identifier: ISO2424242. Candidate repo: EmilyOS/.
-  Define: kernel model (exokernel vs microkernel), target arch (ARM/RISC-V), bootloader,
-  minimal userspace, build system. — obs `2026-06-11T00:54:39Z`.
+- [x] **EmilyOS northstar** — Already exists at EmilyOS/docs/NORTHSTAR.md (written 2026-06-09
+  by Emily Prime). SOC 2 Type II framing, 6 milestones, posture/RBAC/audit design. The
+  product is a Linux-based policy kernel, not bare-metal. — Done 2026-06-09.
 
 - [ ] **EmilyOS package repo + build system** — Choose: Debian base or Arch base?
   Build SOC2-auditable software repository (BAZEL or BAZEL equivalent). Key constraint:
@@ -187,10 +186,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 15: PITVIPER (custom terminal)
 
-- [ ] **PITVIPER northstar** — Draft northstar for the FatBaby custom terminal project.
-  Repo: PITVIPER. Tech: standalone SDL2 terminal emulator (not a TUI framework).
-  Define: rendering model, font engine, multiplexer support, Emily Prime integration hooks.
-  — obs `2026-06-11T00:52:56Z`.
+- [x] **PITVIPER northstar** — PITVIPER/docs/NORTHSTAR.md written. SDL2 + FreeType2,
+  5 milestones (bootstrap→PTY→glyph cache→splits→Emily pane), CommandRecord hook layer,
+  JetBrains Mono embedded, emily:// pane type. PITVIPER/CLAUDE.md.
+  — obs `2026-06-11T00:52:56Z`. Done 2026-06-11.
 
 ---
 
@@ -219,9 +218,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Goal: render equity price charts inline with governance articles. Start simple (SVG, no
   canvas deps), iterate. "Do it the Emily way." — obs `2026-06-11T00:51:58Z`.
 
-- [ ] **Newssite: use filing date not publication date** — Historical filings appear as
-  breaking news because articles use pub_date instead of filing_date. Fix the ingestion
-  pipeline to store and sort by filing_date. — obs `2026-05-30T22:14:19Z`.
+- [x] **Newssite: use filing date not publication date** — docindex.AllSummaries() +
+  ForTicker() now sort by FilingDate desc via docNewerThan(). ReadLatest fallback
+  also sorted. Two regression tests added. — obs `2026-05-30T22:14:19Z`. Done 2026-06-11.
+  Commit PRRJECT_FATBABY 284db04. Apple #333.
 
 - [ ] **Newssite: 500 errors investigation** — News site returns 500s (IDUNA related? index
   too large? dependent processes down?). `emily start (all)` does not start it reliably.
