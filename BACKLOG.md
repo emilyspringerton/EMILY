@@ -105,9 +105,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   appends a correction note (original summary preserved); Amendment+AmendedAt fields added
   to obs.Payload JSON schema. — obs `2026-06-07T22:05:53Z`. Apple #330. Committed emily.cli 8e0d1be.
 
-- [ ] **TUI: fatbaby mode** — TUI should show PRRJECT_FATBABY data (signal feed, entity graph,
-  eps-processor status) via menu controls when `--fatbaby` flag is set.
-  — obs `2026-06-07T21:27:09Z`.
+- [x] **TUI: fatbaby mode** — `emily tui --fatbaby` activates FatBaby panel in col 3.
+  'b' key toggles between system health and FatBaby (processes + entity graph stats +
+  eps counts). v0.8.0. — obs `2026-06-07T21:27:09Z`. Done 2026-06-11. Commit emily.cli.
 
 - [x] **obs-watcher: rate-limit resilience** — invokeWithRetry wraps all three invocation
   sites. Captures stderr, detects rate-limit signals, retries 3x (30s→90s→270s). Permanent
