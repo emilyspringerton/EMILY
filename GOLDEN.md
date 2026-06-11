@@ -6,21 +6,43 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 9 open, 0 done (archived), 46 intake pending
+## BACKLOG STATUS: 38 open, 0 done (archived), 11 intake pending
 
 ## OPEN ITEMS
+
+### SECTION 1: FOUNDATION (current sprint) (1 open, 0 done)
+• IDUNA login page + admin dashboard — Build the IDUNA web UI: login page (JWT auth),
 
 ### SECTION 2: MONEYPRINTERTURBO (video pipeline) (3 open, 0 done)
 • MPT Pexels API key — Set YOUR_PEXELS_API_KEY_HERE in MoneyPrinterTurbo/config.toml.
 • S01E01 cold open compiled clip — Once MPT is running, run the cold open compilation.
 • MPT → TYLER RSI trigger — When emily.sh produces a new episode script, auto-invoke
 
-### SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority) (1 open, 0 done)
+### SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything) (4 open, 0 done)
+• Apple instrumentation audit — Enumerate all system events that should post an Apple
+• Single log stream — All system inputs (obs-watcher, rsi-loop, emily-agent, IDUNA,
+• Apples IDUNA→APPLES git sync — IDUNA is the source of truth; APPLES repo must stay
+• Golden context feed via Apples — Beyond GOLDEN.md (backlog compress), feed a
+
+### SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority) (3 open, 0 done)
 • SHANKPIT → MPT bridge — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
+• TYLER: expand the role of the phone — The in-game smartphone should have richer
+• TYLER: cutscene system (FFXI-style dialogue) — Add TYLER-specific cutscene
 
 ### SECTION 5: FUTURE (Emily Prime decides when to promote) (2 open, 0 done)
 • MySQL wire protocol embedded server — go-mysql-server as in-process backend.
 • Tyler IDUNA agent registration via iduna CLI — `iduna agents register --id tyler`
+
+### SECTION 6: RSI TIGHTENING (next horizon) (9 open, 0 done)
+• TUI: process handling broken on clean reboot — TUI process list no longer works
+• TUI: hang on graceful exit (ctrl+q) still present — Even after the ctrl+c fix,
+• TUI: graceful ctrl+c exit — Ensure ctrl+c always cleanly exits the TUI session
+• TUI: show real-time clock — Add a live clock (HH:MM:SS) to the TUI header bar.
+• TUI: fatbaby mode — TUI should show PRRJECT_FATBABY data (signal feed, entity graph,
+• emily cli status: show all fatbaby processes — `emily status --fatbaby` should list
+• emily cli status: include emily.cli TUI PID — `emily status` output should include
+• obs-watcher: rate-limit resilience — If obs-watcher is started during a Claude
+• emily observe: typo correction mechanism — Observations are intentionally
 
 ### SECTION 10: EMILY PRIME SELENIUM / WEB AUDIT (1 open, 0 done)
 • Web audit as front door validator — Once MJOLNIR WebView targets are live
@@ -28,19 +50,40 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 ### SECTION 12: HEIMDAL — Sprint Planning Interface (1 open, 0 done)
 • HEIMDAL status feedback — When an RSI task (heimdal-N) completes or is blocked,
 
-### SECTION 13: OBSERVATION → BACKLOG CURATION PIPELINE (added Emily Prime 2026-06-11) (1 open, 0 done)
-• Backlog intake: EmilyOS mobility edition — bare-metal exokernel, ISO2424242 —
+### SECTION 13: GOLDEN DOCS + SYSTEM CONTEXT HYGIENE (2 open, 0 done)
+• Golden docs audit — Review all northstar/golden documentation across all repos
+• emily prime API parity with emily.cli — Emily Prime (emily-agent) should expose
 
-### INTAKE QUEUE (46 items — run emily backlog promote to classify)
-• find all the gaps in the instrumentation where we should be publishing apples but are n…
-• emily os mobility edition bare metal exokernel ISO2424242
-• the fatbaby custom terminal v0 northstar the built the emily way the repo is named PITV…
-• the news site should have stock charts - do it the emily way - lets build our own chart…
-• all system inputs need to feed into a single log stream that is continuously synced to …
-• HACK feed a certain amount of apples as context to save tokens for claude having to rea…
-• EmilyOS Debian first or Arch? we want to have our own BAZEL or BAZEL equivalent soc2 so…
-• implement basic haiku -> FABLE advisor tool for emily prime
-• ...and 38 more
+### SECTION 14: EMILYOS (bare-metal exokernel) (2 open, 0 done)
+• EmilyOS northstar — Draft the EmilyOS northstar doc. Product: bare-metal exokernel
+• EmilyOS package repo + build system — Choose: Debian base or Arch base?
+
+### SECTION 15: PITVIPER (custom terminal) (1 open, 0 done)
+• PITVIPER northstar — Draft northstar for the FatBaby custom terminal project.
+
+### SECTION 16: EMILY PRIME AI TIER (FABLE + API) (3 open, 0 done)
+• FABLE advisor (basic) — Implement haiku→FABLE advisor tool for emily prime.
+• FABLE→HEIMDAL integration — Wire emily prime haiku/sonnet FABLE advisor into
+• Emily Prime API — Emily Prime needs a stable API so external orchestration
+
+### SECTION 17: NEWSSITE + GTM (product growth) (6 open, 0 done)
+• Newssite: stock charts — Build an in-house charting library for the newssite.
+• Newssite: use filing date not publication date — Historical filings appear as
+• Newssite: 500 errors investigation — News site returns 500s (IDUNA related? index
+• Newssite: Emily-authored governance commentary ingest endpoint — Add an ingest
+• GTM funnel — Full product funnel: Ask Emily free tier, Emily+ subscription,
+• Self-improving training pipeline — User data flywheel for Emily fine-tuning.
+
+### INTAKE QUEUE (11 items — run emily backlog promote to classify)
+• UX: ticker search should auto-navigate on click and on Enter key — remove redundant G…
+• Feature: create a GitHub issue automatically whenever Emily writes an observation
+• All required and optional environment variables must be documented at the top of the RE…
+• observation-watcher must inject full reporting and git sync requirements into the Claud…
+• EDGAR submissions endpoint returning truncated JSON for all 5 major bank tickers — BA…
+• entity-graph cannot detect 8-K documents from persisted store — form/source_type fiel…
+• entity-graph parsing all 8-K subtypes — Item 5.07 not found in non-proxy filings, pro…
+• entity-graph reads 0 filings despite 846 source documents in var/secwatch
+• ...and 3 more
 
 ## RSI PRIME DIRECTIVE
 Pipeline: raw thought → emily eo → INTAKE QUEUE → emily backlog promote (haiku) → numbered section → HEIMDAL sprint → implementation.

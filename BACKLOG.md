@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-09 | MJOLNIR northstar + Selenium web audit added
+### Last updated: 2026-06-11 | manual promote pass; sections 14-17 added; INTAKE 48→18
 
 ---
 
@@ -21,6 +21,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 1: FOUNDATION (current sprint)
 
+- [ ] **IDUNA login page + admin dashboard** — Build the IDUNA web UI: login page (JWT auth),
+  admin dashboard listing agents, push_tokens, apples, heimdal sprints. Should live at `:8080/admin`.
+  Dependency: IDUNA embedded SQLite ✓. — obs `2026-06-10T22:01:42Z`.
+
 ---
 
 ## SECTION 2: MONEYPRINTERTURBO (video pipeline)
@@ -38,12 +42,40 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 3: SYSTEM OBSERVABILITY (Emily Prime sees everything)
 
+- [ ] **Apple instrumentation audit** — Enumerate all system events that should post an Apple
+  but don't: cron triggers, observation drops, haiku call failures, HEIMDAL state changes,
+  FCM failures. Create `emily eo` observations for each gap found.
+  — obs `2026-06-11T01:24:22Z`.
+
+- [ ] **Single log stream** — All system inputs (obs-watcher, rsi-loop, emily-agent, IDUNA,
+  PRRJECT_FATBABY) feed into a single append-only log synced to git on every write.
+  Candidate: `var/emily-stream.ndjson` → `emily sync --stream`.
+  — obs `2026-06-11T00:02:32Z`.
+
+- [ ] **Apples IDUNA→APPLES git sync** — IDUNA is the source of truth; APPLES repo must stay
+  in sync. `emily sync --apples-git-dir` already exists but should run automatically after
+  every Apple POST, not just on cron. Wire as IDUNA after-insert hook or emily-agent poll.
+  — obs `2026-06-10T23:35:13Z`.
+
+- [ ] **Golden context feed via Apples** — Beyond GOLDEN.md (backlog compress), feed a
+  sampled window of recent Apples as haiku context so Emily Prime's curation calls are
+  grounded in what actually shipped. Token budget: ≤200 tokens of Apple summaries.
+  — obs `2026-06-11T00:01:38Z`.
+
 ---
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
 
 - [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
+
+- [ ] **TYLER: expand the role of the phone** — The in-game smartphone should have richer
+  mechanics: notifications, apps, contacts, map. Spec to be written.
+  — obs `2026-06-07T22:04:47Z`.
+
+- [ ] **TYLER: cutscene system (FFXI-style dialogue)** — Add TYLER-specific cutscene
+  functionality. Audit SHANKPIT for scripting capabilities matching FFXI dialogue scenes.
+  — obs `2026-06-07T21:55:11Z`.
 
 ---
 
@@ -61,6 +93,38 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
+
+- [ ] **TUI: process handling broken on clean reboot** — TUI process list no longer works
+  after a fresh boot. Was working previously. Root cause unknown; likely systemd or PATH
+  issue. — obs `2026-06-10T00:25:48Z`.
+
+- [ ] **TUI: hang on graceful exit (ctrl+q) still present** — Even after the ctrl+c fix,
+  a hang sometimes occurs when quitting with 'q'. Investigate tview/tcell teardown.
+  — obs `2026-06-07T22:53:25Z`.
+
+- [ ] **TUI: graceful ctrl+c exit** — Ensure ctrl+c always cleanly exits the TUI session
+  without leaving terminal in raw mode. — obs `2026-06-07T21:26:18Z`.
+
+- [ ] **TUI: show real-time clock** — Add a live clock (HH:MM:SS) to the TUI header bar.
+  — obs `2026-06-07T21:27:44Z`.
+
+- [ ] **TUI: fatbaby mode** — TUI should show PRRJECT_FATBABY data (signal feed, entity graph,
+  eps-processor status) via menu controls when `--fatbaby` flag is set.
+  — obs `2026-06-07T21:27:09Z`.
+
+- [ ] **emily cli status: show all fatbaby processes** — `emily status --fatbaby` should list
+  all PRRJECT_FATBABY processes and their PIDs. — obs `2026-06-07T21:35:59Z`.
+
+- [ ] **emily cli status: include emily.cli TUI PID** — `emily status` output should include
+  the PID of the running TUI process (if any). — obs `2026-06-07T23:00:33Z`.
+
+- [ ] **obs-watcher: rate-limit resilience** — If obs-watcher is started during a Claude
+  API rate limit, the queued observation may be silently dropped. Add retry/backoff with
+  exponential delay; surface drops as Apple events. — obs `2026-06-07T22:50:41Z`.
+
+- [ ] **emily observe: typo correction mechanism** — Observations are intentionally
+  immutable, but humans make typos. Add `emily obs amend <key> "<corrected text>"` that
+  appends a correction note (original preserved). — obs `2026-06-07T22:05:53Z`.
 
 ---
 
@@ -106,78 +170,106 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ---
 
-## SECTION 13: OBSERVATION → BACKLOG CURATION PIPELINE (added Emily Prime 2026-06-11)
+## SECTION 13: GOLDEN DOCS + SYSTEM CONTEXT HYGIENE
 
-- [ ] **Backlog intake: EmilyOS mobility edition — bare-metal exokernel, ISO2424242** —
-  FatBaby observation `2026-06-11T00:54:39Z`: "emily os mobility edition bare metal exokernel
-  ISO2424242". New product initiative: EmilyOS as a bare-metal exokernel OS targeting
-  mobile/embedded hardware. ISO identifier: ISO2424242. Northstar to be drafted; new repo
-  to be created (candidate name: EmilyOS/). Related pending observations: EmilyOS Arch vs Debian
-  + BAZEL-equivalent repo (2026-06-11T00:00:18Z); PITVIPER standalone SDL2 terminal
-  (2026-06-11T00:52:56Z). Status: INTAKE PENDING curation pipeline above.
-  ADDED: 2026-06-11 (first item produced by curation session focus).
+- [ ] **Golden docs audit** — Review all northstar/golden documentation across all repos
+  (EMILY, PRRJECT_FATBABY, IDUNA, TYLER, SHANKPIT, MJOLNIR, emily.cli). Ensure GOLDEN.md
+  refs are current and emily prime system prompt reflects 2026-06-11 architecture.
+  — obs `2026-06-10T23:33:35Z`.
+
+- [ ] **emily prime API parity with emily.cli** — Emily Prime (emily-agent) should expose
+  all commands available in emily.cli so external orchestration can drive her without a
+  human on the terminal. Spec: `POST /api/v1/emily/run { "command": "backlog promote" }`.
+  — obs `2026-06-10T23:38:51Z`.
+
+---
+
+## SECTION 14: EMILYOS (bare-metal exokernel)
+
+- [ ] **EmilyOS northstar** — Draft the EmilyOS northstar doc. Product: bare-metal exokernel
+  OS targeting mobile/embedded hardware. ISO identifier: ISO2424242. Candidate repo: EmilyOS/.
+  Define: kernel model (exokernel vs microkernel), target arch (ARM/RISC-V), bootloader,
+  minimal userspace, build system. — obs `2026-06-11T00:54:39Z`.
+
+- [ ] **EmilyOS package repo + build system** — Choose: Debian base or Arch base?
+  Build SOC2-auditable software repository (BAZEL or BAZEL equivalent). Key constraint:
+  reproducible builds, content-addressed storage. — obs `2026-06-11T00:00:18Z`.
+
+---
+
+## SECTION 15: PITVIPER (custom terminal)
+
+- [ ] **PITVIPER northstar** — Draft northstar for the FatBaby custom terminal project.
+  Repo: PITVIPER. Tech: standalone SDL2 terminal emulator (not a TUI framework).
+  Define: rendering model, font engine, multiplexer support, Emily Prime integration hooks.
+  — obs `2026-06-11T00:52:56Z`.
+
+---
+
+## SECTION 16: EMILY PRIME AI TIER (FABLE + API)
+
+- [ ] **FABLE advisor (basic)** — Implement haiku→FABLE advisor tool for emily prime.
+  FABLE is the planning/advisory model tier. Basic: emily prime calls haiku with a system
+  prompt trained on the golden backlog + recent Apples, returns a prioritized sprint
+  recommendation. — obs `2026-06-10T23:59:02Z`.
+
+- [ ] **FABLE→HEIMDAL integration** — Wire emily prime haiku/sonnet FABLE advisor into
+  HEIMDAL sprint planning API. Flow: emily prime generates FABLE advice → structured
+  HEIMDAL sprint created in IDUNA → FCM push to Emily's phone.
+  — obs `2026-06-10T23:56:50Z`.
+
+- [ ] **Emily Prime API** — Emily Prime needs a stable API so external orchestration
+  (cron, HEIMDAL webhooks, MJOLNIR) can drive RSI loops without a human at the terminal.
+  Split token usage: cheap haiku for classification, Sonnet/Opus only for implementation.
+  — obs `2026-06-10T23:54:59Z`.
+
+---
+
+## SECTION 17: NEWSSITE + GTM (product growth)
+
+- [ ] **Newssite: stock charts** — Build an in-house charting library for the newssite.
+  Goal: render equity price charts inline with governance articles. Start simple (SVG, no
+  canvas deps), iterate. "Do it the Emily way." — obs `2026-06-11T00:51:58Z`.
+
+- [ ] **Newssite: use filing date not publication date** — Historical filings appear as
+  breaking news because articles use pub_date instead of filing_date. Fix the ingestion
+  pipeline to store and sort by filing_date. — obs `2026-05-30T22:14:19Z`.
+
+- [ ] **Newssite: 500 errors investigation** — News site returns 500s (IDUNA related? index
+  too large? dependent processes down?). `emily start (all)` does not start it reliably.
+  Fix start integration and debug the 500 root cause. — obs `2026-06-07T21:43:40Z`,
+  `2026-06-07T21:18:53Z`.
+
+- [ ] **Newssite: Emily-authored governance commentary ingest endpoint** — Add an ingest
+  endpoint so Emily Prime can POST original governance commentary articles directly to the
+  newssite CMS. — obs `2026-05-30T21:53:49Z`.
+
+- [ ] **GTM funnel** — Full product funnel: Ask Emily free tier, Emily+ subscription,
+  community editorial engine, Merkle query monetization. Spec to be drafted.
+  — obs `2026-05-30T22:02:43Z`.
+
+- [ ] **Self-improving training pipeline** — User data flywheel for Emily fine-tuning.
+  Collect prompt/response pairs from Emily Prime interactions, build annotation pipeline,
+  RLHF loop. Long-term initiative. — obs `2026-05-30T22:10:22Z`.
 
 ---
 
 ## INTAKE QUEUE (curated by emily backlog curate)
 
-Items below have been auto-curated from FatBaby observations. Emily Prime reviews
-and promotes them into the appropriate section when she plans the next sprint.
+Items below require `ANTHROPIC_API_KEY` for haiku routing or manual triage.
+Run: `emily backlog promote --limit=50 --batch=15`
 
-- [ ] **find all the gaps in the instrumentation where we should be publishing apples but are not and create new observations f…** — obs `2026-06-11T01:24:22Z`. CURATED: 2026-06-11.
-- [ ] **emily os mobility edition bare metal exokernel ISO2424242** — obs `2026-06-11T00:54:39Z`. CURATED: 2026-06-11.
-- [ ] **the fatbaby custom terminal v0 northstar the built the emily way the repo is named PITVIPER** — obs `2026-06-11T00:52:56Z`. CURATED: 2026-06-11.
-- [ ] **the news site should have stock charts - do it the emily way - lets build our own charting library so we can easily add…** — obs `2026-06-11T00:51:58Z`. CURATED: 2026-06-11.
-- [ ] **all system inputs need to feed into a single log stream that is continuously synced to git** — obs `2026-06-11T00:02:32Z`. CURATED: 2026-06-11.
-- [ ] **HACK feed a certain amount of apples as context to save tokens for claude having to read certain files he will glean co…** — obs `2026-06-11T00:01:38Z`. CURATED: 2026-06-11.
-- [ ] **EmilyOS Debian first or Arch? we want to have our own BAZEL or BAZEL equivalent soc2 software repository** — obs `2026-06-11T00:00:18Z`. CURATED: 2026-06-11.
-- [ ] **implement basic haiku -> FABLE advisor tool for emily prime** — obs `2026-06-10T23:59:02Z`. CURATED: 2026-06-11.
-- [ ] **implement emily prime haiku/sonnet -> advisor FABLE for planning sprints indo HEIMDAL sprint planning API - we need to …** — obs `2026-06-10T23:56:50Z`. CURATED: 2026-06-11.
-- [ ] **we need to have an emily prime api so we can use her agent to help direct the rsi loops so we can split the token usage…** — obs `2026-06-10T23:54:59Z`. CURATED: 2026-06-11.
-
----
-
-- [ ] **emily prime should have all of the api capabilities of the emily.cli command** — obs `2026-06-10T23:38:51Z`. CURATED: 2026-06-11.
-- [ ] **how are these prime-task s getting fired off? is that claude via the observation watcher? or is that claude larping as …** — obs `2026-06-10T23:36:46Z`. CURATED: 2026-06-11.
-- [ ] **the apples need to all be synced into the git repo APPLES (IDUNA needs to do it because she is the APPLES source of tru…** — obs `2026-06-10T23:35:13Z`. CURATED: 2026-06-11.
-- [ ] **i think we may need to review all of the golden documentations in all the repos and update the emily prime system propt…** — obs `2026-06-10T23:33:35Z`. CURATED: 2026-06-11.
-- [ ] **IDUNA LOGIN PAGE and ADMIN DASHBOARD - is it built? if not build it - if it is built add to the readme how to get to th…** — obs `2026-06-10T22:01:42Z`. CURATED: 2026-06-11.
-- [ ] **RSI cycle 6: conditional rules inlining + dedup process list** — obs `2026-06-10T20:34:42Z`. CURATED: 2026-06-11.
-- [ ] **what is emily sync? is it pulling observations from fatbaby and pushing them to emily prime to curate the golden backlo…** — obs `2026-06-11T01:26:02Z`. CURATED: 2026-06-11.
-- [ ] ** go run . apples list
-error: iduna auth: Post "http://localhost:8080/api/v1/auth/agent": dial tcp [::1]:8080: connect: …** — obs `2026-06-10T00:51:05Z`. CURATED: 2026-06-11.
-- [ ] **gpt-2 c fork git@github.com:emilyspringerton/gpt2-alpine-c.git parity with og gpt-2 repo (we may heve to build tensorfl…** — obs `2026-06-10T00:50:04Z`. CURATED: 2026-06-11.
-- [ ] **gpt-2 as an entropy source** — obs `2026-06-10T00:48:37Z`. CURATED: 2026-06-11.
-- [ ] **i think there is a tui bug with the process handling it no longer works on a clean reboot it used to** — obs `2026-06-10T00:25:48Z`. CURATED: 2026-06-11.
-- [ ] **add emily.cli to emily.cli status including the pid of the tui** — obs `2026-06-07T23:00:33Z`. CURATED: 2026-06-11.
-- [ ] **fosho the bug with the emily.cli tui hang still exists even if we hit q to exit gracefully (unsure if it always happens…** — obs `2026-06-07T22:53:25Z`. CURATED: 2026-06-11.
-- [ ] **if fatbaby observation watcher is started during a claude rate limit a prime task may be skipped** — obs `2026-06-07T22:50:41Z`. CURATED: 2026-06-11.
-- [ ] **filing observations are intentionally uneditable but what happens when a human screws up and types the wrong thing? do …** — obs `2026-06-07T22:05:53Z`. CURATED: 2026-06-11.
-- [ ] **TYLER expand the role of the phoen** — obs `2026-06-07T22:04:47Z`. CURATED: 2026-06-11.
-- [ ] **add TYLER specific cutscene functionality - audit the capabilities of SHANKPIT for scripting cutscenes like in ffxi (di…** — obs `2026-06-07T21:55:11Z`. CURATED: 2026-06-11.
-- [ ] **news site 500s - iduna related? too big of an index to query? dependent processes? (i started the news site manualy)** — obs `2026-06-07T21:43:40Z`. CURATED: 2026-06-11.
-- [ ] **emily cli status should show all of the fatbaby processes if we pass a fatbaby flag** — obs `2026-06-07T21:35:59Z`. CURATED: 2026-06-11.
-- [ ] **the tui should show the real time if possible** — obs `2026-06-07T21:27:44Z`. CURATED: 2026-06-11.
-- [ ] **TUI should show fatbaby data via menu controls (fatbaby mode)** — obs `2026-06-07T21:27:09Z`. CURATED: 2026-06-11.
-- [ ] **TUI hang ensure fixed (gracfully exit the session when we kill it with ctrl c** — obs `2026-06-07T21:26:18Z`. CURATED: 2026-06-11.
-- [ ] **fatbaby@localhost:~/emily.cli$ systemctl --user status daemon-reload
-Failed to connect to bus: Permission denied
-fatbab…** — obs `2026-06-07T21:23:23Z`. CURATED: 2026-06-11.
-- [ ] **fatbaby news site does not start via emily cli start (all)** — obs `2026-06-07T21:18:53Z`. CURATED: 2026-06-11.
-- [ ] **observation-watcher must inject full reporting and git sync requirements into the Claude Code prompt** — obs `2026-05-31T20:56:45Z`. CURATED: 2026-06-11.
-- [ ] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11.
-- [ ] **Feature: create a GitHub issue automatically whenever Emily writes an observation** — obs `2026-05-31T20:41:56Z`. CURATED: 2026-06-11.
 - [ ] **UX: ticker search should auto-navigate on click and on Enter key — remove redundant Go button step** — obs `2026-05-31T20:39:51Z`. CURATED: 2026-06-11.
-- [ ] **Bug: newssite articles use publication date not filing date — historical filings appear as breaking news** — obs `2026-05-30T22:14:19Z`. CURATED: 2026-06-11.
-- [ ] **Feature request: self-improving model training pipeline — user data flywheel for Emily fine-tuning** — obs `2026-05-30T22:10:22Z`. CURATED: 2026-06-11.
-- [ ] **Feature request: full GTM funnel — Ask Emily free tier, Emily+ subscription, community editorial engine, Merkle query…** — obs `2026-05-30T22:02:43Z`. CURATED: 2026-06-11.
-- [ ] **Feature request: newssite ingest endpoint for Emily-authored governance commentary articles** — obs `2026-05-30T21:53:49Z`. CURATED: 2026-06-11.
+- [ ] **Feature: create a GitHub issue automatically whenever Emily writes an observation** — obs `2026-05-31T20:41:56Z`. CURATED: 2026-06-11.
+- [ ] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11.
+- [ ] **observation-watcher must inject full reporting and git sync requirements into the Claude Code prompt** — obs `2026-05-31T20:56:45Z`. CURATED: 2026-06-11.
 - [ ] **EDGAR submissions endpoint returning truncated JSON for all 5 major bank tickers — BAC, C, GS, JPM, MS** — obs `2026-05-30T21:45:32Z`. CURATED: 2026-06-11.
-- [ ] **entity-graph cannot detect 8-K documents from persisted store — form/source_type field mismatch, 846 docs unprocessab…** — obs `2026-05-30T21:32:12Z`. CURATED: 2026-06-11.
+- [ ] **entity-graph cannot detect 8-K documents from persisted store — form/source_type field mismatch, 846 docs unprocessable** — obs `2026-05-30T21:32:12Z`. CURATED: 2026-06-11.
 - [ ] **entity-graph parsing all 8-K subtypes — Item 5.07 not found in non-proxy filings, producing 100% parse failure rate** — obs `2026-05-30T21:29:24Z`. CURATED: 2026-06-11.
 - [ ] **entity-graph reads 0 filings despite 846 source documents in var/secwatch** — obs `2026-05-30T09:52:12Z`. CURATED: 2026-06-11.
 - [ ] **eps-processor ticker map has only 2 entries — all press releases are being dropped silently** — obs `2026-05-30T09:46:52Z`. CURATED: 2026-06-11.
-- [ ] **eps-processor ticker map has only 2 entries — all press releases are being dropped silently** — obs `2026-05-30T09:42:55Z`. CURATED: 2026-06-11.
+- [ ] **gpt-2 c fork git@github.com:emilyspringerton/gpt2-alpine-c.git parity with og gpt-2 repo (we may have to build tensorflow…** — obs `2026-06-10T00:50:04Z`. CURATED: 2026-06-11.
+- [ ] **gpt-2 as an entropy source** — obs `2026-06-10T00:48:37Z`. CURATED: 2026-06-11.
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
