@@ -214,7 +214,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 17: NEWSSITE + GTM (product growth)
 
-- [ ] **Newssite: stock charts** — Build an in-house charting library for the newssite.
+- [x] **Newssite: stock charts** — Build an in-house charting library for the newssite.
   Goal: render equity price charts inline with governance articles. Start simple (SVG, no
   canvas deps), iterate. "Do it the Emily way." — obs `2026-06-11T00:51:58Z`.
 
