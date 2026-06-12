@@ -70,7 +70,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   cross-scene attack guard all operational. Architecture memo filed to Emily Prime for Milestone 3
   (WorldBackend interface) and Milestone 4 (Construct expansion). — 2026-06-12.
 
-- [ ] **SHANKPIT Milestone 3: WorldBackend Go interface** — Define the portal_resolve_destination /
+- [x] **SHANKPIT Milestone 3: WorldBackend Go interface** — Define the portal_resolve_destination / [Apple #358, 2026-06-12]
   world_backend_*() abstraction as a Go interface in server/. Spec must go in docs2/specs/ FIRST.
   Enables: swapping Dragonfly fork in behind stable seam. Dependency: Emily Prime architecture review.
   — obs `2026-06-12`.
