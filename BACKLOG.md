@@ -91,7 +91,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   mechanics: notifications, apps, contacts, map. Spec to be written.
   — obs `2026-06-07T22:04:47Z`.
 
-- [ ] **TYLER: cutscene system (FFXI-style dialogue)** — Add TYLER-specific cutscene
+- [x] **TYLER: cutscene system (FFXI-style dialogue)** — Add TYLER-specific cutscene [Apple #371, 2026-06-12]
   functionality. Audit SHANKPIT for scripting capabilities matching FFXI dialogue scenes.
   — obs `2026-06-07T21:55:11Z`.
 
