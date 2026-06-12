@@ -172,7 +172,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **MJOLNIR Milestone 4: RSI cycle push** — FCM push fires on task completion in Apple-filing
   goroutine in cron.go. Title: "RSI cycle N complete". Body: task description. Priority: normal.
   Data: apple_id, cycle, tasks_done. Fires only on task.Status == "success" (not idle cycles).
-  Done 2026-06-12. Apple #TBD.
+  Done 2026-06-12. Apple #396. Commit EMILY 50dc5a1.
 
 ---
 
