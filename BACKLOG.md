@@ -162,12 +162,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   NORTHSTAR updated [x]. README → Milestone 4. TYLER/EPISODES.md created (52 eps, S1–S7, Build 0082).
   TYLER + SHANKPIT product cards added to ProductsScreen. Apple #395. Done 2026-06-12.
 
-- [ ] **MJOLNIR Milestone 4: RSI loop state display** — App shows RSI loop state read from
-  `EMILY/var/rsi-loop-state.json` via Emily Prime API (`GET /api/v1/emily/state` or similar).
-  Shows: current gear (ACTIVE/COAST/REST), cycle number, last-cycle outcome, next scheduled run.
+- [x] **MJOLNIR Milestone 4: RSI loop state display** — RsiScreen + RsiViewModel. EmilyApi calls
+  `GET /api/v1/emily/state` (Emily Prime port 8086). Shows: cycle number, metrics (tasks done,
+  iters, failures), active task + progress, next cycle plan. Timeline icon in feed. EMILY_BASE_URL
+  BuildConfig field added (debug: 10.0.2.2:8086). Apple #397. Commit MJOLNIR 9d88ec6.
 
-- [ ] **MJOLNIR Milestone 4: Token spend sparkline** — 7-day token spend graph from IDUNA Apples.
-  Filter Apples by `metadata.tokens_used > 0`, aggregate by day, render as sparkline in RSI panel.
+- [~] **MJOLNIR Milestone 4: Token spend sparkline** — BLOCKED: IDUNA list endpoint doesn't
+  include metadata/body; per-Apple fetches expensive for mobile. Deferred until IDUNA adds
+  aggregate token stats endpoint OR daily rollup endpoint. Not blocking Milestone 4 otherwise.
 
 - [x] **MJOLNIR Milestone 4: RSI cycle push** — FCM push fires on task completion in Apple-filing
   goroutine in cron.go. Title: "RSI cycle N complete". Body: task description. Priority: normal.
