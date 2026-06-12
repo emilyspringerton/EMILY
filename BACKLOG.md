@@ -87,7 +87,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   fields are captured at season-end for lineage query? Shapes all persistence decisions.
   — obs `2026-06-12`.
 
-- [ ] **TYLER: expand the role of the phone** — The in-game smartphone should have richer
+- [x] **TYLER: expand the role of the phone** — The in-game smartphone should have richer [Apple #371, 2026-06-12]
   mechanics: notifications, apps, contacts, map. Spec to be written.
   — obs `2026-06-07T22:04:47Z`.
 
