@@ -183,7 +183,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 18: MULTI-REPO RSI TOOLING + CONTEXT SPRAWL
 
-- [ ] **CHANGELOG updates getting dropped across repos** — Agents working in SHANKPIT, EMILY,
+- [x] **CHANGELOG updates getting dropped across repos** — Agents working in SHANKPIT, EMILY, [Apple #354, 2026-06-12]
   IDUNA, emily.cli, APPLES have no automated CHANGELOG enforcement. PRRJECT_FATBABY obs-watcher
   mentions CHANGELOG in step 5/6 but NOT in the mandatory runReportFooter. Fix: (1) add
   CHANGELOG.md update as step 5 in runReportFooter in cmd/observation-watcher/main.go so it is
