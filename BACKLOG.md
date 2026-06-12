@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-11 | S6 items done (--fatbaby, obs amend, TUI fixes) — Apple #330
+### Last updated: 2026-06-12 | S19-S22 added (Steam, MySQL/Mongo, Ask Emily, Emily Brain) — strategic replan
 
 ---
 
@@ -231,6 +231,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   consolidation (SHANKPIT + GoblinFoxDragon) or a workspace/submodule approach reduces sprawl
   without context penalty. Document trade-offs before acting. — obs `2026-06-12`.
 
+- [ ] **S18-TOOL-01: `emily context build` command** — Needed to compile all Tier 1 golden docs into
+  `EMILY/context/full-system-context.md` on demand. No implementation exists. Gap documented here;
+  implementation tracked in S22-05. Tooling is insufficient without this.
+
+- [ ] **S18-TOOL-02: `emily backlog add` and `emily backlog add-section`** — All backlog edits are
+  currently manual. Emily Prime cannot programmatically add items via `/api/v1/emily/run`.
+  Gap documented here; implementation tracked in S22-08.
+
+- [ ] **S18-TOOL-03: `emily northstar <repo>`** — No way to quickly read a repo's northstar from CLI.
+  Gap documented here; implementation tracked in S22-09.
+
+- [ ] **S18-TOOL-04: Emily Prime planning endpoint** — All strategic planning happens in Claude Code
+  conversations (expensive). Emily Prime has no `/plan` endpoint. Claude Code tokens should be spent
+  on implementation, not planning. Gap documented; implementation tracked in S22-07.
+
 - [~] **Ops docs token efficiency: multilingual compression experiment** — EXPERIMENTAL. Steps 1–2 done.
   Step 1: GOLDEN.md confirmed as sole runtime haiku context doc (~576 tokens, under 1200 budget).
   Large docs/ files are design docs, not runtime-loaded. Step 2: bilingual test version created at
@@ -324,6 +339,197 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **Self-improving training pipeline** — User data flywheel for Emily fine-tuning. [Apple #381, 2026-06-12]
   Collect prompt/response pairs from Emily Prime interactions, build annotation pipeline,
   RLHF loop. Long-term initiative. — obs `2026-05-30T22:10:22Z`.
+
+---
+
+---
+
+## STRATEGIC PRIORITY ORDER (as of 2026-06-12)
+
+Emily Prime read the golden docs sprawl memo and did deep thinking on value creation sequencing.
+Revenue path analysis:
+
+```
+Track 1: SHANKPIT → Steam Early Access     (6-12 months, first dollars)
+Track 2: Ask Emily (newssite product)       (6-12 months, freemium revenue)
+  Blocker: FatBaby MySQL projections + MongoDB graph flattening
+Track 3: Data platform licensing            (2+ years, institutional revenue)
+RSI:     Emily Prime Brain                  (parallel enabler — reduces Claude Code token spend)
+```
+
+Priority section order: S22 → S19 → S20 → S21 → S5 → S2 → S10
+
+---
+
+## SECTION 19: SHANKPIT → STEAM EARLY ACCESS (revenue track 1)
+
+*Northstar: ship a playable EA build with FPS core only. No Dragonfly yet. BedWars lands as major update post-launch.*
+*The C client + Go server are both partially functional. The gap is client-side portal travel + playable standalone build.*
+
+- [ ] **S19-01: Client-side portal travel state machine** — The Go server sends `PacketSceneChange` (type=6)
+  on portal transit. The C client ignores it. Implement travel state machine in C client:
+  receive PacketSceneChange → freeze input → play transition → update scene_id → resume. This makes
+  every scene in the game genuinely traversable. Dependency: Go server Milestone 2 ✓.
+  Acceptance: player can walk into a portal and arrive in a new scene without desync.
+
+- [ ] **S19-02: Per-player physics isolation (C server)** — Currently physics is a global
+  active-scene swap. Each player needs an independent physics context so players in different
+  scenes don't step on each other. This is the last blocker for multi-scene co-existence in the
+  C server. Acceptance: two players in different scenes can both interact with physics simultaneously.
+
+- [ ] **S19-03: Steam Direct account + listing prep** — Create Steamworks developer account ($100 fee,
+  human action required). Prepare minimum Steam page: 3 screenshots, 30-second capsule trailer,
+  short description. Target: "Server-authoritative fast multiplayer shooter, Early Access."
+  This can run in parallel with S19-01 and S19-02.
+  BLOCKED: needs Steam account (human action).
+
+- [ ] **S19-04: Standalone playable EA build** — Package SHANKPIT FPS for public play:
+  headless Go server binary + C client build for Linux/Windows. Write install doc. Target: 4-player
+  LAN/internet session works without any local setup beyond running two binaries.
+  Dependency: S19-01 ✓, S19-02 ✓.
+
+- [ ] **S19-05: Steam EA launch** — Set price ($9.99 USD EA), upload build, enable EA store page.
+  File completion Apple. Post observation.
+  Dependency: S19-03 ✓, S19-04 ✓.
+
+- [ ] **S19-06: SHANKPIT NORTHSTAR: Steam milestones** — Update `SHANKPIT/docs2/NORTHSTAR.md` with
+  Milestone 5 (EA launch: FPS core), Milestone 6 (BedWars + Dragonfly post-launch), Milestone 7
+  (Season 1 lineage). Keeps agent context current with the launch path.
+
+---
+
+## SECTION 20: FATBABY QUERYABILITY (MySQL projections + MongoDB graph)
+
+*FatBaby's eventstore is append-only and correct. It cannot serve ad-hoc queries needed for the newssite
+product. Solution: CQRS read models — MySQL for relational projections, MongoDB for flattened entity graph.*
+*User direction: MongoDB over Neo4j (no Neo4j ops complexity).*
+
+- [ ] **S20-01: MySQL read model schema design** — Design the projection tables in `PRRJECT_FATBABY/docs/`:
+  `governance_signals` (ticker, event_type, date, entity, filing_id, raw_signal),
+  `eps_results` (ticker, period, eps_actual, eps_estimate, surprise_pct),
+  `entity_timeline` (ticker, entity_name, role, event_type, event_date, source_filing).
+  Write as SQL DDL + rationale doc. No implementation yet — spec first.
+  Acceptance: doc written, reviewed by Emily Prime, committed.
+
+- [ ] **S20-02: MySQL projector in PRRJECT_FATBABY** — Implement the eventstore → MySQL projector.
+  Pattern: same CQRS as IDUNA's truestore (append-only events → read model). The projector
+  tails the eventstore and writes to MySQL read model tables. Use go-sql-driver/mysql.
+  Start with `governance_signals` table only.
+  Dependency: S20-01 ✓.
+
+- [ ] **S20-03: MongoDB entity document schema** — Design the flattened entity document format.
+  One MongoDB document per tracked entity (company/director/auditor). Fields:
+  `{ ticker, name, entity_type, directors: [...], governance_events: [...], eps_history: [...],
+  signal_score, last_updated }`. This flattens the EAV graph into queryable JSON documents.
+  Avoids Neo4j ops entirely. Write schema doc + rationale.
+  Acceptance: schema committed, Emily Prime reviewed.
+
+- [ ] **S20-04: MongoDB entity writer in PRRJECT_FATBABY** — Implement the entity graph →
+  MongoDB writer. After each entity-graph processing run, upsert the full entity document to
+  MongoDB. Use `go.mongodb.org/mongo-driver`. Connection string via env `MONGODB_URL`.
+  Dependency: S20-03 ✓.
+
+- [ ] **S20-05: signalapi: query endpoints over MySQL + MongoDB** — Add query endpoints to
+  `signalapi`:
+  `GET /api/v1/signals?ticker=BAC&type=auditor_change&since=2026-01-01` → MySQL governance_signals
+  `GET /api/v1/entities/{ticker}` → MongoDB entity document
+  `GET /api/v1/eps/{ticker}` → MySQL eps_results
+  These power the newssite and the Ask Emily API.
+  Dependency: S20-02 ✓, S20-04 ✓.
+
+- [ ] **S20-06: Document tooling gap — no MySQL/MongoDB local dev setup** — Write a `docs/local-dev-setup.md`
+  in PRRJECT_FATBABY covering: running MySQL locally (docker-compose), running MongoDB locally,
+  env vars needed, how to reset/reseed. This is the missing ops runbook.
+
+---
+
+## SECTION 21: ASK EMILY PRODUCT (revenue track 2)
+
+*Consumer-facing intelligence layer. Free tier: 5 questions/day. Paid: unlimited + email digest.*
+*Sits on top of FatBaby signals (S20 queryable) + Emily Prime API (already exists at :8086).*
+*Full GTM spec: `PRRJECT_FATBABY/docs/GTM_FUNNEL.md`.*
+
+- [ ] **S21-01: Ask Emily chat endpoint on newssite** — Add `POST /api/ask` to the newssite server.
+  Body: `{ question: string, ticker?: string }`. Handler: call Emily Prime at `:8086/api/v1/emily/chat`
+  (or `/api/v1/emily/run` with observe command) → return response. No auth yet (open beta).
+  Acceptance: POST /api/ask returns Emily's answer in <5s.
+
+- [ ] **S21-02: Ask Emily chat UI on newssite** — Add a chat widget to the newssite homepage.
+  Simple: text input + submit + response area. No streaming needed yet. Links to ticker page from
+  response if ticker mentioned. Mobile-friendly. Vanilla JS, no framework.
+
+- [ ] **S21-03: Ask Emily: wire FatBaby signals into Emily Prime context** — When `/api/ask` receives
+  a question with a ticker, fetch the entity document (S20-05) and governance_signals for that ticker,
+  prepend as context to Emily Prime's user message. Emily answers from real data, not hallucination.
+  Dependency: S20-05 ✓, S21-01 ✓.
+
+- [ ] **S21-04: Ask Emily: rate limiting (free tier)** — 5 questions per IP per day. Use IDUNA JWT
+  if user is logged in (then tie to user_id). Anonymous: use IP + daily bucket in Redis or SQLite.
+  Enforcement in newssite handler, not Emily Prime.
+
+- [ ] **S21-05: Ask Emily: auth integration via IDUNA** — Google OAuth login on newssite via IDUNA
+  `/api/v1/auth/google`. Logged-in users get 20 questions/day (free tier). Subscription tier TBD.
+  Dependency: S21-04 ✓, IDUNA OAuth ✓.
+
+- [ ] **S21-06: Landing page + waitlist** — Simple landing page at root of newssite (or separate
+  subdomain). Copy: "Ask Emily — governance intelligence for active investors." Email capture for
+  waitlist. Mailchimp or simple SMTP to emilyspringerton@gmail.com.
+
+---
+
+## SECTION 22: EMILY PRIME BRAIN (goldenbuild + dynamic prompt + FABLE full context)
+
+*Emily Prime currently runs blind — static system prompt, FABLE reads only GOLDEN.md.*
+*This section builds the context infrastructure that lets Emily Prime actually understand and plan the system.*
+*Completing this section is the multiplier for all other sections.*
+
+- [ ] **S22-01: `goldenbuild.go` — continuous golden doc compiler** — New file in `emily-agent/`.
+  `GoldenDocCompiler` reads all Tier 1 golden docs from all repos, compresses each via claude-haiku
+  bilingual Chinese/English (≤150 tokens/source), writes to `EMILY/context/full-system-context.md`.
+  `MaybeRebuild(ctx)`: checks source mtimes vs output mtime, rebuilds if any source is newer.
+  Sources: 18 Tier 1 docs listed in `context/golden-docs-sprawl-memo-2026-06-12.md`.
+  Acceptance: `full-system-context.md` written, contains compressed context from every repo.
+
+- [ ] **S22-02: Dynamic Emily system prompt** — Change `const emilySystemPrompt` in `main.go` to
+  `buildEmilySystemPrompt(emilyRoot string) string`. Reads `context/full-system-context.md` if
+  present, prepends to static roles/tools section. Updates 3 call sites (lines 1614, 1648, 1698).
+  Acceptance: Emily Prime's system prompt includes full cross-repo context on every conversation.
+
+- [ ] **S22-03: Wire MaybeRebuild into cron cycle** — Call `GoldenDocCompiler.MaybeRebuild(ctx)`
+  at the start of `RunOnce()` in `cron.go`. Full context refreshes on each 5-min cron cycle when
+  any source doc has changed.
+  Dependency: S22-01 ✓.
+
+- [ ] **S22-04: FABLE reads full context** — Change `fable.go` `handleFableAdvice` and
+  `handleFableExecute` to pass `full-system-context.md` (or append to `GOLDEN.md`).
+  FABLE recommendations account for all repo northstars, not just backlog state.
+  Dependency: S22-01 ✓.
+
+- [ ] **S22-05: `emily context build` CLI command** — Add `emily context build` to emily.cli.
+  Runs the goldenbuild compiler on demand: reads all golden sources, compresses, writes
+  `full-system-context.md`. Allows human-triggered refresh without waiting for cron.
+  Dependency: S22-01 ✓ (or implement directly in emily.cli without importing emily-agent).
+
+- [ ] **S22-06: `EMILY/docs/NORTHSTAR.md`** — Emily's own repo has no NORTHSTAR.md. Write one
+  that synthesizes `emily-prime-spec.md` + `emiree-emily-fatbaby.md` + `emiree.md` into a single
+  canonical document. This becomes the Tier 1 golden doc for EMILY itself.
+
+- [ ] **S22-07: Emily Prime `/api/v1/emily/plan` endpoint** — Accept a planning question
+  (`{ question: string, context?: string }`), return a structured sprint batch
+  (`{ sprints: [{ title, rationale, section, effort }], summary }`).
+  This is the upgrade from FABLE (fixed 3 items) to a full planning conversation.
+  Moves planning responsibility from Claude Code sessions to Emily Prime herself.
+  Dependency: S22-02 ✓, S22-04 ✓.
+
+- [ ] **S22-08: Tooling gap — `emily backlog add` and `emily backlog add-section`** — Currently
+  adding items to BACKLOG.md requires manual editing. Add CLI commands:
+  `emily backlog add --section N "<item text>"` — appends item to section N
+  `emily backlog add-section --title "<title>"` — appends new numbered section
+  These make backlog editing programmatic and Emily Prime can drive it via `/api/v1/emily/run`.
+
+- [ ] **S22-09: `emily northstar <repo>`** — Print the northstar doc for the named repo.
+  Reads from the canonical location (e.g., `<repo>/docs/NORTHSTAR.md` or `<repo>/docs2/NORTHSTAR.md`).
+  Used by Emily Prime and human operators to quickly orient.
 
 ---
 
