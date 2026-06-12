@@ -326,11 +326,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [~] **eps-processor ticker map has only 2 entries — all press releases are being dropped silently** — STALE: ticker map now has 341 entries (was 2 on 2026-05-30). Processor cursor at 1562/1561 (fully caught up). 0 articles because current corpus lacks extractable earnings releases — data issue, not code. — obs `2026-05-30T09:46:52Z`. Closed.
 - [x] **gpt-2 c fork git@github.com:emilyspringerton/gpt2-alpine-c.git parity with og gpt-2 repo (we may have to build tensorflow…** — obs `2026-06-10T00:50:04Z`. CURATED: 2026-06-11. Done 2026-06-12. Apple #351. Commit gpt2-alpine-c 8348d1f.
 - [x] **gpt-2 as an entropy source** — obs `2026-06-10T00:48:37Z`. Done 2026-06-12. Apple #351. --entropy-stats outputs entropy_mean_nats for RSI loop use. Done 2026-06-12. Apple #351. Commit gpt2-alpine-c 8348d1f.
-- [ ] **S17 newssite filing date bug fixed: sort by FilingDate descending, not ingestion timestamp** — obs `2026-06-11T09:29:39Z`. CURATED: 2026-06-12.
-- [ ] **S6 TUI fatbaby mode: --fatbaby flag + b-toggle showing entity graph, process status, eps counts** — obs `2026-06-11T09:26:38Z`. CURATED: 2026-06-12.
-- [ ] **S3+S6+S12 sprint: HEIMDAL feedback, Apples auto-sync, golden context feed, obs-watcher rate-limit resilience** — obs `2026-06-11T09:23:46Z`. CURATED: 2026-06-12.
-- [ ] **session 2026-06-11: emily backlog curate CLI + Emily Prime agent tools (emily_read/write_file) + autonomous triage cura…** — obs `2026-06-11T01:32:04Z`. CURATED: 2026-06-12.
-- [ ] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — obs `2026-06-11T01:30:16Z`. CURATED: 2026-06-12.
+- [~] **S17 newssite filing date bug fixed: sort by FilingDate descending, not ingestion timestamp** — session completion recap. Closed: already done in prior session.
+- [~] **S6 TUI fatbaby mode: --fatbaby flag + b-toggle showing entity graph, process status, eps counts** — session completion recap. Closed: already done in prior session.
+- [~] **S3+S6+S12 sprint: HEIMDAL feedback, Apples auto-sync, golden context feed, obs-watcher rate-limit resilience** — session completion recap. Closed: already done.
+- [~] **session 2026-06-11: emily backlog curate CLI + Emily Prime agent tools (emily_read/write_file) + autonomous triage cura…** — session completion recap. Closed: already done.
+- [x] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — emily_write_file now unconditionally POSTs Apple via IdunaClient inside tool handler (Emily cannot opt out). OpenAPI spec for all 13 emily-agent tools written. Future tool stubs (grep_files, shell_exec, run_tests, git_commit, git_push) documented as path toward own Claude Code abstraction. EMILY commit 25e6c83. Done 2026-06-12. Apple #386.
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
