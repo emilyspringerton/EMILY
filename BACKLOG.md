@@ -300,7 +300,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   endpoint so Emily Prime can POST original governance commentary articles directly to the
   newssite CMS. — obs `2026-05-30T21:53:49Z`.
 
-- [ ] **GTM funnel** — Full product funnel: Ask Emily free tier, Emily+ subscription,
+- [x] **GTM funnel** — Full product funnel: Ask Emily free tier, Emily+ subscription, [Apple #377, 2026-06-12]
   community editorial engine, Merkle query monetization. Spec to be drafted.
   — obs `2026-05-30T22:02:43Z`.
 
