@@ -17,3 +17,7 @@ signals/tasks/.last-processed
 
 # Go build cache
 *.test
+
+# Go workspace (local only)
+go.work
+go.work.sum
