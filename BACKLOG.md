@@ -383,10 +383,10 @@ Priority section order: S22 → S19 → S20 → S21 → S5 → S2 → S10
   This can run in parallel with S19-01 and S19-02.
   BLOCKED: needs Steam account (human action).
 
-- [ ] **S19-04: Standalone playable EA build** — Package SHANKPIT FPS for public play:
-  headless Go server binary + C client build for Linux/Windows. Write install doc. Target: 4-player
-  LAN/internet session works without any local setup beyond running two binaries.
-  Dependency: S19-01 ✓, S19-02 ✓.
+- [x] **S19-04: Standalone playable EA build** — Makefile targets: go-server (GOWORK=off Go build),
+  ea (Linux: lobby + go-server + README → dist/ea/), ea-windows (mingw cross-compile).
+  docs/EA_BUILD.md: 4-player LAN/internet session guide, requirements, controls, EA status.
+  — 2026-06-12. Apple #411. Commit 574f2b1.
 
 - [ ] **S19-05: Steam EA launch** — Set price ($9.99 USD EA), upload build, enable EA store page.
   File completion Apple. Post observation.
@@ -411,11 +411,10 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   Write as SQL DDL + rationale doc. No implementation yet — spec first.
   Acceptance: doc written, reviewed by Emily Prime, committed.
 
-- [ ] **S20-02: MySQL projector in PRRJECT_FATBABY** — Implement the eventstore → MySQL projector.
-  Pattern: same CQRS as IDUNA's truestore (append-only events → read model). The projector
-  tails the eventstore and writes to MySQL read model tables. Use go-sql-driver/mysql.
-  Start with `governance_signals` table only.
-  Dependency: S20-01 ✓.
+- [x] **S20-02: MySQL projector in PRRJECT_FATBABY** — cmd/projector tails secwatch eventstore,
+  projects signal_generated events into governance_signals + entity_timeline tables. 4 SQL
+  migrations in migrations/mysql/. Idempotent on eventstore_seq. Graceful degradation when
+  MYSQL_URL not set. go-sql-driver/mysql v1.10.0 added. — 2026-06-12. Apple #410. Commit 74f09a2.
 
 - [x] **S20-03: MongoDB entity document schema** — Design the flattened entity document format.
   One MongoDB document per tracked entity (company/director/auditor). Fields:
