@@ -79,7 +79,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   world backend surfaces must be included in the Construct. Currently the Construct only covers core
   FPS files — DragonsNShit is invisible to agents and automation. — obs `2026-06-12`.
 
-- [ ] **SHANKPIT: GoblinFoxDragon repo relationship** — Clarify whether GoblinFoxDragon is the
+- [x] **SHANKPIT: GoblinFoxDragon repo relationship** — Clarify whether GoblinFoxDragon is the [Apple #361, 2026-06-12]
   Dragonfly fork (DragonsNShit backend), a separate umbrella, or the future consolidated repo.
   Both have go.mod module=dragonsnshit. Document in NORTHSTAR.md. — obs `2026-06-12`.
 
