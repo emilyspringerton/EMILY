@@ -213,15 +213,14 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   consolidation (SHANKPIT + GoblinFoxDragon) or a workspace/submodule approach reduces sprawl
   without context penalty. Document trade-offs before acting. — obs `2026-06-12`.
 
-- [ ] **Ops docs token efficiency: multilingual compression experiment** — EXPERIMENTAL. Dense
-  operational docs (golden context, northstar docs) could be compressed by translating to
-  Chinese (Mandarin) or Sanskrit, which encode more semantic content per LLM token than English.
-  This is an experimental hack with unknown operational risks (hallucination, mistranslation).
-  Approach: (1) identify highest-token ops docs; (2) create bilingual versions (English + 中文);
-  (3) A/B test haiku comprehension; (4) only deploy if comprehension is measurably equal.
-  DO NOT translate docs that agents use for code changes — only read-only context docs.
-  emily/emiree.md already demonstrates the pattern (Sanskrit + Chinese Emiree engine encoding).
-  — obs `2026-06-12`.
+- [~] **Ops docs token efficiency: multilingual compression experiment** — EXPERIMENTAL. Steps 1–2 done.
+  Step 1: GOLDEN.md confirmed as sole runtime haiku context doc (~576 tokens, under 1200 budget).
+  Large docs/ files are design docs, not runtime-loaded. Step 2: bilingual test version created at
+  docs/compression-experiment/GOLDEN_BILINGUAL_TEST.md (~30–40% token reduction estimate).
+  Test harness: scripts/compression-abtest.sh (ready to run). Step 3 BLOCKED: requires
+  ANTHROPIC_API_KEY for haiku comprehension A/B test. Step 4 BLOCKED: depends on step 3.
+  DO NOT deploy bilingual version until step 3 confirms equal comprehension.
+  — obs `2026-06-12`. Steps 1–2 committed 2026-06-12.
 
 ---
 
