@@ -207,7 +207,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   (b) `emily backlog done <item-id> [--apple-id N]` — marks an item [x] in EMILY/BACKLOG.md.
   These make the ops repeatable by any agent, not just Claude Code. — obs `2026-06-12`.
 
-- [ ] **Monorepo consideration (document trade-offs)** — Multi-repo sprawl causes context window
+- [x] **Monorepo consideration (document trade-offs)** — Multi-repo sprawl causes context window [Apple #366, 2026-06-12]
   overload. A monorepo would consolidate context but Git history merge is complex and a single
   large repo may overwhelm context windows even more. Decision: investigate whether a partial
   consolidation (SHANKPIT + GoblinFoxDragon) or a workspace/submodule approach reduces sprawl
