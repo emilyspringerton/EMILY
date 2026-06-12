@@ -6,7 +6,7 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 21 open, 56 done (archived), 0 intake pending
+## BACKLOG STATUS: 18 open, 59 done (archived), 0 intake pending
 
 ## COMPLETE (no open items): S3:SYSTEM · S4:SHANKPIT · S6:RSI · S9:MJOLNIR · S12:HEIMDAL · S13:GOLDEN · S14:EMILYOS · S15:PITVIPER · S16:EMILY · S17:NEWSSITE · S20:FATBABY
 
@@ -34,13 +34,10 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • S19-03: Steam Direct account + listing prep — Create Steamworks developer account ($100 fee,
 • S19-05: Steam EA launch — Set price ($9.99 USD EA), upload build, enable EA store page.
 
-### SECTION 21: ASK EMILY PRODUCT (revenue track 2) (6 open, 0 done)
-• S21-01: Ask Emily chat endpoint on newssite — Add `POST /api/ask` to the newssite server.
-• S21-02: Ask Emily chat UI on newssite — Add a chat widget to the newssite homepage.
+### SECTION 21: ASK EMILY PRODUCT (revenue track 2) (3 open, 3 done)
 • S21-03: Ask Emily: wire FatBaby signals into Emily Prime context — When `/api/ask` receives
 • S21-04: Ask Emily: rate limiting (free tier) — 5 questions per IP per day. Use IDUNA JWT
 • S21-05: Ask Emily: auth integration via IDUNA — Google OAuth login on newssite via IDUNA
-• S21-06: Landing page + waitlist — Simple landing page at root of newssite (or separate
 
 ### SECTION 22: EMILY PRIME BRAIN (goldenbuild + dynamic prompt + FABLE full context) (3 open, 6 done)
 • S22-07: Emily Prime `/api/v1/emily/plan` endpoint — Accept a planning question

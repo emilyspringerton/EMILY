@@ -444,14 +444,13 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
 *Sits on top of FatBaby signals (S20 queryable) + Emily Prime API (already exists at :8086).*
 *Full GTM spec: `PRRJECT_FATBABY/docs/GTM_FUNNEL.md`.*
 
-- [ ] **S21-01: Ask Emily chat endpoint on newssite** — Add `POST /api/ask` to the newssite server.
-  Body: `{ question: string, ticker?: string }`. Handler: call Emily Prime at `:8086/api/v1/emily/chat`
-  (or `/api/v1/emily/run` with observe command) → return response. No auth yet (open beta).
-  Acceptance: POST /api/ask returns Emily's answer in <5s.
+- [x] **S21-01: Ask Emily chat endpoint on newssite** — POST /api/ask proxies to Emily Prime
+  /chat. Ticker prefix in message. 30s timeout. 503 when emily not configured.
+  --emily-url flag + EMILY_BASE_URL env. — 2026-06-12. Apple #414. Commit 967ca3d.
 
-- [ ] **S21-02: Ask Emily chat UI on newssite** — Add a chat widget to the newssite homepage.
-  Simple: text input + submit + response area. No streaming needed yet. Links to ticker page from
-  response if ticker mentioned. Mobile-friendly. Vanilla JS, no framework.
+- [x] **S21-02: Ask Emily chat UI on newssite** — Sidebar widget: ticker input + question textarea
+  + Ask button. Async JS fetch /api/ask. Answer/error display inline. Mobile-friendly.
+  — 2026-06-12. Apple #414. Commit 967ca3d.
 
 - [ ] **S21-03: Ask Emily: wire FatBaby signals into Emily Prime context** — When `/api/ask` receives
   a question with a ticker, fetch the entity document (S20-05) and governance_signals for that ticker,
@@ -466,9 +465,9 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   `/api/v1/auth/google`. Logged-in users get 20 questions/day (free tier). Subscription tier TBD.
   Dependency: S21-04 ✓, IDUNA OAuth ✓.
 
-- [ ] **S21-06: Landing page + waitlist** — Simple landing page at root of newssite (or separate
+- [x] **S21-06: Landing page + waitlist** — Simple landing page at root of newssite (or separate
   subdomain). Copy: "Ask Emily — governance intelligence for active investors." Email capture for
-  waitlist. Mailchimp or simple SMTP to emilyspringerton@gmail.com.
+  waitlist. Mailchimp or simple SMTP to emilyspringerton@gmail.com. Apple #416
 
 ---
 
