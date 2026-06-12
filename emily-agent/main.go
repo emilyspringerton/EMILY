@@ -1494,10 +1494,15 @@ func NewServer(cfg Config) (*Server, error) {
 		return nil, fmt.Errorf("store: %w", err)
 	}
 
+	idunaClient := NewIdunaClientFromEnv()
+	if idunaClient == nil {
+		log.Printf("WARNING: IDUNA not configured — emily_write_file Apple filing will be skipped")
+	}
+
 	dispatcher := NewToolDispatcher()
 	registerGitTools(dispatcher, cfg.ConversationDir)
 	registerWebAuditTools(dispatcher)
-	registerEmilyPrimeTools(dispatcher, cfg.EmilyRoot, cfg.FatBabyRoot, cfg.IDUNARoot)
+	registerEmilyPrimeTools(dispatcher, cfg.EmilyRoot, cfg.FatBabyRoot, cfg.IDUNARoot, idunaClient)
 	log.Printf("tools registered: %d", len(dispatcher.Defs()))
 	for _, t := range dispatcher.Defs() {
 		log.Printf("  * %s", t.Name)

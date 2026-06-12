@@ -3,11 +3,14 @@
 //
 // Read tools are sandboxed to EMILY, PRRJECT_FATBABY, and IDUNA repos.
 // Write tool is sandboxed to EMILY only and auto-commits every mutation.
+// PLATFORM INVARIANT: emily_write_file always files an Apple. Emily cannot disable this.
 
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -20,7 +23,8 @@ const maxReadBytes = 200 * 1024 // 200 KB
 
 // registerEmilyPrimeTools adds emily_list_files, emily_read_file, emily_write_file
 // to the dispatcher. All root arguments must be absolute paths.
-func registerEmilyPrimeTools(d *ToolDispatcher, emilyRoot, fatbabyRoot, idunaRoot string) {
+// iduna may be nil in dev environments; Apple filing degrades gracefully but logs a warning.
+func registerEmilyPrimeTools(d *ToolDispatcher, emilyRoot, fatbabyRoot, idunaRoot string, iduna *IdunaClient) {
 	roots := map[string]string{
 		"EMILY":           emilyRoot,
 		"PRRJECT_FATBABY": fatbabyRoot,
@@ -205,6 +209,29 @@ func registerEmilyPrimeTools(d *ToolDispatcher, emilyRoot, fatbabyRoot, idunaRoo
 		}
 		if err := emilyGitAddCommit(emilyRoot, relPath, commitMsg); err != nil {
 			return fmt.Sprintf("wrote %s but git commit failed: %v", relPath, err), nil
+		}
+
+		// Platform invariant: every write files an Apple. Emily cannot opt out.
+		appleID := int64(0)
+		if iduna != nil {
+			id, err := iduna.PostApple(context.Background(), ApplePayload{
+				SourceRepo: "EMILY",
+				RunID:      fmt.Sprintf("emily-write-%d", time.Now().Unix()),
+				AppleType:  "improvement",
+				Title:      fmt.Sprintf("emily_write_file: %s (%s)", relPath, mode),
+				Body:       fmt.Sprintf("commit: %s\nbytes: %d", commitMsg, len(content)),
+			})
+			if err != nil {
+				log.Printf("emily_write_file: apple post failed (non-fatal): %v", err)
+			} else {
+				appleID = id
+			}
+		} else {
+			log.Printf("emily_write_file: WARNING — IDUNA not configured, Apple NOT filed for %s", relPath)
+		}
+
+		if appleID > 0 {
+			return fmt.Sprintf("ok: %s %s — committed — Apple #%d", mode, relPath, appleID), nil
 		}
 		return fmt.Sprintf("ok: %s %s — committed", mode, relPath), nil
 	})

@@ -1,0 +1,286 @@
+openapi: "3.1.0"
+info:
+  title: Emily Prime Tool API
+  version: "1.0.0"
+  description: |
+    Formal specification of all tool calls available to Emily Prime (emily-agent).
+    Tools are exposed as Anthropic-compatible tool definitions; this spec documents
+    them in OpenAPI 3.1 schema form for platform abstraction and future model migration.
+
+    Platform invariants:
+    - emily_write_file ALWAYS files an Apple to IDUNA. Emily cannot opt out.
+    - All file access is sandboxed to permitted repos (EMILY, PRRJECT_FATBABY, IDUNA).
+    - Writes to EMILY auto-commit via git.
+
+paths: {}
+
+components:
+  schemas:
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # FILE SYSTEM TOOLS (emily_list_files, emily_read_file, emily_write_file)
+    # Sandboxed to EMILY, PRRJECT_FATBABY, IDUNA repos.
+    # ──────────────────────────────────────────────────────────────────────────
+
+    emily_list_files:
+      type: object
+      description: List files in a directory of one of the permitted repos.
+      required: [repo]
+      properties:
+        repo:
+          type: string
+          enum: [EMILY, PRRJECT_FATBABY, IDUNA]
+          description: Which permitted repo to browse.
+        path:
+          type: string
+          default: "."
+          description: Relative path within the repo. Defaults to root.
+        depth:
+          type: integer
+          minimum: 1
+          maximum: 3
+          default: 1
+          description: Directory recursion depth (max 3).
+
+    emily_read_file:
+      type: object
+      description: |
+        Read a file from a permitted repo. Max 200KB. Returns raw file content.
+        Use emily_list_files first to discover paths.
+      required: [repo, path]
+      properties:
+        repo:
+          type: string
+          enum: [EMILY, PRRJECT_FATBABY, IDUNA]
+        path:
+          type: string
+          description: Relative path within the repo.
+
+    emily_write_file:
+      type: object
+      description: |
+        Write or append to a file in the EMILY repo. Auto-commits to git after every
+        write. PLATFORM INVARIANT: always files an Apple to IDUNA. Emily cannot skip
+        this — it is enforced at the platform layer, not by LLM instruction.
+      required: [path, content]
+      properties:
+        path:
+          type: string
+          description: Relative path within the EMILY repo.
+        content:
+          type: string
+          description: Full content to write, or text to append.
+        mode:
+          type: string
+          enum: [write, append]
+          default: write
+          description: write = overwrite; append = add to end of file.
+        commit_message:
+          type: string
+          description: Git commit message. Auto-generated if omitted.
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # CONVERSATION REPO TOOLS (git_list_files, git_read_file, write_file)
+    # Operate on the emily-agent conversation git repo (session history + proposals).
+    # ──────────────────────────────────────────────────────────────────────────
+
+    git_list_files:
+      type: object
+      description: List git-tracked files in the conversation repository.
+      properties:
+        subdir:
+          type: string
+          description: Optional subdirectory to list. Defaults to repo root.
+
+    git_read_file:
+      type: object
+      description: |
+        Read a file from the conversation git repository. Session history files are
+        named <session-id>.jsonl; each line is a JSON conversation turn.
+      required: [path]
+      properties:
+        path:
+          type: string
+          description: Path relative to the conversation repo root.
+        max_bytes:
+          type: string
+          description: Max bytes to read (e.g. "8192"). Defaults to full file.
+
+    write_file:
+      type: object
+      description: |
+        Write a file to proposals/ in the conversation repo. Use for RSI-generated
+        code improvements, architectural specs, analysis documents.
+        Auto-commits to git.
+      required: [path, content]
+      properties:
+        path:
+          type: string
+          description: Filename within proposals/, e.g. "fix-backoff.go".
+        content:
+          type: string
+          description: Complete text content. For code, provide the full file (not a diff). Max 512KB.
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # INTEGRATION TOOLS (RSI task + observation bus)
+    # Read/write the EMILY signals/observations and signals/tasks directories.
+    # ──────────────────────────────────────────────────────────────────────────
+
+    integration_read_observations:
+      type: object
+      description: Read pending FatBaby observations from signals/observations/. Returns the N most recent unread observation files.
+      properties:
+        limit:
+          type: integer
+          default: 10
+          description: Max observations to return.
+
+    integration_write_task:
+      type: object
+      description: Write a directed task file to signals/tasks/ for the obs-watcher loop to dispatch to Claude Code.
+      required: [task_id, content]
+      properties:
+        task_id:
+          type: string
+          description: Unique task identifier (becomes filename in signals/tasks/).
+        content:
+          type: string
+          description: Full task spec — what Claude Code should implement.
+        priority:
+          type: string
+          enum: [high, normal, low]
+          default: normal
+
+    integration_triage:
+      type: object
+      description: |
+        Classify a FatBaby observation as backlog (new work), noise (dismiss),
+        or observation (Apple + no action). Used in the cron PLAN phase.
+      required: [observation_id, classification]
+      properties:
+        observation_id:
+          type: string
+          description: The observation file ID (timestamp slug).
+        classification:
+          type: string
+          enum: [backlog, noise, observation]
+        reason:
+          type: string
+          description: Why this classification was chosen.
+
+    integration_write_observation:
+      type: object
+      description: Write a new observation to the shared observation bus. Used by Emily Prime to report anomalies to herself across cycles.
+      required: [content]
+      properties:
+        content:
+          type: string
+          description: Observation text.
+        severity:
+          type: string
+          enum: [info, warning, critical]
+          default: info
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # WEB AUDIT TOOL
+    # ──────────────────────────────────────────────────────────────────────────
+
+    web_audit_url:
+      type: object
+      description: |
+        Fetch a URL and run a structured audit: accessibility, performance hints,
+        missing meta tags, broken links. Returns an audit report as text.
+      required: [url]
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The URL to audit.
+        checks:
+          type: array
+          items:
+            type: string
+            enum: [accessibility, meta, links, performance]
+          description: Which audit checks to run. Defaults to all.
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # GMAIL TOOLS
+    # ──────────────────────────────────────────────────────────────────────────
+
+    gmail_read_inbox:
+      type: object
+      description: Read recent emails from the CEO Gmail inbox. Returns subject + sender + snippet for each.
+      properties:
+        limit:
+          type: integer
+          default: 10
+          description: Max emails to return.
+        query:
+          type: string
+          description: Gmail search query (e.g. "is:unread from:investor").
+
+    gmail_send_alert:
+      type: object
+      description: Send a critical-path alert email to the CEO. Use sparingly — only for escalations.
+      required: [subject, body]
+      properties:
+        subject:
+          type: string
+        body:
+          type: string
+          description: Plain text body. Markdown is acceptable.
+
+    gmail_send_weekly_pulse:
+      type: object
+      description: Send the weekly system pulse email digest to the CEO. Includes RSI loop stats, Apple counts, pipeline health.
+      properties:
+        force:
+          type: boolean
+          default: false
+          description: Send even if the weekly digest was already sent this week.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# FUTURE TOOLS (not yet implemented — documented here for platform planning)
+# These represent the Claude Code capabilities that will be abstracted into the
+# emily-agent tool surface as we build toward our own model/API layer.
+# ──────────────────────────────────────────────────────────────────────────────
+# x-future-tools:
+#
+#   shell_exec:
+#     description: Execute a shell command (bash). Sandboxed to permitted roots.
+#     required: [command]
+#     properties:
+#       command: { type: string }
+#       cwd: { type: string, description: "Working directory (must be a permitted repo root)" }
+#       timeout_ms: { type: integer, default: 30000 }
+#
+#   grep_files:
+#     description: Grep for a pattern across a permitted repo. Returns matching lines with file:line context.
+#     required: [repo, pattern]
+#     properties:
+#       repo: { type: string, enum: [EMILY, PRRJECT_FATBABY, IDUNA, SHANKPIT] }
+#       pattern: { type: string }
+#       path: { type: string, description: "Optional subdirectory to scope search" }
+#       max_results: { type: integer, default: 50 }
+#
+#   run_tests:
+#     description: Run go test ./... in a permitted repo. Returns pass/fail + output.
+#     required: [repo]
+#     properties:
+#       repo: { type: string }
+#       package: { type: string, description: "Specific package path (default: ./...)" }
+#
+#   git_commit:
+#     description: Stage and commit changes to a permitted repo.
+#     required: [repo, files, message]
+#     properties:
+#       repo: { type: string }
+#       files: { type: array, items: { type: string } }
+#       message: { type: string }
+#
+#   git_push:
+#     description: Push committed changes to origin. Always files an Apple before pushing.
+#     required: [repo]
+#     properties:
+#       repo: { type: string }
+#       branch: { type: string, default: "master" }
