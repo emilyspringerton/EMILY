@@ -6,9 +6,9 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 24 open, 53 done (archived), 0 intake pending
+## BACKLOG STATUS: 21 open, 56 done (archived), 0 intake pending
 
-## COMPLETE (no open items): S3:SYSTEM · S4:SHANKPIT · S6:RSI · S9:MJOLNIR · S12:HEIMDAL · S13:GOLDEN · S14:EMILYOS · S15:PITVIPER · S16:EMILY · S17:NEWSSITE
+## COMPLETE (no open items): S3:SYSTEM · S4:SHANKPIT · S6:RSI · S9:MJOLNIR · S12:HEIMDAL · S13:GOLDEN · S14:EMILYOS · S15:PITVIPER · S16:EMILY · S17:NEWSSITE · S20:FATBABY
 
 ## OPEN ITEMS
 
@@ -33,11 +33,6 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 ### SECTION 19: SHANKPIT → STEAM EARLY ACCESS (revenue track 1) (2 open, 4 done)
 • S19-03: Steam Direct account + listing prep — Create Steamworks developer account ($100 fee,
 • S19-05: Steam EA launch — Set price ($9.99 USD EA), upload build, enable EA store page.
-
-### SECTION 20: FATBABY QUERYABILITY (MySQL projections + MongoDB graph) (3 open, 3 done)
-• S20-04: MongoDB entity writer in PRRJECT_FATBABY — Implement the entity graph →
-• S20-05: signalapi: query endpoints over MySQL + MongoDB — Add query endpoints to
-• S20-06: Document tooling gap — no MySQL/MongoDB local dev setup — Write a `docs/local-dev-setup…
 
 ### SECTION 21: ASK EMILY PRODUCT (revenue track 2) (6 open, 0 done)
 • S21-01: Ask Emily chat endpoint on newssite — Add `POST /api/ask` to the newssite server.

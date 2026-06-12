@@ -423,22 +423,18 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   Avoids Neo4j ops entirely. Write schema doc + rationale.
   Acceptance: schema committed, Emily Prime reviewed.
 
-- [ ] **S20-04: MongoDB entity writer in PRRJECT_FATBABY** — Implement the entity graph →
-  MongoDB writer. After each entity-graph processing run, upsert the full entity document to
-  MongoDB. Use `go.mongodb.org/mongo-driver`. Connection string via env `MONGODB_URL`.
-  Dependency: S20-03 ✓.
+- [x] **S20-04: MongoDB entity writer in PRRJECT_FATBABY** — internal/mongowriter: EntityDocument
+  per ticker from Graph+signals, upserted via ReplaceOne. entity-graph --mongo-url flag.
+  Graceful no-op when MONGODB_URL not set. — 2026-06-12. Apple #412. Commit 8665179.
 
-- [ ] **S20-05: signalapi: query endpoints over MySQL + MongoDB** — Add query endpoints to
-  `signalapi`:
-  `GET /api/v1/signals?ticker=BAC&type=auditor_change&since=2026-01-01` → MySQL governance_signals
-  `GET /api/v1/entities/{ticker}` → MongoDB entity document
-  `GET /api/v1/eps/{ticker}` → MySQL eps_results
-  These power the newssite and the Ask Emily API.
-  Dependency: S20-02 ✓, S20-04 ✓.
+- [x] **S20-05: signalapi: query endpoints over MySQL + MongoDB** — GET /v1/governance-signals
+  (ticker/type/since/until/limit filter → MySQL), /v1/eps/{ticker} (MySQL eps_results),
+  /v1/entities/{ticker} (MongoDB). MYSQL_URL + MONGODB_URL env activation; 503 when not
+  configured. — 2026-06-12. Apple #413. Commit f6e4233.
 
-- [ ] **S20-06: Document tooling gap — no MySQL/MongoDB local dev setup** — Write a `docs/local-dev-setup.md`
-  in PRRJECT_FATBABY covering: running MySQL locally (docker-compose), running MongoDB locally,
-  env vars needed, how to reset/reseed. This is the missing ops runbook.
+- [x] **S20-06: MySQL/MongoDB local dev setup doc** — docs/local-dev-setup.md: Docker quickstart,
+  env vars, projector + entity-graph one-shot, query examples, reset/reseed, docker-compose,
+  troubleshooting. — 2026-06-12. Apple #413. Commit f6e4233.
 
 ---
 
