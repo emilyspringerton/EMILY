@@ -245,7 +245,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   by Emily Prime). SOC 2 Type II framing, 6 milestones, posture/RBAC/audit design. The
   product is a Linux-based policy kernel, not bare-metal. — Done 2026-06-09.
 
-- [ ] **EmilyOS package repo + build system** — Choose: Debian base or Arch base?
+- [x] **EmilyOS package repo + build system** — Choose: Debian base or Arch base? [Apple #374, 2026-06-12]
   Build SOC2-auditable software repository (BAZEL or BAZEL equivalent). Key constraint:
   reproducible builds, content-addressed storage. — obs `2026-06-11T00:00:18Z`.
 
