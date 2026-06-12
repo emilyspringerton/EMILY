@@ -6,7 +6,7 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 37 open, 40 done (archived), 0 intake pending
+## BACKLOG STATUS: 32 open, 45 done (archived), 0 intake pending
 
 ## COMPLETE (no open items): S3:SYSTEM · S4:SHANKPIT · S6:RSI · S9:MJOLNIR · S12:HEIMDAL · S13:GOLDEN · S14:EMILYOS · S15:PITVIPER · S16:EMILY · S17:NEWSSITE
 
@@ -54,13 +54,8 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • S21-05: Ask Emily: auth integration via IDUNA — Google OAuth login on newssite via IDUNA
 • S21-06: Landing page + waitlist — Simple landing page at root of newssite (or separate
 
-### SECTION 22: EMILY PRIME BRAIN (goldenbuild + dynamic prompt + FABLE full context) (9 open, 0 done)
-• S22-01: `goldenbuild.go` — continuous golden doc compiler — New file in `emily-agent/`.
-• S22-02: Dynamic Emily system prompt — Change `const emilySystemPrompt` in `main.go` to
-• S22-03: Wire MaybeRebuild into cron cycle — Call `GoldenDocCompiler.MaybeRebuild(ctx)`
-• S22-04: FABLE reads full context — Change `fable.go` `handleFableAdvice` and
+### SECTION 22: EMILY PRIME BRAIN (goldenbuild + dynamic prompt + FABLE full context) (4 open, 5 done)
 • S22-05: `emily context build` CLI command — Add `emily context build` to emily.cli.
-• S22-06: `EMILY/docs/NORTHSTAR.md` — Emily's own repo has no NORTHSTAR.md. Write one
 • S22-07: Emily Prime `/api/v1/emily/plan` endpoint — Accept a planning question
 • S22-08: Tooling gap — `emily backlog add` and `emily backlog add-section` — Currently
 • S22-09: `emily northstar <repo>` — Print the northstar doc for the named repo.

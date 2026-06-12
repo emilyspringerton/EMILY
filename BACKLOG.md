@@ -483,24 +483,24 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
 *This section builds the context infrastructure that lets Emily Prime actually understand and plan the system.*
 *Completing this section is the multiplier for all other sections.*
 
-- [ ] **S22-01: `goldenbuild.go` — continuous golden doc compiler** — New file in `emily-agent/`.
+- [x] **S22-01: `goldenbuild.go` — continuous golden doc compiler** — New file in `emily-agent/`.
   `GoldenDocCompiler` reads all Tier 1 golden docs from all repos, compresses each via claude-haiku
   bilingual Chinese/English (≤150 tokens/source), writes to `EMILY/context/full-system-context.md`.
   `MaybeRebuild(ctx)`: checks source mtimes vs output mtime, rebuilds if any source is newer.
   Sources: 18 Tier 1 docs listed in `context/golden-docs-sprawl-memo-2026-06-12.md`.
   Acceptance: `full-system-context.md` written, contains compressed context from every repo.
 
-- [ ] **S22-02: Dynamic Emily system prompt** — Change `const emilySystemPrompt` in `main.go` to
+- [x] **S22-02: Dynamic Emily system prompt** — Change `const emilySystemPrompt` in `main.go` to
   `buildEmilySystemPrompt(emilyRoot string) string`. Reads `context/full-system-context.md` if
   present, prepends to static roles/tools section. Updates 3 call sites (lines 1614, 1648, 1698).
   Acceptance: Emily Prime's system prompt includes full cross-repo context on every conversation.
 
-- [ ] **S22-03: Wire MaybeRebuild into cron cycle** — Call `GoldenDocCompiler.MaybeRebuild(ctx)`
+- [x] **S22-03: Wire MaybeRebuild into cron cycle** — Call `GoldenDocCompiler.MaybeRebuild(ctx)`
   at the start of `RunOnce()` in `cron.go`. Full context refreshes on each 5-min cron cycle when
   any source doc has changed.
   Dependency: S22-01 ✓.
 
-- [ ] **S22-04: FABLE reads full context** — Change `fable.go` `handleFableAdvice` and
+- [x] **S22-04: FABLE reads full context** — Change `fable.go` `handleFableAdvice` and
   `handleFableExecute` to pass `full-system-context.md` (or append to `GOLDEN.md`).
   FABLE recommendations account for all repo northstars, not just backlog state.
   Dependency: S22-01 ✓.
@@ -510,7 +510,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   `full-system-context.md`. Allows human-triggered refresh without waiting for cron.
   Dependency: S22-01 ✓ (or implement directly in emily.cli without importing emily-agent).
 
-- [ ] **S22-06: `EMILY/docs/NORTHSTAR.md`** — Emily's own repo has no NORTHSTAR.md. Write one
+- [x] **S22-06: `EMILY/docs/NORTHSTAR.md`** — Emily's own repo has no NORTHSTAR.md. Write one
   that synthesizes `emily-prime-spec.md` + `emiree-emily-fatbaby.md` + `emiree.md` into a single
   canonical document. This becomes the Tier 1 golden doc for EMILY itself.
 

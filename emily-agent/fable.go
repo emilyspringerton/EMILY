@@ -148,6 +148,22 @@ Rules:
 	return advice, nil
 }
 
+// fableLoadContext returns the best available context for FABLE:
+// full-system-context.md if compiled, otherwise GOLDEN.md (backlog only).
+func fableLoadContext(emilyRoot string) ([]byte, error) {
+	fullPath := filepath.Join(emilyRoot, "context", "full-system-context.md")
+	if data, err := os.ReadFile(fullPath); err == nil {
+		log.Printf("fable: loaded full-system-context.md (%d bytes)", len(data))
+		return data, nil
+	}
+	goldenPath := filepath.Join(emilyRoot, "GOLDEN.md")
+	data, err := os.ReadFile(goldenPath)
+	if err != nil {
+		log.Printf("fable: could not read GOLDEN.md or full-system-context.md: %v", err)
+	}
+	return data, err
+}
+
 // fableIdunaClient returns an IdunaClient built from env vars, or nil if unconfigured.
 func fableIdunaClient() *IdunaClient {
 	baseURL := os.Getenv("IDUNA_BASE_URL")
@@ -177,10 +193,8 @@ func (s *Server) handleFableAdvice(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	goldenPath := filepath.Join(s.cfg.EmilyRoot, "GOLDEN.md")
-	goldenBytes, err := os.ReadFile(goldenPath)
+	goldenBytes, err := fableLoadContext(s.cfg.EmilyRoot)
 	if err != nil {
-		log.Printf("fable: read GOLDEN.md: %v", err)
 		http.Error(w, "could not read backlog context", http.StatusInternalServerError)
 		return
 	}
@@ -222,8 +236,7 @@ func (s *Server) handleFableExecute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	goldenPath := filepath.Join(s.cfg.EmilyRoot, "GOLDEN.md")
-	goldenBytes, err := os.ReadFile(goldenPath)
+	goldenBytes, err := fableLoadContext(s.cfg.EmilyRoot)
 	if err != nil {
 		http.Error(w, "could not read backlog context", http.StatusInternalServerError)
 		return

@@ -1414,7 +1414,17 @@ func (rl *RateLimiter) Allow(ip string) bool {
 // Emily system prompt
 // -----------------------------------------------------------------------------
 
-const emilySystemPrompt = `You are Emily Prime — meta-orchestrator, chief of staff, and recursive self-improvement engine.
+// buildEmilySystemPrompt prepends the compiled full-system-context.md (if present)
+// to the static roles/tools section so Emily has live cross-repo northstar context.
+func buildEmilySystemPrompt(emilyRoot string) string {
+	ctxPath := filepath.Join(emilyRoot, "context", "full-system-context.md")
+	if data, err := os.ReadFile(ctxPath); err == nil {
+		return string(data) + "\n---\n\n" + emilyStaticPrompt
+	}
+	return emilyStaticPrompt
+}
+
+const emilyStaticPrompt = `You are Emily Prime — meta-orchestrator, chief of staff, and recursive self-improvement engine.
 
 ROLES:
 1. CEO Chief of Staff — monitor inbox, triage by strategic relevance, surface what needs a decision. Send signal alerts for material findings. Generate the weekly pulse.
@@ -1611,7 +1621,7 @@ func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/?session="+sessionID, http.StatusFound)
 		return
 	}
-	_, turns, err := s.store.LoadHistory(sessionID, emilySystemPrompt)
+	_, turns, err := s.store.LoadHistory(sessionID, buildEmilySystemPrompt(s.cfg.EmilyRoot))
 	if err != nil {
 		http.Error(w, "history load failed", 500)
 		return
@@ -1645,7 +1655,7 @@ func (s *Server) handleChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	history, _, err := s.store.LoadHistory(body.SessionID, emilySystemPrompt)
+	history, _, err := s.store.LoadHistory(body.SessionID, buildEmilySystemPrompt(s.cfg.EmilyRoot))
 	if err != nil {
 		http.Error(w, `{"error":"history load failed"}`, 500)
 		return
@@ -1695,7 +1705,7 @@ func (s *Server) handleHistory(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `{"error":"session required"}`, 400)
 		return
 	}
-	_, turns, err := s.store.LoadHistory(sessionID, emilySystemPrompt)
+	_, turns, err := s.store.LoadHistory(sessionID, buildEmilySystemPrompt(s.cfg.EmilyRoot))
 	if err != nil {
 		http.Error(w, `{"error":"load failed"}`, 500)
 		return

@@ -34,6 +34,7 @@ type CronConfig struct {
 	LockFile      string        // prevents concurrent runs
 	CycleDuration time.Duration // max time per cycle (default 280s)
 	Interval      time.Duration // how often to run (default 5m, used in daemon mode)
+	EmilyRoot     string        // absolute path to the EMILY repo root (for goldenbuild)
 }
 
 func defaultCronConfig() CronConfig {
@@ -43,6 +44,7 @@ func defaultCronConfig() CronConfig {
 		LockFile:      filepath.Join(stateDir, "emily.lock"),
 		CycleDuration: 280 * time.Second,
 		Interval:      5 * time.Minute,
+		EmilyRoot:     envOr("EMILY_ROOT", "/home/fatbaby/EMILY"),
 	}
 }
 
@@ -149,6 +151,14 @@ func (ac *AutonomousCycle) RunOnce() error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), ac.cfg.CycleDuration)
 	defer cancel()
+
+	// Refresh full-system-context.md if any golden source doc changed.
+	if ac.cfg.EmilyRoot != "" {
+		compiler := NewGoldenDocCompiler(ac.cfg.EmilyRoot, os.Getenv("ANTHROPIC_API_KEY"))
+		if err := compiler.MaybeRebuild(ctx); err != nil {
+			log.Printf("[cycle] goldenbuild: %v", err)
+		}
+	}
 
 	rec := CycleRecord{StartedAt: time.Now()}
 
