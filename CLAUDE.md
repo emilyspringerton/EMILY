@@ -76,3 +76,11 @@ patches sprint to `complete`/`blocked` + FCM push.
 - `emily.cli` — CLI for Emily (emily observe, emily status, emily tui)
 - `MJOLNIR` — Android app; Emily's phone
 - `APPLES` — git-authoritative Apple backup (`emily sync --apples-git-dir`)
+
+## CHANGELOG Protocol
+
+After any meaningful change, update CHANGELOG.md:
+```bash
+emily changelog add EMILY "<what changed>"
+# or manually: append a dated bullet under ## YYYY-MM-DD in EMILY/CHANGELOG.md
+```
