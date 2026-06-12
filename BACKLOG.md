@@ -158,6 +158,25 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 9: MJOLNIR — Android Intelligence Terminal
 
+- [x] **MJOLNIR Milestones 0–3 audit + NORTHSTAR update** — Audited MJOLNIR against NORTHSTAR.
+  Milestones 0–3 are COMPLETE: skeleton (9bb2e1b), Hilt/Compose/Retrofit, Apple feed, FCM token
+  registration, push channels (CRITICAL/HIGH/NORMAL), deep link, WebView products, HEIMDAL sprint UI,
+  camera intelligence, offline APPLES source browser (ApplesGitSyncWorker + SourceBrowserScreen).
+  NORTHSTAR updated to reflect [x] status. README status updated to Milestone 4.
+  TYLER/EPISODES.md created (52 episodes, S1–S7, Build 0082). TYLER + SHANKPIT product cards
+  added to ProductsScreen. Done 2026-06-12.
+
+- [ ] **MJOLNIR Milestone 4: RSI loop state display** — App shows RSI loop state read from
+  `EMILY/var/rsi-loop-state.json` via Emily Prime API (`GET /api/v1/emily/state` or similar).
+  Shows: current gear (ACTIVE/COAST/REST), cycle number, last-cycle outcome, next scheduled run.
+
+- [ ] **MJOLNIR Milestone 4: Token spend sparkline** — 7-day token spend graph from IDUNA Apples.
+  Filter Apples by `metadata.tokens_used > 0`, aggregate by day, render as sparkline in RSI panel.
+
+- [ ] **MJOLNIR Milestone 4: RSI cycle push** — Emily Prime sends FCM push on each completed RSI
+  cycle. FCM sender exists (`pkg/fcm/sender.go`). Needs: cron.go wiring to fire post-cycle push
+  with `{title: "RSI cycle N complete", body: task_title, data: {apple_id, tokens_used}}`.
+
 ---
 
 ## SECTION 10: EMILY PRIME SELENIUM / WEB AUDIT
