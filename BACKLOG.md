@@ -83,7 +83,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Dragonfly fork (DragonsNShit backend), a separate umbrella, or the future consolidated repo.
   Both have go.mod module=dragonsnshit. Document in NORTHSTAR.md. — obs `2026-06-12`.
 
-- [ ] **SHANKPIT: Season lineage snapshot schema** — No spec exists. Write minimal schema: what
+- [x] **SHANKPIT: Season lineage snapshot schema** — No spec exists. Write minimal schema: what [Apple #364, 2026-06-12]
   fields are captured at season-end for lineage query? Shapes all persistence decisions.
   — obs `2026-06-12`.
 
