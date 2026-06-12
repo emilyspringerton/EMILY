@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-06-10T14:41:26Z",
+  "from": "operator-cli",
+  "to": "fatbaby-emily",
+  "task_id": "task-1372474139178038161",
+  "task_type": "rsi_report",
+  "priority": "high",
+  "description": "Write a report on optimal token use for recursive self-improvement across the full Emily OS system. Analyse current token spend per cycle in emily-agent (cron.go RSI loop), observation-watcher invocations, and prime-task → Claude Code dispatches. Identify the highest-ROI improvements: e.g. prompt compression, caching, batching observations, gating trivial cycles. Produce a prioritised action list with estimated token savings per item. Then implement the top item as a concrete code change, commit it, and post findings as an IDUNA Apple.",
+  "acceptance_criteria": [
+    "report covers emily-agent RSI loop, observation-watcher, and prime-task dispatch",
+    "at least 3 prioritised improvements with estimated token impact",
+    "top item implemented as committed code change",
+    "IDUNA Apple posted with report summary and diff link"
+  ],
+  "context": "This is a tic-toc RSI loop: Emily Prime writes the report, then Claude Code implements the top recommendation, then Emily Prime reviews the diff and iterates. Each iteration should move the needle on actual token efficiency."
+}

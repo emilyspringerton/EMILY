@@ -61,8 +61,31 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
 
-- [ ] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
+- [~] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
+
+- [x] **SHANKPIT Dragonfly server (Milestones 1+2) — end-to-end verified** — Go backend :6969
+  builds + runs. UDP handshake (PacketConnect→PacketWelcome), portal travel (BTN_USE → PortalTriggered
+  → ResolvePortalDestination → sendSceneChange), 20Hz per-scene snapshots, voxel streaming, and
+  cross-scene attack guard all operational. Architecture memo filed to Emily Prime for Milestone 3
+  (WorldBackend interface) and Milestone 4 (Construct expansion). — 2026-06-12.
+
+- [ ] **SHANKPIT Milestone 3: WorldBackend Go interface** — Define the portal_resolve_destination /
+  world_backend_*() abstraction as a Go interface in server/. Spec must go in docs2/specs/ FIRST.
+  Enables: swapping Dragonfly fork in behind stable seam. Dependency: Emily Prime architecture review.
+  — obs `2026-06-12`.
+
+- [ ] **SHANKPIT Milestone 4: Construct expansion** — DragonsNShit bridge code, scene/portal code,
+  world backend surfaces must be included in the Construct. Currently the Construct only covers core
+  FPS files — DragonsNShit is invisible to agents and automation. — obs `2026-06-12`.
+
+- [ ] **SHANKPIT: GoblinFoxDragon repo relationship** — Clarify whether GoblinFoxDragon is the
+  Dragonfly fork (DragonsNShit backend), a separate umbrella, or the future consolidated repo.
+  Both have go.mod module=dragonsnshit. Document in NORTHSTAR.md. — obs `2026-06-12`.
+
+- [ ] **SHANKPIT: Season lineage snapshot schema** — No spec exists. Write minimal schema: what
+  fields are captured at season-end for lineage query? Shapes all persistence decisions.
+  — obs `2026-06-12`.
 
 - [ ] **TYLER: expand the role of the phone** — The in-game smartphone should have richer
   mechanics: notifications, apps, contacts, map. Spec to be written.
@@ -155,6 +178,50 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **HEIMDAL status feedback** — notifyHeimdalStatus goroutine fires on heimdal-* task
   terminal status (complete or blocked): patches sprint in IDUNA, files completion Apple,
   sends FCM push to MJOLNIR. — Done 2026-06-11. Commit emily-agent (heimdal.go + cron.go).
+
+---
+
+## SECTION 18: MULTI-REPO RSI TOOLING + CONTEXT SPRAWL
+
+- [ ] **CHANGELOG updates getting dropped across repos** — Agents working in SHANKPIT, EMILY,
+  IDUNA, emily.cli, APPLES have no automated CHANGELOG enforcement. PRRJECT_FATBABY obs-watcher
+  mentions CHANGELOG in step 5/6 but NOT in the mandatory runReportFooter. Fix: (1) add
+  CHANGELOG.md update as step 5 in runReportFooter in cmd/observation-watcher/main.go so it is
+  mandatory for all obs-watcher-dispatched runs; (2) add explicit CHANGELOG reminder to CLAUDE.md
+  for every repo that doesn't have one. — obs `2026-06-12`.
+
+- [x] **runReportFooter: add CHANGELOG as mandatory step** — Added CHANGELOG.md update as
+  mandatory step 1 in runReportFooter (PRRJECT_FATBABY/cmd/observation-watcher/main.go).
+  Steps renumbered 1-5. Build + tests pass. — 2026-06-12. Apple #349.
+
+- [ ] **Apple posts getting dropped in non-PRRJECT_FATBABY repos** — The `emily apples post`
+  command exists but agents in SHANKPIT, EMILY, IDUNA, emily.cli don't know to use it because
+  it's not in their CLAUDE.md or any prompt footer. Fix: add "After any meaningful change, run:
+  emily apples post -t completion -repo <REPONAME> <title>" to CLAUDE.md for SHANKPIT, EMILY,
+  IDUNA, emily.cli, APPLES. — obs `2026-06-12`.
+
+- [ ] **API abstraction for cross-repo repeatable ops** — Everything that currently only works via
+  Claude Code should have a repeatable CLI/API surface: CHANGELOG update, Apple post, backlog
+  mark-done, git commit+push. Pattern: emily CLI is the model. Extend emily.cli with:
+  (a) `emily changelog add <repo> <message>` — appends a dated entry to <repo>/CHANGELOG.md;
+  (b) `emily backlog done <item-id> [--apple-id N]` — marks an item [x] in EMILY/BACKLOG.md.
+  These make the ops repeatable by any agent, not just Claude Code. — obs `2026-06-12`.
+
+- [ ] **Monorepo consideration (document trade-offs)** — Multi-repo sprawl causes context window
+  overload. A monorepo would consolidate context but Git history merge is complex and a single
+  large repo may overwhelm context windows even more. Decision: investigate whether a partial
+  consolidation (SHANKPIT + GoblinFoxDragon) or a workspace/submodule approach reduces sprawl
+  without context penalty. Document trade-offs before acting. — obs `2026-06-12`.
+
+- [ ] **Ops docs token efficiency: multilingual compression experiment** — EXPERIMENTAL. Dense
+  operational docs (golden context, northstar docs) could be compressed by translating to
+  Chinese (Mandarin) or Sanskrit, which encode more semantic content per LLM token than English.
+  This is an experimental hack with unknown operational risks (hallucination, mistranslation).
+  Approach: (1) identify highest-token ops docs; (2) create bilingual versions (English + 中文);
+  (3) A/B test haiku comprehension; (4) only deploy if comprehension is measurably equal.
+  DO NOT translate docs that agents use for code changes — only read-only context docs.
+  emily/emiree.md already demonstrates the pattern (Sanskrit + Chinese Emiree engine encoding).
+  — obs `2026-06-12`.
 
 ---
 
