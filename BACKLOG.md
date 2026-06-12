@@ -404,7 +404,7 @@ Priority section order: S22 → S19 → S20 → S21 → S5 → S2 → S10
 product. Solution: CQRS read models — MySQL for relational projections, MongoDB for flattened entity graph.*
 *User direction: MongoDB over Neo4j (no Neo4j ops complexity).*
 
-- [ ] **S20-01: MySQL read model schema design** — Design the projection tables in `PRRJECT_FATBABY/docs/`:
+- [x] **S20-01: MySQL read model schema design** — Design the projection tables in `PRRJECT_FATBABY/docs/`:
   `governance_signals` (ticker, event_type, date, entity, filing_id, raw_signal),
   `eps_results` (ticker, period, eps_actual, eps_estimate, surprise_pct),
   `entity_timeline` (ticker, entity_name, role, event_type, event_date, source_filing).
@@ -417,7 +417,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   Start with `governance_signals` table only.
   Dependency: S20-01 ✓.
 
-- [ ] **S20-03: MongoDB entity document schema** — Design the flattened entity document format.
+- [x] **S20-03: MongoDB entity document schema** — Design the flattened entity document format.
   One MongoDB document per tracked entity (company/director/auditor). Fields:
   `{ ticker, name, entity_type, directors: [...], governance_events: [...], eps_history: [...],
   signal_score, last_updated }`. This flattens the EAV graph into queryable JSON documents.

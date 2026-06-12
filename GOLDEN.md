@@ -6,7 +6,7 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 28 open, 49 done (archived), 0 intake pending
+## BACKLOG STATUS: 26 open, 51 done (archived), 0 intake pending
 
 ## COMPLETE (no open items): S3:SYSTEM · S4:SHANKPIT · S6:RSI · S9:MJOLNIR · S12:HEIMDAL · S13:GOLDEN · S14:EMILYOS · S15:PITVIPER · S16:EMILY · S17:NEWSSITE
 
@@ -35,10 +35,8 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • S19-04: Standalone playable EA build — Package SHANKPIT FPS for public play:
 • S19-05: Steam EA launch — Set price ($9.99 USD EA), upload build, enable EA store page.
 
-### SECTION 20: FATBABY QUERYABILITY (MySQL projections + MongoDB graph) (6 open, 0 done)
-• S20-01: MySQL read model schema design — Design the projection tables in `PRRJECT_FATBABY/docs/`:
+### SECTION 20: FATBABY QUERYABILITY (MySQL projections + MongoDB graph) (4 open, 2 done)
 • S20-02: MySQL projector in PRRJECT_FATBABY — Implement the eventstore → MySQL projector.
-• S20-03: MongoDB entity document schema — Design the flattened entity document format.
 • S20-04: MongoDB entity writer in PRRJECT_FATBABY — Implement the entity graph →
 • S20-05: signalapi: query endpoints over MySQL + MongoDB — Add query endpoints to
 • S20-06: Document tooling gap — no MySQL/MongoDB local dev setup — Write a `docs/local-dev-setup…
