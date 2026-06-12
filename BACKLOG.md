@@ -304,7 +304,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   community editorial engine, Merkle query monetization. Spec to be drafted.
   — obs `2026-05-30T22:02:43Z`.
 
-- [ ] **Self-improving training pipeline** — User data flywheel for Emily fine-tuning.
+- [x] **Self-improving training pipeline** — User data flywheel for Emily fine-tuning. [Apple #381, 2026-06-12]
   Collect prompt/response pairs from Emily Prime interactions, build annotation pipeline,
   RLHF loop. Long-term initiative. — obs `2026-05-30T22:10:22Z`.
 
