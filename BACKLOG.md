@@ -169,9 +169,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **MJOLNIR Milestone 4: Token spend sparkline** — 7-day token spend graph from IDUNA Apples.
   Filter Apples by `metadata.tokens_used > 0`, aggregate by day, render as sparkline in RSI panel.
 
-- [ ] **MJOLNIR Milestone 4: RSI cycle push** — Emily Prime sends FCM push on each completed RSI
-  cycle. FCM sender exists (`pkg/fcm/sender.go`). Needs: cron.go wiring to fire post-cycle push
-  with `{title: "RSI cycle N complete", body: task_title, data: {apple_id, tokens_used}}`.
+- [x] **MJOLNIR Milestone 4: RSI cycle push** — FCM push fires on task completion in Apple-filing
+  goroutine in cron.go. Title: "RSI cycle N complete". Body: task description. Priority: normal.
+  Data: apple_id, cycle, tasks_done. Fires only on task.Status == "success" (not idle cycles).
+  Done 2026-06-12. Apple #TBD.
 
 ---
 

@@ -364,9 +364,22 @@ func (ac *AutonomousCycle) RunOnce() error {
 	}
 	ac.updateDashboard(state, rec)
 
+	// Capture task completion state before goroutine (task pointer may change).
+	taskCompleted := task != nil && task.Status == "success"
+	var taskTitle string
+	if task != nil {
+		taskTitle = task.Description
+		if taskTitle == "" {
+			taskTitle = task.ID
+		}
+		if len(taskTitle) > 120 {
+			taskTitle = taskTitle[:120] + "…"
+		}
+	}
+
 	// Submit Apple to IDUNA — best-effort, never blocks or fails the cycle.
 	if ac.iduna != nil {
-		appleCtx, appleCancel := context.WithTimeout(context.Background(), 10*time.Second)
+		appleCtx, appleCancel := context.WithTimeout(context.Background(), 15*time.Second)
 		go func() {
 			defer appleCancel()
 			payload := buildCycleApple(state, task, rec, triageFindings)
@@ -381,6 +394,24 @@ func (ac *AutonomousCycle) RunOnce() error {
 					Msg:   payload.Title,
 					Data:  map[string]any{"id": id, "apple_type": payload.AppleType},
 				})
+				// RSI cycle completion push: fire on task success only (not idle/audit cycles).
+				if taskCompleted && ac.fcmSender != nil {
+					pushCtx, pushCancel := context.WithTimeout(context.Background(), 8*time.Second)
+					defer pushCancel()
+					deviceToken, tokenErr := ac.iduna.GetPushToken(pushCtx, "mjolnir-emily")
+					if tokenErr == nil && deviceToken != "" {
+						_ = ac.fcmSender.Send(pushCtx, deviceToken, fcm.Message{
+							Title:    fmt.Sprintf("RSI cycle %d complete", state.CycleNumber),
+							Body:     taskTitle,
+							Priority: "normal",
+							Data: map[string]string{
+								"apple_id":   fmt.Sprintf("%d", id),
+								"cycle":      fmt.Sprintf("%d", state.CycleNumber),
+								"tasks_done": fmt.Sprintf("%d", state.Metrics.TasksCompleted),
+							},
+						})
+					}
+				}
 			}
 		}()
 	}
