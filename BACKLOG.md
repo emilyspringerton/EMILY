@@ -200,7 +200,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   emily apples post -t completion -repo <REPONAME> <title>" to CLAUDE.md for SHANKPIT, EMILY,
   IDUNA, emily.cli, APPLES. — obs `2026-06-12`.
 
-- [ ] **API abstraction for cross-repo repeatable ops** — Everything that currently only works via
+- [x] **API abstraction for cross-repo repeatable ops** — Everything that currently only works via [Apple #353, 2026-06-12]
   Claude Code should have a repeatable CLI/API surface: CHANGELOG update, Apple post, backlog
   mark-done, git commit+push. Pattern: emily CLI is the model. Extend emily.cli with:
   (a) `emily changelog add <repo> <message>` — appends a dated entry to <repo>/CHANGELOG.md;
@@ -317,15 +317,15 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **UX: ticker search should auto-navigate on click and on Enter key — remove redundant Go button step** — Form submit + datalist selection now navigate directly to /ticker/{q}; /search intermediate step eliminated. 'change' event added for cross-browser compat. — obs `2026-05-31T20:39:51Z`. Done 2026-06-11. Apple #339.
 - [x] **Feature: create a GitHub issue automatically whenever Emily writes an observation** — obs `2026-05-31T20:41:56Z`. Done 2026-06-11. Apple #343. Commit PRRJECT_FATBABY b2f52bc.
-- [x] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11. Apple #342 2026-06-11.
+- [x] **All required and optional environment variables must be documented at the top of the README** — obs `2026-05-31T20:43:15Z`. CURATED: 2026-06-11. Done 2026-06-12. Apple #351. Commit gpt2-alpine-c 8348d1f. Apple #342 2026-06-11.
 - [x] **observation-watcher must inject full reporting and git sync requirements into the Claude Code prompt** — runReportFooter updated: Apple now required (not optional), BACKLOG.md marking step added, git add -A. — obs `2026-05-31T20:56:45Z`. Done 2026-06-11. Apple #340.
 - [x] **EDGAR submissions endpoint returning truncated JSON for all 5 major bank tickers — BAC, C, GS, JPM, MS** — maxBodyBytes increased from 64MB to 256MB in secwatch/client.go. — obs `2026-05-30T21:45:32Z`. Done 2026-06-11. Apple #341.
 - [x] **entity-graph cannot detect 8-K documents from persisted store — form/source_type field mismatch** — buildFilingIndexes now returns form type map; 4th detection path via filing_discovered events recovers 880/1104 legacy docs. — obs `2026-05-30T21:32:12Z`. Done 2026-06-11. Apple #338.
 - [~] **entity-graph parsing all 8-K subtypes — Item 5.07 not found in non-proxy filings** — INVESTIGATED 2026-06-08: FALSE ALARM. TestParseItem507_BALiveFixture passes with 6 proposals on real BA data. Recent batches process non-proxy 8-Ks (earnings etc.) that legitimately have no Item 5.07. Not a bug. — obs `2026-05-30T21:29:24Z`. Closed.
 - [x] **entity-graph reads 0 filings despite 846 source documents in var/secwatch** — Stale: cursor at 67657 past store end (67656). Graph has 167 nodes, 1068 signals, 1215 edges. 1417 8-K docs processed. Also fixed by Apple #338 (legacy detection). — obs `2026-05-30T09:52:12Z`. Done.
 - [~] **eps-processor ticker map has only 2 entries — all press releases are being dropped silently** — STALE: ticker map now has 341 entries (was 2 on 2026-05-30). Processor cursor at 1562/1561 (fully caught up). 0 articles because current corpus lacks extractable earnings releases — data issue, not code. — obs `2026-05-30T09:46:52Z`. Closed.
-- [ ] **gpt-2 c fork git@github.com:emilyspringerton/gpt2-alpine-c.git parity with og gpt-2 repo (we may have to build tensorflow…** — obs `2026-06-10T00:50:04Z`. CURATED: 2026-06-11.
-- [ ] **gpt-2 as an entropy source** — obs `2026-06-10T00:48:37Z`. CURATED: 2026-06-11.
+- [x] **gpt-2 c fork git@github.com:emilyspringerton/gpt2-alpine-c.git parity with og gpt-2 repo (we may have to build tensorflow…** — obs `2026-06-10T00:50:04Z`. CURATED: 2026-06-11. Done 2026-06-12. Apple #351. Commit gpt2-alpine-c 8348d1f.
+- [x] **gpt-2 as an entropy source** — obs `2026-06-10T00:48:37Z`. Done 2026-06-12. Apple #351. --entropy-stats outputs entropy_mean_nats for RSI loop use. Done 2026-06-12. Apple #351. Commit gpt2-alpine-c 8348d1f.
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
