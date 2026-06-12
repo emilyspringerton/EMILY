@@ -872,12 +872,23 @@ func buildCycleApple(state *CycleState, task *ImprovementTask, rec CycleRecord, 
 		fmt.Sprintf("- Triage findings this cycle: %d", triageFindings),
 	)
 
+	var cycleTokens int
+	if task != nil {
+		for _, iter := range task.Iterations {
+			cycleTokens += iter.TokensUsed
+		}
+	}
+	if cycleTokens > 0 {
+		bodyLines = append(bodyLines, fmt.Sprintf("- Tokens this cycle: %d", cycleTokens))
+	}
+
 	meta, _ := json.Marshal(map[string]any{
-		"cycle_number":    state.CycleNumber,
-		"task_id":         func() string { if task != nil { return task.ID }; return "" }(),
-		"triage_findings": triageFindings,
+		"cycle_number":         state.CycleNumber,
+		"task_id":              func() string { if task != nil { return task.ID }; return "" }(),
+		"triage_findings":      triageFindings,
 		"consecutive_failures": state.Metrics.ConsecFailures,
-		"duration_s":      int(rec.EndedAt.Sub(rec.StartedAt).Seconds()),
+		"duration_s":           int(rec.EndedAt.Sub(rec.StartedAt).Seconds()),
+		"tokens_used":          cycleTokens,
 	})
 
 	return ApplePayload{
