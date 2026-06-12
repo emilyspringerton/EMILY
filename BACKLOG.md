@@ -158,13 +158,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 9: MJOLNIR — Android Intelligence Terminal
 
-- [x] **MJOLNIR Milestones 0–3 audit + NORTHSTAR update** — Audited MJOLNIR against NORTHSTAR.
-  Milestones 0–3 are COMPLETE: skeleton (9bb2e1b), Hilt/Compose/Retrofit, Apple feed, FCM token
-  registration, push channels (CRITICAL/HIGH/NORMAL), deep link, WebView products, HEIMDAL sprint UI,
-  camera intelligence, offline APPLES source browser (ApplesGitSyncWorker + SourceBrowserScreen).
-  NORTHSTAR updated to reflect [x] status. README status updated to Milestone 4.
-  TYLER/EPISODES.md created (52 episodes, S1–S7, Build 0082). TYLER + SHANKPIT product cards
-  added to ProductsScreen. Done 2026-06-12.
+- [x] **MJOLNIR Milestones 0–3 audit + NORTHSTAR update** — Milestones 0–3 COMPLETE.
+  NORTHSTAR updated [x]. README → Milestone 4. TYLER/EPISODES.md created (52 eps, S1–S7, Build 0082).
+  TYLER + SHANKPIT product cards added to ProductsScreen. Apple #395. Done 2026-06-12.
 
 - [ ] **MJOLNIR Milestone 4: RSI loop state display** — App shows RSI loop state read from
   `EMILY/var/rsi-loop-state.json` via Emily Prime API (`GET /api/v1/emily/state` or similar).
