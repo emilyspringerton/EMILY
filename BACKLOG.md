@@ -194,7 +194,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   mandatory step 1 in runReportFooter (PRRJECT_FATBABY/cmd/observation-watcher/main.go).
   Steps renumbered 1-5. Build + tests pass. — 2026-06-12. Apple #349.
 
-- [ ] **Apple posts getting dropped in non-PRRJECT_FATBABY repos** — The `emily apples post`
+- [x] **Apple posts getting dropped in non-PRRJECT_FATBABY repos** — The `emily apples post` [Apple #354, 2026-06-12]
   command exists but agents in SHANKPIT, EMILY, IDUNA, emily.cli don't know to use it because
   it's not in their CLAUDE.md or any prompt footer. Fix: add "After any meaningful change, run:
   emily apples post -t completion -repo <REPONAME> <title>" to CLAUDE.md for SHANKPIT, EMILY,
