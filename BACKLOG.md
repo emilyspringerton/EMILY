@@ -75,7 +75,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Enables: swapping Dragonfly fork in behind stable seam. Dependency: Emily Prime architecture review.
   — obs `2026-06-12`.
 
-- [ ] **SHANKPIT Milestone 4: Construct expansion** — DragonsNShit bridge code, scene/portal code,
+- [x] **SHANKPIT Milestone 4: Construct expansion** — DragonsNShit bridge code, scene/portal code, [Apple #369, 2026-06-12]
   world backend surfaces must be included in the Construct. Currently the Construct only covers core
   FPS files — DragonsNShit is invisible to agents and automation. — obs `2026-06-12`.
 
