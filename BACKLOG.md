@@ -1,6 +1,6 @@
 # EMILY PRIME — CROSS-REPO GOLDEN BACKLOG
 ## Owner: Emily Prime | Machine-readable | Git-authoritative
-### Last updated: 2026-06-12 | S19-S22 added (Steam, MySQL/Mongo, Ask Emily, Emily Brain) — strategic replan
+### Last updated: 2026-06-12 | S23 (EDIS WordPress product) + S24 (Newssite ops hardening) added
 
 ---
 
@@ -548,6 +548,79 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [~] **S3+S6+S12 sprint: HEIMDAL feedback, Apples auto-sync, golden context feed, obs-watcher rate-limit resilience** — session completion recap. Closed: already done.
 - [~] **session 2026-06-11: emily backlog curate CLI + Emily Prime agent tools (emily_read/write_file) + autonomous triage cura…** — session completion recap. Closed: already done.
 - [x] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — emily_write_file now unconditionally POSTs Apple via IdunaClient inside tool handler (Emily cannot opt out). OpenAPI spec for all 13 emily-agent tools written. Future tool stubs (grep_files, shell_exec, run_tests, git_commit, git_push) documented as path toward own Claude Code abstraction. EMILY commit 25e6c83. Done 2026-06-12. Apple #386.
+---
+
+## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
+
+*Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
+*Plugins: edis-core (API client + cache), edis-signals (shortcodes), edis-ask-emily (Ask Emily widget).*
+*Repo: EDIS/ — scaffold complete 2026-06-12.*
+
+- [x] **S23-00: EDIS repo scaffold** — CLAUDE.md, NORTHSTAR.md, CHANGELOG.md, three plugins (edis-core,
+  edis-signals, edis-ask-emily), starter theme (edis), docs (architecture.md, wordpress-setup.md).
+  edis-core: WP HTTP API client + transient cache + admin settings. edis-signals: [edis_signals],
+  [edis_entity], [edis_eps] shortcodes + sidebar widget. edis-ask-emily: [ask_emily] shortcode +
+  WP REST POST /wp-json/edis/v1/ask + sidebar widget. — 2026-06-12. Apple #418.
+
+- [ ] **S23-01: Deploy EDIS to live WordPress install** — Install WordPress, activate EDIS plugins
+  and theme. Configure EDIS_SIGNALAPI_URL + EDIS_EMILY_URL in wp-config.php. Verify connection test
+  passes in admin. Create /ask page. Add Ask Emily + Signals widgets to sidebar.
+  Acceptance: /ticker/AAPL shows live governance signals. /ask widget returns Emily answer.
+  Dependency: signalapi live (S20-05 ✓).
+
+- [ ] **S23-02: SEO + OpenGraph wiring** — Install Yoast SEO. Add OpenGraph meta to ticker pages
+  (company name, signal count, score as description). Sitemap includes /ticker/ pages.
+  Ticker page title: "{TICKER} Governance Intelligence — FatBaby".
+  Acceptance: Google Search Console shows ticker pages indexed.
+
+- [ ] **S23-03: Ticker auto-pages** — For each ticker in FatBaby watchlist, auto-create or render
+  a /ticker/{SYM} page. Options: (a) WordPress page per ticker with custom field; (b) virtual page
+  via rewrite rule (already implemented in theme). Decide + implement. No duplicate content penalty.
+  Acceptance: /ticker/AAPL, /ticker/JPM, /ticker/MSFT all render without 404.
+
+- [ ] **S23-04: Emily+ subscription gate (WooCommerce)** — WooCommerce product: "Emily+" at $29/month.
+  On purchase: POST to IDUNA to provision cap.query.full. edis-ask-emily checks session cookie;
+  subscribers get unlimited questions (bypass 5/day limit). Dependency: IDUNA subscription resource.
+
+- [ ] **S23-05: Mailchimp waitlist integration** — Replace POST /wp-json/edis/v1/waitlist (stores
+  in wp_options) with Mailchimp API call. Install Mailchimp for WP plugin. Wire waitlist endpoint
+  to add contact to "EDIS Waitlist" audience. Acceptance: waitlist signup appears in Mailchimp.
+
+---
+
+## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
+
+*Context: once EDIS and Ask Emily get traction we'll get hit hard. Need to be ready before not after.*
+*Ops infrastructure scaffolded 2026-06-12. Deploy steps documented in docs/ops-runbook.md.*
+
+- [x] **S24-00: Ops scaffold** — nginx configs (newssite + signalapi), systemd service units
+  (newssite, processor, secwatch, signalapi), docker-compose.prod.yml (MySQL + MongoDB + nginx),
+  deploy.sh build+restart script, env.production template, ops-runbook.md.
+  — 2026-06-12. Apple #419.
+
+- [ ] **S24-01: Deploy to production server** — Run deploy.sh on production host. Install nginx
+  configs. Start services under systemd. Confirm /healthz returns 200 through nginx.
+  Set ANTHROPIC_API_KEY, MYSQL_URL, MONGODB_URL in env.production.
+  Acceptance: https://fatbaby.io/healthz returns "ok". Emily TUI shows all services active.
+
+- [ ] **S24-02: SSL certificate + domain wiring** — Let's Encrypt cert for fatbaby.io and api.fatbaby.io.
+  Use certbot with nginx plugin. Auto-renew via cron. Update nginx configs with cert paths.
+  Acceptance: HTTPS works, cert grade A on SSL Labs.
+
+- [ ] **S24-03: Log rotation + alerting** — Install logrotate config (daily, 14 days, compress).
+  Wire Emily Prime to alert on: service down > 2 min, error rate > 5%, log file > 500MB.
+  Acceptance: emily tui shows all services healthy. Restart test: kill newssite, confirm auto-restart.
+
+- [ ] **S24-04: nginx cache tuning post-traffic** — After first traffic spike, review cache hit rate.
+  Tune proxy_cache_valid TTLs based on actual traffic patterns. Target >80% cache hit rate.
+  Acceptance: cache hit rate logged and documented.
+
+- [ ] **S24-05: Load test baseline** — Run `wrk -t4 -c50 -d30s https://fatbaby.io/` before real traffic.
+  Record: req/s, p99 latency, cache hit rate. Document results in ops-runbook.md.
+  Acceptance: baseline documented; known ceiling before we hit it in production.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
