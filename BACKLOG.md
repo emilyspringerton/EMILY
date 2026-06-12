@@ -366,13 +366,13 @@ Priority section order: S22 → S19 → S20 → S21 → S5 → S2 → S10
 *Northstar: ship a playable EA build with FPS core only. No Dragonfly yet. BedWars lands as major update post-launch.*
 *The C client + Go server are both partially functional. The gap is client-side portal travel + playable standalone build.*
 
-- [ ] **S19-01: Client-side portal travel state machine** — The Go server sends `PacketSceneChange` (type=6)
+- [x] **S19-01: Client-side portal travel state machine** — The Go server sends `PacketSceneChange` (type=6)
   on portal transit. The C client ignores it. Implement travel state machine in C client:
   receive PacketSceneChange → freeze input → play transition → update scene_id → resume. This makes
   every scene in the game genuinely traversable. Dependency: Go server Milestone 2 ✓.
   Acceptance: player can walk into a portal and arrive in a new scene without desync.
 
-- [ ] **S19-02: Per-player physics isolation (C server)** — Currently physics is a global
+- [x] **S19-02: Per-player physics isolation (C server)** — Currently physics is a global
   active-scene swap. Each player needs an independent physics context so players in different
   scenes don't step on each other. This is the last blocker for multi-scene co-existence in the
   C server. Acceptance: two players in different scenes can both interact with physics simultaneously.
@@ -392,7 +392,7 @@ Priority section order: S22 → S19 → S20 → S21 → S5 → S2 → S10
   File completion Apple. Post observation.
   Dependency: S19-03 ✓, S19-04 ✓.
 
-- [ ] **S19-06: SHANKPIT NORTHSTAR: Steam milestones** — Update `SHANKPIT/docs2/NORTHSTAR.md` with
+- [x] **S19-06: SHANKPIT NORTHSTAR: Steam milestones** — Update `SHANKPIT/docs2/NORTHSTAR.md` with
   Milestone 5 (EA launch: FPS core), Milestone 6 (BedWars + Dragonfly post-launch), Milestone 7
   (Season 1 lineage). Keeps agent context current with the launch path.
 
@@ -505,7 +505,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   FABLE recommendations account for all repo northstars, not just backlog state.
   Dependency: S22-01 ✓.
 
-- [ ] **S22-05: `emily context build` CLI command** — Add `emily context build` to emily.cli.
+- [x] **S22-05: `emily context build` CLI command** — Add `emily context build` to emily.cli.
   Runs the goldenbuild compiler on demand: reads all golden sources, compresses, writes
   `full-system-context.md`. Allows human-triggered refresh without waiting for cron.
   Dependency: S22-01 ✓ (or implement directly in emily.cli without importing emily-agent).

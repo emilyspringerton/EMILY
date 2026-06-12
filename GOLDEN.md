@@ -6,7 +6,7 @@ Repos: EMILY · PRRJECT_FATBABY · IDUNA · TYLER · SHANKPIT · MJOLNIR · APPL
 Sprint API: IDUNA /api/v1/heimdal/sprints | Northstar: PRRJECT_FATBABY/docs/northstar/northstar.md
 Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 
-## BACKLOG STATUS: 32 open, 45 done (archived), 0 intake pending
+## BACKLOG STATUS: 28 open, 49 done (archived), 0 intake pending
 
 ## COMPLETE (no open items): S3:SYSTEM · S4:SHANKPIT · S6:RSI · S9:MJOLNIR · S12:HEIMDAL · S13:GOLDEN · S14:EMILYOS · S15:PITVIPER · S16:EMILY · S17:NEWSSITE
 
@@ -30,13 +30,10 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • S18-TOOL-03: `emily northstar <repo>` — No way to quickly read a repo's northstar from CLI.
 • S18-TOOL-04: Emily Prime planning endpoint — All strategic planning happens in Claude Code
 
-### SECTION 19: SHANKPIT → STEAM EARLY ACCESS (revenue track 1) (6 open, 0 done)
-• S19-01: Client-side portal travel state machine — The Go server sends `PacketSceneChange` (type=6)
-• S19-02: Per-player physics isolation (C server) — Currently physics is a global
+### SECTION 19: SHANKPIT → STEAM EARLY ACCESS (revenue track 1) (3 open, 3 done)
 • S19-03: Steam Direct account + listing prep — Create Steamworks developer account ($100 fee,
 • S19-04: Standalone playable EA build — Package SHANKPIT FPS for public play:
 • S19-05: Steam EA launch — Set price ($9.99 USD EA), upload build, enable EA store page.
-• S19-06: SHANKPIT NORTHSTAR: Steam milestones — Update `SHANKPIT/docs2/NORTHSTAR.md` with
 
 ### SECTION 20: FATBABY QUERYABILITY (MySQL projections + MongoDB graph) (6 open, 0 done)
 • S20-01: MySQL read model schema design — Design the projection tables in `PRRJECT_FATBABY/docs/`:
@@ -54,8 +51,7 @@ Backlog: EMILY/BACKLOG.md | Archive: EMILY/DONE.md
 • S21-05: Ask Emily: auth integration via IDUNA — Google OAuth login on newssite via IDUNA
 • S21-06: Landing page + waitlist — Simple landing page at root of newssite (or separate
 
-### SECTION 22: EMILY PRIME BRAIN (goldenbuild + dynamic prompt + FABLE full context) (4 open, 5 done)
-• S22-05: `emily context build` CLI command — Add `emily context build` to emily.cli.
+### SECTION 22: EMILY PRIME BRAIN (goldenbuild + dynamic prompt + FABLE full context) (3 open, 6 done)
 • S22-07: Emily Prime `/api/v1/emily/plan` endpoint — Accept a planning question
 • S22-08: Tooling gap — `emily backlog add` and `emily backlog add-section` — Currently
 • S22-09: `emily northstar <repo>` — Print the northstar doc for the named repo.
