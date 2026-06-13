@@ -233,7 +233,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `EMILY/context/full-system-context.md` on demand. No implementation exists. Gap documented here;
   implementation tracked in S22-05. Tooling is insufficient without this.
 
-- [ ] **S18-TOOL-02: `emily backlog add` and `emily backlog add-section`** — All backlog edits are
+- [x] **S18-TOOL-02: `emily backlog add` and `emily backlog add-section`** — All backlog edits are [done 2026-06-13]
   currently manual. Emily Prime cannot programmatically add items via `/api/v1/emily/run`.
   Gap documented here; implementation tracked in S22-08.
 
