@@ -141,14 +141,12 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 7: SIGNAL QUALITY (from 2026-06-08 FatBaby observations)
 
-- [~] **extractProposals() regex — NOT a code bug (investigated 2026-06-08)** — Observation gap
-  "0 proposals parsed despite directors found" is a FALSE ALARM. Root cause: (1) the regex
-  DOES work correctly — TestParseItem507_BALiveFixture passes with 6 proposals found on actual
-  BA cleaned_text; (2) `directors_found` in the observation is the TOTAL accumulated graph node
-  count (not this-batch count), so seeing directors > 0 with proposals = 0 is expected when the
-  batch contains no proxy vote 8-Ks; (3) event store cursor at 67657 is PAST all proxy vote
-  8-Ks (last was at seq ≤ 63759). Recent batches process other 8-K types (earnings, etc.) that
-  have no Item 5.07. Observation wording is misleading; no code fix needed. Closed 2026-06-08.
+- [x] **extractProposals() false-alarm gap fixed (2026-06-13)** — Root cause was `detectGaps()`
+  using `len(graph.Nodes)` (total accumulated nodes) for the gap condition instead of directors
+  found in the CURRENT batch. Fixed: `BuildObservation` now accepts `directorsThisBatch` (this-
+  batch director vote count); gap fires only when the current batch had proxy filings with
+  director votes but no proposals — eliminating all false positives for non-proxy 8-K batches.
+  — obs `2026-06-04T10:00:00Z`. Done 2026-06-13. Apple #426. Commit PRRJECT_FATBABY 371d957.
 
 ---
 
@@ -562,11 +560,20 @@ Run: `emily backlog promote --limit=50 --batch=15`
   [edis_entity], [edis_eps] shortcodes + sidebar widget. edis-ask-emily: [ask_emily] shortcode +
   WP REST POST /wp-json/edis/v1/ask + sidebar widget. — 2026-06-12. Apple #418.
 
+- [x] **S23-06: Digital Immune System (DIS)** — Go ops posturing layer from golden.md spec.
+  ring.go (16k-slot lock-free ring buffer), fingerprint.go (header-order hash + session HMAC),
+  harvester.go (Go HTTP middleware), posture.go (30s rolling health state: healthy/elevated/attack/degraded),
+  adengine.go (health→ad mode selector), cmd/dis/main.go (nginx log-tailing daemon, :9099).
+  edis-dis WordPress plugin: reads health from collector, [edis_dis_ad] shortcode, admin posture panel.
+  emily install --edis CLI command: full-stack EDIS provisioner (nginx+PHP+WordPress+plugins+theme+custodian agent).
+  EDIS-CUSTODIAN agent added to IDUNA/config/agents.json. go.work updated. docs/digital-immune-system.md written.
+  — 2026-06-12. Apple #TBD.
+
 - [ ] **S23-01: Deploy EDIS to live WordPress install** — Install WordPress, activate EDIS plugins
   and theme. Configure EDIS_SIGNALAPI_URL + EDIS_EMILY_URL in wp-config.php. Verify connection test
   passes in admin. Create /ask page. Add Ask Emily + Signals widgets to sidebar.
   Acceptance: /ticker/AAPL shows live governance signals. /ask widget returns Emily answer.
-  Dependency: signalapi live (S20-05 ✓).
+  Dependency: signalapi live (S20-05 ✓). Use: emily install --edis --domain edis.example.com --dry-run
 
 - [ ] **S23-02: SEO + OpenGraph wiring** — Install Yoast SEO. Add OpenGraph meta to ticker pages
   (company name, signal count, score as description). Sitemap includes /ticker/ pages.
