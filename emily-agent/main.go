@@ -2083,6 +2083,7 @@ func main() {
 	mux.HandleFunc("/emiree", srv.handleEmiree)
 	mux.HandleFunc("/agent/result", srv.handleAgentResult)
 	mux.HandleFunc("/api/v1/emily/run", srv.handleRun)
+	mux.HandleFunc("/api/v1/emily/plan", srv.handlePlan)
 	mux.HandleFunc("/api/v1/emily/fable/advice", srv.handleFableAdvice)
 	mux.HandleFunc("/api/v1/emily/fable/execute", srv.handleFableExecute)
 	mux.HandleFunc("/api/v1/emily/cycle", srv.handleCycleTrigger)
