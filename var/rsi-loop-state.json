@@ -1,11 +1,11 @@
 {
-  "iteration": 174,
-  "task_id": "task-6475890256512932360",
+  "iteration": 175,
+  "task_id": "task-8684023860273634884",
   "phase": "analyze",
-  "timestamp": "2026-06-13T04:01:56Z",
+  "timestamp": "2026-06-13T04:04:20Z",
   "max_iters": 0,
   "tyler_iters": 2,
-  "last_preset": "rsi-token-report",
-  "apple_id": 422,
-  "notes": "RSI token efficiency: goldenbuild per-source cache (~63K haiku tokens/day saved) + iteration history limit (last 3). Commits: EMILY 2e4ecf2, FATBABY 35a6586."
+  "last_preset": "web-audit-newssite",
+  "apple_id": 424,
+  "notes": "web-audit: newssite (8082) and signalapi (8083) stopped. Last log 2026-06-07. Pipeline partial: processor/prwatch/prwatch-body running. Restart required."
 }
