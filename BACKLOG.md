@@ -575,7 +575,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
   Acceptance: /ticker/AAPL shows live governance signals. /ask widget returns Emily answer.
   Dependency: signalapi live (S20-05 ✓). Use: emily install --edis --domain edis.example.com --dry-run
 
-- [ ] **S23-02: SEO + OpenGraph wiring** — Install Yoast SEO. Add OpenGraph meta to ticker pages
+- [x] **S23-02: SEO + OpenGraph wiring** — Install Yoast SEO. Add OpenGraph meta to ticker pages [done 2026-06-13]
   (company name, signal count, score as description). Sitemap includes /ticker/ pages.
   Ticker page title: "{TICKER} Governance Intelligence — FatBaby".
   Acceptance: Google Search Console shows ticker pages indexed.
