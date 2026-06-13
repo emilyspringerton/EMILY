@@ -237,7 +237,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   currently manual. Emily Prime cannot programmatically add items via `/api/v1/emily/run`.
   Gap documented here; implementation tracked in S22-08.
 
-- [ ] **S18-TOOL-03: `emily northstar <repo>`** — No way to quickly read a repo's northstar from CLI.
+- [x] **S18-TOOL-03: `emily northstar <repo>`** — No way to quickly read a repo's northstar from CLI. [done 2026-06-13]
   Gap documented here; implementation tracked in S22-09.
 
 - [ ] **S18-TOOL-04: Emily Prime planning endpoint** — All strategic planning happens in Claude Code
