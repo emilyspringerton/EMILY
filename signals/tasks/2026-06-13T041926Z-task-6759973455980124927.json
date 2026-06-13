@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-06-13T04:19:26Z",
+  "from": "operator-cli",
+  "to": "fatbaby-emily",
+  "task_id": "task-6759973455980124927",
+  "task_type": "web_audit",
+  "priority": "normal",
+  "description": "Audit the FatBaby newssite (http://localhost:8082) as a real HTTP client using the web_audit_url tool. Check: (1) homepage loads with HTTP 200, title and h1 are present; (2) run with check_links=true to find all same-host links and detect any returning 4xx/5xx; (3) try at least 3 ticker pages (e.g. /ticker/AAPL, /ticker/AMZN, /ticker/MSFT) and verify they load; (4) check the signal API at http://localhost:8083/signals?ticker=AAPL if it responds; (5) post findings as a signal_observation Apple via emily observe. If the newssite is unreachable, note it as a warning (do not fail the task — the pipeline may be stopped).",
+  "acceptance_criteria": [
+    "web_audit_url called on http://localhost:8082 with check_links=true",
+    "at least 3 ticker pages verified or noted as unreachable",
+    "signal API at :8083 tested",
+    "findings posted as signal_observation Apple via emily observe",
+    "summary includes HTTP status, title, link count, and any broken links"
+  ],
+  "context": "Emily Prime now has the web_audit_url tool which lets her act as a real HTTP client against the product URLs. The FatBaby newssite (:8082) and SignalAPI (:8083) are the front door for the products, and they will eventually be surfaced inside the MJOLNIR Android app WebView. This audit validates that the front door is operational and reports any broken links or missing content. The newssite is server-rendered Go HTML templates — no JavaScript execution needed."
+}

@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-06-12T21:33:07Z",
+  "from": "operator-cli",
+  "to": "fatbaby-emily",
+  "task_id": "task-7028146271343963862",
+  "task_type": "analysis",
+  "priority": "high",
+  "description": "Review EDIS Digital Immune System (DIS) and determine what to build FIRST for our WordPress site going live on nginx. We built: Go ring buffer (internal/dis/ring.go), fingerprint engine (header-order hash + session HMAC + threat scoring), HTTP middleware harvester, 4-state posture engine (healthy/elevated/attack/degraded with 30s rolling windows), ad mode selector (svg/text/pow_captcha/none), collector daemon (cmd/dis) tailing nginx access logs + exposing :9099/dis/health. WordPress plugin edis-dis: reads collector health via WP transients (10s TTL, fail-open to svg), [edis_dis_ad] shortcode, admin posture panel. Full spec: EDIS/docs/digital-immune-system.md. Site not live yet — S23-01 (deploy WordPress) is next. Think hard: minimum DIS stack to ship NOW for real protection? What can wait? Hidden failure modes? First 24h watch list? One design mistake to fix before deploying?",
+  "acceptance_criteria": [
+    "Ranked list: DIS component to ship first, second, third for WordPress+nginx",
+    "Assessment: collector-daemon log-tailing approach right for WordPress+nginx, or better first path",
+    "Top 3 hidden failure modes in current DIS design",
+    "First 24h monitoring checklist once EDIS goes live",
+    "One thing we got wrong that should be fixed before deploying"
+  ],
+  "context": "EDIS is WordPress+nginx+PHP-FPM+MySQL. DIS tails nginx logs -\u003e health state -\u003e WordPress plugin adjusts ads. Pre-launch. Strategy: SHANKPIT(S19)-\u003eAskEmily(S20-21)-\u003eDataLicensing(S22)-\u003eEmilyBrain(S22+). EDIS must go live for data licensing to have a public face. DIS is protective but cannot delay launch. Key axiom: fail open always. We just built the full DIS stack (ring buffer, fingerprint, posture engine, collector daemon, WordPress plugin). What is the tightest viable first deploy?"
+}
