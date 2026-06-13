@@ -355,7 +355,7 @@ Track 3: Data platform licensing            (2+ years, institutional revenue)
 RSI:     Emily Prime Brain                  (parallel enabler — reduces Claude Code token spend)
 ```
 
-Priority section order: S22 → S19 → S20 → S21 → S5 → S2 → S10
+Priority section order: S22 → S19 → S20 → S21 → S25 → S5 → S2 → S10
 
 ---
 
@@ -522,6 +522,85 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
 - [x] **S22-09: `emily northstar <repo>`** — Print the northstar doc for the named repo. [done 2026-06-13]
   Reads from the canonical location (e.g., `<repo>/docs/NORTHSTAR.md` or `<repo>/docs2/NORTHSTAR.md`).
   Used by Emily Prime and human operators to quickly orient.
+
+- [ ] **S22-10: Add EMILY + EDIS northstars to goldenbuild.go source list** — `goldenbuild.go`
+  `NewGoldenDocCompiler` has a hardcoded source list. Two docs written after the initial list are
+  missing: `EMILY/docs/NORTHSTAR.md` (written 2026-06-12, describes the 3-agent arch + cron cycle)
+  and `EDIS/NORTHSTAR.md` (S23 WordPress intelligence product, new repo). Add both as GoldenSource
+  entries in `NewGoldenDocCompiler`. Budget: 3000 each.
+  Acceptance: `emily context build` outputs "Sources compiled: 18/18" (or higher).
+
+- [ ] **S22-11: `EMILY/context/golden-docs-index.md` — manifest-driven source list** — The
+  goldenbuild source list is hardcoded in Go. Every new repo or doc requires a code change to be
+  visible to Emily Prime. Fix: create `EMILY/context/golden-docs-index.md` as a machine-readable
+  manifest (one row per source: path, repo, tier, budget, description). Modify `NewGoldenDocCompiler`
+  to load sources from this file instead of the hardcoded slice. When a new doc is created, the
+  agent adds a row here — no Go change needed.
+  Format: `| path | repo | tier | budget | description |` markdown table.
+  Acceptance: goldenbuild reads index, S22-10 sources included automatically.
+
+- [ ] **S22-12: New-doc registration protocol** — The core gap: experimental features and new
+  repos are invisible to Emily Prime because no convention requires adding them to the golden index.
+  Fix: add a step to CLAUDE.md for all repos: "If you create a new NORTHSTAR.md or mission-critical
+  design doc, append a row to `EMILY/context/golden-docs-index.md` (Tier 1) or note it as Tier 2."
+  Also add as step 6 to the obs-watcher runReportFooter (PRRJECT_FATBABY/cmd/observation-watcher/main.go).
+  This closes the "fired blind via Claude Code, features never reach Emily" problem.
+  Dependency: S22-11 ✓ (manifest file must exist first).
+
+- [ ] **S22-13: Unblock multilingual compression A/B test (S18)** — `docs/compression-experiment/`
+  and `scripts/compression-abtest.sh` exist. Steps 1–2 done. Blocked on ANTHROPIC_API_KEY.
+  When API key is set: run `bash EMILY/scripts/compression-abtest.sh`. If haiku comprehension
+  score ≥ 95% on bilingual vs English-only GOLDEN.md, deploy bilingual version.
+  This is the token efficiency win that reduces every haiku context call by ~30-40%.
+  Dependency: ANTHROPIC_API_KEY set ✓.
+
+- [ ] **S22-14: API key gate — document the unlock sequence** — Emily Prime's 5-minute cron
+  runs blind without ANTHROPIC_API_KEY: goldenbuild returns placeholder sections, FABLE is
+  disabled, RSI iterations can't run. When the key is provisioned:
+  1. Set `ANTHROPIC_API_KEY` in emily-agent's environment (systemd unit / .env file)
+  2. Restart emily-agent
+  3. Run `emily context build` to compile full-system-context.md for the first time
+  4. Run `bash EMILY/scripts/compression-abtest.sh` (S22-13)
+  5. Verify FABLE advice endpoint returns recommendations: `curl :8086/api/v1/emily/fable/advice`
+  Write this as `EMILY/docs/API_KEY_UNLOCK.md`. One-time ops doc, stays current.
+  Cost note: Emily operates exclusively on `claude-haiku-4-5-20251001` (MODEL env var default).
+  SonnetModel field exists in config but is unused — zero sonnet/opus spend at current scale.
+
+---
+
+## SECTION 25: GOLDEN DOC NAMING CONVENTION (Phases 4–6 from 2026-06-12 memo)
+
+*These are hygiene items from the golden-docs-sprawl-memo. Not blockers for revenue, but required*
+*for Emily Prime to have accurate cross-repo context as the system scales.*
+*Priority: after S22 items above. Emily Prime executes these in background RSI cycles.*
+
+- [ ] **S25-01: IDUNA/docs/NORTHSTAR.md** — IDUNA uses `golden.md` (implementation checklist)
+  as its northstar equivalent. This isn't readable as a northstar — no three-sentence version,
+  no architecture diagram, no milestone list. Write `IDUNA/docs/NORTHSTAR.md` synthesizing
+  `IDUNA/golden.md` + `IDUNA/docs/iam-spec.md`. Add to golden-docs-index.md as Tier 1.
+  Acceptance: `emily northstar iduna` prints a meaningful northstar.
+
+- [ ] **S25-02: GoblinFoxDragon/docs/NORTHSTAR.md** — GoblinFoxDragon has no northstar.
+  Both GFD and SHANKPIT have `go.mod module=dragonsnshit`. Relationship is documented in
+  SHANKPIT NORTHSTAR (S4 done) but GFD itself has no orientation doc.
+  Write GFD NORTHSTAR: is it the Dragonfly fork, a studio umbrella, or the future consolidated
+  repo? One canonical answer. Add to golden-docs-index.md as Tier 1.
+
+- [ ] **S25-03: Archive EmilyOS legacy docs** — `EmilyOS/docs/legacy/` contains spec-1.md
+  through spec-8.md + addendum. Superseded by `EmilyOS/docs/NORTHSTAR.md` (Emily Prime's own
+  2026-06-09 memo). Move to `EmilyOS/docs/legacy-archive/` with a README.md: "Superseded by
+  NORTHSTAR.md 2026-06-09. Do not use." Reduces future context confusion.
+
+- [ ] **S25-04: Resolve SHANKPIT/GFD doc duplication** — NETCODE_CONTRACT_SPEC.md and
+  CLIENT_PREDICTION_SPEC.md exist in both `SHANKPIT/docs2/` and `GoblinFoxDragon/docs2/`.
+  Pick the canonical source (SHANKPIT owns the spec; GFD is the Dragonfly fork implementation).
+  Replace GFD copies with symlinks or explicit "see SHANKPIT/docs2/" references.
+  Prevents spec drift between the two repos.
+
+- [ ] **S25-05: Move EMILY/THE_FIELD.md into docs/** — `THE_FIELD.md` (synthetic consciousness
+  architecture, informs Emiree) lives as a top-level EMILY file with no categorization.
+  Move to `EMILY/docs/THE_FIELD.md`. Update any references. Add as Tier 2 in golden-docs-index.md.
+  Low effort, improves repo hygiene.
 
 ---
 
