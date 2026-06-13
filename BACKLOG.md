@@ -580,7 +580,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
   Ticker page title: "{TICKER} Governance Intelligence — FatBaby".
   Acceptance: Google Search Console shows ticker pages indexed.
 
-- [ ] **S23-03: Ticker auto-pages** — For each ticker in FatBaby watchlist, auto-create or render
+- [x] **S23-03: Ticker auto-pages** — For each ticker in FatBaby watchlist, auto-create or render [done 2026-06-13]
   a /ticker/{SYM} page. Options: (a) WordPress page per ticker with custom field; (b) virtual page
   via rewrite rule (already implemented in theme). Decide + implement. No duplicate content penalty.
   Acceptance: /ticker/AAPL, /ticker/JPM, /ticker/MSFT all render without 404.
