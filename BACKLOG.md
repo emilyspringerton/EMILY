@@ -450,7 +450,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   + Ask button. Async JS fetch /api/ask. Answer/error display inline. Mobile-friendly.
   — 2026-06-12. Apple #414. Commit 967ca3d.
 
-- [ ] **S21-03: Ask Emily: wire FatBaby signals into Emily Prime context** — When `/api/ask` receives
+- [x] **S21-03: Ask Emily: wire FatBaby signals into Emily Prime context** — When `/api/ask` receives [done 2026-06-13]
   a question with a ticker, fetch the entity document (S20-05) and governance_signals for that ticker,
   prepend as context to Emily Prime's user message. Emily answers from real data, not hallucination.
   Dependency: S20-05 ✓, S21-01 ✓.
