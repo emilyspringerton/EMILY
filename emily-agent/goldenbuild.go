@@ -53,33 +53,87 @@ type GoldenDocCompiler struct {
 	sources   []GoldenSource
 }
 
-// NewGoldenDocCompiler creates a compiler with the canonical Tier 1 source list.
+// NewGoldenDocCompiler creates a compiler whose source list is loaded from
+// EMILY/context/golden-docs-index.md. If that file is absent, falls back to
+// the hardcoded Tier 1 list so the compiler always has something to work with.
 // emilyRoot should be the absolute path to the EMILY repo root.
 func NewGoldenDocCompiler(emilyRoot, apiKey string) *GoldenDocCompiler {
 	base := filepath.Dir(emilyRoot)
 	contextDir := filepath.Join(emilyRoot, "context")
+	sources := loadGoldenIndex(filepath.Join(contextDir, "golden-docs-index.md"), base)
 	return &GoldenDocCompiler{
 		apiKey:    apiKey,
 		outPath:   filepath.Join(contextDir, "full-system-context.md"),
 		cachePath: filepath.Join(contextDir, "golden-cache.json"),
-		sources: []GoldenSource{
-			{Name: "FATBABY", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/northstar/northstar.md"), Budget: 8000},
-			{Name: "FATBABY-EXEC", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/northstar/executive_summary.md"), Budget: 4000},
-			{Name: "EMILY-SPEC", Path: filepath.Join(base, "EMILY/emily-prime-spec.md"), Budget: 4000},
-			{Name: "EMILY-BACKLOG", Path: filepath.Join(base, "EMILY/GOLDEN.md"), Budget: 0},
-			{Name: "EMIREE", Path: filepath.Join(base, "EMILY/emiree-emily-fatbaby.md"), Budget: 4000},
-			{Name: "RSI-ENGINE", Path: filepath.Join(base, "EMILY/docs/emily-rsi-engine-spec.md"), Budget: 0},
-			{Name: "EMIREE-SPEC", Path: filepath.Join(base, "EMILY/docs/emiree-over-agent-spec.md"), Budget: 0},
-			{Name: "IDUNA", Path: filepath.Join(base, "IDUNA/golden.md"), Budget: 3000},
-			{Name: "APPLES", Path: filepath.Join(base, "APPLES/docs/NORTHSTAR.md"), Budget: 0},
-			{Name: "MJOLNIR", Path: filepath.Join(base, "MJOLNIR/docs/NORTHSTAR.md"), Budget: 0},
-			{Name: "SHANKPIT", Path: filepath.Join(base, "SHANKPIT/docs2/NORTHSTAR.md"), Budget: 4000},
-			{Name: "EMILYOS", Path: filepath.Join(base, "EmilyOS/docs/NORTHSTAR.md"), Budget: 0},
-			{Name: "PITVIPER", Path: filepath.Join(base, "PITVIPER/docs/NORTHSTAR.md"), Budget: 0},
-			{Name: "EMILY-CLI", Path: filepath.Join(base, "emily.cli/docs/NORTHSTAR.md"), Budget: 0},
-			{Name: "GTM", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/GTM_FUNNEL.md"), Budget: 3000},
-			{Name: "TRAINING", Path: filepath.Join(base, "EMILY/docs/TRAINING_PIPELINE.md"), Budget: 2000},
-		},
+		sources:   sources,
+	}
+}
+
+// loadGoldenIndex parses EMILY/context/golden-docs-index.md and returns GoldenSources
+// for all Tier 1 rows. Falls back to a minimal hardcoded set if the file can't be read.
+func loadGoldenIndex(indexPath, base string) []GoldenSource {
+	data, err := os.ReadFile(indexPath)
+	if err != nil {
+		log.Printf("goldenbuild: index not found (%v) — using hardcoded fallback", err)
+		return hardcodedSources(base)
+	}
+
+	var sources []GoldenSource
+	for _, line := range strings.Split(string(data), "\n") {
+		line = strings.TrimSpace(line)
+		if line == "" || strings.HasPrefix(line, "#") || strings.HasPrefix(line, "|---") || strings.HasPrefix(line, "| name") {
+			continue
+		}
+		// Parse markdown table row: | name | path | tier | budget | description |
+		fields := strings.Split(line, "|")
+		if len(fields) < 6 {
+			continue
+		}
+		name := strings.TrimSpace(fields[1])
+		relPath := strings.TrimSpace(fields[2])
+		tier := strings.TrimSpace(fields[3])
+		budgetStr := strings.TrimSpace(fields[4])
+		if name == "" || relPath == "" || tier != "1" {
+			continue
+		}
+		budget := 0
+		fmt.Sscanf(budgetStr, "%d", &budget)
+		sources = append(sources, GoldenSource{
+			Name:   name,
+			Path:   filepath.Join(base, relPath),
+			Budget: budget,
+		})
+	}
+
+	if len(sources) == 0 {
+		log.Printf("goldenbuild: index parsed 0 Tier 1 sources — using hardcoded fallback")
+		return hardcodedSources(base)
+	}
+	log.Printf("goldenbuild: loaded %d Tier 1 sources from index", len(sources))
+	return sources
+}
+
+// hardcodedSources is the bootstrap fallback used when golden-docs-index.md is absent.
+func hardcodedSources(base string) []GoldenSource {
+	return []GoldenSource{
+		{Name: "FATBABY", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/northstar/northstar.md"), Budget: 8000},
+		{Name: "FATBABY-EXEC", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/northstar/executive_summary.md"), Budget: 4000},
+		{Name: "EMILY-SPEC", Path: filepath.Join(base, "EMILY/emily-prime-spec.md"), Budget: 4000},
+		{Name: "EMILY-NORTH", Path: filepath.Join(base, "EMILY/docs/NORTHSTAR.md"), Budget: 3000},
+		{Name: "EMILY-BACKLOG", Path: filepath.Join(base, "EMILY/GOLDEN.md"), Budget: 0},
+		{Name: "EMIREE", Path: filepath.Join(base, "EMILY/emiree-emily-fatbaby.md"), Budget: 4000},
+		{Name: "RSI-ENGINE", Path: filepath.Join(base, "EMILY/docs/emily-rsi-engine-spec.md"), Budget: 0},
+		{Name: "EMIREE-SPEC", Path: filepath.Join(base, "EMILY/docs/emiree-over-agent-spec.md"), Budget: 0},
+		{Name: "IDUNA", Path: filepath.Join(base, "IDUNA/golden.md"), Budget: 3000},
+		{Name: "APPLES", Path: filepath.Join(base, "APPLES/docs/NORTHSTAR.md"), Budget: 0},
+		{Name: "MJOLNIR", Path: filepath.Join(base, "MJOLNIR/docs/NORTHSTAR.md"), Budget: 0},
+		{Name: "SHANKPIT", Path: filepath.Join(base, "SHANKPIT/docs2/NORTHSTAR.md"), Budget: 4000},
+		{Name: "EMILYOS", Path: filepath.Join(base, "EmilyOS/docs/NORTHSTAR.md"), Budget: 0},
+		{Name: "PITVIPER", Path: filepath.Join(base, "PITVIPER/docs/NORTHSTAR.md"), Budget: 0},
+		{Name: "EMILY-CLI", Path: filepath.Join(base, "emily.cli/docs/NORTHSTAR.md"), Budget: 0},
+		{Name: "GTM", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/GTM_FUNNEL.md"), Budget: 3000},
+		{Name: "TRAINING", Path: filepath.Join(base, "EMILY/docs/TRAINING_PIPELINE.md"), Budget: 2000},
+		{Name: "EDIS", Path: filepath.Join(base, "EDIS/NORTHSTAR.md"), Budget: 3000},
 	}
 }
 

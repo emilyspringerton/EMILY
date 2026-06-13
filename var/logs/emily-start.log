@@ -1,0 +1,11 @@
+
+◈ EMILY OS — START | 2026-06-10 10:18:47
+
+  observation-watcher        started — pid 121290 → /home/fatbaby/EMILY/var/logs/observation-watcher.log
+  emily-agent (daemon)       started — pid 121295 → /home/fatbaby/EMILY/var/logs/emily-agent.log
+
+  NOTE: use --iduna to also manage IDUNA. Agents will degrade gracefully if IDUNA is offline.
+
+  emily status     — check process state
+  emily watch      — tail IDUNA Apples live
+

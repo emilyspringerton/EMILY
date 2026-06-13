@@ -1,0 +1,60 @@
+# command-line-arguments
+./main.go:1450:15: undefined: CollectorPipeline
+./main.go:1451:15: undefined: IntegrationStore
+./main.go:1452:15: undefined: GmailClient
+./main.go:1453:15: undefined: EmireeAgent
+./main.go:1522:34: undefined: CollectorPipeline
+./cron.go:107:15: undefined: IntegrationStore
+./cron.go:108:15: undefined: EmireeAgent
+./cron.go:109:15: undefined: GmailClient
+./cron.go:114:61: undefined: GmailClient
+./cron.go:516:76: undefined: IntegrationStore
+./cron.go:516:76: too many errors
+# command-line-arguments
+./main.go:1450:15: undefined: CollectorPipeline
+./main.go:1451:15: undefined: IntegrationStore
+./main.go:1452:15: undefined: GmailClient
+./main.go:1453:15: undefined: EmireeAgent
+./main.go:1522:34: undefined: CollectorPipeline
+./cron.go:107:15: undefined: IntegrationStore
+./cron.go:108:15: undefined: EmireeAgent
+./cron.go:109:15: undefined: GmailClient
+./cron.go:114:61: undefined: GmailClient
+./cron.go:516:76: undefined: IntegrationStore
+./cron.go:516:76: too many errors
+# command-line-arguments
+./main.go:1450:15: undefined: CollectorPipeline
+./main.go:1451:15: undefined: IntegrationStore
+./main.go:1452:15: undefined: GmailClient
+./main.go:1453:15: undefined: EmireeAgent
+./main.go:1522:34: undefined: CollectorPipeline
+./cron.go:107:15: undefined: IntegrationStore
+./cron.go:108:15: undefined: EmireeAgent
+./cron.go:109:15: undefined: GmailClient
+./cron.go:114:61: undefined: GmailClient
+./cron.go:516:76: undefined: IntegrationStore
+./cron.go:516:76: too many errors
+# command-line-arguments
+./main.go:1450:15: undefined: CollectorPipeline
+./main.go:1451:15: undefined: IntegrationStore
+./main.go:1452:15: undefined: GmailClient
+./main.go:1453:15: undefined: EmireeAgent
+./main.go:1523:34: undefined: CollectorPipeline
+./cron.go:109:15: undefined: IntegrationStore
+./cron.go:110:15: undefined: EmireeAgent
+./cron.go:111:15: undefined: GmailClient
+./cron.go:117:61: undefined: GmailClient
+./cron.go:595:76: undefined: IntegrationStore
+./cron.go:595:76: too many errors
+# command-line-arguments
+./main.go:1479:15: undefined: CollectorPipeline
+./main.go:1480:15: undefined: IntegrationStore
+./main.go:1481:15: undefined: GmailClient
+./main.go:1482:15: undefined: EmireeAgent
+./main.go:1562:34: undefined: CollectorPipeline
+./cron.go:111:15: undefined: IntegrationStore
+./cron.go:112:15: undefined: EmireeAgent
+./cron.go:113:15: undefined: GmailClient
+./cron.go:119:61: undefined: GmailClient
+./cron.go:698:76: undefined: IntegrationStore
+./cron.go:698:76: too many errors
