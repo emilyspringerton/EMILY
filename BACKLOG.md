@@ -506,7 +506,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   that synthesizes `emily-prime-spec.md` + `emiree-emily-fatbaby.md` + `emiree.md` into a single
   canonical document. This becomes the Tier 1 golden doc for EMILY itself.
 
-- [ ] **S22-07: Emily Prime `/api/v1/emily/plan` endpoint** — Accept a planning question
+- [x] **S22-07: Emily Prime `/api/v1/emily/plan` endpoint** — Accept a planning question [done 2026-06-13]
   (`{ question: string, context?: string }`), return a structured sprint batch
   (`{ sprints: [{ title, rationale, section, effort }], summary }`).
   This is the upgrade from FABLE (fixed 3 items) to a full planning conversation.
