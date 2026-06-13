@@ -229,7 +229,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   consolidation (SHANKPIT + GoblinFoxDragon) or a workspace/submodule approach reduces sprawl
   without context penalty. Document trade-offs before acting. — obs `2026-06-12`.
 
-- [ ] **S18-TOOL-01: `emily context build` command** — Needed to compile all Tier 1 golden docs into
+- [x] **S18-TOOL-01: `emily context build` command** — Needed to compile all Tier 1 golden docs into [done 2026-06-13]
   `EMILY/context/full-system-context.md` on demand. No implementation exists. Gap documented here;
   implementation tracked in S22-05. Tooling is insufficient without this.
 
