@@ -240,7 +240,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **S18-TOOL-03: `emily northstar <repo>`** — No way to quickly read a repo's northstar from CLI. [done 2026-06-13]
   Gap documented here; implementation tracked in S22-09.
 
-- [ ] **S18-TOOL-04: Emily Prime planning endpoint** — All strategic planning happens in Claude Code
+- [x] **S18-TOOL-04: Emily Prime planning endpoint** — All strategic planning happens in Claude Code [done 2026-06-13]
   conversations (expensive). Emily Prime has no `/plan` endpoint. Claude Code tokens should be spent
   on implementation, not planning. Gap documented; implementation tracked in S22-07.
 
