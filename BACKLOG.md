@@ -519,7 +519,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   `emily backlog add-section --title "<title>"` — appends new numbered section
   These make backlog editing programmatic and Emily Prime can drive it via `/api/v1/emily/run`.
 
-- [ ] **S22-09: `emily northstar <repo>`** — Print the northstar doc for the named repo.
+- [x] **S22-09: `emily northstar <repo>`** — Print the northstar doc for the named repo. [done 2026-06-13]
   Reads from the canonical location (e.g., `<repo>/docs/NORTHSTAR.md` or `<repo>/docs2/NORTHSTAR.md`).
   Used by Emily Prime and human operators to quickly orient.
 
