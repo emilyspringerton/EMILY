@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-06-13T00:00:00Z",
+  "task_id": "task-7028146271343963862",
+  "summary": "EDIS DIS pre-deploy analysis: found and fixed 3 bugs (broken nginx parser, posture window race, missing hostile_ratio). Collector was ingesting zero records due to wrong field indices.",
+  "severity": "high",
+  "component": "EDIS/dis",
+  "analysis": {
+    "ship_order": [
+      {
+        "rank": 1,
+        "component": "edis-dis collector daemon",
+        "why": "Starts learning traffic patterns the moment nginx logs flow. WordPress plugin fail-opens to svg if collector is down, so there is no availability risk. Deploy first, let it warm up for 24h before going live — baseline established before real traffic arrives."
+      },
+      {
+        "rank": 2,
+        "component": "WordPress edis-dis plugin + [edis_dis_ad] shortcodes",
+        "why": "Replace every hardcoded ad slot with [edis_dis_ad]. This is the only user-visible change and the only thing that actually gates ad rendering on posture. Without it the collector runs but nothing responds to its signals."
+      },
+      {
+        "rank": 3,
+        "component": "nginx limit_req_zone for /wp-json/",
+        "why": "Config-only, no code change. DIS and nginx rate limiting are complementary — nginx drops junk before it hits PHP-FPM, DIS adjusts ad mode and posture. The install's generated vhost already has the zone defined; just enable it."
+      }
+    ],
+    "log_tailing_assessment": {
+      "verdict": "correct approach for WordPress+nginx",
+      "reasoning": "Alternatives (nginx module, PHP WP hooks) would miss non-WP traffic or require OpenResty. Log-tailing captures every request at the nginx layer — the right observation point. The 500ms re-open polling lag is irrelevant given 30-second posture windows.",
+      "caveat": "Header-order fingerprinting and inter-request delta scoring are unavailable via log tailing (no live request object). Mitigated in this commit by UA-based scoring in scoreFromLogTail — catches zgrab, masscan, nuclei, sqlmap, nikto, python-requests, etc. JA3 and full fingerprinting require OpenResty as a second-pass upgrade."
+    },
+    "hidden_failure_modes": [
+      {
+        "rank": 1,
+        "title": "Broken nginx combined log parser — collector ingested zero records",
+        "detail": "parseNginxCombined used SplitN(line, ' ', 9) and read parts[6] as the HTTP status code. But parts[6] is the request path, not the status — status is the first token of parts[8]. strconv.ParseUint('/path', 10, 16) always returned an error, so every line returned false. The ring buffer and posture engine were never fed any data. FIXED in this commit.",
+        "severity": "critical"
+      },
+      {
+        "rank": 2,
+        "title": "Posture window recompute race — state could flicker at boundary",
+        "detail": "ingest() read p.resetAt (time.Time) without a lock while recompute() wrote it under p.mu. This is a data race. Additionally, multiple goroutines arriving simultaneously at a window boundary all called recompute(), each calling Swap(0) on counters — the second caller always saw total=0 and forced StateHealthy, masking an attack in progress. FIXED: resetAt replaced with resetAtNs (atomic.Int64) and a CAS inRecompute guard ensures exactly one goroutine recomputes per window.",
+        "severity": "high"
+      },
+      {
+        "rank": 3,
+        "title": "Collector startup/restart reports healthy during active attack",
+        "detail": "On cold start (deploy or crash), the ring buffer is empty. totalN=0 → recompute returns StateHealthy unconditionally. If the site is under active attack when the collector restarts, it reports healthy for up to 30 seconds (one full window). WordPress plugin serves SVG ads during this blind window. This is acceptable under the 'fail open' axiom but worth noting for the 24h watch list: monitor collector process uptime and alert on unexpected restarts.",
+        "severity": "low"
+      }
+    ],
+    "first_24h_checklist": [
+      "curl localhost:9099/dis/health — verify collector is running and state='healthy'",
+      "curl localhost:9099/dis/posture — verify hostile_ratio field is non-zero (confirms parser is working)",
+      "WP Admin → Settings → EDIS DIS — verify live posture panel shows current state",
+      "tail -f /var/log/nginx/access.log | head — confirm nginx is writing combined format",
+      "Kill the collector, verify WordPress still serves SVG ads (fail-open check), restart collector",
+      "Check /dis/posture hostile_ratio climbs during any known bot traffic (Googlebot should NOT trigger it)",
+      "Watch for unexpected StateElevated or StateAttack transitions in collector logs",
+      "Verify logrotate config uses 'postrotate: systemctl reload nginx' not copytruncate — copytruncate will cause the collector to miss a rotation",
+      "After 1h: check EDIS CHANGELOG and confirm commit made it to prod",
+      "After 24h: review hostile_ratio baseline — if > 5% on a quiet day, recalibrate ScoreThreshold or scoreFromLogTail weights"
+    ],
+    "one_design_mistake_to_fix_before_deploy": {
+      "title": "The nginx combined log parser was completely broken — fix applied",
+      "detail": "parseNginxCombined parsed the wrong field index for HTTP status (path instead of status), causing 100% parse failure. The collector was a no-op. Additionally, time.Now() was used instead of the log timestamp, which would have poisoned inter-request delta scoring. Both issues fixed in this commit. Run: cd /home/fatbaby/EDIS && go build ./... to verify, then redeploy the collector binary."
+    }
+  },
+  "code_changes": [
+    "EDIS/internal/dis/posture.go: add HostileRatio() method; replace resetAt time.Time with resetAtNs atomic.Int64; add inRecompute atomic.Bool CAS guard",
+    "EDIS/cmd/dis/main.go: fix parseNginxCombined field indices (critical); parse nginx timestamp; add scoreFromLogTail UA-based scoring; wire HostileRatio into handlePosture"
+  ]
+}

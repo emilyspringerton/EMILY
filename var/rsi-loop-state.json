@@ -1,0 +1,10 @@
+{
+  "iteration": 173,
+  "task_id": "task-7028146271343963862",
+  "phase": "analyze",
+  "timestamp": "2026-06-13T00:00:00Z",
+  "max_iters": 0,
+  "tyler_iters": 2,
+  "last_preset": "rsi-token-report",
+  "notes": "EDIS DIS analysis + 3 bug fixes: broken nginx parser (collector ingesting zero records), posture window race, missing hostile_ratio."
+}
