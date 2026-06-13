@@ -11,6 +11,8 @@ package main
 import (
 	"bytes"
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -22,6 +24,20 @@ import (
 	"time"
 )
 
+// goldenCacheEntry caches one compressed section keyed by source content hash.
+type goldenCacheEntry struct {
+	Hash       string `json:"hash"`       // sha256 of source content at last compress
+	Compressed string `json:"compressed"` // haiku-compressed section
+	UpdatedAt  string `json:"updated_at"` // RFC3339
+}
+
+// goldenCache persists per-source compressed sections so unchanged sources
+// skip the haiku call on the next rebuild. Saves ~13 haiku calls per rebuild
+// when only 1-2 sources change.
+type goldenCache struct {
+	Entries map[string]goldenCacheEntry `json:"entries"` // source path → entry
+}
+
 // GoldenSource is one documentation file to compress into the system context.
 type GoldenSource struct {
 	Name   string // label in compiled output, e.g. "FATBABY"
@@ -31,18 +47,21 @@ type GoldenSource struct {
 
 // GoldenDocCompiler builds EMILY/context/full-system-context.md from Tier 1 golden docs.
 type GoldenDocCompiler struct {
-	apiKey  string
-	outPath string
-	sources []GoldenSource
+	apiKey    string
+	outPath   string
+	cachePath string // context/golden-cache.json
+	sources   []GoldenSource
 }
 
 // NewGoldenDocCompiler creates a compiler with the canonical Tier 1 source list.
 // emilyRoot should be the absolute path to the EMILY repo root.
 func NewGoldenDocCompiler(emilyRoot, apiKey string) *GoldenDocCompiler {
 	base := filepath.Dir(emilyRoot)
+	contextDir := filepath.Join(emilyRoot, "context")
 	return &GoldenDocCompiler{
-		apiKey:  apiKey,
-		outPath: filepath.Join(emilyRoot, "context", "full-system-context.md"),
+		apiKey:    apiKey,
+		outPath:   filepath.Join(contextDir, "full-system-context.md"),
+		cachePath: filepath.Join(contextDir, "golden-cache.json"),
 		sources: []GoldenSource{
 			{Name: "FATBABY", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/northstar/northstar.md"), Budget: 8000},
 			{Name: "FATBABY-EXEC", Path: filepath.Join(base, "PRRJECT_FATBABY/docs/northstar/executive_summary.md"), Budget: 4000},
@@ -64,43 +83,50 @@ func NewGoldenDocCompiler(emilyRoot, apiKey string) *GoldenDocCompiler {
 	}
 }
 
-// MaybeRebuild rebuilds the full context if any source is newer than the output,
-// or if the output does not exist. Safe to call every cron cycle.
+// MaybeRebuild rebuilds the full context if any source content changed since the last
+// compile. Uses per-source SHA-256 hashes stored in golden-cache.json so that only
+// changed sources are recompressed — unchanged sources reuse their cached section,
+// avoiding ~13 haiku calls per rebuild when only 1-2 sources change.
 func (g *GoldenDocCompiler) MaybeRebuild(ctx context.Context) error {
-	outStat, err := os.Stat(g.outPath)
-	needBuild := os.IsNotExist(err)
-	if err != nil && !os.IsNotExist(err) {
-		return fmt.Errorf("stat output: %w", err)
-	}
-	if !needBuild {
-		for _, src := range g.sources {
-			stat, serr := os.Stat(src.Path)
-			if serr != nil {
-				continue
-			}
-			if stat.ModTime().After(outStat.ModTime()) {
-				log.Printf("goldenbuild: %s updated, rebuilding full-system-context.md", src.Name)
-				needBuild = true
-				break
-			}
+	cache := g.loadCache()
+	anyChanged := false
+	for _, src := range g.sources {
+		raw, err := os.ReadFile(src.Path)
+		if err != nil {
+			continue
+		}
+		h := contentHash(raw, src.Budget)
+		if entry, ok := cache.Entries[src.Path]; !ok || entry.Hash != h {
+			anyChanged = true
+			break
 		}
 	}
-	if !needBuild {
+	if !anyChanged {
 		return nil
 	}
 	return g.Build(ctx)
 }
 
-// Build reads all sources, compresses each via haiku, and writes full-system-context.md.
+// Build reads all sources, compresses changed ones via haiku (reusing cached sections
+// for unchanged sources), and writes full-system-context.md + golden-cache.json.
 func (g *GoldenDocCompiler) Build(ctx context.Context) error {
+	cache := g.loadCache()
 	var sections []string
-	built := 0
+	built, reused := 0, 0
 	for _, src := range g.sources {
 		raw, err := os.ReadFile(src.Path)
 		if err != nil {
 			log.Printf("goldenbuild: skip %s: %v", src.Name, err)
 			continue
 		}
+		h := contentHash(raw, src.Budget)
+		if entry, ok := cache.Entries[src.Path]; ok && entry.Hash == h && entry.Compressed != "" {
+			sections = append(sections, entry.Compressed)
+			reused++
+			built++
+			continue
+		}
+
 		text := string(raw)
 		if src.Budget > 0 && len(text) > src.Budget {
 			text = text[:src.Budget]
@@ -113,9 +139,15 @@ func (g *GoldenDocCompiler) Build(ctx context.Context) error {
 			}
 			compressed = fmt.Sprintf("## %s\n%s\n", src.Name, text)
 		}
+		cache.Entries[src.Path] = goldenCacheEntry{
+			Hash:       h,
+			Compressed: compressed,
+			UpdatedAt:  time.Now().UTC().Format(time.RFC3339),
+		}
 		sections = append(sections, compressed)
 		built++
 	}
+	log.Printf("goldenbuild: %d sources built (%d reused from cache, %d new haiku calls)", built, reused, built-reused)
 
 	var b strings.Builder
 	b.WriteString(fmt.Sprintf("# 全系統上下文 FULL SYSTEM CONTEXT — %s\n", time.Now().UTC().Format("2006-01-02")))
@@ -133,7 +165,43 @@ func (g *GoldenDocCompiler) Build(ctx context.Context) error {
 		return fmt.Errorf("write full-system-context.md: %w", err)
 	}
 	log.Printf("goldenbuild: wrote %s (%d bytes, %d/%d sources)", g.outPath, b.Len(), built, len(g.sources))
+	g.saveCache(cache)
 	return nil
+}
+
+// loadCache reads golden-cache.json; returns an empty cache on any error.
+func (g *GoldenDocCompiler) loadCache() goldenCache {
+	data, err := os.ReadFile(g.cachePath)
+	if err != nil {
+		return goldenCache{Entries: make(map[string]goldenCacheEntry)}
+	}
+	var c goldenCache
+	if err := json.Unmarshal(data, &c); err != nil || c.Entries == nil {
+		return goldenCache{Entries: make(map[string]goldenCacheEntry)}
+	}
+	return c
+}
+
+// saveCache writes golden-cache.json; errors are logged but non-fatal.
+func (g *GoldenDocCompiler) saveCache(c goldenCache) {
+	data, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		log.Printf("goldenbuild: cache marshal: %v", err)
+		return
+	}
+	if err := os.WriteFile(g.cachePath, data, 0o644); err != nil {
+		log.Printf("goldenbuild: cache write: %v", err)
+	}
+}
+
+// contentHash returns a hex SHA-256 of raw, truncated to budget chars if budget>0.
+func contentHash(raw []byte, budget int) string {
+	content := raw
+	if budget > 0 && len(content) > budget {
+		content = content[:budget]
+	}
+	sum := sha256.Sum256(content)
+	return hex.EncodeToString(sum[:])
 }
 
 // compress calls claude-haiku to compress doc into a dense bilingual ≤180 token section.

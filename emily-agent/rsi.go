@@ -271,7 +271,18 @@ func (r *RSILoop) buildGenerationPrompt(task *ImprovementTask, iterNum int) stri
 			targetFor[c.Name] = c.Target
 		}
 
-		for _, prev := range task.Iterations {
+		// Limit history to the most recent 3 iterations to cap prompt size on long tasks.
+		// The last iteration's NextFocus is the primary signal; older records have
+		// diminishing returns and grow the input by ~150 tokens each.
+		const maxHistoryIters = 3
+		history := task.Iterations
+		if len(history) > maxHistoryIters {
+			omitted := len(history) - maxHistoryIters
+			fmt.Fprintf(&sb, "[%d earlier iteration(s) omitted]\n\n", omitted)
+			history = history[len(history)-maxHistoryIters:]
+		}
+
+		for _, prev := range history {
 			var passing, failing []string
 			for _, cr := range prev.Results {
 				if cr.Passes {

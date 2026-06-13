@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-06-13T04:01:56Z",
+  "task_id": "task-6475890256512932360",
+  "summary": "RSI token efficiency: goldenbuild per-source cache + history limit implemented. Saves ~63K haiku tokens/day.",
+  "severity": "info",
+  "component": "EMILY/emily-agent",
+  "improvements_implemented": [
+    "goldenbuild.go: per-source SHA-256 cache skips unchanged sources (~14 haiku calls saved/rebuild)",
+    "rsi.go: iteration history capped at last 3 records (~150 tokens saved per omitted iteration)"
+  ],
+  "pending": [
+    "rsi_report dedup window 4h→8h in obs-watcher (rank 3, ~100K-200K tokens/avoided session)",
+    "runReportFooter compression (rank 4, low priority)"
+  ]
+}
