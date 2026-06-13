@@ -455,7 +455,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   prepend as context to Emily Prime's user message. Emily answers from real data, not hallucination.
   Dependency: S20-05 ✓, S21-01 ✓.
 
-- [ ] **S21-04: Ask Emily: rate limiting (free tier)** — 5 questions per IP per day. Use IDUNA JWT
+- [x] **S21-04: Ask Emily: rate limiting (free tier)** — 5 questions per IP per day. Use IDUNA JWT [done 2026-06-13]
   if user is logged in (then tie to user_id). Anonymous: use IP + daily bucket in Redis or SQLite.
   Enforcement in newssite handler, not Emily Prime.
 
