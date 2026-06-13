@@ -513,7 +513,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   Moves planning responsibility from Claude Code sessions to Emily Prime herself.
   Dependency: S22-02 ✓, S22-04 ✓.
 
-- [ ] **S22-08: Tooling gap — `emily backlog add` and `emily backlog add-section`** — Currently
+- [x] **S22-08: Tooling gap — `emily backlog add` and `emily backlog add-section`** — Currently [done 2026-06-13]
   adding items to BACKLOG.md requires manual editing. Add CLI commands:
   `emily backlog add --section N "<item text>"` — appends item to section N
   `emily backlog add-section --title "<title>"` — appends new numbered section
