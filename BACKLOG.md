@@ -459,7 +459,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   if user is logged in (then tie to user_id). Anonymous: use IP + daily bucket in Redis or SQLite.
   Enforcement in newssite handler, not Emily Prime.
 
-- [ ] **S21-05: Ask Emily: auth integration via IDUNA** — Google OAuth login on newssite via IDUNA
+- [x] **S21-05: Ask Emily: auth integration via IDUNA** — Google OAuth login on newssite via IDUNA [done 2026-06-13]
   `/api/v1/auth/google`. Logged-in users get 20 questions/day (free tier). Subscription tier TBD.
   Dependency: S21-04 ✓, IDUNA OAuth ✓.
 
