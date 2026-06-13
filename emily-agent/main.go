@@ -1487,7 +1487,7 @@ type Server struct {
 func NewServer(cfg Config) (*Server, error) {
 	key := os.Getenv("ANTHROPIC_API_KEY")
 	if key == "" {
-		return nil, errors.New("ANTHROPIC_API_KEY is required")
+		log.Printf("WARNING: ANTHROPIC_API_KEY not set — LLM calls will fail gracefully; all other endpoints operational")
 	}
 	generator := NewAnthropicClient(key)
 	// Normalise any legacy GPT model names to Claude equivalents.
