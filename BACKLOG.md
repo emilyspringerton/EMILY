@@ -624,6 +624,8 @@ produce an Emily-domain language model for local inference and RSI entropy sourc
   on T4 GPU with Emily corpus; validate perplexity < GPT-2 base on Emily domain text; download
   checkpoint and convert to C binary; run `./gpt2_run weights/emily-ft.bin --entropy-stats`.
   Manual step — requires Google Colab session.
+  Corpus now ready: `emily train build-dataset` (--colab default) → 466 records / 154k tokens / 2.2 min T4.
+  Commit: gpt2-alpine-c a335afc, emily.cli 05c2eba. Apple pending (IDUNA offline).
 
 - [ ] **S26-05: Validate entropy source** — Compare entropy_mean_nats for base vs fine-tuned model
   on Emily operational text; document delta in NORTHSTAR.md; update RSI loop entropy injection if
