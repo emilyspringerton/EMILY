@@ -563,21 +563,22 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   table, architecture, status/gaps. Registered in golden-docs-index.md as IDUNA-NORTH Tier 1.
   — 2026-06-13. Apple #473.
 
-- [ ] **S25-02: GoblinFoxDragon/docs/NORTHSTAR.md** — GoblinFoxDragon has no northstar.
-  Both GFD and SHANKPIT have `go.mod module=dragonsnshit`. Relationship is documented in
-  SHANKPIT NORTHSTAR (S4 done) but GFD itself has no orientation doc.
-  Write GFD NORTHSTAR: is it the Dragonfly fork, a studio umbrella, or the future consolidated
-  repo? One canonical answer. Add to golden-docs-index.md as Tier 1.
+- [x] **S25-02: GoblinFoxDragon/docs/NORTHSTAR.md** — GFD is the R&D studio umbrella and
+  DragonsNShit engine; SHANKPIT is the first shipped product derived from GFD DNA. Both have
+  module=dragonsnshit because GFD IS the Dragonfly fork. NORTHSTAR written: milestones,
+  package structure, EduScript VM, VS0 specs, bridge relationship to SHANKPIT, IDUNA identity.
+  Registered in golden-docs-index.md as Tier 2 (GFD-NORTH). GFD commit 287733b.
+  — 2026-06-14.
 
 - [x] **S25-03: Archive EmilyOS legacy docs** — Moved EmilyOS/docs/legacy/ (12 files) to
   EmilyOS/docs/legacy-archive/. README.md added: superseded by NORTHSTAR.md 2026-06-09.
   — 2026-06-13. Apple #474.
 
-- [ ] **S25-04: Resolve SHANKPIT/GFD doc duplication** — NETCODE_CONTRACT_SPEC.md and
-  CLIENT_PREDICTION_SPEC.md exist in both `SHANKPIT/docs2/` and `GoblinFoxDragon/docs2/`.
-  Pick the canonical source (SHANKPIT owns the spec; GFD is the Dragonfly fork implementation).
-  Replace GFD copies with symlinks or explicit "see SHANKPIT/docs2/" references.
-  Prevents spec drift between the two repos.
+- [x] **S25-04: Resolve SHANKPIT/GFD doc duplication** — NETCODE_CONTRACT_SPEC.md and
+  CLIENT_PREDICTION_SPEC.md replaced in GFD with reference stubs pointing to canonical
+  SHANKPIT/docs2/ sources. GFD world-backend extensions go in addendum docs under
+  docs2/specs/. Prevents spec drift. GFD commits 287733b + 8760b31.
+  — 2026-06-14.
 
 - [x] **S25-05: Move EMILY/THE_FIELD.md into docs/** — Moved to EMILY/docs/THE_FIELD.md.
   Added THE-FIELD row to golden-docs-index.md as Tier 2.
