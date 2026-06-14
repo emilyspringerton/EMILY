@@ -97,3 +97,17 @@ Then commit and push EMILY:
 cd /home/fatbaby/EMILY && git add context/golden-docs-index.md && git commit -m "golden-index: add NAME" && git push
 ```
 
+## RSI AGI Loop
+
+To start the full RSI loop with persistent context across cycles:
+```bash
+emily start --agi        # enables --continue: each claude invocation continues the prior session
+emily start              # default: each observation starts a fresh claude session
+```
+
+The `--agi` flag wires `OBSERVATION_CONTINUE=true` into obs-watcher, which appends `--continue`
+to every claude invocation. Sessions accumulate context across RSI cycles — each iteration starts
+from where the last one ended rather than a blank slate.
+
+See `EMILY/docs/THE_EMILY_WAY.md` principle 11 for the full AGI loop rationale.
+

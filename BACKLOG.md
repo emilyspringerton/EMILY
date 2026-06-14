@@ -244,6 +244,23 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   conversations (expensive). Emily Prime has no `/plan` endpoint. Claude Code tokens should be spent
   on implementation, not planning. Gap documented; implementation tracked in S22-07.
 
+- [x] **S18-AGI-01: obs-watcher --continue flag (AGI loop mode)** — Added -continue flag [2026-06-14]
+  (env: OBSERVATION_CONTINUE=true) to observation-watcher. When enabled, appends --continue to
+  every claude invocation so RSI cycles continue the prior session and build persistent context
+  across iterations rather than starting fresh. emily start --agi wires this automatically.
+  PRRJECT_FATBABY commit af5c76d, emily.cli commit 2ea4b9d. THE_EMILY_WAY.md principle 11.
+
+- [x] **S18-AGI-02: THE_EMILY_WAY.md** — Comprehensive operating procedure doc encoding the [2026-06-14]
+  Emily Way: 13 principles from backlog-first through AGI loop mode, synthesized from all
+  CLAUDE.md files, git commits, and changelogs. Registered as Tier 1 golden doc (THE-EMILY-WAY).
+  EMILY commit 8400afa.
+
+- [x] **S18-AGI-03: Tier 2/3 golden-docs-index expansion** — Added 19 new entries to [2026-06-14]
+  golden-docs-index.md: emily-tools, protocol, framework, cron-evo, integration, IAM spec,
+  MJOLNIR-apples/push/spec, APPLES-schema, SHANKPIT-netcode/predict/bridge,
+  EmilyOS-arch/memo/posture, GFD-NORTH. Total index now 39 sources (19 Tier 1 + 20 Tier 2).
+  EMILY commit 8400afa.
+
 - [~] **Ops docs token efficiency: multilingual compression experiment** — EXPERIMENTAL. Steps 1–2 done.
   Step 1: GOLDEN.md confirmed as sole runtime haiku context doc (~576 tokens, under 1200 budget).
   Large docs/ files are design docs, not runtime-loaded. Step 2: bilingual test version created at
