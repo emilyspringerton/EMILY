@@ -629,9 +629,12 @@ produce an Emily-domain language model for local inference and RSI entropy sourc
   on Emily operational text; document delta in NORTHSTAR.md; update RSI loop entropy injection if
   fine-tuned model produces better (more calibrated) entropy signal.
 
-- [ ] **S26-06: Emily Prime self-description training data** — Build instruction fine-tune pairs
+- [x] **S26-06: Emily Prime self-description training data** — Build instruction fine-tune pairs
   from Emily's prime directive in instruct mode (`--mode instruct`); verify that fine-tuned model
   completes Emily-domain prompts correctly; establish perplexity baseline for future comparison.
+  — 2026-06-14. Apple #488. Commit gpt2-alpine-c 42b0d66.
+  24 prime-directive instruct pairs (8 identity/protocol + section Q&A). Base GPT-2 PPL: 130.33.
+  Post-fine-tune target: PPL < 60. Instruct corpus: 128 pairs / 455 records / 568KB.
 
 ---
 
