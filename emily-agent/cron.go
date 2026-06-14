@@ -277,6 +277,20 @@ func (ac *AutonomousCycle) RunOnce() error {
 	}
 	rec.EndedAt = time.Now()
 
+	// Persist cycle outcome to emily-memory/cycle-log.md — rolling world model
+	// across cold-start cycles. Emily Prime reads this via goldenbuild each cycle.
+	if ac.cfg.EmilyRoot != "" {
+		memOutcome := rec.Outcome
+		if memOutcome == "" {
+			memOutcome = "no outcome"
+		}
+		memTaskID := "idle"
+		if task != nil {
+			memTaskID = task.ID
+		}
+		updateCycleLog(ac.cfg.EmilyRoot, state.CycleNumber, memTaskID, memOutcome)
+	}
+
 	triageFindings := 0
 	if ac.integration != nil {
 		if triageResult, triageErr := ac.runPrimeTriageCycle(ctx, ac.integration); triageErr != nil {
@@ -683,6 +697,60 @@ func (ac *AutonomousCycle) updateDashboard(state *CycleState, rec CycleRecord) {
 	}
 
 	_ = os.WriteFile(path, []byte(sb.String()), 0o644)
+}
+
+// --- Emily Memory ---
+
+// updateCycleLog appends one line to emily-memory/cycle-log.md.
+// The file is bounded to maxCycleLogEntries by trimming the oldest entries.
+// Errors are non-fatal — memory update failure must never break the cron cycle.
+const maxCycleLogEntries = 100
+
+func updateCycleLog(emilyRoot string, cycleNum int, taskID, outcome string) {
+	path := filepath.Join(emilyRoot, "emily-memory", "cycle-log.md")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		log.Printf("[memory] cycle-log read: %v (skip update)", err)
+		return
+	}
+	content := string(data)
+
+	// Find the bounded section between the sentinel comments.
+	const startMark = "<!-- CYCLE_LOG_START -->\n"
+	const endMark = "\n<!-- CYCLE_LOG_END -->"
+	startIdx := strings.Index(content, startMark)
+	endIdx := strings.Index(content, endMark)
+	if startIdx < 0 || endIdx < 0 || endIdx <= startIdx {
+		log.Printf("[memory] cycle-log: sentinel markers not found, skip update")
+		return
+	}
+
+	// Extract existing entries between the markers.
+	entriesBlock := content[startIdx+len(startMark) : endIdx]
+	lines := strings.Split(strings.TrimSpace(entriesBlock), "\n")
+
+	// Trim outcome to one line, max 120 chars.
+	summary := strings.ReplaceAll(strings.TrimSpace(outcome), "\n", " ")
+	if len(summary) > 120 {
+		summary = summary[:120] + "…"
+	}
+	newEntry := fmt.Sprintf("%s | cycle %d | %s | %s",
+		time.Now().UTC().Format(time.RFC3339), cycleNum, taskID, summary)
+	lines = append(lines, newEntry)
+
+	// Keep last maxCycleLogEntries.
+	if len(lines) > maxCycleLogEntries {
+		lines = lines[len(lines)-maxCycleLogEntries:]
+	}
+
+	newBlock := content[:startIdx+len(startMark)] +
+		strings.Join(lines, "\n") +
+		endMark +
+		content[endIdx+len(endMark):]
+
+	if err := os.WriteFile(path, []byte(newBlock), 0o644); err != nil {
+		log.Printf("[memory] cycle-log write: %v (non-fatal)", err)
+	}
 }
 
 // --- Lock file ---

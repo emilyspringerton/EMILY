@@ -52,3 +52,5 @@
 | EMILYOS-MEMO | EmilyOS/docs/EMILY_PRIME_MEMO.md | 2 | 2000 | Emily Prime memo on EmilyOS from 2026-06-09; translates legacy specs |
 | EMILYOS-POSTURE | EmilyOS/docs/POSTURE.md | 2 | 2000 | EmilyOS security posture spec; threat model, SOC 2 framing |
 | GPT2-NORTH | gpt2-alpine-c/NORTHSTAR.md | 2 | 1500 | GPT-2 fine-tuning pipeline for Emily Prime; corpus builder, Drive sync, Colab notebook, C binary conversion |
+| EMILY-MEMORY | EMILY/emily-memory/world-state.md | 1 | 4000 | Emily Prime persistent world state; all product statuses, human blockers, AGI gaps, next priorities |
+| EMILY-CYCLE-LOG | EMILY/emily-memory/cycle-log.md | 1 | 3000 | Rolling log of RSI cycle outcomes; last 100 entries; Emily Prime cross-cycle continuity |

@@ -743,6 +743,40 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 ---
 
+## SECTION 27: EMILY AGI MEMORY (persistent cross-cycle world model)
+
+*Emily Prime starts cold every 5 minutes. emily-memory/ gives her accumulated context across cycles.*
+*Gap identified in RSI AGI trajectory memo (#457): emily-memory/ was empty since repo creation.*
+*Resolved 2026-06-14: world-state.md + cycle-log.md wired into goldenbuild + cron PLAN phase.*
+
+- [x] **S27-01: Create emily-memory/world-state.md** — Structured world-state artifact: all product
+  statuses, human blockers, AGI gaps, recent wins, next priorities. Registered as Tier 1 golden doc
+  (EMILY-MEMORY) so goldenbuild compiles it into Emily Prime's system context each cycle.
+  Resolves AGI Gap 1 from trajectory memo #457. — 2026-06-14. Apple #513.
+
+- [x] **S27-02: Create emily-memory/cycle-log.md** — Rolling log of RSI cycle outcomes (last 100 entries).
+  Registered as Tier 1 golden doc (EMILY-CYCLE-LOG). Emily Prime reads it each cycle via goldenbuild
+  to know what happened in recent cycles without human intervention. — 2026-06-14. Apple #513.
+
+- [x] **S27-03: Wire updateCycleLog() into cron.go PLAN phase** — New updateCycleLog() function
+  appends timestamped cycle summary to emily-memory/cycle-log.md after each cron cycle. Bounded to
+  100 entries via sentinel markers. Non-fatal: memory failure never breaks the cron loop. — 2026-06-14. Apple #513.
+
+- [ ] **S27-04: Cross-domain synthesis RSI preset** — New roadmap item in defaultRoadmap(): reads
+  FatBaby/TYLER/SHANKPIT golden docs weekly, synthesizes cross-domain insights, files observation Apple.
+  Resolves AGI Gap 2 (three intelligence domains siloed). Adds weekly cross-domain preset to cron.go.
+
+- [ ] **S27-05: Revenue signal → RSI priority wiring** — When Apple type=completion includes a revenue
+  tag (steam_launch, ask_emily_subscription, etc.), bump priority of adjacent roadmap items.
+  Resolves AGI Gap 3 (revenue signals don't feed RSI priority). Wire in cron.go pickTask().
+
+- [ ] **S27-06: Emily Prime world-state update protocol** — Emily Prime should update world-state.md
+  after major milestones (not just cycle-log.md). Add a `/api/v1/emily/memory/update` endpoint that
+  accepts a section name + new content and patches the relevant section in world-state.md. This makes
+  Emily Prime self-describing and self-updating across cold restarts.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
