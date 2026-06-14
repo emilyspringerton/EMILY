@@ -624,12 +624,14 @@ produce an Emily-domain language model for local inference and RSI entropy sourc
   on T4 GPU with Emily corpus; validate perplexity < GPT-2 base on Emily domain text; download
   checkpoint and convert to C binary; run `./gpt2_run weights/emily-ft.bin --entropy-stats`.
   Manual step — requires Google Colab session.
-  Corpus now ready: `emily train build-dataset` (--colab default) → 466 records / 154k tokens / 2.2 min T4.
-  Commit: gpt2-alpine-c a335afc, emily.cli 05c2eba. Apple pending (IDUNA offline).
+  Corpus ready: `emily train build-dataset` → 466 records / 154k tokens / 2.2 min T4 (Apple #518).
+  Local CPU smoke test (20 steps) validates pipeline. Full fine-tune requires Colab T4 GPU.
+  Entropy fix: H_mean=4.49 nats (was 0.0 — float32 underflow bug fixed). Apple #519. Commit 4ab6bf0.
 
 - [ ] **S26-05: Validate entropy source** — Compare entropy_mean_nats for base vs fine-tuned model
   on Emily operational text; document delta in NORTHSTAR.md; update RSI loop entropy injection if
   fine-tuned model produces better (more calibrated) entropy signal.
+  Base: H_mean=4.49 nats, H_max=8.62 nats. Target: H_mean shift of ≥0.5 nats after fine-tune.
 
 - [x] **S26-06: Emily Prime self-description training data** — Build instruction fine-tune pairs
   from Emily's prime directive in instruct mode (`--mode instruct`); verify that fine-tuned model
