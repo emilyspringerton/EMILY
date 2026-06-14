@@ -160,6 +160,23 @@ func (ac *AutonomousCycle) RunOnce() error {
 		}
 	}
 
+	// Service health watchdog — fires escalation Apples for services down >= 2 min.
+	logDir := filepath.Join(envOr("EMILY_ROOT", "/home/fatbaby/EMILY"), "var", "logs")
+	watchAlerts := CheckServiceHealth(ctx, ac.cfg.StateDir, logDir, nil)
+	for _, alertMsg := range watchAlerts {
+		log.Printf("[watchdog] ALERT: %s", alertMsg)
+		if ac.iduna != nil {
+			alertCtx, alertCancel := context.WithTimeout(context.Background(), 8*time.Second)
+			_, _ = ac.iduna.PostApple(alertCtx, ApplePayload{
+				AppleType:  "escalation",
+				Title:      "Service health alert",
+				Body:       alertMsg,
+				SourceRepo: "EMILY",
+			})
+			alertCancel()
+		}
+	}
+
 	rec := CycleRecord{StartedAt: time.Now()}
 
 	// PHASE 1: OBSERVE — load state, check health

@@ -697,13 +697,17 @@ Run: `emily backlog promote --limit=50 --batch=15`
   via rewrite rule (already implemented in theme). Decide + implement. No duplicate content penalty.
   Acceptance: /ticker/AAPL, /ticker/JPM, /ticker/MSFT all render without 404.
 
-- [ ] **S23-04: Emily+ subscription gate (WooCommerce)** — WooCommerce product: "Emily+" at $29/month.
-  On purchase: POST to IDUNA to provision cap.query.full. edis-ask-emily checks session cookie;
-  subscribers get unlimited questions (bypass 5/day limit). Dependency: IDUNA subscription resource.
+- [x] **S23-04: Emily+ subscription gate (WooCommerce)** — IDUNA: user_subscriptions table
+  (202606140002), auth.Subscription + IsActive(), GetEffectivePermissions auto-appends cap.query.full,
+  SubscriptionHandler POST /api/v1/subscriptions + GET /me. newssite: VerifyTokenPermissions on
+  askVerifier, cap.query.full bypasses all Ask Emily rate limits. EDIS: emily-plus-woocommerce.php
+  WooCommerce order complete hook provisions IDUNA subscription, REST /wp-json/edis/v1/set-iduna-user.
+  IDUNA 5ed080e, PRRJECT_FATBABY d3136fc, EDIS f5dde79. Apple #477. — 2026-06-14.
 
-- [ ] **S23-05: Mailchimp waitlist integration** — Replace POST /wp-json/edis/v1/waitlist (stores
-  in wp_options) with Mailchimp API call. Install Mailchimp for WP plugin. Wire waitlist endpoint
-  to add contact to "EDIS Waitlist" audience. Acceptance: waitlist signup appears in Mailchimp.
+- [x] **S23-05: Mailchimp waitlist integration** — mailchimp-waitlist.php in edis-ask-emily: overrides
+  /wp-json/edis/v1/waitlist (priority 20), Mailchimp API v3 PUT upsert, auto-detect data center from
+  key suffix, tag support, wp_options fallback, admin settings fields. Config: EDIS_MAILCHIMP_API_KEY +
+  LIST_ID + TAG. EDIS commit 22b7de5. Apple #478. — 2026-06-14.
 
 ---
 
@@ -726,9 +730,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
   Use certbot with nginx plugin. Auto-renew via cron. Update nginx configs with cert paths.
   Acceptance: HTTPS works, cert grade A on SSL Labs.
 
-- [ ] **S24-03: Log rotation + alerting** — Install logrotate config (daily, 14 days, compress).
-  Wire Emily Prime to alert on: service down > 2 min, error rate > 5%, log file > 500MB.
-  Acceptance: emily tui shows all services healthy. Restart test: kill newssite, confirm auto-restart.
+- [x] **S24-03: Log rotation + alerting** — logrotate already configured (PRRJECT_FATBABY/ops/logrotate/fatbaby: daily 14d compress maxsize 500M). Emily Prime watchdog (watchdog.go): pings IDUNA/newssite/signalapi/emily-agent each cycle; escalation Apple when service down ≥ 2 min; log file size alert at 500 MB; WatchdogState persisted across cycles. Apple #479.
 
 - [ ] **S24-04: nginx cache tuning post-traffic** — After first traffic spike, review cache hit rate.
   Tune proxy_cache_valid TTLs based on actual traffic patterns. Target >80% cache hit rate.
