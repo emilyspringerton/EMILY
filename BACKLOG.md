@@ -603,6 +603,40 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
 
 ---
 
+## S26 — GPT-2 Emily Prime Training Pipeline
+
+*Opened: 2026-06-14. Initiative: fine-tune GPT-2 small on Emily's golden docs + prime directive to
+produce an Emily-domain language model for local inference and RSI entropy sourcing.*
+
+- [x] **S26-01: IDUNA Drive API** — `/api/v1/drive/*` endpoints (upload, list, get); stdlib-only
+  service account JWT auth (RS256); EMILY-TRAINING agent registered; degraded-mode 503 when env
+  not set. Commit IDUNA 58dc2c4. — 2026-06-14.
+
+- [x] **S26-02: gpt2-alpine-c training tooling** — scripts/prime_directive_dataset.py (JSONL
+  corpus builder from golden docs + prime directive + RSI task history), scripts/drive_sync.py
+  (IDUNA Drive API upload/download), scripts/convert_ft_checkpoint.py (HF checkpoint → C binary),
+  notebooks/gpt2_finetune_colab.ipynb (HF Trainer fine-tune on Colab GPU), NORTHSTAR.md, CLAUDE.md,
+  CHANGELOG.md, .gitignore. Commit gpt2-alpine-c e3c4e7e. — 2026-06-14.
+
+- [x] **S26-03: emily train CLI command** — `emily train build-dataset`, `emily train upload`,
+  `emily train status`; Drive API methods added to internal/iduna/client.go (DriveUpload, DriveList,
+  DriveGet). Wired into main.go. — 2026-06-14.
+
+- [ ] **S26-04: First experimental fine-tune on Colab** — Run notebooks/gpt2_finetune_colab.ipynb
+  on T4 GPU with Emily corpus; validate perplexity < GPT-2 base on Emily domain text; download
+  checkpoint and convert to C binary; run `./gpt2_run weights/emily-ft.bin --entropy-stats`.
+  Manual step — requires Google Colab session.
+
+- [ ] **S26-05: Validate entropy source** — Compare entropy_mean_nats for base vs fine-tuned model
+  on Emily operational text; document delta in NORTHSTAR.md; update RSI loop entropy injection if
+  fine-tuned model produces better (more calibrated) entropy signal.
+
+- [ ] **S26-06: Emily Prime self-description training data** — Build instruction fine-tune pairs
+  from Emily's prime directive in instruct mode (`--mode instruct`); verify that fine-tuned model
+  completes Emily-domain prompts correctly; establish perplexity baseline for future comparison.
+
+---
+
 ## INTAKE QUEUE (curated by emily backlog curate)
 
 Items below require `ANTHROPIC_API_KEY` for haiku routing or manual triage.

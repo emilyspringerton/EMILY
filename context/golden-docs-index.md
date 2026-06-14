@@ -51,3 +51,4 @@
 | EMILYOS-ARCH | EmilyOS/docs/ARCHITECTURE.md | 2 | 2000 | EmilyOS exokernel architecture; process model, policy layers |
 | EMILYOS-MEMO | EmilyOS/docs/EMILY_PRIME_MEMO.md | 2 | 2000 | Emily Prime memo on EmilyOS from 2026-06-09; translates legacy specs |
 | EMILYOS-POSTURE | EmilyOS/docs/POSTURE.md | 2 | 2000 | EmilyOS security posture spec; threat model, SOC 2 framing |
+| GPT2-NORTH | gpt2-alpine-c/NORTHSTAR.md | 2 | 1500 | GPT-2 fine-tuning pipeline for Emily Prime; corpus builder, Drive sync, Colab notebook, C binary conversion |
