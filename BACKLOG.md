@@ -165,9 +165,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   iters, failures), active task + progress, next cycle plan. Timeline icon in feed. EMILY_BASE_URL
   BuildConfig field added (debug: 10.0.2.2:8086). Apple #397. Commit MJOLNIR 9d88ec6.
 
-- [~] **MJOLNIR Milestone 4: Token spend sparkline** — BLOCKED: IDUNA list endpoint doesn't
-  include metadata/body; per-Apple fetches expensive for mobile. Deferred until IDUNA adds
-  aggregate token stats endpoint OR daily rollup endpoint. Not blocking Milestone 4 otherwise.
+- [x] **MJOLNIR Milestone 4: Token spend sparkline** — IDUNA GET /api/v1/apples/stats/daily-tokens added (DailyTokenStat, SQLite+MySQL store, zero-padded 7-day series, apples.read gate). MJOLNIR: TokenSparklineCard Canvas bar chart in RsiScreen; RsiViewModel fetches stats in parallel with cycle state. M4 now fully complete. IDUNA 19bacbc, MJOLNIR 2695d1d. Apple #487.
 
 - [x] **MJOLNIR Milestone 4: RSI cycle push** — FCM push fires on task completion in Apple-filing
   goroutine in cron.go. Title: "RSI cycle N complete". Body: task description. Priority: normal.
