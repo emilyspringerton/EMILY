@@ -554,12 +554,10 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   Registration section added to CLAUDE.md for EMILY, IDUNA, SHANKPIT, emily.cli, APPLES, EDIS.
   — 2026-06-13. Apple #471.
 
-- [ ] **S22-13: Unblock multilingual compression A/B test (S18)** — `docs/compression-experiment/`
-  and `scripts/compression-abtest.sh` exist. Steps 1–2 done. Blocked on ANTHROPIC_API_KEY.
-  When API key is set: run `bash EMILY/scripts/compression-abtest.sh`. If haiku comprehension
-  score ≥ 95% on bilingual vs English-only GOLDEN.md, deploy bilingual version.
-  This is the token efficiency win that reduces every haiku context call by ~30-40%.
-  Dependency: ANTHROPIC_API_KEY set ✓.
+- [x] **S22-13: Unblock multilingual compression A/B test (S18)** — FAIL: bilingual degrades Q1 (stale [Apple #521, 2026-06-15]
+  sections) and Q3 (drops 4 repos). Token reduction only 7% not 30-40%. Decision: keep GOLDEN.md.
+  Efficiency win already live via emily context build (full-system-context.md bilingual, 108KB→23KB).
+  — 2026-06-15. Apple #521.
 
 - [x] **S22-14: API key gate — document the unlock sequence** — Wrote EMILY/docs/API_KEY_UNLOCK.md:
   6-step sequence (set key → restart → context build → compression A/B test → verify FABLE →
