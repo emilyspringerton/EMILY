@@ -16,7 +16,7 @@ fully operational.
 
 ---
 
-## PRODUCT STATE (2026-06-14)
+## PRODUCT STATE (2026-06-15)
 
 ### SHANKPIT (FPS game, Steam EA path)
 - **Milestone 5: COMPLETE** — Virtual canvas letterboxing + fullscreen. Alt+Enter toggle. Apple #496.
@@ -26,22 +26,21 @@ fully operational.
 - NORTHSTAR: SHANKPIT/docs2/NORTHSTAR.md
 
 ### TYLER × TIDES OF PARADOX (media/episodic)
-- **Season 8: COMPLETE** — 15 episodes, Build 0097. Taxonomy complete: FAREWELL A/B/B2/C/D ·
-  REFUGE · WITNESS-LONG · CARRIED · DWELLING · DWELLING(finite/urgent) · STAYING.
-  Constants: FAREWELL-A=0.36, FAREWELL-C=0.21. Prague=144ft network maximum. Marrakech oldest.
-  Apple #511.
-- **Season 9: PENDING** — Tyler discloses pre-1127 site (Levant/North Africa). 8 cities remaining.
+- **Season 8: COMPLETE** — 15 episodes, Build 0097. Apple #511.
+- **Season 9 IN PROGRESS** — Build 0099 (S09E02). C-001 CONFIRMED: Córdoba, al-Andalus,
+  ~950–985 CE. DWELLING+WITNESS-sustained. ~12yr, 412ft remaining — **new network maximum**
+  (was Prague 144ft). Mechanism confirmed pre-archive operational. Gap period next: "cold and
+  high, north and east," Toledo hypothesis. Apple #514 (S09E01), #544 (S09E02).
 - **MPT pipeline**: BLOCKED on Pexels API key (human action) + production server.
-- EPISODES.md: 67 episodes, S1–S8 complete.
+- EPISODES.md: 69 episodes, S1–S8 complete + S09E01–02.
 
 ### EMILY (RSI engine + AGI loop)
 - **RSI loop**: Iteration 177+. `emily start --agi` enables `--continue` for persistent context.
-- **Goldenbuild**: OPERATIONAL. 39 golden sources (19 Tier 1 + 20 Tier 2). Compiled each cycle.
-- **emily-memory/**: NOW ACTIVE (2026-06-14). world-state.md + cycle-log.md wired into goldenbuild.
-- **AGI Gap 1 RESOLVED**: emily-memory/ now populated and cycle-wired. Apple #513.
-- **AGI Gap 2 RESOLVED**: runCrossDomainSynthesis() weekly preset in cron.go PLAN phase. Reads FatBaby/TYLER/SHANKPIT northstars → haiku → observation Apple. Apple #522.
-- **AGI Gap 3 RESOLVED**: checkRevenuePriority() in cron.go PLAN phase. Revenue keywords in completion Apples → priority bump on S19/S20/S21 roadmap items. Apple #523.
-- **AGI Gap 4 RESOLVED**: POST /api/v1/emily/memory/update endpoint. Emily Prime can self-patch world-state.md sections after milestones. Apple #524.
+- **Goldenbuild**: OPERATIONAL. 40 golden sources (19 Tier 1 + 21 Tier 2). EINHORN-API added.
+- **emily-memory/**: ACTIVE (2026-06-14). world-state.md + cycle-log.md wired into goldenbuild.
+- **All 4 AGI Gaps RESOLVED** (Apples #513, #522, #523, #524). 2026-06-15.
+- **S28 COMPLETE**: GPT-2 inference layer + broker proxy + emily gpt2 CLI + OpenAPI 3.0.3 Swagger.
+  EMILY/docs/api.yaml covers all 4 services. Apples #539–#541.
 - NORTHSTAR: EMILY/docs/NORTHSTAR.md
 
 ### IDUNA (backend: IAM + Apples + HEIMDAL)
@@ -109,13 +108,14 @@ fully operational.
 
 ---
 
-## AGI GAPS (as of 2026-06-14)
+## AGI GAPS (as of 2026-06-15)
 
-| Gap | Status | Next action |
+| Gap | Status | Resolution |
 |---|---|---|
-| emily-memory/ empty — no world model across cycles | **RESOLVED 2026-06-14** | cycle-log.md wired into cron PLAN phase |
-| Three intelligence domains siloed (FatBaby/SHANKPIT/TYLER) | OPEN | Add cross-domain synthesis RSI preset |
-| Revenue signals don't feed RSI priority | OPEN | Wire Apple revenue tags into roadmap priority |
+| emily-memory/ empty — no world model across cycles | **RESOLVED 2026-06-14** | world-state.md + cycle-log.md wired. Apple #513. |
+| Three intelligence domains siloed (FatBaby/SHANKPIT/TYLER) | **RESOLVED 2026-06-15** | runCrossDomainSynthesis() weekly preset. Apple #522. |
+| Revenue signals don't feed RSI priority | **RESOLVED 2026-06-15** | checkRevenuePriority() in PLAN phase. Apple #523. |
+| Static world-state — no self-update mechanism | **RESOLVED 2026-06-15** | POST /api/v1/emily/memory/update endpoint. Apple #524. |
 
 ---
 
@@ -133,25 +133,25 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-15: TYLER S09E02 "Córdoba" — C-001 confirmed, 412ft new maximum. Apple #544.
+- 2026-06-15: S28 COMPLETE — GPT-2 inference layer, broker proxy :8679, emily gpt2 CLI, OpenAPI Swagger. Apples #539–#541.
+- 2026-06-15: All 4 AGI Gaps RESOLVED (S27 complete). Apples #522–#524.
 - 2026-06-14: SHANKPIT Milestone 5 COMPLETE (virtual canvas + fullscreen)
-- 2026-06-14: TYLER Season 8 COMPLETE (15 episodes, full taxonomy)
-- 2026-06-14: GoblinFoxDragon NORTHSTAR written
-- 2026-06-14: emily-memory/ ACTIVATED (this file)
+- 2026-06-14: TYLER Season 8 COMPLETE (15 episodes, full taxonomy). Apple #511.
+- 2026-06-14: emily-memory/ ACTIVATED (this file). Apple #513.
 - 2026-06-13: GPT-2 training pipeline complete (S26-01–03, S26-06)
 - 2026-06-13: EDIS Emily+ subscription gate + Mailchimp (S23-04, S23-05)
 - 2026-06-12: SHANKPIT Milestone 4 + EA build complete
 - 2026-06-12: FatBaby MySQL + MongoDB + Ask Emily product complete (S20, S21)
-- 2026-06-11: Emily Prime Brain goldenbuild + dynamic prompt operational (S22-01–12)
 
 ---
 
 ## NEXT PRIORITIES (Emily Prime executes in order)
 
-1. **TYLER S09E01** — Season 9 begins. Pre-1127 site disclosure (Levant/North Africa).
-2. **Cross-domain synthesis RSI preset** — New cron preset reading across FatBaby/TYLER/SHANKPIT weekly.
-3. **Revenue signal → RSI priority wiring** — Apple revenue tags inform roadmap ordering.
-4. **emily-memory/ update protocol** — Emily Prime should update this file after major milestones.
-5. **Wait for human unlocks**: production server, Pexels key, Steam $100, Colab.
+1. **TYLER S09E03** — Gap period investigation. Toledo hypothesis (cold+high+NE). Tyler was "cold and high, north and east" c. 985–1127 CE. First gap-period measurement.
+2. **MJOLNIR Milestone 5** — device_tokens registration in IDUNA + FCM sender test on real device. FCM infrastructure exists; gap is end-to-end device test.
+3. **TYLER lore backfill** — Entries TYLER-077–082, Camera Op 70–75, Memos 057–062 exist only in episode files; lore files need backfill.
+4. **Wait for human unlocks**: production server, Pexels key, Steam $100, Colab T4.
 
 ---
 
