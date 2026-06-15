@@ -56,3 +56,4 @@
 | TYLER-ENGINE | TYLER/universe_engine.md | 2 | 3000 | TYLER universe engine; AI-assisted world-building protocol, content generation rules |
 | EMILY-MEMORY | EMILY/emily-memory/world-state.md | 1 | 4000 | Emily Prime persistent world state; all product statuses, human blockers, AGI gaps, next priorities |
 | EMILY-CYCLE-LOG | EMILY/emily-memory/cycle-log.md | 1 | 3000 | Rolling log of RSI cycle outcomes; last 100 entries; Emily Prime cross-cycle continuity |
+| EINHORN-API | EMILY/docs/api.yaml | 2 | 3000 | OpenAPI 3.0.3 full system API surface: emily-agent :8086, IDUNA :8080, GPT-2 :8088/:8679 |

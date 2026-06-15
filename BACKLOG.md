@@ -783,6 +783,27 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 ---
 
+## S28 — GPT-2 Inference Layer + System Swagger
+
+**Goal:** Expose the fine-tuned GPT-2 model as a production-ready service behind the FatBaby broker
+proxy on :8679, wire it into the emily CLI, and document the full EINHORN_INDUSTRIAL API surface
+as a single OpenAPI 3.0.3 spec in EMILY.
+
+- [x] **S28-01: Broker routes config for GPT-2 proxy on :8679** — `gpt2-alpine-c/config/broker-routes.json`
+  defining tenant route from :8679 → :8088 using the FatBaby broker package. Bearer token auth.
+  — Done 2026-06-15. Apple #539.
+
+- [x] **S28-02: `emily gpt2` CLI command** — `emily gpt2 start|proxy|status|tokenizer` subcommands.
+  start: spawns serve.py on :8088. proxy: spawns broker on :8679. status: pgrep both. tokenizer: make tokenizer.
+  — Done 2026-06-15. Apple #540.
+
+- [x] **S28-03: OpenAPI 3.0.3 Swagger — full system** — `EMILY/docs/api.yaml` documenting all
+  EINHORN_INDUSTRIAL API endpoints: emily-agent (:8086), IDUNA (:8080), GPT-2 serve.py (:8088),
+  GPT-2 broker proxy (:8679). Registered as Tier 2 golden doc.
+  — Done 2026-06-15. Apple #541.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**

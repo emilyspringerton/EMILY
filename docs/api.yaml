@@ -1,0 +1,1413 @@
+openapi: 3.0.3
+info:
+  title: EINHORN_INDUSTRIAL — Full System API
+  description: |
+    Unified API reference for all EINHORN_INDUSTRIAL services.
+
+    ## Services
+
+    | Service | Port | Purpose |
+    |---|---|---|
+    | **EMILY emily-agent** | :8086 | RSI cron engine, roadmap, memory, GPT-2 proxy |
+    | **IDUNA** | :8080 | Central trust authority: IAM, Apples audit log, HEIMDAL, Drive, FCM |
+    | **GPT-2 inference server** | :8088 | Emily-fine-tuned GPT-2 HTTP inference (Python, HF checkpoint) |
+    | **GPT-2 broker proxy** | :8679 | FatBaby broker proxy: bearer-token auth gateway to :8088 |
+
+    ## Auth model
+
+    **IDUNA JWT** — all EMILY + IDUNA agent calls use ES256 JWTs issued by
+    `POST /api/v1/auth/agent`. The JWT is short-lived (15 min); call `auth/agent`
+    again to rotate. Pass as `Authorization: Bearer <token>`.
+
+    **GPT-2 proxy bearer** — the broker proxy on :8679 uses a static tenant key
+    configured in `gpt2-alpine-c/config/broker-routes.json`. Default: `emily-gpt2-local`.
+
+    ## Start the stack
+
+    ```bash
+    emily start --iduna       # IDUNA + obs-watcher + emily-agent
+    emily gpt2 start          # GPT-2 inference server on :8088
+    emily gpt2 proxy          # broker proxy on :8679
+    ```
+  version: "1.0.0"
+  contact:
+    name: Emily Springerton / EINHORN_INDUSTRIAL
+    email: emilyspringerton@gmail.com
+
+servers:
+  - url: http://localhost:8086
+    description: EMILY emily-agent
+  - url: http://localhost:8080
+    description: IDUNA (IAM + Apples)
+  - url: http://localhost:8088
+    description: GPT-2 inference server (direct)
+  - url: http://localhost:8679
+    description: GPT-2 broker proxy (authenticated)
+
+tags:
+  - name: emily-agent
+    description: |
+      Emily Prime RSI engine (:8086). Runs autonomous 5-minute cron cycles:
+      OBSERVE → DECIDE → ACT → PLAN. Exposes roadmap, cycle state, memory
+      patching, and a proxy to the GPT-2 inference server.
+  - name: iduna-auth
+    description: |
+      IDUNA authentication (:8080). Issues ES256 JWTs for agent M2M auth.
+      Google OAuth for human operators.
+  - name: iduna-apples
+    description: |
+      IDUNA Apples audit log (:8080). Every meaningful cycle outcome is filed
+      as an Apple. Apples are immutable, append-only, and git-synced to APPLES/.
+  - name: iduna-heimdal
+    description: |
+      IDUNA HEIMDAL sprint lifecycle (:8080). MJOLNIR posts requirement text →
+      IDUNA stores sprint → Emily Prime translates via haiku → RSI roadmap item + FCM push.
+  - name: iduna-drive
+    description: |
+      IDUNA Drive API (:8080). Upload/download training artifacts (GPT-2 corpus,
+      fine-tuned checkpoints) via Google Drive as EMILY-TRAINING agent.
+  - name: iduna-push
+    description: |
+      IDUNA FCM push token registry (:8080). MJOLNIR registers its FCM token;
+      Emily Prime fetches it to send push notifications.
+  - name: iduna-subscriptions
+    description: IDUNA subscription management — Emily+ / Ask Emily gate (:8080).
+  - name: gpt2-inference
+    description: |
+      GPT-2 inference server (:8088). Python stdlib HTTP server that loads the
+      fine-tuned HuggingFace checkpoint once at startup and serves text generation.
+      Start with: `emily gpt2 start`
+  - name: gpt2-proxy
+    description: |
+      GPT-2 broker proxy (:8679). FatBaby broker package provides bearer-token
+      authentication, request telemetry, and event store logging. Routes
+      authenticated requests to the inference server on :8088.
+      Start with: `emily gpt2 proxy`
+
+# ---------------------------------------------------------------------------
+# Shared component schemas
+# ---------------------------------------------------------------------------
+components:
+  securitySchemes:
+    idunaJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: ES256 JWT from POST /api/v1/auth/agent (IDUNA :8080)
+    gpt2BearerKey:
+      type: http
+      scheme: bearer
+      description: Static tenant key from broker-routes.json (default: emily-gpt2-local)
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "unknown tenant"
+
+    Apple:
+      type: object
+      required: [apple_type, title]
+      properties:
+        apple_type:
+          type: string
+          enum: [improvement, observation, audit, escalation, completion, signal_observation]
+          example: completion
+        source_repo:
+          type: string
+          example: EMILY
+        run_id:
+          type: string
+          description: Optional run tag for correlating related Apples
+        title:
+          type: string
+          maxLength: 255
+          example: "S27-04: cross-domain synthesis preset wired"
+        body:
+          type: string
+          description: Full detail body (markdown)
+
+    AppleRecord:
+      allOf:
+        - $ref: '#/components/schemas/Apple'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 522
+            agent_id:
+              type: string
+              example: EMILY_PRIME
+            recorded_at:
+              type: string
+              format: date-time
+
+    RoadmapItem:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+          example: cross-domain-synthesis
+        name:
+          type: string
+          example: "Cross-domain AGI synthesis — weekly insight preset"
+        description:
+          type: string
+        priority:
+          type: integer
+          description: Lower = higher priority
+          example: 5
+        status:
+          type: string
+          enum: [queued, in_progress, complete, blocked]
+          example: in_progress
+        criteria:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              target:
+                type: string
+        max_iters:
+          type: integer
+          example: 3
+        notes:
+          type: string
+
+    CycleState:
+      type: object
+      properties:
+        version:
+          type: integer
+        cycle_number:
+          type: integer
+        last_cycle_at:
+          type: string
+          format: date-time
+        active_task_id:
+          type: string
+        roadmap:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoadmapItem'
+        metrics:
+          type: object
+          properties:
+            total_cycles:
+              type: integer
+            successful_cycles:
+              type: integer
+            tasks_completed:
+              type: integer
+            consecutive_failures:
+              type: integer
+
+    HeimdalSprint:
+      type: object
+      required: [requirement]
+      properties:
+        requirement:
+          type: string
+          description: Plain-text product requirement from MJOLNIR operator
+          example: "Add dark mode toggle to the Apple feed screen"
+        source:
+          type: string
+          description: Originating system (e.g. mjolnir)
+          example: mjolnir
+
+    HeimdalSprintRecord:
+      allOf:
+        - $ref: '#/components/schemas/HeimdalSprint'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            status:
+              type: string
+              enum: [pending, translating, queued, complete, blocked]
+            rsi_item_id:
+              type: string
+              description: Roadmap item ID created from this sprint
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+
+    GPT2GenerateRequest:
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: Text to continue from
+          example: "Emily Prime:"
+          default: "Emily Prime:"
+        max_tokens:
+          type: integer
+          description: Maximum new tokens to generate
+          example: 100
+          default: 100
+          minimum: 1
+          maximum: 512
+        temperature:
+          type: number
+          format: float
+          description: Sampling temperature (higher = more random)
+          example: 0.8
+          default: 0.8
+          minimum: 0.01
+          maximum: 2.0
+
+    GPT2GenerateResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Generated text (prompt not included)
+          example: " is the meta-orchestrator for EINHORN_INDUSTRIAL."
+        prompt:
+          type: string
+          example: "Emily Prime:"
+        tokens:
+          type: integer
+          description: Number of tokens generated
+          example: 12
+        model:
+          type: string
+          example: "emily-ft (checkpoint-emily-ft)"
+
+    GPT2HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        model:
+          type: string
+          example: "emily-ft (checkpoint-emily-ft)"
+
+# ---------------------------------------------------------------------------
+# EMILY emily-agent (:8086)
+# ---------------------------------------------------------------------------
+paths:
+
+  /api/v1/emily/cycle:
+    post:
+      tags: [emily-agent]
+      summary: Trigger one RSI cycle
+      description: |
+        Fires one autonomous RSI cycle asynchronously. Returns immediately.
+        Use GET /api/v1/emily/state to observe progress.
+        Returns 409 if a cycle is already running.
+      operationId: triggerCycle
+      servers:
+        - url: http://localhost:8086
+      responses:
+        '200':
+          description: Cycle triggered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: cycle_triggered
+        '409':
+          description: Cycle already running
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/emily/state:
+    get:
+      tags: [emily-agent]
+      summary: Get current RSI cycle state
+      description: Returns the persisted CycleState including roadmap and metrics.
+      operationId: getCycleState
+      servers:
+        - url: http://localhost:8086
+      responses:
+        '200':
+          description: Current cycle state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CycleState'
+
+  /api/v1/emily/roadmap/items:
+    post:
+      tags: [emily-agent]
+      summary: Add a roadmap item to the RSI queue
+      description: |
+        Adds a new RoadmapItem to Emily Prime's roadmap. Status is forced to `queued`.
+        Priority defaults to 50 if not provided.
+      operationId: addRoadmapItem
+      servers:
+        - url: http://localhost:8086
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoadmapItem'
+            example:
+              id: my-new-task
+              name: "Improve entity-graph parser"
+              description: "Handle Jr. suffix in director names"
+              priority: 10
+              criteria:
+                - name: test_pass
+                  description: go test ./... passes
+                  target: "all green"
+      responses:
+        '201':
+          description: Item queued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: queued
+                  id:
+                    type: string
+                  name:
+                    type: string
+        '400':
+          description: id or name missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/emily/memory/update:
+    post:
+      tags: [emily-agent]
+      summary: Patch a section in emily-memory/world-state.md
+      description: |
+        Replaces the content of a named `### SECTION` block in
+        `emily-memory/world-state.md`. Emily Prime uses this to self-update
+        after major milestones (S27-06).
+      operationId: updateMemorySection
+      servers:
+        - url: http://localhost:8086
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [section, content]
+              properties:
+                section:
+                  type: string
+                  description: Exact section name matching `### SECTION_NAME` in world-state.md
+                  example: SHANKPIT
+                content:
+                  type: string
+                  description: New markdown content for the section (no header line needed)
+                  example: "- **Milestone 6: COMPLETE** — Steam Direct fee paid. EA build submitted."
+            example:
+              section: SHANKPIT
+              content: "- **Milestone 6: COMPLETE** — Steam Direct fee paid. EA build submitted."
+      responses:
+        '200':
+          description: Section updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: updated
+                  section:
+                    type: string
+                    example: SHANKPIT
+        '400':
+          description: section or content missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Section name not found in world-state.md
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/emily/run:
+    post:
+      tags: [emily-agent]
+      summary: Run a one-shot Emily task (non-RSI)
+      description: Runs a single LLM task through the emily-agent pipeline. Returns the result synchronously.
+      operationId: runTask
+      servers:
+        - url: http://localhost:8086
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                session_id:
+                  type: string
+      responses:
+        '200':
+          description: Task result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+
+  /api/v1/emily/plan:
+    post:
+      tags: [emily-agent]
+      summary: Run Emily Prime planning pass
+      description: |
+        Asks Emily Prime to plan the next RSI iteration using her current
+        context (golden docs + world-state). Returns structured plan text.
+      operationId: runPlan
+      servers:
+        - url: http://localhost:8086
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  type: string
+      responses:
+        '200':
+          description: Plan text
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    type: string
+
+  /api/v1/emily/fable/advice:
+    post:
+      tags: [emily-agent]
+      summary: Get strategic advice from the Fable model
+      description: Calls Claude Fable for high-level strategic reasoning about the current state.
+      operationId: getFableAdvice
+      servers:
+        - url: http://localhost:8086
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+      responses:
+        '200':
+          description: Advice text
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  advice:
+                    type: string
+
+  /api/v1/emily/fable/execute:
+    post:
+      tags: [emily-agent]
+      summary: Execute a Fable-directed task
+      description: Runs a Fable-planned task through the full agentic loop.
+      operationId: executeFableTask
+      servers:
+        - url: http://localhost:8086
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: string
+      responses:
+        '200':
+          description: Execution result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+
+  /api/v1/gpt2/generate:
+    post:
+      tags: [emily-agent]
+      summary: Generate text via GPT-2 (emily-agent proxy)
+      description: |
+        Proxies to the GPT-2 inference server on :8088. Returns 503 with hint
+        if the inference server is not running (`emily gpt2 start`).
+        No auth required on this endpoint — auth is handled by IDUNA JWT for emily-agent.
+      operationId: proxyGPT2Generate
+      servers:
+        - url: http://localhost:8086
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GPT2GenerateRequest'
+      responses:
+        '200':
+          description: Generated text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GPT2GenerateResponse'
+        '503':
+          description: GPT-2 inference server not running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  hint:
+                    type: string
+                    example: "run: python3 /home/fatbaby/gpt2-alpine-c/scripts/serve.py"
+
+  /api/v1/gpt2/health:
+    get:
+      tags: [emily-agent]
+      summary: GPT-2 inference server health (emily-agent proxy)
+      description: Proxies GET /health to the inference server on :8088. Returns 503 if server is down.
+      operationId: proxyGPT2Health
+      servers:
+        - url: http://localhost:8086
+      responses:
+        '200':
+          description: Inference server healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GPT2HealthResponse'
+        '503':
+          description: Inference server not running
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /emiree:
+    get:
+      tags: [emily-agent]
+      summary: Emiree witch-engine state
+      description: Returns current Emiree gear (ACTIVE/COAST/REST), RSI fingerprint, and cycle statistics.
+      operationId: getEmireeState
+      servers:
+        - url: http://localhost:8086
+      responses:
+        '200':
+          description: Emiree state
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  gear:
+                    type: string
+                    enum: [ACTIVE, COAST, REST]
+                  fingerprint:
+                    type: string
+                  cycle_count:
+                    type: integer
+
+# ---------------------------------------------------------------------------
+# IDUNA (:8080)
+# ---------------------------------------------------------------------------
+
+  /api/v1/auth/agent:
+    post:
+      tags: [iduna-auth]
+      summary: Obtain a JWT via agent M2M credentials
+      description: |
+        Machine-to-machine authentication. Pass agent_name + agent_secret to
+        receive a short-lived ES256 JWT. Use the JWT as `Authorization: Bearer`
+        for all subsequent IDUNA and emily-agent calls.
+      operationId: authAgent
+      servers:
+        - url: http://localhost:8080
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [agent_name, agent_secret]
+              properties:
+                agent_name:
+                  type: string
+                  example: EMILY_PRIME
+                agent_secret:
+                  type: string
+                  format: password
+                  example: "abc123..."
+      responses:
+        '200':
+          description: JWT issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: ES256 JWT (15 min TTL)
+                  expires_in:
+                    type: integer
+                    description: Seconds until expiry
+                    example: 900
+        '401':
+          description: Bad credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/auth/google:
+    post:
+      tags: [iduna-auth]
+      summary: Exchange Google OAuth code for a session JWT
+      description: Human operator login via Google OAuth. Returns a JWT for web UI sessions.
+      operationId: authGoogle
+      servers:
+        - url: http://localhost:8080
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code:
+                  type: string
+                  description: Google OAuth authorization code
+      responses:
+        '200':
+          description: JWT issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+
+  /api/v1/apples:
+    post:
+      tags: [iduna-apples]
+      summary: File an Apple
+      description: |
+        Records one Apple in the audit log. Requires `apples.write` scope.
+        If `APPLES_GIT_DIR` is set, auto-syncs the new Apple to the APPLES git repo.
+      operationId: postApple
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Apple'
+            example:
+              apple_type: completion
+              source_repo: EMILY
+              title: "S27-04: cross-domain synthesis wired"
+              body: "runCrossDomainSynthesis() added to PLAN phase. AGI Gap 2 resolved."
+      responses:
+        '201':
+          description: Apple filed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 522
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      tags: [iduna-apples]
+      summary: List Apples
+      description: Returns Apples newest-first. Filterable by type and repo. Requires `apples.read`.
+      operationId: listApples
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 200
+        - name: apple_type
+          in: query
+          schema:
+            type: string
+            enum: [improvement, observation, audit, escalation, completion, signal_observation]
+        - name: source_repo
+          in: query
+          schema:
+            type: string
+            example: EMILY
+      responses:
+        '200':
+          description: Apple list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apples:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AppleRecord'
+                  total:
+                    type: integer
+
+  /api/v1/apples/{id}:
+    get:
+      tags: [iduna-apples]
+      summary: Get a single Apple by ID
+      description: Returns the full Apple record including body. Requires `apples.read`.
+      operationId: getApple
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 522
+      responses:
+        '200':
+          description: Apple record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppleRecord'
+        '404':
+          description: Apple not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/apples/stats/daily-tokens:
+    get:
+      tags: [iduna-apples]
+      summary: Daily Apple token usage stats
+      description: Returns per-day token usage aggregated from Apple records.
+      operationId: appleDailyTokenStats
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 7
+      responses:
+        '200':
+          description: Daily stats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  days:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        count:
+                          type: integer
+                        tokens:
+                          type: integer
+
+  /api/v1/heimdal/sprints:
+    post:
+      tags: [iduna-heimdal]
+      summary: Submit a HEIMDAL sprint requirement
+      description: |
+        MJOLNIR posts a plain-text product requirement. IDUNA stores it; Emily Prime
+        polls, translates via haiku, and creates an RSI roadmap item + FCM push.
+        Requires `heimdal.submit` scope.
+      operationId: submitSprint
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeimdalSprint'
+            example:
+              requirement: "Add dark mode toggle to the Apple feed screen"
+              source: mjolnir
+      responses:
+        '201':
+          description: Sprint created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      tags: [iduna-heimdal]
+      summary: List HEIMDAL sprints
+      description: Returns sprints filterable by status. Requires `heimdal.submit` or `apples.admin`.
+      operationId: listSprints
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, translating, queued, complete, blocked]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Sprint list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sprints:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HeimdalSprintRecord'
+
+  /api/v1/heimdal/sprints/{id}:
+    get:
+      tags: [iduna-heimdal]
+      summary: Get a single HEIMDAL sprint
+      operationId: getSprint
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Sprint record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeimdalSprintRecord'
+        '404':
+          description: Sprint not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      tags: [iduna-heimdal]
+      summary: Update a sprint (Emily Prime only)
+      description: |
+        Emily Prime patches sprint status and RSI item ID after translation.
+        Requires `heimdal.process` scope.
+      operationId: updateSprint
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [translating, queued, complete, blocked]
+                rsi_item_id:
+                  type: string
+      responses:
+        '200':
+          description: Sprint updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeimdalSprintRecord'
+
+  /api/v1/drive/upload:
+    post:
+      tags: [iduna-drive]
+      summary: Upload a file to Google Drive
+      description: |
+        Uploads a training artifact (JSONL corpus, checkpoint tar) to the configured
+        Google Drive folder. Requires `drive.write` scope. Agent: EMILY-TRAINING.
+      operationId: driveUpload
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                  description: Override filename in Drive
+      responses:
+        '200':
+          description: File uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  file_id:
+                    type: string
+                  name:
+                    type: string
+                  size:
+                    type: integer
+                    format: int64
+        '503':
+          description: Drive not configured (GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON missing)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/drive/files:
+    get:
+      tags: [iduna-drive]
+      summary: List Drive files
+      description: Lists files in the configured Google Drive folder. Requires `drive.read`.
+      operationId: driveListFiles
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: pattern
+          in: query
+          schema:
+            type: string
+          description: Filename glob pattern filter
+          example: "checkpoint-*.tar.gz"
+      responses:
+        '200':
+          description: File list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        size:
+                          type: integer
+                          format: int64
+                        modified_at:
+                          type: string
+                          format: date-time
+
+  /api/v1/push-tokens:
+    post:
+      tags: [iduna-push]
+      summary: Register or update an FCM push token
+      description: |
+        MJOLNIR calls this on startup or token refresh to register its FCM device token.
+        Emily Prime fetches the token to send push notifications. Requires `push_tokens.write`.
+      operationId: registerPushToken
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [agent_name, fcm_token]
+              properties:
+                agent_name:
+                  type: string
+                  example: mjolnir-emily
+                fcm_token:
+                  type: string
+                  description: FCM device registration token
+      responses:
+        '200':
+          description: Token registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /api/v1/push-tokens/{agent_name}:
+    get:
+      tags: [iduna-push]
+      summary: Get FCM token for an agent
+      description: Emily Prime fetches MJOLNIR's token before sending push notifications. Requires `push_tokens.read`.
+      operationId: getPushToken
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      parameters:
+        - name: agent_name
+          in: path
+          required: true
+          schema:
+            type: string
+          example: mjolnir-emily
+      responses:
+        '200':
+          description: Token found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fcm_token:
+                    type: string
+        '404':
+          description: No token registered for this agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/subscriptions:
+    post:
+      tags: [iduna-subscriptions]
+      summary: Provision or update an Emily+ subscription
+      description: WooCommerce webhook calls this when a customer subscribes to Emily+. Requires `subscriptions.admin`.
+      operationId: provisionSubscription
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, plan]
+              properties:
+                email:
+                  type: string
+                  format: email
+                plan:
+                  type: string
+                  enum: [free, emily_plus]
+                status:
+                  type: string
+                  enum: [active, cancelled, expired]
+      responses:
+        '200':
+          description: Subscription updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /api/v1/subscriptions/me:
+    get:
+      tags: [iduna-subscriptions]
+      summary: Get caller's subscription status
+      description: Returns the caller's current subscription plan. Requires `iduna.me.read`.
+      operationId: getMySubscription
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      responses:
+        '200':
+          description: Subscription status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    type: string
+                    enum: [free, emily_plus]
+                  status:
+                    type: string
+                    enum: [active, cancelled, expired]
+                  expires_at:
+                    type: string
+                    format: date-time
+
+  /api/v1/identities/me:
+    get:
+      tags: [iduna-auth]
+      summary: Get caller identity
+      description: Returns the authenticated agent/user identity from the JWT. Requires any valid JWT.
+      operationId: getMe
+      servers:
+        - url: http://localhost:8080
+      security:
+        - idunaJWT: []
+      responses:
+        '200':
+          description: Identity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agent_id:
+                    type: string
+                    example: EMILY_PRIME
+                  scopes:
+                    type: array
+                    items:
+                      type: string
+                    example: [apples.read, apples.write, heimdal.process]
+
+# ---------------------------------------------------------------------------
+# GPT-2 inference server (:8088)
+# ---------------------------------------------------------------------------
+
+  /health:
+    get:
+      tags: [gpt2-inference]
+      summary: Inference server health check
+      description: Returns the loaded model name. Use this to verify serve.py is running before calling /generate.
+      operationId: gpt2Health
+      servers:
+        - url: http://localhost:8088
+      responses:
+        '200':
+          description: Server healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GPT2HealthResponse'
+
+  /generate:
+    post:
+      tags: [gpt2-inference, gpt2-proxy]
+      summary: Generate text from the fine-tuned GPT-2 model
+      description: |
+        Generates text continuing from `prompt` using the loaded model checkpoint.
+        The inference server keeps the model warm in memory — first request after
+        startup may be slightly slower (~200ms).
+
+        **Via inference server direct** (no auth): `POST http://localhost:8088/generate`
+        **Via broker proxy** (bearer required): `POST http://localhost:8679/generate`
+          with `Authorization: Bearer emily-gpt2-local`
+
+        > Note: current checkpoint is a 20-step smoke test. Run S26-04 (Colab T4
+        > fine-tune) for production-quality output.
+      operationId: gpt2Generate
+      servers:
+        - url: http://localhost:8088
+          description: Direct (no auth)
+        - url: http://localhost:8679
+          description: Via broker proxy (bearer token required)
+      security:
+        - {}                  # direct server: no auth
+        - gpt2BearerKey: []  # via broker proxy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GPT2GenerateRequest'
+            example:
+              prompt: "Emily Prime:"
+              max_tokens: 100
+              temperature: 0.8
+      responses:
+        '200':
+          description: Generated text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GPT2GenerateResponse'
+              example:
+                text: " is the meta-orchestrator for EINHORN_INDUSTRIAL."
+                prompt: "Emily Prime:"
+                tokens: 12
+                model: "emily-ft (checkpoint-emily-ft)"
+        '400':
+          description: Invalid JSON body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unknown tenant (broker proxy only — bad or missing bearer token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Inference error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# ---------------------------------------------------------------------------
+# GPT-2 broker proxy internal endpoints (:8679)
+# ---------------------------------------------------------------------------
+
+  /internal/healthz:
+    get:
+      tags: [gpt2-proxy]
+      summary: Broker health check (no auth required)
+      description: Returns broker status and number of loaded routes. Does not require a bearer token.
+      operationId: brokerHealth
+      servers:
+        - url: http://localhost:8679
+      responses:
+        '200':
+          description: Broker healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  routes:
+                    type: integer
+                    example: 1
+
+  /internal/metricz:
+    get:
+      tags: [gpt2-proxy]
+      summary: Broker Prometheus-style metrics (no auth required)
+      description: |
+        Returns plaintext metrics in Prometheus exposition format.
+        Metrics: `broker_requests_total`, `broker_errors_total`,
+        `broker_bytes_in_total`, `broker_bytes_out_total`.
+      operationId: brokerMetrics
+      servers:
+        - url: http://localhost:8679
+      responses:
+        '200':
+          description: Metrics text
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: |
+                broker_requests_total 42
+                broker_errors_total 0
+                broker_bytes_in_total 8192
+                broker_bytes_out_total 16384
