@@ -27,12 +27,13 @@ fully operational.
 
 ### TYLER × TIDES OF PARADOX (media/episodic)
 - **Season 8: COMPLETE** — 15 episodes, Build 0097. Apple #511.
-- **Season 9 IN PROGRESS** — Build 0099 (S09E02). C-001 CONFIRMED: Córdoba, al-Andalus,
-  ~950–985 CE. DWELLING+WITNESS-sustained. ~12yr, 412ft remaining — **new network maximum**
-  (was Prague 144ft). Mechanism confirmed pre-archive operational. Gap period next: "cold and
-  high, north and east," Toledo hypothesis. Apple #514 (S09E01), #544 (S09E02).
+- **Season 9: COMPLETE** — 5 episodes (S09E01–S09E05), Builds 0098–0102.
+  C-001 Córdoba 412ft · T-001 Toledo 191ft · A-311 Prague 144ft · G-001 Genoa 97ft.
+  **S09E05 FINALE**: Tyler discloses 15yr interval (~1119 CE sea crossing, scholar heading to
+  Fez asked what Tyler had seen — Tyler had nothing). Archive origin confirmed: externally
+  directed. "The archive is the letter to the stranger on the ship." Apple #551.
 - **MPT pipeline**: BLOCKED on Pexels API key (human action) + production server.
-- EPISODES.md: 69 episodes, S1–S8 complete + S09E01–02.
+- EPISODES.md: 72 episodes (S1–S9 complete). Season 10 pending.
 
 ### EMILY (RSI engine + AGI loop)
 - **RSI loop**: Iteration 177+. `emily start --agi` enables `--continue` for persistent context.
@@ -133,25 +134,25 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
-- 2026-06-15: TYLER S09E02 "Córdoba" — C-001 confirmed, 412ft new maximum. Apple #544.
+- 2026-06-15: TYLER Season 9 COMPLETE — S09E05 "The Fifteen Years"; archive origin confirmed; 72 total eps. Apple #551.
+- 2026-06-15: GPT-2 training corpus rebuilt — colab=524rec/754KB + full=899rec/1285KB. Apple #550.
+- 2026-06-15: TYLER S09E02/03/04 "Córdoba/Toledo/Genoa" — gap period reconstructed. Apples #544 #546 #548.
 - 2026-06-15: S28 COMPLETE — GPT-2 inference layer, broker proxy :8679, emily gpt2 CLI, OpenAPI Swagger. Apples #539–#541.
 - 2026-06-15: All 4 AGI Gaps RESOLVED (S27 complete). Apples #522–#524.
 - 2026-06-14: SHANKPIT Milestone 5 COMPLETE (virtual canvas + fullscreen)
 - 2026-06-14: TYLER Season 8 COMPLETE (15 episodes, full taxonomy). Apple #511.
 - 2026-06-14: emily-memory/ ACTIVATED (this file). Apple #513.
 - 2026-06-13: GPT-2 training pipeline complete (S26-01–03, S26-06)
-- 2026-06-13: EDIS Emily+ subscription gate + Mailchimp (S23-04, S23-05)
-- 2026-06-12: SHANKPIT Milestone 4 + EA build complete
 - 2026-06-12: FatBaby MySQL + MongoDB + Ask Emily product complete (S20, S21)
 
 ---
 
 ## NEXT PRIORITIES (Emily Prime executes in order)
 
-1. **TYLER S09E03** — Gap period investigation. Toledo hypothesis (cold+high+NE). Tyler was "cold and high, north and east" c. 985–1127 CE. First gap-period measurement.
+1. **TYLER lore backfill** — TYLER-077 through TYLER-082, Camera Op Entries 70–75, Memos #057–#062 (S08E11–S09E01, Builds 0093–0098) exist only in episode files; lore files need backfill.
 2. **MJOLNIR Milestone 5** — device_tokens registration in IDUNA + FCM sender test on real device. FCM infrastructure exists; gap is end-to-end device test.
-3. **TYLER lore backfill** — Entries TYLER-077–082, Camera Op 70–75, Memos 057–062 exist only in episode files; lore files need backfill.
-4. **Wait for human unlocks**: production server, Pexels key, Steam $100, Colab T4.
+3. **emily train upload** — BLOCKED on GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON (human GCP setup). Corpus built locally at /tmp/emily-corpus-2026-06-15.jsonl (524 records, colab preset).
+4. **Wait for human unlocks**: production server, Pexels key, Steam $100, Colab T4, GCP Drive service account.
 
 ---
 
