@@ -1,4 +1,5 @@
 ## 2026-06-15
+- feat(api_gpt2): POST /api/v1/gpt2/generate + GET /api/v1/gpt2/health proxy to :8088
 
 - S27-04/05/06: cross-domain synthesis preset + revenue priority wiring + memory/update endpoint
 
