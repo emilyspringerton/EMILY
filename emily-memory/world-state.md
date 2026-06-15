@@ -38,9 +38,10 @@ fully operational.
 - **RSI loop**: Iteration 177+. `emily start --agi` enables `--continue` for persistent context.
 - **Goldenbuild**: OPERATIONAL. 39 golden sources (19 Tier 1 + 20 Tier 2). Compiled each cycle.
 - **emily-memory/**: NOW ACTIVE (2026-06-14). world-state.md + cycle-log.md wired into goldenbuild.
-- **AGI Gap 1 RESOLVED**: emily-memory/ now populated and cycle-wired.
-- **AGI Gap 2**: Three intelligence domains (FatBaby/SHANKPIT/TYLER) still siloed — no cross-domain synthesis cron preset yet.
-- **AGI Gap 3**: Revenue signals don't feed RSI priority — not yet wired.
+- **AGI Gap 1 RESOLVED**: emily-memory/ now populated and cycle-wired. Apple #513.
+- **AGI Gap 2 RESOLVED**: runCrossDomainSynthesis() weekly preset in cron.go PLAN phase. Reads FatBaby/TYLER/SHANKPIT northstars → haiku → observation Apple. Apple #522.
+- **AGI Gap 3 RESOLVED**: checkRevenuePriority() in cron.go PLAN phase. Revenue keywords in completion Apples → priority bump on S19/S20/S21 roadmap items. Apple #523.
+- **AGI Gap 4 RESOLVED**: POST /api/v1/emily/memory/update endpoint. Emily Prime can self-patch world-state.md sections after milestones. Apple #524.
 - NORTHSTAR: EMILY/docs/NORTHSTAR.md
 
 ### IDUNA (backend: IAM + Apples + HEIMDAL)

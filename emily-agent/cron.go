@@ -314,6 +314,10 @@ func (ac *AutonomousCycle) RunOnce() error {
 		}
 	}
 
+	// S27-05: Revenue signal → RSI priority wiring. Run inline so priority
+	// changes are visible to pickTask() in the next cycle's DECIDE phase.
+	ac.checkRevenuePriority(ctx, state)
+
 	// Vision cycle: drain pending camera_observations from IDUNA.
 	if ac.iduna != nil {
 		visionCtx, visionCancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -321,6 +325,16 @@ func (ac *AutonomousCycle) RunOnce() error {
 			defer visionCancel()
 			result := runVisionCycle(visionCtx, ac.iduna)
 			log.Printf("[cycle %d] %s", state.CycleNumber, result)
+		}()
+	}
+
+	// S27-04: Cross-domain synthesis — weekly goroutine reading FatBaby/TYLER/SHANKPIT
+	// northstars and synthesizing cross-domain insights via haiku. Resolves AGI Gap 2.
+	if ac.pipeline != nil {
+		synthCtx, synthCancel := context.WithTimeout(context.Background(), 90*time.Second)
+		go func() {
+			defer synthCancel()
+			ac.runCrossDomainSynthesis(synthCtx)
 		}()
 	}
 
@@ -699,6 +713,138 @@ func (ac *AutonomousCycle) updateDashboard(state *CycleState, rec CycleRecord) {
 	_ = os.WriteFile(path, []byte(sb.String()), 0o644)
 }
 
+// --- S27-04: Cross-domain synthesis ---
+
+// runCrossDomainSynthesis reads northstar docs from FatBaby/TYLER/SHANKPIT,
+// asks haiku to synthesize cross-domain insights, and files an observation Apple.
+// Runs at most once per 7 days via sentinel file. Resolves AGI Gap 2.
+func (ac *AutonomousCycle) runCrossDomainSynthesis(ctx context.Context) {
+	const week = 7 * 24 * time.Hour
+	sentinel := filepath.Join(ac.cfg.StateDir, "cross-domain-last-run.txt")
+	if data, err := os.ReadFile(sentinel); err == nil {
+		if t, err2 := time.Parse(time.RFC3339, strings.TrimSpace(string(data))); err2 == nil {
+			if time.Since(t) < week {
+				return
+			}
+		}
+	}
+
+	root := filepath.Dir(ac.cfg.EmilyRoot)
+	readTrunc := func(path string, max int) string {
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return ""
+		}
+		if len(data) > max {
+			data = data[:max]
+		}
+		return string(data)
+	}
+
+	type docSrc struct{ name, path string }
+	sources := []docSrc{
+		{"FatBaby (financial intelligence)", filepath.Join(root, "PRRJECT_FATBABY/docs/northstar.md")},
+		{"TYLER (media/episodic)", filepath.Join(root, "TYLER/docs/NORTHSTAR.md")},
+		{"SHANKPIT (FPS/Steam)", filepath.Join(root, "SHANKPIT/docs2/NORTHSTAR.md")},
+		{"EMILY (RSI/AGI)", filepath.Join(ac.cfg.EmilyRoot, "docs/NORTHSTAR.md")},
+	}
+
+	var sb strings.Builder
+	sb.WriteString("You are Emily Prime, meta-orchestrator for EINHORN_INDUSTRIAL.\n")
+	sb.WriteString("Analyze these product northstars and identify cross-domain synergies or blockers.\n\n")
+	for _, s := range sources {
+		content := readTrunc(s.path, 1500)
+		if content == "" {
+			continue
+		}
+		sb.WriteString("=== " + s.name + " ===\n" + content + "\n\n")
+	}
+	sb.WriteString("Output 3-5 insights. Format each line: [SYNERGY] or [BLOCKER]: <domain1>↔<domain2>: <insight>. Be specific and actionable.")
+
+	resp, err := ac.pipeline.Generator.Complete(ctx, LLMRequest{
+		Model:     ac.pipeline.GenModel,
+		MaxTokens: 500,
+		Messages:  []Message{{Role: "user", Content: sb.String()}},
+	})
+	if err != nil || resp.Content == "" {
+		log.Printf("[cross-domain] synthesis error: %v", err)
+		return
+	}
+	synthesis := resp.Content
+
+	if ac.iduna != nil {
+		appleCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		_, _ = ac.iduna.PostApple(appleCtx, ApplePayload{
+			AppleType:  "observation",
+			SourceRepo: "EMILY",
+			Title:      "cross-domain synthesis: weekly AGI insight",
+			Body:       synthesis,
+		})
+	}
+	_ = os.WriteFile(sentinel, []byte(time.Now().UTC().Format(time.RFC3339)), 0o644)
+	log.Printf("[cross-domain] synthesis filed: %d chars", len(synthesis))
+}
+
+// --- S27-05: Revenue signal → RSI priority wiring ---
+
+// revenueKeywords are Apple title substrings that indicate revenue-adjacent progress.
+var revenueKeywords = []string{
+	"steam", "ask_emily", "ask emily", "emily+", "subscription", "launch",
+	"ea_launch", "data_license", "paying", "revenue",
+}
+
+// checkRevenuePriority scans recent completion Apples for revenue signals and bumps
+// the priority of S19/S20/S21 roadmap items. Resolves AGI Gap 3.
+// Run inline so priority changes propagate before the next DECIDE phase.
+func (ac *AutonomousCycle) checkRevenuePriority(ctx context.Context, state *CycleState) {
+	if ac.iduna == nil {
+		return
+	}
+	listCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+	apples, err := ac.iduna.ListApples(listCtx, "completion", "", 25)
+	if err != nil {
+		log.Printf("[revenue-priority] list apples: %v (skip)", err)
+		return
+	}
+
+	revenueSeen := false
+	for _, a := range apples {
+		title := strings.ToLower(a.Title)
+		for _, kw := range revenueKeywords {
+			if strings.Contains(title, kw) {
+				revenueSeen = true
+				log.Printf("[revenue-priority] signal '%s' in Apple #%d: %s", kw, a.ID, a.Title)
+				break
+			}
+		}
+		if revenueSeen {
+			break
+		}
+	}
+	if !revenueSeen {
+		return
+	}
+
+	revenuePrefixes := []string{"s19", "s20", "s21", "steam", "ask-emily", "emily-plus"}
+	bumped := 0
+	for i := range state.Roadmap {
+		id := strings.ToLower(state.Roadmap[i].ID)
+		for _, pfx := range revenuePrefixes {
+			if strings.HasPrefix(id, pfx) && state.Roadmap[i].Status == "queued" {
+				state.Roadmap[i].Priority -= 5
+				bumped++
+				log.Printf("[revenue-priority] bumped %s → priority %d", state.Roadmap[i].ID, state.Roadmap[i].Priority)
+				break
+			}
+		}
+	}
+	if bumped > 0 {
+		log.Printf("[revenue-priority] %d items bumped (revenue signal active)", bumped)
+	}
+}
+
 // --- Emily Memory ---
 
 // updateCycleLog appends one line to emily-memory/cycle-log.md.
@@ -903,6 +1049,18 @@ func defaultRoadmap() []RoadmapItem {
 			},
 			MaxIters: 4,
 			Notes:    "Completed: HTML full-paper extraction (MaxFullText=10 per batch); cleanAbstract strips raw LaTeX macros (\\cmd, \\begin/\\end environments, inline math) from abstracts; seenSet dedup verified; throughput met via batched Atom feed.",
+		},
+		{
+			ID:          "cross-domain-synthesis",
+			Name:        "Cross-domain AGI synthesis — weekly insight preset",
+			Description: "Weekly cron preset: reads FatBaby/TYLER/SHANKPIT/EMILY northstar docs, synthesizes cross-domain synergies and blockers via haiku, files observation Apple. Resolves AGI Gap 2 (three intelligence domains siloed).",
+			Priority:    5,
+			Status:      "in_progress",
+			Criteria: []AcceptanceCriterion{
+				{Name: "fires_weekly", Description: "synthesis runs at most once per 7 days via sentinel", Target: "cross-domain-last-run.txt updated after each run"},
+				{Name: "files_apple", Description: "observation Apple filed with [SYNERGY]/[BLOCKER] insights", Target: "apple type=observation source_repo=EMILY title contains 'cross-domain'"},
+			},
+			MaxIters: 1,
 		},
 		{
 			ID:          "bob-agent",

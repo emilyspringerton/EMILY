@@ -2089,6 +2089,7 @@ func main() {
 	mux.HandleFunc("/api/v1/emily/cycle", srv.handleCycleTrigger)
 	mux.HandleFunc("/api/v1/emily/state", srv.handleCycleState)
 	mux.HandleFunc("/api/v1/emily/roadmap/items", srv.handleRoadmapItems)
+	mux.HandleFunc("/api/v1/emily/memory/update", srv.handleMemoryUpdate)
 
 	addr := ":" + cfg.Port
 	log.Printf("Emily agent  ->  http://localhost%s", addr)

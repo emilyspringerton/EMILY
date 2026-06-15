@@ -765,18 +765,21 @@ Run: `emily backlog promote --limit=50 --batch=15`
   appends timestamped cycle summary to emily-memory/cycle-log.md after each cron cycle. Bounded to
   100 entries via sentinel markers. Non-fatal: memory failure never breaks the cron loop. — 2026-06-14. Apple #513.
 
-- [ ] **S27-04: Cross-domain synthesis RSI preset** — New roadmap item in defaultRoadmap(): reads
+- [x] **S27-04: Cross-domain synthesis RSI preset** — New roadmap item in defaultRoadmap(): reads
   FatBaby/TYLER/SHANKPIT golden docs weekly, synthesizes cross-domain insights, files observation Apple.
   Resolves AGI Gap 2 (three intelligence domains siloed). Adds weekly cross-domain preset to cron.go.
+  — 2026-06-15. Apple #522.
 
-- [ ] **S27-05: Revenue signal → RSI priority wiring** — When Apple type=completion includes a revenue
+- [x] **S27-05: Revenue signal → RSI priority wiring** — When Apple type=completion includes a revenue
   tag (steam_launch, ask_emily_subscription, etc.), bump priority of adjacent roadmap items.
-  Resolves AGI Gap 3 (revenue signals don't feed RSI priority). Wire in cron.go pickTask().
+  Resolves AGI Gap 3 (revenue signals don't feed RSI priority). Wire in cron.go PLAN phase.
+  — 2026-06-15. Apple #523.
 
-- [ ] **S27-06: Emily Prime world-state update protocol** — Emily Prime should update world-state.md
+- [x] **S27-06: Emily Prime world-state update protocol** — Emily Prime should update world-state.md
   after major milestones (not just cycle-log.md). Add a `/api/v1/emily/memory/update` endpoint that
   accepts a section name + new content and patches the relevant section in world-state.md. This makes
   Emily Prime self-describing and self-updating across cold restarts.
+  — 2026-06-15. Apple #524.
 
 ---
 
