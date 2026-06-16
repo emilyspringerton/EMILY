@@ -97,8 +97,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   functionality. Audit SHANKPIT for scripting capabilities matching FFXI dialogue scenes.
   — obs `2026-06-07T21:55:11Z`.
 
-- [ ] **TYLER S09E01 'The Interval' — Córdoba pre-archive site** — Implement Season 9 Episode 1 with new pre-archive site disclosure at Córdoba (~10th century). Obs: 2026-06-14T17:37:05Z.
-- [ ] **SHANKPIT display/fullscreen hard blocker for Steam** — Implement fullscreen display mode for SHANKPIT as critical pre-Steam release requirement per DISPLAY_FULLSCREEN_SPEC.md. Obs: 2026-06-13T20:56:16Z.
+- [x] **TYLER S09E01 'The Interval' — Córdoba pre-archive site** — Implement Season 9 Episode 1 with new pre-archive site disclosure at Córdoba (~10th century). Obs: 2026-06-14T17:37:05Z.
+  — Stale. Already done: s09e01_the_interval.md 533 lines, Apple #514, Season 9 complete. Apple #835.
+- [x] **SHANKPIT display/fullscreen hard blocker for Steam** — Implement fullscreen display mode for SHANKPIT as critical pre-Steam release requirement per DISPLAY_FULLSCREEN_SPEC.md. Obs: 2026-06-13T20:56:16Z.
+  — Stale. Already done: VIRTUAL_W/H 1280×720, letterbox, toggle_fullscreen, SDL_WINDOW_RESIZABLE, shankpit_display.cfg. Commit 2026-06-14. Apple #836.
 ---
 
 ## SECTION 5: FUTURE (Emily Prime decides when to promote)
@@ -676,6 +678,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — emily_write_file now unconditionally POSTs Apple via IdunaClient inside tool handler (Emily cannot opt out). OpenAPI spec for all 13 emily-agent tools written. Future tool stubs (grep_files, shell_exec, run_tests, git_commit, git_push) documented as path toward own Claude Code abstraction. EMILY commit 25e6c83. Done 2026-06-12. Apple #386.
 ---
 
+- [ ] **S29-05 RSI smoke test: end-to-end loop verification** — obs `2026-06-16T18:59:32Z`. CURATED: 2026-06-16.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
