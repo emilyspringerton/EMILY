@@ -1,3 +1,7 @@
+## 2026-06-16
+
+- feat(ops): S29 production systemd services — emily-system.service + iduna.service written; S29-01/02/03/04 complete. Apples #561 #562.
+
 ## 2026-06-15
 - feat(api_gpt2): POST /api/v1/gpt2/generate + GET /api/v1/gpt2/health proxy to :8088
 
