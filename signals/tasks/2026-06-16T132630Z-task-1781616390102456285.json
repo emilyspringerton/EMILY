@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-06-16T13:26:30Z",
+  "from": "emily-prime",
+  "to": "fatbaby-emily",
+  "task_id": "task-1781616390102456285",
+  "task_type": "expand_coverage",
+  "priority": "normal",
+  "description": "EDIS DIS pre-deploy analysis: found and fixed 3 bugs (broken nginx parser, posture window race, missing hostile_ratio). Collector was ingesting zero records due to wrong field indices.",
+  "acceptance_criteria": [
+    "Signal extraction covers the identified gap",
+    "No regression in existing signal counts",
+    "Parse errors reduced or eliminated"
+  ],
+  "context": "Emily Prime triage: relevance=0.60, triggered=. Strategic context: these signals inform M\u0026A risk, activist targeting, and board stability assessment."
+}
