@@ -370,6 +370,11 @@ Track 3: Data platform licensing            (2+ years, institutional revenue)
 RSI:     Emily Prime Brain                  (parallel enabler — reduces Claude Code token spend)
 ```
 
+---
+
+## SECTION 28: S29 — PRODUCTION RSI LOOP (cron + systemd auto-start)
+
+
 Priority section order: S22 → S19 → S20 → S21 → S25 → S5 → S2 → S10
 
 ---
