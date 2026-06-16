@@ -714,6 +714,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
   LIST_ID + TAG. EDIS commit 22b7de5. Apple #478. — 2026-06-14.
 
 ---
+- [ ] **S23-01: LIVE DEPLOY — sprint-deploy.sh ready to run. Requires: sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh. Pre…**
+
 
 ## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
 
