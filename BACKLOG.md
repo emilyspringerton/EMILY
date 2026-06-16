@@ -631,6 +631,8 @@ produce an Emily-domain language model for local inference and RSI entropy sourc
   Entropy fix: H_mean=4.49 nats base (was 0.0 — float32 underflow fixed, Apple #519, commit 4ab6bf0).
   Smoke test (20 steps CPU): loss 6.40→5.73, fine-tuned H_mean=4.6602 vs base 4.4877 (+0.17 nats). Apple #520.
   Pipeline validated end-to-end. Full fine-tune requires Colab T4 GPU.
+  2026-06-16: Git LFS set up; emily-ft.bin + model.bin + model.safetensors pushed to GitHub LFS (Apple #589).
+  2026-06-16: Local 300-step LoRA run started (PID 58912, 578 corpus records, bfloat16 CPU). IN PROGRESS.
 
 - [ ] **S26-05: Validate entropy source** — Compare entropy_mean_nats for base vs fine-tuned model
   on Emily operational text; document delta in NORTHSTAR.md; update RSI loop entropy injection if
