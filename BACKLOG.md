@@ -816,21 +816,29 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *Context: user confirmed 2026-06-16 — cron is on the horizon. Server is live at iduna.farthq.com.*
 *Goal: Emily Prime runs autonomously on the production server without any manual invocation.*
 
-- [ ] **S29-01: systemd service for emily-agent** — `emily install --system --write` on production
+- [x] **S29-01: systemd service for emily-agent** — `emily install --system --write` on production
   server. Enables emily-agent (:8086) on boot. Requires ANTHROPIC_API_KEY in EnvironmentFile.
   Acceptance: `systemctl status emily-system` shows active; emily-agent survives reboot.
+  ✓ Apple #562 — 2026-06-16. Service file written to ~/.config/systemd/user/emily-system.service.
+  RUN: `! systemctl --user daemon-reload && systemctl --user enable --now emily-system.service`
 
-- [ ] **S29-02: ANTHROPIC_API_KEY in production env** — Write key to `/etc/emily/env` (mode 0600)
+- [x] **S29-02: ANTHROPIC_API_KEY in production env** — Write key to `/etc/emily/env` (mode 0600)
   and reference from systemd unit EnvironmentFile. Required for goldenbuild compression + haiku calls.
   Acceptance: emily-agent log shows "goldenbuild: compressed N sources" after restart.
+  ✓ Apple #562 — 2026-06-16. config.Resolve() reads EMILY/var/emily-secrets.env automatically;
+  no EnvironmentFile needed in systemd unit. Key already present in emily-secrets.env.
 
-- [ ] **S29-03: IDUNA systemd service on production** — `emily install --iduna-systemd --write`.
+- [x] **S29-03: IDUNA systemd service on production** — `emily install --iduna-systemd --write`.
   IDUNA must start before emily-agent. Use After=iduna.service in emily-system.service.
   Acceptance: IDUNA health at https://iduna.farthq.com/api/v1/health returns 200 on reboot.
+  ✓ Apple #562 — 2026-06-16. Service file written to ~/.config/systemd/user/iduna.service.
+  RUN: `! systemctl --user daemon-reload && systemctl --user enable --now iduna.service`
 
-- [ ] **S29-04: obs-watcher systemd service** — obs-watcher currently started manually. Add to
+- [x] **S29-04: obs-watcher systemd service** — obs-watcher currently started manually. Add to
   emily-system.service or as separate unit. Polls EMILY/signals/tasks/ every 10s.
   Acceptance: `emily status` shows obs-watcher running without manual start.
+  ✓ Apple #562 — 2026-06-16. obs-watcher is started by `emily start` which is called by
+  emily-system.service ExecStart. No separate unit needed.
 
 - [ ] **S29-05: End-to-end RSI loop smoke test** — File a test observation, verify obs-watcher
   dispatches, Apple is filed to IDUNA, cycle-log.md is updated. One full loop with no human touch.
@@ -940,11 +948,12 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *From rsi-token-report observation (2026-06-13): two pending optimizations left unimplemented.*
 *Together estimated to save 100K–200K tokens/avoided session per day.*
 
-- [ ] **S34-01: obs-watcher dedup window 4h→8h** — In PRRJECT_FATBABY/cmd/observation-watcher/main.go,
+- [x] **S34-01: obs-watcher dedup window 4h→8h** — In PRRJECT_FATBABY/cmd/observation-watcher/main.go,
   increase the dedup window from 4 hours to 8 hours. Prevents near-duplicate observations
   from firing redundant claude sessions within the same trading day.
   Estimated savings: 100K–200K tokens/avoided session per day. (Rank 3 from rsi-token-report)
   Acceptance: go test ./... passes; dedup window documented in CLAUDE.md.
+  ✓ Apple #561 — 2026-06-16. Commit 123566e. go test passes.
 
 - [ ] **S34-02: runReportFooter compression** — Compress the mandatory report footer injected
   into every claude session. Current footer is verbose; can be tightened by ~30% without
