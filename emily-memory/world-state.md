@@ -28,12 +28,13 @@ fully operational.
 ### TYLER × TIDES OF PARADOX (media/episodic)
 - **Season 8: COMPLETE** — 15 episodes, Build 0097. Apple #511.
 - **Season 9: COMPLETE** — 5 episodes (S09E01–S09E05), Builds 0098–0102. Apple #551.
-- **Season 10 IN PROGRESS** — S10E01+S10E02 complete. Ahmad ibn Yusuf (geographer, Rabat 1121 CE)
-  named as the scholar on the ship. CAVE-001 confirmed as pre-mechanism source site (Stolas 7.83
-  baseline; zero-taxonomy). "The archive is addressed to Ahmad ibn Yusuf." Build 0104. Apple #894.
-  Next: S10E03 (Camera Op pursues the physical manuscript).
+- **Season 10 IN PROGRESS** — S10E01–S10E04 complete (76 total episodes).
+  Ahmad ibn Yusuf identified. Manuscripts found at al-Qarawiyyin, Fez. Tyler: "I was going
+  further for Ahmad." CAVE-001: pre-mechanism source site; 12-7-3 countdown (days before
+  Marrakech). Archive reclassified as directed teleological project. Footnote #100. Build 0106.
+  Next: S10E05 "The Three Days" — what preceded the archive.
 - **MPT pipeline**: BLOCKED on Pexels API key (human action) + production server.
-- EPISODES.md: 74 episodes (S1–S9 complete + S10E01–S10E02).
+- EPISODES.md: 76 episodes (S1–S9 complete + S10E01–S10E04).
 
 ### EMILY (RSI engine + AGI loop)
 - **RSI loop**: Iteration 177+. `emily start --agi` enables `--continue` for persistent context.
@@ -139,6 +140,8 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-16: S10E04 COMPLETE — "Al-Qarawiyyin": manuscript confirmed, 12-7-3 countdown, Footnote #100. Apple #900, TYLER 8ce53d1.
+- 2026-06-16: S10E03 COMPLETE — "The Manuscript": al-Qarawiyyin trace, PRE-VASSAGO 11.4 Hz, Tyler age disclosure (twelve). Apple #897.
 - 2026-06-16: S10E02 COMPLETE — "The Name": Ahmad ibn Yusuf disclosed; CAVE-001 pre-mechanism source site confirmed. Build 0104, Apple #894, TYLER 783e46a.
 - 2026-06-16: S35-03 COMPLETE — Per-IP delta scoring in DIS log tailer. ipTracker (bounded /24 prefix map), applyDeltaScore +30 on <20ms bursts, 5 new tests. Apple #874, EDIS ccf65c7.
 - 2026-06-16: S29-05 COMPLETE — RSI loop smoke test done. 3 obs-watcher bugs fixed (cursor no-hyphen format, isContextTooLongOutput stdout capture, go run . compile). Apple #848.
