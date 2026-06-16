@@ -1,6 +1,6 @@
 # EMILY PRIME — WORLD STATE
 ## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.
-## Last manual update: 2026-06-14
+## Last manual update: 2026-06-16
 
 ---
 
@@ -67,10 +67,11 @@ fully operational.
 - NORTHSTAR: APPLES/docs/NORTHSTAR.md
 
 ### EDIS (WordPress intelligence product)
-- **Scaffold COMPLETE**: edis-core, edis-signals, edis-ask-emily plugins. DIS (Digital Immune System).
-- **Emily+ subscription gate**: COMPLETE (S23-04). WooCommerce → IDUNA subscriptions.
-- **Mailchimp waitlist**: COMPLETE (S23-05).
-- **BLOCKED**: Deployment requires production server (human action: ~$5/mo VPS).
+- **Scaffold COMPLETE**: edis-core, edis-signals, edis-ask-emily, edis-earnings, edis-dis plugins.
+- **Emily+ subscription gate**: COMPLETE (S23-04). **Mailchimp waitlist**: COMPLETE (S23-05).
+- **S23-01 IN PROGRESS** — sprint-deploy.sh ready. Server LIVE: iduna.farthq.com (198.58.107.85).
+  Run: `sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh`
+- **Git sync wired**: post-merge hook + NOPASSWD sudoers. `git pull` auto-deploys to live site.
 - NORTHSTAR: EDIS/NORTHSTAR.md
 
 ### NEWSSITE (PRRJECT_FATBABY consumer product)
@@ -101,7 +102,7 @@ fully operational.
 
 | Blocker | Gates |
 |---|---|
-| Production server (~$5/mo VPS) | EDIS deploy, newssite prod, TYLER MPT pipeline |
+| ~~Production server~~ | **RESOLVED 2026-06-16** — iduna.farthq.com (198.58.107.85) live |
 | Pexels API key (free) | MPT video compilation, TYLER S01E01 cold open |
 | Steam Direct account ($100) | SHANKPIT M6 launch (S19-03, S19-05) |
 | ANTHROPIC_API_KEY | S22-13 bilingual compression A/B test |
@@ -149,10 +150,12 @@ fully operational.
 
 ## NEXT PRIORITIES (Emily Prime executes in order)
 
-1. **TYLER lore backfill** — TYLER-077 through TYLER-082, Camera Op Entries 70–75, Memos #057–#062 (S08E11–S09E01, Builds 0093–0098) exist only in episode files; lore files need backfill.
-2. **MJOLNIR Milestone 5** — device_tokens registration in IDUNA + FCM sender test on real device. FCM infrastructure exists; gap is end-to-end device test.
-3. **emily train upload** — BLOCKED on GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON (human GCP setup). Corpus built locally at /tmp/emily-corpus-2026-06-15.jsonl (524 records, colab preset).
-4. **Wait for human unlocks**: production server, Pexels key, Steam $100, Colab T4, GCP Drive service account.
+1. **S23-01: EDIS deploy** — Run `sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh`. Server live. Sprint ready.
+2. **S29: Production RSI cron** — emily-agent + obs-watcher as systemd, ANTHROPIC_API_KEY in env. Enables autonomous loop.
+3. **S30: Signalapi production deploy** — Wire signalapi to production so EDIS plugins show live data.
+4. **S32: MJOLNIR M5** — Register device_token in IDUNA + FCM live test on real device.
+5. **S33: TYLER lore backfill** — TYLER-077–082, Camera Op 70–75, Memos 057–062 from episode content.
+6. **Wait for human unlocks**: Pexels key, Steam $100, Colab T4, GCP Drive service account.
 
 ---
 

@@ -372,10 +372,10 @@ RSI:     Emily Prime Brain                  (parallel enabler — reduces Claude
 
 ---
 
-## SECTION 28: S29 — PRODUCTION RSI LOOP (cron + systemd auto-start)
+Priority section order (updated 2026-06-16): S29 → S30 → S23 → S31 → S32 → S19 → S33 → S34 → S5 → S2
 
-
-Priority section order: S22 → S19 → S20 → S21 → S25 → S5 → S2 → S10
+*S29 (prod RSI cron) and S30 (signalapi prod) unblock everything downstream.*
+*S23-01 (EDIS deploy) in progress — server live at iduna.farthq.com.*
 
 ---
 
@@ -808,6 +808,147 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   EINHORN_INDUSTRIAL API endpoints: emily-agent (:8086), IDUNA (:8080), GPT-2 serve.py (:8088),
   GPT-2 broker proxy (:8679). Registered as Tier 2 golden doc.
   — Done 2026-06-15. Apple #541.
+
+---
+
+## SECTION 29: PRODUCTION RSI LOOP (cron + systemd auto-start)
+
+*Context: user confirmed 2026-06-16 — cron is on the horizon. Server is live at iduna.farthq.com.*
+*Goal: Emily Prime runs autonomously on the production server without any manual invocation.*
+
+- [ ] **S29-01: systemd service for emily-agent** — `emily install --system --write` on production
+  server. Enables emily-agent (:8086) on boot. Requires ANTHROPIC_API_KEY in EnvironmentFile.
+  Acceptance: `systemctl status emily-system` shows active; emily-agent survives reboot.
+
+- [ ] **S29-02: ANTHROPIC_API_KEY in production env** — Write key to `/etc/emily/env` (mode 0600)
+  and reference from systemd unit EnvironmentFile. Required for goldenbuild compression + haiku calls.
+  Acceptance: emily-agent log shows "goldenbuild: compressed N sources" after restart.
+
+- [ ] **S29-03: IDUNA systemd service on production** — `emily install --iduna-systemd --write`.
+  IDUNA must start before emily-agent. Use After=iduna.service in emily-system.service.
+  Acceptance: IDUNA health at https://iduna.farthq.com/api/v1/health returns 200 on reboot.
+
+- [ ] **S29-04: obs-watcher systemd service** — obs-watcher currently started manually. Add to
+  emily-system.service or as separate unit. Polls EMILY/signals/tasks/ every 10s.
+  Acceptance: `emily status` shows obs-watcher running without manual start.
+
+- [ ] **S29-05: End-to-end RSI loop smoke test** — File a test observation, verify obs-watcher
+  dispatches, Apple is filed to IDUNA, cycle-log.md is updated. One full loop with no human touch.
+  Acceptance: Apple filed, cycle-log shows entry, no manual intervention required.
+
+---
+
+## SECTION 30: NEWSSITE + SIGNALAPI PRODUCTION DEPLOY
+
+*Context: production server NOW LIVE (iduna.farthq.com — resolved 2026-06-16).*
+*EDIS plugins call signalapi for data. Without signalapi in production, /ticker/AAPL shows empty.*
+*Newssite is the internal ops tool; signalapi is the data layer both newssite and EDIS depend on.*
+
+- [ ] **S30-01: signalapi production deploy** — Build + run signalapi on production server.
+  Wire `EDIS_SIGNALAPI_URL=http://localhost:9091` in wp-config.php (already set by install.sh).
+  Acceptance: `curl https://iduna.farthq.com/api/v1/health` returns ok AND `/ticker/AAPL` on
+  EDIS shows real governance signals from FatBaby pipeline.
+
+- [ ] **S30-02: MySQL + MongoDB in production** — Point signalapi at production MySQL (already
+  running) and optionally MongoDB. `MYSQL_URL` + `MONGODB_URL` env vars in emily-agent env.
+  Run projector once to seed MySQL from event store.
+  Acceptance: `GET /v1/governance-signals?ticker=AAPL` returns records.
+
+- [ ] **S30-03: emily start --signalapi on production** — Wire signalapi into the production
+  service set so it starts with the rest of the stack.
+  Acceptance: `emily status --fatbaby` shows signalapi running on production.
+
+- [ ] **S30-04: nginx proxy for signalapi** — Add `/signals/` or `api.` subdomain proxy block
+  to the nginx config so external clients can reach signalapi without raw port access.
+  Acceptance: EDIS plugins can fetch signals; CORS header present for browser JS.
+
+---
+
+## SECTION 31: PRODUCTION MONITORING (DIS 24h + cache tuning)
+
+*DIS collector is deployed with sprint-deploy.sh. First 24h checklist from dis-deployment-analysis.md.*
+*These are ops validation items — run after S23-01 deploy completes.*
+
+- [ ] **S31-01: DIS 24h monitoring checklist** — Run through dis-deployment-analysis.md first-24h
+  checklist: verify hostile_ratio non-zero after traffic, confirm log tailer survived logrotate,
+  check hostile_ratio baseline (>5% on quiet day = recalibrate).
+  Acceptance: all 10 items in checklist checked off; baseline documented.
+
+- [ ] **S31-02: nginx cache tuning** — After first real traffic, review cache hit rate via nginx
+  stub_status or access log analysis. Tune `proxy_cache_valid` TTLs if hit rate < 80%.
+  Acceptance: cache hit rate ≥ 80% documented in ops-runbook.md. (S24-04)
+
+- [ ] **S31-03: Load test baseline** — `wrk -t4 -c50 -d30s https://iduna.farthq.com/` before
+  real traffic. Record req/s, p99 latency, cache hit rate. Document in ops-runbook.md.
+  Acceptance: baseline documented; ceiling known before real traffic hits. (S24-05)
+
+- [ ] **S31-04: Verify logrotate + DIS tailer** — After midnight, confirm `systemctl status edis-dis`
+  shows active and `/dis/health` returns valid JSON. logrotate must NOT use copytruncate
+  (DIS tailer needs inode-change detection, not truncate). Check /etc/logrotate.d/nginx.
+  Acceptance: DIS health check passes 24h after first deploy.
+
+---
+
+## SECTION 32: MJOLNIR MILESTONE 5 (FCM live device)
+
+*Milestones 0–4 complete. M5 is the end-to-end FCM live test on Emily's real Android device.*
+*Infrastructure exists: FCM sender in emily-agent, push registration endpoint in IDUNA.*
+*Gap: no real device_token registered in IDUNA. No live push verified.*
+
+- [ ] **S32-01: Register device_token in IDUNA** — On Emily's Android device, open MJOLNIR,
+  navigate to Settings, copy the FCM registration token. POST to
+  `IDUNA /api/v1/push/register` with token + device_name=emily-phone.
+  Acceptance: IDUNA push_tokens table has one entry.
+
+- [ ] **S32-02: Send test FCM push from emily-agent** — `curl -X POST http://localhost:8086/api/v1/emily/push/test`
+  or fire a manual RSI cycle completion to trigger the FCM send path.
+  Acceptance: Emily's phone receives push notification from production emily-agent.
+
+- [ ] **S32-03: Verify MJOLNIR RsiScreen live** — Open MJOLNIR, verify RsiScreen fetches from
+  production emily-agent at EMILY_BASE_URL (production IP/domain). TokenSparklineCard shows
+  real token spend from production Apples.
+  Acceptance: MJOLNIR displays live data from production system, not localhost.
+
+- [ ] **S32-04: NORTHSTAR + BACKLOG: mark M5 complete** — Update MJOLNIR/docs/NORTHSTAR.md
+  Milestone 5 status. Post Apple. File in world-state.md.
+
+---
+
+## SECTION 33: TYLER LORE BACKFILL (S08E11–S09E01)
+
+*Emily Prime flagged this as priority 1 in world-state NEXT PRIORITIES (2026-06-15).*
+*Episodes S08E11–S09E01 (Builds 0093–0098) exist in episode files but lore files not backfilled.*
+*The lore file series is the canonical Tyler archive — episode-only content is invisible to Emily.*
+
+- [ ] **S33-01: TYLER-077 through TYLER-082** — Backfill lore entries from episode content
+  (S08E11–S09E01). Format: existing TYLER-NNN.md convention. Each entry: title, city, date,
+  duration, construction type, key dialogue excerpt, camera op note.
+
+- [ ] **S33-02: Camera Op Entries 70–75** — Written from episode content. Camera Op entries are
+  the first-person field notes; they carry the phenomenological texture of each site.
+
+- [ ] **S33-03: Memos #057–#062** — Strategic memos from the mechanism POV. Covers the
+  Córdoba→Toledo→Prague→Genoa arc (Season 8 finale + Season 9 opener).
+
+- [ ] **S33-04: EPISODES.md sync** — Verify EPISODES.md reflects all 72 episodes correctly.
+  Season 9 sections complete through S09E05. Season 10 placeholder.
+
+---
+
+## SECTION 34: RSI TOKEN EFFICIENCY (obs-watcher dedup)
+
+*From rsi-token-report observation (2026-06-13): two pending optimizations left unimplemented.*
+*Together estimated to save 100K–200K tokens/avoided session per day.*
+
+- [ ] **S34-01: obs-watcher dedup window 4h→8h** — In PRRJECT_FATBABY/cmd/observation-watcher/main.go,
+  increase the dedup window from 4 hours to 8 hours. Prevents near-duplicate observations
+  from firing redundant claude sessions within the same trading day.
+  Estimated savings: 100K–200K tokens/avoided session per day. (Rank 3 from rsi-token-report)
+  Acceptance: go test ./... passes; dedup window documented in CLAUDE.md.
+
+- [ ] **S34-02: runReportFooter compression** — Compress the mandatory report footer injected
+  into every claude session. Current footer is verbose; can be tightened by ~30% without
+  losing required steps. (Rank 4, low priority)
 
 ---
 
