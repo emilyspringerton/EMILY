@@ -673,6 +673,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — emily_write_file now unconditionally POSTs Apple via IdunaClient inside tool handler (Emily cannot opt out). OpenAPI spec for all 13 emily-agent tools written. Future tool stubs (grep_files, shell_exec, run_tests, git_commit, git_push) documented as path toward own Claude Code abstraction. EMILY commit 25e6c83. Done 2026-06-12. Apple #386.
 ---
 
+- [ ] **SHANKPIT display/fullscreen is a hard pre-Steam blocker — spec filed at docs2/specs/DISPLAY_FULLSCREEN_SPEC.md, Apple…** — obs `2026-06-13T20:56:16Z`. CURATED: 2026-06-16.
+- [ ] **batched 50 observations ending at 2026-06-04T10:00:00Z** — obs `2026-06-13T04:05:32Z`. CURATED: 2026-06-16.
+- [ ] **web-audit-newssite: newssite (port 8082) and signalapi (port 8083) not running. Last log: 2026-06-07. Running: processo…** — obs `2026-06-13T04:04:17Z`. CURATED: 2026-06-16.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
