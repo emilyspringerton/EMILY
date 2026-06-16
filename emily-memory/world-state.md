@@ -1,6 +1,6 @@
 # EMILY PRIME — WORLD STATE
 ## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.
-## Last manual update: 2026-06-16 (session 2)
+## Last manual update: 2026-06-16 (session 3)
 
 ---
 
@@ -107,8 +107,10 @@ fully operational.
 | ~~Production server~~ | **RESOLVED 2026-06-16** — iduna.farthq.com (198.58.107.85) live |
 | Pexels API key (free) | MPT video compilation, TYLER S01E01 cold open |
 | Steam Direct account ($100) | SHANKPIT M6 launch (S19-03, S19-05) |
-| ANTHROPIC_API_KEY | S22-13 bilingual compression A/B test |
+| ANTHROPIC_API_KEY credit balance | obs-watcher dispatch to Claude (S30-02 full loop). Top up: console.anthropic.com |
+| MySQL root/fatbaby credentials | S30-02 signalapi data. Run `sudo mysql` to create fatbaby user+db |
 | Google Colab T4 GPU | S26-04 GPT-2 fine-tune |
+| S23-01 EDIS deploy | HUMAN RUNS: `sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh` |
 
 ---
 
@@ -137,6 +139,9 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-16: S29-05 COMPLETE — RSI loop smoke test done. 3 obs-watcher bugs fixed (cursor no-hyphen format, isContextTooLongOutput stdout capture, go run . compile). Apple #848.
+- 2026-06-16: obs-watcher 3 AGI fixes — batch cursor format, context overflow --continue recovery, stdout capture in invokeWithRetry. Commits 6d99c09/7edf6f5/921acbe.
+- 2026-06-16: signalapi SQLite fix — migrate_sqlite.go now strips AFTER <col> (MySQL-only syntax). Commit 308cc2c.
 - 2026-06-16: IDUNA Apple server-side git sync — every Apple auto-committed to APPLES repo on write (Apple #585).
 - 2026-06-16: S30-01/03/04 COMPLETE — signalapi binary built; emily start --signalapi; nginx /signals/ proxy block in EDIS edis.conf (Apple #569).
 - 2026-06-16: SHANKPIT TYLER cutscene system — typewriter slides, STORY_PHASE_OUTRO, TYLER lore woven into story mode (Apple #568).
@@ -158,11 +163,10 @@ fully operational.
 ## NEXT PRIORITIES (Emily Prime executes in order)
 
 1. **S23-01: EDIS deploy** — HUMAN RUNS: `! sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh`
-2. **S29-05: RSI loop smoke test** — HUMAN: `! systemctl --user daemon-reload && systemctl --user enable --now iduna.service emily-system.service`, then file test observation.
-3. **S30-02: MySQL/MongoDB in production** — `MYSQL_URL` + `MONGODB_URL` in `PRRJECT_FATBABY/ops/env.production`. Then `sudo nginx -t && sudo systemctl reload nginx` for /signals/ block to go live.
-4. **S32: MJOLNIR M5** — Register device_token in IDUNA + FCM live test on real device (human action on Android).
-5. **Wait for human unlocks**: Pexels key, Steam $100, Colab T4.
-6. **All EMILY+TYLER backlog items clear** — everything automatable is done as of 2026-06-16 session 3.
+2. **S30-02: MySQL/MongoDB in production** — HUMAN: provide MySQL root password or run `! sudo mysql -u root -e "CREATE USER IF NOT EXISTS 'fatbaby'@'localhost' IDENTIFIED BY '<pass>'; GRANT ALL ON fatbaby.* TO 'fatbaby'@'localhost'; CREATE DATABASE IF NOT EXISTS fatbaby;"` then set MYSQL_URL. Run projector to seed, restart signalapi.
+3. **S32: MJOLNIR M5** — Register device_token in IDUNA + FCM live test on real device (human action on Android).
+4. **S29-05 DONE** — RSI loop plumbing verified. Blocked on API credit balance (top up console.anthropic.com).
+5. **Wait for human unlocks**: Pexels key, Steam $100, Colab T4, Anthropic API credits.
 
 ---
 

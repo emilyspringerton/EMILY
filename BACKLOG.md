@@ -329,7 +329,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Split token usage: cheap haiku for classification, Sonnet/Opus only for implementation.
   — obs `2026-06-10T23:54:59Z`. Done 2026-06-11. Apple #346. Commit EMILY 4e6886b.
 
-- [ ] **emily-memory/ activation & world-state.md golden doc** — Activate emily-memory/ system and establish world-state.md as Tier 1 golden doc tracking all product states and human blockers. Obs: 2026-06-14T17:32:43Z.
+- [x] **emily-memory/ activation & world-state.md golden doc** — Completed as S27-01 through S27-03. world-state.md + cycle-log.md wired into goldenbuild + cron PLAN phase. 2026-06-14. Apple #513.
 ---
 
 ## SECTION 17: NEWSSITE + GTM (product growth)
