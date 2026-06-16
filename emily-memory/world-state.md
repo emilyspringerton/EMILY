@@ -1,6 +1,6 @@
 # EMILY PRIME — WORLD STATE
 ## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.
-## Last manual update: 2026-06-16
+## Last manual update: 2026-06-16 (session 2)
 
 ---
 
@@ -135,6 +135,9 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-16: S34 COMPLETE — obs-watcher dedup 4h→8h (Apple #561) + footer compressed 37% (Apple #566). ~100-200K tokens/day saved.
+- 2026-06-16: S33 COMPLETE — TYLER lore backfill verified (TYLER-077/082, Camera Op 70-75, Memos 057-062). Apple #564.
+- 2026-06-16: S29-01/02/03/04 — systemd service files written (emily-system + iduna). Pending user: systemctl enable. Apple #562.
 - 2026-06-15: TYLER Season 9 COMPLETE — S09E05 "The Fifteen Years"; archive origin confirmed; 72 total eps. Apple #551.
 - 2026-06-15: GPT-2 training corpus rebuilt — colab=524rec/754KB + full=899rec/1285KB. Apple #550.
 - 2026-06-15: TYLER S09E02/03/04 "Córdoba/Toledo/Genoa" — gap period reconstructed. Apples #544 #546 #548.
@@ -150,12 +153,12 @@ fully operational.
 
 ## NEXT PRIORITIES (Emily Prime executes in order)
 
-1. **S23-01: EDIS deploy** — Run `sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh`. Server live. Sprint ready.
-2. **S29: Production RSI cron** — emily-agent + obs-watcher as systemd, ANTHROPIC_API_KEY in env. Enables autonomous loop.
-3. **S30: Signalapi production deploy** — Wire signalapi to production so EDIS plugins show live data.
-4. **S32: MJOLNIR M5** — Register device_token in IDUNA + FCM live test on real device.
-5. **S33: TYLER lore backfill** — TYLER-077–082, Camera Op 70–75, Memos 057–062 from episode content.
-6. **Wait for human unlocks**: Pexels key, Steam $100, Colab T4, GCP Drive service account.
+1. **S23-01: EDIS deploy** — `! sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh`. HUMAN RUNS.
+2. **S29-05: RSI loop smoke test** — After S23-01 deploys, enable services: `! systemctl --user daemon-reload && systemctl --user enable --now iduna.service emily-system.service`, then file test observation.
+3. **S30: Signalapi production deploy** — Wire signalapi to production so EDIS plugins show live data on /ticker/AAPL.
+4. **S32: MJOLNIR M5** — Register device_token in IDUNA + FCM live test on real device (human action on Android).
+5. **Wait for human unlocks**: Pexels key, Steam $100, Colab T4.
+6. **S34 + S33 COMPLETE** — token efficiency + TYLER lore done this session.
 
 ---
 
