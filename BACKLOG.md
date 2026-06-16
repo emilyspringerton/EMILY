@@ -680,6 +680,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 ---
 
 - [ ] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — obs `2026-06-16T19:02:14Z`. CURATED: 2026-06-16.
+- [ ] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — obs `2026-06-16T19:16:40Z`. CURATED: 2026-06-16.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
