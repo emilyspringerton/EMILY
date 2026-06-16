@@ -95,6 +95,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   functionality. Audit SHANKPIT for scripting capabilities matching FFXI dialogue scenes.
   — obs `2026-06-07T21:55:11Z`.
 
+- [ ] **TYLER S09E01 'The Interval' — Córdoba pre-archive site** — Implement Season 9 Episode 1 with new pre-archive site disclosure at Córdoba (~10th century). Obs: 2026-06-14T17:37:05Z.
 ---
 
 ## SECTION 5: FUTURE (Emily Prime decides when to promote)
@@ -322,6 +323,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   Split token usage: cheap haiku for classification, Sonnet/Opus only for implementation.
   — obs `2026-06-10T23:54:59Z`. Done 2026-06-11. Apple #346. Commit EMILY 4e6886b.
 
+- [ ] **emily-memory/ activation & world-state.md golden doc** — Activate emily-memory/ system and establish world-state.md as Tier 1 golden doc tracking all product states and human blockers. Obs: 2026-06-14T17:32:43Z.
 ---
 
 ## SECTION 17: NEWSSITE + GTM (product growth)
@@ -671,11 +673,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — emily_write_file now unconditionally POSTs Apple via IdunaClient inside tool handler (Emily cannot opt out). OpenAPI spec for all 13 emily-agent tools written. Future tool stubs (grep_files, shell_exec, run_tests, git_commit, git_push) documented as path toward own Claude Code abstraction. EMILY commit 25e6c83. Done 2026-06-12. Apple #386.
 ---
 
-- [ ] **TYLER S09E01 'The Interval' — Build 0098. Season 9 opens. Tyler discloses first pre-archive site: Córdoba, ~10th cen…** — obs `2026-06-14T17:37:05Z`. CURATED: 2026-06-16.
-- [ ] **emily-memory/ activated — AGI Gap 1 resolved. world-state.md (Tier 1 golden doc): all product states, human blockers,…** — obs `2026-06-14T17:32:43Z`. CURATED: 2026-06-16.
-- [ ] **AGI RSI LOOP 2026-06-14 (2): SHANKPIT M5 DONE + TYLER S8 COMPLETE. SHANKPIT: Display/Fullscreen implemented (Apple #496…** — obs `2026-06-14T17:17:16Z`. CURATED: 2026-06-16.
-- [ ] **AGI STRATEGIC REVIEW 2026-06-14: Deep scan across all repos. ALL EMILY BACKLOG items externally blocked (Pexels key, AN…** — obs `2026-06-14T16:39:51Z`. CURATED: 2026-06-16.
-- [ ] **RSI MEMO FILED — Apple #457. AGI trajectory analysis complete. System is at iteration 177, 16 open backlog items. CRI…** — obs `2026-06-13T21:02:59Z`. CURATED: 2026-06-16.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -727,7 +724,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 ---
 - [ ] **S23-01: LIVE DEPLOY — sprint-deploy.sh ready to run. Requires: sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh. Pre…**
-
 
 ## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
 
