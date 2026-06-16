@@ -982,20 +982,13 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *Pre-deploy bugs fixed 2026-06-16 (Apple #591): nginx parser zero-records, posture window race, missing hostile_ratio.*
 *3 items remain before DIS is fully production-hardened post-launch.*
 
-- [ ] **S35-01: ForceState admin endpoint + manual override button** — Add authenticated HTTP endpoint
-  to the DIS collector (e.g. `POST /dis/force?state=degraded&token=<admin_token>`) so operators can
-  escalate posture manually during incidents without restarting the daemon. Wire a one-click button
-  in the WordPress EDIS DIS admin panel that POSTs to this endpoint. Analysis doc identified
-  this as "ship third" item; without it the only incident response is to kill the collector (which
-  fails open to healthy — the wrong direction under real attack).
-  Acceptance: curl -X POST localhost:9099/dis/force?state=attack returns 200; admin panel has button.
+- [x] **S35-01: ForceState admin endpoint + manual override button** — POST /dis/force?state=<state>
+  with Bearer auth (--admin-token flag). Admin panel Force Posture button + token field in edis-dis.php.
+  Apple #871 | commit c5f9982 | 2026-06-16
 
-- [ ] **S35-02: Fix EDIS_DIS_COLLECTOR_URL constant-at-boot timing** — edis-dis.php defines
-  `EDIS_DIS_COLLECTOR_URL` via `define(get_option(...))` at plugin include time, before
-  `plugins_loaded`. Replace with a lazy function `edis_dis_collector_url()` so option changes
-  take effect immediately and the pattern works safely under multisite / object-cache drop-ins.
-  Low priority for single-server launch; required before multi-server deployment.
-  Acceptance: changing the URL in Settings → EDIS DIS takes effect on the same page request.
+- [x] **S35-02: Fix EDIS_DIS_COLLECTOR_URL constant-at-boot timing** — Replaced constant with
+  lazy edis_dis_collector_url() function. Option changes take effect immediately.
+  Apple #871 | commit c5f9982 | 2026-06-16
 
 - [ ] **S35-03: Per-IP session map for inter-request delta scoring** — The DIS fingerprinter has a
   `DeltaMs` scoring signal (+30 for delta < 20ms) but it's never populated from the log tailer —
