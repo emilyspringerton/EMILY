@@ -1,4 +1,5 @@
 ## 2026-06-16
+- FatBaby Emily sub-agent: Emily Prime chats to FatBaby Emily via chat_to_fatbaby_emily; exchange visible in web chat UI as blue sub-chat block (Apple #587)
 
 - feat(ops): S29 production systemd services — emily-system.service + iduna.service written; S29-01/02/03/04 complete. Apples #561 #562.
 
