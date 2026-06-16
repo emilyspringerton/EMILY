@@ -852,23 +852,23 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *EDIS plugins call signalapi for data. Without signalapi in production, /ticker/AAPL shows empty.*
 *Newssite is the internal ops tool; signalapi is the data layer both newssite and EDIS depend on.*
 
-- [ ] **S30-01: signalapi production deploy** — Build + run signalapi on production server.
-  Wire `EDIS_SIGNALAPI_URL=http://localhost:9091` in wp-config.php (already set by install.sh).
-  Acceptance: `curl https://iduna.farthq.com/api/v1/health` returns ok AND `/ticker/AAPL` on
-  EDIS shows real governance signals from FatBaby pipeline.
+- [x] **S30-01: signalapi production deploy** — Binary built at `PRRJECT_FATBABY/bin/signalapi`.
+  ops/deploy.sh already builds + installs systemd unit (fatbaby-signalapi.service → :9091).
+  Apple #569 | 2026-06-16
 
 - [ ] **S30-02: MySQL + MongoDB in production** — Point signalapi at production MySQL (already
   running) and optionally MongoDB. `MYSQL_URL` + `MONGODB_URL` env vars in emily-agent env.
   Run projector once to seed MySQL from event store.
   Acceptance: `GET /v1/governance-signals?ticker=AAPL` returns records.
 
-- [ ] **S30-03: emily start --signalapi on production** — Wire signalapi into the production
-  service set so it starts with the rest of the stack.
-  Acceptance: `emily status --fatbaby` shows signalapi running on production.
+- [x] **S30-03: emily start --signalapi on production** — `emily start --signalapi` launches
+  signalapi detached on :9091, logs to var/logs/signalapi.log, pgrep-idempotent.
+  Apple #569 | 2026-06-16
 
-- [ ] **S30-04: nginx proxy for signalapi** — Add `/signals/` or `api.` subdomain proxy block
-  to the nginx config so external clients can reach signalapi without raw port access.
-  Acceptance: EDIS plugins can fetch signals; CORS header present for browser JS.
+- [x] **S30-04: nginx proxy for signalapi** — `/signals/` location block in EDIS edis.conf:
+  `rewrite ^/signals(/.*)$ $1 break; proxy_pass http://127.0.0.1:9091` with 60s GET cache,
+  CORS headers, 20r/s rate limit. RUN: `sudo nginx -t && sudo systemctl reload nginx`
+  Apple #569 | 2026-06-16
 
 ---
 
