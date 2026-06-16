@@ -57,7 +57,8 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   compact Apple summaries (≤200 tokens). Injected into HEIMDAL translateRequirement haiku
   calls via runHeimdalCycle. — obs `2026-06-11T00:01:38Z`. Done 2026-06-11. Commit emily-agent.
 
-- [ ] **Web-audit: newssite and signalapi stale logs (8082/8083)** — Diagnose and restore newssite (port 8082) and signalapi (port 8083) services; logs last updated 2026-06-07. Obs: 2026-06-13T04:04:17Z.
+- [x] **Web-audit: newssite and signalapi stale logs (8082/8083)** — Diagnose and restore newssite (port 8082) and signalapi (port 8083) services; logs last updated 2026-06-07. Obs: 2026-06-13T04:04:17Z.
+  — Done 2026-06-16. Apple #824. entitygraph.mergeNameVariants nil-deref when ids[i] deleted mid-loop; fix: break inner j on dropped==ids[i]. newssite :8082 serving 200 OK. Commit PRRJECT_FATBABY 8539693.
 ---
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
