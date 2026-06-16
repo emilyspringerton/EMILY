@@ -60,7 +60,7 @@ fully operational.
 - **Operational**: secwatch + signalapi + entity-graph + eps-processor + observation-watcher.
 - **MySQL projections**: COMPLETE (S20 done). **MongoDB entity docs**: COMPLETE.
 - **AGI loop**: obs-watcher dispatches to claude with --continue flag (--agi mode).
-- Apples sync: `emily sync --apples-git-dir` (manual until IDUNA auto-sync wired).
+- Apples sync: **IDUNA server auto-pushes to APPLES git on every Apple write** (ApplesHandler goroutine; APPLES_GIT_DIR env var). Apple #585. No manual sync needed.
 
 ### APPLES (git-authoritative audit trail)
 - Current Apple: ~#513+. Synced by `emily sync --apples-git-dir`.
@@ -137,6 +137,7 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-16: IDUNA Apple server-side git sync — every Apple auto-committed to APPLES repo on write (Apple #585).
 - 2026-06-16: S30-01/03/04 COMPLETE — signalapi binary built; emily start --signalapi; nginx /signals/ proxy block in EDIS edis.conf (Apple #569).
 - 2026-06-16: SHANKPIT TYLER cutscene system — typewriter slides, STORY_PHASE_OUTRO, TYLER lore woven into story mode (Apple #568).
 - 2026-06-16: S34 COMPLETE — obs-watcher dedup 4h→8h (Apple #561) + footer compressed 37% (Apple #566). ~100-200K tokens/day saved.
