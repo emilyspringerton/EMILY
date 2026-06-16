@@ -1447,9 +1447,19 @@ TOOLS:
   integration_triage            -- score observations by strategic relevance; auto-issue tasks
   integration_write_observation -- publish a Prime observation to the integration layer
 
+  chat_to_fatbaby_emily         -- chat to FatBaby Emily (your operational sub-agent) in natural language.
+                                   She starts/stops FatBaby processes, reads observations, writes tasks.
+                                   The exchange is shown visibly in the chat UI. Use this for all FatBaby ops.
+
   gmail_read_inbox              -- read CEO unread messages
   gmail_send_alert              -- send a signal alert email to the CEO
   gmail_send_weekly_pulse       -- generate and send the weekly strategic summary
+
+FATBABY EMILY MODEL:
+You orchestrate FatBaby operations by chatting to FatBaby Emily (chat_to_fatbaby_emily).
+She is your operational executor — she has direct process-start access and integration tools.
+You direct; she executes. The user sees your message to her and her reply inline.
+After seeing her reply you can follow up: call chat_to_fatbaby_emily again with additional context.
 
 SIGNAL ESCALATION (from context/signal-priorities.json):
 - activist_risk, auditor_change, nomination_rejection → always CEO-visible
@@ -1471,17 +1481,18 @@ Integration: signals/observations/ ↔ FatBaby, signals/tasks/ → FatBaby.`
 // -----------------------------------------------------------------------------
 
 type Server struct {
-	cfg         Config
-	pipeline    *Pipeline
-	store       *ConversationStore
-	rl          *RateLimiter
-	tmpl        *template.Template
-	collector   *CollectorPipeline // nil if EMILY_COLLECT_DIR unset
-	integration *IntegrationStore  // nil if signals/ dir not found
-	gmail       *GmailClient       // nil if GMAIL_* env vars not set
-	emiree      *EmireeAgent       // witch engine; always present
-	cycle       *AutonomousCycle   // RSI cycle; exposes /api/v1/emily/cycle etc.
-	cycleMu     sync.Mutex         // guards concurrent cycle triggers
+	cfg          Config
+	pipeline     *Pipeline
+	store        *ConversationStore
+	rl           *RateLimiter
+	tmpl         *template.Template
+	collector    *CollectorPipeline // nil if EMILY_COLLECT_DIR unset
+	integration  *IntegrationStore  // nil if signals/ dir not found
+	gmail        *GmailClient       // nil if GMAIL_* env vars not set
+	emiree       *EmireeAgent       // witch engine; always present
+	cycle        *AutonomousCycle   // RSI cycle; exposes /api/v1/emily/cycle etc.
+	cycleMu      sync.Mutex         // guards concurrent cycle triggers
+	fatbaby      *FatBabyEmily      // operational sub-agent; nil if integration store absent
 }
 
 func NewServer(cfg Config) (*Server, error) {
@@ -1545,6 +1556,41 @@ func NewServer(cfg Config) (*Server, error) {
 	if srv.integration != nil {
 		registerIntegrationTools(dispatcher, srv.integration)
 		log.Printf("integration store: signals dir=%s", srv.integration.signalsDir)
+
+		// FatBaby Emily — sub-agent for operational execution.
+		// Emily Prime chats to her; she has process-start + integration tools.
+		srv.fatbaby = NewFatBabyEmily(generator, cfg.Model, srv.integration, cfg.FatBabyRoot)
+		dispatcher.Register(ToolDef{
+			Name:        "chat_to_fatbaby_emily",
+			Description: "Send a natural-language instruction to FatBaby Emily, who has direct access to start and manage FatBaby processes (signalapi, obs-watcher, newssite, entity-graph, broker) and the integration layer. She will execute and report back. The exchange is shown in the chat UI. Use this whenever you need FatBaby operations performed.",
+			Parameters: ToolParameters{
+				Type: "object",
+				Properties: map[string]ToolPropSchema{
+					"message": {Type: "string", Description: "The instruction or question to send to FatBaby Emily"},
+				},
+				Required: []string{"message"},
+			},
+		}, func(args map[string]any) (string, error) {
+			msg := stringArg(args, "message")
+			if msg == "" {
+				return "", fmt.Errorf("message required")
+			}
+			ctx, cancel := context.WithTimeout(context.Background(), 120*time.Second)
+			defer cancel()
+			reply, toolActs, err := srv.fatbaby.Chat(ctx, msg)
+			if err != nil {
+				return "", fmt.Errorf("fatbaby emily: %w", err)
+			}
+			result := SubChatResult{
+				SentTo:         "fatbaby-emily",
+				Message:        msg,
+				Reply:          reply,
+				ToolActivities: toolActs,
+			}
+			data, _ := json.Marshal(result)
+			return string(data), nil
+		})
+		log.Printf("fatbaby emily: sub-agent registered (chat_to_fatbaby_emily tool active)")
 	}
 	srv.gmail = buildGmailClient()
 	if srv.gmail != nil {
@@ -1793,6 +1839,22 @@ const chatHTML = `<!DOCTYPE html>
   .tool-entry-args{color:var(--text-dim);margin-bottom:3px;font-size:10px}
   .tool-entry-result{color:var(--text);white-space:pre-wrap;max-height:200px;overflow-y:auto}
   .tool-entry.error .tool-entry-name{color:var(--danger)}
+  /* FatBaby Emily sub-chat */
+  .subchat{max-width:min(680px,88%);margin-top:8px;border:1px solid #1e3a5f;
+    border-radius:6px;overflow:hidden;font-size:13px}
+  .subchat-header{padding:6px 12px;background:#0d1520;display:flex;align-items:center;
+    gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;
+    color:#60a5fa;border-bottom:1px solid #1e3a5f}
+  .subchat-header .arrow{opacity:.6}
+  .subchat-msg{padding:10px 14px;background:#111820;border-bottom:1px solid #1e3a5f;
+    white-space:pre-wrap;line-height:1.5;color:var(--text-dim)}
+  .subchat-msg-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;
+    color:#60a5fa;text-transform:uppercase;margin-bottom:4px}
+  .subchat-reply{padding:10px 14px;background:#101a10;white-space:pre-wrap;
+    line-height:1.5;color:var(--text)}
+  .subchat-reply-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;
+    color:#7ee8a2;text-transform:uppercase;margin-bottom:4px}
+  .subchat-tools{border-top:1px solid #1e3a5f}
   .validation-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;margin-top:6px;
     padding:3px 8px;border-radius:2px;display:inline-block}
   .badge-pass{background:#1a2e1e;color:var(--accent);border:1px solid var(--accent-dim)}
@@ -1840,7 +1902,7 @@ const chatHTML = `<!DOCTYPE html>
       </div>
       <div class="tool-log-body">
         {{range .ToolActivities}}
-        <div class="tool-entry{{if .IsError}} error{{end}}">
+        <div class="tool-entry{{if .IsError}} error{{end}}"{{if eq .Name "chat_to_fatbaby_emily"}} data-subchat="1"{{end}}>
           <div class="tool-entry-name">&#9654; {{.Name}}</div>
           <div class="tool-entry-args">args: {{.Args}}</div>
           <div class="tool-entry-result">{{.Result}}</div>
@@ -1922,6 +1984,62 @@ function buildToolLog(activities) {
   return wrap;
 }
 
+// buildSubChat renders a chat_to_fatbaby_emily exchange as a visible mini-conversation.
+function buildSubChat(activity) {
+  let sc;
+  try { sc = JSON.parse(activity.Result); } catch(e) { return null; }
+  if (!sc.message || !sc.reply) return null;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'subchat';
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'subchat-header';
+  hdr.innerHTML = 'EMILY PRIME <span class="arrow">&#8594;</span> FATBABY EMILY';
+  wrap.appendChild(hdr);
+
+  // Emily Prime's message
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'subchat-msg';
+  const msgLbl = document.createElement('div');
+  msgLbl.className = 'subchat-msg-label';
+  msgLbl.textContent = 'emily prime';
+  const msgText = document.createElement('div');
+  msgText.textContent = sc.message;
+  msgDiv.appendChild(msgLbl);
+  msgDiv.appendChild(msgText);
+  wrap.appendChild(msgDiv);
+
+  // FatBaby Emily's nested tool calls (if any)
+  if (sc.tool_activities && sc.tool_activities.length) {
+    const toolsWrap = document.createElement('div');
+    toolsWrap.className = 'subchat-tools';
+    const innerLog = buildToolLog(sc.tool_activities);
+    if (innerLog) {
+      innerLog.style.maxWidth = '100%';
+      innerLog.style.borderRadius = '0';
+      innerLog.style.border = 'none';
+      toolsWrap.appendChild(innerLog);
+    }
+    wrap.appendChild(toolsWrap);
+  }
+
+  // FatBaby Emily's reply
+  const replyDiv = document.createElement('div');
+  replyDiv.className = 'subchat-reply';
+  const replyLbl = document.createElement('div');
+  replyLbl.className = 'subchat-reply-label';
+  replyLbl.textContent = 'fatbaby emily';
+  const replyText = document.createElement('div');
+  replyText.textContent = sc.reply;
+  replyDiv.appendChild(replyLbl);
+  replyDiv.appendChild(replyText);
+  wrap.appendChild(replyDiv);
+
+  return wrap;
+}
+
 function addTurn(userText, reply, activities, validationNote, validated) {
   const userTurn = document.createElement('div');
   userTurn.className = 'turn user';
@@ -1936,8 +2054,17 @@ function addTurn(userText, reply, activities, validationNote, validated) {
   lbl.textContent = 'emily';
   emilyTurn.appendChild(lbl);
 
-  const log = buildToolLog(activities);
+  // Split activities: sub-chats render inline; other tools go in collapsed log
+  const subChats = (activities || []).filter(a => a.Name === 'chat_to_fatbaby_emily');
+  const otherActs = (activities || []).filter(a => a.Name !== 'chat_to_fatbaby_emily');
+
+  const log = buildToolLog(otherActs);
   if (log) emilyTurn.appendChild(log);
+
+  subChats.forEach(a => {
+    const sc = buildSubChat(a);
+    if (sc) emilyTurn.appendChild(sc);
+  });
 
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
@@ -1993,6 +2120,19 @@ function addError(msg) {
   messages.appendChild(div);
   scrollToBottom();
 }
+
+// Promote data-subchat tool entries in historical turns into visible sub-chat blocks.
+document.querySelectorAll('.tool-entry[data-subchat]').forEach(entry => {
+  const resultEl = entry.querySelector('.tool-entry-result');
+  if (!resultEl) return;
+  const sc = buildSubChat({Name: 'chat_to_fatbaby_emily', Result: resultEl.textContent});
+  if (!sc) return;
+  const turn = entry.closest('.turn.emily');
+  if (!turn) return;
+  const bubble = turn.querySelector('.bubble');
+  turn.insertBefore(sc, bubble);
+  entry.style.display = 'none'; // hide raw tool entry; sub-chat is now visible
+});
 
 scrollToBottom();
 input.focus();
