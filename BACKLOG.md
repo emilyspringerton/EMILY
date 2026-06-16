@@ -57,6 +57,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   compact Apple summaries (≤200 tokens). Injected into HEIMDAL translateRequirement haiku
   calls via runHeimdalCycle. — obs `2026-06-11T00:01:38Z`. Done 2026-06-11. Commit emily-agent.
 
+- [ ] **Web-audit: newssite and signalapi stale logs (8082/8083)** — Diagnose and restore newssite (port 8082) and signalapi (port 8083) services; logs last updated 2026-06-07. Obs: 2026-06-13T04:04:17Z.
 ---
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
@@ -96,6 +97,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   — obs `2026-06-07T21:55:11Z`.
 
 - [ ] **TYLER S09E01 'The Interval' — Córdoba pre-archive site** — Implement Season 9 Episode 1 with new pre-archive site disclosure at Córdoba (~10th century). Obs: 2026-06-14T17:37:05Z.
+- [ ] **SHANKPIT display/fullscreen hard blocker for Steam** — Implement fullscreen display mode for SHANKPIT as critical pre-Steam release requirement per DISPLAY_FULLSCREEN_SPEC.md. Obs: 2026-06-13T20:56:16Z.
 ---
 
 ## SECTION 5: FUTURE (Emily Prime decides when to promote)
@@ -673,9 +675,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — emily_write_file now unconditionally POSTs Apple via IdunaClient inside tool handler (Emily cannot opt out). OpenAPI spec for all 13 emily-agent tools written. Future tool stubs (grep_files, shell_exec, run_tests, git_commit, git_push) documented as path toward own Claude Code abstraction. EMILY commit 25e6c83. Done 2026-06-12. Apple #386.
 ---
 
-- [ ] **SHANKPIT display/fullscreen is a hard pre-Steam blocker — spec filed at docs2/specs/DISPLAY_FULLSCREEN_SPEC.md, Apple…** — obs `2026-06-13T20:56:16Z`. CURATED: 2026-06-16.
-- [ ] **batched 50 observations ending at 2026-06-04T10:00:00Z** — obs `2026-06-13T04:05:32Z`. CURATED: 2026-06-16.
-- [ ] **web-audit-newssite: newssite (port 8082) and signalapi (port 8083) not running. Last log: 2026-06-07. Running: processo…** — obs `2026-06-13T04:04:17Z`. CURATED: 2026-06-16.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -695,7 +694,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
   edis-dis WordPress plugin: reads health from collector, [edis_dis_ad] shortcode, admin posture panel.
   emily install --edis CLI command: full-stack EDIS provisioner (nginx+PHP+WordPress+plugins+theme+custodian agent).
   EDIS-CUSTODIAN agent added to IDUNA/config/agents.json. go.work updated. docs/digital-immune-system.md written.
-  — 2026-06-12. Apple #TBD.
+  — 2026-06-12. DIS pre-deploy analysis: Apple #450 (2026-06-13). 3 bugs fixed: Apple #591 (2026-06-16).
 
 - [ ] **S23-01: Deploy EDIS to live WordPress install** — Install WordPress, activate EDIS plugins
   and theme. Configure EDIS_SIGNALAPI_URL + EDIS_EMILY_URL in wp-config.php. Verify connection test
@@ -969,6 +968,35 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   into every claude session. Current footer is verbose; can be tightened by ~30% without
   losing required steps. (Rank 4, low priority)
   ✓ Apple #566 — 2026-06-16. 63 lines → 19 lines (~37% reduction). Commit bf89779. go test passes.
+
+---
+
+## SECTION 35: EDIS DIS PRODUCTION HARDENING
+
+*Pre-deploy bugs fixed 2026-06-16 (Apple #591): nginx parser zero-records, posture window race, missing hostile_ratio.*
+*3 items remain before DIS is fully production-hardened post-launch.*
+
+- [ ] **S35-01: ForceState admin endpoint + manual override button** — Add authenticated HTTP endpoint
+  to the DIS collector (e.g. `POST /dis/force?state=degraded&token=<admin_token>`) so operators can
+  escalate posture manually during incidents without restarting the daemon. Wire a one-click button
+  in the WordPress EDIS DIS admin panel that POSTs to this endpoint. Analysis doc identified
+  this as "ship third" item; without it the only incident response is to kill the collector (which
+  fails open to healthy — the wrong direction under real attack).
+  Acceptance: curl -X POST localhost:9099/dis/force?state=attack returns 200; admin panel has button.
+
+- [ ] **S35-02: Fix EDIS_DIS_COLLECTOR_URL constant-at-boot timing** — edis-dis.php defines
+  `EDIS_DIS_COLLECTOR_URL` via `define(get_option(...))` at plugin include time, before
+  `plugins_loaded`. Replace with a lazy function `edis_dis_collector_url()` so option changes
+  take effect immediately and the pattern works safely under multisite / object-cache drop-ins.
+  Low priority for single-server launch; required before multi-server deployment.
+  Acceptance: changing the URL in Settings → EDIS DIS takes effect on the same page request.
+
+- [ ] **S35-03: Per-IP session map for inter-request delta scoring** — The DIS fingerprinter has a
+  `DeltaMs` scoring signal (+30 for delta < 20ms) but it's never populated from the log tailer —
+  only the Harvester middleware (live request path) has timing context. A small bounded per-IP
+  map in the collector (e.g., last-seen timestamp per /24 prefix) would fill this gap.
+  Second-pass feature; not a launch blocker. Adds ~+30 hostile score on scanner bursts.
+  Acceptance: go test covers delta scoring path; hostile_ratio rises under simulated burst.
 
 ---
 
