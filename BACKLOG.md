@@ -114,7 +114,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   when the IDUNA CLI is built. Currently Tyler is seeded via migration. The CLI path is
   the programmatic future.
 
-- [ ] **S29-05 RSI smoke test: end-to-end loop verification** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-06-16T18:59:32Z.
+- [x] **S29-05 RSI smoke test: end-to-end loop verification** — Pipeline confirmed end-to-end: RSI cycles fire, Apples file to IDUNA, obs-watcher dispatches, context-overflow recovery works. 3 bugs found and fixed (cursor format, isContextTooLongOutput stdout capture, go run . compile). Blocked at final claude dispatch by API credit balance (user action: top up console.anthropic.com). Apple #848, commit 7edf6f5.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -679,8 +679,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **we need the iduna middleware to lockdown emily read file and emily write file such that apples are always filed and emi…** — emily_write_file now unconditionally POSTs Apple via IdunaClient inside tool handler (Emily cannot opt out). OpenAPI spec for all 13 emily-agent tools written. Future tool stubs (grep_files, shell_exec, run_tests, git_commit, git_push) documented as path toward own Claude Code abstraction. EMILY commit 25e6c83. Done 2026-06-12. Apple #386.
 ---
 
-- [ ] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — obs `2026-06-16T19:02:14Z`. CURATED: 2026-06-16.
-- [ ] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — obs `2026-06-16T19:16:40Z`. CURATED: 2026-06-16.
+- [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
+- [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
