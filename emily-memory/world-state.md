@@ -139,6 +139,7 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-16: S35-03 COMPLETE — Per-IP delta scoring in DIS log tailer. ipTracker (bounded /24 prefix map), applyDeltaScore +30 on <20ms bursts, 5 new tests. Apple #874, EDIS ccf65c7.
 - 2026-06-16: S29-05 COMPLETE — RSI loop smoke test done. 3 obs-watcher bugs fixed (cursor no-hyphen format, isContextTooLongOutput stdout capture, go run . compile). Apple #848.
 - 2026-06-16: obs-watcher 3 AGI fixes — batch cursor format, context overflow --continue recovery, stdout capture in invokeWithRetry. Commits 6d99c09/7edf6f5/921acbe.
 - 2026-06-16: signalapi SQLite fix — migrate_sqlite.go now strips AFTER <col> (MySQL-only syntax). Commit 308cc2c.

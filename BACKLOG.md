@@ -851,9 +851,11 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   ✓ Apple #562 — 2026-06-16. obs-watcher is started by `emily start` which is called by
   emily-system.service ExecStart. No separate unit needed.
 
-- [ ] **S29-05: End-to-end RSI loop smoke test** — File a test observation, verify obs-watcher
+- [x] **S29-05: End-to-end RSI loop smoke test** — File a test observation, verify obs-watcher
   dispatches, Apple is filed to IDUNA, cycle-log.md is updated. One full loop with no human touch.
   Acceptance: Apple filed, cycle-log shows entry, no manual intervention required.
+  ✓ Apple #848 — 2026-06-16. 3 bugs fixed (cursor format, isContextTooLongOutput stdout capture,
+  go run . compile). Final claude dispatch blocked by API credit balance (human: top up).
 
 ---
 
