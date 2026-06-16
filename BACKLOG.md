@@ -928,18 +928,22 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *Episodes S08E11–S09E01 (Builds 0093–0098) exist in episode files but lore files not backfilled.*
 *The lore file series is the canonical Tyler archive — episode-only content is invisible to Emily.*
 
-- [ ] **S33-01: TYLER-077 through TYLER-082** — Backfill lore entries from episode content
+- [x] **S33-01: TYLER-077 through TYLER-082** — Backfill lore entries from episode content
   (S08E11–S09E01). Format: existing TYLER-NNN.md convention. Each entry: title, city, date,
   duration, construction type, key dialogue excerpt, camera op note.
+  ✓ Apple #564 — 2026-06-16. All entries present in eastwind_archive.md (built during S8/S9 work).
 
-- [ ] **S33-02: Camera Op Entries 70–75** — Written from episode content. Camera Op entries are
+- [x] **S33-02: Camera Op Entries 70–75** — Written from episode content. Camera Op entries are
   the first-person field notes; they carry the phenomenological texture of each site.
+  ✓ Apple #564 — 2026-06-16. Entries 70–75 present in camera_op_sealed_log.md.
 
-- [ ] **S33-03: Memos #057–#062** — Strategic memos from the mechanism POV. Covers the
+- [x] **S33-03: Memos #057–#062** — Strategic memos from the mechanism POV. Covers the
   Córdoba→Toledo→Prague→Genoa arc (Season 8 finale + Season 9 opener).
+  ✓ Apple #564 — 2026-06-16. Memos 057–062 present in jiangshi_project_memos.md.
 
-- [ ] **S33-04: EPISODES.md sync** — Verify EPISODES.md reflects all 72 episodes correctly.
+- [x] **S33-04: EPISODES.md sync** — Verify EPISODES.md reflects all 72 episodes correctly.
   Season 9 sections complete through S09E05. Season 10 placeholder.
+  ✓ Apple #564 — 2026-06-16. EPISODES.md verified complete, 72 episodes S01–S09E05.
 
 ---
 
@@ -955,9 +959,10 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   Acceptance: go test ./... passes; dedup window documented in CLAUDE.md.
   ✓ Apple #561 — 2026-06-16. Commit 123566e. go test passes.
 
-- [ ] **S34-02: runReportFooter compression** — Compress the mandatory report footer injected
+- [x] **S34-02: runReportFooter compression** — Compress the mandatory report footer injected
   into every claude session. Current footer is verbose; can be tightened by ~30% without
   losing required steps. (Rank 4, low priority)
+  ✓ Apple #566 — 2026-06-16. 63 lines → 19 lines (~37% reduction). Commit bf89779. go test passes.
 
 ---
 
