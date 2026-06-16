@@ -990,12 +990,13 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   lazy edis_dis_collector_url() function. Option changes take effect immediately.
   Apple #871 | commit c5f9982 | 2026-06-16
 
-- [ ] **S35-03: Per-IP session map for inter-request delta scoring** — The DIS fingerprinter has a
+- [x] **S35-03: Per-IP session map for inter-request delta scoring** — The DIS fingerprinter has a
   `DeltaMs` scoring signal (+30 for delta < 20ms) but it's never populated from the log tailer —
   only the Harvester middleware (live request path) has timing context. A small bounded per-IP
   map in the collector (e.g., last-seen timestamp per /24 prefix) would fill this gap.
   Second-pass feature; not a launch blocker. Adds ~+30 hostile score on scanner bursts.
   Acceptance: go test covers delta scoring path; hostile_ratio rises under simulated burst.
+  — Apple #874. EDIS commit (pending).
 
 ---
 
