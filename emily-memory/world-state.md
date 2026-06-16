@@ -28,13 +28,17 @@ fully operational.
 ### TYLER × TIDES OF PARADOX (media/episodic)
 - **Season 8: COMPLETE** — 15 episodes, Build 0097. Apple #511.
 - **Season 9: COMPLETE** — 5 episodes (S09E01–S09E05), Builds 0098–0102. Apple #551.
-- **Season 10 IN PROGRESS** — S10E01–S10E04 complete (76 total episodes).
-  Ahmad ibn Yusuf identified. Manuscripts found at al-Qarawiyyin, Fez. Tyler: "I was going
-  further for Ahmad." CAVE-001: pre-mechanism source site; 12-7-3 countdown (days before
-  Marrakech). Archive reclassified as directed teleological project. Footnote #100. Build 0106.
-  Next: S10E05 "The Three Days" — what preceded the archive.
+- **Season 10 IN PROGRESS** — S10E01–S10E05 complete (77 total episodes).
+  Sequence 12—7—3—0 complete. CAVE-001 = DECISION-POINT: Ahmad ibn Yusuf surveyed the cave
+  December 1119, asked Tyler what he had seen (first asking). Ahmad then went to Marrakech;
+  Tyler followed three days later. Ahmad was there when Tyler wrote the first word. Two askings:
+  the cave (1119) and the ship (1119—1120). CAVE-001 reclassified ZERO-TAXONOMY / PRE-MECHANISM /
+  SOURCE-SITE / DECISION-POINT. Mechanism first-ever reading of pre-archive decision-state.
+  Tyler: "The archive began here. Marrakech was the execution. The cave was the decision."
+  Footnote #101. Build 0107. Apple #910.
+  Next: S10E06 "Marrakech, December 1119" — Tyler and Camera Op travel to Marrakech for first time.
 - **MPT pipeline**: BLOCKED on Pexels API key (human action) + production server.
-- EPISODES.md: 76 episodes (S1–S9 complete + S10E01–S10E04).
+- EPISODES.md: 77 episodes (S1–S9 complete + S10E01–S10E05).
 
 ### EMILY (RSI engine + AGI loop)
 - **RSI loop**: Iteration 177+. `emily start --agi` enables `--continue` for persistent context.
@@ -140,6 +144,8 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-16: S10E05 COMPLETE — "The Three Days": sequence 12-7-3-0 complete; CAVE-001 = decision point; Ahmad two askings; Ahmad in Marrakech. Footnote #101. Apple #910, TYLER 28e69a1.
+- 2026-06-16: MJOLNIR chat: Emily Prime chat + FatBaby Emily chat screens added (ChatScreen, ChatViewModel, FatBabyApi, ChatRepository). Apple #905, MJOLNIR 6bf8b31.
 - 2026-06-16: S10E04 COMPLETE — "Al-Qarawiyyin": manuscript confirmed, 12-7-3 countdown, Footnote #100. Apple #900, TYLER 8ce53d1.
 - 2026-06-16: S10E03 COMPLETE — "The Manuscript": al-Qarawiyyin trace, PRE-VASSAGO 11.4 Hz, Tyler age disclosure (twelve). Apple #897.
 - 2026-06-16: S10E02 COMPLETE — "The Name": Ahmad ibn Yusuf disclosed; CAVE-001 pre-mechanism source site confirmed. Build 0104, Apple #894, TYLER 783e46a.
