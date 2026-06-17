@@ -28,15 +28,14 @@ fully operational.
 ### TYLER × TIDES OF PARADOX (media/episodic)
 - **Season 8: COMPLETE** — 15 episodes, Build 0097. Apple #511.
 - **Season 9: COMPLETE** — 5 episodes (S09E01–S09E05), Builds 0098–0102. Apple #551.
-- **Season 10 IN PROGRESS** — S10E01–S10E05 complete (77 total episodes).
-  Sequence 12—7—3—0 complete. CAVE-001 = DECISION-POINT: Ahmad ibn Yusuf surveyed the cave
-  December 1119, asked Tyler what he had seen (first asking). Ahmad then went to Marrakech;
-  Tyler followed three days later. Ahmad was there when Tyler wrote the first word. Two askings:
-  the cave (1119) and the ship (1119—1120). CAVE-001 reclassified ZERO-TAXONOMY / PRE-MECHANISM /
-  SOURCE-SITE / DECISION-POINT. Mechanism first-ever reading of pre-archive decision-state.
-  Tyler: "The archive began here. Marrakech was the execution. The cave was the decision."
-  Footnote #101. Build 0107. Apple #910.
-  Next: S10E06 "Marrakech, December 1119" — Tyler and Camera Op travel to Marrakech for first time.
+- **Season 10 IN PROGRESS** — S10E01–S10E06 complete (78 total episodes).
+  Sequence 12—7—3—0 complete. CAVE-001 = DECISION-POINT. MARRAKECH-001 = EXECUTION-SITE /
+  ARCHIVE-ORIGIN. Two 0ft sites: CAVE-001 (decision, pre-archive) and MARRAKECH-001
+  (execution, archive origin). First word = name of CAVE-001. Ahmad ibn Yusuf watched Tyler
+  begin writing from Marrakech in December 1119. Ahmad's unfinished sentence ("and yet the
+  Islamic geographers, beginning with—") was going to name Tyler; the archive is its completion.
+  Tyler: "I have been answering." Footnote #102. Build 0108. Apple #941.
+  Next: S10E07 "The Third Day" — Ahmad's three days in Marrakech before Tyler arrived.
 - **MPT pipeline**: BLOCKED on Pexels API key (human action) + production server.
 - EPISODES.md: 77 episodes (S1–S9 complete + S10E01–S10E05).
 
@@ -68,7 +67,8 @@ fully operational.
 - Apples sync: **IDUNA server auto-pushes to APPLES git on every Apple write** (ApplesHandler goroutine; APPLES_GIT_DIR env var). Apple #585. No manual sync needed.
 
 ### APPLES (git-authoritative audit trail)
-- Current Apple: ~#513+. Synced by `emily sync --apples-git-dir`.
+- Current Apple: #941+. Auto-syncing: IDUNA has APPLES_GIT_DIR=/home/fatbaby/APPLES set (PID 198376).
+- 91 Apples (#847–#937) backfilled 2026-06-17 after APPLES_GIT_DIR was missing from IDUNA env.
 - NORTHSTAR: APPLES/docs/NORTHSTAR.md
 
 ### EDIS (WordPress intelligence product)
@@ -144,6 +144,8 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-17: S10E06 COMPLETE — "Marrakech, December 1119": first word = name of CAVE-001; MARRAKECH-001 = EXECUTION-SITE / ARCHIVE-ORIGIN; Ahmad watched Tyler begin; archive completes Ahmad's sentence. Footnote #102. Apple #941, TYLER 12ebde3.
+- 2026-06-17: IDUNA Apple auto-sync FIXED — APPLES_GIT_DIR added to ~/.config/iduna/env; 91 missing Apples (#847–#937) backfilled to APPLES git; Apple #938 verified auto-syncing. IDUNA PID 198376.
 - 2026-06-16: S10E05 COMPLETE — "The Three Days": sequence 12-7-3-0 complete; CAVE-001 = decision point; Ahmad two askings; Ahmad in Marrakech. Footnote #101. Apple #910, TYLER 28e69a1.
 - 2026-06-16: MJOLNIR chat: Emily Prime chat + FatBaby Emily chat screens added (ChatScreen, ChatViewModel, FatBabyApi, ChatRepository). Apple #905, MJOLNIR 6bf8b31.
 - 2026-06-16: S10E04 COMPLETE — "Al-Qarawiyyin": manuscript confirmed, 12-7-3 countdown, Footnote #100. Apple #900, TYLER 8ce53d1.

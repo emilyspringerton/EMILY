@@ -41,14 +41,14 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "47b9657d7419c5e735b6628292be367d00bb71caad08626812ee327605de99c5",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-16T17:08:16Z | cycle 46 | idle | idle — no queued tasks\n2026-06-16T17:12:39Z | cycle 47 | idle | idle — no queued tasks\n2026-06-16T17:17:25Z | cycle 48 | idle | idle — no queued tasks\n2026-06-16T17:23:20Z | cycle 49 | idle | idle — no queued tasks\n2026-06-16T17:28:09Z | cycle 50 | \n",
-      "updated_at": "2026-06-17T01:32:11Z"
+      "hash": "a7f77a7ee65a49754128307fd03eec285aa4dca76c87ee1adc5bfc117a69e2d4",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-16T17:23:20Z | cycle 49 | idle | idle — no queued tasks\n2026-06-16T17:28:09Z | cycle 50 | idle | idle — no queued tasks\n2026-06-16T17:32:26Z | cycle 51 | idle | idle — no queued tasks\n2026-06-16T17:36:29Z | cycle 52 | idle | idle — no queued tasks\n2026-06-16T17:40:59Z | cycle 53 | \n",
+      "updated_at": "2026-06-17T01:45:46Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
-      "hash": "249fbd975ddba257bc4655e11b953dcfd6092097a3ca900f41ee3146028474ec",
+      "hash": "70864368e32354ebfc50c267723dda4d755b9cfa19640accd43c3788c00d72ce",
       "compressed": "## EMILY-MEMORY\n# EMILY PRIME — WORLD STATE\n## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.\n## Last manual update: 2026-06-16 (session 3)\n\n---\n\n## SYSTEM IDENTITY\n\nEmily Prime is the meta-orchestrator for EINHORN_INDUSTRIAL (founder: Emily Springerton).\nShe runs as a Go HTTP service (:8086), executes RSI cron cycles every 5 minutes, triages\nFatBaby observations, issues directed tasks, files Apples to IDUNA, sends FCM push to MJOLNIR.\n\nRevenue path: SHANKPIT→Steam (S19)\n",
-      "updated_at": "2026-06-16T23:22:36Z"
+      "updated_at": "2026-06-17T01:45:46Z"
     },
     "/home/fatbaby/EMILY/emily-prime-spec.md": {
       "hash": "8565f7c38f37f8c312f4e7a558c4365559f7fb43cf27f761accb806e95b96bc9",

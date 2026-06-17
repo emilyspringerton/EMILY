@@ -21,3 +21,13 @@ signals/tasks/.last-processed
 # Go workspace (local only)
 go.work
 go.work.sum
+
+# Secrets and credentials — never committed
+var/emily-secrets.env
+var/*.env
+*-secrets.env
+*.env.local
+
+# Runtime state subdirs
+context/var/
+emily-agent/var/
