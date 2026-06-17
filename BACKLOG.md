@@ -126,6 +126,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 - [x] **S29-05 RSI smoke test: end-to-end loop verification** — Pipeline confirmed end-to-end: RSI cycles fire, Apples file to IDUNA, obs-watcher dispatches, context-overflow recovery works. 3 bugs found and fixed (cursor format, isContextTooLongOutput stdout capture, go run . compile). Blocked at final claude dispatch by API credit balance (user action: top up console.anthropic.com). Apple #848, commit 7edf6f5.
 - [x] **FatBaby system health check: 4 fixes applied** — signalapi O(N) scan (86% CPU → 0%), form4-watcher XSL prefix (0→479 transactions), form4-watcher 4MB→32MB body limit, SQLite COMMENT= migration. All 14 processes healthy. Apple #1114 | 2026-06-17.
+- [ ] **signal pipeline audit: 10748 signal_failed today (9435=EDGAR 429 no-retry, 977=…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-06-17T22:21:23Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -692,7 +693,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
-- [ ] **signal pipeline audit: 10748 signal_failed today (9435=EDGAR 429 no-retry, 977=pre-2000 empty URL, 289=4MB limit, 47=40…** — obs `2026-06-17T22:21:23Z`. CURATED: 2026-06-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
