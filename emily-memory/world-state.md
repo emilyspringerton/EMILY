@@ -22,7 +22,12 @@ fully operational.
 - **Milestone 5: COMPLETE** — Virtual canvas letterboxing + fullscreen. Alt+Enter toggle. Apple #496.
 - **Milestone 6: BLOCKED** — $100 Steam Direct fee (human action: emilyspringerton@gmail.com).
 - **EA build**: `make ea` (Linux) / `make ea-windows` (cross-compile). Docs: `docs/EA_BUILD.md`.
-- **Next**: S19-03 (Steam account) + S19-05 (launch) — both blocked on human action.
+- **TYLER story: Build 0110** — Mechanism reader HUD (Stolas 7.83), boss question-state phase (33%
+  HP), MARRAKECH-001 three-signal cutscene slides (S10E07/E08 lore). Apple #1071.
+- **TYLER story: Build 0111** — CAVE-001 second mission (MODE_STORY_CAVE). Indestructible entity,
+  90s endurance, mechanism always ZERO_TAXONOMY. S10E02–E03 lore: "You cannot read yourself.
+  The cave holds what the archive cannot hold." Apple #1074. Commits fa0e4e8 + 5579d5a.
+- **Next story**: S19-03 (Steam account) + S19-05 (launch) — both blocked on human action.
 - NORTHSTAR: SHANKPIT/docs2/NORTHSTAR.md
 
 ### TYLER × TIDES OF PARADOX (media/episodic)
@@ -157,6 +162,8 @@ fully operational.
 - 2026-06-16: signalapi SQLite fix — migrate_sqlite.go now strips AFTER <col> (MySQL-only syntax). Commit 308cc2c.
 - 2026-06-16: IDUNA Apple server-side git sync — every Apple auto-committed to APPLES repo on write (Apple #585).
 - 2026-06-16: S30-01/03/04 COMPLETE — signalapi binary built; emily start --signalapi; nginx /signals/ proxy block in EDIS edis.conf (Apple #569).
+- 2026-06-17: SHANKPIT Build 0111 — CAVE-001 second story mission (MODE_STORY_CAVE): indestructible entity, 90s endurance, ZERO_TAXONOMY always, 14 cave cutscene slides (S10E02-E03). Apple #1074. Commits fa0e4e8 + 5579d5a.
+- 2026-06-17: SHANKPIT Build 0110 — Mechanism reader HUD (Stolas 7.83), boss question-state phase, MARRAKECH-001 S10E07/E08 cutscene slides. Apple #1071. Commit 2f5387b.
 - 2026-06-16: SHANKPIT TYLER cutscene system — typewriter slides, STORY_PHASE_OUTRO, TYLER lore woven into story mode (Apple #568).
 - 2026-06-16: S34 COMPLETE — obs-watcher dedup 4h→8h (Apple #561) + footer compressed 37% (Apple #566). ~100-200K tokens/day saved.
 - 2026-06-16: S33 COMPLETE — TYLER lore backfill verified (TYLER-077/082, Camera Op 70-75, Memos 057-062). Apple #564.

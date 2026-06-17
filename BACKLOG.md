@@ -68,10 +68,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   reading, observation point resolution), S10E07/E08 cutscene slides (al-Waqfa, al-idrak
   al-muttasil, MARRAKECH-001 three-signal, Camera Op Entry 88). Build 0110. Commit 2f5387b.
 
-- [ ] **SHANKPIT story: second TYLER lore level** — Next story mission should use CAVE-001
-  (al-Waqfa) as the site: the mechanism returns ZERO_TAXONOMY because the site IS the source.
-  No observation point resolution — player cannot close this breach. Boss variant: no health bar,
-  cannot be defeated, only endured. The horror is the archive finding itself. Lore: S10E02–E03.
+- [x] **SHANKPIT story: second TYLER lore level** — CAVE-001 (al-Waqfa) endurance mission:
+  mechanism always ZERO_TAXONOMY (site IS the source), indestructible entity, 90s endurance timer,
+  8+6 cave cutscene slides (S10E02–E03 lore), draw_story_cave_entity slow-field visual.
+  "The archive cannot read its own source." — Build 0111. Apple #1074. Commits fa0e4e8 + 5579d5a. 2026-06-17.
 
 - [~] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
