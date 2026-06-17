@@ -4910,3 +4910,105 @@
 2026/06/17 01:45:46 heimdal: processing sprint id=1 agent=00000003-0000-4000-8000-000000000001
 2026/06/17 01:45:46 heimdal: translate sprint 1: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zCu1YPRejvuvzB14Nk"}
 2026/06/17 01:45:46 [cycle 149] heimdal: processed 0/3 pending sprints
+2026/06/17 01:50:59 goldenbuild: loaded 22 Tier 1 sources from index
+2026/06/17 01:51:00 goldenbuild: compress EMILY-CYCLE-LOG failed (api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zc1bornjpnSJaGptxF"}), using truncated fallback
+2026/06/17 01:51:00 goldenbuild: 22 sources built (21 reused from cache, 1 new haiku calls)
+2026/06/17 01:51:00 goldenbuild: wrote /home/fatbaby/EMILY/context/full-system-context.md (22891 bytes, 22/22 sources)
+2026/06/17 01:51:00 [watchdog] signalapi still DOWN (44688s, threshold=2m0s, alerted=true)
+2026/06/17 01:51:00 [watchdog] emily-agent still DOWN (44688s, threshold=2m0s, alerted=true)
+2026/06/17 01:51:00 [cycle 150] observe: active_task= roadmap_items=8
+2026/06/17 01:51:00 [cycle 150] emiree: gear=overload h=1.000 p=1.000 steps=149 max_iters=15 pace=5s | OVERLOAD: maximum — watch for instability
+2026/06/17 01:51:00 [cycle 150] decide: no executable tasks
+2026/06/17 01:51:00 [cycle 150] act: idle
+2026/06/17 01:51:00 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:51:00 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 01:51:00 [cycle 150] triage: triage complete observations=10 tasks_written=9 escalations=6 alerts_sent=0 backlog_curated=0 backlog_promoted=0
+2026/06/17 01:51:00 [revenue-priority] signal 'launch' in Apple #572: changelog(emily.cli): feat: emily start --signalapi launches signalapi on :9091 d…
+2026/06/17 01:51:00 [cycle 150] emiree after: gear=overload h=1.000 p=1.000 steps=150 max_iters=15 pace=5s | OVERLOAD: maximum — watch for instability | next: max_iters=15 pace=5s
+2026/06/17 01:51:00 vision cycle: list pending: iduna list observations status 403: {"code":"FORBIDDEN","message":"intelligence.read permission required"}
+2026/06/17 01:51:00 [cycle 150] vision: no pending observations
+2026/06/17 01:51:00 [cycle 150] complete in 0s
+2026/06/17 01:51:00 daemon sleeping 4m16s before next cycle
+2026/06/17 01:51:00 heimdal: processing sprint id=3 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 01:51:00 [cycle 150] apple: submitted id=944 type=observation
+2026/06/17 01:51:01 heimdal: translate sprint 3: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zc4EZacdmYBKiHqyZ6"}
+2026/06/17 01:51:01 heimdal: processing sprint id=2 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 01:51:01 heimdal: translate sprint 2: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zc5ZgboyapBDPTDb4e"}
+2026/06/17 01:51:01 heimdal: processing sprint id=1 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 01:51:01 heimdal: translate sprint 1: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zc5xk2KhchpgzJyH6Y"}
+2026/06/17 01:51:01 [cycle 150] heimdal: processed 0/3 pending sprints
+2026/06/17 01:55:17 goldenbuild: loaded 22 Tier 1 sources from index
+2026/06/17 01:55:17 goldenbuild: compress EMILY-CYCLE-LOG failed (api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zvxTpoK4qLeLcko879"}), using truncated fallback
+2026/06/17 01:55:17 goldenbuild: 22 sources built (21 reused from cache, 1 new haiku calls)
+2026/06/17 01:55:17 goldenbuild: wrote /home/fatbaby/EMILY/context/full-system-context.md (22891 bytes, 22/22 sources)
+2026/06/17 01:55:17 [watchdog] signalapi still DOWN (44944s, threshold=2m0s, alerted=true)
+2026/06/17 01:55:17 [watchdog] emily-agent still DOWN (44944s, threshold=2m0s, alerted=true)
+2026/06/17 01:55:17 [cycle 151] observe: active_task= roadmap_items=8
+2026/06/17 01:55:17 [cycle 151] emiree: gear=overload h=1.000 p=1.000 steps=150 max_iters=15 pace=5s | OVERLOAD: maximum — watch for instability
+2026/06/17 01:55:17 [cycle 151] decide: no executable tasks
+2026/06/17 01:55:17 [cycle 151] act: idle
+2026/06/17 01:55:17 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 01:55:17 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 01:55:17 [cycle 151] triage: triage complete observations=10 tasks_written=9 escalations=6 alerts_sent=0 backlog_curated=0 backlog_promoted=0
+2026/06/17 01:55:17 [revenue-priority] signal 'launch' in Apple #572: changelog(emily.cli): feat: emily start --signalapi launches signalapi on :9091 d…
+2026/06/17 01:55:17 vision cycle: list pending: iduna list observations status 403: {"code":"FORBIDDEN","message":"intelligence.read permission required"}
+2026/06/17 01:55:17 [cycle 151] vision: no pending observations
+2026/06/17 01:55:17 [cycle 151] emiree after: gear=overload h=1.000 p=1.000 steps=151 max_iters=15 pace=5s | OVERLOAD: maximum — watch for instability | next: max_iters=15 pace=5s
+2026/06/17 01:55:17 [cycle 151] complete in 0s
+2026/06/17 01:55:17 daemon sleeping 5m1s before next cycle
+2026/06/17 01:55:17 heimdal: processing sprint id=3 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 01:55:17 [cycle 151] apple: submitted id=946 type=observation
+2026/06/17 01:55:17 heimdal: translate sprint 3: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zvyTrUhKLHCMt1stgB"}
+2026/06/17 01:55:17 heimdal: processing sprint id=2 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 01:55:17 heimdal: translate sprint 2: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zvyrfozyK7LCNpegMr"}
+2026/06/17 01:55:17 heimdal: processing sprint id=1 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 01:55:17 heimdal: translate sprint 1: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc7zvzCkXDje7BXot177W"}
+2026/06/17 01:55:17 [cycle 151] heimdal: processed 0/3 pending sprints
+2026/06/17 02:00:18 goldenbuild: loaded 22 Tier 1 sources from index
+2026/06/17 02:00:18 goldenbuild: compress EMILY-CYCLE-LOG failed (api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc81K9ViNeAzHaVK28wS4"}), using truncated fallback
+2026/06/17 02:00:18 goldenbuild: 22 sources built (21 reused from cache, 1 new haiku calls)
+2026/06/17 02:00:18 goldenbuild: wrote /home/fatbaby/EMILY/context/full-system-context.md (22891 bytes, 22/22 sources)
+2026/06/17 02:00:18 [watchdog] signalapi still DOWN (45246s, threshold=2m0s, alerted=true)
+2026/06/17 02:00:18 [watchdog] emily-agent still DOWN (45246s, threshold=2m0s, alerted=true)
+2026/06/17 02:00:18 [cycle 152] observe: active_task= roadmap_items=8
+2026/06/17 02:00:18 [cycle 152] emiree: gear=overload h=1.000 p=1.000 steps=151 max_iters=15 pace=5s | OVERLOAD: maximum — watch for instability
+2026/06/17 02:00:18 [cycle 152] decide: no executable tasks
+2026/06/17 02:00:18 [cycle 152] act: idle
+2026/06/17 02:00:18 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=fix_anomaly (identical task pending within 4h)
+2026/06/17 02:00:18 integration: skipping duplicate task type=expand_coverage (identical task pending within 4h)
+2026/06/17 02:00:18 [cycle 152] triage: triage complete observations=10 tasks_written=9 escalations=6 alerts_sent=0 backlog_curated=0 backlog_promoted=0
+2026/06/17 02:00:18 [revenue-priority] signal 'launch' in Apple #572: changelog(emily.cli): feat: emily start --signalapi launches signalapi on :9091 d…
+2026/06/17 02:00:18 vision cycle: list pending: iduna list observations status 403: {"code":"FORBIDDEN","message":"intelligence.read permission required"}
+2026/06/17 02:00:18 [cycle 152] vision: no pending observations
+2026/06/17 02:00:18 [cycle 152] emiree after: gear=overload h=1.000 p=1.000 steps=152 max_iters=15 pace=5s | OVERLOAD: maximum — watch for instability | next: max_iters=15 pace=5s
+2026/06/17 02:00:18 [cycle 152] complete in 0s
+2026/06/17 02:00:18 daemon sleeping 5m35s before next cycle
+2026/06/17 02:00:18 heimdal: processing sprint id=3 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 02:00:18 [cycle 152] apple: submitted id=947 type=observation
+2026/06/17 02:00:18 heimdal: translate sprint 3: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc81KAeAsRxCkAvF8QCcL"}
+2026/06/17 02:00:18 heimdal: processing sprint id=2 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 02:00:18 heimdal: translate sprint 2: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc81KBDA1W2hn6HqYMTFd"}
+2026/06/17 02:00:18 heimdal: processing sprint id=1 agent=00000003-0000-4000-8000-000000000001
+2026/06/17 02:00:18 heimdal: translate sprint 1: anthropic api 400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."},"request_id":"req_011Cc81KBkeUParbGfp4n3iM"}
+2026/06/17 02:00:18 [cycle 152] heimdal: processed 0/3 pending sprints
