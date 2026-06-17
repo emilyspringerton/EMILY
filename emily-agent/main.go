@@ -1524,6 +1524,7 @@ func NewServer(cfg Config) (*Server, error) {
 	registerGitTools(dispatcher, cfg.ConversationDir)
 	registerWebAuditTools(dispatcher)
 	registerEmilyPrimeTools(dispatcher, cfg.EmilyRoot, cfg.FatBabyRoot, cfg.IDUNARoot, idunaClient)
+	registerGPT2Tools(dispatcher)
 	log.Printf("tools registered: %d", len(dispatcher.Defs()))
 	for _, t := range dispatcher.Defs() {
 		log.Printf("  * %s", t.Name)
