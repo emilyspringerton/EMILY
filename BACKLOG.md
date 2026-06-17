@@ -1034,7 +1034,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   `primary_document` is empty or the URL scheme is not http/https. Do not retry.
   Acceptance: no new `unsupported protocol scheme` entries after restart.
 
-- [ ] **S36-03: Raise processor doc limit 4 MB → 16 MB** — 289 failures today (BEN, BLK confirmed).
+- [x] **S36-03: Raise processor doc limit 4 MB → 16 MB** — 289 failures today (BEN, BLK confirmed). [done 2026-06-17]
   `cmd/processor/main.go` default flag `max-doc-bytes = 4<<20`. Proxy statements and large 8-Ks
   commonly exceed 4 MB. The prior secwatch fix raised body limit 64 MB → 256 MB (Apple #341).
   Apply same pattern here: raise default to `16<<20`. No other code changes needed.
