@@ -1013,6 +1013,93 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 
 ---
 
+## SECTION 36: SIGNAL PIPELINE DATA QUALITY (audit 2026-06-17)
+
+*Source: Claude Code data audit — 2026-06-17. 10,748 signal_failed today, 87% failure rate overall.*
+*Priority order: S36-01 (429 blocks all new processing) → S36-02 (pre-2000 junk re-runs every restart) → S36-03 (doc limit) → S36-04 (stub provider) → S36-05 (empty ticker).*
+
+- [ ] **S36-01: EDGAR 429 rate-limit retry + throttle in processor** — `internal/processor/fetch_clean.go`
+  has no retry logic. On 429, the filing is permanently written as `signal_failed` and never retried.
+  9,435 failures today alone. Fix: detect 429 in `FetchAndCleanText`, backoff 60s/120s/300s before
+  recording permanent failure. Also add a per-host rate limiter (≤10 req/s) across the 4 workers so
+  EDGAR is never hammered simultaneously.
+  Acceptance: `go test ./...` passes; processor runs 10 min without 429 failures in log.
+
+- [ ] **S36-02: Skip pre-2000 EDGAR filings with empty primary_document URL** — 977 failures today
+  are all accession years 1994–2000 (e.g. `0000320193-94-000013` for AAPL). Their `primary_document`
+  field is empty (`""`), producing `fetch primary document: Get "": unsupported protocol scheme ""`.
+  These re-fail on every processor restart, accumulating junk `signal_failed` events indefinitely.
+  Fix: in the processor worker, skip (log once, write `signal_failed` once) any filing where
+  `primary_document` is empty or the URL scheme is not http/https. Do not retry.
+  Acceptance: no new `unsupported protocol scheme` entries after restart.
+
+- [ ] **S36-03: Raise processor doc limit 4 MB → 16 MB** — 289 failures today (BEN, BLK confirmed).
+  `cmd/processor/main.go` default flag `max-doc-bytes = 4<<20`. Proxy statements and large 8-Ks
+  commonly exceed 4 MB. The prior secwatch fix raised body limit 64 MB → 256 MB (Apple #341).
+  Apply same pattern here: raise default to `16<<20`. No other code changes needed.
+  Acceptance: BEN/BLK proxy filings process without `document too large` error.
+
+- [ ] **S36-04: Wire real intelligence provider into cmd/processor** — All 5,316 `signal_generated`
+  events in the store use `stubProvider`, returning `"Stub analysis result."` / `signal_type=Other`
+  for every filing. The LLM analysis layer has never run. Wire `ANTHROPIC_API_KEY` + claude-haiku
+  into the processor as the real `intelligence.Provider`. Use haiku (cheap) for classification.
+  Dependency: API credit balance ✓ (top up console.anthropic.com).
+  Acceptance: new `signal_generated` events have real `signal_type`, non-stub `summary`.
+
+- [ ] **S36-05: Fix empty-ticker guidance signal** — `cmd/guidance-watcher/main.go:112`:
+  `ticker := tickerByID[ev.PRDiscoveryID]` — when the PR discovery ID is not in the ticker map,
+  `ticker` is `""` and a signal is published with no ticker. One confirmed today:
+  `guidance published ticker=  action=raised metric=eps confidence=0.90`.
+  Fix: skip `if ticker == ""` before publishing. Also add guard in dividend-watcher and
+  buyback-watcher where same empty-ticker events appear (`ticker="" event=cut amount=2.03`).
+  Acceptance: no `ticker=""` guidance/dividend/buyback signals emitted.
+
+---
+
+## SECTION 37: NEWSSITE FUNCTIONALITY (web audit 2026-06-17)
+
+*Source: emily web_audit_url run 2026-06-17. Newssite serving at :8082.*
+*Critical: /ask 500 breaks product landing page. HEAD 405 breaks SEO crawlers.*
+
+- [ ] **S37-01: Fix /ask 500 — AskLandingData missing Symbols field** — `GET /ask` returns
+  HTTP 500 "template error" because `internal/newssite/render.go:RenderAskLanding()` passes
+  `AskLandingData{GoogleClientID: ""}` to the template, but the shared `masthead` template
+  uses `{{range .Symbols}}` for the ticker datalist. `AskLandingData` has no `Symbols` field,
+  so template execution panics internally. Fix: add `Symbols []string` to `AskLandingData`
+  and populate it from the handler's symbol list (same source as `TickerPageData.Symbols`).
+  File: `internal/newssite/render.go` (AskLandingData struct) + `internal/newssite/asklily.go`
+  (serveAskLanding populates it). Acceptance: `GET /ask` returns 200 with ticker datalist.
+
+- [ ] **S37-02: Add HEAD method support across all newssite routes** — All routes return
+  HTTP 405 on HEAD requests (web audit confirmed: /ticker/AAPL, /section/*, /doc/*, /person/*, etc.).
+  Go's net/http ServeMux does not automatically handle HEAD for registered GET handlers.
+  Fix: add a middleware wrapper in `cmd/newssite/main.go` that converts HEAD to GET and
+  suppresses the body before writing the response. Standard pattern:
+  `mux.Handle("/", headToGet(h))`. Acceptance: HEAD on all existing GET routes returns 200.
+
+- [ ] **S37-03: /ticker/{sym}/feed.xml — implement RSS or return 404** — `GET /ticker/JPM/feed.xml`
+  returns HTML (200 with ticker page HTML). The route falls through to the ticker handler
+  because `/ticker/` catches the whole path. Fix: either (a) implement a real RSS/Atom feed
+  for the ticker (signals as feed items), or (b) explicitly return 404 for `.xml` suffix.
+  Acceptance: feed.xml returns valid RSS/Atom with correct Content-Type, or 404.
+
+- [ ] **S37-04: Start newssite with EMILY_BASE_URL set** — `POST /api/ask` returns 503
+  "Ask Emily not configured" because `EMILY_BASE_URL` env var is not set at newssite launch.
+  Emily Prime is at `http://localhost:8086`. Fix: add `EMILY_BASE_URL=http://localhost:8086`
+  to the emily start --newssite launch command or to emily-secrets.env.
+  Acceptance: `POST /api/ask` with a question returns an Emily response, not 503.
+
+- [ ] **S37-05: Seed SQLite governance_signals from entity-graph output** — signalapi serves
+  `GET /v1/governance-signals?ticker=AAPL` → `[]` (empty). The SQLite `governance_signals`
+  table has 0 rows. The projector writes to MySQL (not running). The entity-graph produces
+  real signals (insider, governance_health, board_decay etc.) but these go to the entity-graph
+  var/ files, not to governance_signals. Fix: wire entity-graph signal output to the SQLite
+  governance_signals table as a SQLite-mode projector path.
+  Dependency: S36-01 (need data flowing) or manual seed from entity-graph signals.
+  Acceptance: `/v1/governance-signals?ticker=AAPL` returns ≥1 signal.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
