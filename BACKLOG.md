@@ -1047,7 +1047,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   Dependency: API credit balance ✓ (top up console.anthropic.com).
   Acceptance: new `signal_generated` events have real `signal_type`, non-stub `summary`.
 
-- [ ] **S36-05: Fix empty-ticker guidance signal** — `cmd/guidance-watcher/main.go:112`:
+- [x] **S36-05: Fix empty-ticker guidance signal** — `cmd/guidance-watcher/main.go:112`: [done 2026-06-17]
   `ticker := tickerByID[ev.PRDiscoveryID]` — when the PR discovery ID is not in the ticker map,
   `ticker` is `""` and a signal is published with no ticker. One confirmed today:
   `guidance published ticker=  action=raised metric=eps confidence=0.90`.
