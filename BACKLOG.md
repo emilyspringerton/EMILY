@@ -1019,7 +1019,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *Source: Claude Code data audit — 2026-06-17. 10,748 signal_failed today, 87% failure rate overall.*
 *Priority order: S36-01 (429 blocks all new processing) → S36-02 (pre-2000 junk re-runs every restart) → S36-03 (doc limit) → S36-04 (stub provider) → S36-05 (empty ticker).*
 
-- [ ] **S36-01: EDGAR 429 rate-limit retry + throttle in processor** — `internal/processor/fetch_clean.go`
+- [x] **S36-01: EDGAR 429 rate-limit retry + throttle in processor** — `internal/processor/fetch_clean.go` [done 2026-06-17]
   has no retry logic. On 429, the filing is permanently written as `signal_failed` and never retried.
   9,435 failures today alone. Fix: detect 429 in `FetchAndCleanText`, backoff 60s/120s/300s before
   recording permanent failure. Also add a per-host rate limiter (≤10 req/s) across the 4 workers so
