@@ -1,3 +1,7 @@
+## 2026-06-17
+
+- gpt2 skill registered: gpt2_generate, gpt2_health, gpt2_start tools in emily-agent ToolDispatcher; emily gpt2 generate + emily gpt2 health subcommands in emily.cli. Apple #945.
+
 ## 2026-06-16
 - FatBaby Emily sub-agent: Emily Prime chats to FatBaby Emily via chat_to_fatbaby_emily; exchange visible in web chat UI as blue sub-chat block (Apple #587)
 
