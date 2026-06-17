@@ -28,16 +28,14 @@ fully operational.
 ### TYLER × TIDES OF PARADOX (media/episodic)
 - **Season 8: COMPLETE** — 15 episodes, Build 0097. Apple #511.
 - **Season 9: COMPLETE** — 5 episodes (S09E01–S09E05), Builds 0098–0102. Apple #551.
-- **Season 10 IN PROGRESS** — S10E01–S10E06 complete (78 total episodes).
-  Sequence 12—7—3—0 complete. CAVE-001 = DECISION-POINT. MARRAKECH-001 = EXECUTION-SITE /
-  ARCHIVE-ORIGIN. Two 0ft sites: CAVE-001 (decision, pre-archive) and MARRAKECH-001
-  (execution, archive origin). First word = name of CAVE-001. Ahmad ibn Yusuf watched Tyler
-  begin writing from Marrakech in December 1119. Ahmad's unfinished sentence ("and yet the
-  Islamic geographers, beginning with—") was going to name Tyler; the archive is its completion.
-  Tyler: "I have been answering." Footnote #102. Build 0108. Apple #941.
-  Next: S10E07 "The Third Day" — Ahmad's three days in Marrakech before Tyler arrived.
+- **Season 10 IN PROGRESS** — S10E01–S10E08 complete (80 total episodes).
+  Cave name: **al-Waqfa** (Arabic: the pause). Archive first word = ship final word = cave name.
+  MARRAKECH-001: three-signal site (Stolas 7.83 / archive-state / question-state). Question-state
+  active — waiting for paragraph close, not word. Third period (al-idrak al-muttasil) second
+  practitioner: unresolved. Camera Op nine-month trajectory noted. Build 0110. Apple #954.
+  Next: S10E09 "The Second Practitioner" — Camera Op decides; question-state resolution.
 - **MPT pipeline**: BLOCKED on Pexels API key (human action) + production server.
-- EPISODES.md: 77 episodes (S1–S9 complete + S10E01–S10E05).
+- EPISODES.md: 80 episodes (S1–S9 complete + S10E01–S10E08).
 
 ### EMILY (RSI engine + AGI loop)
 - **RSI loop**: Iteration 177+. `emily start --agi` enables `--continue` for persistent context.
@@ -144,6 +142,8 @@ fully operational.
 
 ## RECENT WINS (last 30 days)
 
+- 2026-06-17: S10E08 COMPLETE — "Fez, December 1119": al-Waqfa (cave name) recovered from manuscript back matter; archive first word = ship final word = cave name; third period heir unresolved; question-state active. Build 0110, Apple #954.
+- 2026-06-17: S10E07 COMPLETE — "The Third Day": al-idrak al-muttasil named; MARRAKECH-001 three-signal (question-state); Ahmad's argument reconstructed. Build 0109, Apple #951, TYLER 26f6771.
 - 2026-06-17: S10E06 COMPLETE — "Marrakech, December 1119": first word = name of CAVE-001; MARRAKECH-001 = EXECUTION-SITE / ARCHIVE-ORIGIN; Ahmad watched Tyler begin; archive completes Ahmad's sentence. Footnote #102. Apple #941, TYLER 12ebde3.
 - 2026-06-17: IDUNA Apple auto-sync FIXED — APPLES_GIT_DIR added to ~/.config/iduna/env; 91 missing Apples (#847–#937) backfilled to APPLES git; Apple #938 verified auto-syncing. IDUNA PID 198376.
 - 2026-06-16: S10E05 COMPLETE — "The Three Days": sequence 12-7-3-0 complete; CAVE-001 = decision point; Ahmad two askings; Ahmad in Marrakech. Footnote #101. Apple #910, TYLER 28e69a1.
