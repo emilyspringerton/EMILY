@@ -63,6 +63,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
 
+- [x] **SHANKPIT story horror mechanics — TYLER S10 lore** — Mechanism Reader HUD [Apple #1071, 2026-06-17]
+  (Goetia Hz + site taxonomy), boss question-state phase (33% trigger, 10% damage, zero-taxonomy
+  reading, observation point resolution), S10E07/E08 cutscene slides (al-Waqfa, al-idrak
+  al-muttasil, MARRAKECH-001 three-signal, Camera Op Entry 88). Build 0110. Commit 2f5387b.
+
+- [ ] **SHANKPIT story: second TYLER lore level** — Next story mission should use CAVE-001
+  (al-Waqfa) as the site: the mechanism returns ZERO_TAXONOMY because the site IS the source.
+  No observation point resolution — player cannot close this breach. Boss variant: no health bar,
+  cannot be defeated, only endured. The horror is the archive finding itself. Lore: S10E02–E03.
+
 - [~] **SHANKPIT → MPT bridge** — Spec exists (engine/shankpit_mpt_bridge.md). Implementation
   deferred until MPT is running end-to-end.
 
