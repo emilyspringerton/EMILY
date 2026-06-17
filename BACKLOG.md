@@ -1026,7 +1026,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   EDGAR is never hammered simultaneously.
   Acceptance: `go test ./...` passes; processor runs 10 min without 429 failures in log.
 
-- [ ] **S36-02: Skip pre-2000 EDGAR filings with empty primary_document URL** — 977 failures today
+- [x] **S36-02: Skip pre-2000 EDGAR filings with empty primary_document URL** — 977 failures today [done 2026-06-17]
   are all accession years 1994–2000 (e.g. `0000320193-94-000013` for AAPL). Their `primary_document`
   field is empty (`""`), producing `fetch primary document: Get "": unsupported protocol scheme ""`.
   These re-fail on every processor restart, accumulating junk `signal_failed` events indefinitely.
