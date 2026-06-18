@@ -1167,11 +1167,11 @@ generate action tokens, decode to game inputs. Testbed: SHANKPIT emily-bot. MOBA
   The state/action format is the contract for all downstream milestones.
   Acceptance: round-trip encode→decode→re-encode is stable; Python unit tests pass. — Apple #1401 — 2026-06-18
 
-- [ ] **S39-02: Replay logger in emily-bot** — `apps2/emily-bot/main.go` logs `(state, action)` NDJSON
+- [x] **S39-02: Replay logger in emily-bot** — `apps2/emily-bot/main.go` logs `(state, action)` NDJSON
   per tick to `SHANKPIT/var/replays/YYYYMMDD-HHmm.ndjson`. Each line:
   `{"tick":N, "state":"...", "action":"..."}`. After session, `scripts/build_game_corpus.py`
   aggregates replay files → training JSONL for dataset builder.
-  Acceptance: 100-tick bot session produces ≥100 records; corpus builder ingests them.
+  Acceptance: 100-tick bot session produces ≥100 records; corpus builder ingests them. — Apple #1403 — 2026-06-18
 
 - [ ] **S39-03: Fine-tune GPT-2 on replay corpus** — Add `--game-replays <dir>` flag to
   `prime_directive_dataset.py`. Each replay record becomes an instruction pair
