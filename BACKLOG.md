@@ -1228,11 +1228,11 @@ world bridge (NORTHSTAR Milestone 4).*
   Enables runtime switching without recompilation.
   Acceptance: `./server-go --dragonfly-url http://localhost:7070` logs "WorldBackend: DragonflyBackend" + go test passes. — Apple #1419 — 2026-06-18
 
-- [ ] **S41-02: GFD DragonFly ChunkGenerator — real world chunk reads** — `server/worldapi/worldapi.go`
+- [x] **S41-02: GFD DragonFly ChunkGenerator — real world chunk reads** — `server/worldapi/worldapi.go`
   defines `ChunkGenerator` interface but no real Dragonfly implementation exists. Write
   `DragonFlyChunkGenerator` in `server/worldapi/dragonfly_gen.go` that reads from a Dragonfly
   `world.World` and converts blocks using `DragonflyNameToBlockID()` from packages2/common/block_map.go.
-  Acceptance: a running Dragonfly server's chunk data is served via GET /chunks and rendered in SHANKPIT.
+  Acceptance: a running Dragonfly server's chunk data is served via GET /chunks and rendered in SHANKPIT. — Apple #1421 — 2026-06-18
 
 ---
 
