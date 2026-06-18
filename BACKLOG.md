@@ -1160,12 +1160,12 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 generate action tokens, decode to game inputs. Testbed: SHANKPIT emily-bot. MOBA northstar: BedWars.*
 *Full spec: `gpt2-alpine-c/docs/GAME_AI_NORTHSTAR.md`*
 
-- [ ] **S39-01: Game state serializer + action decoder** — `scripts/game_state.py` in gpt2-alpine-c.
+- [x] **S39-01: Game state serializer + action decoder** — `scripts/game_state.py` in gpt2-alpine-c.
   Two functions: `serialize_snapshot(snapshot_bytes) → str` (PacketSnapshot → natural language token
   string like `"player pos:14,8 hp:85 enemy pos:20,15 dist:12 vis:1"`) and
   `decode_action(action_str) → dict` (parse GPT-2 output → UserCmd fields).
   The state/action format is the contract for all downstream milestones.
-  Acceptance: round-trip encode→decode→re-encode is stable; Python unit tests pass.
+  Acceptance: round-trip encode→decode→re-encode is stable; Python unit tests pass. — Apple #1401 — 2026-06-18
 
 - [ ] **S39-02: Replay logger in emily-bot** — `apps2/emily-bot/main.go` logs `(state, action)` NDJSON
   per tick to `SHANKPIT/var/replays/YYYYMMDD-HHmm.ndjson`. Each line:
