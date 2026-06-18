@@ -1201,20 +1201,20 @@ world bridge (NORTHSTAR Milestone 4).*
   Acceptance: `go test ./...` passes; voxel behavior unchanged with `StaticBackend`; swapping
   backends is now a one-line change in `main.go`. — Apple #1410 — 2026-06-18
 
-- [ ] **S40-02: DragonflyBackend.SceneVoxelPayload() — real Dragonfly chunks** — In
+- [x] **S40-02: DragonflyBackend.SceneVoxelPayload() — real Dragonfly chunks** — In
   `GoblinFoxDragon`, implement `SceneVoxelPayload(sceneID, chunkX, chunkZ)` by reading the
   Dragonfly world's chunk at `(chunkX, chunkZ)` and serializing non-air blocks into the
   `PacketVoxelData` format (block IDs mapped to SHANKPIT block ID constants).
   Depends on S40-01 (interface wired in server).
   Acceptance: `emily start --shankpit --dragonfly` shows Dragonfly world terrain in the
   SHANKPIT client for SCENE_VOXWORLD; stone/grass/trees from Dragonfly chunk data, not
-  procedural generator.
+  procedural generator. — Apple #1412/#1413 (SHANKPIT DragonflyBackend + GFD worldapi) — 2026-06-18
 
-- [ ] **S40-03: Block ID mapping table** — Define a canonical mapping between Dragonfly/Bedrock
+- [x] **S40-03: Block ID mapping table** — Define a canonical mapping between Dragonfly/Bedrock
   block IDs and SHANKPIT block ID constants (stone=1, grass=2, dirt=3, log=17, leaf=18).
   Dragonfly uses numeric runtime IDs per game version. Create `packages2/common/block_map.go`
   (Go) and `packages/common/block_map.h` (C) with the mapping.
-  Acceptance: all block IDs round-trip through map without falling back to `log` color.
+  Acceptance: all block IDs round-trip through map without falling back to `log` color. — Apple #1417 — 2026-06-18
 
 ---
 
