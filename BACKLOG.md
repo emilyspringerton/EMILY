@@ -1130,6 +1130,13 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   Magnum at close range. `WeaponIdx` in UserCmd selects weapon.
   Acceptance: weapon selection varies with target distance in logs.
 
+- [ ] **S38-05: bot_client genome version guard** — `apps/bot_client/src/main.c:88` does
+  `fread(&brain, sizeof(BotGenome), 1, f)`. BotGenome grew from 7→8 floats (version 1→2) when
+  `w_retreat` was added (Apple #1268). Old saved genome files (28 bytes) will leave `w_retreat`
+  uninitialized, producing undefined retreat behavior.
+  Fix: after fread, check `brain.version < 2` and set `brain.w_retreat = 0.5f`.
+  Acceptance: loading a version-1 genome file produces `w_retreat = 0.5` in logs.
+
 ---
 
 ## SECTION 39: GPT-2 GAME AI — POLICY NETWORK (2026-06-18)
@@ -1161,6 +1168,38 @@ generate action tokens, decode to game inputs. Testbed: SHANKPIT emily-bot. MOBA
   `-gpt2-url` flag activates GPT-2 policy; heuristic is fallback when server unavailable.
   4 Hz decision loop: serialize state → generate → decode → send UserCmd.
   Acceptance: bot connects and plays a session with non-trivial action distribution.
+
+---
+
+## SECTION 40: DRAGONFLY VOXEL INTEGRATION — REAL CHUNKS IN SHANKPIT (2026-06-18)
+
+*Goal: Get actual Dragonfly/GoblinFoxDragon world chunks rendering in SHANKPIT instead of
+procedurally generated placeholder terrain. Pre-req for the SHANKPIT↔Dragonfly persistent
+world bridge (NORTHSTAR Milestone 4).*
+*Northstar ref: `SHANKPIT/docs2/NORTHSTAR.md` Milestone 4.*
+
+- [ ] **S40-01: Wire WorldBackend.SceneVoxelPayload() in Go server** — `apps2/server-go/main.go`
+  currently calls `scanChunkForVoxelBlocks()` directly in `sendVoxelPacket()`, bypassing the
+  `WorldBackend` interface seam (`server/system/backend.go`). Refactor so the voxel dispatch
+  path calls `backend.SceneVoxelPayload(sceneID, chunkX, chunkZ)` and the procedural generator
+  lives in `StaticBackend.SceneVoxelPayload()`.
+  Acceptance: `go test ./...` passes; voxel behavior unchanged with `StaticBackend`; swapping
+  backends is now a one-line change in `main.go`.
+
+- [ ] **S40-02: DragonflyBackend.SceneVoxelPayload() — real Dragonfly chunks** — In
+  `GoblinFoxDragon`, implement `SceneVoxelPayload(sceneID, chunkX, chunkZ)` by reading the
+  Dragonfly world's chunk at `(chunkX, chunkZ)` and serializing non-air blocks into the
+  `PacketVoxelData` format (block IDs mapped to SHANKPIT block ID constants).
+  Depends on S40-01 (interface wired in server).
+  Acceptance: `emily start --shankpit --dragonfly` shows Dragonfly world terrain in the
+  SHANKPIT client for SCENE_VOXWORLD; stone/grass/trees from Dragonfly chunk data, not
+  procedural generator.
+
+- [ ] **S40-03: Block ID mapping table** — Define a canonical mapping between Dragonfly/Bedrock
+  block IDs and SHANKPIT block ID constants (stone=1, grass=2, dirt=3, log=17, leaf=18).
+  Dragonfly uses numeric runtime IDs per game version. Create `packages2/common/block_map.go`
+  (Go) and `packages/common/block_map.h` (C) with the mapping.
+  Acceptance: all block IDs round-trip through map without falling back to `log` color.
 
 ---
 
