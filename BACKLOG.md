@@ -1281,6 +1281,46 @@ world bridge (NORTHSTAR Milestone 4).*
 
 ---
 
+## SECTION 43: SHANKPIT PLAYER AUTHENTICATION (IDUNA + OAuth) (2026-06-18)
+
+*Goal: SHANKPIT players have real identities — Google login via IDUNA, persistent player profiles,*
+*ELO scores, kill history. Later: email/password as fallback.*
+*This is the prerequisite for leaderboards, Steam Early Access accounts, and anti-cheat.*
+*Architecture: IDUNA issues ES256 JWTs; game server validates on connect; client presents token in PacketConnect.*
+
+- [ ] **S43-01: PacketConnect JWT field** — Extend `PacketConnect` wire format to carry an optional
+  IDUNA JWT token (up to 256 bytes, zero-padded when absent). Server parses it and validates
+  signature against IDUNA's JWKS endpoint (`GET /api/v1/auth/jwks`). On valid token, store
+  `playerID` + `displayName` in `clientInfo`. On missing token, assign anonymous `guest-NNN` name.
+  Acceptance: `go test ./...` passes; `clientInfo` carries `playerID string` + `displayName string`;
+  authenticated players appear with display name in admin `/admin/players` output.
+
+- [ ] **S43-02: IDUNA player registration endpoint** — `POST /api/v1/players/register` creates a
+  player record (player_id UUID, display_name, created_at, provider, provider_sub). Backed by
+  SQLite `players` table. Returns JWT on success. Upsert on existing provider_sub (login = register).
+  Acceptance: `POST /api/v1/players/register { provider: "google", id_token: "..." }` returns JWT.
+
+- [ ] **S43-03: Google OAuth flow for SHANKPIT** — IDUNA handles the OAuth handshake. Client
+  opens a browser to `GET /api/v1/auth/google/shankpit?redirect=shankpit://auth`. On success,
+  IDUNA POSTs player registration (S43-02), returns JWT in redirect. C client and emily-bot
+  both read `SHANKPIT_AUTH_TOKEN` env or `~/.shankpit/auth.json`.
+  Dependency: S43-01 ✓, S43-02 ✓.
+  Acceptance: human player can Google-login and game server shows their Google display name.
+
+- [ ] **S43-04: Player profile in IDUNA** — `GET /api/v1/players/{id}` returns public profile:
+  `{ player_id, display_name, kills, deaths, kd_ratio, sessions, registered_at, last_seen }`.
+  Emily Prime can query it; newssite can render leaderboard. Stats updated by game server
+  Apple events filed on disconnect.
+  Acceptance: after a bot session, `/api/v1/players/{emily-bot-id}` returns non-zero stats.
+
+- [ ] **S43-05: Email + password login (fallback)** — `POST /api/v1/auth/email/register` +
+  `POST /api/v1/auth/email/login`. Bcrypt password hashing, same JWT response as Google.
+  Intended for players who don't have Google accounts or want a pseudonymous identity.
+  Dependency: S43-02 ✓.
+  Acceptance: register + login flow works; same JWT format validated by game server (S43-01).
+
+---
+
 ## HUMAN UNBLOCK QUEUE (items waiting on you)
 
 | Item | What's needed | Unblocks |
