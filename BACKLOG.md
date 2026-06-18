@@ -1132,6 +1132,38 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 
 ---
 
+## SECTION 39: GPT-2 GAME AI — POLICY NETWORK (2026-06-18)
+
+*Goal: Use our fine-tuned GPT-2 model as a real game AI policy — encode game state as tokens,
+generate action tokens, decode to game inputs. Testbed: SHANKPIT emily-bot. MOBA northstar: BedWars.*
+*Full spec: `gpt2-alpine-c/docs/GAME_AI_NORTHSTAR.md`*
+
+- [ ] **S39-01: Game state serializer + action decoder** — `scripts/game_state.py` in gpt2-alpine-c.
+  Two functions: `serialize_snapshot(snapshot_bytes) → str` (PacketSnapshot → natural language token
+  string like `"player pos:14,8 hp:85 enemy pos:20,15 dist:12 vis:1"`) and
+  `decode_action(action_str) → dict` (parse GPT-2 output → UserCmd fields).
+  The state/action format is the contract for all downstream milestones.
+  Acceptance: round-trip encode→decode→re-encode is stable; Python unit tests pass.
+
+- [ ] **S39-02: Replay logger in emily-bot** — `apps2/emily-bot/main.go` logs `(state, action)` NDJSON
+  per tick to `SHANKPIT/var/replays/YYYYMMDD-HHmm.ndjson`. Each line:
+  `{"tick":N, "state":"...", "action":"..."}`. After session, `scripts/build_game_corpus.py`
+  aggregates replay files → training JSONL for dataset builder.
+  Acceptance: 100-tick bot session produces ≥100 records; corpus builder ingests them.
+
+- [ ] **S39-03: Fine-tune GPT-2 on replay corpus** — Add `--game-replays <dir>` flag to
+  `prime_directive_dataset.py`. Each replay record becomes an instruction pair
+  `{prompt: state_str, completion: action_str}`. Mixed corpus: 30% game / 70% Emily operational.
+  Run Colab fine-tune. Acceptance: game loss < 2.0; `gpt2_run` generates valid action tokens
+  when prompted with a game state string.
+
+- [ ] **S39-04: GPT-2 policy in emily-bot** — Replace heuristic `think()` with `POST :8088/generate`.
+  `-gpt2-url` flag activates GPT-2 policy; heuristic is fallback when server unavailable.
+  4 Hz decision loop: serialize state → generate → decode → send UserCmd.
+  Acceptance: bot connects and plays a session with non-trivial action distribution.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
