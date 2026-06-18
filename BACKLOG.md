@@ -1062,7 +1062,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *Source: emily web_audit_url run 2026-06-17. Newssite serving at :8082.*
 *Critical: /ask 500 breaks product landing page. HEAD 405 breaks SEO crawlers.*
 
-- [ ] **S37-01: Fix /ask 500 — AskLandingData missing Symbols field** — `GET /ask` returns
+- [x] **S37-01: Fix /ask 500 — AskLandingData missing Symbols field** — `GET /ask` returns [done 2026-06-18]
   HTTP 500 "template error" because `internal/newssite/render.go:RenderAskLanding()` passes
   `AskLandingData{GoogleClientID: ""}` to the template, but the shared `masthead` template
   uses `{{range .Symbols}}` for the ticker datalist. `AskLandingData` has no `Symbols` field,
