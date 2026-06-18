@@ -1125,12 +1125,12 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 - [x] **S38-04: emily-bot weapon rotation** — `weaponForRange(dist)`: Magnum default/close,
   AR >30u, Sniper >50u. WeaponIdx set each tick from target distance. — Apple #1393 — 2026-06-18
 
-- [ ] **S38-05: bot_client genome version guard** — `apps/bot_client/src/main.c:88` does
+- [x] **S38-05: bot_client genome version guard** — `apps/bot_client/src/main.c:88` does
   `fread(&brain, sizeof(BotGenome), 1, f)`. BotGenome grew from 7→8 floats (version 1→2) when
   `w_retreat` was added (Apple #1268). Old saved genome files (28 bytes) will leave `w_retreat`
   uninitialized, producing undefined retreat behavior.
   Fix: after fread, check `brain.version < 2` and set `brain.w_retreat = 0.5f`.
-  Acceptance: loading a version-1 genome file produces `w_retreat = 0.5` in logs.
+  Acceptance: loading a version-1 genome file produces `w_retreat = 0.5` in logs. — Apple #1396 — 2026-06-18
 
 - [ ] **S38-06: accumulated_reward never resets on respawn — evolution selects oldest bot, not best**
   `phys_respawn()` (`packages/common/physics.h:2623`) calls `evolve_bot(p, get_best_bot())` but
