@@ -1118,11 +1118,9 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   dead-reckoning integrates fwd/str × 8u/s × 0.05s in yaw-space between snapshots. Also fixed:
   own entity was previously added to peers[], causing bot to aim at itself. — Apple #1377 — 2026-06-18
 
-- [ ] **S38-03: emily-bot kill/event reporting to Emily Prime** — When `PacketImpact` arrives
-  with `hit_entity=1`, treat as a kill event. POST an observation to Emily Prime:
-  `emily observe "emily-bot: kill confirmed — seq=N"`. Also report connects/disconnects.
-  Wire: call `cmd/emily-observe` or HTTP POST to EMILY_BASE_URL /chat.
-  Acceptance: Emily Prime receives kill events in RSI cycle.
+- [x] **S38-03: emily-bot kill/event reporting to Emily Prime** — `emily observe` called on
+  session start, PacketWelcome connect, and PacketImpact hit_entity==1 (kill). Non-blocking
+  goroutine; rate-limited 15s gap; -no-report flag. — Apple #1388 — 2026-06-18
 
 - [ ] **S38-04: emily-bot weapon rotation** — Currently always uses Magnum. Add a simple
   weapon rotation: switch to AR at mid range (8–30 units), Sniper at long range (>50 units),
