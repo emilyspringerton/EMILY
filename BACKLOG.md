@@ -1090,7 +1090,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   to the emily start --newssite launch command or to emily-secrets.env.
   Acceptance: `POST /api/ask` with a question returns an Emily response, not 503.
 
-- [ ] **S37-05: Seed SQLite governance_signals from entity-graph output** — signalapi serves
+- [x] **S37-05: Seed SQLite governance_signals from entity-graph output** — signalapi serves [done 2026-06-18]
   `GET /v1/governance-signals?ticker=AAPL` → `[]` (empty). The SQLite `governance_signals`
   table has 0 rows. The projector writes to MySQL (not running). The entity-graph produces
   real signals (insider, governance_health, board_decay etc.) but these go to the entity-graph
