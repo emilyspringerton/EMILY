@@ -1236,6 +1236,65 @@ world bridge (NORTHSTAR Milestone 4).*
 
 ---
 
+## SECTION 42: NEXT SPRINT PLAN (2026-06-18)
+
+*State of play: all blocked items await human action (Colab GPU, Steam account, production server sudo, Android device, API credits).*
+*All implementable code gaps from S38–S41 are closed. Next implementable work is in two tracks.*
+
+### Track A — GFD World Server activation (unlocks S40 fully)
+
+- [ ] **S42-01: Start worldapi HTTP server in GFD apps2/server-go** — `server/worldapi` exists
+  but is never started. `apps2/server-go/main.go` in GFD only runs the UDP game loop. Wire
+  `worldapi.New(worldapi.NewDragonflyChunkGenerator(nil))` into an `http.ListenAndServe(":7070")`
+  goroutine so SHANKPIT's `--dragonfly-url` flag has something to hit.
+  Acceptance: `go run ./apps2/server-go` in GFD serves `/chunks` on :7070; `./server-go --dragonfly-url http://localhost:7070` in SHANKPIT logs DragonflyBackend and returns chunks.
+
+- [ ] **S42-02: GFD world generation — wire real chunk data into DragonflyChunkGenerator** — 
+  Currently `DragonflyChunkGenerator.WorldStore` is nil → falls back to procedural. Write a
+  `ProceduralWorldStore` that maps (sceneID=0 → flat meadow, sceneID=1 → rolling hills, 
+  sceneID=2 → stone caves) so each SHANKPIT scene gets distinct Dragonfly-sourced terrain.
+  Acceptance: SCENE_VOXWORLD (scene=0) and SCENE_STADIUM (scene=1) render visibly different terrain.
+
+### Track B — GPT-2 self-play corpus accumulation (parallel with S26-04 Colab wait)
+
+- [ ] **S42-03: emily-bot self-play mode — two bots, auto-restart sessions** — Add `-sessions N`
+  flag to emily-bot: run N sequential sessions then exit. Each session ends when the bot is
+  disconnected or after `-session-duration` seconds. With two emily-bot processes, game data
+  accumulates without a human player. Corpus goal: 10,000 replay records before first Colab run.
+  Acceptance: `./emily-bot -sessions 20 -replay-dir var/replays` produces 20 NDJSON files.
+
+- [ ] **S42-04: emily-bot health-aware tactics** — Currently the bot doesn't check its own health
+  (emily-bot has no health field from the snapshot). `PacketSnapshot` carries y=health in some
+  server configs. Wire health parsing from own-entity snapshot bytes so the heuristic can
+  mirror the C bot's health-aware retreat (fall back when health < 30%). 
+  Acceptance: bot logs "retreating: hp=22" when own health drops below 30.
+
+### Track C — Intelligence provider (unblocks S36-04 if API key available)
+
+- [ ] **S42-05: Processor haiku intelligence provider — feature-flag activation** — S36-04 says
+  "wire ANTHROPIC_API_KEY + claude-haiku into processor". Build the provider but gate it behind
+  a `ENABLE_LLM_ANALYSIS=true` env var so it can be enabled without code change when credits
+  are available. The provider stub interface already exists. Writing the haiku call + parsing
+  is self-contained and doesn't require live credits to implement (unit test with mock).
+  Acceptance: `go test ./internal/processor/...` passes; `ENABLE_LLM_ANALYSIS=true` activates
+  real haiku calls; `false` (default) keeps stub behavior.
+
+---
+
+## HUMAN UNBLOCK QUEUE (items waiting on you)
+
+| Item | What's needed | Unblocks |
+|---|---|---|
+| S26-04 | Google Colab T4 session + `emily train upload` | GPT-2 fine-tune; S26-05; game AI policy quality |
+| S32-01 | Open MJOLNIR on Emily's phone, copy FCM token | FCM live push (S32-02,03,04) |
+| S36-04 / S42-05 | Top up console.anthropic.com API credits | LLM signal analysis pipeline |
+| S19-03 | Create Steamworks account ($100) | Steam EA launch (S19-05) |
+| S23-01 | `sudo bash` on production host | EDIS WordPress live |
+| S30-02 | `sudo mysql` on production | MySQL projections in prod |
+| S2 (MPT) | Pexels API key | Video compilation pipeline |
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
