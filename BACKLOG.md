@@ -1179,10 +1179,10 @@ generate action tokens, decode to game inputs. Testbed: SHANKPIT emily-bot. MOBA
   Run Colab fine-tune. Acceptance: game loss < 2.0; `gpt2_run` generates valid action tokens
   when prompted with a game state string. — Apple #1405 — 2026-06-18
 
-- [ ] **S39-04: GPT-2 policy in emily-bot** — Replace heuristic `think()` with `POST :8088/generate`.
+- [x] **S39-04: GPT-2 policy in emily-bot** — Replace heuristic `think()` with `POST :8088/generate`.
   `-gpt2-url` flag activates GPT-2 policy; heuristic is fallback when server unavailable.
   4 Hz decision loop: serialize state → generate → decode → send UserCmd.
-  Acceptance: bot connects and plays a session with non-trivial action distribution.
+  Acceptance: bot connects and plays a session with non-trivial action distribution. — Apple #1408 — 2026-06-18
 
 ---
 
