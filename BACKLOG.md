@@ -126,7 +126,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 - [x] **S29-05 RSI smoke test: end-to-end loop verification** — Pipeline confirmed end-to-end: RSI cycles fire, Apples file to IDUNA, obs-watcher dispatches, context-overflow recovery works. 3 bugs found and fixed (cursor format, isContextTooLongOutput stdout capture, go run . compile). Blocked at final claude dispatch by API credit balance (user action: top up console.anthropic.com). Apple #848, commit 7edf6f5.
 - [x] **FatBaby system health check: 4 fixes applied** — signalapi O(N) scan (86% CPU → 0%), form4-watcher XSL prefix (0→479 transactions), form4-watcher 4MB→32MB body limit, SQLite COMMENT= migration. All 14 processes healthy. Apple #1114 | 2026-06-17.
-- [ ] **signal pipeline audit: 10748 signal_failed today (9435=EDGAR 429 no-retry, 977=…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-06-17T22:21:23Z.
+- [x] **signal pipeline audit: 10748 signal_failed today (9435=EDGAR 429 no-retry, 977=…** — Addressed by S36-01 (429 retry+throttle), S36-02 (skip pre-2000 empty URL filings), S36-03 (4MB→16MB limit), S36-05 (empty ticker). All 4 root causes fixed 2026-06-17. Apple #1229–#1236. Obs: 2026-06-17T22:21:23Z. — CLOSED — 2026-06-18
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1215,6 +1215,24 @@ world bridge (NORTHSTAR Milestone 4).*
   Dragonfly uses numeric runtime IDs per game version. Create `packages2/common/block_map.go`
   (Go) and `packages/common/block_map.h` (C) with the mapping.
   Acceptance: all block IDs round-trip through map without falling back to `log` color. — Apple #1417 — 2026-06-18
+
+---
+
+## SECTION 41: DRAGONFLY BACKEND ACTIVATION (2026-06-18)
+
+*Follow-on from S40. S40 wired the interface seam and created DragonflyBackend + worldapi.*
+*S41 activates the full bridge and wires the GFD ChunkGenerator to real Dragonfly chunk data.*
+
+- [x] **S41-01: --dragonfly-url flag in Go server** — `apps2/server-go/main.go` hardcodes
+  `&system.StaticBackend{}`. Add `-dragonfly-url` flag: when set, activates `DragonflyBackend{APIURL}`.
+  Enables runtime switching without recompilation.
+  Acceptance: `./server-go --dragonfly-url http://localhost:7070` logs "WorldBackend: DragonflyBackend" + go test passes. — Apple #1419 — 2026-06-18
+
+- [ ] **S41-02: GFD DragonFly ChunkGenerator — real world chunk reads** — `server/worldapi/worldapi.go`
+  defines `ChunkGenerator` interface but no real Dragonfly implementation exists. Write
+  `DragonFlyChunkGenerator` in `server/worldapi/dragonfly_gen.go` that reads from a Dragonfly
+  `world.World` and converts blocks using `DragonflyNameToBlockID()` from packages2/common/block_map.go.
+  Acceptance: a running Dragonfly server's chunk data is served via GET /chunks and rendered in SHANKPIT.
 
 ---
 
