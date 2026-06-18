@@ -41,11 +41,13 @@ type ServiceConfig struct {
 func defaultServices() []ServiceConfig {
 	fatbabyRoot := envOr("FATBABY_ROOT", "/home/fatbaby/PRRJECT_FATBABY")
 	_ = fatbabyRoot
+	shankpitAdmin := envOr("SHANKPIT_ADMIN_URL", "http://localhost:6970")
 	return []ServiceConfig{
 		{"IDUNA", "http://localhost:8080/health", "IAM + trust authority"},
 		{"newssite", "http://localhost:8082/healthz", "FatBaby news site"},
 		{"signalapi", "http://localhost:9091/healthz", "Signal query API"},
 		{"emily-agent", "http://localhost:8086/api/v1/emily/state", "Emily Prime agent"},
+		{"shankpit", shankpitAdmin + "/healthz", "SHANKPIT game server"},
 	}
 }
 
