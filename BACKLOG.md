@@ -1101,6 +1101,37 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 
 ---
 
+## SECTION 38: EMILY BOT — SHANKPIT PLAYER (2026-06-18)
+
+*Goal: Emily Prime can join and play SHANKPIT as a real network player.*
+*`apps2/emily-bot` is the Go headless bot client targeting the Go server (:6969).*
+
+- [x] **S38-01: emily-bot base client — connect, snapshot, heuristic AI** — `apps2/emily-bot/main.go`
+  connects via `PacketConnect`, receives `PacketSnapshot` peer positions, applies
+  seek-and-shoot heuristic (aim yaw via atan2, shoot within 15° tolerance, close in/back
+  off by range), sends `PacketUserCmd` at 20 Hz with correct 49-byte wire format.
+  `make emily-bot` builds to `bin/emily-bot`. GOWORK=off go test ./... passes.
+  ✓ Apple #1238 — 2026-06-18.
+
+- [ ] **S38-02: emily-bot self-position tracking via dead-reckoning** — Currently the bot's
+  own position is fixed at spawn (0,5,0). The Go server doesn't broadcast back our position.
+  Add dead-reckoning: integrate Fwd/Str inputs with speed constant (server move speed = 8 u/s)
+  to estimate own position, so aim calculations are accurate as we move.
+  Acceptance: bot tracks approximate own position; aim improves when bot has moved from spawn.
+
+- [ ] **S38-03: emily-bot kill/event reporting to Emily Prime** — When `PacketImpact` arrives
+  with `hit_entity=1`, treat as a kill event. POST an observation to Emily Prime:
+  `emily observe "emily-bot: kill confirmed — seq=N"`. Also report connects/disconnects.
+  Wire: call `cmd/emily-observe` or HTTP POST to EMILY_BASE_URL /chat.
+  Acceptance: Emily Prime receives kill events in RSI cycle.
+
+- [ ] **S38-04: emily-bot weapon rotation** — Currently always uses Magnum. Add a simple
+  weapon rotation: switch to AR at mid range (8–30 units), Sniper at long range (>50 units),
+  Magnum at close range. `WeaponIdx` in UserCmd selects weapon.
+  Acceptance: weapon selection varies with target distance in logs.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
