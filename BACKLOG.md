@@ -1078,7 +1078,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   suppresses the body before writing the response. Standard pattern:
   `mux.Handle("/", headToGet(h))`. Acceptance: HEAD on all existing GET routes returns 200.
 
-- [ ] **S37-03: /ticker/{sym}/feed.xml — implement RSS or return 404** — `GET /ticker/JPM/feed.xml`
+- [x] **S37-03: /ticker/{sym}/feed.xml — implement RSS or return 404** — `GET /ticker/JPM/feed.xml` [done 2026-06-18]
   returns HTML (200 with ticker page HTML). The route falls through to the ticker handler
   because `/ticker/` catches the whole path. Fix: either (a) implement a real RSS/Atom feed
   for the ticker (signals as feed items), or (b) explicitly return 404 for `.xml` suffix.
