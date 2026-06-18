@@ -1,3 +1,7 @@
+## 2026-06-18
+
+- feat(watchdog): S42-A SHANKPIT added to Emily Prime service watchdog — pings :6970/healthz (Apple #1436)
+
 ## 2026-06-17
 - web audit via emily web_audit_url: found /ask 500 (Symbols field), HEAD 405 sitewide, /api/ask 503 (EMILY_BASE_URL), governance-signals empty; signal pipeline: 87% failure rate, all signals stubs, 429/empty-URL/4MB issues; 10 items added to S36+S37
 
