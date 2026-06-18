@@ -1071,7 +1071,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   File: `internal/newssite/render.go` (AskLandingData struct) + `internal/newssite/asklily.go`
   (serveAskLanding populates it). Acceptance: `GET /ask` returns 200 with ticker datalist.
 
-- [ ] **S37-02: Add HEAD method support across all newssite routes** — All routes return
+- [x] **S37-02: Add HEAD method support across all newssite routes** — All routes return [done 2026-06-18]
   HTTP 405 on HEAD requests (web audit confirmed: /ticker/AAPL, /section/*, /doc/*, /person/*, etc.).
   Go's net/http ServeMux does not automatically handle HEAD for registered GET handlers.
   Fix: add a middleware wrapper in `cmd/newssite/main.go` that converts HEAD to GET and
