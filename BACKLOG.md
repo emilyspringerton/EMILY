@@ -1335,6 +1335,54 @@ world bridge (NORTHSTAR Milestone 4).*
 
 ---
 
+---
+
+## SECTION 44: PYTHON SYSTEM SDK (Colab + distributed Emily federation)
+
+**Goal:** A Python SDK (`einhorn_sdk/`) that wraps the full IDUNA API (local auth + user CRUD +
+agents + apples + drive + HEIMDAL + subscriptions) so any Colab notebook or remote Emily worker
+can authenticate and interact with the system without writing raw HTTP. Auto-regenerates from the
+IDUNA Swagger spec.
+
+**Distributed Emily vision:** Multiple independent Emily clusters (Colab GPU worker, production
+monolith on IDUNA, external compute) self-identify via agent credentials, push work to the same
+repos via git pull-rebase, and pull from a shared log stream. Proxies present a seamless API to
+institutions.
+
+- [x] **S44-00** — IDUNA webmaster uid=0 + user CRUD + event log + SQLite/MySQL projectors.
+  POST /api/v1/auth/local, FileEventLog (FatBaby NDJSON pattern), bcrypt. All tests green.
+  — Apple #1445. 2026-06-18.
+
+- [x] **S44-01** — IDUNA Swagger spec at GET /api/v1/openapi.json. OpenAPI 3.1 JSON served by IDUNA.
+  Covers: auth (local+agent), users (CRUD), apples, drive, heimdal, health, jwks.
+  — Apple #1448. 2026-06-18.
+
+- [x] **S44-02** — Python SDK `einhorn_sdk/` at `IDUNA/sdk/python/`. IdunaClient + sub-clients
+  (UsersClient, ApplesClient, DriveClient, HeimdalClient, AgentsClient). 7 tests pass.
+  — Apple #1448. 2026-06-18.
+
+- [x] **S44-03** — Colab observability notebook `sdk/python/notebooks/emily_observability.ipynb`.
+  Training loop hooks, Apple tail (polling), HEIMDAL submission, Drive upload, git pull-rebase.
+  ColabEmily.from_colab_secrets() reads Colab Secrets panel or env vars.
+  — Apple #1448. 2026-06-18.
+
+- [ ] **S44-04** — Distributed Emily self-identification. Each Emily process registers as an agent
+  with a unique `IDUNA_AGENT_NAME` that includes its cluster ID and location
+  (e.g., `EMILY_PRIME_COLAB_T4`, `EMILY_PRIME_LOCAL`). Agent type: `emily_cluster`.
+  IDUNA admin can see all clusters in `/admin/`. Emily Prime monolith reads all clusters from
+  `/api/v1/agents` and can delegate tasks to them via HEIMDAL sprints.
+
+- [ ] **S44-05** — Git pull-rebase discipline for Emily Prime. In `emily-agent/watchdog.go` or
+  `cmd/obs-watcher`, before any commit+push: `git pull --rebase origin main`. On rebase conflict,
+  emit escalation Apple and skip the push (do not force). The Emily Way protocol rule added:
+  "Always pull-rebase before push."
+
+- [ ] **S44-06** — Distributed log streaming bridge. PRRJECT_FATBABY `EventSink` interface exposed
+  via an HTTP SSE endpoint on IDUNA (`GET /api/v1/stream/user-events`). Colab notebooks can
+  subscribe and react to user events in real time. First event type: `local_user.*`.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
