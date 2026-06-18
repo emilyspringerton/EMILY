@@ -1084,7 +1084,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   for the ticker (signals as feed items), or (b) explicitly return 404 for `.xml` suffix.
   Acceptance: feed.xml returns valid RSS/Atom with correct Content-Type, or 404.
 
-- [ ] **S37-04: Start newssite with EMILY_BASE_URL set** — `POST /api/ask` returns 503
+- [x] **S37-04: Start newssite with EMILY_BASE_URL set** — `POST /api/ask` returns 503 [done 2026-06-18]
   "Ask Emily not configured" because `EMILY_BASE_URL` env var is not set at newssite launch.
   Emily Prime is at `http://localhost:8086`. Fix: add `EMILY_BASE_URL=http://localhost:8086`
   to the emily start --newssite launch command or to emily-secrets.env.
