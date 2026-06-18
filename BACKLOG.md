@@ -1173,11 +1173,11 @@ generate action tokens, decode to game inputs. Testbed: SHANKPIT emily-bot. MOBA
   aggregates replay files → training JSONL for dataset builder.
   Acceptance: 100-tick bot session produces ≥100 records; corpus builder ingests them. — Apple #1403 — 2026-06-18
 
-- [ ] **S39-03: Fine-tune GPT-2 on replay corpus** — Add `--game-replays <dir>` flag to
+- [x] **S39-03: Fine-tune GPT-2 on replay corpus** — Add `--game-replays <dir>` flag to
   `prime_directive_dataset.py`. Each replay record becomes an instruction pair
   `{prompt: state_str, completion: action_str}`. Mixed corpus: 30% game / 70% Emily operational.
   Run Colab fine-tune. Acceptance: game loss < 2.0; `gpt2_run` generates valid action tokens
-  when prompted with a game state string.
+  when prompted with a game state string. — Apple #1405 — 2026-06-18
 
 - [ ] **S39-04: GPT-2 policy in emily-bot** — Replace heuristic `think()` with `POST :8088/generate`.
   `-gpt2-url` flag activates GPT-2 policy; heuristic is fallback when server unavailable.
