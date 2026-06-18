@@ -1132,7 +1132,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   Fix: after fread, check `brain.version < 2` and set `brain.w_retreat = 0.5f`.
   Acceptance: loading a version-1 genome file produces `w_retreat = 0.5` in logs. — Apple #1396 — 2026-06-18
 
-- [ ] **S38-06: accumulated_reward never resets on respawn — evolution selects oldest bot, not best**
+- [x] **S38-06: accumulated_reward never resets on respawn — evolution selects oldest bot, not best**
   `phys_respawn()` (`packages/common/physics.h:2623`) calls `evolve_bot(p, get_best_bot())` but
   never zeroes `p->accumulated_reward` before or after evolution. Result: `get_best_bot()` always
   returns the longest-lived bot (most survival ticks = highest total reward), not the bot that
@@ -1140,9 +1140,9 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   that has been alive longer.
   Fix: zero `accumulated_reward` at the END of `phys_respawn` (after evolve_bot, so the outgoing
   winner's score is captured for this selection round), then start fresh for the next life.
-  Acceptance: bots with better genomes win selection even if they respawned recently.
+  Acceptance: bots with better genomes win selection even if they respawned recently. — Apple #1398 — 2026-06-18
 
-- [ ] **S38-07: hit_feedback set on attacker, not defender — w_repel can't learn evasion**
+- [x] **S38-07: hit_feedback set on attacker, not defender — w_repel can't learn evasion**
   All `hit_feedback` assignments in `packages/common/physics.h` set `attacker->hit_feedback`
   (lines 2138, 2167, 2357). The DEFENDER's `hit_feedback` is never set from incoming damage.
   `w_repel` in `bot_think` fires on `me->hit_feedback > 0`, which means it fires when the bot
@@ -1150,7 +1150,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   Fix: in `phys_enter_death_state` and damage-application paths, also set
   `target->hit_feedback = max(target->hit_feedback, 15)` so the defender knows it was hit.
   Rename the defender-side field meaning: "incoming_damage_feedback" in comments.
-  Acceptance: bot that is shot at strafes evasively (w_repel fires on incoming damage, not outgoing).
+  Acceptance: bot that is shot at strafes evasively (w_repel fires on incoming damage, not outgoing). — Apple #1398 — 2026-06-18
 
 ---
 
