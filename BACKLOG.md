@@ -1122,10 +1122,8 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   session start, PacketWelcome connect, and PacketImpact hit_entity==1 (kill). Non-blocking
   goroutine; rate-limited 15s gap; -no-report flag. — Apple #1388 — 2026-06-18
 
-- [ ] **S38-04: emily-bot weapon rotation** — Currently always uses Magnum. Add a simple
-  weapon rotation: switch to AR at mid range (8–30 units), Sniper at long range (>50 units),
-  Magnum at close range. `WeaponIdx` in UserCmd selects weapon.
-  Acceptance: weapon selection varies with target distance in logs.
+- [x] **S38-04: emily-bot weapon rotation** — `weaponForRange(dist)`: Magnum default/close,
+  AR >30u, Sniper >50u. WeaponIdx set each tick from target distance. — Apple #1393 — 2026-06-18
 
 - [ ] **S38-05: bot_client genome version guard** — `apps/bot_client/src/main.c:88` does
   `fread(&brain, sizeof(BotGenome), 1, f)`. BotGenome grew from 7→8 floats (version 1→2) when
