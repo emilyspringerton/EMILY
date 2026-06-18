@@ -31,3 +31,4 @@ var/*.env
 # Runtime state subdirs
 context/var/
 emily-agent/var/
+var/logs/

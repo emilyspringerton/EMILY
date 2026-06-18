@@ -1062,7 +1062,7 @@ as a single OpenAPI 3.0.3 spec in EMILY.
 *Source: emily web_audit_url run 2026-06-17. Newssite serving at :8082.*
 *Critical: /ask 500 breaks product landing page. HEAD 405 breaks SEO crawlers.*
 
-- [x] **S37-01: Fix /ask 500 — AskLandingData missing Symbols field** — `GET /ask` returns [done 2026-06-18]
+- [x] **S37-01: Fix /ask 500 — AskLandingData missing Symbols field** — `GET /ask` returns [Apple #1229 — 2026-06-18]
   HTTP 500 "template error" because `internal/newssite/render.go:RenderAskLanding()` passes
   `AskLandingData{GoogleClientID: ""}` to the template, but the shared `masthead` template
   uses `{{range .Symbols}}` for the ticker datalist. `AskLandingData` has no `Symbols` field,
@@ -1071,26 +1071,26 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   File: `internal/newssite/render.go` (AskLandingData struct) + `internal/newssite/asklily.go`
   (serveAskLanding populates it). Acceptance: `GET /ask` returns 200 with ticker datalist.
 
-- [x] **S37-02: Add HEAD method support across all newssite routes** — All routes return [done 2026-06-18]
+- [x] **S37-02: Add HEAD method support across all newssite routes** — All routes return [Apple #1229 — 2026-06-18]
   HTTP 405 on HEAD requests (web audit confirmed: /ticker/AAPL, /section/*, /doc/*, /person/*, etc.).
   Go's net/http ServeMux does not automatically handle HEAD for registered GET handlers.
   Fix: add a middleware wrapper in `cmd/newssite/main.go` that converts HEAD to GET and
   suppresses the body before writing the response. Standard pattern:
   `mux.Handle("/", headToGet(h))`. Acceptance: HEAD on all existing GET routes returns 200.
 
-- [x] **S37-03: /ticker/{sym}/feed.xml — implement RSS or return 404** — `GET /ticker/JPM/feed.xml` [done 2026-06-18]
+- [x] **S37-03: /ticker/{sym}/feed.xml — implement RSS or return 404** — `GET /ticker/JPM/feed.xml` [Apple #1234 — 2026-06-18]
   returns HTML (200 with ticker page HTML). The route falls through to the ticker handler
   because `/ticker/` catches the whole path. Fix: either (a) implement a real RSS/Atom feed
   for the ticker (signals as feed items), or (b) explicitly return 404 for `.xml` suffix.
   Acceptance: feed.xml returns valid RSS/Atom with correct Content-Type, or 404.
 
-- [x] **S37-04: Start newssite with EMILY_BASE_URL set** — `POST /api/ask` returns 503 [done 2026-06-18]
+- [x] **S37-04: Start newssite with EMILY_BASE_URL set** — `POST /api/ask` returns 503 [Apple #1229 — 2026-06-18]
   "Ask Emily not configured" because `EMILY_BASE_URL` env var is not set at newssite launch.
   Emily Prime is at `http://localhost:8086`. Fix: add `EMILY_BASE_URL=http://localhost:8086`
   to the emily start --newssite launch command or to emily-secrets.env.
   Acceptance: `POST /api/ask` with a question returns an Emily response, not 503.
 
-- [x] **S37-05: Seed SQLite governance_signals from entity-graph output** — signalapi serves [done 2026-06-18]
+- [x] **S37-05: Seed SQLite governance_signals from entity-graph output** — signalapi serves [Apple #1236 — 2026-06-18]
   `GET /v1/governance-signals?ticker=AAPL` → `[]` (empty). The SQLite `governance_signals`
   table has 0 rows. The projector writes to MySQL (not running). The entity-graph produces
   real signals (insider, governance_health, board_decay etc.) but these go to the entity-graph
