@@ -1193,13 +1193,13 @@ procedurally generated placeholder terrain. Pre-req for the SHANKPIT↔Dragonfly
 world bridge (NORTHSTAR Milestone 4).*
 *Northstar ref: `SHANKPIT/docs2/NORTHSTAR.md` Milestone 4.*
 
-- [ ] **S40-01: Wire WorldBackend.SceneVoxelPayload() in Go server** — `apps2/server-go/main.go`
+- [x] **S40-01: Wire WorldBackend.SceneVoxelPayload() in Go server** — `apps2/server-go/main.go`
   currently calls `scanChunkForVoxelBlocks()` directly in `sendVoxelPacket()`, bypassing the
   `WorldBackend` interface seam (`server/system/backend.go`). Refactor so the voxel dispatch
   path calls `backend.SceneVoxelPayload(sceneID, chunkX, chunkZ)` and the procedural generator
   lives in `StaticBackend.SceneVoxelPayload()`.
   Acceptance: `go test ./...` passes; voxel behavior unchanged with `StaticBackend`; swapping
-  backends is now a one-line change in `main.go`.
+  backends is now a one-line change in `main.go`. — Apple #1410 — 2026-06-18
 
 - [ ] **S40-02: DragonflyBackend.SceneVoxelPayload() — real Dragonfly chunks** — In
   `GoblinFoxDragon`, implement `SceneVoxelPayload(sceneID, chunkX, chunkZ)` by reading the
