@@ -1113,11 +1113,10 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   `make emily-bot` builds to `bin/emily-bot`. GOWORK=off go test ./... passes.
   ✓ Apple #1238 — 2026-06-18.
 
-- [ ] **S38-02: emily-bot self-position tracking via dead-reckoning** — Currently the bot's
-  own position is fixed at spawn (0,5,0). The Go server doesn't broadcast back our position.
-  Add dead-reckoning: integrate Fwd/Str inputs with speed constant (server move speed = 8 u/s)
-  to estimate own position, so aim calculations are accurate as we move.
-  Acceptance: bot tracks approximate own position; aim improves when bot has moved from spawn.
+- [x] **S38-02: emily-bot self-position tracking via dead-reckoning** — Two-level tracking:
+  (1) snapshot parser extracts own entity (id==myID) as server-authoritative anchor; (2) per-tick
+  dead-reckoning integrates fwd/str × 8u/s × 0.05s in yaw-space between snapshots. Also fixed:
+  own entity was previously added to peers[], causing bot to aim at itself. — Apple #1377 — 2026-06-18
 
 - [ ] **S38-03: emily-bot kill/event reporting to Emily Prime** — When `PacketImpact` arrives
   with `hit_entity=1`, treat as a kill event. POST an observation to Emily Prime:
