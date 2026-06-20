@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-06-20T18:12:32Z",
+  "from": "emily-prime",
+  "to": "fatbaby-emily",
+  "task_id": "task-1781979152454263413",
+  "task_type": "expand_coverage",
+  "priority": "normal",
+  "description": "Expand ticker coverage using a static curated watchlist — not dynamic discovery — to avoid O(n²) and rate limit issues",
+  "acceptance_criteria": [
+    "Signal extraction covers the identified gap",
+    "No regression in existing signal counts",
+    "Parse errors reduced or eliminated"
+  ],
+  "context": "Emily Prime triage: relevance=0.60, triggered=. Strategic context: these signals inform M\u0026A risk, activist targeting, and board stability assessment."
+}
