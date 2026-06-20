@@ -1286,24 +1286,18 @@ world bridge (NORTHSTAR Milestone 4).*
   GET /api/v1/players/{id} returns public profile (kills, deaths, kd_ratio, sessions). JWT-gated.
   — Apple #1889. 2026-06-20.
 
-- [ ] **S43-03: Google OAuth flow for SHANKPIT** — IDUNA handles the OAuth handshake. Client
-  opens a browser to `GET /api/v1/auth/google/shankpit?redirect=shankpit://auth`. On success,
-  IDUNA POSTs player registration (S43-02), returns JWT in redirect. C client and emily-bot
-  both read `SHANKPIT_AUTH_TOKEN` env or `~/.shankpit/auth.json`.
-  Dependency: S43-01 ✓, S43-02 ✓.
-  Acceptance: human player can Google-login and game server shows their Google display name.
+- [x] **S43-03: Google OAuth flow for SHANKPIT** — ShankpitAuthHandler: GET /api/v1/auth/google/shankpit
+  → Google consent (CSRF state cookie). /callback: code exchange → userinfo → upsertPlayer →
+  IDUNA JWT (sub=player_id, aud=shankpit, 72h) → redirect shankpit://auth?token=...&player_id=...
+  GOOGLE_CLIENT_SECRET + SHANKPIT_OAUTH_REDIRECT_URI env vars. — Apple #1891. 2026-06-20.
 
-- [ ] **S43-04: Player profile in IDUNA** — `GET /api/v1/players/{id}` returns public profile:
-  `{ player_id, display_name, kills, deaths, kd_ratio, sessions, registered_at, last_seen }`.
-  Emily Prime can query it; newssite can render leaderboard. Stats updated by game server
-  Apple events filed on disconnect.
-  Acceptance: after a bot session, `/api/v1/players/{emily-bot-id}` returns non-zero stats.
+- [x] **S43-04: Player profile in IDUNA** — Implemented in S43-02: GET /api/v1/players/{id}
+  returns kills, deaths, kd_ratio, sessions, registered_at, last_seen. — Apple #1889. 2026-06-20.
 
-- [ ] **S43-05: Email + password login (fallback)** — `POST /api/v1/auth/email/register` +
-  `POST /api/v1/auth/email/login`. Bcrypt password hashing, same JWT response as Google.
-  Intended for players who don't have Google accounts or want a pseudonymous identity.
-  Dependency: S43-02 ✓.
-  Acceptance: register + login flow works; same JWT format validated by game server (S43-01).
+- [x] **S43-05: Email + password login** — PlayerEmailAuthHandler: POST /api/v1/auth/email/register
+  (create player + bcrypt credential) + POST /api/v1/auth/email/login (verify + return JWT).
+  Migration 202606200002_player_credentials.sql. Same 72h JWT format (aud=shankpit).
+  — Apple #1894. 2026-06-20.
 
 ---
 
