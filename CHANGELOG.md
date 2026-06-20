@@ -1,3 +1,7 @@
+## 2026-06-20
+
+- feat: S44-05 emily-agent ConversationStore git pull --rebase before push (Apple #1881)
+
 ## 2026-06-18
 
 - feat(watchdog): S42-A SHANKPIT added to Emily Prime service watchdog — pings :6970/healthz (Apple #1436)
