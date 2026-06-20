@@ -1243,41 +1243,29 @@ world bridge (NORTHSTAR Milestone 4).*
 
 ### Track A — GFD World Server activation (unlocks S40 fully)
 
-- [ ] **S42-01: Start worldapi HTTP server in GFD apps2/server-go** — `server/worldapi` exists
-  but is never started. `apps2/server-go/main.go` in GFD only runs the UDP game loop. Wire
-  `worldapi.New(worldapi.NewDragonflyChunkGenerator(nil))` into an `http.ListenAndServe(":7070")`
-  goroutine so SHANKPIT's `--dragonfly-url` flag has something to hit.
-  Acceptance: `go run ./apps2/server-go` in GFD serves `/chunks` on :7070; `./server-go --dragonfly-url http://localhost:7070` in SHANKPIT logs DragonflyBackend and returns chunks.
+- [x] **S42-01: Start worldapi HTTP server in GFD apps2/server-go** — worldapi goroutine on :7070.
+  --worldapi-port flag. DragonflyChunkGenerator(ProceduralWorldStore) wired in.
+  — Apple #1869. 2026-06-20.
 
-- [ ] **S42-02: GFD world generation — wire real chunk data into DragonflyChunkGenerator** — 
-  Currently `DragonflyChunkGenerator.WorldStore` is nil → falls back to procedural. Write a
-  `ProceduralWorldStore` that maps (sceneID=0 → flat meadow, sceneID=1 → rolling hills, 
-  sceneID=2 → stone caves) so each SHANKPIT scene gets distinct Dragonfly-sourced terrain.
-  Acceptance: SCENE_VOXWORLD (scene=0) and SCENE_STADIUM (scene=1) render visibly different terrain.
+- [x] **S42-02: GFD world generation — ProceduralWorldStore scene-differentiated terrain.**
+  scene0=flat meadow, scene1=rolling hills (sin height 2-8), scene2=stone caves (EW+NS corridors).
+  13 tests pass. — Apple #1869. 2026-06-20.
 
 ### Track B — GPT-2 self-play corpus accumulation (parallel with S26-04 Colab wait)
 
-- [ ] **S42-03: emily-bot self-play mode — two bots, auto-restart sessions** — Add `-sessions N`
-  flag to emily-bot: run N sequential sessions then exit. Each session ends when the bot is
-  disconnected or after `-session-duration` seconds. With two emily-bot processes, game data
-  accumulates without a human player. Corpus goal: 10,000 replay records before first Colab run.
-  Acceptance: `./emily-bot -sessions 20 -replay-dir var/replays` produces 20 NDJSON files.
+- [x] **S42-03: emily-bot self-play mode — -sessions N + -session-duration.** runSession() loop;
+  each session gets fresh UDP conn, state.done closed on disconnect, deadline per session.
+  — Apple #1873. 2026-06-20.
 
-- [ ] **S42-04: emily-bot health-aware tactics** — Currently the bot doesn't check its own health
-  (emily-bot has no health field from the snapshot). `PacketSnapshot` carries y=health in some
-  server configs. Wire health parsing from own-entity snapshot bytes so the heuristic can
-  mirror the C bot's health-aware retreat (fall back when health < 30%). 
-  Acceptance: bot logs "retreating: hp=22" when own health drops below 30.
+- [x] **S42-04: emily-bot health-aware retreat at hp<30.** myHealth float32; decrement near enemy,
+  regenerate when clear, retreat (fwd=-1, no attack, strafe) below 30. hp in serializeState.
+  — Apple #1873. 2026-06-20.
 
 ### Track C — Intelligence provider (unblocks S36-04 if API key available)
 
-- [ ] **S42-05: Processor haiku intelligence provider — feature-flag activation** — S36-04 says
-  "wire ANTHROPIC_API_KEY + claude-haiku into processor". Build the provider but gate it behind
-  a `ENABLE_LLM_ANALYSIS=true` env var so it can be enabled without code change when credits
-  are available. The provider stub interface already exists. Writing the haiku call + parsing
-  is self-contained and doesn't require live credits to implement (unit test with mock).
-  Acceptance: `go test ./internal/processor/...` passes; `ENABLE_LLM_ANALYSIS=true` activates
-  real haiku calls; `false` (default) keeps stub behavior.
+- [x] **S42-05: HaikuProvider with ENABLE_LLM_ANALYSIS=true feature flag.**
+  internal/processor/haiku_provider.go; cmd/processor/main.go gates on env var.
+  4 mock-HTTP tests pass. — Apple #1876. 2026-06-20.
 
 ---
 
@@ -1366,11 +1354,9 @@ institutions.
   ColabEmily.from_colab_secrets() reads Colab Secrets panel or env vars.
   — Apple #1448. 2026-06-18.
 
-- [ ] **S44-04** — Distributed Emily self-identification. Each Emily process registers as an agent
-  with a unique `IDUNA_AGENT_NAME` that includes its cluster ID and location
-  (e.g., `EMILY_PRIME_COLAB_T4`, `EMILY_PRIME_LOCAL`). Agent type: `emily_cluster`.
-  IDUNA admin can see all clusters in `/admin/`. Emily Prime monolith reads all clusters from
-  `/api/v1/agents` and can delegate tasks to them via HEIMDAL sprints.
+- [x] **S44-04** — IDUNA GET /api/v1/agents endpoint. ?type=emily_cluster filter. AgentsHandler
+  in handlers/agents.go. Distributed Emily clusters visible in /admin/ and queryable by Emily Prime.
+  — Apple #1878. 2026-06-20.
 
 - [ ] **S44-05** — Git pull-rebase discipline for Emily Prime. In `emily-agent/watchdog.go` or
   `cmd/obs-watcher`, before any commit+push: `git pull --rebase origin main`. On rebase conflict,
