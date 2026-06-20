@@ -955,6 +955,13 @@ func (s *ConversationStore) gitCommitGenerated(sessionID, turnID string, paths .
 		return
 	}
 	if s.gitPush {
+		// Pull-rebase before push so distributed Emily clusters don't conflict.
+		if out, err := exec.Command("git", "-C", s.dir, "pull", "--rebase", "origin", "main").CombinedOutput(); err != nil {
+			log.Printf("git pull --rebase: conflict detected — escalating, skipping push: %v -- %s", err, out)
+			_ = exec.Command("emily", "apples", "post", "-t", "escalation", "-repo", "EMILY",
+				"git pull --rebase conflict in ConversationStore — push skipped").Run()
+			return
+		}
 		if out, err := exec.Command("git", "-C", s.dir, "push").CombinedOutput(); err != nil {
 			log.Printf("git push: %v -- %s", err, out)
 		}
