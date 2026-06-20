@@ -1276,17 +1276,15 @@ world bridge (NORTHSTAR Milestone 4).*
 *This is the prerequisite for leaderboards, Steam Early Access accounts, and anti-cheat.*
 *Architecture: IDUNA issues ES256 JWTs; game server validates on connect; client presents token in PacketConnect.*
 
-- [ ] **S43-01: PacketConnect JWT field** — Extend `PacketConnect` wire format to carry an optional
-  IDUNA JWT token (up to 256 bytes, zero-padded when absent). Server parses it and validates
-  signature against IDUNA's JWKS endpoint (`GET /api/v1/auth/jwks`). On valid token, store
-  `playerID` + `displayName` in `clientInfo`. On missing token, assign anonymous `guest-NNN` name.
-  Acceptance: `go test ./...` passes; `clientInfo` carries `playerID string` + `displayName string`;
-  authenticated players appear with display name in admin `/admin/players` output.
+- [x] **S43-01: PacketConnect JWT field** — ES256 JWT parsed from bytes [13..268] of PacketConnect.
+  JWKSCache fetches IDUNA /.well-known/jwks.json (10min refresh). Valid → playerID+displayName
+  in clientInfo. Invalid/absent → guest-NNN. admin /admin/players now returns player_id+display_name.
+  — Apple #1887. 2026-06-20.
 
-- [ ] **S43-02: IDUNA player registration endpoint** — `POST /api/v1/players/register` creates a
-  player record (player_id UUID, display_name, created_at, provider, provider_sub). Backed by
-  SQLite `players` table. Returns JWT on success. Upsert on existing provider_sub (login = register).
-  Acceptance: `POST /api/v1/players/register { provider: "google", id_token: "..." }` returns JWT.
+- [x] **S43-02: IDUNA player registration endpoint** — migration 202606200001_players.sql.
+  POST /api/v1/players/register upserts on (provider, provider_sub), returns player_id+display_name.
+  GET /api/v1/players/{id} returns public profile (kills, deaths, kd_ratio, sessions). JWT-gated.
+  — Apple #1889. 2026-06-20.
 
 - [ ] **S43-03: Google OAuth flow for SHANKPIT** — IDUNA handles the OAuth handshake. Client
   opens a browser to `GET /api/v1/auth/google/shankpit?redirect=shankpit://auth`. On success,
