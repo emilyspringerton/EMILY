@@ -1358,14 +1358,14 @@ institutions.
   in handlers/agents.go. Distributed Emily clusters visible in /admin/ and queryable by Emily Prime.
   — Apple #1878. 2026-06-20.
 
-- [ ] **S44-05** — Git pull-rebase discipline for Emily Prime. In `emily-agent/watchdog.go` or
-  `cmd/obs-watcher`, before any commit+push: `git pull --rebase origin main`. On rebase conflict,
-  emit escalation Apple and skip the push (do not force). The Emily Way protocol rule added:
-  "Always pull-rebase before push."
+- [x] **S44-05** — git pull --rebase before push. emily-agent ConversationStore.Save() + obs-watcher
+  runReportFooter(). Rebase conflict → escalation Apple + skip push. No force push.
+  — Apple #1881. 2026-06-20.
 
-- [ ] **S44-06** — Distributed log streaming bridge. PRRJECT_FATBABY `EventSink` interface exposed
-  via an HTTP SSE endpoint on IDUNA (`GET /api/v1/stream/user-events`). Colab notebooks can
-  subscribe and react to user events in real time. First event type: `local_user.*`.
+- [x] **S44-06** — IDUNA GET /api/v1/stream/user-events SSE endpoint. UserEventStreamHandler
+  polls FileEventLog every 2s, streams records as text/event-stream. JWT-gated. ?from_seq +
+  ?timeout params. OpenAPI 3.1 spec updated. Colab notebooks subscribe for real-time user events.
+  — Apple #1884. 2026-06-20.
 
 ---
 
