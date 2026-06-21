@@ -1512,6 +1512,11 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S59-01: PITVIPER CSI S/T/P/@ (scroll+char edit) + 2 tests** — CSI S: scroll-up-N; CSI T:
+  scroll-down-N; CSI P: delete-N-chars (shift left); CSI @: insert-N-blanks (shift right).
+  TestCSIScrollUpDown + TestCSIDeleteInsertChar. 29 vterm tests.
+  [done 2026-06-21] Apple #2389.
+
 - [x] **S58-01: PITVIPER HT tab stop handling + TestTabStop** — `'\t'` (0x09) advances cursor to next
   8-column tab stop; clamped to cols-1. 27 vterm tests.
   [done 2026-06-21] Apple #2386.
