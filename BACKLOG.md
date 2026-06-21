@@ -1721,6 +1721,151 @@ Depends on S75 IDUNA schema.*
   RevokeItem removes from roster. CanChat() gates ChatGuild on active item.
   22 tests. [done 2026-06-21] Apple #2516.
 
+- [x] **S80-01: DragonsNShit auto-attack + mob tagging** —
+  `server/mob/mob.go`: Mob AI state machine (Idle/Pursuing/Returning/Dead), Registry.Hit()
+  tag-on-first-hit, leash+full-heal reset, mob swing timer, player PlayerCombat auto-attack
+  with range/scene/timer gate. EvtMobAggro/Attack/Reset/Died events.
+  26 tests. [done 2026-06-21] Apple #2519.
+
+---
+
+## SECTION 81: DRAGONSNSHIT — FFXI PARITY NORTHSTAR (2026-06-21)
+
+*Context: GFD engine targets FFXI-level MMO feature parity as the product northstar.
+FFXI's core systems define the implementation roadmap. Each section below is one FFXI system.*
+
+### FOUNDATION (already shipped)
+- chat (say/tell/yell/guild) ✓ S78
+- linkshell guild (Feather/Sack) ✓ S79
+- mob auto-attack + tagging ✓ S80
+- MMO_NORTHSTAR (IDUNA schema, item provenance, World Crisis) ✓ S77
+
+### COMBAT SYSTEMS
+
+- [ ] **S81-01: Skill chain system** — Ordered weapon skill combinations produce elemental
+  resonance and bonus damage (e.g., Distortion → Fragmentation). `server/skillchain/`:
+  `Resonance` enum (Fire/Ice/Wind/Earth/Lightning/Water/Light/Dark), `Chain(ws1, ws2)` →
+  Resonance + multiplier. Table-driven: FFXI skillchain chart. Tests: all valid combos,
+  gap timer breaks chain.
+
+- [ ] **S81-02: Magic burst system** — Spells cast within a window after a skillchain deal
+  bonus damage if they match the resonance element. `server/magic/`:
+  `BurstCheck(resonance, spellElement, elapsed) → multiplier`. Tests: matching + non-matching.
+
+- [ ] **S81-03: Weapon skill points (WSP) / TP system** — TP accumulates per hit (haste/delay
+  formula). At 100 TP, player can execute a weapon skill. `server/combat/tp.go`:
+  `TPState{current, max}`, `AddTP(weaponDelay, haste) int`, `ConsumeTP() bool`. Tests: 
+  accumulation, cap at 300, consume gate.
+
+- [ ] **S81-04: Status effects (enfeebles + buffs)** — Server-authoritative status stack:
+  Poison, Paralyze, Slow, Haste, Regen, Refresh, Protect, Shell, Silence, Bind.
+  `server/status/`: `StatusEffect{Kind, Potency, Duration, ExpiresAt}`, `Stack.Apply()`,
+  `Stack.Tick(now)` → expired set, `Stack.Has(kind) bool`. Tests: apply, expire, overwrite
+  weaker.
+
+- [ ] **S81-05: Enmity (hate) system** — Each mob tracks enmity per player. Healing and
+  damage both generate enmity. Mob targets highest-enmity player. `Enmity` replaces simple
+  `AggroSlot` in mob.Mob. `server/enmity/`: `Table{mobID → map[slot]int}`, `Add(damage)`,
+  `AddCure(healing, isAoE bool)`, `Top() slot`. Tests: hate ranking, overaggro, AoE cure
+  hate split.
+
+- [ ] **S81-06: Death + raise system** — Player HP reaches 0 → KO state (not disconnected).
+  `server/combat/`: `PlayerHP{current, max, state(alive/KO)}`, `TakeKO(now)`, 
+  `Raise(xpPenalty float64)`. On raise: HP=1, XP penalty applied. Tests: KO transition,
+  raise restores HP, xp debt applied.
+
+### JOB SYSTEM
+
+- [ ] **S82-01: Job definitions** — 22 base jobs: WAR/MNK/WHM/BLM/RDM/THF/PLD/DRK/BST/BRD/
+  RNG/SAM/NIN/DRG/SMN/BLU/COR/PUP/DNC/SCH/GEO/RUN. `server/job/job.go`: `JobID` enum,
+  `JobStats{BaseHP, BaseMP, STR, DEX, VIT, AGI, INT, MND, CHR}` tables.
+  `HPAtLevel(job, level) int` via FFXI formula. Tests: all 22 job IDs defined, HP scaling.
+
+- [ ] **S82-02: Sub-job system** — Each character has main + sub job. Sub job grants skills
+  at half level. `CharJob{Main, Sub JobID, MainLvl, SubLvl int}`. `EffectiveLevel(sub) int`
+  = SubLvl/2. `CombinedStats(main, sub)`. Tests: sub level halving, stat combination.
+
+- [ ] **S82-03: Job abilities + traits** — Each job has a set of job abilities (JAs) with
+  recast timers and job traits (passive). `server/job/abilities.go`: `Ability{ID, Job,
+  RecAst time.Duration, Effect}`, `Trait{ID, Job, Effect}`, `RecastTracker.Use(abilityID) err`,
+  `RecastTracker.Ready(abilityID, now) bool`. Tests: recast gate, trait passive, level gate.
+
+### PROGRESSION SYSTEM
+
+- [ ] **S83-01: Level cap + XP** — Level 1–99 (extend to 119 later). XP table per level.
+  `server/xp/xp.go`: `XPToLevel(lvl int) int`, `AddXP(char, amount, tagger, mob)` — only
+  tagger's party gets XP. Level-up event emitted. Tests: XP thresholds, level-up trigger,
+  non-tagger gets 0 XP.
+
+- [ ] **S83-02: Merit points** — At level cap, XP converts to merit points spent on job
+  enhancements. `server/merit/`: `MeritBank{points int}`, `Earn(xp int)`, `Spend(category,
+  tier int) err`. Cap: 30 points total. Tests: conversion, spend cap, invalid tier.
+
+- [ ] **S83-03: Item level system** — Equipment has item level (IL). Character's effective IL
+  is average of equipped gear. Stat bonuses scale with IL. `server/gear/`:
+  `Equipment{slots map[Slot]ItemID}`, `EffectiveIL(inv Inventory) int`. Tests: average IL,
+  empty slots excluded.
+
+### ECONOMY + CRAFTING
+
+- [ ] **S84-01: Crafting guilds** — 8 craft types: Alchemy/Blacksmith/Bonecraft/Clothcraft/
+  Cooking/Goldsmithing/Leathercraft/Woodworking. Character has skill level (0–110) per craft.
+  `server/craft/`: `CraftSkill{Type, Level float64}`, `Attempt(recipe, skill) Result`
+  with success/break/HQ probability by skill gap. Tests: success rate at cap, break below min.
+
+- [ ] **S84-02: Synthesis HQ system** — High-quality (HQ) results: 3 tiers (HQ1/HQ2/HQ3)
+  based on skill overshoot and RNG. `HQTier(skillGap float64, roll float64) int`.
+  Tests: HQ1 at gap+10, HQ3 at gap+50, NQ at gap 0.
+
+- [ ] **S84-03: Auction house** — Blind-bid single-price AH per item per server.
+  `server/market/`: `Listing{ItemID, Price, SellerID, ListedAt}`, `AuctionHouse.List()`,
+  `AuctionHouse.Buy(buyerID, itemID) (Listing, err)` — lowest price wins; Apple filed on
+  sale. Tests: buy at lowest price, no listings errors, provenance updated.
+
+### PARTY + ALLIANCE SYSTEM
+
+- [ ] **S85-01: Party system** — 6-player parties. Leader invites/kicks. XP shared among
+  party members in range. `server/party/`: `Party{Leader, Members [6]string}`, `Invite()`,
+  `Leave()`, `XPSplit(total, count, range_filter) []int`. Tests: max size, split evenly,
+  out-of-range excluded.
+
+- [ ] **S85-02: Alliance system** — 3 parties (18 players). `Alliance{Parties [3]*Party}`.
+  Party-leader of party 0 is alliance leader. Tests: 3-party cap, alliance leader = party0 leader.
+
+- [ ] **S85-03: Party XP bonus** — 6-member party gets full chain XP bonus. Chain bonus:
+  each consecutive kill within 3 min adds +10% up to +50% (chain 5+). `XPChain{Count, LastKillAt}`.
+  Tests: chain resets after timeout, bonus cap at 50%.
+
+### TRAVEL + WORLD
+
+- [ ] **S86-01: Outpost / conquest system** — Regions controlled by player nations.
+  `server/conquest/`: `Region{ID, Controller, Points map[nation]int}`, `AddPoints(nation,
+  delta)`, `Tick(week)` → controller update. Tests: majority wins, tie goes to incumbent.
+
+- [ ] **S86-02: Home point teleport** — Characters set a Home Point crystal; on KO they can
+  return there for an XP penalty. `HomePoint{SceneID, Pos}`, `SetHome()`, `ReturnHome()`.
+  Tests: home set, KO return deducts XP.
+
+- [ ] **S86-03: Survival guide / field manuals** — Zone-specific XP bonus books.
+  `server/field/`: `Manual{SceneID, ExpiresAt, BonusPct}`, `ApplyBonus(xp, manual) int`.
+  Tests: active manual doubles XP, expired manual gives 0 bonus.
+
+### CONTENT
+
+- [ ] **S87-01: Notorious Monster (NM) spawn conditions** — Time-window or forced spawn on
+  placeholder kill. `server/nm/`: `NMSpawn{ID, PlaceholderID, WindowOpen, WindowClose,
+  SpawnChance float64}`, `TrySpawn(now, rng) bool`. Tests: in-window spawn, outside-window blocked.
+
+- [ ] **S87-02: Treasure pool system** — On mob death, loot goes to a shared pool. Players
+  `/lot` (1–999 random) or `/pass`. Highest lot wins each item.
+  `server/loot/`: `Pool{MobID, Items []ItemID, Lots map[charID]int}`, `Lot(charID)`,
+  `Pass(charID)`, `Resolve() map[itemID]charID`. Tests: highest lot wins, pass excluded, ties.
+
+- [ ] **S87-03: Notorious Monster aggro types** — Aggro by sight (facing cone), sound
+  (proximity, ignores Sneak), or job (detects specific jobs). `server/mob/aggro.go`:
+  `AggroType{Sight, Sound, JobDetect bool}`, `Detects(mob, player, facingAngle float64) bool`.
+  Tests: sight cone, sound radius, Sneak status suppresses sound aggro.
+
 ---
 
 ## BACKLOG PROTOCOL
