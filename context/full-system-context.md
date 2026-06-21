@@ -227,19 +227,21 @@
 **Key Interfaces:** `scene_id` (NetPlayer/snap
 
 ## EMILYOS
+# EmilyOS — North Star
 
-**北極星:** SOC 2 Type II 安全性就緒（通用準則）  
-**目的:** 可審計、可控、故意交互的操作環境，通過 Type II 稽核員認證
+**SOC 2 Type II Security (Common Criteria) Readiness**
 
-**現狀:** Milestone 1（審計基礎）進行中，Sprint 1 截止 2026-06-16
+> An operating environment that a Type II auditor can attest to: deliberate interaction, least privilege, isolation boundaries, tamper-evident audit trail, controlled change management.
 
-**核心機制:**
-- `internal/audit/log.go`: 雜湊鏈式追加日誌 (JSONL)，事件架構: ts/actor_id/session_id/device_id/verb/object_ref/decision/reason_code/result/prev_hash
-- `internal/policy/rbac.go`: Operator/Admin/Auditor 角色 + 8 項能力 (cap.net/exec/policy.write/audit.read/export/ssh.connect/domain.{start,stop})
-- `internal/verb/dispatch.go`: 每個動詞檢查能力 + 前稽核
-- `internal/posture/machine.go`: 5 態狀態機 (NORMAL/SIEGE/MERCY/INCIDENT/GAME)，每態覆蓋能力遮罩
-- `internal/policy/snapshot.go`: 雜湊定址策略快照 (git_commit/build_id/actor_id)，支持 POLICY_ROLLBACK
-- `EXPORT_EVIDENCE`: 90 日審計 + 策略快照 + 證明（tar.gz + manifest.json）
+---
+
+## Why SOC 2 Is the Right North Star
+
+SOC 2 doesn't tell us to build bureaucracy. It tells us to build the *right thing*:
+
+| SOC 2 Requirement | EmilyOS Mechanism |
+|---|---|
+| Deliberate user action | Intent-declared verb mod
 
 ## PITVIPER
 
@@ -402,9 +404,9 @@ Revenue path: SHANKPIT→Steam (S19)
 ## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome
 
 <!-- CYCLE_LOG_START -->
-2026-06-21T03:21:44Z | cycle 1316 | idle | idle — no queued tasks
 2026-06-21T03:26:35Z | cycle 1317 | idle | idle — no queued tasks
 2026-06-21T03:31:13Z | cycle 1318 | idle | idle — no queued tasks
 2026-06-21T03:36:08Z | cycle 1319 | idle | idle — no queued tasks
-2026-06-21T03:41:24Z | cyc
+2026-06-21T03:41:24Z | cycle 1320 | idle | idle — no queued tasks
+2026-06-21T03:46:14Z | cyc
 

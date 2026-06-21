@@ -41,9 +41,9 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "4e65b42bda3860c8660b8a265fe7d1c5c2c710dc84e4dc7f6a4a30110e9e74d5",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-21T03:21:44Z | cycle 1316 | idle | idle — no queued tasks\n2026-06-21T03:26:35Z | cycle 1317 | idle | idle — no queued tasks\n2026-06-21T03:31:13Z | cycle 1318 | idle | idle — no queued tasks\n2026-06-21T03:36:08Z | cycle 1319 | idle | idle — no queued tasks\n2026-06-21T03:41:24Z | cyc\n",
-      "updated_at": "2026-06-21T11:40:01Z"
+      "hash": "7fb889976fcf102b4d427b31414a1a16fae3338d75f2369f9e987581b13e8c31",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-21T03:26:35Z | cycle 1317 | idle | idle — no queued tasks\n2026-06-21T03:31:13Z | cycle 1318 | idle | idle — no queued tasks\n2026-06-21T03:36:08Z | cycle 1319 | idle | idle — no queued tasks\n2026-06-21T03:41:24Z | cycle 1320 | idle | idle — no queued tasks\n2026-06-21T03:46:14Z | cyc\n",
+      "updated_at": "2026-06-21T11:44:29Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "370fe64ecf41c98e090917e8a2bf07884fe302e9650d977dd5dd77d56683aa0c",
@@ -61,9 +61,9 @@
       "updated_at": "2026-06-16T13:24:58Z"
     },
     "/home/fatbaby/EmilyOS/docs/NORTHSTAR.md": {
-      "hash": "b31a362ccd1993625513fc825620c041fdce107db223c1b4780405ba1ba097d6",
-      "compressed": "## EMILYOS\n\n**北極星:** SOC 2 Type II 安全性就緒（通用準則）  \n**目的:** 可審計、可控、故意交互的操作環境，通過 Type II 稽核員認證\n\n**現狀:** Milestone 1（審計基礎）進行中，Sprint 1 截止 2026-06-16\n\n**核心機制:**\n- `internal/audit/log.go`: 雜湊鏈式追加日誌 (JSONL)，事件架構: ts/actor_id/session_id/device_id/verb/object_ref/decision/reason_code/result/prev_hash\n- `internal/policy/rbac.go`: Operator/Admin/Auditor 角色 + 8 項能力 (cap.net/exec/policy.write/audit.read/export/ssh.connect/domain.{start,stop})\n- `internal/verb/dispatch.go`: 每個動詞檢查能力 + 前稽核\n- `internal/posture/machine.go`: 5 態狀態機 (NORMAL/SIEGE/MERCY/INCIDENT/GAME)，每態覆蓋能力遮罩\n- `internal/policy/snapshot.go`: 雜湊定址策略快照 (git_commit/build_id/actor_id)，支持 POLICY_ROLLBACK\n- `EXPORT_EVIDENCE`: 90 日審計 + 策略快照 + 證明（tar.gz + manifest.json）\n",
-      "updated_at": "2026-06-16T13:25:33Z"
+      "hash": "89356b4bb157895b6bcb5655c3cc3c8936304f0ef4373926ab5c945916eca163",
+      "compressed": "## EMILYOS\n# EmilyOS — North Star\n\n**SOC 2 Type II Security (Common Criteria) Readiness**\n\n\u003e An operating environment that a Type II auditor can attest to: deliberate interaction, least privilege, isolation boundaries, tamper-evident audit trail, controlled change management.\n\n---\n\n## Why SOC 2 Is the Right North Star\n\nSOC 2 doesn't tell us to build bureaucracy. It tells us to build the *right thing*:\n\n| SOC 2 Requirement | EmilyOS Mechanism |\n|---|---|\n| Deliberate user action | Intent-declared verb mod\n",
+      "updated_at": "2026-06-21T11:44:29Z"
     },
     "/home/fatbaby/IDUNA/docs/NORTHSTAR.md": {
       "hash": "16366ae0dbd83b9d98541442148a6908e30800ff238e3a4118973e1daa1b9337",
