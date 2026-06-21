@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -141,5 +142,51 @@ func TestObserveRSIOutcome_Converged(t *testing.T) {
 	// Should have called Update (incremented Steps).
 	if w.Steps <= before {
 		t.Errorf("Steps should increment after ObserveRSIOutcome, got %d (was %d)", w.Steps, before)
+	}
+}
+
+func TestFractalFingerprintDimensions(t *testing.T) {
+	w := NewWitchState()
+	fp := w.FractalFingerprint(20, 5)
+	lines := strings.Split(strings.TrimRight(fp, "\n"), "\n")
+	if len(lines) != 5 {
+		t.Errorf("FractalFingerprint height: got %d lines, want 5", len(lines))
+	}
+	for i, line := range lines {
+		if len(line) != 20 {
+			t.Errorf("FractalFingerprint line %d width: got %d, want 20", i, len(line))
+		}
+	}
+}
+
+func TestFractalFingerprintDefaultsOnZeroSize(t *testing.T) {
+	w := NewWitchState()
+	// width=0, height=0 → use defaults (40×14)
+	fp := w.FractalFingerprint(0, 0)
+	lines := strings.Split(strings.TrimRight(fp, "\n"), "\n")
+	if len(lines) != 14 {
+		t.Errorf("default height: got %d lines, want 14", len(lines))
+	}
+	for _, line := range lines {
+		if len(line) != 40 {
+			t.Errorf("default width: line len = %d, want 40", len(line))
+		}
+	}
+}
+
+func TestSummaryContainsGearAndMetrics(t *testing.T) {
+	w := NewWitchState()
+	s := w.Summary()
+	if !strings.Contains(s, "gear=") {
+		t.Errorf("Summary missing gear=: %q", s)
+	}
+	if !strings.Contains(s, "h=") {
+		t.Errorf("Summary missing h=: %q", s)
+	}
+	if !strings.Contains(s, "p=") {
+		t.Errorf("Summary missing p=: %q", s)
+	}
+	if !strings.Contains(s, "steps=") {
+		t.Errorf("Summary missing steps=: %q", s)
 	}
 }
