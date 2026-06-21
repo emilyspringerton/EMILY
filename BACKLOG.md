@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S65-01: EMILY FCM jwt_test.go — 3 tests** — TestBuildServiceAccountJWTStructure (RSA key, 3-part
+  JWT, alg/iss/aud/1h window), InvalidPEM, UnsupportedKeyType. No network.
+  [done 2026-06-21] Apple #2402.
+
 - [x] **S64-01: PITVIPER CSI E/F/X (CNL/CPL/ECH) + TestCSICNLCPLECH** — CSI E: down N rows col=0;
   CSI F: up N rows col=0; CSI X: erase N chars in-place. 31 vterm tests.
   [done 2026-06-21] Apple #2400.
