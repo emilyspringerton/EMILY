@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S56-01: IDUNA push_tokens handler test suite — 5 tests** — upsert 200/403/400, get 200/404.
+  stubPushTokenStore.
+  [done 2026-06-21] Apple #2379.
+
 - [x] **S55-02: PITVIPER IsAltActive() + TestIsAltActive + TestSGRDefaultColors** — `IsAltActive()` mutex-
   protected accessor for renderers; SGR39/49 default color reset test. 26 vterm tests.
   [done 2026-06-21] Apple #2377.
