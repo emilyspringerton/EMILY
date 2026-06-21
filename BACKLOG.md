@@ -1757,11 +1757,13 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   `HitsToWS()`. 6 delay consts (HtH=80, 1H=240, GS=480, Staff=366, Polearm=402).
   MaxHaste=80%. 34 tests. [done 2026-06-21] Apple #2533.
 
-- [ ] **S81-04: Status effects (enfeebles + buffs)** — Server-authoritative status stack:
-  Poison, Paralyze, Slow, Haste, Regen, Refresh, Protect, Shell, Silence, Bind.
-  `server/status/`: `StatusEffect{Kind, Potency, Duration, ExpiresAt}`, `Stack.Apply()`,
-  `Stack.Tick(now)` → expired set, `Stack.Has(kind) bool`. Tests: apply, expire, overwrite
-  weaker.
+- [x] **S81-04: Status effects (enfeebles + buffs)** — `server/status/status.go`: 10 kinds
+  (Poison/Paralyze/Slow/Silence/Bind/Haste/Regen/Refresh/Protect/Shell). Stack.Apply() with
+  weaker-rejected / same-potency-refreshed / stronger-upgrades rules. Stack.Tick(now) →
+  TickResult{Expired, Events} with DoT (Poison→−HP) and HoT (Regen→+HP, Refresh→+MP) events.
+  Cat() for dispel targeting. DispelOne(). NetHastePct() / PhysDefBonus() / MagicDefBonus() /
+  IsParalyzed() / IsSilenced() / IsBound(). Permanent effects (zero ExpiresAt) never expire.
+  43 tests. [done 2026-06-21] Apple #2536.
 
 - [ ] **S81-05: Enmity (hate) system** — Each mob tracks enmity per player. Healing and
   damage both generate enmity. Mob targets highest-enmity player. `Enmity` replaces simple
