@@ -1636,6 +1636,83 @@ institutions.
 
 ---
 
+## SECTION 75: DRAGONSNSHIT MMO — IDUNA SCHEMA (2026-06-21)
+
+*Context: MMO_NORTHSTAR written. IDUNA is the auth and persistence layer for all player identity,
+item provenance, and world state. No MMO system can ship without this schema.*
+
+- [ ] **S75-01: IDUNA MMO schema migration** — `migrations/YYYYMMDD_mmo_schema.sql`; create tables:
+  `characters` (id, player_id FK, name, scene_id, pos_x/y/z, gold_balance), `character_skills`
+  (character_id FK, skill_name, value REAL), `items` (id UUID, owner_character_id, item_type,
+  name, provenance_chain JSONB, destroyed_at), `guilds` (id, name, tag, founder_id, created_at),
+  `guild_memberships` (guild_id FK, character_id FK, role, joined_at), `world_events`
+  (id, event_type, scene_id, phase, started_at, resolved_at, outcome), `scene_state`
+  (scene_id PK, ley_integrity INT, active_phase TEXT, updated_at). Add `go test ./...` coverage.
+
+- [ ] **S75-02: IDUNA character API** — `POST /api/v1/characters` (create), `GET /api/v1/characters/:id`
+  (fetch), `PATCH /api/v1/characters/:id/position` (scene + pos update from game server).
+  Auth: game server M2M JWT. Apple filed on create.
+
+- [ ] **S75-03: IDUNA item provenance API** — `POST /api/v1/items` (craft; sets provenance_chain[0]),
+  `POST /api/v1/items/:id/transfer` (appends to provenance_chain; updates owner),
+  `DELETE /api/v1/items/:id` (soft-delete with destroyed_at + Apple). Return full provenance
+  chain on GET.
+
+- [ ] **S75-04: IDUNA guild API** — `POST /api/v1/guilds` (found guild; Apple filed),
+  `GET /api/v1/guilds/:id`, `POST /api/v1/guilds/:id/members` (join; Apple filed),
+  `PATCH /api/v1/guilds/:id/members/:character_id` (role change), `DELETE` (disband; Apple).
+
+- [ ] **S75-05: IDUNA world events API** — `POST /api/v1/world-events` (open event; type=world_crisis),
+  `PATCH /api/v1/world-events/:id` (phase transition), `POST /api/v1/world-events/:id/resolve`
+  (record outcome; Apple filed type=world_crisis_outcome).
+
+---
+
+## SECTION 76: DRAGONSNSHIT MMO — GO GAME SERVER (2026-06-21)
+
+*Context: GFD server-go needs to become the authoritative MMO backend. Currently a bridge/stub.
+Depends on S75 IDUNA schema.*
+
+- [ ] **S76-01: GFD server-go IDUNA auth integration** — On `PACKET_CONNECT`, validate player JWT
+  against IDUNA `/api/v1/auth/verify`. Reject unauthenticated connections. Load character record
+  from IDUNA into session slot. Ref: GFD/server-go; IDUNA M2M pattern from PRRJECT_FATBABY.
+
+- [ ] **S76-02: GFD per-player scene isolation** — Replace global `phys_set_scene(scene_id)` with
+  per-slot scene context. Each player tracks `slot.scene_id`; physics queries filtered by
+  player scene. Fixes multi-scene coexistence. Ref: SHANKPIT_DRAGONSNSHIT_SYSTEMS_SPEC.md §3.1.
+
+- [ ] **S76-03: GFD Telecrystal travel — server-authoritative** — On `BTN_USE` + Telecrystal radius
+  check: validate gold balance (IDUNA), deduct cast cost, transition player scene in IDUNA,
+  send scene transition packet. Ref: TELECRYSTAL_NETWORK_SPEC.md.
+
+- [ ] **S76-04: GFD item crafting endpoint** — Game server crafting station interaction →
+  validate reagents in player inventory (IDUNA items) → `POST /api/v1/items` with provenance →
+  remove reagents → send inventory update to client.
+
+- [ ] **S76-05: GFD World Crisis phase machine** — Go goroutine on server: load world event from
+  IDUNA, tick LEY_INTEGRITY, advance phases on timer/objective gates, broadcast global meter
+  to all clients via snapshot extension. Fire `POST /api/v1/world-events` on start,
+  `PATCH` on phase transition. Ref: WORLD_CRISIS_VS0.md.
+
+- [ ] **S76-06: GFD skill XP server-side** — On verified combat/gather/craft actions: call
+  IDUNA `PATCH /api/v1/characters/:id/skills` to increment skill value. Never trust
+  client-reported XP. Add skill cap enforcement per season config.
+
+---
+
+## SECTION 77: DRAGONSNSHIT MMO — MMO_NORTHSTAR REGISTRATION (2026-06-21)
+
+- [x] **S77-01: DragonsNShit MMO_NORTHSTAR written** — `GoblinFoxDragon/docs2/MMO_NORTHSTAR.md`;
+  7 core MMO systems documented (player identity, item provenance, guilds, economy, scene/travel,
+  World Crisis, skills); IDUNA schema requirements listed; 8-milestone roadmap.
+  [done 2026-06-21] Apple #2470.
+
+- [ ] **S77-02: MMO_NORTHSTAR golden-index registration** — Append to
+  `EMILY/context/golden-docs-index.md`: row for MMO_NORTHSTAR (Tier 1) so Emily Prime
+  ingests it on next goldenbuild cycle.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
