@@ -1,4 +1,5 @@
 ## 2026-06-21
+- test: S65-01 FCM jwt_test.go 3 tests (Apple #2402)
 - feat: S49-01 emily-agent GET /api/v1/emily/posture endpoint (Apple #2345)
 - feat: S46-03 emily-agent posture gate — SIEGE skips LLM, EXITED blocks startup (Apple #2327)
 
