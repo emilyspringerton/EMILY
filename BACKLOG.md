@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S57-01: PRRJECT_FATBABY issuerregistry test suite — 4 tests** — TestNew (deep copy),
+  TestResolveByCIK, TestResolveReturnsCopy, TestNilRegistry.
+  [done 2026-06-21] Apple #2384.
+
 - [x] **S56-02: IDUNA subscriptions handler test suite — 5 tests** — provision 200/403/400-status;
   getMe subscribed/no-sub. stubSubStore.
   [done 2026-06-21] Apple #2382.
