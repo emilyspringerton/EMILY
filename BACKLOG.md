@@ -1512,6 +1512,14 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S51-01: PITVIPER cursor visibility — ESC [?25l/h** — `CursorHidden` bool; `Snapshot()` returns (-1,-1)
+  when hidden. `TestCursorVisibility`. PITVIPER commit 74f3603.
+  [done 2026-06-21] Apple #2357.
+
+- [x] **S51-02: PITVIPER alternate screen buffer — ESC [?1049h/l** — Save/restore primary cells + cursor.
+  `TestAlternateScreen`. 21 vterm tests total. PITVIPER commit 36012c9.
+  [done 2026-06-21] Apple #2359.
+
 - [x] **S50-02: EmilyOS audit bundle — tar.gz SOC 2 evidence bundle (Milestone 5 partial)** —
   `emilyos audit bundle [outpath]` produces `.tar.gz` with `audit.jsonl` + `policy-snapshot.json`
   + `manifest.json` (SHA-256 per file, chain_ok, event_count, build attestation).
