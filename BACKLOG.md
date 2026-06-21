@@ -1512,6 +1512,13 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S55-02: PITVIPER IsAltActive() + TestIsAltActive + TestSGRDefaultColors** — `IsAltActive()` mutex-
+  protected accessor for renderers; SGR39/49 default color reset test. 26 vterm tests.
+  [done 2026-06-21] Apple #2377.
+
+- [x] **S55-01: PITVIPER TestEraseInDisplay 0J/1J** — closes erase-in-display coverage gap. 24→25 tests.
+  [done 2026-06-21] Apple #2375.
+
 - [x] **S54-02: EmilyOS EXPORT_EVIDENCE verb + bundle test — Milestone 5 complete** — `runAuditBundle`
   dispatches `EXPORT_EVIDENCE` (cap.export) before writing; export is audited. `TestBundleManifest
   Verification`. NORTHSTAR M5 [x].
