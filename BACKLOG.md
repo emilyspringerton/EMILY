@@ -1426,6 +1426,38 @@ institutions.
 
 ---
 
+## SECTION 47: PITVIPER MILESTONE 1 HARDENING + EMILYOS SOC2 EXPORT
+
+*S47-01: PITVIPER OSC escape sequences (window title from bash/vim).*
+*S47-02: PITVIPER TextInput key echo snap-to-live.*
+*S47-03: EmilyOS `audit export` — SOC 2 evidence bundle (zip + chain manifest).*
+*S47-04: emily.cli `emily emilyos` sub-command — wraps emilyos CLI.*
+
+- [x] **S47-01: PITVIPER OSC title sequences** — Parse `\033]0;title\007`, `\033]1;...`, `\033]2;title\007`
+  in vterm.Write(). Store in Screen.Title string. SDL2 window title updated on each render tick
+  via `win.SetTitle()`. Acceptance: bash `\033]2;myshell\007` updates SDL2 window title bar.
+  [done 2026-06-21] Apple #2333. PITVIPER commit 5237e0c.
+
+- [x] **S47-02: PITVIPER snap-to-live on input** — Any TextInput event (character typed) while
+  scrolled back should snap the view to live (ScrollReset). Currently only non-scroll key events
+  snap back. Fix handleScrollKey to return false for TextInput so the TextInput handler calls
+  ScrollReset before writing to PTY.
+  [done 2026-06-21] Apple #2333. PITVIPER commit 5237e0c.
+
+- [x] **S47-03: EmilyOS `audit export`** — `emilyos audit export <outdir>` writes:
+  - `audit.jsonl` (full log copy)
+  - `manifest.json` (event count, first/last seq, chain verified bool, export_ts)
+  Acceptance: `emilyos audit export /tmp/soc2` creates both files; manifest.chain_ok=true.
+  [done 2026-06-21] Apple #2335. EmilyOS commit a41f0d7.
+
+- [x] **S47-04: emily.cli `emily emilyos` command** — Wraps EmilyOS CLI:
+  `emily emilyos posture get/set`, `emily emilyos audit tail/verify`.
+  Reads EMILY_POSTURE_PATH / EMILY_AUDIT_PATH from config or env.
+  Acceptance: `emily emilyos posture get` prints current posture.
+  [done 2026-06-21] Apple #2337. emily.cli commit a8bbd0a.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
