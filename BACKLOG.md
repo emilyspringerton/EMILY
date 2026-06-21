@@ -1499,9 +1499,10 @@ institutions.
 
 ---
 
-## SECTION 50: EMILYOS MILESTONE 4 — POLICY SNAPSHOTS
+## SECTION 50: EMILYOS MILESTONE 4+5 — POLICY SNAPSHOTS + EVIDENCE BUNDLE
 
 *S50-01: EmilyOS policy snapshot store tests + emilyos about + emilyos snapshot commands.*
+*S50-02: EmilyOS emilyos audit bundle — tar.gz evidence bundle for SOC 2 (Milestone 5).*
 
 - [x] **S50-01: EmilyOS policy snapshots (Milestone 4 partial)** — `internal/policy/snapshot_test.go`:
   6 tests (Write, HashStable, Latest, GetNotFound, NewIDFormat, DirCreated).
@@ -1510,6 +1511,12 @@ institutions.
   Build attestation via -ldflags buildCommit/buildDate.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
+
+- [x] **S50-02: EmilyOS audit bundle — tar.gz SOC 2 evidence bundle (Milestone 5 partial)** —
+  `emilyos audit bundle [outpath]` produces `.tar.gz` with `audit.jsonl` + `policy-snapshot.json`
+  + `manifest.json` (SHA-256 per file, chain_ok, event_count, build attestation).
+  Default: `soc2-evidence.tar.gz`. Exit 3 on chain tamper.
+  [done 2026-06-21] Apple #2354. EmilyOS commit 60cb485.
 
 ---
 
