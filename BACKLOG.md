@@ -1742,15 +1742,14 @@ FFXI's core systems define the implementation roadmap. Each section below is one
 
 ### COMBAT SYSTEMS
 
-- [ ] **S81-01: Skill chain system** — Ordered weapon skill combinations produce elemental
-  resonance and bonus damage (e.g., Distortion → Fragmentation). `server/skillchain/`:
-  `Resonance` enum (Fire/Ice/Wind/Earth/Lightning/Water/Light/Dark), `Chain(ws1, ws2)` →
-  Resonance + multiplier. Table-driven: FFXI skillchain chart. Tests: all valid combos,
-  gap timer breaks chain.
+- [x] **S81-01: Skill chain system** — `server/skillchain/skillchain.go`: 14 Resonances
+  (8 T1 + 4 T2 + Light/Darkness T3). combinationTable (23 pairs). Chain() → highest-tier
+  match across ws1×ws2 attribute product. Multipliers: T1=0.20, T2=0.35, T3=0.50.
+  8s window. 19 CanonicalWeaponSkills. [done 2026-06-21] Apple #2527.
 
-- [ ] **S81-02: Magic burst system** — Spells cast within a window after a skillchain deal
-  bonus damage if they match the resonance element. `server/magic/`:
-  `BurstCheck(resonance, spellElement, elapsed) → multiplier`. Tests: matching + non-matching.
+- [x] **S81-02: Magic burst system** — same package. CanBurst()/Burst()/BurstElements().
+  T1=1 element, T2=2 elements (union), T3=4 elements. 15s burst window. BurstMultiplier=0.35.
+  End-to-end: Distortion+Ice, Light+Fire/Lightning. 31 tests total. [done 2026-06-21] Apple #2527.
 
 - [ ] **S81-03: Weapon skill points (WSP) / TP system** — TP accumulates per hit (haste/delay
   formula). At 100 TP, player can execute a weapon skill. `server/combat/tp.go`:
