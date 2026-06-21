@@ -1707,9 +1707,19 @@ Depends on S75 IDUNA schema.*
   World Crisis, skills); IDUNA schema requirements listed; 8-milestone roadmap.
   [done 2026-06-21] Apple #2470.
 
-- [ ] **S77-02: MMO_NORTHSTAR golden-index registration** — Append to
-  `EMILY/context/golden-docs-index.md`: row for MMO_NORTHSTAR (Tier 1) so Emily Prime
-  ingests it on next goldenbuild cycle.
+- [x] **S77-02: MMO_NORTHSTAR golden-index registration** — DNS-MMO-NORTHSTAR Tier 1 budget 4000
+  appended to `EMILY/context/golden-docs-index.md`. [done 2026-06-21].
+
+- [x] **S78-01: DragonsNShit chat system — say/tell/yell/guild, PacketChat=6** —
+  `server/chat/chat.go`: Router.Deliver(), 4 channels (say=50u radius, tell=private,
+  yell=zone-wide, guild=cross-scene). ParseChatPacket/encodeChat. Wired into server-go main.
+  19 tests. [done 2026-06-21] Apple #2513.
+
+- [x] **S79-01: DragonsNShit linkshell guild system — Feather + Feather Sack** —
+  `server/guild/guild.go`: FFXI-style linkshell. Feather=member token, Feather Sack=admin.
+  Roles: Member < Officer < Leader. Officer forges Feathers; Leader forges Sacks.
+  RevokeItem removes from roster. CanChat() gates ChatGuild on active item.
+  22 tests. [done 2026-06-21] Apple #2516.
 
 ---
 
