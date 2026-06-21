@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S52-01: PITVIPER DECSTBM scroll region + ESC M reverse index** — scrollRegTop/scrollRegBot;
+  scrollUp respects region; scrollDown() for RI; TestDECSTBM + TestReverseIndex. 23 tests.
+  [done 2026-06-21] Apple #2362.
+
 - [x] **S51-01: PITVIPER cursor visibility — ESC [?25l/h** — `CursorHidden` bool; `Snapshot()` returns (-1,-1)
   when hidden. `TestCursorVisibility`. PITVIPER commit 74f3603.
   [done 2026-06-21] Apple #2357.
