@@ -1312,6 +1312,7 @@ world bridge (NORTHSTAR Milestone 4).*
 | S23-01 | `sudo bash` on production host | EDIS WordPress live |
 | S30-02 | `sudo mysql` on production | MySQL projections in prod |
 | S2 (MPT) | Pexels API key | Video compilation pipeline |
+| S45-02 run | `sudo apt install libsdl2-dev` + create emilyspringerton/PITVIPER on GitHub | PITVIPER window launches |
 
 ---
 
@@ -1358,6 +1359,43 @@ institutions.
   polls FileEventLog every 2s, streams records as text/event-stream. JWT-gated. ?from_seq +
   ?timeout params. OpenAPI 3.1 spec updated. Colab notebooks subscribe for real-time user events.
   — Apple #1884. 2026-06-20.
+
+---
+
+## SECTION 45: SHANKPIT STAT REPORTING + PITVIPER MILESTONE 1
+
+*S45-01: SHANKPIT server reports player kill/death stats to IDUNA on session end.*
+*S45-02 onward: PITVIPER Milestone 1 — SDL2 terminal bootstrap (PTY, glyph render, first keypress).*
+
+- [x] **S45-00: emily-bot JWT auth in PacketConnect** — sendConnect() packs SHANKPIT_AUTH_TOKEN
+  env / ~/.shankpit/auth.json into bytes [13..268]. Server (S43-01) validates. Emily Prime now
+  connects as an authenticated IDUNA player. — Apple #2305. 2026-06-21.
+
+- [x] **S45-00b: POST /api/v1/emily/push/test** — handlePushTest in api_push.go.
+  Gets mjolnir-emily device token from IDUNA, fires test FCM push.
+  503 (FCM/IDUNA not configured), 404 (no token / S32-01 needed), 502 (FCM error), 200 on success.
+  — Apple #2307. 2026-06-21.
+
+- [x] **S45-01: SHANKPIT → IDUNA player stat updates** — clientInfo.lastPacket + kills fields.
+  pruneIdleClients goroutine (15s check, default 60s timeout) removes idle clients and
+  POSTs {"kills": N} to IDUNA /api/v1/players/{id}/session via reportPlayerSession.
+  IDUNA: handleSessionEnd does UPDATE players SET sessions+1, kills+N, deaths+N, last_seen.
+  New server flags: --server-token, --idle-timeout. — Apple #2312. 2026-06-21.
+
+- [x] **S45-02: PITVIPER Milestone 1 scaffold** — go module pitviper created. internal/vterm:
+  VT100 state machine (SGR, cursor, scroll, erase — 8 tests pass). internal/pty: openpty +
+  TIOCSWINSZ. internal/font: 8×13 glyph atlas via x/image/font/basicfont. cmd/pitviper:
+  SDL2 window + PTY + 60fps render loop + keyboard forwarding + resize. Blocked to run on:
+  sudo apt install libsdl2-dev + create emilyspringerton/PITVIPER repo on GitHub. — Apple #2315. 2026-06-21.
+
+- [ ] **S45-03: PITVIPER glyph cache + UTF-8 decode** — Pre-render printable ASCII into SDL_Surface
+  atlas at startup (no per-char alloc during render). Handle UTF-8 multi-byte sequences from PTY.
+  Acceptance: `ls` with unicode filenames renders without artifacts.
+
+- [ ] **S45-04: PITVIPER color + SGR escape sequence parser** — Parse ANSI CSI sequences from PTY
+  stream: SGR colors (foreground/background 8-color + 256-color), cursor movement (CUU/CUD/CUF/CUB),
+  erase in line (EL). Required for bash prompt colors to render correctly.
+  Acceptance: colored bash prompt renders; cursor moves correctly.
 
 ---
 
