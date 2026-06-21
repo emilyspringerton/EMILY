@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S66-01: IDUNA drive.Client test suite — 5 tests** — bad JSON, missing email, missing key,
+  default token URI, oversized upload rejection. No network.
+  [done 2026-06-21] Apple #2405.
+
 - [x] **S65-01: EMILY FCM jwt_test.go — 3 tests** — TestBuildServiceAccountJWTStructure (RSA key, 3-part
   JWT, alg/iss/aud/1h window), InvalidPEM, UnsupportedKeyType. No network.
   [done 2026-06-21] Apple #2402.
