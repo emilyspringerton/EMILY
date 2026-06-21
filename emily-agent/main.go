@@ -2188,6 +2188,11 @@ func (s *Server) handleEmiree(w http.ResponseWriter, r *http.Request) {
 // -----------------------------------------------------------------------------
 
 func main() {
+	// EmilyOS posture startup gate — refuse to start when posture=EXITED.
+	if err := assertPostureNotExited(); err != nil {
+		log.Fatalf("startup blocked: %v", err)
+	}
+
 	cfg := loadConfig()
 
 	// --cron: run one autonomous cycle and exit (designed for cron scheduling)

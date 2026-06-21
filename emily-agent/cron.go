@@ -139,6 +139,11 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 
 // RunOnce executes exactly one cycle. Designed to be called by cron.
 func (ac *AutonomousCycle) RunOnce() error {
+	// EmilyOS posture gate — SIEGE disables LLM/net; EXITED refuses all action.
+	if postureBlocksLLM() {
+		return nil
+	}
+
 	if err := os.MkdirAll(ac.cfg.StateDir, 0o755); err != nil {
 		return fmt.Errorf("state dir: %w", err)
 	}
