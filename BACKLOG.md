@@ -1512,6 +1512,14 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S53-02: IDUNA intelligence handler test suite — 4 tests observe/list/patch** — TestIntelObserveSuccess,
+  TestIntelObserveForbidden, TestIntelObserveMissingImageData, TestIntelListAndPatch. stubIntelStore.
+  [done 2026-06-21] Apple #2367.
+
+- [x] **S53-01: IDUNA HEIMDAL handler test suite — 5 tests submit/list/patch** — TestHeimdalSubmit,
+  TestHeimdalSubmitForbidden, TestHeimdalSubmitEmptyRequirement, TestHeimdalList, TestHeimdalPatch.
+  [done 2026-06-21] Apple #2365.
+
 - [x] **S52-01: PITVIPER DECSTBM scroll region + ESC M reverse index** — scrollRegTop/scrollRegBot;
   scrollUp respects region; scrollDown() for RI; TestDECSTBM + TestReverseIndex. 23 tests.
   [done 2026-06-21] Apple #2362.
