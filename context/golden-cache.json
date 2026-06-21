@@ -41,9 +41,9 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "5fda77e756e6258379f756a7dacb7efc72c4126dffc1b06a6dbea6aa26b73f14",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-21T03:41:24Z | cycle 1320 | idle | idle — no queued tasks\n2026-06-21T03:46:14Z | cycle 1321 | idle | idle — no queued tasks\n2026-06-21T03:51:00Z | cycle 1322 | idle | idle — no queued tasks\n2026-06-21T03:55:58Z | cycle 1323 | idle | idle — no queued tasks\n2026-06-21T04:00:46Z | cyc\n",
-      "updated_at": "2026-06-21T11:57:27Z"
+      "hash": "4ea41d0b2c7e447ae9acff97772b2b2bc9490f92052982fde149ad8c97fd14bc",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-21T03:46:14Z | cycle 1321 | idle | idle — no queued tasks\n2026-06-21T03:51:00Z | cycle 1322 | idle | idle — no queued tasks\n2026-06-21T03:55:58Z | cycle 1323 | idle | idle — no queued tasks\n2026-06-21T04:00:46Z | cycle 1324 | idle | idle — no queued tasks\n2026-06-21T04:06:39Z | cyc\n",
+      "updated_at": "2026-06-21T12:01:58Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "370fe64ecf41c98e090917e8a2bf07884fe302e9650d977dd5dd77d56683aa0c",
