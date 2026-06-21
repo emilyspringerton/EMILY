@@ -1,4 +1,5 @@
 ## 2026-06-21
+- feat: S46-03 emily-agent posture gate — SIEGE skips LLM, EXITED blocks startup (Apple #2327)
 
 - feat: S32-02 POST /api/v1/emily/push/test FCM test endpoint (Apple #2306)
 
