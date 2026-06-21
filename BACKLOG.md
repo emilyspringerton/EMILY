@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S73-01: EMILY Emiree FractalFingerprint + Summary tests — 3 tests** — dimensions (20×5),
+  zero-size defaults (40×14), Summary (gear/h/p/steps). 68 emily-agent tests.
+  [done 2026-06-21] Apple #2465.
+
 - [x] **S72-01: EMILY HEIMDAL formatCriteria + min tests — 4 tests** — empty/single/multi criteria,
   min (4 cases). 65 emily-agent tests. [done 2026-06-21] Apple #2418.
 
