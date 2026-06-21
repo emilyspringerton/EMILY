@@ -1458,6 +1458,30 @@ institutions.
 
 ---
 
+## SECTION 48: IDUNA PLAYERS LIST + SHANKPIT OPS
+
+*S48-01: IDUNA GET /api/v1/players — list all players with stats.*
+*S48-02: emily.cli `emily shankpit players-leaderboard` command — top kills via IDUNA players list.*
+*S48-03: EmilyOS `emilyos posture history N` — last N posture transitions from audit log.*
+
+- [x] **S48-01: IDUNA GET /api/v1/players** — `GET /api/v1/players?limit=N&sort=kills|deaths|sessions`
+  returns `[{player_id, display_name, kills, deaths, sessions, last_seen}]` ordered by sort key.
+  Uses existing `players` table (already has all these columns from S28 migration).
+  Acceptance: `curl .../api/v1/players?sort=kills&limit=10` returns top 10 players by kills.
+  [done 2026-06-21] Apple #2340. IDUNA commit c09d5b0. 3 tests.
+
+- [x] **S48-02: emily.cli `emily shankpit leaderboard`** — Calls IDUNA `GET /api/v1/players?sort=kills&limit=10`
+  and renders a formatted leaderboard table. Uses the existing IDUNA client.
+  Acceptance: `emily shankpit leaderboard` prints rank, player_id, kills, deaths, K/D ratio.
+  [done 2026-06-21] Apple #2342. emily.cli commit bd6d9ae.
+
+- [x] **S48-03: EmilyOS `emilyos posture history [N]`** — Reads audit log, filters events where
+  `verb=posture.set`, prints `seq | ts | actor | old_state → new_state`. Default N=20.
+  Acceptance: `emilyos audit history 5` shows last 5 posture transitions.
+  [done 2026-06-21] Apple #2344. EmilyOS commit c37ee46.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
