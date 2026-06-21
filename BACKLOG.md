@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S71-01: EMILY briefing buildBriefingMessage + typeLabel — 5 tests** — empty, count grouping,
+  90-char title cap, top-3 notable filtering, 7 typeLabel cases. 61 emily-agent tests.
+  [done 2026-06-21] Apple #2416.
+
 - [x] **S70-01: EMILY DocStore test suite — 3 tests** — Append+LoadSeen IDs, seq increment, empty
   LoadSeen on fresh store. 56 emily-agent tests. [done 2026-06-21] Apple #2414.
 
