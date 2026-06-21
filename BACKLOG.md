@@ -1398,6 +1398,11 @@ institutions.
   bold 1/22, reset 0), s/u save/restore. TestEraseInLine, TestSGR256Color, TestSGRBold all pass.
   14 vterm tests total pass. — Apple #2320. 2026-06-21.
 
+- [x] **S45-05: PITVIPER scrollback buffer** — Ring buffer (10,000 lines max). scrollUp() saves
+  rows before clearing. Snapshot() composites scrollback+live when scrollTop>0; cursor=-1,-1
+  when scrolled. ScrollBy/ScrollReset/ScrollLines/ScrollbackLen. SDL2 Shift+PageUp/Down (half-page),
+  Shift+Home/End. 17 vterm tests pass (TestScrollbackView, TestScrollByClamp). — Apple #2330. 2026-06-21.
+
 ---
 
 ## SECTION 46: EMILYOS MILESTONE 2+3 TEST COVERAGE + CMD
