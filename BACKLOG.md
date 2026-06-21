@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S67-01: PITVIPER font package test suite — 5 tests** — GlyphDimensions (8×13), AtlasSize (95),
+  KnownChars (A/Z/0/9 rendered), OutOfRange (emoji→?), AllPrintable (0x20–0x7E).
+  [done 2026-06-21] Apple #2407.
+
 - [x] **S66-01: IDUNA drive.Client test suite — 5 tests** — bad JSON, missing email, missing key,
   default token URI, oversized upload rejection. No network.
   [done 2026-06-21] Apple #2405.
