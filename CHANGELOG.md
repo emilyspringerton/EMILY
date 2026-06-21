@@ -1,3 +1,7 @@
+## 2026-06-21
+
+- feat: S32-02 POST /api/v1/emily/push/test FCM test endpoint (Apple #2306)
+
 ## 2026-06-20
 
 - feat: S44-05 emily-agent ConversationStore git pull --rebase before push (Apple #1881)
