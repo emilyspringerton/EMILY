@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S62-01: IDUNA auth.Subscription.IsActive() test suite — 7 cases** — nil, perpetual-active,
+  future-expiry, past-expiry, cancelled, expired-status, cancelled-but-future-expiry.
+  [done 2026-06-21] Apple #2396.
+
 - [x] **S61-01: PRRJECT_FATBABY chart package test suite — 7 tests** — TestParseYahooResponse
   (NaN/0 filter), TestParseYahooResponseError, TestParseYahooResponseEmpty, TestRenderSVGUptrend
   (green), TestRenderSVGDowntrend (red), TestRenderSVGTooFewPoints, TestRenderSVGFlatLine.
