@@ -1512,6 +1512,11 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S54-02: EmilyOS EXPORT_EVIDENCE verb + bundle test — Milestone 5 complete** — `runAuditBundle`
+  dispatches `EXPORT_EVIDENCE` (cap.export) before writing; export is audited. `TestBundleManifest
+  Verification`. NORTHSTAR M5 [x].
+  [done 2026-06-21] Apple #2373.
+
 - [x] **S54-01: EmilyOS POLICY_ROLLBACK verb — Milestone 4 complete** — `emilyos snapshot rollback <id>`:
   hash-verify, dispatch via Dispatcher (cap.policy.write), SOC 2 audit event. `ComputeSnapshotHash`
   exported. `TestSnapshotRollback`: 3 snapshots + rollback + verify. NORTHSTAR M4 [x].
