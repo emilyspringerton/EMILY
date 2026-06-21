@@ -1499,6 +1499,20 @@ institutions.
 
 ---
 
+## SECTION 50: EMILYOS MILESTONE 4 — POLICY SNAPSHOTS
+
+*S50-01: EmilyOS policy snapshot store tests + emilyos about + emilyos snapshot commands.*
+
+- [x] **S50-01: EmilyOS policy snapshots (Milestone 4 partial)** — `internal/policy/snapshot_test.go`:
+  6 tests (Write, HashStable, Latest, GetNotFound, NewIDFormat, DirCreated).
+  `emilyos about`: shows version + commit + date + posture + latest snapshot.
+  `emilyos snapshot capture|list|show`: manages policy snapshots in var/snapshots/.
+  Build attestation via -ldflags buildCommit/buildDate.
+  NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
+  [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
