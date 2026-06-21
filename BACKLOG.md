@@ -1388,14 +1388,36 @@ institutions.
   SDL2 window + PTY + 60fps render loop + keyboard forwarding + resize. Blocked to run on:
   sudo apt install libsdl2-dev + create emilyspringerton/PITVIPER repo on GitHub. — Apple #2315. 2026-06-21.
 
-- [ ] **S45-03: PITVIPER glyph cache + UTF-8 decode** — Pre-render printable ASCII into SDL_Surface
-  atlas at startup (no per-char alloc during render). Handle UTF-8 multi-byte sequences from PTY.
-  Acceptance: `ls` with unicode filenames renders without artifacts.
+- [x] **S45-03: PITVIPER glyph cache + UTF-8 decode** — font.Atlas pre-rendered at init() for all
+  printable ASCII (0x20–0x7E) via x/image/font/basicfont. vterm.Write() accumulates multi-byte UTF-8
+  sequences; invalid bytes → U+FFFD. TestUTF8Rune: "café" decodes, cursor at col 4. 14 tests pass.
+  — Apple #2318. 2026-06-21.
 
-- [ ] **S45-04: PITVIPER color + SGR escape sequence parser** — Parse ANSI CSI sequences from PTY
-  stream: SGR colors (foreground/background 8-color + 256-color), cursor movement (CUU/CUD/CUF/CUB),
-  erase in line (EL). Required for bash prompt colors to render correctly.
-  Acceptance: colored bash prompt renders; cursor moves correctly.
+- [x] **S45-04: PITVIPER color + SGR escape sequence parser** — handleCSI covers: CHA (G), VPA (d),
+  A/B/C/D cursor movement, H/f position, J/K erase, m SGR (8-color, bright-8, 256-color 38;5;N,
+  bold 1/22, reset 0), s/u save/restore. TestEraseInLine, TestSGR256Color, TestSGRBold all pass.
+  14 vterm tests total pass. — Apple #2320. 2026-06-21.
+
+---
+
+## SECTION 46: EMILYOS MILESTONE 2+3 TEST COVERAGE + CMD
+
+*Goal: Complete EmilyOS Milestone 2 acceptance criteria (RBAC + posture tests) and add the CLI.*
+
+- [x] **S46-01: EmilyOS RBAC + posture test coverage** — rbac_test.go: 8 tests (Operator/Admin/Auditor
+  caps, CapsForRole copy, ValidRole, AllRoles). machine_test.go: 7 tests (default, NormalToSiege,
+  invalid SIEGE→INCIDENT, persist, SIEGE denies cap.net, NORMAL passthrough, INCIDENT forces export).
+  All 4 EmilyOS packages green. — Apple #2322. 2026-06-21.
+
+- [ ] **S46-02: EmilyOS `cmd/emilyos` CLI** — `./emilyos posture get/set <state>`, `./emilyos verb
+  dispatch <verb> <object>`, `./emilyos audit tail [-n 10]`, `./emilyos audit verify`. Reads
+  EMILY_ACTOR_ID, EMILY_SESSION_ID, EMILY_DEVICE_ID, EMILY_ROLE env vars. Apple on each transition.
+  Acceptance: `./emilyos posture set SIEGE` logs SIEGE + audit event; `./emilyos audit tail -n 5`
+  prints last 5 events.
+
+- [ ] **S46-03: EmilyOS posture gate in emily-agent** — emily-agent reads EmilyOS posture on startup
+  and respects SIEGE (no LLM calls) and EXITED (refuse to start). Posture path from
+  EMILY_POSTURE_PATH env var. Makes Emily Prime posture-aware.
 
 ---
 
