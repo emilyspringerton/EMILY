@@ -41,9 +41,9 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "af0b2bdcc3295ca26d6cbaabe40a2e5c3d6ce67024f09dd96463766ad1033703",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-21T08:04:40Z | cycle 1373 | idle | idle — no queued tasks\n2026-06-21T08:10:05Z | cycle 1374 | idle | idle — no queued tasks\n2026-06-21T08:15:13Z | cycle 1375 | idle | idle — no queued tasks\n2026-06-21T08:19:42Z | cycle 1376 | idle | idle — no queued tasks\n2026-06-21T08:24:22Z | cyc\n",
-      "updated_at": "2026-06-21T16:30:19Z"
+      "hash": "d54a0a1b49010cb1b9f09035204db122d3ee9bf08d48ae96a87d56f2d566441d",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-21T11:34:17Z | cycle 1415 | idle | idle — no queued tasks\n2026-06-21T11:40:01Z | cycle 1416 | idle | idle — no queued tasks\n2026-06-21T11:44:29Z | cycle 1417 | idle | idle — no queued tasks\n2026-06-21T11:48:46Z | cycle 1418 | idle | idle — no queued tasks\n2026-06-21T11:53:12Z | cyc\n",
+      "updated_at": "2026-06-21T20:02:51Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "370fe64ecf41c98e090917e8a2bf07884fe302e9650d977dd5dd77d56683aa0c",
@@ -64,6 +64,11 @@
       "hash": "f2f8765512f7a0d355f7e467c7356890bc75c2ab9b81bc7955f6438401187d01",
       "compressed": "## EMILYOS\n# EmilyOS — North Star\n\n**SOC 2 Type II Security (Common Criteria) Readiness**\n\n\u003e An operating environment that a Type II auditor can attest to: deliberate interaction, least privilege, isolation boundaries, tamper-evident audit trail, controlled change management.\n\n---\n\n## Why SOC 2 Is the Right North Star\n\nSOC 2 doesn't tell us to build bureaucracy. It tells us to build the *right thing*:\n\n| SOC 2 Requirement | EmilyOS Mechanism |\n|---|---|\n| Deliberate user action | Intent-declared verb mod\n",
       "updated_at": "2026-06-21T12:11:31Z"
+    },
+    "/home/fatbaby/GoblinFoxDragon/docs2/MMO_NORTHSTAR.md": {
+      "hash": "98d8df47f580fe7f9c5775b4d312a9cef79c23a6c00d57463748d3d53b6018a7",
+      "compressed": "## DNS-MMO-NORTHSTAR\n# DragonsNShit MMO — Product Northstar\n\n*Last updated: 2026-06-21*\n\n---\n\n## Three-Sentence Version\n\nDragonsNShit is a persistent-world action MMO built on the Dragonfly/Bedrock engine where\nplayers, guilds, and factions shape a living world through combat, economy, and in-world\nscripted events — all running on the same server-authoritative UDP stack that powers SHANKPIT.\nIDUNA is the identity and auth layer: every player account, item, guild membership, and\nseason-end snapshot is durably anc\n",
+      "updated_at": "2026-06-21T16:35:01Z"
     },
     "/home/fatbaby/IDUNA/docs/NORTHSTAR.md": {
       "hash": "16366ae0dbd83b9d98541442148a6908e30800ff238e3a4118973e1daa1b9337",
