@@ -1482,6 +1482,23 @@ institutions.
 
 ---
 
+## SECTION 49: EMILY-AGENT POSTURE VISIBILITY
+
+*S49-01: emily-agent GET /api/v1/emily/posture — posture endpoint.*
+*S49-02: emily status shows EmilyOS posture from emily-agent.*
+
+- [x] **S49-01: emily-agent GET /api/v1/emily/posture** — Returns `{posture, llm_blocked, queried_at}`.
+  Routes to `api_posture.go:handlePostureGet()`. Reads posture.json via `readPosture()`.
+  llm_blocked=true when SIEGE or EXITED.
+  [done 2026-06-21] Apple #2346. EMILY commit 926e10f.
+
+- [x] **S49-02: emily status shows EmilyOS posture** — Calls `/api/v1/emily/posture` from emily-agent.
+  Prints `POSTURE: NORMAL` in human-readable status output. Best-effort; skipped if agent not running.
+  EMILY_AGENT_URL env override. emily.cli commit dfac697.
+  [done 2026-06-21] Apple #2348. emily.cli commit dfac697.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
