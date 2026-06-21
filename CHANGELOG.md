@@ -1,4 +1,5 @@
 ## 2026-06-21
+- test: S71-01 briefing buildBriefingMessage+typeLabel; 61 total (Apple #2416)
 - test: S70-01 DocStore append+LoadSeen tests; 56 total (Apple #2413)
 - test: S69-01 goldenbuild contentHash+loadGoldenIndex tests; 53 total (Apple #2411)
 - test: S68-01 Emiree WitchState test suite; 10 tests, 46 total (Apple #2409)
