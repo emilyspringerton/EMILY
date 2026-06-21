@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S64-01: PITVIPER CSI E/F/X (CNL/CPL/ECH) + TestCSICNLCPLECH** — CSI E: down N rows col=0;
+  CSI F: up N rows col=0; CSI X: erase N chars in-place. 31 vterm tests.
+  [done 2026-06-21] Apple #2400.
+
 - [x] **S63-01: PITVIPER CSI L/M (insert/delete line) + TestCSIInsertDeleteLine** — CSI L: insert N
   blank lines at cursor, shift region down; CSI M: delete N lines, shift region up. 30 vterm tests.
   [done 2026-06-21] Apple #2398.
