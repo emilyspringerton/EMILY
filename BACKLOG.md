@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S63-01: PITVIPER CSI L/M (insert/delete line) + TestCSIInsertDeleteLine** — CSI L: insert N
+  blank lines at cursor, shift region down; CSI M: delete N lines, shift region up. 30 vterm tests.
+  [done 2026-06-21] Apple #2398.
+
 - [x] **S62-01: IDUNA auth.Subscription.IsActive() test suite — 7 cases** — nil, perpetual-active,
   future-expiry, past-expiry, cancelled, expired-status, cancelled-but-future-expiry.
   [done 2026-06-21] Apple #2396.
