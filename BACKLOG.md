@@ -1751,10 +1751,11 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   T1=1 element, T2=2 elements (union), T3=4 elements. 15s burst window. BurstMultiplier=0.35.
   End-to-end: Distortion+Ice, Light+Fire/Lightning. 31 tests total. [done 2026-06-21] Apple #2527.
 
-- [ ] **S81-03: Weapon skill points (WSP) / TP system** — TP accumulates per hit (haste/delay
-  formula). At 100 TP, player can execute a weapon skill. `server/combat/tp.go`:
-  `TPState{current, max}`, `AddTP(weaponDelay, haste) int`, `ConsumeTP() bool`. Tests: 
-  accumulation, cap at 300, consume gate.
+- [x] **S81-03: TP weapon skill points system** — `server/combat/tp.go`: `TPState.AddTP(delay,
+  hastePct)` formula (effective_delay = delay*(1-haste/100)/6, floor 5, cap 300).
+  `CanWeaponSkill()`, `UseWeaponSkill()` (resets to 0), `ConsumeTP(n)`, `Reset()`,
+  `HitsToWS()`. 6 delay consts (HtH=80, 1H=240, GS=480, Staff=366, Polearm=402).
+  MaxHaste=80%. 34 tests. [done 2026-06-21] Apple #2533.
 
 - [ ] **S81-04: Status effects (enfeebles + buffs)** — Server-authoritative status stack:
   Poison, Paralyze, Slow, Haste, Regen, Refresh, Protect, Shell, Silence, Bind.
