@@ -1409,15 +1409,15 @@ institutions.
   invalid SIEGE→INCIDENT, persist, SIEGE denies cap.net, NORMAL passthrough, INCIDENT forces export).
   All 4 EmilyOS packages green. — Apple #2322. 2026-06-21.
 
-- [ ] **S46-02: EmilyOS `cmd/emilyos` CLI** — `./emilyos posture get/set <state>`, `./emilyos verb
-  dispatch <verb> <object>`, `./emilyos audit tail [-n 10]`, `./emilyos audit verify`. Reads
-  EMILY_ACTOR_ID, EMILY_SESSION_ID, EMILY_DEVICE_ID, EMILY_ROLE env vars. Apple on each transition.
-  Acceptance: `./emilyos posture set SIEGE` logs SIEGE + audit event; `./emilyos audit tail -n 5`
-  prints last 5 events.
+- [x] **S46-02: EmilyOS `cmd/emilyos` CLI** — posture get/set (admin-gated, audit event, persist),
+  verb dispatch (capForVerb table, policy deny → exit 2), audit tail -n N (JSON events),
+  audit verify (chain integrity → exit 3 on tamper). EMILY_{ACTOR,SESSION,DEVICE,ROLE,POSTURE,AUDIT}
+  env vars. Smoke tested: NORMAL→SIEGE, auditor denied EXEC, chain verify ok. — Apple #2325. 2026-06-21.
 
-- [ ] **S46-03: EmilyOS posture gate in emily-agent** — emily-agent reads EmilyOS posture on startup
-  and respects SIEGE (no LLM calls) and EXITED (refuse to start). Posture path from
-  EMILY_POSTURE_PATH env var. Makes Emily Prime posture-aware.
+- [x] **S46-03: EmilyOS posture gate in emily-agent** — posture.go: readPosture() reads
+  EMILY_POSTURE_PATH/posture.json. postureBlocksLLM(): SIEGE=skip cycle, EXITED=block.
+  cron.go RunOnce() checks posture first. main() asserts NOT EXITED on startup.
+  Build ok, tests pass. — Apple #2327. 2026-06-21.
 
 ---
 
