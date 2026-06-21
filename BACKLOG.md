@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S60-01: PRRJECT_FATBABY mysqlToSQLite + splitStatements test suite — 20 cases** —
+  TestSplitStatements (6), TestMySQLToSQLiteRules (12 rules), TestAlterAddIndex, TestCleanTrailingCommas.
+  [done 2026-06-21] Apple #2391.
+
 - [x] **S59-01: PITVIPER CSI S/T/P/@ (scroll+char edit) + 2 tests** — CSI S: scroll-up-N; CSI T:
   scroll-down-N; CSI P: delete-N-chars (shift left); CSI @: insert-N-blanks (shift right).
   TestCSIScrollUpDown + TestCSIDeleteInsertChar. 29 vterm tests.
