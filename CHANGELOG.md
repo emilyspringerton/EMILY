@@ -1,4 +1,5 @@
 ## 2026-06-21
+- test: S73-01 Emiree FractalFingerprint+Summary; 68 total (Apple #2420)
 - test: S72-01 HEIMDAL formatCriteria+min tests; 65 total (Apple #2418)
 - test: S71-01 briefing buildBriefingMessage+typeLabel; 61 total (Apple #2416)
 - test: S70-01 DocStore append+LoadSeen tests; 56 total (Apple #2413)
