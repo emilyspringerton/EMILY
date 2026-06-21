@@ -1512,6 +1512,10 @@ institutions.
   NORTHSTAR: milestones 1-3 marked complete; 4-5 in progress.
   [done 2026-06-21] Apple #2352. EmilyOS commit 47314dd.
 
+- [x] **S69-01: EMILY goldenbuild contentHash + loadGoldenIndex tests — 7 tests** — contentHash
+  (deterministic, different, budget truncate, budget=0), loadGoldenIndex (fallback, table parse,
+  empty-tier1). 53 emily-agent tests total. [done 2026-06-21] Apple #2411.
+
 - [x] **S68-01: EMILY Emiree witch engine test suite — 10 tests** — TestNewWitchStateDefaults,
   TestGearString (7), TestSelectGear (7 cases), Observe, Update stability (200 iter), Influence,
   ObserveRSIOutcome. 46 emily-agent tests total. [done 2026-06-21] Apple #2409.
