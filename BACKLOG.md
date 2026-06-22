@@ -1821,10 +1821,12 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   based on skill overshoot and RNG. `HQTier(skillGap float64, roll float64) int`.
   Tests: HQ1 at gap+10, HQ3 at gap+50, NQ at gap 0.
 
-- [ ] **S84-03: Auction house** — Blind-bid single-price AH per item per server.
-  `server/market/`: `Listing{ItemID, Price, SellerID, ListedAt}`, `AuctionHouse.List()`,
-  `AuctionHouse.Buy(buyerID, itemID) (Listing, err)` — lowest price wins; Apple filed on
-  sale. Tests: buy at lowest price, no listings errors, provenance updated.
+- [x] **S84-03: Auction house** — `server/market/ah.go`: 8 categories (Weapons/Armor/Ammo/
+  Food/Crystals/Materials/CraftItems/Misc). Listing{ID,ItemID,ItemName,Category,Price,Qty,
+  SellerID}. Buy(buyerID,itemID) → cheapest listing; self-purchase blocked; SaleRecord written.
+  CancelListing(). BrowseCategory() → ItemSummary per item cheapest-first. ItemPage() →
+  active listings + last 12 sales (FFXI PS2 terminal parity). SellerListings/BuyerHistory.
+  AHFeePct=4 HistoryCap=12. 31 tests. [done 2026-06-22] Apple #2547.
 
 ### PARTY + ALLIANCE SYSTEM
 
