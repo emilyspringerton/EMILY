@@ -1677,9 +1677,11 @@ Depends on S75 IDUNA schema.*
   against IDUNA `/api/v1/auth/verify`. Reject unauthenticated connections. Load character record
   from IDUNA into session slot. Ref: GFD/server-go; IDUNA M2M pattern from PRRJECT_FATBABY.
 
-- [ ] **S76-02: GFD per-player scene isolation** — Replace global `phys_set_scene(scene_id)` with
-  per-slot scene context. Each player tracks `slot.scene_id`; physics queries filtered by
-  player scene. Fixes multi-scene coexistence. Ref: SHANKPIT_DRAGONSNSHIT_SYSTEMS_SPEC.md §3.1.
+- [x] **S76-02: GFD zone backend** — `server/zone/zone.go`: Zone{ID,Name,SpawnXYZ},
+  DefaultZones() (Meadow=0/Hills=1/Caves=2), Manager.Enter/Leave/Transfer, PlayersIn(),
+  SameZone(), SpawnFor(). EncodeSceneChange/DecodeSceneChange (14-byte wire, zoneID uint8 +
+  float32×3 XYZ). PacketSceneChange=7 added to common/protocol.go. 38 tests.
+  [done 2026-06-22] Apple #2539.
 
 - [ ] **S76-03: GFD Telecrystal travel — server-authoritative** — On `BTN_USE` + Telecrystal radius
   check: validate gold balance (IDUNA), deduct cast cost, transition player scene in IDUNA,
