@@ -2214,6 +2214,28 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 105: DRAGONSNSHIT MUD — PLAYER MAP + WEATHER SYSTEM (2026-06-23)
+
+*Exploration depth: players build a zone map as they explore. Weather modulates mob behavior + combat.*
+
+- [ ] **S105-01: Zone map system — `server/cartography/cartography.go`** — `Atlas` tracks which
+  zones a player has visited. `Visit(zoneID)`. `KnownZones() []int`. `ExitMap(exits map[int]map[string]int) string`
+  builds ASCII exit map showing visited vs unknown zones. 10 tests.
+
+- [ ] **S105-02: Cartography MUD wiring** — `map` command shows ASCII zone map (visited=zone name,
+  unvisited=???). `Atlas` on player struct, `Visit()` called on zone entry. `explore` alias.
+
+- [ ] **S105-03: Weather system — `server/weather/weather.go`** — `Phase{Clear,Overcast,Rain,Storm}`
+  and `Engine{phase,phaseEnds}`. `Tick(now) (changed bool, old, new Phase)`. Duration: Clear=5-12min,
+  Overcast=3-8min, Rain=2-6min, Storm=1-4min. Storm: all mob damage +15%, ChaosEdge resonance for BST
+  tame (+10% success). 12 tests.
+
+- [ ] **S105-04: Weather MUD wiring** — Weather goroutine in MUD server. `weather` command shows current
+  phase. Weather changes broadcast to all players in zone. Storm buffs mob MeleeDamage via modifier.
+  BST tame: if storm, add +10% to chance. Show weather on player prompt line.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
