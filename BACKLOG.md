@@ -2367,6 +2367,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   12 spells (6 elements × 2 tiers). DEX scaling (+1 dmg per DEX >10). NIN job/sub required.
   Dispatched via `cast` command. Apple #3276
 
+## SECTION 118: DRAGONSNSHIT MUD — PLD PALADIN MAGIC (2026-06-23)
+
+- [x] **S118-01: PLD spells — Flash/Sentinel/Rampart/Holy/Banish/Banish II** —
+  Flash: 1500 CE enmity spike (aggro pull). Sentinel: +30 phys def 30s. Rampart: zone-AoE +20 def.
+  Holy: 200 light dmg. Banish: 80 dmg. Banish II: 190 dmg. PLD job/sub required. Apple #3278
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
