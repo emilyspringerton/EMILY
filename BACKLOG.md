@@ -2343,6 +2343,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   18 spells (6 elements × 3 tiers). INT scaling (+1 dmg per INT >10). BLM/RDM main/sub required.
   Silence check. Requires combat target. `cmdCastBlackMagic` shared handler. Apple #3267
 
+## SECTION 114: DRAGONSNSHIT MUD — BRD SONGS (2026-06-23)
+
+- [x] **S114-01: BRD zone-AoE songs — march/paeon/ballad/minne/carol/mambo** —
+  6 songs apply Haste/Regen/Refresh/Protect/Shell to all players in zone. BRD job/sub required.
+  3-minute duration. Party notification broadcast. Apple #3269
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
