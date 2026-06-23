@@ -1840,6 +1840,14 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   Preset points: MeadowMiningPoints (diff 0-10) + SwampMiningPoints (diff 15-40, Swampite+WaterCrystal).
   27 tests. [done 2026-06-23] Apple #2868.
 
+- [x] **S84-06: DragonsNShit MUD server** — `apps2/mud/main.go`: playable TCP text MUD on :2323.
+  Connects: nc localhost 2323. Commands: look/l, n/s/e/w, attack, stop, ws (weapon skill 3×dmg),
+  mine, mine-points/mp, status/st, who, say, tell, map, mobs, help, quit.
+  1Hz game loop: mob.Tick (AI/aggro/burrow), mob.TickPlayer (auto-attack + TP gain),
+  status.Stack.Tick (Poison/Regen/Refresh), mob respawn queue (60s). 4 zones with exits.
+  All server packages wired: zone.Manager, mob.Registry, combat/tp, status, gather, worldapi.
+  [done 2026-06-23] Apple #2887.
+
 ### PARTY + ALLIANCE SYSTEM
 
 - [ ] **S85-01: Party system** — 6-player parties. Leader invites/kicks. XP shared among
