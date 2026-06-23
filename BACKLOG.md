@@ -2218,12 +2218,14 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Exploration depth: players build a zone map as they explore. Weather modulates mob behavior + combat.*
 
-- [ ] **S105-01: Zone map system — `server/cartography/cartography.go`** — `Atlas` tracks which
+- [x] **S105-01: Zone map system — `server/cartography/cartography.go`** — `Atlas` tracks which
   zones a player has visited. `Visit(zoneID)`. `KnownZones() []int`. `ExitMap(exits map[int]map[string]int) string`
   builds ASCII exit map showing visited vs unknown zones. 10 tests.
+  Apple #3238 | 2026-06-23.
 
-- [ ] **S105-02: Cartography MUD wiring** — `map` command shows ASCII zone map (visited=zone name,
+- [x] **S105-02: Cartography MUD wiring** — `map` command shows ASCII zone map (visited=zone name,
   unvisited=???). `Atlas` on player struct, `Visit()` called on zone entry. `explore` alias.
+  Apple #3238 | 2026-06-23.
 
 - [ ] **S105-03: Weather system — `server/weather/weather.go`** — `Phase{Clear,Overcast,Rain,Storm}`
   and `Engine{phase,phaseEnds}`. `Tick(now) (changed bool, old, new Phase)`. Duration: Clear=5-12min,
