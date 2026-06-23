@@ -2193,10 +2193,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `petHeal <slot>` command (WHM sub: cure pet). 20 tests.
   Apple #3228 | 2026-06-23.
 
-- [ ] **S104-02: BST MUD wiring** — `bst` command: `charmed <mob>` if BST and mob HP<50%.
+- [x] **S104-02: BST MUD wiring** — `bst` command: `charmed <mob>` if BST and mob HP<50%.
   Pet auto-attacks owner's target each tick. `pet-release` dismisses. `pet-status` shows pet HP.
   `pet-heel` (pet stops attacking, follows). Pet XP grants to owner. Pet slot on player struct.
   `setjob BST` enables `bst` command.
+  Apple #3231 | 2026-06-23.
 
 - [ ] **S104-03: NPC quest system — `server/quest/quest.go`** — `Quest{ID, Title, GiverNPCID,
   RequireItems map[string]int, RequireKills map[string]int, RewardGil int, RewardItem string}`.
