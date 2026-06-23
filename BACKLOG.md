@@ -2181,6 +2181,35 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 104: DRAGONSNSHIT MUD — BST PET SYSTEM + NPC QUESTS (2026-06-23)
+
+*GoblinFoxDragon MUD depth: Beastmaster pet companions + quest-giving NPCs.*
+*Goal: BST job summons a pet that fights autonomously. NPCs give quests with item/gil rewards.*
+
+- [ ] **S104-01: BST pet system — `server/pet/pet.go`** — `Pet{Kind, HP, MaxHP, Level, OwnerSlot}`
+  8 tameable mob kinds (wolf/bird/lizard/crab/leech/slime/worm/bear). `Tame(p *mob.Mob) bool`:
+  success chance = 40%+2%/lvl, fail if mob HP>70%. Pet fights its owner's target (auto-attack 1.5s
+  swing). Pet dies → nil; respawn after 5min via `JugPet(kind)`. `PetStatus()` shows HP.
+  `petHeal <slot>` command (WHM sub: cure pet). 20 tests.
+
+- [ ] **S104-02: BST MUD wiring** — `bst` command: `charmed <mob>` if BST and mob HP<50%.
+  Pet auto-attacks owner's target each tick. `pet-release` dismisses. `pet-status` shows pet HP.
+  `pet-heel` (pet stops attacking, follows). Pet XP grants to owner. Pet slot on player struct.
+  `setjob BST` enables `bst` command.
+
+- [ ] **S104-03: NPC quest system — `server/quest/quest.go`** — `Quest{ID, Title, GiverNPCID,
+  RequireItems map[string]int, RequireKills map[string]int, RewardGil int, RewardItem string}`.
+  `State{Active, KillProgress map[string]int, Complete}`. `Accept/TurnIn` flow.
+  5 starter quests: "Gather Iron Ore" (3 ore→100gil), "Defeat the King Worm" (1 NM kill→500gil +
+  Iron Sword), "The Merchant's Request" (5 Crystals→200gil), "Swamp Patrol" (kill 5 leeches→300gil
+  + leather belt), "Crisis Volunteer" (1 crisis-shard→400gil + Echo Drop).
+
+- [ ] **S104-04: NPC dialogue MUD wiring** — `npc` command: `npcs` lists NPCs in zone.
+  `talk <npc-id>` shows dialogue + available quests. `quest-accept <quest-id>`. `quest-turn-in <id>`.
+  `quests` lists active + completed quests. NPCs: Guildmaster (Meadow), Merchant (Hills), Scout (Swamp).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
