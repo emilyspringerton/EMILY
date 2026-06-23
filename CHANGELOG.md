@@ -1,4 +1,5 @@
 ## 2026-06-23
+- S103-03: api_archetype.go — archetype engine status+spirits proxy endpoints; /api/v1/emily/archetype/status+spirits
 - S102-05: field_bridge.go — THE_FIELD AugmentTaskWithField wired into RSI DECIDE phase; archetypesBridge adapts AnthropicClient; 30s timeout; resonance header prepended to new task descriptions
 - S102-04: cmd/archetype-engine HTTP service :8090 — POST /invoke (E1/E2 dual-persona), GET /spirits (all 72), GET /status; builds clean
 - S102-01: pkg/archetypes — All72 Spirit structs (M_G v1.0), MatchIntent keyword selector, ResonanceState/E1-E2 weights, amplitude normalization; 17 tests; BACKLOG S102 opened
