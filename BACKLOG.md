@@ -2293,6 +2293,22 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 109: DRAGONSNSHIT MUD — NATION FAME SYSTEM (2026-06-23)
+
+*FFXI parity: players earn fame in each nation by completing quests. Fame gates advanced NPCs and quests.*
+
+- [ ] **S109-01: Fame system — `server/fame/fame.go`** — `Nation` enum (Bastok/Sandoria/Windurst/Neutral).
+  `Store{points map[Nation]int}`. `Earn(n Nation, pts int)`. `Rank(n Nation) int` (0-5 thresholds:
+  0/50/200/500/1000/2000). `TotalPoints(n)`. `NewStore()`. Quests gain `RewardFame int + FameNation Nation`.
+  `Journal.TurnIn()` grants fame via Store. 12 tests.
+
+- [ ] **S109-02: Fame MUD wiring** — `fame` command shows rank + points per nation. Quests updated with
+  fame rewards. `StartingQuests` for Sandoria (Guildmaster quests) + Bastok (Merchant) + Windurst (Scout).
+  `talk <npc>` shows fame requirement if present. Fame gate: rank < required → "Your reputation isn't
+  strong enough yet."
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
