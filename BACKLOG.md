@@ -2361,6 +2361,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Drain: 80 HP mob→player HP steal (50 MP). Aspir: absorb MP from mob (40 MP).
   Absorb-*: stat drain + symbolic HP dmg (45 MP). DRK/RDM job/sub required. Apple #3274
 
+## SECTION 117: DRAGONSNSHIT MUD — NIN NINJUTSU (2026-06-23)
+
+- [x] **S117-01: NIN ninjutsu — Katon/Suiton/Doton/Raiton/Hyoton/Huton Ichi+Ni** —
+  12 spells (6 elements × 2 tiers). DEX scaling (+1 dmg per DEX >10). NIN job/sub required.
+  Dispatched via `cast` command. Apple #3276
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
