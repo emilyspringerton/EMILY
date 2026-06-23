@@ -1886,10 +1886,11 @@ into the playable MUD so kills grant XP, players level up, parties split XP, and
   known recipes. Recipes: iron ingot (2× earth crystal + iron ore → iron ingot), herbal remedy.
   [done 2026-06-23] Apple #3048.
 
-- [ ] **S90-02: MUD conquest system** — Wire `server/conquest` into the MUD. Zone kills award
+- [x] **S90-02: MUD conquest system** — Wire `server/conquest` into the MUD. Zone kills award
   conquest points to the nation the player has declared for (default: none/Neutral). `conquest`
   command shows current nation control of each zone. `declare <nation>` picks a nation.
   Tick conquest once per minute. Scoreboard shows nation point totals.
+  [done 2026-06-23] Apple #3051.
 
 - [ ] **S90-03: MUD auction house** — Wire `server/market` into the MUD. Player inventory items
   can be listed for sale. `ah sell <item-id> <price>` lists item. `ah browse [category]` shows
