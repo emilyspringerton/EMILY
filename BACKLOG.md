@@ -1892,9 +1892,10 @@ into the playable MUD so kills grant XP, players level up, parties split XP, and
   Tick conquest once per minute. Scoreboard shows nation point totals.
   [done 2026-06-23] Apple #3051.
 
-- [ ] **S90-03: MUD auction house** — Wire `server/market` into the MUD. Player inventory items
+- [x] **S90-03: MUD auction house** — Wire `server/market` into the MUD. Player inventory items
   can be listed for sale. `ah sell <item-id> <price>` lists item. `ah browse [category]` shows
   listings. `ah buy <listing-id>` deducts gil + transfers item. `ah history <item-id>` last sales.
+  [done 2026-06-23] Apple #3053.
 
 - [x] **S89-03: MUD loot pool + NM spawns** — Wire `server/loot` and `server/nm` into the MUD.
   Mob kill → dropsForMob table (worm/leech/slime/lizard/NM kinds). Solo: auto-award. Party:
