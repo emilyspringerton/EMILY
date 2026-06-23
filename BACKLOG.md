@@ -2227,14 +2227,16 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   unvisited=???). `Atlas` on player struct, `Visit()` called on zone entry. `explore` alias.
   Apple #3238 | 2026-06-23.
 
-- [ ] **S105-03: Weather system — `server/weather/weather.go`** — `Phase{Clear,Overcast,Rain,Storm}`
+- [x] **S105-03: Weather system — `server/weather/weather.go`** — `Phase{Clear,Overcast,Rain,Storm}`
   and `Engine{phase,phaseEnds}`. `Tick(now) (changed bool, old, new Phase)`. Duration: Clear=5-12min,
   Overcast=3-8min, Rain=2-6min, Storm=1-4min. Storm: all mob damage +15%, ChaosEdge resonance for BST
   tame (+10% success). 12 tests.
+  Apple #3240 | 2026-06-23.
 
-- [ ] **S105-04: Weather MUD wiring** — Weather goroutine in MUD server. `weather` command shows current
+- [x] **S105-04: Weather MUD wiring** — Weather goroutine in MUD server. `weather` command shows current
   phase. Weather changes broadcast to all players in zone. Storm buffs mob MeleeDamage via modifier.
   BST tame: if storm, add +10% to chance. Show weather on player prompt line.
+  Apple #3240 | 2026-06-23.
 
 ---
 
