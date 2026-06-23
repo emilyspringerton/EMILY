@@ -1874,9 +1874,10 @@ into the playable MUD so kills grant XP, players level up, parties split XP, and
   + bonus damage. Mob dies → clears chain state. All 29 GFD packages green.
   [done 2026-06-23] Apple #2964.
 
-- [ ] **S89-02: MUD job system** — Wire `server/job` into the MUD. `setjob <JOB>` command (e.g.
+- [x] **S89-02: MUD job system** — Wire `server/job` into the MUD. `setjob <JOB>` command (e.g.
   setjob WAR). Job sets max HP/MP via HPAtLevel/MPAtLevel. `jobs` command lists all 22 jobs.
-  Default job=WAR. Status shows current job. Sub-job support optional (defer to S89-03).
+  Default job=WAR. Status shows current job. HP/MP grow on level-up.
+  [done 2026-06-23] Apple #2966.
 
 - [ ] **S89-03: MUD loot pool + NM spawns** — Wire `server/loot` and `server/nm` into the MUD.
   Mob kill → drop-table loot pool. `lot <slot>` / `pass <slot>` resolve contested drops.
