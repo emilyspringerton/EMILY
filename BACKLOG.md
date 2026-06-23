@@ -2154,6 +2154,31 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 103: ARCHETYPE ENGINE FATBABY + SHANKPIT INTEGRATION (2026-06-23)
+
+*Full integration of THE_FIELD into PRRJECT_FATBABY signal analysis and SHANKPIT game AI.*
+*Northstar: `EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md` Milestones 8 + 9.*
+
+- [x] **S103-01: ArchetypeProvider — THE_FIELD routing for FatBaby signal analysis** —
+  `PRRJECT_FATBABY/internal/processor/archetype_provider.go`. `intentForSource()` maps
+  SEC form types to spirit stacks: 8-K→Aim#23(fraud)+Eligos#15, 10-K→Eligos+Vassago+Marax,
+  SC13D→Bune+Aim, DEF14A→Orobas+Botis, PR→Forneus+Vassago. Fallback to haiku when engine down.
+  `resonance_state`, `phase_delta_deg`, `intent` stamped in `Signal.RawMetadata`.
+  cmd/processor: `-archetype-engine` flag activates. 9 tests pass. Apple #3219 | 2026-06-23.
+
+- [ ] **S103-02: SHANKPIT emily-bot archetype policy** — Wire archetype engine into
+  `SHANKPIT/apps2/emily-bot/main.go`. `-archetype-engine` flag (default:
+  `http://localhost:8090`). In `think()`: serialize state → POST /invoke with
+  `intent="precision combat strike martial clarity"` (Leraje#14+Marchosias#35) →
+  parse `output` as action tokens → decode UserCmd. Chaos mode: `allow_collapse=true`
+  (Andras#63). Falls back to heuristic when engine unavailable.
+
+- [ ] **S103-03: Archetype engine operational metric in EMILY status** — POST /status to
+  `/api/v1/emily/archetype/status` proxy. `emily status` shows archetype engine state
+  (E1/E2 models, last resonance corridor, cycle count). emily-agent proxies :8090/status.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
