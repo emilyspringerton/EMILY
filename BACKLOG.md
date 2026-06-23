@@ -1779,14 +1779,11 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   BaseMP,MPPerLevel,STR/DEX/VIT/AGI/INT/MND/CHR}; StatsFor/HPAtLevel/MPAtLevel; melee MP=0; ErrUnknownJob.
   14 tests. [done 2026-06-23] Apple #2921.
 
-- [ ] **S82-02: Sub-job system** — Each character has main + sub job. Sub job grants skills
-  at half level. `CharJob{Main, Sub JobID, MainLvl, SubLvl int}`. `EffectiveLevel(sub) int`
-  = SubLvl/2. `CombinedStats(main, sub)`. Tests: sub level halving, stat combination.
+- [x] **S82-02: Sub-job system** — `server/job/subjob.go`: CharJob{Main,Sub,MainLvl,SubLvl}; EffectiveSubLevel=SubLvl/2;
+  CombinedStats main+sub at half level; ErrSameJob. 10 tests. [done 2026-06-23] Apple #2925.
 
-- [ ] **S82-03: Job abilities + traits** — Each job has a set of job abilities (JAs) with
-  recast timers and job traits (passive). `server/job/abilities.go`: `Ability{ID, Job,
-  RecAst time.Duration, Effect}`, `Trait{ID, Job, Effect}`, `RecastTracker.Use(abilityID) err`,
-  `RecastTracker.Ready(abilityID, now) bool`. Tests: recast gate, trait passive, level gate.
+- [x] **S82-03: Job abilities + traits** — `server/job/subjob.go`: Ability{ID,Job,Recast,MinLevel}; Trait; RecastTracker.Use/Ready/
+  RecastRemaining; ErrAbilityOnRecast/LevelGated/Unknown; WarriorAbilities/WhiteMageAbilities. 12 tests. [done 2026-06-23] Apple #2926.
 
 ### PROGRESSION SYSTEM
 
@@ -1794,25 +1791,20 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   CharXP.AddXP→leveledUp bool; multi-level overflow; ErrAtCap at L99; Progress/XPToNextLevel.
   13 tests. [done 2026-06-23] Apple #2922.
 
-- [ ] **S83-02: Merit points** — At level cap, XP converts to merit points spent on job
-  enhancements. `server/merit/`: `MeritBank{points int}`, `Earn(xp int)`, `Spend(category,
-  tier int) err`. Cap: 30 points total. Tests: conversion, spend cap, invalid tier.
+- [x] **S83-02: Merit points** — `server/merit/merit.go`: MeritBank; Earn(1000XP=1merit, cap30); Spend(tier cost=cur+1);
+  ErrMeritCapReached/TierCapped/InsufficientMerits; TotalSpent(). 13 tests. [done 2026-06-23] Apple #2927.
 
-- [ ] **S83-03: Item level system** — Equipment has item level (IL). Character's effective IL
-  is average of equipped gear. Stat bonuses scale with IL. `server/gear/`:
-  `Equipment{slots map[Slot]ItemID}`, `EffectiveIL(inv Inventory) int`. Tests: average IL,
-  empty slots excluded.
+- [x] **S83-03: Item level system** — `server/gear/gear.go`: 16 slot consts; Equipment.Equip/Unequip/ItemAt/EffectiveIL/
+  OccupiedCount; empty slots excluded from avg; ErrNoEquipment/SlotEmpty/UnknownSlot. 12 tests. [done 2026-06-23] Apple #2928.
 
 ### ECONOMY + CRAFTING
 
-- [ ] **S84-01: Crafting guilds** — 8 craft types: Alchemy/Blacksmith/Bonecraft/Clothcraft/
-  Cooking/Goldsmithing/Leathercraft/Woodworking. Character has skill level (0–110) per craft.
-  `server/craft/`: `CraftSkill{Type, Level float64}`, `Attempt(recipe, skill) Result`
-  with success/break/HQ probability by skill gap. Tests: success rate at cap, break below min.
+- [x] **S84-01: Crafting guilds** — `server/craft/craft.go`: 8 CraftType consts; CraftSkill.Level/SetLevel[0,110];
+  SuccessChance(50+gap*2 floor5 cap95); Attempt(recipe,skill,rng)->Result{Success,HQTier,ItemID}; ErrBreak at gap≤-10.
+  15 tests. [done 2026-06-23] Apple #2929.
 
-- [ ] **S84-02: Synthesis HQ system** — High-quality (HQ) results: 3 tiers (HQ1/HQ2/HQ3)
-  based on skill overshoot and RNG. `HQTier(skillGap float64, roll float64) int`.
-  Tests: HQ1 at gap+10, HQ3 at gap+50, NQ at gap 0.
+- [x] **S84-02: Synthesis HQ system** — same file: HQTier(gap,roll): 0=NQ, 1=gap≥10, 2=gap≥30 roll<0.15,
+  3=gap≥50 roll<0.05; Recipe.HQ1/2/3ItemID wired into Attempt. 7 tests. [done 2026-06-23] Apple #2930.
 
 - [x] **S84-03: Auction house** — `server/market/ah.go`: 8 categories (Weapons/Armor/Ammo/
   Food/Crystals/Materials/CraftItems/Misc). Listing{ID,ItemID,ItemName,Category,Price,Qty,
