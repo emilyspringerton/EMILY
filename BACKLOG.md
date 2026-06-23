@@ -1767,23 +1767,17 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   IsParalyzed() / IsSilenced() / IsBound(). Permanent effects (zero ExpiresAt) never expire.
   43 tests. [done 2026-06-21] Apple #2536.
 
-- [ ] **S81-05: Enmity (hate) system** — Each mob tracks enmity per player. Healing and
-  damage both generate enmity. Mob targets highest-enmity player. `Enmity` replaces simple
-  `AggroSlot` in mob.Mob. `server/enmity/`: `Table{mobID → map[slot]int}`, `Add(damage)`,
-  `AddCure(healing, isAoE bool)`, `Top() slot`. Tests: hate ranking, overaggro, AoE cure
-  hate split.
+- [x] **S81-05: Enmity (hate) system** — `server/enmity/enmity.go`: Table.Add(damage CE)/AddCure(heal CE; AoE halved)/
+  Reduce/Top (highest CE, alpha tie-break); EnmityCap=10000; ErrNoPlayers. 18 tests. [done 2026-06-23] Apple #2919.
 
-- [ ] **S81-06: Death + raise system** — Player HP reaches 0 → KO state (not disconnected).
-  `server/combat/`: `PlayerHP{current, max, state(alive/KO)}`, `TakeKO(now)`, 
-  `Raise(xpPenalty float64)`. On raise: HP=1, XP penalty applied. Tests: KO transition,
-  raise restores HP, xp debt applied.
+- [x] **S81-06: Death + raise system** — `server/combat/death.go`: HPState{Current,Max,IsKO}; TakeDamage→KO;
+  TakeKO; Raise(xp,pct)→penalty HP=1; RaiseDefault=10%; ErrNotKO/ErrAlreadyKO. 15 tests. [done 2026-06-23] Apple #2920.
 
 ### JOB SYSTEM
 
-- [ ] **S82-01: Job definitions** — 22 base jobs: WAR/MNK/WHM/BLM/RDM/THF/PLD/DRK/BST/BRD/
-  RNG/SAM/NIN/DRG/SMN/BLU/COR/PUP/DNC/SCH/GEO/RUN. `server/job/job.go`: `JobID` enum,
-  `JobStats{BaseHP, BaseMP, STR, DEX, VIT, AGI, INT, MND, CHR}` tables.
-  `HPAtLevel(job, level) int` via FFXI formula. Tests: all 22 job IDs defined, HP scaling.
+- [x] **S82-01: Job definitions** — `server/job/job.go`: JobID=string const; AllJobs[22]; Stats{BaseHP,HPPerLevel,
+  BaseMP,MPPerLevel,STR/DEX/VIT/AGI/INT/MND/CHR}; StatsFor/HPAtLevel/MPAtLevel; melee MP=0; ErrUnknownJob.
+  14 tests. [done 2026-06-23] Apple #2921.
 
 - [ ] **S82-02: Sub-job system** — Each character has main + sub job. Sub job grants skills
   at half level. `CharJob{Main, Sub JobID, MainLvl, SubLvl int}`. `EffectiveLevel(sub) int`
@@ -1796,10 +1790,9 @@ FFXI's core systems define the implementation roadmap. Each section below is one
 
 ### PROGRESSION SYSTEM
 
-- [ ] **S83-01: Level cap + XP** — Level 1–99 (extend to 119 later). XP table per level.
-  `server/xp/xp.go`: `XPToLevel(lvl int) int`, `AddXP(char, amount, tagger, mob)` — only
-  tagger's party gets XP. Level-up event emitted. Tests: XP thresholds, level-up trigger,
-  non-tagger gets 0 XP.
+- [x] **S83-01: Level cap + XP** — `server/xp/xp.go`: XPToLevel(lvl)→100*(lvl-1)^1.8 floor 75;
+  CharXP.AddXP→leveledUp bool; multi-level overflow; ErrAtCap at L99; Progress/XPToNextLevel.
+  13 tests. [done 2026-06-23] Apple #2922.
 
 - [ ] **S83-02: Merit points** — At level cap, XP converts to merit points spent on job
   enhancements. `server/merit/`: `MeritBank{points int}`, `Earn(xp int)`, `Spend(category,
@@ -1865,13 +1858,11 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   Region.AddPoints/Tick (majority wins; incumbent retains on tie; points reset), Map.TickAll/Scoreboard/RegionCount,
   DefaultRegions() 4 zones. 19 tests. [done 2026-06-23] Apple #2908.
 
-- [ ] **S86-02: Home point teleport** — Characters set a Home Point crystal; on KO they can
-  return there for an XP penalty. `HomePoint{SceneID, Pos}`, `SetHome()`, `ReturnHome()`.
-  Tests: home set, KO return deducts XP.
+- [x] **S86-02: Home point teleport** — `server/homepoint/homepoint.go`: Crystal{SceneID,Pos}; State.SetHome/ReturnHome
+  8% XP penalty on KO; ErrNoHomePoint/ErrNotKO. 10 tests. [done 2026-06-23] Apple #2914.
 
-- [ ] **S86-03: Survival guide / field manuals** — Zone-specific XP bonus books.
-  `server/field/`: `Manual{SceneID, ExpiresAt, BonusPct}`, `ApplyBonus(xp, manual) int`.
-  Tests: active manual doubles XP, expired manual gives 0 bonus.
+- [x] **S86-03: Survival guide / field manuals** — `server/field/field.go`: Manual{SceneID,BonusPct,ExpiresAt};
+  Active/ApplyBonus/ApplyAll stacking; 100% XP bonus; MeadowSurvivalGuide/SwampFieldManual presets. 14 tests. [done 2026-06-23] Apple #2915.
 
 ### CONTENT
 
@@ -1883,10 +1874,9 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   Pass->0; Ready(); Resolve() highest roll wins, all-pass=no winner, tie-break slot asc; partial OK.
   15 tests. [done 2026-06-23] Apple #2910.
 
-- [ ] **S87-03: Notorious Monster aggro types** — Aggro by sight (facing cone), sound
-  (proximity, ignores Sneak), or job (detects specific jobs). `server/mob/aggro.go`:
-  `AggroType{Sight, Sound, JobDetect bool}`, `Detects(mob, player, facingAngle float64) bool`.
-  Tests: sight cone, sound radius, Sneak status suppresses sound aggro.
+- [x] **S87-03: Notorious Monster aggro types** — `server/mob/aggro.go`: AggroType{Sight,Sound,JobDetect};
+  StatusFlags{Invisible,Sneak}; Detects/DetectsDefault 20m sight 45° half-cone 8m sound; Invisible→no sight,
+  Sneak→no sound, JobDetect unblockable; AggroSight/Sound/SightSound/Job/Passive presets. 16 tests. [done 2026-06-23] Apple #2916.
 
 ---
 
