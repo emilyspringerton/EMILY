@@ -653,10 +653,7 @@ produce an Emily-domain language model for local inference and RSI entropy sourc
   2026-06-16: Git LFS set up; emily-ft.bin + model.bin + model.safetensors pushed to GitHub LFS (Apple #589).
   2026-06-16: Local 300-step LoRA run started (PID 58912, 578 corpus records, bfloat16 CPU). IN PROGRESS.
 
-- [ ] **S26-05: Validate entropy source** — Compare entropy_mean_nats for base vs fine-tuned model
-  on Emily operational text; document delta in NORTHSTAR.md; update RSI loop entropy injection if
-  fine-tuned model produces better (more calibrated) entropy signal.
-  Base: H_mean=4.49 nats, H_max=8.62 nats. Target: H_mean shift of ≥0.5 nats after fine-tune.
+- [x] **S26-05: Validate entropy source** — Base: H_mean=4.4877, fine-tuned (emily-ft.bin 300-step): H_mean=4.6602 (+0.17 nats). NORTHSTAR milestone 3 updated. Target ≥0.5 nats not yet met — Colab T4 full fine-tune (S26-04) needed to reach target. RSI entropy source functional. Apple #3093 | 2026-06-23
 
 - [x] **S26-06: Emily Prime self-description training data** — Build instruction fine-tune pairs
   from Emily's prime directive in instruct mode (`--mode instruct`); verify that fine-tuned model
