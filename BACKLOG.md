@@ -2337,6 +2337,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Haste/Regen/Refresh all accept optional player target; notifications sent to both caster and
   target. Apple #3265
 
+## SECTION 113: DRAGONSNSHIT MUD — BLM BLACK MAGIC NUKES (2026-06-23)
+
+- [x] **S113-01: BLM black magic nukes — Fire/Blizzard/Thunder/Stone/Water/Aero I-III** —
+  18 spells (6 elements × 3 tiers). INT scaling (+1 dmg per INT >10). BLM/RDM main/sub required.
+  Silence check. Requires combat target. `cmdCastBlackMagic` shared handler. Apple #3267
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
