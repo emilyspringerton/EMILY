@@ -2307,6 +2307,20 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `talk <npc>` shows fame requirement if present. Fame gate: rank < required → "Your reputation isn't
   strong enough yet." Apple #3257
 
+## SECTION 110: DRAGONSNSHIT MUD — GUILD MANAGEMENT + NPC VENDOR (2026-06-23)
+
+*Completing the linkshell social loop and adding direct NPC shopping.*
+
+- [ ] **S110-01: Linkshell kick + promote** — `ls-kick <player>`: Officer+ removes a member's Feather via
+  `RevokeItem`. `ls-promote <player>`: Leader forges a Feather Sack for a Member, promoting to Officer
+  via `ForgeFeatherSack`. Both broadcast a linkshell announcement to online guild members. Help text
+  updated. 6 tests in guild_test.go covering kick and promote paths.
+
+- [ ] **S110-02: NPC vendor shop** — `shop` command at NPC zones. Each zone has a static item catalog
+  (price in gil). `shop` lists items. `shop buy <item-id>` deducts gil and adds to inventory. Items:
+  basic consumables (echo-drop, antidote, hi-potion) and zone-specific gear. `shop sell <item-id>` sells
+  player inventory item at 50% NPC buy price. 8 tests covering buy, sell, insufficient-gil, unknown-item.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
