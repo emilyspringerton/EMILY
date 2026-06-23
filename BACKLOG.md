@@ -2186,11 +2186,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *GoblinFoxDragon MUD depth: Beastmaster pet companions + quest-giving NPCs.*
 *Goal: BST job summons a pet that fights autonomously. NPCs give quests with item/gil rewards.*
 
-- [ ] **S104-01: BST pet system — `server/pet/pet.go`** — `Pet{Kind, HP, MaxHP, Level, OwnerSlot}`
+- [x] **S104-01: BST pet system — `server/pet/pet.go`** — `Pet{Kind, HP, MaxHP, Level, OwnerSlot}`
   8 tameable mob kinds (wolf/bird/lizard/crab/leech/slime/worm/bear). `Tame(p *mob.Mob) bool`:
   success chance = 40%+2%/lvl, fail if mob HP>70%. Pet fights its owner's target (auto-attack 1.5s
   swing). Pet dies → nil; respawn after 5min via `JugPet(kind)`. `PetStatus()` shows HP.
   `petHeal <slot>` command (WHM sub: cure pet). 20 tests.
+  Apple #3228 | 2026-06-23.
 
 - [ ] **S104-02: BST MUD wiring** — `bst` command: `charmed <mob>` if BST and mob HP<50%.
   Pet auto-attacks owner's target each tick. `pet-release` dismisses. `pet-status` shows pet HP.
