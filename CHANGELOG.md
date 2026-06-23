@@ -1,4 +1,5 @@
 ## 2026-06-23
+- backlog: S76-01/03/04/05/06 all done — IDUNA MMO API + GFD server-go auth/telecrystal/crafting/worldcrisis/skill-xp
 - backlog: S75-01/02/03/04/05 IDUNA MMO schema + API marked done (Apples #2935-2936)
 - backlog: S82-02/03/S83-02/03/S84-01/02 sub-job, recast, merit, gear IL, crafting marked done (Apples #2925-2930)
 - backlog: S81-05/06/S82-01/S83-01 enmity+death+jobs+XP marked done (Apples #2919-2922)
