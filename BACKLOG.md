@@ -2273,6 +2273,24 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 108: DRAGONSNSHIT MUD — FISHING + FOOD BUFFS (2026-06-23)
+
+*FFXI-parity gathering depth: fishing skill + cooked food stat buffs.*
+*Fishing: server/gather/fishing.go (mirrors mining.go). Food: server/food/food.go (stat buff on eat).*
+
+- [ ] **S108-01: Fishing skill — `server/gather/fishing.go`** — `FishingPoint{ID,SceneID,Difficulty,Yield}`
+  with species loot table (carp/bass/trout/eel/crab/fullmoon-sardine). `FishSkill.Attempt(pt,rng)`
+  same success model as mining (60%+2%/lvl, floor 5%, cap 95%). HQ: trophy fish variant.
+  Depletion: 10 attempts per point. `MeadowFishingPoints` (diff 0-10) + `SwampFishingPoints` (diff 20-40).
+  `fish` command in MUD: `fish` at a nearby point → attempt → yield or "The line snaps." 15 tests.
+
+- [ ] **S108-02: Food buff system — `server/food/food.go`** — `Food{ID,Name,STRBonus,DEXBonus,VITBonus,
+  HPBonus,Duration}`. `FoodEffect` applied to player stats. `eat <item-id>` command. Effect duration
+  10-30min. Sample foods: Meat Mithkabob (STR+5, 30min), Tavnazian Salad (DEX+5, 30min), Rolanberry
+  Pie (MP+50, 20min), Selbina Milk (VIT+3, HP+30, 10min). Food created via craft recipes. 12 tests.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
