@@ -2355,6 +2355,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   4 spells (+ tele- aliases). 100 MP. WHM job/sub required. Resets combat target, broadcasts
   arrival, updates atlas. Apple #3271
 
+## SECTION 116: DRAGONSNSHIT MUD — DRK DARK MAGIC (2026-06-23)
+
+- [x] **S116-01: DRK dark magic — Drain/Aspir/Absorb-STR/DEX/VIT/INT/MND** —
+  Drain: 80 HP mob→player HP steal (50 MP). Aspir: absorb MP from mob (40 MP).
+  Absorb-*: stat drain + symbolic HP dmg (45 MP). DRK/RDM job/sub required. Apple #3274
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
