@@ -1663,9 +1663,9 @@ item provenance, and world state. No MMO system can ship without this schema.*
 *Context: GFD server-go needs to become the authoritative MMO backend. Currently a bridge/stub.
 Depends on S75 IDUNA schema.*
 
-- [ ] **S76-01: GFD server-go IDUNA auth integration** — On `PACKET_CONNECT`, validate player JWT
-  against IDUNA `/api/v1/auth/verify`. Reject unauthenticated connections. Load character record
-  from IDUNA into session slot. Ref: GFD/server-go; IDUNA M2M pattern from PRRJECT_FATBABY.
+- [x] **S76-01: GFD server-go IDUNA auth integration** — idunaauth pkg (JWKS ES256 JWT verifier);
+  PacketConnect reads JWT from buf[1:n], validates, stores playerID=sub, rejects with PacketAuthReject=8.
+  [done 2026-06-23] Apple #2940.
 
 - [x] **S76-02: GFD zone backend** — `server/zone/zone.go`: Zone{ID,Name,SpawnXYZ},
   DefaultZones() (Meadow=0/Hills=1/Caves=2), Manager.Enter/Leave/Transfer, PlayersIn(),
@@ -1673,22 +1673,21 @@ Depends on S75 IDUNA schema.*
   float32×3 XYZ). PacketSceneChange=7 added to common/protocol.go. 38 tests.
   [done 2026-06-22] Apple #2539.
 
-- [ ] **S76-03: GFD Telecrystal travel — server-authoritative** — On `BTN_USE` + Telecrystal radius
-  check: validate gold balance (IDUNA), deduct cast cost, transition player scene in IDUNA,
-  send scene transition packet. Ref: TELECRYSTAL_NETWORK_SPEC.md.
+- [x] **S76-03: GFD Telecrystal travel — server-authoritative** — telecrystal registry (6 crystals),
+  idunaclient (GetCharacter/DeductGold/UpdatePosition/TravelTelecrystal), PacketTelecrystalUse/Ack/Err;
+  IDUNA PATCH /api/v1/characters/:id/gold added. [done 2026-06-23] Apple #2943/#2944.
 
-- [ ] **S76-04: GFD item crafting endpoint** — Game server crafting station interaction →
-  validate reagents in player inventory (IDUNA items) → `POST /api/v1/items` with provenance →
-  remove reagents → send inventory update to client.
+- [x] **S76-04: GFD item crafting endpoint** — craft.LookupRecipe, PacketCraftRequest/Result=12/13,
+  idunaclient ListItems/CreateItem/DestroyItem; server-go handler validates reagents→IDUNA→craft.Attempt.
+  IDUNA: GET /api/v1/characters/:id/items. [done 2026-06-23] Apple #2947/#2948.
 
-- [ ] **S76-05: GFD World Crisis phase machine** — Go goroutine on server: load world event from
-  IDUNA, tick LEY_INTEGRITY, advance phases on timer/objective gates, broadcast global meter
-  to all clients via snapshot extension. Fire `POST /api/v1/world-events` on start,
-  `PATCH` on phase transition. Ref: WORLD_CRISIS_VS0.md.
+- [x] **S76-05: GFD World Crisis phase machine** — server/worldcrisis (6-phase, LEY decay, concurrent gate),
+  PacketWorldCrisisUpdate/ObjectiveComplete=14/15, tick goroutine+broadcaster, idunaclient.PatchWorldEvent.
+  [done 2026-06-23] Apple #2952.
 
-- [ ] **S76-06: GFD skill XP server-side** — On verified combat/gather/craft actions: call
-  IDUNA `PATCH /api/v1/characters/:id/skills` to increment skill value. Never trust
-  client-reported XP. Add skill cap enforcement per season config.
+- [x] **S76-06: GFD skill XP server-side** — PacketSkillXP=16, server-go handler (cap 1.0/action, async),
+  idunaclient.IncrementSkill. IDUNA: PATCH+GET /api/v1/characters/:id/skills (UPSERT, cap 110.0).
+  [done 2026-06-23] Apple #2954/#2955.
 
 ---
 
