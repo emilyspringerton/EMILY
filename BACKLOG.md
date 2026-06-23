@@ -1879,9 +1879,11 @@ into the playable MUD so kills grant XP, players level up, parties split XP, and
   Default job=WAR. Status shows current job. HP/MP grow on level-up.
   [done 2026-06-23] Apple #2966.
 
-- [ ] **S89-03: MUD loot pool + NM spawns** — Wire `server/loot` and `server/nm` into the MUD.
-  Mob kill → drop-table loot pool. `lot <slot>` / `pass <slot>` resolve contested drops.
-  Placeholder mobs (from nm.NMSpawn.PlaceholderID) → NM spawn on kill via TrySpawn().
+- [x] **S89-03: MUD loot pool + NM spawns** — Wire `server/loot` and `server/nm` into the MUD.
+  Mob kill → dropsForMob table (worm/leech/slime/lizard/NM kinds). Solo: auto-award. Party:
+  shared loot.Pool; lot/pass/pool commands. NM spawn checked each tick; King Worm + Marsh Leech
+  NMs defined. Placeholder kill → OnPlaceholderKilled → window open → TrySpawn.
+  [done 2026-06-23] Apple #2969.
 
 - [x] **S88-01: MUD XP + leveling + homepoint + field manuals + party** — Wire `server/xp`,
   `server/homepoint`, `server/field`, `server/party` into `apps2/mud/main.go`. Mob kills grant
