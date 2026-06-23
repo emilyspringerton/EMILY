@@ -61,3 +61,4 @@
 | GPT2-GAME-AI | gpt2-alpine-c/docs/GAME_AI_NORTHSTAR.md | 2 | 3000 | GPT-2 as game policy network; 6-milestone track: state serializer → replay logger → fine-tune → bot policy → self-play → BedWars MOBA AI |
 | SHANKPIT-AI | SHANKPIT/docs2/SHANKPIT_AI_ARCHITECTURE.md | 2 | 4000 | Full AI architecture: C evolution bots (BotGenome/evolve_bot), emily-bot (heuristic + GPT-2 policy), Dragonfly world backend |
 | DNS-MMO-NORTHSTAR | GoblinFoxDragon/docs2/MMO_NORTHSTAR.md | 1 | 4000 | DragonsNShit MMO product northstar: 7 systems (identity, item provenance, guilds, economy, travel, World Crisis, skills); IDUNA schema; 8-milestone roadmap |
+| ARCHETYPE-ENGINE | EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md | 1 | 5000 | Dynamic Hybrid AI Agent Archetype Engine: THE_FIELD implementation, dual-persona E1/E2, full 72-spirit Goetia frequency map, resonance corridor routing, Emily Prime + FatBaby + SHANKPIT integration |
