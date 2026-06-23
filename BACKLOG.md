@@ -1641,30 +1641,20 @@ institutions.
 *Context: MMO_NORTHSTAR written. IDUNA is the auth and persistence layer for all player identity,
 item provenance, and world state. No MMO system can ship without this schema.*
 
-- [ ] **S75-01: IDUNA MMO schema migration** — `migrations/YYYYMMDD_mmo_schema.sql`; create tables:
-  `characters` (id, player_id FK, name, scene_id, pos_x/y/z, gold_balance), `character_skills`
-  (character_id FK, skill_name, value REAL), `items` (id UUID, owner_character_id, item_type,
-  name, provenance_chain JSONB, destroyed_at), `guilds` (id, name, tag, founder_id, created_at),
-  `guild_memberships` (guild_id FK, character_id FK, role, joined_at), `world_events`
-  (id, event_type, scene_id, phase, started_at, resolved_at, outcome), `scene_state`
-  (scene_id PK, ley_integrity INT, active_phase TEXT, updated_at). Add `go test ./...` coverage.
+- [x] **S75-01: IDUNA MMO schema migration** — `migrations/truestore/202606230001_mmo_schema.sql`:
+  characters/character_skills/items/guilds/guild_memberships/world_events/scene_state; 4 scenes seeded. [done 2026-06-23] Apple #2935.
 
-- [ ] **S75-02: IDUNA character API** — `POST /api/v1/characters` (create), `GET /api/v1/characters/:id`
-  (fetch), `PATCH /api/v1/characters/:id/position` (scene + pos update from game server).
-  Auth: game server M2M JWT. Apple filed on create.
+- [x] **S75-02: IDUNA character API** — `internal/http/handlers/mmo.go`: POST create, GET fetch,
+  PATCH position; all auth-gated via RequireAuth. [done 2026-06-23] Apple #2936.
 
-- [ ] **S75-03: IDUNA item provenance API** — `POST /api/v1/items` (craft; sets provenance_chain[0]),
-  `POST /api/v1/items/:id/transfer` (appends to provenance_chain; updates owner),
-  `DELETE /api/v1/items/:id` (soft-delete with destroyed_at + Apple). Return full provenance
-  chain on GET.
+- [x] **S75-03: IDUNA item provenance API** — same file: POST craft (provenance[0]=crafted), GET full chain,
+  DELETE soft (destroyed_at), POST :id/transfer (append chain). [done 2026-06-23] Apple #2936.
 
-- [ ] **S75-04: IDUNA guild API** — `POST /api/v1/guilds` (found guild; Apple filed),
-  `GET /api/v1/guilds/:id`, `POST /api/v1/guilds/:id/members` (join; Apple filed),
-  `PATCH /api/v1/guilds/:id/members/:character_id` (role change), `DELETE` (disband; Apple).
+- [x] **S75-04: IDUNA guild API** — same file: POST found, GET (members), POST join,
+  PATCH role, DELETE disband. [done 2026-06-23] Apple #2936.
 
-- [ ] **S75-05: IDUNA world events API** — `POST /api/v1/world-events` (open event; type=world_crisis),
-  `PATCH /api/v1/world-events/:id` (phase transition), `POST /api/v1/world-events/:id/resolve`
-  (record outcome; Apple filed type=world_crisis_outcome).
+- [x] **S75-05: IDUNA world events API** — same file: POST open, GET, PATCH phase+ley_integrity,
+  POST :id/resolve. [done 2026-06-23] Apple #2936.
 
 ---
 
