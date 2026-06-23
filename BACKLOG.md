@@ -2100,6 +2100,20 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION S101: GFD MUD — ECONOMY + WORLD EVENTS
+
+- [x] **S101-01: MUD `bank` command (gil deposit/withdraw)** — `bank deposit <amount>`: p.bankGil int
+  field. `bank withdraw <amount>`. `bank balance`. Save bankGil to IDUNA on disconnect.
+
+- [x] **S101-02: MUD random weather events** — `weather` command. `weatherByZone map[int]string` on
+  world. In tickAll, every 60s, 10% chance new weather per zone (Clear/Cloudy/Rain/Thunder/Fog).
+  Rain = +10% water-crystal drop chance. Thunder = +10% fire-crystal drop chance.
+
+- [x] **S101-03: MUD `survey` command** — Shows all players in zone with direction (N/S/E/W from pos).
+  If same party: show HP bar. Shows: name, job, level, direction.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
