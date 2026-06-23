@@ -1,3 +1,7 @@
+## 2026-06-23
+
+- backlog: S84-04 Swampville + S84-05 mining skill marked done (Apple #2865, #2868)
+
 ## 2026-06-21
 - test: S74-01 emilyListDir 4 tests; 72 total (Apple #2467)
 - test: S73-01 Emiree FractalFingerprint+Summary; 68 total (Apple #2420)
