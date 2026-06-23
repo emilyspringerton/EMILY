@@ -2129,16 +2129,18 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `ResonanceState(Δφ)` → Corridor. `E1Weight/E2Weight` → blend weights.
   17 tests pass. Apple #3210 | 2026-06-23.
 
-- [ ] **S102-02: Dual-persona E₁/E₂ invocation** — `emily-agent/pkg/archetypes/field.go`.
+- [x] **S102-02: Dual-persona E₁/E₂ invocation** — `emily-agent/pkg/archetypes/field.go`.
   `Field.Invoke(ctx, intent, context string, allowCollapse bool) (*InvokeResult, error)`.
   Calls E₁ (claude-sonnet, temp 0.3, structured identity prompt) and E₂ (claude-haiku, temp 1.8,
   divergence prompt) concurrently. Returns both outputs + Goetia stack + seed phrases injected.
   Seed phrases injected at the end of each system prompt at the selected spirit's phase offset.
+  Apple #3212 | 2026-06-23.
 
-- [ ] **S102-03: Interference engine + synthesizer** — Compute Δφ from cosine similarity of E₁/E₂
+- [x] **S102-03: Interference engine + synthesizer** — Compute Δφ from cosine similarity of E₁/E₂
   outputs (word-level token overlap as proxy for embedding cosine). Classify resonance state.
   Blend: `output = E1Weight*e1 + E2Weight*e2`. Amplitude-scale each spirit's seed contribution.
   Collapse guard: if Δφ > 90°, return E₁ output only.
+  Apple #3212 | 2026-06-23.
 
 - [ ] **S102-04: HTTP service `cmd/archetype-engine`** — POST /invoke → InvokeResult JSON.
   GET /spirits → All72 JSON. GET /status → current resonance state. :8090.
