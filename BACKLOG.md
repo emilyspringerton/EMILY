@@ -1861,6 +1861,21 @@ FFXI's core systems define the implementation roadmap. Each section below is one
 
 ---
 
+## SECTION 88: DRAGONSNSHIT MUD — PROGRESSION WIRING (2026-06-23)
+
+*Context: S81-S87 built all FFXI parity packages (XP, party, homepoint, field manuals, NMs, loot,
+mob aggro). The MUD from S84-06 doesn't wire any of them. This section wires the progression loop
+into the playable MUD so kills grant XP, players level up, parties split XP, and KO means something.*
+
+- [x] **S88-01: MUD XP + leveling + homepoint + field manuals + party** — Wire `server/xp`,
+  `server/homepoint`, `server/field`, `server/party` into `apps2/mud/main.go`. Mob kills grant
+  XP (MaxHP*10). Field manual (+100% XP, 30min). KO on HP=0 → `home` returns to Home Point
+  (8% XP penalty). Party invite/accept/leave/pt; XPChain bonus (+10%/kill, cap 50%). Level-up
+  announcements. `status` shows Lv/XP/homepoint/party/chain. All 29 GFD packages green.
+  [done 2026-06-23] Apple #2962.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
