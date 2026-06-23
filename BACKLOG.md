@@ -2349,6 +2349,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   6 songs apply Haste/Regen/Refresh/Protect/Shell to all players in zone. BRD job/sub required.
   3-minute duration. Party notification broadcast. Apple #3269
 
+## SECTION 115: DRAGONSNSHIT MUD — WHM TELEPORT SPELLS (2026-06-23)
+
+- [x] **S115-01: WHM teleport spells — teleport-meadow/hills/caves/swamp** —
+  4 spells (+ tele- aliases). 100 MP. WHM job/sub required. Resets combat target, broadcasts
+  arrival, updates atlas. Apple #3271
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
