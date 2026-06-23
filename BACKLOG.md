@@ -1867,6 +1867,21 @@ FFXI's core systems define the implementation roadmap. Each section below is one
 mob aggro). The MUD from S84-06 doesn't wire any of them. This section wires the progression loop
 into the playable MUD so kills grant XP, players level up, parties split XP, and KO means something.*
 
+- [x] **S89-01: MUD real weapon skills + skillchain detection** — Wire `server/skillchain` into
+  `apps2/mud/main.go`. Player has `wsSkill string` (default "Fast Blade"). `ws [skillname]` uses
+  the named WS or current default. `setws <name>` picks a WS. `wslist` shows available skills +
+  resonances. Per-mob chain state tracks last WS attrs + time; 8s window; chain announces tier name
+  + bonus damage. Mob dies → clears chain state. All 29 GFD packages green.
+  [done 2026-06-23] Apple #2964.
+
+- [ ] **S89-02: MUD job system** — Wire `server/job` into the MUD. `setjob <JOB>` command (e.g.
+  setjob WAR). Job sets max HP/MP via HPAtLevel/MPAtLevel. `jobs` command lists all 22 jobs.
+  Default job=WAR. Status shows current job. Sub-job support optional (defer to S89-03).
+
+- [ ] **S89-03: MUD loot pool + NM spawns** — Wire `server/loot` and `server/nm` into the MUD.
+  Mob kill → drop-table loot pool. `lot <slot>` / `pass <slot>` resolve contested drops.
+  Placeholder mobs (from nm.NMSpawn.PlaceholderID) → NM spawn on kill via TrySpawn().
+
 - [x] **S88-01: MUD XP + leveling + homepoint + field manuals + party** — Wire `server/xp`,
   `server/homepoint`, `server/field`, `server/party` into `apps2/mud/main.go`. Mob kills grant
   XP (MaxHP*10). Field manual (+100% XP, 30min). KO on HP=0 → `home` returns to Home Point
