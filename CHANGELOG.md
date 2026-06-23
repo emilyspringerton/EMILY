@@ -1,4 +1,5 @@
 ## 2026-06-23
+- backlog: S84-06 DragonsNShit MUD (Apple #2887)
 
 - backlog: S84-04 Swampville + S84-05 mining skill marked done (Apple #2865, #2868)
 
