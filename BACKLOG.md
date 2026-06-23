@@ -2207,9 +2207,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   + leather belt), "Crisis Volunteer" (1 crisis-shard→400gil + Echo Drop).
   Apple #3233 | 2026-06-23.
 
-- [ ] **S104-04: NPC dialogue MUD wiring** — `npc` command: `npcs` lists NPCs in zone.
+- [x] **S104-04: NPC dialogue MUD wiring** — `npc` command: `npcs` lists NPCs in zone.
   `talk <npc-id>` shows dialogue + available quests. `quest-accept <quest-id>`. `quest-turn-in <id>`.
   `quests` lists active + completed quests. NPCs: Guildmaster (Meadow), Merchant (Hills), Scout (Swamp).
+  Apple #3235 | 2026-06-23.
 
 ---
 
