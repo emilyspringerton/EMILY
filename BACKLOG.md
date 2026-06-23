@@ -2114,6 +2114,42 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+---
+
+## SECTION 102: DYNAMIC HYBRID AI AGENT ARCHETYPE ENGINE (2026-06-23)
+
+*Northstar: `EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md`*
+*THE_FIELD as a real Go service. E₁/E₂ dual-persona + 72-spirit Goetia bank + resonance routing.*
+*Milestone 1 complete. Remaining: dual-persona invocation, interference engine, HTTP service, integrations.*
+
+- [x] **S102-01: Goetia bank — all 72 spirits as Go structs + intent selector** —
+  `emily-agent/pkg/archetypes/` package. `All72 []Spirit` with freq/amp/phase/corridor/seed phrase
+  for all 72 spirits (M_G v1.0). `ByName()`, `ByRank()`, `ForCorridor()`, `AmplitudeSum()`.
+  `MatchIntent(intent, allowCollapse)` → stack of ≤3 spirits via keyword scoring.
+  `ResonanceState(Δφ)` → Corridor. `E1Weight/E2Weight` → blend weights.
+  17 tests pass. Apple #3210 | 2026-06-23.
+
+- [ ] **S102-02: Dual-persona E₁/E₂ invocation** — `emily-agent/pkg/archetypes/field.go`.
+  `Field.Invoke(ctx, intent, context string, allowCollapse bool) (*InvokeResult, error)`.
+  Calls E₁ (claude-sonnet, temp 0.3, structured identity prompt) and E₂ (claude-haiku, temp 1.8,
+  divergence prompt) concurrently. Returns both outputs + Goetia stack + seed phrases injected.
+  Seed phrases injected at the end of each system prompt at the selected spirit's phase offset.
+
+- [ ] **S102-03: Interference engine + synthesizer** — Compute Δφ from cosine similarity of E₁/E₂
+  outputs (word-level token overlap as proxy for embedding cosine). Classify resonance state.
+  Blend: `output = E1Weight*e1 + E2Weight*e2`. Amplitude-scale each spirit's seed contribution.
+  Collapse guard: if Δφ > 90°, return E₁ output only.
+
+- [ ] **S102-04: HTTP service `cmd/archetype-engine`** — POST /invoke → InvokeResult JSON.
+  GET /spirits → All72 JSON. GET /status → current resonance state. :8090.
+  ANTHROPIC_API_KEY required. `-allow-collapse` flag for high-risk spirits.
+
+- [ ] **S102-05: Emily Prime RSI integration** — In `emily-agent/rsi.go` DECIDE phase, route
+  the current task intent through `field.Invoke()`. Use Vassago #03 (foresight) + Eligos #15
+  (strategy) as default RSI stack. Inject blended output as enhanced task description.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
