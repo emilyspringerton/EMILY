@@ -2166,16 +2166,18 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `resonance_state`, `phase_delta_deg`, `intent` stamped in `Signal.RawMetadata`.
   cmd/processor: `-archetype-engine` flag activates. 9 tests pass. Apple #3219 | 2026-06-23.
 
-- [ ] **S103-02: SHANKPIT emily-bot archetype policy** — Wire archetype engine into
+- [x] **S103-02: SHANKPIT emily-bot archetype policy** — Wire archetype engine into
   `SHANKPIT/apps2/emily-bot/main.go`. `-archetype-engine` flag (default:
   `http://localhost:8090`). In `think()`: serialize state → POST /invoke with
   `intent="precision combat strike martial clarity"` (Leraje#14+Marchosias#35) →
   parse `output` as action tokens → decode UserCmd. Chaos mode: `allow_collapse=true`
   (Andras#63). Falls back to heuristic when engine unavailable.
+  Apple #3222 | 2026-06-23.
 
-- [ ] **S103-03: Archetype engine operational metric in EMILY status** — POST /status to
+- [x] **S103-03: Archetype engine operational metric in EMILY status** — POST /status to
   `/api/v1/emily/archetype/status` proxy. `emily status` shows archetype engine state
   (E1/E2 models, last resonance corridor, cycle count). emily-agent proxies :8090/status.
+  Apple #3224 | 2026-06-23.
 
 ---
 
