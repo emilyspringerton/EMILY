@@ -1,4 +1,5 @@
 ## 2026-06-23
+- backlog: S81-05/06/S82-01/S83-01 enmity+death+jobs+XP marked done (Apples #2919-2922)
 - backlog: S86-01 Conquest, S87-01 NM spawns, S87-02 Treasure pool marked done (Apples #2908/#2909/#2910)
 - backlog: S85-01/02/03 Party+Alliance+XPChain marked done (Apple #2904)
 - backlog: S84-06 DragonsNShit MUD (Apple #2887)
