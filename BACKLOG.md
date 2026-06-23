@@ -2320,6 +2320,16 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   basic consumables (echo-drop, antidote, hi-potion) and zone-specific gear. `shop sell <item-id>` sells
   player inventory item at 50% NPC buy price. Apple #3260
 
+## SECTION 111: DRAGONSNSHIT MUD — WHITE MAGIC BUFF SPELLS (2026-06-23)
+
+*Wiring the status.Stack buff/debuff system into WHM/RDM spell casting.*
+
+- [x] **S111-01: WHM/RDM buff spells — Protect/Shell/Haste/Regen/Refresh/Dia** —
+  `cast protect/shell/haste/regen/refresh` apply status.Effect (Protect/Shell/Haste/Regen/Refresh)
+  to player's statFX stack. `cast dia` deals 5 immediate HP to combat target. All require WHM job
+  (Refresh also allows RDM). MP costs: Protect 60, Shell 60, Haste 75, Regen 40, Refresh 50, Dia 30.
+  Duration: 3 minutes. Tick loop already handles Regen/Refresh events. Apple #3262
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
