@@ -1828,6 +1828,18 @@ FFXI's core systems define the implementation roadmap. Each section below is one
   active listings + last 12 sales (FFXI PS2 terminal parity). SellerListings/BuyerHistory.
   AHFeePct=4 HistoryCap=12. 31 tests. [done 2026-06-22] Apple #2547.
 
+- [x] **S84-04: Swampville secondary starting zone** — Zone 3 `DefaultZones()` SpawnY=1.
+  Scene 3 swamp terrain: clay/mud floor, 25% water pools, dead mangrove trees.
+  Mobs: leech (aggressive, fast swing), slime (passive, HP=140), lizard (aggressive, fast).
+  SwampvilleSpawns(): 6 leeches inner r≈20, 4 slimes mid r≈32, 4 lizards outer r≈42.
+  20 mob tests. [done 2026-06-23] Apple #2865.
+
+- [x] **S84-05: Mining skill** — `server/gather/mining.go`: FFXI-parity MiningPoint (skill 0-110,
+  difficulty 0-110). SuccessBase=60% +2%/lvl, floor 5%, cap 95%. HQ rolls: skill>diff+10 →
+  1%/lvl HQ chance, cap 25%. HQ: alternate item (HQItemID) or double qty. Depletion+Respawn.
+  Preset points: MeadowMiningPoints (diff 0-10) + SwampMiningPoints (diff 15-40, Swampite+WaterCrystal).
+  27 tests. [done 2026-06-23] Apple #2868.
+
 ### PARTY + ALLIANCE SYSTEM
 
 - [ ] **S85-01: Party system** — 6-player parties. Leader invites/kicks. XP shared among
