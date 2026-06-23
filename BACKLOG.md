@@ -1928,45 +1928,52 @@ into the playable MUD so kills grant XP, players level up, parties split XP, and
 
 *Wire remaining unimported server packages into apps2/mud/main.go.*
 
-- [ ] **S92-01: MUD enmity (hate) system** — Wire `server/enmity` into the MUD. Each mob has
+- [x] **S92-01: MUD enmity (hate) system** — Wire `server/enmity` into the MUD. Each mob has
   an enmity.Table keyed by player slot. Damage adds CE; healing adds CE (AoE halved). Mob always
   targets the player with the highest enmity (Top()). `enmity` command shows your threat vs active
   mob. Enmity clears on mob death. Enforce: healer healing a party member draws aggro.
+  ✓ Apple #3062
 
-- [ ] **S92-02: MUD chat router** — Wire `server/chat` Router into the MUD. Player sessions tracked
+- [x] **S92-02: MUD chat router** — Wire `server/chat` Router into the MUD. Player sessions tracked
   in chat.Session{Slot, Pos, Zone, GuildID}. `say <msg>` uses Chat channel (50u radius).
   `yell <msg>` zone-wide. `tell <player> <msg>` private. `guild <msg>` linkshell-wide.
   Routing replaces the current raw broadcast for say/tell.
+  ✓ Apple #3063
 
-- [ ] **S92-03: MUD linkshell guild system** — Wire `server/guild` Registry into the MUD. `ls-create
+- [x] **S92-03: MUD linkshell guild system** — Wire `server/guild` Registry into the MUD. `ls-create
   <name> <tag>` founds a linkshell. `ls-invite <player>` forges a Feather. `ls-leave` revokes.
   `ls-info` shows roster. GuildID in player struct; guild chat gated via CanChat().
+  ✓ Apple #3066
 
 ---
 
 ## SECTION 93: DRAGONSNSHIT MUD — GEAR + SUB-JOB + MERIT (2026-06-23)
 
-- [ ] **S93-01: MUD equipment system** — Wire `server/gear` Equipment into the MUD. Players have
+- [x] **S93-01: MUD equipment system** — Wire `server/gear` Equipment into the MUD. Players have
   16 gear slots. `equip <slot> <item-id>` equips from inventory. `unequip <slot>` returns to
   inventory. `gear` command shows equipped items + effective item level. Gear drops added to select
   mob drop tables (e.g. lizard drops leather-belt). EffectiveIL shown in `status`.
+  ✓ Apple #3069
 
-- [ ] **S93-02: MUD sub-job system** — Wire `server/job.CharJob` (subjob.go) into the MUD.
+- [x] **S93-02: MUD sub-job system** — Wire `server/job.CharJob` (subjob.go) into the MUD.
   `setsubjob <JOB>` picks a sub-job. Sub-job grants half-level stats via CombinedStats(). `status`
   shows main/sub job. ErrSameJob: cannot set same as main.
+  ✓ Apple #3070
 
-- [ ] **S93-03: MUD merit points** — Wire `server/merit` MeritBank into the MUD. Each level-up
+- [x] **S93-03: MUD merit points** — Wire `server/merit` MeritBank into the MUD. Each level-up
   at L75+ earns 1000 merit XP toward 1 merit point. `merits` command shows bank + tier counts.
   `merit-spend <category>` spends a point (e.g. merit-spend HP/MP). MeritBank in player struct.
+  ✓ Apple #3071
 
 ---
 
 ## SECTION 94: DRAGONSNSHIT MUD — TELECRYSTAL TRAVEL (2026-06-23)
 
-- [ ] **S94-01: MUD telecrystal fast travel** — Wire `server/telecrystal` Registry into the MUD.
+- [x] **S94-01: MUD telecrystal fast travel** — Wire `server/telecrystal` Registry into the MUD.
   Crystals exist in zones (e.g. MeadowCrystal zone=0). `crystals` lists nearby crystals (InScene).
   `travel <crystal-id>` validates range + gold balance (Validate()), deducts 200 gil, teleports
   player to crystal pos. `touch` activates the nearest crystal (logs its ID). Crystal range=10u.
+  ✓ Apple #3073
 
 ---
 
