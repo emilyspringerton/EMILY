@@ -1861,9 +1861,9 @@ FFXI's core systems define the implementation roadmap. Each section below is one
 
 ### TRAVEL + WORLD
 
-- [ ] **S86-01: Outpost / conquest system** — Regions controlled by player nations.
-  `server/conquest/`: `Region{ID, Controller, Points map[nation]int}`, `AddPoints(nation,
-  delta)`, `Tick(week)` → controller update. Tests: majority wins, tie goes to incumbent.
+- [x] **S86-01: Outpost / conquest system** — `server/conquest/conquest.go`: Nation int (Neutral/Sandoria/Bastok/Windurst),
+  Region.AddPoints/Tick (majority wins; incumbent retains on tie; points reset), Map.TickAll/Scoreboard/RegionCount,
+  DefaultRegions() 4 zones. 19 tests. [done 2026-06-23] Apple #2908.
 
 - [ ] **S86-02: Home point teleport** — Characters set a Home Point crystal; on KO they can
   return there for an XP penalty. `HomePoint{SceneID, Pos}`, `SetHome()`, `ReturnHome()`.
@@ -1875,14 +1875,13 @@ FFXI's core systems define the implementation roadmap. Each section below is one
 
 ### CONTENT
 
-- [ ] **S87-01: Notorious Monster (NM) spawn conditions** — Time-window or forced spawn on
-  placeholder kill. `server/nm/`: `NMSpawn{ID, PlaceholderID, WindowOpen, WindowClose,
-  SpawnChance float64}`, `TrySpawn(now, rng) bool`. Tests: in-window spawn, outside-window blocked.
+- [x] **S87-01: Notorious Monster (NM) spawn conditions** — `server/nm/nm.go`: NMSpawn{PlaceholderID, SpawnChance,
+  WindowOpen/Close}; OnPlaceholderKilled opens absolute window; InWindow/TrySpawn/WindowExpired/Reset;
+  MeadowNMs/SwampNMs presets. 14 tests. [done 2026-06-23] Apple #2909.
 
-- [ ] **S87-02: Treasure pool system** — On mob death, loot goes to a shared pool. Players
-  `/lot` (1–999 random) or `/pass`. Highest lot wins each item.
-  `server/loot/`: `Pool{MobID, Items []ItemID, Lots map[charID]int}`, `Lot(charID)`,
-  `Pass(charID)`, `Resolve() map[itemID]charID`. Tests: highest lot wins, pass excluded, ties.
+- [x] **S87-02: Treasure pool system** — `server/loot/loot.go`: Pool{MobID,Eligible,Items}; Lot(slot,itemID)->roll 1-999;
+  Pass->0; Ready(); Resolve() highest roll wins, all-pass=no winner, tie-break slot asc; partial OK.
+  15 tests. [done 2026-06-23] Apple #2910.
 
 - [ ] **S87-03: Notorious Monster aggro types** — Aggro by sight (facing cone), sound
   (proximity, ignores Sneak), or job (detects specific jobs). `server/mob/aggro.go`:
