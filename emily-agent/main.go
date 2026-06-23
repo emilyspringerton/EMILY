@@ -2247,6 +2247,8 @@ func main() {
 	mux.HandleFunc("/api/v1/gpt2/health", srv.handleGPT2Health)
 	mux.HandleFunc("/api/v1/emily/push/test", srv.handlePushTest)
 	mux.HandleFunc("/api/v1/emily/posture", srv.handlePostureGet)
+	mux.HandleFunc("/api/v1/emily/archetype/status", srv.handleArchetypeStatus)
+	mux.HandleFunc("/api/v1/emily/archetype/spirits", srv.handleArchetypeSpirits)
 
 	addr := ":" + cfg.Port
 	log.Printf("Emily agent  ->  http://localhost%s", addr)
