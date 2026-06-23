@@ -2240,6 +2240,22 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 106: DRAGONSNSHIT MUD — PVP DUEL SYSTEM + GLOBAL LEADERBOARD (2026-06-23)
+
+*Consensual PvP: players challenge each other to duels. Winner gains duel rating. Leaderboard shows top duelists.*
+
+- [ ] **S106-01: Duel system — `server/duel/duel.go`** — `State{Challenger,Defender,Phase}` where
+  Phase: Pending/Active/Done. `Manager{pending,active map}`. `Challenge(challenger,defender) error`.
+  `Accept(defender) error`. `Forfeit(slot) error`. `Tick(challHP,defHP,now) (winner,done bool)`.
+  Done when either player HP≤0 or forfeit. Auto-expire pending challenges after 60s.
+  Rating: winner +25 pts, loser -10 pts; tracked in `RatingMap map[string]int`. 15 tests.
+
+- [ ] **S106-02: Duel MUD wiring** — `duel <player-name>` sends challenge. `duel-accept` accepts
+  pending challenge. `duel-forfeit` concedes. While dueling: combat hits opponent instead of mob.
+  On win: announce to zone, update rating, XP=0. `leaderboard` shows top 10 duelists by rating.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
