@@ -1040,12 +1040,13 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   Apply same pattern here: raise default to `16<<20`. No other code changes needed.
   Acceptance: BEN/BLK proxy filings process without `document too large` error.
 
-- [ ] **S36-04: Wire real intelligence provider into cmd/processor** — All 5,316 `signal_generated`
+- [x] **S36-04: Wire real intelligence provider into cmd/processor** — All 5,316 `signal_generated`
   events in the store use `stubProvider`, returning `"Stub analysis result."` / `signal_type=Other`
   for every filing. The LLM analysis layer has never run. Wire `ANTHROPIC_API_KEY` + claude-haiku
   into the processor as the real `intelligence.Provider`. Use haiku (cheap) for classification.
   Dependency: API credit balance ✓ (top up console.anthropic.com).
   Acceptance: new `signal_generated` events have real `signal_type`, non-stub `summary`.
+  ✓ Apple #3075
 
 - [x] **S36-05: Fix empty-ticker guidance signal** — `cmd/guidance-watcher/main.go:112`: [done 2026-06-17]
   `ticker := tickerByID[ev.PRDiscoveryID]` — when the PR discovery ID is not in the ticker map,
