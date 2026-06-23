@@ -2147,9 +2147,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   ANTHROPIC_API_KEY required. `-allow-collapse` flag for high-risk spirits.
   Apple #3214 | 2026-06-23.
 
-- [ ] **S102-05: Emily Prime RSI integration** — In `emily-agent/rsi.go` DECIDE phase, route
+- [x] **S102-05: Emily Prime RSI integration** — In `emily-agent/rsi.go` DECIDE phase, route
   the current task intent through `field.Invoke()`. Use Vassago #03 (foresight) + Eligos #15
   (strategy) as default RSI stack. Inject blended output as enhanced task description.
+  Apple #3216 | 2026-06-23.
 
 ---
 

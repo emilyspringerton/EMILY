@@ -25,6 +25,7 @@ import (
 	"strings"
 	"time"
 
+	"emily-agent/pkg/archetypes"
 	"emily-agent/pkg/fcm"
 )
 
@@ -113,6 +114,7 @@ type AutonomousCycle struct {
 	gmail       *GmailClient      // optional; enables CEO escalation alerts from triage
 	iduna       *IdunaClient      // optional; submits Apples to IDUNA after each cycle
 	fcmSender   *fcm.Sender       // optional; fires push notifications to MJOLNIR on CEO-visible escalations
+	field       *archetypes.Field // optional; THE_FIELD dual-persona augmentation for new tasks
 }
 
 // NewAutonomousCycle creates a cycle runner.
@@ -124,6 +126,7 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 		emiree:      NewEmireeAgent(cfg.StateDir),
 		gmail:       gmail,
 		iduna:       NewIdunaClientFromEnv(),
+		field:       NewFieldFromEnv(),
 	}
 	if fcm.IsConfigured() {
 		sender, err := fcm.NewFromEnv()
@@ -133,6 +136,9 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 			ac.fcmSender = sender
 			log.Printf("fcm: sender initialized (project=%s)", os.Getenv("FCM_PROJECT_ID"))
 		}
+	}
+	if ac.field != nil {
+		log.Printf("field: THE_FIELD initialized (E1=%s E2=%s)", ac.field.E1Model, ac.field.E2Model)
 	}
 	return ac
 }
@@ -222,6 +228,9 @@ func (ac *AutonomousCycle) RunOnce() error {
 	}
 	rec.Action = reason
 	log.Printf("[cycle %d] decide: %s", state.CycleNumber, reason)
+
+	// Field augmentation: inject THE_FIELD E₁/E₂ resonance output into new task descriptions.
+	AugmentTaskWithField(ctx, ac.field, task)
 
 	// PHASE 3: ACT — run one RSI iteration
 	rec.Phase = PhaseAct
