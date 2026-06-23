@@ -1,4 +1,5 @@
 ## 2026-06-23
+- ARCHETYPE_ENGINE_NORTHSTAR.md: Dynamic Hybrid AI Agent Archetype Engine northstar — THE_FIELD implementation, dual-persona E1/E2, full 72-spirit Goetia v1.0, resonance corridor router; golden-docs-index registered
 - backlog: S76-01/03/04/05/06 all done — IDUNA MMO API + GFD server-go auth/telecrystal/crafting/worldcrisis/skill-xp
 - backlog: S75-01/02/03/04/05 IDUNA MMO schema + API marked done (Apples #2935-2936)
 - backlog: S82-02/03/S83-02/03/S84-01/02 sub-job, recast, merit, gear IL, crafting marked done (Apples #2925-2930)
