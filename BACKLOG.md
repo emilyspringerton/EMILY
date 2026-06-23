@@ -2045,6 +2045,25 @@ On login, fetch or create the character. Level-ups, gil changes, position update
 
 ---
 
+## SECTION S99: GFD MUD — MOB AI + SPELLCASTING + BUFF SYSTEM
+
+- [x] **S99-01: MUD mob spellcasting AI** — Mobs cast status spells during combat. In `resolveKill`
+  loop (post-mob-attack), add a 20% chance that the mob "casts" a debuff on its aggro target.
+  Spell pool: Poison (DoT), Paralyze (25% action fail chance), Bind (movement stop), Silence
+  (blocks `cast` commands). Use `status.Stack.Apply()` on the target player. Add `removedebuffs`
+  command (consumable: requires 1 "echo-drop" item in inventory). Message player on debuff application.
+
+- [x] **S99-02: MUD cure spells** — Wire `cast cure` and `cast cure2` (White Mage only). `cast cure`
+  restores 100 HP (50 MP). `cast cure2` restores 250 HP (80 MP). Both require WHM job or sub.
+  In cmdCast, check `p.jobID == job.WHM || p.charJob.SubJob == job.WHM`. Dispel silence check:
+  Silenced players cannot cast any spell. Blocked by Silence status.
+
+- [x] **S99-03: MUD `bazaar` command** — Open personal shop. `bazaar set <item> <price>` puts item
+  in personal bazaar at price. `bazaar list` shows your listing. `bazaar buy <player> <item>` buys
+  from player's bazaar (deducts gil, transfers item). Persists to `world.bazaars map[slot]bazaarStore`.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
@@ -2064,6 +2083,20 @@ The backlog is config-as-code. The backlog is what Emily Prime remembers between
 
 **Golden rule:** No item is complete until the Apple is filed and this file is committed.
 The Apple is the proof. The commit is the custody. The push is the delivery.
+
+---
+
+## SECTION S100: GFD MUD — COMBAT DEPTH + PARTY TOOLS
+
+- [x] **S100-01: MUD rest/meditate HP+MP regen** — `rest`/`meditate` command. `isResting bool` on
+  player. In tickAll: if isResting, +5% maxHP and +3% maxMP per second. Any attack or mob aggro
+  cancels rest. `stand` cancels manually.
+
+- [x] **S100-02: MUD `target <mob>` reticle** — Explicit target selection by mob kind substring.
+  Sets p.combat.TargetMobID. Shows HP bar. Integrates with `attack`, `ws`, `ja provoke`.
+
+- [x] **S100-03: MUD party chat `/p <msg>`** — Lines starting with `/p ` broadcast to party members
+  only. Wire through chat.Router channel 4 (Party). No tab completion needed.
 
 ---
 
