@@ -1912,6 +1912,18 @@ into the playable MUD so kills grant XP, players level up, parties split XP, and
 
 ---
 
+## SECTION 91: SIGNAL PIPELINE WATCHLIST EXPANSION (2026-06-23)
+
+*Source: Emily Prime expand_coverage task queue (424 tasks). 16 tickers disabled pending CIK verification.*
+
+- [x] **S91-01: Enable 16 watchlist tickers — fix 5 wrong CIKs** — Verified all disabled entries via
+  SEC company_tickers.json. Fixed wrong CIKs: COIN (1679273→1679788), SOFI (1818502→1818874),
+  HOOD (1783398→1783879), GE (40987→40545), DIS (1001293→1744489). Enabled UNH/MRK/TGT/LOW/CAT/RTX/T/VZ/CMCSA/NEE/COP.
+  All 50 entries now enabled at poll_priority=2.
+  [done 2026-06-23] Apple #3056.
+
+---
+
 ## BACKLOG PROTOCOL
 
 **How to use this file:**
