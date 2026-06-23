@@ -2330,6 +2330,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   (Refresh also allows RDM). MP costs: Protect 60, Shell 60, Haste 75, Regen 40, Refresh 50, Dia 30.
   Duration: 3 minutes. Tick loop already handles Regen/Refresh events. Apple #3262
 
+## SECTION 112: DRAGONSNSHIT MUD — PARTY-TARGETED SPELLS (2026-06-23)
+
+- [x] **S112-01: Party-targeted spell casting — `cast <spell> <player>`** —
+  `resolveSpellTarget(p, targetName)` finds players in same zone. Cure/Cure II/Protect/Shell/
+  Haste/Regen/Refresh all accept optional player target; notifications sent to both caster and
+  target. Apple #3265
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
