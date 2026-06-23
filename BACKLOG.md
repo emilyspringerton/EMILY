@@ -2262,14 +2262,14 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Replay stored signals through the analysis pipeline to backtest provider changes.*
 
-- [ ] **S107-01: Signal replay engine — `internal/replay/replay.go`** — `ReplayEngine{EventStore,
+- [x] **S107-01: Signal replay engine — `internal/replay/replay.go`** — `ReplayEngine{EventStore,
   Provider, Out chan Signal}`. `Replay(ctx, from, to time.Time) (replayed int, err error)`.
   Reads events from the event store ordered by timestamp, re-runs each through `Provider.AnalyzeText()`,
-  streams results to Out channel. `Stats{Total, Success, Failed, Duration}`. 10 tests.
+  streams results to Out channel. `Stats{Total, Success, Failed, Duration}`. 10 tests. Apple #3246
 
-- [ ] **S107-02: Replay CLI — `cmd/replay/main.go`** — Flags: `-from 2006-01-02`, `-to 2006-01-02`,
+- [x] **S107-02: Replay CLI — `cmd/replay/main.go`** — Flags: `-from 2006-01-02`, `-to 2006-01-02`,
   `-provider haiku|archetype|stub`, `-output signals.jsonl`. Prints per-signal result summary to
-  stdout. Uses `internal/replay.ReplayEngine`. Builds standalone binary.
+  stdout. Uses `internal/replay.ReplayEngine`. Builds standalone binary. Apple #3247
 
 ---
 
