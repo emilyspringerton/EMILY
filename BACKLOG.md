@@ -1850,17 +1850,14 @@ FFXI's core systems define the implementation roadmap. Each section below is one
 
 ### PARTY + ALLIANCE SYSTEM
 
-- [ ] **S85-01: Party system** — 6-player parties. Leader invites/kicks. XP shared among
-  party members in range. `server/party/`: `Party{Leader, Members [6]string}`, `Invite()`,
-  `Leave()`, `XPSplit(total, count, range_filter) []int`. Tests: max size, split evenly,
-  out-of-range excluded.
+- [x] **S85-01: Party system** — `server/party/party.go`: Party{Leader, Members[]}, Invite/Kick/Leave
+  (leader transfers on leave), XPSplit(xp, dists, limit) even split OOR=0. 6-player cap. [done 2026-06-23] Apple #2904.
 
-- [ ] **S85-02: Alliance system** — 3 parties (18 players). `Alliance{Parties [3]*Party}`.
-  Party-leader of party 0 is alliance leader. Tests: 3-party cap, alliance leader = party0 leader.
+- [x] **S85-02: Alliance system** — same file: Alliance{parties[3]}, AllianceLeader=party[0].Leader,
+  TotalSize, ErrAllianceFull at 3 parties. 18-player max. [done 2026-06-23] Apple #2904.
 
-- [ ] **S85-03: Party XP bonus** — 6-member party gets full chain XP bonus. Chain bonus:
-  each consecutive kill within 3 min adds +10% up to +50% (chain 5+). `XPChain{Count, LastKillAt}`.
-  Tests: chain resets after timeout, bonus cap at 50%.
+- [x] **S85-03: Party XP bonus** — same file: XPChain.Record(nowNano)→bonus%, +10%/kill cap 50%,
+  3min ChainTimeout resets on expiry. BonusPct()/Expired()/Reset(). 37 tests. [done 2026-06-23] Apple #2904.
 
 ### TRAVEL + WORLD
 
