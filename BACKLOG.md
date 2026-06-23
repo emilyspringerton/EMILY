@@ -2142,9 +2142,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Collapse guard: if Δφ > 90°, return E₁ output only.
   Apple #3212 | 2026-06-23.
 
-- [ ] **S102-04: HTTP service `cmd/archetype-engine`** — POST /invoke → InvokeResult JSON.
+- [x] **S102-04: HTTP service `cmd/archetype-engine`** — POST /invoke → InvokeResult JSON.
   GET /spirits → All72 JSON. GET /status → current resonance state. :8090.
   ANTHROPIC_API_KEY required. `-allow-collapse` flag for high-risk spirits.
+  Apple #3214 | 2026-06-23.
 
 - [ ] **S102-05: Emily Prime RSI integration** — In `emily-agent/rsi.go` DECIDE phase, route
   the current task intent through `field.Invoke()`. Use Vassago #03 (foresight) + Eligos #15
