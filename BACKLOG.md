@@ -2199,12 +2199,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `setjob BST` enables `bst` command.
   Apple #3231 | 2026-06-23.
 
-- [ ] **S104-03: NPC quest system — `server/quest/quest.go`** — `Quest{ID, Title, GiverNPCID,
+- [x] **S104-03: NPC quest system — `server/quest/quest.go`** — `Quest{ID, Title, GiverNPCID,
   RequireItems map[string]int, RequireKills map[string]int, RewardGil int, RewardItem string}`.
   `State{Active, KillProgress map[string]int, Complete}`. `Accept/TurnIn` flow.
   5 starter quests: "Gather Iron Ore" (3 ore→100gil), "Defeat the King Worm" (1 NM kill→500gil +
   Iron Sword), "The Merchant's Request" (5 Crystals→200gil), "Swamp Patrol" (kill 5 leeches→300gil
   + leather belt), "Crisis Volunteer" (1 crisis-shard→400gil + Echo Drop).
+  Apple #3233 | 2026-06-23.
 
 - [ ] **S104-04: NPC dialogue MUD wiring** — `npc` command: `npcs` lists NPCs in zone.
   `talk <npc-id>` shows dialogue + available quests. `quest-accept <quest-id>`. `quest-turn-in <id>`.
