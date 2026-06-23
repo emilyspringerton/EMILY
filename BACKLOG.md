@@ -31,8 +31,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **S01E01 cold open compiled clip** — Once MPT is running, run the cold open compilation.
   See TYLER BACKLOG.md for full spec. Dependency: Pexels key ✓, MPT service running.
 
-- [ ] **MPT → TYLER RSI trigger** — When emily.sh produces a new episode script, auto-invoke
-  MPT. Spec exists in engine/moneyprinter_pipeline.md. Dependency: cold open clip ✓.
+- [x] **MPT → TYLER RSI trigger** — compiled/mpt_episode_trigger.sh written per moneyprinter_pipeline.md §VI. Extracts MPT_TOPIC, generates payload, POSTs to MPT API, polls, routes output, writes Emily Prime observation. --dry-run verified on S01E01. Apple #3090 | 2026-06-23
 
 ---
 
@@ -1975,6 +1974,77 @@ into the playable MUD so kills grant XP, players level up, parties split XP, and
   `travel <crystal-id>` validates range + gold balance (Validate()), deducts 200 gil, teleports
   player to crystal pos. `touch` activates the nearest crystal (logs its ID). Crystal range=10u.
   ✓ Apple #3073
+
+---
+
+## SECTION 95: DRAGONSNSHIT MUD — WORLD CRISIS WIRING (2026-06-23)
+
+*Wire `server/worldcrisis` Crisis state machine into apps2/mud. Players fight in a living world
+with escalating phases and objectives. The 1Hz loop ticks the Crisis; NM kills + gather
+objectives advance it. Broadcast phase transitions to all players.*
+
+- [x] **S95-01: MUD World Crisis — wire server/worldcrisis, `crisis` command, phase broadcast** —
+  Add `*worldcrisis.Crisis` to world struct. Start a Crisis on first player login. 1Hz tickAll
+  drives `gw.crisis.Tick(now)` and broadcasts phase-change banners to all players. `crisis` command
+  shows phase, LEY integrity, objectives complete, time remaining. Objectives: kill 3 NMs in Swamp
+  (CompleteObjective(ObjKillNM, 10)) and gather 5 crisis-materials (gather action on special SwampCrisis
+  points CompleteObjective(ObjGather, 5)). `crisis-ley <amount>` lets a GM decay LEY for testing.
+  On OutcomeSaved/Failed, broadcast final result. GOWORK=off go test ./... must pass.
+
+- [x] **S95-02: MUD crisis mob — World Crisis NM spawns in Swamp zone on Crisis start** —
+  When Crisis.Phase transitions to PhaseMobilization, spawn 3 special "chaos-elemental" NMs in
+  zone 3 (swamp). On death, CompleteObjective(ObjKillNM, 10) + broadcast "[Crisis] Chaos Elemental
+  defeated! LEY stabilized." Extra drop: "crisis-shard" (new item). `crisis-shards` go in inventory
+  and can be sold at AH.
+
+---
+
+## SECTION 96: DRAGONSNSHIT MUD — INVISIBLE/SNEAK AGGRO (2026-06-23)
+
+*Wire `server/mob/aggro.go` StatusFlags into the MUD mob aggro scan. Players can use the
+status.Stack Invisible/Sneak effects to evade mob aggro.*
+
+- [x] **S96-01: MUD mob aggro wire — check Invisible/Sneak before aggroing** —
+  In `tickAll()` mob.Tick loop, before applying aggro results, build a `mob.StatusFlags` per
+  player from their `p.statFX.Stack` (check if Invisible or Sneak status is active). Pass this
+  to a new helper `shouldAggro(m *mob.Mob, p *player) bool` that calls
+  `mob.AggroDefault(m.Kind).Detects(pos, target, flags, dist, yawDiff)`. Only aggro if Detects()
+  returns true. Commands: `cast invisible` (apply Invisible status for 60s, no sight aggro),
+  `cast sneak` (apply Sneak status for 60s, no sound aggro). `cast` uses MP (50 MP each).
+
+---
+
+## SECTION 97: DRAGONSNSHIT MUD — ABILITY RECAST SYSTEM (2026-06-23)
+
+*Wire `server/job.RecastTracker` into the MUD. Job abilities (Provoke, Berserk, etc.) have
+real recast timers. `ja <ability>` command uses the ability if ready.*
+
+- [x] **S97-01: MUD job ability commands — RecastTracker, `ja <ability>`, `recasts`** —
+  Add `recastTracker *job.RecastTracker` to player struct. Initialized from the player's main
+  job abilities (WarriorAbilities() for WAR, WhiteMageAbilities() for WHM, etc.). `ja <ability-id>`
+  checks `t.Ready()`, calls `t.Use(id, now, charXP.Level)`, applies effect (Provoke: add 2000
+  enmity CE on current target; Berserk: add Haste+30 status effect to self for 3min).
+  `recasts` command lists all abilities with remaining recast time.
+  Error display: `<ability> is on recast (2m15s remaining)`.
+
+---
+
+## SECTION 98: DRAGONSNSHIT MUD — IDUNA CHARACTER PERSISTENCE (2026-06-23)
+
+*Wire `server/idunaclient` into apps2/mud. Players get persistent characters stored in IDUNA.
+On login, fetch or create the character. Level-ups, gil changes, position updates POST to IDUNA.*
+
+- [x] **S98-01: MUD IDUNA login — fetch/create character from IDUNA on connect** —
+  Add `idunaclient.Client` to world struct. On player connect (after name prompt), call
+  `GET /api/v1/characters?name=<name>`. If found: load level/hp/gil/position from IDUNA.
+  If not found: `POST /api/v1/characters` to create it. `-iduna-url` flag (default: $IDUNA_BASE_URL).
+  No-IDUNA mode: fall back to defaults (level 1, 500 Gil) when IDUNA_BASE_URL unset.
+  Log: `[IDUNA] character <name> loaded/created (id: <cid>)`.
+
+- [x] **S98-02: MUD IDUNA save — level-up + disconnect position save** —
+  On level-up in grantXP(), call `PATCH /api/v1/characters/<cid>` with new level + hp + mp (goroutine).
+  On disconnect (defer in handleConn), PATCH position + gil + guildID. On death, PATCH hp=0.
+  No blocking on network: fire-and-forget goroutine with 5s timeout context.
 
 ---
 
