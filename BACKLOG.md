@@ -2804,10 +2804,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### PRRJECT_FATBABY — Signal Depth
 
-- [ ] **S126-11: Entity co-occurrence graph** — When two entities appear in the same
+- [x] **S126-11: Entity co-occurrence graph** — When two entities appear in the same
   observation within 48h, record a co-occurrence edge in MongoDB.
   `GET /api/v1/entities/{ticker}/related` returns up to 10 related entities by edge weight.
   UI widget in EDIS: shows related companies as a mini-network. Repo: PRRJECT_FATBABY.
+  Apple #3557 · PRRJECT_FATBABY c4e0dd2 · EDIS 4b898ef
 
 - [ ] **S126-12: Signal velocity alert** — If the same entity produces >3 signals in
   <1h with confidence>0.6, file an Apple (type=escalation) and POST to MJOLNIR FCM.
