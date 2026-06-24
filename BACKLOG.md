@@ -2642,10 +2642,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   :8086 (daemon mode). Add `GET /health` → `{"ok":true,"service":"emily-agent","gear":"ACTIVE"}`.
   Confirm with `curl http://localhost:8086/health`. Repo: EMILY. Apple #3664 · EMILY 0c1dae6
 
-- [ ] **S125-08: Cross-repo memory synthesis sprint** — Emily Prime's memory dir contains per-cycle
+- [x] **S125-08: Cross-repo memory synthesis sprint** — Emily Prime's memory dir contains per-cycle
   fragments. Add `emily memory consolidate` CLI command: reads all emily-memory/*.json, de-dupes,
   writes emily-memory/consolidated.json. Consolidation runs in PLAN phase weekly.
-  Repo: emily.cli + EMILY.
+  Repo: emily.cli + EMILY. Apple #3667 · EMILY fc9a2c5 · emily.cli f916027
 
 ### PRRJECT_FATBABY — Signal Pipeline Depth
 
