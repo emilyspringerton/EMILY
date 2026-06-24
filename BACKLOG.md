@@ -2375,6 +2375,83 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 119: FIELDOFFICE — ENGINE FOUNDATION (stub — awaiting golden context)
+
+*Codename: TrapX. Product: FIELDOFFICE.*
+*Northstar: `SHANKPIT/docs2/TRAPX_NORTHSTAR.md` — Tier 1 in golden-docs-index.*
+*All items below are STUBS. Implementation detail locked after northstar is indexed and Emily Prime reads it.*
+*Dependency order: S119-01 → S119-02 → S119-03 → S119-04 → S119-05. Do not implement out of order.*
+
+- [ ] **S119-01: FieldOffice state machine — `server/fieldoffice/fieldoffice.go`** —
+  `FieldOffice{ID, SceneID, Pos, FlowRate, Pressure, Phase}` where Phase: Unclaimed/Held/Contested/Containment.
+  `Claim(crewID)`, `Contest()`, `Flip(crewID)`, `Tick(now)` (Flow accumulation + Pressure rise).
+  FlipWindow gating (FO_FLIP_WINDOWS_PER_DAY). Receipt events emitted on every state change.
+  Acceptance: go test ./... passes; FO can be claimed, contested, and flipped within a window.
+  [STUB — see SHANKPIT/docs2/TRAPX_NORTHSTAR.md for full spec]
+
+- [ ] **S119-02: K9 unit system — `server/k9/k9.go`** —
+  `DogUnit{ID, FO, Mode, Battery, HeatLevel}` where Mode: Sentry/Escort/Audit.
+  Swarm custody score with diminishing returns: `score += base * (0.85 ^ n_active)`.
+  Mark/Latch/HowlBeacon/CustodyLock/ReceiptBurst abilities. DOG_MAX_ACTIVE_PER_OFFICE cap.
+  CustodyLock only valid during Contest Window.
+  Acceptance: 15+ tests covering swarm math, ability effects, battery drain, mode transitions.
+  [STUB — see TRAPX_NORTHSTAR.md §K9 Security Doctrine]
+
+- [ ] **S119-03: Attention system — `server/attention/attention.go`** —
+  Per-FO `Attention(0–1000)` meter. Gain: `per_dog * (n_active ^ attention_exponent)`.
+  Slow decay. Summons: OversightSect (Audit events) above AUDIT_THRESHOLD;
+  ShadowOperator (Procurement/Sabotage events) above VENDOR_SPAWN_THRESHOLD.
+  Attention → Ecosystem effects: migration weight, AH tax multiplier, contest frequency scaler.
+  Acceptance: 10+ tests; audit events fire at threshold; operator events fire at higher threshold.
+  [STUB — see TRAPX_NORTHSTAR.md §Attention System]
+
+- [ ] **S119-04: Control Integrity + Rogue Swarm — `server/integrity/integrity.go`** —
+  Per-district `ControlIntegrity(0.0–1.0)`. Decay: dog count (superlinear) + jammer use + flip rate.
+  Recovery: calm periods + clean audits + Bird correction. At ROGUE_THRESHOLD: emit RogueSwarmEvent.
+  Rogue state: dogs detach from operators, FOs enter Containment Mode (vault sealed, escort required).
+  3 containment objectives (beacon kill, comms restore, pack leader purge). Scar written on clear.
+  Acceptance: 12+ tests; rogue trigger at threshold; containment objectives advance state; scar artifact created.
+  [STUB — see TRAPX_NORTHSTAR.md §Control Integrity and Rogue Swarms]
+
+- [ ] **S119-05: Tech Pressure doom clock — `server/techpressure/techpressure.go`** —
+  Global `TechPressure` counter. Increments on tier unlock + deploy (weighted by activity).
+  Slow per-minute decay. Five threshold bands emit world events via WorldCrisis phase machine:
+  T1=LeashFrays, T2=ProcurementWar, T3=QuietAudit, T4=Packmind, T5=CrownProtocol.
+  CrownProtocol: attempt to unify multiple FOs into super-node; if success → map rewrite → Bird Correction.
+  Acceptance: 10+ tests; all 5 threat events trigger at correct thresholds; CrownProtocol wires into WorldCrisis.
+  [STUB — see TRAPX_NORTHSTAR.md §Tech Tree as Doom Clock]
+
+---
+
+## SECTION 120: FIELDOFFICE — RECEIPT LEDGER + MUD WIRING (stub — awaiting golden context)
+
+*Depends on S119-01 through S119-05.*
+*[STUB — implement after TRAPX_NORTHSTAR golden-index registration and Emily Prime read cycle]*
+
+- [ ] **S120-01: Receipt ledger — `server/ledger/ledger.go`** —
+  Append-only diegetic action log. Every FO state change, dog action, attention event, rogue event
+  writes a Receipt with: timestamp, actor, verb, subject, metadata. Anti-exploit scoring: pattern
+  detection on rapid-flip sequences. ReceiptBurst capability reads last 30s from ledger.
+  Acceptance: 8 tests (append, query, pattern detection, anti-exploit flag).
+  [STUB — see TRAPX_NORTHSTAR.md §Mocumentary Receipts Layer]
+
+- [ ] **S120-02: BeatSync service stub — `server/beatsync/beatsync.go`** —
+  `Engine{StemMix, BPM, BeatCh chan Beat}`. Stub implementation: sine-wave BPM emitter at 140 BPM.
+  Real implementation: reads TRAPX stem audio file, extracts beat grid. Beat events consumed by
+  game server: ReactiveSky color pulse, weather phase bias (bass→Storm), mob swing timer modulation.
+  Acceptance: stub emits timed Beat events at configured BPM; server reacts to at least 2 event types.
+  [STUB — real audio integration pending TRAPX stem delivery (M2 milestone)]
+
+- [ ] **S120-03: FIELDOFFICE DragonsNShit MUD wiring** —
+  Wire S119-01 + S119-02 + S119-03 + S119-04 + S120-01 into `apps2/mud/main.go`.
+  Commands: `claim <fo-id>`, `contest <fo-id>`, `fo-status`, `fo-list`, `k9-deploy <mode>`,
+  `k9-swarm <count>`, `receipts`, `attention`, `integrity`.
+  District scene cluster (IDs 200–299) added to zone system. FO tick in 1Hz game loop.
+  Acceptance: GOWORK=off go test ./... passes; player can claim FO, deploy dogs, trigger audit, survive a Rogue Swarm.
+  [STUB — see TRAPX_NORTHSTAR.md full spec]
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
