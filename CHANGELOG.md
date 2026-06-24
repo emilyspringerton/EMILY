@@ -1,4 +1,5 @@
 ## 2026-06-24
+- feat: S125-06 GPT-2 inference fallback — gpt2_available in CycleMetrics, planWithFallback + gpt2Fallback via $GPT2_INFER_BIN (Apple #3662)
 - feat: S126-12 velocity alerts — observeVelocityAlerts in OBSERVE phase, Apple escalation + FCM push (Apple #3562)
 - feat: S126-07 haiku→sonnet escalation — StuckCycles/EscalatedAt on ImprovementTask, escalateTaskWithSonnet in DECIDE phase (Apple #3547)
 - feat: S126-06 EMILY↔TRAPX event bridge — DragonBroadcastWorldEvent + TrapXAppleWatcher in dragon.go, wired to main.go startup (Apple #3545)
