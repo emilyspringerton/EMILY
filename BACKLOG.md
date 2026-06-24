@@ -2608,16 +2608,16 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   (email, password, display_name) → creates user, sets free_trial tier, returns JWT.
   Repo: IDUNA. Acceptance: new user can register, cookie set, /account loads correctly.
 
-- [ ] **S125-02: GFD live multiplayer zone presence** — Players in the same zone should see each
+- [x] **S125-02: GFD live multiplayer zone presence** — Players in the same zone should see each
   other in the MUD. `who` command already lists online players; extend `look` to show other
   players in same scene. Add player-entered/left broadcast messages to zone. Wire into
-  `apps2/mud/main.go` cmdLook + tick loop. Repo: GoblinFoxDragon.
+  `apps2/mud/main.go` cmdLook + tick loop. Repo: GoblinFoxDragon. Apple #3513 · GoblinFoxDragon 4010e3e
 
-- [ ] **S125-03: TRAPX faction war event engine** — Scheduled district conflicts: every 72h a
+- [x] **S125-03: TRAPX faction war event engine** — Scheduled district conflicts: every 72h a
   random district enters `FactionConflict` state. Districts under conflict: enforcement alertness
   × 1.5, K9 Battery drain × 2, FO FlipWindow forced open. Conflict ends when one faction
   controls 3+ FOs in district. Wire into nbhdReg.TickAll + emit ledger VerbTYLERFieldActivation.
-  Repo: GoblinFoxDragon. Acceptance: faction war triggers, resolves, files Apple.
+  Repo: GoblinFoxDragon. Acceptance: faction war triggers, resolves, files Apple. Apple #3514 · GoblinFoxDragon 4010e3e
 
 - [ ] **S125-04: TRAPX economy — item prices + vendor refresh** — NPC vendors in each TRAPX zone
   have dynamic prices driven by FO custody state: Held=base, Contested=+20%, Containment=+40%.
