@@ -1,4 +1,5 @@
 ## 2026-06-24
+- S121-02: Dragon observer — DragonObserve() reads TRAPX city state in RSI OBSERVE; dragon_observe stream entry; 14 tests
 - S123 stubs: TYLER×TRAPX district scenes 200-207, receipt bridge, multi-timeline branch system, flip phone (5-tab diegetic device), VS0 Detroit 2-scene loop — Apple #3359
 
 - TRAPX S121-S122 stubs: Dragon GM spike (Emily Prime as city intelligence, Archetype Engine routing) + GFD urban fantasy crossover (scene cluster 200-299, Watcher/Enforcement packages, 8 quest-gated class chains, TRAPX faction reputation) — Apple #3337
