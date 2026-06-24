@@ -2817,10 +2817,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### GoblinFoxDragon — MUD Layer 4 (end-game content)
 
-- [ ] **S126-13: Notorious Monster (NM) respawn scheduler** — NMs in `server/nm` currently
+- [x] **S126-13: Notorious Monster (NM) respawn scheduler** — NMs in `server/nm` currently
   spawn once. Add `NMRespawnScheduler{nm.Registry}`. Each NM has `RespawnMinutes int`.
   On kill → schedule respawn. `announceNMPop` broadcasts to zone. On pop → add NM to world.
-  Scheduler runs in tickAll. 8 tests. Repo: GoblinFoxDragon.
+  Scheduler runs in tickAll. 8 tests. Repo: GoblinFoxDragon. Apple #3566 · a8c8296
 
 - [ ] **S126-14: Campaign battle mode** — Weekly server-wide event: all 3 factions contest
   10 campaign nodes across the 8 TRAPX scenes. `server/campaign/campaign.go`.
