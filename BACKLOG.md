@@ -2788,10 +2788,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### IDUNA — Auth & Trust Hardening
 
-- [ ] **S126-08: JWT refresh token endpoint** — Add `POST /api/v1/auth/refresh`.
+- [x] **S126-08: JWT refresh token endpoint** — Add `POST /api/v1/auth/refresh`.
   Accepts a valid (non-expired) JWT → issues new 8h JWT. Token is validated against
   the key set. Allows GFD client to silently refresh sessions without re-login.
-  Repo: IDUNA.
+  Repo: IDUNA. Apple #3550 · IDUNA 2c12f3e
 
 - [ ] **S126-09: Rate limiting on auth endpoints** — /auth/local + /auth/register
   are unbounded. Add per-IP rate limiter (10 req/min) via middleware.
