@@ -2829,10 +2829,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   compute winner nation for each node → feed into `conquest` prestige. 15 tests. Repo: GoblinFoxDragon.
   Apple #3641 · e8db3b2
 
-- [ ] **S126-15: Synthesis crafting recipes — TRAPX materials** — Add TRAPX-specific
+- [x] **S126-15: Synthesis crafting recipes — TRAPX materials** — Add TRAPX-specific
   craft recipes using TRAPX items from the economy (S125-04). Mini bike key → repaired
   bike (MNK weapon). Faction patch (x3) → faction gear piece. City map → atlas page
   (cartography merge). All recipes wired into existing `server/craft` system. Repo: GoblinFoxDragon.
+  Apple #3644 · adc876b
 
 ---
 
