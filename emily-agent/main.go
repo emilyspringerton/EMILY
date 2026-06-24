@@ -2249,6 +2249,8 @@ func main() {
 	mux.HandleFunc("/api/v1/emily/posture", srv.handlePostureGet)
 	mux.HandleFunc("/api/v1/emily/archetype/status", srv.handleArchetypeStatus)
 	mux.HandleFunc("/api/v1/emily/archetype/spirits", srv.handleArchetypeSpirits)
+	// S125-07: health endpoint for gfdapi / PitViper / PITVIPER polling.
+	mux.HandleFunc("/health", srv.handleHealth)
 
 	// Start TRAPX ↔ Emily bridge: polls IDUNA for GoblinFoxDragon Apples → MUD world-events.
 	if trapxMUDAPIURL() != "" {
