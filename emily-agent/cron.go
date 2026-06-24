@@ -313,6 +313,13 @@ func (ac *AutonomousCycle) RunOnce() error {
 			memTaskID = task.ID
 		}
 		updateCycleLog(ac.cfg.EmilyRoot, state.CycleNumber, memTaskID, memOutcome)
+
+		// Rebuild observation digest each cycle so emily-memory stays current.
+		obsDir := filepath.Join(ac.cfg.EmilyRoot, "signals", "observations")
+		memDir := filepath.Join(ac.cfg.EmilyRoot, "emily-agent", "emily-memory")
+		if _, err := buildObservationDigest(obsDir, memDir); err != nil {
+			log.Printf("[cycle %d] obs-digest warn: %v", state.CycleNumber, err)
+		}
 	}
 
 	triageFindings := 0
