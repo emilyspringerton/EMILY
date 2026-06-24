@@ -2384,12 +2384,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *All items below are STUBS. Implementation detail flows from northstar Emily Prime read cycle.*
 *Dependency order: S119-01 → S119-02 → S119-03 → S119-04 → S119-05. Do not implement out of order.*
 
-- [ ] **S119-01: FieldOffice state machine — `server/fieldoffice/fieldoffice.go`** —
-  `FieldOffice{ID, SceneID, Pos, FlowRate, Pressure, Phase}` where Phase: Unclaimed/Held/Contested/Containment.
-  `Claim(crewID)`, `Contest()`, `Flip(crewID)`, `Tick(now)` (Flow accumulation + Pressure rise).
-  FlipWindow gating (FO_FLIP_WINDOWS_PER_DAY). Receipt events emitted on every state change.
-  Acceptance: go test ./... passes; FO can be claimed, contested, and flipped within a window.
-  [STUB — see SHANKPIT/docs2/TRAPX_NORTHSTAR.md for full spec]
+- [x] **S119-01: FieldOffice state machine — `server/fieldoffice/fieldoffice.go`** —
+  4-phase state machine (Unclaimed/Held/Contested/Containment). Claim/Contest/Flip/Defend/
+  StartContainment/CompleteObjective/Tick. FlipWindowOpen gating (n windows per 24h).
+  Flow + Pressure accumulation. Auto-defend on contest window expiry. Receipt events on every
+  state change. Registry + DefaultFieldOffices (6 starter FOs, scene IDs 200-204). 20 tests.
+  Apple #3340
 
 - [ ] **S119-02: K9 unit system — `server/k9/k9.go`** —
   `DogUnit{ID, FO, Mode, Battery, HeatLevel}` where Mode: Sentry/Escort/Audit.
