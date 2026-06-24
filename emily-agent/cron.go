@@ -208,6 +208,16 @@ func (ac *AutonomousCycle) RunOnce() error {
 		Msg:   fmt.Sprintf("active_task=%s roadmap_items=%d", state.ActiveTaskID, len(state.Roadmap)),
 	})
 
+	// Dragon OBSERVE: read TRAPX city state if TRAPX_SERVER_URL is configured.
+	if citySummary := DragonObserve(); citySummary != "" {
+		log.Printf("[cycle %d] dragon: city state fetched (%d bytes)", state.CycleNumber, len(citySummary))
+		appendStream(sPath, StreamEntry{
+			Type:  "dragon_observe",
+			Cycle: state.CycleNumber,
+			Msg:   citySummary,
+		})
+	}
+
 	// PHASE 2: DECIDE — pick what to work on this cycle (gear-aware)
 	rec.Phase = PhaseDecide
 	influence := ac.emiree.State.Influence()
