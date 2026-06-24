@@ -5,13 +5,18 @@
 // from the last 24 h, summarises them by type, and fires an FCM push to the
 // mjolnir-emily device with a mjolnir://feed deep link. A sentinel file in the
 // state directory prevents duplicate pushes within the same calendar day.
+//
+// When FATBABY_SIGNAL_API_URL and FATBABY_SIGNAL_API_KEY are set, the briefing
+// also includes the top 5 high-confidence signals from PRRJECT_FATBABY.
 
 package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
@@ -69,8 +74,17 @@ func runMorningBriefing(ctx context.Context, iduna *IdunaClient, push PushFunc, 
 		}
 	}
 
+	// Fetch top FatBaby signals if signalapi is configured.
+	signals := fetchTopSignals(ctx)
+
 	title, body := buildBriefingMessage(recent)
-	log.Printf("briefing: firing morning push — %d apples in 24h", len(recent))
+	if len(signals) > 0 {
+		body += "\n\n── SIGNAL INTELLIGENCE ──"
+		for _, s := range signals {
+			body += fmt.Sprintf("\n  %-6s  %s  [%s]", s.Ticker, s.Summary, s.SignalType)
+		}
+	}
+	log.Printf("briefing: firing morning push — %d apples in 24h, %d signals", len(recent), len(signals))
 
 	go push(title, body, map[string]string{
 		"deep_link":     "mjolnir://feed",
@@ -93,6 +107,72 @@ func runMorningBriefing(ctx context.Context, iduna *IdunaClient, push PushFunc, 
 			})
 		}()
 	}
+}
+
+// FatBabySignalEntry is a minimal view of a signal from PRRJECT_FATBABY signalapi.
+type FatBabySignalEntry struct {
+	Ticker         string  `json:"ticker"`
+	SignalType     string  `json:"signal_type"`
+	Importance     int     `json:"importance"`
+	Sentiment      float64 `json:"sentiment"`
+	Summary        string  `json:"summary"`
+	ImpactAnalysis string  `json:"impact_analysis"`
+}
+
+// fetchTopSignals fetches the top signals (importance ≥ 7) from the
+// PRRJECT_FATBABY signalapi. Returns at most 5 results.
+// FATBABY_SIGNAL_API_URL must be set; FATBABY_SIGNAL_API_KEY is optional.
+// Non-fatal: returns nil on any error.
+func fetchTopSignals(ctx context.Context) []FatBabySignalEntry {
+	base := strings.TrimRight(os.Getenv("FATBABY_SIGNAL_API_URL"), "/")
+	if base == "" {
+		return nil
+	}
+	apiKey := os.Getenv("FATBABY_SIGNAL_API_KEY")
+	url := base + "/v1/data-quality"
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil
+	}
+	if apiKey != "" {
+		req.Header.Set("Authorization", "Bearer "+apiKey)
+	}
+	client := &http.Client{Timeout: 5 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil || resp.StatusCode != http.StatusOK {
+		return nil
+	}
+	defer resp.Body.Close()
+
+	var quality struct {
+		ByTicker []struct {
+			Ticker       string  `json:"ticker"`
+			AvgConf      float64 `json:"avg_confidence"`
+			SignalCount  int     `json:"signal_count"`
+			AvgImp       float64 `json:"avg_importance"`
+		} `json:"by_ticker"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&quality); err != nil {
+		return nil
+	}
+
+	// Keep tickers with avg_confidence ≥ 0.75 and ≥ 1 signal, limit to 5.
+	var out []FatBabySignalEntry
+	for _, tq := range quality.ByTicker {
+		if tq.AvgConf < 0.75 || tq.SignalCount == 0 {
+			continue
+		}
+		out = append(out, FatBabySignalEntry{
+			Ticker:     tq.Ticker,
+			SignalType: fmt.Sprintf("avg_importance=%.1f", tq.AvgImp),
+			Importance: tq.SignalCount,
+			Summary:    fmt.Sprintf("confidence=%.2f (%d signals)", tq.AvgConf, tq.SignalCount),
+		})
+		if len(out) >= 5 {
+			break
+		}
+	}
+	return out
 }
 
 // buildBriefingMessage turns a list of recent Apples into push title + body.
