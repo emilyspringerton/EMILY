@@ -2484,12 +2484,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *Detroit-coded living city. DragonsNShit becomes the engine for a new kind of game.*
 *Northstar: SHANKPIT/docs2/TRAPX_NORTHSTAR.md §Engine Stack + §RPG System*
 
-- [ ] **S122-01: TRAPX city scene cluster — GFD scene IDs 200–299** — [STUB]
-  Add TRAPX city districts to GFD zone system. 5 starter districts (Residential/Commercial/
-  Industrial/Underground/Abandoned). Each district is a DragonsNShit scene with urban voxel
-  terrain (apartments, streets, warehouses, highways as hard dividers).
-  ProceduralWorldStore generates urban terrain (stone/concrete block types, flat ground planes,
-  vertical apartment stacking). Acceptance: `go test ./...` passes; 5 scenes navigable in MUD.
+- [x] **S122-01: TRAPX city scene cluster — GFD scene IDs 200–299** —
+  5 districts (200-204) + MUD exits + 7 city NPCs (mini bike rider, corner kid, pawn shop runner,
+  broadcast operator, warehouse contact, frequency runner, scar keeper) + urbanChunk() worldapi terrain.
+  Apple #3376 | GFD commit d233afe | 2026-06-24
 
 - [ ] **S122-02: Watcher + Enforcement simulation packages** — [STUB]
   `server/watcher/watcher.go`: WatcherState{alertness/bias/trust} per district. Alertness
