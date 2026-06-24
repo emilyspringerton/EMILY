@@ -2398,13 +2398,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Swarm: Add/ActiveCount/CustodyScore/TickAll/Prune/IsLatched.
   Battery events: BATTERY_LOW (crosses 20%), BATTERY_DEAD. 33 tests. Apple #3344
 
-- [ ] **S119-03: Attention system — `server/attention/attention.go`** —
-  Per-FO `Attention(0–1000)` meter. Gain: `per_dog * (n_active ^ attention_exponent)`.
-  Slow decay. Summons: OversightSect (Audit events) above AUDIT_THRESHOLD;
-  ShadowOperator (Procurement/Sabotage events) above VENDOR_SPAWN_THRESHOLD.
-  Attention → Ecosystem effects: migration weight, AH tax multiplier, contest frequency scaler.
-  Acceptance: 10+ tests; audit events fire at threshold; operator events fire at higher threshold.
-  [STUB — see TRAPX_NORTHSTAR.md §Attention System]
+- [x] **S119-03: Attention system — `server/attention/attention.go`** —
+  Per-FO Attention (0-1000). AddDogActivity: perDog*n^1.3 superlinear gain. Tick decay.
+  AUDIT_THRESHOLD (700) → OVERSIGHT_SECT summon. VENDOR_THRESHOLD (900) → SHADOW_OPERATOR.
+  Clear events on decay below threshold. EcosystemEffects: migrationWeight/AHTaxMultiplier/
+  ContestScaler. Registry: GetOrCreate/Get/TickAll/TotalAttention. 18 tests. Apple #3346
 
 - [ ] **S119-04: Control Integrity + Rogue Swarm — `server/integrity/integrity.go`** —
   Per-district `ControlIntegrity(0.0–1.0)`. Decay: dog count (superlinear) + jammer use + flip rate.
