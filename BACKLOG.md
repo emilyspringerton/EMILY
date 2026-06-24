@@ -2603,7 +2603,7 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### GFD / TRAPX — Layer 2
 
-- [ ] **S125-01: IDUNA /api/v1/auth/register endpoint** — The GFD "Take Control" CTA links to
+- [x] **S125-01: IDUNA /api/v1/auth/register endpoint** — Apple #3504 · IDUNA d3b79d1 — The GFD "Take Control" CTA links to
   IDUNA registration but the endpoint doesn't exist yet. Add `POST /api/v1/auth/register`
   (email, password, display_name) → creates user, sets free_trial tier, returns JWT.
   Repo: IDUNA. Acceptance: new user can register, cookie set, /account loads correctly.
@@ -2734,6 +2734,102 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 - [ ] **HITL-10: MJOLNIR FCM push test** — After device_token registered (HITL-05):
   `curl -X POST http://localhost:8086/api/v1/emily/push/test`
   Confirm notification arrives on device. Unblocks: MJOLNIR live intel feed.
+
+---
+
+## SECTION 126: DEEP PLANNING — SYSTEMIC DEPTH PASS (2026-06-24)
+
+*Second fractal layer. Each system now has a working core. This section goes deeper:*
+*persistence, AI integration, cross-system event bridging, and multiplayer live layer.*
+
+### TRAPX — Living World Systems
+
+- [ ] **S126-01: TRAPX NPC schedule system** — NPCs exist but don't move. Add `server/schedule/schedule.go`:
+  `NPCSchedule{NPCID, ZoneAtHour [24]int}` — each hour maps to a zone ID. `ScheduleRegistry`.
+  `Tick(hour int)` moves NPCs to their scheduled zone (updates World NPC location).
+  Seed schedules for jiangshi-warden, eastwind-archivist, heikegani-dock-boss.
+  MUD: npcs who are scheduled show time-of-day flavor in `examine`. Repo: GoblinFoxDragon. 12 tests.
+
+- [ ] **S126-02: TRAPX weather → district mood feedback loop** — Current weather system
+  (`server/weather`) doesn't affect districts. Wire: Heavy Rain → Fatigue+10 in outdoor districts.
+  Thunderstorm → Fear+15 everywhere. Clear sky → Fatigue-5 (recovery). `weather.Current()` polled
+  in nbhdReg.TickAll. Repo: GoblinFoxDragon. Add 5 tests to neighborhood_test.go.
+
+- [ ] **S126-03: TRAPX world event broadcast system** — Global events that all players see:
+  `server/worldevent/worldevent.go`. Event types: FactionWarStart, FieldOfficeFallen,
+  RogueSwarmEmergence, DragonSighting, MythSeeded. Registry broadcasts via MUD zone channel.
+  Emily Prime can POST to `/api/world-events` → broadcast to all connected players.
+  Wire into tickAll. Repo: GoblinFoxDragon.
+
+- [ ] **S126-04: Auto-translate — full-duplex bilingual party chat** — Extend autotranslate:
+  each player has `lang Lang` field (EN/JP/BOTH). `say [phrase]` delivers EN to EN players,
+  JP to JP players, both to BOTH players. `setlang en|jp|both` command sets preference.
+  Stored in player struct. JP players see rendered JP phrases even when EN player sends EN.
+  Repo: GoblinFoxDragon.
+
+### Emily Prime — Intelligence Upgrades
+
+- [ ] **S126-05: Emily Prime observation digest** — emily-agent PLAN phase reads
+  `EMILY/signals/observations/` and produces a structured `observations-digest.json`
+  in `emily-memory/`. Digest: count by severity, top 3 entity names, last-seen timestamp.
+  CLI: `emily memory digest` prints digest in TUI format. Repo: EMILY + emily.cli.
+
+- [ ] **S126-06: EMILY_PRIME ↔ TRAPX event bridge** — When Emily Prime files a
+  VerbTYLERFieldActivation apple, MUD clients in affected district receive
+  "*** Emily dispatch received. Stay alert. ***"  broadcast.
+  obs-watcher watcher: poll IDUNA /api/v1/apples?source_repo=GoblinFoxDragon&type=completion
+  every 60s; if new apple → push to MUD world event queue. Repo: EMILY + GoblinFoxDragon.
+
+- [ ] **S126-07: Emily Prime haiku→sonnet escalation logic** — Currently emily-agent uses
+  claude-haiku for all RSI cycle decisions. Add escalation: if a task has been in
+  `in_progress` for >3 cycles without an Apple, re-run DECIDE phase with claude-sonnet-4-6
+  to generate a revised approach. Track `escalated_at` in RSI task JSON.
+  Repo: EMILY.
+
+### IDUNA — Auth & Trust Hardening
+
+- [ ] **S126-08: JWT refresh token endpoint** — Add `POST /api/v1/auth/refresh`.
+  Accepts a valid (non-expired) JWT → issues new 8h JWT. Token is validated against
+  the key set. Allows GFD client to silently refresh sessions without re-login.
+  Repo: IDUNA.
+
+- [ ] **S126-09: Rate limiting on auth endpoints** — /auth/local + /auth/register
+  are unbounded. Add per-IP rate limiter (10 req/min) via middleware.
+  Use sync.Map[IP → TokenBucket]. Block with 429. Repo: IDUNA.
+
+- [ ] **S126-10: IDUNA player stats endpoint** — GFD page-profile.php needs real player
+  data. Add `GET /api/v1/players/{slug}/profile` → `{display_name, job, fame:{Frequency,
+  Bloc, Procurement}, last_scene, apples_count}`. Reads from Apples + player projection.
+  Repo: IDUNA.
+
+### PRRJECT_FATBABY — Signal Depth
+
+- [ ] **S126-11: Entity co-occurrence graph** — When two entities appear in the same
+  observation within 48h, record a co-occurrence edge in MongoDB.
+  `GET /api/v1/entities/{ticker}/related` returns up to 10 related entities by edge weight.
+  UI widget in EDIS: shows related companies as a mini-network. Repo: PRRJECT_FATBABY.
+
+- [ ] **S126-12: Signal velocity alert** — If the same entity produces >3 signals in
+  <1h with confidence>0.6, file an Apple (type=escalation) and POST to MJOLNIR FCM.
+  emily-agent checks this in OBSERVE phase. Repo: EMILY + PRRJECT_FATBABY.
+
+### GoblinFoxDragon — MUD Layer 4 (end-game content)
+
+- [ ] **S126-13: Notorious Monster (NM) respawn scheduler** — NMs in `server/nm` currently
+  spawn once. Add `NMRespawnScheduler{nm.Registry}`. Each NM has `RespawnMinutes int`.
+  On kill → schedule respawn. `announceNMPop` broadcasts to zone. On pop → add NM to world.
+  Scheduler runs in tickAll. 8 tests. Repo: GoblinFoxDragon.
+
+- [ ] **S126-14: Campaign battle mode** — Weekly server-wide event: all 3 factions contest
+  10 campaign nodes across the 8 TRAPX scenes. `server/campaign/campaign.go`.
+  Node: `CampaignNode{SceneID, Holder Nation, HP int}`. Players `/campaign join` → fight
+  for their faction. Every 10 combat kills in scene shifts node HP. At cycle end (24h),
+  compute winner nation for each node → feed into `conquest` prestige. 15 tests. Repo: GoblinFoxDragon.
+
+- [ ] **S126-15: Synthesis crafting recipes — TRAPX materials** — Add TRAPX-specific
+  craft recipes using TRAPX items from the economy (S125-04). Mini bike key → repaired
+  bike (MNK weapon). Faction patch (x3) → faction gear piece. City map → atlas page
+  (cartography merge). All recipes wired into existing `server/craft` system. Repo: GoblinFoxDragon.
 
 ---
 
