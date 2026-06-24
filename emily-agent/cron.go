@@ -464,6 +464,29 @@ func (ac *AutonomousCycle) RunOnce() error {
 		runMorningBriefing(ctx, ac.iduna, push, ac.cfg.StateDir)
 	}
 
+	// S125-08: weekly memory consolidation — runs at most once per 7 days.
+	if ac.cfg.EmilyRoot != "" {
+		consolidateSentinel := filepath.Join(ac.cfg.StateDir, "memory-consolidate-last-run.txt")
+		consolidateDue := true
+		if data, err := os.ReadFile(consolidateSentinel); err == nil {
+			if t, err := time.Parse(time.RFC3339, strings.TrimSpace(string(data))); err == nil {
+				consolidateDue = time.Since(t) >= 7*24*time.Hour
+			}
+		}
+		if consolidateDue {
+			go func() {
+				memDir := filepath.Join(ac.cfg.EmilyRoot, "emily-agent", "emily-memory")
+				if err := consolidateMemoryFragments(memDir); err != nil {
+					log.Printf("[cycle %d] memory consolidate warn: %v", state.CycleNumber, err)
+				} else {
+					log.Printf("[cycle %d] memory consolidate: ok", state.CycleNumber)
+					_ = os.WriteFile(consolidateSentinel,
+						[]byte(time.Now().UTC().Format(time.RFC3339)), 0o644)
+				}
+			}()
+		}
+	}
+
 	// Feed outcome back into Emiree; it updates state, saves, returns next gear.
 	rsiOutcome := buildRSIOutcome(task, triageFindings)
 	nextInfluence := ac.emiree.Tick(rsiOutcome)
