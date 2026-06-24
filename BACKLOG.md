@@ -2667,15 +2667,15 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### GoblinFoxDragon — MUD Layer 3
 
-- [ ] **S125-12: Auction House — `server/auction/auction.go`** — Players list items for sale with
+- [x] **S125-12: Auction House — `server/auction/auction.go`** — Players list items for sale with
   ask price. Other players bid. `ah list <item-id>` shows current listings. `ah buy <listing-id>`
   purchases at ask. `ah sell <item-id> <price>` creates listing (15-min expiry). AH fee: 5% gil.
-  MUD commands: ah/auction. 15 tests. Repo: GoblinFoxDragon.
+  MUD commands: ah/auction. 15 tests. Repo: GoblinFoxDragon. Apple #3526 · GoblinFoxDragon 5677bc4
 
-- [ ] **S125-13: Mog House — personal item storage** — `server/moghouse/moghouse.go`.
+- [x] **S125-13: Mog House — personal item storage** — `server/moghouse/moghouse.go`.
   `MogHouse{OwnerID string; Items []inventory.Item}`. Capacity: 50 items. MUD commands: `mog-store
   <item-id>`, `mog-retrieve <item-id>`, `mog-list`. Per-player persistent dict in World state.
-  10 tests. Repo: GoblinFoxDragon.
+  10 tests. Repo: GoblinFoxDragon. Apple #3528 · GoblinFoxDragon 290510b
 
 ---
 
