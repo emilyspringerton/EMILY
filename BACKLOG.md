@@ -2755,11 +2755,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Thunderstorm → Fear+15 everywhere. Clear sky → Fatigue-5 (recovery). `weather.Current()` polled
   in nbhdReg.TickAll. Repo: GoblinFoxDragon. Add 5 tests to neighborhood_test.go. Apple #3533 · GoblinFoxDragon dc70d3b
 
-- [ ] **S126-03: TRAPX world event broadcast system** — Global events that all players see:
+- [x] **S126-03: TRAPX world event broadcast system** — Global events that all players see:
   `server/worldevent/worldevent.go`. Event types: FactionWarStart, FieldOfficeFallen,
   RogueSwarmEmergence, DragonSighting, MythSeeded. Registry broadcasts via MUD zone channel.
   Emily Prime can POST to `/api/world-events` → broadcast to all connected players.
-  Wire into tickAll. Repo: GoblinFoxDragon.
+  Wire into tickAll. Repo: GoblinFoxDragon. Apple #3536 · GoblinFoxDragon d57e78a
 
 - [ ] **S126-04: Auto-translate — full-duplex bilingual party chat** — Extend autotranslate:
   each player has `lang Lang` field (EN/JP/BOTH). `say [phrase]` delivers EN to EN players,
