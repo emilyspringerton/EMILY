@@ -2833,6 +2833,44 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+---
+
+## SECTION 127: PITVIPER — GFD CLIENT COMPLETION + WEBMASTER TERMINAL (2026-06-24)
+
+*PitViper is the GFD game client AND Emily's webmaster terminal. SDL2 is the GPU layer.*
+*--gfd mode connects to MUD via TCP. --gfd-webmaster shows Emily Prime overlay.*
+*SDL2 build requires: sudo apt install libsdl2-dev && GOWORK=off CGO_ENABLED=1 go build ./cmd/pitviper*
+
+- [x] **PitViper --gfd TCP MUD connection + Channel 11 bar + gfdapi webmaster state** — Apple #3508 · PITVIPER ee90d41
+  mudconn.Conn, --gfd flag, Channel 11 dark palette, renderGFDBar, --gfd-webmaster Emily gear + tier.
+
+- [ ] **S127-01: PitViper --gfd login automation** — After TCP connect, if `GFD_USER` + `GFD_PASS`
+  env vars are set, auto-send login sequence after MOTD is received (detect "Enter your name:"
+  prompt in vterm output). Webmaster: auto-sends webmaster credentials. Eliminates manual login.
+  Repo: PITVIPER.
+
+- [ ] **S127-02: PitViper Channel 11 splash screen** — On --gfd connect, before the MUD MOTD
+  appears, show a 2-second Channel 11 splash: full-screen dark bg, Channel 11 gold logo,
+  "GOBLIN FOX DRAGON" text, "● CONNECTING..." blinking. Rendered via SDL2 FillRect + renderBarText.
+  Repo: PITVIPER.
+
+- [ ] **S127-03: PitViper HITL — sudo apt install libsdl2-dev on dev machine** — SDL2 not installed.
+  Run: `sudo apt-get install -y libsdl2-dev`
+  Then: `GOWORK=off CGO_ENABLED=1 go build ./cmd/pitviper`
+  Test: `./pitviper --gfd localhost:2323`
+  (Human action required — needs sudo.)
+
+- [ ] **S127-04: PitViper create GitHub remote** — Remote emilyspringerton/PITVIPER not found.
+  Create repo at github.com/emilyspringerton/PITVIPER then: `git push -u origin main`
+  (Human action — needs GitHub repo creation.)
+
+- [ ] **S127-05: PitViper GFD district overlay pane** — Ctrl+D opens a split pane showing live
+  district state from IDUNA: district name, FO custody state, alertness level, mood.
+  gfdapi.Client.DistrictState() polls `/api/v1/fieldoffices` (endpoint to be added in S125-05).
+  Rendered as a 20-col right-side pane. Repo: PITVIPER.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
