@@ -2625,10 +2625,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   items to zone shop catalogs (ramen bowl, burner phone, mini bike key, faction patch, city map).
   Repo: GoblinFoxDragon. Apple #3656 · GoblinFoxDragon 2ab59ed
 
-- [ ] **S125-05: GFD player profile API (IDUNA)** — page-profile.php currently stubs rep data.
+- [x] **S125-05: GFD player profile API (IDUNA)** — page-profile.php currently stubs rep data.
   Add `GET /api/v1/players/{slug}/profile` to IDUNA: returns display_name, job, faction rep
   (from apples actor filter), TRAPX district activity (last 10 apples with source_repo=GoblinFoxDragon).
-  Update page-profile.php JS to hit the real endpoint. Repo: IDUNA + EDIS.
+  Update page-profile.php JS to hit the real endpoint. Repo: IDUNA + EDIS. Apple #3658 · IDUNA 725e8f1 · EDIS 6b1141c
 
 ### Emily Prime — Brain Feed
 
