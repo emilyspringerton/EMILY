@@ -2435,13 +2435,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   in 4/4 pattern. WorldEffect(): sky_pulse/weather_toggle/mob_swing_storm/crowd_ambient.
   Sine-wave strength curve. Bass on even measures. Default 140 BPM. 17 tests. Apple #3356
 
-- [ ] **S120-03: FIELDOFFICE DragonsNShit MUD wiring** —
+- [x] **S120-03: FIELDOFFICE DragonsNShit MUD wiring** —
   Wire S119-01 + S119-02 + S119-03 + S119-04 + S120-01 into `apps2/mud/main.go`.
   Commands: `claim <fo-id>`, `contest <fo-id>`, `fo-status`, `fo-list`, `k9-deploy <mode>`,
-  `k9-swarm <count>`, `receipts`, `attention`, `integrity`.
-  District scene cluster (IDs 200–299) added to zone system. FO tick in 1Hz game loop.
-  Acceptance: GOWORK=off go test ./... passes; player can claim FO, deploy dogs, trigger audit, survive a Rogue Swarm.
-  [STUB — see TRAPX_NORTHSTAR.md full spec]
+  `k9-swarm <count>`, `receipts`, `attention`, `integrity`, `tech-pressure`.
+  FO + all city sim packages tick in 1Hz game loop. GOWORK=off go test ./... passes.
+  Apple #3363 | GFD commit 4591bcb | 2026-06-24
 
 ---
 
