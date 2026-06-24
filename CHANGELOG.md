@@ -1,4 +1,5 @@
 ## 2026-06-24
+- feat: S125-10 FatBaby signal → morning brief — fetchTopSignals from signalapi /v1/data-quality, confidence>=0.75, top-5 appended to push body (Apple #3520)
 - S121-05: Archetype Engine Dragon routing — DragonArchetypeAugment() FIELD invocation per Dragon city decision; archetype corridor+spirit stack in Dragon Apple bodies
 - S121-03+04: Dragon ACT phase — dragonDecide() escalation rules + dragonACT() fires city events + Dragon Apples per event in RSI cycle
 - S121-02: Dragon observer — DragonObserve() reads TRAPX city state in RSI OBSERVE; dragon_observe stream entry; 14 tests
