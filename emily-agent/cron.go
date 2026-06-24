@@ -14,9 +14,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
@@ -223,6 +225,25 @@ func (ac *AutonomousCycle) RunOnce() error {
 	influence := ac.emiree.State.Influence()
 	log.Printf("[cycle %d] emiree: %s", state.CycleNumber, ac.emiree.State.Summary())
 	task, reason := ac.pickTask(state)
+
+	// Haiku→sonnet escalation: if the active task has been stuck ≥3 cycles
+	// without completing, re-derive its approach using claude-sonnet-4-6.
+	if task != nil && state.ActiveTask != nil {
+		state.ActiveTask.StuckCycles++
+		if state.ActiveTask.StuckCycles >= 3 && state.ActiveTask.EscalatedAt == nil {
+			if revised, err := escalateTaskWithSonnet(ctx, task, os.Getenv("ANTHROPIC_API_KEY")); err != nil {
+				log.Printf("[cycle %d] escalation warn: %v", state.CycleNumber, err)
+			} else {
+				now := time.Now().UTC()
+				state.ActiveTask.Description = revised
+				task.Description = revised
+				state.ActiveTask.EscalatedAt = &now
+				task.EscalatedAt = &now
+				log.Printf("[cycle %d] escalated task %s to sonnet after %d stuck cycles",
+					state.CycleNumber, task.ID, state.ActiveTask.StuckCycles)
+			}
+		}
+	}
 	// Apply gear influence to task max_iters without shortening an
 	// already-running task below the work it has accumulated. Emiree may shift
 	// into a more conservative gear between cycles, but that should not force a
@@ -593,6 +614,67 @@ func (ac *AutonomousCycle) pickTask(state *CycleState) (*ImprovementTask, string
 	state.ActiveTaskID = task.ID
 	state.ActiveTask = task
 	return task, fmt.Sprintf("start new task: %s (%s)", best.ID, best.Name)
+}
+
+const escalationThreshold = 3 // stuck cycles before haiku→sonnet escalation
+
+// escalateTaskWithSonnet re-derives the task's action plan using claude-sonnet-4-6.
+// It returns a revised description or an error. Non-destructive: caller must apply the result.
+func escalateTaskWithSonnet(ctx context.Context, task *ImprovementTask, apiKey string) (string, error) {
+	if apiKey == "" {
+		return "", fmt.Errorf("ANTHROPIC_API_KEY not set")
+	}
+	prompt := fmt.Sprintf(`You are Emily Prime. The following RSI task has been stuck for %d consecutive cycles without producing an Apple (completion event).
+
+Task ID: %s
+Current description: %s
+
+Please produce a revised, more concrete action plan for this task. The new description should:
+1. Identify why the task may be stuck (ambiguity, missing context, scope creep)
+2. Break it into a single clearly-scoped next step
+3. Be ≤200 words
+
+Output only the revised description. No preamble.`, task.StuckCycles, task.ID, task.Description)
+
+	body := map[string]any{
+		"model":      "claude-sonnet-4-6",
+		"max_tokens": 512,
+		"messages":   []map[string]any{{"role": "user", "content": prompt}},
+	}
+	payload, _ := json.Marshal(body)
+	req, err := http.NewRequestWithContext(ctx, "POST", "https://api.anthropic.com/v1/messages",
+		bytes.NewReader(payload))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("x-api-key", apiKey)
+	req.Header.Set("anthropic-version", "2023-06-01")
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("anthropic api: %w", err)
+	}
+	defer resp.Body.Close()
+	raw, _ := io.ReadAll(resp.Body)
+	if resp.StatusCode != 200 {
+		return "", fmt.Errorf("anthropic api %d: %s", resp.StatusCode, raw)
+	}
+	var result struct {
+		Content []struct {
+			Type string `json:"type"`
+			Text string `json:"text"`
+		} `json:"content"`
+	}
+	if err := json.Unmarshal(raw, &result); err != nil {
+		return "", fmt.Errorf("parse: %w", err)
+	}
+	for _, block := range result.Content {
+		if block.Type == "text" && strings.TrimSpace(block.Text) != "" {
+			return strings.TrimSpace(block.Text), nil
+		}
+	}
+	return "", fmt.Errorf("empty response from sonnet escalation")
 }
 
 func isExecutableRoadmapStatus(status string) bool {

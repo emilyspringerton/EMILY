@@ -59,6 +59,8 @@ type ImprovementTask struct {
 	StartedAt   time.Time             `json:"started_at"`
 	CompletedAt *time.Time            `json:"completed_at,omitempty"`
 	Lessons     []string              `json:"lessons,omitempty"`
+	StuckCycles int                   `json:"stuck_cycles,omitempty"` // consecutive cycles without Apple
+	EscalatedAt *time.Time            `json:"escalated_at,omitempty"` // first haiku→sonnet escalation
 }
 
 // RSILoop runs iterative improvement loops backed by an LLM pipeline.
