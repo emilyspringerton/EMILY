@@ -2430,12 +2430,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   ReceiptBurst (last 30s per FO). Anti-exploit: FlipScore (4 flips/60s → SUSPICIOUS_PATTERN).
   PruneFlipLog. All() copy-safe. 15 tests. Apple #3353
 
-- [ ] **S120-02: BeatSync service stub — `server/beatsync/beatsync.go`** —
-  `Engine{StemMix, BPM, BeatCh chan Beat}`. Stub implementation: sine-wave BPM emitter at 140 BPM.
-  Real implementation: reads TRAPX stem audio file, extracts beat grid. Beat events consumed by
-  game server: ReactiveSky color pulse, weather phase bias (bass→Storm), mob swing timer modulation.
-  Acceptance: stub emits timed Beat events at configured BPM; server reacts to at least 2 event types.
-  [STUB — real audio integration pending TRAPX stem delivery (M2 milestone)]
+- [x] **S120-02: BeatSync service stub — `server/beatsync/beatsync.go`** —
+  Engine (BPM, BeatCh, StemMix). Tick() sync + Run(ctx) async. 4 beat types (Kick/Snare/Bass/Hat)
+  in 4/4 pattern. WorldEffect(): sky_pulse/weather_toggle/mob_swing_storm/crowd_ambient.
+  Sine-wave strength curve. Bass on even measures. Default 140 BPM. 17 tests. Apple #3356
 
 - [ ] **S120-03: FIELDOFFICE DragonsNShit MUD wiring** —
   Wire S119-01 + S119-02 + S119-03 + S119-04 + S120-01 into `apps2/mud/main.go`.
@@ -2540,6 +2538,73 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `broadcast` — Media narrative current state (sentiment, saturation, active myths).
   `enforcement` — current enforcement level + effects.
   Acceptance: GOWORK=off go test ./... passes; all commands return correct district state.
+
+---
+
+## SECTION 123: TRAPX — TYLER UNIVERSE LAYER + FLIP PHONE INTERFACE (stub)
+
+*TYLER × TRAPX: the 8 TYLER canonical locations are the 8 TRAPX city districts (scenes 200-207).*
+*Multi-timeline sandbox: Migration Events = Rogue Swarms; branch states = city save states.*
+*Receipt systems unified: TYLER lore artifacts + TRAPX ledger in same ticker.*
+*Flip phone: the player's diegetic city device; primary HUD; CRT-scanline aesthetic.*
+*Northstar ref: SHANKPIT/docs2/TRAPX_NORTHSTAR.md §TYLER Universe Layer + §VS0*
+*TYLER series bible: TYLER/README.md § TYLER Mode (section XX-XXI)*
+*TYLER engine spec: TYLER/engine/shankpit_tyler_mode.md*
+
+- [ ] **S123-01: TYLER district scene cluster — scenes 200–207 (TYLER locations)** — [STUB]
+  Map 8 TYLER Mode canonical locations to GFD scene IDs 200–207:
+  200=Detroit Apartment (Jiangshi / Residential), 201=Detroit School (Emily OS / Abandoned),
+  202=Osaka Convenience Store (Hashashin+Yōkai / Commercial / Party Store),
+  203=Cairngorms Archive (Eastwind Owls / Institutional), 204=Vatican Corridors (Ichthyosapiens /
+  Underground), 205=Osaka Underport (Heikegani / Industrial), 206=Kuroshio Coast (Kuroshio /
+  Abandoned Coastal), 207=Bacon's Table (Yōkai rotating / Party Store FO).
+  FO counts per scene as per northstar §TYLER Districts table.
+  Portal connections: 200↔201 (VS0), 202↔203, 204↔205, 206↔207, 200↔202↔206 (Tyler's route).
+  Faction NPCs seeded per scene using GFD mob system.
+  Acceptance: all 8 scenes navigable in MUD; portal travel between them works.
+
+- [ ] **S123-02: TYLER receipt → TRAPX ledger bridge** — [STUB]
+  TYLER episode receipts (from `TYLER/lore/`) POST to `server/ledger` via Dragon ACT phase.
+  New verb types in `server/ledger`: TYLER_EPISODE_RECEIPT, TYLER_MIGRATION_EVENT,
+  TYLER_FIELD_ACTIVATION, TYLER_ARCHIVE_ENTRY.
+  In-game ticker shows TYLER and TRAPX receipts in unified feed (same UI component).
+  Lore artifact files (eastwind_archive.md, jiangshi_project_memos.md, shell_parliament_ledger.md,
+  field_activation_logs.md) browsable via CAST stream terminal in each scene's party store.
+  Acceptance: a simulated TYLER receipt appears in the TRAPX ledger ticker; 3 lore docs viewable.
+
+- [ ] **S123-03: Multi-timeline branch system** — [STUB]
+  City save state keyed by `branch_id` (default: "present"). Migration Events (Rogue Swarm
+  triggers fired by Dragon ACT) create a new branch snapshot in IDUNA city memory.
+  Branch list command: `timeline` shows all branches with scar count + watcher state delta.
+  Portal selection menu: at portal, player can choose destination branch (episode timestamp).
+  Districts with conflicting branch memory show visual contradiction (dual-state voxel rendering).
+  Acceptance: two branches coexist; scars in branch A don't appear in branch B until merge.
+
+- [ ] **S123-04: Flip phone interface** — [STUB]
+  The player's diegetic city device. Not a floating HUD — a flip phone held in-hand.
+  Art: CRT-scanline screen (matching broadcast meta-frame), physical clamshell, antenna.
+  Opens: F key (or shoulder button). Closes: same.
+  Five tabs (d-pad or number keys to navigate):
+    1. FO STATUS — all FOs in current district; Phase/Flow/Pressure/Attention
+    2. CITY HEAT — Watcher alertness, Enforcement level, Tech Pressure tier
+    3. RECEIPTS — last 20 receipts from server/ledger (TRAPX + TYLER unified)
+    4. CREW — party members, crew chat, K9 swarm count per deployed dog
+    5. CAST STREAM — browse TYLER lore artifacts in current district
+  Jiangshi documentary crew NPCs will film the player using the phone. Phone usage
+  contributes to Watcher alertness (documenting yourself documents yourself).
+  Acceptance: phone opens/closes; 5 tabs navigable; live city data shown; receipt feed scrolls.
+
+- [ ] **S123-05: VS0 playable slice — Detroit 2-scene loop** — [STUB]
+  VS0 scope: scene 200 (Detroit Apartment) + scene 201 (Detroit School).
+  "Take Control" on Channel 11 → drops into scene 200.
+  Jiangshi Watcher density preset: high alertness rise rate (Jiangshi document everything).
+  Detroit School: Emily OS manifests as ambient city voice (periodically types text on
+  in-world surfaces; Room tightens when she speaks. Never explains herself.)
+  1 FO in School scene (201): phase starts at PhaseUnclaimed.
+  2 FOs in Apartment scene (200): 1 pre-held by Jiangshi crew, 1 unclaimed.
+  Flip phone active. Receipts flowing. City memory shared between 200 and 201.
+  Acceptance: "Take Control" → player in Detroit Apartment; flip phone shows 3 FOs;
+  portal to School works; Emily OS ambient text appears on school surfaces.
 
 ---
 
