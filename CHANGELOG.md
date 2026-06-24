@@ -1,4 +1,5 @@
 ## 2026-06-24
+- feat: S125-08 weekly memory consolidation — consolidateMemoryFragments in PLAN phase, 7-day sentinel (Apple #3667)
 - feat: S125-07 GET /health endpoint — {ok, service, gear} for gfdapi + PitViper polling (Apple #3664)
 - feat: S125-06 GPT-2 inference fallback — gpt2_available in CycleMetrics, planWithFallback + gpt2Fallback via $GPT2_INFER_BIN (Apple #3662)
 - feat: S126-12 velocity alerts — observeVelocityAlerts in OBSERVE phase, Apple escalation + FCM push (Apple #3562)
