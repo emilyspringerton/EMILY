@@ -1,3 +1,7 @@
+## 2026-06-24
+
+- TRAPX S121-S122 stubs: Dragon GM spike (Emily Prime as city intelligence, Archetype Engine routing) + GFD urban fantasy crossover (scene cluster 200-299, Watcher/Enforcement packages, 8 quest-gated class chains, TRAPX faction reputation) — Apple #3337
+
 ## 2026-06-23
 - S103-03: api_archetype.go — archetype engine status+spirits proxy endpoints; /api/v1/emily/archetype/status+spirits
 - S102-05: field_bridge.go — THE_FIELD AugmentTaskWithField wired into RSI DECIDE phase; archetypesBridge adapts AnthropicClient; 30s timeout; resonance header prepended to new task descriptions
