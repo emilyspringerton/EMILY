@@ -2848,10 +2848,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 - [x] **PitViper --gfd TCP MUD connection + Channel 11 bar + gfdapi webmaster state** — Apple #3508 · PITVIPER ee90d41
   mudconn.Conn, --gfd flag, Channel 11 dark palette, renderGFDBar, --gfd-webmaster Emily gear + tier.
 
-- [ ] **S127-01: PitViper --gfd login automation** — After TCP connect, if `GFD_USER` + `GFD_PASS`
+- [x] **S127-01: PitViper --gfd login automation** — After TCP connect, if `GFD_USER` + `GFD_PASS`
   env vars are set, auto-send login sequence after MOTD is received (detect "Enter your name:"
   prompt in vterm output). Webmaster: auto-sends webmaster credentials. Eliminates manual login.
-  Repo: PITVIPER.
+  Repo: PITVIPER. Apple #3646 · PITVIPER 666f5d8
 
 - [ ] **S127-02: PitViper Channel 11 splash screen** — On --gfd connect, before the MUD MOTD
   appears, show a 2-second Channel 11 splash: full-screen dark bg, Channel 11 gold logo,
