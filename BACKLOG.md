@@ -2822,11 +2822,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   On kill → schedule respawn. `announceNMPop` broadcasts to zone. On pop → add NM to world.
   Scheduler runs in tickAll. 8 tests. Repo: GoblinFoxDragon. Apple #3566 · a8c8296
 
-- [ ] **S126-14: Campaign battle mode** — Weekly server-wide event: all 3 factions contest
+- [x] **S126-14: Campaign battle mode** — Weekly server-wide event: all 3 factions contest
   10 campaign nodes across the 8 TRAPX scenes. `server/campaign/campaign.go`.
   Node: `CampaignNode{SceneID, Holder Nation, HP int}`. Players `/campaign join` → fight
   for their faction. Every 10 combat kills in scene shifts node HP. At cycle end (24h),
   compute winner nation for each node → feed into `conquest` prestige. 15 tests. Repo: GoblinFoxDragon.
+  Apple #3641 · e8db3b2
 
 - [ ] **S126-15: Synthesis crafting recipes — TRAPX materials** — Add TRAPX-specific
   craft recipes using TRAPX items from the economy (S125-04). Mini bike key → repaired
