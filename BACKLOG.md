@@ -2619,11 +2619,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   controls 3+ FOs in district. Wire into nbhdReg.TickAll + emit ledger VerbTYLERFieldActivation.
   Repo: GoblinFoxDragon. Acceptance: faction war triggers, resolves, files Apple. Apple #3514 · GoblinFoxDragon 4010e3e
 
-- [ ] **S125-04: TRAPX economy — item prices + vendor refresh** — NPC vendors in each TRAPX zone
+- [x] **S125-04: TRAPX economy — item prices + vendor refresh** — NPC vendors in each TRAPX zone
   have dynamic prices driven by FO custody state: Held=base, Contested=+20%, Containment=+40%.
   `shop` command reads `enforcement.DistrictPressure()` to scale prices. Add 5 TRAPX-specific
   items to zone shop catalogs (ramen bowl, burner phone, mini bike key, faction patch, city map).
-  Repo: GoblinFoxDragon.
+  Repo: GoblinFoxDragon. Apple #3656 · GoblinFoxDragon 2ab59ed
 
 - [ ] **S125-05: GFD player profile API (IDUNA)** — page-profile.php currently stubs rep data.
   Add `GET /api/v1/players/{slug}/profile` to IDUNA: returns display_name, job, faction rep
