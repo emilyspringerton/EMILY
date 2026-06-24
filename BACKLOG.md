@@ -2810,9 +2810,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   UI widget in EDIS: shows related companies as a mini-network. Repo: PRRJECT_FATBABY.
   Apple #3557 · PRRJECT_FATBABY c4e0dd2 · EDIS 4b898ef
 
-- [ ] **S126-12: Signal velocity alert** — If the same entity produces >3 signals in
+- [x] **S126-12: Signal velocity alert** — If the same entity produces >3 signals in
   <1h with confidence>0.6, file an Apple (type=escalation) and POST to MJOLNIR FCM.
   emily-agent checks this in OBSERVE phase. Repo: EMILY + PRRJECT_FATBABY.
+  Apple #3561 + #3562 · PRRJECT_FATBABY 3a7a15b · EMILY be63b33
 
 ### GoblinFoxDragon — MUD Layer 4 (end-game content)
 
