@@ -2638,9 +2638,9 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Repo: EMILY + gpt2-alpine-c. Acceptance: emily-agent starts with gpt2_available=true when
   gpt2 binary exists at $GPT2_INFER_BIN. Apple #3662 · EMILY a8c0fdd
 
-- [ ] **S125-07: Emily Prime HTTP health endpoint** — emily-agent is running but not listening on
+- [x] **S125-07: Emily Prime HTTP health endpoint** — emily-agent is running but not listening on
   :8086 (daemon mode). Add `GET /health` → `{"ok":true,"service":"emily-agent","gear":"ACTIVE"}`.
-  Confirm with `curl http://localhost:8086/health`. Repo: EMILY.
+  Confirm with `curl http://localhost:8086/health`. Repo: EMILY. Apple #3664 · EMILY 0c1dae6
 
 - [ ] **S125-08: Cross-repo memory synthesis sprint** — Emily Prime's memory dir contains per-cycle
   fragments. Add `emily memory consolidate` CLI command: reads all emily-memory/*.json, de-dupes,
