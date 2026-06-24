@@ -495,8 +495,8 @@ func (ac *AutonomousCycle) RunOnce() error {
 		}()
 	}
 
-	// Dragon ACT: read city state and fire escalation events based on thresholds.
-	dragonACT(ctx, ac.iduna, state.CycleNumber, sPath)
+	// Dragon ACT: read city state, fire escalation events, route through FIELD archetypes (S121-05).
+	dragonACTWithField(ctx, ac.iduna, ac.field, state.CycleNumber, sPath)
 
 	duration := time.Since(rec.StartedAt).Round(time.Second)
 	log.Printf("[cycle %d] complete in %s", state.CycleNumber, duration)

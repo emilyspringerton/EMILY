@@ -17,6 +17,8 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"emily-agent/pkg/archetypes"
 )
 
 // DragonCityState mirrors trapxapi.CityState for JSON decode.
@@ -199,9 +201,14 @@ func dragonDecide(cs DragonCityState, cycleNum int) []dragonDecision {
 }
 
 // dragonACT is called at the end of each RSI cycle. It reads the city state,
-// decides what to escalate, fires events to the TRAPX server, and optionally
-// posts Dragon Apples to IDUNA.
+// decides what to escalate, fires events to the TRAPX server, routes decisions
+// through the FIELD archetype engine, and posts Dragon Apples to IDUNA.
 func dragonACT(ctx context.Context, iduna *IdunaClient, cycleNum int, streamPath string) {
+	dragonACTWithField(ctx, iduna, nil, cycleNum, streamPath)
+}
+
+// dragonACTWithField is the full Dragon ACT implementation with optional FIELD routing.
+func dragonACTWithField(ctx context.Context, iduna *IdunaClient, field *archetypes.Field, cycleNum int, streamPath string) {
 	if dragonServerURL() == "" {
 		return
 	}
@@ -217,26 +224,62 @@ func dragonACT(ctx context.Context, iduna *IdunaClient, cycleNum int, streamPath
 			continue
 		}
 		log.Printf("[dragon act] fired %s in %q: %s", d.EventType, d.DistrictID, d.Reason)
+
+		// Archetype routing (S121-05): augment the Dragon decision with FIELD resonance.
+		archetypeTag := DragonArchetypeAugment(ctx, field, d, cs)
+		streamMsg := fmt.Sprintf("fired %s district=%s reason=%s", d.EventType, d.DistrictID, d.Reason)
+		if archetypeTag != "" {
+			streamMsg += " " + archetypeTag
+		}
 		appendStream(streamPath, StreamEntry{
 			Type:  "dragon_act",
 			Cycle: cycleNum,
-			Msg:   fmt.Sprintf("fired %s district=%s reason=%s", d.EventType, d.DistrictID, d.Reason),
+			Msg:   streamMsg,
 		})
-		// Post Dragon Apple (S121-04 hook: file every Dragon-triggered event).
+
+		// Post Dragon Apple with archetype resonance metadata.
 		if iduna != nil {
 			appleCtx, cancel := context.WithTimeout(ctx, 8*time.Second)
 			defer cancel()
+			body := fmt.Sprintf("cycle=%d event=%s district=%s reason=%s",
+				cycleNum, d.EventType, d.DistrictID, d.Reason)
+			if archetypeTag != "" {
+				body += "\n" + archetypeTag
+			}
 			_, _ = iduna.PostApple(appleCtx, ApplePayload{
 				AppleType:  "observation",
 				SourceRepo: "TRAPX",
 				Title:      fmt.Sprintf("Dragon: %s in %s", d.EventType, d.DistrictID),
-				Body:       fmt.Sprintf("cycle=%d event=%s district=%s reason=%s", cycleNum, d.EventType, d.DistrictID, d.Reason),
+				Body:       body,
 			})
 		}
 	}
 	if len(decisions) == 0 {
 		log.Printf("[dragon act] city stable — no events fired (cycle %d)", cycleNum)
 	}
+}
+
+// DragonArchetypeAugment runs the FIELD archetype engine for a Dragon city-event
+// decision and returns an archetype resonance string to attach to Dragon Apples.
+// Default spirit stack: Raum#40 (city/information) + Amon#7 (insight) + Gaap#33 (foresight).
+// Returns "" if field is nil or invocation fails — Dragon fires regardless.
+func DragonArchetypeAugment(ctx context.Context, field *archetypes.Field, decision dragonDecision, cs DragonCityState) string {
+	if field == nil {
+		return ""
+	}
+	intent := fmt.Sprintf("city escalation: %s in %s", decision.EventType, decision.DistrictID)
+	ctxText := fmt.Sprintf("tech_pressure=%.0f rogue_count=%d reason=%s", cs.TechPressure, cs.RogueCount, decision.Reason)
+
+	augCtx, cancel := context.WithTimeout(ctx, 20*time.Second)
+	defer cancel()
+
+	res, err := field.Invoke(augCtx, intent, ctxText, false)
+	if err != nil {
+		log.Printf("[dragon field] invoke failed: %v", err)
+		return ""
+	}
+	return fmt.Sprintf("archetype_corridor=%s spirit_stack=%s Δφ=%.0f°",
+		res.ResonanceState, spiritStack(res.ActiveSpirits), res.PhaseDeltaDeg)
 }
 
 // dragonFetchState fetches and decodes the city state from the TRAPX server.
