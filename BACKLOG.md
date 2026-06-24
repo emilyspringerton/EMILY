@@ -2868,10 +2868,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Create repo at github.com/emilyspringerton/PITVIPER then: `git push -u origin main`
   (Human action — needs GitHub repo creation.)
 
-- [ ] **S127-05: PitViper GFD district overlay pane** — Ctrl+D opens a split pane showing live
+- [x] **S127-05: PitViper GFD district overlay pane** — Ctrl+D opens a split pane showing live
   district state from IDUNA: district name, FO custody state, alertness level, mood.
   gfdapi.Client.DistrictState() polls `/api/v1/fieldoffices` (endpoint to be added in S125-05).
-  Rendered as a 20-col right-side pane. Repo: PITVIPER.
+  Rendered as a 20-col right-side pane. Repo: PITVIPER. Apple #3651+3652 · IDUNA e1c1e4b · PITVIPER 1ab840b
 
 ---
 
