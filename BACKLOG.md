@@ -2425,12 +2425,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *Depends on S119-01 through S119-05.*
 *[STUB — implement after TRAPX_NORTHSTAR golden-index registration and Emily Prime read cycle]*
 
-- [ ] **S120-01: Receipt ledger — `server/ledger/ledger.go`** —
-  Append-only diegetic action log. Every FO state change, dog action, attention event, rogue event
-  writes a Receipt with: timestamp, actor, verb, subject, metadata. Anti-exploit scoring: pattern
-  detection on rapid-flip sequences. ReceiptBurst capability reads last 30s from ledger.
-  Acceptance: 8 tests (append, query, pattern detection, anti-exploit flag).
-  [STUB — see TRAPX_NORTHSTAR.md §Mocumentary Receipts Layer]
+- [x] **S120-01: Receipt ledger — `server/ledger/ledger.go`** —
+  Append-only diegetic log. All verb types. ByFO/ByActor/ByVerb/Since query.
+  ReceiptBurst (last 30s per FO). Anti-exploit: FlipScore (4 flips/60s → SUSPICIOUS_PATTERN).
+  PruneFlipLog. All() copy-safe. 15 tests. Apple #3353
 
 - [ ] **S120-02: BeatSync service stub — `server/beatsync/beatsync.go`** —
   `Engine{StemMix, BPM, BeatCh chan Beat}`. Stub implementation: sine-wave BPM emitter at 140 BPM.
