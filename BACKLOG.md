@@ -2769,10 +2769,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### Emily Prime — Intelligence Upgrades
 
-- [ ] **S126-05: Emily Prime observation digest** — emily-agent PLAN phase reads
+- [x] **S126-05: Emily Prime observation digest** — emily-agent PLAN phase reads
   `EMILY/signals/observations/` and produces a structured `observations-digest.json`
   in `emily-memory/`. Digest: count by severity, top 3 entity names, last-seen timestamp.
-  CLI: `emily memory digest` prints digest in TUI format. Repo: EMILY + emily.cli.
+  CLI: `emily memory digest` prints digest in TUI format. Repo: EMILY + emily.cli. Apple #3541 · EMILY 0c3d15f · emily.cli d74175a
 
 - [ ] **S126-06: EMILY_PRIME ↔ TRAPX event bridge** — When Emily Prime files a
   VerbTYLERFieldActivation apple, MUD clients in affected district receive
