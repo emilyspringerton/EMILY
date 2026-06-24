@@ -2660,10 +2660,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### SHANKPIT — Season Lineage
 
-- [ ] **S125-11: SHANKPIT season 1 config + lobby** — SHANKPIT/server/game has match loop but no
+- [x] **S125-11: SHANKPIT season 1 config + lobby** — SHANKPIT/server/game has match loop but no
   season config. Add `Season{ID,Name,StartAt,EndAt,MapPool}` struct + `current-season.json`.
   Season 1: "TRAPX Closed Alpha" starts 2026-07-01. Lobby broadcast season name on join.
-  Repo: SHANKPIT.
+  Repo: SHANKPIT. Apple #3523 · SHANKPIT 083b38c
 
 ### GoblinFoxDragon — MUD Layer 3
 
