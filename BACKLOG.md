@@ -2774,11 +2774,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   in `emily-memory/`. Digest: count by severity, top 3 entity names, last-seen timestamp.
   CLI: `emily memory digest` prints digest in TUI format. Repo: EMILY + emily.cli. Apple #3541 · EMILY 0c3d15f · emily.cli d74175a
 
-- [ ] **S126-06: EMILY_PRIME ↔ TRAPX event bridge** — When Emily Prime files a
+- [x] **S126-06: EMILY_PRIME ↔ TRAPX event bridge** — When Emily Prime files a
   VerbTYLERFieldActivation apple, MUD clients in affected district receive
   "*** Emily dispatch received. Stay alert. ***"  broadcast.
   obs-watcher watcher: poll IDUNA /api/v1/apples?source_repo=GoblinFoxDragon&type=completion
-  every 60s; if new apple → push to MUD world event queue. Repo: EMILY + GoblinFoxDragon.
+  every 60s; if new apple → push to MUD world event queue. Repo: EMILY + GoblinFoxDragon. Apple #3545 · EMILY ba1fbcd
 
 - [ ] **S126-07: Emily Prime haiku→sonnet escalation logic** — Currently emily-agent uses
   claude-haiku for all RSI cycle decisions. Add escalation: if a task has been in
