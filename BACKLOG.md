@@ -2761,11 +2761,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Emily Prime can POST to `/api/world-events` → broadcast to all connected players.
   Wire into tickAll. Repo: GoblinFoxDragon. Apple #3536 · GoblinFoxDragon d57e78a
 
-- [ ] **S126-04: Auto-translate — full-duplex bilingual party chat** — Extend autotranslate:
+- [x] **S126-04: Auto-translate — full-duplex bilingual party chat** — Extend autotranslate:
   each player has `lang Lang` field (EN/JP/BOTH). `say [phrase]` delivers EN to EN players,
   JP to JP players, both to BOTH players. `setlang en|jp|both` command sets preference.
   Stored in player struct. JP players see rendered JP phrases even when EN player sends EN.
-  Repo: GoblinFoxDragon.
+  Repo: GoblinFoxDragon. Apple #3538 · GoblinFoxDragon 49aa714
 
 ### Emily Prime — Intelligence Upgrades
 
