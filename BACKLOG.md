@@ -2780,11 +2780,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   obs-watcher watcher: poll IDUNA /api/v1/apples?source_repo=GoblinFoxDragon&type=completion
   every 60s; if new apple → push to MUD world event queue. Repo: EMILY + GoblinFoxDragon. Apple #3545 · EMILY ba1fbcd
 
-- [ ] **S126-07: Emily Prime haiku→sonnet escalation logic** — Currently emily-agent uses
+- [x] **S126-07: Emily Prime haiku→sonnet escalation logic** — Currently emily-agent uses
   claude-haiku for all RSI cycle decisions. Add escalation: if a task has been in
   `in_progress` for >3 cycles without an Apple, re-run DECIDE phase with claude-sonnet-4-6
   to generate a revised approach. Track `escalated_at` in RSI task JSON.
-  Repo: EMILY.
+  Repo: EMILY. Apple #3547 · EMILY 70fd950
 
 ### IDUNA — Auth & Trust Hardening
 
