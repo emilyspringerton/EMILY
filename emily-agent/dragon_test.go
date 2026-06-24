@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -258,4 +259,62 @@ func TestDragonACTNoURL(t *testing.T) {
 	t.Setenv("TRAPX_SERVER_URL", "")
 	// Should be a no-op; no panic.
 	dragonACT(t.Context(), nil, 1, "/tmp/dragon-test-stream.ndjson")
+}
+
+// ── TRAPX event bridge ─────────────────────────────────────────────────────────
+
+func TestDragonBroadcastWorldEventNoURL(t *testing.T) {
+	t.Setenv("TRAPX_MUD_API_URL", "")
+	// Should be a no-op; no panic.
+	DragonBroadcastWorldEvent(t.Context(), "emily_cast", "test", "")
+}
+
+func TestDragonBroadcastWorldEventPosts(t *testing.T) {
+	var received []byte
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/api/world-events" || r.Method != "POST" {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		received, _ = io.ReadAll(r.Body)
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte(`{"status":"ok"}`))
+	}))
+	defer srv.Close()
+	t.Setenv("TRAPX_MUD_API_URL", srv.URL)
+
+	DragonBroadcastWorldEvent(t.Context(), "faction_war_start", "war begins", "district-residential")
+
+	if received == nil {
+		t.Fatal("no request received by mock MUD server")
+	}
+	var body map[string]string
+	if err := json.Unmarshal(received, &body); err != nil {
+		t.Fatalf("invalid JSON body: %v", err)
+	}
+	if body["type"] != "faction_war_start" {
+		t.Errorf("type: want faction_war_start, got %s", body["type"])
+	}
+	if body["district"] != "district-residential" {
+		t.Errorf("district: want district-residential, got %s", body["district"])
+	}
+}
+
+func TestTrapXPollApplesNoNew(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]any{
+			"apples": []map[string]any{
+				{"id": "apple-001", "title": "S126-01 done"},
+			},
+		})
+	}))
+	defer srv.Close()
+	t.Setenv("TRAPX_MUD_API_URL", "http://127.0.0.1:19999") // not listening — but poll should not reach broadcast for already-seen
+
+	latest := trapxPollApples(t.Context(), srv.URL, "apple-001")
+	// already-seen apple-001 → no new forward; latest stays the same
+	if latest != "apple-001" {
+		t.Errorf("want apple-001, got %s", latest)
+	}
 }

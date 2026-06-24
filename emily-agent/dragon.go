@@ -282,6 +282,109 @@ func DragonArchetypeAugment(ctx context.Context, field *archetypes.Field, decisi
 		res.ResonanceState, spiritStack(res.ActiveSpirits), res.PhaseDeltaDeg)
 }
 
+// ── EMILY ↔ TRAPX event bridge ─────────────────────────────────────────────
+
+// trapxMUDAPIURL returns the MUD world-event API URL, or "" if unset.
+func trapxMUDAPIURL() string { return os.Getenv("TRAPX_MUD_API_URL") }
+
+// DragonBroadcastWorldEvent POSTs an event to the MUD world-event API
+// (TRAPX_MUD_API_URL/api/world-events). Non-fatal: logs on error.
+func DragonBroadcastWorldEvent(ctx context.Context, eventType, message, district string) {
+	base := trapxMUDAPIURL()
+	if base == "" {
+		return
+	}
+	payload := map[string]string{
+		"type":     eventType,
+		"message":  message,
+		"district": district,
+	}
+	body, _ := json.Marshal(payload)
+	req, err := http.NewRequestWithContext(ctx, "POST",
+		strings.TrimRight(base, "/")+"/api/world-events",
+		strings.NewReader(string(body)))
+	if err != nil {
+		log.Printf("[dragon-bridge] build request: %v", err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Printf("[dragon-bridge] POST world-event: %v", err)
+		return
+	}
+	resp.Body.Close()
+	log.Printf("[dragon-bridge] world-event posted: type=%s district=%s status=%d", eventType, district, resp.StatusCode)
+}
+
+// TrapXAppleWatcher polls IDUNA /api/v1/apples for new GoblinFoxDragon completion
+// Apples and forwards them to the MUD world-event queue. Runs as a goroutine.
+// Exits when ctx is cancelled.
+func TrapXAppleWatcher(ctx context.Context, idunaBaseURL string, intervalSec int) {
+	if trapxMUDAPIURL() == "" {
+		return
+	}
+	ticker := time.NewTicker(time.Duration(intervalSec) * time.Second)
+	defer ticker.Stop()
+	var lastSeen string
+
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			lastSeen = trapxPollApples(ctx, idunaBaseURL, lastSeen)
+		}
+	}
+}
+
+// trapxPollApples fetches completion Apples from IDUNA and forwards new ones to the MUD.
+// Returns the ID of the most recent Apple seen (for pagination).
+func trapxPollApples(ctx context.Context, idunaBaseURL, afterID string) string {
+	url := strings.TrimRight(idunaBaseURL, "/") + "/api/v1/apples?source_repo=GoblinFoxDragon&type=completion&limit=10"
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	if err != nil {
+		log.Printf("[trapx-watcher] build request: %v", err)
+		return afterID
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Printf("[trapx-watcher] poll: %v", err)
+		return afterID
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return afterID
+	}
+
+	var result struct {
+		Apples []struct {
+			ID    string `json:"id"`
+			Title string `json:"title"`
+		} `json:"apples"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return afterID
+	}
+
+	newLatest := afterID
+	for _, a := range result.Apples {
+		if a.ID == afterID {
+			break // already seen
+		}
+		if newLatest == afterID || a.ID > newLatest {
+			newLatest = a.ID
+		}
+		pollCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
+		DragonBroadcastWorldEvent(pollCtx,
+			"emily_cast",
+			"Emily dispatch received. Stay alert. ("+a.Title+")",
+			"")
+		cancel()
+	}
+	return newLatest
+}
+
 // dragonFetchState fetches and decodes the city state from the TRAPX server.
 func dragonFetchState() (DragonCityState, error) {
 	base := dragonServerURL()

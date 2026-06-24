@@ -2250,6 +2250,13 @@ func main() {
 	mux.HandleFunc("/api/v1/emily/archetype/status", srv.handleArchetypeStatus)
 	mux.HandleFunc("/api/v1/emily/archetype/spirits", srv.handleArchetypeSpirits)
 
+	// Start TRAPX ↔ Emily bridge: polls IDUNA for GoblinFoxDragon Apples → MUD world-events.
+	if trapxMUDAPIURL() != "" {
+		idunaURL := envOr("IDUNA_BASE_URL", "http://localhost:8080")
+		go TrapXAppleWatcher(context.Background(), idunaURL, 60)
+		log.Printf("trapx-bridge: polling IDUNA every 60s, MUD=%s", trapxMUDAPIURL())
+	}
+
 	addr := ":" + cfg.Port
 	log.Printf("Emily agent  ->  http://localhost%s", addr)
 	log.Printf("Conversations: %s | git: %v | push: %v | rpm: %d | max-tool-iters: %d",
