@@ -2744,11 +2744,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### TRAPX — Living World Systems
 
-- [ ] **S126-01: TRAPX NPC schedule system** — NPCs exist but don't move. Add `server/schedule/schedule.go`:
+- [x] **S126-01: TRAPX NPC schedule system** — NPCs exist but don't move. Add `server/schedule/schedule.go`:
   `NPCSchedule{NPCID, ZoneAtHour [24]int}` — each hour maps to a zone ID. `ScheduleRegistry`.
   `Tick(hour int)` moves NPCs to their scheduled zone (updates World NPC location).
   Seed schedules for jiangshi-warden, eastwind-archivist, heikegani-dock-boss.
-  MUD: npcs who are scheduled show time-of-day flavor in `examine`. Repo: GoblinFoxDragon. 12 tests.
+  MUD: npcs who are scheduled show time-of-day flavor in `examine`. Repo: GoblinFoxDragon. 12 tests. Apple #3531 · GoblinFoxDragon 65b860e
 
 - [ ] **S126-02: TRAPX weather → district mood feedback loop** — Current weather system
   (`server/weather`) doesn't affect districts. Wire: Heavy Rain → Fatigue+10 in outdoor districts.
