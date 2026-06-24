@@ -2653,10 +2653,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   struct. Score = (sentiment magnitude + source_count + entity_graph density) / 3.
   Expose on `/api/v1/signals?min_confidence=0.6`. Repo: PRRJECT_FATBABY. Apple #3518 · PRRJECT_FATBABY b4fa439
 
-- [ ] **S125-10: FatBaby signal → Emily Prime daily brief** — emily-agent PLAN phase: if
+- [x] **S125-10: FatBaby signal → Emily Prime daily brief** — emily-agent PLAN phase: if
   PRRJECT_FATBABY signalapi is reachable, fetch top 5 signals with confidence>0.7 and include
   in morning briefing (already emails CEO). Format: entity name, signal type, confidence, Apple link.
-  Repo: EMILY.
+  Repo: EMILY. Apple #3520 · EMILY 597d0ad
 
 ### SHANKPIT — Season Lineage
 
