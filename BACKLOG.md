@@ -2489,12 +2489,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   broadcast operator, warehouse contact, frequency runner, scar keeper) + urbanChunk() worldapi terrain.
   Apple #3376 | GFD commit d233afe | 2026-06-24
 
-- [ ] **S122-02: Watcher + Enforcement simulation packages** — [STUB]
-  `server/watcher/watcher.go`: WatcherState{alertness/bias/trust} per district. Alertness
-  rise/fall rules. `server/enforcement/enforcement.go`: 5-level state machine. Threshold
-  evaluation (alertness ≥ 65, trust ≤ -20, heat ≥ 50). Enforcement level affects mob spawn
-  density (cop NPCs) and FO defense difficulty.
-  Acceptance: 12+ tests; threshold trigger fires correctly; cop density changes at Level 2.
+- [x] **S122-02: Watcher + Enforcement simulation packages** —
+  server/watcher: WatcherState{alertness/trust/bias}, 19 tests. server/enforcement: 5-level FSM
+  (Quiet→Lockdown), cop density 0-8, K9 eligibility, FO lockdown effects, 18 tests.
+  Apple #3379 | GFD commit bd62eea | 2026-06-24
 
 - [ ] **S122-03: Neighborhood personality packages** — [STUB]
   `server/neighborhood/neighborhood.go`: Neighborhood{Tolerance/Pride/Cohesion/Visibility} axes.
@@ -2592,6 +2590,46 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Flip phone active. Receipts flowing. City memory shared between 200 and 201.
   Acceptance: "Take Control" → player in Detroit Apartment; flip phone shows 3 FOs;
   portal to School works; Emily OS ambient text appears on school surfaces.
+
+---
+
+## SECTION 124: GFD SUBSCRIPTION SITE — GoblinFoxDragon.com player portal
+
+*Modern PlayOnline equivalent for GoblinFoxDragon. Account management, subscription tiers,*
+*game client download, player profile. IDUNA-backed auth. WordPress + EDIS plugins.*
+*Not retro-gross — clean, dark, urban. TRAPX aesthetics. CRT-scanline on key elements.*
+*Tiers: Free (demo access) → Frequency (monthly sub, full TRAPX) → Bloc (annual, guild tools)*
+
+- [ ] **S124-01: GFD subscription site WordPress theme** — [STUB]
+  EDIS: New `goblindragon` theme (child of existing or standalone). Dark urban palette.
+  CRT scanline CSS filter on hero section. Channel 11 broadcast meta-frame on login modal.
+  Home: game trailer slot + "Take Control" CTA → free trial → IDUNA account creation.
+  Acceptance: theme activates; homepage renders; login CTA wires to IDUNA /auth/register.
+
+- [ ] **S124-02: IDUNA subscription tier model** — [STUB]
+  New IDUNA table `subscription_tiers` (tier_id, name, monthly_usd, annual_usd, features JSON).
+  Tiers: free_trial, frequency_monthly, frequency_annual, bloc_annual.
+  `POST /api/v1/subscriptions` + `GET /api/v1/subscriptions/{user_id}` endpoints.
+  Stripe webhook handler for payment events → tier activation/deactivation.
+  Acceptance: IDUNA returns correct tier on auth token; WordPress EDIS plugin reads tier.
+
+- [ ] **S124-03: GFD player profile + account management pages** — [STUB]
+  WordPress pages: /account (IDUNA JWT gate), /profile/{slug} (public), /download (client DL).
+  Account page: subscription status, current tier, billing portal link, game client version.
+  Player profile: character name, job, faction rep, TRAPX district activity (from IDUNA Apples).
+  Acceptance: /account shows live IDUNA data; /profile is public; /download gates on tier.
+
+- [ ] **S124-04: EDIS GFD subscription plugin** — [STUB]
+  New EDIS plugin `dis-gfd-subscription`. Handles: IDUNA JWT validation in WP session,
+  tier-gated content shortcodes `[gfd_tier min="frequency"]`, billing portal redirect,
+  client download token generation (signed URL, 24hr expiry).
+  Acceptance: shortcode hides content from free tier; JWT validated on each page load.
+
+- [ ] **S124-05: GFD game client download distribution** — [STUB]
+  S3-backed signed URL for game client ZIP. Version manifest JSON at /api/gfd-version.json.
+  Auto-updater hook: client checks manifest on launch, prompts update if behind.
+  Tier gate: frequency+ can download; free trial gets demo client (map-limited).
+  Acceptance: signed URL generated; version manifest accessible; tier gate enforced.
 
 ---
 
