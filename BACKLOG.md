@@ -2853,10 +2853,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   prompt in vterm output). Webmaster: auto-sends webmaster credentials. Eliminates manual login.
   Repo: PITVIPER. Apple #3646 · PITVIPER 666f5d8
 
-- [ ] **S127-02: PitViper Channel 11 splash screen** — On --gfd connect, before the MUD MOTD
+- [x] **S127-02: PitViper Channel 11 splash screen** — On --gfd connect, before the MUD MOTD
   appears, show a 2-second Channel 11 splash: full-screen dark bg, Channel 11 gold logo,
   "GOBLIN FOX DRAGON" text, "● CONNECTING..." blinking. Rendered via SDL2 FillRect + renderBarText.
-  Repo: PITVIPER.
+  Repo: PITVIPER. Apple #3648 · PITVIPER a3e3c15
 
 - [ ] **S127-03: PitViper HITL — sudo apt install libsdl2-dev on dev machine** — SDL2 not installed.
   Run: `sudo apt-get install -y libsdl2-dev`
