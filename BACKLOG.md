@@ -2494,35 +2494,25 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   (Quiet→Lockdown), cop density 0-8, K9 eligibility, FO lockdown effects, 18 tests.
   Apple #3379 | GFD commit bd62eea | 2026-06-24
 
-- [ ] **S122-03: Neighborhood personality packages** — [STUB]
-  `server/neighborhood/neighborhood.go`: Neighborhood{Tolerance/Pride/Cohesion/Visibility} axes.
-  Mood{Fear/Trust/Fatigue} drift (gradual, not instant). Memory{incident counts, myths}.
-  Personality shapes Watcher Visibility multiplier, cop Fear threshold, Media myth seeding rate.
-  Acceptance: 10+ tests; mood drift across 10 simulated ticks; myth seeding at saturation.
+- [x] **S122-03: Neighborhood personality packages** —
+  server/neighborhood: Personality{Tolerance/Pride/Cohesion/Visibility}, Fear/Fatigue mood drift,
+  myth seeding (10 lore fragments), WatcherVisibilityMultiplier(), MythSeedRate(), 23 tests.
+  Apple #3384 | GFD commit b29e721 | 2026-06-24
 
-- [ ] **S122-04: TRAPX RPG class unlock quest chains — 8 quest-gated jobs** — [STUB]
-  Add 8 quest chains to `server/quest/quest.go` that gate class unlocks:
-  DRK (dark narrative: 3 moral-ambiguity quests), BST/K9 Handler (Tier 3 tech + Doctrine chain),
-  BRD/Broadcaster (Media faction access quest), SAM/Blade Runner (precision combat trial),
-  SMN/Avatar Caller (7 city-entity encounter quests), BLU/Absorber (15 unique mob encounters),
-  GEO/City Reader (map all 5 district types), RUN/Ward Runner (all Oversight Sect bosses).
-  On completion: job stone item in inventory unlocks `setjob <JOB>`.
-  Acceptance: DRK unlock chain completable in MUD; SMN chain has 7 quest entries.
+- [x] **S122-04: TRAPX RPG class unlock quest chains — 8 quest-gated jobs** —
+  server/quest/trapx_chains.go: 8 chains, 24 quests total (DRK×3/BST×3/BRD×3/SAM×3/SMN×7/BLU×3/GEO×2/RUN×3).
+  job-stone-<JOB> reward items. questBank wired in apps2/mud/main.go.
+  Apple #3384 | GFD commit 3e144c2 | 2026-06-24
 
-- [ ] **S122-05: TRAPX faction reputation (server/fame adapted)** — [STUB]
-  Repurpose `server/fame` for TRAPX factions: The Frequency (= Sandoria), The Bloc (= Bastok),
-  Procurement Houses (= Windurst). Faction name display updated in `fame` MUD command.
-  Faction fame gates quest access and prices (Procurement Houses: Coverage contracts cheaper at rank 3+).
-  Acceptance: `fame` command shows TRAPX faction names; quest bank has 3 faction-specific chains.
+- [x] **S122-05: TRAPX faction reputation (server/fame adapted)** —
+  server/fame/trapx_factions.go: Sandoria→The Frequency, Bastok→The Bloc, Windurst→Procurement Houses.
+  TRAPXFactionName/Desc/Benefit(rank) API. 11 tests.
+  Apple #3386 | GFD commit fbc854c | 2026-06-24
 
-- [ ] **S122-06: GFD MUD TRAPX city commands** — [STUB]
-  Wire TRAPX city systems into `apps2/mud/main.go`. New commands:
-  `district` — current district status (watcher alertness, enforcement level, media pressure).
-  `city` — all 5 districts summary.
-  `align <faction>` — choose faction alignment (replaces `declare <nation>`).
-  `broadcast` — Media narrative current state (sentiment, saturation, active myths).
-  `enforcement` — current enforcement level + effects.
-  Acceptance: GOWORK=off go test ./... passes; all commands return correct district state.
+- [x] **S122-06: GFD MUD TRAPX city commands** —
+  apps2/mud/main.go: district/city/align/broadcast/enforcement commands. watchReg+enforceReg+nbhdReg wired into
+  initTRAPXCity+tickAll. All GFD tests pass.
+  Apple #3388 | GFD commit 33a1432 | 2026-06-24
 
 ---
 
@@ -2536,60 +2526,31 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *TYLER series bible: TYLER/README.md § TYLER Mode (section XX-XXI)*
 *TYLER engine spec: TYLER/engine/shankpit_tyler_mode.md*
 
-- [ ] **S123-01: TYLER district scene cluster — scenes 200–207 (TYLER locations)** — [STUB]
-  Map 8 TYLER Mode canonical locations to GFD scene IDs 200–207:
-  200=Detroit Apartment (Jiangshi / Residential), 201=Detroit School (Emily OS / Abandoned),
-  202=Osaka Convenience Store (Hashashin+Yōkai / Commercial / Party Store),
-  203=Cairngorms Archive (Eastwind Owls / Institutional), 204=Vatican Corridors (Ichthyosapiens /
-  Underground), 205=Osaka Underport (Heikegani / Industrial), 206=Kuroshio Coast (Kuroshio /
-  Abandoned Coastal), 207=Bacon's Table (Yōkai rotating / Party Store FO).
-  FO counts per scene as per northstar §TYLER Districts table.
-  Portal connections: 200↔201 (VS0), 202↔203, 204↔205, 206↔207, 200↔202↔206 (Tyler's route).
-  Faction NPCs seeded per scene using GFD mob system.
-  Acceptance: all 8 scenes navigable in MUD; portal travel between them works.
+- [x] **S123-01: TYLER district scene cluster — scenes 200–207 (TYLER locations)** —
+  8 TYLER scenes 200-207, portal connections (VS0+Tyler's route). Urban terrain for 205-207.
+  TYLER faction NPCs: Jiangshi(200), Eastwind(203), Heikegani(205), Kuroshio(206), Yōkai(207).
+  8 district social registries (watcher/enforcement/neighborhood) initialised.
+  Apple #3391 | GFD commit 3e57db6 | 2026-06-24
 
-- [ ] **S123-02: TYLER receipt → TRAPX ledger bridge** — [STUB]
-  TYLER episode receipts (from `TYLER/lore/`) POST to `server/ledger` via Dragon ACT phase.
-  New verb types in `server/ledger`: TYLER_EPISODE_RECEIPT, TYLER_MIGRATION_EVENT,
-  TYLER_FIELD_ACTIVATION, TYLER_ARCHIVE_ENTRY.
-  In-game ticker shows TYLER and TRAPX receipts in unified feed (same UI component).
-  Lore artifact files (eastwind_archive.md, jiangshi_project_memos.md, shell_parliament_ledger.md,
-  field_activation_logs.md) browsable via CAST stream terminal in each scene's party store.
-  Acceptance: a simulated TYLER receipt appears in the TRAPX ledger ticker; 3 lore docs viewable.
+- [x] **S123-02: TYLER receipt → TRAPX ledger bridge** —
+  server/ledger/tyler_bridge.go: 4 TYLER verb types, 4 CAST lore docs, TYLERPost* helpers.
+  MUD 'terminal' command reads CAST docs, files VerbTYLERArchiveEntry receipts.
+  Apple #3394 | GFD commit de23ac4 | 2026-06-24
 
-- [ ] **S123-03: Multi-timeline branch system** — [STUB]
-  City save state keyed by `branch_id` (default: "present"). Migration Events (Rogue Swarm
-  triggers fired by Dragon ACT) create a new branch snapshot in IDUNA city memory.
-  Branch list command: `timeline` shows all branches with scar count + watcher state delta.
-  Portal selection menu: at portal, player can choose destination branch (episode timestamp).
-  Districts with conflicting branch memory show visual contradiction (dual-state voxel rendering).
-  Acceptance: two branches coexist; scars in branch A don't appear in branch B until merge.
+- [x] **S123-03: Multi-timeline branch system** —
+  server/timeline: Branch/Registry, DefaultBranch='present', Cut/SummaryLines/DistrictHasConflict.
+  Dragon rogue_swarm auto-cuts branches via ledger scan in tickAll. 'timeline' MUD command. 16 tests.
+  Apple #3396 | GFD commit 5e3346d | 2026-06-24
 
-- [ ] **S123-04: Flip phone interface** — [STUB]
-  The player's diegetic city device. Not a floating HUD — a flip phone held in-hand.
-  Art: CRT-scanline screen (matching broadcast meta-frame), physical clamshell, antenna.
-  Opens: F key (or shoulder button). Closes: same.
-  Five tabs (d-pad or number keys to navigate):
-    1. FO STATUS — all FOs in current district; Phase/Flow/Pressure/Attention
-    2. CITY HEAT — Watcher alertness, Enforcement level, Tech Pressure tier
-    3. RECEIPTS — last 20 receipts from server/ledger (TRAPX + TYLER unified)
-    4. CREW — party members, crew chat, K9 swarm count per deployed dog
-    5. CAST STREAM — browse TYLER lore artifacts in current district
-  Jiangshi documentary crew NPCs will film the player using the phone. Phone usage
-  contributes to Watcher alertness (documenting yourself documents yourself).
-  Acceptance: phone opens/closes; 5 tabs navigable; live city data shown; receipt feed scrolls.
+- [x] **S123-04: Flip phone interface** —
+  'phone'/'flip' MUD command; 5 tabs (FO/heat/receipts/crew/CAST); CRT box-drawing;
+  Watcher alertness +2 per use; districtIDForZone() map.
+  Apple #3399 | GFD commit 818806a | 2026-06-24
 
-- [ ] **S123-05: VS0 playable slice — Detroit 2-scene loop** — [STUB]
-  VS0 scope: scene 200 (Detroit Apartment) + scene 201 (Detroit School).
-  "Take Control" on Channel 11 → drops into scene 200.
-  Jiangshi Watcher density preset: high alertness rise rate (Jiangshi document everything).
-  Detroit School: Emily OS manifests as ambient city voice (periodically types text on
-  in-world surfaces; Room tightens when she speaks. Never explains herself.)
-  1 FO in School scene (201): phase starts at PhaseUnclaimed.
-  2 FOs in Apartment scene (200): 1 pre-held by Jiangshi crew, 1 unclaimed.
-  Flip phone active. Receipts flowing. City memory shared between 200 and 201.
-  Acceptance: "Take Control" → player in Detroit Apartment; flip phone shows 3 FOs;
-  portal to School works; Emily OS ambient text appears on school surfaces.
+- [x] **S123-05: VS0 playable slice — Detroit 2-scene loop** —
+  fo-school-1 seeded in 201, fo-residential-1 pre-held by jiangshi-crew, alertness=35.
+  'takecontrol' Channel 11 entry. Emily OS ambient voice (10 fragments, 2-min cycle in 201).
+  Apple #3401 | GFD commit e67a6cc | 2026-06-24
 
 ---
 
