@@ -2391,13 +2391,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   state change. Registry + DefaultFieldOffices (6 starter FOs, scene IDs 200-204). 20 tests.
   Apple #3340
 
-- [ ] **S119-02: K9 unit system — `server/k9/k9.go`** —
-  `DogUnit{ID, FO, Mode, Battery, HeatLevel}` where Mode: Sentry/Escort/Audit.
-  Swarm custody score with diminishing returns: `score += base * (0.85 ^ n_active)`.
-  Mark/Latch/HowlBeacon/CustodyLock/ReceiptBurst abilities. DOG_MAX_ACTIVE_PER_OFFICE cap.
-  CustodyLock only valid during Contest Window.
-  Acceptance: 15+ tests covering swarm math, ability effects, battery drain, mode transitions.
-  [STUB — see TRAPX_NORTHSTAR.md §K9 Security Doctrine]
+- [x] **S119-02: K9 unit system — `server/k9/k9.go`** —
+  DogUnit (Sentry/Escort/Audit modes, Battery drain per mode, Latch extra drain).
+  Abilities: Mark/StartLatch/EndLatch/HowlBeacon/CustodyLock(contest-gated)/ReceiptBurst.
+  SwarmCustodyScore: base*0.85^(n-1) diminishing returns. Cap: MaxActivePerOffice=8.
+  Swarm: Add/ActiveCount/CustodyScore/TickAll/Prune/IsLatched.
+  Battery events: BATTERY_LOW (crosses 20%), BATTERY_DEAD. 33 tests. Apple #3344
 
 - [ ] **S119-03: Attention system — `server/attention/attention.go`** —
   Per-FO `Attention(0–1000)` meter. Gain: `per_dog * (n_active ^ attention_exponent)`.
