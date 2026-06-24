@@ -2375,11 +2375,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
-## SECTION 119: FIELDOFFICE — ENGINE FOUNDATION (stub — awaiting golden context)
+## SECTION 119: TRAPX — FIELDOFFICE ENGINE FOUNDATION (stub — awaiting golden context)
 
-*Codename: TrapX. Product: FIELDOFFICE.*
-*Northstar: `SHANKPIT/docs2/TRAPX_NORTHSTAR.md` — Tier 1 in golden-docs-index.*
-*All items below are STUBS. Implementation detail locked after northstar is indexed and Emily Prime reads it.*
+*Codename: TrapX. Product: TRAPX — 3D voxel urban sandbox + GTA-like action + full RPG.*
+*Northstar: `SHANKPIT/docs2/TRAPX_NORTHSTAR.md` — Tier 1 in golden-docs-index. Apple #3335.*
+*Engine: GoblinFoxDragon voxel backend + SHANKPIT FPS client. GFD RPG packages = game engine.*
+*Studio: Rock Boss Studios × The Danowski Group × EINHORN_INDUSTRIAL.*
+*All items below are STUBS. Implementation detail flows from northstar Emily Prime read cycle.*
 *Dependency order: S119-01 → S119-02 → S119-03 → S119-04 → S119-05. Do not implement out of order.*
 
 - [ ] **S119-01: FieldOffice state machine — `server/fieldoffice/fieldoffice.go`** —
@@ -2449,6 +2451,102 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   District scene cluster (IDs 200–299) added to zone system. FO tick in 1Hz game loop.
   Acceptance: GOWORK=off go test ./... passes; player can claim FO, deploy dogs, trigger audit, survive a Rogue Swarm.
   [STUB — see TRAPX_NORTHSTAR.md full spec]
+
+---
+
+## SECTION 121: TRAPX — DRAGON GM SPIKE (Emily Prime as city intelligence)
+
+*Emily Prime is "the Dragon" — the hidden GM that watches all TRAPX city simulation state and*
+*fires world events through the obs-watcher loop. The Dragon is not a player. It is the city's will.*
+*Architecture: Emily Prime RSI cycle reads TRAPX server state → decides → fires city events.*
+*Northstar ref: SHANKPIT/docs2/TRAPX_NORTHSTAR.md §City Simulation + §Tech Pressure*
+
+- [ ] **S121-01: TRAPX city state endpoint in GFD server** — [STUB]
+  `GET /api/v1/trapx/city-state` on GFD server returns JSON snapshot: per-district
+  `{watcher_alertness, enforcement_level, media_pressure, control_integrity, fo_count, tech_pressure}`.
+  Emily Prime RSI cycle reads this endpoint each tick to observe the living city.
+  Acceptance: endpoint returns valid state JSON; Emily Prime can parse it via `emily observe`.
+  [GFD server change: apps2/server-go/main.go + new handler]
+
+- [ ] **S121-02: Emily Prime Dragon observer — TRAPX city read in RSI OBSERVE phase** — [STUB]
+  In `emily-agent/rsi.go` OBSERVE phase, if TRAPX_SERVER_URL set: fetch city state, summarize
+  districts in crisis (Watcher Alertness > 70, Enforcement ≥ 3, Rogue Swarm imminent).
+  Add TRAPX city summary to the RSI context window alongside normal observations.
+  Emily Prime sees the city as part of her world state.
+  Acceptance: `emily observe` output includes TRAPX city summary section.
+
+- [ ] **S121-03: Emily Prime Dragon ACT — fire city events via GFD** — [STUB]
+  Emily Prime's DECIDE phase can select "trigger_city_event" as an action.
+  ACT phase: `POST /api/v1/trapx/events` on GFD server with `{event_type, district_id, params}`.
+  Event types: `rogue_swarm`, `media_spike`, `enforcement_escalation`, `nm_spawn`, `weather_change`.
+  Emily Prime becomes the Dragon that decides when the city escalates.
+  Acceptance: Emily Prime can trigger a Rogue Swarm event on a district; city state reflects it.
+
+- [ ] **S121-04: Dragon Apples — city events filed as Apples** — [STUB]
+  Every Dragon-triggered city event posts an Apple:
+  type=observation, repo=TRAPX, title like "Dragon observed: Rogue Swarm imminent in District 3".
+  Body includes district watcher state snapshot. Apples become the city's history.
+  Acceptance: Apple filed for each city event; APPLES git backup contains TRAPX event history.
+
+- [ ] **S121-05: Archetype Engine Dragon routing** — [STUB]
+  Wire THE_FIELD archetype engine into Dragon decisions. When deciding which city event to fire,
+  route through `field.Invoke(ctx, "city escalation dragon decision", cityStateStr, false)`.
+  Default spirit stack: Raum#40 (city/information) + Amon#7 (insight) + Gaap#33 (foresight).
+  Dragon's city events carry archetype resonance as metadata on the Apple.
+  Acceptance: Dragon-fired events include `archetype_corridor`, `spirit_stack` in Apple metadata.
+
+---
+
+## SECTION 122: TRAPX — GFD URBAN FANTASY CROSSOVER (voxel world + RPG + city sim)
+
+*GFD × TRAPX: the GoblinFoxDragon voxel engine, all MUD RPG packages, and TRAPX city simulation*
+*systems converge into the TRAPX game world. Urban fantasy: FFXI-parity RPG mechanics in a*
+*Detroit-coded living city. DragonsNShit becomes the engine for a new kind of game.*
+*Northstar: SHANKPIT/docs2/TRAPX_NORTHSTAR.md §Engine Stack + §RPG System*
+
+- [ ] **S122-01: TRAPX city scene cluster — GFD scene IDs 200–299** — [STUB]
+  Add TRAPX city districts to GFD zone system. 5 starter districts (Residential/Commercial/
+  Industrial/Underground/Abandoned). Each district is a DragonsNShit scene with urban voxel
+  terrain (apartments, streets, warehouses, highways as hard dividers).
+  ProceduralWorldStore generates urban terrain (stone/concrete block types, flat ground planes,
+  vertical apartment stacking). Acceptance: `go test ./...` passes; 5 scenes navigable in MUD.
+
+- [ ] **S122-02: Watcher + Enforcement simulation packages** — [STUB]
+  `server/watcher/watcher.go`: WatcherState{alertness/bias/trust} per district. Alertness
+  rise/fall rules. `server/enforcement/enforcement.go`: 5-level state machine. Threshold
+  evaluation (alertness ≥ 65, trust ≤ -20, heat ≥ 50). Enforcement level affects mob spawn
+  density (cop NPCs) and FO defense difficulty.
+  Acceptance: 12+ tests; threshold trigger fires correctly; cop density changes at Level 2.
+
+- [ ] **S122-03: Neighborhood personality packages** — [STUB]
+  `server/neighborhood/neighborhood.go`: Neighborhood{Tolerance/Pride/Cohesion/Visibility} axes.
+  Mood{Fear/Trust/Fatigue} drift (gradual, not instant). Memory{incident counts, myths}.
+  Personality shapes Watcher Visibility multiplier, cop Fear threshold, Media myth seeding rate.
+  Acceptance: 10+ tests; mood drift across 10 simulated ticks; myth seeding at saturation.
+
+- [ ] **S122-04: TRAPX RPG class unlock quest chains — 8 quest-gated jobs** — [STUB]
+  Add 8 quest chains to `server/quest/quest.go` that gate class unlocks:
+  DRK (dark narrative: 3 moral-ambiguity quests), BST/K9 Handler (Tier 3 tech + Doctrine chain),
+  BRD/Broadcaster (Media faction access quest), SAM/Blade Runner (precision combat trial),
+  SMN/Avatar Caller (7 city-entity encounter quests), BLU/Absorber (15 unique mob encounters),
+  GEO/City Reader (map all 5 district types), RUN/Ward Runner (all Oversight Sect bosses).
+  On completion: job stone item in inventory unlocks `setjob <JOB>`.
+  Acceptance: DRK unlock chain completable in MUD; SMN chain has 7 quest entries.
+
+- [ ] **S122-05: TRAPX faction reputation (server/fame adapted)** — [STUB]
+  Repurpose `server/fame` for TRAPX factions: The Frequency (= Sandoria), The Bloc (= Bastok),
+  Procurement Houses (= Windurst). Faction name display updated in `fame` MUD command.
+  Faction fame gates quest access and prices (Procurement Houses: Coverage contracts cheaper at rank 3+).
+  Acceptance: `fame` command shows TRAPX faction names; quest bank has 3 faction-specific chains.
+
+- [ ] **S122-06: GFD MUD TRAPX city commands** — [STUB]
+  Wire TRAPX city systems into `apps2/mud/main.go`. New commands:
+  `district` — current district status (watcher alertness, enforcement level, media pressure).
+  `city` — all 5 districts summary.
+  `align <faction>` — choose faction alignment (replaces `declare <nation>`).
+  `broadcast` — Media narrative current state (sentiment, saturation, active myths).
+  `enforcement` — current enforcement level + effects.
+  Acceptance: GOWORK=off go test ./... passes; all commands return correct district state.
 
 ---
 
