@@ -2793,9 +2793,9 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   the key set. Allows GFD client to silently refresh sessions without re-login.
   Repo: IDUNA. Apple #3550 · IDUNA 2c12f3e
 
-- [ ] **S126-09: Rate limiting on auth endpoints** — /auth/local + /auth/register
+- [x] **S126-09: Rate limiting on auth endpoints** — /auth/local + /auth/register
   are unbounded. Add per-IP rate limiter (10 req/min) via middleware.
-  Use sync.Map[IP → TokenBucket]. Block with 429. Repo: IDUNA.
+  Use sync.Map[IP → TokenBucket]. Block with 429. Repo: IDUNA. Apple #3552 · IDUNA c452efd
 
 - [ ] **S126-10: IDUNA player stats endpoint** — GFD page-profile.php needs real player
   data. Add `GET /api/v1/players/{slug}/profile` → `{display_name, job, fame:{Frequency,
