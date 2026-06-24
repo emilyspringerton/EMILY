@@ -88,11 +88,12 @@ type CycleState struct {
 
 // CycleMetrics tracks health across cycles.
 type CycleMetrics struct {
-	TotalCycles      int `json:"total_cycles"`
-	SuccessfulCycles int `json:"successful_cycles"`
-	TasksCompleted   int `json:"tasks_completed"`
-	ItersRun         int `json:"iters_run"`
-	ConsecFailures   int `json:"consecutive_failures"`
+	TotalCycles      int  `json:"total_cycles"`
+	SuccessfulCycles int  `json:"successful_cycles"`
+	TasksCompleted   int  `json:"tasks_completed"`
+	ItersRun         int  `json:"iters_run"`
+	ConsecFailures   int  `json:"consecutive_failures"`
+	GPT2Available    bool `json:"gpt2_available"` // true when $GPT2_INFER_BIN binary exists
 }
 
 // CycleRecord is the log entry for one cycle.
@@ -201,6 +202,9 @@ func (ac *AutonomousCycle) RunOnce() error {
 	ac.state = state
 	state.CycleNumber++
 	state.Metrics.TotalCycles++
+
+	// S125-06: check GPT-2 inference binary availability each cycle.
+	state.Metrics.GPT2Available = gpt2InferAvailable()
 	log.Printf("[cycle %d] observe: active_task=%s roadmap_items=%d",
 		state.CycleNumber, state.ActiveTaskID, len(state.Roadmap))
 	sPath := streamPath(ac.cfg.StateDir)
