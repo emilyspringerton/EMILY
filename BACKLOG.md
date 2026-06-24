@@ -2561,36 +2561,179 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *Not retro-gross — clean, dark, urban. TRAPX aesthetics. CRT-scanline on key elements.*
 *Tiers: Free (demo access) → Frequency (monthly sub, full TRAPX) → Bloc (annual, guild tools)*
 
-- [ ] **S124-01: GFD subscription site WordPress theme** — [STUB]
+- [x] **S124-01: GFD subscription site WordPress theme** — Apple #3496 · EDIS a612835
   EDIS: New `goblindragon` theme (child of existing or standalone). Dark urban palette.
   CRT scanline CSS filter on hero section. Channel 11 broadcast meta-frame on login modal.
   Home: game trailer slot + "Take Control" CTA → free trial → IDUNA account creation.
   Acceptance: theme activates; homepage renders; login CTA wires to IDUNA /auth/register.
 
-- [ ] **S124-02: IDUNA subscription tier model** — [STUB]
+- [x] **S124-02: IDUNA subscription tier model** — Apple #3497 · IDUNA 4cdc70a
   New IDUNA table `subscription_tiers` (tier_id, name, monthly_usd, annual_usd, features JSON).
   Tiers: free_trial, frequency_monthly, frequency_annual, bloc_annual.
   `POST /api/v1/subscriptions` + `GET /api/v1/subscriptions/{user_id}` endpoints.
   Stripe webhook handler for payment events → tier activation/deactivation.
   Acceptance: IDUNA returns correct tier on auth token; WordPress EDIS plugin reads tier.
 
-- [ ] **S124-03: GFD player profile + account management pages** — [STUB]
+- [x] **S124-03: GFD player profile + account management pages** — Apple #3498 · EDIS a612835
   WordPress pages: /account (IDUNA JWT gate), /profile/{slug} (public), /download (client DL).
   Account page: subscription status, current tier, billing portal link, game client version.
   Player profile: character name, job, faction rep, TRAPX district activity (from IDUNA Apples).
   Acceptance: /account shows live IDUNA data; /profile is public; /download gates on tier.
 
-- [ ] **S124-04: EDIS GFD subscription plugin** — [STUB]
+- [x] **S124-04: EDIS GFD subscription plugin** — Apple #3499 · EDIS a612835
   New EDIS plugin `dis-gfd-subscription`. Handles: IDUNA JWT validation in WP session,
   tier-gated content shortcodes `[gfd_tier min="frequency"]`, billing portal redirect,
   client download token generation (signed URL, 24hr expiry).
   Acceptance: shortcode hides content from free tier; JWT validated on each page load.
 
-- [ ] **S124-05: GFD game client download distribution** — [STUB]
+- [x] **S124-05: GFD game client download distribution** — Apple #3500 · EDIS a612835
   S3-backed signed URL for game client ZIP. Version manifest JSON at /api/gfd-version.json.
   Auto-updater hook: client checks manifest on launch, prompts update if behind.
   Tier gate: frequency+ can download; free trial gets demo client (map-limited).
   Acceptance: signed URL generated; version manifest accessible; tier gate enforced.
+
+---
+
+## SECTION 125: FRACTAL EXPANSION — NEXT ITERATION ACROSS ALL SYSTEMS (2026-06-24)
+
+*Full-system planning cycle. Fractal: each completed system seeds the next layer of depth.*
+*GFD portal is live → wire live auth. MUD is feature-complete → add live multiplayer presence.*
+*Emily Prime is running → feed it GPT-2. TRAPX sandbox exists → add economy + faction war.*
+*Human-in-the-loop items are separated in SECTION HITL below.*
+
+### GFD / TRAPX — Layer 2
+
+- [ ] **S125-01: IDUNA /api/v1/auth/register endpoint** — The GFD "Take Control" CTA links to
+  IDUNA registration but the endpoint doesn't exist yet. Add `POST /api/v1/auth/register`
+  (email, password, display_name) → creates user, sets free_trial tier, returns JWT.
+  Repo: IDUNA. Acceptance: new user can register, cookie set, /account loads correctly.
+
+- [ ] **S125-02: GFD live multiplayer zone presence** — Players in the same zone should see each
+  other in the MUD. `who` command already lists online players; extend `look` to show other
+  players in same scene. Add player-entered/left broadcast messages to zone. Wire into
+  `apps2/mud/main.go` cmdLook + tick loop. Repo: GoblinFoxDragon.
+
+- [ ] **S125-03: TRAPX faction war event engine** — Scheduled district conflicts: every 72h a
+  random district enters `FactionConflict` state. Districts under conflict: enforcement alertness
+  × 1.5, K9 Battery drain × 2, FO FlipWindow forced open. Conflict ends when one faction
+  controls 3+ FOs in district. Wire into nbhdReg.TickAll + emit ledger VerbTYLERFieldActivation.
+  Repo: GoblinFoxDragon. Acceptance: faction war triggers, resolves, files Apple.
+
+- [ ] **S125-04: TRAPX economy — item prices + vendor refresh** — NPC vendors in each TRAPX zone
+  have dynamic prices driven by FO custody state: Held=base, Contested=+20%, Containment=+40%.
+  `shop` command reads `enforcement.DistrictPressure()` to scale prices. Add 5 TRAPX-specific
+  items to zone shop catalogs (ramen bowl, burner phone, mini bike key, faction patch, city map).
+  Repo: GoblinFoxDragon.
+
+- [ ] **S125-05: GFD player profile API (IDUNA)** — page-profile.php currently stubs rep data.
+  Add `GET /api/v1/players/{slug}/profile` to IDUNA: returns display_name, job, faction rep
+  (from apples actor filter), TRAPX district activity (last 10 apples with source_repo=GoblinFoxDragon).
+  Update page-profile.php JS to hit the real endpoint. Repo: IDUNA + EDIS.
+
+### Emily Prime — Brain Feed
+
+- [ ] **S125-06: Emily Prime GPT-2 inference hook** — Wire `gpt2-alpine-c` inference engine into
+  emily-agent RSI loop. In PLAN phase, if ANTHROPIC_API_KEY is absent or rate-limited, fall back
+  to local GPT-2 inference via `cmd/infer/main`. Add `gpt2_available bool` to RSI state JSON.
+  Repo: EMILY + gpt2-alpine-c. Acceptance: emily-agent starts with gpt2_available=true when
+  gpt2 binary exists at $GPT2_INFER_BIN.
+
+- [ ] **S125-07: Emily Prime HTTP health endpoint** — emily-agent is running but not listening on
+  :8086 (daemon mode). Add `GET /health` → `{"ok":true,"service":"emily-agent","gear":"ACTIVE"}`.
+  Confirm with `curl http://localhost:8086/health`. Repo: EMILY.
+
+- [ ] **S125-08: Cross-repo memory synthesis sprint** — Emily Prime's memory dir contains per-cycle
+  fragments. Add `emily memory consolidate` CLI command: reads all emily-memory/*.json, de-dupes,
+  writes emily-memory/consolidated.json. Consolidation runs in PLAN phase weekly.
+  Repo: emily.cli + EMILY.
+
+### PRRJECT_FATBABY — Signal Pipeline Depth
+
+- [ ] **S125-09: Signal confidence scoring** — Add `ConfidenceScore float64` (0.0-1.0) to Signal
+  struct. Score = (sentiment magnitude + source_count + entity_graph density) / 3.
+  Expose on `/api/v1/signals?min_confidence=0.6`. Repo: PRRJECT_FATBABY.
+
+- [ ] **S125-10: FatBaby signal → Emily Prime daily brief** — emily-agent PLAN phase: if
+  PRRJECT_FATBABY signalapi is reachable, fetch top 5 signals with confidence>0.7 and include
+  in morning briefing (already emails CEO). Format: entity name, signal type, confidence, Apple link.
+  Repo: EMILY.
+
+### SHANKPIT — Season Lineage
+
+- [ ] **S125-11: SHANKPIT season 1 config + lobby** — SHANKPIT/server/game has match loop but no
+  season config. Add `Season{ID,Name,StartAt,EndAt,MapPool}` struct + `current-season.json`.
+  Season 1: "TRAPX Closed Alpha" starts 2026-07-01. Lobby broadcast season name on join.
+  Repo: SHANKPIT.
+
+### GoblinFoxDragon — MUD Layer 3
+
+- [ ] **S125-12: Auction House — `server/auction/auction.go`** — Players list items for sale with
+  ask price. Other players bid. `ah list <item-id>` shows current listings. `ah buy <listing-id>`
+  purchases at ask. `ah sell <item-id> <price>` creates listing (15-min expiry). AH fee: 5% gil.
+  MUD commands: ah/auction. 15 tests. Repo: GoblinFoxDragon.
+
+- [ ] **S125-13: Mog House — personal item storage** — `server/moghouse/moghouse.go`.
+  `MogHouse{OwnerID string; Items []inventory.Item}`. Capacity: 50 items. MUD commands: `mog-store
+  <item-id>`, `mog-retrieve <item-id>`, `mog-list`. Per-player persistent dict in World state.
+  10 tests. Repo: GoblinFoxDragon.
+
+---
+
+## SECTION HITL: HUMAN-IN-THE-LOOP ACTIONS — Curated 2026-06-24
+
+*These items require Emily (human) action. Claude Code cannot do them. Priority order.*
+
+### Tier 1 — Unblocks revenue
+
+- [ ] **HITL-01: Steamworks account + $100 Direct fee** — Create Steam developer account at
+  store.steampowered.com/about/sell. $100 USD Direct fee. Required before S19-05 EA launch.
+  Unblocks: SHANKPIT Steam Early Access (S19-05).
+
+- [ ] **HITL-02: Stripe account + GFD_STRIPE_PORTAL_URL** — Create/verify Stripe account.
+  Set GFD_STRIPE_PORTAL_URL in wp-config.php on the GFD WordPress server.
+  Also set: GFD_S3_BUCKET, GFD_S3_KEY, GFD_S3_SECRET in wp-config.php.
+  Unblocks: GFD subscription payments + S3 download distribution.
+
+### Tier 2 — Unblocks live systems
+
+- [ ] **HITL-03: Deploy EDIS WordPress (GFD portal)** — Run:
+  `sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh`
+  Then activate goblindragon theme + dis-gfd-subscription plugin in WP admin.
+  Unblocks: GFD subscriptions live, player account pages.
+
+- [ ] **HITL-04: Deploy PRRJECT_FATBABY production** — Run deploy.sh on production host.
+  Set up nginx + Let's Encrypt for fatbaby.io + api.fatbaby.io.
+  Unblocks: public signal API, EDIS data feed.
+
+- [ ] **HITL-05: Register MJOLNIR device token in IDUNA** — Open MJOLNIR on Android device.
+  IDUNA registers device_token automatically on first FCM push. Confirm:
+  `curl http://localhost:8080/api/v1/push-tokens | jq`
+  Unblocks: FCM push from emily-agent to Emily's phone.
+
+### Tier 3 — Research / AI training
+
+- [ ] **HITL-06: GPT-2 Colab fine-tune run** — Open notebooks/gpt2_finetune_colab.ipynb in
+  Google Colab (T4 GPU). Select preset: colab_t4. Run all cells (~2.2 min). Download
+  checkpoints/gpt2-emily-colab.bin. Copy to gpt2-alpine-c/checkpoints/.
+  Unblocks: S125-06 Emily Prime local inference fallback.
+
+- [ ] **HITL-07: Pexels API key for MPT** — Set YOUR_PEXELS_API_KEY_HERE in
+  MoneyPrinterTurbo/config.toml. Get key at pexels.com/api/.
+  Unblocks: TYLER S01E01 cold open video compilation.
+
+- [ ] **HITL-08: TYLER S01E01 cold open video** — Once Pexels key set + MPT running:
+  Run MoneyPrinterTurbo with TYLER/scripts/s01e01-cold-open.json config.
+  Unblocks: TYLER pilot episode rough cut.
+
+### Tier 4 — Registration + wiring
+
+- [ ] **HITL-09: Tyler IDUNA agent registration** — Run:
+  `iduna agents register --id tyler --secret <secret>`
+  Unblocks: TYLER agent authenticated access to IDUNA APIs.
+
+- [ ] **HITL-10: MJOLNIR FCM push test** — After device_token registered (HITL-05):
+  `curl -X POST http://localhost:8086/api/v1/emily/push/test`
+  Confirm notification arrives on device. Unblocks: MJOLNIR live intel feed.
 
 ---
 
