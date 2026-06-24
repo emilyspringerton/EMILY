@@ -2632,11 +2632,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### Emily Prime — Brain Feed
 
-- [ ] **S125-06: Emily Prime GPT-2 inference hook** — Wire `gpt2-alpine-c` inference engine into
+- [x] **S125-06: Emily Prime GPT-2 inference hook** — Wire `gpt2-alpine-c` inference engine into
   emily-agent RSI loop. In PLAN phase, if ANTHROPIC_API_KEY is absent or rate-limited, fall back
   to local GPT-2 inference via `cmd/infer/main`. Add `gpt2_available bool` to RSI state JSON.
   Repo: EMILY + gpt2-alpine-c. Acceptance: emily-agent starts with gpt2_available=true when
-  gpt2 binary exists at $GPT2_INFER_BIN.
+  gpt2 binary exists at $GPT2_INFER_BIN. Apple #3662 · EMILY a8c0fdd
 
 - [ ] **S125-07: Emily Prime HTTP health endpoint** — emily-agent is running but not listening on
   :8086 (daemon mode). Add `GET /health` → `{"ok":true,"service":"emily-agent","gear":"ACTIVE"}`.
