@@ -2649,9 +2649,9 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### PRRJECT_FATBABY — Signal Pipeline Depth
 
-- [ ] **S125-09: Signal confidence scoring** — Add `ConfidenceScore float64` (0.0-1.0) to Signal
+- [x] **S125-09: Signal confidence scoring** — Add `ConfidenceScore float64` (0.0-1.0) to Signal
   struct. Score = (sentiment magnitude + source_count + entity_graph density) / 3.
-  Expose on `/api/v1/signals?min_confidence=0.6`. Repo: PRRJECT_FATBABY.
+  Expose on `/api/v1/signals?min_confidence=0.6`. Repo: PRRJECT_FATBABY. Apple #3518 · PRRJECT_FATBABY b4fa439
 
 - [ ] **S125-10: FatBaby signal → Emily Prime daily brief** — emily-agent PLAN phase: if
   PRRJECT_FATBABY signalapi is reachable, fetch top 5 signals with confidence>0.7 and include
