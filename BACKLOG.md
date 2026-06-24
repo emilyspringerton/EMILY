@@ -2404,13 +2404,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Clear events on decay below threshold. EcosystemEffects: migrationWeight/AHTaxMultiplier/
   ContestScaler. Registry: GetOrCreate/Get/TickAll/TotalAttention. 18 tests. Apple #3346
 
-- [ ] **S119-04: Control Integrity + Rogue Swarm — `server/integrity/integrity.go`** —
-  Per-district `ControlIntegrity(0.0–1.0)`. Decay: dog count (superlinear) + jammer use + flip rate.
-  Recovery: calm periods + clean audits + Bird correction. At ROGUE_THRESHOLD: emit RogueSwarmEvent.
-  Rogue state: dogs detach from operators, FOs enter Containment Mode (vault sealed, escort required).
-  3 containment objectives (beacon kill, comms restore, pack leader purge). Scar written on clear.
-  Acceptance: 12+ tests; rogue trigger at threshold; containment objectives advance state; scar artifact created.
-  [STUB — see TRAPX_NORTHSTAR.md §Control Integrity and Rogue Swarms]
+- [x] **S119-04: Control Integrity + Rogue Swarm — `server/integrity/integrity.go`** —
+  Per-district CI (0.0-1.0). Tick: passive recovery (0.001/s) + dog decay (dogs^1.5).
+  JammerDecay (0.05), FlipDecay (0.08). CleanAudit (+0.10), BirdCorrection (+0.15).
+  Rogue Swarm at CI<=0.15: ROGUE_SWARM event; no changes during Rogue. Containment:
+  3 objectives → CONTAINMENT_END + SCAR_WRITTEN (permanent scar history). Registry.
+  24 tests. Apple #3349
 
 - [ ] **S119-05: Tech Pressure doom clock — `server/techpressure/techpressure.go`** —
   Global `TechPressure` counter. Increments on tier unlock + deploy (weighted by activity).
