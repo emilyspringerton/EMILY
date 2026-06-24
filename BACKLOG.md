@@ -2451,39 +2451,29 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *Architecture: Emily Prime RSI cycle reads TRAPX server state → decides → fires city events.*
 *Northstar ref: SHANKPIT/docs2/TRAPX_NORTHSTAR.md §City Simulation + §Tech Pressure*
 
-- [ ] **S121-01: TRAPX city state endpoint in GFD server** — [STUB]
-  `GET /api/v1/trapx/city-state` on GFD server returns JSON snapshot: per-district
-  `{watcher_alertness, enforcement_level, media_pressure, control_integrity, fo_count, tech_pressure}`.
-  Emily Prime RSI cycle reads this endpoint each tick to observe the living city.
-  Acceptance: endpoint returns valid state JSON; Emily Prime can parse it via `emily observe`.
-  [GFD server change: apps2/server-go/main.go + new handler]
+- [x] **S121-01: TRAPX city state endpoint in GFD server** —
+  GET /api/v1/trapx/city-state + POST /api/v1/trapx/events at :7071. server/trapxapi package.
+  Emily Prime Dragon reads city state + fires 5 event types. 18 tests pass.
+  Apple #3366 | GFD commit 11844e5 | 2026-06-24
 
-- [ ] **S121-02: Emily Prime Dragon observer — TRAPX city read in RSI OBSERVE phase** — [STUB]
-  In `emily-agent/rsi.go` OBSERVE phase, if TRAPX_SERVER_URL set: fetch city state, summarize
-  districts in crisis (Watcher Alertness > 70, Enforcement ≥ 3, Rogue Swarm imminent).
-  Add TRAPX city summary to the RSI context window alongside normal observations.
-  Emily Prime sees the city as part of her world state.
-  Acceptance: `emily observe` output includes TRAPX city summary section.
+- [x] **S121-02: Emily Prime Dragon observer — TRAPX city read in RSI OBSERVE phase** —
+  dragon.go: DragonObserve() + InjectDragonObservation(). cron.go OBSERVE phase appends
+  dragon_observe StreamEntry. Per-district CI/attn/rogue/audit summary in RSI context window.
+  Apple #3368 | EMILY commit 968b6ef | 2026-06-24
 
-- [ ] **S121-03: Emily Prime Dragon ACT — fire city events via GFD** — [STUB]
-  Emily Prime's DECIDE phase can select "trigger_city_event" as an action.
-  ACT phase: `POST /api/v1/trapx/events` on GFD server with `{event_type, district_id, params}`.
-  Event types: `rogue_swarm`, `media_spike`, `enforcement_escalation`, `nm_spawn`, `weather_change`.
-  Emily Prime becomes the Dragon that decides when the city escalates.
-  Acceptance: Emily Prime can trigger a Rogue Swarm event on a district; city state reflects it.
+- [x] **S121-03: Emily Prime Dragon ACT — fire city events via GFD** —
+  dragonDecide() rules: CI<0.25→rogue_swarm, attn>800→media_spike, pressure<100 after cycle 5→pressure_spike.
+  dragonACT() fires POST /api/v1/trapx/events per decision at end of RSI cycle.
+  Apple #3371 | EMILY commit 5e50713 | 2026-06-24
 
-- [ ] **S121-04: Dragon Apples — city events filed as Apples** — [STUB]
-  Every Dragon-triggered city event posts an Apple:
-  type=observation, repo=TRAPX, title like "Dragon observed: Rogue Swarm imminent in District 3".
-  Body includes district watcher state snapshot. Apples become the city's history.
-  Acceptance: Apple filed for each city event; APPLES git backup contains TRAPX event history.
+- [x] **S121-04: Dragon Apples — city events filed as Apples** —
+  dragonACT() posts Apple (type=observation, repo=TRAPX) per fired event. Dragon Apples are live.
+  Apple #3371 | EMILY commit 5e50713 | 2026-06-24
 
-- [ ] **S121-05: Archetype Engine Dragon routing** — [STUB]
-  Wire THE_FIELD archetype engine into Dragon decisions. When deciding which city event to fire,
-  route through `field.Invoke(ctx, "city escalation dragon decision", cityStateStr, false)`.
-  Default spirit stack: Raum#40 (city/information) + Amon#7 (insight) + Gaap#33 (foresight).
-  Dragon's city events carry archetype resonance as metadata on the Apple.
-  Acceptance: Dragon-fired events include `archetype_corridor`, `spirit_stack` in Apple metadata.
+- [x] **S121-05: Archetype Engine Dragon routing** —
+  DragonArchetypeAugment(): FIELD E1/E2 invocation per Dragon decision; archetype_corridor + spirit_stack + Δφ° in Dragon Apples.
+  dragonACTWithField() passes ac.field from AutonomousCycle. All S121 Dragon GM spike complete.
+  Apple #3373 | EMILY commit 7804bc8 | 2026-06-24
 
 ---
 
