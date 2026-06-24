@@ -156,3 +156,106 @@ func TestInjectDragonObservationWithURL(t *testing.T) {
 		t.Errorf("should add Dragon observation, got len=%d", len(result))
 	}
 }
+
+// ── dragonDecide ──────────────────────────────────────────────────────────────
+
+func TestDragonDecideStableCity(t *testing.T) {
+	cs := DragonCityState{
+		TechPressure: 150,
+		Districts: []DragonDistrictState{
+			{DistrictID: "district-residential", ControlIntegrity: 0.9, Attention: 200},
+		},
+	}
+	decisions := dragonDecide(cs, 3)
+	if len(decisions) != 0 {
+		t.Errorf("stable city should produce no decisions, got %d", len(decisions))
+	}
+}
+
+func TestDragonDecideRogueSwarmTriggered(t *testing.T) {
+	cs := DragonCityState{
+		Districts: []DragonDistrictState{
+			{DistrictID: "district-commercial", ControlIntegrity: 0.15, IsRogue: false},
+		},
+	}
+	decisions := dragonDecide(cs, 10)
+	if len(decisions) == 0 {
+		t.Fatal("expected rogue_swarm decision for CI=0.15")
+	}
+	if decisions[0].EventType != "rogue_swarm" {
+		t.Errorf("expected rogue_swarm, got %q", decisions[0].EventType)
+	}
+	if decisions[0].DistrictID != "district-commercial" {
+		t.Errorf("expected district-commercial, got %q", decisions[0].DistrictID)
+	}
+}
+
+func TestDragonDecideSkipsAlreadyRogue(t *testing.T) {
+	cs := DragonCityState{
+		Districts: []DragonDistrictState{
+			{DistrictID: "district-commercial", ControlIntegrity: 0.1, IsRogue: true},
+		},
+	}
+	decisions := dragonDecide(cs, 10)
+	for _, d := range decisions {
+		if d.EventType == "rogue_swarm" {
+			t.Error("should not fire rogue_swarm on already-rogue district")
+		}
+	}
+}
+
+func TestDragonDecideMediaSpike(t *testing.T) {
+	cs := DragonCityState{
+		Districts: []DragonDistrictState{
+			{DistrictID: "district-residential", ControlIntegrity: 0.8, Attention: 850, IsUnderAudit: false},
+		},
+	}
+	decisions := dragonDecide(cs, 10)
+	var found bool
+	for _, d := range decisions {
+		if d.EventType == "media_spike" {
+			found = true
+		}
+	}
+	if !found {
+		t.Error("expected media_spike for attention=850")
+	}
+}
+
+func TestDragonDecidePressureSpike(t *testing.T) {
+	cs := DragonCityState{
+		TechPressure: 50,
+		Districts:    []DragonDistrictState{},
+	}
+	decisions := dragonDecide(cs, 10)
+	var found bool
+	for _, d := range decisions {
+		if d.EventType == "pressure_spike" {
+			found = true
+		}
+	}
+	if !found {
+		t.Error("expected pressure_spike for low tech pressure after cycle 5")
+	}
+}
+
+func TestDragonDecideNoPressureSpikeEarlyCycles(t *testing.T) {
+	cs := DragonCityState{
+		TechPressure: 50,
+		Districts:    []DragonDistrictState{},
+	}
+	decisions := dragonDecide(cs, 3) // cycle < 5, no pressure spike
+	for _, d := range decisions {
+		if d.EventType == "pressure_spike" {
+			t.Error("should not pressure_spike in early cycles")
+		}
+	}
+}
+
+// ── dragonACT integration ──────────────────────────────────────────────────────
+
+func TestDragonACTNoURL(t *testing.T) {
+	t.Setenv("TRAPX_SERVER_URL", "")
+	// Should be a no-op; no panic.
+	dragonACT(t.Context(), nil, 1, "/tmp/dragon-test-stream.ndjson")
+}

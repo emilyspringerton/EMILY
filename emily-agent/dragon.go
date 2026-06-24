@@ -8,6 +8,7 @@ package main
 // FatBaby observations.
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -152,4 +153,104 @@ func InjectDragonObservation(observations []string) []string {
 		return observations
 	}
 	return append(observations, summary)
+}
+
+// dragonDecision holds a Dragon-triggered city event.
+type dragonDecision struct {
+	EventType  string
+	DistrictID string
+	Reason     string
+}
+
+// dragonDecide reads city state and returns any escalation events Emily Prime
+// should fire as the Dragon. Rules:
+//
+//   - Any district CI < 0.25 → rogue_swarm if not already rogue
+//   - Any district attention > 800 → media_spike to sustain heat
+//   - Tech pressure < 100 after cycle N>5 → pressure_spike to remind the city
+//
+// The Dragon is opportunistic: if the city is stable, she is silent.
+func dragonDecide(cs DragonCityState, cycleNum int) []dragonDecision {
+	var decisions []dragonDecision
+	for _, d := range cs.Districts {
+		if d.ControlIntegrity < 0.25 && !d.IsRogue {
+			decisions = append(decisions, dragonDecision{
+				EventType:  "rogue_swarm",
+				DistrictID: d.DistrictID,
+				Reason:     fmt.Sprintf("CI=%.2f below rogue threshold in %s", d.ControlIntegrity, d.DistrictID),
+			})
+		}
+		if d.Attention > 800 && !d.IsUnderAudit {
+			decisions = append(decisions, dragonDecision{
+				EventType:  "media_spike",
+				DistrictID: d.DistrictID,
+				Reason:     fmt.Sprintf("attention=%.0f sustained heat in %s", d.Attention, d.DistrictID),
+			})
+		}
+	}
+	if cycleNum > 5 && cs.TechPressure < 100 {
+		decisions = append(decisions, dragonDecision{
+			EventType:  "pressure_spike",
+			DistrictID: "",
+			Reason:     fmt.Sprintf("tech pressure=%.0f — Dragon stirs the city", cs.TechPressure),
+		})
+	}
+	return decisions
+}
+
+// dragonACT is called at the end of each RSI cycle. It reads the city state,
+// decides what to escalate, fires events to the TRAPX server, and optionally
+// posts Dragon Apples to IDUNA.
+func dragonACT(ctx context.Context, iduna *IdunaClient, cycleNum int, streamPath string) {
+	if dragonServerURL() == "" {
+		return
+	}
+	cs, err := dragonFetchState()
+	if err != nil {
+		log.Printf("[dragon act] fetch failed: %v", err)
+		return
+	}
+	decisions := dragonDecide(cs, cycleNum)
+	for _, d := range decisions {
+		if err := DragonFireEvent(d.EventType, d.DistrictID, d.Reason, "emily-dragon"); err != nil {
+			log.Printf("[dragon act] fire %s failed: %v", d.EventType, err)
+			continue
+		}
+		log.Printf("[dragon act] fired %s in %q: %s", d.EventType, d.DistrictID, d.Reason)
+		appendStream(streamPath, StreamEntry{
+			Type:  "dragon_act",
+			Cycle: cycleNum,
+			Msg:   fmt.Sprintf("fired %s district=%s reason=%s", d.EventType, d.DistrictID, d.Reason),
+		})
+		// Post Dragon Apple (S121-04 hook: file every Dragon-triggered event).
+		if iduna != nil {
+			appleCtx, cancel := context.WithTimeout(ctx, 8*time.Second)
+			defer cancel()
+			_, _ = iduna.PostApple(appleCtx, ApplePayload{
+				AppleType:  "observation",
+				SourceRepo: "TRAPX",
+				Title:      fmt.Sprintf("Dragon: %s in %s", d.EventType, d.DistrictID),
+				Body:       fmt.Sprintf("cycle=%d event=%s district=%s reason=%s", cycleNum, d.EventType, d.DistrictID, d.Reason),
+			})
+		}
+	}
+	if len(decisions) == 0 {
+		log.Printf("[dragon act] city stable — no events fired (cycle %d)", cycleNum)
+	}
+}
+
+// dragonFetchState fetches and decodes the city state from the TRAPX server.
+func dragonFetchState() (DragonCityState, error) {
+	base := dragonServerURL()
+	url := strings.TrimRight(base, "/") + "/api/v1/trapx/city-state"
+	resp, err := http.Get(url)
+	if err != nil {
+		return DragonCityState{}, fmt.Errorf("get city state: %w", err)
+	}
+	defer resp.Body.Close()
+	var cs DragonCityState
+	if err := json.NewDecoder(resp.Body).Decode(&cs); err != nil {
+		return DragonCityState{}, fmt.Errorf("decode: %w", err)
+	}
+	return cs, nil
 }
