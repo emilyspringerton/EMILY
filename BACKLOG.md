@@ -2750,10 +2750,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Seed schedules for jiangshi-warden, eastwind-archivist, heikegani-dock-boss.
   MUD: npcs who are scheduled show time-of-day flavor in `examine`. Repo: GoblinFoxDragon. 12 tests. Apple #3531 · GoblinFoxDragon 65b860e
 
-- [ ] **S126-02: TRAPX weather → district mood feedback loop** — Current weather system
+- [x] **S126-02: TRAPX weather → district mood feedback loop** — Current weather system
   (`server/weather`) doesn't affect districts. Wire: Heavy Rain → Fatigue+10 in outdoor districts.
   Thunderstorm → Fear+15 everywhere. Clear sky → Fatigue-5 (recovery). `weather.Current()` polled
-  in nbhdReg.TickAll. Repo: GoblinFoxDragon. Add 5 tests to neighborhood_test.go.
+  in nbhdReg.TickAll. Repo: GoblinFoxDragon. Add 5 tests to neighborhood_test.go. Apple #3533 · GoblinFoxDragon dc70d3b
 
 - [ ] **S126-03: TRAPX world event broadcast system** — Global events that all players see:
   `server/worldevent/worldevent.go`. Event types: FactionWarStart, FieldOfficeFallen,
