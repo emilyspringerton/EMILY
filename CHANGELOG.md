@@ -1,4 +1,5 @@
 ## 2026-06-24
+- feat: S126-12 velocity alerts — observeVelocityAlerts in OBSERVE phase, Apple escalation + FCM push (Apple #3562)
 - feat: S126-07 haiku→sonnet escalation — StuckCycles/EscalatedAt on ImprovementTask, escalateTaskWithSonnet in DECIDE phase (Apple #3547)
 - feat: S126-06 EMILY↔TRAPX event bridge — DragonBroadcastWorldEvent + TrapXAppleWatcher in dragon.go, wired to main.go startup (Apple #3545)
 - feat: S126-05 observation digest — obsdigest.go, cron PLAN phase wire, emily-memory/observations-digest.json (Apple #3541)
