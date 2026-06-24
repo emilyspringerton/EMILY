@@ -2411,13 +2411,12 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   3 objectives → CONTAINMENT_END + SCAR_WRITTEN (permanent scar history). Registry.
   24 tests. Apple #3349
 
-- [ ] **S119-05: Tech Pressure doom clock — `server/techpressure/techpressure.go`** —
-  Global `TechPressure` counter. Increments on tier unlock + deploy (weighted by activity).
-  Slow per-minute decay. Five threshold bands emit world events via WorldCrisis phase machine:
-  T1=LeashFrays, T2=ProcurementWar, T3=QuietAudit, T4=Packmind, T5=CrownProtocol.
-  CrownProtocol: attempt to unify multiple FOs into super-node; if success → map rewrite → Bird Correction.
-  Acceptance: 10+ tests; all 5 threat events trigger at correct thresholds; CrownProtocol wires into WorldCrisis.
-  [STUB — see TRAPX_NORTHSTAR.md §Tech Tree as Doom Clock]
+- [x] **S119-05: Tech Pressure doom clock — `server/techpressure/techpressure.go`** —
+  Global doom clock (0-1000). TierUnlock(+80*lvl)/DogDeploy(+5)/SwarmActivity(0.2/dog/s).
+  Decay 0.5/s. BirdCorrection -150. 5 tiers: T1=LeashFrays(250)/T2=ProcurementWar(450)/
+  T3=QuietAudit(650)/T4=Packmind(850)/T5=CrownProtocol(1000). TIER_ACTIVATED/TIER_CLEARED
+  events on crossing. CrownProtocol fires once → CROWN_PROTOCOL event. 18 tests. Apple #3351
+  **S119 ENGINE FOUNDATION COMPLETE.**
 
 ---
 
