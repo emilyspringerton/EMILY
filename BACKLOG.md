@@ -2797,10 +2797,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   are unbounded. Add per-IP rate limiter (10 req/min) via middleware.
   Use sync.Map[IP → TokenBucket]. Block with 429. Repo: IDUNA. Apple #3552 · IDUNA c452efd
 
-- [ ] **S126-10: IDUNA player stats endpoint** — GFD page-profile.php needs real player
+- [x] **S126-10: IDUNA player stats endpoint** — GFD page-profile.php needs real player
   data. Add `GET /api/v1/players/{slug}/profile` → `{display_name, job, fame:{Frequency,
   Bloc, Procurement}, last_scene, apples_count}`. Reads from Apples + player projection.
-  Repo: IDUNA.
+  Repo: IDUNA. Apple #3554 · IDUNA 3a7ab7b
 
 ### PRRJECT_FATBABY — Signal Depth
 
