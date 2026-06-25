@@ -1,4 +1,5 @@
 ## 2026-06-25
+- Slow Emily Prime cron from 5m to 15m cadence; comment updates in cron.go, integration.go
 - feat: S128-05 federated task router — MaybeRouteTask, ListActiveClusters, routeTask + 5 tests (Apple #3867)
 - feat: S128-03 cluster heartbeat loop — SendHeartbeat, detectCapabilities, startHeartbeatLoop in NewAutonomousCycle (Apple #3864)
 
