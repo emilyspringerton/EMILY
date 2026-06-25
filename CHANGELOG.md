@@ -1,3 +1,7 @@
+## 2026-06-25
+
+- feat: S128-01 earnings section in morning briefing — reads earnings-calendar/dates.ndjson, appends EARNINGS THIS WEEK to FCM push body (Apple #3860)
+
 ## 2026-06-24
 - feat: S125-08 weekly memory consolidation — consolidateMemoryFragments in PLAN phase, 7-day sentinel (Apple #3667)
 - feat: S125-07 GET /health endpoint — {ok, service, gear} for gfdapi + PitViper polling (Apple #3664)
