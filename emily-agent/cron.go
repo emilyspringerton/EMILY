@@ -120,6 +120,7 @@ type AutonomousCycle struct {
 	iduna       *IdunaClient      // optional; submits Apples to IDUNA after each cycle
 	fcmSender   *fcm.Sender       // optional; fires push notifications to MJOLNIR on CEO-visible escalations
 	field       *archetypes.Field // optional; THE_FIELD dual-persona augmentation for new tasks
+	slack       *SlackNotifier    // optional; sends Slack notifications on alerts and escalations
 }
 
 // NewAutonomousCycle creates a cycle runner.
@@ -132,6 +133,7 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 		gmail:       gmail,
 		iduna:       NewIdunaClientFromEnv(),
 		field:       NewFieldFromEnv(),
+		slack:       NewSlackNotifier(),
 	}
 	if fcm.IsConfigured() {
 		sender, err := fcm.NewFromEnv()
@@ -148,6 +150,11 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 	// S128-03: Start cluster heartbeat loop — announces this Emily instance to IDUNA
 	// so Emily Prime can discover and route tasks across federated clusters.
 	startHeartbeatLoop(context.Background(), ac.iduna, func() float64 { return 0.0 })
+
+	// Start check-in alerting worker — polls IDUNA /api/v1/monitors/overdue.
+	alertWorker := NewCheckinAlertWorker(ac.iduna, ac.slack, gmail)
+	go alertWorker.Run(context.Background())
+
 	return ac
 }
 
@@ -179,11 +186,12 @@ func (ac *AutonomousCycle) RunOnce() error {
 		}
 	}
 
-	// Service health watchdog — fires escalation Apples for services down >= 2 min.
+	// Service health watchdog — fires escalation Apples and Slack alerts for services down >= 2 min.
 	logDir := filepath.Join(envOr("EMILY_ROOT", "/home/fatbaby/EMILY"), "var", "logs")
 	watchAlerts := CheckServiceHealth(ctx, ac.cfg.StateDir, logDir, nil)
 	for _, alertMsg := range watchAlerts {
 		log.Printf("[watchdog] ALERT: %s", alertMsg)
+		slackNotifyOrLog(ac.slack, ":rotating_light: *[WATCHDOG]* "+alertMsg)
 		if ac.iduna != nil {
 			alertCtx, alertCancel := context.WithTimeout(context.Background(), 8*time.Second)
 			_, _ = ac.iduna.PostApple(alertCtx, ApplePayload{
