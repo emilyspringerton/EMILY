@@ -2910,19 +2910,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### GFD — M6 Completion (Scar System + K9 Doctrine)
 
-- [ ] **S128-06: GFD Scar system — `server/scar/scar.go`** — `Scar{ID, DistrictID, Cause, At, Detail}`.
-  Append-only `Registry`. Causes: RogueSwarm/CrownProtocol/MercilessOp/FactionWar.
-  MUD command `scars [district-id]` shows trauma history for a district.
-  Scar affects `neighborhood.WatcherVisibilityMultiplier` (+5% per scar).
-  Written on: Crown Protocol T5 fire, Rogue Swarm containment failure, Merciless Op completion.
-  15 tests. Repo: GoblinFoxDragon. Apple required.
+- [x] **S128-06: GFD Scar system** — Apple #3870 —
+  scar/scar.go: Registry (Append/ForDistrict/VisibilityBonus/RemoveLast/MUDScarsCommand),
+  4 causes, +5% Watcher visibility per scar. 11 tests pass.
 
-- [ ] **S128-07: GFD K9 Merciless Operation — 4-phase doctrine** —
-  `server/k9/operation.go`: `MercilessOp{Phase, StartAt}`. Phases: Encirclement/Isolation/CustodyLock/Resolution.
-  Phase transitions: 3 min each. Phase1→2 requires 2+ dogs deployed. Phase4 writes a Scar.
-  3 counterplay lanes: `BirdCorrection` (reduces TechPressure -150), `ScarBurn` (removes last scar),
-  `FlipWindow` (forced contest window open — can reclaim FO before Phase4).
-  MUD command `merciless-op <fo-id>` initiates. 18 tests. Repo: GoblinFoxDragon.
+- [x] **S128-07: GFD K9 Merciless Operation** — Apple #3870 —
+  k9/operation.go: 4-phase doctrine, OpRegistry, 3 counterplay lanes
+  (BirdCorrection -150 TechPressure, ScarBurn, FlipWindow). 18 tests pass.
 
 ---
 
