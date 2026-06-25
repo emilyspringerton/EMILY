@@ -2999,6 +2999,39 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 131: ALERTING BACKEND + SLACK INTEGRATION (2026-06-25)
+
+*Check-in monitors (heartbeat/dead-man-switch), Slack/email alerts, full system notification integration.*
+
+- [x] **S131-01: IDUNA monitors table + API** — Apple #3901 —
+  Migration 202606250003_monitors.sql. IAMStore: CreateMonitor, GetMonitorBySlug, GetMonitorByID,
+  ListMonitors, RecordCheckin, MarkMonitorAlerted, ListOverdueMonitors, DeleteMonitor.
+  MonitorsHandler: POST /api/v1/monitors/checkin/:slug (public, no auth),
+  GET/POST /api/v1/monitors, GET /api/v1/monitors/overdue, POST /api/v1/monitors/:id/alerted,
+  DELETE /api/v1/monitors/:id. All IDUNA tests pass.
+
+- [x] **S131-02: EMILY Slack notifier + alerting worker** — Apple #3901 —
+  emily-agent/slack.go: SlackNotifier (SLACK_WEBHOOK_URL), Send/SendAlert/SendDown/SendUp/SendCheckinMiss.
+  emily-agent/alerting.go: CheckinAlertWorker polls /api/v1/monitors/overdue every 5m,
+  fires Slack+email per overdue monitor, marks alerted via POST /:id/alerted.
+  Wired into NewAutonomousCycle (background goroutine) + watchdog alerts → Slack.
+
+- [x] **S131-03: Emily Prime cron slowed to 15m** — Apple #3901 — defaultCronConfig Interval 5m→15m.
+
+- [ ] **S131-04: Wire Slack into HEIMDAL sprint completion** — When Emily Prime patches a sprint
+  item to complete/blocked, fire Slack notification to SLACK_DEFAULT_CHANNEL.
+  Repo: EMILY (emily-agent/heimdal.go → after UpdateSprintItem).
+
+- [ ] **S131-05: Slack on escalation Apple** — When EMILY files an Apple type=escalation
+  via prime triage (cron.go:~1104), also fire Slack alert. Watchdog already does this.
+  Repo: EMILY.
+
+- [ ] **S131-06: Monitor the Emily Prime cron itself** — Create a IDUNA monitor for emily-agent
+  with timeout=1800s (30m). Emily Prime should POST to its check-in URL at end of each RunOnce.
+  Repo: EMILY (cron.go end of RunOnce + HITL: create the monitor via CLI/API).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
