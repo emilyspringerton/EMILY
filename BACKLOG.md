@@ -2920,6 +2920,85 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 129: GFD INVENTORY + EQUIPMENT (2026-06-25)
+
+*Northstar: GoblinFoxDragon/docs2/INVENTORY_EQUIPMENT_NORTHSTAR.md*
+*M1 done (itemdef + inventory packages + items.json seed + DB migration). NPC stealth attention + starting zone mobs also complete.*
+
+### M1 — Item Definition Foundation
+
+- [x] **S129-01: server/itemdef/ package** — Apple #3891 —
+  ItemDef, Category, JobMask (20-job bitmask), ItemFlags (Rare/Ex/Temp/NoSave), Registry (JSON-loaded).
+  LoadJSON, ByID, ByName, CanEquip, JobMask.CanEquipJob. 14 tests pass.
+
+- [x] **S129-02: server/inventory/ package** — Apple #3891 —
+  Bag (fixed-capacity slots), Stack (itemID+defID+qty+stackSize), stack merge, Mog (all bags + KeyItems + RareOwned),
+  ExpandInventory (Gobbiebag +10), ClearTemporary. 18 tests pass.
+
+- [x] **S129-03: data/items.json seed** — Apple #3891 —
+  52 canonical items: 10 weapons (dagger→Excalibur), 15 armor pieces (Leather set + Chain + Plate + Robes + Ninja Gi),
+  10 accessories (rings/ears/cloak/belt/neck), 5 consumables, 6 crystals, 5 materials, 2 key items.
+
+- [x] **S129-04: IDUNA DB migration 202606250002** — Apple #3891 —
+  character_equipment, character_inventory, character_key_items, character_bag_capacity tables.
+  ALTER items ADD def_id + flags.
+
+### M2 — Inventory Container (Pending)
+
+- [ ] **S129-05: IDUNA HTTP endpoints** — GET /api/v1/mmo/characters/{id}/inventory,
+  GET /api/v1/mmo/characters/{id}/equipment. Repo: IDUNA.
+
+- [ ] **S129-06: server/gear/ ComputeStats() + CanEquip()** — Sum stats from all equipped items
+  using itemdef.Registry. CanEquip enforces job mask + level. Repo: GoblinFoxDragon.
+
+### M3 — Equip/Unequip Loop (Pending)
+
+- [ ] **S129-07: MUD equip/unequip commands** — EQUIP <slot> <item>, UNEQUIP <slot>, EQUIPMENT list.
+  Job/level restriction enforcement. Stat delta broadcast on equip change. Repo: GoblinFoxDragon.
+
+### Starting Zone Completion
+
+- [x] **S129-08: Hills (zone 1) mobs + NMs** — Apple #3891 —
+  mob/hills.go: rabbit (passive, 45 HP), beetle (aggro, 110 HP), hills-wolf (fast, 135 HP). 18 spawns total.
+  nm/nm.go: HillsNMs() — nm-great-beetle (beetle-hills-0 placeholder, 90 min respawn) +
+  nm-ancient-wolf (window-only, 90 min). AllStartingZoneNMs() convenience fn.
+
+- [x] **S129-09: Caves (zone 2) mobs + NMs** — Apple #3891 —
+  mob/caves.go: cave-bat (sound aggro, wide range, fast), cave-spider (passive, slow, poison hint),
+  skeleton (undead, wide aggro, heavy hitter). 15 spawns total.
+  nm/nm.go: CavesNMs() — nm-bone-knight (skeleton-caves-0, 75 min) + nm-venom-queen (spider-caves-0, 60 min).
+
+### M4 — Art Direction (Pending)
+
+- [ ] **S129-10: Art direction reference sheets** — Per-tier palette guides (Initiate through Endgame).
+  First 5 armor sets (Leather + Chainmail) modeled at correct poly budget. Repo: GoblinFoxDragon.
+
+---
+
+## SECTION 130: GFD NPC ATTENTION — STEALTH + DISGUISE (2026-06-25)
+
+*Hitman: Codename 47 era mechanics. Per-NPC awareness, disguise factions, witness system.*
+
+- [x] **S130-01: server/npcattention/ package** — Apple #3892 —
+  NPC (per-NPC watch state), NPCWatch (suspicion [0,100], Awareness, IsWitness),
+  Disguise (Faction, WeaponVisible, Running), Scene (multi-NPC tick + LOS oracle).
+  Awareness states: Unaware→Suspicious(35)→Alerted(65)→Hostile(100).
+  Disguise: enforcer effect (same faction = higher gain), accepted (foreign faction = low gain), no disguise = max gain.
+  Witness: jumps to Alerted, doesn't decay below floor, SilenceWitness resets.
+  Body-nearby spike. Scene.WitnessKill broadcasts to all LOS NPCs. 16 tests pass.
+
+- [ ] **S130-02: Wire npcattention into server tick loop** — Per-tick LOS check for all NPCs in
+  active scene. AwarenessEvents → game effects (NPC speech, backup call, hostile state). Repo: GoblinFoxDragon.
+
+- [ ] **S130-03: Disguise gear items** — ItemDef flags for disguise faction. Equipping a disguise
+  item sets PlayerDisguise.Faction on server side. Guard Uniform (FactionGuard), Civilian Clothes
+  (FactionCivilian), Merchant Coat (FactionMerchant). Repo: GoblinFoxDragon.
+
+- [ ] **S130-04: MUD disguise commands** — WEAR <item> (equips disguise, changes faction),
+  REMOVE DISGUISE, SNEAK (reduces effective aggro range while undetected). Repo: GoblinFoxDragon.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
