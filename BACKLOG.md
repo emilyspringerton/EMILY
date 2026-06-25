@@ -2904,11 +2904,9 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Migration 202606250001, UpsertClusterHeartbeat + ListActiveClusterHeartbeats (MySQL+SQLite),
   POST /api/v1/agents/heartbeat, GET ?active=true&type=emily_cluster returns live clusters.
 
-- [ ] **S128-05: Emily Prime task routing to best cluster** — In emily-agent DECIDE phase, before
-  executing a directed task, query IDUNA for active clusters. If a remote cluster has
-  `load_score < local_load_score` and has the required capability (e.g. `gpu` for GPT-2 tasks),
-  emit a `task_routed` event and skip local execution. Remote cluster picks it up from the task queue.
-  Repo: EMILY. Acceptance: a GPT-2 task is routed to the cluster with `capabilities: [gpu]`.
+- [x] **S128-05: Emily Prime task routing to best cluster** — Apple #3867 —
+  task_router.go: ListActiveClusters, routeTask (capability + load_score filter),
+  MaybeRouteTask stamps routed_to_cluster into task JSON. 5 tests pass.
 
 ### GFD — M6 Completion (Scar System + K9 Doctrine)
 
