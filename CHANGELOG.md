@@ -1,4 +1,5 @@
 ## 2026-06-25
+- feat: S128-03 cluster heartbeat loop — SendHeartbeat, detectCapabilities, startHeartbeatLoop in NewAutonomousCycle (Apple #3864)
 
 - feat: S128-01 earnings section in morning briefing — reads earnings-calendar/dates.ndjson, appends EARNINGS THIS WEEK to FCM push body (Apple #3860)
 
