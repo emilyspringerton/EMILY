@@ -12,6 +12,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -55,7 +56,7 @@ func markBriefingSent(stateDir string) {
 // runMorningBriefing fetches the last 24 h of Apples from IDUNA, summarises
 // them by type, and fires an FCM push to the MJOLNIR app. It is called from the
 // autonomous cycle when briefingDue() is true. Non-fatal: errors are logged.
-func runMorningBriefing(ctx context.Context, iduna *IdunaClient, push PushFunc, stateDir string) {
+func runMorningBriefing(ctx context.Context, iduna *IdunaClient, push PushFunc, stateDir, earningsCalDir string) {
 	if iduna == nil || push == nil {
 		return
 	}
@@ -84,6 +85,25 @@ func runMorningBriefing(ctx context.Context, iduna *IdunaClient, push PushFunc, 
 			body += fmt.Sprintf("\n  %-6s  %s  [%s]", s.Ticker, s.Summary, s.SignalType)
 		}
 	}
+
+	// Earnings calendar section: upcoming reports in the next 7 days.
+	if earningsCalDir != "" {
+		if upcoming := loadUpcomingEarnings(earningsCalDir, 7); len(upcoming) > 0 {
+			body += "\n\n── EARNINGS THIS WEEK ──"
+			for _, e := range upcoming {
+				timing := ""
+				if e.BeforeMarket != nil {
+					if *e.BeforeMarket {
+						timing = " BMO"
+					} else {
+						timing = " AMC"
+					}
+				}
+				body += fmt.Sprintf("\n  %-6s  %s%s  [%s]", e.Ticker, e.ReportDate, timing, e.Status)
+			}
+		}
+	}
+
 	log.Printf("briefing: firing morning push — %d apples in 24h, %d signals", len(recent), len(signals))
 
 	go push(title, body, map[string]string{
@@ -258,4 +278,62 @@ func typeLabel(t string) string {
 	default:
 		return t
 	}
+}
+
+// briefingEarningsDate is the minimal shape we need from dates.ndjson.
+type briefingEarningsDate struct {
+	Ticker       string  `json:"ticker"`
+	ReportDate   string  `json:"report_date"`
+	Status       string  `json:"status"`
+	BeforeMarket *bool   `json:"before_market"`
+}
+
+// loadUpcomingEarnings reads var/earnings-calendar/dates.ndjson and returns
+// records whose report_date falls in [today, today+days), sorted soonest first.
+// Returns nil on any error (non-fatal: briefing still sends without this section).
+func loadUpcomingEarnings(calDir string, days int) []briefingEarningsDate {
+	today := time.Now().UTC().Format("2006-01-02")
+	cutoff := time.Now().UTC().AddDate(0, 0, days).Format("2006-01-02")
+
+	f, err := os.Open(filepath.Join(calDir, "dates.ndjson"))
+	if err != nil {
+		return nil
+	}
+	defer f.Close()
+
+	// Deduplicate by ticker+date; prefer higher status (confirmed>announced>backfilled).
+	statusPriority := map[string]int{"confirmed": 3, "announced": 2, "backfilled": 1}
+	type key struct{ ticker, date string }
+	best := map[key]briefingEarningsDate{}
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" {
+			continue
+		}
+		var d briefingEarningsDate
+		if err := json.Unmarshal([]byte(line), &d); err != nil {
+			continue
+		}
+		if d.Ticker == "" || d.ReportDate < today || d.ReportDate >= cutoff {
+			continue
+		}
+		k := key{d.Ticker, d.ReportDate}
+		if cur, ok := best[k]; !ok || statusPriority[d.Status] > statusPriority[cur.Status] {
+			best[k] = d
+		}
+	}
+
+	out := make([]briefingEarningsDate, 0, len(best))
+	for _, d := range best {
+		out = append(out, d)
+	}
+	sort.Slice(out, func(i, j int) bool {
+		if out[i].ReportDate == out[j].ReportDate {
+			return out[i].Ticker < out[j].Ticker
+		}
+		return out[i].ReportDate < out[j].ReportDate
+	})
+	return out
 }

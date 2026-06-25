@@ -33,21 +33,23 @@ import (
 
 // CronConfig controls the autonomous cycle.
 type CronConfig struct {
-	StateDir      string        // directory for state files
-	LockFile      string        // prevents concurrent runs
-	CycleDuration time.Duration // max time per cycle (default 280s)
-	Interval      time.Duration // how often to run (default 5m, used in daemon mode)
-	EmilyRoot     string        // absolute path to the EMILY repo root (for goldenbuild)
+	StateDir        string        // directory for state files
+	LockFile        string        // prevents concurrent runs
+	CycleDuration   time.Duration // max time per cycle (default 280s)
+	Interval        time.Duration // how often to run (default 5m, used in daemon mode)
+	EmilyRoot       string        // absolute path to the EMILY repo root (for goldenbuild)
+	EarningsCalDir  string        // path to PRRJECT_FATBABY earnings-calendar var dir (e.g. var/earnings-calendar)
 }
 
 func defaultCronConfig() CronConfig {
 	stateDir := envOr("EMILY_STATE_DIR", "./emily-state")
 	return CronConfig{
-		StateDir:      stateDir,
-		LockFile:      filepath.Join(stateDir, "emily.lock"),
-		CycleDuration: 280 * time.Second,
-		Interval:      5 * time.Minute,
-		EmilyRoot:     envOr("EMILY_ROOT", "/home/fatbaby/EMILY"),
+		StateDir:       stateDir,
+		LockFile:       filepath.Join(stateDir, "emily.lock"),
+		CycleDuration:  280 * time.Second,
+		Interval:       5 * time.Minute,
+		EmilyRoot:      envOr("EMILY_ROOT", "/home/fatbaby/EMILY"),
+		EarningsCalDir: envOr("EARNINGS_CAL_DIR", ""),
 	}
 }
 
@@ -461,7 +463,7 @@ func (ac *AutonomousCycle) RunOnce() error {
 				}
 			}
 		}
-		runMorningBriefing(ctx, ac.iduna, push, ac.cfg.StateDir)
+		runMorningBriefing(ctx, ac.iduna, push, ac.cfg.StateDir, ac.cfg.EarningsCalDir)
 	}
 
 	// S125-08: weekly memory consolidation — runs at most once per 7 days.

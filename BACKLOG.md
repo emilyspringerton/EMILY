@@ -2875,6 +2875,63 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 128: FRACTAL DEPTH 2 — SIGNAL INTELLIGENCE + FEDERATED EMILY (2026-06-25)
+
+*Earnings engine audited (Apple #3857): confirmed 347 records good, announced path fixed with watchlist resolver.*
+*New: internal/notify (Mailgun+SMTP), earnings-alert command. Next: wire alert into emily-agent + federated clusters.*
+
+### PRRJECT_FATBABY — Signal Quality
+
+- [x] **S128-01: Wire earnings-alert into emily-agent weekly briefing** — Apple #3860 —
+  EarningsCalDir (EARNINGS_CAL_DIR env), loadUpcomingEarnings() reads dates.ndjson,
+  appends EARNINGS THIS WEEK section to FCM push body for next 7 days.
+
+- [ ] **S128-02: earnings-alert systemd timer** — Add `emily start --earnings-alert` to emily.cli.
+  Systemd oneshot timer fires every Monday at 07:30 UTC. Uses `notify.NewFromEnv()` backend.
+  Repo: emily.cli. Acceptance: `emily start --earnings-alert` writes systemd unit + timer.
+
+### Federated Multi-Cluster EMILY
+
+*Architecture: multiple independent Emily clusters (local dev, Colab GPU, production monolith)*
+*connect to the same IDUNA. Each cluster registers as an agent (`type=emily_cluster`).*
+*Emily Prime coordinates via IDUNA agent list + SSE stream. Directed tasks routed to best cluster.*
+
+- [ ] **S128-03: emily-agent cluster identity registration** — On startup, emily-agent POSTs to
+  `POST /api/v1/agents/heartbeat` with `{agent_id, cluster_id, capabilities, load_score}`.
+  Every 60s heartbeat updates `last_seen`. Emily Prime OBSERVE phase reads active clusters via
+  `GET /api/v1/agents?type=emily_cluster&active=true`.
+  Repo: EMILY + IDUNA. Acceptance: two local emily-agent instances appear in IDUNA agent list.
+
+- [ ] **S128-04: IDUNA cluster heartbeat endpoint** — `POST /api/v1/agents/heartbeat` upserts an
+  agent record with `{agent_id, cluster_id, capabilities []string, load_score float64, last_seen}`.
+  `GET /api/v1/agents?type=emily_cluster&active=true` returns clusters with `last_seen` within 5 min.
+  Migration: add `cluster_id`, `load_score`, `capabilities` columns to agents table.
+  Repo: IDUNA. Acceptance: heartbeat registers; stale agents drop from active list after 5 min.
+
+- [ ] **S128-05: Emily Prime task routing to best cluster** — In emily-agent DECIDE phase, before
+  executing a directed task, query IDUNA for active clusters. If a remote cluster has
+  `load_score < local_load_score` and has the required capability (e.g. `gpu` for GPT-2 tasks),
+  emit a `task_routed` event and skip local execution. Remote cluster picks it up from the task queue.
+  Repo: EMILY. Acceptance: a GPT-2 task is routed to the cluster with `capabilities: [gpu]`.
+
+### GFD — M6 Completion (Scar System + K9 Doctrine)
+
+- [ ] **S128-06: GFD Scar system — `server/scar/scar.go`** — `Scar{ID, DistrictID, Cause, At, Detail}`.
+  Append-only `Registry`. Causes: RogueSwarm/CrownProtocol/MercilessOp/FactionWar.
+  MUD command `scars [district-id]` shows trauma history for a district.
+  Scar affects `neighborhood.WatcherVisibilityMultiplier` (+5% per scar).
+  Written on: Crown Protocol T5 fire, Rogue Swarm containment failure, Merciless Op completion.
+  15 tests. Repo: GoblinFoxDragon. Apple required.
+
+- [ ] **S128-07: GFD K9 Merciless Operation — 4-phase doctrine** —
+  `server/k9/operation.go`: `MercilessOp{Phase, StartAt}`. Phases: Encirclement/Isolation/CustodyLock/Resolution.
+  Phase transitions: 3 min each. Phase1→2 requires 2+ dogs deployed. Phase4 writes a Scar.
+  3 counterplay lanes: `BirdCorrection` (reduces TechPressure -150), `ScarBurn` (removes last scar),
+  `FlipWindow` (forced contest window open — can reclaim FO before Phase4).
+  MUD command `merciless-op <fo-id>` initiates. 18 tests. Repo: GoblinFoxDragon.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
