@@ -2896,17 +2896,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 *connect to the same IDUNA. Each cluster registers as an agent (`type=emily_cluster`).*
 *Emily Prime coordinates via IDUNA agent list + SSE stream. Directed tasks routed to best cluster.*
 
-- [ ] **S128-03: emily-agent cluster identity registration** — On startup, emily-agent POSTs to
-  `POST /api/v1/agents/heartbeat` with `{agent_id, cluster_id, capabilities, load_score}`.
-  Every 60s heartbeat updates `last_seen`. Emily Prime OBSERVE phase reads active clusters via
-  `GET /api/v1/agents?type=emily_cluster&active=true`.
-  Repo: EMILY + IDUNA. Acceptance: two local emily-agent instances appear in IDUNA agent list.
+- [x] **S128-03: emily-agent cluster identity registration** — Apple #3864 —
+  cluster_heartbeat.go: SendHeartbeat, detectCapabilities, startHeartbeatLoop wired into NewAutonomousCycle.
+  Fires on startup + every 60s. EMILY_CLUSTER_ID env or hostname fallback.
 
-- [ ] **S128-04: IDUNA cluster heartbeat endpoint** — `POST /api/v1/agents/heartbeat` upserts an
-  agent record with `{agent_id, cluster_id, capabilities []string, load_score float64, last_seen}`.
-  `GET /api/v1/agents?type=emily_cluster&active=true` returns clusters with `last_seen` within 5 min.
-  Migration: add `cluster_id`, `load_score`, `capabilities` columns to agents table.
-  Repo: IDUNA. Acceptance: heartbeat registers; stale agents drop from active list after 5 min.
+- [x] **S128-04: IDUNA cluster heartbeat endpoint** — Apple #3863 —
+  Migration 202606250001, UpsertClusterHeartbeat + ListActiveClusterHeartbeats (MySQL+SQLite),
+  POST /api/v1/agents/heartbeat, GET ?active=true&type=emily_cluster returns live clusters.
 
 - [ ] **S128-05: Emily Prime task routing to best cluster** — In emily-agent DECIDE phase, before
   executing a directed task, query IDUNA for active clusters. If a remote cluster has

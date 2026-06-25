@@ -145,6 +145,9 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 	if ac.field != nil {
 		log.Printf("field: THE_FIELD initialized (E1=%s E2=%s)", ac.field.E1Model, ac.field.E2Model)
 	}
+	// S128-03: Start cluster heartbeat loop — announces this Emily instance to IDUNA
+	// so Emily Prime can discover and route tasks across federated clusters.
+	startHeartbeatLoop(context.Background(), ac.iduna, func() float64 { return 0.0 })
 	return ac
 }
 
