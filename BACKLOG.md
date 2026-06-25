@@ -3032,6 +3032,44 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 132: GITHUB CI/CD — ALL REPOS (2026-06-25)
+
+*Ensure every repo has GitHub Actions CI: test, build, construct bundle, upload artifact.*
+
+- [x] **S132-01: EMILY, IDUNA, PRRJECT_FATBABY, GoblinFoxDragon, SHANKPIT, TYLER, MJOLNIR, gpt2-alpine-c** — already had CI workflows. Verified.
+
+- [x] **S132-02: emily.cli CI workflow** — `feat(ci)` · emily.cli cc0edc4 — test + build + smoke test + construct bundle.
+
+- [x] **S132-03: EmilyOS CI workflow** — `feat(ci)` · EmilyOS 12710c0 — GOWORK=off test + static build + construct bundle.
+
+- [x] **S132-04: APPLES CI workflow** — `feat(ci)` · APPLES a4aa19e — JSON validation + schema check + construct bundle.
+
+- [x] **S132-05: PITVIPER CI workflow committed** — `feat(ci)` · PITVIPER (local) — test + CGO/SDL2 build + construct bundle. Blocked on S127-04 (no GitHub remote).
+
+- [ ] **S132-06: PITVIPER push CI to GitHub** — Blocked on S127-04: create emilyspringerton/PITVIPER repo, then `cd PITVIPER && git push -u origin main`. (Human action.)
+
+---
+
+## SECTION 133: TRAPX VIGILANTE ANOMALY SYSTEM (2026-06-25)
+
+*Chaotic-neutral street entities spawned by Watcher pressure. Not cops. Not crew.*
+
+- [x] **S133-01: server/watcher/vigilante.go — DisruptionDebt accumulator + CheckVigilanteSpawn** — GoblinFoxDragon 0c71cdf — DisruptionDebt accumulates when alertness ≥ AlertHighViz (80); probability-gated spawn (5-60%); 4 archetypes (Founder/Chemist/Apparition/RiotBreaker); 3 tiers (Strong/Dangerous/Anomaly); RiotBreaker only at AlertSaturation; Tier 3 at debt≥60; VigilanteTargetPriority adjusts by player Trust; VIGILANTE_SPAWN event; 19 tests pass; WatcherState.Tick now calls AccumulateDisruptionDebt.
+
+---
+
+## SECTION 134: IDUNA MONITOR GRANULAR RBAC + DEADMAN KINDS (2026-06-25)
+
+*Granular permissions for the alerting API. New monitor kinds for different dead man's switch semantics.*
+
+- [x] **S134-01: Granular RBAC for monitors API** — IDUNA ca635a8 — Split monitors.write into monitors.read (list+get) | monitors.create (POST) | monitors.delete (DELETE /:id) | monitors.alert (overdue+alerted+recover) | monitors.admin (all). monitors.write retained as backward-compat alias. monitorPerm() helper handles alias resolution. EMILY-PRIME agent gains monitors.read+create+alert in agents.json.
+
+- [x] **S134-02: Monitor kinds — heartbeat / cron / deadman** — Migration 202606250004_monitor_kind.sql adds `kind` column. IsOverdue() is kind-sensitive: deadman ignores grace_seconds (zero-tolerance). ListOverdueMonitors SQL handles kind via CASE WHEN. heartbeat=default; cron=scheduled job; deadman=alert immediately at timeout.
+
+- [x] **S134-03: New monitor endpoints** — GET /api/v1/monitors/:id (monitors.read), PATCH /api/v1/monitors/:id partial update (monitors.create), POST /api/v1/monitors/:id/recover manual recovery without check-in (monitors.alert). All IDUNA tests pass.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
