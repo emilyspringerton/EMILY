@@ -169,7 +169,7 @@ func (s *IntegrationStore) WriteTask(task DirectedTask) error {
 	}
 
 	// Deduplication: skip if an identical task (same type + description) was written
-	// in the last 4 hours. The triage cycle runs every 5 minutes and re-scores the
+	// in the last 4 hours. The triage cycle runs every 15 minutes and re-scores the
 	// same observations on each pass; without this guard, a single high-relevance
 	// observation generates a new task file every cycle, flooding the dispatch queue
 	// and causing duplicate Claude Code sessions (~100K tokens each).

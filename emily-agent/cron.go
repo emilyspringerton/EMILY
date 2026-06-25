@@ -1,7 +1,7 @@
 // emily-agent/cron.go
 // Cron-based autonomous execution cycle.
 //
-// Every 5 minutes (configurable) Emily wakes up, observes her state,
+// Every 15 minutes (configurable) Emily wakes up, observes her state,
 // picks the highest-priority task from her roadmap, runs one RSI iteration,
 // updates state, and sleeps.
 //
@@ -9,7 +9,7 @@
 // cycles so Emily remembers what she was working on.
 //
 // Usage: start with go run main.go rsi.go cron.go -- --cron
-// Or via crontab: */5 * * * * /opt/emily/emily-agent --cron
+// Or via crontab: */15 * * * * /opt/emily/emily-agent --cron
 
 package main
 
@@ -47,7 +47,7 @@ func defaultCronConfig() CronConfig {
 		StateDir:       stateDir,
 		LockFile:       filepath.Join(stateDir, "emily.lock"),
 		CycleDuration:  280 * time.Second,
-		Interval:       5 * time.Minute,
+		Interval:       15 * time.Minute,
 		EmilyRoot:      envOr("EMILY_ROOT", "/home/fatbaby/EMILY"),
 		EarningsCalDir: envOr("EARNINGS_CAL_DIR", ""),
 	}
@@ -109,7 +109,7 @@ type CycleRecord struct {
 	Error     string     `json:"error,omitempty"`
 }
 
-// AutonomousCycle runs one 5-minute execution cycle.
+// AutonomousCycle runs one 15-minute execution cycle.
 type AutonomousCycle struct {
 	cfg         CronConfig
 	pipeline    *Pipeline
