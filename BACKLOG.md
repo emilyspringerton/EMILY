@@ -3070,6 +3070,72 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 135: MERCH DROPS — STICKERS VS0 (2026-06-26)
+
+*First physical revenue stream. High-quality stickers as VS0 — proof-of-concept and bootstrap for Emily Supply Chain AGI. Why stickers first: low MOQ, no sizing complexity, high margin, viral brand surface, perfect Emily/EINHORN_INDUSTRIAL branding vehicle. VS0 learning feeds directly into S136.*
+
+- [ ] **S135-01: VS0 sticker design brief** — Define the VS0 drop: die-cut vinyl (primary) + holographic variant + transparent waterproof. Minimum set: Emily Prime mark, "The Emily Way" wordmark, EINHORN_INDUSTRIAL logotype. Brief lives in `EMILY/docs/merch/stickers_vs0_brief.md`. This is the design contract — no production until brief is locked.
+
+- [ ] **S135-02: Vendor research** — Compare: Sticker Mule, StickerApp, Sticker Giant, StickerYou. Evaluate: unit cost at 250/500/1000 qty, die-cut capability, holographic stock, lead time, minimum order, API for programmatic reorder. Output: vendor comparison Apple (type=research_log). Select VS0 vendor. Unblock: S137-01 (research engine) or manual bootstrap.
+
+- [ ] **S135-03: EDIS WooCommerce product listing** — Add sticker SKUs to EDIS WordPress instance. WooCommerce: individual sticker pack ($8), full VS0 set ($22), international shipping matrix. Payment via existing Stripe integration. Emily Prime can create products via EDIS API or `emily install --edis` flow.
+
+- [ ] **S135-04: First batch order + QC** — Order 250-unit VS0 batch from selected vendor. QC criteria: registration accuracy <0.5mm, color delta-E <3, adhesive durability (water/UV). Receive, inspect, file Apple with cost basis + margin + drop date. Commit photos to `EMILY/docs/merch/vs0_qc/`.
+
+- [ ] **S135-05: VS0 drop announcement** — MJOLNIR push notification. EDIS store listing goes live. File Apple type=completion: revenue stream 1 open. Metrics target: 50 units in 30 days at breakeven or better.
+
+---
+
+## SECTION 136: EMILY SUPPLY CHAIN AGI (2026-06-26)
+
+*Emily-managed physical product supply chain. Stickers (S135) are VS0 bootstrap data. Goal: Emily can discover vendors, assess quality, request quotes (email/API), place orders, track fulfillment — all Apple-audited and transparent. This is the AGI surface for the physical world.*
+
+- [ ] **S136-01: NORTHSTAR — Emily Supply Chain AGI** — Write `EMILY/docs/NORTHSTAR_SUPPLY_CHAIN.md`. Scope: VS0 (stickers) → VS1 (broader merch) → VS2 (arbitrary physical product sourcing). Define: vendor discovery, quality specification, negotiation loop, order placement, fulfillment tracking, cost basis reporting. Register in `EMILY/context/golden-docs-index.md`.
+
+- [ ] **S136-02: Vendor registry in IDUNA** — New table `vendors`: name, category, url, moq, unit_cost_cents, lead_days, quality_tier, last_evaluated_at, notes, status (active/inactive). Migration + IAMStore methods + API endpoints `/api/v1/vendors` (vendors.read/vendors.write). Emily Prime registers and updates vendors after each research cycle.
+
+- [ ] **S136-03: Supply order tracking in IDUNA** — New table `supply_orders`: vendor_id, product, quantity, unit_cost_cents, total_cost_cents, status (pending/ordered/shipped/received/qc_pass/qc_fail), ordered_at, received_at, notes. Each state transition files an Apple. Emily Prime is the order state machine.
+
+- [ ] **S136-04: emily-agent supply chain tool** — `ResearchSupplyChain(product string, spec SupplySpec) []VendorOption` — calls research engine (S137-01), extracts structured vendor data, compares against spec, returns ranked options. Files Apple type=research_log with full provenance. Repo: EMILY (emily-agent/supply.go).
+
+- [ ] **S136-05: emily-agent order placement draft** — Given a selected vendor and quantity, Emily drafts a purchase order email (or API call if vendor supports it) and queues it for human approval via HEIMDAL sprint. Human approves → Emily files Apple and marks supply_order as ordered.
+
+---
+
+## SECTION 137: EMILY RESEARCH ENGINE — TRANSPARENT + AUDITABLE (2026-06-26)
+
+*Emily currently has no general-purpose transparent research capability. Anthropic model knowledge has a cutoff. Web fetches are ad-hoc and unaudited. We need: every research query is logged, every source is recorded, every synthesis is traceable. Apples are the audit trail. This is infrastructure for S136 (supply chain) and S138 (index).*
+
+- [ ] **S137-01: emily-agent Research tool** — `Research(query string, sources []string) ResearchResult` in emily-agent. Fetches from curated source list (S137-02) + open web fallback. Stores per-fetch: url, fetched_at, content_hash, key_excerpts. Files Apple type=research_log: `{"query":..., "sources":[{url, fetched_at, excerpts}], "synthesis":..., "confidence":0.0-1.0}`. Repo: EMILY.
+
+- [ ] **S137-02: Source registry** — `EMILY/research/sources.json` — curated seed list by domain. Supply chain: Thomasnet, StickerMule pricing page, Alibaba category pages. Financial: SEC EDGAR full-text. Tech: GitHub trending, arXiv abstracts, HN. Each source has: url, domain_tag, refresh_interval, last_crawled_at. Research tool queries registered sources first, web second.
+
+- [ ] **S137-03: Research result cache in IDUNA** — New table `research_cache`: query_hash (SHA256 of normalized query), result_json, sourced_at, expires_at, source_urls[]. Before fetching, Emily checks cache. Hits return immediately. Misses populate cache. Builds a local knowledge base over time. Emily Prime's knowledge compounds.
+
+- [ ] **S137-04: Research Apple standard format** — Lock the schema for type=research_log Apples. Add validation in emily-agent before filing. This is the audit contract: any claim Emily makes that derives from external research must have a research_log Apple with traceable sources. No sourceless claims.
+
+---
+
+## SECTION 138: EINHORN INDEX + KNOWLEDGE GRAPH (2026-06-26)
+
+*Long-term platform play: build our own curated web index + knowledge graph to disrupt Google on the domains we own — financial intelligence, supply chain, AGI operations. Bootstrap: targeted crawl of high-value seeds → entity extraction → graph. Emily is the first consumer. Eventually a product.*
+
+*Strategy anchor (S26): MongoDB not Neo4j for graph storage. Revenue model: API subscriptions, data licensing (per S22 strategy). Emily Prime Brain (S22) is the intelligence layer on top.*
+
+- [ ] **S138-01: NORTHSTAR — EINHORN INDEX** — Write `EMILY/docs/NORTHSTAR_INDEX.md`. Define: crawl domain strategy (financial, supply chain, AI ops), entity type taxonomy, graph schema (nodes + edges), indexing pipeline, query interface, Emily integration, long-term product path. Register in golden-docs-index. This doc gates all subsequent S138 items.
+
+- [ ] **S138-02: Bootstrap crawler** — Targeted crawler for known high-value seeds (not a full web crawl — curated list from S137-02 extended). Fetches raw content, extracts clean text (readability-style), stores in new PRRJECT_FATBABY store or standalone `EINHORN_INDEX` repo. Output per document: url, fetched_at, content_hash, clean_text, title. Triggered by Emily Prime on schedule.
+
+- [ ] **S138-03: Entity extraction pipeline** — For each crawled document: extract named entities (company, person, product, price, date, location) + relationships (company_acquired_company, product_sold_by_vendor, person_leads_company). Use claude-haiku (cost-efficient at scale). Output: entity JSON → upsert into graph. Repo: PRRJECT_FATBABY or EINHORN_INDEX.
+
+- [ ] **S138-04: Knowledge graph store — MongoDB** — New collection `kg_nodes`: entity_type, canonical_name, aliases[], properties{}, first_seen, last_updated, source_urls[]. Collection `kg_edges`: subject_id, predicate, object_id, confidence, source_url, extracted_at. MongoDB per S26 strategy decision. IDUNA or standalone service. Emily queries this before web search.
+
+- [ ] **S138-05: emily-agent KnowledgeQuery tool** — `KnowledgeQuery(entity string, predicate string) []GraphResult` — queries kg_edges by entity + optional relationship type. Returns structured results + source provenance. Emily uses this as first-pass for any factual query before Research() fallback. Audit: all KG queries file Apple metadata.
+
+- [ ] **S138-06: Index as product — Phase 1** — Once S138-02–05 are operational: expose `/api/v1/index/query` endpoint in IDUNA or standalone service. Auth: IDUNA JWT. Rate-limited. Pricing: $49/mo for 1000 queries. Emily Prime is customer zero. This is the seed of the platform revenue track.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
