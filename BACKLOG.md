@@ -2886,9 +2886,9 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   EarningsCalDir (EARNINGS_CAL_DIR env), loadUpcomingEarnings() reads dates.ndjson,
   appends EARNINGS THIS WEEK section to FCM push body for next 7 days.
 
-- [ ] **S128-02: earnings-alert systemd timer** — Add `emily start --earnings-alert` to emily.cli.
-  Systemd oneshot timer fires every Monday at 07:30 UTC. Uses `notify.NewFromEnv()` backend.
-  Repo: emily.cli. Acceptance: `emily start --earnings-alert` writes systemd unit + timer.
+- [x] **S128-02: earnings-alert systemd timer** — Apple #S128-02-done — `emily start --earnings-alert`
+  writes ~/.config/systemd/user/earnings-alert.{service,timer}, builds binary from PRRJECT_FATBABY
+  if absent, runs daemon-reload + enable --now. Timer: Mon 07:30 UTC. emily.cli ef70ae1.
 
 ### Federated Multi-Cluster EMILY
 
@@ -3108,7 +3108,9 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 - [ ] **S137-01: emily-agent Research tool** — `Research(query string, sources []string) ResearchResult` in emily-agent. Fetches from curated source list (S137-02) + open web fallback. Stores per-fetch: url, fetched_at, content_hash, key_excerpts. Files Apple type=research_log: `{"query":..., "sources":[{url, fetched_at, excerpts}], "synthesis":..., "confidence":0.0-1.0}`. Repo: EMILY.
 
-- [ ] **S137-02: Source registry** — `EMILY/research/sources.json` — curated seed list by domain. Supply chain: Thomasnet, StickerMule pricing page, Alibaba category pages. Financial: SEC EDGAR full-text. Tech: GitHub trending, arXiv abstracts, HN. Each source has: url, domain_tag, refresh_interval, last_crawled_at. Research tool queries registered sources first, web second.
+- [x] **S137-02: Source registry** — Implemented as `DefaultSources` in PRRJECT_FATBABY/internal/research/research.go.
+  Financial: SEC EDGAR, Reuters, Bloomberg. Supply chain: SupplyChainDive, LogisticsMgmt.
+  AI: MIT Tech Review, Ars Technica. Reddit: 16 subreddits across 3 domains. PRRJECT_FATBABY ffd9023.
 
 - [ ] **S137-03: Research result cache in IDUNA** — New table `research_cache`: query_hash (SHA256 of normalized query), result_json, sourced_at, expires_at, source_urls[]. Before fetching, Emily checks cache. Hits return immediately. Misses populate cache. Builds a local knowledge base over time. Emily Prime's knowledge compounds.
 
@@ -3124,7 +3126,10 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 - [ ] **S138-01: NORTHSTAR — EINHORN INDEX** — Write `EMILY/docs/NORTHSTAR_INDEX.md`. Define: crawl domain strategy (financial, supply chain, AI ops), entity type taxonomy, graph schema (nodes + edges), indexing pipeline, query interface, Emily integration, long-term product path. Register in golden-docs-index. This doc gates all subsequent S138 items.
 
-- [ ] **S138-02: Bootstrap crawler** — Targeted crawler for known high-value seeds (not a full web crawl — curated list from S137-02 extended). Fetches raw content, extracts clean text (readability-style), stores in new PRRJECT_FATBABY store or standalone `EINHORN_INDEX` repo. Output per document: url, fetched_at, content_hash, clean_text, title. Triggered by Emily Prime on schedule.
+- [x] **S138-02: Bootstrap crawler** — Implemented as `internal/spider` (rate-limited HTTP spider, text+link extraction)
+  + `internal/spider/reddit` (Reddit JSON API, ExternalLinks spider-out) in PRRJECT_FATBABY.
+  `internal/research.Engine.Research()` orchestrates fetch → Reddit → spider-out pipeline.
+  All steps stream NDJSON events via `internal/streamlog`. PRRJECT_FATBABY ffd9023.
 
 - [ ] **S138-03: Entity extraction pipeline** — For each crawled document: extract named entities (company, person, product, price, date, location) + relationships (company_acquired_company, product_sold_by_vendor, person_leads_company). Use claude-haiku (cost-efficient at scale). Output: entity JSON → upsert into graph. Repo: PRRJECT_FATBABY or EINHORN_INDEX.
 
