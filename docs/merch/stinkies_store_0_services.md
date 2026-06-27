@@ -50,11 +50,23 @@ A commissary sells lottery. This is non-negotiable. People buy cigarettes and a 
 
 ---
 
-## Scott Toilet Paper
+## Toilet Paper — Scott (Bridge Product)
 
-Scott 1000 sheets per roll. Single rolls on the shelf, $1.50 each. Not a 12-pack, not a bundle — a single roll for the person who ran out. The restroom is stocked from the same supply. Emily Prime reorders at 50-roll threshold.
+**STRICT RULE:** STINKIES COMMISSAIRE carries exactly one toilet paper brand: **Scott 1000-sheet single rolls, $1.50 each.** No other toilet paper brand will ever be stocked at any STINKIES location under any circumstances — not as a substitute, not during a Scott stockout, not as an experiment, not as a premium tier. If Scott is unavailable, the shelf is empty. We wait for Scott.
 
-This is a commissary product. People need it. We carry it.
+Scott is the bridge product. It holds the shelf until STINKIES launches its own house-brand toilet paper (vertical integration — see roadmap). When the STINKIES house-brand launches, Scott is removed. There is no coexistence period. The shelf flips.
+
+**Why Scott and nothing else:** Scott is the utilitarian benchmark. 1000 sheets. No quilting theater. No "ultra-softness" marketing. It works. It is cheap. The shelf carries one thing, the right thing, until we make our own.
+
+**Single rolls only.** $1.50 each. Not a 12-pack. Not a bundle. A single roll for the person who needs one. The restroom is stocked from the same supply.
+
+Emily Prime reorders at 50-roll threshold. If Scott is on allocation or backordered, Emily Prime files an escalation Apple and the shelf stays empty until Scott is available.
+
+---
+
+### STINKIES House-Brand Toilet Paper (Future — Vertical Integration)
+
+When STINKIES launches its own toilet paper, it replaces Scott on the shelf everywhere, simultaneously. The house-brand spec has not been written yet. The rule that precedes the spec: it must be better than Scott, cheaper to produce, and carry no claims except the truth.
 
 ---
 
