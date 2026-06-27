@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S141-01: STINKIES cheese sauce brief — Nacho + Jalapeño ($8/jar, 12oz glass, real cheddar, shelf-stable, $13/mo sub)
 - S140-01 update: Powderhorn instant espresso jar ($22) + STINKIES singles ($1, loss leader CAC not margin)
 - S140-01 update: Powderhorn is Colombian single-origin (Huila/Nariño), price 17 vs 14 Mountain Man, sub 29/mo
 - S140-01: STINKIES COMMISSAIRE coffee brief — Mountain Man (dark/Brazil+Sumatra) + Powderhorn (medium-light/Colombia+Ethiopia); $14/bag, $24/mo subscription, ≥67% margin
