@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S146-02: VS0 redefined as STINKIES hoodie; stickers moved to VS1; version sequence locked
 - S153-01: lighters — STINKIES disposable $3 + EINHORN R&D refillable $18 (antler mark, laser-etched)
 - S152-02: strict TP rule locked (Scott only, empty shelf before substitution); house-brand TP roadmap
 - S152-01: Scott TP $1.50/roll; store services doc updated with TP + jalapeño line in product matrix
