@@ -55,7 +55,7 @@ A commissary sells lottery. This is non-negotiable. People buy cigarettes and a 
 | Feature | Notes |
 |---------|-------|
 | Clean public restroom | Open to all, no purchase required |
-| Michigan Lottery retailer | Scratch-offs + draw games |
+| Michigan Lottery retailer | Scratch-offs ($1–$30) + draw games ($1–$2/ticket) |
 | Coffee made to order | Whole bean ground on request |
 | Free soap at counter | Take one |
 | Free parking | Pontiac |
