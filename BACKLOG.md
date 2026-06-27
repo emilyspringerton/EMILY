@@ -3143,6 +3143,22 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 140: STINKIES COMMISSAIRE — COFFEE (2026-06-27)
+
+*The commissary expands. Two blends: Mountain Man (dark, cowboy pot) and Powderhorn (medium-light, pour-over). $14/bag, $24/mo subscription.*
+
+- [x] **S140-01: Coffee brief — Mountain Man + Powderhorn** — Apple #4667 · EMILY 8b1dbce — Mountain Man (dark, Brazil/Sumatra, heavy body) + Powderhorn (medium-light, Colombia/Ethiopia, clean). Kraft bags, degassing valve, ≤7 days roast-to-ship, ≥67% margin, $24/mo 2-bag subscription. EMILY/docs/merch/stinkies_coffee_brief.md.
+
+- [ ] **S140-02: Roaster/vendor research** — Source coffee roasters with private-label capability for both profiles. Requirements: custom blend development, kraft bag with one-way valve, roast-to-ship ≤7 days, 200-bag MOQ, ≤$4.50/unit. Use supply_chain_research tool (category: coffee_roaster). Output: vendor comparison Apple.
+
+- [ ] **S140-03: EDIS product listings** — Mountain Man + Powderhorn + 2-bag monthly subscription listings on WooCommerce. Blocked on S23-01.
+
+- [ ] **S140-04: First batch + QC** — 200 bags per blend. Cupping QC, roast date check, seal integrity. File Apple with cost basis. Blocked on S140-02 + human approval.
+
+- [ ] **S140-05: Drop announcement** — Coffee goes live alongside or after toothbrush drop. MJOLNIR push. File Apple type=completion: STINKIES COMMISSAIRE commissary open.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
