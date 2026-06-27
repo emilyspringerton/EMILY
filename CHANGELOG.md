@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S150-01: jalapeño line — stuffed hot dogs, pickles, chips, JALAPEÑO KIT $26; S151-01: ROCKET energy drink (lion's mane 500mg, exclusive STINKIES, $4/can)
 - S149-01: THE FEED — free meal, no questions, Store 0 Pontiac, day one operational
 - S148-01: CARTEL nightclub brief — Pontiac MI venue, full bar, 250-400 cap, Thu-Sat, $1.5M-$3M gross target
 - S147-01: tortilla truck brief — fresh corn masa, Store 0 exterior, $0.50/tortilla, 85%+ margin
