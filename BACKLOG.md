@@ -3011,17 +3011,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 - [x] **S131-03: Emily Prime cron slowed to 15m** — Apple #3901 — defaultCronConfig Interval 5m→15m.
 
-- [ ] **S131-04: Wire Slack into HEIMDAL sprint completion** — When Emily Prime patches a sprint
-  item to complete/blocked, fire Slack notification to SLACK_DEFAULT_CHANNEL.
-  Repo: EMILY (emily-agent/heimdal.go → after UpdateSprintItem).
+- [x] **S131-04: Wire Slack into HEIMDAL sprint completion** — Apple #4478 · EMILY 8087ed7 — notifyHeimdalStatus fires Slack on complete/blocked via ac.slack.SendAlert.
 
-- [ ] **S131-05: Slack on escalation Apple** — When EMILY files an Apple type=escalation
-  via prime triage (cron.go:~1104), also fire Slack alert. Watchdog already does this.
-  Repo: EMILY.
+- [x] **S131-05: Slack on escalation Apple** — Apple #4478 · EMILY 8087ed7 — slackNotifyOrLog on ACT error escalation + prime-triage FCM failure escalation.
 
-- [ ] **S131-06: Monitor the Emily Prime cron itself** — Create a IDUNA monitor for emily-agent
-  with timeout=1800s (30m). Emily Prime should POST to its check-in URL at end of each RunOnce.
-  Repo: EMILY (cron.go end of RunOnce + HITL: create the monitor via CLI/API).
+- [x] **S131-06: Monitor the Emily Prime cron itself** — Apple #4478 · EMILY 8087ed7 — EnsureCronMonitor() on startup (emily-prime-cron, kind=cron, grace=1800s); PostCheckin() at end of RunOnce.
 
 ---
 
