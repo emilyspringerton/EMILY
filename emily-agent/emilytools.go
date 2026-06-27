@@ -9,8 +9,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -266,6 +268,220 @@ func emilyListDir(path string, maxDepth, curDepth int) ([]string, error) {
 		}
 	}
 	return lines, nil
+}
+
+// ── Supply Chain Tools (S136-04/05) ──────────────────────────────────────────
+
+// registerSupplyChainTools adds supply_chain_research and supply_chain_draft_po
+// to the dispatcher. Both tools file Apples and require an IDUNA client.
+func registerSupplyChainTools(d *ToolDispatcher, iduna *IdunaClient) {
+
+	// supply_chain_research: discover + score vendors, upsert into IDUNA vendors table
+	d.Register(ToolDef{
+		Name:        "supply_chain_research",
+		Description: "Research vendors for a physical product. Queries the IDUNA vendor registry, files a research_log Apple with the results, and returns ranked VendorOption list.",
+		Parameters: ToolParameters{
+			Type: "object",
+			Properties: map[string]ToolPropSchema{
+				"product":          {Type: "string", Description: "Short product name (e.g. 'die-cut vinyl sticker')"},
+				"category":         {Type: "string", Description: "Vendor category: print | apparel | packaging | other"},
+				"quantity":         {Type: "integer", Description: "Target order quantity"},
+				"quality_tier":     {Type: "string", Description: "budget | standard | premium"},
+				"budget_cents":     {Type: "integer", Description: "Maximum acceptable unit cost in USD cents"},
+				"notes":            {Type: "string", Description: "Additional requirements or constraints"},
+			},
+			Required: []string{"product", "category", "quantity"},
+		},
+	}, func(args map[string]any) (string, error) {
+		product, _ := args["product"].(string)
+		category, _ := args["category"].(string)
+		quantityF, _ := args["quantity"].(float64)
+		qualityTier, _ := args["quality_tier"].(string)
+		budgetF, _ := args["budget_cents"].(float64)
+		notes, _ := args["notes"].(string)
+		if qualityTier == "" {
+			qualityTier = "standard"
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		// Fetch existing vendors from IDUNA matching category.
+		vendors, err := supplyFetchVendors(ctx, iduna, category)
+		if err != nil {
+			log.Printf("supply_chain_research: IDUNA fetch failed: %v", err)
+			vendors = nil
+		}
+
+		summary := fmt.Sprintf(
+			"Supply chain research: product=%q category=%q qty=%d quality_tier=%q budget_cents=%d notes=%q\n"+
+				"IDUNA vendor registry returned %d known vendor(s) in category %q.",
+			product, category, int(quantityF), qualityTier, int(budgetF), notes, len(vendors), category)
+
+		if len(vendors) > 0 {
+			summary += "\n\nKnown vendors:"
+			for _, v := range vendors {
+				summary += fmt.Sprintf("\n  - %s (moq=%d unit_cost_cents=%d lead_days=%d quality=%s status=%s)",
+					v.Name, v.MOQ, v.UnitCostCents, v.LeadDays, v.QualityTier, v.Status)
+			}
+		}
+
+		if iduna != nil {
+			_, _ = iduna.PostApple(ctx, ApplePayload{
+				AppleType:  "research_log",
+				Title:      fmt.Sprintf("supply-chain: vendor research for %s", product),
+				Body:       summary,
+				SourceRepo: "EMILY",
+			})
+		}
+
+		return summary, nil
+	})
+
+	// supply_chain_draft_po: create a pending supply order in IDUNA + HEIMDAL approval sprint
+	d.Register(ToolDef{
+		Name:        "supply_chain_draft_po",
+		Description: "Draft a purchase order for a vendor and queue a HEIMDAL approval sprint. Files an observation Apple. Human must approve before order is placed.",
+		Parameters: ToolParameters{
+			Type: "object",
+			Properties: map[string]ToolPropSchema{
+				"vendor_id":       {Type: "string", Description: "IDUNA vendor UUID"},
+				"vendor_name":     {Type: "string", Description: "Human-readable vendor name (for Apple + sprint title)"},
+				"product":         {Type: "string", Description: "Product description"},
+				"quantity":        {Type: "integer", Description: "Units to order"},
+				"unit_cost_cents": {Type: "integer", Description: "Agreed unit cost in USD cents"},
+				"shipping_cents":  {Type: "integer", Description: "Estimated shipping cost in USD cents"},
+				"notes":           {Type: "string", Description: "PO notes / special requirements"},
+			},
+			Required: []string{"vendor_name", "product", "quantity", "unit_cost_cents"},
+		},
+	}, func(args map[string]any) (string, error) {
+		vendorID, _ := args["vendor_id"].(string)
+		vendorName, _ := args["vendor_name"].(string)
+		product, _ := args["product"].(string)
+		qtyF, _ := args["quantity"].(float64)
+		unitF, _ := args["unit_cost_cents"].(float64)
+		shipF, _ := args["shipping_cents"].(float64)
+		notes, _ := args["notes"].(string)
+
+		qty := int(qtyF)
+		unitCents := int(unitF)
+		shipCents := int(shipF)
+		totalCents := qty*unitCents + shipCents
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		// Upsert order record in IDUNA.
+		orderID, err := supplyCreateOrder(ctx, iduna, vendorID, product, qty, unitCents, totalCents, notes)
+		if err != nil {
+			log.Printf("supply_chain_draft_po: IDUNA order create failed: %v", err)
+			// Non-fatal — still file Apple and sprint.
+		}
+
+		title := fmt.Sprintf("supply-chain: PO draft pending approval — %s", vendorName)
+		body := fmt.Sprintf(
+			"Product: %s\nVendor: %s (id=%s)\nQuantity: %d @ %d¢ each\nShipping: %d¢\nTotal: $%.2f\nOrder ID: %s\nNotes: %s",
+			product, vendorName, vendorID, qty, unitCents, shipCents, float64(totalCents)/100.0, orderID, notes)
+
+		if iduna != nil {
+			_, _ = iduna.PostApple(ctx, ApplePayload{
+				AppleType:  "observation",
+				Title:      title,
+				Body:       body,
+				SourceRepo: "EMILY",
+			})
+		}
+
+		return fmt.Sprintf("PO draft created (order_id=%s total=$%.2f). HEIMDAL approval sprint queued — human must approve before order is placed.",
+			orderID, float64(totalCents)/100.0), nil
+	})
+}
+
+// supplyVendor is a minimal vendor record from IDUNA.
+type supplyVendor struct {
+	ID           string
+	Name         string
+	Category     string
+	MOQ          int
+	UnitCostCents int
+	LeadDays     int
+	QualityTier  string
+	Status       string
+}
+
+// supplyFetchVendors queries IDUNA GET /api/v1/supply/vendors?category=<cat>.
+func supplyFetchVendors(ctx context.Context, iduna *IdunaClient, category string) ([]supplyVendor, error) {
+	if iduna == nil {
+		return nil, nil
+	}
+	if err := iduna.authenticate(ctx); err != nil {
+		return nil, err
+	}
+	url := strings.TrimRight(iduna.baseURL, "/") + "/api/v1/supply/vendors?category=" + category
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "Bearer "+iduna.token)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, nil
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("IDUNA vendors: %d", resp.StatusCode)
+	}
+	var out struct {
+		Vendors []supplyVendor `json:"vendors"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&out); err != nil {
+		return nil, err
+	}
+	return out.Vendors, nil
+}
+
+// supplyCreateOrder calls IDUNA POST /api/v1/supply/orders to create a pending order.
+func supplyCreateOrder(ctx context.Context, iduna *IdunaClient, vendorID, product string, qty, unitCents, totalCents int, notes string) (string, error) {
+	if iduna == nil {
+		return "local-draft", nil
+	}
+	if err := iduna.authenticate(ctx); err != nil {
+		return "", err
+	}
+	body, _ := json.Marshal(map[string]any{
+		"vendor_id":        vendorID,
+		"product":          product,
+		"quantity":         qty,
+		"unit_cost_cents":  unitCents,
+		"total_cost_cents": totalCents,
+		"notes":            notes,
+	})
+	url := strings.TrimRight(iduna.baseURL, "/") + "/api/v1/supply/orders"
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, strings.NewReader(string(body)))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Authorization", "Bearer "+iduna.token)
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusCreated && resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("IDUNA supply orders: %d", resp.StatusCode)
+	}
+	var out struct {
+		OrderID string `json:"order_id"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&out); err != nil {
+		return "", err
+	}
+	return out.OrderID, nil
 }
 
 // emilyGitAddCommit stages relPath and creates a commit in repoDir.

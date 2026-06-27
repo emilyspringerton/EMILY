@@ -3061,7 +3061,7 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *First physical revenue stream. High-quality stickers as VS0 — proof-of-concept and bootstrap for Emily Supply Chain AGI. Why stickers first: low MOQ, no sizing complexity, high margin, viral brand surface, perfect Emily/EINHORN_INDUSTRIAL branding vehicle. VS0 learning feeds directly into S136.*
 
-- [ ] **S135-01: VS0 sticker design brief** — Define the VS0 drop: die-cut vinyl (primary) + holographic variant + transparent waterproof. Minimum set: Emily Prime mark, "The Emily Way" wordmark, EINHORN_INDUSTRIAL logotype. Brief lives in `EMILY/docs/merch/stickers_vs0_brief.md`. This is the design contract — no production until brief is locked.
+- [x] **S135-01: VS0 sticker design brief** — Apple #4481 · EMILY d48630a — 3 SKUs (Emily Prime Mark die-cut+holo, Wordmark, Logotype); specs delta-E≤3, cut≤0.5mm, outdoor vinyl; schedule + success metrics. EMILY/docs/merch/stickers_vs0_brief.md.
 
 - [ ] **S135-02: Vendor research** — Compare: Sticker Mule, StickerApp, Sticker Giant, StickerYou. Evaluate: unit cost at 250/500/1000 qty, die-cut capability, holographic stock, lead time, minimum order, API for programmatic reorder. Output: vendor comparison Apple (type=research_log). Select VS0 vendor. Unblock: S137-01 (research engine) or manual bootstrap.
 
