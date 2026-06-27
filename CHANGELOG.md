@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S144-01: STINKIES Store 0 — Pontiac MI; beer brief (Miller High Life 6/12/30-pack); Store 0 build-out scope, layout, Michigan licenses, Emily Prime inventory/POS role
 - S142-01: STINKIES hot dogs brief (all-beef natural casing 8-pack $12, nacho kit bundle); S143-01: cigarettes brief (matte black, retail-only distribution, regulatory gates)
 - S141-01: STINKIES cheese sauce brief — Nacho + Jalapeño ($8/jar, 12oz glass, real cheddar, shelf-stable, $13/mo sub)
 - S140-01 update: Powderhorn instant espresso jar ($22) + STINKIES singles ($1, loss leader CAC not margin)
