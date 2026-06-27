@@ -3111,20 +3111,20 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Strategy anchor (S26): MongoDB not Neo4j for graph storage. Revenue model: API subscriptions, data licensing (per S22 strategy). Emily Prime Brain (S22) is the intelligence layer on top.*
 
-- [ ] **S138-01: NORTHSTAR — EINHORN INDEX** — Write `EMILY/docs/NORTHSTAR_INDEX.md`. Define: crawl domain strategy (financial, supply chain, AI ops), entity type taxonomy, graph schema (nodes + edges), indexing pipeline, query interface, Emily integration, long-term product path. Register in golden-docs-index. This doc gates all subsequent S138 items.
+- [x] **S138-01: NORTHSTAR — EINHORN INDEX** — Apple #4495 · EMILY f77ec33 — NORTHSTAR_INDEX.md: entity taxonomy (7 types), kg_nodes/kg_edges schema, crawl domains, indexing pipeline, KnowledgeQuery→Research fallback, INDEX-0–3 product path. Golden-docs registered.
 
 - [x] **S138-02: Bootstrap crawler** — Implemented as `internal/spider` (rate-limited HTTP spider, text+link extraction)
   + `internal/spider/reddit` (Reddit JSON API, ExternalLinks spider-out) in PRRJECT_FATBABY.
   `internal/research.Engine.Research()` orchestrates fetch → Reddit → spider-out pipeline.
   All steps stream NDJSON events via `internal/streamlog`. PRRJECT_FATBABY ffd9023.
 
-- [ ] **S138-03: Entity extraction pipeline** — For each crawled document: extract named entities (company, person, product, price, date, location) + relationships (company_acquired_company, product_sold_by_vendor, person_leads_company). Use claude-haiku (cost-efficient at scale). Output: entity JSON → upsert into graph. Repo: PRRJECT_FATBABY or EINHORN_INDEX.
+- [x] **S138-03: Entity extraction pipeline** — Apple #4496 · PRRJECT_FATBABY c227d15 — kgraph.Extractor: callHaiku → ExtractionResult (nodes+edges JSON) → UpsertNode/UpsertEdge. 8000-char cap, alias resolution, confidence-gated.
 
-- [ ] **S138-04: Knowledge graph store — MongoDB** — New collection `kg_nodes`: entity_type, canonical_name, aliases[], properties{}, first_seen, last_updated, source_urls[]. Collection `kg_edges`: subject_id, predicate, object_id, confidence, source_url, extracted_at. MongoDB per S26 strategy decision. IDUNA or standalone service. Emily queries this before web search.
+- [x] **S138-04: Knowledge graph store — MongoDB** — Apple #4496 · PRRJECT_FATBABY c227d15 — kgraph.Store: kg_nodes + kg_edges collections, UpsertNode/UpsertEdge/Query, EnsureIndexes. Deterministic SHA256 IDs.
 
-- [ ] **S138-05: emily-agent KnowledgeQuery tool** — `KnowledgeQuery(entity string, predicate string) []GraphResult` — queries kg_edges by entity + optional relationship type. Returns structured results + source provenance. Emily uses this as first-pass for any factual query before Research() fallback. Audit: all KG queries file Apple metadata.
+- [x] **S138-05: emily-agent KnowledgeQuery tool** — Apple #4495 · EMILY f77ec33 — kgraph.go: registerKnowledgeQueryTool; calls IDUNA /api/v1/kgraph/query; graceful miss → Research() fallback; audit Apple on hit/miss.
 
-- [ ] **S138-06: Index as product — Phase 1** — Once S138-02–05 are operational: expose `/api/v1/index/query` endpoint in IDUNA or standalone service. Auth: IDUNA JWT. Rate-limited. Pricing: $49/mo for 1000 queries. Emily Prime is customer zero. This is the seed of the platform revenue track.
+- [x] **S138-06: Index as product — Phase 1** — Apple #4497 · IDUNA 3daed02 — /api/v1/kgraph/query proxy (KGraphHandler) wired with RequireAuth; proxies to KGRAPH_URL. Service shell ready; $49/mo tier requires billing integration (S139+).
 
 ---
 
