@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S154-01: NORTHSTAR_STINKIES — full bootstrap roadmap VS0 hoodie → Store 0 → CARTEL → Store 1, zero outside capital
 - S146-02: VS0 redefined as STINKIES hoodie; stickers moved to VS1; version sequence locked
 - S153-01: lighters — STINKIES disposable $3 + EINHORN R&D refillable $18 (antler mark, laser-etched)
 - S152-02: strict TP rule locked (Scott only, empty shelf before substitution); house-brand TP roadmap
