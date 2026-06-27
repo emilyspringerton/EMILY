@@ -50,6 +50,14 @@ A commissary sells lottery. This is non-negotiable. People buy cigarettes and a 
 
 ---
 
+## Scott Toilet Paper
+
+Scott 1000 sheets per roll. Single rolls on the shelf, $1.50 each. Not a 12-pack, not a bundle — a single roll for the person who ran out. The restroom is stocked from the same supply. Emily Prime reorders at 50-roll threshold.
+
+This is a commissary product. People need it. We carry it.
+
+---
+
 ## Store 0 Full Feature Summary
 
 | Feature | Notes |
@@ -59,3 +67,4 @@ A commissary sells lottery. This is non-negotiable. People buy cigarettes and a 
 | Coffee made to order | Whole bean ground on request |
 | Free soap at counter | Take one |
 | Free parking | Pontiac |
+| Scott toilet paper | $1.50 / single roll — stocked on shelves and in restroom |
