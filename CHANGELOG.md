@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S136-01: Supply Chain AGI NORTHSTAR at docs/NORTHSTAR_SUPPLY_CHAIN.md; golden-docs-index registered
 - S135-01: VS0 sticker design brief at docs/merch/stickers_vs0_brief.md — Emily Prime Mark, Wordmark, Logotype; specs, schedule, success metrics
 
 - S131-04/05/06: Slack on HEIMDAL sprint complete/blocked; Slack on escalation apples; emily-prime-cron IDUNA monitor auto-created + check-in at RunOnce end
