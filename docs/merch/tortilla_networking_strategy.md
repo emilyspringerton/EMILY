@@ -30,7 +30,31 @@ Most are buying from a regional food distributor. The tortillas arrive in a bag,
 
 ## Networking Targets
 
-### Tier 1 — Direct Restaurant Supply (Highest Priority)
+### Tier 0 — Truck to Truck (First Priority)
+
+**Who:** Other food trucks operating in Pontiac, Detroit, and Oakland County — especially taco trucks, Mexican street food trucks, and any truck that uses tortillas as a core ingredient.
+
+**The play:** Truck operators run out of tortillas mid-service. They know the feeling. They are not calling a distributor when that happens — they are calling whoever has fresh product right now. STINKIES is that call.
+
+This is a peer-to-peer B2B channel. The sales cycle is faster than restaurants. No vendor qualification, no chef approval process, no management chain. A truck operator decides to buy tortillas from another truck operator in about thirty seconds.
+
+**Pricing:** Truck-to-truck wholesale at $0.15–0.20/tortilla. Volume pricing: 300+ at $0.15, 100–299 at $0.18, spot (under 100, emergency) at $0.20. Every truck that buys from us once has our number. They call again.
+
+**The emergency angle:** A taco truck at a Friday night event runs low at 7 PM. They're not driving to Sysco. They call the truck that makes tortillas. STINKIES answers. We deliver or they come to us. We charge the spot rate. They're grateful. They become a regular account.
+
+**Volume target:** 10 truck accounts × 300 tortillas/week average = 3,000 wholesale tortillas/week = $450–$600/week = $23,000–$31,000/year. Alongside retail. Before restaurants.
+
+**Networking approach:** Show up at food truck gatherings, festivals, and markets where other trucks operate. Don't pitch — bring tortillas. "We make these. Here, take some." The pitch happens when they run out at an event and remember who gave them a bag.
+
+Detroit has: Eastern Market (Saturday market, major food truck congregation), Dequindre Cut events, Midtown Detroit street festivals, Oakland County food truck rallies (Rochester, Clarkston, Ferndale events). Emily (human) goes to these. She is not selling. She is present.
+
+**Emily Prime action:** `supply_chain_research` — "food truck operators Detroit Pontiac Michigan Oakland County" + "food truck events Detroit 2026" — compile truck list and event calendar. Emily (human) works the circuit.
+
+**The number:** Every truck operator in the Detroit metro area that uses tortillas should have STINKIES' number saved in their phone by the end of Year 1. That is the goal. Not accounts. Numbers.
+
+---
+
+### Tier 1 — Direct Restaurant Supply
 
 **Who:** Independent Mexican and Tex-Mex restaurants in Pontiac and adjacent cities. Not chains. Independents who care about their tortillas.
 
@@ -38,7 +62,7 @@ Most are buying from a regional food distributor. The tortillas arrive in a bag,
 
 **Pricing:** Restaurant wholesale at $0.20–0.25/tortilla (vs. $0.50 retail). Case pricing (500+ tortillas) at $0.18/unit. Margin still strong; volume is the point.
 
-**Volume target:** 5 restaurant accounts × 500 tortillas/week each = 2,500 wholesale tortillas/week = $500/week wholesale = $26,000/year from 5 accounts. That's before retail.
+**Volume target:** 5 restaurant accounts × 500 tortillas/week each = 2,500 wholesale tortillas/week = $500/week wholesale = $26,000/year from 5 accounts. That's before retail and before truck-to-truck.
 
 **Emily Prime action:** `supply_chain_research` query — "Mexican restaurant Pontiac Michigan Oakland County independent" — compile target list, addresses, estimated size. Emily (human) walks in.
 
@@ -110,6 +134,11 @@ The B2B restaurant accounts, the community anchor trust, the event promoter rela
 
 ## First 90 Days — Networking Checklist
 
+- [ ] Food truck operator list compiled (Emily Prime: `supply_chain_research`)
+- [ ] Food truck event calendar compiled (Emily Prime: Eastern Market, Oakland County events, Detroit festivals)
+- [ ] Emily works 3 food truck events with sample bags — not selling, being present
+- [ ] 10 truck operators have STINKIES' number in their phones
+- [ ] 3 truck-to-truck accounts buying regularly (spot or weekly)
 - [ ] Restaurant target list compiled (Emily Prime: `supply_chain_research`)
 - [ ] Emily visits 10 independent restaurants in Pontiac/Auburn Hills with sample tortillas
 - [ ] 2 restaurant accounts signed for weekly wholesale supply
