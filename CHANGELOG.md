@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S149-01: THE FEED — free meal, no questions, Store 0 Pontiac, day one operational
 - S148-01: CARTEL nightclub brief — Pontiac MI venue, full bar, 250-400 cap, Thu-Sat, $1.5M-$3M gross target
 - S147-01: tortilla truck brief — fresh corn masa, Store 0 exterior, $0.50/tortilla, 85%+ margin
 - S146-01: apparel brief (hoodie + trucker hat STORE 0 · PONTIAC MI) + Store 0 services (public restroom, Michigan Lottery)
