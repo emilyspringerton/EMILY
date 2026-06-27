@@ -19,7 +19,7 @@ STINKIES COMMISSAIRE is a commissary. It sells what you need. Coffee is what you
 | Blend | Roast | Grind | Price | Positioning |
 |-------|-------|-------|-------|-------------|
 | **Mountain Man** | Dark | Whole bean (default) / Coarse | $14 / 12oz bag | You make it in a pot over a fire. It works. |
-| **Powderhorn** | Medium-light | Whole bean (default) / Fine | $14 / 12oz bag | Cleaner. Still not precious. |
+| **Powderhorn** | Medium-light | Whole bean (default) / Fine | $17 / 12oz bag | Colombian. Cleaner. Worth the extra. |
 
 Both ship under the STINKIES COMMISSAIRE name. The blend name is secondary.
 
@@ -57,8 +57,8 @@ Both ship under the STINKIES COMMISSAIRE name. The blend name is secondary.
 - **Intended brew method:** Pour-over, drip, Aeropress — anything that rewards clarity
 
 ### Sourcing
-- **Origin:** Blend — Colombia (70%) + Ethiopia Sidama (30%)
-- **Certifications:** None required.
+- **Origin:** Colombian single-origin (100%) — Huila or Nariño preferred
+- **Certifications:** None required. Colombian export certification standard.
 - **Processing:** Washed preferred for clarity
 
 ### Packaging
@@ -95,11 +95,11 @@ Both ship under the STINKIES COMMISSAIRE name. The blend name is secondary.
 
 | | Mountain Man | Powderhorn |
 |---|---|---|
-| Retail (12oz) | $14 | $14 |
-| Unit cost target | ≤ $4.50 at 200-bag MOQ | ≤ $4.50 at 200-bag MOQ |
-| Gross margin | ≥ 67% | ≥ 67% |
-| Subscription | Monthly 2-bag ($24/mo) | Monthly 2-bag ($24/mo) |
-| Annual recurring | $288/yr per subscriber | $288/yr per subscriber |
+| Retail (12oz) | $14 | $17 (+21%) |
+| Unit cost target | ≤ $4.50 at 200-bag MOQ | ≤ $5.50 at 200-bag MOQ |
+| Gross margin | ≥ 67% | ≥ 68% |
+| Subscription | Monthly 2-bag ($24/mo) | Monthly 2-bag ($29/mo) |
+| Annual recurring | $288/yr per subscriber | $348/yr per subscriber |
 | Reorder trigger | ≤ 40 bags | ≤ 40 bags |
 
 Coffee subscription is the product. The first bag is the customer acquisition.
