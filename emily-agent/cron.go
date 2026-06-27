@@ -151,6 +151,11 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 	// so Emily Prime can discover and route tasks across federated clusters.
 	startHeartbeatLoop(context.Background(), ac.iduna, func() float64 { return 0.0 })
 
+	// S131-06: Ensure the emily-prime-cron monitor exists in IDUNA.
+	initCtx, initCancel := context.WithTimeout(context.Background(), 8*time.Second)
+	ac.iduna.EnsureCronMonitor(initCtx)
+	initCancel()
+
 	// Start check-in alerting worker — polls IDUNA /api/v1/monitors/overdue.
 	alertWorker := NewCheckinAlertWorker(ac.iduna, ac.slack, gmail)
 	go alertWorker.Run(context.Background())
@@ -302,6 +307,9 @@ func (ac *AutonomousCycle) RunOnce() error {
 					Body:       fmt.Sprintf("task_id: %s\nerror: %v\nconsec_failures: %d", task.ID, err, state.Metrics.ConsecFailures),
 				})
 			}
+			// S131-05: Slack alert on escalation Apple.
+			slackNotifyOrLog(ac.slack, fmt.Sprintf(":x: *[EMILY escalation]* cycle %d act error: %v (task=%s failures=%d)",
+				state.CycleNumber, err, task.ID, state.Metrics.ConsecFailures))
 		} else {
 			state.Metrics.ConsecFailures = 0
 			state.Metrics.ItersRun++
@@ -583,6 +591,12 @@ func (ac *AutonomousCycle) RunOnce() error {
 			"tasks_done":   state.Metrics.TasksCompleted,
 		},
 	})
+
+	// S131-06: POST check-in to IDUNA monitor to reset overdue timer.
+	checkinCtx, checkinCancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ac.iduna.PostCheckin(checkinCtx, "emily-prime-cron")
+	checkinCancel()
+
 	return nil
 }
 
@@ -1090,6 +1104,7 @@ func (ac *AutonomousCycle) runPrimeTriageCycle(ctx context.Context, store *Integ
 	if ac.fcmSender != nil && ac.iduna != nil {
 		sender := ac.fcmSender
 		iduna := ac.iduna
+		slack := ac.slack // S131-05: capture for closure
 		const mjolnirAgent = "mjolnir-emily"
 		push = func(title, body string, data map[string]string) {
 			pushCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -1114,6 +1129,8 @@ func (ac *AutonomousCycle) runPrimeTriageCycle(ctx context.Context, store *Integ
 					Title:      "prime-triage FCM send failed",
 					Body:       fmt.Sprintf("error: %v\ntoken: %s\ntitle: %s", err, deviceToken, title),
 				})
+				// S131-05: Slack alert on escalation Apple.
+				slackNotifyOrLog(slack, fmt.Sprintf(":x: *[EMILY escalation]* prime-triage FCM send failed: %v (title=%s)", err, title))
 			} else {
 				log.Printf("fcm: push sent to %s", mjolnirAgent)
 			}

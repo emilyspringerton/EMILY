@@ -395,6 +395,19 @@ func (ac *AutonomousCycle) notifyHeimdalStatus(task *ImprovementTask, newStatus 
 		log.Printf("heimdal notify: sprint %d patched to %s (apple=%d)", sprintID, newStatus, appleID)
 	}
 
+	// S131-04: Slack notification on sprint completion/block.
+	if ac.slack != nil {
+		emoji := ":white_check_mark:"
+		level := "info"
+		if newStatus == "blocked" {
+			emoji = ":warning:"
+			level = "warn"
+		}
+		slackBody := fmt.Sprintf("Sprint %s | Task: %s | Iterations: %d/%d",
+			newStatus, task.ID, len(task.Iterations), task.MaxIters)
+		_ = ac.slack.SendAlert(level, fmt.Sprintf("%s HEIMDAL %s: %s", emoji, newStatus, task.ID), slackBody)
+	}
+
 	if ac.fcmSender == nil {
 		return
 	}

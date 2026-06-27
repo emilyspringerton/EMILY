@@ -2945,16 +2945,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### M2 — Inventory Container (Pending)
 
-- [ ] **S129-05: IDUNA HTTP endpoints** — GET /api/v1/mmo/characters/{id}/inventory,
-  GET /api/v1/mmo/characters/{id}/equipment. Repo: IDUNA.
+- [x] **S129-05: IDUNA HTTP endpoints** — Apple #4468 · IDUNA 583805d — GET /api/v1/characters/:id/inventory + /equipment. Reads character_inventory, character_bag_capacity, character_equipment. 4 tests pass.
 
-- [ ] **S129-06: server/gear/ ComputeStats() + CanEquip()** — Sum stats from all equipped items
-  using itemdef.Registry. CanEquip enforces job mask + level. Repo: GoblinFoxDragon.
+- [x] **S129-06: server/gear/ ComputeStats() + CanEquip()** — Apple #4470 · GoblinFoxDragon c4519ab — DefID on ItemEntry; ComputeStats sums stats from registry; CanEquip enforces slot/job/level. 10 tests pass.
 
 ### M3 — Equip/Unequip Loop (Pending)
 
-- [ ] **S129-07: MUD equip/unequip commands** — EQUIP <slot> <item>, UNEQUIP <slot>, EQUIPMENT list.
-  Job/level restriction enforcement. Stat delta broadcast on equip change. Repo: GoblinFoxDragon.
+- [x] **S129-07: MUD equip/unequip commands** — Apple #4473 · GoblinFoxDragon 699fcdc — job/level enforcement via itemdef.Registry.CanEquip; stat delta broadcast on equip; gear cmd shows stat totals.
 
 ### Starting Zone Completion
 
@@ -2987,15 +2984,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Witness: jumps to Alerted, doesn't decay below floor, SilenceWitness resets.
   Body-nearby spike. Scene.WitnessKill broadcasts to all LOS NPCs. 16 tests pass.
 
-- [ ] **S130-02: Wire npcattention into server tick loop** — Per-tick LOS check for all NPCs in
-  active scene. AwarenessEvents → game effects (NPC speech, backup call, hostile state). Repo: GoblinFoxDragon.
+- [x] **S130-02: Wire npcattention into server tick loop** — Apple #4475 · GoblinFoxDragon adf07b0 — npcAttention.Scene per zone (200+203); Scene.Tick in gameLoop; AwarenessEvent→NPC speech for player.
 
-- [ ] **S130-03: Disguise gear items** — ItemDef flags for disguise faction. Equipping a disguise
-  item sets PlayerDisguise.Faction on server side. Guard Uniform (FactionGuard), Civilian Clothes
-  (FactionCivilian), Merchant Coat (FactionMerchant). Repo: GoblinFoxDragon.
+- [x] **S130-03: Disguise gear items** — Apple #4475 · GoblinFoxDragon adf07b0 — DisguiseFaction field on ItemDef; Guard Uniform/Civilian Clothes/Merchant Coat in data/items.json (ids 1001-1003).
 
-- [ ] **S130-04: MUD disguise commands** — WEAR <item> (equips disguise, changes faction),
-  REMOVE DISGUISE, SNEAK (reduces effective aggro range while undetected). Repo: GoblinFoxDragon.
+- [x] **S130-04: MUD disguise commands** — Apple #4475 · GoblinFoxDragon adf07b0 — WEAR <item> sets p.disguise.Faction; REMOVE DISGUISE clears it; sneak feeds Disguise.Running=false into attention state.
 
 ---
 

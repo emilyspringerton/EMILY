@@ -352,6 +352,69 @@ func (c *IdunaClient) CompleteObservation(ctx context.Context, id int64, analysi
 }
 
 // FetchAppleContext returns a compact summary of the n most recent Apples,
+// PostCheckin records a check-in for the monitor identified by slug.
+// This is the heartbeat call that resets the monitor's overdue timer.
+// Non-fatal: errors are logged but not returned.
+func (c *IdunaClient) PostCheckin(ctx context.Context, slug string) {
+	if c == nil {
+		return
+	}
+	if err := c.authenticate(ctx); err != nil {
+		return
+	}
+	url := strings.TrimRight(c.baseURL, "/") + "/api/v1/monitors/checkin/" + slug
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, nil)
+	if err != nil {
+		return
+	}
+	req.Header.Set("Authorization", "Bearer "+c.token)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
+		raw, _ := io.ReadAll(resp.Body)
+		log.Printf("checkin %s: IDUNA %d: %s", slug, resp.StatusCode, string(raw))
+	}
+}
+
+// EnsureCronMonitor creates the emily-prime-cron monitor in IDUNA if it does not
+// already exist. Timeout 1800s (30m) — cron fires every 15m so missing two ticks
+// is the alert threshold. Safe to call on every startup.
+func (c *IdunaClient) EnsureCronMonitor(ctx context.Context) {
+	if c == nil {
+		return
+	}
+	if err := c.authenticate(ctx); err != nil {
+		return
+	}
+	body, _ := json.Marshal(map[string]any{
+		"name":            "Emily Prime cron",
+		"slug":            "emily-prime-cron",
+		"kind":            "cron",
+		"grace_seconds":   1800,
+		"alert_email":     "emilyspringerton@gmail.com",
+	})
+	url := strings.TrimRight(c.baseURL, "/") + "/api/v1/monitors"
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(body))
+	if err != nil {
+		return
+	}
+	req.Header.Set("Authorization", "Bearer "+c.token)
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+	// 201 = created; 409 = already exists (both OK).
+	if resp.StatusCode != http.StatusCreated && resp.StatusCode != http.StatusConflict {
+		raw, _ := io.ReadAll(resp.Body)
+		log.Printf("EnsureCronMonitor: IDUNA %d: %s", resp.StatusCode, string(raw))
+	}
+}
+
 // formatted for injection into LLM prompts as a ≤200-token context window.
 // Returns an empty string on error so callers can degrade gracefully.
 func (c *IdunaClient) FetchAppleContext(ctx context.Context, n int) string {
