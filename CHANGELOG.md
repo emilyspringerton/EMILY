@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S155-02: truck-to-truck Tier 0 — peer B2B, spot+weekly rates, 10 trucks with our number in 90 days
 - S155-01: tortilla networking strategy — restaurant B2B wedge, event catering, community anchors, media
 - S154-01: NORTHSTAR_STINKIES — full bootstrap roadmap VS0 hoodie → Store 0 → CARTEL → Store 1, zero outside capital
 - S146-02: VS0 redefined as STINKIES hoodie; stickers moved to VS1; version sequence locked
