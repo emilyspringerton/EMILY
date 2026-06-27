@@ -2967,8 +2967,7 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### M4 — Art Direction (Pending)
 
-- [ ] **S129-10: Art direction reference sheets** — Per-tier palette guides (Initiate through Endgame).
-  First 5 armor sets (Leather + Chainmail) modeled at correct poly budget. Repo: GoblinFoxDragon.
+- [x] **S129-10: Art direction reference sheets** — Apple #4502 · GFD 2a2d017 — docs2/art_direction_tiers.md: 5-tier palettes (Initiate brown/brass → Endgame void/violet), per-armor poly budgets (Leather 280→Void 640 tris), UV res, shader rules, artist deliverable checklist.
 
 ---
 
