@@ -3093,15 +3093,15 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Emily currently has no general-purpose transparent research capability. Anthropic model knowledge has a cutoff. Web fetches are ad-hoc and unaudited. We need: every research query is logged, every source is recorded, every synthesis is traceable. Apples are the audit trail. This is infrastructure for S136 (supply chain) and S138 (index).*
 
-- [ ] **S137-01: emily-agent Research tool** — `Research(query string, sources []string) ResearchResult` in emily-agent. Fetches from curated source list (S137-02) + open web fallback. Stores per-fetch: url, fetched_at, content_hash, key_excerpts. Files Apple type=research_log: `{"query":..., "sources":[{url, fetched_at, excerpts}], "synthesis":..., "confidence":0.0-1.0}`. Repo: EMILY.
+- [x] **S137-01: emily-agent Research tool** — Apple #4490 · EMILY 1c2d888 — research.go: SHA256 cache, multi-domain source list, HTML extractor, research_log Apple with full provenance JSON. Cache check/write via IDUNA /api/v1/research/cache.
 
 - [x] **S137-02: Source registry** — Implemented as `DefaultSources` in PRRJECT_FATBABY/internal/research/research.go.
   Financial: SEC EDGAR, Reuters, Bloomberg. Supply chain: SupplyChainDive, LogisticsMgmt.
   AI: MIT Tech Review, Ars Technica. Reddit: 16 subreddits across 3 domains. PRRJECT_FATBABY ffd9023.
 
-- [ ] **S137-03: Research result cache in IDUNA** — New table `research_cache`: query_hash (SHA256 of normalized query), result_json, sourced_at, expires_at, source_urls[]. Before fetching, Emily checks cache. Hits return immediately. Misses populate cache. Builds a local knowledge base over time. Emily Prime's knowledge compounds.
+- [x] **S137-03: Research result cache in IDUNA** — Apple #4491 · IDUNA 8c872da — research_cache table (migration 202606270002) + /api/v1/research/cache GET/POST/DELETE endpoints.
 
-- [ ] **S137-04: Research Apple standard format** — Lock the schema for type=research_log Apples. Add validation in emily-agent before filing. This is the audit contract: any claim Emily makes that derives from external research must have a research_log Apple with traceable sources. No sourceless claims.
+- [x] **S137-04: Research Apple standard format** — Apple #4490 · EMILY 1c2d888 — research_log Apple type locked in research tool; full provenance JSON (query, query_hash, sources[], confidence). No sourceless claims enforced by tool contract.
 
 ---
 

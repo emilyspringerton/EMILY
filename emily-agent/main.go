@@ -1534,6 +1534,7 @@ func NewServer(cfg Config) (*Server, error) {
 	registerGPT2Tools(dispatcher)
 	registerSupplyChainTools(dispatcher, idunaClient)
 	registerResearchTool(dispatcher, idunaClient)
+	registerKnowledgeQueryTool(dispatcher, idunaClient)
 	log.Printf("tools registered: %d", len(dispatcher.Defs()))
 	for _, t := range dispatcher.Defs() {
 		log.Printf("  * %s", t.Name)

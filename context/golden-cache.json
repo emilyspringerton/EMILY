@@ -25,6 +25,11 @@
       "compressed": "## EMILY-NORTH\n\n**Purpose:** Meta-orchestration layer for EINHORN_INDUSTRIAL; recursive self-improvement via three agents (Emily Prime, Emiree, FatBaby-Emily).\n\n**System Architecture:**\n- **Emily Prime** (`:8086` Go HTTP service): Chief of staff; reads observations, issues RSI tasks, files Apples (audit trail). Dynamic system prompt from `context/full-system-context.md` (compiled by GoldenDocCompiler). FABLE advisor (`GET /api/v1/emily/fable/advice`) recommends sprints via cross-repo golden context.\n- **Emiree**: Seven-gear state machine (IDLE→COAST→ACTIVE→ENGAGED→PUSH→SURGE→OVERLOAD) governing RSI pacing. Proof-of-work via Apple trail. Implementation: `emily-agent/emiree.go`; spec: `emiree.md` + `docs/emiree-over-agent-spec.md`.\n- **FatBaby-Emily**: Embedded in PRRJECT_FATBABY; monitors SEC EDGAR + PR Newswire; publishes governance signals → `var/emily-observations/latest.json`.\n\n**5-min Cron Cycle:**\n1. GoldenDocCompiler.MaybeRebuild (refresh context)\n2. OBSERVE (state/health)\n3. DECIDE (Emiree gear-aware selection)\n4. ACT (one RSI iteration)\n5. PLAN (triage observations, HEIMDAL drain, morning briefing)\n6. APPLE (file to IDUNA; FCM push to MJOLNIR on completion)\n\n**Key Files:** `emily-agent/main.go\n",
       "updated_at": "2026-06-16T13:24:48Z"
     },
+    "/home/fatbaby/EMILY/docs/NORTHSTAR_INDEX.md": {
+      "hash": "9de812b3a13a3ee8c33728e177385baae694f90cb60bf7074aff75b7408f47a8",
+      "compressed": "## EINHORN-INDEX\n# NORTHSTAR — EINHORN INDEX\n\n**Classification:** Tier 1 — strategic platform  \n**Owner:** Emily Springerton / EINHORN_INDUSTRIAL  \n**Version:** 0.1 | Updated: 2026-06-27  \n**Gates:** S138-03 through S138-06\n\n---\n\n## Mission\n\nThe EINHORN INDEX is a continuously updated structured knowledge graph of financial, supply chain, and AI ops intelligence. Emily Prime is the primary consumer; the INDEX is eventually exposed as a data product ($49/mo seed tier). The INDEX is EINHORN_INDUSTRIAL's long-t\n",
+      "updated_at": "2026-06-27T09:47:14Z"
+    },
     "/home/fatbaby/EMILY/docs/NORTHSTAR_SUPPLY_CHAIN.md": {
       "hash": "f27383d720d742041e6904297c38bd1ae52a8f6849aafe7bfe92f2f03584bf4b",
       "compressed": "## SUPPLY-CHAIN\n# NORTHSTAR — Emily Supply Chain AGI\n\n**Classification:** Tier 1 — operational  \n**Owner:** Emily Springerton / EINHORN_INDUSTRIAL  \n**Version:** VS0 (bootstrap) | Updated: 2026-06-27\n\n---\n\n## Mission\n\nEmily manages a transparent, Apple-audited physical product supply chain. Every vendor interaction, purchase order, and fulfillment event is traceable to a source Apple. The goal is to eliminate the need for Emily (human) to manually discover, evaluate, negotiate with, or manage vendors. Emily\n",
@@ -51,9 +56,9 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "94729589e29b7dd0ef3b8f7f1acbc9e3436b76e9682bf2d8e61e5c745af643a4",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-27T01:19:26Z | cycle 3018 | idle | idle — no queued tasks\n2026-06-27T01:24:56Z | cycle 3019 | idle | idle — no queued tasks\n2026-06-27T01:29:50Z | cycle 3020 | idle | idle — no queued tasks\n2026-06-27T01:35:21Z | cycle 3021 | idle | idle — no queued tasks\n2026-06-27T01:39:28Z | cyc\n",
-      "updated_at": "2026-06-27T09:41:31Z"
+      "hash": "c339eb1edebdeaade2bda787d57f8f6300264402d677fa6a2bdf700be9755439",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-27T01:24:56Z | cycle 3019 | idle | idle — no queued tasks\n2026-06-27T01:29:50Z | cycle 3020 | idle | idle — no queued tasks\n2026-06-27T01:35:21Z | cycle 3021 | idle | idle — no queued tasks\n2026-06-27T01:39:28Z | cycle 3022 | idle | idle — no queued tasks\n2026-06-27T01:44:33Z | cyc\n",
+      "updated_at": "2026-06-27T09:47:14Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "370fe64ecf41c98e090917e8a2bf07884fe302e9650d977dd5dd77d56683aa0c",

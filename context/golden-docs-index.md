@@ -68,3 +68,4 @@
 | GFD-INVENTORY | GoblinFoxDragon/docs2/INVENTORY_EQUIPMENT_NORTHSTAR.md | 2 | 4000 | FFXI-era inventory + equipment northstar: 16-slot gear, item definition registry, inventory bags, stat computation, art direction (low-poly), M1–M5 milestones |
 | TYLER-BROADWAY | TYLER/engine/broadway_spec.md | 2 | 4000 | TYLER Broadway musical spec: anti-documentation surface, Jiangshi doctrine failure mode, song list, faction registers, Emily OS CAST integration, Rules 19–22 |
 | SUPPLY-CHAIN | EMILY/docs/NORTHSTAR_SUPPLY_CHAIN.md | 1 | 3000 | Emily Supply Chain AGI northstar: vendor discovery, PO drafting, fulfillment tracking, reorder intelligence, Apple audit contract, margin targets; VS0–VS2 scope |
+| EINHORN-INDEX | EMILY/docs/NORTHSTAR_INDEX.md | 1 | 4000 | EINHORN INDEX northstar: knowledge graph (kg_nodes + kg_edges), crawl domain strategy, entity taxonomy, MongoDB schema, indexing pipeline, KnowledgeQuery tool, INDEX-0–3 product path |
