@@ -1,3 +1,7 @@
+## 2026-06-27
+
+- S131-04/05/06: Slack on HEIMDAL sprint complete/blocked; Slack on escalation apples; emily-prime-cron IDUNA monitor auto-created + check-in at RunOnce end
+
 ## 2026-06-25
 - Full Slack integration: SlackNotifier (webhook), alerting.go (CheckinAlertWorker polls IDUNA overdue monitors), watchdog alerts → Slack, cron cadence slowed to 15m
 - Slow Emily Prime cron from 5m to 15m cadence; comment updates in cron.go, integration.go
