@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S147-01: tortilla truck brief — fresh corn masa, Store 0 exterior, $0.50/tortilla, 85%+ margin
 - S146-01: apparel brief (hoodie + trucker hat STORE 0 · PONTIAC MI) + Store 0 services (public restroom, Michigan Lottery)
 - S145-01: free soap brief — lye bars, pallet quantity ≤$0.12/unit, in every bag/on every counter
 - S144-01: STINKIES Store 0 — Pontiac MI; beer brief (Miller High Life 6/12/30-pack); Store 0 build-out scope, layout, Michigan licenses, Emily Prime inventory/POS role
