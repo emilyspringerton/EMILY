@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S140-01 update: Powderhorn instant espresso jar ($22) + STINKIES singles ($1, loss leader CAC not margin)
 - S140-01 update: Powderhorn is Colombian single-origin (Huila/Nariño), price 17 vs 14 Mountain Man, sub 29/mo
 - S140-01: STINKIES COMMISSAIRE coffee brief — Mountain Man (dark/Brazil+Sumatra) + Powderhorn (medium-light/Colombia+Ethiopia); $14/bag, $24/mo subscription, ≥67% margin
 - S139-01: VS1 toothbrush brief — STINKIES COMMISSAIRE ($9 entry) + ULTRA ($68 brass handle); both on 90-day head subscription; Supply Chain AGI reorder wired
