@@ -106,12 +106,42 @@ Coffee subscription is the product. The first bag is the customer acquisition.
 
 ---
 
+## Powderhorn Instant Espresso
+
+Two formats. Same Colombian single-origin base as the whole bean. Freeze-dried.
+
+### Jar (Multi-serve)
+
+- **Contents:** 3.5oz (100g) freeze-dried instant espresso — approx. 50 shots
+- **Packaging:** Matte black glass jar, metal lid, "POWDERHORN INSTANT ESPRESSO" label (white ink)
+- **Price:** $22
+- **Unit cost target:** ≤ $7.00 at 150-jar MOQ
+- **Gross margin:** ≥ 68%
+- **Use case:** Desk, travel kit, anywhere you can't brew
+
+### Singles (STINKIES-branded, $1) — Loss Leader
+
+- **Contents:** 2g single-serve instant espresso sachet — one double shot
+- **Packaging:** Matte black foil sachet, 65mm × 90mm
+- **Brand:** **STINKIES COMMISSAIRE** (not Powderhorn) — impulse, trial, entry
+- **Price:** $1.00 per single / $10 for 12-pack
+- **Unit cost target:** ~$0.80–$1.00 per sachet at MOQ — intentionally at or below break-even
+- **Gross margin:** Negative to zero. **This is a loss leader.**
+- **Use case:** Point-of-sale add-on, first-time trial, corner store, event handout
+- **Conversion target:** ≥ 15% of single buyers purchase a jar within 30 days
+
+The $1 single is not a product. It is advertising with a price tag. The unit economics are the jar ($22) and the subscription ($29/mo). Every dollar spent on singles is a customer acquisition cost, not a margin event. Track it as CAC, not revenue.
+
+---
+
 ## STINKIES COMMISSAIRE Product Matrix (Updated)
 
-| Product | Price | Subscription |
-|---------|-------|-------------|
-| Toothbrush | $9 | $12 / 90 days (heads) |
-| Mountain Man Coffee | $14 / 12oz | $24 / mo |
-| Powderhorn Coffee | $14 / 12oz | $24 / mo |
+| Product | Brand | Price | Subscription |
+|---------|-------|-------|-------------|
+| Toothbrush | STINKIES COMMISSAIRE | $9 | $12 / 90 days (heads) |
+| Mountain Man Coffee | STINKIES COMMISSAIRE | $14 / 12oz | $24 / mo |
+| Powderhorn Coffee (whole bean) | Powderhorn | $17 / 12oz | $29 / mo |
+| Powderhorn Instant Espresso Jar | Powderhorn | $22 / 3.5oz | — |
+| Powderhorn Instant Espresso Single | STINKIES COMMISSAIRE | $1 / sachet · $10 / 12-pack | — |
 
 The commissary grows one product at a time.
