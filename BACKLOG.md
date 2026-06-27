@@ -3127,6 +3127,22 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 139: ORAL CARE — STINKIES COMMISSAIRE + ULTRA (2026-06-27)
+
+*Two brands. One entry, one ultra-premium. Both on 90-day replacement head subscriptions. Supply Chain AGI handles reorder.*
+
+- [x] **S139-01: Design brief — STINKIES COMMISSAIRE + ULTRA** — Apple #4665 · EMILY c1e3582 — STINKIES COMMISSAIRE ($9, polypropylene, kraft, 80%+ margin, $48/yr sub) + ULTRA ($68, solid brass PVD black, DuPont Tynex, 73%+ margin, $88/yr sub). EMILY/docs/merch/toothbrush_vs1_brief.md.
+
+- [ ] **S139-02: Vendor research — toothbrush manufacturing** — Source vendors for both tiers: (1) polypropylene injection-mold + nylon bristle for STINKIES COMMISSAIRE, (2) brass cold-forge + PVD coating + DuPont Tynex for ULTRA. MOQ, unit cost, lead time, DuPont bristle certification. Use supply_chain_research tool. Output: vendor comparison Apple (research_log). Select one vendor per tier.
+
+- [ ] **S139-03: EDIS product listings** — Add both SKUs to WooCommerce: STINKIES COMMISSAIRE ($9) + ULTRA ($68) + replacement head subscriptions for each. Blocked on S23-01 (live WordPress deploy).
+
+- [ ] **S139-04: First batch orders** — STINKIES COMMISSAIRE: 500 units. ULTRA: 250 units. QC per brief. File Apple with cost basis + margin. Blocked on S139-02 vendor selection + human payment approval via HEIMDAL.
+
+- [ ] **S139-05: Drop announcement** — Both brands launch simultaneously. MJOLNIR push. EDIS listings go live. File Apple type=completion: revenue stream 2 open (oral care).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
