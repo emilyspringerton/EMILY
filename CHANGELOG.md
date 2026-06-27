@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S137-01/03/04: Research tool (research.go): SHA256 cache, multi-domain fetch, HTML extraction, research_log Apple
 - S136-04/05: supply_chain_research + supply_chain_draft_po tools in emilytools.go; registered in main.go dispatcher
 - S136-01: Supply Chain AGI NORTHSTAR at docs/NORTHSTAR_SUPPLY_CHAIN.md; golden-docs-index registered
 - S135-01: VS0 sticker design brief at docs/merch/stickers_vs0_brief.md — Emily Prime Mark, Wordmark, Logotype; specs, schedule, success metrics
