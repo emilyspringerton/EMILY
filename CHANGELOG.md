@@ -1,4 +1,5 @@
 ## 2026-06-27
+- S142-01: STINKIES hot dogs brief (all-beef natural casing 8-pack $12, nacho kit bundle); S143-01: cigarettes brief (matte black, retail-only distribution, regulatory gates)
 - S141-01: STINKIES cheese sauce brief — Nacho + Jalapeño ($8/jar, 12oz glass, real cheddar, shelf-stable, $13/mo sub)
 - S140-01 update: Powderhorn instant espresso jar ($22) + STINKIES singles ($1, loss leader CAC not margin)
 - S140-01 update: Powderhorn is Colombian single-origin (Huila/Nariño), price 17 vs 14 Mountain Man, sub 29/mo
