@@ -3077,15 +3077,15 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Emily-managed physical product supply chain. Stickers (S135) are VS0 bootstrap data. Goal: Emily can discover vendors, assess quality, request quotes (email/API), place orders, track fulfillment — all Apple-audited and transparent. This is the AGI surface for the physical world.*
 
-- [ ] **S136-01: NORTHSTAR — Emily Supply Chain AGI** — Write `EMILY/docs/NORTHSTAR_SUPPLY_CHAIN.md`. Scope: VS0 (stickers) → VS1 (broader merch) → VS2 (arbitrary physical product sourcing). Define: vendor discovery, quality specification, negotiation loop, order placement, fulfillment tracking, cost basis reporting. Register in `EMILY/context/golden-docs-index.md`.
+- [x] **S136-01: NORTHSTAR — Emily Supply Chain AGI** — Apple #4484 · EMILY 18e53f1 — NORTHSTAR_SUPPLY_CHAIN.md: vendor discovery, PO draft loop, fulfillment state machine, reorder intelligence, Apple audit contract, margin targets VS0–VS2. Registered in golden-docs-index.
 
-- [ ] **S136-02: Vendor registry in IDUNA** — New table `vendors`: name, category, url, moq, unit_cost_cents, lead_days, quality_tier, last_evaluated_at, notes, status (active/inactive). Migration + IAMStore methods + API endpoints `/api/v1/vendors` (vendors.read/vendors.write). Emily Prime registers and updates vendors after each research cycle.
+- [x] **S136-02: Vendor registry in IDUNA** — Apple #4485 · IDUNA 6502e37 — migration 202606270001: vendors table; SupplyHandler GET/POST /api/v1/supply/vendors with RequireAuth.
 
-- [ ] **S136-03: Supply order tracking in IDUNA** — New table `supply_orders`: vendor_id, product, quantity, unit_cost_cents, total_cost_cents, status (pending/ordered/shipped/received/qc_pass/qc_fail), ordered_at, received_at, notes. Each state transition files an Apple. Emily Prime is the order state machine.
+- [x] **S136-03: Supply order tracking in IDUNA** — Apple #4485 · IDUNA 6502e37 — supply_orders table; /api/v1/supply/orders CRUD + PATCH /orders/:id/status state machine.
 
-- [ ] **S136-04: emily-agent supply chain tool** — `ResearchSupplyChain(product string, spec SupplySpec) []VendorOption` — calls research engine (S137-01), extracts structured vendor data, compares against spec, returns ranked options. Files Apple type=research_log with full provenance. Repo: EMILY (emily-agent/supply.go).
+- [x] **S136-04: emily-agent supply chain tool** — Apple #4486 · EMILY 18e53f1 — supply_chain_research tool: fetches IDUNA vendor registry by category, files research_log Apple; registered in dispatcher.
 
-- [ ] **S136-05: emily-agent order placement draft** — Given a selected vendor and quantity, Emily drafts a purchase order email (or API call if vendor supports it) and queues it for human approval via HEIMDAL sprint. Human approves → Emily files Apple and marks supply_order as ordered.
+- [x] **S136-05: emily-agent order placement draft** — Apple #4486 · EMILY 18e53f1 — supply_chain_draft_po tool: creates supply_orders record in IDUNA, files observation Apple; human approves via HEIMDAL.
 
 ---
 

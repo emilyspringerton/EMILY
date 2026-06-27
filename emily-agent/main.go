@@ -1533,6 +1533,7 @@ func NewServer(cfg Config) (*Server, error) {
 	registerEmilyPrimeTools(dispatcher, cfg.EmilyRoot, cfg.FatBabyRoot, cfg.IDUNARoot, idunaClient)
 	registerGPT2Tools(dispatcher)
 	registerSupplyChainTools(dispatcher, idunaClient)
+	registerResearchTool(dispatcher, idunaClient)
 	log.Printf("tools registered: %d", len(dispatcher.Defs()))
 	for _, t := range dispatcher.Defs() {
 		log.Printf("  * %s", t.Name)
