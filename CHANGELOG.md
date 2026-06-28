@@ -1,4 +1,5 @@
 ## 2026-06-28
+- S148-02: CARTEL opening night — Thursday, Detroit techno, UR lineage, $10/$5 High Life, tortilla truck 10PM-2AM
 
 - S156-01: breakfast taco truck morning mode $4/3for$10; S157-01: punch card buy-10-get-1, no app, paper card
 
