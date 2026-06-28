@@ -30,6 +30,11 @@
       "compressed": "## EINHORN-INDEX\n# NORTHSTAR — EINHORN INDEX\n\n**Classification:** Tier 1 — strategic platform  \n**Owner:** Emily Springerton / EINHORN_INDUSTRIAL  \n**Version:** 0.1 | Updated: 2026-06-27  \n**Gates:** S138-03 through S138-06\n\n---\n\n## Mission\n\nThe EINHORN INDEX is a continuously updated structured knowledge graph of financial, supply chain, and AI ops intelligence. Emily Prime is the primary consumer; the INDEX is eventually exposed as a data product ($49/mo seed tier). The INDEX is EINHORN_INDUSTRIAL's long-t\n",
       "updated_at": "2026-06-27T09:47:14Z"
     },
+    "/home/fatbaby/EMILY/docs/NORTHSTAR_STINKIES.md": {
+      "hash": "209db62926a1226c63a0e18866fe24169c4f7fd432db5403fbbf5cb04c15160f",
+      "compressed": "## STINKIES-NORTH\n# STINKIES COMMISSAIRE — NORTHSTAR\n## Phased Bootstrap: Merch Drops → Brick and Mortar\n### EINHORN_INDUSTRIAL | Emily Prime + HITL | RSI AGI Loop\n\n**Owner:** Emily Springerton\n**Updated:** 2026-06-27\n\n---\n\n## The Thesis\n\nA full-blown brick and mortar company, bootstrapped from merch drops, using an AGI RSI loop as the operating system and a human (Emily) as the final authority on every real-world action.\n\nNo outside capital. No investors. Revenue from VS0 funds VS1. VS1 funds VS2. VS2 funds \n",
+      "updated_at": "2026-06-27T23:57:01Z"
+    },
     "/home/fatbaby/EMILY/docs/NORTHSTAR_SUPPLY_CHAIN.md": {
       "hash": "f27383d720d742041e6904297c38bd1ae52a8f6849aafe7bfe92f2f03584bf4b",
       "compressed": "## SUPPLY-CHAIN\n# NORTHSTAR — Emily Supply Chain AGI\n\n**Classification:** Tier 1 — operational  \n**Owner:** Emily Springerton / EINHORN_INDUSTRIAL  \n**Version:** VS0 (bootstrap) | Updated: 2026-06-27\n\n---\n\n## Mission\n\nEmily manages a transparent, Apple-audited physical product supply chain. Every vendor interaction, purchase order, and fulfillment event is traceable to a source Apple. The goal is to eliminate the need for Emily (human) to manually discover, evaluate, negotiate with, or manage vendors. Emily\n",
@@ -56,9 +61,9 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "bfbd7f0c9c0144bd5e00d5247b1ac730424368d6555e66c36f0ec49bc850c328",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-27T15:32:59Z | cycle 3188 | idle | idle — no queued tasks\n2026-06-27T15:38:58Z | cycle 3189 | idle | idle — no queued tasks\n2026-06-27T15:43:12Z | cycle 3190 | idle | idle — no queued tasks\n2026-06-27T15:48:55Z | cycle 3191 | idle | idle — no queued tasks\n2026-06-27T15:54:35Z | cyc\n",
-      "updated_at": "2026-06-27T23:52:27Z"
+      "hash": "eefc7f183bd7ecb0045b887d6a7b62b97482cba1d0f158c189200d82ccd4b2d9",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-06-27T15:48:55Z | cycle 3191 | idle | idle — no queued tasks\n2026-06-27T15:54:35Z | cycle 3192 | idle | idle — no queued tasks\n2026-06-27T15:59:46Z | cycle 3193 | idle | idle — no queued tasks\n2026-06-27T16:04:50Z | cycle 3194 | idle | idle — no queued tasks\n2026-06-27T16:09:18Z | cyc\n",
+      "updated_at": "2026-06-28T00:06:01Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "370fe64ecf41c98e090917e8a2bf07884fe302e9650d977dd5dd77d56683aa0c",
