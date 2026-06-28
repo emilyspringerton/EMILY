@@ -1,3 +1,7 @@
+## 2026-06-28
+
+- S156-01: breakfast taco truck morning mode $4/3for$10; S157-01: punch card buy-10-get-1, no app, paper card
+
 ## 2026-06-27
 - S155-02: truck-to-truck Tier 0 — peer B2B, spot+weekly rates, 10 trucks with our number in 90 days
 - S155-01: tortilla networking strategy — restaurant B2B wedge, event catering, community anchors, media
