@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-06-29T20:41:05Z",
+  "from": "emily-prime",
+  "to": "fatbaby-emily",
+  "task_id": "task-1782765665968504171",
+  "task_type": "fix_anomaly",
+  "priority": "critical",
+  "description": "Emily Prime needs read/write access to her own repo (golden backlog, state, decisions)",
+  "acceptance_criteria": [
+    "Signal extraction covers the identified gap",
+    "No regression in existing signal counts",
+    "Parse errors reduced or eliminated"
+  ],
+  "context": "Emily Prime triage: relevance=0.90, triggered=. Strategic context: these signals inform M\u0026A risk, activist targeting, and board stability assessment."
+}
