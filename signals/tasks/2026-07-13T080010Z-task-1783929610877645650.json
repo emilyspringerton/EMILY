@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-07-13T08:00:10Z",
+  "from": "emily-prime",
+  "to": "fatbaby-emily",
+  "task_id": "task-1783929610877645650",
+  "task_type": "fix_anomaly",
+  "priority": "critical",
+  "description": "observation-watcher cannot invoke Claude Code — claude CLI not in PATH",
+  "acceptance_criteria": [
+    "Signal extraction covers the identified gap",
+    "No regression in existing signal counts",
+    "Parse errors reduced or eliminated"
+  ],
+  "context": "Emily Prime triage: relevance=0.90, triggered=. Strategic context: these signals inform M\u0026A risk, activist targeting, and board stability assessment."
+}
