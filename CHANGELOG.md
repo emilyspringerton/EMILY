@@ -1,3 +1,6 @@
+## 2026-07-15
+- docs(ops): REBOOT_RUNBOOK.md — self-contained VM reboot/hydration runbook for a fresh Claude Code session; linger + iduna.service/emily-system.service enabled for boot-time auto-start; deep audit (Fable) surfaced and fixed a `--all`-starts-SHANKPIT bug, silent exit-0 on child start failure, an over-broad pgrep pattern, a PATH-blind `emily` exec, world-readable JWT secret, and missing `emily start` coverage for entity-graph/eps-reconciler/eps-processor (Apples #9823-9825)
+
 ## 2026-06-28
 - S148-02: CARTEL opening night — Thursday, Detroit techno, UR lineage, $10/$5 High Life, tortilla truck 10PM-2AM
 

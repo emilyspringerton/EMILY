@@ -28,34 +28,29 @@ curl -s localhost:8080/health
 
 ## What does NOT auto-start — restart manually
 
-These were running as bare `go run`/binaries (PPID 1, launched ad hoc, no
-unit, no `emily start` flag covers them all) as of the last snapshot:
+**Update 2026-07-15:** `emily start`'s `--all` flag now covers newssite,
+signalapi, entity-graph, eps-reconciler, and eps-processor (previously
+only newssite/signalapi; entity-graph/eps-reconciler/eps-processor had no
+flag at all and had to be started by hand with no idempotency guard —
+fixed in emily.cli commit history, see CHANGELOG). `--all` deliberately
+does **not** include `shank_go_server` (SHANKPIT) any more — it used to,
+which meant a plain `emily start --iduna --all` would silently launch a
+live game server + fill bots. That's now gated only by `--shankpit`.
+
+So the manual-restart list is now just:
 
 ```bash
-cd /home/fatbaby/PRRJECT_FATBABY
-
-# newssite (:8082) + signalapi (:9091) — covered by `emily start --all`,
-# but confirm/run explicitly if that doesn't pick them up:
-go run ./cmd/newssite -store var/secwatch -graph-dir var/entity-graph \
-  -eps-dir var/eps -commentary-dir var/commentary -guidance-dir var/guidance \
-  -earnings-cal-dir var/earnings-calendar &
-
-go run ./cmd/signalapi -addr :9091 -store var/secwatch &
-
-# entity-graph, eps-reconciler, eps-processor — no unit, no emily start flag.
-# Always started by hand; do so again:
-go run ./cmd/entity-graph -store ./var/secwatch &
-go run ./cmd/eps-reconciler -store ./var/secwatch -eps-dir ./var/eps &
-go run ./cmd/eps-processor -body-store ./var/prwatch-body \
-  -discovery-store ./var/prwatch -eps-dir ./var/eps &
+emily start --iduna --all
 ```
+
+This is idempotent (pgrep-guarded per process) — safe to re-run.
 
 Not running before the reboot (per PRRJECT_FATBABY/CLAUDE.md's fuller
 process table) and presumed intentionally stopped — confirm with the user
 before starting: `secwatch`, `prwatch`, `prwatch-body`, `dashboard`,
 `feedserver`, `broker`, `guidance-watcher`, `jon-agent`, `form4-watcher`,
 `dividend-watcher`, `buyback-watcher`, `nt-watcher`, SHANKPIT's
-`shank_go_server` + emily-bots.
+`shank_go_server` + emily-bots (`emily start --shankpit` if wanted).
 
 Unrelated to the IDUNA/FatBaby chain but also died on reboot — restart if
 wanted:
@@ -63,23 +58,69 @@ wanted:
 cd /home/fatbaby/GoblinFoxDragon && go run ./apps2/mud &
 ```
 
+## Reboot-as-deploy caution
+
+Every auto-started and manually-restarted process here runs via `go run`,
+which compiles HEAD at launch time — this was already true day-to-day, but
+a reboot means several weeks of accumulated, never-yet-executed commits
+all go live simultaneously for the first time (as of 2026-07-15: EMILY and
+PRRJECT_FATBABY both had a large drift between what the running binaries
+were built from and current HEAD). Watch the logs closely for the first
+RSI cycle or two after a reboot rather than assuming a clean process start
+means the code is behaving as expected.
+
+Separately: `~/.local/bin/iduna` is a **prebuilt** binary (not `go run`),
+so it does NOT pick up IDUNA HEAD automatically — it keeps running
+whatever was last built with `go build -o ~/.local/bin/iduna .`. If IDUNA
+source has moved on since that build (check `git -C /home/fatbaby/IDUNA
+log -1` vs the binary's mtime), decide deliberately whether to rebuild +
+restart it — don't do this bundled with the reboot itself, since IDUNA
+runs DB migrations at startup and you want to isolate any migration
+failure from "did the reboot work" as a separate question.
+
 ## Startup order
 
 1. Confirm boot, confirm `systemctl --user` reachable for fatbaby (proves
    linger survived the update/reboot — re-run `enable-linger` if not).
-2. `iduna.service` should already be active — `curl localhost:8080/health`.
-3. `emily-system.service` (oneshot) should already have run — check
-   `var/logs/observation-watcher.log` and `var/logs/emily-agent.log` in
-   `EMILY/` for clean startup.
-4. `emily start --iduna --all` — idempotent, picks up newssite/signalapi if
-   step 3 didn't already.
-5. Manually start entity-graph / eps-reconciler / eps-processor per above.
-6. Verify ports: `ss -tlnp | grep -E ':8080|:8082|:9091'`.
-7. Tail each `var/logs/*.log` for startup errors.
-8. `emily status --fatbaby` and `emily apples list --limit 5` — confirm the
+2. `iduna.service` should already be active and *healthy*, not just
+   started — `curl -sf localhost:8080/health` (the unit now has an
+   `ExecStartPost` health-check loop, so `systemctl --user is-active`
+   alone means the health check already passed; if the unit is stuck
+   "activating" for >30s the health check is failing — check
+   `journalctl --user -u iduna.service`).
+3. `emily-system.service` (oneshot) should already have run. **Don't just
+   trust `systemctl --user status` being "active (exited)"** — `emily
+   start` can fail to launch a child and still exit 0 in older builds; as
+   of this fix it now exits 1 if anything failed, but verify directly:
+   ```bash
+   pgrep -af 'cmd/observation-watcher --root'
+   pgrep -af 'emily-agent.*--daemon'
+   ```
+   and check `var/logs/observation-watcher.log` / `var/logs/emily-agent.log`
+   in `EMILY/` for clean startup.
+4. `emily start --iduna --all` — idempotent, picks up newssite / signalapi /
+   entity-graph / eps-reconciler / eps-processor if step 3 didn't already.
+   Safe to run even if everything's already up.
+5. Verify ports: `ss -tlnp | grep -E ':8080|:8082|:9091'`. (Nothing on
+   :8086 is expected — `emily-agent --daemon` returns before ever starting
+   its HTTP server; that port is only live in the non-daemon interactive
+   mode, which `emily start` doesn't use.)
+6. Tail each `var/logs/*.log` for startup errors.
+7. `emily status --fatbaby` and `emily apples list --limit 5` — confirm the
    Apple round-trip works end-to-end through the freshly booted IDUNA.
-9. Wait one 5-min emily-agent RSI cycle, confirm a new Apple appears.
-10. Resume normal Emily Way operation — read `EMILY/BACKLOG.md`.
+8. Wait one 5-min emily-agent RSI cycle, confirm a new Apple appears.
+9. Check the APPLES git mirror actually received it, not just IDUNA's db:
+   ```bash
+   git -C /home/fatbaby/APPLES log -1 --format='%ci %s'
+   ```
+   (APPLES git push failures are currently log-only in IDUNA — a stale
+   mirror wouldn't otherwise be obvious.)
+10. Check for truncated NDJSON writes per the state-hydration note below.
+11. Resume normal Emily Way operation — read `EMILY/BACKLOG.md`.
+
+Don't run `start.sh` and `run.sh` concurrently against a cold boot — both
+launch `emily start`-adjacent work and, while now pgrep-guarded, there's
+no reason to race them.
 
 ## State hydration note
 
@@ -103,11 +144,41 @@ done
 If one turns up, drop the partial last line — the event store's
 sequence numbering is monotonic and expects whole records only.
 
-## Known pre-existing issue (not reboot-related)
+## Resolved issues from the earlier audit (2026-07-15)
 
-`PITVIPER`'s `origin` remote (`github.com/emilyspringerton/PITVIPER.git`)
-returns "Repository not found" on fetch, and its `main` branch has no
-upstream configured. No local changes are at risk (working tree was clean
-at last check), but it isn't backed up to GitHub. Needs a human decision
-(recreate the repo? wrong URL? access issue?) — not fixed as part of this
-runbook.
+- `PITVIPER`'s remote was broken ("Repository not found") — the user fixed
+  it by reconnecting the remote; `git fetch` now succeeds and `main` tracks
+  `origin/main` cleanly. A stray empty nested clone at
+  `PITVIPER/PITVIPER/.git` (0 objects, pure debris) was also removed.
+- Deep audit (Fable) surfaced and fixed: `--all` accidentally starting
+  SHANKPIT's game server, `emily start` always exiting 0 regardless of
+  child failures, an overly-broad pgrep pattern for observation-watcher
+  that could match a `tail -f` of its own log file, a bare `emily` exec in
+  obs-watcher's failure-escalation path that could silently no-op under
+  systemd's restricted PATH, IDUNA's world-readable JWT secret file
+  (0664 → 0600), and start.sh/run.sh being group-writable (0775 → 0755).
+  entity-graph/eps-reconciler/eps-processor gained proper `emily start`
+  integration (pgrep idempotency, `--all` coverage) instead of being fully
+  manual with no guard against double-starting and double-writing to the
+  append-only event stores.
+
+## Known gaps, deliberately not auto-fixed
+
+- **Alerting env vars aren't wired into the systemd path.** `EMILY/var/emily-secrets.env`
+  (the only file `emily start`'s children read via `config.Resolve()`)
+  contains only `ANTHROPIC_API_KEY`. The S131 Slack/check-in alerting reads
+  `SLACK_WEBHOOK_URL`, `SLACK_DEFAULT_CHANNEL`, `GMAIL_*`, `FCM_*` from env,
+  none of which are supplied to `emily-agent` when launched via
+  `emily-system.service`. If those alerts matter, add them to
+  `emily-secrets.env` or an `EnvironmentFile=` on the unit — not done here
+  since the actual values weren't available to set blind.
+- **No restart-on-crash for observation-watcher/emily-agent.** Only
+  `iduna.service` has `Restart=on-failure`; the RSI daemon and obs-watcher
+  are launched once by `emily-system.service`'s oneshot `ExecStart` and
+  then live outside systemd's supervision — if either crashes at 3am,
+  nothing brings it back until someone runs `emily start` again. Converting
+  them to their own `Type=simple`/`Restart=on-failure` units would close
+  this, but it's a bigger change to the current "one oneshot launcher"
+  model than warranted for this reboot — flagging as a follow-up.
+- **IDUNA binary/HEAD drift** — see "Reboot-as-deploy caution" above;
+  left as a deliberate human decision, not bundled into reboot recovery.
