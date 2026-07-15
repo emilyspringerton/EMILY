@@ -81,6 +81,28 @@ cd /home/fatbaby/GoblinFoxDragon && go run ./apps2/mud &
 9. Wait one 5-min emily-agent RSI cycle, confirm a new Apple appears.
 10. Resume normal Emily Way operation — read `EMILY/BACKLOG.md`.
 
+## State hydration note
+
+No separate data/state hydration step is needed. Everything meaningful —
+git repos, IDUNA's `var/iduna.db`, PRRJECT_FATBABY's NDJSON event stores,
+memory files, CLAUDE.md, BACKLOG.md — is disk-resident and survives a
+plain reboot untouched. Only in-memory process state is lost (covered
+above) and any live Claude Code session's context (covered by `start.sh`,
+which hands a fresh session this runbook instead of expecting it to
+already know what happened).
+
+One thing worth checking since the event-store processes get hard-killed
+by the reboot rather than shut down cleanly: confirm the append-only
+NDJSON stores don't have a truncated trailing line from a write in
+progress at kill time.
+```bash
+for f in $(find /home/fatbaby/PRRJECT_FATBABY/var/secwatch -name '*.ndjson' -newer /home/fatbaby/PRRJECT_FATBABY/go.mod 2>/dev/null); do
+  tail -c1 "$f" | od -c | grep -q '\\n' || echo "possible truncated write: $f"
+done
+```
+If one turns up, drop the partial last line — the event store's
+sequence numbering is monotonic and expects whole records only.
+
 ## Known pre-existing issue (not reboot-related)
 
 `PITVIPER`'s `origin` remote (`github.com/emilyspringerton/PITVIPER.git`)
