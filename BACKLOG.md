@@ -3386,6 +3386,54 @@ not replace them.*
 
 ---
 
+## SECTION 147: APPLE ENRICHMENT — GPT-2 FINGERPRINT + MAGIC TOWER + ASTROLOGY (2026-07-16)
+
+*Founder request 2026-07-16: every Apple filed to IDUNA should carry, beyond its normal payload,
+a GPT-2-generated "fingerprint" transformed through a deterministic squish/tower/gematria pipeline
+recovered from the founder's own 6-year-old (2020) experimental prompt-engineering repo
+(`~/QUEENSALLYONLINEBOOKOFMAGIFICATIONANDUNICOR`, forked/cloned 2026-07-16 — see its CLAUDE.md
+for full technical inventory: `squished()`/`MTRXTWER()`/`PRINTWR()`/`codzeifyWord()` and the
+notebook-only `trxtwr`/`magicVVVDecTower` evolution in `TOYBOK/COR.ipynb`), plus a model-fingerprint
+field (which checkpoint actually generated the content) and always-present astrology/transit info
+(Dallas, TX — the founder's current location — as reference point). A Fable pass is queued
+(`EMILY/docs/fable-prompts/fable-next-backlog.md`) to fully comprehend the old repo's intent and
+produce a modernized/"emilyified" Go port + integration design before implementation starts here —
+these items are the backlog shape for once that design lands, not yet startable blind.*
+
+- [ ] **S147-01: Port squish/tower/gematria to Go** — `squished()`, `MTRXTWER()`, `PRINTWR()`,
+  `codzeifyWord()` (and evaluate whether the notebook-only `trxtwr`/`magicVVVDecTower` evolution
+  in `COR.ipynb` supersedes the exported `.py` versions) ported from the reference TF1 Python repo
+  into a small Go package. Simple deterministic string functions — no ML runtime needed for this
+  half. Blocked on the queued Fable design pass landing first.
+
+- [ ] **S147-02: GPT-2 fingerprint generation hook** — call `gpt2-alpine-c`'s `scripts/serve.py`
+  `/generate` endpoint (already live, :8088) at Apple-filing time, run the output through S147-01's
+  tower/gematria transform, attach as a new Apple field. Decide: synchronous (blocks the Apple
+  POST) or async enrichment (Apple lands, fingerprint attached in a follow-up PATCH) — the spec
+  from the Fable pass should take a position on this, not default to sync.
+
+- [ ] **S147-03: Model fingerprint field** — record which model/checkpoint actually produced the
+  generated text (hash or version string) alongside the tower/gematria output, matching the
+  provenance discipline `HQ-SPEC-AI-103`'s `fabledata` already requires elsewhere. Applies even
+  when the frontier API (not local GPT-2) generated whatever content an Apple is documenting.
+
+- [ ] **S147-04: Astrology/transit data source** — open question, not decided here: no existing
+  ephemeris/astrology library or API is wired into this stack yet. Needs a source (Python
+  `pyephem`/`skyfield`, an external API, or a vendored ephemeris table) before "always capturing
+  astrology info in Apples" is buildable. Reference point: Dallas, TX (founder's current location).
+  Decide scope too — full natal-chart-grade computation, or just current planetary
+  positions/major transits at filing time (the latter is far cheaper and likely sufficient given
+  Apples are timestamped events, not natal charts).
+
+- [ ] **S147-05: Wire into IDUNA's Apple schema + `apples.go` handler** — add the three new
+  optional fields (gpt2_fingerprint, model_fingerprint, astrology) to the Apple payload/migration;
+  decide whether enrichment happens IDUNA-side (the handler calls out to gpt2-alpine-c's serve.py
+  itself) or caller-side (emily-agent/emily.cli compute it before POSTing). Depends: S147-01..04.
+
+---
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
