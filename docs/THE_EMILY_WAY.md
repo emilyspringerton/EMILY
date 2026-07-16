@@ -102,6 +102,37 @@ Each repo is its own git history. Commits in PRRJECT_FATBABY, EMILY, IDUNA, etc.
 ### 13. Degraded Mode Is OK
 Emily Prime starts without `ANTHROPIC_API_KEY` in degraded mode. Obs-watcher works without IDUNA. Systems are designed to fail gracefully and not require all components to be live. Start with what you have; unlock full capability incrementally.
 
+### 14. Continuity Report — Full System Sync Checkpoint
+Long sessions accumulate state across many repos and background agents faster than any one
+person or session can hold in their head. Before ending a long/complex session, after a batch of
+background agents lands, or whenever explicitly asked for a "sync" or "continuity report," produce
+one. It exists so a fresh session — human or Claude Code, no memory of what came before — can read
+one file and know exactly where things stand, the same way `REBOOT_RUNBOOK.md` exists so a fresh
+session can recover the stack without reconstructing history from logs.
+
+A continuity report has four parts, in order:
+
+1. **Full sync sweep.** `git fetch` + `git status --short --branch` across every repo in the
+   monorepo home (not just the ones touched this session — the sweep is the point). Anything
+   showing "ahead of origin" gets pushed immediately as part of producing the report, not noted as
+   a TODO. A continuity report that ships with unpushed commits has failed at its one job.
+2. **Changelog digest.** What actually changed, repo by repo, since the last report (or since
+   session start if this is the first one) — pulled from each repo's `CHANGELOG.md` and recent
+   `git log`, not re-derived from memory.
+3. **Continuity state.** What's in-flight (background agents still running), what's blocked and on
+   what (credentials, sudo, API/session limits — name the exact blocker, not "waiting on human"),
+   what's queued but not yet dispatched (e.g. `EMILY/docs/fable-prompts/fable-next-backlog.md`),
+   and current system health (which services are actually up, verified, not assumed).
+4. **Clear next steps.** What the next session — automated or human-driven — should do first.
+
+Store reports at `EMILY/continuity/YYYY-MM-DD-HHMMSS.md`, one per checkpoint, append-only — never
+overwrite a prior report, they're the audit trail of the audit trail (Principle 9). Commit and push
+EMILY last, same as any multi-repo change (Principle 12). Individual reports don't need golden-doc
+registration (they'd bloat the index the way individual Apples don't get indexed either) — this
+principle's existence in `THE_EMILY_WAY.md` (already tier-1 golden) is what makes the *process*
+visible; the reports themselves are found in `EMILY/continuity/` the same way Apples are found in
+IDUNA, not by being individually promoted to golden status.
+
 ---
 
 ## The Feedback Loop
@@ -148,6 +179,11 @@ GOLDEN.md (compressed backlog)
 CHANGELOG.md (per-repo narrative)
   → human-readable dated history
   → updated on every meaningful change
+
+EMILY/continuity/ (session checkpoints)
+  → full sync sweep + changelog digest + in-flight/blocked/queued state + next steps
+  → one dated file per checkpoint, append-only, not individually golden-indexed
+  → see Principle 14
 ```
 
 ---
