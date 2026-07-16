@@ -23,7 +23,9 @@ themselves.*
 
 ## Dispatched (awaiting completion)
 
-*(none currently in flight)*
+| # | Title | Dispatched | Notes |
+|---|---|---|---|
+| 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-16 (retry) | First attempt failed on a transient 529 Overloaded; redispatched immediately with the same grounded brief. |
 
 ---
 
@@ -32,8 +34,7 @@ themselves.*
 | # | Title | File | Notes |
 |---|---|---|---|
 | 3 | TYLER S00E-2 (prequel bridge to S00E01) | `tyler-s00e-2-retry.md` | Hit a Fable session/usage limit before writing anything (verified clean tree). Resets ~5:50am UTC 2026-07-17. Prompt file is written and ready — just dispatch it after the reset. |
-| 4 | Act III synthesis — reconcile 141-149 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | No standalone prompt file yet | Hit a Fable session-limit window (resets 8:30pm UTC 2026-07-16 — should be clear now, retry). Verified clean tree, nothing partial landed. Should get a proper prompt file before redispatch rather than re-deriving from memory again. |
-| 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | No standalone prompt file yet | Failed on a transient **529 Overloaded** (server-side, not a session limit) — retriable immediately, unlike 3/4. Grounded against real `dig NS farthq.com` (currently Cloudflare) before the first attempt; that grounding still holds for a retry. |
+| 4 | Act III synthesis — reconcile 141-149 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | No standalone prompt file yet | Hit a Fable session-limit window (resets 8:30pm UTC 2026-07-16 — should be clear now). Verified clean tree, nothing partial landed. Retry next loop iteration (held back this round to avoid stacking two simultaneous Fable dispatches after a 529). |
 
 ---
 
