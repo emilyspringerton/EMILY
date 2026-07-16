@@ -169,10 +169,61 @@ func auditURL(ctx context.Context, rawURL string, checkLinks bool, maxLinks int)
 	return result, nil
 }
 
+// frontDoorTargets are the MJOLNIR WebView product URLs Emily Prime validates
+// before notifying the user that they're live (SECTION 10). Note: MJOLNIR's
+// ProductsScreen displays signalapi as :8083, but the service actually listens
+// on :9091 (see PRRJECT_FATBABY/cmd/signalapi's -addr default and watchdog.go's
+// health check) — audit the real port, not the (apparently misconfigured) display one.
+var frontDoorTargets = []string{
+	"http://localhost:8082", // newssite
+	"http://localhost:9091", // signalapi
+}
+
+// FrontDoorAuditResult is a single target's audit result plus the SECTION 10
+// pass/fail verdict.
+type FrontDoorAuditResult struct {
+	AuditResult
+	Passed  bool     `json:"passed"`
+	Reasons []string `json:"reasons,omitempty"`
+}
+
+// auditFrontDoor runs auditURL (with link-checking enabled) against each target
+// and applies the SECTION 10 gate: a target fails if it returns a 5xx status or
+// has more than 3 broken same-host links. Used as a pre-send guard before any
+// push that directs the user into a MJOLNIR WebView product screen.
+func auditFrontDoor(ctx context.Context, targets []string) (allPassed bool, results []FrontDoorAuditResult) {
+	allPassed = true
+	for _, target := range targets {
+		result, err := auditURL(ctx, target, true, 30)
+		fd := FrontDoorAuditResult{AuditResult: result, Passed: true}
+		if err != nil {
+			fd.Passed = false
+			fd.Reasons = append(fd.Reasons, fmt.Sprintf("audit error: %v", err))
+		}
+		if result.StatusCode >= 500 {
+			fd.Passed = false
+			fd.Reasons = append(fd.Reasons, fmt.Sprintf("HTTP %d", result.StatusCode))
+		}
+		if len(result.BrokenLinks) > 3 {
+			fd.Passed = false
+			fd.Reasons = append(fd.Reasons, fmt.Sprintf("%d broken links (>3)", len(result.BrokenLinks)))
+		}
+		if len(result.Errors) > 0 {
+			fd.Passed = false
+			fd.Reasons = append(fd.Reasons, result.Errors...)
+		}
+		if !fd.Passed {
+			allPassed = false
+		}
+		results = append(results, fd)
+	}
+	return allPassed, results
+}
+
 func registerWebAuditTools(d *ToolDispatcher) {
 	d.Register(ToolDef{
 		Name:        "web_audit_url",
-		Description: "Audit a web page as a real HTTP client. Fetches the URL, checks status code, extracts title and h1, counts links, optionally validates all same-host links for broken status (4xx/5xx). Use this to audit the FatBaby newssite (http://localhost:8082), SignalAPI (http://localhost:8083), or any other product URL before sending a push notification or after a deploy. Returns a structured JSON report.",
+		Description: "Audit a web page as a real HTTP client. Fetches the URL, checks status code, extracts title and h1, counts links, optionally validates all same-host links for broken status (4xx/5xx). Use this to audit the FatBaby newssite (http://localhost:8082), SignalAPI (http://localhost:9091 — note MJOLNIR's ProductsScreen displays this as :8083, but the service itself listens on :9091), or any other product URL before sending a push notification or after a deploy. Returns a structured JSON report.",
 		Parameters: ToolParameters{
 			Type: "object",
 			Properties: map[string]ToolPropSchema{

@@ -104,6 +104,40 @@ func runMorningBriefing(ctx context.Context, iduna *IdunaClient, push PushFunc, 
 		}
 	}
 
+	// SECTION 10 guard: the briefing push is what leads the user into MJOLNIR's
+	// ProductsScreen (newssite + signalapi WebViews). Audit the front door first —
+	// if it's broken, suppress the push and file an escalation Apple instead of
+	// sending the user into a dead experience. Don't mark today's briefing as sent
+	// on suppression, so a later cron tick within the send window can retry once
+	// the front door recovers.
+	auditCtx, auditCancel := context.WithTimeout(ctx, 30*time.Second)
+	passed, auditResults := auditFrontDoor(auditCtx, frontDoorTargets)
+	auditCancel()
+
+	if !passed {
+		var reasons []string
+		for _, r := range auditResults {
+			if !r.Passed {
+				reasons = append(reasons, fmt.Sprintf("%s: %s", r.URL, strings.Join(r.Reasons, "; ")))
+			}
+		}
+		reasonText := strings.Join(reasons, "\n")
+		log.Printf("briefing: front-door audit failed, suppressing push: %s", reasonText)
+		if iduna != nil {
+			go func() {
+				appleCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+				defer cancel()
+				_, _ = iduna.PostApple(appleCtx, ApplePayload{
+					AppleType:  "escalation",
+					SourceRepo: "EMILY",
+					Title:      "morning briefing suppressed — front-door audit failed",
+					Body:       fmt.Sprintf("Briefing push withheld to avoid sending the user into a broken product experience.\n\n%s", reasonText),
+				})
+			}()
+		}
+		return
+	}
+
 	log.Printf("briefing: firing morning push — %d apples in 24h, %d signals", len(recent), len(signals))
 
 	go push(title, body, map[string]string{
