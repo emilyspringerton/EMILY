@@ -18,6 +18,7 @@ themselves.*
 | # | Title | File | Status | Depends on |
 |---|---|---|---|---|
 | 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` | **ready to dispatch** | SAGA VS-spec audit landed 2026-07-16 (IDUNA `529834f`, EMILY `508a9be`) — no remaining blocker |
+| 4 | Act III synthesis — reconcile 141-150 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | `act3-synthesis.md` | **ready to dispatch, paused** | none — failed twice on transient `529 Overloaded` (not session-limit, not content). Per founder instruction 2026-07-16, not being auto-retried; dispatch deliberately whenever picked back up. |
 
 ---
 
@@ -34,7 +35,6 @@ themselves.*
 | # | Title | File | Notes |
 |---|---|---|---|
 | 3 | TYLER S00E-2 (prequel bridge to S00E01) | `tyler-s00e-2-retry.md` | Hit a Fable session/usage limit before writing anything (verified clean tree). Resets ~5:50am UTC 2026-07-17. Prompt file is written and ready — just dispatch it after the reset. |
-| 4 | Act III synthesis — reconcile 141-149 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | No standalone prompt file yet | Hit a Fable session-limit window (resets 8:30pm UTC 2026-07-16 — should be clear now). Verified clean tree, nothing partial landed. Retry next loop iteration (held back this round to avoid stacking two simultaneous Fable dispatches after a 529). |
 
 ---
 
