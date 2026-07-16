@@ -3588,12 +3588,16 @@ section's own stated boundary, not a feature.
 S145's E0/E1 ladder from planned to committed), and two specific asks: (1) incorporate the mag
 book (`towerprint`, S147) into the training pipeline itself, not just Apple fingerprinting; (2)
 reuse "vector cache tech" to bridge the frontier-API-to-in-house-model gap. Investigated (2):
-**no vector cache exists anywhere in this codebase.** The only related artifact is
-`EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md`'s Goetia-spirit embedding/vector-store design (intent →
-1-3 spirits via cosine similarity) — its core files, `engine/goetia_bank.go` and
-`scripts/embed_spirits.py`, were never written. `emily-agent/pkg/archetypes/selector.go` exists but
-is explicitly a placeholder: "Keyword matching is a fast tier-1 router **before** embedding-based
-similarity" — the embedding tier was never built. Corrected the founder's recollection rather than
+**no vector cache is built/integrated anywhere in this codebase** — corrected at the time, then
+the founder supplied the actual reference (`gpt2-alpine-c/docs/reference/vector_cache.md`, intaken
+same day): a real, working Python design (FAISS + local sentence-transformer embeddings +
+Merkle-style hashing) that S150-02 now ports from directly. Separately, the only *in-codebase*
+related artifact is `EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md`'s Goetia-spirit embedding/
+vector-store design (intent → 1-3 spirits via cosine similarity) — its core files,
+`engine/goetia_bank.go` and `scripts/embed_spirits.py`, were never written.
+`emily-agent/pkg/archetypes/selector.go` exists but is explicitly a placeholder: "Keyword matching
+is a fast tier-1 router **before** embedding-based similarity" — the embedding tier was never
+built. Corrected the founder's initial recollection rather than
 pretend the tech exists; this section proposes building a real one.*
 
 - [ ] **S150-01: Towerprint-augmented training records** — extend `prime_directive_dataset.py`
@@ -3605,17 +3609,22 @@ pretend the tech exists; this section proposes building a real one.*
   (this is flavor/capability, not the corpus's primary purpose) — decide the fraction, don't
   default to 100%.
 
-- [ ] **S150-02: Real embedding/vector-cache component** — a genuine, reusable Go package
-  (`gpt2-alpine-c/pkg/vectorcache` or similar — name TBD, avoid colliding with `pkg/towerprint`'s
-  naming lineage without copying it blindly) providing: (a) semantic caching of frontier-API calls
-  — hash-or-embed the prompt, return a cached response on a near-duplicate query instead of paying
-  for a fresh call, a direct, measurable way to "bridge the gap" by reducing frontier spend while
-  FABLE's own checkpoints mature; (b) retrieval memory for the personal predictive model (S148) and
-  archetype selection (reusing this instead of the unbuilt Goetia-specific `goetia_bank.go`, so the
-  Archetype Engine's stalled design finally has a real foundation instead of a second bespoke one).
-  Needs an embedding source — local (a small sentence-embedding model, cheap) vs. frontier API
-  embeddings (accurate, costs the thing this is trying to reduce) is a real design decision, not
-  default to either.
+- [ ] **S150-02: Real embedding/vector-cache component** — reference implementation recovered
+  2026-07-16: `gpt2-alpine-c/docs/reference/vector_cache.md`, a working Python design (FAISS
+  `IndexFlatIP` for cosine-similarity search, local `sentence-transformers` embeddings —
+  `all-MiniLM-L6-v2`, cheap and free, answering S150-02's original open question in favor of
+  local over frontier embeddings — Merkle-style per-node hashing for integrity/dedup, a
+  `LLMContextCache` class with hit/miss stats). Port target, not a runtime dependency, same
+  relationship `pkg/towerprint` has to the 2020 mag book — build a genuine, reusable Go package
+  (`gpt2-alpine-c/pkg/vectorcache` or similar; avoid colliding with `pkg/towerprint`'s naming
+  lineage without copying it blindly) providing: (a) semantic caching of frontier-API calls —
+  near-duplicate queries return a cached response instead of paying for a fresh call, a direct,
+  measurable way to "bridge the gap" while FABLE's own checkpoints mature; (b) retrieval memory
+  for the personal predictive model (S148) and archetype selection (reusing this instead of the
+  unbuilt Goetia-specific `goetia_bank.go`, so the Archetype Engine's stalled design finally has a
+  real foundation instead of a second bespoke one). The reference's Merkle hashing fits this
+  house's existing provenance/hash-chain conventions (NORN lineage, `fabledata` snapshots)
+  directly — port that part faithfully, don't simplify it away.
 
 - [ ] **S150-03: NORN instantiation for the vector cache's own quality** — per PRIME-101's pattern:
   cache hit/miss rates and staleness are exactly the kind of metric a NORN instantiation grades
