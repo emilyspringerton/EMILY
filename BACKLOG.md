@@ -3395,7 +3395,7 @@ recovered from the founder's own 6-year-old (2020) experimental prompt-engineeri
 for full technical inventory: `squished()`/`MTRXTWER()`/`PRINTWR()`/`codzeifyWord()` and the
 notebook-only `trxtwr`/`magicVVVDecTower` evolution in `TOYBOK/COR.ipynb`), plus a model-fingerprint
 field (which checkpoint actually generated the content) and always-present astrology/transit info
-(Dallas, TX — the founder's current location — as reference point). A Fable pass is queued
+(Dallas, TX — where the server itself is located, not the founder personally — as reference point). A Fable pass is queued
 (`EMILY/docs/fable-prompts/fable-next-backlog.md`) to fully comprehend the old repo's intent and
 produce a modernized/"emilyified" Go port + integration design before implementation starts here —
 these items are the backlog shape for once that design lands, not yet startable blind.*
@@ -3420,7 +3420,8 @@ these items are the backlog shape for once that design lands, not yet startable 
 - [ ] **S147-04: Astrology/transit data source** — open question, not decided here: no existing
   ephemeris/astrology library or API is wired into this stack yet. Needs a source (Python
   `pyephem`/`skyfield`, an external API, or a vendored ephemeris table) before "always capturing
-  astrology info in Apples" is buildable. Reference point: Dallas, TX (founder's current location).
+  astrology info in Apples" is buildable. Reference point: Dallas, TX (where the server is
+  located, not the founder personally).
   Decide scope too — full natal-chart-grade computation, or just current planetary
   positions/major transits at filing time (the latter is far cheaper and likely sufficient given
   Apples are timestamped events, not natal charts).
