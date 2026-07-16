@@ -3335,6 +3335,54 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
+## SECTION 146: GPT2-ALPINE-C CORPUS EVOLUTION — BRIDGE TO FABLE E0 (2026-07-16)
+
+*Source: gpt2-alpine-c/NORTHSTAR.md "Corpus Evolution — Bridge to FABLE E0" (added 2026-07-16);
+HQ-SPEC-AI-103 §4a/§8. The call, made there: `fabledata` is a separate Go component per spec —
+gpt2-alpine-c implements the snapshot-manifest contract first, in Python, so E0 doesn't wait for
+the Go rewrite. Two tracks, one builder: the general Emily corpus (S26 track, validated, incl.
+HQ-SPEC 098–103 auto-ingest) stays unchanged; a new narrow `--fable-eps` preset serves FABLE E0.
+The EPS source is PRRJECT_FATBABY/var/eps/{articles,oracle}.ndjson — NOT sec_filings_to_records,
+which is chunked secwatch text with no oracle linkage. These items feed S145-01/02/03; they do
+not replace them.*
+
+- [ ] **S146-01: Snapshot manifest v1 writer** — `--snapshot` mode in prime_directive_dataset.py:
+  immutable snapshot pair under gpt2-alpine-c/var/snapshots/ (`eps-<date>-<shorthash>.jsonl` +
+  `.manifest.json`); content-addressed `snapshot_id` = sha256 over sorted per-record hashes;
+  manifest records builder git rev + args + tombstone-list hash. Format per NORTHSTAR "Snapshot
+  manifest v1". This manifest is the contract Go `fabledata` inherits — feeds S145-01.
+
+- [ ] **S146-02: `eps_headlines_to_records()`** — new builder function reading
+  PRRJECT_FATBABY/var/eps/articles.ndjson + oracle.ndjson; join by `source_identity`; one record
+  per article, never chunked (record identity is what provenance hangs on). Per-record provenance:
+  `source_event_hash` (sha256 of raw NDJSON line), `oracle` (eps-reconciler case_id + 8-K
+  accession when present), `label_date`, `license_class: own-exhaust`. Verdict gating: only
+  `confirmed` cases are FABLE-eligible (Löbian rule 1 — reality-rooted labels only); pending /
+  contradicted excluded and counted in verbose output.
+
+- [ ] **S146-03: `--fable-eps` preset** — analogous to `--colab`: EPS-headline records only, no
+  golden docs / TYLER / Apples / chunked SEC text; implies `--snapshot`. Output is the E0 training
+  input — feeds S145-03. Track A (general corpus, all existing flags) unchanged.
+
+- [ ] **S146-04: Eval tombstone mechanism** — `gpt2-alpine-c/var/eval-tombstones.json`,
+  git-committed flat list of `{sha256, suite, frozen_at}`; builder drops matching record hashes at
+  snapshot-build time (after generation, before dedupe/write); manifest records the tombstone
+  list's own hash so every snapshot proves its exclusion set. Consumes the frozen-suite hashes
+  S145-02 produces — the freeze happens there, *before any training*, per HQ-SPEC-AI-103 §8 step 2.
+
+- [ ] **S146-05: corpus_stats.py provenance audit mode** — for snapshot corpora: verdict / oracle /
+  license-class breakdown + contamination check (zero tombstoned hashes present, else exit
+  non-zero) — the "contamination audit results (must be zero findings)" metric from
+  HQ-SPEC-AI-103 §7.
+
+- [ ] **S146-06: Track A rebuild + baseline refresh** — rebuild the general Emily corpus so the six
+  newly-registered HQ-SPEC docs (098–103, Tier 2) are ingested; run corpus_stats; refresh
+  var/perplexity-baseline.json (current 116.76 predates them) so the eventual S26-04 Colab run
+  measures against the current corpus. No builder changes required — this is the existing
+  tier 1+2 behavior doing its job.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
