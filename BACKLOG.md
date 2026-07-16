@@ -3352,6 +3352,7 @@ not replace them.*
   (`eps-<date>-<shorthash>.jsonl` + `.manifest.json`); `snapshot_id` = sha256 over sorted
   per-record `source_event_hash` values; manifest records builder git rev + CLI args +
   tombstone-list hash. This manifest is the contract Go `fabledata` inherits — feeds S145-01.
+  Apple #9913.
 
 - [x] **S146-02: `eps_headlines_to_records()`** — DONE 2026-07-16. Reads
   PRRJECT_FATBABY/var/eps/articles.ndjson + oracle.ndjson; joins by `source_identity`; one record
@@ -3361,16 +3362,17 @@ not replace them.*
   silently dropped. (8-K accession isn't in oracle.ndjson's current schema — used `filed_eps`
   instead, the field that's actually there; a follow-on if accession-level provenance is wanted.)
   Verified live: current store has 2 pending, 0 confirmed cases — correctly outputs 0 records.
+  Apple #9913.
 
 - [x] **S146-03: `--fable-eps` preset** — DONE 2026-07-16. EPS-headline records only, bypasses
   the general corpus builder entirely (no golden docs/TYLER/Apples/chunked SEC text); implies
-  `--snapshot`. Output is the E0 training input — feeds S145-03. Track A unchanged.
+  `--snapshot`. Output is the E0 training input — feeds S145-03. Track A unchanged. Apple #9913.
 
 - [x] **S146-04: Eval tombstone mechanism** — DONE 2026-07-16. `gpt2-alpine-c/var/eval-tombstones.json`
   (flat list of `{sha256, suite, frozen_at}`, not yet populated — S145-02 hasn't frozen a suite
   yet, correctly a no-op until it does); `apply_tombstones()` drops matching record hashes after
   generation, before dedupe/write; manifest records the tombstone list's own hash. 12 new tests
-  (40 total, all green). gpt2-alpine-c commit `458756c`.
+  (40 total, all green). Apple #9913, gpt2-alpine-c commit `458756c`.
 
 - [ ] **S146-05: corpus_stats.py provenance audit mode** — for snapshot corpora: verdict / oracle /
   license-class breakdown + contamination check (zero tombstoned hashes present, else exit
@@ -3412,7 +3414,9 @@ UPDATE 2026-07-16: the Fable pass landed — port at `gpt2-alpine-c/pkg/towerpri
   magicVVVLookup is now *derived* from the 3×8 VVV grid and test-verified against the original.
   `Compute()` is the Apple-facing composite Fingerprint. 13 table-driven tests pinned to vectors
   from the original Python + the VOIDONX artifact; all green. Design doc:
-  `gpt2-alpine-c/docs/TOWERPRINT.md` (golden index: TOWERPRINT, tier 2).
+  `gpt2-alpine-c/docs/TOWERPRINT.md` (golden index: TOWERPRINT, tier 2). Apple #9915 (filed
+  retroactively — a process gap: the original Fable dispatch was told not to file one, which was
+  wrong given the scope of the work; caught in a full-process Apple/CHANGELOG audit).
 
 - [ ] **S147-02: GPT-2 fingerprint generation hook** — DECIDED (TOWERPRINT.md §5): **async,
   caller-side** — the Apple POST never blocks on :8088; an emily-agent enrichment worker
@@ -3427,6 +3431,7 @@ UPDATE 2026-07-16: the Fable pass landed — port at `gpt2-alpine-c/pkg/towerpri
   is a live enrichable field on `PATCH /api/v1/apples/{id}`, verified end-to-end. What's not done:
   actually populating it automatically — that's S147-02's worker carrying through serve.py's
   `model` tag. A weights-file sha256 on serve.py `/health` remains a follow-on, not started.
+  Apple #9910 (shared with S147-05, same commit).
 
 - [ ] **S147-04: Astrology/transit data source** — open question, not decided here: no existing
   ephemeris/astrology library or API is wired into this stack yet. Needs a source (Python
