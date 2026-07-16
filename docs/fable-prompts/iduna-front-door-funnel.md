@@ -9,6 +9,41 @@ reading and the design question sharpens considerably once it exists. Check it's
 
 **To dispatch:** `Agent({ model: "fable", subagent_type: "general-purpose", prompt: <body below> })`
 
+**2026-07-16 update — deployment reality confirmed, fold into the design question:**
+`iduna.farthq.com` already resolves publicly (198.58.107.85) and is live, but is currently 100%
+claimed by the EDIS WordPress deployment (nginx `sites-enabled/edis`, HTTP-only, no cert issued
+yet). There is no IDUNA routing on this domain at all today. Founder decision: path-based split —
+IDUNA's `/api/v1/`, `/.well-known/jwks.json`, `/auth/`, `/admin/` get proxy_pass location blocks
+to `127.0.0.1:8080` (drafted, ready to apply: `IDUNA/ops/nginx-front-door-snippet.conf`), WordPress
+keeps everything else. **Unresolved and load-bearing for this prompt's design question:** IDUNA
+also serves its own static frontend at bare `/` (`main.go:210`, `GET /{$} → index.html` — presumably
+the actual Unagent funnel UI: Honor Code screen, gamertag claim) and that collides with WordPress's
+root. The funnel design this prompt asks for should explicitly address where that frontend lives
+as part of its "concrete migration path" section — this is no longer hypothetical, it's the actual
+blocker to shipping.
+
+**Security framing, decided in discussion, carry this into the design — don't relitigate it from
+scratch, but do execute it well:** the founder's first idea was hosting the funnel UI as a new
+WordPress plugin (`edis-iduna`) inside EDIS, reusing `edis-core`'s existing HTTP-client/shortcode
+pattern — architecturally tempting, since EDIS's actual name is **Emily Distributed *Intelligence*
+System** (DIS, the Digital Immune System, is one plugin inside it, not what EDIS itself is), so
+it's not a mismatched host on paper. But the founder correctly walked this back: the honor-code /
+OAuth-handoff / gamertag-claim surface is the single most security-sensitive moment in the system
+— VS0's own design language treats it as an "irreversible human agreement" worth a dedicated
+"consent metal." Even if WordPress only ever served static markup with all real logic staying in
+IDUNA's Go backend, a compromised WordPress install (plugin CVE, wp-admin breach — a real,
+recurring risk class) could inject JS into that page and subvert the ceremony itself, which
+defeats the entire point of treating it as ceremony rather than a checkbox. **Decision: the funnel
+ships on a clean origin that never routes through PHP at all** — nginx proxies straight to IDUNA's
+Go binary (either a dedicated location block on `iduna.farthq.com` that WordPress's catch-all
+never sees, or a separate subdomain if that proves cleaner at the nginx-config level — your call,
+argue it briefly). **Separately, and explicitly not a blocker for this prompt's deliverable:**
+"harden EDIS/WordPress enough that it could someday be trusted with identity-adjacent surfaces" is
+a legitimate ambitious bet worth naming, and it already has a real home — `EMILY/BACKLOG.md`
+`SECTION 35: EDIS DIS PRODUCTION HARDENING`. If your design has a natural pointer to make there
+(e.g. "revisit WordPress-hosting once S35 reaches X"), say it in one sentence and move on; don't
+let it become scope creep on the funnel design itself.
+
 ---
 
 ## Prompt body (copy from here down)
