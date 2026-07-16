@@ -1322,8 +1322,9 @@ world bridge (NORTHSTAR Milestone 4).*
 | S2 (MPT) | Pexels API key | Video compilation pipeline |
 | S45-02 run | `sudo apt install libsdl2-dev` + create emilyspringerton/PITVIPER on GitHub | PITVIPER window launches |
 | S149-01 | Gmail OAuth credentials via `cmd/get-gmail-token` one-time browser flow | Email operational fabric (AM/PM digest, directive intake, Q&A, MJOLNIR receipts) |
-| S141 (097 gap) | Supply or write HQ-SPEC-PRIME-097 (Fixed Points) — cited by PRIME-101 + FIN-098, absent from repo | Final kernel semantics; FIN-098 spec-number confirmation |
+| ~~S141 (097 gap)~~ | ~~Supply or write HQ-SPEC-PRIME-097~~ — RESOLVED 2026-07-16, `EMILY/HQ-SPEC-PRIME-097-fixed-points.md` landed (GitHub web upload). Reconciled against `pkg/norn`: no interface/property-test changes needed (see SECTION 141 blocking note and NORN/CLAUDE.md). Remaining soft gap: 097 itself cites `HQ-SPEC-IAM-096-apples.md`, which also doesn't exist in the repo — 097 is self-contained enough (defines its own vocabulary in §1) that this doesn't block anything, but is noted rather than silently dropped. | — |
 | S141-01 | Confirm NORN as the kernel name (PRIME-101 §10) | `pkg/norn` package naming; S141–S145 NORN wiring |
+| S141-01 | Create `emilyspringerton/NORN` on GitHub (same gap as PITVIPER, S45-02 row above — no `gh` CLI/credentials available to do this from here); repo exists locally only (`git init`, 2 commits, no remote) | Pushing NORN anywhere off this machine; other repos importing `pkg/norn` from a real remote instead of local workspace-only resolution |
 | S142-01 | Legal-entity decision (which entity holds the QBO file) + QBO OAuth credentials into IDUNA (FIN-098 §7) | KAREN Phase 0 (S142-01..04) |
 | S144-03 | Pick the two candidate physics backbones (Isaac Lab / MJX / Genesis) for the adapter bake-off (SIM-100 §9) | Reward compiler v0 (S144-03..05) |
 | S135-02 | Vendor comparison research done (see S135-02 entry) — pick the VS0 sticker vendor. The brief's own production schedule names this decision "Emily (human)," not Emily Prime, so it's not being auto-selected. | S135-03/04/05 (WooCommerce listing, first batch order, drop) |
@@ -3215,7 +3216,7 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Sequencing logic: NORN (S141) is the kernel the other four instantiate against — FIN-098's approval tiers, DOC-102's document promotion, SIM-100's GameEvolutionEngine loop, and AI-103's checkpoint gating all cite PRIME-101 rather than restating the loop. S141-01/02 build first. Each other section's opening steps (qbowatch, saga lint, .gband format, fabledata snapshots) are kernel-independent and may start in parallel; their NORN-wired steps wait on S141-02.*
 
-*Known gap, worked around not silently fixed: HQ-SPEC-PRIME-097 (Fixed Points) is cited as NORN's mathematical foundation ("Implements:" line of PRIME-101) and by FIN-098's provisional spec numbering, but no such document exists anywhere in this repo (verified 2026-07-16). It is not fabricated here. See the blocking note in SECTION 141.*
+*Gap resolved 2026-07-16: HQ-SPEC-PRIME-097 (Fixed Points) landed after S141-01 was built against PRIME-101 §2's own summary of its math. Reconciled — see the (former) blocking note in SECTION 141 for the point-by-point check; no rework needed. FIN-098's provisional spec-number confirmation against 097 is still open (untouched by this reconciliation, which was scoped to NORN/pkg/norn only).*
 
 ---
 
@@ -3223,14 +3224,24 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Source: HQ-SPEC-PRIME-101 §8 (Migration & Build Sequence). The canonical propose→grade→gate→promote loop, extracted once from the six ad-hoc improvement loops that independently derived it (EPS headline grader, GameEvolutionEngine, recon matcher, reward compiler, KAREN proposal funnel, sim-fidelity). Cardinal rule: NORN decides promotion, never execution — no payments, no actuation, no deploys, no `--force`.*
 
-***BLOCKING NOTE — PRIME-097 gap (not a checkbox):*** *PRIME-101 declares itself the machine to PRIME-097's mathematics (quality lattices, monotone promotion, frozen-metric convergence, Löbian lineage rules), but PRIME-097 does not exist in the repo. Items below build against PRIME-101 §2's own summary of the math; the interface set, property-test suite, and lattice semantics in S141-01 may need revisiting once 097 surfaces or is written. Human action queued (see HUMAN UNBLOCK QUEUE).*
+***RESOLVED NOTE — PRIME-097 landed 2026-07-16 (not a checkbox):*** *`pkg/norn` (S141-01) was built against PRIME-101 §2's own summary of PRIME-097's math, before 097 itself existed in the repo. 097 has now landed (`EMILY/HQ-SPEC-PRIME-097-fixed-points.md`) and was checked point-by-point against what's built:*
+  - *Monotone promotion (Kleene/Tarski-Knaster, 097 §1-2) → `DefaultGate` already requires every `NoRegressionOn` dimension to be non-decreasing. Consistent, no change.*
+  - *Frozen-metric convergence (Banach, 097 §2) → `DefaultGate` already refuses to compare `Report`s across different `OracleVersion`s. Consistent, no change.*
+  - *Löbian hazard (097 §1, "Reflective hazard") → `CheckLineage`'s content-hash ancestry walk is the mechanical instantiation of exactly this. Consistent, no change.*
+  - *k-metric (M-1), period-2 oscillation detection (M-2), spec-drift gap (M-5), lattice projection on scope (INV-5) → all are rolling/historical computations over `Registry.History()`, which `NDJSONRegistry` already returns in full — these belong to `nornd`/Back Office (S141-04), not the kernel library. No pkg/norn interface changes needed to support them later.*
+  - *Oracle declaration (INV-6) → `Oracle` already can't be satisfied without a concrete `Version()`; registration-time enforcement (rejecting a loop with no oracle) is a `nornd`/CLI concern (S141-04), not a kernel-library one.*
+  - *Soft residual gap: 097 itself cites `HQ-SPEC-IAM-096-apples.md`, which doesn't exist in the repo either — noted, not blocking (097 is self-contained enough not to need it for this reconciliation).*
+  *Conclusion: zero code changes to `pkg/norn` required. Full writeup: `NORN/CLAUDE.md` "Known open gap" section.*
 
-- [ ] **S141-01: `pkg/norn` kernel library** — Five interfaces (Artifact, Proposer, Oracle, Gate, Registry)
-  + NDJSON append-only registry + content-hash lineage checker + property tests per §8.1: monotone
-  promotion, replay determinism, lineage-violation rejection, oracle-version comparability refusal.
-  Eval-corpus storage shape (flat files + manifest vs. dedicated store) is decided at this step per §10.
-  Working name NORN pending confirmation (human, unblock queue) — package name follows the answer.
-  May need revisiting when PRIME-097 lands (see blocking note).
+- [x] **S141-01: `pkg/norn` kernel library** — Five interfaces (Artifact, Proposer, Oracle, Gate, Registry)
+  + NDJSON append-only registry (`NDJSONRegistry`, mutex-guarded Record) + content-hash lineage
+  checker (`CheckLineage`) + reference `DefaultGate` + property tests per §8.1: monotone promotion,
+  replay determinism, lineage-violation rejection, oracle-version comparability refusal. 10 tests,
+  green under `-race`, including a concurrent-Record regression test. Eval-corpus storage shape
+  decided per §10: flat NDJSON, no dedicated store. New top-level repo `NORN/`, added to `go.work`.
+  Checked against PRIME-097 once it landed same day — no changes needed (see SECTION 141's resolved
+  blocking note). Working name NORN carried through pending human confirmation (unblock queue).
+  ✓ Apple #9920 — 2026-07-16. Commit NORN (pkg/norn).
 
 - [ ] **S141-02: First migration — EPS headline extractor** — The loop that invented the pattern proves
   the kernel (§8.2). Acceptance is the spec's own: identical promotion decisions replayed through NORN
