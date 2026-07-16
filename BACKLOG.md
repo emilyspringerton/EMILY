@@ -3375,11 +3375,14 @@ not replace them.*
   non-zero) — the "contamination audit results (must be zero findings)" metric from
   HQ-SPEC-AI-103 §7.
 
-- [ ] **S146-06: Track A rebuild + baseline refresh** — rebuild the general Emily corpus so the six
+- [x] **S146-06: Track A rebuild + baseline refresh** — rebuild the general Emily corpus so the six
   newly-registered HQ-SPEC docs (098–103, Tier 2) are ingested; run corpus_stats; refresh
   var/perplexity-baseline.json (current 116.76 predates them) so the eventual S26-04 Colab run
   measures against the current corpus. No builder changes required — this is the existing
   tier 1+2 behavior doing its job.
+  ✓ 327→1228 records (golden-doc growth since 2026-06-14 + HQ-SPEC 098–103), corpus_stats clean
+  (1 dup, 1 short record), baseline refreshed 116.76→166.56 PPL (expected rise, not a regression —
+  old value preserved in a history array). Apple #9888 · gpt2-alpine-c commit (pending below).
 
 ---
 
