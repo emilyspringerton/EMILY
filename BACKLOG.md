@@ -3582,6 +3582,58 @@ section's own stated boundary, not a feature.
 
 ---
 
+## SECTION 150: GPT-2 TRAINING PIPELINE — TOWERPRINT INTEGRATION + VECTOR CACHE (2026-07-16)
+
+*Founder direction 2026-07-16: "all in" on training GPT-2 into a usable in-house model (escalates
+S145's E0/E1 ladder from planned to committed), and two specific asks: (1) incorporate the mag
+book (`towerprint`, S147) into the training pipeline itself, not just Apple fingerprinting; (2)
+reuse "vector cache tech" to bridge the frontier-API-to-in-house-model gap. Investigated (2):
+**no vector cache exists anywhere in this codebase.** The only related artifact is
+`EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md`'s Goetia-spirit embedding/vector-store design (intent →
+1-3 spirits via cosine similarity) — its core files, `engine/goetia_bank.go` and
+`scripts/embed_spirits.py`, were never written. `emily-agent/pkg/archetypes/selector.go` exists but
+is explicitly a placeholder: "Keyword matching is a fast tier-1 router **before** embedding-based
+similarity" — the embedding tier was never built. Corrected the founder's recollection rather than
+pretend the tech exists; this section proposes building a real one.*
+
+- [ ] **S150-01: Towerprint-augmented training records** — extend `prime_directive_dataset.py`
+  (or its Go successor per S146) with a new record kind: for a sample of corpus text, emit an
+  instruction pair `{text} → {towerprint.Compute(text).Tower}` (and optionally the magic-tower/
+  codze forms). This teaches a fine-tuned checkpoint to natively produce the house transform — the
+  2020 original's actual technique (feed the tower back to the model, see how it reads) becomes a
+  training signal instead of a one-off ritual. Scope check: sample a small fraction of records
+  (this is flavor/capability, not the corpus's primary purpose) — decide the fraction, don't
+  default to 100%.
+
+- [ ] **S150-02: Real embedding/vector-cache component** — a genuine, reusable Go package
+  (`gpt2-alpine-c/pkg/vectorcache` or similar — name TBD, avoid colliding with `pkg/towerprint`'s
+  naming lineage without copying it blindly) providing: (a) semantic caching of frontier-API calls
+  — hash-or-embed the prompt, return a cached response on a near-duplicate query instead of paying
+  for a fresh call, a direct, measurable way to "bridge the gap" by reducing frontier spend while
+  FABLE's own checkpoints mature; (b) retrieval memory for the personal predictive model (S148) and
+  archetype selection (reusing this instead of the unbuilt Goetia-specific `goetia_bank.go`, so the
+  Archetype Engine's stalled design finally has a real foundation instead of a second bespoke one).
+  Needs an embedding source — local (a small sentence-embedding model, cheap) vs. frontier API
+  embeddings (accurate, costs the thing this is trying to reduce) is a real design decision, not
+  default to either.
+
+- [ ] **S150-03: NORN instantiation for the vector cache's own quality** — per PRIME-101's pattern:
+  cache hit/miss rates and staleness are exactly the kind of metric a NORN instantiation grades
+  (oracle = does a cache hit actually save a real subsequent call vs. serve a wrong/stale answer).
+  Add a row to `HQ-SPEC-PRIME-101` §6 once S150-02 exists — noted here so it isn't forgotten, not
+  actioned yet (depends on S141 landing first, same as everything else that cites NORN).
+
+- [ ] **S150-04: E0/E1 commitment — resource/timeline reality check** — "all in" is a real
+  escalation from S145's existing plan; before treating it as a schedule change, revisit
+  `HQ-SPEC-AI-103` §9's open GPU posture question (owned box vs. rented burst) — commitment without
+  a GPU decision is a commitment to nothing concrete. Not resolved here; flagged as the actual
+  blocker to "all in" meaning anything beyond intent.
+
+*ARCHETYPE_ENGINE_NORTHSTAR.md is not amended here — S150-02 is additive infrastructure the
+archetype engine could adopt later, not a rewrite of that spec's own vector-store section.*
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
