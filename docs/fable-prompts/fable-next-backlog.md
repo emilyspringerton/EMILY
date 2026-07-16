@@ -25,12 +25,23 @@ themselves.*
 
 | # | Title | Dispatched | Notes |
 |---|---|---|---|
-| 2 | Emilyify the mag book (`QUEENSALLYONLINEBOOKOFMAGIFICATIONANDUNICOR` → Go port + design doc) | 2026-07-16 | Feeds `EMILY/BACKLOG.md` SECTION 147 (S147-01). No standalone prompt file written — dispatched directly in-session; see continuity report / session transcript for the full brief if it needs re-sending. |
-| — | TYLER S00E-2 (prequel bridge to S00E01) | 2026-07-16 | **Failed**, not landed — hit a Fable session/usage limit before writing anything (verified clean tree). Resets ~5:50am UTC 2026-07-17. No prompt file written yet either — should get one before this session ends so a fresh session can retry without re-deriving the brief. |
+| 4 | Act III synthesis — reconcile 141-149 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | 2026-07-16 | No standalone prompt file — dispatched in-session, brief is comprehensive (references every doc from the whole session). Re-derive from session transcript if it needs resending. |
+
+---
+
+## Failed — needs redispatch
+
+| # | Title | File | Notes |
+|---|---|---|---|
+| 3 | TYLER S00E-2 (prequel bridge to S00E01) | `tyler-s00e-2-retry.md` | Hit a Fable session/usage limit before writing anything (verified clean tree). Resets ~5:50am UTC 2026-07-17. Prompt file is written and ready — just dispatch it after the reset. |
 
 ---
 
 ## Done
+
+| # | Title | Landed | Commits |
+|---|---|---|---|
+| 2 | Emilyify the mag book → `gpt2-alpine-c/pkg/towerprint` + `docs/TOWERPRINT.md` | 2026-07-16 | gpt2-alpine-c `819c400`, EMILY `c0efd2f` |
 
 *(none yet)*
 
