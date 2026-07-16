@@ -1315,6 +1315,7 @@ world bridge (NORTHSTAR Milestone 4).*
 | S30-02 | `sudo mysql` on production | MySQL projections in prod |
 | S2 (MPT) | Pexels API key | Video compilation pipeline |
 | S45-02 run | `sudo apt install libsdl2-dev` + create emilyspringerton/PITVIPER on GitHub | PITVIPER window launches |
+| S149-01 | Gmail OAuth credentials via `cmd/get-gmail-token` one-time browser flow | Email operational fabric (AM/PM digest, directive intake, Q&A, MJOLNIR receipts) |
 | S141 (097 gap) | Supply or write HQ-SPEC-PRIME-097 (Fixed Points) — cited by PRIME-101 + FIN-098, absent from repo | Final kernel semantics; FIN-098 spec-number confirmation |
 | S141-01 | Confirm NORN as the kernel name (PRIME-101 §10) | `pkg/norn` package naming; S141–S145 NORN wiring |
 | S142-01 | Legal-entity decision (which entity holds the QBO file) + QBO OAuth credentials into IDUNA (FIN-098 §7) | KAREN Phase 0 (S142-01..04) |
@@ -3505,6 +3506,74 @@ token/OAuth app (for S148-02's historical export) — not added to the queue tab
 section isn't build-ready (S148-01's design pass hasn't landed).
 
 ---
+
+---
+
+## SECTION 149: EMAIL AS OPERATIONAL FABRIC (2026-07-16)
+
+*Founder direction, given in several passes 2026-07-16 (synthesized here, not from one message):
+"the primary in and out of the system will be emails" — Emily Prime sends AM/PM status emails to
+the founder; the founder sends Emily directive emails as the primary near-term-focus and long-term-
+northstar channel (the email equivalent of what this very Claude Code session is used for today);
+the founder can ask Emily questions by email and Emily reports back by email; MJOLNIR push events
+also get an email receipt. Design bar, stated directly: Emily should become "transparent to an
+offshore digital assistant that can only email" — the email interface has to be rich and complete
+enough that an actor with email as their only channel could fully direct and receive status from
+the system, not a degraded notification-only surface. **Hard boundary, stated directly and not
+negotiable: email does not satisfy biometric human-in-the-loop requirements** — the payment-approval
+and physical-actuation gates already specified in `HQ-SPEC-FIN-098`/`HQ-SPEC-SIM-100` stay
+biometric-app-only regardless of how capable the email channel becomes. Email is a status/directive/
+Q&A fabric, never an approval mechanism.*
+
+*Infrastructure note: this is substantially less greenfield than it looks. `emily-agent/gmail.go`
+already has a full `GmailClient` — OAuth2 (`cmd/get-gmail-token`), `ReadInbox` (inbound, already
+registered as an Emily Prime agent tool via `registerGmailTools`), `SendAlert` (outbound, already
+wired into `runPrimeTriage`'s CEO-escalation path). **It's dormant, not missing** — no
+`GMAIL_CLIENT_ID`/`GMAIL_CLIENT_SECRET`/`GMAIL_REFRESH_TOKEN` are set in
+`EMILY/var/emily-secrets.env` (confirmed empty of any `GMAIL_*` var), so `gmail` is `nil`
+everywhere it's referenced today. Getting credentials configured is the actual first step, not new
+code — add to Human Unblock Queue once this section is picked up.*
+
+- [ ] **S149-01: Gmail credentials — human action** — `GMAIL_CLIENT_ID`/`GMAIL_CLIENT_SECRET`/
+  `GMAIL_REFRESH_TOKEN`/`GMAIL_CEO_ADDRESS` into `EMILY/var/emily-secrets.env`, via
+  `cmd/get-gmail-token`'s one-time browser OAuth flow (already built). Unblocks everything below.
+
+- [ ] **S149-02: AM/PM status digest** — new scheduled job (cron-style, matching
+  `CheckinAlertWorker`'s shape) firing twice daily, composing a system-status summary (service
+  health, overnight Apple activity, blockers, in-flight work — likely the same shape as a
+  continuity report's "Continuity state" section, Principle 14) and sending via
+  `GmailClient.SendAlert` or a new digest-specific send method. Decide format: plain summary vs.
+  something closer to the continuity report's structure.
+
+- [ ] **S149-03: Directive intake from email** — extend `ReadInbox` from an on-demand agent tool
+  into an actual triage pipeline: incoming founder emails get parsed and turned into directed
+  tasks / backlog input, the email equivalent of a Claude Code prompt in this session. Needs a
+  real design pass on parsing (structured subject-line convention? free text triaged by haiku,
+  matching how `emily backlog promote` already curates the INTAKE QUEUE?) — don't hand-roll a
+  fragile parser without deciding this first.
+
+- [ ] **S149-04: Q&A round-trip via email** — founder emails a question, Emily reports back by
+  email. Likely reuses the existing `POST /api/v1/emily/plan {"question": "..."}` endpoint
+  (Principle 10 — "Emily Prime Plans, Claude Code Implements") as the answering engine, with
+  S149-03's intake pipeline routing question-shaped emails there and the reply sent via
+  `SendAlert` or a new reply-specific method threading the original message.
+
+- [ ] **S149-05: MJOLNIR push → email receipt mirror** — every FCM push MJOLNIR sends also gets a
+  parallel email, using the existing push-send path in emily-agent as the trigger point. Pure
+  fan-out, no new decision logic — the push event already has everything an email receipt needs.
+
+- [ ] **S149-06: "Offshore digital assistant" completeness bar — design review** — once S149-02
+  through S149-05 exist, a real pass checking whether an actor with *only* email access could
+  actually operate the system through them: does the AM/PM digest carry enough context to act on
+  without other access, can directives expressed only in email actually reach every corner of the
+  backlog/Apple/task surface a Claude Code session can reach today? This is the acceptance
+  criterion for the whole section, not a separate feature.
+
+**Explicit non-goal, stated to prevent scope drift:** this section does not touch or weaken the
+biometric approval gates anywhere in the system (`HQ-SPEC-FIN-098` payment approval,
+`HQ-SPEC-SIM-100` physical actuation). If a future email-intake pipeline is ever tempted to add an
+"approve via email reply" shortcut for those specific gates, that's a regression against this
+section's own stated boundary, not a feature.
 
 ---
 
