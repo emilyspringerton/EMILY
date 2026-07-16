@@ -3288,10 +3288,35 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   ✓ Apple #9924 — 2026-07-16. Commits: PRRJECT_FATBABY (entitygraph norngate + eps refactor), NORN
   (`GradeAndPromote`).
 
-- [ ] **S141-04: `nornd` daemon + CLI + Back Office + Apples** — cron-scheduled instantiations, budget
-  enforcement, feedserver events; `norn propose/grade/status/history/freeze-oracle`; every
-  `artifact_promoted` emits ApplePublished. Back Office metrics per §7 (promotion rate, gate saves,
-  oracle staleness, lineage violations blocked — target zero, each one an incident).
+- [~] **S141-04: `nornd` daemon + CLI + Back Office + Apples** — split into four pieces; one done,
+  three deliberately deferred rather than attempted shallow:
+  - **Apples — DONE.** `NORN/pkg/apples` (`Client`, `PromoteAndNotify`, `PostPromotionFromEnv`) files
+    the `ApplePublished` entry PRIME-101 §3 requires, kept out of `pkg/norn` itself to preserve its
+    zero-IDUNA-dependency contract. Registered `NORN` as a real IDUNA agent. Verified live: two real
+    Apples filed (#9926 eps_extractor, #9927 entity_graph_rules) from PRRJECT_FATBABY's migration
+    CLIs against real production data.
+  - **Feedserver — investigated, decided against.** `PRRJECT_FATBABY/feedserver` is a FatBaby-internal
+    TCP bus tightly coupled to its own eventstore conventions, not a cross-repo bus; publishing NORN
+    events there for no real consumer would be dependency for its own sake. Skipped — `nornd` (when
+    built) will write directly into `Registry` (already NDJSON) and Back Office will poll it, the
+    same pattern IDUNA's existing Apples Ledger panel already uses.
+  - **`norn` CLI, `nornd` daemon (scheduling + budget enforcement), Back Office metrics panel — not
+    started.** IDUNA's admin UI has no plugin/registration mechanism (verified — every panel is a
+    hardcoded route + template); a Back Office panel would follow the exact copy-paste pattern the
+    existing Apples Ledger panel uses. Deferred to a future iteration rather than built shallow.
+  - **Real incident surfaced and fully resolved during this work** (not part of S141-04 itself, but
+    found while testing it): `cmd/bootstrap`'s `writeSecretsEnv` was silently destroying
+    previously-provisioned agents' plaintext secrets on any run that provisioned ≥1 new agent —
+    EMILY-PRIME, FATBABY-EMILY, EMIREE, JON, BOB, TYLER all lost their plaintext (DB hash intact,
+    agents kept working) when NORN/EDIS-WOOCOMMERCE/EMILY-TRAINING/EDIS-CUSTODIAN were provisioned
+    for the first time (those four had also never been fully bootstrapped — a second, related gap).
+    EMILY-PRIME recovered from a live process's environment; the other five were unrecoverable and
+    deliberately rotated. All ten agents verified live post-recovery. Root cause fixed (merge, not
+    overwrite; 6 regression tests). A related `.gitignore` bug (bare `bootstrap` pattern shadowing
+    the whole `cmd/bootstrap/` source dir) was also found and fixed while committing the test.
+    ✓ Apple #9930 (escalation, full incident writeup) — 2026-07-16.
+  ✓ Apple #9929 (S141-04 partial) — 2026-07-16. Commits: IDUNA (agent registration + 3 permission
+  migrations + bootstrap fix), NORN (`pkg/apples`), PRRJECT_FATBABY (CLI wiring).
 
 - [ ] **S141-05: Append-only amendment notes to SIM-100 §6 and FIN-099 §6** — per §8.5 those specs now
   *reference* NORN instead of restating the loop. The Seam and ELP-policy instantiations themselves
