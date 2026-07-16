@@ -1326,6 +1326,7 @@ world bridge (NORTHSTAR Milestone 4).*
 | S141-01 | Confirm NORN as the kernel name (PRIME-101 §10) | `pkg/norn` package naming; S141–S145 NORN wiring |
 | S142-01 | Legal-entity decision (which entity holds the QBO file) + QBO OAuth credentials into IDUNA (FIN-098 §7) | KAREN Phase 0 (S142-01..04) |
 | S144-03 | Pick the two candidate physics backbones (Isaac Lab / MJX / Genesis) for the adapter bake-off (SIM-100 §9) | Reward compiler v0 (S144-03..05) |
+| S135-02 | Vendor comparison research done (see S135-02 entry) — pick the VS0 sticker vendor. The brief's own production schedule names this decision "Emily (human)," not Emily Prime, so it's not being auto-selected. | S135-03/04/05 (WooCommerce listing, first batch order, drop) |
 
 ---
 
@@ -3078,7 +3079,40 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 - [x] **S135-01: VS0 sticker design brief** — Apple #4481 · EMILY d48630a — 3 SKUs (Emily Prime Mark die-cut+holo, Wordmark, Logotype); specs delta-E≤3, cut≤0.5mm, outdoor vinyl; schedule + success metrics. EMILY/docs/merch/stickers_vs0_brief.md.
 
-- [ ] **S135-02: Vendor research** — Compare: Sticker Mule, StickerApp, Sticker Giant, StickerYou. Evaluate: unit cost at 250/500/1000 qty, die-cut capability, holographic stock, lead time, minimum order, API for programmatic reorder. Output: vendor comparison Apple (type=research_log). Select VS0 vendor. Unblock: S137-01 (research engine) or manual bootstrap.
+- [~] **S135-02: Vendor research** — Compared Sticker Mule, StickerApp, Sticker Giant, StickerYou
+  against the VS0 brief's specs (3"×3" die-cut vinyl, holographic variant, ≤0.5mm cut tolerance,
+  delta-E≤3, 250-unit minimum batch per SKU). Findings (web research, live-fetch where the
+  pricing page was static; several calculators are JS-rendered and only reachable interactively —
+  noted below, not guessed at):
+  - **Sticker Mule** — die-cut 3"×3": ~$152/500 (~$0.30 ea), ~$232/1000 (~$0.23 ea). MOQ 50.
+    4-day turnaround, free shipping. Holographic offered as a separate product line (own pricing
+    page); exact per-unit cost at 500/1000 not extractable without the interactive calculator.
+    No API / programmatic reorder found.
+  - **StickerApp** — die-cut 3"×3": ~$132/500 (~$0.26 ea); no listed 250 or 1000 tier (nearest:
+    300 @ $97, 900 @ $189). MOQ 29 (~$27 floor). Holographic offered as a material option.
+    Has a "Reorder" link (repeat-order convenience) but no documented API.
+  - **StickerGiant** — MOQ as low as 10/design (lowest of the four); standard turnaround 2-5
+    business days after proof approval, rush = 1 day; sticker *packs* specifically take 2-4
+    weeks. Holographic listed as a material option. Exact 250/500/1000 die-cut pricing is behind
+    a JS pricing calculator — not extractable via static fetch, would need a live browser session
+    or a sales-team quote request to get real numbers.
+  - **StickerYou** — no stated order minimum; holographic sold in quantities as low as 25.
+    No API/developer documentation surfaced (several searches specifically for a public
+    reorder/print API came up empty — unlike some competitors, e.g. Prodigi, Diginate, which do
+    publish one). Exact 250/500/1000 die-cut pricing also behind a JS calculator, same gap as
+    StickerGiant.
+  - **On balance**: Sticker Mule and StickerApp are the two with real extracted numbers, both in
+    the same ballpark (~$0.23-0.30/unit at 500-1000, well under the brief's $4 unit price target
+    either way — margin is not the differentiator here). Sticker Mule's MOQ (50) and stated 4-day
+    turnaround are the cleanest fit for a 250-unit first batch with a hard QC-inspection step
+    right after; StickerGiant's faster stated turnaround (2-5 days) and lower MOQ (10) make it
+    worth a direct sales-team quote if reorder speed becomes the deciding factor later. Neither
+    of the two harder-to-scrape vendors surfaced a programmatic reorder API, so "API for
+    programmatic reorder" isn't a real differentiator among any of the four right now — it can
+    drop out of the decision criteria.
+  - **Not decided here**: the brief's own Production Schedule table names vendor selection
+    "Emily (human)," not Emily Prime — added to HUMAN UNBLOCK QUEUE rather than auto-picked.
+  Apple #9918 (research_log). Unblocks: S135-03/04/05 once the founder picks from the above.
 
 - [ ] **S135-03: EDIS WooCommerce product listing** — Add sticker SKUs to EDIS WordPress instance. WooCommerce: individual sticker pack ($8), full VS0 set ($22), international shipping matrix. Payment via existing Stripe integration. Emily Prime can create products via EDIS API or `emily install --edis` flow.
 
