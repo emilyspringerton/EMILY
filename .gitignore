@@ -32,3 +32,6 @@ var/*.env
 context/var/
 emily-agent/var/
 var/logs/
+
+# emily start PID files (rewritten every restart, not meaningful history)
+var/*.pid
