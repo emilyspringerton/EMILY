@@ -3243,9 +3243,21 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   blocking note). Working name NORN carried through pending human confirmation (unblock queue).
   ✓ Apple #9920 — 2026-07-16. Commit NORN (pkg/norn).
 
-- [ ] **S141-02: First migration — EPS headline extractor** — The loop that invented the pattern proves
-  the kernel (§8.2). Acceptance is the spec's own: identical promotion decisions replayed through NORN
-  from historical events. Tier: autonomous; reality root: filed 8-Ks (EDGAR).
+- [x] **S141-02: First migration — EPS headline extractor** — `PRRJECT_FATBABY/internal/eps/norngate`
+  wraps `eps.Extract` as a `norn.Oracle`, `cmd/norn-eps-migrate` bootstrap-promoted it as the first
+  `eps_extractor` artifact NORN has ever governed. **Acceptance gap, disclosed not papered over:**
+  §8.2's literal text ("identical promotion decisions replayed through NORN from historical events")
+  assumes real historical decisions exist to replay. Investigated first — none do: `var/eps/oracle.ndjson`
+  has 2 cases, both permanently `pending`; the reconciler has never once produced a real
+  confirmed/contradicted verdict in its operating history (verified against the full secwatch event
+  store + `eps-reconciler.log`, thin watchlist coverage, not a bug). Built the replay-determinism proof
+  against the 4 ground-truth fixtures in `extract_test.go` instead (the only labeled EPS data that
+  exists) — grading the same artifact twice and running the full migration against two independent
+  registries both require bit-identical decisions. Upgrades to a real historical-event replay
+  automatically, no code change, the moment the reconciler produces its first real verdict.
+  Found and fixed a real bug in `pkg/norn` itself while running this live: `Registry.Record` never
+  stamped `Timestamp` — fixed at the source. Tier: autonomous; reality root: filed 8-Ks (EDGAR).
+  ✓ Apple #9922 — 2026-07-16. Commits: PRRJECT_FATBABY `4f0d8c0`, NORN (Record timestamp fix).
 
 - [ ] **S141-03: Second + third migrations — GameEvolutionEngine, recon matcher** — GEE second (most
   structurally similar), recon matcher third, timed to land with KAREN Phase 0/1 (§8.3; coordinate
