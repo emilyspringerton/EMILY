@@ -3398,24 +3398,33 @@ field (which checkpoint actually generated the content) and always-present astro
 (Dallas, TX — where the server itself is located, not the founder personally — as reference point). A Fable pass is queued
 (`EMILY/docs/fable-prompts/fable-next-backlog.md`) to fully comprehend the old repo's intent and
 produce a modernized/"emilyified" Go port + integration design before implementation starts here —
-these items are the backlog shape for once that design lands, not yet startable blind.*
+these items are the backlog shape for once that design lands, not yet startable blind.
+UPDATE 2026-07-16: the Fable pass landed — port at `gpt2-alpine-c/pkg/towerprint`, design at
+`gpt2-alpine-c/docs/TOWERPRINT.md` (golden index TOWERPRINT). S147-02/03/05 are now startable.*
 
-- [ ] **S147-01: Port squish/tower/gematria to Go** — `squished()`, `MTRXTWER()`, `PRINTWR()`,
-  `codzeifyWord()` (and evaluate whether the notebook-only `trxtwr`/`magicVVVDecTower` evolution
-  in `COR.ipynb` supersedes the exported `.py` versions) ported from the reference TF1 Python repo
-  into a small Go package. Simple deterministic string functions — no ML runtime needed for this
-  half. Blocked on the queued Fable design pass landing first.
+- [x] **S147-01: Port squish/tower/gematria to Go** — DONE 2026-07-16 (Fable pass):
+  `gpt2-alpine-c/pkg/towerprint` (repo's first Go module, joined to root go.work). Verdict: the
+  notebook-only `trxtwr`/`magicVVVDecTower` family IS the evolved final version and is the core of
+  the port (`Tower`/`MagicTower`); `MTRXTWER`/`PRINTWR` kept as `MatrixTower`/`ClassicTower` for
+  compatibility. `Codzeify` uses math/big (Python-int parity on long text); the hand-written
+  magicVVVLookup is now *derived* from the 3×8 VVV grid and test-verified against the original.
+  `Compute()` is the Apple-facing composite Fingerprint. 13 table-driven tests pinned to vectors
+  from the original Python + the VOIDONX artifact; all green. Design doc:
+  `gpt2-alpine-c/docs/TOWERPRINT.md` (golden index: TOWERPRINT, tier 2).
 
-- [ ] **S147-02: GPT-2 fingerprint generation hook** — call `gpt2-alpine-c`'s `scripts/serve.py`
-  `/generate` endpoint (already live, :8088) at Apple-filing time, run the output through S147-01's
-  tower/gematria transform, attach as a new Apple field. Decide: synchronous (blocks the Apple
-  POST) or async enrichment (Apple lands, fingerprint attached in a follow-up PATCH) — the spec
-  from the Fable pass should take a position on this, not default to sync.
+- [ ] **S147-02: GPT-2 fingerprint generation hook** — DECIDED (TOWERPRINT.md §5): **async,
+  caller-side** — the Apple POST never blocks on :8088; an emily-agent enrichment worker
+  (CheckinAlertWorker shape) finds Apples missing `gpt2_fingerprint`, calls `scripts/serve.py`
+  `/generate`, runs the output through `towerprint.Compute()` in-process (no Python for the
+  transform), and PATCHes the Apple. Failure mode = field missing + retried, never a lost/slow
+  Apple. Payload shape and `towerprint.Seed()` time-anchoring spec'd in TOWERPRINT.md §5.
 
 - [ ] **S147-03: Model fingerprint field** — record which model/checkpoint actually produced the
   generated text (hash or version string) alongside the tower/gematria output, matching the
   provenance discipline `HQ-SPEC-AI-103`'s `fabledata` already requires elsewhere. Applies even
   when the frontier API (not local GPT-2) generated whatever content an Apple is documenting.
+  Starting point per TOWERPRINT.md: serve.py's `/generate` already returns a `model` tag — carry
+  it through the S147-02 worker; add a weights-file sha256 to serve.py `/health` as follow-on.
 
 - [ ] **S147-04: Astrology/transit data source** — open question, not decided here: no existing
   ephemeris/astrology library or API is wired into this stack yet. Needs a source (Python

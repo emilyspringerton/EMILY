@@ -92,3 +92,4 @@
 | KIKORYU-VS11 | IDUNA/docs/kikoryu/VS11_TYLER_SYNDICATION.md | 2 | 800 | VS11 status: episode-packet API superseded by TYLER-as-series-repo + MoneyPrinterTurbo; IDUNA holds only tyler-agent registration; supersedes vs11.md |
 | KIKORYU-VS12 | IDUNA/docs/kikoryu/VS12_CRAFTING.md | 2 | 800 | VS12 status: crafting reincarnated for DragonsNShit (mmo.go item craft + S129 inventory), simpler than spec (no recipes/consumption); custody transfers to GoblinFoxDragon; supersedes vs12.md |
 | KIKORYU-VS13 | IDUNA/docs/kikoryu/VS13_MATERIAL_LINEAGE.md | 2 | 800 | VS13 status: material lineage reincarnated as items.provenance_chain custody log in mmo.go (S75-03), no split/merge or source taxonomy; living home is DragonsNShit; supersedes vs13.md |
+| TOWERPRINT | gpt2-alpine-c/docs/TOWERPRINT.md | 2 | 2000 | Squish/tower/gematria fingerprint: 2020 repo archaeology, pkg/towerprint Go port spec, S147 Apple enrichment wiring (async caller-side) |
