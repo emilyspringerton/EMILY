@@ -881,6 +881,11 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   running) and optionally MongoDB. `MYSQL_URL` + `MONGODB_URL` env vars in emily-agent env.
   Run projector once to seed MySQL from event store.
   Acceptance: `GET /v1/governance-signals?ticker=AAPL` returns records.
+  BLOCKED 2026-07-16: all code/migrations ready (cmd/projector -one-shot, signalapi MYSQL_URL
+  wiring — see CHANGELOG S20-01..06). No MySQL credentials for the running system `mysqld`
+  (root needs a password we don't have; no passwordless sudo either). MongoDB is optional —
+  not required for the acceptance test. Need either: MySQL root password, or have the user
+  create a `fatbaby` DB+user matching docs/local-dev-setup.md's dev pattern.
 
 - [x] **S30-03: emily start --signalapi on production** — `emily start --signalapi` launches
   signalapi detached on :9091, logs to var/logs/signalapi.log, pgrep-idempotent.
@@ -1310,6 +1315,10 @@ world bridge (NORTHSTAR Milestone 4).*
 | S30-02 | `sudo mysql` on production | MySQL projections in prod |
 | S2 (MPT) | Pexels API key | Video compilation pipeline |
 | S45-02 run | `sudo apt install libsdl2-dev` + create emilyspringerton/PITVIPER on GitHub | PITVIPER window launches |
+| S141 (097 gap) | Supply or write HQ-SPEC-PRIME-097 (Fixed Points) — cited by PRIME-101 + FIN-098, absent from repo | Final kernel semantics; FIN-098 spec-number confirmation |
+| S141-01 | Confirm NORN as the kernel name (PRIME-101 §10) | `pkg/norn` package naming; S141–S145 NORN wiring |
+| S142-01 | Legal-entity decision (which entity holds the QBO file) + QBO OAuth credentials into IDUNA (FIN-098 §7) | KAREN Phase 0 (S142-01..04) |
+| S144-03 | Pick the two candidate physics backbones (Isaac Lab / MJX / Genesis) for the adapter bake-off (SIM-100 §9) | Reward compiler v0 (S144-03..05) |
 
 ---
 
@@ -3156,6 +3165,173 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 - [ ] **S140-04: First batch + QC** — 200 bags per blend. Cupping QC, roast date check, seal integrity. File Apple with cost basis. Blocked on S140-02 + human approval.
 
 - [ ] **S140-05: Drop announcement** — Coffee goes live alongside or after toothbrush drop. MJOLNIR push. File Apple type=completion: STINKIES COMMISSAIRE commissary open.
+
+---
+
+## ACT II — HQ-SPEC ARCHITECTURE ARC (2026-07-16)
+
+*Sections 141–145 backlog the six HQ-SPEC architecture docs at `EMILY/docs/hq-specs/` (golden-docs-registered). Relationship to Act I: the STRATEGIC PRIORITY ORDER above (S29 → … → S2) is revenue-critical and continues unblocked — Act II does not displace, reorder, or interleave with it. Act II is the architecture layer that generalizes patterns Act I has already proven (the EPS grader loop, the recon-match pattern, the append-only event doctrine), running in parallel at lower urgency until a section is explicitly promoted into the priority chain.*
+
+*Sequencing logic: NORN (S141) is the kernel the other four instantiate against — FIN-098's approval tiers, DOC-102's document promotion, SIM-100's GameEvolutionEngine loop, and AI-103's checkpoint gating all cite PRIME-101 rather than restating the loop. S141-01/02 build first. Each other section's opening steps (qbowatch, saga lint, .gband format, fabledata snapshots) are kernel-independent and may start in parallel; their NORN-wired steps wait on S141-02.*
+
+*Known gap, worked around not silently fixed: HQ-SPEC-PRIME-097 (Fixed Points) is cited as NORN's mathematical foundation ("Implements:" line of PRIME-101) and by FIN-098's provisional spec numbering, but no such document exists anywhere in this repo (verified 2026-07-16). It is not fabricated here. See the blocking note in SECTION 141.*
+
+---
+
+## SECTION 141: NORN — THE LOOP KERNEL (2026-07-16)
+
+*Source: HQ-SPEC-PRIME-101 §8 (Migration & Build Sequence). The canonical propose→grade→gate→promote loop, extracted once from the six ad-hoc improvement loops that independently derived it (EPS headline grader, GameEvolutionEngine, recon matcher, reward compiler, KAREN proposal funnel, sim-fidelity). Cardinal rule: NORN decides promotion, never execution — no payments, no actuation, no deploys, no `--force`.*
+
+***BLOCKING NOTE — PRIME-097 gap (not a checkbox):*** *PRIME-101 declares itself the machine to PRIME-097's mathematics (quality lattices, monotone promotion, frozen-metric convergence, Löbian lineage rules), but PRIME-097 does not exist in the repo. Items below build against PRIME-101 §2's own summary of the math; the interface set, property-test suite, and lattice semantics in S141-01 may need revisiting once 097 surfaces or is written. Human action queued (see HUMAN UNBLOCK QUEUE).*
+
+- [ ] **S141-01: `pkg/norn` kernel library** — Five interfaces (Artifact, Proposer, Oracle, Gate, Registry)
+  + NDJSON append-only registry + content-hash lineage checker + property tests per §8.1: monotone
+  promotion, replay determinism, lineage-violation rejection, oracle-version comparability refusal.
+  Eval-corpus storage shape (flat files + manifest vs. dedicated store) is decided at this step per §10.
+  Working name NORN pending confirmation (human, unblock queue) — package name follows the answer.
+  May need revisiting when PRIME-097 lands (see blocking note).
+
+- [ ] **S141-02: First migration — EPS headline extractor** — The loop that invented the pattern proves
+  the kernel (§8.2). Acceptance is the spec's own: identical promotion decisions replayed through NORN
+  from historical events. Tier: autonomous; reality root: filed 8-Ks (EDGAR).
+
+- [ ] **S141-03: Second + third migrations — GameEvolutionEngine, recon matcher** — GEE second (most
+  structurally similar), recon matcher third, timed to land with KAREN Phase 0/1 (§8.3; coordinate
+  with S142).
+
+- [ ] **S141-04: `nornd` daemon + CLI + Back Office + Apples** — cron-scheduled instantiations, budget
+  enforcement, feedserver events; `norn propose/grade/status/history/freeze-oracle`; every
+  `artifact_promoted` emits ApplePublished. Back Office metrics per §7 (promotion rate, gate saves,
+  oracle staleness, lineage violations blocked — target zero, each one an incident).
+
+- [ ] **S141-05: Append-only amendment notes to SIM-100 §6 and FIN-099 §6** — per §8.5 those specs now
+  *reference* NORN instead of restating the loop. The Seam and ELP-policy instantiations themselves
+  land with their host initiatives (S144 Path A; FIN-099 Phase 2+, out of first-wave scope).
+
+---
+
+## SECTION 142: KAREN — LEDGER + ACCOUNTING, FIN-098 PHASE 0 (2026-07-16)
+
+*Source: HQ-SPEC-FIN-098 §6 (v0 Build Order). QuickBooks Online is the system of record; the `var/ledger` NDJSON event store is the system of proof. KAREN (Controller — name RESOLVED 2026-07-04, registered in Iduna as `karen`) proposes, reconciles, reports; never moves money; speaks to Emily Prime and no one else. HQ-SPEC-FIN-099 (ELP — Modern Treasury/Increase/Column parity) extends this northstar but is explicitly long-horizon; S142-05 is its only footprint in Act II's first wave.*
+
+- [ ] **S142-01: `qbowatch` ingestor + `var/ledger` store** — Go, same skeleton as `prwatch`/`secwatch`.
+  Polls QBO Change Data Capture, emits `qbo_entity_changed` events so out-of-band changes (accountant,
+  human fallback) are flagged and acknowledged, never silently absorbed (Invariant 5). QBO API
+  throttles need a rate-budget per §7 open question — token-bucket pattern from the agent core.
+  Blocked: QBO company file + OAuth credentials into IDUNA; which legal entity holds the file is a
+  human/counsel decision (§7, unblock queue).
+
+- [ ] **S142-02: KAREN agent skeleton, read-only** — `qbo_get_accounts` / `qbo_get_txns` /
+  `qbo_get_reports` tools registered in IDUNA under `ledger:read`. Credentials never in agent code or
+  prompts; IDUNA issues short-lived scoped tokens (Invariant 6).
+
+- [ ] **S142-03: Intent-event → QBO write path** — for the two highest-volume entity types (spec's
+  guess: Invoice and Bill). Every mutation: append-only intent event in `var/ledger` first, then QBO
+  apply, then `qbo_applied` confirmation carrying entity ID + SyncToken (Invariant 1: no silent writes).
+  Gated `ledger:propose` with Emily Prime approval closing the loop — this is the `prime_ack` row of
+  PRIME-101 §6; wire through NORN once S141-02 lands.
+
+- [ ] **S142-04: Cash-position signal to Back Office** — published to Emily Prime; Jon Stockwell reads
+  as observation only per SYSTEM_GOVERNANCE — capital doctrine consumes the ledger, it does not drive it.
+
+- [ ] **S142-05: Review FIN-099 for Phase 1+ triggers** — bank read rails (Phase 1) start only after
+  S142-01..04 per FIN-098 §6.5. FIN-099's full ELP build sequence (core ledger service, shadow books,
+  payment + policy engines, BaaS adapters, the Column question) is multi-year and stays off this board;
+  this item is a read-and-recommend, producing promotion triggers only.
+
+---
+
+## SECTION 143: SAGA — DOCUMENTATION CURATION LIFECYCLE (2026-07-16)
+
+*Source: HQ-SPEC-DOC-102 §9 (Build Sequence). Three-way match between intent (specs), books (claim ledger), and reality (running software) — KAREN's reconciliation loop, for words. Prime principle: working software is truth; divergence never blocks shipping, it blocks golden status. SAGA (Librarian, registered in Iduna as `saga`) catalogs, detects, proposes — humans and NORN decide.*
+
+- [ ] **S143-01: Frontmatter schema + claim-ID convention + `saga lint`** — two status axes (authority:
+  draft→golden→amended→superseded; reality-binding: specified→…→verified/diverged), claim IDs
+  (`<DOC>.<TYPE>-<N>`), supersession-graph lint. Retrofit onto the live HQ-SPEC series: DOC-102 says
+  "097–102" but 097 does not exist (see S141 blocking note) — the actual retrofit surface is 098–103.
+  DOC-102 ships with its own claims tagged first ("DOC-102 eats first").
+
+- [ ] **S143-02: `saga.manifest.yaml` format + CI gaps report** — claim-without-code (vaporware debt)
+  and code-without-claim (dark matter) detection, one repo first: PRRJECT_FATBABY, which has the most
+  running software to reconcile against.
+
+- [ ] **S143-03: Divergence + conflict queues in Back Office** — aging rules wired to the corpus health
+  gate (FIN-098 Invariant 3 pattern: aged exceptions block the gate). Queues empty only through new
+  documents, never quiet edits.
+
+- [ ] **S143-04: SAGA agent v0 — deterministic parts first** — claim index, supersession-graph lint,
+  query tools (`saga which-doc-governs / status / conflicts / gaps`) as a tool surface for every other
+  agent. SAGA never promotes (NORN gate), never edits documents, never adjudicates.
+
+- [ ] **S143-05: Semantic conflict detection as NORN-looped proposals** — SAGA proposes suspected
+  conflicts into the queue; human confirmation required; the confirmed/rejected corpus becomes the
+  oracle (autonomous tier per DOC-102 §6). Depends: S141-01/02.
+
+- [ ] **S143-06: Corpus-wide rollout** — supersession-graph enforcement turns from warning to gate.
+  Open questions stay open per §10 (retrofit depth beyond the HQ series, attestation TTLs, global vs.
+  per-repo claim namespace, fiction-universe NAR treatment) — decisions surfaced to Emily Prime, not
+  made unilaterally here.
+
+---
+
+## SECTION 144: GOLDEN BAND — ANIMATION LAYER, PATH A GAMES ONLY (2026-07-16)
+
+*Source: HQ-SPEC-SIM-100 §8 (Build Sequence), steps 1–5 only. One canonical motion asset (`.gband`), three consumers; this section backlogs the two software consumers — SHANKPIT playback and the RL reward compiler. Path B (Springerton Seam gate protocol, actuation ladder, Parks & Cruises hardware) is a long-horizon northstar per the spec's own text — "it disciplines the architecture now, it does not appear on a sprint board." Build steps 6–7 (hardware-in-the-loop bench, retarget feasibility tooling) and all seam crossings stay off this board behind human biometric + counsel gates (§6–7).*
+
+- [ ] **S144-01: `.gband` format + C sampler + Go pipeline tools** — content-addressed two-part asset
+  (JSON manifest + flat binary channel data), import from BVH/glTF, resample, hash, validate.
+  Acceptance test per spec: parser fits in ~a hundred lines of C. Determinism load-bearing: same clip
+  + same seed + same tick = bit-identical pose on every platform.
+
+- [ ] **S144-02: SHANKPIT integration** — skeletal playback locked to the 64-tick fixed timestep;
+  render-rate smoothness from the existing state interpolation layer, never re-sampling. Scope: one
+  character, one idle, one walk.
+
+- [ ] **S144-03: Reward compiler v0 + training-backbone adapter** — one character learns to walk in
+  physics sim tracking the authored clip (DeepMimic/AMP-lineage reward terms per §4); CAST the
+  rollouts. Backbone (Isaac Lab vs MJX vs Genesis) deliberately open — the spec says decide by running
+  this step on two of them behind the adapter; picking the two candidates is a human call (unblock queue).
+
+- [ ] **S144-04: GameEvolutionEngine hookup via NORN** — reward-weight/DR-profile proposals through the
+  frozen-eval no-regression loop; this is the "Reward & DR profiles" row of PRIME-101 §6 (autonomous
+  tier, sim-rooted). Depends: S141-01/02.
+
+- [ ] **S144-05: Physics-driven NPC in SHANKPIT** — Path A shipped; the personality proving ground is
+  open. A character that can't be charming at 64 ticks/sec doesn't earn a body.
+
+---
+
+## SECTION 145: FABLE — IN-HOUSE MODEL LINE (2026-07-16)
+
+*Source: HQ-SPEC-AI-103 §8 (Build Order), evolution rungs E0 → E1. Honest premise carried over: FABLE wins on auditable weights, provenance-tagged data, deterministic serving, and near-zero marginal cost on high-volume scoped tasks — not on out-reasoning frontier models. Routing any task down-model is a gated promotion with eval evidence, never an aspiration. Adjacent asset: `gpt2-alpine-c` already holds a validated GPT-2 fine-tune pipeline (S26-04/05).*
+
+- [ ] **S145-01: `fabledata` snapshotting over the EPS headline corpus** — the richest oracle-graded set
+  in the house. Content-addressed dataset manifests with per-record provenance (source event hash,
+  labeling oracle, label date, license class); contamination tombstoning of eval records by hash —
+  mechanical, not procedural. Training never reads live stores.
+
+- [ ] **S145-02: `fableeval` — EPS suite frozen as oracle v1, before any training** — so day-one numbers
+  are honest. Suites declare their reality root and live under PRIME-101 §5 oracle governance (frozen,
+  versioned, rotated only against held-out reality). Depends: S141-01 for freeze/version mechanics.
+
+- [ ] **S145-03: E0 — fine-tune published GPT-2 weights on EPS headlines** — stand the whole stack up
+  end to end; wire NORN; first gated promotion (or honest rejection) of a FABLE checkpoint. Expected
+  per spec: lose to the API on quality, win on cost — measured, not assumed.
+
+- [ ] **S145-04: `fableserve` behind `LLMClient` + shadow routing** — quantized checkpoint export served
+  behind the existing Go `LLMClient` interface (no caller code changes); shadow-route EPS traffic —
+  FABLE answers logged, frontier answers served. Every inference records model hash, prompt hash,
+  route decision.
+
+- [ ] **S145-05: Promote to live routing on eval + shadow evidence** — one task fully sovereign, end to
+  end. Quiescence is a valid outcome: if 124M is at parity, NORN declares the fixed point and the money
+  goes elsewhere.
+
+- [ ] **S145-06: `fabletok` + E1 pretrain** — domain BPE tokenizer, then FABLE-124M pretrained from
+  scratch on curated corpus + own exhaust: first fully sovereign checkpoint, every byte of provenance
+  answerable. Gated on E0 evidence and a KAREN-visible GPU budget. Corpus mix beyond own-exhaust is
+  open per §9 — a decision, not a default. E2+ scaling and the E4 router follow only by gated
+  promotion; not backlogged here.
 
 ---
 
