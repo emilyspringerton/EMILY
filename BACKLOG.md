@@ -3347,29 +3347,30 @@ The EPS source is PRRJECT_FATBABY/var/eps/{articles,oracle}.ndjson — NOT sec_f
 which is chunked secwatch text with no oracle linkage. These items feed S145-01/02/03; they do
 not replace them.*
 
-- [ ] **S146-01: Snapshot manifest v1 writer** — `--snapshot` mode in prime_directive_dataset.py:
-  immutable snapshot pair under gpt2-alpine-c/var/snapshots/ (`eps-<date>-<shorthash>.jsonl` +
-  `.manifest.json`); content-addressed `snapshot_id` = sha256 over sorted per-record hashes;
-  manifest records builder git rev + args + tombstone-list hash. Format per NORTHSTAR "Snapshot
-  manifest v1". This manifest is the contract Go `fabledata` inherits — feeds S145-01.
+- [x] **S146-01: Snapshot manifest v1 writer** — DONE 2026-07-16. `--snapshot` mode in
+  `prime_directive_dataset.py`: immutable pair under `gpt2-alpine-c/var/snapshots/`
+  (`eps-<date>-<shorthash>.jsonl` + `.manifest.json`); `snapshot_id` = sha256 over sorted
+  per-record `source_event_hash` values; manifest records builder git rev + CLI args +
+  tombstone-list hash. This manifest is the contract Go `fabledata` inherits — feeds S145-01.
 
-- [ ] **S146-02: `eps_headlines_to_records()`** — new builder function reading
-  PRRJECT_FATBABY/var/eps/articles.ndjson + oracle.ndjson; join by `source_identity`; one record
-  per article, never chunked (record identity is what provenance hangs on). Per-record provenance:
-  `source_event_hash` (sha256 of raw NDJSON line), `oracle` (eps-reconciler case_id + 8-K
-  accession when present), `label_date`, `license_class: own-exhaust`. Verdict gating: only
-  `confirmed` cases are FABLE-eligible (Löbian rule 1 — reality-rooted labels only); pending /
-  contradicted excluded and counted in verbose output.
+- [x] **S146-02: `eps_headlines_to_records()`** — DONE 2026-07-16. Reads
+  PRRJECT_FATBABY/var/eps/articles.ndjson + oracle.ndjson; joins by `source_identity`; one record
+  per article, never chunked. Per-record provenance: `source_event_hash` (sha256 of raw NDJSON
+  line), `oracle_case_id`, `verdict`, `label_date`, `license_class: own-exhaust`. Verdict gating:
+  only `confirmed` cases are FABLE-eligible; pending/contradicted excluded and counted, not
+  silently dropped. (8-K accession isn't in oracle.ndjson's current schema — used `filed_eps`
+  instead, the field that's actually there; a follow-on if accession-level provenance is wanted.)
+  Verified live: current store has 2 pending, 0 confirmed cases — correctly outputs 0 records.
 
-- [ ] **S146-03: `--fable-eps` preset** — analogous to `--colab`: EPS-headline records only, no
-  golden docs / TYLER / Apples / chunked SEC text; implies `--snapshot`. Output is the E0 training
-  input — feeds S145-03. Track A (general corpus, all existing flags) unchanged.
+- [x] **S146-03: `--fable-eps` preset** — DONE 2026-07-16. EPS-headline records only, bypasses
+  the general corpus builder entirely (no golden docs/TYLER/Apples/chunked SEC text); implies
+  `--snapshot`. Output is the E0 training input — feeds S145-03. Track A unchanged.
 
-- [ ] **S146-04: Eval tombstone mechanism** — `gpt2-alpine-c/var/eval-tombstones.json`,
-  git-committed flat list of `{sha256, suite, frozen_at}`; builder drops matching record hashes at
-  snapshot-build time (after generation, before dedupe/write); manifest records the tombstone
-  list's own hash so every snapshot proves its exclusion set. Consumes the frozen-suite hashes
-  S145-02 produces — the freeze happens there, *before any training*, per HQ-SPEC-AI-103 §8 step 2.
+- [x] **S146-04: Eval tombstone mechanism** — DONE 2026-07-16. `gpt2-alpine-c/var/eval-tombstones.json`
+  (flat list of `{sha256, suite, frozen_at}`, not yet populated — S145-02 hasn't frozen a suite
+  yet, correctly a no-op until it does); `apply_tombstones()` drops matching record hashes after
+  generation, before dedupe/write; manifest records the tombstone list's own hash. 12 new tests
+  (40 total, all green). gpt2-alpine-c commit `458756c`.
 
 - [ ] **S146-05: corpus_stats.py provenance audit mode** — for snapshot corpora: verdict / oracle /
   license-class breakdown + contamination check (zero tombstoned hashes present, else exit
