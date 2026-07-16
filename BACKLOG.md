@@ -3442,6 +3442,70 @@ UPDATE 2026-07-16: the Fable pass landed — port at `gpt2-alpine-c/pkg/towerpri
 
 ---
 
+## SECTION 148: THE FOUNDER'S CORPUS — CHAT-TO-LEDGER, PERSONAL PREDICTIVE MODEL, FIREHOSE INGEST (2026-07-16)
+
+*Founder direction 2026-07-16: Emily Prime's original spec included a chat interface with every
+exchange logged to the ledger — confirmed partially built (`emily-agent/main.go`'s `/chat`
+endpoint + `ConversationStore` exist and work) but not actually wired to the ledger (sessions
+write to `emily-agent/conversations/`, which is gitignored and never reaches IDUNA/Apples — pure
+local scratch, not audit trail). Beyond finishing that: the founder wants (a) a GPT-2 model
+fine-tuned specifically on her own writing to predict what she's about to type ("the Grammarly-
+pioneered affordance"), and (b) a "firehose" ingestion pipeline capturing her operational writing
+at volume — explicitly including historical Slack data from admining projects/teams across
+timelines — as a training corpus. Framed explicitly as moat-building ("if we do more with the raw
+data flowing directly out of me we can build our moat faster") and explicitly as **"values based"**
+— that word was chosen deliberately and should shape the design, not just the pitch. This is a
+personal-data corpus of unusual scope (a real person's private/operational communications,
+including third-party Slack conversations she participated in but doesn't solely own), and gets a
+design pass before any capture code exists — see the queued Fable spec dispatch, referenced below
+once dispatched.*
+
+- [ ] **S148-00: Wire `/chat` to the Apple ledger** — smallest, most concrete, buildable-now item
+  in this section, independent of everything else below. `ConversationStore.AppendTurn` (currently
+  local-JSONL + optional local-git-only) gains an IDUNA Apple POST per turn (or per session-close —
+  decide which; per-turn is more ledger-faithful, per-session is cheaper). Apple type: new
+  `conversation` type, or reuse `observation` — decide and document. This finishes what the
+  founder says was already "built in" as intent; it just needs the last wire connected.
+
+- [ ] **S148-01: Personal writing corpus — design pass (Fable, queued)** — before any capture
+  code: what's actually collected (chat-to-ledger from S148-00 is the first legitimate source —
+  it's already consensual, already hers, already flowing), what governance applies (retention,
+  who/what can read it, license class distinct from `fabledata`'s "own-exhaust" since this is
+  personal rather than operational-system exhaust), and a real position on the Slack question
+  specifically: historical Slack messages sent while administering *other people's* projects/teams
+  are not purely her own data — a teammate's words are in that history too. The spec needs to take
+  a real position on this, not wave it away, before S148-02 is buildable. This is the "values
+  based" part the founder named directly — treat it as a real design constraint, not a compliance
+  footnote.
+
+- [ ] **S148-02: Firehose ingestion pipeline** — depends entirely on S148-01's governance design.
+  Likely shape: a new `var/founder-corpus` NDJSON event store (same append-only house pattern as
+  everywhere else), a Slack export/API ingestor (needs a Slack API token — human action, add to
+  Human Unblock Queue once this item is live) for historical data, and an ongoing capture path for
+  new writing (S148-00's chat ledger is the cleanest ongoing source; a browser extension or OS-level
+  capture for typing *outside* Emily's own chat interface is a much bigger, more invasive ask —
+  the design pass should recommend starting with chat-ledger-only and treat broader capture as an
+  explicitly separate, later decision, not bundle it into v0).
+
+- [ ] **S148-03: Personal predictive-typing model** — fine-tune a GPT-2 checkpoint on the founder's
+  own corpus (once S148-01/02 produce one) using `gpt2-alpine-c`'s existing training pipeline
+  (`prime_directive_dataset.py`-style corpus builder, new source function for the founder corpus).
+  Serving is the new part: `scripts/serve.py` is batch-generation only today (`/generate`, full
+  request/response) — live "predict what I'm about to type" needs incremental/streaming inference
+  (a new serving mode), not a reuse of the existing endpoint. Flag this as a real gap, not a detail.
+
+- [ ] **S148-04: UI surface for the predictor** — where does prediction actually show up while
+  she types? Not decided here — options include a companion-app integration (the same Android app
+  already scoped for biometric approvals elsewhere), a browser extension, or scoping it to Emily's
+  own `/chat` interface only (typing predictions only while talking to Emily) as the smallest
+  useful v0. Depends: S148-03.
+
+**Human Unblock Queue candidates once this section is actively worked:** Slack API
+token/OAuth app (for S148-02's historical export) — not added to the queue table yet since the
+section isn't build-ready (S148-01's design pass hasn't landed).
+
+---
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
