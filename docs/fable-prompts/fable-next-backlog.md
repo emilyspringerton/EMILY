@@ -17,13 +17,16 @@ themselves.*
 
 | # | Title | File | Status | Depends on |
 |---|---|---|---|---|
-| 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` | blocked | SAGA VS-spec audit landing (`IDUNA/docs/VS_REALITY_AUDIT.md` + `kikoryu/*.md`) — currently in flight |
+| 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` | **ready to dispatch** | SAGA VS-spec audit landed 2026-07-16 (IDUNA `529834f`, EMILY `508a9be`) — no remaining blocker |
 
 ---
 
 ## Dispatched (awaiting completion)
 
-*(none yet)*
+| # | Title | Dispatched | Notes |
+|---|---|---|---|
+| 2 | Emilyify the mag book (`QUEENSALLYONLINEBOOKOFMAGIFICATIONANDUNICOR` → Go port + design doc) | 2026-07-16 | Feeds `EMILY/BACKLOG.md` SECTION 147 (S147-01). No standalone prompt file written — dispatched directly in-session; see continuity report / session transcript for the full brief if it needs re-sending. |
+| — | TYLER S00E-2 (prequel bridge to S00E01) | 2026-07-16 | **Failed**, not landed — hit a Fable session/usage limit before writing anything (verified clean tree). Resets ~5:50am UTC 2026-07-17. No prompt file written yet either — should get one before this session ends so a fresh session can retry without re-deriving the brief. |
 
 ---
 
