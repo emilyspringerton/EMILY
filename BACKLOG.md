@@ -3259,9 +3259,34 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   stamped `Timestamp` — fixed at the source. Tier: autonomous; reality root: filed 8-Ks (EDGAR).
   ✓ Apple #9922 — 2026-07-16. Commits: PRRJECT_FATBABY `4f0d8c0`, NORN (Record timestamp fix).
 
-- [ ] **S141-03: Second + third migrations — GameEvolutionEngine, recon matcher** — GEE second (most
-  structurally similar), recon matcher third, timed to land with KAREN Phase 0/1 (§8.3; coordinate
-  with S142).
+- [x] **S141-03: Second + third migrations — GameEvolutionEngine, recon matcher** — Split outcome,
+  disclosed not papered over:
+  - **Recon matcher — DONE.** Identified as `PRRJECT_FATBABY/internal/entitygraph`'s signal
+    accuracy/correlation system (`accuracy.go`'s `Correlate*` functions + `BuildAccuracyReports` —
+    "confirmed suggestions as labels" almost literally; `rules.go`'s doc comment already names
+    `config/entity-graph-rules.json` as the mutation surface). `internal/entitygraph/norngate`
+    wraps it as a `norn.Oracle`, graded against a frozen snapshot of real production ground truth
+    (`var/entity-graph/accuracy.ndjson`: ~345K records, ~32.7K resolved) — the first NORN
+    instantiation with genuine historical data behind it, unlike S141-02's fixture-based EPS eval.
+    `cmd/norn-entitygraph-migrate` bootstrap-promoted the current rules for real against the full
+    production dataset (~3.8s). **Real finding, not fixed here:** overall precision 11.9% across
+    32,664 resolved predictions; `abstention_outlier`, `cfo_departure`, `family_control` sit at
+    exactly 0% — candidate for a future data-quality pass (not filed as its own section yet).
+    Disclosed limitation: Grade measures real production track record, not a genuine
+    candidate-vs-incumbent backtest (needs a re-simulation capability that doesn't exist).
+  - **GameEvolutionEngine — investigated, found unbuildable as a migration target.** No such
+    system exists anywhere in the codebase — verified via exhaustive search; only spec-table
+    references (PRIME-097's loop registry, PRIME-101) and a differently-shaped, unrelated
+    bot-genome mutator in SHANKPIT (`evolve_bot`) with no external oracle, no gate, no promotion
+    path. Building a real GEE from scratch is new-product work, not a migration — out of scope
+    for this item; left as a real gap rather than invented.
+  - Also extracted `norn.GradeAndPromote` (kernel-level, `NORN/pkg/norn/promote.go`) after writing
+    the bootstrap-or-gate branch by hand for S141-02 and being about to duplicate it here —
+    refactored S141-02's migration to use it too.
+  - Deferred coordination with S142 (KAREN): moot for now since S142 itself is still blocked on
+    the legal-entity/QBO-credentials human decision (HUMAN UNBLOCK QUEUE).
+  ✓ Apple #9924 — 2026-07-16. Commits: PRRJECT_FATBABY (entitygraph norngate + eps refactor), NORN
+  (`GradeAndPromote`).
 
 - [ ] **S141-04: `nornd` daemon + CLI + Back Office + Apples** — cron-scheduled instantiations, budget
   enforcement, feedserver events; `norn propose/grade/status/history/freeze-oracle`; every
