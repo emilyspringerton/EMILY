@@ -3419,13 +3419,13 @@ UPDATE 2026-07-16: the Fable pass landed — port at `gpt2-alpine-c/pkg/towerpri
   `/generate`, runs the output through `towerprint.Compute()` in-process (no Python for the
   transform), and PATCHes the Apple. Failure mode = field missing + retried, never a lost/slow
   Apple. Payload shape and `towerprint.Seed()` time-anchoring spec'd in TOWERPRINT.md §5.
+  IDUNA's receiving side is done (S147-05) — the emily-agent worker itself (the actual poll/
+  generate/PATCH loop) is still unbuilt. Remaining scope of this item, narrowed accordingly.
 
-- [ ] **S147-03: Model fingerprint field** — record which model/checkpoint actually produced the
-  generated text (hash or version string) alongside the tower/gematria output, matching the
-  provenance discipline `HQ-SPEC-AI-103`'s `fabledata` already requires elsewhere. Applies even
-  when the frontier API (not local GPT-2) generated whatever content an Apple is documenting.
-  Starting point per TOWERPRINT.md: serve.py's `/generate` already returns a `model` tag — carry
-  it through the S147-02 worker; add a weights-file sha256 to serve.py `/health` as follow-on.
+- [x] **S147-03: Model fingerprint field** — DONE (schema half, 2026-07-16): `model_fingerprint`
+  is a live enrichable field on `PATCH /api/v1/apples/{id}`, verified end-to-end. What's not done:
+  actually populating it automatically — that's S147-02's worker carrying through serve.py's
+  `model` tag. A weights-file sha256 on serve.py `/health` remains a follow-on, not started.
 
 - [ ] **S147-04: Astrology/transit data source** — open question, not decided here: no existing
   ephemeris/astrology library or API is wired into this stack yet. Needs a source (Python
@@ -3436,10 +3436,15 @@ UPDATE 2026-07-16: the Fable pass landed — port at `gpt2-alpine-c/pkg/towerpri
   positions/major transits at filing time (the latter is far cheaper and likely sufficient given
   Apples are timestamped events, not natal charts).
 
-- [ ] **S147-05: Wire into IDUNA's Apple schema + `apples.go` handler** — add the three new
-  optional fields (gpt2_fingerprint, model_fingerprint, astrology) to the Apple payload/migration;
-  decide whether enrichment happens IDUNA-side (the handler calls out to gpt2-alpine-c's serve.py
-  itself) or caller-side (emily-agent/emily.cli compute it before POSTing). Depends: S147-01..04.
+- [x] **S147-05: Wire into IDUNA's Apple schema + `apples.go` handler** — DONE 2026-07-16.
+  `PATCH /api/v1/apples/{id}` (closed field set: gpt2_fingerprint, model_fingerprint, astrology),
+  `apples.write` permission, merges into existing `metadata` column via new `PatchAppleMetadata`
+  (SQLite + MySQL) — no schema migration needed. Caller-side, per TOWERPRINT.md's decision: IDUNA
+  never calls out to serve.py itself. Emits `AppleEnriched` to `iam_event_stream`. 8 new tests.
+  Also fixed a real bug found while verifying this live: `syncAppleToGit` raced concurrent Apple
+  creation with no retry on push rejection — root-caused a live gap where 9226 of 9908 Apples were
+  missing from the APPLES git mirror (backfilled, APPLES commit 699bdd5; race fixed with a mutex +
+  retry-with-rebase, IDUNA commit c9217df). Apple #9910.
 
 ---
 
