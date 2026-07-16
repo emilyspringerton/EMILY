@@ -194,10 +194,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 10: EMILY PRIME SELENIUM / WEB AUDIT
 
-- [ ] **Web audit as front door validator** — Once MJOLNIR WebView targets are live
-  (`:8082`, `:8083`), Emily Prime runs web_audit_url on each before Emily's phone gets a
-  push linking to them. Guard: if audit fails (5xx, broken links > 3), suppress push and
-  post escalation Apple instead. Dependency: web audit tool ✓, MJOLNIR Milestone 2 ✓.
+- [x] **S10-01: Web audit as front door validator** — `auditFrontDoor()` (emily-agent/webaudit.go)
+  runs `web_audit_url`'s `auditURL` against newssite (`:8082`) and signalapi (`:9091` — corrected
+  from `:8083`, which is what MJOLNIR's ProductsScreen displays but not what the service actually
+  listens on; a pre-existing discrepancy found while implementing this, now documented in the tool
+  description). Gate: fail on 5xx or broken links > 3. Wired into `runMorningBriefing` — the daily
+  briefing push is the one existing push that leads the user toward MJOLNIR's WebView product
+  screens, so it's gated on the audit; on failure the push is suppressed, an escalation Apple is
+  filed instead, and today's sentinel is left unmarked so a later cron tick in the send window can
+  retry once the front door recovers. 5 new tests.
+  ✓ Apple #9917 — 2026-07-16. Commit EMILY (emily-agent).
 
 ---
 
