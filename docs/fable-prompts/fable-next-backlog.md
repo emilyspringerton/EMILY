@@ -25,7 +25,7 @@ themselves.*
 
 | # | Title | Dispatched | Notes |
 |---|---|---|---|
-| 4 | Act III synthesis — reconcile 141-149 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | 2026-07-16 | No standalone prompt file — dispatched in-session, brief is comprehensive (references every doc from the whole session). Re-derive from session transcript if it needs resending. |
+| 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-16 | No standalone prompt file — dispatched in-session. Grounded against real `dig NS farthq.com` (currently Cloudflare) before writing the brief. Re-derive from session transcript if it needs resending. |
 
 ---
 
@@ -34,6 +34,7 @@ themselves.*
 | # | Title | File | Notes |
 |---|---|---|---|
 | 3 | TYLER S00E-2 (prequel bridge to S00E01) | `tyler-s00e-2-retry.md` | Hit a Fable session/usage limit before writing anything (verified clean tree). Resets ~5:50am UTC 2026-07-17. Prompt file is written and ready — just dispatch it after the reset. |
+| 4 | Act III synthesis — reconcile 141-149 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | No standalone prompt file yet | Hit a **different** Fable session-limit window (resets 8:30pm UTC 2026-07-16 — should be clear now, retry). Verified clean tree, nothing partial landed. Brief is comprehensive (references every doc from Sections 141-149 + the KIKORYU audit) — should get a proper prompt file before redispatch rather than re-deriving from memory again. |
 
 ---
 
