@@ -1328,6 +1328,7 @@ world bridge (NORTHSTAR Milestone 4).*
 | S142-01 | Legal-entity decision (which entity holds the QBO file) + QBO OAuth credentials into IDUNA (FIN-098 §7) | KAREN Phase 0 (S142-01..04) |
 | S144-03 | Pick the two candidate physics backbones (Isaac Lab / MJX / Genesis) for the adapter bake-off (SIM-100 §9) | Reward compiler v0 (S144-03..05) |
 | S135-02 | Vendor comparison research done (see S135-02 entry) — pick the VS0 sticker vendor. The brief's own production schedule names this decision "Emily (human)," not Emily Prime, so it's not being auto-selected. | S135-03/04/05 (WooCommerce listing, first batch order, drop) |
+| S151-01 | Create a scoped Cloudflare API token (`Zone.DNS:Edit`, zone `farthq.com` only) in the Cloudflare dashboard and drop it into `EMILY/var/emily-secrets.env` as `CLOUDFLARE_DNS_TOKEN`; while in there, run the registrar custody audit (who can log into the registrar account, is 2FA on, where do recovery codes live) per HQ-SPEC-INFRA-105 §9.1 | Zone-as-code export (S151-01), `dns-apply` (S151-02), wildcard cert (S151-03), all of SECTION 151 |
 
 ---
 
@@ -3759,6 +3760,67 @@ pretend the tech exists; this section proposes building a real one.*
 
 *ARCHETYPE_ENGINE_NORTHSTAR.md is not amended here — S150-02 is additive infrastructure the
 archetype engine could adopt later, not a rewrite of that spec's own vector-store section.*
+
+---
+
+## SECTION 151: FATES — DNS ZONE-AS-CODE + NAME LAYER (2026-07-17)
+
+*Source: HQ-SPEC-INFRA-105 §9 (Build Sequence). `farthq.com` is Cloudflare-managed today via
+dashboard clicks — nothing in a repo, nothing Apple-audited. Decisions taken in the spec: Cloudflare
+stays authoritative (no self-hosted NS at single-host scale — sovereignty is the zone in git, not
+owning the daemons); one subdomain per product surface with paths within a surface (IDUNA's drafted
+path split unchanged; `gate.farthq.com` merely reserved — the front-door funnel prompt owns that
+call); zone-as-code in `IDUNA/ops/dns/` with a health-check-gated `dns-apply` and, later, a NORN
+`biometric`-tier instantiation. Real divergence found while writing the spec: MJOLNIR prod
+BuildConfig points `EMILY_BASE_URL` at `https://iduna.farthq.com` (build.gradle.kts:31-32) but no
+nginx route to `:8086` exists and no cert is issued — prod MJOLNIR's EMILY calls have no working
+path today; S151-04 fixes this properly.*
+
+- [ ] **S151-01: Zone export → `IDUNA/ops/dns/farthq.com.yaml`** — read the live zone via the
+  Cloudflare API (token from the unblock queue) and commit it as the declarative record list
+  (name/type/content/TTL/proxied) per INFRA-105 §5. From the moment this lands, dashboard edits
+  are banned outside the break-glass path (edit during incident → back-port + Apple within 24h).
+  Blocked on the S151-01 HUMAN UNBLOCK QUEUE row.
+
+- [ ] **S151-02: `IDUNA/cmd/dns-apply` plan/apply tool** — `plan` prints intent-vs-API diff;
+  `apply` executes with §6 health gates: pre-flight origin liveness (never point a name at a
+  corpse), post-apply pinned-resolver verification (1.1.1.1/8.8.8.8 by IP, not the system
+  resolver) + healthy HTTP through the new path, documented rollback = re-apply prior committed
+  zone file. Every applied change files an Apple. No `--force`. Terraform considered and declined
+  in the spec (§5) — don't relitigate without new drift-pain evidence.
+
+- [ ] **S151-03: Wildcard cert via DNS-01** — `*.farthq.com` using the same scoped token
+  (certbot dns-cloudflare or equivalent), replacing the per-subdomain certbot dance the nginx
+  snippet currently anticipates. Unblocks TLS for `iduna.` today and every §4 subdomain after.
+  Coordinate with `IDUNA/ops/nginx-front-door-snippet.conf` sequencing (path split first, cert
+  second) — this item changes the cert *mechanism*, not that ordering.
+
+- [ ] **S151-04: First records through the pipeline** — `emily.farthq.com` → nginx → `:8086` and
+  `signals.farthq.com` → nginx (`/` → newssite `:8082`, `/api/` → signalapi `:9091`), created via
+  `dns-apply` as the pipeline's own proof, never the dashboard. Includes the MJOLNIR
+  `EMILY_BASE_URL` flip to `https://emily.farthq.com` (one-line BuildConfig change; also flag the
+  `iduna.einhorn.industrial` staging placeholder — a TLD we don't own — for cleanup while there).
+  `play.farthq.com` is explicitly NOT created here — grey-cloud UDP record waits for SHANKPIT
+  shipping to external players (S19), per §4's no-names-for-vaporware rule.
+
+- [ ] **S151-05: Continuous reconciliation probe + monitors** — three-way intent (zone repo) vs.
+  books (Cloudflare API) vs. reality (pinned public resolvers + origin responses) per §6, filing
+  divergence into the existing S131 monitor/Slack/email machinery. Also checks §7's inner-loop
+  invariant: the VM's own `IDUNA_BASE_URL`/`EMILY_BASE_URL` must stay loopback, never our public
+  names.
+
+- [ ] **S151-06: MJOLNIR client-side dead-man** — after N consecutive failed polls, raise a local
+  "HQ unreachable" notification on the phone (needs nothing from the server — the absence of the
+  server is the signal). This is §7's terminating rung: when the VM is blind, the chain ends in a
+  person with a phone. MJOLNIR repo item, tracked here for dependency order.
+
+- [ ] **S151-07: NORN instantiation for zone changes** — append-only amendment note adding the
+  INFRA-105 §8 row to HQ-SPEC-PRIME-101 §6 (DNS zone changes | zone-file diffs | frozen probe
+  suite versioned by probe-set hash | biometric | live public resolution), plus gate-policy
+  config; `dns-apply` refuses unpromoted diffs thereafter (two locks — NORN blesses, dns-apply
+  executes, per the cardinal rule). Uses `pkg/norn` as a library (S141-01..04); does not require
+  the unbuilt `nornd`/CLI. Until this lands, S151-02's health gates + Apples are the interim
+  discipline.
 
 ---
 
