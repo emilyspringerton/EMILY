@@ -3855,13 +3855,18 @@ pollers have none.*
   directly to the "2 years of good data" framing and the S152-01 incident). Both docs cross-link to
   the other and to `CheckServiceHealth`/`CheckPollerHealth`. Apple #9945.
 
-- [ ] **S152-03: systemd supervision for the headless pollers** — `secwatch`, `prwatch`,
-  `prwatch-body`, `eps-reconciler`, `processor` are still manually-launched `go run` processes with
-  no auto-restart and no boot survival (unlike `iduna.service`/`emily-system.service`, which are
-  user-level systemd units). `PRRJECT_FATBABY/ops/systemd/*secwatch*.service` exists but targets
-  `multi-user.target` (system-level, needs sudo, unavailable here) — adapt to user-level
-  (`~/.config/systemd/user/`, `WantedBy=default.target`) matching the proven pattern. This is the
-  actual fix for the outage class S152-01 only detects faster.
+- [x] **S152-03: systemd supervision for the headless pollers** — rewrote
+  `PRRJECT_FATBABY/ops/systemd/{secwatch,processor,prwatch,prwatch-body,eps-reconciler}.service`
+  as user-level units (`~/.config/systemd/user/`, `WantedBy=default.target`, no sudo), matching the
+  `iduna.service` pattern; built static binaries into `bin/` instead of `go run` (eliminates the
+  orphaned-child-process bug this session hit repeatedly). Deployed live and enabled for boot.
+  Live-verified: SIGKILL'd `prwatch` to simulate an OOM-kill, confirmed systemd auto-restarted it
+  within `RestartSec=10s` — the actual fix, not just faster detection. Side finding: `processor`'s
+  `ANTHROPIC_API_KEY` was being passed via ad-hoc shell exports (one instance found sitting as a
+  raw key literal in `.bash_history` — flagged to founder for rotation); now sourced from
+  `~/.config/fatbaby/env`. Also found and fixed `ops/env.production` was never actually gitignored
+  despite its own header comment (history checked clean, no real secret ever committed). Apple
+  #9946.
 
 ---
 
