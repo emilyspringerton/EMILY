@@ -197,13 +197,14 @@ func (c *IdunaClient) GetPushToken(ctx context.Context, agentName string) (strin
 
 // AppleListItem is a summary record from GET /api/v1/apples.
 type AppleListItem struct {
-	ID         int64     `json:"id"`
-	AgentID    string    `json:"agent_id"`
-	SourceRepo string    `json:"source_repo"`
-	RunID      string    `json:"run_id"`
-	AppleType  string    `json:"apple_type"`
-	Title      string    `json:"title"`
-	RecordedAt time.Time `json:"recorded_at"`
+	ID                 int64     `json:"id"`
+	AgentID            string    `json:"agent_id"`
+	SourceRepo         string    `json:"source_repo"`
+	RunID              string    `json:"run_id"`
+	AppleType          string    `json:"apple_type"`
+	Title              string    `json:"title"`
+	RecordedAt         time.Time `json:"recorded_at"`
+	HasGpt2Fingerprint bool      `json:"has_gpt2_fingerprint"`
 }
 
 // ListApples returns up to limit Apples, optionally filtered by apple_type and source_repo.
@@ -242,13 +243,14 @@ func (c *IdunaClient) ListApples(ctx context.Context, appleType, sourceRepo stri
 
 	var result struct {
 		Apples []struct {
-			ID         int64  `json:"id"`
-			AgentID    string `json:"agent_id"`
-			SourceRepo string `json:"source_repo"`
-			RunID      string `json:"run_id"`
-			AppleType  string `json:"apple_type"`
-			Title      string `json:"title"`
-			RecordedAt string `json:"recorded_at"`
+			ID                 int64  `json:"id"`
+			AgentID            string `json:"agent_id"`
+			SourceRepo         string `json:"source_repo"`
+			RunID              string `json:"run_id"`
+			AppleType          string `json:"apple_type"`
+			Title              string `json:"title"`
+			RecordedAt         string `json:"recorded_at"`
+			HasGpt2Fingerprint bool   `json:"has_gpt2_fingerprint"`
 		} `json:"apples"`
 	}
 	if err := json.Unmarshal(raw, &result); err != nil {
@@ -259,16 +261,52 @@ func (c *IdunaClient) ListApples(ctx context.Context, appleType, sourceRepo stri
 	for _, a := range result.Apples {
 		t, _ := time.Parse(time.RFC3339Nano, a.RecordedAt)
 		items = append(items, AppleListItem{
-			ID:         a.ID,
-			AgentID:    a.AgentID,
-			SourceRepo: a.SourceRepo,
-			RunID:      a.RunID,
-			AppleType:  a.AppleType,
-			Title:      a.Title,
-			RecordedAt: t,
+			ID:                 a.ID,
+			AgentID:            a.AgentID,
+			SourceRepo:         a.SourceRepo,
+			RunID:              a.RunID,
+			AppleType:          a.AppleType,
+			Title:              a.Title,
+			RecordedAt:         t,
+			HasGpt2Fingerprint: a.HasGpt2Fingerprint,
 		})
 	}
 	return items, nil
+}
+
+// PatchApple merges the given enrichment fields into an Apple's metadata via
+// PATCH /api/v1/apples/{id}. Used by the async enrichment worker (S147-02)
+// — never called from the hot POST path, per TOWERPRINT.md §5's decision
+// that enrichment must never block or risk an Apple filing.
+func (c *IdunaClient) PatchApple(ctx context.Context, id int64, updates map[string]json.RawMessage) error {
+	if err := c.authenticate(ctx); err != nil {
+		return fmt.Errorf("iduna authenticate: %w", err)
+	}
+	c.mu.Lock()
+	tok := c.token
+	c.mu.Unlock()
+
+	body, err := json.Marshal(updates)
+	if err != nil {
+		return fmt.Errorf("iduna patch apple: marshal: %w", err)
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodPatch, c.baseURL+fmt.Sprintf("/api/v1/apples/%d", id), bytes.NewReader(body))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Authorization", "Bearer "+tok)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("iduna patch apple: %w", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		raw, _ := io.ReadAll(io.LimitReader(resp.Body, 64*1024))
+		return fmt.Errorf("iduna patch apple status %d: %s", resp.StatusCode, raw)
+	}
+	return nil
 }
 
 // CameraObservation is a pending intelligence request from MJOLNIR.
@@ -390,11 +428,11 @@ func (c *IdunaClient) EnsureCronMonitor(ctx context.Context) {
 		return
 	}
 	body, _ := json.Marshal(map[string]any{
-		"name":            "Emily Prime cron",
-		"slug":            "emily-prime-cron",
-		"kind":            "cron",
-		"grace_seconds":   1800,
-		"alert_email":     "emilyspringerton@gmail.com",
+		"name":          "Emily Prime cron",
+		"slug":          "emily-prime-cron",
+		"kind":          "cron",
+		"grace_seconds": 1800,
+		"alert_email":   "emilyspringerton@gmail.com",
 	})
 	url := strings.TrimRight(c.baseURL, "/") + "/api/v1/monitors"
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(body))

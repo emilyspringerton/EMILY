@@ -160,6 +160,13 @@ func NewAutonomousCycle(cfg CronConfig, p *Pipeline, gmail *GmailClient) *Autono
 	alertWorker := NewCheckinAlertWorker(ac.iduna, ac.slack, gmail)
 	go alertWorker.Run(context.Background())
 
+	// S147-02: GPT-2 tower Apple enrichment worker — polls IDUNA for Apples
+	// missing gpt2_fingerprint, generates + PATCHes async (never on the
+	// Apple POST hot path). Degrades to a quiet no-op when serve.py isn't
+	// running (see enrichworker.go).
+	enrichWorker := NewApplEnrichWorker(ac.iduna)
+	go enrichWorker.Run(context.Background())
+
 	return ac
 }
 

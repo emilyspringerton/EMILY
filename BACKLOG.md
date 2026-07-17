@@ -3532,14 +3532,22 @@ UPDATE 2026-07-16: the Fable pass landed — port at `gpt2-alpine-c/pkg/towerpri
   retroactively — a process gap: the original Fable dispatch was told not to file one, which was
   wrong given the scope of the work; caught in a full-process Apple/CHANGELOG audit).
 
-- [ ] **S147-02: GPT-2 fingerprint generation hook** — DECIDED (TOWERPRINT.md §5): **async,
-  caller-side** — the Apple POST never blocks on :8088; an emily-agent enrichment worker
-  (CheckinAlertWorker shape) finds Apples missing `gpt2_fingerprint`, calls `scripts/serve.py`
-  `/generate`, runs the output through `towerprint.Compute()` in-process (no Python for the
-  transform), and PATCHes the Apple. Failure mode = field missing + retried, never a lost/slow
-  Apple. Payload shape and `towerprint.Seed()` time-anchoring spec'd in TOWERPRINT.md §5.
-  IDUNA's receiving side is done (S147-05) — the emily-agent worker itself (the actual poll/
-  generate/PATCH loop) is still unbuilt. Remaining scope of this item, narrowed accordingly.
+- [x] **S147-02: GPT-2 fingerprint generation hook** — DONE 2026-07-17. `emily-agent/enrichworker.go`:
+  `ApplEnrichWorker`, same shape as `CheckinAlertWorker`, wired into `cron.go`. Polls IDUNA for
+  Apples missing `gpt2_fingerprint` (new `has_gpt2_fingerprint` field on `GET /api/v1/apples`,
+  IDUNA-side prerequisite done same day — both SQLite/MySQL `ListApples` now select `metadata`),
+  calls `scripts/serve.py` `/generate`, runs the output through `towerprint.Compute()` in-process,
+  PATCHes the Apple. Async, caller-side, per TOWERPRINT.md §5 — failure mode is field-missing +
+  retried, never a lost/slow Apple. **Verified live, end-to-end, for real**: rebuilt+restarted
+  IDUNA to pick up the list-endpoint change, started `serve.py` (base model, ~400MB RSS, light
+  enough for this memory-constrained box unlike training — see
+  `gpt2-alpine-c/docs/COLAB_RUNBOOK.md` for the training-vs-inference memory finding), manually
+  walked the full pipeline against real Apple #9932 (real generation → real fingerprint → real
+  PATCH → confirmed `has_gpt2_fingerprint` flips true). No unit tests for the HTTP-calling logic — matches this
+  codebase's existing precedent for `IdunaClient`/`CheckinAlertWorker` (neither has any); live
+  verification already caught what mocks wouldn't have this session (the NORN `run_id` bug).
+  **Follow-up, not blocking:** `serve.py` is running but not yet systemd-supervised — won't survive
+  a reboot. ✓ Apple #9933 — 2026-07-17. Commits: IDUNA (list endpoint), EMILY (emily-agent worker).
 
 - [x] **S147-03: Model fingerprint field** — DONE (schema half, 2026-07-16): `model_fingerprint`
   is a live enrichable field on `PATCH /api/v1/apples/{id}`, verified end-to-end. What's not done:
