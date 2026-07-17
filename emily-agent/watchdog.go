@@ -169,6 +169,96 @@ func pingService(ctx context.Context, client *http.Client, url string) bool {
 	return resp.StatusCode >= 200 && resp.StatusCode < 300
 }
 
+// PollerConfig describes one monitored headless poller process — one with
+// no HTTP endpoint to ping (secwatch, prwatch, eps-reconciler, ...),
+// monitored instead by log-file freshness: is the process still writing to
+// its own log within the window its poll interval implies?
+//
+// Added 2026-07-17 after secwatch and eps-reconciler were both silently
+// killed (OOM) and stayed down for hours — secwatch's data gap ran from
+// ~13:00 until a human happened to run a manual "check on all the fatbaby
+// data" audit at ~23:00 — with zero automated detection, because
+// CheckServiceHealth's HTTP-only monitoring has no visibility into a
+// process with no health endpoint. The founder's own framing: FatBaby's
+// data is the multi-year asset this whole system exists to build (data
+// resale readiness, years of continuous operation) — a silent day-long
+// ingestion gap discovered by luck, not alerting, is exactly the failure
+// mode that framing can't tolerate.
+type PollerConfig struct {
+	Name         string
+	LogPath      string
+	MaxStaleness time.Duration // alert if the log hasn't been written to within this window
+	Description  string
+}
+
+// defaultPollers returns the core FatBaby ingestion processes that have no
+// HTTP health endpoint. MaxStaleness is set generously above each process's
+// own poll interval (see each process's -poll-interval default / ops/
+// systemd unit) to avoid false alarms from a merely-slow cycle.
+func defaultPollers() []PollerConfig {
+	fatbabyRoot := envOr("FATBABY_ROOT", "/home/fatbaby/PRRJECT_FATBABY")
+	logDir := filepath.Join(fatbabyRoot, "var", "logs")
+	return []PollerConfig{
+		{"secwatch", filepath.Join(logDir, "secwatch.log"), 30 * time.Minute, "SEC EDGAR filing poller (5m interval) — the primary data-ingestion process"},
+		{"processor", filepath.Join(logDir, "processor.log"), 15 * time.Minute, "Filing→signal processor (15s interval)"},
+		{"prwatch", filepath.Join(logDir, "prwatch.log"), 15 * time.Minute, "PR Newswire discovery poller (30s interval)"},
+		{"prwatch-body", filepath.Join(logDir, "prwatch-body.log"), 15 * time.Minute, "PR Newswire body fetcher (15s interval)"},
+		{"eps-reconciler", filepath.Join(logDir, "eps-reconciler.log"), 8 * time.Hour, "EPS oracle reconciliation (6h interval)"},
+	}
+}
+
+// CheckPollerHealth checks each poller's log-file freshness and returns
+// alert messages using the same downtime-tracking/debounce state
+// (WatchdogState) and 2-minute confirmation threshold as CheckServiceHealth,
+// just keyed by "poller:<name>" so the two check types never collide.
+func CheckPollerHealth(stateDir string, pollers []PollerConfig) []string {
+	if pollers == nil {
+		pollers = defaultPollers()
+	}
+
+	ws := loadWatchdogState(stateDir)
+	var alerts []string
+	now := time.Now().UTC()
+
+	for _, p := range pollers {
+		key := "poller:" + p.Name
+		info, err := os.Stat(p.LogPath)
+		fresh := err == nil && now.Sub(info.ModTime()) < p.MaxStaleness
+
+		if fresh {
+			if rec, wasDown := ws.Services[key]; wasDown {
+				downDuration := now.Sub(rec.DownSince).Round(time.Second)
+				log.Printf("[watchdog] poller %s recovered (was stale %s)", p.Name, downDuration)
+			}
+			delete(ws.Services, key)
+			continue
+		}
+
+		rec, tracked := ws.Services[key]
+		if !tracked {
+			ws.Services[key] = ServiceDownRecord{Name: key, DownSince: now}
+			log.Printf("[watchdog] poller %s STALE (first detection — log not updated within %s)", p.Name, p.MaxStaleness)
+			continue
+		}
+
+		downDuration := now.Sub(rec.DownSince)
+		log.Printf("[watchdog] poller %s still STALE (%.0fs since first detection, alerted=%v)",
+			p.Name, downDuration.Seconds(), rec.Alerted)
+
+		if downDuration >= serviceDownThreshold && !rec.Alerted {
+			msg := fmt.Sprintf(
+				"%s log has not been updated in over %s (expected activity within %s) — likely dead or hung. Log: %s. Description: %s.",
+				p.Name, (p.MaxStaleness + downDuration).Round(time.Minute), p.MaxStaleness, p.LogPath, p.Description)
+			alerts = append(alerts, msg)
+			rec.Alerted = true
+			ws.Services[key] = rec
+		}
+	}
+
+	saveWatchdogState(stateDir, ws)
+	return alerts
+}
+
 // checkLogSizes scans logDir for files exceeding logSizeAlertBytes.
 // Returns alert strings for each oversized file.
 func checkLogSizes(logDir string) []string {

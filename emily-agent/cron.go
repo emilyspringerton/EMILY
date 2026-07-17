@@ -33,12 +33,12 @@ import (
 
 // CronConfig controls the autonomous cycle.
 type CronConfig struct {
-	StateDir        string        // directory for state files
-	LockFile        string        // prevents concurrent runs
-	CycleDuration   time.Duration // max time per cycle (default 280s)
-	Interval        time.Duration // how often to run (default 5m, used in daemon mode)
-	EmilyRoot       string        // absolute path to the EMILY repo root (for goldenbuild)
-	EarningsCalDir  string        // path to PRRJECT_FATBABY earnings-calendar var dir (e.g. var/earnings-calendar)
+	StateDir       string        // directory for state files
+	LockFile       string        // prevents concurrent runs
+	CycleDuration  time.Duration // max time per cycle (default 280s)
+	Interval       time.Duration // how often to run (default 5m, used in daemon mode)
+	EmilyRoot      string        // absolute path to the EMILY repo root (for goldenbuild)
+	EarningsCalDir string        // path to PRRJECT_FATBABY earnings-calendar var dir (e.g. var/earnings-calendar)
 }
 
 func defaultCronConfig() CronConfig {
@@ -201,6 +201,11 @@ func (ac *AutonomousCycle) RunOnce() error {
 	// Service health watchdog — fires escalation Apples and Slack alerts for services down >= 2 min.
 	logDir := filepath.Join(envOr("EMILY_ROOT", "/home/fatbaby/EMILY"), "var", "logs")
 	watchAlerts := CheckServiceHealth(ctx, ac.cfg.StateDir, logDir, nil)
+	// Headless FatBaby ingestion pollers (secwatch, prwatch, eps-reconciler, ...)
+	// have no HTTP endpoint for CheckServiceHealth to ping — monitored instead
+	// by log-file freshness. Added 2026-07-17 after a silent, hours-long
+	// secwatch/eps-reconciler outage went undetected until a manual audit.
+	watchAlerts = append(watchAlerts, CheckPollerHealth(ac.cfg.StateDir, nil)...)
 	for _, alertMsg := range watchAlerts {
 		log.Printf("[watchdog] ALERT: %s", alertMsg)
 		slackNotifyOrLog(ac.slack, ":rotating_light: *[WATCHDOG]* "+alertMsg)
@@ -1350,8 +1355,13 @@ func buildCycleApple(state *CycleState, task *ImprovementTask, rec CycleRecord, 
 	}
 
 	meta, _ := json.Marshal(map[string]any{
-		"cycle_number":         state.CycleNumber,
-		"task_id":              func() string { if task != nil { return task.ID }; return "" }(),
+		"cycle_number": state.CycleNumber,
+		"task_id": func() string {
+			if task != nil {
+				return task.ID
+			}
+			return ""
+		}(),
 		"triage_findings":      triageFindings,
 		"consecutive_failures": state.Metrics.ConsecFailures,
 		"duration_s":           int(rec.EndedAt.Sub(rec.StartedAt).Seconds()),
