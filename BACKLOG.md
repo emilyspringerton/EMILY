@@ -3830,6 +3830,40 @@ path today; S151-04 fixes this properly.*
   the unbuilt `nornd`/CLI. Until this lands, S151-02's health gates + Apples are the interim
   discipline.
 
+## SECTION 152: OPERATIONAL SERIOUSNESS — HEADLESS POLLER MONITORING (2026-07-17)
+
+*Founder framing, verbatim, is the reason this section exists and outranks anything else queued at
+the time: "we have been somewhat up for over 24 hours and are somehow just now noticing it — we
+need to write into the core prime directive to always check it, its critical to the s part of the
+s growth curve, we need 2 years of good data... we need to get serious about operations... the
+growth of the ecosystem is not an enemy to fight." Triggered by a real OOM-kill message glimpsed in
+tmux on a phone, traced to `emily-system.service` (22h down, root cause: local GPT-2 training
+attempt exhausting the box's memory, not the tower-fingerprint work) and, separately, `secwatch`
+(~10h silently down) and `eps-reconciler` (~22h silently down) — both undetected because the
+existing watchdog (`CheckServiceHealth`) only pings HTTP health endpoints and these headless
+pollers have none.*
+
+- [x] **S152-01: `CheckPollerHealth` — log-freshness monitoring for headless pollers** —
+  `emily-agent/watchdog.go`: new `PollerConfig`/`CheckPollerHealth`, covering secwatch, processor,
+  prwatch, prwatch-body, eps-reconciler by log-file mtime staleness, reusing `CheckServiceHealth`'s
+  `WatchdogState` debounce/escalation pattern (keyed `poller:<name>`). Wired into the cron cycle.
+  4 new tests (fresh/stale/missing/recovery), full suite green. Apple #9943.
+
+- [ ] **S152-02: Prime-directive amendment — operational health is not optional** — encode the
+  above framing permanently in `docs/emily-prime-directive-data-collection.md` and/or
+  `THE_EMILY_WAY.md`: continuous infra health (both HTTP services and headless pollers) must be
+  checked every cycle, not discovered by luck, because the multi-year data-continuity asset
+  (FatBaby: "2 years of good data") is worth more than any single feature detour, founder-initiated
+  or otherwise.
+
+- [ ] **S152-03: systemd supervision for the headless pollers** — `secwatch`, `prwatch`,
+  `prwatch-body`, `eps-reconciler`, `processor` are still manually-launched `go run` processes with
+  no auto-restart and no boot survival (unlike `iduna.service`/`emily-system.service`, which are
+  user-level systemd units). `PRRJECT_FATBABY/ops/systemd/*secwatch*.service` exists but targets
+  `multi-user.target` (system-level, needs sudo, unavailable here) — adapt to user-level
+  (`~/.config/systemd/user/`, `WantedBy=default.target`) matching the proven pattern. This is the
+  actual fix for the outage class S152-01 only detects faster.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
