@@ -3849,12 +3849,11 @@ pollers have none.*
   `WatchdogState` debounce/escalation pattern (keyed `poller:<name>`). Wired into the cron cycle.
   4 new tests (fresh/stale/missing/recovery), full suite green. Apple #9943.
 
-- [ ] **S152-02: Prime-directive amendment — operational health is not optional** — encode the
-  above framing permanently in `docs/emily-prime-directive-data-collection.md` and/or
-  `THE_EMILY_WAY.md`: continuous infra health (both HTTP services and headless pollers) must be
-  checked every cycle, not discovered by luck, because the multi-year data-continuity asset
-  (FatBaby: "2 years of good data") is worth more than any single feature detour, founder-initiated
-  or otherwise.
+- [x] **S152-02: Prime-directive amendment — operational health is not optional** — added
+  `THE_EMILY_WAY.md` Principle 15 (full mandate, quoting the founder's framing verbatim) and a new
+  Section 0 in `docs/emily-prime-directive-data-collection.md` (operational prerequisite, tied
+  directly to the "2 years of good data" framing and the S152-01 incident). Both docs cross-link to
+  the other and to `CheckServiceHealth`/`CheckPollerHealth`. Apple #9945.
 
 - [ ] **S152-03: systemd supervision for the headless pollers** — `secwatch`, `prwatch`,
   `prwatch-body`, `eps-reconciler`, `processor` are still manually-launched `go run` processes with

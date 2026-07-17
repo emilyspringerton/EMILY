@@ -21,6 +21,44 @@ AI (Emily) → Builds Tools → Collects Data → Trains Models → Better AI
 
 ---
 
+## 0. OPERATIONAL PREREQUISITE: CONTINUOUS HEALTH VERIFICATION (added 2026-07-17)
+
+Every volume/quality/cost target in this document assumes the collectors are actually running.
+That assumption failed in practice: `secwatch` (the SEC EDGAR poller) was silently OOM-killed and
+stayed down ~10 hours, `eps-reconciler` ~22 hours, and the agent stack hosting both sat in a failed
+state ~22 hours — all three discovered by luck (a glimpsed phone notification, a manual audit),
+not by any system that was supposed to be watching. No amount of collection-loop design in
+Section 2 below matters if the collector can die silently and nobody notices for a day.
+
+The founder's own framing is the standing rule, and it outranks any other section of this document
+when the two conflict:
+
+> "we have been somewhat up for over 24 hours and are somehow just now noticing it — we need to
+> write into the core prime directive to always check it, its critical to the S part of the S
+> growth curve, we need 2 years of good data... we need to get serious about operations... the
+> growth of the ecosystem is not an enemy to fight." / "fatbaby will pay the server bills for 10
+> years."
+
+**In practice, this means:**
+
+- The "Reliability" success metric in Section 11.1 (`Collection uptime: > 99.5%`) is not a
+  passive number to report at Month 3 — it requires active, automated verification every cycle,
+  not a retrospective count. A gap in ingestion history during Phase 1 cannot be backfilled once
+  Month 3 arrives; the data for those hours is gone. Treat every collector (Reddit streamer,
+  Wikipedia crawler, and — in this codebase's actual current form — `secwatch`/`processor`/
+  `prwatch`/`prwatch-body`/`eps-reconciler`) the same way a production database gets monitored:
+  assume it can die at any moment, and build the alerting to catch that before a human does.
+- This is a permanent operating principle, not a one-time fix. See `THE_EMILY_WAY.md` Principle 15
+  ("Operational Health Is Not Optional") for the full mandate and the concrete implementation
+  (`CheckServiceHealth` / `CheckPollerHealth` in `emily-agent/watchdog.go`, BACKLOG SECTION 152).
+- The founder will keep going on side quests (GPT-2 training runs, DNS specs, whatever's next) —
+  that is an accepted, permanent feature of how this gets bootstrapped, not something to
+  eliminate. The fix for the risk it creates is monitoring and process supervision (systemd
+  auto-restart instead of manually-run `go run` processes) that survives someone's attention being
+  elsewhere, not fewer side quests.
+
+---
+
 ## 1. EMILY'S DATA COLLECTION MISSION
 
 ### 1.1 Phase 1: Bootstrap Data Collection (Months 1-3)

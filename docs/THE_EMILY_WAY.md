@@ -2,7 +2,7 @@
 ## How EINHORN_INDUSTRIAL builds things
 
 *Synthesized from CLAUDE.md files, git commits, changelogs, and RSI loop observations across all repos.*
-*Last updated: 2026-06-14*
+*Last updated: 2026-07-17*
 
 ---
 
@@ -132,6 +132,46 @@ registration (they'd bloat the index the way individual Apples don't get indexed
 principle's existence in `THE_EMILY_WAY.md` (already tier-1 golden) is what makes the *process*
 visible; the reports themselves are found in `EMILY/continuity/` the same way Apples are found in
 IDUNA, not by being individually promoted to golden status.
+
+### 15. Operational Health Is Not Optional
+
+The founder's own words, verbatim, are the specification for this principle, added 2026-07-17 after
+`emily-system.service` sat OOM-killed for ~22 hours and `secwatch`/`eps-reconciler` sat silently
+dead for 10-22 hours — all three discovered by luck (a glimpsed tmux message, a manual audit
+prompt), not by any system that was supposed to be watching:
+
+> "we have been somewhat up for over 24 hours and are somehow just now noticing it — we need to
+> write into the core prime directive to always check it, its critical to the S part of the S
+> growth curve, we need 2 years of good data — we are going to go through some growth pains that
+> the log streaming will help us write the story around but we need to get serious about
+> operations. I know its hard being scrappy and bootstrapping, I know the founder sends off on side
+> quests, but the growth of the ecosystem is not an enemy to fight."
+>
+> "fatbaby will pay the server bills for 10 years."
+
+What this means in practice:
+
+1. **Every session, before or during other work, verify infrastructure is actually up** — not
+   assumed up because it was up last time. `emily status --fatbaby`, `systemctl --user status`
+   on the core units, a log-freshness spot check. This is not a side task competing with "real"
+   work; it *is* real work, on the same footing as any backlog item.
+2. **Detection must be automatic, not lucky.** A human noticing an OOM-kill message on a phone
+   screen is not a monitoring system. Every long-running process — HTTP-served or headless —
+   needs a watchdog path that fires an escalation Apple + Slack alert on its own, on a timescale
+   of minutes, not "whenever someone happens to look." (See `CheckServiceHealth` /
+   `CheckPollerHealth` in `emily-agent/watchdog.go`, SECTION 152.)
+3. **The founder's own side quests are a known, accepted cost of doing business here, not
+   something to fight or resent** — bootstrapping means the person steering also gets pulled into
+   GPT-2 training runs, DNS northstars, and Colab runbooks. The fix for the risk that creates
+   (an unsupervised box getting OOM-killed mid-detour) is better automated monitoring and
+   supervision (systemd auto-restart, not manual `go run`), not fewer side quests. Growth pains in
+   the ecosystem are not the enemy; an *undetected* multi-hour data-ingestion gap is.
+4. **The reason this matters more than almost anything else queued:** FatBaby's SEC/PR signal
+   pipeline is a multi-year data asset — the founder's framing is 2+ years of continuous,
+   trustworthy ingestion history, not a demo. A silent gap in that history is not a recoverable
+   bug once the gap has passed; the data for those hours is simply gone. Treat any headless
+   ingestion process the same way `CheckServiceHealth` already treats IDUNA/newssite/signalapi:
+   as something whose downtime is unacceptable to discover after the fact.
 
 ---
 
