@@ -26,7 +26,7 @@ themselves.*
 
 | # | Title | Dispatched | Notes |
 |---|---|---|---|
-| 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-16 (retry) | First attempt failed on a transient 529 Overloaded; redispatched immediately with the same grounded brief. |
+| 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-17 | Full standalone prompt written (`dns-operations-northstar.md`) after 2 prior attempts failed on transient 529s with no saved prompt; dispatched with real grounding (farthq.com's current Cloudflare NS confirmed via `dig`, real product-surface inventory, NORN/SAGA cross-references). |
 
 ---
 
