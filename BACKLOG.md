@@ -769,6 +769,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
+- [ ] **emily-bot QA run vs 127.0.0.1:6969: PASS — 2/2 bots connected, 200 commands sent, saw_peer=true dmg_dealt=true dmg_ta…** — obs `2026-07-18T10:41:50Z`. CURATED: 2026-07-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
