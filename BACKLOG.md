@@ -4263,13 +4263,24 @@ economy doctrine rather than building a bespoke system. Landing page live at
   increment rather than bundled in. Live-verified with a 1-minute test match via `emily-bot`:
   fired on schedule with real nonzero standings, combat resumed cleanly. shankpit-460 `718b2e9`.
   Apple #10026.
-- [ ] **S156-02: Wire JWT auth into `PACKET_CONNECT`.** `IDUNA/internal/http/handlers/
-  shankpit_auth.go` (Google OAuth → `players` row → JWT with `player_id`) already exists and is
-  unused by the game server — `ensure_slot_for_sender` currently accepts any UDP packet with zero
-  auth. Needs a versioned connect-packet shape carrying the JWT (SHANKPIT parent-repo's
-  `emily-bot` already has a wire convention for this to reference), JWKS validation against
-  IDUNA, one-seat-per-identity enforcement (VS2 hard constraint), and `player_id` added to
-  `PlayerState`/slot tracking so match results attribute to a real account, not a session.
+- [x] **S156-02: Wire auth into `PACKET_CONNECT`.** `ensure_slot_for_sender` previously accepted
+  any UDP packet with zero auth. Founder chose the "simple HMAC session ticket" approach over
+  implementing JWT/ECDSA verification in C: IDUNA mints a short-lived ticket (existing OAuth JWT →
+  ticket, not a JWT-in-C scheme), the C server verifies the HMAC locally.
+  — Done 2026-07-18. New `IDUNA POST /api/v1/shankpit/ticket` mints a 5-min HMAC-SHA256 ticket
+  bound to `player_id`. `apps/server/src/main.c` verifies it before allocating any slot (fails
+  closed if `SHANKPIT_TICKET_SECRET` unset), enforces one-seat-per-identity (VS2) via
+  `find_slot_by_player_id`, and stores `player_id` on `PlayerState` for match-result attribution.
+  Self-contained C HMAC-SHA256 (`packages/common/hmac_sha256.h`), verified against RFC 4231.
+  `emily-bot` gained `-bad-ticket`/`-no-ticket`/`-same-identity` test modes. End-to-end testing on
+  an isolated instance surfaced and fixed a real auth bypass: `PACKET_USERCMD` called
+  `ensure_slot_for_sender`, which auto-welcomes any unrecognized address regardless of ticket
+  status — a client could skip `CONNECT` entirely and get in free via `USERCMD`. Fixed by using
+  the existing lookup-only `find_slot_by_addr` for `USERCMD`/`DISCONNECT` instead; only the
+  verified `CONNECT` path may allocate a new slot now. All four scenarios (valid ticket, bad
+  ticket, no ticket, duplicate identity) verified live before deploying to the production
+  `shankpit460-server` systemd unit. IDUNA `f2a3c69`/`e2af228`, shankpit-460 `e78cc07`/`fa316c6`.
+  Apple #10030.
 - [ ] **S156-03: Minimal matchmaking queue.** `QUEUING → STARTING → IN_PROGRESS → COMPLETE`,
   first-N-in/first-match-out (no skill-based matching in v0 — that's a VS9-reputation-layer
   upgrade, explicitly deferred). v0 assumes the one persistent server IS the match; per-match
