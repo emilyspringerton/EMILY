@@ -1,4 +1,5 @@
 ## 2026-07-18
+- backlog: S153-03 done — Mailchimp live-verified end-to-end (real subscribe → encrypted store → `mailchimp_synced=1`). SECTION 153 now fully closed except S153-06 (parked) and S153-09 (spec reconciliation). Apple #9958.
 - backlog: S153-08 done — API playground (Swagger UI) live at `okemily.com/api-playground.html`, fixed a real bug (spec's `servers[]` was localhost-only). S153-09 queued (spec is known-stale, missing blog/mailing-list endpoints, plus a second unreconciled `openapi.yaml`). Apple #9955.
 - backlog: S153-07 done — static-HTML blog for okemily.com (no PHP/MySQL, memory-constrained box), `IDUNA/internal/blog`, commit `5bcd730`. 4 real posts published (Emily Way reflection, IAM/governance-as-moat, small-teams-security framing, Stillness-outline-sourced piece), linked from the footer. Apple #9954.
 - backlog: S153-05 done — `emily key` generalized to write named secrets to any target env file (`--target emily|iduna`), emily.cli commit `6d53eba`. Apple #9952.

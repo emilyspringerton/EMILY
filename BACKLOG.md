@@ -3896,11 +3896,10 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   produced 37-byte ciphertext in the store, confirmed not plaintext. IDUNA commit `c2fff4c`,
   OKEMILY commit `3d350f5`. Apple #9950 (same Apple as S153-01, one launch).
 
-- [ ] **S153-03: Mailchimp account setup (founder action)** — create account, one Audience,
-  **enable double opt-in** (account setting — the code assumes `status_if_new: "pending"`), accept
-  Mailchimp's DPA, get API key + list ID, set `MAILCHIMP_API_KEY`/`MAILCHIMP_LIST_ID` in IDUNA's
-  env. Until this lands, IDUNA still captures/encrypts subscribers correctly — only the
-  send-a-confirmation-email step is pending.
+- [x] **S153-03: Mailchimp account setup** — API key + list ID set via `emily key set ... --target
+  iduna` (files the founder created to hand off the secrets, `mckey.txt`/`mcid.txt`, were shredded
+  immediately after use, never left as plaintext). Live-verified end-to-end: real subscribe request
+  → encrypted row in `var/mailinglist.db` → `mailchimp_synced = 1`, no error logged. Apple #9958.
 
 - [ ] **S153-04: HTTPS for okemily.com** — `~/certbot_okemily.sh` is written and ready; founder
   hasn't run it yet as of this writing. Also still open: `iduna.farthq.com` itself has no HTTPS
