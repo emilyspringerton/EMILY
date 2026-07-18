@@ -4031,7 +4031,7 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   still open — not retired or reconciled this pass, since the live JSON spec is what the actual
   playground serves and this pass focused there. Verified live: valid JSON, all paths have a
   responses block, no broken $refs, confirmed against both the local endpoint and the public
-  okemily.com mirror. IDUNA `1568bf7`/`542f96b`.
+  okemily.com mirror. IDUNA `1568bf7`/`542f96b`. Apple #10034.
 
 - [x] **S153-10: Real ecosystem status page** — `IDUNA/internal/statuspage`: background checker
   polls a deliberately honest target list (IDUNA, FatBaby newssite, FatBaby signalapi — the only
