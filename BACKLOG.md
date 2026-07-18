@@ -4253,10 +4253,16 @@ names SHANKPIT as a peer consumer domain (VS8), so this reuses that platform's i
 economy doctrine rather than building a bespoke system. Landing page live at
 `okemily.com/tournaments.html` under the WOTAN name. Build order below matches the NORTHSTAR.*
 
-- [ ] **S156-01: Add match/round-boundary logic to `apps/server/src/main.c`.** Verified during
+- [x] **S156-01: Add match/round-boundary logic to `apps/server/src/main.c`.** Verified during
   scoping: the real server has none at all — `local_init_match` runs once at startup, no timer,
   no win condition, no COMPLETE event. Every later item in this section depends on this existing
   first — there is no match to matchmake into or write results for without it.
+  — Done 2026-07-18. `--match-minutes` (default 10), `complete_match()` logs standings under a
+  greppable `MATCH_COMPLETE` marker, resets kills/deaths, respawns everyone fresh (closed-economy
+  doctrine). Server-side only this cut — no wire protocol change, deliberately named as the next
+  increment rather than bundled in. Live-verified with a 1-minute test match via `emily-bot`:
+  fired on schedule with real nonzero standings, combat resumed cleanly. shankpit-460 `718b2e9`.
+  Apple #10026.
 - [ ] **S156-02: Wire JWT auth into `PACKET_CONNECT`.** `IDUNA/internal/http/handlers/
   shankpit_auth.go` (Google OAuth → `players` row → JWT with `player_id`) already exists and is
   unused by the game server — `ensure_slot_for_sender` currently accepts any UDP packet with zero
