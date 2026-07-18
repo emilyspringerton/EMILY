@@ -4281,10 +4281,18 @@ economy doctrine rather than building a bespoke system. Landing page live at
   ticket, no ticket, duplicate identity) verified live before deploying to the production
   `shankpit460-server` systemd unit. IDUNA `f2a3c69`/`e2af228`, shankpit-460 `e78cc07`/`fa316c6`.
   Apple #10030.
-- [ ] **S156-03: Minimal matchmaking queue.** `QUEUING → STARTING → IN_PROGRESS → COMPLETE`,
+- [x] **S156-03: Minimal matchmaking queue.** `QUEUING → STARTING → IN_PROGRESS → COMPLETE`,
   first-N-in/first-match-out (no skill-based matching in v0 — that's a VS9-reputation-layer
   upgrade, explicitly deferred). v0 assumes the one persistent server IS the match; per-match
   server instances are an explicit non-goal for this pass (see NORTHSTAR §5/§6).
+  — Done 2026-07-18. `IDUNA POST /api/v1/shankpit/queue/{join,leave}`, `GET .../status` — v0
+  collapses QUEUING/STARTING into one poll-based step (join → matched, no separate STARTING
+  state needed since there's only one server to connect to). In-process, deliberately
+  unpersisted (queue intent is ephemeral, unlike accounts/match results). Matches everyone
+  currently queuing once `ShankpitQueueMinPlayers` (2) is reached; matched entries expire after
+  a 2-minute TTL if never reconnected. 7 new tests. Live end-to-end verified: two real accounts
+  via the email auth flow, second join correctly matched both players with real connect info.
+  IDUNA `e31db51`/`b2fc5a1`. Apple #10031.
 - [ ] **S156-04: Match-result event → existing `/api/v1/players` projection.** On S156-01's
   COMPLETE trigger, write kills/deaths/duration per `player_id` as an event (house pattern:
   event-sourced, recomputable, not direct counter increments) feeding the leaderboard/profile
