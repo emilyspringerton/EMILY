@@ -3960,6 +3960,15 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   spuriously recorded IDUNA itself as down — fixed with a 3s startup grace, new test proves the
   delay is real. 7 new tests. Apple #9960.
 
+- [ ] **S153-11: More depth on the status page** — founder wants more line items and richer detail
+  than the current 3-service, current-status-only view. Candidates: a real incident-timeline UI
+  (the data model already supports it — every check is retained in `statuspage.Store`, just needs
+  a rendered history view, not a schema change); more checked targets once they have real public
+  endpoints (emily-agent needs an HTTP listener in daemon mode first; SHANKPIT needs to actually be
+  public, S19); per-target latency graphs from the already-recorded `latency_ms` column; a public
+  incident/postmortem log tied to escalation Apples. Requested 2026-07-18, not yet scoped in
+  detail.
+
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
   a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."
