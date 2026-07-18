@@ -4105,6 +4105,75 @@ response). Backlogged rather than dropped.*
 
 ---
 
+## SECTION 155: SHANKPIT-460 HEADLESS E2E TEST CLIENT + FINDINGS (2026-07-18)
+
+*Founder request: build a headless client for shankpit-460 to reduce manual QA, then use it to
+verify multi-client visibility and damage. Methodology, per explicit founder instruction: E2E
+test first, backlog every issue found, THEN fix, THEN document new issues found, THEN fix —
+issues-first, not opportunistic mid-investigation fixes. This section is that backlog.*
+
+**Built:** `apps2/emily-bot` — headless UDP test client. `-bots N` launches N concurrent
+clients; each connects, tracks peers from `PACKET_SNAPSHOT`, aims at and fires on the nearest
+peer, and reports a PASS/FAIL table (welcomed / cmds_sent / snapshots / saw_peer / dmg_taken /
+dmg_dealt) with a matching exit code for scripting. `-report` posts a Emily observation.
+Live-verified end to end: 2-bot and 8-bot runs both show clean connect, mutual peer visibility,
+and mutual damage (cross-checked against the server's own `🔫 HIT!` log line — 65 real hits
+recorded server-side in one 20s/2-bot run). Not committed as a walking-skeleton stub — this
+found and fixed two real bugs in itself before it could produce a valid result (see below),
+and found one confirmed, still-open bug in the repo's deploy tooling.
+
+**Finding 1 (self-discovered and fixed in the tool, not the game — noted for the record):**
+The client's first two draft versions each targeted the wrong wire protocol. This repo currently
+contains **three independent, mutually incompatible server implementations** with no
+documentation pointing at which one is real:
+  - `services/game-server/src/server.c` — does not compile standalone (its `#include
+    "protocol.h"` chain is broken without extra `-I` flags no longer supplied anywhere), uses a
+    different `ClientPacket`/`ClientInput` framing, hardcodes every connecting client to player
+    slot 0 (no real multiplayer).
+  - `apps2/server-go` — a separate, much less complete Go rewrite; no entity broadcast at all
+    (never sends `PacketSnapshot`), a stub raycast that always misses, single hardcoded player.
+  - `apps/server/src/main.c` — the real one. Confirmed by extracting `bin/shank_server`'s
+    embedded strings (`server_handle_packet`, `server_broadcast`, `server_net_init`,
+    "SHANKPIT Recorder v1 (Lisp-ASM)") and finding they exist only in this file. This is what's
+    actually running on `:6969` right now (pid persists across this session).
+  - Wire structs (`NetHeader`=12B, `UserCmd`=36B, `NetPlayer`=44B) were verified by compiling a
+    throwaway C program against the real `packages/common/protocol.h` and printing
+    `sizeof`/`offsetof` for every field — not hand-computed, after two hand-computed guesses
+    (mirroring the other two implementations) both turned out wrong.
+
+- [ ] **S155-01: `deploy_linux.sh` is broken — builds the wrong, non-compiling server.**
+  `gcc services/game-server/src/server.c -o bin/shank_server` (line 16) targets dead code that
+  doesn't even compile standalone; a fresh run of this script would fail outright rather than
+  deploy anything. The actual, working build path is the Makefile's `server` target
+  (`apps/server/src/main.c` → `bin/shank_server`, confirmed matches what's live). Fix:
+  `deploy_linux.sh` should call `make server` (or equivalent), not invoke `gcc` directly against
+  the wrong source.
+- [ ] **S155-02: Decide the fate of the two dead server implementations.** `services/game-server/`
+  and `apps2/server-go` are both fully superseded by `apps/server/src/main.c` and both risk
+  wasting a future engineer's (or agent's) time re-discovering this the hard way, as happened
+  today. This is exactly the kind of call the fork's own `CLAUDE.md` says to make deliberately as
+  part of writing its NORTHSTAR ("what specifically gets cut vs. kept... deliberately not
+  improvised here") — don't delete unilaterally; fold into that scoping pass, or at minimum add a
+  loud "NOT THE REAL SERVER" comment at the top of both until then.
+
+**Finding 2 (fixed in the tool, no server-side bug):** the client's first working build showed
+`dmg_taken=false dmg_dealt=false` after 20s of two bots aiming and firing at each other, which
+looked like a missing-feature finding until traced to two bugs in the *client*: (a) it aimed
+using its own dead-reckoned position estimate instead of its actual server-reported position
+from the snapshot (client-side drift from server-authoritative position meant "correct-looking"
+aim missed anyway), and (b) the yaw-to-aim-vector formula was mathematically inverted — verified
+against `packages/common/physics.h`'s real raycast code (`dx=sin(-yaw), dz=-cos(-yaw)`), the
+correct aim yaw is `atan2(-Δx,-Δz)`, not the naive `atan2(Δx,Δz)`, which aims exactly 180° away
+from the target. Both fixed; the corrected client now lands real hits (server-confirmed via its
+own `🔫 HIT!` log line). Recorded here so the false trail doesn't get rediscovered — the
+server's hit-detection/damage system itself works correctly.
+
+**Not yet tested, flagged for a follow-up E2E pass once S155-01/02 are resolved:** respawn/death
+cycling under sustained combat, weapon variety (only Magnum exercised so far), scene
+transitions/portals, and higher concurrency than 8 bots.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
