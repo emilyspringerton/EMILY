@@ -4080,6 +4080,31 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
 
 ---
 
+## SECTION 154: NEWSSITE TICKER PAGES — RICHER COMPANY DATA (2026-07-18)
+
+*Founder request, 2026-07-18, mid-incident-response: "improve ticker pages. we have interesting
+data we can show like current directors." Deliberately deferred — landed while actively hardening
+signalapi/newssite/processor ops (SECTION 1's replay-fragility fix, live OOM crash-loop
+response). Backlogged rather than dropped.*
+
+- [ ] **S154-01: Ticker page — current directors/officers panel.** Grounded, not vaporware: Form 4
+  ingestion already parses this (`internal/insider/insider.go` `InsiderRole{IsDirector, IsOfficer,
+  Title}`, fed by `cmd/form4-watcher`) and `entity-graph` already tracks director/officer
+  relationships (`internal/entitygraph/rules.go`, `signals.go`). The data exists; it just isn't
+  surfaced on `newssite`'s ticker pages yet. Scope to figure out at build time: current vs.
+  historical roster (Form 4 gives point-in-time transactions, not a clean "current board" list —
+  needs a "most recent role per unique reporting owner" rollup, watch for departures/resignations
+  not captured by Form 4 alone), and whether to source from `entity-graph`'s existing structures
+  or query the insider event stream directly.
+- [ ] **S154-02: Survey what else is available for the same panel** — founder's framing was
+  "current directors" as an example, not an exhaustive spec. Insider buy/sell clusters
+  (`form4-watcher`'s `insider_buy`/`insider_sell_cluster` signals), buyback/dividend history
+  (`internal/buyback`, `internal/dividend`), guidance history (`internal/guidance`) are all
+  already-ingested per-ticker data not yet surfaced on the ticker page — worth a single pass to
+  decide what belongs together in one redesign rather than one-off additions.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
