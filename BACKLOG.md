@@ -4141,13 +4141,15 @@ documentation pointing at which one is real:
     `sizeof`/`offsetof` for every field — not hand-computed, after two hand-computed guesses
     (mirroring the other two implementations) both turned out wrong.
 
-- [ ] **S155-01: `deploy_linux.sh` is broken — builds the wrong, non-compiling server.**
+- [x] **S155-01: `deploy_linux.sh` is broken — builds the wrong, non-compiling server.**
   `gcc services/game-server/src/server.c -o bin/shank_server` (line 16) targets dead code that
   doesn't even compile standalone; a fresh run of this script would fail outright rather than
   deploy anything. The actual, working build path is the Makefile's `server` target
   (`apps/server/src/main.c` → `bin/shank_server`, confirmed matches what's live). Fix:
   `deploy_linux.sh` should call `make server` (or equivalent), not invoke `gcc` directly against
   the wrong source.
+  — Done 2026-07-18. Fixed to `make server`; verified clean-rebuild output is byte-identical
+  (md5sum match) to the live-running binary. shankpit-460 `c38657c`. Apple #9999.
 - [ ] **S155-02: Decide the fate of the two dead server implementations.** `services/game-server/`
   and `apps2/server-go` are both fully superseded by `apps/server/src/main.c` and both risk
   wasting a future engineer's (or agent's) time re-discovering this the hard way, as happened
