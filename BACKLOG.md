@@ -4016,11 +4016,22 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   placeholder host) exists unreconciled with the live JSON spec. Explicitly deferred per founder
   instruction ("get the playground up, update the spec later") — tracked as S153-09. Apple #9955.
 
-- [ ] **S153-09: Reconcile/update IDUNA's OpenAPI spec** — add the blog (`/api/v1/blog/*`) and
+- [x] **S153-09: Reconcile/update IDUNA's OpenAPI spec** — add the blog (`/api/v1/blog/*`) and
   mailing-list (`/api/v1/mailing-list/*`) endpoints to `idunaOpenAPISpec` (the live, served spec in
   `internal/http/handlers/openapi.go`); decide what to do with the separate, stale
   `IDUNA/openapi.yaml` (Swagger 2.0, placeholder `api.example.com` host) — likely retire it rather
   than maintain two divergent specs.
+  — Done 2026-07-18, prompted by founder direction ("ensure our swagger is up to date"). The live
+  spec's actual gap was wider than S153-09 originally scoped — 15 of ~60 registered routes
+  documented, not just blog/mailing-list. Added 29 more: SHANKPIT email/Google auth, the new
+  S156-02/03/04 shankpit endpoints, blog, mailing-list, status page, monitors, subscriptions,
+  push-tokens, intelligence (44 total now). Deliberately still NOT documenting the DragonsNShit
+  MMO API or supply/research/kgraph — disclosed as a remaining gap in a code comment rather than
+  silently omitted. The separate stale `openapi.yaml` (Swagger 2.0, placeholder host) question is
+  still open — not retired or reconciled this pass, since the live JSON spec is what the actual
+  playground serves and this pass focused there. Verified live: valid JSON, all paths have a
+  responses block, no broken $refs, confirmed against both the local endpoint and the public
+  okemily.com mirror. IDUNA `1568bf7`/`542f96b`.
 
 - [x] **S153-10: Real ecosystem status page** — `IDUNA/internal/statuspage`: background checker
   polls a deliberately honest target list (IDUNA, FatBaby newssite, FatBaby signalapi — the only
