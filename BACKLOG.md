@@ -21,6 +21,19 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 1: FOUNDATION (current sprint)
 
+- [ ] **TOP PRIORITY — dispatch the replay-fragility fix to Fable.** Founder instruction,
+  2026-07-18, verbatim: "we need to fix the entity graph into memory thing, i dont know what to
+  do, log it as the top priority to query fable against tomorrow while we still have fable
+  access." Full dispatch-ready prompt already written:
+  `EMILY/docs/fable-prompts/replay-fragility-northstar.md`. Do this before anything else in the
+  backlog — dispatch via `Agent({ model: "fable", subagent_type: "general-purpose", prompt: <body
+  from that file> })`. Context: `entity-graph`/`signalapi`/`newssite` all replay their full
+  event-store history into memory on every restart with no persisted/cached index — this caused
+  two real incidents the same night (a `signalapi` systemd migration had to be aborted;
+  `newssite` OOM-crash-looped every ~7 min, causing ticker pages to intermittently show "we don't
+  cover AMZN" despite real data existing). `signalapi` is currently stopped/disabled pending this
+  fix — it will not come back on its own.
+
 ---
 
 ## SECTION 2: MONEYPRINTERTURBO (video pipeline)
