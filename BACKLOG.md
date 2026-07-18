@@ -3980,6 +3980,30 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   to `farthq.com` (SHANKPIT's current landing site) — the only emoji on the site, by design.
   Apple #9961.
 
+- [x] **S153-13: news.okemily.com subdomain — ticker sub-pages fixed** — newssite generates
+  root-relative links (`/tickers`, `/section/...`) with no base-path config option, which broke
+  under the `/news/` subpath proxy (ticker sub-pages 404'd). Moved to its own subdomain
+  (`news.okemily.com`, proxied at its own root — no rewriting needed); old `/news/` path
+  301-redirects with the correct target (verified no double-prefix bug). HTTPS+HSTS live on the
+  new subdomain. Apple #9967.
+
+- [ ] **S153-14: entity-graph/signalapi/newssite full-in-memory-replay fragility** — three
+  processes rebuild their entire working state by replaying the full event-store history into
+  memory on every process start; none persist/cache the built index. This is a real architectural
+  fragility, found live twice the same night: migrating `signalapi` to systemd triggered a rebuild
+  that thrashed memory (RSS grew to 628MB+, swap nearly filled, progress visibly stalled) badly
+  enough that it was stopped and disabled rather than risk cascading further; separately, `newssite`
+  (already systemd-supervised, S153-12) kept OOM-killing and restarting every ~7 minutes even after
+  `signalapi` was stopped — its own `docindex.Build()` replays the same full history via the same
+  pattern. Visible symptom: ticker pages intermittently showed "We don't cover {TICKER}" for
+  tickers (e.g. AMZN, 1,225 real events in the store) that plainly have data — not a coverage gap,
+  just an index that hadn't finished rebuilding before the next crash. `entity-graph`'s systemd
+  migration was deferred entirely for the same reason — units exist for all three (`ops/systemd/
+  fatbaby-{entity-graph,signalapi,newssite}.service` in PRRJECT_FATBABY) but `signalapi`'s is
+  disabled. Real fix needs design (bounded replay window? persisted/cached index — the founder's
+  own "cache into mongo or something" instinct from earlier the same night, applied to the right
+  targets this time), not something to improvise live. Apple #9968.
+
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
   a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."
