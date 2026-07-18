@@ -3947,6 +3947,19 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   `IDUNA/openapi.yaml` (Swagger 2.0, placeholder `api.example.com` host) — likely retire it rather
   than maintain two divergent specs.
 
+- [x] **S153-10: Real ecosystem status page** — `IDUNA/internal/statuspage`: background checker
+  polls a deliberately honest target list (IDUNA, FatBaby newssite, FatBaby signalapi — the only
+  services with a real, currently-reachable public endpoint) every 60s, records real up/down +
+  latency history to its own SQLite file. `GET /api/v1/status` (public) serves current status +
+  live-computed 24h uptime percentage from that real history — the "history" data model is in
+  place from day one, not deferred; a fuller incident-timeline UI is the remaining follow-up.
+  `OKEMILY/status.html` renders it with live indicators, linked from the footer. Deliberately
+  excludes emily-agent (daemon mode has no HTTP server) and SHANKPIT (pre-launch) rather than
+  showing them as permanently "down." Fixed a real bug found live: the checker's first check
+  raced IDUNA's own startup (fired before `http.ListenAndServe` was accepting connections) and
+  spuriously recorded IDUNA itself as down — fixed with a 3s startup grace, new test proves the
+  delay is real. 7 new tests. Apple #9960.
+
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
   a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."
