@@ -1,4 +1,5 @@
 ## 2026-07-18
+- backlog: SECTION 1 top-priority done — replay-fragility northstar landed via Fable dispatch #6 (`PRRJECT_FATBABY/docs/northstar/replay-fragility.md`, PRRJECT_FATBABY `a628947`, golden-indexed as FATBABY-REPLAY). Decision: streaming eventstore `Scan` API + per-process SQLite snapshot-plus-tail checkpoints; the observed signalapi stall was O(n²) full-file re-reads in `FileStore.ReadFrom` against a 354MB journal, not a mystery. fable-next-backlog entry #6 moved to Done. Apple #9986.
 - backlog: S153-12 done — newssite systemd-hardened + linked from okemily.com (`/news/`), fixed a broken stale drafted unit that would have failed to start; "Enter the void" CTA to farthq.com added. Apple #9961.
 - backlog: S153-10 done — real ecosystem status page live at `okemily.com/status.html`, real uptime history from day one, fixed a live self-check race bug. Apple #9960.
 - backlog: S153-03 done — Mailchimp live-verified end-to-end (real subscribe → encrypted store → `mailchimp_synced=1`). SECTION 153 now fully closed except S153-06 (parked) and S153-09 (spec reconciliation). Apple #9958.

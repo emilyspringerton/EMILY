@@ -17,7 +17,6 @@ themselves.*
 
 | # | Title | File | Status | Depends on |
 |---|---|---|---|---|
-| 6 | **TOP PRIORITY** — entity-graph/signalapi/newssite full-in-memory-replay fragility fix | `replay-fragility-northstar.md` | **ready to dispatch, top priority** | none — also pinned at the top of `BACKLOG.md` SECTION 1 so it's picked up first regardless of this queue's order |
 | 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` | **ready to dispatch** | SAGA VS-spec audit landed 2026-07-16 (IDUNA `529834f`, EMILY `508a9be`) — no remaining blocker |
 | 4 | Act III synthesis — reconcile 141-150 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | `act3-synthesis.md` | **ready to dispatch, paused** | none — failed twice on transient `529 Overloaded` (not session-limit, not content). Per founder instruction 2026-07-16, not being auto-retried; dispatch deliberately whenever picked back up. |
 
@@ -43,9 +42,8 @@ themselves.*
 
 | # | Title | Landed | Commits |
 |---|---|---|---|
+| 6 | **TOP PRIORITY** — entity-graph/signalapi/newssite full-in-memory-replay fragility fix → `PRRJECT_FATBABY/docs/northstar/replay-fragility.md` (decision: streaming eventstore `Scan` API + per-process SQLite snapshot-plus-tail checkpoints; root cause was O(n²) full-file re-reads in `FileStore.ReadFrom`) | 2026-07-18 | PRRJECT_FATBABY `a628947` (EMILY golden-index + backlog commit follows this file). Apple #9986 |
 | 2 | Emilyify the mag book → `gpt2-alpine-c/pkg/towerprint` + `docs/TOWERPRINT.md` | 2026-07-16 | gpt2-alpine-c `819c400`, EMILY `c0efd2f` |
-
-*(none yet)*
 
 ---
 

@@ -21,7 +21,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 1: FOUNDATION (current sprint)
 
-- [ ] **TOP PRIORITY — dispatch the replay-fragility fix to Fable.** Founder instruction,
+- [x] **TOP PRIORITY — dispatch the replay-fragility fix to Fable.** Founder instruction,
   2026-07-18, verbatim: "we need to fix the entity graph into memory thing, i dont know what to
   do, log it as the top priority to query fable against tomorrow while we still have fable
   access." Full dispatch-ready prompt already written:
@@ -33,6 +33,18 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `newssite` OOM-crash-looped every ~7 min, causing ticker pages to intermittently show "we don't
   cover AMZN" despite real data existing). `signalapi` is currently stopped/disabled pending this
   fix — it will not come back on its own.
+  — Done 2026-07-18 via Fable. Northstar written: `PRRJECT_FATBABY/docs/northstar/replay-fragility.md`
+  (PRRJECT_FATBABY `a628947`, golden-indexed as FATBABY-REPLAY). Root cause found in code:
+  `eventstore.FileStore.ReadFrom` re-reads/re-parses the entire journal file per 512-record page —
+  the 354MB 2026-07-16 journal alone means ~39 full passes (~13.8GB redundant JSON decode), and the
+  30s Tail pollers re-parse the never-cached current-day file every poll; the "stall at ~109K" was
+  quadratic I/O meeting a full swap partition, mid-way into that file. Decision: Phase-0 streaming
+  `Scan` API (deletes the O(n²)) + per-process SQLite snapshot-plus-tail checkpoints (house pattern;
+  `modernc.org/sqlite` already in go.mod; the `TODO(scale)` seam in `internal/signalindex/index.go`).
+  Mongo-as-cache and bounded-replay-window evaluated and rejected with reasons. entity-graph phase
+  also kills its per-batch full-store `buildFilingIndexes` scan and the 482K-line/136MB duplicate
+  `accuracy.ndjson` reload. Implementation (Phases 0–3) not yet built — queue as follow-up items.
+  Apple #9986.
 
 ---
 

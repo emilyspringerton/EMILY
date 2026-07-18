@@ -16,6 +16,7 @@
 | FATBABY | PRRJECT_FATBABY/docs/northstar/northstar.md | 1 | 8000 | 8-K intelligence engine northstar; 4 layers, phase status |
 | FATBABY-HEADLINES | PRRJECT_FATBABY/docs/headlines/live-feed-northstar.md | 2 | 2500 | MTWire-style combined live headline feed northstar; unifies all 10 pollers via feedserver + WebSocket bridge to newssite; design only, phased build plan |
 | FATBABY-TINA | PRRJECT_FATBABY/docs/northstar/tina-engine.md | 2 | 2000 | TINA (Trading Idea, Not Advice) engine northstar; compliance-forward structured layer over existing signals, substrate under jon-agent's chat persona; design only |
+| FATBABY-REPLAY | PRRJECT_FATBABY/docs/northstar/replay-fragility.md | 1 | 3000 | Index-persistence northstar ending full-history replay on restart (signalapi/newssite/entity-graph): O(n^2) ReadFrom root cause, streaming Scan API + per-process SQLite snapshot-plus-tail checkpoints; Mongo/bounded-window rejected with reasons; signalapi re-enable gated on Phase 1a |
 | FATBABY-EXEC | PRRJECT_FATBABY/docs/northstar/executive_summary.md | 1 | 4000 | FatBaby executive summary; system-as-built orientation |
 | EMILY-SPEC | EMILY/emily-prime-spec.md | 1 | 4000 | Emily Prime ↔ FatBaby-Emily integration spec |
 | EMILY-NORTH | EMILY/docs/NORTHSTAR.md | 1 | 3000 | Emily Prime 3-agent arch + cron cycle northstar |
