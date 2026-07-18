@@ -3916,6 +3916,22 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   sk-ant-...` shorthand unchanged. 6 new tests. Live-verified: real write/read/legacy-shorthand
   smoke test against temp dirs. Apple #9952.
 
+- [x] **S153-07: Blog for okemily.com** — founder wanted a blog "right away"; deliberately built
+  as static HTML rather than a second WordPress+MySQL stack, since the box had ~400MB free RAM and
+  swap essentially full at request time — a second full PHP-FPM+MySQL stack risked recreating the
+  exact incident SECTION 152 spent the whole session fixing. `IDUNA/internal/blog`: SQLite-backed
+  post store (own file), rendered directly to static HTML in `/var/www/okemily/blog/` on every
+  publish via Go's `html/template` (7 tests, one caught a real bug, one confirmed body content is
+  HTML-escaped against XSS). New `blog.write` permission, granted to `EMILY-PRIME` — same endpoint
+  for programmatic and manual posting. Four real posts published same day (all guest-authored by
+  Claude Code): "Notes on the Emily Way, from the inside" (reflecting on tonight's actual incidents
+  — the OOM outage, the mailing-list custody conversation); "The real moat is the boring part"
+  (IAM/governance as competitive moat); "A new order, built by very small teams" (security-first
+  framing for AI-leveraged small teams); "Progress doesn't feel like hype" (sourced from
+  `EMILY/book/book_outline.md`'s "Building the Plane Through Stillness" outline and its TEDx/
+  keynote mapping). Linked from the okemily.com footer (no separate `/blog/` index page for now,
+  per founder direction). Apple #9954.
+
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
   a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."

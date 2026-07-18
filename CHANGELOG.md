@@ -1,4 +1,5 @@
 ## 2026-07-18
+- backlog: S153-07 done — static-HTML blog for okemily.com (no PHP/MySQL, memory-constrained box), `IDUNA/internal/blog`, commit `5bcd730`. 4 real posts published (Emily Way reflection, IAM/governance-as-moat, small-teams-security framing, Stillness-outline-sourced piece), linked from the footer. Apple #9954.
 - backlog: S153-05 done — `emily key` generalized to write named secrets to any target env file (`--target emily|iduna`), emily.cli commit `6d53eba`. Apple #9952.
 - backlog: SECTION 153 — okemily.com launched (landing page + never-at-rest-unencrypted mailing-list signup via `IDUNA/internal/mailinglist`). New repo `OKEMILY`. S153-01/02 done, Apple #9950; S153-03 (Mailchimp account), S153-04 (HTTPS), S153-05 (`emily key` CLI command), S153-06 (board/foundation structure, parked) still open.
 
