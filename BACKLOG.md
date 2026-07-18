@@ -4294,10 +4294,29 @@ economy doctrine rather than building a bespoke system. Landing page live at
   a 2-minute TTL if never reconnected. 7 new tests. Live end-to-end verified: two real accounts
   via the email auth flow, second join correctly matched both players with real connect info.
   IDUNA `e31db51`/`b2fc5a1`. Apple #10031.
-- [ ] **S156-04: Match-result event → existing `/api/v1/players` projection.** On S156-01's
+- [x] **S156-04: Match-result event → existing `/api/v1/players` projection.** On S156-01's
   COMPLETE trigger, write kills/deaths/duration per `player_id` as an event (house pattern:
   event-sourced, recomputable, not direct counter increments) feeding the leaderboard/profile
   endpoints that already exist and are already consumed by `emily shankpit leaderboard`.
+  — Done 2026-07-18, scoped down from "event-sourced" to a direct call against the existing
+  `POST /api/v1/players/{id}/session` counter-increment endpoint (that's what already exists and
+  is already consumed by the leaderboard — reuse over redesign, per NORTHSTAR §1's own stated
+  philosophy). `complete_match()` reports kills/deaths per authenticated client to IDUNA before
+  the per-round reset, authenticating as a new `SHANKPIT460-SERVER` M2M agent via IDUNA's existing
+  `POST /api/v1/auth/agent`. New minimal self-contained HTTP/1.1 client
+  (`packages/common/http_client.h`, no TLS, no external library) plus a tiny JSON field scanner —
+  same spirit as `hmac_sha256.h`. Deliberately best-effort, not fail-closed: IDUNA being briefly
+  unreachable must never block the round timer. Caught live: first draft looked for a `token`
+  field in the auth response; IDUNA's agent-auth endpoint actually returns `access_token` — would
+  have silently no-op'd every match had it shipped. Also closed a real pre-existing authz gap
+  found while wiring this in: `handleSessionEnd` had no permission check at all, so any player's
+  own JWT could inflate their (or anyone else's) stats via a direct POST — added
+  `shankpit.match.write`, granted only to the new agent (IDUNA migration `202607180002`).
+  End-to-end verified: direct-curl agent auth+POST confirmed via the leaderboard endpoint; a live
+  match against `emily-bot`'s unregistered player_ids correctly logged a graceful
+  404-and-continue per player without blocking match completion; player's-own-JWT regression
+  check now correctly 403s. Deployed to production. shankpit-460 `8587f25`/`90008f0`, IDUNA
+  `43343e8`/`7661256`. Apple #10033.
 - [ ] **S156-05: Static web stats page.** Same pattern as `okemily.com/status.html` (plain HTML,
   `fetch()` against the IDUNA JSON endpoint, no build step, no framework) — not a new stack.
   Placement (okemily.com path vs. a `shankpit.` subdomain) is a FATES naming-doctrine question
