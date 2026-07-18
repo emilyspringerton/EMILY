@@ -4174,6 +4174,47 @@ transitions/portals, and higher concurrency than 8 bots.
 
 ---
 
+## SECTION 156: SHANKPIT-460 ACCOUNTS + MATCHMAKING + STATS (2026-07-18)
+
+*Founder direction, 2026-07-18: accounts + basic matchmaking, skip the backpack problem, keep
+simple to start; basic web-based stats (League of Legends-style). Scoped in
+`shankpit-460/docs2/NORTHSTAR.md` (golden-indexed as SHANKPIT460-NORTH) against IDUNA's existing
+KIKORYU roadmap — VS2 (Tournaments) is IDUNA's declared primary product direction and already
+names SHANKPIT as a peer consumer domain (VS8), so this reuses that platform's identity/lifecycle/
+economy doctrine rather than building a bespoke system. Build order below matches the NORTHSTAR.*
+
+- [ ] **S156-01: Add match/round-boundary logic to `apps/server/src/main.c`.** Verified during
+  scoping: the real server has none at all — `local_init_match` runs once at startup, no timer,
+  no win condition, no COMPLETE event. Every later item in this section depends on this existing
+  first — there is no match to matchmake into or write results for without it.
+- [ ] **S156-02: Wire JWT auth into `PACKET_CONNECT`.** `IDUNA/internal/http/handlers/
+  shankpit_auth.go` (Google OAuth → `players` row → JWT with `player_id`) already exists and is
+  unused by the game server — `ensure_slot_for_sender` currently accepts any UDP packet with zero
+  auth. Needs a versioned connect-packet shape carrying the JWT (SHANKPIT parent-repo's
+  `emily-bot` already has a wire convention for this to reference), JWKS validation against
+  IDUNA, one-seat-per-identity enforcement (VS2 hard constraint), and `player_id` added to
+  `PlayerState`/slot tracking so match results attribute to a real account, not a session.
+- [ ] **S156-03: Minimal matchmaking queue.** `QUEUING → STARTING → IN_PROGRESS → COMPLETE`,
+  first-N-in/first-match-out (no skill-based matching in v0 — that's a VS9-reputation-layer
+  upgrade, explicitly deferred). v0 assumes the one persistent server IS the match; per-match
+  server instances are an explicit non-goal for this pass (see NORTHSTAR §5/§6).
+- [ ] **S156-04: Match-result event → existing `/api/v1/players` projection.** On S156-01's
+  COMPLETE trigger, write kills/deaths/duration per `player_id` as an event (house pattern:
+  event-sourced, recomputable, not direct counter increments) feeding the leaderboard/profile
+  endpoints that already exist and are already consumed by `emily shankpit leaderboard`.
+- [ ] **S156-05: Static web stats page.** Same pattern as `okemily.com/status.html` (plain HTML,
+  `fetch()` against the IDUNA JSON endpoint, no build step, no framework) — not a new stack.
+  Placement (okemily.com path vs. a `shankpit.` subdomain) is a FATES naming-doctrine question
+  (`HQ-SPEC-INFRA-105`), not a call to make in isolation — resolve alongside that spec, not
+  improvised here. Independently shippable before S156-01/02/03 land, against test/manual data,
+  if sequencing makes sense.
+- [ ] **S156-06 (explicit non-goal, not deferred — formalize, don't build):** no persistent
+  inventory/loadout/cosmetics ("the backpack problem"). VS2's closed-non-redeemable-economy
+  doctrine adopted as permanent, not a stopgap — matches the server's actual current behavior
+  already (every respawn resets to a default loadout).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
