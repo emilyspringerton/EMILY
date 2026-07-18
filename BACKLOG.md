@@ -46,6 +46,34 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `accuracy.ndjson` reload. Implementation (Phases 0–3) not yet built — queue as follow-up items.
   Apple #9986.
 
+- [x] **Phase 0 of replay-fragility fix — streaming `eventstore.Scan` API.** Implemented
+  `Scan(ctx, fromSeq, fn)` on `eventstore.FileStore`: line-streams each journal file exactly once
+  instead of re-reading/re-decoding the whole file per page. Migrated `signalindex.Build/Tail`,
+  `docindex.Build/Tail`, and entity-graph's `buildFilingIndexes` onto it; added `-replay-from-seq`
+  emergency flag to signalapi/newssite; also fixed `Tail()`'s first-poll 30s wait (masked by the
+  O(n²) bug until Phase 0 fixed it, then became the dominant startup cost). Live-verified:
+  signalapi cold rebuild against the real 630MB/116K-record store — previously could not complete
+  (killed twice at 628MB/540MB RSS, swap near-exhausted) — now completes in 30.1s at 60.6MB peak
+  RSS (northstar target: <60s, <300MB). `go test ./...` green, 5 new `Scan` tests. PRRJECT_FATBABY
+  `897c3c3`, pushed. Apple #9989.
+
+- [ ] **Phase 1a — SQLite checkpoint for signalapi** (currently stopped/disabled — highest
+  urgency). Per `docs/northstar/replay-fragility.md` §4b: `var/signalapi-index.db`,
+  snapshot-plus-tail with a `latest_seq` watermark. Re-enable `fatbaby-signalapi.service` after,
+  kill-test under supervision.
+
+- [ ] **Phase 1b — SQLite checkpoint for newssite**, same package as 1a. Kill-test; confirm no
+  "we don't cover AMZN" window on restart.
+
+- [ ] **Phase 2 — entity-graph checkpoint.** Incremental filings table (kills the per-batch
+  full-store `buildFilingIndexes` scan), accuracy upsert table with a calibration-equivalence
+  gate (482K-line `accuracy.ndjson` must not shift the 11.9%-precision finding), graph-lifetime
+  hoist out of `runBatch`. Enable `fatbaby-entity-graph.service` for the first time after.
+
+- [ ] **Phase 3 — ops runbook + checkpoint freshness check.** Document "checkpoints are
+  disposable, safe to delete" as an operator invariant; add a `meta.snapshot_at` freshness check
+  so a stalled checkpoint is caught in minutes, not at the next incident.
+
 ---
 
 ## SECTION 2: MONEYPRINTERTURBO (video pipeline)
