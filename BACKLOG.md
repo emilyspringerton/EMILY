@@ -4178,7 +4178,7 @@ transitions/portals, and higher concurrency than 8 bots.
 bots) both verified clean — all six weapons land hits, server handles 16 concurrent clients with
 clean connect/disconnect and no crashes. Respawn cycling surfaced a real finding:
 
-- [ ] **S155-03: death is structurally invisible over the network.** 3 separate 60s/30s combat
+- [x] **S155-03: death is structurally invisible over the network.** 3 separate 60s/30s combat
   runs, multiple weapons, multiple bot counts — `deaths=0 respawns=0` every time despite confirmed
   repeated damage (health consistently shown dropping "100 → 72" then back to 100, never lower,
   never observed at `state==DEAD`). Root cause, read in code:
@@ -4199,17 +4199,30 @@ clean connect/disconnect and no crashes. Respawn cycling surfaced a real finding
   needs a real design decision (a respawn delay + a `state==DEAD` tick that actually gets
   broadcast, at minimum; ideally a kill event of some kind sent explicitly rather than inferred
   from state polling) — not something to improvise inline with whatever's touched next.
+  — Done 2026-07-18. Fixed: death now sets `STATE_DEAD` + a `respawn_delay_ticks` countdown
+  (~2.9s) instead of respawning synchronously; `update_entity` (already called every tick for
+  `STATE_DEAD` players) counts it down and calls `phys_respawn()` at zero — so `STATE_DEAD` now
+  reliably survives to a snapshot broadcast. Removed the old `respawn_time`-timestamp check in the
+  main loop, which was dead code for PvP kills and, separately, was itself non-functional (always
+  zero-delay) even in a code path that could reach it. Also fixed a related latent bug found while
+  in there: death now explicitly clamps `health` to 0 rather than leaving it however-negative,
+  since a negative `int` cast to the wire protocol's `unsigned char` would have wrapped to a large
+  bogus value the instant death became observable. Live-verified: two-bot combat run shows
+  deaths=5/respawns=4 and deaths=4/respawns=4 (one bot mid-death-delay at test end, expected) —
+  both nonzero and mutually consistent for the first time. shankpit-460 `d185fc5`.
 
 ---
 
-## SECTION 156: SHANKPIT-460 ACCOUNTS + MATCHMAKING + STATS (2026-07-18)
+## SECTION 156: SHANKPIT-460 ACCOUNTS + MATCHMAKING + STATS — WOTAN (2026-07-18)
 
 *Founder direction, 2026-07-18: accounts + basic matchmaking, skip the backpack problem, keep
-simple to start; basic web-based stats (League of Legends-style). Scoped in
+simple to start; basic web-based stats (League of Legends-style); name it **WOTAN** (Norse theme,
+simple/short/memorable, continues the NORN/FATES/KIKORYU naming convention). Scoped in
 `shankpit-460/docs2/NORTHSTAR.md` (golden-indexed as SHANKPIT460-NORTH) against IDUNA's existing
 KIKORYU roadmap — VS2 (Tournaments) is IDUNA's declared primary product direction and already
 names SHANKPIT as a peer consumer domain (VS8), so this reuses that platform's identity/lifecycle/
-economy doctrine rather than building a bespoke system. Build order below matches the NORTHSTAR.*
+economy doctrine rather than building a bespoke system. Landing page live at
+`okemily.com/tournaments.html` under the WOTAN name. Build order below matches the NORTHSTAR.*
 
 - [ ] **S156-01: Add match/round-boundary logic to `apps/server/src/main.c`.** Verified during
   scoping: the real server has none at all — `local_init_match` runs once at startup, no timer,
