@@ -3908,9 +3908,13 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   form was deliberately routed same-origin through `okemily.com`'s own nginx `/api/` proxy instead
   of depending on that.
 
-- [ ] **S153-05: `emily key` CLI command for writing secrets to env files** — founder wants a way
-  to write `MAILCHIMP_API_KEY` (and similarly-shaped secrets going forward) into an env file via
-  the `emily` CLI rather than hand-editing files. Requested 2026-07-18, not yet designed/built.
+- [x] **S153-05: `emily key` CLI command for writing secrets to env files** — generalized beyond
+  hardcoded `ANTHROPIC_API_KEY`: `emily key set <NAME> <VALUE> [--target emily|iduna] [--file
+  <path>]`. `--target iduna` writes plain `KEY=VALUE` (no export prefix — systemd's
+  `EnvironmentFile=` doesn't parse shell export syntax) to `~/.config/iduna/env`; `--target emily`
+  (default) keeps the existing export-prefixed, shell-sourced format. Legacy `emily key set
+  sk-ant-...` shorthand unchanged. 6 new tests. Live-verified: real write/read/legacy-shorthand
+  smoke test against temp dirs. Apple #9952.
 
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
