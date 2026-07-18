@@ -56,6 +56,27 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   (killed twice at 628MB/540MB RSS, swap near-exhausted) — now completes in 30.1s at 60.6MB peak
   RSS (northstar target: <60s, <300MB). `go test ./...` green, 5 new `Scan` tests. PRRJECT_FATBABY
   `897c3c3`, pushed. Apple #9989.
+  — Two more instances of the same pattern found and fixed after Phase 0 landed, both migrated
+  onto `Scan`: **processor** (4th — no cursor at all, replayed the *entire* store a second time
+  on every restart via slow paged `ReadFrom`, redundant with `loadSeenIdentities`'s own full scan;
+  found live during a reboot-recovery OOM crash-loop, cold-start catch-up went ~1hr → ~7s,
+  PRRJECT_FATBABY `ff92e2c`, Apple #9992) and **eps-reconciler** (5th — same paged-`ReadFrom`-from-
+  seq-1 loop in `reconcile()`, lower-frequency poll (6h) kept it below incident threshold but paid
+  the same O(n²) cost every run; found via a routine full-process-sync audit, not an incident,
+  81s → 26s per run, PRRJECT_FATBABY `84b7148`, Apple #10021). That grep sweep was then actually
+  run (module-wide, for the `from := uint64(1)` paged-`ReadFrom` pattern) rather than left as a
+  TODO — found and fixed 4 more: **eps-processor**'s `loadTickerMap` (6th — live, every 30s poll,
+  most severe of the four), **buyback/dividend/guidance-watcher**'s `buildTickerMap` (7th/8th/9th
+  — identical copy-pasted pattern across all three, startup-only, fixed before their next start
+  rather than after an incident since none are currently running), and `processor`'s
+  `sourceDocumentExists` (dead code, no production callers, fixed anyway for consistency rather
+  than leaving a stray grep hit). PRRJECT_FATBABY `ad3d69c`, Apple #10023. **9 total instances of
+  this exact bug class found and fixed in one day.** Two remaining grep hits
+  (`cmd/backfill-signal-dates`, `cmd/stub-backfill`) are genuinely one-shot CLI migration tools
+  with no poll loop — correctly lower severity, left as-is. Given how many turned up from one
+  pattern search, this is a strong argument for Phase 0's `Scan` becoming the *only* way to read
+  the store (deprecate the paged-`ReadFrom` idiom entirely, not just patch each instance found) —
+  worth naming explicitly as a Phase 0.5 or folding into Phase 3's runbook work.
 
 - [ ] **Phase 1a — SQLite checkpoint for signalapi** (currently stopped/disabled — highest
   urgency). Per `docs/northstar/replay-fragility.md` §4b: `var/signalapi-index.db`,
