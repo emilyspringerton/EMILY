@@ -3932,6 +3932,22 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   keynote mapping). Linked from the okemily.com footer (no separate `/blog/` index page for now,
   per founder direction). Apple #9954.
 
+- [x] **S153-08: API playground (Swagger UI)** — `OKEMILY/api-playground.html`, Swagger UI loaded
+  via CDN (no build step, no added server cost), pointed at IDUNA's existing `/api/v1/openapi.json`
+  through the same-origin nginx proxy. Fixed a real bug found while wiring it up: the spec's
+  `servers[]` was `localhost:8080`-only, which would have made every "Try it out" request target
+  the visitor's own machine instead of IDUNA — added the real public URL
+  (`https://okemily.com`). Linked from the footer. **The spec itself is known-stale** — missing
+  today's blog/mailing-list endpoints, and a second, separately-stale `openapi.yaml` (Swagger 2.0,
+  placeholder host) exists unreconciled with the live JSON spec. Explicitly deferred per founder
+  instruction ("get the playground up, update the spec later") — tracked as S153-09. Apple #9955.
+
+- [ ] **S153-09: Reconcile/update IDUNA's OpenAPI spec** — add the blog (`/api/v1/blog/*`) and
+  mailing-list (`/api/v1/mailing-list/*`) endpoints to `idunaOpenAPISpec` (the live, served spec in
+  `internal/http/handlers/openapi.go`); decide what to do with the separate, stale
+  `IDUNA/openapi.yaml` (Swagger 2.0, placeholder `api.example.com` host) — likely retire it rather
+  than maintain two divergent specs.
+
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
   a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."
