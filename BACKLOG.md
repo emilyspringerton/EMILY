@@ -4017,6 +4017,19 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   own "cache into mongo or something" instinct from earlier the same night, applied to the right
   targets this time), not something to improvise live. Apple #9968.
 
+- [x] **S153-15: fixed serveDoc's per-request full-history scan** — found while debugging
+  user-reported broken article deep links (60s+ requests hitting nginx's `proxy_read_timeout`,
+  returning 504). `serveDoc` was calling `ReadByIdentity` — a full linear scan from sequence 1
+  through the entire event store — on **every article page view**, not just at startup. Two real
+  bugs fixed: `docindex.Ingest` never set `Sequence` on the `DocSummary` it builds despite the
+  field existing and being documented for this purpose (caught immediately by a new test); and
+  `serveDoc` wasn't using the in-memory index at all, despite it having exactly the O(1) lookup
+  needed. Now tries the index + a new targeted `ReadAtSequence` first, falling back to the old
+  full-scan only when the index hasn't indexed that identity yet. Live-verified: an already-indexed
+  doc went from 60s+ to 1.85s. **Honest caveat**: `newssite` OOM-crash-looped again live during this
+  very investigation (confirmed via journal, unrelated to this fix) — this is a real, verified
+  improvement, not a substitute for S153-14's actual fix. 5 new tests. Apple #9972.
+
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
   a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."
