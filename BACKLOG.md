@@ -3868,6 +3868,58 @@ pollers have none.*
   despite its own header comment (history checked clean, no real secret ever committed). Apple
   #9946.
 
+## SECTION 153: OKEMILY.COM — FRONT DOOR + MAILING LIST (2026-07-18)
+
+*Domain `okemily.com` purchased and pointed at this server. Primary near-term purpose, per founder:
+credibility for a Google Cloud for Startups application, not the full product funnel (that's EDIS,
+a separate later effort on a different stack — WordPress vs. this repo's static HTML). Founders
+deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY`.*
+
+- [x] **S153-01: Landing page** — static HTML/CSS, no build step. Mission/three-pillars (capital
+  markets intelligence / game worlds / recursive self-improvement) / values copy. `privacy.html`
+  with real GDPR-relevant policy text. Deployed to `/var/www/okemily` via nginx, HTTP confirmed
+  live against real public DNS. HTTPS not yet done — `~/certbot_okemily.sh` written, not yet run
+  by founder as of this writing. Apple #9950.
+
+- [x] **S153-02: Never-at-rest-unencrypted mailing-list signup** — founder was explicit and
+  emphatic: subscriber emails must never exist unencrypted on disk, under any circumstance. Built
+  `IDUNA/internal/mailinglist` (Argon2id-derived AES-256-GCM, vault locked on every process start,
+  human-run `cmd/mailing-list-unlock` required after every restart — interactive passphrase only,
+  never a CLI arg). Deliberately scoped to just this subsystem, not all of IDUNA, after founder
+  weighed the custody trade-off live (locking all of IDUNA would undo SECTION 152's auto-restart
+  work for a much bigger blast radius than the actual sensitive data warrants). Passphrase custody
+  resolved as: password manager, not memorization-only (zero-recovery was the correct objection —
+  matches the real, well-known "lost Bitcoin wallet" failure mode). Own SQLite file, separate from
+  `truestore.db`. Mailchimp is a best-effort downstream sync (double opt-in, `status_if_new:
+  "pending"`) — IDUNA's own store is the system of record. Public endpoint rate-limited + CORS-
+  scoped; unlock/init endpoints loopback-only. 6 tests. Live-verified: real subscribe request
+  produced 37-byte ciphertext in the store, confirmed not plaintext. IDUNA commit `c2fff4c`,
+  OKEMILY commit `3d350f5`. Apple #9950 (same Apple as S153-01, one launch).
+
+- [ ] **S153-03: Mailchimp account setup (founder action)** — create account, one Audience,
+  **enable double opt-in** (account setting — the code assumes `status_if_new: "pending"`), accept
+  Mailchimp's DPA, get API key + list ID, set `MAILCHIMP_API_KEY`/`MAILCHIMP_LIST_ID` in IDUNA's
+  env. Until this lands, IDUNA still captures/encrypts subscribers correctly — only the
+  send-a-confirmation-email step is pending.
+
+- [ ] **S153-04: HTTPS for okemily.com** — `~/certbot_okemily.sh` is written and ready; founder
+  hasn't run it yet as of this writing. Also still open: `iduna.farthq.com` itself has no HTTPS
+  cert (pre-existing gap, HQ-SPEC-INFRA-105 S151-04) — not blocking S153 since the mailing-list
+  form was deliberately routed same-origin through `okemily.com`'s own nginx `/api/` proxy instead
+  of depending on that.
+
+- [ ] **S153-05: `emily key` CLI command for writing secrets to env files** — founder wants a way
+  to write `MAILCHIMP_API_KEY` (and similarly-shaped secrets going forward) into an env file via
+  the `emily` CLI rather than hand-editing files. Requested 2026-07-18, not yet designed/built.
+
+- [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
+  founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
+  a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."
+  Existing docs that may already touch this and warrant a real pass before designing anything:
+  `EMILY/docs/emily-complete-vision.md`, `emily-press-package.md`, `THE_FIELD.md`, `emily-agent-
+  framework.md`, `emily-complete-system-integration.md`, `emily-expanded-internet-scale.md`,
+  `emily-training-layer.md`, `emily.cli/docs/DESIGN.md`, `EmilyOS/docs/NORTHSTAR.md`.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*

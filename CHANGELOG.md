@@ -1,3 +1,6 @@
+## 2026-07-18
+- backlog: SECTION 153 — okemily.com launched (landing page + never-at-rest-unencrypted mailing-list signup via `IDUNA/internal/mailinglist`). New repo `OKEMILY`. S153-01/02 done, Apple #9950; S153-03 (Mailchimp account), S153-04 (HTTPS), S153-05 (`emily key` CLI command), S153-06 (board/foundation structure, parked) still open.
+
 ## 2026-07-17
 - backlog: SECTION 152 closed out — S152-01 (poller watchdog), S152-02 (prime-directive amendment), and S152-03 (systemd supervision for secwatch/processor/prwatch/prwatch-body/eps-reconciler, PRRJECT_FATBABY commits `266dad7`/`5fce9ef`) all done. Apples #9943/#9945/#9946.
 - docs(process): `THE_EMILY_WAY.md` Principle 15 (Operational Health Is Not Optional) + a new Section 0 in `docs/emily-prime-directive-data-collection.md` — permanent operating principle that infra health (services + headless pollers) must be actively, automatically verified every cycle, never discovered by luck. Direct response to S152-01's incident (secwatch/eps-reconciler silently down for hours) and the founder's own framing: FatBaby's SEC/PR pipeline is a multi-year data asset ("2 years of good data"), and a silent ingestion gap cannot be recovered once it has passed. Apple #9945.
