@@ -1,4 +1,5 @@
 ## 2026-07-18
+- backlog: S153-12 done — newssite systemd-hardened + linked from okemily.com (`/news/`), fixed a broken stale drafted unit that would have failed to start; "Enter the void" CTA to farthq.com added. Apple #9961.
 - backlog: S153-10 done — real ecosystem status page live at `okemily.com/status.html`, real uptime history from day one, fixed a live self-check race bug. Apple #9960.
 - backlog: S153-03 done — Mailchimp live-verified end-to-end (real subscribe → encrypted store → `mailchimp_synced=1`). SECTION 153 now fully closed except S153-06 (parked) and S153-09 (spec reconciliation). Apple #9958.
 - backlog: S153-08 done — API playground (Swagger UI) live at `okemily.com/api-playground.html`, fixed a real bug (spec's `servers[]` was localhost-only). S153-09 queued (spec is known-stale, missing blog/mailing-list endpoints, plus a second unreconciled `openapi.yaml`). Apple #9955.

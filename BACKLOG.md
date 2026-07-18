@@ -3969,6 +3969,17 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   incident/postmortem log tied to escalation Apples. Requested 2026-07-18, not yet scoped in
   detail.
 
+- [x] **S153-12: newssite hardened + linked publicly, "Enter the void" CTA** — newssite became a
+  public-facing surface the moment okemily.com started proxying `/news/` to it, so it needed the
+  same systemd treatment as SECTION 152's other pollers. Found and fixed a real bug: the previously
+  -drafted `ops/systemd/fatbaby-newssite.service` was stale — missing `-guidance-dir`/
+  `-earnings-cal-dir` (real, in-use flags) and referencing a `-doc-index-dir` flag that doesn't
+  exist anywhere in `cmd/newssite/main.go`; deploying it as-drafted would have made the service
+  fail to start outright. Rewrote to match the real live argv, live-verified with a SIGKILL test
+  (auto-restarted within `RestartSec=10s`). Also added the final "Enter the void 🕳️" CTA linking
+  to `farthq.com` (SHANKPIT's current landing site) — the only emoji on the site, by design.
+  Apple #9961.
+
 - [ ] **S153-06 (parked, not scoped): board of directors / non-profit ownership structure** —
   founder floated a Rolex-Foundation-style mission-locked ownership model (can never be sold) and
   a board to hold custody of sensitive keys/decisions. Explicitly "we don't need to decide now."
