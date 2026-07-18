@@ -4174,6 +4174,32 @@ server's hit-detection/damage system itself works correctly.
 cycling under sustained combat, weapon variety (only Magnum exercised so far), scene
 transitions/portals, and higher concurrency than 8 bots.
 
+**Follow-up E2E pass, 2026-07-18 (later same day):** weapon variety and higher concurrency (16
+bots) both verified clean — all six weapons land hits, server handles 16 concurrent clients with
+clean connect/disconnect and no crashes. Respawn cycling surfaced a real finding:
+
+- [ ] **S155-03: death is structurally invisible over the network.** 3 separate 60s/30s combat
+  runs, multiple weapons, multiple bot counts — `deaths=0 respawns=0` every time despite confirmed
+  repeated damage (health consistently shown dropping "100 → 72" then back to 100, never lower,
+  never observed at `state==DEAD`). Root cause, read in code:
+  `packages/common/physics.h`'s `katana_apply_damage` (the actual hit-application function for
+  *all* weapons, not just the katana — misleading name) calls `phys_respawn()` **synchronously,
+  in the same call, the instant `health <= 0`** — health resets to 100 and `state` returns to
+  `STATE_ALIVE` before the function even returns. `PlayerState.state` never persists as
+  `STATE_DEAD` for even one server tick. Snapshots broadcast every `SERVER_SNAPSHOT_INTERVAL_TICKS`
+  (3 ticks, ~48ms) — structurally slower than an instantaneous death+respawn, so no client can
+  ever observe a death happening, only health mysteriously bouncing back to 100. (There is a
+  separate, timer-gated respawn path in `apps/server/src/main.c`'s main loop —
+  `now > p->respawn_time` — but it's dead code for PvP kills specifically, since combat deaths
+  never reach it: `phys_respawn` already ran synchronously before the main loop's next pass.)
+  **This blocks S156-04 more severely than previously known** — not just "no match-result event
+  exists yet," but individual kills themselves have no observable moment at all, network-side, to
+  hang an event off of. `kills`/`deaths` counters exist in `PlayerState` but were also already
+  confirmed absent from the `NetPlayer` wire struct (S155's original protocol audit). Fixing this
+  needs a real design decision (a respawn delay + a `state==DEAD` tick that actually gets
+  broadcast, at minimum; ideally a kill event of some kind sent explicitly rather than inferred
+  from state polling) — not something to improvise inline with whatever's touched next.
+
 ---
 
 ## SECTION 156: SHANKPIT-460 ACCOUNTS + MATCHMAKING + STATS (2026-07-18)
