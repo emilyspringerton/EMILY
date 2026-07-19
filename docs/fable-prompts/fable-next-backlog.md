@@ -30,7 +30,6 @@ themselves.*
 | 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-17 | Full standalone prompt written (`dns-operations-northstar.md`) after 2 prior attempts failed on transient 529s with no saved prompt; dispatched with real grounding (farthq.com's current Cloudflare NS confirmed via `dig`, real product-surface inventory, NORN/SAGA cross-references). |
 | 8 | OKEMILY blog post — "Clean Builds First" | published directly 2026-07-19 | https://okemily.com/blog/clean-builds-first/ — no Fable dispatch needed, Claude Code published it directly. |
 | 12 | OKEMILY blog post — "Recursion for LLMs" | published directly 2026-07-19 | https://okemily.com/blog/recursion-for-llms/ |
-| 11 | SHANKPIT-460 maps v0 + pipeline report | 2026-07-19 ~19:15 UTC | Single dispatch, per "one or two at a time" guidance below, well past the 5:40am reset. Prompt updated in-flight with the same-day tree-canonicalization finding (`apps/` confirmed live via CI, `apps2/`/`packages2/` confirmed dead) so it doesn't repeat that mistake. |
 
 ---
 
