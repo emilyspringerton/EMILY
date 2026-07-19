@@ -5000,35 +5000,36 @@ it here per founder instruction ("thread dump into the backlog if you are overlo
 than half-finishing several of these in parallel. Nothing in this section is done except where
 marked.*
 
-- [ ] **S169-01: `shankpit-460` has three divergent client source trees — real bug, fix before
-  any more UI work.** Found while trying to build the 3-button lobby redesign below.
-  `apps/lobby/src/main.c` (2197 lines) is what `make lobby` in the repo's actual `Makefile`
-  builds — confirmed by running it. `apps2/lobby/src/main.c` (971 lines) is a **second,
-  divergent copy** with its own different recent history (procedural title-bg texture, spawn
-  camera fix) — not wired into any Makefile target found so far. `build_win.bat` (presumably
-  what gets run on the founder's actual Windows desktop) references a **third** path,
-  `apps/shank-fps/src/main.c` — which doesn't exist anymore (`git log` shows it was deleted in
-  a commit titled "removes outaded clientwq"), meaning `build_win.bat` is currently broken/stale
-  and can't be the real build path either. **Open question, needs the founder:** which tree is
-  actually built into the client currently played? `apps/lobby` is the best current guess (real
-  Makefile target, more evolved menu system already — enum-based `LobbyAction`, server-driven
-  labels, double-click interactions already exist there, none of which apps2 has). Also: `make
-  lobby` failed outright on this box — `GL/glu.h` missing (`libglu1-mesa-dev` or equivalent not
-  installed) — unrelated to source, but blocks verifying any client-side change here at all
-  until fixed.
-- [ ] **S169-02: 3-button lobby menu (BOTS / ONLINE / EMPTY), replacing D/B/T/C/K/J/G
-  keypress-only menu.** Founder: "2 buttons bots and online... a third for empty." Fully
-  designed and **implemented against `apps2/lobby/src/main.c`** — real mouse-clickable buttons
-  (hover highlight, click detection via `SDL_MOUSEBUTTONDOWN` scoped to `STATE_LOBBY`), 1/2/3
-  keyboard fallbacks, plus 5 missing vector-font glyphs added (T/L/M/P/Y — the old menu silently
-  relied on an incomplete font too, just never used those letters). **Not committed** — per
-  S169-01, unclear if `apps2` is even the right tree to have edited. Work is sitting uncommitted
-  in the working tree, not lost, needs a decision on which tree is canonical before landing
-  either there or ported to `apps/lobby/src/main.c`. Design decision baked in and worth
-  re-confirming once landed: **ONLINE currently means the local Go server (127.0.0.1)**, not
-  `s.farthq.com` — the local one is what's actually running with the `emily-bot` permanent
-  opponent and being actively developed against; `s.farthq.com`'s current build/status is
-  unverified.
+- [x] **S169-01: `shankpit-460` client tree — RESOLVED.** `apps/lobby/src/main.c` is the
+  canonical, actually-played build — confirmed definitively via
+  `.github/workflows/release.yml`: the CI pipeline gates on `test -f apps/lobby/src/main.c`,
+  cross-compiles it to `ShankPit.exe` via mingw, and publishes it with `actions/upload-artifact@v4`
+  — "the artifact that gets uploaded to github" the founder plays. The `apps2/` tree is confirmed
+  dead — not built by the Makefile, not built by CI, not built by anything found. `build_win.bat`
+  remains stale/broken (references the deleted `apps/shank-fps/src/main.c`) but is irrelevant now
+  that CI is confirmed as the real build path. Still open: `make lobby` fails locally on this box
+  (`GL/glu.h` missing) — blocks verifying client changes locally, doesn't block CI.
+- [ ] **S169-02: 3-button lobby menu (BOTS / ONLINE / EMPTY) — needs porting.** Founder: "2
+  buttons bots and online... a third for empty." Fully designed and implemented, but **against
+  the wrong tree** (`apps2/lobby/src/main.c`, confirmed dead by S169-01) — sitting uncommitted,
+  not lost. Needs porting to the real `apps/lobby/src/main.c`, which already has a more evolved
+  menu system (enum-based `LobbyAction`, server-driven `ui_state.entries` labels, double-click
+  interactions) — this is an adaptation into that existing architecture, not a blind copy-paste
+  of the apps2 patch. Design decision to re-confirm on port: **ONLINE meaning the local Go
+  server (127.0.0.1)**, not `s.farthq.com` (unverified current build/status there).
+- [ ] **S169-08: portals should work without a hotkey** — founder: "portals should work without
+  a hotkey" / "jump in them and you [g]o thru." Walking/jumping into a portal volume should
+  trigger traversal automatically; no separate keypress. Not scoped — needs locating the current
+  portal-interaction code (`apps/lobby` and/or `apps/server`) first.
+- [ ] **S169-09: backport spatial audio from `SHANKPIT` (parent repo) to `shankpit-460`.**
+  Already specced, not blank-slate: `docs2/NORTHSTAR.md` §7 (commit `39ad098`) records the
+  direction — SHANKPIT's existing `packages/audio/` (SDL2, procedural MIDI-style synthesis,
+  spatial panning) is the base to port in, not build from scratch; the actual gap is an interface
+  seam for a later real-asset swap-in. That commit was "design record only, no code written yet"
+  — this is the founder now asking for the actual port.
+- [ ] **S169-10: backport the scoreboard from `SHANKPIT` (parent repo) to `shankpit-460`.** Not
+  scoped yet — needs locating the parent repo's scoreboard implementation first (likely
+  `packages/` or `apps/server`) before porting.
 - [ ] **S169-03: SHANKPIT login/accounts ("also login and all that").** Not scoped. Real design
   question: IDUNA already does Google OAuth for humans — a native SDL2 desktop client doing
   OAuth would need a system-browser + loopback-redirect flow, the same pattern just proven
