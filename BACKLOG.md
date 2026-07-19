@@ -839,6 +839,17 @@ Run: `emily backlog promote --limit=50 --batch=15`
   `internal/dis`/`cmd/dis` for new files). **Not deployed yet** — queued at
   `~/sudo-queue/04-edis-dis-pow-deploy.sh` (root/www-data-owned paths), see `DESKTOP_QUEUE.md`.
 
+- [x] **S23-08: DIS brought to okemily.com — first non-WordPress consumer.** Founder: "iterate
+  on DIS bring the concepts to okemily" / "emily's internet native imune system." Apple #10273 ·
+  IDUNA `9f75e99` · OKEMILY `9e42e5e`. Found this box's nginx shares one access log across every
+  vhost — the running `edis-dis` collector already saw okemily.com's traffic, only a consumption
+  path was missing (okemily.com is static HTML + IDUNA API, not WordPress). New
+  `IDUNA internal/http/handlers/dis.go` (public, CORS-scoped, fail-open proxy to the collector)
+  + `OKEMILY/dis.js` (loaded on every blog post) — translated "ads as pressure valves" to what
+  okemily.com actually costs: not asset bandwidth, but the mailing-list signup POST every ad
+  click funnels into, so attack/degraded posture hides the ad block instead of downgrading image
+  quality. Live-verified end to end.
+
 - [ ] **S23-01: Deploy EDIS to live WordPress install** — Install WordPress, activate EDIS plugins
   and theme. Configure EDIS_SIGNALAPI_URL + EDIS_EMILY_URL in wp-config.php. Verify connection test
   passes in admin. Create /ask page. Add Ask Emily + Signals widgets to sidebar.
