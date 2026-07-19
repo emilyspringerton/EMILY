@@ -5093,6 +5093,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   → VS1 (Chrome extension) → VS2 (team vaults). Open question flagged, not decided: the existing
   vault's restart-relocks tradeoff is fine for a marketing-signup gate, a much bigger cost for a
   daily-use password manager — needs a founder call before VS0 build starts.
+- [x] **S170-04: RED GARDEN — new core product, cloned + northstar written.** Founder: "we need
+  to start working on REDGARDEN - the wiki has the docs" → "this is the proto for TRAPX" → "this
+  is a core product" → rapid real-time scoping (Clash Royale model not autobattler, LoL-style card
+  affordances, multiplayer, Android/iOS/Desktop, hype/mystery/FOMO without dark patterns per the
+  existing honor-code principle). Cloned `github.com/emilyspringerton/REDGARDEN` +
+  `REDGARDEN.wiki` locally. `REDGARDEN/NORTHSTAR.md` written capturing all of the above accurately
+  (PR open: `docs/northstar-2026-07-19` branch, not merged — this repo's own convention is
+  PR-based, matched rather than force-pushed to main). Golden-indexed REDGARDEN-NORTH (tier 1).
+  **Build status verified**: server + bot compile clean; the SDL2/OpenGL lobby client fails on
+  this box (`GL/glu.h` missing — same root cause hit tonight on shankpit-460), fix queued at
+  `~/sudo-queue/05-install-glu-dev.sh`. **Real gap found, not resolved**: the repo's own wiki
+  (`SPEC-4.md`/`SPEC-5.md`) specs a considerably larger system (40×40 grid, 512 entities, a
+  "Deterministic Dragon System") than the ~274-line simulation actually implemented — open
+  question on which is the real target, flagged in the northstar rather than guessed at.
+  No gameplay code changed — this pass was cloning, verifying build status, and capturing a
+  fast-moving real-time scoping session accurately before any implementation, per Emily Way
+  "spec before implementation."
 - [x] **S170-02: OpenClaw integration northstar.** Founder: "openclaw integration northstar do
   research on that if you need to." Apple #10285 · EMILY `4ea6ab7`
   (`docs/NORTHSTAR_OPENCLAW_INTEGRATION.md`, golden-indexed OPENCLAW-NORTH). Researched via
