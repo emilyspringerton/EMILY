@@ -4609,6 +4609,55 @@ our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHST
 - [ ] **S163-04: EDIS WooCommerce listing for SKU SC-APP-01** once a vendor/PO exists — swap the
   funnel page's waitlist CTA for a real purchase flow. Mirrors the still-open S135-03 (stickers)
   gap: EDIS product-listing work hasn't landed for any physical SKU yet.
+- [x] **S163-05: reframe as an explicit waitlist + dedicated Mailchimp list.** Founder feedback:
+  until real hoodies exist on WooCommerce, the page shouldn't imply anything is purchasable, and
+  signups should stay off the general okemily.com list. Shipped: `POST
+  /api/v1/mailing-list/subscribe` now takes an optional `list` field (IDUNA `c0aecba`, rebuilt +
+  restarted `iduna.service` live, `go test ./...` green); `stinkies.html` sends `list:"stinkies"`
+  and copy now reads "join the waiting list to buy" (OKEMILY `8c52514`). New `source` column on
+  `subscribers` (non-destructive `ALTER TABLE`). **Still needed, founder action**: create the
+  actual "STINKIES" audience in Mailchimp's dashboard (not auto-provisioned — a marketing
+  audience needs real contact/compliance info I shouldn't fabricate) and set
+  `MAILCHIMP_STINKIES_LIST_ID` in IDUNA's env; until then signups still work and are correctly
+  tagged `source=stinkies` in IDUNA's own store, just fall back to the general Mailchimp list.
+
+---
+
+## SECTION 164: OUTBOUND EMAIL — NO WORKING BACKEND ANYWHERE (2026-07-19)
+
+*Founder asked for the 06:06 status report to go out as an email. It couldn't — verified by
+grepping every `var/*.env` file in the monorepo plus the live shell env: none of `GMAIL_CLIENT_ID`
+/ `GMAIL_CLIENT_SECRET` / `GMAIL_REFRESH_TOKEN` (EMILY's `gmail.go`, OAuth2 refresh-token flow,
+CEO inbox triage + outbound alerts) nor `MAILGUN_API_KEY` / `MAILGUN_DOMAIN` nor `SMTP_HOST`
+(PRRJECT_FATBABY's `internal/notify`, used by `earnings-alert` and available to any other
+process) are set anywhere. Every outbound-email code path in this codebase is real, tested, and
+completely unconfigured — `emiree.md` flagged "DNS and Gmail setup still on deck" as pending
+weeks before this session; it's still pending. Published as a blog post instead
+(`the-6am-report`, SECTION 163 sibling work) since that's honest and actually deliverable today.*
+
+- [ ] **S164-01: pick a mail backend and configure real credentials — founder decision, not
+  mine.** Two real paths, meaningfully different effort/ownership:
+  - **SMTP or Mailgun** (`internal/notify`, already built + tested, zero code changes needed) —
+    an API key/domain (Mailgun) or host+user+pass (any SMTP relay, e.g. a Gmail app password) is
+    the whole setup. No browser interaction required from either of us.
+  - **Gmail OAuth2** (`EMILY/emily-agent/gmail.go`) — sends *as* your real Gmail address, also
+    reads/triages the CEO inbox (not just outbound). Needs a Google Cloud OAuth2 client
+    (Console) and a one-time browser consent flow to mint a refresh token — the browser step is
+    yours; I can't complete an interactive OAuth consent flow.
+  Whichever is chosen, env vars go in `EMILY/var/emily-secrets.env` (Gmail path) or wherever the
+  sending process's env is loaded (notify path) — not committed, per existing convention.
+- [ ] **S164-02: once a backend is live, migrate direct `gmail.SendAlert` callers to a durable
+  send.** Founder instruction, verbatim: "the email system should be using queues log streaming
+  same patterns we use everywhere." Currently `briefing.go` and `alerting.go`'s
+  `CheckinAlertWorker` call `GmailClient.SendAlert` inline — if Gmail's API is slow/down mid-cron-
+  cycle, that send is just lost. Shape it like every other pipeline stage in this monorepo:
+  append an event to a durable queue (NDJSON, same append-only idiom as `eventstore`, not a
+  cross-module import — EMILY talks to sibling repos over HTTP, not shared Go packages, and this
+  should keep that boundary) on the decision to notify, a separate watcher process tails the
+  queue and does the actual send with retry/backoff, advances a cursor file after each message
+  (succeed or terminal-fail) so one bad message can't jam the rest, logs to
+  `var/logs/mail-watcher.log` like every other supervised process. Mirrors
+  `cmd/observation-watcher`'s existing cursor-file/tail shape almost exactly.
 
 ---
 
