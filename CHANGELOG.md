@@ -1,3 +1,7 @@
+## 2026-07-19
+
+- docs(runbook): reflect S152-03 systemd units (secwatch/prwatch/prwatch-body/processor/eps-reconciler/newssite/signalapi) + shankpit460-server.service; document eps-reconciler double-start risk found during 2026-07-19 reboot recovery
+
 ## 2026-07-18
 - backlog: SECTION 1 top-priority done — replay-fragility northstar landed via Fable dispatch #6 (`PRRJECT_FATBABY/docs/northstar/replay-fragility.md`, PRRJECT_FATBABY `a628947`, golden-indexed as FATBABY-REPLAY). Decision: streaming eventstore `Scan` API + per-process SQLite snapshot-plus-tail checkpoints; the observed signalapi stall was O(n²) full-file re-reads in `FileStore.ReadFrom` against a 354MB journal, not a mystery. fable-next-backlog entry #6 moved to Done. Apple #9986.
 - backlog: S153-12 done — newssite systemd-hardened + linked from okemily.com (`/news/`), fixed a broken stale drafted unit that would have failed to start; "Enter the void" CTA to farthq.com added. Apple #9961.
