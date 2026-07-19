@@ -18,6 +18,7 @@ themselves.*
 | # | Title | File | Status | Depends on |
 |---|---|---|---|---|
 | 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` | **ready to dispatch** | SAGA VS-spec audit landed 2026-07-16 (IDUNA `529834f`, EMILY `508a9be`) — no remaining blocker |
+| 7 | AGI RSI next steps: human-in-the-loop tiers + revenue via EDIS | `agi-rsi-hitl-revenue-edis.md` | **ready to dispatch** | none — but plan itself surfaces a real blocker: EDIS/WordPress prod deploy (S23-01) has never actually run (`iduna.farthq.com` connection-refuses as of 2026-07-19); founder needs to run `sudo bash EDIS/ops/sprint-deploy.sh` before revenue can go live regardless of what this plan concludes |
 | 4 | Act III synthesis — reconcile 141-150 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | `act3-synthesis.md` | **ready to dispatch, paused** | none — failed twice on transient `529 Overloaded` (not session-limit, not content). Per founder instruction 2026-07-16, not being auto-retried; dispatch deliberately whenever picked back up. |
 
 ---
