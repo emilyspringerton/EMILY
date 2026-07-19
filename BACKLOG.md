@@ -4564,13 +4564,16 @@ just the session's own task tracker. Everything else from tonight already has a 
 directly (blog posts, market-data-watcher + own-charts, emily-bot daemon, shankpit-460/PITVIPER
 CI fixes, admin-login proxy, subfooter, footer auto-sync). These two are the only real gaps.*
 
-- [ ] **S162-01: FatBaby API playground (Swagger UI), linked from newssite's own footer.**
-  OKEMILY already has one (`api-playground.html`, S153-08) but that's for IDUNA's API only.
-  Founder wants the full FatBaby API surface (signalapi + newssite's own endpoints) covered.
-  Check whether signalapi/newssite expose an OpenAPI spec anywhere already; if not, write one
-  first (see how IDUNA's `/api/v1/openapi.json` is generated, `internal/http/handlers/openapi.go`,
-  as the precedent). Then a Swagger UI page (CDN-loaded, no build step, matching OKEMILY's
-  existing playground) linked from `newssite`'s footer, not just okemily.com's.
+- [x] **S162-01: FatBaby API playground (Swagger UI), linked from newssite's own footer.** Shipped
+  2026-07-19 (PRRJECT_FATBABY `76e88c8`) — new OpenAPI 3.1 spec at signalapi's `/v1/openapi.json`,
+  Swagger UI page at `/api-playground` on newssite. **Follow-up bug, found + fixed same day
+  (`7c81a91`):** the first version embedded an absolute `http://localhost:9091` spec URL, which
+  only worked for visitors whose browser happened to be on this same box — broke for every real
+  visitor on `news.okemily.com`. Fixed by having newssite reverse-proxy `/signalapi/*` same-origin
+  instead of hardcoding a hostname; both the playground and the spec's own `servers` list now use
+  a relative `/signalapi` URL, correct on whatever domain actually fronts newssite. 2 new tests.
+  Verified live end-to-end after rebuilding both `newssite` and `signalapi` (missed the signalapi
+  rebuild on the first pass — caught it because the spec's `servers` field was still stale).
 - [ ] **S162-02: expand the TYLER easter egg on okemily.com.** Currently a triple-click-the-year
   reveal showing one italic quote (`television as code. the show runs forever because the
   writer's room has physics, not just vibes. — tyler × tides of paradox, s00e00`). Founder wants
