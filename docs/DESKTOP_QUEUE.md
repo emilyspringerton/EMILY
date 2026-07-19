@@ -38,6 +38,41 @@ only for first-time setup, not this.
 
 ---
 
+## 2026-07-19 — MJOLNIR: how to actually get it on your phone
+
+You asked and I explained the blocker but never wrote down the actual steps — fixing that now
+(found during a completeness pass over the last 24h).
+
+**The blocker:** no Firebase project has ever been created for MJOLNIR. Confirmed:
+`MJOLNIR/app/google-services.json` doesn't exist, only the `.example` template does. The
+Firebase Gradle plugin fails the *entire build* without a real one — this blocks getting any
+version of the app onto your phone, not just push notifications.
+
+**Steps:**
+1. Go to [console.firebase.google.com](https://console.firebase.google.com) → Add project →
+   name it (e.g. "einhorn-mjolnir") → you can skip Google Analytics, not needed.
+2. Inside the project: **Add app → Android**. Package name must be exactly
+   `industrial.einhorn.mjolnir` (from `MJOLNIR/app/build.gradle.kts`).
+3. Firebase gives you a `google-services.json` file to download — send it to me (or drop it at
+   `MJOLNIR/app/google-services.json` directly if you're doing this from a machine with repo
+   access).
+4. Separately, in the same Firebase project: **Project settings → Service accounts → Generate
+   new private key** — downloads a second JSON file. That one's for the *server* side (Emily
+   Prime sending pushes), not the app — give me that one too, it becomes
+   `FCM_SERVICE_ACCOUNT_JSON` / the project ID becomes `FCM_PROJECT_ID`.
+5. Once `google-services.json` is in place, I can run `./gradlew assembleDebug` in `MJOLNIR/` —
+   that's a build step I can do myself, no Android Studio needed for a debug build.
+6. Getting the resulting `.apk` onto your phone: easiest is `adb install app-debug.apk` if
+   you've got Android's USB debugging enabled and the phone plugged into whatever machine has
+   the file, or just email/AirDrop the `.apk` to yourself and tap it (you'll need to allow
+   "install from unknown sources" once, since it's not from the Play Store).
+
+Once this is done, the mailing-list-signup push notification feature (`emily-agent/
+mailinglist_watch.go`, built today, currently inert) starts working with zero further code
+changes on my end.
+
+---
+
 ## 2026-07-19 — DIS PoW-gate deploy (no decision needed, just sudo)
 
 Founder: "start building the dis ad engine." Found the engine mostly already built and
@@ -138,12 +173,23 @@ paths exist and are tested; none has real credentials behind it.
      Gmail address without the OAuth dance below.
    - No browser consent flow either way. Give me the values and I wire the env vars in.
 
-2. **Gmail OAuth2** (more setup, more capability). Sends as your real Gmail address *and* lets
-   Emily read/triage your inbox, not just send. Requires:
-   - A Google Cloud project + OAuth2 client (Google Cloud Console — a few clicks, needs a
-     desktop browser).
-   - A one-time consent flow in a browser to mint a refresh token — this step has to be you
-     clicking "Allow," I cannot do it for you.
+2. **Gmail OAuth2** (more setup, more capability) — **you picked this one.** Sends as your real
+   Gmail address *and* lets Emily read/triage your inbox, not just send. Exact steps:
+   1. Go to [console.cloud.google.com](https://console.cloud.google.com) → create a new project
+      (or reuse one) → **APIs & Services → OAuth consent screen**. User type: External. Fill in
+      an app name (e.g. "Emily Prime"), your email as support contact. Add scopes
+      `gmail.readonly` and `gmail.send`. Add your own Gmail address as a test user (keeps it out
+      of Google's review queue — fine for single-user use).
+   2. **APIs & Services → Credentials → Create Credentials → OAuth client ID.** Application
+      type: **Desktop app**. Name it anything. Click Create — Google shows you a Client ID and
+      Client Secret immediately, no review wait.
+   3. **APIs & Services → Library** → search "Gmail API" → Enable it for the project.
+   4. Give me the Client ID and Client Secret from step 2.
+   5. I'll run `cmd/get-gmail-token` (already fixed today — it used to use Google's
+      out-of-band flow, which Google blocks for any client created after Feb 2022 and would
+      have failed outright against a client made today; now uses a local loopback redirect
+      instead). It prints a URL — you open it, sign in, click Allow, and the tool captures the
+      code automatically and prints the four env vars to set.
    - Code already exists (`EMILY/emily-agent/gmail.go`), just needs the resulting
      `GMAIL_CLIENT_ID` / `GMAIL_CLIENT_SECRET` / `GMAIL_REFRESH_TOKEN` / `GMAIL_CEO_ADDRESS`.
 
