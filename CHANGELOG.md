@@ -1,4 +1,5 @@
 ## 2026-07-19
+- RED GARDEN cloned into the ecosystem (github.com/emilyspringerton/REDGARDEN + wiki) — elevated to core product status, northstar written capturing real-time scoping (Clash Royale card-RTS model, TrapX prototype link, multiplayer + Android/iOS/Desktop target, honor-code-compliant engagement design)
 - OpenClaw integration northstar written — MIT-licensed 20+-channel self-hosted chat gateway (WhatsApp/Telegram/Slack/Discord/Signal/iMessage/etc), researched via WebSearch not guessed; scoped as a channel front-end calling Emily Prime's existing API, not a replacement for her agent loop
 - FCM push to MJOLNIR on new mailing-list signups (observeMailingListSignups, OBSERVE phase) — inert until Firebase project + FCM env vars exist
 - Rewrote README.md as a real technical overview (three agents, RSI cron cycle, The Emily Way, repo layout, how to run, related repos) — old README was a stale Feb 2026 brand-pivot investor memo, archived at docs/archive/brand-pivot-memo-2026-02-04.md
