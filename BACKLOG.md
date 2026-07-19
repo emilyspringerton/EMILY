@@ -820,7 +820,23 @@ Run: `emily backlog promote --limit=50 --batch=15`
   LIST_ID + TAG. EDIS commit 22b7de5. Apple #478. — 2026-06-14.
 
 ---
-- [ ] **S23-01: LIVE DEPLOY — sprint-deploy.sh ready to run. Requires: sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh. Pre…**
+- [x] **S23-01: LIVE DEPLOY** — Corrected 2026-07-19: this box had actually already run the
+  deploy — checkbox was stale. `/var/www/edis/wp-config.php` exists, plugins active (edis-core,
+  edis-ask-emily, edis-dis, edis-earnings, edis-signals, akismet), MySQL running, `curl
+  http://iduna.farthq.com/` returns 200 with real WordPress content. Remaining real gap: **no
+  HTTPS** — `/etc/nginx/sites-available/edis` is still the certbot-pending bootstrap config, and
+  `https://iduna.farthq.com/` connection-refuses. Cert step is queued in
+  `/home/fatbaby/pending-sudo-queue.sh` (`edis-https-cert`), held pending the okemily.com merge
+  decision (see new S23-01b below) so the cert doesn't get issued for the wrong final domain.
+
+- [ ] **S23-01b: okemily.com ⇄ EDIS domain merge** — Founder asked (2026-07-19) to merge/connect
+  EDIS with okemily.com. Real architecture decision, not a script: EDIS/WordPress lives on
+  `iduna.farthq.com` today; `okemily.com` is a separate, polished, HTTPS-working static site
+  (landing page + blog + mailing list) already in active use; IDUNA also plans its own static
+  frontend at bare `/`. Three claimants on root path. This is the same collision the already-
+  queued Fable prompt `EMILY/docs/fable-prompts/iduna-front-door-funnel.md` (fable-next-backlog
+  entry #1) exists to resolve — entry #7 (`agi-rsi-hitl-revenue-edis.md`) now references it too.
+  Dispatch one of those before touching live nginx/DNS for this. Not started.
 
 ## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
 
@@ -2790,13 +2806,24 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### Tier 2 — Unblocks live systems
 
-- [ ] **HITL-03: Deploy EDIS WordPress (GFD portal)** — Run:
-  `sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh`
-  Then activate goblindragon theme + dis-gfd-subscription plugin in WP admin.
+- [ ] **HITL-03: Deploy EDIS WordPress (GFD portal)** — Partially done, checked 2026-07-19: the
+  WordPress deploy itself is live (see S23-01 correction above), but `goblindragon` theme and
+  `dis-gfd-subscription` plugin are **not present** in `/var/www/edis/wp-content/` — only stock
+  themes + the core EDIS plugin set. If S124-01/S124-04's code was built but never deployed here,
+  that's the actual remaining gap — check EDIS git log for those Apples before assuming it's just
+  a WP-admin activation click. See `pending-sudo-queue.sh` step `gfd-portal-wp-admin`.
   Unblocks: GFD subscriptions live, player account pages.
 
-- [ ] **HITL-04: Deploy PRRJECT_FATBABY production** — Run deploy.sh on production host.
-  Set up nginx + Let's Encrypt for fatbaby.io + api.fatbaby.io.
+- [ ] **HITL-04: Deploy PRRJECT_FATBABY production** — **Do not run `ops/deploy.sh` as-is**,
+  found 2026-07-19: it installs SYSTEM-level systemd units (`/etc/systemd/system/fatbaby-*`) that
+  would collide with the USER-level units already live and supervising these same processes
+  (S152-03, confirmed active this session) — the same double-supervision risk as the
+  eps-reconciler duplicate found during reboot recovery, but at the systemd layer. Script needs
+  updating to skip/defer to the existing user units before this is safe to run. Also: `fatbaby.io`
+  / `api.fatbaby.io` DNS does not resolve to this host at all yet (checked 2026-07-19) — the
+  nginx/cert half of this item is blocked on a DNS change outside this box regardless. See
+  `pending-sudo-queue.sh` step `fatbaby-prod-systemd-deploy` (currently refuses to run, explains
+  why).
   Unblocks: public signal API, EDIS data feed.
 
 - [ ] **HITL-05: Register MJOLNIR device token in IDUNA** — Open MJOLNIR on Android device.
@@ -3494,6 +3521,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 ## SECTION 145: FABLE — IN-HOUSE MODEL LINE (2026-07-16)
 
 *Source: HQ-SPEC-AI-103 §8 (Build Order), evolution rungs E0 → E1. Honest premise carried over: FABLE wins on auditable weights, provenance-tagged data, deterministic serving, and near-zero marginal cost on high-volume scoped tasks — not on out-reasoning frontier models. Routing any task down-model is a gated promotion with eval evidence, never an aspiration. Adjacent asset: `gpt2-alpine-c` already holds a validated GPT-2 fine-tune pipeline (S26-04/05).*
+
+*Naming collision, found by the 2026-07-18 SAGA audit (`EMILY/docs/SAGA_SYSTEM_AUDIT_2026-07-18.md`):
+`EMILY/emily-agent/fable.go` is live, running code already called "FABLE" — Emily Prime's
+claude-haiku backlog advisor (`GET /api/v1/emily/fable/advice`), completely unrelated to this
+section's sovereign model-line FABLE. Not a build blocker, but a real confusion risk once S145
+work actually starts — whoever picks this up should resolve the naming collision (rename one of
+the two) before shipping code that makes it worse, not after.*
 
 - [ ] **S145-01: `fabledata` snapshotting over the EPS headline corpus** — the richest oracle-graded set
   in the house. Content-addressed dataset manifests with per-record provenance (source event hash,
