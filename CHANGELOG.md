@@ -1,4 +1,5 @@
 ## 2026-07-19
+- Added SECTION 163 (STINKIES COMMISSAIRE VS0 hoodie funnel page) — okemily.com stinkies.html shipped (Apple #10177, OKEMILY 01c1832), live deploy + vendor selection + WooCommerce listing queued as follow-ups
 - backlog: correct stale S23-01 (EDIS is actually live, HTTPS-only gap), add S23-01b domain-merge decision item, flag HITL-03 GFD theme/plugin gap and HITL-04 deploy.sh systemd-unit collision risk found during 2026-07-19 reboot session
 
 - docs(runbook): reflect S152-03 systemd units (secwatch/prwatch/prwatch-body/processor/eps-reconciler/newssite/signalapi) + shankpit460-server.service; document eps-reconciler double-start risk found during 2026-07-19 reboot recovery
