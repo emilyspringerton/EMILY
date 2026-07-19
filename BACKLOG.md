@@ -4438,15 +4438,25 @@ pass, not previously known.*
   client-supplied slug (or better, look up by slug first and return the existing monitor instead
   of erroring/duplicating — true get-or-create), and `generateMonitorSlug()` should only apply
   when the client didn't supply one.
-- [ ] **S158-02: EMILY-PRIME agent missing `intelligence.read` permission — vision cycle 403 every
-  cycle.** `IDUNA/config/agents.json`'s EMILY-PRIME entry permissions list (`fatbaby.operator,
-  emily-prime.operator, governance.admin, apples.write, apples.read, signalapi.read,
-  heimdal.submit, monitors.read, monitors.create, monitors.alert, blog.write`) does not include
-  `intelligence.read`. Every cycle logs `vision cycle: list pending: iduna list observations
-  status 403: {"code":"FORBIDDEN","message":"intelligence.read permission required"}` — the vision
-  pipeline has never been able to list pending observations. Fix: add `intelligence.read` to
-  EMILY-PRIME's grant in `config/agents.json`, re-run `cmd/bootstrap` (or equivalent reseed) to
-  apply it.
+- [x] **S158-02: EMILY-PRIME agent missing `intelligence.read` permission — vision cycle 403 every
+  cycle.** Fixed 2026-07-19: added `intelligence.read` to EMILY-PRIME's grant in
+  `IDUNA/config/agents.json`, ran `cmd/bootstrap` for real (not `-rotate` — confirmed no existing
+  credentials touched, all correctly detected as already provisioned). Verified end-to-end: fresh
+  JWT carries `intelligence.read`, `GET /api/v1/intelligence/observations` returns 200 instead of
+  403. IDUNA `9e69513`.
+- [ ] **S158-04: `cmd/bootstrap`'s `-dry-run` mode doesn't actually check the database — always
+  reports worst-case, found while fixing S158-02.** `seedAgentPermissions()` and
+  `provisionSecrets()` (`IDUNA/cmd/bootstrap/main.go` ~line 344, ~412) both gate their real DB
+  lookups behind `if !dryRun`, so in dry-run mode `permMap`/`hasCredential` are never populated —
+  every permission reports "not found — would fail" and every agent reports "would provision
+  credential" regardless of actual state. Confirmed live: dry-run claimed EMILY-PRIME's
+  already-working `apples.read`/`blog.write`/etc. would all fail, and that every agent (including
+  ones with real, currently-used credentials in `agent-secrets.env`) needed a fresh credential.
+  The real run (no `-rotate`) correctly no-op'd everything already present — the dry-run output
+  was simply wrong, not a reflection of real DB state. Dangerous: anyone trusting `-dry-run`'s
+  "would provision credential" line for every agent could be talked into `-rotate`, which *would*
+  actually invalidate every currently-deployed secret. Fix: run the same DB lookups in dry-run
+  mode too (read-only), just skip the actual `INSERT`/`UPDATE` at the end.
 - [ ] **S158-03: Uncommitted drift on an already-applied IDUNA migration — investigate, don't
   blind-revert or blind-commit.** `git -C IDUNA diff migrations/truestore/
   202606180001_local_users.sql` shows a real, currently-uncommitted change: `local_users.updated_at`
