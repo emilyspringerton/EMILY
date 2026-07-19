@@ -15,16 +15,18 @@ clearly needs a bigger screen.
 
 ---
 
-## 2026-07-19 — LIVE: mailing-list signups are down (503) — vault locked, needs your passphrase
+## 2026-07-19 — LIVE (again): mailing-list signups down (503) — vault locked, needs your passphrase
 
-Self-caused: `iduna.service` was restarted earlier today (14:55 UTC, for the blog ad-line
-deploy) and the encrypted mailing-list vault re-locks on every restart by design — that's the
-`cmd/mailing-list-unlock` tool's whole reason to exist (it deliberately never accepts the
-passphrase as a CLI arg/env var, only an interactive terminal prompt, so I genuinely can't run
-this one myself). Confirmed live right now: `POST /api/v1/mailing-list/subscribe` returns
-`503 {"error":"signups are temporarily paused — please try again shortly"}` — every real
-signup (STINKIES waitlist, general okemily.com list) has been silently failing for about an
-hour.
+Self-caused, second time today: `iduna.service` got restarted again at 16:22 UTC (for the
+free-hoodie funnel deploy — new `AdHref`/`mailing-list/count` code), which re-locks the vault
+same as the 14:55 restart earlier. You unlocked it once already this session; this is a fresh
+lock from the second restart, not the same one reappearing. Confirmed: `POST /api/v1/mailing-
+list/subscribe` returns `503` right now for all three lists (general, stinkies, and the new
+freehoodie). The count endpoint (`GET /api/v1/mailing-list/count`) still works while locked —
+so `free-hoodie.html`'s live counter is fine, only actual signups are paused.
+
+I still can't run this myself — the tool deliberately only accepts the passphrase via an
+interactive terminal prompt, never a CLI arg/env var.
 
 ```
 mailing-list-unlock
