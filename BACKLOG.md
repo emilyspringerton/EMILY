@@ -4420,24 +4420,16 @@ around it.*
 *Founder asked for a full audit of failing systems, surfaced as backlog fixes. Found during that
 pass, not previously known.*
 
-- [ ] **S158-01: Monitor creation ignores client-supplied slug, no dedup — real, currently-firing
-  bug.** `IDUNA/internal/http/handlers/monitors.go`: `create()` (line ~212) always calls
-  `generateMonitorSlug()` (line ~392) and overwrites whatever `slug` the client sent, and never
-  checks for an existing monitor by name/slug before inserting. `EMILY/emily-agent/iduna.go`'s
-  `EnsureCronMonitor` (called once per emily-agent startup, `cron.go:156`, "safe to call on every
-  startup") posts `{"slug": "emily-prime-cron", ...}` expecting idempotent get-or-create — instead
-  it silently creates a brand new monitor with a random hex slug every single restart. Confirmed
-  live 2026-07-19: `GET /api/v1/monitors` returns at least two "Emily Prime cron" monitors (ids 13,
-  14, likely more from prior restarts), both `"status": "failing"`, slugs
-  `a023859886bb3f5533b9797db3543c6f` / `d86f7e6f516bd49f528bbd814c3443f4` — neither is
-  `emily-prime-cron`. Meanwhile `PostCheckin(ctx, "emily-prime-cron")` (`iduna.go:396`, called
-  every cron cycle, `cron.go:609`) always posts to the literal slug `emily-prime-cron`, which never
-  exists, so every checkin 404s (`checkin emily-prime-cron: IDUNA 404`, seen every cycle in
-  `emily-agent.log`). Net effect: the cron heartbeat monitor has never once successfully recorded
-  a checkin since it was built, and duplicates accumulate forever. Fix: `create()` should honor a
-  client-supplied slug (or better, look up by slug first and return the existing monitor instead
-  of erroring/duplicating — true get-or-create), and `generateMonitorSlug()` should only apply
-  when the client didn't supply one.
+- [x] **S158-01: Monitor creation ignores client-supplied slug, no dedup.** Fixed 2026-07-19:
+  `create()` now honors a client-supplied slug as get-or-create — looks it up first, returns the
+  existing monitor (200) if found, creates with that exact slug (201) otherwise; no slug still
+  falls back to a random one. 4 new tests. Verified live end-to-end: create → 201, repeat with the
+  same slug → 200 reusing the same monitor (id 15), checkin to `emily-prime-cron` → 200
+  (previously always 404). IDUNA `33841db`. **Follow-up, not done:** 14 stale duplicate monitors
+  (ids 1–14) from the historic bug are still sitting in the DB, all `status: failing`, none ever
+  useful — EMILY-PRIME lacks `monitors.delete`/`monitors.admin` to clean them up, and granting
+  that felt like scope creep on a bug fix. Whoever has a monitors-admin-capable credential can
+  `DELETE /api/v1/monitors/{1..14}` whenever convenient; harmless to leave as-is otherwise.
 - [x] **S158-02: EMILY-PRIME agent missing `intelligence.read` permission — vision cycle 403 every
   cycle.** Fixed 2026-07-19: added `intelligence.read` to EMILY-PRIME's grant in
   `IDUNA/config/agents.json`, ran `cmd/bootstrap` for real (not `-rotate` — confirmed no existing
