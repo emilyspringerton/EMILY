@@ -103,10 +103,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   restart, not an indefinite "we don't cover" window. PRRJECT_FATBABY `5187b19` + `fde9043`.
   Apple #10209.
 
-- [ ] **Phase 2 — entity-graph checkpoint.** Incremental filings table (kills the per-batch
-  full-store `buildFilingIndexes` scan), accuracy upsert table with a calibration-equivalence
-  gate (482K-line `accuracy.ndjson` must not shift the 11.9%-precision finding), graph-lifetime
-  hoist out of `runBatch`. Enable `fatbaby-entity-graph.service` for the first time after.
+- [ ] **Phase 2 — entity-graph checkpoint.** Three items; enable `fatbaby-entity-graph.service`
+  for the first time only once all three land.
+  - [x] **2a: incremental filings table** — kills the per-batch full-store `buildFilingIndexes`
+    scan (northstar's own words: "the single largest recurring waste on the box"). New
+    `cmd/entity-graph/filingindex.go`: one-time backfill into SQLite, then each batch upserts
+    only its own already-fetched `filing_discovered` records — zero extra store reads.
+    First-occurrence-wins semantics preserved exactly (`INSERT OR IGNORE`, tested). `go test
+    ./...` green, 6 new tests. Live-verified: 22,514-entry backfill in ~7s (once), zero rescans
+    on subsequent runs. Migrated the live process from unsupervised `go run` to a compiled
+    binary in the process (still not full systemd supervision — gated on 2b/2c below).
+    PRRJECT_FATBABY `ae451a3` + `e3dcdfd`. Apple #10212.
+  - [ ] **2b: accuracy upsert table** with a calibration-equivalence gate (482K-line
+    `accuracy.ndjson` must not shift the 11.9%-precision finding).
+  - [ ] **2c: graph-lifetime hoist** out of `runBatch` — the northstar names this "the riskiest,"
+    to land last and alone, with 2b's equivalence check as its regression gate.
 
 - [ ] **Phase 3 — ops runbook + checkpoint freshness check.** Document "checkpoints are
   disposable, safe to delete" as an operator invariant; add a `meta.snapshot_at` freshness check
