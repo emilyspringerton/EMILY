@@ -15,15 +15,20 @@ clearly needs a bigger screen.
 
 ---
 
-## 2026-07-19 — LIVE (again): mailing-list signups down (503) — vault locked, needs your passphrase
+## 2026-07-19 — LIVE (4th time today): mailing-list signups down (503) — vault locked, needs your passphrase
 
-Self-caused, second time today: `iduna.service` got restarted again at 16:22 UTC (for the
-free-hoodie funnel deploy — new `AdHref`/`mailing-list/count` code), which re-locks the vault
-same as the 14:55 restart earlier. You unlocked it once already this session; this is a fresh
-lock from the second restart, not the same one reappearing. Confirmed: `POST /api/v1/mailing-
-list/subscribe` returns `503` right now for all three lists (general, stinkies, and the new
-freehoodie). The count endpoint (`GET /api/v1/mailing-list/count`) still works while locked —
-so `free-hoodie.html`'s live counter is fine, only actual signups are paused.
+Same self-caused pattern, now four `iduna.service` restarts deep today (14:55 blog ad-lines,
+16:22 free-hoodie funnel, 19:11 ×2 DIS-for-okemily). Each restart re-locks the vault; you've
+unlocked it three times already. This is the current, real state: `POST /api/v1/mailing-list/
+subscribe` returns `503` for all three lists right now. The count endpoint and the new DIS
+posture endpoints both work fine while locked (neither touches the vault) — only actual signups
+are paused.
+
+Given how often this keeps recurring, worth considering separately: should `mailing-list-unlock`
+run automatically at boot/restart via a stored-but-still-encrypted approach, or is the manual
+per-restart unlock an intentional security tradeoff you want kept as-is? Not changing this
+without you weighing in — flagging it because four manual unlocks in one day is a real
+operational cost, not just a one-off annoyance.
 
 I still can't run this myself — the tool deliberately only accepts the passphrase via an
 interactive terminal prompt, never a CLI arg/env var.
