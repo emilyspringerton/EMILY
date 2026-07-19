@@ -4741,6 +4741,40 @@ just our 50-ticker watchlist.*
 
 ---
 
+## SECTION 166: TICKER PAGE DATA QUALITY + COMPANY ENRICHMENT (2026-07-19)
+
+*Three rapid-fire asks, captured per founder instruction to keep backlogging even mid-burst.*
+
+- [ ] **S166-01: earnings widget is showing stale/wrong dates, not real data.** Founder: "ticker
+  page earnings widget should show the actual earnings data." Live-checked
+  `curl localhost:8082/ticker/AAPL`: the Earnings sidebar box shows **"Jan 22, 2008 — Q1 2008"**
+  and **"Oct 15, 2003 — FY 2003"** — two records 18-23 years stale, no upcoming date at all.
+  SECTION 154 (S154-02) claimed this was fixed 2026-07-18 ("next upcoming + up to 4 most recent
+  past report dates") — that claim does not match live behavior right now, whether from
+  regression or a query/sort bug that was never actually correct for every ticker. Root cause not
+  yet investigated — likely a sort-direction or date-comparison bug in whatever
+  `earningscal.Store` query populates this widget (`internal/newssite/handler.go`/`render.go`,
+  `serveTicker`'s earnings panel). Check other tickers too, not just AAPL, before assuming a
+  single-record data problem vs. a systemic query bug.
+- [ ] **S166-02: expand ticker coverage beyond the current 50-name watchlist.** Founder request,
+  no further spec given yet — real design questions before building: how many more tickers, what
+  selection criteria (S&P 500? Russell 1000? founder-curated list?), and whether
+  `secwatch`/`prwatch`'s current poll cadence and `config/watchlist.json` shape scale cleanly to a
+  much larger list without new infrastructure. Directly relevant to SECTION 165's movers article:
+  more watchlist coverage means fewer numbers-only (no-context) entries in that daily piece.
+- [ ] **S166-03: company enrichment data — logos, descriptions — for richer ticker pages.**
+  Founder: "lets start a collection of company apis to power better ticket pages like logos
+  company descriptions etc we can create our own company descriptions via a research agent
+  MELODY." Two distinct pieces: (a) survey real logo/company-metadata API options (e.g. Clearbit
+  Logo API, Wikidata, SEC's own company-facts API for legal name/SIC code/address — needs a real
+  research pass before picking one, not a guess) and (b) **MELODY** — a new named research agent
+  for authoring original company descriptions, joining Emily/Emiree/Jon Stockwell/Bob as a named
+  persona in this system. Scope, voice, and how MELODY's output gets reviewed before publishing
+  (a company description is public-facing claim-bearing text, not internal commentary) are real
+  design questions, not decided here.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
