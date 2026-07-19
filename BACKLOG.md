@@ -4461,6 +4461,42 @@ pass, not previously known.*
 
 ---
 
+## SECTION 159: FATBABY DATA AUDIT — QUICK WINS FOR THE ENTITY/KNOWLEDGE GRAPH (2026-07-19)
+
+*The entity-graph itself is real and working — 256 directors, 202 governance signals, 6693
+accuracy records, 23 report types, parse_errors=0 on its last real batch. Not broken. These are
+concrete gaps found auditing it, not a redesign.*
+
+- [ ] **S159-01: EPS pending case with an empty ticker — confirms the tickerization gap directly.**
+  `var/eps/oracle.ndjson` has a live pending case, `eps:4905f716794c7f58`, `source_identity:
+  "pr:302827995"`, `"ticker": ""` — recorded 2026-07-16, can never reconcile because eps-reconciler
+  has nothing to match it against with no ticker. This is a real instance of exactly the gap
+  flagged earlier this session (robust PR-text ticker regex fallback, e.g. `(NYSE:F)`-style). Fix
+  should do two things: (1) add the regex fallback to the extraction path so cases like this get a
+  ticker in the first place, (2) guard case-recording so a case with an empty ticker either gets
+  backfilled before being written or is flagged distinctly from a normal "still waiting" pending
+  case — right now it's indistinguishable from case `eps:8bd28b7b713deb01` (NUE, pending since
+  2026-06-17, over a month, ticker present but just genuinely still waiting on a filed 8-K) even
+  though the two are completely different failure modes.
+- [ ] **S159-02: entity-graph 8-K detection has a confirmed, logged blind spot.**
+  `entity-graph.log`, 2026-07-17 23:14:33: `WARNING: saw 1 source_document_persisted records but
+  found 0 8-K documents to process — check form/source_type/url detection logic`. The detector
+  (`cmd/entity-graph/main.go` ~line 208) already has 4 fallback signals for identifying an 8-K
+  (`doc.Form`, URL substring match, a historical-recovery form lookup, a 4th signal) — this
+  document fell through all 4 anyway. Find that specific document (should be identifiable from the
+  same day's secwatch/prwatch events) and determine whether it's a one-off malformed record or a
+  systematic gap in the detection logic.
+- [ ] **S159-03: extend the graph — join financial outcomes to governance nodes.** Current graph
+  is governance-only: directors, voting/approval percentages, board tenure, auditor/insider-trade/
+  dividend signals (`nodes.ndjson`/`signals.ndjson`). EPS reconciliation outcomes (`var/eps/`) are
+  a separate, unlinked store — no case currently ties a director's tenure to the company's actual
+  EPS performance/beat-miss record during that tenure. A real extension, not a fix: join on
+  ticker+date-range so a query like "which directors sat on boards during EPS misses" becomes
+  answerable. Scope as a real design pass, not improvised inline here — this is the actual
+  "knowledge graph extension" the audit was asked to surface, not a bug.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
