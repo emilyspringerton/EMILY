@@ -1,4 +1,5 @@
 ## 2026-07-19
+- OpenClaw integration northstar written — MIT-licensed 20+-channel self-hosted chat gateway (WhatsApp/Telegram/Slack/Discord/Signal/iMessage/etc), researched via WebSearch not guessed; scoped as a channel front-end calling Emily Prime's existing API, not a replacement for her agent loop
 - FCM push to MJOLNIR on new mailing-list signups (observeMailingListSignups, OBSERVE phase) — inert until Firebase project + FCM env vars exist
 - Rewrote README.md as a real technical overview (three agents, RSI cron cycle, The Emily Way, repo layout, how to run, related repos) — old README was a stale Feb 2026 brand-pivot investor memo, archived at docs/archive/brand-pivot-memo-2026-02-04.md
 - Added SECTION 163 (STINKIES COMMISSAIRE VS0 hoodie funnel page) — okemily.com stinkies.html shipped (Apple #10177, OKEMILY 01c1832), live deploy + vendor selection + WooCommerce listing queued as follow-ups
