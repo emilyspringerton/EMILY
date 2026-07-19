@@ -4884,14 +4884,18 @@ audit — most of what was missing was supervision, not a status-page bug.*
   is only briefly "active" once a day). Live-verified: `GET /api/v1/status` reports all 19 up;
   `okemily.com/status.html` picked them up automatically, zero front-end change needed. IDUNA
   `5d7efb1`. Apple #10217.
-- [ ] **S168-04: `form4-watcher` and `schd13-watcher` hang indefinitely.** Found live while
-  auditing S168-01 — a plain `-one-shot -dry-run` run produces **zero log output** for 90+
-  seconds (both share the same `http.Client{Timeout: 20s}` pattern as the working `nt-watcher`,
-  so a single request timing out doesn't explain a 90s+ silence with no per-ticker progress
-  line at all). Root cause not found — deliberately not started under systemd (would just
-  loop-restart a hang forever) and deliberately not added to the status page (would misreport
-  "process crashed" when the real issue is "process hangs on start", a different failure mode
-  operators need to know about). Investigate before either.
+- [x] **S168-04: `form4-watcher` and `schd13-watcher` — correction, not a hang.** The "hangs
+  indefinitely" diagnosis above was wrong, caught by re-testing properly: `timeout N ./bin/X |
+  tail` silently swallows output when `timeout` SIGTERMs a process mid-stream — the earlier "zero
+  output for 90+ seconds" was a test-methodology artifact, not the program. A longer, unpiped run
+  proved both work correctly: `form4-watcher` processes all 50 tickers in ~4 minutes (332 new
+  transactions, 59 signals — some tickers like META legitimately carry 100+ Form 4 filings in a
+  90-day lookback); `schd13-watcher` completes in seconds (13D/13G filings are much rarer). Real
+  fix landed anyway: neither loop logged anything for a ticker with zero new data, so a clean
+  multi-minute run was genuinely silent — indistinguishable from a hang without instrumentation.
+  Added unconditional per-ticker progress logging to both. New systemd units, deployed, verified
+  live. IDUNA statuspage corrected: 19 → 21 targets, all up. PRRJECT_FATBABY `f25f25a` +
+  `de54f22`, IDUNA `fece481`. Apple #10225.
 
 ---
 
