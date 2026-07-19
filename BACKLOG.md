@@ -4436,19 +4436,12 @@ pass, not previously known.*
   credentials touched, all correctly detected as already provisioned). Verified end-to-end: fresh
   JWT carries `intelligence.read`, `GET /api/v1/intelligence/observations` returns 200 instead of
   403. IDUNA `9e69513`.
-- [ ] **S158-04: `cmd/bootstrap`'s `-dry-run` mode doesn't actually check the database — always
-  reports worst-case, found while fixing S158-02.** `seedAgentPermissions()` and
-  `provisionSecrets()` (`IDUNA/cmd/bootstrap/main.go` ~line 344, ~412) both gate their real DB
-  lookups behind `if !dryRun`, so in dry-run mode `permMap`/`hasCredential` are never populated —
-  every permission reports "not found — would fail" and every agent reports "would provision
-  credential" regardless of actual state. Confirmed live: dry-run claimed EMILY-PRIME's
-  already-working `apples.read`/`blog.write`/etc. would all fail, and that every agent (including
-  ones with real, currently-used credentials in `agent-secrets.env`) needed a fresh credential.
-  The real run (no `-rotate`) correctly no-op'd everything already present — the dry-run output
-  was simply wrong, not a reflection of real DB state. Dangerous: anyone trusting `-dry-run`'s
-  "would provision credential" line for every agent could be talked into `-rotate`, which *would*
-  actually invalidate every currently-deployed secret. Fix: run the same DB lookups in dry-run
-  mode too (read-only), just skip the actual `INSERT`/`UPDATE` at the end.
+- [x] **S158-04: `cmd/bootstrap`'s `-dry-run` mode doesn't actually check the database.** Fixed
+  2026-07-19: `seedAgentPermissions()`/`provisionSecrets()` now always run their read queries;
+  only the writes are gated behind `dryRun`. 5 new tests against an in-memory SQLite DB. Verified
+  against the real production DB: dry-run went from falsely claiming 17 permission grants across
+  11 agents would fail and every agent needed a fresh credential, to correctly reporting zero
+  false negatives. IDUNA `d508249`.
 - [ ] **S158-03: Uncommitted drift on an already-applied IDUNA migration — investigate, don't
   blind-revert or blind-commit.** `git -C IDUNA diff migrations/truestore/
   202606180001_local_users.sql` shows a real, currently-uncommitted change: `local_users.updated_at`
