@@ -4529,6 +4529,27 @@ Audit found the exact fallback already exists, well-built — it's just not prod
   (simpler: one fetch, not two, and it already succeeds).
 - [ ] **S160-02: connects directly to S159-01** (EPS case with empty ticker) — fixing S160-01 is
   the actual upstream fix for that downstream symptom.
+- [x] **S160-03: fixed a real bug that made "no press releases page" look true even though it
+  wasn't.** Founder: "i still dont see a general press releases page on the news site that shows
+  the prnewswire content." The page exists (`/wire`, labeled "The Wire") and works — but
+  `internal/processor/worker.go` defaulted every non-8-K *SEC filing* to `source_type =
+  "press_release"` (this package only ever processes SEC EDGAR filings, never real press
+  releases — those come in via a completely separate `prwatch`/`pr_discovered` path), so `/wire`
+  was showing plain 10-Q filings (NFLX, GE, COST) mixed in with genuine press releases. Fixed
+  with a proper `sourceTypeForForm()` mapping (PRRJECT_FATBABY `8aad2ea`, `go test ./...` green,
+  `fatbaby-processor.service` rebuilt + restarted). **Forward-only** — the event store is
+  append-only, so already-persisted mistagged 10-Q/10-K docs stay tagged `press_release`
+  historically; only newly-processed filings after the restart classify correctly.
+- [ ] **S160-04: "The Wire" isn't a discoverable name for a press-releases page.** Founder didn't
+  recognize it as one. Low-effort fix, real design call not mine to improvise: either rename the
+  nav label (`internal/newssite/templates.go:332`, currently `<a href="/wire">The Wire</a>`) to
+  something like "Press Releases," or add a `/press-releases` route/alias pointing at the same
+  handler for a more expected URL. Doesn't require touching `serveWire`'s logic.
+- [ ] **S160-05: backfill cleanup for historically mistagged docs** (optional, low priority) — a
+  one-off migration could re-derive `source_type` for already-persisted `source_document_persisted`
+  events from their `Form` field and emit correction events, cleaning up `/wire`'s existing
+  contamination instead of just waiting for it to age out. Not urgent; new content is already
+  correct as of S160-03.
 
 ---
 
