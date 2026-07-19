@@ -4717,14 +4717,22 @@ just our 50-ticker watchlist.*
   (fixed dates, nth-weekday rules, Easter-relative Good Friday), not a hardcoded per-year table.
   `go test ./...` green including cross-checks against the published 2026 NYSE schedule.
   PRRJECT_FATBABY `2619192`.
-- [ ] **S165-01: Phase 1 — "Stocks on the Move" daily article, the flagship.** New watcher pulling
-  Yahoo's `day_gainers`/`day_losers` screener endpoints (same free/unofficial API
-  `market-data-watcher` already uses, no new credential) gated by `marketcal.IsMarketDay`, ~9:30–
-  9:45am ET. Writes through `internal/newssite/commentary` (`Kind: "market_movers"`) — this
-  package and its `fatbaby_publish_commentary` agent tool already exist and, per this audit, have
-  never actually been used by anything. Watchlist-ticker movers get real context (signals,
-  filings); non-watchlist movers are numbers-only. Publish target: newssite, not the OKEMILY
-  blog. See northstar §4 for the full step breakdown.
+- [x] **S165-01: Phase 1 — "Stocks on the Move" daily article, the flagship.** Shipped and
+  live-verified end to end. `internal/movers` (Yahoo `day_gainers`/`day_losers` screener client,
+  same free/unofficial API `market-data-watcher` already uses, no new credential) +
+  `cmd/movers-watcher` (gated by `marketcal.IsMarketDay`, records a `market_movers_snapshot`
+  event, publishes via `POST /api/commentary`, `Kind: "market_movers"`) + `/section/movers` list
+  page. Watchlist tickers among the movers get a "(tracked — see filings...)" flag; everything
+  else is numbers-only, per the founder's market-wide-scope decision. Deterministic templated
+  article body, not LLM-authored (kept simple + reliable for the first real pipeline pass — see
+  northstar §4.3). `systemd` timer live: `fatbaby-movers-watcher.timer`, fires 9:45am ET daily
+  (DST-correct — inline-timezone `OnCalendar`, verified via `TimersCalendar`, not just trusted).
+  **Found and fixed 3 dormant bugs** in `internal/newssite/commentary` while wiring up its first
+  real content: no `/commentary/{id}` route ever existed (404 since the package was written),
+  `commentaryToEntry` discarded `Article.Headline` entirely, and `docToArticleView` hardcoded
+  `/doc/` links even for commentary content (which is never in the raw event store). `go test
+  ./...` green, new coverage for all of the above. PRRJECT_FATBABY `4b7b528` + `89cfae3` +
+  `85ab6d6`. Apple #10198.
 - [ ] **S165-02: Phase 2 — EIA oil/petroleum data.** `api.eia.gov/v2/`. Blocked on a free API key
   — founder self-serve registration at eia.gov/opendata/register.php (email only, no OAuth/
   browser-consent flow), queued in `EMILY/docs/DESKTOP_QUEUE.md`. Once a key exists: new watcher
