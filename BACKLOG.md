@@ -2856,6 +2856,14 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `curl -X POST http://localhost:8086/api/v1/emily/push/test`
   Confirm notification arrives on device. Unblocks: MJOLNIR live intel feed.
 
+- [ ] **HITL-11: Top up ANTHROPIC_API_KEY credit balance** — Confirmed dead 2026-07-19 (post-reboot
+  session), still dead an hour later on re-check: every Claude/haiku-dependent call in emily-agent
+  fails identically (`credit balance too low`) — HEIMDAL sprint translation (0/3 processed every
+  cycle), cross-domain synthesis, `goldenbuild` compression (`GOLDEN.md` stuck at 2026-06-14,
+  silently falling back to a truncated compile every cycle since). Not a transient blip; nothing
+  else here can fix it. Unblocks: SECTION 157 below, and Emily Prime's own cron cycle actually
+  reading current backlog state instead of a month-stale compile.
+
 ---
 
 ## SECTION 126: DEEP PLANNING — SYSTEMIC DEPTH PASS (2026-06-24)
@@ -4372,6 +4380,84 @@ economy doctrine rather than building a bespoke system. Landing page live at
   inventory/loadout/cosmetics ("the backpack problem"). VS2's closed-non-redeemable-economy
   doctrine adopted as permanent, not a stopgap — matches the server's actual current behavior
   already (every respawn resets to a default loadout).
+
+---
+
+## SECTION 157: HEIMDAL PIPELINE — BROKEN, INVESTIGATE + FIX (2026-07-19)
+
+*Found during post-reboot session: HEIMDAL's automated sprint→backlog translation is fully dead,
+not degraded — every attempt fails identically on the exhausted ANTHROPIC_API_KEY (HITL-11).
+Founder direction: don't force sprints through a pipeline known not to work — use "HEIMDAL sprint
+planning" as the organizing concept (backlog sections, Fable-prompt queue entries) while the real
+system is down, and queue the actual investigation/fix as real backlog work instead of pretending
+around it.*
+
+- [ ] **S157-01: Reconcile the 3 stale pending HEIMDAL sprints.** IDs 1/2/3 in IDUNA's
+  `heimdal_sprints` table, all created 2026-06-13 — over a month old, stuck in `pending` because
+  every translation attempt has failed since (first on old blockers, now on HITL-11). Sprint 3
+  (S24-01+S23-01 "the flip") and sprint 2 (production server provisioning) are largely superseded
+  by what this session found directly: S23-01 is actually done (EDIS is live on
+  `iduna.farthq.com` over HTTP, see corrected entry above), only HTTPS + the okemily.com merge
+  (S23-01b) remain open. Sprint 1 (S21-03, wire FatBaby signals into Ask Emily context) needs a
+  fresh check against current `edis-ask-emily` code — may also already be done. Close or rewrite
+  each once HITL-11 unblocks real translation, don't let them auto-translate against month-old
+  context.
+- [ ] **S157-02: `goldenbuild` fallback path — audit whether the truncated fallback is safe.**
+  Confirmed 2026-07-19: `goldenbuild: compress EMILY-CYCLE-LOG failed ... using truncated
+  fallback` fires every cycle right now. Verify what "truncated fallback" actually contains and
+  whether Emily Prime's cron cycle is operating on meaningfully incomplete context as a result, or
+  whether the fallback is a safe no-op. Not urgent on its own — HITL-11 fixes the root cause — but
+  worth knowing how degraded the loop has actually been while blocked.
+- [ ] **S157-03: Once HITL-11 lands, confirm the whole chain end-to-end** — HEIMDAL sprint
+  translate → RSI roadmap item → Apple → FCM push, and `goldenbuild` recompiling `GOLDEN.md` from
+  current `BACKLOG.md` (not the 2026-06-14 snapshot). Don't just assume billing fixes everything;
+  verify it.
+
+---
+
+## SECTION 158: MONITORING/AUDIT PASS — REAL BUGS FOUND (2026-07-19)
+
+*Founder asked for a full audit of failing systems, surfaced as backlog fixes. Found during that
+pass, not previously known.*
+
+- [ ] **S158-01: Monitor creation ignores client-supplied slug, no dedup — real, currently-firing
+  bug.** `IDUNA/internal/http/handlers/monitors.go`: `create()` (line ~212) always calls
+  `generateMonitorSlug()` (line ~392) and overwrites whatever `slug` the client sent, and never
+  checks for an existing monitor by name/slug before inserting. `EMILY/emily-agent/iduna.go`'s
+  `EnsureCronMonitor` (called once per emily-agent startup, `cron.go:156`, "safe to call on every
+  startup") posts `{"slug": "emily-prime-cron", ...}` expecting idempotent get-or-create — instead
+  it silently creates a brand new monitor with a random hex slug every single restart. Confirmed
+  live 2026-07-19: `GET /api/v1/monitors` returns at least two "Emily Prime cron" monitors (ids 13,
+  14, likely more from prior restarts), both `"status": "failing"`, slugs
+  `a023859886bb3f5533b9797db3543c6f` / `d86f7e6f516bd49f528bbd814c3443f4` — neither is
+  `emily-prime-cron`. Meanwhile `PostCheckin(ctx, "emily-prime-cron")` (`iduna.go:396`, called
+  every cron cycle, `cron.go:609`) always posts to the literal slug `emily-prime-cron`, which never
+  exists, so every checkin 404s (`checkin emily-prime-cron: IDUNA 404`, seen every cycle in
+  `emily-agent.log`). Net effect: the cron heartbeat monitor has never once successfully recorded
+  a checkin since it was built, and duplicates accumulate forever. Fix: `create()` should honor a
+  client-supplied slug (or better, look up by slug first and return the existing monitor instead
+  of erroring/duplicating — true get-or-create), and `generateMonitorSlug()` should only apply
+  when the client didn't supply one.
+- [ ] **S158-02: EMILY-PRIME agent missing `intelligence.read` permission — vision cycle 403 every
+  cycle.** `IDUNA/config/agents.json`'s EMILY-PRIME entry permissions list (`fatbaby.operator,
+  emily-prime.operator, governance.admin, apples.write, apples.read, signalapi.read,
+  heimdal.submit, monitors.read, monitors.create, monitors.alert, blog.write`) does not include
+  `intelligence.read`. Every cycle logs `vision cycle: list pending: iduna list observations
+  status 403: {"code":"FORBIDDEN","message":"intelligence.read permission required"}` — the vision
+  pipeline has never been able to list pending observations. Fix: add `intelligence.read` to
+  EMILY-PRIME's grant in `config/agents.json`, re-run `cmd/bootstrap` (or equivalent reseed) to
+  apply it.
+- [ ] **S158-03: Uncommitted drift on an already-applied IDUNA migration — investigate, don't
+  blind-revert or blind-commit.** `git -C IDUNA diff migrations/truestore/
+  202606180001_local_users.sql` shows a real, currently-uncommitted change: `local_users.updated_at`
+  going from `TIMESTAMP` to `TIMESTAMP(6)` (adds microsecond precision) on both the column default
+  and its `ON UPDATE` clause. IDUNA's own CLAUDE.md rule: "Never edit migration files after they've
+  been applied — add new ones." Someone or something made this edit locally without committing it.
+  Needs a real decision: if the precision bump is wanted, it must land as a *new* migration file
+  (e.g. `ALTER TABLE local_users MODIFY updated_at TIMESTAMP(6) ...`), not an edit to the applied
+  one — editing history in place means fresh installs and this box's existing DB would silently
+  diverge. If it's not wanted, revert the working-tree change. Don't do either without figuring out
+  which one is actually still needed first.
 
 ---
 
