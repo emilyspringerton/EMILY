@@ -78,19 +78,20 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   the store (deprecate the paged-`ReadFrom` idiom entirely, not just patch each instance found) —
   worth naming explicitly as a Phase 0.5 or folding into Phase 3's runbook work.
 
-- [ ] **Phase 1a — SQLite checkpoint for signalapi.** **Correction, 2026-07-19: signalapi is not
-  actually down.** It was manually restarted at some point today and Phase 0 alone (streaming
-  `Scan`, already shipped) is apparently keeping cold starts survivable — `curl :9091/v1/health`
-  returns 200 right now. The "currently stopped/disabled" framing below was stale and got
-  repeated into a founder-facing status report before being caught (see `emily.cli` `eace630` —
-  the *actual* bug was `emily status --fatbaby`'s pgrep patterns going stale after the
-  systemd-binary migration, silently reporting newssite/signalapi/secwatch as down for who knows
-  how long). This phase is still worth building — a restart today is surviving by margin, not
-  by design, and there's no watermark checkpoint yet — but it is resilience work, not an outage
-  fix. Per `docs/northstar/replay-fragility.md` §4b: `var/signalapi-index.db`, snapshot-plus-tail
-  with a `latest_seq` watermark. Re-enable `fatbaby-signalapi.service` (confirm current
-  supervision state first — it may already be running unsupervised) after, kill-test under
-  supervision.
+- [x] **Phase 1a — SQLite checkpoint for signalapi.** Shipped, deployed, kill-tested. New
+  `internal/indexcheckpoint`: `var/signalapi-index.db`, self-heals on a missing/corrupt/version-
+  mismatched file. `cmd/signalapi` loads both indexes from checkpoint at startup and resumes
+  `Build` from the checkpointed watermark instead of seq 1; syncs a full snapshot back every poll
+  interval. **Real bug caught before landing**: the first version watermarked at
+  `idx.LatestSeq()` (highest sequence among only *matching* records) instead of the store's true
+  end (`store.LatestSequence()`) — caused ~19,000 redundant record rescans on every warm start for
+  zero new data, measured live against the real store. Fixed to a single shared watermark. `go
+  test ./...` green, 13 new tests. **Live-verified against the real 630MB+ production store**:
+  cold rebuild ~23s (matches Phase 0's prior figure, this phase doesn't touch that cost), warm
+  start hydrates 4966 signals + 11313 docs instantly and resumes from near the store's true end.
+  **Kill -9 test passed**: `fatbaby-signalapi.service` auto-restarted cleanly within `RestartSec`,
+  RSS 46.5M/58.7M peak against the 900M `MemoryMax`. PRRJECT_FATBABY `0f40b96` + `28fcfd9`. Apple
+  #10207.
 
 - [ ] **Phase 1b — SQLite checkpoint for newssite**, same package as 1a. Kill-test; confirm no
   "we don't cover AMZN" window on restart.
