@@ -4497,6 +4497,37 @@ concrete gaps found auditing it, not a redesign.*
 
 ---
 
+## SECTION 160: PRNEWSWIRE TICKERIZATION — REGEX FALLBACK ALREADY EXISTS, NOT FIRING (2026-07-19)
+
+*Founder asked for a robust regex fallback for press-release tickerization (e.g. `(NYSE:F)`-style).
+Audit found the exact fallback already exists, well-built — it's just not producing results live.*
+
+- [ ] **S160-01: `discoverTickers` (prwatch/runner.go:150) is silently returning empty on live
+  discovery.** The extraction logic itself is solid and already committed:
+  `internal/prwatch/tickers.go`'s `ExtractTickers`/`ExtractFromHTML` — regex for
+  `(NASDAQ|NYSE|OTC...: SYMBOL)`, HTML-aware (meta description + body text, keyword precheck before
+  the expensive regex), deduped, confidence-scored. It's correctly wired into discovery
+  (`eventData()` calls `discoverTickers`, sets `Identity.AllTickers`/`PrimaryTicker` when refs are
+  found). Confirmed live 2026-07-19: every recent `pr_discovered` record has `"identity":{}`
+  empty, yet the *same URLs*, fetched moments later by `prwatch-body`'s separate crawler, contain
+  real ticker text in the body (`(NASDAQ: ZG)`, `(NYSE: ZTS)`, `(NASDAQ: ADMA)`, etc. — confirmed
+  via direct grep on `var/prwatch-body/events/2026-07-18.ndjson`). So the tickers are genuinely
+  there to be found; `discoverTickers`'s own fetch of the same URL is coming back empty or
+  unmatched. **Root cause not fully nailed down — `discoverTickers` swallows every error silently
+  (`return nil, ""` on request-creation failure, HTTP failure, with zero logging at any of those
+  points)**, so there's currently no way to tell from logs whether it's a fetch failure, a timing
+  race (discovery fires before the page is fully live/crawlable — most likely hypothesis, prwatch
+  discovers near-instantly at publish time while prwatch-body's fetch happens on its own later
+  poll cycle), or something else. Fix: add logging to every silent-failure branch first (cheap,
+  immediately diagnostic), then address whatever the logs show — likely either a short retry/delay
+  before the discovery-time ticker fetch, or dropping the separate discovery-time fetch entirely
+  and relying on prwatch-body's already-working fetch + running `ExtractFromHTML` there instead
+  (simpler: one fetch, not two, and it already succeeds).
+- [ ] **S160-02: connects directly to S159-01** (EPS case with empty ticker) — fixing S160-01 is
+  the actual upstream fix for that downstream symptom.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
