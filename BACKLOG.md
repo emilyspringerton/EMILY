@@ -4860,6 +4860,41 @@ links").
 
 ---
 
+## SECTION 168: FULL PROCESS SUPERVISION + STATUS PAGE AUDIT (2026-07-19)
+
+*Founder: "ensure we have ok emily status page bubbles for all fatbaby process and sub process
+(all of the knights of the void)." Started as a status-page task, became a real operational
+audit — most of what was missing was supervision, not a status-page bug.*
+
+- [x] **S168-01: 6 watchers found with zero supervision at all** (not even `go run`) — real,
+  silent gaps, discovered live via `ps aux`, not assumed: `dividend-watcher`, `buyback-watcher`,
+  `guidance-watcher`, `nt-watcher` weren't running at all; `earnings-calendar` had been **dead
+  since 2026-06-17** (a `context canceled` error killed it with nothing to restart it — the real
+  root cause of the earlier "ticker page earnings widget shows 2003/2008 dates" report, not a
+  display bug). New systemd units for all 6 (`eps-processor` too — was running, just via
+  unsupervised `go run`), deployed, verified live: active, zero restarts, real work happening.
+  `guidance-watcher`'s very first run published 7 previously-missed guidance signals.
+  PRRJECT_FATBABY `02a4dd6`.
+- [x] **S168-02: `entity-graph` finally supervised.** Unit existed (`fatbaby-entity-graph.service`,
+  written 2026-07-18) but was never enabled, gated on the northstar's Phase 2 checkpoint work.
+  Enabled now that SECTION 1's Phase 2a (incremental filing index) landed — steady-state RSS
+  157.9M vs. the historical ~596M, comfortably inside its 900M `MemoryMax`.
+- [x] **S168-03: IDUNA statuspage expanded 11 → 19 targets**, covering everything newly
+  supervised above (`movers-watcher` checked on its `.timer`, not its oneshot `.service`, which
+  is only briefly "active" once a day). Live-verified: `GET /api/v1/status` reports all 19 up;
+  `okemily.com/status.html` picked them up automatically, zero front-end change needed. IDUNA
+  `5d7efb1`. Apple #10217.
+- [ ] **S168-04: `form4-watcher` and `schd13-watcher` hang indefinitely.** Found live while
+  auditing S168-01 — a plain `-one-shot -dry-run` run produces **zero log output** for 90+
+  seconds (both share the same `http.Client{Timeout: 20s}` pattern as the working `nt-watcher`,
+  so a single request timing out doesn't explain a 90s+ silence with no per-ticker progress
+  line at all). Root cause not found — deliberately not started under systemd (would just
+  loop-restart a hang forever) and deliberately not added to the status page (would misreport
+  "process crashed" when the real issue is "process hangs on start", a different failure mode
+  operators need to know about). Investigate before either.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
