@@ -5078,6 +5078,37 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+## SECTION 170: TWO NEW NORTHSTARS — VAULT + OPENCLAW (2026-07-19)
+
+*Both grew out of the same evening's Gmail OAuth setup: a real credential-scattering incident
+(§170-01) and a real reach-expansion question (§170-02), both spec-only, no code yet.*
+
+- [x] **S170-01: IDUNA Vault (password manager) northstar.** Founder: "we need a password
+  manager as a first class prodcut for the founder" / "parity with password managers" / "chrome
+  extension." Apple #10282 · IDUNA `edc4eee` (`docs/NORTHSTAR_PASSWORD_MANAGER.md`, golden-indexed
+  IDUNA-VAULT-NORTH). Motivated by a real same-session incident: a Google OAuth client ID +
+  secret ended up as two plaintext files in the founder's home directory during Gmail setup.
+  Parity target: 1Password/Bitwarden's real feature set. Reuses `internal/mailinglist/crypto.go`'s
+  existing Argon2id+AES-256 vault primitive rather than inventing new crypto. VS0 (CLI/API vault)
+  → VS1 (Chrome extension) → VS2 (team vaults). Open question flagged, not decided: the existing
+  vault's restart-relocks tradeoff is fine for a marketing-signup gate, a much bigger cost for a
+  daily-use password manager — needs a founder call before VS0 build starts.
+- [x] **S170-02: OpenClaw integration northstar.** Founder: "openclaw integration northstar do
+  research on that if you need to." Apple #10285 · EMILY `4ea6ab7`
+  (`docs/NORTHSTAR_OPENCLAW_INTEGRATION.md`, golden-indexed OPENCLAW-NORTH). Researched via
+  WebSearch/WebFetch, not guessed: MIT-licensed, self-hosted, 20+-channel chat gateway
+  (WhatsApp/Telegram/Slack/Discord/Signal/iMessage/etc). Correct integration shape: OpenClaw as a
+  channel front-end calling Emily Prime's existing `:8086` API, not a replacement for her agent
+  loop. Explicitly flagged, not assumed: Gmail isn't one of OpenClaw's channels (doesn't replace
+  tonight's Gmail work), and the MJOLNIR overlap needs a real founder decision. Deployment
+  isolation flagged given this box already hit one OOM incident and one declined-miner-request
+  today over shared-resource risk.
+- [ ] **S170-03: both northstars' VS0 builds** — not started, both explicitly research/spec-only
+  per the founder's own framing ("northstar," "do research"). Real next step whenever picked back
+  up.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
