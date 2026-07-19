@@ -15,6 +15,27 @@ clearly needs a bigger screen.
 
 ---
 
+## 2026-07-19 — LIVE: mailing-list signups are down (503) — vault locked, needs your passphrase
+
+Self-caused: `iduna.service` was restarted earlier today (14:55 UTC, for the blog ad-line
+deploy) and the encrypted mailing-list vault re-locks on every restart by design — that's the
+`cmd/mailing-list-unlock` tool's whole reason to exist (it deliberately never accepts the
+passphrase as a CLI arg/env var, only an interactive terminal prompt, so I genuinely can't run
+this one myself). Confirmed live right now: `POST /api/v1/mailing-list/subscribe` returns
+`503 {"error":"signups are temporarily paused — please try again shortly"}` — every real
+signup (STINKIES waitlist, general okemily.com list) has been silently failing for about an
+hour.
+
+```
+mailing-list-unlock
+```
+
+It'll prompt for the vault passphrase (input hidden, no echo). Already on PATH
+(`~/.local/bin/mailing-list-unlock`). Takes a few seconds, no other args needed — `-init` is
+only for first-time setup, not this.
+
+---
+
 ## 2026-07-19 — DIS PoW-gate deploy (no decision needed, just sudo)
 
 Founder: "start building the dis ad engine." Found the engine mostly already built and
