@@ -15,6 +15,25 @@ clearly needs a bigger screen.
 
 ---
 
+## 2026-07-19 — PRIORITY: pick a sticker vendor (unblocks S135-03/04/05, our actual first revenue stream)
+
+Bumped to the top at your request. Vendor research (S135-02) is done — real pricing pulled live,
+not guessed:
+
+- **Sticker Mule** — ~$0.23-0.30/unit at 500-1000, MOQ 50, 4-day turnaround, free shipping.
+  Cleanest fit for a 250-unit first batch with a hard QC step right after.
+- **StickerApp** — ~$0.26/unit at 500, MOQ 29 (~$27 floor). Similar price band to Sticker Mule.
+- **StickerGiant** — lowest MOQ (10), faster stated turnaround (2-5 days), but exact 250/500/1000
+  pricing is behind a JS calculator I couldn't scrape — would need a direct sales quote.
+- **StickerYou** — no stated minimum, but also behind a JS calculator, and no reorder API.
+
+Margin isn't the differentiator (all four are well under the $4/unit target). Pick based on
+turnaround/reliability preference — **Sticker Mule is the default recommendation** unless you
+want StickerGiant's quote for reorder speed. Once you pick, I place the 250-unit VS0 batch order
+(S135-04) and this becomes a real, live revenue stream (S135-05).
+
+---
+
 ## 2026-07-19 — okemily.com `/admin/login` is a 404 (nginx block never deployed)
 
 The `/admin/` proxy block landed in the repo weeks ago (`OKEMILY/ops/nginx-okemily.conf`) but the

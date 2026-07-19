@@ -3213,7 +3213,7 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ---
 
-## SECTION 135: MERCH DROPS — STICKERS VS0 (2026-06-26)
+## SECTION 135: MERCH DROPS — STICKERS VS0 (2026-06-26) — ⚡ PRIORITY BUMP 2026-07-19
 
 *First physical revenue stream. High-quality stickers as VS0 — proof-of-concept and bootstrap for Emily Supply Chain AGI. Why stickers first: low MOQ, no sizing complexity, high margin, viral brand surface, perfect Emily/EINHORN_INDUSTRIAL branding vehicle. VS0 learning feeds directly into S136.*
 
@@ -3253,6 +3253,8 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   - **Not decided here**: the brief's own Production Schedule table names vendor selection
     "Emily (human)," not Emily Prime — added to HUMAN UNBLOCK QUEUE rather than auto-picked.
   Apple #9918 (research_log). Unblocks: S135-03/04/05 once the founder picks from the above.
+  **Bumped to `EMILY/docs/DESKTOP_QUEUE.md` 2026-07-19** — this is the whole blocker on our
+  actual first live revenue stream; nothing else is pending here except the vendor pick.
 
 - [ ] **S135-03: EDIS WooCommerce product listing** — Add sticker SKUs to EDIS WordPress instance. WooCommerce: individual sticker pack ($8), full VS0 set ($22), international shipping matrix. Payment via existing Stripe integration. Emily Prime can create products via EDIS API or `emily install --edis` flow.
 
