@@ -57,6 +57,7 @@
 | GPT2-NORTH | gpt2-alpine-c/NORTHSTAR.md | 2 | 1500 | GPT-2 fine-tuning pipeline for Emily Prime; corpus builder, Drive sync, Colab notebook, C binary conversion |
 | TYLER-BIBLE | TYLER/README.md | 2 | 4000 | TYLER series bible; four-layer architecture (EmilyOS/Tyler/Tides/Custody), Television as Code concept |
 | TYLER-ENGINE | TYLER/universe_engine.md | 2 | 3000 | TYLER universe engine; AI-assisted world-building protocol, content generation rules |
+| TYLER-DUCK | TYLER/just_a_duck.md | 1 | 500 | Raw transcript, "Jack's Factory" YouTube short: a tuxedoed duck (telekinesis, secret government agent), a unicorn (robot in disguise), a ghost (alien), a frog (knows time travel), a talking tree (keeper of the universe's greatest secret), pizza on fire (the chosen one). Founder-designated Tier 1 — outranks the series bible in context priority, deliberately |
 | EMILY-MEMORY | EMILY/emily-memory/world-state.md | 1 | 4000 | Emily Prime persistent world state; all product statuses, human blockers, AGI gaps, next priorities |
 | EMILY-CYCLE-LOG | EMILY/emily-memory/cycle-log.md | 1 | 3000 | Rolling log of RSI cycle outcomes; last 100 entries; Emily Prime cross-cycle continuity |
 | EINHORN-API | EMILY/docs/api.yaml | 2 | 3000 | OpenAPI 3.0.3 full system API surface: emily-agent :8086, IDUNA :8080, GPT-2 :8088/:8679 |
