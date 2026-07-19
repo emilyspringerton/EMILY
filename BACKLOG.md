@@ -4654,6 +4654,13 @@ our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHST
   audience needs real contact/compliance info I shouldn't fabricate) and set
   `MAILCHIMP_STINKIES_LIST_ID` in IDUNA's env; until then signups still work and are correctly
   tagged `source=stinkies` in IDUNA's own store, just fall back to the general Mailchimp list.
+- [x] **S163-06: text ad for the hoodie waitlist on every blog post.** Founder request. Added to
+  the shared post template (`IDUNA/internal/blog/render.go`) so every future post gets it
+  automatically; backfilled all 19 already-published posts + the index via new one-off
+  `IDUNA/cmd/blog-rerender`. IDUNA `b3f84e2`, verified live on all 19 posts. **Near-miss caught
+  and fixed in the same pass**: the unrelated live-deploy step right after this (`S163-02`) briefly
+  wiped this whole `blog/` output directory via an unscoped `rsync --delete` — see S163-02's note,
+  fully recovered, no data lost.
 
 ---
 
@@ -4692,6 +4699,45 @@ weeks before this session; it's still pending. Published as a blog post instead
   (succeed or terminal-fail) so one bad message can't jam the rest, logs to
   `var/logs/mail-watcher.log` like every other supervised process. Mirrors
   `cmd/observation-watcher`'s existing cursor-file/tail shape almost exactly.
+
+---
+
+## SECTION 165: AUTO-GENERATED DAILY ARTICLES (2026-07-19)
+
+*Founder, verbatim: "ok lets back step our way into auto gen articles like at 945am every day we
+want to post a list of stocks on the moove we will need to augment our data ingestion to power
+this" — followed in rapid succession by four more data-source asks (oil, central bank, investor
+calls, market calendar) in the same burst. Captured as one sequenced plan:
+`PRRJECT_FATBABY/docs/northstar/auto-generated-articles.md` (golden-indexed as
+AUTOGEN-ARTICLES). Movers scope decided: true market-wide gainers/losers (Yahoo screener), not
+just our 50-ticker watchlist.*
+
+- [x] **S165-00: Phase 0 — market-calendar gating utility.** `internal/marketcal`
+  (`IsMarketDay`/`HolidayName`/`IsEarlyClose`), computed from NYSE's published holiday rules
+  (fixed dates, nth-weekday rules, Easter-relative Good Friday), not a hardcoded per-year table.
+  `go test ./...` green including cross-checks against the published 2026 NYSE schedule.
+  PRRJECT_FATBABY `2619192`.
+- [ ] **S165-01: Phase 1 — "Stocks on the Move" daily article, the flagship.** New watcher pulling
+  Yahoo's `day_gainers`/`day_losers` screener endpoints (same free/unofficial API
+  `market-data-watcher` already uses, no new credential) gated by `marketcal.IsMarketDay`, ~9:30–
+  9:45am ET. Writes through `internal/newssite/commentary` (`Kind: "market_movers"`) — this
+  package and its `fatbaby_publish_commentary` agent tool already exist and, per this audit, have
+  never actually been used by anything. Watchlist-ticker movers get real context (signals,
+  filings); non-watchlist movers are numbers-only. Publish target: newssite, not the OKEMILY
+  blog. See northstar §4 for the full step breakdown.
+- [ ] **S165-02: Phase 2 — EIA oil/petroleum data.** `api.eia.gov/v2/`. Blocked on a free API key
+  — founder self-serve registration at eia.gov/opendata/register.php (email only, no OAuth/
+  browser-consent flow), queued in `EMILY/docs/DESKTOP_QUEUE.md`. Once a key exists: new watcher
+  following the exact `market-data-watcher` shape.
+- [ ] **S165-03: Phase 3 — Federal Reserve / FOMC.** Two pieces: (a) ingest
+  `federalreserve.gov/feeds/press_monetary.xml` (public RSS, no key) on a poll, same shape as
+  `prwatch`; (b) a small fixed calendar of published FOMC meeting dates (announced yearly, not
+  rule-computable like NYSE holidays — sourced from the Fed's own published schedule, not
+  invented).
+- [ ] **S165-04: Phase 4 — investor/earnings conference call schedule.** Distinct from the
+  existing `internal/earningscal` (tracks report *date* + BMO/AMC only, no dial-in/webcast/call-
+  time info). No source picked yet — real research/founder decision needed before any code:
+  scraping company IR pages vs. a dedicated calendar data vendor for full coverage.
 
 ---
 

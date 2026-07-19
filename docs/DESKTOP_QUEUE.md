@@ -15,6 +15,21 @@ clearly needs a bigger screen.
 
 ---
 
+## 2026-07-19 — EIA API key (SECTION 165, oil/petroleum data)
+
+Blocks Phase 2 of the auto-generated-articles work (`PRRJECT_FATBABY/docs/northstar/
+auto-generated-articles.md`). Lightweight, not a big ask:
+
+- Go to eia.gov/opendata/register.php, register with an email address — free, instant, no OAuth
+  consent screen, no dashboard to configure.
+- Give me the resulting API key and I'll wire it in (`EIA_API_KEY`, same env-var pattern as
+  everything else) and build the watcher.
+
+Not urgent — nothing is blocked on this except this one phase, and phases 1 (movers) and 3
+(Fed/FOMC) don't need it at all.
+
+---
+
 ## 2026-07-19 — Outbound email backend (SECTION 164)
 
 **The ask:** send Emily's status reports as real email instead of only blog posts. Checked —
