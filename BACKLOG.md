@@ -4584,6 +4584,34 @@ CI fixes, admin-login proxy, subfooter, footer auto-sync). These two are the onl
 
 ---
 
+## SECTION 163: STINKIES COMMISSAIRE — VS0 HOODIE FUNNEL PAGE (2026-07-19)
+
+*Founder: "add the stinkies hoodie funnel page to okemily we have a plan somewhere to bootstrap
+our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHSTAR_STINKIES.md`
+(phased bootstrap: merch drops → Store 0, Pontiac MI) and `EMILY/docs/merch/stinkies_apparel_brief.md`
+(VS0 = the hoodie, $38, DESIGN LOCKED, print vendor selection gated on S146-02).*
+
+- [x] **S163-01: stinkies.html funnel page on okemily.com** — Apple #10177 · OKEMILY `01c1832`
+  (pushed to `main`). Real spec pulled straight from the apparel brief (80/20 cotton-poly fleece,
+  10oz garment-dyed, washed black, "STINKIES" back print 4in, "COMMISSAIRE" left chest, S-3XL,
+  $38), full phased roadmap section (hat w/ "STORE 0 · PONTIAC MI" strap → stickers/food →
+  Store 0). No fabricated checkout — the print PO hasn't been placed yet (human HITL gate per
+  the northstar), so the CTA is a waitlist signup on the same IDUNA mailing-list infra as
+  `tournaments.html`, not a pretend "buy now." Footer link added to `index.html`.
+  **Not yet live** — deploy needs `~/okemily-deploy.sh` (interactive sudo, can't run unattended);
+  founder action.
+- [ ] **S163-02: run `~/okemily-deploy.sh` to push stinkies.html live**, then verify
+  `https://okemily.com/stinkies.html` renders and the waitlist form actually submits. Founder
+  action (sudo password prompt).
+- [ ] **S163-03: S146-02 — select a print vendor for the VS0 hoodie** (100-unit MOQ, ≤$12/unit
+  target, size-run S×10/M×25/L×30/XL×20/2XL×10/3XL×5). Use `supply_chain_research` tool. Blocks
+  the actual PO (HITL gate — human approval required before any money moves).
+- [ ] **S163-04: EDIS WooCommerce listing for SKU SC-APP-01** once a vendor/PO exists — swap the
+  funnel page's waitlist CTA for a real purchase flow. Mirrors the still-open S135-03 (stickers)
+  gap: EDIS product-listing work hasn't landed for any physical SKU yet.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
