@@ -4799,14 +4799,16 @@ relative `/ticker/{TICKER}` path) — absolute specifically so the link still re
 when the content is copied, syndicated, or redistributed elsewhere ("so distribution picks up our
 links").
 
-- [ ] **S167-01: real security gap found while scoping this, fixed first.** `POST
+- [x] **S167-01: real security gap found while scoping this, fixed first.** `POST
   /api/commentary` (the only ingest path for this content) had **zero authentication** — anyone
   who could reach newssite's port could publish arbitrary commentary content. Not safe to also add
   trusted-HTML rendering (needed for real clickable ticker links — see S167-02) through an
   unauthenticated endpoint. Added a static bearer-token check (same constant-time-compare pattern
   as `internal/apiserver`'s existing `-api-keys`), fails closed (503) if no key is configured
-  rather than silently staying open.
-- [ ] **S167-02: `internal/tickerlink` — the shared formatter.** `FormatRef(baseURL, companyName,
+  rather than silently staying open. Shared secret deployed to `~/.config/fatbaby-newssite/env`,
+  loaded by both `fatbaby-newssite.service` and `fatbaby-movers-watcher.service`. Live-verified:
+  no-auth → 401, wrong key → 401, correct key → 201.
+- [x] **S167-02: `internal/tickerlink` — the shared formatter.** `FormatRef(baseURL, companyName,
   exchange, ticker) template.HTML` producing "Company Name (EXCHANGE:TICKER)" with TICKER as an
   absolute `<a href="...">` link. Real constraint found: `newssite`'s detail-page template
   (`<pre>{{.FullText}}</pre>`) auto-escapes body content by design — correct and necessary for
@@ -4815,12 +4817,27 @@ links").
   a change to the shared/default one. New `commentary.Article.BodyHTML` field + `DocEntry.BodyHTML
   template.HTML`, rendered only when set, only ever populated by our own generators (never
   user/filing-supplied) — the auth fix above is what makes trusting this safe.
-- [ ] **S167-03: wired into `movers-watcher`**, the one live content generator. Every ticker
+- [x] **S167-03: wired into `movers-watcher`**, the one live content generator. Every ticker
   mention in the daily movers article now uses the standard format with a real, absolute, clickable
-  link to its ticker page.
+  link to its ticker page. Live-verified on the real published article: e.g. "Netflix, Inc.
+  (NASDAQ:NFLX)" with NFLX linking to `https://news.okemily.com/ticker/NFLX`, watchlist tickers
+  additionally flagged "(tracked — see filings and signal history...)". `go test ./...` green,
+  19 new tests. PRRJECT_FATBABY `8eefa17`. Apple #10203.
+  **Found in the process, worked around, not yet fixed as code**: `commentary.Append` doesn't
+  dedupe by article ID — running `movers-watcher` twice for the same day (as happened here,
+  manual test then real run) writes two NDJSON lines for the same ID, and `Store.ByKind` (the
+  `/section/movers` list) doesn't dedupe either, so the list would show a duplicate card until the
+  next `Refresh()` incidentally picks the newest by `PublishedAt` for `ByID` lookups. Cleaned up
+  manually this time (deduped `var/commentary/articles.ndjson` directly, safe since it's a local
+  cache file, not the append-only event store). Worth a real fix — `commentary.Store`/`Append`
+  should dedupe-by-ID the way `signalindex`'s v2-replaces-stub logic already does — not scoped
+  here since it's not blocking anything today (movers-watcher only runs once/day via its timer).
 - [ ] **S167-04: apply the same standard to every future Gauntlet-managed content type** (EIA/Fed
   articles once those phases exist, any human-authored content once the newsroom side of Gauntlet
   is real). Not urgent — nothing else generates ticker-referencing content yet.
+- [ ] **S167-05: `commentary.Store`/`Append` should dedupe by article ID** (found as S167-03's
+  follow-up, above) — same-day re-runs or retries currently produce duplicate NDJSON rows and
+  duplicate list-page cards until manually cleaned up.
 
 ---
 
