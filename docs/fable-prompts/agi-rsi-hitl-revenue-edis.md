@@ -15,13 +15,38 @@ The founder asked for "a full Fable planning step for next steps: AGI RSI, human
 revenue, EDIS — let's go." Before writing the prompt body, a live check turned up a genuine
 blocker that has to be the spine of this plan, not a footnote:
 
-- **EDIS/WordPress production has never actually deployed.** `EMILY/BACKLOG.md` SECTION 23 still
-  has `S23-01: LIVE DEPLOY` unchecked — `sudo bash /home/fatbaby/EDIS/ops/sprint-deploy.sh` has
-  never been run against the production host. `curl https://iduna.farthq.com/` returns connection
-  failure (`HTTP 000`), confirming this isn't just a stale checkbox. Everything downstream of
-  EDIS — Ask Emily paid tiers, WooCommerce sticker SKUs (S135-03), GFD subscriptions (S124-04) —
-  has been built against a front-end that was never turned on. `HITL-03`/`HITL-04` in the backlog's
-  "Tier 2 — Unblocks live systems" section name this explicitly as the standing blocker.
+- **Correction (2026-07-19, later same session):** the first pass of this reality check was wrong
+  — EDIS/WordPress **is** actually deployed and live. `/var/www/edis/wp-config.php` exists,
+  `wp-content/plugins/` has edis-core, edis-ask-emily, edis-dis, edis-earnings, edis-signals, and
+  akismet all installed, MySQL is running, and `curl http://iduna.farthq.com/` returns a real
+  200 with `<title>IDUNA Intelligence Platform</title>`. `EMILY/BACKLOG.md` `S23-01` being
+  unchecked is a stale checkbox, not reality — verify the real state directly (`curl`, `ls
+  /var/www/edis/`) rather than trusting that line item. **What's actually still missing: HTTPS.**
+  `https://iduna.farthq.com/` connection-refuses (`HTTP 000`) because certbot was never run for
+  that domain — `/etc/nginx/sites-available/edis` is explicitly still the "HTTP only until certbot
+  runs" bootstrap config. That's the real, narrow blocker: get a cert issued for iduna.farthq.com
+  (or resolve the domain question below first, since which domain gets the cert is exactly the
+  open question), not a from-scratch deploy.
+- **Separately, and now the more load-bearing open question:** EDIS is live on
+  **`iduna.farthq.com`**, a different domain from **`okemily.com`** (the polished, HTTPS-working,
+  actively-used landing page + blog + mailing list). The founder asked, later in this same session,
+  to "launch EDIS merge with okemily.com" — i.e. connect or consolidate these two. That's a real
+  architecture decision (which domain serves WordPress at root, what happens to okemily.com's
+  existing static landing page and IDUNA's own planned static frontend at bare `/`, how WP_HOME/
+  WP_SITEURL migration is handled for a live WordPress install, cert consolidation) with a
+  documented outage precedent for exactly this class of nginx surgery (see `OKEMILY/CLAUDE.md`'s
+  2026-07-18 incident writeup). This is squarely the same collision entry #1
+  (`iduna-front-door-funnel.md`) already exists to resolve — fold the "merge with okemily.com"
+  question into that design pass rather than treating it as a separate ad hoc decision. Whoever
+  picks this up should read entry #1 first and decide whether it still needs its own dispatch or
+  whether this doc's revenue plan supersedes/absorbs it.
+- **New, separate ask from the founder (2026-07-19):** EDIS/WordPress logins should go through
+  IDUNA for SSO rather than native `wp-login.php`. This is real, scoped engineering (an IDUNA-auth
+  WordPress plugin/must-use plugin doing an OAuth-style handoff) independent of the domain-merge
+  question above — it can be built and committed without touching live production, and activated
+  whenever the domain question is settled. Check `IDUNA/internal/http/handlers/local_auth.go` and
+  the existing Google-OAuth consumer flow (`internal/http/handlers/auth.go`) as the starting point
+  for what IDUNA already exposes versus what a WordPress-facing SSO handoff would need net-new.
 - Everything *behind* that front door is comparatively mature: Ask Emily's chat endpoint, rate
   limiting, IDUNA OAuth, and MySQL/MongoDB read models are all done (SECTION 20/21, all `[x]`).
   The revenue mechanism is built; the door to it is closed.
@@ -78,15 +103,17 @@ system is today to that state — sequenced, not a wishlist.
 
 ### What the plan needs to cover
 
-**A. Unblock revenue (EDIS deploy).** This is a real "someone runs sudo on a production host"
-action, not something Fable or Claude Code can execute unattended — say so plainly. Your job is
-to make that action low-risk and well-sequenced: what needs to be true before it's safe to run
-`sprint-deploy.sh` for real (DNS confirmed pointing at the right host — check `dig
-iduna.farthq.com` — TLS cert plan, does WordPress collide with anything else already living on
-that host, rollback plan if it goes sideways). Reference entry #1's front-door-collision finding;
-if EDIS's WordPress root and IDUNA's own static frontend both want `/`, that has to be resolved
-(or explicitly deferred with a stated reason) before or alongside this deploy, not discovered
-after.
+**A. Unblock revenue (EDIS is live, but incomplete and on the wrong-for-branding domain).**
+EDIS/WordPress already runs at `iduna.farthq.com` over HTTP — this is not a from-scratch deploy,
+it's finishing one. Two real "someone runs sudo on a production host" actions remain, and your job
+is to sequence them, not perform them: (1) get HTTPS issued for whichever domain wins the domain
+question below, (2) resolve the `okemily.com` merge the founder asked for, which is the same
+root-`/` collision entry #1 already scoped (WordPress wants `/`, IDUNA's own planned static
+frontend wants `/`, and now okemily.com's existing static landing page is a third claimant on the
+same question). Say plainly which of the two actions blocks the other — cert issuance depends on
+knowing the final domain, so the domain decision almost certainly has to come first. Don't let this
+plan re-litigate entry #1 from scratch; read it, decide whether it still needs its own dispatch or
+whether your plan settles it directly, and say which.
 
 **B. Human-in-the-loop, concretely.** NORN's gate tiers already exist as a spec. What RSI-loop
 decisions in `emily-agent` today run fully `autonomous` that should move to `prime_ack` or
