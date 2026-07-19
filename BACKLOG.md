@@ -4709,6 +4709,21 @@ our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHST
   Series X, `TYLER/engine/broadway_spec.md`, and `TYLER/episodes/s10e04_al_qarawiyyin.md`. Apple
   #10230.
 
+- [x] **S163-08: free-hoodie shadow funnel — first 25 signups free.** Founder: "shadow second
+  funnel for the hoodie... a third mailing list for free hoodie." Mechanic confirmed via
+  clarifying question (real cost commitment, not guessed): first 25 confirmed signups get the
+  hoodie free; everyone after lands on the normal $38 waitlist. Apple #10249 · OKEMILY `f3d5d38`
+  · IDUNA `517befb`. `OKEMILY/free-hoodie.html` (genuine rewrite, not a copy — different
+  structure, FAQ block, live spots-remaining counter), new public
+  `GET /api/v1/mailing-list/count?list=<source>` endpoint (no PII, works vault-locked),
+  `freehoodie` Mailchimp list wired (`MAILCHIMP_FREEHOODIE_LIST_ID`, unset for now — same
+  degraded-but-working state as `stinkies` until the founder creates that audience). Blog
+  `AdHref` field added (alongside S163-07's `AdLine`/`AdCTA`) so the "And Yet" post's ad alone
+  points here with literal "free hoodie" CTA text — every other post's ad verified unaffected.
+  **Known gap**: the `iduna.service` restart for this deploy re-locked the mailing-list vault a
+  second time today — see `DESKTOP_QUEUE.md`, needs another `mailing-list-unlock` run before any
+  of the three lists (general/stinkies/freehoodie) accept real signups again.
+
 ---
 
 ## SECTION 164: OUTBOUND EMAIL — NO WORKING BACKEND ANYWHERE (2026-07-19)
