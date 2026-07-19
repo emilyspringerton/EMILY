@@ -4935,6 +4935,91 @@ audit — most of what was missing was supervision, not a status-page bug.*
 
 ---
 
+## SECTION 169: SHANKPIT UI/UX OVERHAUL + WOTAN EXPANSION (2026-07-19)
+
+*Founder asked for a "full ui ux overhaul," scoped down to SHANKPIT via a clarifying question,
+then fired a fast sequence of related and unrelated asks in one sitting. Thread-dumping all of
+it here per founder instruction ("thread dump into the backlog if you are overloaded") rather
+than half-finishing several of these in parallel. Nothing in this section is done except where
+marked.*
+
+- [ ] **S169-01: `shankpit-460` has three divergent client source trees — real bug, fix before
+  any more UI work.** Found while trying to build the 3-button lobby redesign below.
+  `apps/lobby/src/main.c` (2197 lines) is what `make lobby` in the repo's actual `Makefile`
+  builds — confirmed by running it. `apps2/lobby/src/main.c` (971 lines) is a **second,
+  divergent copy** with its own different recent history (procedural title-bg texture, spawn
+  camera fix) — not wired into any Makefile target found so far. `build_win.bat` (presumably
+  what gets run on the founder's actual Windows desktop) references a **third** path,
+  `apps/shank-fps/src/main.c` — which doesn't exist anymore (`git log` shows it was deleted in
+  a commit titled "removes outaded clientwq"), meaning `build_win.bat` is currently broken/stale
+  and can't be the real build path either. **Open question, needs the founder:** which tree is
+  actually built into the client currently played? `apps/lobby` is the best current guess (real
+  Makefile target, more evolved menu system already — enum-based `LobbyAction`, server-driven
+  labels, double-click interactions already exist there, none of which apps2 has). Also: `make
+  lobby` failed outright on this box — `GL/glu.h` missing (`libglu1-mesa-dev` or equivalent not
+  installed) — unrelated to source, but blocks verifying any client-side change here at all
+  until fixed.
+- [ ] **S169-02: 3-button lobby menu (BOTS / ONLINE / EMPTY), replacing D/B/T/C/K/J/G
+  keypress-only menu.** Founder: "2 buttons bots and online... a third for empty." Fully
+  designed and **implemented against `apps2/lobby/src/main.c`** — real mouse-clickable buttons
+  (hover highlight, click detection via `SDL_MOUSEBUTTONDOWN` scoped to `STATE_LOBBY`), 1/2/3
+  keyboard fallbacks, plus 5 missing vector-font glyphs added (T/L/M/P/Y — the old menu silently
+  relied on an incomplete font too, just never used those letters). **Not committed** — per
+  S169-01, unclear if `apps2` is even the right tree to have edited. Work is sitting uncommitted
+  in the working tree, not lost, needs a decision on which tree is canonical before landing
+  either there or ported to `apps/lobby/src/main.c`. Design decision baked in and worth
+  re-confirming once landed: **ONLINE currently means the local Go server (127.0.0.1)**, not
+  `s.farthq.com` — the local one is what's actually running with the `emily-bot` permanent
+  opponent and being actively developed against; `s.farthq.com`'s current build/status is
+  unverified.
+- [ ] **S169-03: SHANKPIT login/accounts ("also login and all that").** Not scoped. Real design
+  question: IDUNA already does Google OAuth for humans — a native SDL2 desktop client doing
+  OAuth would need a system-browser + loopback-redirect flow, the same pattern just proven
+  working today fixing `cmd/get-gmail-token` (EMILY `8acc8ec`). Needs its own short spec before
+  any code — how a token gets stored client-side, whether guest play still exists, how it ties
+  to WOTAN accounts (SECTION on WOTAN below) rather than being a separate identity system.
+- [ ] **S169-04: WOTAN VS3 market game — reopening a previously-deprioritized feature, not a
+  blank slate.** Founder: "build out the vs2 stock market game component... for wotan v0."
+  Grounded, not guessed: `IDUNA/docs/kikoryu/VS3_MARKET_GAME.md` explicitly marked this
+  "superseded-by-different-reality" / "no longer part of the roadmap" as of the 2026-07-16
+  `VS_REALITY_AUDIT.md` — **and explicitly anticipated this exact scenario**: "If the founder
+  ever reopens it, a paper-trading competition should be implemented as a tournament format on
+  the VS2 platform [WOTAN] (season = tournament context, VS10 standings, VS9 integrity
+  signals), not as a standalone system — the original's hard constraints (no real assets, no
+  real execution, 'entertainment only' disclaimer) carry forward verbatim." That's the shape to
+  build in, not a fresh design. Not started — no orders/portfolios/seasons code exists anywhere
+  (verified in the original audit).
+- [ ] **S169-05: WOTAN subdomain — answered, no action needed.** Founder asked if a `shankpit.`
+  subdomain is needed to build WOTAN out further. No — `okemily.com/tournaments.html` already
+  proves the "path under the existing domain" pattern works (same shape as `status.html`). A
+  subdomain only becomes worth it if WOTAN needs its own session/cookie isolation or its own TLS
+  lifecycle later. `docs2/NORTHSTAR.md` in `shankpit-460` already flagged this as an open
+  question (line ~128) before today; this is the answer, not a new question.
+- [ ] **S169-06: "og" SHANKPIT (parent repo, not the -460 fork) — northstar toward parity with
+  Source Engine, "with Godot vibes."** Not scoped, not started. Real interpretation needed
+  before any doc gets written: "Source Engine parity" (technical/fidelity target — server-auth
+  netcode, rendering, physics) combined with "Godot vibes" (developer-experience target — scene
+  editing, tooling, iteration speed) are two different axes that pull in different directions;
+  worth a founder conversation on which matters more before writing the spec, per the Emily
+  Way's "spec before implementation." This is about `SHANKPIT` (the parent repo, persistent-
+  world/DragonsNShit ambitions), explicitly not `shankpit-460` (the lean esports fork) — the two
+  repos have deliberately different missions per each one's own CLAUDE.md.
+- [ ] **S169-07: Two blog posts queued, not written.** (a) The client-tree-fragmentation
+  discovery itself (S169-01) — write once it's actually resolved, not before, so the post
+  describes a real fix rather than an open problem. (b) A second, explicitly thematic piece
+  titled/framed around **"fragmentation as a witch"** — founder's own phrase, presumably
+  connecting today's literal code fragmentation (three divergent client trees) to the Emiree
+  witch-engine framing already established in this codebase's writing (`emiree.md`,
+  `docs/emiree-over-agent-spec.md`). Needs the same TYLER-adjacent voice care as the "And Yet"
+  guest post (Apple #10230) if it's meant to land the same way — not a rushed tie-in.
+
+**Suggested real next step, when picked back up:** resolve S169-01 first (which tree is
+canonical, fix `libglu1-mesa-dev` so builds can be verified at all) — everything else in this
+section either depends on it (S169-02) or is independent enough to sequence separately
+(S169-03 through S169-06 can each be its own focused session).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
