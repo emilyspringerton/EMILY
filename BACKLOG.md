@@ -4774,6 +4774,14 @@ just our 50-ticker watchlist.*
   existing `internal/earningscal` (tracks report *date* + BMO/AMC only, no dial-in/webcast/call-
   time info). No source picked yet — real research/founder decision needed before any code:
   scraping company IR pages vs. a dedicated calendar data vendor for full coverage.
+- [x] **S165-05: Phase 5 — bond/treasury data.** Founder asked to bump this believing it was
+  already backlogged; searched thoroughly, found nothing, built fresh. `internal/bonddata`
+  (FRED's free, no-key CSV export — 2Y/10Y/30Y treasury yields + high-yield corporate spread) +
+  `cmd/bond-watcher` (daily snapshot, systemd timer 6pm ET, gated on `marketcal.IsMarketDay`).
+  `go test ./...` green, 12 new tests. Live-verified against the real FRED API. IDUNA statuspage
+  21 → 22 targets. PRRJECT_FATBABY `d7bd756` + `46c789e`, IDUNA `a1b84aa`. Apple #10227.
+  **Data-ingestion only** — no display surface yet (no `/section/bonds` page); same
+  ship-the-data-first sequencing as EIA/Fed.
 
 ---
 
