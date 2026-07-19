@@ -1,4 +1,5 @@
 ## 2026-07-19
+- FCM push to MJOLNIR on new mailing-list signups (observeMailingListSignups, OBSERVE phase) — inert until Firebase project + FCM env vars exist
 - Rewrote README.md as a real technical overview (three agents, RSI cron cycle, The Emily Way, repo layout, how to run, related repos) — old README was a stale Feb 2026 brand-pivot investor memo, archived at docs/archive/brand-pivot-memo-2026-02-04.md
 - Added SECTION 163 (STINKIES COMMISSAIRE VS0 hoodie funnel page) — okemily.com stinkies.html shipped (Apple #10177, OKEMILY 01c1832), live deploy + vendor selection + WooCommerce listing queued as follow-ups
 - backlog: correct stale S23-01 (EDIS is actually live, HTTPS-only gap), add S23-01b domain-merge decision item, flag HITL-03 GFD theme/plugin gap and HITL-04 deploy.sh systemd-unit collision risk found during 2026-07-19 reboot session
