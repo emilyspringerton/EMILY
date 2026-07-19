@@ -114,10 +114,22 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
     on subsequent runs. Migrated the live process from unsupervised `go run` to a compiled
     binary in the process (still not full systemd supervision — gated on 2b/2c below).
     PRRJECT_FATBABY `ae451a3` + `e3dcdfd`. Apple #10212.
-  - [ ] **2b: accuracy upsert table** with a calibration-equivalence gate (482K-line
-    `accuracy.ndjson` must not shift the 11.9%-precision finding).
+  - [x] **2b: accuracy upsert table** with a calibration-equivalence gate. Apple #10265 ·
+    PRRJECT_FATBABY `5c690c6`. Found the real severity while building this: `LoadAccuracyRecords`
+    (full `accuracy.ndjson` scan) runs inside `runBatch` — every 30s poll, not just at startup.
+    Measured against the real file: 502,834 lines for only 921 unique `(signal_id, signal_type)`
+    pairs (546:1 duplication — every `CorrelateXXX` re-emits a fresh record per matching signal
+    every batch, not just newly-resolved ones). **Corrected the original framing**: "must not
+    shift the 11.9%-precision finding" turned out to be the wrong goal — the old duplicate-counted
+    number was never stable (drifted to 12.55% by the time this landed, systematically biased
+    toward early-resolving signal types) and the true deduplicated precision is **18.16%**, a
+    real, substantial difference. `cmd/entity-graph/accuracyindex.go` (same pattern as 2a's
+    `filingindex.go`): one-time backfill + incremental per-batch upsert, `accuracy.ndjson` left
+    untouched as the raw audit trail. The equivalence gate asserts the dedup math is correct
+    (2/3 precision from 104 inflated raw records → 4 unique signals), not that it matches the old
+    wrong number. 5 new tests, `go test ./...` green.
   - [ ] **2c: graph-lifetime hoist** out of `runBatch` — the northstar names this "the riskiest,"
-    to land last and alone, with 2b's equivalence check as its regression gate.
+    to land last and alone, with 2b's equivalence check as its regression gate. Not started.
 
 - [ ] **Phase 3 — ops runbook + checkpoint freshness check.** Document "checkpoints are
   disposable, safe to delete" as an operator invariant; add a `meta.snapshot_at` freshness check
