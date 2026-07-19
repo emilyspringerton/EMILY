@@ -68,6 +68,7 @@ session-limit signal is distinguishable from a repeat of this mistake.*
 |---|---|---|---|
 | 6 | **TOP PRIORITY** — entity-graph/signalapi/newssite full-in-memory-replay fragility fix → `PRRJECT_FATBABY/docs/northstar/replay-fragility.md` (decision: streaming eventstore `Scan` API + per-process SQLite snapshot-plus-tail checkpoints; root cause was O(n²) full-file re-reads in `FileStore.ReadFrom`) | 2026-07-18 | PRRJECT_FATBABY `a628947` (EMILY golden-index + backlog commit follows this file). Apple #9986 |
 | 2 | Emilyify the mag book → `gpt2-alpine-c/pkg/towerprint` + `docs/TOWERPRINT.md` | 2026-07-16 | gpt2-alpine-c `819c400`, EMILY `c0efd2f` |
+| 11 | SHANKPIT-460 v0 map + pipeline report. Found the prompt's assumed live map system (`packages/map/map.c`) is actually dead code (doesn't compile — unclosed brace); real system is `packages/common/physics.h` `Box` arrays. Shipped `maps/v0_shankpit.map` (36 boxes, 8 spawns, CTF-plausible geometry), a text-format loader with fallback-to-hardcoded-stadium on missing/bad files, 17-check verification harness, and a live 6-bot playtest on a second server instance (prod untouched). Found and flagged (not fixed): hitscan weapons don't check wall collision at all — only projectiles collide with the map, a real competitive-integrity gap. "More turbo" physics proposed as a concrete delta on real constants, not applied, pending sign-off. | 2026-07-19 | shankpit-460 `dfbea07` + `aaa870b`. Apple #10278 |
 
 ---
 
