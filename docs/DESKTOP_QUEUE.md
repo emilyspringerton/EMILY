@@ -78,6 +78,30 @@ changes on my end.
 
 ---
 
+## 2026-07-19 — libglu1-mesa-dev missing (blocks any local SDL2/OpenGL client build)
+
+Hit twice tonight, same root cause both times: `GL/glu.h` is missing on this box, which blocks
+building the SDL2/OpenGL lobby client for both `shankpit-460` and the newly-cloned `REDGARDEN`
+locally (server/bot binaries in both repos compile fine — this only affects the graphical
+client). Doesn't block CI (GitHub Actions installs its own deps) — only local verification here.
+
+```
+bash ~/sudo-queue/05-install-glu-dev.sh
+```
+
+Safe, standard package install, no config decisions.
+
+---
+
+## 2026-07-19 — REDGARDEN northstar PR open, not merged
+
+`REDGARDEN/NORTHSTAR.md` (core product scoping, written tonight) is pushed on branch
+`docs/northstar-2026-07-19`, not merged to `main` — this repo's own convention (visible in its
+git log) is PR + merge, not direct pushes, so I matched that instead of force-pushing. Merge
+whenever: https://github.com/emilyspringerton/REDGARDEN/pull/new/docs/northstar-2026-07-19
+
+---
+
 ## 2026-07-19 — DIS PoW-gate deploy (no decision needed, just sudo)
 
 Founder: "start building the dis ad engine." Found the engine mostly already built and
