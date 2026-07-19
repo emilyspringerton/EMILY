@@ -1,16 +1,19 @@
 # VM Reboot Runbook
 
 Written 2026-07-15 ahead of a planned reboot for pending OS updates
-(`/var/run/reboot-required` was set; uptime was 27 days). If you are a
-fresh Claude Code session picking this up with no memory of the prior
-conversation, this file is self-contained — start here.
+(`/var/run/reboot-required` was set; uptime was 27 days). Updated
+2026-07-19 after the next reboot surfaced 8 new systemd units (added
+2026-07-17/18, after this doc was first written) that weren't reflected
+here yet — see "Update 2026-07-19" below. If you are a fresh Claude Code
+session picking this up with no memory of the prior conversation, this
+file is self-contained — start here.
 
 ## What's now systemd-supervised (auto-starts on boot, no login needed)
 
 Linger is enabled for `fatbaby` (`sudo loginctl enable-linger fatbaby`,
-confirmed via `/var/lib/systemd/linger/fatbaby`), and these two user units
-are enabled:
+confirmed via `/var/lib/systemd/linger/fatbaby`).
 
+Core chain (documented since 2026-07-15):
 - `~/.config/systemd/user/iduna.service` — runs `~/.local/bin/iduna` (:8080).
   Env from `~/.config/iduna/env` (JWT_SECRET, JWT_ISSUER, SERVER_PORT,
   APPLES_GIT_DIR — already populated).
@@ -18,11 +21,40 @@ are enabled:
   `emily start --iduna` (After/Wants iduna.service). Brings up
   `observation-watcher` and the `emily-agent` RSI daemon.
 
-These three (IDUNA, observation-watcher, emily-agent) should come back on
-their own after reboot. Verify with:
+**Update 2026-07-19:** BACKLOG SECTION 152 (S152-03, added 2026-07-17)
+gave 7 more FatBaby processes their own supervised units, after secwatch
+and eps-reconciler were both silently OOM-killed and stayed down for
+hours with zero auto-recovery. All are `Type=simple`, `Restart=on-failure`,
+`WantedBy=default.target` (so they auto-start same as iduna/emily-system):
+`fatbaby-secwatch.service`, `fatbaby-prwatch.service`,
+`fatbaby-prwatch-body.service`, `fatbaby-processor.service` (`cmd/processor`
+— distinct binary from `cmd/eps-processor`, which has no unit of its own),
+`fatbaby-eps-reconciler.service`, `fatbaby-newssite.service`,
+`fatbaby-signalapi.service`. A matching `fatbaby-entity-graph.service` file
+exists too but is currently **disabled** (not yet cut over) — entity-graph
+still needs to be started the old way (`emily start --all` / `go run`).
+
+Also added 2026-07-18: `shankpit460-server.service` — first-ever supervised
+run of the SHANKPIT-460 game server (UDP :6969, `Restart=on-failure`). This
+auto-starts on every boot now, unconditionally — see the "confirm before
+starting" caveat below, which this unit now bypasses.
+
+**Conflict this creates:** step 4 below (`emily start --iduna --all`) still
+tries to launch `eps-reconciler` (and would try newssite/signalapi/secwatch
+too if their pgrep guards ever mismatch the systemd-launched command line).
+Confirmed 2026-07-19: it silently spawned a second, unsupervised `go run
+./cmd/eps-reconciler` process alongside the systemd-managed one — both
+polling/writing the same event store. **Before running `emily start --all`
+after a reboot, check `systemctl --user status fatbaby-*.service` first**
+and kill any resulting duplicate (compare command lines — the systemd one
+runs the prebuilt `bin/<name>` binary with the full flag set; a duplicate
+from `emily start` runs `go run ./cmd/<name>` with a shorter flag set).
+
+These should all come back on their own after reboot. Verify with:
 ```bash
 export XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
 systemctl --user status iduna.service emily-system.service
+systemctl --user list-unit-files --state=enabled   # full current picture, not just the core two
 curl -s localhost:8080/health
 ```
 
@@ -37,20 +69,38 @@ does **not** include `shank_go_server` (SHANKPIT) any more — it used to,
 which meant a plain `emily start --iduna --all` would silently launch a
 live game server + fill bots. That's now gated only by `--shankpit`.
 
-So the manual-restart list is now just:
+**Update 2026-07-19:** most of what this section used to call "manual" is
+now systemd-supervised instead (see S152-03 above) — newssite, signalapi,
+secwatch, prwatch, prwatch-body, processor, and eps-reconciler all
+auto-start now. Only **entity-graph** and **eps-processor** still have no
+unit and genuinely need `emily start --all` (or `--entity-graph`
+/`--eps-processor`) after a reboot. Run `systemctl --user list-unit-files
+--state=enabled` first to see what's already covered before reaching for
+`emily start --all`, to avoid the eps-reconciler double-start described
+above.
 
 ```bash
 emily start --iduna --all
 ```
 
-This is idempotent (pgrep-guarded per process) — safe to re-run.
+This is idempotent (pgrep-guarded per process) — safe to re-run — *except*
+where a systemd-launched process's command line doesn't match the pgrep
+pattern `emily start` expects, which is exactly what happened with
+eps-reconciler on 2026-07-19. Verify with `pgrep -af` after running, not
+just by trusting "idempotent."
 
-Not running before the reboot (per PRRJECT_FATBABY/CLAUDE.md's fuller
+Also now auto-starting via `shankpit460-server.service` (2026-07-18) and
+**no longer gated by a confirm-first check**: SHANKPIT's game server is up
+on every boot unconditionally. If that's not wanted, `systemctl --user
+disable --now shankpit460-server.service`.
+
+Still not running before the reboot (per PRRJECT_FATBABY/CLAUDE.md's fuller
 process table) and presumed intentionally stopped — confirm with the user
-before starting: `secwatch`, `prwatch`, `prwatch-body`, `dashboard`,
+before starting: `dashboard`,
 `feedserver`, `broker`, `guidance-watcher`, `jon-agent`, `form4-watcher`,
-`dividend-watcher`, `buyback-watcher`, `nt-watcher`, SHANKPIT's
-`shank_go_server` + emily-bots (`emily start --shankpit` if wanted).
+`dividend-watcher`, `buyback-watcher`, `nt-watcher`. (SHANKPIT's fill-bots
+are still manual — `emily start --shankpit` — even though the game server
+itself now auto-starts via `shankpit460-server.service`.)
 
 Unrelated to the IDUNA/FatBaby chain but also died on reboot — restart if
 wanted:
