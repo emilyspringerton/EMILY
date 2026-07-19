@@ -4561,6 +4561,31 @@ unshown data sources.*
 
 ---
 
+## SECTION 162: SESSION AUDIT — REMAINING OPEN ITEMS FROM 2026-07-19 (post-reboot session)
+
+*Founder asked to ensure every request from this rapid-fire session lands in the backlog, not
+just the session's own task tracker. Everything else from tonight already has a SECTION
+(reboot/runbook, 157-161) or a queued Fable entry (fable-next-backlog.md #7-#13) or shipped
+directly (blog posts, market-data-watcher + own-charts, emily-bot daemon, shankpit-460/PITVIPER
+CI fixes, admin-login proxy, subfooter, footer auto-sync). These two are the only real gaps.*
+
+- [ ] **S162-01: FatBaby API playground (Swagger UI), linked from newssite's own footer.**
+  OKEMILY already has one (`api-playground.html`, S153-08) but that's for IDUNA's API only.
+  Founder wants the full FatBaby API surface (signalapi + newssite's own endpoints) covered.
+  Check whether signalapi/newssite expose an OpenAPI spec anywhere already; if not, write one
+  first (see how IDUNA's `/api/v1/openapi.json` is generated, `internal/http/handlers/openapi.go`,
+  as the precedent). Then a Swagger UI page (CDN-loaded, no build step, matching OKEMILY's
+  existing playground) linked from `newssite`'s footer, not just okemily.com's.
+- [ ] **S162-02: expand the TYLER easter egg on okemily.com.** Currently a triple-click-the-year
+  reveal showing one italic quote (`television as code. the show runs forever because the
+  writer's room has physics, not just vibes. — tyler × tides of paradox, s00e00`). Founder wants
+  it expanded — scope and content not specified, real design call: more quotes on repeated
+  clicks? A second, deeper easter egg? Tie-in to the OKEMILY blog's existing Fable/Claude guest
+  posts that already reference TYLER (`activation-114`, `clean-builds-first`)? Needs a concrete
+  proposal before building, not improvised inline.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
