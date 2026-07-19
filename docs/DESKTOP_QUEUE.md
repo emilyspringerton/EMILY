@@ -15,6 +15,38 @@ clearly needs a bigger screen.
 
 ---
 
+## 2026-07-19 — DIS PoW-gate deploy (no decision needed, just sudo)
+
+Founder: "start building the dis ad engine." Found the engine mostly already built and
+**already live** — `EDIS/internal/dis` (ring buffer, fingerprinting, posture/health state,
+ad-mode selector) and the `edis-dis` collector have been running as `edis-dis.service` since
+2026-06-12/13, serving real ad-mode decisions to the `edis-dis` WordPress plugin on
+`iduna.farthq.com`. The one genuinely unfinished piece was the attack-mode gate:
+`AdModePOWCAPTCHA` existed as a mode name, but `edis_dis_challenge_ad()` just rendered a
+"please wait" message with a comment saying real PoW was still to come.
+
+Built the real thing: `internal/dis/pow.go` (stateless hashcash-style proof-of-work — token is
+a self-verifying HMAC over a random seed + expiry, no server-side challenge store, matching the
+spec's own "no persistent identifiers" axiom), two new collector endpoints
+(`/dis/pow/challenge`, `/dis/pow/verify`), a WordPress REST proxy (browsers can't reach the
+collector directly, it only listens on 127.0.0.1), and `assets/pow.js` (client-side solver —
+bit-exact match to the Go-side leading-zero-bit check, verified by 5 new Go tests). On a
+verified solve, the real ad HTML is served; on failure/timeout, the ad slot silently disappears
+— never blocks the page, matching golden.md's own failure doctrine.
+
+`go build`/`go test ./...` both green, binary built to `EDIS/bin/edis-dis`. Not deployed yet —
+`/usr/local/bin` and `/var/www/edis` are both root/www-data-owned, not writable without sudo:
+
+```
+bash ~/sudo-queue/04-edis-dis-pow-deploy.sh
+```
+
+Safe, idempotent, no config decisions — copies the new binary, restarts the already-running
+`edis-dis.service`, health-checks it, then runs the existing `EDIS/ops/deploy.sh --plugins-only`
+(same script every prior EDIS plugin update has used).
+
+---
+
 ## 2026-07-19 — PRIORITY: pick a sticker vendor (unblocks S135-03/04/05, our actual first revenue stream)
 
 Bumped to the top at your request. Vendor research (S135-02) is done — real pricing pulled live,
