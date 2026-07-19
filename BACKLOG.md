@@ -4662,6 +4662,15 @@ our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHST
 - [ ] **S163-04: EDIS WooCommerce listing for SKU SC-APP-01** once a vendor/PO exists — swap the
   funnel page's waitlist CTA for a real purchase flow. Mirrors the still-open S135-03 (stickers)
   gap: EDIS product-listing work hasn't landed for any physical SKU yet.
+- [ ] **S163-06: supplements line (B12, magnesium, D-mannose, creatine).** Founder: "i want to
+  start selling suppliments... not sure if thats a fit for stinkies i think it is but later
+  stage i think at least not until after the trucker hat." Explicitly deferred — sequenced after
+  VS0.5 (trucker hat), likely landing alongside `NORTHSTAR_STINKIES.md`'s VS2 phase (already
+  covers ROCKET energy drink, jalapeño line, coffee, cheese, hot dogs — a consumables/wellness
+  SKU line fits that same phase, not a new one). No brief written yet (no dosing/sourcing/
+  labeling-compliance research done) — needs the same design-brief treatment as
+  `EMILY/docs/merch/stinkies_apparel_brief.md` before any build, per house convention (don't
+  guess at branding/specs for a real commerce SKU).
 - [x] **S163-05: reframe as an explicit waitlist + dedicated Mailchimp list.** Founder feedback:
   until real hoodies exist on WooCommerce, the page shouldn't imply anything is purchasable, and
   signups should stay off the general okemily.com list. Shipped: `POST
