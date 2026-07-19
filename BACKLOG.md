@@ -93,8 +93,15 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   RSS 46.5M/58.7M peak against the 900M `MemoryMax`. PRRJECT_FATBABY `0f40b96` + `28fcfd9`. Apple
   #10207.
 
-- [ ] **Phase 1b — SQLite checkpoint for newssite**, same package as 1a. Kill-test; confirm no
-  "we don't cover AMZN" window on restart.
+- [x] **Phase 1b — SQLite checkpoint for newssite**, same package as 1a. Loaded synchronously
+  before the `Build` goroutines launch — `newssite` binds and goes live before `Build` finishes,
+  so hydrating first means the server serves warm data from its very first request. Same
+  watermark fix as 1a applied directly. Live-verified: cold ~26s index build, warm start hydrates
+  4966 signals + 11313 docs instantly. **Kill -9 test passed**, RSS 90.8M/100.2M peak against
+  512M `MemoryMax`. **Confirmed the specific historical symptom is gone** — AMZN's ticker page
+  (the northstar's own named incident example) serves real content within seconds of a kill-test
+  restart, not an indefinite "we don't cover" window. PRRJECT_FATBABY `5187b19` + `fde9043`.
+  Apple #10209.
 
 - [ ] **Phase 2 — entity-graph checkpoint.** Incremental filings table (kills the per-batch
   full-store `buildFilingIndexes` scan), accuracy upsert table with a calibration-equivalence
