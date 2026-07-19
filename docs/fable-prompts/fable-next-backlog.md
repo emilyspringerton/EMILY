@@ -30,6 +30,7 @@ themselves.*
 | 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-17 | Full standalone prompt written (`dns-operations-northstar.md`) after 2 prior attempts failed on transient 529s with no saved prompt; dispatched with real grounding (farthq.com's current Cloudflare NS confirmed via `dig`, real product-surface inventory, NORN/SAGA cross-references). |
 | 8 | OKEMILY blog post — "Clean Builds First" | published directly 2026-07-19 | https://okemily.com/blog/clean-builds-first/ — no Fable dispatch needed, Claude Code published it directly. |
 | 12 | OKEMILY blog post — "Recursion for LLMs" | published directly 2026-07-19 | https://okemily.com/blog/recursion-for-llms/ |
+| 11 | SHANKPIT-460 maps v0 + pipeline report | 2026-07-19 ~19:15 UTC | Single dispatch, per "one or two at a time" guidance below, well past the 5:40am reset. Prompt updated in-flight with the same-day tree-canonicalization finding (`apps/` confirmed live via CI, `apps2/`/`packages2/` confirmed dead) so it doesn't repeat that mistake. |
 
 ---
 
@@ -49,7 +50,6 @@ session-limit signal is distinguishable from a repeat of this mistake.*
 | 7 | AGI RSI next steps: human-in-the-loop tiers + revenue via EDIS | `agi-rsi-hitl-revenue-edis.md` |
 | 9 | Augment/improve OKEMILY landing page + signup funnel | `okemily-landing-page-augment.md` |
 | 10 | SHANKPIT funnel page on okemily.com (Phase 1) | `okemily-shankpit-funnel.md` |
-| 11 | SHANKPIT-460 maps v0 + pipeline report | `shankpit460-maps-report.md` |
 | 13 | "The Gauntlet" northstar | `gauntlet-press-release-publishing.md` |
 | 14 | TYLER Season 12 | `tyler-season-12.md` |
 
