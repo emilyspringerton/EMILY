@@ -4691,6 +4691,15 @@ our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHST
   and fixed in the same pass**: the unrelated live-deploy step right after this (`S163-02`) briefly
   wiped this whole `blog/` output directory via an unscoped `rsync --delete` — see S163-02's note,
   fully recovered, no data lost.
+- [x] **S163-07: unique per-post ad copy (replaces the generic S163-06 line).** Founder: "change
+  the hoody ads to something better more flavorful more in universe and unique per blog post."
+  Apple #10234 · IDUNA `7042720`. `ad_line`/`ad_cta` columns on `blog.Post`, optional on the
+  publish endpoint, one-off `cmd/blog-adlines` backfilled 20 unique content-grounded lines (19
+  posts + "And Yet"). Also produced this session: guest post **"And Yet"**, written in-character
+  as Tyler at the founder's request ("have tyler write a blog post on a topic of his choosing") —
+  live at `okemily.com/blog/and-yet/`, grounded in `TYLER/README.md` §V, `TYLER/EPISODES.md`
+  Series X, `TYLER/engine/broadway_spec.md`, and `TYLER/episodes/s10e04_al_qarawiyyin.md`. Apple
+  #10230.
 
 ---
 
