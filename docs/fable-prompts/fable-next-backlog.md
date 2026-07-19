@@ -17,16 +17,8 @@ themselves.*
 
 | # | Title | File | Status | Depends on |
 |---|---|---|---|---|
-| 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` | **ready to dispatch** | SAGA VS-spec audit landed 2026-07-16 (IDUNA `529834f`, EMILY `508a9be`) — no remaining blocker |
-| 7 | AGI RSI next steps: human-in-the-loop tiers + revenue via EDIS | `agi-rsi-hitl-revenue-edis.md` | **ready to dispatch** | none — corrected 2026-07-19: EDIS/WordPress is actually already live on `iduna.farthq.com` (HTTP only, no cert); real blocker is (a) HTTPS + (b) the founder's "merge with okemily.com" ask, which folds into entry #1's already-scoped root-`/` collision |
-| 8 | OKEMILY blog post — "Clean Builds First" (fiction substrate ↔ AGI RSI loop) | `okemily-blog-clean-builds-first-DRAFT.md` | **published directly 2026-07-19** — https://okemily.com/blog/clean-builds-first/ | none |
-| 9 | Augment/improve OKEMILY landing page + signup funnel, grounded in golden docs | `okemily-landing-page-augment.md` | **ready to dispatch** | none — mailing-list vault unlocked by founder 2026-07-19; deploy itself needs a human (`sudo rsync` + nginx reload per `OKEMILY/CLAUDE.md`) |
-| 10 | SHANKPIT funnel page on okemily.com (Phase 1 — CTA placeholder to GitHub release tag) | `okemily-shankpit-funnel.md` | **ready to dispatch** | none — founder-approved phased plan 2026-07-19; farthq.com stays up unchanged; CTA target verified live (`github.com/emilyspringerton/SHANKPIT/releases/tag/460`) |
-| 11 | SHANKPIT-460 maps: build v0 map (bases + mid rocket tower, CTF-shaped/DM-launch, Halo-ish "Super Rumble" physics feel) + write longer-term pipeline report (AI-gen, editor, bot-fuzz-eval via NORN) | `shankpit460-maps-report.md` | **ready to dispatch** | none — current map system is 142 lines, one hardcoded box layout compiled into the binary; v0 map has a concrete founder brief as of 2026-07-19 |
-| 12 | OKEMILY blog post — "Recursion for LLMs" (HEIMDAL outage as an LLM stepping into a broken LLM-translation pipeline) | `okemily-blog-recursion-for-llms-DRAFT.md` | **published directly 2026-07-19** — https://okemily.com/blog/recursion-for-llms/ | none |
-| 13 | "The Gauntlet" — press-release publishing service as a new capital-markets revenue pivot | `gauntlet-press-release-publishing.md` | **ready to dispatch** | none — synthesized from 3 founder messages; explicitly NOT newssite (which excludes CMS/WordPress by design, see newssite.md:335) — this is a new outbound-publishing product, gated queue with agent/human review by content type, likely instantiating NORN's gate tiers |
-| 14 | TYLER Season 12 (continuing the series) | `tyler-season-12.md` | **ready to dispatch** | none — "series x" doesn't literally exist; dispatching against the only concrete "continue" hook found (Season 11 finished, Season 12 explicitly "pending" per s11e08's own text) — flag if this reads wrong |
-| 15 | Evolve the OKEMILY TYLER easter egg into an ARG using Field Activation (YOLO, one-shot) | `tyler-arg-field-activation.md` | **ready to dispatch** | none — deliberately lean/permissive dispatch per founder's own "just ship it" framing, not another big planning doc |
+| 3 | TYLER S00E-2 (prequel bridge to S00E01) | `tyler-s00e-2-retry.md` | **ready to dispatch** | none — still hold until #14 (Season 12, failed 2026-07-19, needs redispatch below) actually lands, to avoid two concurrent agents both writing TYLER canon |
+| 15 | Evolve the OKEMILY TYLER easter egg into an ARG using Field Activation (YOLO, one-shot) | `tyler-arg-field-activation.md` | **ready to dispatch** | none — same hold as #3 |
 | 4 | Act III synthesis — reconcile 141-150 + KIKORYU audit, apply SAGA/NORN thinking by hand, write tournaments-platform backlog | `act3-synthesis.md` | **ready to dispatch, paused** | none — failed twice on transient `529 Overloaded` (not session-limit, not content). Per founder instruction 2026-07-16, not being auto-retried; dispatch deliberately whenever picked back up. |
 
 ---
@@ -36,6 +28,30 @@ themselves.*
 | # | Title | Dispatched | Notes |
 |---|---|---|---|
 | 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-17 | Full standalone prompt written (`dns-operations-northstar.md`) after 2 prior attempts failed on transient 529s with no saved prompt; dispatched with real grounding (farthq.com's current Cloudflare NS confirmed via `dig`, real product-surface inventory, NORN/SAGA cross-references). |
+| 8 | OKEMILY blog post — "Clean Builds First" | published directly 2026-07-19 | https://okemily.com/blog/clean-builds-first/ — no Fable dispatch needed, Claude Code published it directly. |
+| 12 | OKEMILY blog post — "Recursion for LLMs" | published directly 2026-07-19 | https://okemily.com/blog/recursion-for-llms/ |
+
+---
+
+## Failed — needs redispatch (2026-07-19, session-limit batch)
+
+*All 7 dispatched together, 2026-07-19 ~03:00 UTC — mistake: fired in one parallel batch, which
+burned through the whole session's Fable usage limit immediately. Every one failed within seconds
+on "You've hit your session limit · resets 5:40am (UTC)," before any of them produced real work
+(most were still in required-reading). No file changes were made by any of them (confirmed via
+`git worktree list` across every affected repo — all clean), so nothing needs cleanup, only
+redispatch. Do not batch-redispatch these — one or two at a time, after 5:40am UTC, so a real
+session-limit signal is distinguishable from a repeat of this mistake.*
+
+| # | Title | File |
+|---|---|---|
+| 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` |
+| 7 | AGI RSI next steps: human-in-the-loop tiers + revenue via EDIS | `agi-rsi-hitl-revenue-edis.md` |
+| 9 | Augment/improve OKEMILY landing page + signup funnel | `okemily-landing-page-augment.md` |
+| 10 | SHANKPIT funnel page on okemily.com (Phase 1) | `okemily-shankpit-funnel.md` |
+| 11 | SHANKPIT-460 maps v0 + pipeline report | `shankpit460-maps-report.md` |
+| 13 | "The Gauntlet" northstar | `gauntlet-press-release-publishing.md` |
+| 14 | TYLER Season 12 | `tyler-season-12.md` |
 
 ---
 
