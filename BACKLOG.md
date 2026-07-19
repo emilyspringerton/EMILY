@@ -4607,11 +4607,15 @@ our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHST
   Store 0). No fabricated checkout — the print PO hasn't been placed yet (human HITL gate per
   the northstar), so the CTA is a waitlist signup on the same IDUNA mailing-list infra as
   `tournaments.html`, not a pretend "buy now." Footer link added to `index.html`.
-  **Not yet live** — deploy needs `~/okemily-deploy.sh` (interactive sudo, can't run unattended);
-  founder action.
-- [ ] **S163-02: run `~/okemily-deploy.sh` to push stinkies.html live**, then verify
-  `https://okemily.com/stinkies.html` renders and the waitlist form actually submits. Founder
-  action (sudo password prompt).
+- [x] **S163-02: deploy live.** `/var/www/okemily/` turned out to already be group-writable
+  (`fatbaby:www-data`, `2775`) — no `sudo` needed after all, deployed directly.
+  `https://okemily.com/stinkies.html` confirmed 200. **Real bug found + fixed in the process**:
+  `~/okemily-deploy.sh`'s `rsync --delete` didn't exclude `blog/` (server-rendered by IDUNA's
+  blog handler, not part of this git repo) and wiped all 19 published posts on first run —
+  recovered from `IDUNA/var/blog.db` via `IDUNA/cmd/blog-rerender` (new tool, no data actually
+  lost). Script and `OKEMILY/CLAUDE.md` both fixed with the exclusion; the old
+  `sudo chown -R www-data:www-data` step was also removed since it would have reverted the
+  now-working permissions.
 - [ ] **S163-03: S146-02 — select a print vendor for the VS0 hoodie** (100-unit MOQ, ≤$12/unit
   target, size-run S×10/M×25/L×30/XL×20/2XL×10/3XL×5). Use `supply_chain_research` tool. Blocks
   the actual PO (HITL gate — human approval required before any money moves).

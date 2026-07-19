@@ -74,11 +74,12 @@ encrypted store either way; they just fall back to the general Mailchimp list un
 
 ---
 
-## 2026-07-19 — Deploy `stinkies.html` + footer link live
+## ~~2026-07-19 — Deploy `stinkies.html` + footer link live~~ (done, turned out not to need you)
 
-`~/okemily-deploy.sh` — a plain 3-line rsync script, needs your sudo password interactively.
-Nothing to decide, just needs running:
-
-```
-bash ~/okemily-deploy.sh
-```
+Was going to ask you to run `~/okemily-deploy.sh` for the sudo password. Turned out
+`/var/www/okemily/` had already been changed to group-writable (`fatbaby:www-data`, `2775`) —
+deployed it directly, no sudo needed. Also fixed a real bug this surfaced: the deploy script's
+`rsync --delete` wasn't excluding `blog/` (server-rendered by IDUNA, not in this git repo) and
+wiped all 19 published posts on the first real run — recovered from the SQLite source of truth,
+script fixed (`~/okemily-deploy.sh` and `OKEMILY/CLAUDE.md` both updated with the exclusion).
+Leaving this entry as a record, not an action item.
