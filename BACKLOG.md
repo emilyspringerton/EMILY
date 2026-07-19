@@ -4783,6 +4783,47 @@ just our 50-ticker watchlist.*
 
 ---
 
+## SECTION 167: EDITORIAL STANDARD — TICKER AUTO-LINKING (2026-07-19)
+
+*Founder, verbatim: "gauntlet functionality and editorial standards always do company name then
+ticker with exchange so like Ford Inc (NYSE:F) AND THE ACTUAL TICKET (F) should link to our
+ticket page full link so distribution picks up our links the ticket auto link needs to happen
+every time via gauntlet the content api." Instruction: "backlog it first."*
+
+**The standard, as a rule (applies to every content type Gauntlet will eventually manage, per
+`EMILY/docs/fable-prompts/gauntlet-press-release-publishing.md` — this section is the first real
+enforcement point, not a one-off for the movers article):** every ticker reference in generated
+content reads "Company Name (EXCHANGE:TICKER)", and the ticker itself is hyperlinked to the
+**absolute** URL of our own ticker page (`https://news.okemily.com/ticker/{TICKER}`, not a
+relative `/ticker/{TICKER}` path) — absolute specifically so the link still resolves correctly
+when the content is copied, syndicated, or redistributed elsewhere ("so distribution picks up our
+links").
+
+- [ ] **S167-01: real security gap found while scoping this, fixed first.** `POST
+  /api/commentary` (the only ingest path for this content) had **zero authentication** — anyone
+  who could reach newssite's port could publish arbitrary commentary content. Not safe to also add
+  trusted-HTML rendering (needed for real clickable ticker links — see S167-02) through an
+  unauthenticated endpoint. Added a static bearer-token check (same constant-time-compare pattern
+  as `internal/apiserver`'s existing `-api-keys`), fails closed (503) if no key is configured
+  rather than silently staying open.
+- [ ] **S167-02: `internal/tickerlink` — the shared formatter.** `FormatRef(baseURL, companyName,
+  exchange, ticker) template.HTML` producing "Company Name (EXCHANGE:TICKER)" with TICKER as an
+  absolute `<a href="...">` link. Real constraint found: `newssite`'s detail-page template
+  (`<pre>{{.FullText}}</pre>`) auto-escapes body content by design — correct and necessary for
+  arbitrary scraped SEC-filing text (never trust that as HTML), but that meant embedding real
+  anchor tags into a commentary body needed a **separate, explicitly-trusted** rendering path, not
+  a change to the shared/default one. New `commentary.Article.BodyHTML` field + `DocEntry.BodyHTML
+  template.HTML`, rendered only when set, only ever populated by our own generators (never
+  user/filing-supplied) — the auth fix above is what makes trusting this safe.
+- [ ] **S167-03: wired into `movers-watcher`**, the one live content generator. Every ticker
+  mention in the daily movers article now uses the standard format with a real, absolute, clickable
+  link to its ticker page.
+- [ ] **S167-04: apply the same standard to every future Gauntlet-managed content type** (EIA/Fed
+  articles once those phases exist, any human-authored content once the newsroom side of Gauntlet
+  is real). Not urgent — nothing else generates ticker-referencing content yet.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
