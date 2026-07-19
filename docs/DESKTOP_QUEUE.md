@@ -15,6 +15,22 @@ clearly needs a bigger screen.
 
 ---
 
+## 2026-07-19 — okemily.com `/admin/login` is a 404 (nginx block never deployed)
+
+The `/admin/` proxy block landed in the repo weeks ago (`OKEMILY/ops/nginx-okemily.conf`) but the
+sudo step to actually install it was queued and never run. **Verified safe just now** — diffed
+the live config (`/etc/nginx/sites-available/okemily`, world-readable, no sudo needed to check)
+against the repo copy: the *only* difference is the missing `/admin/` block. Everything
+certbot added (SSL, HSTS, the 443 redirect) is already identical in both, so this isn't the
+"blind `cp` wipes HTTPS" risk from the 2026-07-18 incident — that risk was checked and ruled out
+this time, not just assumed away.
+
+```
+bash ~/sudo-queue/03-okemily-nginx-admin-proxy.sh
+```
+
+---
+
 ## 2026-07-19 — EIA API key (SECTION 165, oil/petroleum data)
 
 Blocks Phase 2 of the auto-generated-articles work (`PRRJECT_FATBABY/docs/northstar/
