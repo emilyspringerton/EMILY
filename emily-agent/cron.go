@@ -257,6 +257,9 @@ func (ac *AutonomousCycle) RunOnce() error {
 	// Signal velocity alerts (S126-12): check PRRJECT_FATBABY for velocity spikes.
 	ac.observeVelocityAlerts(ctx, state.CycleNumber)
 
+	// Mailing-list signup watch: FCM push to MJOLNIR on new signups (SECTION 163).
+	ac.observeMailingListSignups(ctx, state.CycleNumber)
+
 	// PHASE 2: DECIDE — pick what to work on this cycle (gear-aware)
 	rec.Phase = PhaseDecide
 	influence := ac.emiree.State.Influence()

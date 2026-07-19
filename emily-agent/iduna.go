@@ -195,6 +195,34 @@ func (c *IdunaClient) GetPushToken(ctx context.Context, agentName string) (strin
 	return result.FCMToken, nil
 }
 
+// MailingListCount returns the current subscriber count for a source list
+// (e.g. "general", "stinkies", "freehoodie"). The endpoint is public/no-auth
+// (a count reveals no PII), so this skips the authenticate() dance the other
+// methods here need — plain GET, no bearer token required.
+func (c *IdunaClient) MailingListCount(ctx context.Context, source string) (int, error) {
+	req, err := http.NewRequestWithContext(ctx, "GET",
+		c.baseURL+"/api/v1/mailing-list/count?list="+source, nil)
+	if err != nil {
+		return 0, err
+	}
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return 0, fmt.Errorf("iduna mailing-list count: %w", err)
+	}
+	defer resp.Body.Close()
+	raw, _ := io.ReadAll(io.LimitReader(resp.Body, 4*1024))
+	if resp.StatusCode != http.StatusOK {
+		return 0, fmt.Errorf("iduna mailing-list count status %d: %s", resp.StatusCode, raw)
+	}
+	var result struct {
+		Count int `json:"count"`
+	}
+	if err := json.Unmarshal(raw, &result); err != nil {
+		return 0, fmt.Errorf("iduna mailing-list count parse: %w", err)
+	}
+	return result.Count, nil
+}
+
 // AppleListItem is a summary record from GET /api/v1/apples.
 type AppleListItem struct {
 	ID                 int64     `json:"id"`

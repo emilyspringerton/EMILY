@@ -1,5 +1,6 @@
-# compiled binary
+# compiled binaries
 emily-agent/emily-agent
+cmd/get-gmail-token/get-gmail-token
 
 # runtime state dirs
 emily-agent/conversations/
