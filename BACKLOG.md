@@ -4528,6 +4528,39 @@ Audit found the exact fallback already exists, well-built — it's just not prod
 
 ---
 
+## SECTION 161: NEWSSITE — REAL BUG FIXED, TWO REAL DATA-SURFACING GAPS FOUND (2026-07-19)
+
+*Founder reported the home page's "recent" content looked stale. Root-caused and fixed. While
+auditing ticker pages for a broader "surface all the data" check, found two more computed-but-
+unshown data sources.*
+
+- [x] **S161-01: front-page recency sort fixed.** `internal/newssite/docindex/docindex.go`'s
+  `docNewerThan` ranked every doc with an SEC `FilingDate` above every doc without one, as an
+  absolute rule — since press releases never carry a `FilingDate`, a years-old 8-K always
+  outranked a press release ingested seconds ago. Fixed to compare both on one unified
+  `effectiveDate` (FilingDate when present, else `PersistedAt`). Regression test added
+  (`TestRecent_MixedDatedAndUndatedSortsUnified`). Rebuilt `bin/newssite`, restarted
+  `fatbaby-newssite.service`, verified live. PRRJECT_FATBABY `5bc87ee`.
+- [ ] **S161-02: governance health score + trend is computed but never shown on ticker pages.**
+  `internal/entitygraph/accuracy.go`'s `HealthSnapshot`/`LoadHealthHistory` (reads
+  `var/entity-graph/health_history.ndjson`) tracks a composite per-ticker governance health score
+  over time, specifically built so `ScoreGovernanceHealthTrend` can detect deterioration/
+  improvement — but there's no `graphread` query method exposing it and no template rendering it.
+  This is exactly the kind of at-a-glance signal (score + trend arrow) a ticker page benefits from
+  and it's sitting fully computed, unused. Real UI work, not a one-liner — scope as its own item.
+- [ ] **S161-03: the accuracy/backtesting system (20+ correlate functions) is purely internal,
+  never shown to users.** `internal/entitygraph/accuracy.go` has a genuinely sophisticated
+  self-grading system — `CorrelateDirectorFrictionEscalation`, `CorrelateAuditorChangeFilingRisk`,
+  `CorrelateInsiderSellDistress`, and ~17 more — each measuring whether a given signal type
+  historically preceded a real outcome. Currently consumed only by `observer.go` for the
+  entity-graph builder's own internal self-refinement loop (an RSI-style gap-detection mechanism),
+  invisible to the product. Surfacing even a simple version of this ("this signal type has
+  historically preceded distress in N% of cases") next to individual signals would be a real
+  trust/credibility UI addition, not just more data — worth scoping as its own design pass rather
+  than bolted on inline.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
