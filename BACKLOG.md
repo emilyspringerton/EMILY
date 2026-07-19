@@ -819,6 +819,14 @@ Run: `emily backlog promote --limit=50 --batch=15`
   EDIS-CUSTODIAN agent added to IDUNA/config/agents.json. go.work updated. docs/digital-immune-system.md written.
   — 2026-06-12. DIS pre-deploy analysis: Apple #450 (2026-06-13). 3 bugs fixed: Apple #591 (2026-06-16).
 
+- [x] **S23-07: DIS — real PoW gate for AdModePOWCAPTCHA (replaces the stub).** Founder: "start
+  building the dis ad engine." Apple #10237 · EDIS `428e435`. `internal/dis/pow.go` (stateless
+  hashcash, self-verifying HMAC token, no server-side challenge store), `/dis/pow/challenge` +
+  `/dis/pow/verify` collector endpoints, WordPress REST proxy + `assets/pow.js` client solver, 5
+  new Go tests. Also fixed a latent `.gitignore` bug (unanchored `dis/` was shadowing
+  `internal/dis`/`cmd/dis` for new files). **Not deployed yet** — queued at
+  `~/sudo-queue/04-edis-dis-pow-deploy.sh` (root/www-data-owned paths), see `DESKTOP_QUEUE.md`.
+
 - [ ] **S23-01: Deploy EDIS to live WordPress install** — Install WordPress, activate EDIS plugins
   and theme. Configure EDIS_SIGNALAPI_URL + EDIS_EMILY_URL in wp-config.php. Verify connection test
   passes in admin. Create /ask page. Add Ask Emily + Signals widgets to sidebar.
