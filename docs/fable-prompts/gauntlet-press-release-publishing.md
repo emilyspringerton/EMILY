@@ -1,10 +1,15 @@
-# Queued Fable prompt — "The Gauntlet": press-release publishing service (planning doc)
+# Queued Fable prompt — "The Gauntlet": northstar for FatBaby content management, licensing + publishing
 
-**Status:** queued, not yet dispatched. Written 2026-07-19, assembled from several founder
-messages across one session — see "What 'the gauntlet' means" below for the exact synthesis.
+**Status:** queued, not yet dispatched. Written 2026-07-19, assembled from five founder messages
+across one session — see "What 'the gauntlet' means" below for the exact synthesis. Scope
+broadened twice during the same session (press-release publishing → full northstar umbrella) —
+this file reflects the final, broadest framing; don't dispatch against an earlier mental model.
 **Dependency:** none — ready to dispatch now.
-**Deliverable type:** a written plan/design doc, not code. This is a new product direction
-question, not an implementation task yet.
+**Deliverable type:** **a NORTHSTAR.md, not a one-off report.** Founder's own words: "as a north
+star... continuing evolving concept and process." Write it the way `SHANKPIT/docs2/NORTHSTAR.md`
+is written — "not a roadmap with dates... a statement of direction that makes priorities obvious
+even when the shape of the work isn't yet fully visible," meant to be kept alive alongside the
+codebase, not a single point-in-time report. No code in this dispatch.
 
 **To dispatch:** `Agent({ model: "fable", subagent_type: "general-purpose", prompt: <body below> })`
 
@@ -14,12 +19,36 @@ question, not an implementation task yet.
 
 Original ask was cryptic ("plan the formal gauntlet content engine wordpress as a backend for
 editorial tools") and a grep for "gauntlet" found nothing in the codebase — it's a new concept,
-not an existing one. Founder clarified across three follow-up messages, in order:
+not an existing one. Founder clarified across five follow-up messages, in order:
 
 1. "gauntlet is the metadata enrichment queue and editorial pipeline/calendar"
 2. "it will enable us to pivot into providing press release publishing services to satisfy capital
    market requirements"
 3. "gated queues content types editorial review (agent and human depending on content type) etc"
+4. "as a north star we are a hybrid ai and also we plan to be a traditional human powered ai
+   augmented news room too — we need the platform to manage all the content and the backend
+   systems and queues etc to help pull the actual content out of our data as a north star and
+   continuing evolving concept and process"
+5. "gauntlet may be several systems but is the general concept of the system that manages fatbaby
+   financial content for licensing and publishing to the public internet"
+
+**Final synthesis (this is the scope to plan against, supersedes the narrower press-release-only
+framing from messages 1-3):** the gauntlet is not one system — it's the umbrella concept for
+**everything FatBaby's raw data becomes on its way out the door**, across three distinct exit
+paths that all share the same underlying pipeline (extraction → enrichment → gated review →
+release):
+
+- **Publishing** — the press-release-publishing-as-a-service angle (message 2), *and* newssite's
+  existing aggregated wire-service output — both are "publishing to the public internet," just two
+  different content types moving through the same conceptual gauntlet.
+- **Licensing** — selling/licensing FatBaby's structured financial content/data to third parties.
+  Not previously scoped anywhere in this backlog — new.
+- **The newsroom itself** — "a hybrid AI and also... traditional human powered AI augmented news
+  room" (message 4). This is an operating-model statement, not just a technical one: some content
+  is produced/reviewed by agents alone, some needs a human in a genuinely editorial (not just
+  compliance-gate) role — this is broader than message 3's "agent vs human review by content type"
+  framing, which was about *approval gates*; message 4 is about who's actually doing editorial
+  *work*, which may be a different axis entirely (worth the report distinguishing the two).
 
 Synthesis: **the gauntlet is the editorial pipeline for a new product — EINHORN_INDUSTRIAL
 publishing press releases on behalf of companies, not just discovering/aggregating other
@@ -63,6 +92,15 @@ per the founder's own words.
    The gauntlet's metadata-enrichment stage should reuse `internal/prwatch/tickers.go`'s
    `ExtractTickers`/`ExtractFromHTML` rather than reimplementing ticker extraction a second time —
    name this explicitly as a reuse point.
+6. `PRRJECT_FATBABY/docs/headlines/tina.md` (golden-docs-index entry `FATBABY-TINA`) — founder
+   raised TINA (Trading Idea, Not Advice engine) as related to the gauntlet, then **immediately
+   self-corrected the direction**: first said "TINA would be a consumer of gauntlet," then "or a
+   producer for gauntlet rather." **This directionality is genuinely unresolved, not settled —
+   don't silently pick one.** Read TINA's own design doc and figure out which is actually true (or
+   whether it's both, at different pipeline stages), and say so explicitly with reasoning, rather
+   than asserting a direction the founder themselves wasn't sure of. This is real evidence the
+   gauntlet's exact position in the architecture is still being worked out live — treat "name every
+   known relationship, flag every unresolved one" as a requirement for this doc, not just TINA.
 
 ## What the report needs to cover
 
@@ -85,10 +123,14 @@ per the founder's own words.
 
 ## Where this lands
 
-Write to `PRRJECT_FATBABY/docs/northstar/gauntlet-press-release-publishing.md` (new file). Register
-in `EMILY/context/golden-docs-index.md` if you judge it load-bearing enough — your call, one-line
-justification either way. Add concrete `[ ]` backlog items to `EMILY/BACKLOG.md` under a new
-section for whatever this plan concludes should happen first. No code in this dispatch.
+Write to `PRRJECT_FATBABY/docs/northstar/gauntlet.md` (new file — not the narrower
+`-press-release-publishing` name, given the scope broadened to the full umbrella concept). This
+should be golden-doc registered — given "continuing evolving concept and process" is the founder's
+own framing, this is exactly the kind of living document `EMILY/context/golden-docs-index.md`
+exists for. Append it there (`GAUNTLET | PRRJECT_FATBABY/docs/northstar/gauntlet.md | 1 | <budget> |
+<one-line>`), commit + push EMILY per the standard golden-doc registration protocol. Add concrete
+`[ ]` backlog items to `EMILY/BACKLOG.md` under a new section for whatever this plan concludes
+should happen first. No code in this dispatch.
 
 ---
 
