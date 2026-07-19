@@ -4724,6 +4724,25 @@ our physical convenience store via merch drops." Grounded in `EMILY/docs/NORTHST
   second time today — see `DESKTOP_QUEUE.md`, needs another `mailing-list-unlock` run before any
   of the three lists (general/stinkies/freehoodie) accept real signups again.
 
+- [~] **S163-09: FCM push to MJOLNIR on new mailing-list signups.** Founder: "lets get a push
+  notification on mjolnir on new email signups." Apple #10255 · EMILY `dbe5f2f`.
+  `emily-agent/mailinglist_watch.go` — `observeMailingListSignups`, wired into the cron OBSERVE
+  phase, same poll-diff-notify shape as the existing `observeVelocityAlerts`. Code is real and
+  tested (`go build`/`go test ./...` green across the workspace); marked `[~]` not `[x]` because
+  it can't actually fire yet — two separate blockers, both desktop-only:
+  1. **No Firebase project exists.** `MJOLNIR/app/google-services.json` has never been created
+     (confirmed: file absent, only the `.example` template exists) — MJOLNIR has no build at
+     all yet, not even a debug APK, and the Firebase Gradle plugin fails the build outright
+     without it.
+  2. **No `FCM_PROJECT_ID`/`FCM_SERVICE_ACCOUNT_JSON`** set anywhere on this box for
+     `emily-agent` — confirmed via env grep and `journalctl`, `pkg/fcm/sender.go` exists and is
+     tested but has never had real credentials behind it.
+  The running `emily-agent` daemon (detached `go run . -- --daemon` under a `Type=oneshot`
+  systemd unit, up ~16h) was deliberately **not** restarted to pick this code up — two
+  mailing-list-vault re-locks already happened today from IDUNA restarts, and restarting this
+  daemon buys nothing until FCM exists anyway. Will pick up the code on its next natural
+  restart.
+
 ---
 
 ## SECTION 164: OUTBOUND EMAIL — NO WORKING BACKEND ANYWHERE (2026-07-19)
