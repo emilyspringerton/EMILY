@@ -5123,6 +5123,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 - [ ] **S170-03: both northstars' VS0 builds** — not started, both explicitly research/spec-only
   per the founder's own framing ("northstar," "do research"). Real next step whenever picked back
   up.
+- [x] **S170-05: PRNewswire nav-chrome false-positive bug — found investigating "add dividends to
+  newssite menu."** Apple #10296 · PRRJECT_FATBABY `79ac620`. Didn't build the requested nav link
+  before checking the underlying data first: 10 of 13 live `var/dividends/dividends.ndjson`
+  records were false positives — law-firm "INVESTOR ALERT" spam misclassified as dividend cuts,
+  identical fabricated `$21.93/share` across unrelated tickers. Root cause:
+  `internal/processor/fetch_clean.go`'s `FetchAndCleanText` stripped tags from PRNewswire's
+  *entire* page — including their ~80-item site-nav category menu, which contains the word
+  "Dividends" as one unrelated filter — not just the article. Verified live against the real page
+  (id=302828052): the actual article never mentions dividends at all. Fixed with
+  `extractPRNewswireArticleBody`, host-scoped to prnewswire.com (EDGAR filing extraction, the
+  function's other caller, untouched), fails open to the full page if PRNewswire's markup
+  changes. Verified against real data: 12,954→2,765 chars, zero false "dividend" mentions
+  post-fix, real article text intact. 3 new tests. Redeployed `prwatch-body` (the only fetcher —
+  dividend/buyback/guidance-watcher just read its output). **Likely also affects
+  buyback-watcher and guidance-watcher** (same call path) — not independently verified this pass.
+  **The originally-requested newssite dividends section is deliberately NOT built** — blocked
+  until clean data has time to accumulate; a public page right now would still be showing
+  mostly-garbage historical records.
 
 ---
 
