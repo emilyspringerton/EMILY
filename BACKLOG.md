@@ -78,10 +78,19 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   the store (deprecate the paged-`ReadFrom` idiom entirely, not just patch each instance found) —
   worth naming explicitly as a Phase 0.5 or folding into Phase 3's runbook work.
 
-- [ ] **Phase 1a — SQLite checkpoint for signalapi** (currently stopped/disabled — highest
-  urgency). Per `docs/northstar/replay-fragility.md` §4b: `var/signalapi-index.db`,
-  snapshot-plus-tail with a `latest_seq` watermark. Re-enable `fatbaby-signalapi.service` after,
-  kill-test under supervision.
+- [ ] **Phase 1a — SQLite checkpoint for signalapi.** **Correction, 2026-07-19: signalapi is not
+  actually down.** It was manually restarted at some point today and Phase 0 alone (streaming
+  `Scan`, already shipped) is apparently keeping cold starts survivable — `curl :9091/v1/health`
+  returns 200 right now. The "currently stopped/disabled" framing below was stale and got
+  repeated into a founder-facing status report before being caught (see `emily.cli` `eace630` —
+  the *actual* bug was `emily status --fatbaby`'s pgrep patterns going stale after the
+  systemd-binary migration, silently reporting newssite/signalapi/secwatch as down for who knows
+  how long). This phase is still worth building — a restart today is surviving by margin, not
+  by design, and there's no watermark checkpoint yet — but it is resilience work, not an outage
+  fix. Per `docs/northstar/replay-fragility.md` §4b: `var/signalapi-index.db`, snapshot-plus-tail
+  with a `latest_seq` watermark. Re-enable `fatbaby-signalapi.service` (confirm current
+  supervision state first — it may already be running unsupervised) after, kill-test under
+  supervision.
 
 - [ ] **Phase 1b — SQLite checkpoint for newssite**, same package as 1a. Kill-test; confirm no
   "we don't cover AMZN" window on restart.
