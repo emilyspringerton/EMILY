@@ -5141,6 +5141,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   **The originally-requested newssite dividends section is deliberately NOT built** — blocked
   until clean data has time to accumulate; a public page right now would still be showing
   mostly-garbage historical records.
+  — **Follow-up check, same session (Apple #10335, no code changed):** buyback-watcher is
+  contaminated but less severely (~half the 8 live records real, e.g. a genuine Universal Music
+  Group repurchase and a CAE normal-course-issuer-bid renewal) — plausibly because "buyback"
+  isn't a PRNewswire nav-menu category the way "Dividends" is. guidance-watcher has a **distinct**
+  bug, not the same mechanism: one live record has `issuer="PNR SHAREHOLDER INV"` (truncated
+  investor-alert headline) with EPS figures that are plausibly real numbers quoted *inside* the
+  spam article, attributed to a nonexistent issuer. Neither watcher's fix is built —
+  `S170-06`/`S170-07` below.
+- [ ] **S170-06: buyback-watcher residual noise** — determine how much traces back to the
+  now-fixed nav-chrome path (should already be improving going forward) vs. a separate cause;
+  not started.
+- [ ] **S170-07: guidance-watcher issuer-attribution bug** — investigate where `issuer` gets set
+  in `internal/guidance` and whether INVESTOR ALERT/SHAREHOLDER-style headlines should be
+  filtered pre-extraction, matching the dividend fix's approach; not started.
 
 ---
 
