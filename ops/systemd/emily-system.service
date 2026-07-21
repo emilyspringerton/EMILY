@@ -1,0 +1,39 @@
+# Emily OS agent stack — user-level systemd unit.
+#
+# Deploy:
+#   mkdir -p ~/.config/systemd/user
+#   cp ops/systemd/emily-system.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now emily-system.service
+#
+# Source-of-truth copy added 2026-07-21 — this unit existed live on the box
+# since early in the project but had no tracked copy anywhere, unlike every
+# other FatBaby watcher unit (ops/systemd/fatbaby-*.service). Found while
+# activating --agi (the AGI continuous loop, see THE_EMILY_WAY.md Principle
+# 11) and editing this file directly on disk.
+#
+# --agi enables OBSERVATION_CONTINUE, which makes observation-watcher pass
+# --continue to every `claude` invocation, so RSI cycles accumulate context
+# across cycles instead of starting fresh each time. Type=oneshot +
+# RemainAfterExit=yes because `emily start` spawns detached child processes
+# (observation-watcher, the emily-agent daemon) rather than being a
+# long-running process itself — systemd only tracks the launcher's exit,
+# not the children. A `systemctl restart` does NOT kill/relaunch those
+# detached children (emily start's own liveness check just sees them as
+# "already running" and skips relaunching) — to actually pick up a change
+# like this one, stop the observation-watcher process manually
+# (pgrep -fa "cmd/observation-watcher --root") before restarting the unit.
+[Unit]
+Description=Emily OS agent stack — observation-watcher + emily-agent daemon
+After=network-online.target iduna.service
+Wants=iduna.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/fatbaby/.local/bin/emily start --iduna --agi
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
