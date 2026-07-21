@@ -1,3 +1,7 @@
+## 2026-07-21
+
+- Activated the AGI continuous loop (emily start --agi) — observation-watcher now passes --continue to every claude invocation, RSI cycles accumulate context instead of starting fresh. Persisted into ~/.config/systemd/user/emily-system.service's ExecStart for future restarts. Found a gap: that unit file has no source-of-truth copy in any repo (unlike the FatBaby watcher units under ops/systemd/) — worth adding one
+
 ## 2026-07-19
 - RED GARDEN cloned into the ecosystem (github.com/emilyspringerton/REDGARDEN + wiki) — elevated to core product status, northstar written capturing real-time scoping (Clash Royale card-RTS model, TrapX prototype link, multiplayer + Android/iOS/Desktop target, honor-code-compliant engagement design)
 - OpenClaw integration northstar written — MIT-licensed 20+-channel self-hosted chat gateway (WhatsApp/Telegram/Slack/Discord/Signal/iMessage/etc), researched via WebSearch not guessed; scoped as a channel front-end calling Emily Prime's existing API, not a replacement for her agent loop
