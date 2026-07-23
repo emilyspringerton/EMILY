@@ -5145,9 +5145,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   tonight's Gmail work), and the MJOLNIR overlap needs a real founder decision. Deployment
   isolation flagged given this box already hit one OOM incident and one declined-miner-request
   today over shared-resource risk.
-- [ ] **S170-03: both northstars' VS0 builds** — not started, both explicitly research/spec-only
-  per the founder's own framing ("northstar," "do research"). Real next step whenever picked back
-  up.
+- [ ] **S170-03a: OpenClaw VS0 — research spike.** Split out from the old bundled S170-03 on
+  2026-07-23 so it's a real, promotable item instead of a vague "both northstars" placeholder —
+  founder flagged that this work had already emerged (Apple #10285, EMILY `4ea6ab7`,
+  `docs/NORTHSTAR_OPENCLAW_INTEGRATION.md`, golden-indexed OPENCLAW-NORTH) and asked for it to be
+  pushed forward rather than left archived. Per the northstar's own §5 VS0 plan: stand up OpenClaw
+  against one low-stakes channel (Telegram or Discord — founder to pick), configured to call
+  Emily Prime's `:8086` API for one narrow, read-only action (e.g. "what's the current backlog
+  status"), proving the gateway↔Emily-Prime connection shape before anything sensitive is wired
+  in. **Blocked on a founder call before build starts, per the northstar's own §4**: OpenClaw's
+  default `main`-session mode has full host tool access, and this box already hit one OOM
+  incident and declined one miner request today (2026-07-19) specifically over shared-resource
+  risk — needs a deployment-isolation decision (container, or the same "dedicated hardware"
+  answer already given for the miner) before anything installs.
+- [ ] **S170-03b: IDUNA Vault VS0 build** — split out from the old bundled S170-03 alongside
+  S170-03a. Not started; CLI/API vault per `IDUNA/docs/NORTHSTAR_PASSWORD_MANAGER.md`'s VS0 scope.
 - [x] **S170-05: PRNewswire nav-chrome false-positive bug — found investigating "add dividends to
   newssite menu."** Apple #10296 · PRRJECT_FATBABY `79ac620`. Didn't build the requested nav link
   before checking the underlying data first: 10 of 13 live `var/dividends/dividends.ndjson`
