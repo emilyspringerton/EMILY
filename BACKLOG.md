@@ -4528,17 +4528,19 @@ pass, not previously known.*
   against the real production DB: dry-run went from falsely claiming 17 permission grants across
   11 agents would fail and every agent needed a fresh credential, to correctly reporting zero
   false negatives. IDUNA `d508249`.
-- [ ] **S158-03: Uncommitted drift on an already-applied IDUNA migration — investigate, don't
-  blind-revert or blind-commit.** `git -C IDUNA diff migrations/truestore/
-  202606180001_local_users.sql` shows a real, currently-uncommitted change: `local_users.updated_at`
-  going from `TIMESTAMP` to `TIMESTAMP(6)` (adds microsecond precision) on both the column default
-  and its `ON UPDATE` clause. IDUNA's own CLAUDE.md rule: "Never edit migration files after they've
-  been applied — add new ones." Someone or something made this edit locally without committing it.
-  Needs a real decision: if the precision bump is wanted, it must land as a *new* migration file
-  (e.g. `ALTER TABLE local_users MODIFY updated_at TIMESTAMP(6) ...`), not an edit to the applied
-  one — editing history in place means fresh installs and this box's existing DB would silently
-  diverge. If it's not wanted, revert the working-tree change. Don't do either without figuring out
-  which one is actually still needed first.
+- [x] **S158-03: Uncommitted drift on an already-applied IDUNA migration — investigate, don't
+  blind-revert or blind-commit.** Apple #10507 · IDUNA `43a930f`. Investigated per the item's own
+  instruction before touching anything: every write path to `local_users.updated_at`
+  (`internal/userlog/mysql_projector.go` + `sqlite_projector.go`) sets the value explicitly from
+  Go (`rec.AppendedAt`), and the MySQL projector formats it `"2006-01-02 15:04:05"` — whole-second
+  precision, 16 occurrences of the exact same pattern, zero fractional-second component anywhere.
+  The column's `DEFAULT`/`ON UPDATE CURRENT_TIMESTAMP` clauses are never actually triggered by any
+  real write path, and even if they were, the Go code writing to the column would still truncate
+  to whole seconds regardless of declared column precision. Confirmed via `var/iduna.db`'s
+  `schema_migrations` table the migration was applied 2026-07-15. **Conclusion: the precision bump
+  has no identified functional benefit and would need additional unrequested work to actually
+  matter — reverted** (`git checkout -- migrations/truestore/202606180001_local_users.sql`) rather
+  than completed as a new migration. File now matches what's actually applied to the live DB.
 
 ---
 
