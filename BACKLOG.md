@@ -5273,7 +5273,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   (NORTHSTAR §7: Donkey, Duck, Unicorn, Ghost, Frog, Tree, Pizza, Retrieval Cart, Doc Wheel) —
   founder said 8, exact count not force-fit, discrepancy noted rather than silently resolved.
 
-- [ ] **S170-11: Claude Code session fingerprint + tagging, via emily.cli.** Founder, real-time:
+- [x] **S170-11: Claude Code session fingerprint + tagging, via emily.cli.** Apple #10530 · emily.cli `b45f7e2`. Founder, real-time:
   "i want to start tracking claude code sessions and tagging everything i can with the hash of
   the fingerprint we create at the start of a session so we can track continuity across
   contexts" → "using emily.cli" → "make it cheap but legible" → "borrow emiree mandelbrot ascii
