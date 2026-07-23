@@ -28,6 +28,7 @@ themselves.*
 | # | Title | Dispatched | Notes |
 |---|---|---|---|
 | 5 | DNS operations northstar ("fates dns" — EINHORN operating its own DNS) | 2026-07-17 | Full standalone prompt written (`dns-operations-northstar.md`) after 2 prior attempts failed on transient 529s with no saved prompt; dispatched with real grounding (farthq.com's current Cloudflare NS confirmed via `dig`, real product-surface inventory, NORN/SAGA cross-references). |
+| 1 | IDUNA front door funnel for Agents and Unagents | 2026-07-23 | Redispatched alone (not batched) per the 2026-07-19 session-limit postmortem's own instruction, well past that reset window. Dependency confirmed landed first (`IDUNA/docs/VS_REALITY_AUDIT.md`, commit `529834f`). Blocks EMILY/BACKLOG.md SECTION 23 S23-01b (okemily.com ⇄ EDIS domain merge) — dispatched to unblock that decision. |
 | 8 | OKEMILY blog post — "Clean Builds First" | published directly 2026-07-19 | https://okemily.com/blog/clean-builds-first/ — no Fable dispatch needed, Claude Code published it directly. |
 | 12 | OKEMILY blog post — "Recursion for LLMs" | published directly 2026-07-19 | https://okemily.com/blog/recursion-for-llms/ |
 
@@ -45,7 +46,6 @@ session-limit signal is distinguishable from a repeat of this mistake.*
 
 | # | Title | File |
 |---|---|---|
-| 1 | IDUNA front door funnel for Agents and Unagents | `iduna-front-door-funnel.md` |
 | 7 | AGI RSI next steps: human-in-the-loop tiers + revenue via EDIS | `agi-rsi-hitl-revenue-edis.md` |
 | 9 | Augment/improve OKEMILY landing page + signup funnel | `okemily-landing-page-augment.md` |
 | 10 | SHANKPIT funnel page on okemily.com (Phase 1) | `okemily-shankpit-funnel.md` |
