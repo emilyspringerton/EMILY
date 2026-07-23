@@ -1,3 +1,8 @@
+## 2026-07-23
+
+- feat(watchdog): CheckCheckpointHealth — freshness alerting for FatBaby's four SQLite index checkpoints (signalapi-index.db, newssite-index.db, entity-graph's filings-index.db + accuracy-index.db). Reads meta.snapshot_at read-only, fires an escalation Apple if it hasn't advanced within 5 minutes, using the same debounce pattern as CheckServiceHealth/CheckPollerHealth. Closes SECTION 1 Phase 3 (docs/northstar/replay-fragility.md in PRRJECT_FATBABY) alongside PRRJECT_FATBABY's companion heartbeat-writing change (Apple #10504). Added modernc.org/sqlite v1.52.0 dependency (pure Go, version-pinned to match PRRJECT_FATBABY/IDUNA's existing usage). go test ./... green, 4 new tests. Apple #10505.
+- backlog: closed out SECTION 1 Phase 2 / 2c (entity-graph graph-lifetime hoist) retroactively — code had shipped in PRRJECT_FATBABY d450635 (2026-07-19) without the required Apple/CHANGELOG/checkbox close-out. Apple #10503.
+
 ## 2026-07-21
 
 - Activated the AGI continuous loop (emily start --agi) — observation-watcher now passes --continue to every claude invocation, RSI cycles accumulate context instead of starting fresh. Persisted into ~/.config/systemd/user/emily-system.service's ExecStart for future restarts. Found a gap: that unit file has no source-of-truth copy in any repo (unlike the FatBaby watcher units under ops/systemd/) — worth adding one

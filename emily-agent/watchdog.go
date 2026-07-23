@@ -12,6 +12,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -21,6 +22,8 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	_ "modernc.org/sqlite"
 )
 
 const (
@@ -293,5 +296,113 @@ func checkLogSizes(logDir string) []string {
 			"Log files exceeding 500 MB in %s: %s. Run logrotate or truncate.",
 			logDir, strings.Join(oversized, ", ")))
 	}
+	return alerts
+}
+
+// CheckpointConfig describes one SQLite index checkpoint (see PRRJECT_FATBABY
+// internal/indexcheckpoint and cmd/entity-graph/{filingindex,accuracyindex}.go)
+// whose meta.snapshot_at value should advance roughly every poll interval.
+//
+// Added for docs/northstar/replay-fragility.md §4c/§9 Phase 3: these
+// checkpoints are a disposable cache of the event store (the invariant is
+// "deleting one is always a safe operator move" -- see the ops runbook), but
+// if a checkpoint stops advancing while its owning process still looks alive
+// by CheckServiceHealth/CheckPollerHealth's own signals, that is a distinct
+// failure mode (write path broken, batch wedged mid-checkpoint-write) worth
+// catching on its own, per Principle 15 -- in minutes, not at the next
+// incident.
+type CheckpointConfig struct {
+	Name         string
+	DBPath       string
+	MaxStaleness time.Duration // alert if snapshot_at hasn't advanced within this window
+	Description  string
+}
+
+// defaultCheckpoints returns the FatBaby SQLite index checkpoints. MaxStaleness
+// is set generously above each owning process's poll interval (30s for all
+// four today) to avoid false alarms from a merely-slow cycle.
+func defaultCheckpoints() []CheckpointConfig {
+	fatbabyRoot := envOr("FATBABY_ROOT", "/home/fatbaby/PRRJECT_FATBABY")
+	varDir := filepath.Join(fatbabyRoot, "var")
+	return []CheckpointConfig{
+		{"signalapi", filepath.Join(varDir, "signalapi-index.db"), 5 * time.Minute, "signalapi SQLite index checkpoint (signals+docs)"},
+		{"newssite", filepath.Join(varDir, "newssite-index.db"), 5 * time.Minute, "newssite SQLite index checkpoint (signals+docs)"},
+		{"entity-graph-filings", filepath.Join(varDir, "entity-graph", "filings-index.db"), 5 * time.Minute, "entity-graph incremental filing-date/form index"},
+		{"entity-graph-accuracy", filepath.Join(varDir, "entity-graph", "accuracy-index.db"), 5 * time.Minute, "entity-graph deduplicated accuracy-verdict index"},
+	}
+}
+
+// checkpointSnapshotAt opens dbPath read-only and returns its meta.snapshot_at
+// value. A missing file, missing row, or unparsable timestamp all return an
+// error -- callers treat any error the same as "stale" (matches
+// CheckPollerHealth treating a missing log file as stale, not as healthy).
+func checkpointSnapshotAt(dbPath string) (time.Time, error) {
+	if _, err := os.Stat(dbPath); err != nil {
+		return time.Time{}, err
+	}
+	// mode=ro: this process only ever reads -- never compete with the
+	// owning process (the sole writer) for the write lock.
+	db, err := sql.Open("sqlite", dbPath+"?mode=ro&_busy_timeout=2000")
+	if err != nil {
+		return time.Time{}, err
+	}
+	defer db.Close()
+	var raw string
+	if err := db.QueryRow(`SELECT value FROM meta WHERE key='snapshot_at'`).Scan(&raw); err != nil {
+		return time.Time{}, err
+	}
+	return time.Parse(time.RFC3339, raw)
+}
+
+// CheckCheckpointHealth checks each checkpoint's meta.snapshot_at freshness
+// and returns alert messages, using the same downtime-tracking/debounce
+// state (WatchdogState) and 2-minute confirmation threshold as
+// CheckServiceHealth/CheckPollerHealth, keyed by "checkpoint:<name>" so none
+// of the three check types collide.
+func CheckCheckpointHealth(stateDir string, checkpoints []CheckpointConfig) []string {
+	if checkpoints == nil {
+		checkpoints = defaultCheckpoints()
+	}
+
+	ws := loadWatchdogState(stateDir)
+	var alerts []string
+	now := time.Now().UTC()
+
+	for _, c := range checkpoints {
+		key := "checkpoint:" + c.Name
+		snapAt, err := checkpointSnapshotAt(c.DBPath)
+		fresh := err == nil && now.Sub(snapAt) < c.MaxStaleness
+
+		if fresh {
+			if rec, wasDown := ws.Services[key]; wasDown {
+				downDuration := now.Sub(rec.DownSince).Round(time.Second)
+				log.Printf("[watchdog] checkpoint %s recovered (was stale %s)", c.Name, downDuration)
+			}
+			delete(ws.Services, key)
+			continue
+		}
+
+		rec, tracked := ws.Services[key]
+		if !tracked {
+			ws.Services[key] = ServiceDownRecord{Name: key, DownSince: now}
+			log.Printf("[watchdog] checkpoint %s STALE (first detection -- snapshot_at not advancing within %s)", c.Name, c.MaxStaleness)
+			continue
+		}
+
+		downDuration := now.Sub(rec.DownSince)
+		log.Printf("[watchdog] checkpoint %s still STALE (%.0fs since first detection, alerted=%v)",
+			c.Name, downDuration.Seconds(), rec.Alerted)
+
+		if downDuration >= serviceDownThreshold && !rec.Alerted {
+			msg := fmt.Sprintf(
+				"Checkpoint %s (%s) has not advanced in over %s (expected within %s) -- its owning process may be alive but its checkpoint write path is wedged. Description: %s. Checkpoints are a disposable cache of the event store -- deleting %s is always a safe operator move; the owning process rebuilds it on next start.",
+				c.Name, c.DBPath, (c.MaxStaleness + downDuration).Round(time.Minute), c.MaxStaleness, c.Description, c.DBPath)
+			alerts = append(alerts, msg)
+			rec.Alerted = true
+			ws.Services[key] = rec
+		}
+	}
+
+	saveWatchdogState(stateDir, ws)
 	return alerts
 }

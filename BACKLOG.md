@@ -142,9 +142,23 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
     2026-07-23 — code shipped without the Apple/CHANGELOG/checkbox close-out this protocol
     requires). Apple #10503.
 
-- [ ] **Phase 3 — ops runbook + checkpoint freshness check.** Document "checkpoints are
+- [x] **Phase 3 — ops runbook + checkpoint freshness check.** Document "checkpoints are
   disposable, safe to delete" as an operator invariant; add a `meta.snapshot_at` freshness check
   so a stalled checkpoint is caught in minutes, not at the next incident.
+  Documented the invariant + delete-and-restart recovery steps in `PRRJECT_FATBABY/docs/
+  ops-runbook.md`. Found and closed a real gap first: entity-graph's `filings-index.db`/
+  `accuracy-index.db` had no `meta.snapshot_at` at all (only signalapi/newssite's checkpoints
+  did, via their unconditional per-poll-interval sync) — added `touchFilingIndexSnapshot`/
+  `touchAccuracyIndexSnapshot` writing it unconditionally once per `runBatch` tick. Freshness
+  check itself is `CheckCheckpointHealth` in `EMILY/emily-agent/watchdog.go`, same debounce
+  pattern as `CheckServiceHealth`/`CheckPollerHealth`, wired into the cron cycle's watchdog
+  block; fires an escalation Apple if any of the four checkpoints' `snapshot_at` stalls past 5
+  minutes. `go test ./...` green in both repos. Live-verified on production: stopped
+  `fatbaby-entity-graph.service`, ran the new binary in `-one-shot` mode against the real
+  store, confirmed both checkpoints' `snapshot_at` populated for the first time, rebuilt +
+  restarted the service, confirmed the timestamp kept advancing under its own poll loop.
+  PRRJECT_FATBABY `c52c28c` (Apple #10504) + EMILY `emily-agent` watchdog change (Apple
+  #10505). This closes SECTION 1 in full — every phase of the replay-fragility fix has landed.
 
 ---
 

@@ -206,6 +206,10 @@ func (ac *AutonomousCycle) RunOnce() error {
 	// by log-file freshness. Added 2026-07-17 after a silent, hours-long
 	// secwatch/eps-reconciler outage went undetected until a manual audit.
 	watchAlerts = append(watchAlerts, CheckPollerHealth(ac.cfg.StateDir, nil)...)
+	// FatBaby SQLite index checkpoints (replay-fragility.md Phase 3) -- catches
+	// a wedged checkpoint write path even when the owning process still looks
+	// alive by the two checks above.
+	watchAlerts = append(watchAlerts, CheckCheckpointHealth(ac.cfg.StateDir, nil)...)
 	for _, alertMsg := range watchAlerts {
 		log.Printf("[watchdog] ALERT: %s", alertMsg)
 		slackNotifyOrLog(ac.slack, ":rotating_light: *[WATCHDOG]* "+alertMsg)
