@@ -14,6 +14,14 @@ all yet. When an entry's intent becomes clear, promote it to `BACKLOG.md` and fl
 
 ---
 
+## 2026-07-23 (2)
+
+- **status: unprocessed** — YouTube Short, shared with no accompanying task:
+  https://youtube.com/shorts/pG-5X43iFWI
+  Title (via WebFetch, best available — page content was truncated to footer/legal links,
+  no channel/description/tags recoverable): "Worth the Waste". Founder follow-up: "save this its
+  important" — no further context given yet, same pattern as the first inbox entry below.
+
 ## 2026-07-23
 
 - **status: unprocessed** — YouTube Short, shared with no accompanying task (2026-07-23 ~16:00 UTC):
