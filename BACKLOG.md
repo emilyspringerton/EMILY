@@ -5305,8 +5305,11 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   framed explicitly as RED GARDEN in-game cutscenes (hero-recruitment intros), not just prose
   lore. (3) "do a hype trailer 1993 action movie hype trailer for the lore of the game" → "as a
   blog post" → author "ROCKBOSS_STUDIOS (guest)" → "that is a new EINHORN subsidiary" → existing
-  real asset: kick.com/rockbosss streaming account. Logged before writing per Principle 1. Not
-  started.
+  real asset: kick.com/rockbosss streaming account. (4) "adding an okemily page with all of our
+  games including BRAWLPIT" → "all of the games" — a games showcase page on okemily.com listing
+  SHANKPIT, shankpit-460, BRAWLPIT (existing repo, 2.5D platform fighter, SHANKPIT Build 178
+  fork — confirmed via its own README, not invented), and RED GARDEN. Logged before writing per
+  Principle 1. "Ok churn on that the emily way" — proceeding through all four in this pass.
 
 ---
 
