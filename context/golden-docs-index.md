@@ -35,6 +35,7 @@
 | TRAINING | EMILY/docs/TRAINING_PIPELINE.md | 1 | 2000 | Self-improving fine-tuning flywheel; RLHF loop |
 | EDIS | EDIS/NORTHSTAR.md | 1 | 3000 | WordPress intelligence product; edis-core + signals + ask-emily plugins |
 | IDUNA-NORTH | IDUNA/docs/NORTHSTAR.md | 1 | 3000 | IDUNA IAM + Apples + HEIMDAL northstar; port 8080; sprint lifecycle |
+| FRONT-DOOR-FUNNEL | IDUNA/docs/kikoryu/FRONT_DOOR_FUNNEL.md | 1 | 4000 | Agent vs. Unagent onboarding funnel design; agent lifecycle (PROPOSED→CUSTODIED→SCOPED→LIVE), shared trust substrate vs. separate funnels, VS2 tournament-gating placement, nginx root-path migration path |
 | THE-FIELD | EMILY/docs/THE_FIELD.md | 2 | 3000 | Synthetic consciousness architecture; dual-persona harmonic engine; informs Emiree |
 | THE-EMILY-WAY | EMILY/docs/THE_EMILY_WAY.md | 1 | 0 | Operating procedure; how we work; RSI loop discipline; commit/Apple/CHANGELOG protocol |
 | GFD-NORTH | GoblinFoxDragon/docs/NORTHSTAR.md | 2 | 2000 | GoblinFoxDragon studio umbrella; Dragonfly fork identity; shared game engine foundation |
