@@ -5295,6 +5295,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-12: REDGARDEN MOBA-mode iteration + gang-formation cutscene episodes + hype
+  trailer.** Founder, real-time, three threads in one burst: (1) "make sure we are iterating on
+  the mouse driven moba version of the game with the roster" — confirm/continue click-driven
+  hero control (§2's click-targeting principle) actually iterating with the real S-tier roster,
+  not just the card-hand mode. (2) "finish the motorcycle gang lore with an enrichment pass" →
+  "write it as full TYLER series x episodes or whatever makes sense" → "the frame there is video
+  game cutscenes i guess" — one or more TYLER Series X episodes dramatizing the gang's formation,
+  framed explicitly as RED GARDEN in-game cutscenes (hero-recruitment intros), not just prose
+  lore. (3) "do a hype trailer 1993 action movie hype trailer for the lore of the game" → "as a
+  blog post" → author "ROCKBOSS_STUDIOS (guest)" → "that is a new EINHORN subsidiary" → existing
+  real asset: kick.com/rockbosss streaming account. Logged before writing per Principle 1. Not
+  started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
