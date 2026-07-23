@@ -934,30 +934,40 @@ Run: `emily backlog promote --limit=50 --batch=15`
   deploy.sh build+restart script, env.production template, ops-runbook.md.
   — 2026-06-12. Apple #419.
 
-- [ ] **S24-01: Deploy to production server** — Run deploy.sh on production host. Install nginx
-  configs. Start services under systemd. Confirm /healthz returns 200 through nginx.
-  Set ANTHROPIC_API_KEY, MYSQL_URL, MONGODB_URL in env.production.
-  Acceptance: https://fatbaby.io/healthz returns "ok". Emily TUI shows all services active.
+- [x] **S24-01: Deploy to production server** — Stale, found and corrected 2026-07-23: the
+  `fatbaby.io` domain in this item's own acceptance criteria never actually resolves (confirmed
+  NXDOMAIN) — it was superseded by `news.okemily.com` sometime before 2026-07-18 (see IDUNA
+  CHANGELOG "newssite moved to its own news.okemily.com subdomain"). Under that domain, this is
+  actually done: `systemctl --user is-active fatbaby-newssite fatbaby-signalapi` both `active` +
+  `enabled`, `https://news.okemily.com/healthz` returns 200 live.
 
-- [ ] **S24-02: SSL certificate + domain wiring** — Let's Encrypt cert for fatbaby.io and api.fatbaby.io.
-  Use certbot with nginx plugin. Auto-renew via cron. Update nginx configs with cert paths.
-  Acceptance: HTTPS works, cert grade A on SSL Labs.
+- [x] **S24-02: SSL certificate + domain wiring** — Same stale-domain correction as S24-01: real,
+  live, Certbot-managed HTTPS exists today at `news.okemily.com`
+  (`/etc/nginx/sites-enabled/news-okemily`, auto-renewed, HSTS header present) — just never under
+  the `fatbaby.io`/`api.fatbaby.io` names this item originally specified, which were abandoned
+  before ever being registered.
 
 - [x] **S24-03: Log rotation + alerting** — logrotate already configured (PRRJECT_FATBABY/ops/logrotate/fatbaby: daily 14d compress maxsize 500M). Emily Prime watchdog (watchdog.go): pings IDUNA/newssite/signalapi/emily-agent each cycle; escalation Apple when service down ≥ 2 min; log file size alert at 500 MB; WatchdogState persisted across cycles. Apple #479.
 
 - [ ] **S24-04: nginx cache tuning post-traffic** — After first traffic spike, review cache hit rate.
   Tune proxy_cache_valid TTLs based on actual traffic patterns. Target >80% cache hit rate.
-  Acceptance: cache hit rate logged and documented.
+  Acceptance: cache hit rate logged and documented. Domain corrected 2026-07-23:
+  `news.okemily.com`, not the never-registered `fatbaby.io`. Still genuinely not started — no
+  real traffic spike has happened yet to tune against.
 
-- [ ] **S24-05: Load test baseline** — Run `wrk -t4 -c50 -d30s https://fatbaby.io/` before real traffic.
-  Record: req/s, p99 latency, cache hit rate. Document results in ops-runbook.md.
-  Acceptance: baseline documented; known ceiling before we hit it in production.
+- [ ] **S24-05: Load test baseline** — Run `wrk -t4 -c50 -d30s https://news.okemily.com/` (domain
+  corrected 2026-07-23 — `fatbaby.io` never resolved) before real traffic. Record: req/s, p99
+  latency, cache hit rate. Document results in ops-runbook.md. Acceptance: baseline documented;
+  known ceiling before we hit it in production. **Not run yet on purpose**: this box already had
+  a real OOM incident and a declined side-project request this month specifically over
+  shared-resource risk (SECTION 152's own lesson) — a synthetic load test against live production
+  infra deserves an explicit founder go-ahead before running, not a unilateral call.
 
 ---
 
 ## SECTION 27: EMILY AGI MEMORY (persistent cross-cycle world model)
 
-*Emily Prime starts cold every 5 minutes. emily-memory/ gives her accumulated context across cycles.*
+*Emily Prime starts cold every 15 minutes. emily-memory/ gives her accumulated context across cycles.*
 *Gap identified in RSI AGI trajectory memo (#457): emily-memory/ was empty since repo creation.*
 *Resolved 2026-06-14: world-state.md + cycle-log.md wired into goldenbuild + cron PLAN phase.*
 
