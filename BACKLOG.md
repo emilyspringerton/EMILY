@@ -5265,15 +5265,13 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   Layer 1 (Custody Trial) touching Layer 4 (Emily OS) directly, a two-day unexplained substrate
   silence discovered and sat with rather than diagnosed on-camera, resolving into a real-time-
   logging discipline. Syndicated to the blog (author: EINHORN_MEDIA).
-- [ ] **S170-10: REDGARDEN backstory — Tyler forms a motorcycle gang, featuring the S-tier
-  roster.** Founder, real-time: "REDGARDEN backstory tyler forms a motorcycle gang (featuring 8
-  the s tier roster) into whatever repo it makes sense." Logged before writing per Principle 1.
-  Repo choice delegated to Claude Code ("whatever repo it makes sense") — landing in
-  `REDGARDEN/docs/BACKSTORY.md`, cross-referenced from `docs/HEROES_VS0.md`, since this is
-  in-game roster lore, not a TYLER episode. Roster is the 9 currently-queued S-tier heroes
+- [x] **S170-10: REDGARDEN backstory — Tyler forms a motorcycle gang, featuring the S-tier
+  roster.** Apple #10527 · REDGARDEN `b49b9a6`. Founder, real-time: "REDGARDEN backstory tyler
+  forms a motorcycle gang (featuring 8 the s tier roster) into whatever repo it makes sense."
+  Logged before writing per Principle 1. Landed in `REDGARDEN/docs/BACKSTORY.md`, cross-referenced
+  from `docs/HEROES_VS0.md` and `NORTHSTAR.md` §9. Roster is the 9 currently-queued S-tier heroes
   (NORTHSTAR §7: Donkey, Duck, Unicorn, Ghost, Frog, Tree, Pizza, Retrieval Cart, Doc Wheel) —
   founder said 8, exact count not force-fit, discrepancy noted rather than silently resolved.
-  Not started.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
