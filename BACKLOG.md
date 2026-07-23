@@ -5295,21 +5295,26 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-12: REDGARDEN MOBA-mode iteration + gang-formation cutscene episodes + hype
-  trailer.** Founder, real-time, three threads in one burst: (1) "make sure we are iterating on
-  the mouse driven moba version of the game with the roster" — confirm/continue click-driven
-  hero control (§2's click-targeting principle) actually iterating with the real S-tier roster,
-  not just the card-hand mode. (2) "finish the motorcycle gang lore with an enrichment pass" →
-  "write it as full TYLER series x episodes or whatever makes sense" → "the frame there is video
-  game cutscenes i guess" — one or more TYLER Series X episodes dramatizing the gang's formation,
-  framed explicitly as RED GARDEN in-game cutscenes (hero-recruitment intros), not just prose
-  lore. (3) "do a hype trailer 1993 action movie hype trailer for the lore of the game" → "as a
-  blog post" → author "ROCKBOSS_STUDIOS (guest)" → "that is a new EINHORN subsidiary" → existing
-  real asset: kick.com/rockbosss streaming account. (4) "adding an okemily page with all of our
-  games including BRAWLPIT" → "all of the games" — a games showcase page on okemily.com listing
-  SHANKPIT, shankpit-460, BRAWLPIT (existing repo, 2.5D platform fighter, SHANKPIT Build 178
-  fork — confirmed via its own README, not invented), and RED GARDEN. Logged before writing per
-  Principle 1. "Ok churn on that the emily way" — proceeding through all four in this pass.
+- [x] **S170-12: REDGARDEN MOBA-mode iteration + gang-formation cutscene episodes + hype
+  trailer.** Founder, real-time, four threads in one burst, all closed:
+  1. **MOBA-mode status check** — Apple #10533 · REDGARDEN `7012fab`. Confirmed `apps/arena` is
+     real, builds clean, and is the actual mouse-driven MOBA mode. Gap found, not closed: it
+     drives placeholder cube heroes, not the named roster — flagged as the concrete next step.
+  2. **Gang-formation cutscene** — Apple #10531 · TYLER `085e01c`/`872db5a`. New
+     `episodes/x02_recruitment_drive.md`, an enrichment pass on `docs/BACKSTORY.md` written as a
+     full episode, framed explicitly as a RED GARDEN in-game cutscene.
+  3. **Hype trailer** — published as a blog post, author ROCKBOSS_STUDIOS (guest — a new EINHORN
+     subsidiary, tied to the existing kick.com/rockbosss streaming asset):
+     okemily.com/blog/shankpit-highlands-trailer/.
+  4. **Games showcase page** — Apple #10532 (bundled with hero additions below) · OKEMILY
+     `30de432`. New `games.html` listing SHANKPIT, shankpit-460, BRAWLPIT (existing repo,
+     confirmed via its own README, not invented), and RED GARDEN, metaverse-thread framing
+     (FIELDOFFICE/TrapX nod, not a literal setting claim).
+  Also landed in the same burst: Flamel (master cook, ties the roster to the cooking system) and
+  Druid (tree-growy, distinct from The Tree) added to the roster, plus a Highlands-setting note
+  (RED GARDEN develops on its own simpler premise, not forced into TrapX's city frame) — Apple
+  #10532 · REDGARDEN `903757c`. Flagged, not built: a Morrigan/Druid ally-and-counter-play
+  relationship.
 
 ---
 
