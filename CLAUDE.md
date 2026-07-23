@@ -13,6 +13,7 @@ after each cycle, and sends FCM push notifications to MJOLNIR on critical events
 | `scripts/rsi-loop.sh` | TIC→TOCK→ENTROPY→ANALYZE tic-toc shell loop |
 | `signals/observations/` | FatBaby observation files Emily Prime reads each cycle |
 | `signals/tasks/` | Directed task files obs-watcher picks up and dispatches to Claude Code |
+| `inbox/` | No-context dump — anything shared with no clear task attached lands here first; see THE_EMILY_WAY.md Principle 16 |
 | `var/rsi-loop-state.json` | Live RSI loop state (read by TUI) |
 | `BACKLOG.md` | The canonical cross-repo golden backlog — read before starting any work |
 | `GOLDEN.md` | Compressed backlog context for haiku (≤1200 tokens) |

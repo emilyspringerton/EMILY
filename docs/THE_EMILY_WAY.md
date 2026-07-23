@@ -173,6 +173,28 @@ What this means in practice:
    ingestion process the same way `CheckServiceHealth` already treats IDUNA/newssite/signalapi:
    as something whose downtime is unacceptable to discover after the fact.
 
+### 16. The Inbox — Capture Now, Triage Later
+
+Added 2026-07-23 after the founder shared a link with no task attached and said, plainly: "its
+important i dont know save it somewhere... I'll dump stuff there if theres no clear intent
+keeping full audit trails." Side quests are already an accepted cost of doing business here
+(Principle 15) — this is the mechanism for the ones that arrive as a fragment, not a task.
+
+The bar for `EMILY/inbox/` is deliberately zero. Nothing needs to be understood, scoped, or even
+plausibly relevant before it lands there — the only requirement is that it lands *somewhere*,
+timestamped, with the full raw content, instead of evaporating at the end of a conversation. Do
+not block capture on figuring out intent first; that is the entire point of the principle.
+
+This is upstream of, and distinct from, BACKLOG.md's `INTAKE QUEUE`: the intake queue is for
+observations already curated toward becoming real backlog items (`emily backlog promote` routes
+them through haiku classification). The inbox is for things that haven't been triaged at all —
+some entries will graduate into a backlog item once their intent becomes clear; many won't, and
+that's fine. Log format: `EMILY/inbox/INBOX.md`, newest dated section on top (same convention as
+every `CHANGELOG.md`), one bullet per item — timestamp, raw content verbatim, whatever context
+existed at capture time, and a `status` (`unprocessed` / `triaged` / `discarded`). Update the
+status in place when an entry graduates or gets consciously dropped; don't delete the entry
+either way — the audit trail is the point.
+
 ---
 
 ## The Feedback Loop
