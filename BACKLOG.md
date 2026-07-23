@@ -5257,13 +5257,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   mailing-list vault is locked (`cmd/mailing-list-unlock`, interactive passphrase) — signups
   503 until a human runs it, pre-existing gap affecting every okemily signup form.
   All 7 tracked sub-items for this real-time direction session are now done.
-- [ ] **S170-09: TYLER series X episode "on the vibes."** Founder, real-time, after the
-  emily-agent OOM/2-day-dead-daemon incident was found and fixed and Principle 1 (backlog-first,
-  immutable) was tightened: "once we get this figured out and we are properly on the rails we
-  write a tyler series x episode on the vibes i dunno." Logged before writing per the
-  just-established rule, in the same turn. Not started. Scope: a loose, vibes-first episode
-  draft, not a fully plotted script — founder's own "i dunno" suggests low-commitment/exploratory
-  tone is intentional, not a gap to fill in later.
+- [x] **S170-09: TYLER series X episode "on the vibes."** Apple #10526 · TYLER `9cd0425`. Founder,
+  real-time, after the emily-agent OOM/2-day-dead-daemon incident was found and fixed and
+  Principle 1 (backlog-first, immutable) was tightened: "once we get this figured out and we are
+  properly on the rails we write a tyler series x episode on the vibes i dunno." Logged before
+  writing per the just-established rule, in the same turn. `episodes/x01_the_long_quiet.md` —
+  Layer 1 (Custody Trial) touching Layer 4 (Emily OS) directly, a two-day unexplained substrate
+  silence discovered and sat with rather than diagnosed on-camera, resolving into a real-time-
+  logging discipline. Syndicated to the blog (author: EINHORN_MEDIA).
 
 ---
 
