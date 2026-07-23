@@ -1,7 +1,7 @@
 # EMILY — Emily Prime Agent
 
 Emily Prime is the meta-orchestrator and chief of staff for EINHORN_INDUSTRIAL. She runs as a Go
-HTTP service on port 8086, executes RSI (Recursive Self-Improvement) cron cycles every 5 minutes,
+HTTP service on port 8086, executes RSI (Recursive Self-Improvement) cron cycles every 15 minutes,
 triages FatBaby observations, issues directed tasks to the obs-watcher loop, files Apples to IDUNA
 after each cycle, and sends FCM push notifications to MJOLNIR on critical events.
 
@@ -38,7 +38,7 @@ EMILY_STATE_DIR     — default: ./emily-state
 
 ## Emily Prime Cron Cycle (RunOnce)
 
-Each 5-minute cycle has four phases:
+Each 15-minute cycle has four phases:
 
 1. **OBSERVE** — load state, count roadmap items
 2. **DECIDE** — pick highest-priority queued RSI task (Emiree gear-aware)
@@ -111,4 +111,8 @@ to every claude invocation. Sessions accumulate context across RSI cycles — ea
 from where the last one ended rather than a blank slate.
 
 See `EMILY/docs/THE_EMILY_WAY.md` principle 11 for the full AGI loop rationale.
+
+## Commit Protocol (standing instruction)
+
+Always commit and push completed work immediately — don't wait to be asked. This is the default for every repo in this monorepo.
 

@@ -1473,7 +1473,7 @@ SIGNAL ESCALATION (from context/signal-priorities.json):
 - Strategic relevance >= 0.80 → Gmail alert
 - Weekly pulse → auto-sent Monday 07:00 UTC
 
-TRIAGE CYCLE (runs every 5 minutes via cron):
+TRIAGE CYCLE (runs every 15 minutes via cron):
 1. integration_read_observations — see what FatBaby found
 2. integration_triage write_tasks=true — score, issue tasks for relevance >= 0.75
 3. For CEO-visible observations → gmail_send_alert

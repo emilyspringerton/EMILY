@@ -672,7 +672,7 @@ product. Solution: CQRS read models — MySQL for relational projections, MongoD
   Acceptance: Emily Prime's system prompt includes full cross-repo context on every conversation.
 
 - [x] **S22-03: Wire MaybeRebuild into cron cycle** — Call `GoldenDocCompiler.MaybeRebuild(ctx)`
-  at the start of `RunOnce()` in `cron.go`. Full context refreshes on each 5-min cron cycle when
+  at the start of `RunOnce()` in `cron.go`. Full context refreshes on each 15-min cron cycle when
   any source doc has changed.
   Dependency: S22-01 ✓.
 
@@ -5219,6 +5219,44 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 - [ ] **S170-07: guidance-watcher issuer-attribution bug** — investigate where `issuer` gets set
   in `internal/guidance` and whether INVESTOR ALERT/SHAREHOLDER-style headlines should be
   filtered pre-extraction, matching the dividend fix's approach; not started.
+- [ ] **S170-08: RED GARDEN — VS0 bot-match validation, VS1 online play + matchmaking + accounts.**
+  Founder, real-time: "iterate towards vs0 bot matches and vs1 online play validated with 10
+  independent headless bots connected" → "simple match making" → "accounts" → "backlog first" →
+  "real game" → "24 hours" → "then a blog post pressure makes diamonds". Picks up from S170-04
+  (northstar + clone, done 2026-07-19): the `GL/glu.h` blocker flagged there is now resolved
+  (`libglu1-mesa-dev` installed via `~/sudo-queue/05-install-glu-dev.sh`) — `red_garden_server`,
+  `red_garden_bot`, and `red_garden_lobby` all build clean (also fixed the `usleep` implicit-
+  declaration warning: `-std=c99` was hiding the POSIX declaration, added `-D_DEFAULT_SOURCE` to
+  `scripts/build.sh`'s `COMMON_FLAGS`). Scope for this item: VS0 = validate bot-vs-bot matches
+  run correctly headless; VS1 = validate online play with 10 independent headless bot clients
+  connected simultaneously over the real UDP network stack, plus simple matchmaking and an
+  accounts/auth layer (open question, not yet decided: full IDUNA JWT like IDUNA/PRRJECT_FATBABY,
+  or the lighter HMAC connect-ticket pattern shankpit-460 already ships — needs a founder call
+  before auth work starts, per Emily Way "spec before implementation"). "24 hours" and the planned
+  "pressure makes diamonds" blog post suggest a real timebox — not yet clarified with founder.
+  No matchmaking/accounts/multi-bot code written yet as of this entry.
+  **Update 2026-07-23 — VS0/VS1/matchmaking/accounts done, Apple #10522.** Founder resolved the
+  open questions: HMAC connect-ticket (shankpit-460 pattern, not full IDUNA JWT), no fixed
+  deadline. `GL/glu.h` fixed (`libglu1-mesa-dev`), `apps/lobby`/`apps/arena` now build.
+  `packages/common/hmac_sha256.h` ported verbatim from shankpit-460 (RFC 4231 vectors re-verified
+  in this repo); `apps/server` verifies connect tickets, fails closed without
+  `REDGARDEN_TICKET_SECRET`. New `apps/matchmaker` (one match per process is this simulation's
+  design — pairs `PACKET_FIND_MATCH` requests, spawns a dedicated `red_garden_server --port` per
+  match). New `scripts/test_10_bots.sh` validated 10 bots -> 5 concurrent matches, all connect,
+  10s sustained load, zero crashes.
+  **Update 2026-07-23, part 2 — hero/item content + funnel + blog post, Apple #10523.**
+  `REDGARDEN/docs/HEROES_VS0.md`: concrete kits for all 9 queued heroes + TYLER (exact OG-Meepo
+  reskin per founder request), LoL/DOTA-familiar stat lines, RED GARDEN-specific map passives on
+  several. `REDGARDEN/docs/CONSUMABLES_AND_COOKING.md`: names mined from
+  `gitlab.com/mailtruck/creepy-carrots`, cooking/crafting northstar direction (node-control →
+  resource → cooked buff loop), plus a hard cross-cutting UI constraint (all shop/menu surfaces
+  need high-APM keybind+click affordances for pro play, while staying legible to casuals — same
+  "easy to learn, hard to master" bar as SHANKPIT's WEAKNIGHT spec). OKEMILY: new
+  `redgarden.html` early-access waitlist (mirrors stinkies.html, tagged `list:"redgarden"`),
+  published the "Pressure Makes Diamonds" blog post via IDUNA's blog API. Found, not fixed: the
+  mailing-list vault is locked (`cmd/mailing-list-unlock`, interactive passphrase) — signups
+  503 until a human runs it, pre-existing gap affecting every okemily signup form.
+  All 7 tracked sub-items for this real-time direction session are now done.
 
 ---
 

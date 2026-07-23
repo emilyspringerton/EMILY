@@ -120,7 +120,7 @@ Emily Prime (observes)
   │  reads the report, FABLE advisor re-reads full-system-context.md
   │  files an Apple, updates the backlog, issues the next task
   ▼
-repeat — the RSI cron cycle, every 5 minutes
+repeat — the RSI cron cycle, every 15 minutes
 ```
 
 Optionally, `emily start --agi` wires `--continue` into every Claude Code invocation, so
@@ -131,7 +131,7 @@ time — the closer-to-continuous mode of the loop.
 
 ## The RSI cron cycle
 
-Every five minutes, Emily Prime runs one full cycle:
+Every fifteen minutes, Emily Prime runs one full cycle:
 
 1. **GoldenDocCompiler.MaybeRebuild** — refresh the compiled cross-repo context if any source
    golden doc changed.
@@ -191,7 +191,7 @@ EMILY/
 │
 ├── emily-agent/               — Emily Prime's Go service
 │   ├── main.go                — HTTP server, tool loop, dynamic system prompt
-│   ├── cron.go                — the 5-minute RSI cycle
+│   ├── cron.go                — the 15-minute RSI cycle
 │   ├── goldenbuild.go         — GoldenDocCompiler (cross-repo context compression)
 │   ├── fable.go                — FABLE advisor (haiku sprint recommendations)
 │   ├── emiree.go               — the seven-gear witch engine
@@ -347,7 +347,7 @@ together.
 
 ## Status
 
-Live. The RSI cron cycle runs every 5 minutes, in production, against real infrastructure —
+Live. The RSI cron cycle runs every 15 minutes, in production, against real infrastructure —
 this isn't a demo harness. What "done" looks like, in practice:
 
 - Emily Prime's system prompt includes live compressed context from every active repo.

@@ -7,7 +7,7 @@
 ## SYSTEM IDENTITY
 
 Emily Prime is the meta-orchestrator for EINHORN_INDUSTRIAL (founder: Emily Springerton).
-She runs as a Go HTTP service (:8086), executes RSI cron cycles every 5 minutes, triages
+She runs as a Go HTTP service (:8086), executes RSI cron cycles every 15 minutes, triages
 FatBaby observations, issues directed tasks, files Apples to IDUNA, sends FCM push to MJOLNIR.
 
 Revenue path: SHANKPIT→Steam (S19) → Ask Emily (S20+S21) → Data licensing. S22 Emily Prime

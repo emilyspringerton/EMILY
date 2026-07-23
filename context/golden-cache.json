@@ -15,6 +15,11 @@
       "compressed": "## EMILY-BACKLOG\n\n**系統狀態**: 9待辦, 73+完成 (S25 2026-06-14). 19 Tier 1 + 20 Tier 2黃金源 = 39總索引.\n\n**優先序**: S19→S23→S24→S5→S2→S10\n\n**待實現**:\n- **S19** (SHANKPIT→Steam EA): S19-03 Steam帳號籌備 (卡人工), S19-05 $9.99 EA發布\n- **S23** (EDIS WP): S23-01 emily install --edis (卡人工), S23-04 Emily+ $29/mo WooCommerce訂閱閘, S23-05 Mailchimp名單整合\n- **S24** (新聞網硬化): S24-01 prod部署 (卡人工), S24-02 SSL+fatbaby.io, S24-03 日誌輪轉+警報, S24-04 nginx快取調, S24-05 wrk基準\n- **S5** (未來): MySQL wire協議嵌入伺服器, Tyler IDUNA代理註冊 (延後)\n- **S2** (MPT): Pexels API鑰匙 (卡人工), S01E01冷開場, RSI觸發\n- **S10**: Web審計驗證器 (卡MJOLNIR WebView)\n\n**解阻**: S23-04 (\n",
       "updated_at": "2026-06-16T13:24:54Z"
     },
+    "/home/fatbaby/EMILY/HQ-SPEC-PRIME-097-fixed-points.md": {
+      "hash": "5acf0c7267b65ddfa18d19d965a1ce9e2b9b4f3f0c37ede189a469d616822c69",
+      "compressed": "## HQ-PRIME-097\n# HQ-SPEC-PRIME-097 — Fixed-Point Doctrine for Emily Prime\n\n**Status:** Golden\n**Owner:** Emily Prime\n**Audience:** Emily Prime, Emiree (state layer), all Iduna-registered agents by reference\n**Supersedes:** None. Extends HQ-SPEC-IAM-096-apples.md and SYSTEM_GOVERNANCE.md.\n**Prime directive of this document:** Every recursive loop in the EMILY system is a map F: state → state. This document defines the vocabulary, invariants, metrics, and review questions Emily Prime uses to reason about the\n",
+      "updated_at": "2026-07-16T21:49:44Z"
+    },
     "/home/fatbaby/EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md": {
       "hash": "0750ea8fe5554f42004815936b34c81165503abfda97a5b698728151cefe06e9",
       "compressed": "## ARCHETYPE-ENGINE\n# Dynamic Hybrid AI Agent Archetype Engine — Northstar\n\n*THE_FIELD v1.0 implementation specification*\n*Last updated: 2026-06-23*\n\n---\n\n## Three-Sentence Version\n\nThe Archetype Engine is a software implementation of THE_FIELD architecture: a dual-persona harmonic engine where a Carrier agent (E₁, structured/deterministic) and an Explorer agent (E₂, chaotic/divergent) run in superposition, with 72 Goetic sub-harmonic modulators injected as intent-steered archetypes.\nIt replaces raw single-mo\n",
@@ -22,8 +27,13 @@
     },
     "/home/fatbaby/EMILY/docs/NORTHSTAR.md": {
       "hash": "dbe8e07e618ca79ceea40f504a10c5d96ce167e71cfabd36b5daa99365703bc4",
-      "compressed": "## EMILY-NORTH\n\n**Purpose:** Meta-orchestration layer for EINHORN_INDUSTRIAL; recursive self-improvement via three agents (Emily Prime, Emiree, FatBaby-Emily).\n\n**System Architecture:**\n- **Emily Prime** (`:8086` Go HTTP service): Chief of staff; reads observations, issues RSI tasks, files Apples (audit trail). Dynamic system prompt from `context/full-system-context.md` (compiled by GoldenDocCompiler). FABLE advisor (`GET /api/v1/emily/fable/advice`) recommends sprints via cross-repo golden context.\n- **Emiree**: Seven-gear state machine (IDLE→COAST→ACTIVE→ENGAGED→PUSH→SURGE→OVERLOAD) governing RSI pacing. Proof-of-work via Apple trail. Implementation: `emily-agent/emiree.go`; spec: `emiree.md` + `docs/emiree-over-agent-spec.md`.\n- **FatBaby-Emily**: Embedded in PRRJECT_FATBABY; monitors SEC EDGAR + PR Newswire; publishes governance signals → `var/emily-observations/latest.json`.\n\n**5-min Cron Cycle:**\n1. GoldenDocCompiler.MaybeRebuild (refresh context)\n2. OBSERVE (state/health)\n3. DECIDE (Emiree gear-aware selection)\n4. ACT (one RSI iteration)\n5. PLAN (triage observations, HEIMDAL drain, morning briefing)\n6. APPLE (file to IDUNA; FCM push to MJOLNIR on completion)\n\n**Key Files:** `emily-agent/main.go\n",
+      "compressed": "## EMILY-NORTH\n\n**Purpose:** Meta-orchestration layer for EINHORN_INDUSTRIAL; recursive self-improvement via three agents (Emily Prime, Emiree, FatBaby-Emily).\n\n**System Architecture:**\n- **Emily Prime** (`:8086` Go HTTP service): Chief of staff; reads observations, issues RSI tasks, files Apples (audit trail). Dynamic system prompt from `context/full-system-context.md` (compiled by GoldenDocCompiler). FABLE advisor (`GET /api/v1/emily/fable/advice`) recommends sprints via cross-repo golden context.\n- **Emiree**: Seven-gear state machine (IDLE→COAST→ACTIVE→ENGAGED→PUSH→SURGE→OVERLOAD) governing RSI pacing. Proof-of-work via Apple trail. Implementation: `emily-agent/emiree.go`; spec: `emiree.md` + `docs/emiree-over-agent-spec.md`.\n- **FatBaby-Emily**: Embedded in PRRJECT_FATBABY; monitors SEC EDGAR + PR Newswire; publishes governance signals → `var/emily-observations/latest.json`.\n\n**15-min Cron Cycle:**\n1. GoldenDocCompiler.MaybeRebuild (refresh context)\n2. OBSERVE (state/health)\n3. DECIDE (Emiree gear-aware selection)\n4. ACT (one RSI iteration)\n5. PLAN (triage observations, HEIMDAL drain, morning briefing)\n6. APPLE (file to IDUNA; FCM push to MJOLNIR on completion)\n\n**Key Files:** `emily-agent/main.go\n",
       "updated_at": "2026-06-16T13:24:48Z"
+    },
+    "/home/fatbaby/EMILY/docs/NORTHSTAR_BABY_ERP.md": {
+      "hash": "62c73b5bf27e8bb0e321e40d6598e24c23b2e05f312cb428128020cc647442d3",
+      "compressed": "## BABY-ERP\n# NORTHSTAR — Baby ERP\n\n**Classification:** Tier 1 — operational\n**Owner:** Emily Springerton / EINHORN_INDUSTRIAL\n**Version:** VS0 (bootstrap) | Written 2026-07-19\n\n---\n\n## Mission\n\nOne system of record for running both the business and the founder's life, pre-revenue, with\nzero external SaaS dependency. Not a toy — a deliberately small, Apple-audited ERP, built on\ninfrastructure EINHORN_INDUSTRIAL already owns (IDUNA, Apples, emily-agent), shaped by studying\na real enterprise ERP's modul\n",
+      "updated_at": "2026-07-19T14:17:08Z"
     },
     "/home/fatbaby/EMILY/docs/NORTHSTAR_INDEX.md": {
       "hash": "9de812b3a13a3ee8c33728e177385baae694f90cb60bf7074aff75b7408f47a8",
@@ -40,10 +50,15 @@
       "compressed": "## SUPPLY-CHAIN\n# NORTHSTAR — Emily Supply Chain AGI\n\n**Classification:** Tier 1 — operational  \n**Owner:** Emily Springerton / EINHORN_INDUSTRIAL  \n**Version:** VS0 (bootstrap) | Updated: 2026-06-27\n\n---\n\n## Mission\n\nEmily manages a transparent, Apple-audited physical product supply chain. Every vendor interaction, purchase order, and fulfillment event is traceable to a source Apple. The goal is to eliminate the need for Emily (human) to manually discover, evaluate, negotiate with, or manage vendors. Emily\n",
       "updated_at": "2026-06-27T09:41:31Z"
     },
+    "/home/fatbaby/EMILY/docs/SAGA_SYSTEM_AUDIT_2026-07-18.md": {
+      "hash": "f480f88f9de395eef3bedd53bf926dccc9d38a2ecd34c7adde55c01fbd359f43",
+      "compressed": "## SAGA-AUDIT-2026-07-18\n# SAGA System Audit — 2026-07-18\n\n*Author: Claude Code, at founder direction (\"perform a full system SAGA audit\" → \"go deeper\").\nStatus: audit report, not a golden spec — a snapshot, superseded the moment new work lands.*\n\nThis is a hand-run, monorepo-wide three-way reconciliation in the spirit of SAGA (HQ-SPEC-DOC-102\n§2–3): **intent** (golden docs, `EMILY/context/golden-docs-index.md`, 90 entries) vs. **claim\nledger** (what those docs assert is built) vs. **reality** (what's actually \n",
+      "updated_at": "2026-07-18T13:24:49Z"
+    },
     "/home/fatbaby/EMILY/docs/THE_EMILY_WAY.md": {
-      "hash": "d3ac8db44309c4bcdefd72516879c43802c32ae32d81b723833c340645362f04",
-      "compressed": "## THE-EMILY-WAY\n\n**목표 (Purpose):** EINHORN_INDUSTRIAL의 구축 방식 — Emily Prime 계획 → Claude Code 구현 → Apple 증명.\n\n**현재 상태 (Status):** 운영 중. Backlog-first, spec-before-code, Apple-before-mark-done 원칙 확립. RSI loop는 5분 주기 (OBSERVATION_CONTINUE=true로 AGI 학습 누적).\n\n**핵심 규칙:**\n1. **Backlog First** — `EMILY/BACKLOG.md` 읽기 (작업 전 필수)\n2. **Spec Before Code** — `docs/specs/`에 아키텍처 메모/northstar 커밋\n3. **Apple = Proof** — `emily apples post` (완료 전 필수; Apple ID → backlog)\n4. **CHANGELOG Mandatory** — 모든 의미 있는 변경 기록\n5. **Golden Docs 등록** — `EMILY/context/golden-docs-index.md`에 신규 마스터 문서 추가\n6. **Atomic Commits** — 한 가지씩 (feat/fix/docs/chore/perf/backlog/golden-index)\n7. **Tests Before Push** — `go test ./...` (non-Go: 타이포 점검)\n8. **Clear Acceptance Criteria** — 관찰 가능한 동작 명시\n9. **Audit Trail = Product**\n",
-      "updated_at": "2026-06-16T13:26:04Z"
+      "hash": "81da09c2c5e51500e31f669725bfe0081727c68f646bf0b20174ec4a12e2c731",
+      "compressed": "## THE-EMILY-WAY\n# The Emily Way\n## How EINHORN_INDUSTRIAL builds things\n\n*Synthesized from CLAUDE.md files, git commits, changelogs, and RSI loop observations across all repos.*\n*Last updated: 2026-07-17*\n\n---\n\n## Three-Sentence Version\n\nEmily Prime plans; Claude Code implements; every outcome is an Apple.\nThe backlog is the load-bearing node — every decision is traceable to a backlog item, every completion has an Apple as proof.\nRecursive self-improvement is the product: each cycle makes the next cycle faste\n",
+      "updated_at": "2026-07-17T23:27:46Z"
     },
     "/home/fatbaby/EMILY/docs/TRAINING_PIPELINE.md": {
       "hash": "6b42e16fcaaa7a1e3631e3500454072c7ab6d85298ad9dca74a92826f2669089",
@@ -61,13 +76,13 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "98eb5ca9748d3d68bb77f74fbf73928de6529065bebaffd90f85cd9701b0166a",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-07-15T09:02:42Z | cycle 8287 | idle | idle — no queued tasks\n2026-07-15T09:07:46Z | cycle 8288 | idle | idle — no queued tasks\n2026-07-15T09:11:58Z | cycle 8289 | idle | idle — no queued tasks\n2026-07-15T09:16:07Z | cycle 8290 | idle | idle — no queued tasks\n2026-07-15T09:21:07Z | cyc\n",
-      "updated_at": "2026-07-15T17:25:53Z"
+      "hash": "2e91ecbfe2d6fe8fb9318ca0e2405b37c6deb9234ce3fa2370385138fa6f07b9",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-07-20T21:13:56Z | cycle 8765 | idle | idle — no queued tasks\n2026-07-20T21:29:00Z | cycle 8766 | idle | idle — no queued tasks\n2026-07-20T21:43:53Z | cycle 8767 | idle | idle — no queued tasks\n2026-07-20T21:58:34Z | cycle 8768 | idle | idle — no queued tasks\n2026-07-20T22:12:42Z | cyc\n",
+      "updated_at": "2026-07-21T21:53:59Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "370fe64ecf41c98e090917e8a2bf07884fe302e9650d977dd5dd77d56683aa0c",
-      "compressed": "## EMILY-MEMORY\n# EMILY PRIME — WORLD STATE\n## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.\n## Last manual update: 2026-06-16 (session 3)\n\n---\n\n## SYSTEM IDENTITY\n\nEmily Prime is the meta-orchestrator for EINHORN_INDUSTRIAL (founder: Emily Springerton).\nShe runs as a Go HTTP service (:8086), executes RSI cron cycles every 5 minutes, triages\nFatBaby observations, issues directed tasks, files Apples to IDUNA, sends FCM push to MJOLNIR.\n\nRevenue path: SHANKPIT→Steam (S19)\n",
+      "compressed": "## EMILY-MEMORY\n# EMILY PRIME — WORLD STATE\n## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.\n## Last manual update: 2026-06-16 (session 3)\n\n---\n\n## SYSTEM IDENTITY\n\nEmily Prime is the meta-orchestrator for EINHORN_INDUSTRIAL (founder: Emily Springerton).\nShe runs as a Go HTTP service (:8086), executes RSI cron cycles every 15 minutes, triages\nFatBaby observations, issues directed tasks, files Apples to IDUNA, sends FCM push to MJOLNIR.\n\nRevenue path: SHANKPIT→Steam (S19)\n",
       "updated_at": "2026-06-17T12:14:51Z"
     },
     "/home/fatbaby/EMILY/emily-prime-spec.md": {
@@ -94,6 +109,46 @@
       "hash": "16366ae0dbd83b9d98541442148a6908e30800ff238e3a4118973e1daa1b9337",
       "compressed": "## IDUNA-NORTH\n\n**系統**: 中央信任權威 — IAM (Google OAuth + ES256 JWT)、RBAC、M2M agent credentials、Apples 審計帳本、HEIMDAL sprint planning。\n\n**現狀**: 完成\n- IAM: Google OAuth → RBAC role → ES256 JWT (`POST /api/v1/auth/google`, `POST /api/v1/auth/agent`)\n- Apples 帳本: append-only audit (`POST/GET /api/v1/apples`), queryable by type/repo/agent/date, Git-backed sync via `emily sync --apples-git-dir`\n- HEIMDAL: MJOLNIR → sprint requirements; Emily Prime translates → RSI items + FCM; lifecycle: pending→queued→in_progress→complete|blocked\n\n**架構**:\n```\nGoogle OAuth → IDUNA:8080 → MySQL (users/roles/capabilities/agents/apples/heimdal_sprints)\n              + ES256 key pair (iduna-key.json)\n              + Back Office admin UI (#B76E79 for destructive)\n              + agents.json registry\n```\n\n**關鍵端點** (port 8080):\n- Auth: `/api/v1/auth/{google,agent}` → JWT\n- Apples: `/api/v1/apples` (GET/POST)\n- HEIMDAL: `/api/v1/heimdal/sprints` (GET/POST/PATCH :id)\n- Admin: `/back-office/`\n\n**待實現**: None identified.\n",
       "updated_at": "2026-06-16T13:25:59Z"
+    },
+    "/home/fatbaby/IDUNA/docs/NORTHSTAR_KIKORYU.md": {
+      "hash": "143140c3249ccc599e9c6f6bb465fb5085405f7de63a07567511117a00cad41a",
+      "compressed": "## KIKORYU-NORTH\n# KIKORYU — Product Roadmap\n\n*KIKORYU is IDUNA's single-shard MMO consumer domain — named as a peer of FATBABY and SECWATCH\nsince IDUNA's original IAM pivot (see `iam-spec.md` §1) but, until this roadmap, never given its\nown build plan. Fourteen versions (VS0–VS13) across four phases, each building stable identity\nfirst and authoring \"reality\" last.*\n\n*2026-07-16 update: a code-verified reconciliation of these fourteen specs against the running\nsystem now lives at `docs/VS_REALITY_AUDIT.m\n",
+      "updated_at": "2026-07-16T16:15:06Z"
+    },
+    "/home/fatbaby/IDUNA/docs/NORTHSTAR_PASSWORD_MANAGER.md": {
+      "hash": "185f4942b592f62bd0111e1feb0affe7f926f5dbb6412742e573ce690d55c572",
+      "compressed": "## IDUNA-VAULT-NORTH\n# NORTHSTAR — IDUNA Vault (Password Manager)\n\n**Status:** Draft v0.1 — northstar only, no implementation yet\n**Date:** 2026-07-19\n**Founder framing, verbatim:** \"we need a password manager as a first class prodcut for the\nfounder\" / \"parity with password managers\" / \"chrome extension\" / \"iduna.\"\n\n---\n\n## 1. The incident that actually motivated this\n\nNot hypothetical — it happened in this exact session, minutes before this doc was written. Setting\nup Gmail OAuth required a Google Cloud Clie\n",
+      "updated_at": "2026-07-19T19:51:22Z"
+    },
+    "/home/fatbaby/IDUNA/docs/VS_REALITY_AUDIT.md": {
+      "hash": "90c90aec04fd42dc6e0084e270e7909a89a7d04169efcc618cc0246bc334fbda",
+      "compressed": "## VS-REALITY-AUDIT\n# VS Reality Audit — KIKORYU VS0–VS13 vs. the Running System\n\n*2026-07-16. Author: Claude Code, at founder direction.*\n\nThis is a hand-run three-way reconciliation in the spirit of SAGA\n(HQ-SPEC-DOC-102 §2–3, `EMILY/docs/hq-specs/`): **intent** (the fourteen\nfounding specs, now archived verbatim at `docs/archive/kikoryu-vs-original/`)\nvs. **claim ledger** (what IDUNA's current docs say — `docs/NORTHSTAR.md`,\n`docs/iam-spec.md`) vs. **reality** (the code actually running on :8080).\nThe S\n",
+      "updated_at": "2026-07-16T16:15:07Z"
+    },
+    "/home/fatbaby/IDUNA/docs/kikoryu/VS0_IDENTITY_GATE.md": {
+      "hash": "3b30515848fe7734710c933650e26d6971f902a2a5123e7836d461d019bd1ffb",
+      "compressed": "## KIKORYU-VS0\n# VS0 — The Identity Gate\n\n`supersedes: vs0.md` (archived at `docs/archive/kikoryu-vs-original/vs0.md`)\n`status: live-but-undocumented → documented by this rewrite`\n`role in tournaments platform: foundation — every entrant passes this gate`\n\n*2026-07-16. Code-verified rewrite; see `docs/VS_REALITY_AUDIT.md` §VS0 for\nthe full reconciliation.*\n\n---\n\n**Resolved, 2026-07-16, same day:** the founder's \"primary in and out is emails — VS0 is emails\"\nturned out not to be about this document at \n",
+      "updated_at": "2026-07-16T16:44:54Z"
+    },
+    "/home/fatbaby/IDUNA/docs/kikoryu/VS10_SCOREBOARDS.md": {
+      "hash": "244ce67e07b6ed83b30b040ce8170163ffb3b13d24d93b9ce3d541d49acbb825",
+      "compressed": "## KIKORYU-VS10\n# VS10 — Scoreboards \u0026 Records for the Tournaments Platform\n\n`supersedes: vs10.md` (archived at `docs/archive/kikoryu-vs-original/vs10.md`)\n`status: not-yet-built-still-relevant — second supporting layer of VS2`\n`consumes: VS2 tournament events; publishes: the official record`\n\n*2026-07-16. See `docs/VS_REALITY_AUDIT.md` §VS10.*\n\n---\n\n## What VS10 is now\n\nVS10 is the records layer: the \"Recognized Narrative of Reality,\" where raw\ntournament events become the official, citable standings. For\n",
+      "updated_at": "2026-07-16T16:15:07Z"
+    },
+    "/home/fatbaby/IDUNA/docs/kikoryu/VS1_IAM_MODERATION.md": {
+      "hash": "52d12ae9d35445bf3f6a9da539d0a82852fbb770027c9120c07d836ffe76db8f",
+      "compressed": "## KIKORYU-VS1\n# VS1 — IAM, Moderation \u0026 the Back Office\n\n`supersedes: vs1.md` (archived at `docs/archive/kikoryu-vs-original/vs1.md`)\n`status: live-but-undocumented (partial) → documented; open gaps specified`\n`role in tournaments platform: operational trust — moderation, audit, support`\n\n*2026-07-16. Code-verified rewrite; see `docs/VS_REALITY_AUDIT.md` §VS1.*\n\n---\n\n## What VS1 is now\n\nVS1 is IDUNA's administrative and moderation layer: RBAC, the append-only\naudit record, the Back Office console, and \n",
+      "updated_at": "2026-07-16T16:15:07Z"
+    },
+    "/home/fatbaby/IDUNA/docs/kikoryu/VS2_TOURNAMENTS.md": {
+      "hash": "b06be2f0a2a053682acf7665d5ca78aa0384ddf16efe12bbdea89431a3214b57",
+      "compressed": "## KIKORYU-VS2\n# VS2 — Tournaments: The Social Tournaments Platform\n\n`supersedes: vs2.md` (archived at `docs/archive/kikoryu-vs-original/vs2.md`)\n`status: not-yet-built-still-relevant — THE PRIMARY PRODUCT DIRECTION`\n`supporting layers: VS9 (reputation), VS10 (scoreboards)`\n\n*2026-07-16. See `docs/VS_REALITY_AUDIT.md` §VS2. Nothing of this exists in\ncode yet (verified: zero grep hits for tournament/poker/leaderboard/standings\nacross IDUNA); every prerequisite it depends on does.*\n\n---\n\n## What VS2 is now\n\n",
+      "updated_at": "2026-07-16T16:15:07Z"
+    },
+    "/home/fatbaby/IDUNA/docs/kikoryu/VS9_REPUTATION.md": {
+      "hash": "a0a5048343c3d79c46f774c7e87e570f5aae79b3b3d79606ad378d3ced843bfd",
+      "compressed": "## KIKORYU-VS9\n# VS9 — Reputation \u0026 Credence for the Tournaments Platform\n\n`supersedes: vs9.md` (archived at `docs/archive/kikoryu-vs-original/vs9.md`)\n`status: not-yet-built-still-relevant — first supporting layer of VS2`\n`consumes: event store (VS2 play events, VS1/VS7 governance events)`\n\n*2026-07-16. See `docs/VS_REALITY_AUDIT.md` §VS9.*\n\n---\n\n## What VS9 is now\n\nVS9 is the institutional memory of participants: stable, event-derived\nsignals of reliability and conduct. The original framing survives int\n",
+      "updated_at": "2026-07-16T16:15:07Z"
     },
     "/home/fatbaby/IDUNA/golden.md": {
       "hash": "6ff1efdbcb3f902cc2ba1879e531fbeca470cb038be7d18be502455da7bd76de",
@@ -125,6 +180,16 @@
       "compressed": "## FATBABY\n\n**目的**: 自改進金融實體圖譜系統，攝入SEC 8-K及衍生表單(10-K投票段、委代聲明)，萃取人物、關係、投票模式、治理訊號，表面六維智能(實體/投票/市場/影響力/安全/時序)，用Claude CLI自改進引擎精煉提取規則，發佈交易洞見via FATBABY TCP饋。\n\n**架構**: FATBABY原生(Go+Claude CLI反饋迴圈)，四層操作中。\n\n**現況**:\n- Layer 1(secwatch): 8-K/DEF 14A/PRES14A解析可操作✅；待實現: Item 5.07投票結果解析器(候選人名單、批准%、得票數)、代理聲明解析(董事履歷、薪酬、股權)、格式容差與Emily反饋迴圈。\n- Layer 2(entity-graph): 名字正規化、共現邊、節點分類(董事/高管/審計/顧問)、關係評分可操作✅，NDJSON追加存儲現運行。\n- Layer 3(signals.go): 13訊號類型實裝(董事摩擦\u003c85%批准、投票失敗、經紀自選股、分類董事會持續)✅；關鍵:\n",
       "updated_at": "2026-06-16T13:24:35Z"
     },
+    "/home/fatbaby/PRRJECT_FATBABY/docs/northstar/replay-fragility.md": {
+      "hash": "a96e51e5ab6f1a098f41cf482251ac16a9225df4569fb5379323a72b34cd64b3",
+      "compressed": "## FATBABY-REPLAY\n# NORTHSTAR: Index Persistence — Ending the Full-History Replay on Every Restart\n\n**Status:** Draft v0.1\n**Date:** 2026-07-18\n**Fits into:** `eventstore` (read path) → `signalapi` / `newssite` / `entity-graph` (the three\nfull-replay consumers) → systemd supervision (`ops/systemd/*.service`, the restart pattern this\nmust survive)\n**Founder framing, verbatim:** \"we need to fix the entity graph into memory thing, i dont know\nwhat to do.\"\n\n---\n\n## 1. Premise\n\nThree long-running processes — `\n",
+      "updated_at": "2026-07-18T05:54:23Z"
+    },
+    "/home/fatbaby/REDGARDEN/NORTHSTAR.md": {
+      "hash": "f4f7fcb8d7399a9452de0c5754c4992b1b9373afb189ec3b534e53560438a432",
+      "compressed": "## REDGARDEN-NORTH\n# NORTHSTAR — RED GARDEN\n\n**Status:** Core product (elevated 2026-07-19) — real-time scoping session, capturing founder\ndirection accurately before implementation continues, per the Emily Way's \"spec before\nimplementation.\"\n\n---\n\n## 1. What this is\n\nA deck-based real-time strategy game: **Clash Royale's model** (card hand, mana/influence\neconomy, drag-and-drop deployment onto a live board, real-time not turn-based) — not Clash of\nClans (base-building), not an autobattler (units aren't auto\n",
+      "updated_at": "2026-07-19T20:06:30Z"
+    },
     "/home/fatbaby/SHANKPIT/docs2/NORTHSTAR.md": {
       "hash": "a41f6ed09e5e2b5ff53aa7b19c0a4862826471360e3d52af5bda66f2d8454e12",
       "compressed": "## SHANKPIT\n\n**Purpose:** Fast, stylized server-authoritative FPS (UDP multiplayer) integrated into persistent voxel world engine (Dragonfly/DragonsNShit). Minecraft Bedrock Protocol fork enables destructible/buildable worlds, BedWars, zone evolution.\n\n**Current Status (Layer 1):** Working shooter—server physics/combat, multi-scene portals, neural-net bots, neon brutalist rendering, team modes (TDM/CTF), Construct snapshots, skateboard-cli tests. Client (`apps/lobby`) intentionally cheap: sends UDP UserCmds, renders server snapshots. Feel locked (turbo movement, melee speed boost) — non-negotiable.\n\n**Immediate Priority (Layer 2 — Scene Correctness):** Portal travel infrastructure partially wired but non-functional. Missing: authoritative server-side portal validation/scene-flip/respawn, per-player scene isolation (physics currently global), client filtering by `scene_id`, travel state machine (`pending_scene`/`transition_timer`), cross-scene attack prevention. **Blocker:** Until complete, all scenes are decorative. **Milestone 1 of DragonsNShit bridge.**\n\n**Layer 3 (DragonsNShit Backend):** Wire Shankpit client to Dragonfly fork: programmable voxel worlds, item persistence, entity systems, chunk streaming. Contract: `UserCmd (UDP) → Dragonfly | Snapshot + voxel payload ← Shankpit`. See `THE_BRIDGE_SPEC.md`.\n\n**Layer 4 (Future):** Zone evolution, season lineage, progressive world state.\n\n**Key Interfaces:** `scene_id` (NetPlayer/snap\n",
@@ -139,6 +204,11 @@
       "hash": "635505c485a9a35ded5cccfe2d2d10e2fea2665c5ef1586cfd1b160dbc8dd714",
       "compressed": "## FIELDOFFICE-NORTH\n# TRAPX — Product Northstar\n\n*Codename: TrapX*\n*Product name: TRAPX*\n*Created: 2026-06-24*\n*Studio: Rock Boss Studios × The Danowski Group × EINHORN_INDUSTRIAL*\n\n---\n\n## What This Document Is\n\nThe authoritative northstar for TRAPX: a 3D voxel urban sandbox — GTA-like third-person and\nfirst-person, full RPG class system, TRAPX city simulation backend — built on the\nGoblinFoxDragon (DragonsNShit) voxel engine with SHANKPIT as the FPS client layer.\n\nThis document is the cross-system synthes\n",
       "updated_at": "2026-06-24T01:39:00Z"
+    },
+    "/home/fatbaby/TYLER/just_a_duck.md": {
+      "hash": "ef13fc2635ec436c8c7dc7541a1b0c9b25b326950f6329d3e10c7a8c4695138a",
+      "compressed": "## TYLER-DUCK\nhttps://www.youtube.com/shorts/z_FIOGffaZgHere is the complete video transcript from Jack's Factory #shorts #othergard:[00:00 - 00:08]The factory is dimly lit and eerie with cobwebs covering every surface (0:00). Suddenly, a figure emerges from the shadows (0:00).[00:08 - 00:16]The duck is wearing a tuxedo (0:08). \"I have the power of telekinesis.\" (0:08) \"That's impossible, you're just a duck.\" (0:08) \"I'm also a secret agent working for the government.\" [0.1.6–0.1.7][00:16 - 00:22]The unicor\n",
+      "updated_at": "2026-07-19T18:20:54Z"
     },
     "/home/fatbaby/emily.cli/docs/NORTHSTAR.md": {
       "hash": "20f94d1febf365a8f1bc9cb16fd9cb38eed80a9293c915cc4d2b7260a47914b9",

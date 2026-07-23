@@ -6,7 +6,7 @@
 
 ## What's blocked without the key
 
-Emily Prime's 5-minute cron runs in degraded mode without `ANTHROPIC_API_KEY`:
+Emily Prime's 15-minute cron runs in degraded mode without `ANTHROPIC_API_KEY`:
 
 | Component | Without key | With key |
 |-----------|-------------|----------|
@@ -81,7 +81,7 @@ curl -s http://localhost:8086/api/v1/emily/fable/advice | jq '.recommendations[]
 
 ### 6. Verify the cron cycle fires
 
-Check the log after ~5 minutes:
+Check the log after ~15 minutes:
 
 ```bash
 tail -f /home/fatbaby/EMILY/var/logs/emily-agent.log | grep -E "goldenbuild|cron|RSI|apple"

@@ -47,7 +47,7 @@ servers:
 tags:
   - name: emily-agent
     description: |
-      Emily Prime RSI engine (:8086). Runs autonomous 5-minute cron cycles:
+      Emily Prime RSI engine (:8086). Runs autonomous 15-minute cron cycles:
       OBSERVE → DECIDE → ACT → PLAN. Exposes roadmap, cycle state, memory
       patching, and a proxy to the GPT-2 inference server.
   - name: iduna-auth

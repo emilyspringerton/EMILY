@@ -56,7 +56,7 @@ FatBaby-Emily (PRRJECT_FATBABY)
 
 ---
 
-## Cron Cycle (every 5 minutes)
+## Cron Cycle (every 15 minutes)
 
 1. **GoldenDocCompiler.MaybeRebuild** — refresh `context/full-system-context.md` if any source changed
 2. **OBSERVE** — load state, check health

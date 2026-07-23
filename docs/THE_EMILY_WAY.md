@@ -210,7 +210,7 @@ Claude Code (implements)
 Emily Prime (observes)
   ↓ reads observation, FABLE advisor reads full-system-context.md
   ↓ files Apple, updates backlog, issues next task
-Repeat (RSI loop, 5-minute cron)
+Repeat (RSI loop, 15-minute cron)
 ```
 
 ---

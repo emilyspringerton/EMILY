@@ -158,7 +158,7 @@ failure from "did the reboot work" as a separate question.
 6. Tail each `var/logs/*.log` for startup errors.
 7. `emily status --fatbaby` and `emily apples list --limit 5` — confirm the
    Apple round-trip works end-to-end through the freshly booted IDUNA.
-8. Wait one 5-min emily-agent RSI cycle, confirm a new Apple appears.
+8. Wait one 15-min emily-agent RSI cycle, confirm a new Apple appears.
 9. Check the APPLES git mirror actually received it, not just IDUNA's db:
    ```bash
    git -C /home/fatbaby/APPLES log -1 --format='%ci %s'

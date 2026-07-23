@@ -36,7 +36,7 @@ type CronConfig struct {
 	StateDir       string        // directory for state files
 	LockFile       string        // prevents concurrent runs
 	CycleDuration  time.Duration // max time per cycle (default 280s)
-	Interval       time.Duration // how often to run (default 5m, used in daemon mode)
+	Interval       time.Duration // how often to run (default 15m, used in daemon mode)
 	EmilyRoot      string        // absolute path to the EMILY repo root (for goldenbuild)
 	EarningsCalDir string        // path to PRRJECT_FATBABY earnings-calendar var dir (e.g. var/earnings-calendar)
 }
