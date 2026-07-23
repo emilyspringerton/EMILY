@@ -26,9 +26,9 @@
       "updated_at": "2026-06-23T13:06:17Z"
     },
     "/home/fatbaby/EMILY/docs/NORTHSTAR.md": {
-      "hash": "dbe8e07e618ca79ceea40f504a10c5d96ce167e71cfabd36b5daa99365703bc4",
-      "compressed": "## EMILY-NORTH\n\n**Purpose:** Meta-orchestration layer for EINHORN_INDUSTRIAL; recursive self-improvement via three agents (Emily Prime, Emiree, FatBaby-Emily).\n\n**System Architecture:**\n- **Emily Prime** (`:8086` Go HTTP service): Chief of staff; reads observations, issues RSI tasks, files Apples (audit trail). Dynamic system prompt from `context/full-system-context.md` (compiled by GoldenDocCompiler). FABLE advisor (`GET /api/v1/emily/fable/advice`) recommends sprints via cross-repo golden context.\n- **Emiree**: Seven-gear state machine (IDLE→COAST→ACTIVE→ENGAGED→PUSH→SURGE→OVERLOAD) governing RSI pacing. Proof-of-work via Apple trail. Implementation: `emily-agent/emiree.go`; spec: `emiree.md` + `docs/emiree-over-agent-spec.md`.\n- **FatBaby-Emily**: Embedded in PRRJECT_FATBABY; monitors SEC EDGAR + PR Newswire; publishes governance signals → `var/emily-observations/latest.json`.\n\n**15-min Cron Cycle:**\n1. GoldenDocCompiler.MaybeRebuild (refresh context)\n2. OBSERVE (state/health)\n3. DECIDE (Emiree gear-aware selection)\n4. ACT (one RSI iteration)\n5. PLAN (triage observations, HEIMDAL drain, morning briefing)\n6. APPLE (file to IDUNA; FCM push to MJOLNIR on completion)\n\n**Key Files:** `emily-agent/main.go\n",
-      "updated_at": "2026-06-16T13:24:48Z"
+      "hash": "8602fec313b0ac978437b385db05e18a6249f42d0fe5fef7e01136c1176aedc5",
+      "compressed": "## EMILY-NORTH\n# EMILY — Northstar\n\n*Last updated: 2026-06-12*\n\n---\n\n## Three-Sentence Version\n\nEMILY is the meta-orchestration layer for EINHORN_INDUSTRIAL: Emily Prime (chief of staff),\nEmiree (the witch engine governing RSI pacing), and FatBaby-Emily (domain signal intelligence).\nEmily Prime reads observations, issues directed tasks, runs RSI improvement loops, and files\nApples — the system's auditable paper trail. The recursive self-improvement loop is the product.\n\n---\n\n## The Three Agents\n\n### Emiree\n",
+      "updated_at": "2026-07-23T23:12:52Z"
     },
     "/home/fatbaby/EMILY/docs/NORTHSTAR_BABY_ERP.md": {
       "hash": "62c73b5bf27e8bb0e321e40d6598e24c23b2e05f312cb428128020cc647442d3",
@@ -56,9 +56,9 @@
       "updated_at": "2026-07-18T13:24:49Z"
     },
     "/home/fatbaby/EMILY/docs/THE_EMILY_WAY.md": {
-      "hash": "81da09c2c5e51500e31f669725bfe0081727c68f646bf0b20174ec4a12e2c731",
+      "hash": "a60fa54675bbdc1ce1c73f5d5cd0fe12377e237c93a383c18ee35b2247f94d29",
       "compressed": "## THE-EMILY-WAY\n# The Emily Way\n## How EINHORN_INDUSTRIAL builds things\n\n*Synthesized from CLAUDE.md files, git commits, changelogs, and RSI loop observations across all repos.*\n*Last updated: 2026-07-17*\n\n---\n\n## Three-Sentence Version\n\nEmily Prime plans; Claude Code implements; every outcome is an Apple.\nThe backlog is the load-bearing node — every decision is traceable to a backlog item, every completion has an Apple as proof.\nRecursive self-improvement is the product: each cycle makes the next cycle faste\n",
-      "updated_at": "2026-07-17T23:27:46Z"
+      "updated_at": "2026-07-23T23:12:53Z"
     },
     "/home/fatbaby/EMILY/docs/TRAINING_PIPELINE.md": {
       "hash": "6b42e16fcaaa7a1e3631e3500454072c7ab6d85298ad9dca74a92826f2669089",
@@ -76,14 +76,14 @@
       "updated_at": "2026-06-16T13:25:09Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "2e91ecbfe2d6fe8fb9318ca0e2405b37c6deb9234ce3fa2370385138fa6f07b9",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-07-20T21:13:56Z | cycle 8765 | idle | idle — no queued tasks\n2026-07-20T21:29:00Z | cycle 8766 | idle | idle — no queued tasks\n2026-07-20T21:43:53Z | cycle 8767 | idle | idle — no queued tasks\n2026-07-20T21:58:34Z | cycle 8768 | idle | idle — no queued tasks\n2026-07-20T22:12:42Z | cyc\n",
-      "updated_at": "2026-07-21T21:53:59Z"
+      "hash": "e9232cb0e6e1b322d7720aac3ac90bbf61abe69273319d217559a48a08439e41",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-07-20T21:29:00Z | cycle 8766 | idle | idle — no queued tasks\n2026-07-20T21:43:53Z | cycle 8767 | idle | idle — no queued tasks\n2026-07-20T21:58:34Z | cycle 8768 | idle | idle — no queued tasks\n2026-07-20T22:12:42Z | cycle 8769 | idle | idle — no queued tasks\n2026-07-20T22:27:14Z | cyc\n",
+      "updated_at": "2026-07-23T23:12:53Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
-      "hash": "370fe64ecf41c98e090917e8a2bf07884fe302e9650d977dd5dd77d56683aa0c",
-      "compressed": "## EMILY-MEMORY\n# EMILY PRIME — WORLD STATE\n## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.\n## Last manual update: 2026-06-16 (session 3)\n\n---\n\n## SYSTEM IDENTITY\n\nEmily Prime is the meta-orchestrator for EINHORN_INDUSTRIAL (founder: Emily Springerton).\nShe runs as a Go HTTP service (:8086), executes RSI cron cycles every 15 minutes, triages\nFatBaby observations, issues directed tasks, files Apples to IDUNA, sends FCM push to MJOLNIR.\n\nRevenue path: SHANKPIT→Steam (S19)\n",
-      "updated_at": "2026-06-17T12:14:51Z"
+      "hash": "f63534f2f4e98e0a9d3194362da0cc5e2c515cb8523c9a200a13b385244a7ee4",
+      "compressed": "## EMILY-MEMORY\n# EMILY PRIME — WORLD STATE\n## Persistent memory across cron cycles. Updated by Emily Prime each meaningful cycle.\n## Last manual update: 2026-06-16 (session 3)\n\n---\n\n## SYSTEM IDENTITY\n\nEmily Prime is the meta-orchestrator for EINHORN_INDUSTRIAL (founder: Emily Springerton).\nShe runs as a Go HTTP service (:8086), executes RSI cron cycles every 15 minutes, triages\nFatBaby observations, issues directed tasks, files Apples to IDUNA, sends FCM push to MJOLNIR.\n\nRevenue path: SHANKPIT→Steam (S19\n",
+      "updated_at": "2026-07-23T23:12:53Z"
     },
     "/home/fatbaby/EMILY/emily-prime-spec.md": {
       "hash": "8565f7c38f37f8c312f4e7a558c4365559f7fb43cf27f761accb806e95b96bc9",
@@ -124,6 +124,11 @@
       "hash": "90c90aec04fd42dc6e0084e270e7909a89a7d04169efcc618cc0246bc334fbda",
       "compressed": "## VS-REALITY-AUDIT\n# VS Reality Audit — KIKORYU VS0–VS13 vs. the Running System\n\n*2026-07-16. Author: Claude Code, at founder direction.*\n\nThis is a hand-run three-way reconciliation in the spirit of SAGA\n(HQ-SPEC-DOC-102 §2–3, `EMILY/docs/hq-specs/`): **intent** (the fourteen\nfounding specs, now archived verbatim at `docs/archive/kikoryu-vs-original/`)\nvs. **claim ledger** (what IDUNA's current docs say — `docs/NORTHSTAR.md`,\n`docs/iam-spec.md`) vs. **reality** (the code actually running on :8080).\nThe S\n",
       "updated_at": "2026-07-16T16:15:07Z"
+    },
+    "/home/fatbaby/IDUNA/docs/kikoryu/FRONT_DOOR_FUNNEL.md": {
+      "hash": "61a14d6eccf21917b761b706e5b912304b51c02816884528f35e8402c2f60107",
+      "compressed": "## FRONT-DOOR-FUNNEL\n# FRONT_DOOR_FUNNEL — Agents and Unagents at IDUNA's One Front Door\n\n`supersedes: none` — new synthesis. Does not supersede `VS0_IDENTITY_GATE.md` or\n`VS7_AGENT_AUTHORITY.md`; it sits between them, answers the question neither\nwas written to answer (should the two onboarding paths be symmetric?), and\ncites both as living documents. If either is revised later, revise it there;\nthis document points at them rather than restating their content.\n\n`status: draft — code-verified, proposing new bu\n",
+      "updated_at": "2026-07-23T23:12:53Z"
     },
     "/home/fatbaby/IDUNA/docs/kikoryu/VS0_IDENTITY_GATE.md": {
       "hash": "3b30515848fe7734710c933650e26d6971f902a2a5123e7836d461d019bd1ffb",
@@ -186,9 +191,9 @@
       "updated_at": "2026-07-18T05:54:23Z"
     },
     "/home/fatbaby/REDGARDEN/NORTHSTAR.md": {
-      "hash": "f4f7fcb8d7399a9452de0c5754c4992b1b9373afb189ec3b534e53560438a432",
+      "hash": "2ef39992a970eb48f0aa1b264bdbc7da64ac62c27f1d3ee51b9433bd8cc3c377",
       "compressed": "## REDGARDEN-NORTH\n# NORTHSTAR — RED GARDEN\n\n**Status:** Core product (elevated 2026-07-19) — real-time scoping session, capturing founder\ndirection accurately before implementation continues, per the Emily Way's \"spec before\nimplementation.\"\n\n---\n\n## 1. What this is\n\nA deck-based real-time strategy game: **Clash Royale's model** (card hand, mana/influence\neconomy, drag-and-drop deployment onto a live board, real-time not turn-based) — not Clash of\nClans (base-building), not an autobattler (units aren't auto\n",
-      "updated_at": "2026-07-19T20:06:30Z"
+      "updated_at": "2026-07-23T23:12:53Z"
     },
     "/home/fatbaby/SHANKPIT/docs2/NORTHSTAR.md": {
       "hash": "a41f6ed09e5e2b5ff53aa7b19c0a4862826471360e3d52af5bda66f2d8454e12",
