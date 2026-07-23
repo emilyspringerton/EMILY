@@ -103,8 +103,8 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   restart, not an indefinite "we don't cover" window. PRRJECT_FATBABY `5187b19` + `fde9043`.
   Apple #10209.
 
-- [ ] **Phase 2 — entity-graph checkpoint.** Three items; enable `fatbaby-entity-graph.service`
-  for the first time only once all three land.
+- [x] **Phase 2 — entity-graph checkpoint.** Three items; enable `fatbaby-entity-graph.service`
+  for the first time only once all three land. All three landed; closed 2026-07-23, Apple #10503.
   - [x] **2a: incremental filings table** — kills the per-batch full-store `buildFilingIndexes`
     scan (northstar's own words: "the single largest recurring waste on the box"). New
     `cmd/entity-graph/filingindex.go`: one-time backfill into SQLite, then each batch upserts
@@ -128,8 +128,19 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
     untouched as the raw audit trail. The equivalence gate asserts the dedup math is correct
     (2/3 precision from 104 inflated raw records → 4 unique signals), not that it matches the old
     wrong number. 5 new tests, `go test ./...` green.
-  - [ ] **2c: graph-lifetime hoist** out of `runBatch` — the northstar names this "the riskiest,"
-    to land last and alone, with 2b's equivalence check as its regression gate. Not started.
+  - [x] **2c: graph-lifetime hoist** out of `runBatch` — the northstar names this "the riskiest,"
+    to land last and alone, with 2b's equivalence check as its regression gate.
+    `NewGraph`/`LoadNodesFromDir`/`LoadAuditorsFromDir`/`LoadSignals`/`LoadHealthHistory`/
+    `CompactNodes` moved from every-batch to process start (`cmd/entity-graph/main.go`); `graph`
+    mutates in place via existing `FlushNodes`/`FlushEdges`, `historicalSignals` threaded through
+    `runBatch`'s return value, `healthHistory` mutated in place as a map. One same-class reload
+    (second `LoadSignals` for accuracy correlation, ~line 558) deliberately left as a flagged
+    follow-up, matching the northstar's own item scoping. `go test ./...` green. Live-tested
+    before deploying: stopped the real running service, ran the new binary in `-one-shot` mode
+    against production data, confirmed matching accuracy/node/signal output, then rebuilt and
+    restarted the service. PRRJECT_FATBABY `d450635` (landed 2026-07-19, closed retroactively
+    2026-07-23 — code shipped without the Apple/CHANGELOG/checkbox close-out this protocol
+    requires). Apple #10503.
 
 - [ ] **Phase 3 — ops runbook + checkpoint freshness check.** Document "checkpoints are
   disposable, safe to delete" as an operator invariant; add a `meta.snapshot_at` freshness check
