@@ -875,11 +875,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
   click funnels into, so attack/degraded posture hides the ad block instead of downgrading image
   quality. Live-verified end to end.
 
-- [ ] **S23-01: Deploy EDIS to live WordPress install** — Install WordPress, activate EDIS plugins
-  and theme. Configure EDIS_SIGNALAPI_URL + EDIS_EMILY_URL in wp-config.php. Verify connection test
-  passes in admin. Create /ask page. Add Ask Emily + Signals widgets to sidebar.
-  Acceptance: /ticker/AAPL shows live governance signals. /ask widget returns Emily answer.
-  Dependency: signalapi live (S20-05 ✓). Use: emily install --edis --domain edis.example.com --dry-run
+- [x] **S23-01: Deploy EDIS to live WordPress install** — Stale checkbox, found and corrected
+  2026-07-23: superseded by the "S23-01: LIVE DEPLOY" entry below (2026-07-19), which found this
+  box had already run the deploy for real — this bullet was simply never updated to match. See
+  that entry for the actual verified state and its one remaining real gap (HTTPS, gated on the
+  domain-merge decision in S23-01b).
 
 - [x] **S23-02: SEO + OpenGraph wiring** — Install Yoast SEO. Add OpenGraph meta to ticker pages [done 2026-06-13]
   (company name, signal count, score as description). Sitemap includes /ticker/ pages.
@@ -920,7 +920,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
   frontend at bare `/`. Three claimants on root path. This is the same collision the already-
   queued Fable prompt `EMILY/docs/fable-prompts/iduna-front-door-funnel.md` (fable-next-backlog
   entry #1) exists to resolve — entry #7 (`agi-rsi-hitl-revenue-edis.md`) now references it too.
-  Dispatch one of those before touching live nginx/DNS for this. Not started.
+  Dispatch one of those before touching live nginx/DNS for this. **Entry #1 dispatched 2026-07-23**
+  (see `fable-next-backlog.md`) — this item stays open until that spec lands and its migration
+  path gets acted on; still not started beyond the dispatch.
 
 ## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
 
