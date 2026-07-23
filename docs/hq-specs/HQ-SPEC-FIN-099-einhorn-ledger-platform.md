@@ -142,6 +142,19 @@ Where Iduna meets money. Declarative policy, evaluated on every state transition
 - Iduna scopes remain the outer wall: `ledger:read`, `ledger:propose`, `ledger:execute`; execute held only by the post-approval execution path, never standing.
 - **Compliance hooks (honest placeholder):** counterparty screening (sanctions/OFAC) and KYB slots are interface stubs in v0, fulfilled by partner APIs in Phase 2. Anything beyond that (BSA/AML program, money transmission analysis) is counsel territory — the system reserves the seams; lawyers decide what fills them.
 
+**Amendment (append-only), 2026-07-23:** the policy engine above predates `pkg/norn`
+(`HQ-SPEC-PRIME-101-norn-loop-kernel.md`), the now-canonical propose→grade→gate→promote kernel.
+This section is not rewritten — the policy rules and evaluation semantics above remain
+authoritative — but it should be read going forward as this domain's NORN instantiation rather
+than a bespoke approval loop: PRIME-101 §6's instantiation table already carries "KAREN journal
+proposals" (proposer: KAREN, oracle: Emily Prime accept/reject history, tier `prime_ack`, reality
+root: human decision) — the exact shape of the `emily_prime_ack` training-wheels rule above (line
+137), including the "relaxes per no-regression evidence" note, which is literally NORN's tier-
+relaxation-as-gated-promotion concept (see PRIME-101's own text on `prime_ack`). As ELP-policy
+tooling is built (Build Sequence step 4, Policy Engine), new policy rules should register as NORN
+instantiations rather than accumulate as one-off `require:` entries with no shared grading/lineage
+mechanism. Per PRIME-101 §8 build-sequence item 5.
+
 ## 7. API Surface
 
 REST, versioned (`/v1/`), JSON, cursor pagination, idempotency keys on all POSTs, webhook/event subscriptions. Resource set mirrors the parity target deliberately:

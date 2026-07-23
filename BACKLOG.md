@@ -920,9 +920,14 @@ Run: `emily backlog promote --limit=50 --batch=15`
   frontend at bare `/`. Three claimants on root path. This is the same collision the already-
   queued Fable prompt `EMILY/docs/fable-prompts/iduna-front-door-funnel.md` (fable-next-backlog
   entry #1) exists to resolve — entry #7 (`agi-rsi-hitl-revenue-edis.md`) now references it too.
-  Dispatch one of those before touching live nginx/DNS for this. **Entry #1 dispatched 2026-07-23**
-  (see `fable-next-backlog.md`) — this item stays open until that spec lands and its migration
-  path gets acted on; still not started beyond the dispatch.
+  Dispatch one of those before touching live nginx/DNS for this. **Entry #1 dispatched 2026-07-23,
+  landed same day**: `IDUNA/docs/kikoryu/FRONT_DOOR_FUNNEL.md` (IDUNA `f327303`, golden-indexed
+  FRONT-DOOR-FUNNEL). Resolves the nginx root-path collision this item names: a dedicated
+  subdomain for IDUNA's ceremony frontend (e.g. `gate.farthq.com`), decoupled from the
+  `iduna.farthq.com`/EDIS cert question — so `iduna.farthq.com` stays WordPress's, and okemily.com
+  ⇄ EDIS merge no longer has to fight IDUNA's own frontend for root. **Still not started**: the
+  actual merge/nginx work itself — this item stays open until that's done, the spec only cleared
+  the design blocker.
 
 ## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
 
@@ -3527,9 +3532,17 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   ✓ Apple #9929 (S141-04 partial) — 2026-07-16. Commits: IDUNA (agent registration + 3 permission
   migrations + bootstrap fix), NORN (`pkg/apples`), PRRJECT_FATBABY (CLI wiring).
 
-- [ ] **S141-05: Append-only amendment notes to SIM-100 §6 and FIN-099 §6** — per §8.5 those specs now
+- [x] **S141-05: Append-only amendment notes to SIM-100 §6 and FIN-099 §6** — per §8.5 those specs now
   *reference* NORN instead of restating the loop. The Seam and ELP-policy instantiations themselves
   land with their host initiatives (S144 Path A; FIN-099 Phase 2+, out of first-wave scope).
+  Added both notes 2026-07-23, append-only (existing §6 content untouched): SIM-100 §6's five gate
+  rules mapped onto NORN's Artifact/Oracle/CheckLineage (rule 1 = content-hash Artifact identity,
+  rule 4 = Oracle/telemetry, rule 5 = the Löbian clause `CheckLineage` already enforces
+  mechanically); FIN-099 §6's `emily_prime_ack` training-wheels rule mapped onto PRIME-101's own
+  "KAREN journal proposals" instantiation-table row (tier `prime_ack`) and its tier-relaxation
+  concept. Both note that future seam/policy tooling should register as NORN instantiations rather
+  than re-implement gate logic bespoke. EMILY `docs/hq-specs/HQ-SPEC-SIM-100-...md` +
+  `HQ-SPEC-FIN-099-...md`.
 
 ---
 

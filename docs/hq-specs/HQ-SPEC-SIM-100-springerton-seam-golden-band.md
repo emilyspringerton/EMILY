@@ -74,6 +74,21 @@ The seam is the customs checkpoint between simulation and atoms. Rules:
 4. **Telemetry return flow:** every physical run streams back through the seam as events; sim-vs-real deviation is a first-class metric and a recon-style exception queue. Reality grades the simulator; the simulator's fidelity improvements pass their own no-regression gate.
 5. **Löbian clause, physical edition:** no component may certify a deployment bundle that its own outputs are part of. Eval suites are frozen and versioned independently of the training loop that they grade. The system never grades its own homework at the seam.
 
+**Amendment (append-only), 2026-07-23:** the five rules above are this document's own description
+of a propose→grade→gate→promote loop, written before the loop itself was extracted into a shared
+kernel. `HQ-SPEC-PRIME-101-norn-loop-kernel.md` (`pkg/norn` — Artifact/Proposer/Oracle/Gate/Registry)
+is now that kernel, and §6's "Instantiation Table" carries this seam as its own row ("Deployment
+bundles (Seam)", tier `biometric`, reality root "Physical telemetry"). This section is not
+rewritten — the gate protocol above remains the authoritative description of what the seam
+requires — but going forward it should be read as *this domain's instantiation of NORN*, not a
+bespoke loop: rule 1 (content-hash bundle identity) is NORN's `Artifact`; rule 4 (telemetry
+return flow) is NORN's `Oracle`, reality-rooted per PRIME-101's own terms; rule 5 (the Löbian
+clause) is exactly what `CheckLineage`'s content-hash ancestry walk enforces mechanically in
+`pkg/norn` today (see NORN's S141-02/03 migrations for two other domains already governed the same
+way). When seam tooling is actually built (Build Sequence step 6, hardware-in-the-loop bench), it
+should register as a NORN instantiation rather than re-implement gate/promotion logic from
+scratch. Per PRIME-101 §8 build-sequence item 5.
+
 ## 7. Safety & Transparency Architecture
 
 Guest-facing robots are the highest-stakes thing EINHORN will ever ship. The framing that holds:
