@@ -5657,6 +5657,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-33: Continue REDGARDEN — NORTHSTAR §12 Phase D, fourth hero: The Frog (the last
+  clean-fit hero from S170-32's roster audit).** Founder: "continue." Logged before writing per
+  Principle 1. Scope: **Q — Loop Back** (rewind the Frog's own position/HP to 3s ago) needs a new
+  mechanic arena has never had — a small per-hero history ring buffer, sampled periodically,
+  since nothing currently records past state. **W — Borrowed Time** is ally-targeted (refunds an
+  ally's ability cooldown) — no ally exists in 1v1, skipped, flagged, same pattern as Doc
+  Wheel/Duck's ally-dependent parts. **R — The Secret** (vanish entirely for 5s, reappear at any
+  visited location) is simplified to reuse Ghost's `intangible_ms` mechanic at a longer duration —
+  the "reappear at a chosen visited location" part needs its own location-memory system, deferred
+  and flagged, not implemented as "reappear in place" pretending to be the full ability.
+  **Passive — Never Told Anyone** (no visible cooldown UI for enemies) is a UI/bluffing concept —
+  arena has no separate enemy-facing view to hide anything from, skipped, flagged, same reasoning
+  as Ghost's passive.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
