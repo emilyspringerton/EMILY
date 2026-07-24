@@ -6245,7 +6245,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-63: REDGARDEN — matchmaker was dead, then the client couldn't get a connect ticket
+- [x] **S170-63: REDGARDEN — matchmaker was dead, then the client couldn't get a connect ticket
   at all.** Founder, live, actually trying to play: "im queued up for a match can you force a
   match reset so i can get into a game?" → "queued into the bot pool" → "ok the terminal exited
   but the client never launched" → "somethings not working" → "i opened it again and it happened
@@ -6269,9 +6269,12 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   it further. Also accidentally spawned one broken test bot with no ticket secret while
   investigating, which spammed the bot-pool matchmaker with failed connect/requeue cycles and
   orphaned several `arena_server` processes on incrementing ports — killed it and the orphans.
-  Fix in progress: matchmaker restarted with the same shared `REDGARDEN_TICKET_SECRET` the
-  self-mint path expects; `PLAY.bat` needs the same var set before launching, plus a `pause` so
-  future failures are actually readable instead of vanishing.
+  **Done — Apple #10681 · REDGARDEN `a509174`.** Matchmaker restarted (live, healthy, matching
+  full 20-player bot lobbies again) with the shared `REDGARDEN_TICKET_SECRET`; `PLAY.bat` fixed
+  to set the same var and `pause` on exit. Founder given the immediate manual workaround
+  (`set REDGARDEN_TICKET_SECRET=...` before running the already-downloaded exe) so a retry
+  doesn't require waiting on a fresh CI download. Actual successful connection not yet confirmed
+  by the founder as of this entry — flagged, not assumed.
 
 ---
 
