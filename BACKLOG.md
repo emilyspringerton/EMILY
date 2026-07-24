@@ -265,7 +265,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **S29-05 RSI smoke test: end-to-end loop verification** — Pipeline confirmed end-to-end: RSI cycles fire, Apples file to IDUNA, obs-watcher dispatches, context-overflow recovery works. 3 bugs found and fixed (cursor format, isContextTooLongOutput stdout capture, go run . compile). Blocked at final claude dispatch by API credit balance (user action: top up console.anthropic.com). Apple #848, commit 7edf6f5.
 - [x] **FatBaby system health check: 4 fixes applied** — signalapi O(N) scan (86% CPU → 0%), form4-watcher XSL prefix (0→479 transactions), form4-watcher 4MB→32MB body limit, SQLite COMMENT= migration. All 14 processes healthy. Apple #1114 | 2026-06-17.
 - [x] **signal pipeline audit: 10748 signal_failed today (9435=EDGAR 429 no-retry, 977=…** — Addressed by S36-01 (429 retry+throttle), S36-02 (skip pre-2000 empty URL filings), S36-03 (4MB→16MB limit), S36-05 (empty ticker). All 4 root causes fixed 2026-06-17. Apple #1229–#1236. Obs: 2026-06-17T22:21:23Z. — CLOSED — 2026-06-18
-- [ ] **emily-bot QA run vs 127.0.0.1:6969: PASS — 2/2 bots connected, 200 commands s…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-07-18T10:41:50Z.
+- [x] **emily-bot QA run vs 127.0.0.1:6969: PASS — 2/2 bots connected, 200 commands s…** — Duplicate: same emily-bot headless E2E effort fully documented in SECTION 155 (built, live-verified 2-bot/8-bot runs, 3 real bugs found and fixed). Obs: 2026-07-18T10:41:50Z. — CLOSED, no new Apple (superseded, not new work) — 2026-07-24.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -928,6 +928,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
   ⇄ EDIS merge no longer has to fight IDUNA's own frontend for root. **Still not started**: the
   actual merge/nginx work itself — this item stays open until that's done, the spec only cleared
   the design blocker.
+  **2026-07-24: FRONT_DOOR_FUNNEL §7 step 1 landed** (IDUNA, no nginx/DNS touched) — `/admin/agents`
+  no longer produces inert agents (PENDING→ACTIVE lifecycle, credential+permission gating). Apple
+  #10598. Steps 5–6 (fix VS0 web ceremony's stale bindings, apply the nginx front-door snippet +
+  dedicated `gate.farthq.com` subdomain) are the actual unblock for this item and are still not
+  started.
 
 ## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
 
