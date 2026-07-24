@@ -5518,7 +5518,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-26: REDGARDEN NORTHSTAR §12 Phase A — WOTAN player identity, starting now.**
+- [x] **S170-26: REDGARDEN NORTHSTAR §12 Phase A — WOTAN player identity, starting now.**
   Founder, real-time: "then continue REDGARDEN," picking back up the §12 phase order after the
   WEST/bios/blog-post thread. Logged before writing per Principle 1. Scope, checked against the
   actual code first: REDGARDEN's connect-ticket flow (`apps/server/src/main.c`) already verifies
@@ -5534,7 +5534,10 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   that silently. This pass stops at capturing + threading the player_id (the actual prerequisite
   Phase B needs); reporting REDGARDEN match results into IDUNA needs either a genre-agnostic
   schema addition (`wins`/`losses`/`matches_played` columns) or a separate endpoint — a real
-  IDUNA schema decision, not something to guess into a live shared table.
+  IDUNA schema decision, not something to guess into a live shared table. **Done — Apple #10547 ·
+  REDGARDEN `cea0704`.** `test_10_bots.sh` + `test_arena.sh` still green. Player-identity capture
+  is done; the schema-decision half of Phase A remains open (not a new backlog item — same
+  item, follow-up noted above).
 
 ---
 
