@@ -5577,7 +5577,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-30: Continue REDGARDEN — NORTHSTAR §12 Phase C, observer mode (arena half first).**
+- [x] **S170-30: Continue REDGARDEN — NORTHSTAR §12 Phase C, observer mode (arena half first).**
   Founder: "continue REDGARDEN." Logged before writing per Principle 1. Scope, checked against
   the two replay formats Phase B actually produced before committing to an approach: `apps/arena`
   logs are **state snapshots** (hero x/z/hp every 500ms) — a natural fit for "read the log, feed
@@ -5586,12 +5586,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   (`card_play` with card/grid position, no entity state) — replaying those means deterministically
   re-running `local_update`/`local_apply_card` from the logged inputs, a materially harder,
   separate problem (has to prove the sim is actually deterministic first) than state-snapshot
-  playback. Scoping this pass to the arena half only, RTS-side observer mode flagged as a
-  follow-on, not silently folded in. Plan: a headless-testable replay-reader module (parse the
-  JSONL, drive `arena_state` from logged snapshots on a timer) so the core logic can be unit
-  tested the same way `tests/test_arena_game.c` already tests the live sim — even though this box
-  has no display and can't verify the windowed client end-to-end, same constraint flagged in
-  S170-29.
+  playback. Scoped this pass to the arena half only, RTS-side observer mode flagged as a
+  follow-on, not silently folded in. Built `packages/simulation/arena_replay.h`/`.c` (fixed-format
+  parser + `arena_replay_apply_at()` interpolation/winner-timing driver) and a new
+  `red_garden_arena --observe <path>` flag running playback through the exact same render loop as
+  live play. 6 new headless tests, all green — the parser/interpolation logic doesn't need a
+  display to verify, matching `tests/test_arena_game.c`'s own reasoning. **Done — Apple #10554 ·
+  REDGARDEN `c9e05e6`.** `test_arena.sh` + `test_10_bots.sh` still green. RTS-side playback and
+  true live-tailing (reading a log still being appended to) remain open, separate next steps
+  within Phase C.
 
 ---
 
