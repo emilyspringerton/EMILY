@@ -5336,6 +5336,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   yet (rank model, MMR, queue rules all undecided). None built — `apps/arena` is currently a
   single hardcoded 1v1 demo with no matchmaking layer of any kind yet (§3.5's own "not yet wired"
   note applies here too). Not started.
+- [x] **S170-15: Retroactive fix — "always commit, don't wait to be asked" rollout + Principle 1
+  immutable-law tightening had no dedicated entry.** Found in the same full-session audit as
+  S170-13: both landed as real, substantial, standalone work — a standing commit-and-push
+  instruction added to all 17 CLAUDE.md files in the monorepo (root + IDUNA, SHANKPIT,
+  shankpit-460, OKEMILY, EMILY, PITVIPER, NORN, MJOLNIR, gpt2-alpine-c, EDIS, EmilyOS, APPLES,
+  TYLER, QUEENSALLYONLINEBOOKOFMAGIFICATIONANDUNICOR, PRRJECT_FATBABY, emily.cli, and a new
+  REDGARDEN/CLAUDE.md that didn't exist before), plus three separate commits tightening
+  `THE_EMILY_WAY.md` Principle 1 into an explicit immutable law (EMILY `5f2f046`, `1f7ff94`, root
+  `602f192`) — but neither got its own tracked entry, only passing mentions inside S170-09's and
+  S170-13's text. Fixed retroactively; no new Apple needed (each individual CLAUDE.md commit and
+  the Principle 1 commits were already real, already pushed — this entry just gives the body of
+  work its own line, the actual gap being closed).
 
 ---
 
