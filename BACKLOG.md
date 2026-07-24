@@ -5488,11 +5488,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `-company-bios-path` flag, rendered above the lead story with a "not yet editorially reviewed"
   note. **Done — Apple #10545 · PRRJECT_FATBABY `5be36a0`.** `go test ./...` green, 2 new tests.
 
-- [ ] **S170-23: Blog post — "building at infinity" and business-pivot whiplash aren't in
+- [x] **S170-23: Blog post — "building at infinity" and business-pivot whiplash aren't in
   tension on a long enough timeline (the ecosystem play).** Founder, real-time: "and write a blog
   post about how building at infinity and the whiplash of business pivots are not at tension
   especially on a long enough timeline (the ecosystem play)." Logged before writing per
-  Principle 1. Not started.
+  Principle 1. Argument made concrete with this session's own real thread-switches (bio pass →
+  WEST doc → correction → ticker-bio feature → correction → WELLHOUSE → new product idea) as the
+  evidence, not abstractly: pivots are cheap because the connective tissue under them (backlog,
+  commit protocol, golden-doc index, Apple trail) never itself pivots — depth lives in the seams
+  between verticals, not inside any one of them. **Done — Apple #10546 · published
+  okemily.com/blog/building-at-infinity/.**
 
 ---
 
