@@ -5397,16 +5397,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   nor was its completion Apple ever actually filed, despite the original implementation plan
   calling for one. Both fixed now: Apple #10535 (retroactive), this entry (retroactive). Standing
   rule going forward: this is exactly the failure mode Principle 1's tightening exists to prevent.
-- [ ] **S170-14: REDGARDEN MOBA-mode matchmaking pools.** Founder, real-time: "iterate towards
+- [~] **S170-14: REDGARDEN MOBA-mode matchmaking pools.** Founder, real-time: "iterate towards
   botgames for the moba mouse game i want to connect to the 10 v 10 bot games" → "and then
   backlog the player only pool" → "and then backlog the ranked pool." Logged before writing per
   Principle 1. Three matchmaking pools for `apps/arena`'s eventual multiplayer mode: (1) bot
   games — extend the existing 1-hero-vs-1-bot demo toward 10v10 bot-populated matches, the MOBA-
   mode analogue of the card-RTS mode's `scripts/test_10_bots.sh` validation; (2) player-only pool
   — human-only matches, no bot fill; (3) ranked pool — competitive matchmaking, no design done
-  yet (rank model, MMR, queue rules all undecided). None built — `apps/arena` is currently a
-  single hardcoded 1v1 demo with no matchmaking layer of any kind yet (§3.5's own "not yet wired"
-  note applies here too). Not started.
+  yet (rank model, MMR, queue rules all undecided). **2/3 done, verified live 2026-07-24:** (1)
+  bot games — S170-43's persistent 10v10 pool. (2) player-only pool —
+  `scripts/launch_arena_pools.sh` runs a second, separate matchmaker instance (port 7779,
+  `--lobby-size 2`, zero bots ever pointed at it); two real human `--queue` clients matched into
+  a genuine 1v1, cross-checked clean isolation both directions. REDGARDEN `c31e90e`, Apple
+  #10628. (3) ranked pool stays explicitly undesigned — no rank model/MMR/queue rules exist,
+  a design gap, not a code gap, not attempted here. `apps/arena` was originally a single
+  hardcoded 1v1 demo with no matchmaking layer of any kind (§3.5's own "not yet wired"
+  note applied here too, before this pass).
 - [x] **S170-15: Retroactive fix — "always commit, don't wait to be asked" rollout + Principle 1
   immutable-law tightening had no dedicated entry.** Found in the same full-session audit as
   S170-13: both landed as real, substantial, standalone work — a standing commit-and-push
