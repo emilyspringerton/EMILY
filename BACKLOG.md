@@ -5786,6 +5786,25 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-42: REDGARDEN pivot — the MOBA (apps/arena) is the product, real 1v1 networked
+  PvP.** Founder, direct and unambiguous: "i need pvp not the autometa pvp that got validated as
+  boring" → "this is a fucking pivot as i framed it" → "the card game is fucking boring" →
+  "cancel it" → "pivooooot to the moba." Canceled a plan (scaling bot-vs-bot matchmaking to 10v10)
+  mid-plan-mode before any code was touched — bot-vs-bot combat at any team size isn't PvP.
+  `NORTHSTAR.md` §13 formalizes the pivot: `apps/arena` is primary, the card-RTS stays as working
+  infrastructure but isn't where new work goes. Shipped real 1v1 networked PvP the same day: new
+  `apps/arena_server` (ports connect-ticket/WOTAN pieces from `apps/server`), `--connect` mode on
+  `apps/arena`'s client, new `PACKET_ARENA_MOVE/CAST/SNAPSHOT` wire packets. Verified live, caught
+  and fixed two real bugs (`arena_bot_enabled` not gating kit-casts — a real player would still get
+  yanked by the bot's Duck-Q AI; the sim clock starting before both real players connected — a
+  match could resolve before player 2 ever joined). Final verified state: two real WOTAN-identified
+  clients connect, match waits correctly, bot fully disabled once both present, no unprompted
+  movement/combat. `scripts/test_arena.sh`/`test_10_bots.sh` clean. **Done — Apple #10590 ·
+  REDGARDEN `4ab7539`.** Also recorded as a standing correction:
+  `feedback-redgarden-moba-not-card-rts.md`.
+
+---
+
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
   real-time, many fragments landing together (order as given): "then continue playing the mud as
   a break from the REDGARDEN work" → "start playing as a second character too" → "ensure wotan
