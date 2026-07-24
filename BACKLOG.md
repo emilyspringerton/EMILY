@@ -5772,6 +5772,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-41: WOTAN player identity for REDGARDEN — real bot accounts, real match results.**
+  Founder: "stand up wotan" → "the bots need real identities and play real games." Continues
+  S170-26/28. IDUNA gained a new `REDGARDEN-BOTS` M2M agent, a genre-agnostic `player_game_stats`
+  table (separate from shankpit-460's FPS-shaped `kills`/`deaths`, resolving the schema fork S170-26
+  flagged), and three endpoints (`POST /api/v1/redgarden/ticket`, `POST /api/v1/redgarden/
+  game-result`, `GET /api/v1/redgarden/leaderboard`). `apps/client/bot_main.c` now does a real
+  register+ticket-mint round trip instead of self-minting (clean fallback on failure); `apps/server`
+  reports real match results at `match_end`. Verified live end-to-end: ran a real 2-bot match to
+  natural completion, match log's winner matched the public leaderboard afterward exactly.
+  `scripts/test_10_bots.sh`/`test_arena.sh` re-verified clean. **Done — Apple #10587 · IDUNA
+  `c7789bc` · REDGARDEN `eae519d`.**
+
+---
+
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
   real-time, many fragments landing together (order as given): "then continue playing the mud as
   a break from the REDGARDEN work" → "start playing as a second character too" → "ensure wotan
