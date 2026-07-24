@@ -1222,7 +1222,14 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   map in the collector (e.g., last-seen timestamp per /24 prefix) would fill this gap.
   Second-pass feature; not a launch blocker. Adds ~+30 hostile score on scanner bursts.
   Acceptance: go test covers delta scoring path; hostile_ratio rises under simulated burst.
-  — Apple #874. EDIS commit (pending).
+  — Apple #874. **Commit note corrected 2026-07-24: not pending — landed at `ccf65c7`**
+  ("feat(dis): S35-03 per-IP delta scoring from log tailer"), `cmd/dis/main.go`'s `ipTracker`/
+  `applyDeltaScore` (bounded map, -1 for unknown/first-seen, correct clock-skew guard). Verified
+  real and correctly implemented while auditing this section — the *only* gap found is that
+  `internal/dis/harvester.go`'s `Harvester`/`scoreRecord` (a separate, never-wired-in code path)
+  still leaves `DeltaMs` at its zero-value default, which is dead code (never called from `main()`
+  anywhere in the repo) rather than a live bug — production runs entirely on the log-tailer path
+  this item actually fixed.
 
 ---
 
