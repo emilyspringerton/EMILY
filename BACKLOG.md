@@ -6110,7 +6110,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-54: REDGARDEN GitHub Actions artifact is unsuitable — no distributable executable,
+- [x] **S170-54: REDGARDEN GitHub Actions artifact is unsuitable — no distributable executable,
   no SDL2 bundled.** Founder, real-time, four fragments: "the github artifact for REDGARDEN is
   unsuitable" → "no executable" → "SDL dll not bundled" → "check shankpit for the protopattern."
   Logged before writing per Principle 1. Root cause, checked before fixing: `REDGARDEN/.github/
@@ -6124,14 +6124,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   pattern for REDGARDEN's arena client specifically (no GLU dependency, unlike SHANKPIT's client
   — `build_arena.sh`'s own comment already notes this, one less DLL to bundle). Queuing a local
   `mingw-w64` install (`sudo-queue/09-mingw-w64.sh`) to actually dry-run-verify the cross-compile
-  here before trusting CI alone to catch a broken workflow. **Status: still failing** after two
-  real fixes (missing `winsock2.h`/`ioctlsocket`/`closesocket`/`WSAStartup` branch entirely absent
-  from `apps/arena/src/main.c`; `mkdir(path, mode)`'s 2-arg POSIX signature not guarded for
-  MinGW's 1-arg version) — both committed (`1e61feb`, `f788d3a`), both verified not to regress
-  the Linux side, CI re-run still red on the actual Windows cross-compile step. Can't read GitHub
-  Actions job logs from here (403, "must have admin rights") and can't install `mingw-w64` locally
-  (no sudo) — diagnosing by careful source read + re-push + re-check cycle instead of seeing the
-  real compiler error directly. Continuing.
+  here before trusting CI alone to catch a broken workflow. First two fixes (missing
+  `winsock2.h`/`ioctlsocket`/`closesocket`/`WSAStartup`; `mkdir`'s 2-arg POSIX signature) didn't
+  clear it — CI logs are 403 ("must have admin rights") from here and `sudo apt-get install
+  mingw-w64` needs a password I don't have, so switched to a no-sudo path: `apt-get download`
+  fetches `.deb`s without root, `dpkg-deb -x` extracts them — got a real local
+  `x86_64-w64-mingw32-gcc-win32` and reproduced the actual failure directly. Real root cause: the
+  *entire* networking section of `apps/arena/src/main.c` (~300 lines — ticket minting, WOTAN
+  registration, `net_connect`, `net_find_and_connect`, snapshot polling) was still wrapped in one
+  outer `#ifndef _WIN32`, so none of it compiled on Windows regardless of the per-call fixes —
+  `main()`'s calls produced implicit-declaration + linker errors. Removed that outer guard;
+  fixed one more POSIX-only call found along the way (`getpid()` → `GetCurrentProcessId()`) and
+  two `sendto()` type-mismatch warnings. **Done — a real `RedGarden.exe` (PE32+, Windows) verified
+  building clean locally, then confirmed via the GitHub Actions API that CI passed every step
+  end-to-end (`276614c`) — Apple #10673 · REDGARDEN `24bea48`.** `red-garden-build` now contains
+  `RedGarden_Client_*.zip` (exe + SDL2.dll + PLAY.bat) and `RedGarden_Server_*.zip`, matching the
+  original ask exactly.
 
 - [ ] **S170-55: REDGARDEN — twelfth hero, John Dee / Paimon (merged, one character).** Founder,
   real-time: "add john DEE /paimon as the same hero." Logged before writing per Principle 1. Not
