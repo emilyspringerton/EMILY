@@ -6660,7 +6660,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `wget --timeout=30` (previously only `--retry-connrefused`, which doesn't catch a connection
   that succeeds and then stalls). The original hung run itself is still sitting in_progress —
   can't be cancelled without a token, harmless since it's an independent run from the new one.
-  **Done — REDGARDEN `912cdff`, fresh run queued and unaffected by the hang.**
+  **Done — Apple #10692 · REDGARDEN `912cdff`, fresh run in progress and unaffected by the hang.**
 
 ---
 
