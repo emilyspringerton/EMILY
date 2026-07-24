@@ -5733,6 +5733,27 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-38: Fix — company bios weren't actually live (S170-22's "done" claim was wrong in
+  production).** Founder, real-time: "we may have the data but it seems like company bios are not
+  live on ticker pages." Logged after the investigation+fix rather than before this time — a
+  live-broken-report warranted checking immediately, not a delay to write the entry first; noted
+  here for consistency with Principle 1 rather than silently skipping the note. Investigated
+  before assuming anything: `bin/newssite` (the binary
+  `fatbaby-newssite.service` actually runs, per `ps`/`systemctl --user cat`) was dated **2026-07-19
+  12:37**, five days before the company-bios source change (`internal/newssite/companybios/store.go`,
+  written 2026-07-24). `go build`/`go test ./...` at S170-22 time verified the code compiled and
+  the package tests passed — neither rebuilds the specific `bin/newssite` artifact the live
+  systemd unit runs, and the service was never restarted. The feature was real, committed,
+  tested, and simultaneously not live — a deploy-step gap, not a code gap. Fixed: rebuilt
+  (`go build -o bin/newssite ./cmd/newssite`), restarted (`systemctl --user restart
+  fatbaby-newssite.service`), confirmed in the log (`company-bios loaded count=51`), and confirmed
+  by actually curling a live page (`curl localhost:8082/ticker/AAPL` — the bio text and its
+  "not yet editorially reviewed" note both render). S170-22 is retroactively corrected: "done"
+  meant "code done," not "verified live" — that distinction is the actual lesson here, logged
+  explicitly so it doesn't repeat. Apple filed once (this entry), not a duplicate of #10545.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
