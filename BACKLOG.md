@@ -5724,6 +5724,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-37: Blog post — end-of-day engineering recap + state of the product.** Founder,
+  real-time: "do an end of day engineering recap and state of the product as a blog post." Logged
+  before writing per Principle 1. Scope: broader than S170-34's REDGARDEN-only status update —
+  this covers the full day across every repo touched (PRRJECT_FATBABY, OKEMILY, REDGARDEN), pulled
+  from today's actual BACKLOG.md entries (S170-20 through S170-36) and Apples, not reconstructed
+  from memory. Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
