@@ -5750,7 +5750,8 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   by actually curling a live page (`curl localhost:8082/ticker/AAPL` — the bio text and its
   "not yet editorially reviewed" note both render). S170-22 is retroactively corrected: "done"
   meant "code done," not "verified live" — that distinction is the actual lesson here, logged
-  explicitly so it doesn't repeat. Apple filed once (this entry), not a duplicate of #10545.
+  explicitly so it doesn't repeat. **Done — Apple #10568 · PRRJECT_FATBABY** (fix committed as
+  a runtime/deploy action, not a new source diff — nothing to commit beyond this log entry).
 
 ---
 
