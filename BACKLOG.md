@@ -5378,4 +5378,5 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   hero only (owner 0) for this pass — passive armor (Chassis Claim), Q dash-damage (Diagnostic
   Charge), W self-regen toggle (Spaghetti Vent), R temporary armor-double (Full Disclosure,
   taunt-on-others skipped, no other units exist in 1v1 to taunt). Bot hero (owner 1) stays plain
-  melee — proving one real kit works end-to-end, not the full roster. Not started.
+  melee — proving one real kit works end-to-end, not the full roster. Reflection on the
+  mid-work catch published: okemily.com/blog/reading-isnt-free/. Not started.
