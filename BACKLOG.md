@@ -5381,7 +5381,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   melee — proving one real kit works end-to-end, not the full roster. Reflection on the
   mid-work catch published: okemily.com/blog/reading-isnt-free/. **Done — Apple #10539 ·
   REDGARDEN `d4fe596`.** 9 new headless tests passing, client builds clean.
-- [ ] **S170-19: REDGARDEN — full roster in arena, replays/observer-mode, WOTAN player stats, and
+- [x] **S170-19: REDGARDEN — full roster in arena, replays/observer-mode, WOTAN player stats, and
   a Game AI northstar reusing existing org tech. Northstar only this pass, not implementation.**
   Founder, real-time, several threads landing together: "and the full roster" (beyond S170-18's
   single proof-of-concept hero); "and observer mode is a first class citizen" → "as well as
@@ -5414,7 +5414,9 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   logging, ties into apps/server-go-... i.e. REDGARDEN's own server/arena) → Phase C (observer
   mode reading replay logs) → Phase D (full roster in arena, extending S170-18's Unicorn proof)
   → Phase E (GPT-2 policy network + NORN-graded self-play flywheel, extending
-  `GAME_AI_NORTHSTAR.md`'s existing milestones rather than duplicating them). Not started.
+  `GAME_AI_NORTHSTAR.md`'s existing milestones rather than duplicating them). **Done — Apple
+  #10540 · REDGARDEN `1139da8`.** Northstar landed; no phase implementation started yet, by
+  design (this entry covers the plan, not the build).
 
 ---
 
