@@ -5577,6 +5577,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-30: Continue REDGARDEN — NORTHSTAR §12 Phase C, observer mode (arena half first).**
+  Founder: "continue REDGARDEN." Logged before writing per Principle 1. Scope, checked against
+  the two replay formats Phase B actually produced before committing to an approach: `apps/arena`
+  logs are **state snapshots** (hero x/z/hp every 500ms) — a natural fit for "read the log, feed
+  the exact same renderer" per the founder's "not a bolted-on debug view... same draw code, no
+  second rendering path" requirement. `apps/server`'s RTS logs are **command events**
+  (`card_play` with card/grid position, no entity state) — replaying those means deterministically
+  re-running `local_update`/`local_apply_card` from the logged inputs, a materially harder,
+  separate problem (has to prove the sim is actually deterministic first) than state-snapshot
+  playback. Scoping this pass to the arena half only, RTS-side observer mode flagged as a
+  follow-on, not silently folded in. Plan: a headless-testable replay-reader module (parse the
+  JSONL, drive `arena_state` from logged snapshots on a timer) so the core logic can be unit
+  tested the same way `tests/test_arena_game.c` already tests the live sim — even though this box
+  has no display and can't verify the windowed client end-to-end, same constraint flagged in
+  S170-29.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
