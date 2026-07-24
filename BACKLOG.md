@@ -5541,8 +5541,9 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-27: Blog post — "Interlude."** Founder, real-time: "and then write a blog post
-  INTERLUDE." Logged before writing per Principle 1. Not started.
+- [x] **S170-27: Blog post — "Interlude."** Founder, real-time: "and then write a blog post
+  INTERLUDE." Logged before writing per Principle 1. **Done — Apple #10550 · published
+  okemily.com/blog/interlude/.**
 
 - [ ] **S170-28: Continue REDGARDEN — NORTHSTAR §12 Phase B (replay logging), next in the phase
   order after Phase A (S170-26).** Founder, real-time: "then continue REDGARDEN." Logged before
