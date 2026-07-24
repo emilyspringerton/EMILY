@@ -6228,3 +6228,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   catch what CI/automated verification structurally can't see (S170-59's own loopback-IP bug as
   the concrete case study) — the skill issue is skipping that person, not the practice itself.
   **Done — Apple #10677 · published okemily.com/blog/vibe-coding-is-a-skill-issue/.**
+
+- [ ] **S170-62: Blog post — "vibe coding is a skill issue," part 2.** Founder, real-time,
+  developing the thesis in conversation rather than dictating it whole: "i have been prompt
+  engineering engineering teams for 15 years" → "prompt engineering a robot instead of a human
+  isnt really diferent" [sic] → "is that a joke hits the same in a standup as it does 3am in a
+  rapidfire direction ingestion session" → "as a part 2 if you already wrote part 1." Logged
+  before writing per Principle 1. Part 1 already published
+  (okemily.com/blog/vibe-coding-is-a-skill-issue/). Part 2's material: managing engineering teams
+  and prompt-engineering an AI agent are the same underlying skill (compressing real experience
+  into instructions precise enough to act on fast) regardless of what's on the receiving end;
+  plus the standup-vs-3am distinction explored in conversation — the same line lands differently
+  performed for an audience vs. deployed as a real-time compression tool mid-task, and that
+  compression itself (not the joke) is the actual prompt-engineering skill. Not started.
+
+---
+
+*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
+*The backlog is what outlasts everything.*
+*Clean builds first. Then custody. Then everything else.*
