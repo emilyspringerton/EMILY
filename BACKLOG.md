@@ -6098,15 +6098,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-53: Blog post — 24-hour sprint state-of-the-product recap, REDGARDEN.** Founder,
+- [x] **S170-53: Blog post — 24-hour sprint state-of-the-product recap, REDGARDEN.** Founder,
   real-time: "ok and then a 24 hour sprint state of the product recap" → "REDGARDEN" (scoping it
   to this product specifically, not the whole company like S170-37's end-of-day post). Logged
   before writing per Principle 1. Given how much landed via the parallel Emily Prime RSI cycle
   since S170-37 was published (networked 1v1 PvP → draft phase → 10v10 scaling → persistent bot
   pool → human-join → real WOTAN identity/match reporting → allies/Doc Wheel → territory/node
-  system → 5 more heroes to 11 total → Arathi-Basin capture + jungle creeps), this needs fresh
-  research against REDGARDEN's actual current CHANGELOG.md/NORTHSTAR.md/git log before writing,
-  not a rehash of the earlier post's now-stale numbers. Not started.
+  system → 5 more heroes to 11 total → Arathi-Basin capture + jungle creeps), pulled fresh from
+  REDGARDEN's actual CHANGELOG.md/git log rather than rehashing the earlier post's now-stale
+  numbers. **Done — Apple #10668 · published okemily.com/blog/redgarden-24-hour-sprint/.**
 
 ---
 
