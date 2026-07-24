@@ -5905,6 +5905,30 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   — the join is proven at the protocol level, playing a full match still needs a real display.
   Apple #10605 · REDGARDEN `b7bcc9d`.
 
+- [x] **S170-45: REDGARDEN arena — allies + Doc Wheel, first ally-only hero.** Asked directly:
+  build allies/multi-hero-per-team in arena, over building a territory/resource economy or
+  declaring the 4-hero roster (Unicorn/Duck/Ghost/Frog) complete — the real decision point the
+  NORTHSTAR §12 roster audit had flagged. Team-mode infrastructure already existed from the
+  earlier 10v10 pivot (`ARENA_TEAM_SIZE`/`arena_init_teams`/`arena_nearest_enemy`); the actual
+  gap was just an ally-targeting primitive. Added `arena_nearest_ally(int owner)` (mirrors
+  `arena_nearest_enemy` exactly) and threaded an `ally` param through `tick_hero_kit`. Unblocked
+  Ghost's Recital ally-heal side (previously skipped) and Frog's Borrowed Time (a generic
+  `next_cast_refund` buff mechanism any future ally-buff kit can reuse), and added **Doc Wheel
+  (Buer)** as a full fifth hero — the first ally-only kit ("the entire kit is being the correct
+  ally to have nearby"): HP%-scaled heal+cleanse (Q), teleport-to-ally (W), teamwide cleanse+heal
+  (R, simplified from a literal shield — flagged not faked, since shields would need a new
+  damage-absorption mechanic touching every damage site for one ability's sake). `apps/arena_bot`'s
+  draft picker and `apps/arena_server`'s pick-validation bound updated so Doc Wheel is actually
+  draftable over the wire. Found and fixed a real bug writing the tests: a Unicorn with no move
+  target and no foe never reaches its own cooldown-setting code path, so a refund-buff assertion
+  had been passing by coincidence, not correctness — fixed the test, not silently left green.
+  16 new headless tests, full existing suite green. Verified live: two separate real bot matches
+  (10-bot, 20-bot lobbies) both drafted Doc Wheel without incident. REDGARDEN `df58b13`
+  (`c6f9f8c` corrects this item's own ID in code comments from an initial S170-34 collision with
+  an already-used blog-post entry), Apple #10635. Remaining 7 heroes (Donkey, Tree, Pizza,
+  Retrieval Cart, TYLER, Flamel, Druid) stay blocked on grid/territory or multi-unit-per-hero,
+  neither of which this pass built.
+
 ---
 
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
