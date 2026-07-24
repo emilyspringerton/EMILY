@@ -6483,17 +6483,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-73: Blog post — "consult the duck."** Founder, real-time: "consult the duck" → "as a
+- [x] **S170-73: Blog post — "consult the duck."** Founder, real-time: "consult the duck" → "as a
   blog post." Logged before writing per Principle 1. Landed mid-live-debug of S170-72, in the
-  same rapid-fire style as the founder's own rubber-duck-debugging aside. Queued behind S170-72's
-  actual investigation. Not started.
+  same rapid-fire style as the founder's own rubber-duck-debugging aside — written using the real
+  S170-72 investigation as the case study (the "I think it's because I'm dead" hypothesis that
+  turned out wrong, checked and corrected against real logs instead of just spoken into silence).
+  **Done — published https://okemily.com/blog/consult-the-duck/.**
 
 ---
 
-- [ ] **S170-74: Blog post — "what's a god to a nonbeliever."** Founder, real-time: "golden god
+- [x] **S170-74: Blog post — "what's a god to a nonbeliever."** Founder, real-time: "golden god
   confirmed" → "whats a god to a nonbeliever as a blog post." Logged before writing per
   Principle 1. Lands after the live REDGARDEN test session's "you are a golden god" /
-  "golden god confirmed" thread. Queued behind S170-72. Not started.
+  "golden god confirmed" thread. **Done — published
+  https://okemily.com/blog/whats-a-god-to-a-nonbeliever/.**
 
 ---
 
