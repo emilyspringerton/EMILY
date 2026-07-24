@@ -5621,7 +5621,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-32: Continue REDGARDEN — NORTHSTAR §12 Phase D, third hero (The Ghost) + a roster-fit
+- [x] **S170-32: Continue REDGARDEN — NORTHSTAR §12 Phase D, third hero (The Ghost) + a roster-fit
   audit of the remaining 9.** Founder: "continue." Logged before writing per Principle 1. Before
   picking the next hero, checked all 10 remaining roster entries against arena's actual structural
   constraints (1v1 only, self/foe targeting only — no allies, no `GridCell`/`alignment_pressure`
@@ -5645,7 +5645,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
     arena's first real status-effect fields (`silenced_ms`, `intangible_ms`) rather than reusing
     the existing q/w/r-cooldown-only state shape.
   This audit itself is worth keeping in the northstar even before Ghost is built — it's a real
-  finding about arena's ceiling as a full-roster testbed, not just a to-do list.
+  finding about arena's ceiling as a full-roster testbed, not just a to-do list. Built Ghost's
+  Q (skillshot simplified to instant-hit-if-in-range, damage + Silence), W (instant intangibility
+  on its own cooldown, not a toggle), R (fixed-position enemy-damage zone, ally-heal side skipped
+  — no target in 1v1). First kit needing real status-effect state: new generic
+  `silenced_ms`/`intangible_ms` fields + `hero_is_hittable()`. Found and flagged (did not fix,
+  out of scope) a pre-existing rounding bug in Unicorn's W regen while building the zone's
+  fixed-interval damage tick. 7 new tests. **Done — Apple #10558 · REDGARDEN `9178fae`.**
+  `test_arena.sh` + `test_10_bots.sh` + `build.sh` + `build_arena.sh` all still green. Frog is
+  the one remaining roster-fit candidate; 8 heroes stay structurally blocked per the audit above.
 
 ---
 
