@@ -6345,6 +6345,33 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-67: Blog post — "'figure it out' — prompt engineering is a skill issue, part 3."**
+  Founder, real-time: "'figure it out' prompt engineering is a skill issue part 3 as a blog post."
+  Logged before writing per Principle 1. Third in the S170-61/62 series — "figure it out" itself
+  as the case study: the maximally-compressed prompt, trusting the recipient (human report or
+  agent) to carry the full weight of the instruction. Queued after S170-66's actual fix lands,
+  not before — "ensure it all lands into sprints and iterate towards a product where the human
+  can play" (the same real-time message) makes the priority explicit: the fix comes first, the
+  post about the fix comes after, not the other way around. Not started.
+
+---
+
+- [ ] **S170-68: REDGARDEN arena client — no requeue-on-end, no draft phase UI, real
+  session-flow gaps blocking an actual playable loop.** Founder, real-time, while I was mid-fix
+  on S170-66: "also once i win i need to re queue" → "we need to build the queueing and stuff
+  into the client" → "where is my draft" → "what is happening." Logged before writing per
+  Principle 1, queued behind S170-66 (the instant-win bug is the root blocker — none of this is
+  fixable-feeling until a match actually plays out). Real gaps named: (1) the client exits/needs
+  manual relaunch after a match ends instead of automatically requeuing; (2) `--queue` is a
+  command-line flag, not an in-client flow — there's no queue/lobby UI at all; (3) draft phase
+  (`PACKET_ARENA_PICK`, `ARENA_PHASE_DRAFT`) exists server-side but nothing in the client
+  presents it — `arena_init_teams()` sets every hero to a placeholder (`ARENA_HERO_UNICORN`)
+  "until the real client's draft pick overrides it" per its own code comment, and if the client
+  never actually shows/sends a pick, every hero silently stays the placeholder with no visible
+  draft ever happening. Not started — S170-66 first.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
