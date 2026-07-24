@@ -6298,7 +6298,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-65: REDGARDEN arena matchmaker was never under systemd — the actual reason S170-63
+- [x] **S170-65: REDGARDEN arena matchmaker was never under systemd — the actual reason S170-63
   happened at all.** Founder: "fix is not pushed." Logged before writing per Principle 1. Checked
   before assuming what this meant: the S170-63 code fix genuinely was pushed and merged
   (`a509174` confirmed on `origin/main` via `git fetch`, CI green) — "not pushed" is accurate
@@ -6310,7 +6310,11 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   earlier `fatbaby-newssite`/`gfd-mud` incidents this session, just not yet caught here. Scope:
   real systemd user units for the two matchmakers (bot-pool :7778, player-pool :7779), matching
   the existing `fatbaby-newssite.service`/`gfd-mud.service` pattern (`Restart=on-failure`, proper
-  `WorkingDirectory`, logged output) — not another manual nohup.
+  `WorkingDirectory`, logged output) — not another manual nohup. **Done — Apple #10682 ·
+  REDGARDEN `d5deb0b`.** Also built `redgarden-bot-pool.service` for the persistent 20-bot set
+  (not just the two matchmakers). Deployed and live-verified, including watching
+  `Restart=on-failure` genuinely recover the matchmaker from a real port conflict without manual
+  intervention.
 
 ---
 
