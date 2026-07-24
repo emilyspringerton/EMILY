@@ -5704,20 +5704,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-36: Continue REDGARDEN — NORTHSTAR §12 Phase E, Game AI (Milestone-6 equivalent:
+- [x] **S170-36: Continue REDGARDEN — NORTHSTAR §12 Phase E, Game AI (Milestone-6 equivalent:
   state serializer + action decoder for arena).** Founder: "continue" / "while true do continue."
   Logged before writing per Principle 1. Checked `gpt2-alpine-c/docs/GAME_AI_NORTHSTAR.md` first,
   per the phase's own instruction to extend that pattern rather than invent a parallel one — its
   Milestone 6 (state serializer + action decoder, the "contract... everything downstream depends
   on") is the right first slice, not the full fine-tune/self-play loop (Milestones 7-10 need an
   external Colab GPU run and a human to trigger it — not buildable end-to-end in this
-  environment). Scope: a new REDGARDEN-native C module serializing `ArenaState` (from either
-  hero's perspective — self/foe, matching the SHANKPIT format's own framing) into the same
-  natural-language token style GAME_AI_NORTHSTAR.md specifies, plus a decoder parsing an action
-  token string back into a move target + Q/W/R cast flags. Headless-testable, same rigor as the
-  existing `test_arena_game.c`/`test_arena_replay.c` suites. Explicitly not wiring live GPT-2
-  inference (`:8088`) into the bot yet — that's the next slice, gated on this contract existing
-  first, same sequencing discipline as Phase B before Phase C.
+  environment). Built `packages/simulation/arena_ai_bridge.h`/`.c`: `arena_serialize_state()`
+  writes a stable self/foe natural-language state string (either hero's perspective, matching the
+  SHANKPIT format's own framing); `arena_decode_action()` parses a `move:x,z cast_q/w/r:0|1`
+  action string into a move target + cast flags, defaulting missing fields to a safe no-op and
+  failing closed on garbage. 7 new tests, headless, same rigor as the existing
+  `test_arena_game.c`/`test_arena_replay.c` suites. **Done — Apple #10565 · REDGARDEN
+  `93160da`.** `test_arena.sh` + `test_10_bots.sh` + `build.sh` + `build_arena.sh` all still
+  green. Explicitly not wiring live GPT-2 inference (`:8088`) into the bot yet — that's the next
+  slice, gated on this contract existing first, same sequencing discipline as Phase B before
+  Phase C.
 
 ---
 
