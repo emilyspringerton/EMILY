@@ -6337,6 +6337,12 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `arena_update_teams` before concluding anything further — not fixed this pass, flagged instead
   of guessed at.
 
+  **Update — confirmed, now fixing.** "i won upon connection" (win registers the instant the
+  connection completes, not after any real tick) → "something about the win conditions isnt set
+  up right" → "you said to not design the system too much before 1v1 works but too late" (wry,
+  not literal — the 10v10 pivot outran verifying this exact edge case) → "figure it out." Moving
+  from flag-and-defer to actually fixing, per direct instruction.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
