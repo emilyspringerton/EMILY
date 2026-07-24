@@ -5558,19 +5558,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-29: Continue REDGARDEN — NORTHSTAR §12 Phase B, MOBA half (`apps/arena` event log),
+- [x] **S170-29: Continue REDGARDEN — NORTHSTAR §12 Phase B, MOBA half (`apps/arena` event log),
   the remaining piece flagged open in S170-28.** Founder: "continue." Logged before writing per
   Principle 1. Scope, checked against the code first: `apps/arena` is a standalone windowed SDL
   client with no networking and no connect-ticket/player-identity system at all (unlike
-  `apps/server`) — a real gap the RTS-side logging didn't have to deal with. This pass adds the
-  same JSONL event-log pattern (`var/matches/arena-<timestamp>.jsonl`) directly in
-  `apps/arena/src/main.c`, using placeholder identity (`"local_player"`/`"local_bot"`) rather than
-  guessing a WOTAN player_id into existence — real identity attribution for arena replays is
-  blocked on arena getting connect-ticket auth in the first place, which is out of scope here and
-  flagged, not silently faked. Also flagged: this box has no display (confirmed earlier,
-  no Xvfb), so unlike `apps/server`'s log (verified against real `test_10_bots.sh` output), this
-  can only be verified by code review and compiling clean, not by actually running the windowed
-  client end-to-end.
+  `apps/server`) — a real gap the RTS-side logging didn't have to deal with. Added the same JSONL
+  event-log pattern (`var/matches/arena-<timestamp>.jsonl`, fresh file per match including on
+  restart) directly in `apps/arena/src/main.c`: `match_start`, a `snapshot` every 500ms (both
+  heroes' x/z/hp), `ability_cast` (Q/W/R), `match_end`. Used placeholder identity
+  (`"local_player"`/`"local_bot"`) rather than guessing a WOTAN player_id into existence — real
+  identity attribution for arena replays is blocked on arena getting connect-ticket auth in the
+  first place, out of scope here and flagged, not silently faked. Also flagged: this box has no
+  display (confirmed earlier, no Xvfb), so unlike `apps/server`'s log (verified against real
+  `test_10_bots.sh` output), this was only verified by code review and a clean compile
+  (`scripts/build_arena.sh`), not by actually running the windowed client end-to-end. **Done —
+  Apple #10553 · REDGARDEN `4327393`.** `test_arena.sh` (untouched) still green. NORTHSTAR §12
+  Phase B is now closed for both halves.
 
 ---
 
