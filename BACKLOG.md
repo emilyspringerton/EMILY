@@ -6621,6 +6621,32 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   specific; the missing `REDGARDEN_TICKET_SECRET` on the bot-pool systemd unit is an ops/deploy
   gap that needs checking against shankpit-460's own process supervision, not assumed present).
   Scope not yet determined — investigating shankpit-460's actual current lobby/matchmaker
-  implementation before claiming what "parity" requires. In progress.
+  implementation before claiming what "parity" requires. Founder redirected priority
+  immediately after logging this ("i mean backlog it then sprint plan it then iterate towards the
+  fixes to the redgarden hame loop") — logged and queued, not investigated further this pass.
+  Not started.
+
+---
+
+- [ ] **S170-77: REDGARDEN arena — keep iterating toward true online PvP for the hybrid
+  (human + bot) mode.** (continued) Verified the live game loop directly since no human has
+  connected yet: temporarily added a 20th bot to complete a real match end-to-end — connected
+  successfully, but the match still never progressed past `match_start` even at what should have
+  been a full lobby. Broader check afterward found the whole bot pool degrading to 0/20 connected
+  repeatedly, `arena_bot` logs showing rapid-fire "matched → failed to connect" cycles every
+  ~2.5s. Root-caused to self-inflicted process pileup, not a real regression: today's session had
+  accumulated dozens of orphaned `arena_server`/matchmaker processes across `test_10_bots.sh` runs,
+  the manual 20th-bot test, and multiple earlier service restarts, all competing for the same box.
+  A full clean sweep (`pkill` every `red_garden_*` process, fresh `systemctl --user start` on all
+  three units) resolved it completely — confirmed via a clean run immediately after: all 19 bots
+  connected 1/20 through 19/20 without a single failure, correctly capped waiting on a human slot.
+  Real lesson for next time: verify no stray test processes are still running before diagnosing a
+  "regression" in the live pool. Game loop confirmed healthy as of this check. Still not started:
+  an actual human-participated match hasn't happened yet — that's the next real checkpoint, not
+  fixable further from this end without a human in the loop.
+
+---
+
+*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
