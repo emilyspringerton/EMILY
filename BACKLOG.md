@@ -5431,18 +5431,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-20: PRRJECT_FATBABY — competitive-intelligence northstar on "WEST" (a competitor
-  ingesting court + code/statute data), plus add WEST press releases to the pipeline's
-  monitoring.** Founder, real-time, two fragments landing together: "northstar WEST opo
-  (competitor) ingesting court and code data" → "also we need to add west press erleases [sic]."
-  Logged before any work per Principle 1 — nothing built yet, identity of "WEST" not yet
-  confirmed. Working assumption: "WEST" most likely refers to Thomson Reuters' Westlaw (the
-  legal-research product line ingesting court opinions/case law and statutory/code text) as a
-  competitor to watch, given PRRJECT_FATBABY's SEC/PR-newswire signal-pipeline domain — but this
-  is a guess, not confirmed, and the ticker/entity to add to `config/watchlist.json` for the
-  press-release half of this ask depends on getting that right (Thomson Reuters trades as
-  `TRI`/`TRI.TO`, not currently on the watchlist). Needs founder confirmation before the
-  watchlist edit or northstar scope is finalized — flagged rather than guessed into place.
+- [ ] **S170-20: PRRJECT_FATBABY — competitive-intelligence northstar on "WEST" (confirmed:
+  Intrado, private, emergency-communications/911 tech), plus track Intrado's press releases.**
+  Founder, real-time, three fragments landing together: "northstar WEST opo (competitor)
+  ingesting court and code data" → "also we need to add west press erleases [sic]" → confirmed
+  via question: "WEST" = Intrado, and "Intrado is private — track by name only" (no ticker/CIK,
+  so this does not go through the existing SEC-EDGAR/PR-Newswire CIK-based pipeline the same way
+  the rest of `config/watchlist.json` does). Logged before any work per Principle 1. Confirmed
+  live public newsroom to track: `intrado.com/news-releases` (paginated `/page/[1-5]`, individual
+  posts at `intrado.com/news-releases/[slug]`) — this is the actual source, not a wire service.
+  Scope: a northstar doc for a name-based (not CIK-based) competitor watcher reading Intrado's own
+  newsroom page directly, since it has no SEC filings or PR-Newswire feed to hook into. Nothing
+  built yet — northstar first, per the same phased discipline used for REDGARDEN's S170-19.
 
 ---
 
