@@ -5680,11 +5680,12 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-34: Blog post — REDGARDEN status update, with a SHANKPIT ad at the end.** Founder,
+- [x] **S170-34: Blog post — REDGARDEN status update, with a SHANKPIT ad at the end.** Founder,
   real-time: "write a status update for the current product with a SHANKPIT ad at the end."
   Logged before writing per Principle 1. "Current product" read as REDGARDEN, the repo this
   entire session's work has been in (S170-08 through S170-33) — not a name given explicitly, an
-  inference from context, flagged as such. Not started.
+  inference from context, flagged as such. **Done — Apple #10560 · published
+  okemily.com/blog/redgarden-status-update/.**
 
 ---
 
