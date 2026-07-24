@@ -5348,6 +5348,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   S170-13's text. Fixed retroactively; no new Apple needed (each individual CLAUDE.md commit and
   the Principle 1 commits were already real, already pushed — this entry just gives the body of
   work its own line, the actual gap being closed).
+- [x] **S170-16: Retroactive fix — Emily Prime cadence doc sweep had no Apple/entry.** Apple
+  #10536 · EMILY `d6f8adb`. The literal first task of this session ("slow the cadence of emily
+  prime to 15m down from 5m in all places including docs") — `cron.go`'s `Interval` was already
+  15m from a prior session (S131-03), but two stale code comments and every current-state doc
+  claiming "5 minutes" needed fixing. Real work, done early, correctly, but never got its own
+  Apple or backlog line — found in the same full-session audit as S170-13/S170-15. Precedent
+  note: Apple #10260 ("24-hour completeness audit — 4 gaps found and closed") shows this kind of
+  end-of-session gap audit is itself established practice, not a new invention tonight.
 
 ---
 
