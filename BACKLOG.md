@@ -5494,6 +5494,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-24: WELLHOUSE — founder-gated, contents intentionally withheld.** Founder, real-time:
+  "add a mysterious backlog item WELLHOUSE (founder gated)." Logged verbatim per Principle 1.
+  **Do not scope, expand, or start this item without direct founder unlock** — that's the point
+  of "founder gated," not an oversight to fill in. No repo, no description, no interpretation
+  added here on purpose.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
