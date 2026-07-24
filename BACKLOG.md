@@ -6736,7 +6736,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   call, so a stale destination after a requeue looks unlikely too. Not yet root-caused — the
   founder mentioned R/T, which don't map to anything in this client (only Q/W/E are bound; R is
   local-only "restart," disabled entirely in net_mode) — worth clarifying whether the real
-  complaint is Q/W/E specifically or a broader "nothing responds" state. Continuing investigation.
+  complaint is Q/W/E specifically or a broader "nothing responds" state.
+
+  **Leading theory now, not yet confirmed live:** the send/dispatch path itself checked out clean
+  end to end — the more likely explanation is that casts were landing correctly all along with
+  zero visible feedback. Before this pass there was no per-hero health bar (only the "YOU"/
+  "ENEMY" HUD slots, and "ENEMY" was itself broken in team mode — see S170-89) and no cast/melee
+  animation of any kind (S170-88, not yet built) — a hit registering server-side with literally
+  nothing on screen to show it would read exactly like "nothing happens." S170-89's floating
+  health bars just shipped; if Q/W/E casts show real HP drops on the new bars, this closes without
+  a functional fix. If they still show no HP movement at all, that's the real signal something is
+  actually broken server-side, not just invisible. Needs the founder's next live retest to
+  confirm either way.
 
 ---
 
@@ -6766,12 +6777,13 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-89: REDGARDEN arena — floating health bar over each hero, not just the two fixed
+- [x] **S170-89: REDGARDEN arena — floating health bar over each hero, not just the two fixed
   HUD bars.** Founder, real-time: "health bar hgovers over hero." Logged before writing per
-  Principle 1. Currently only "YOU" and "ENEMY" (nearest, 1-slot) HP bars exist as fixed 2D HUD
-  elements — with up to 20 heroes on screen in team mode, a per-hero floating bar (billboarded
-  above each model, scaled by `hp/max_hp`) is a real, separate need, not covered by the existing
-  two-bar HUD. Not started.
+  Principle 1. New `world_to_screen()` helper (projects a world point through the same vp matrix
+  the 3D pass draws with) + a per-hero billboarded bar for every alive hero, colored by
+  relationship. Investigating S170-86 (Q/W/E not working) turned up a real, separate bug along
+  the way: the "ENEMY" HUD readout used `heroes[1 - my_owner]`, a hardcoded 1v1 assumption broken
+  in team mode — fixed too, same commit. **Done — Apple #10695 · REDGARDEN `2bf9963`.**
 
 ---
 
