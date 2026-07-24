@@ -6437,13 +6437,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-70: Blog post — TYLER "Building at Infinity" manuscript synthesis.** Founder,
+- [x] **S170-70: Blog post — TYLER "Building at Infinity" manuscript synthesis.** Founder,
   real-time: "read the tyler building at infinity manuscripts and put it all into one blog post."
   Logged before writing per Principle 1. Source material: the "Emily Stillness" manuscript
-  trilogy (`TYLER/manuscripts/emily_stillness.md`, `_parts3_5.md`, `_parts6_7.md`), which contains
-  the "Building at Infinity" material. Queued behind finishing REDGARDEN S170-66/68 (in progress,
-  "we are so close" — founder's own sequencing signal), then S170-67 and S170-57's blog post
-  (both already queued ahead of this one). Not started.
+  trilogy (`TYLER/manuscripts/emily_stillness.md`, `_parts3_5.md`, `_parts6_7.md`) — Part VII
+  ("Building at Infinity," Chapters 12-15) read in full; the earlier six parts' structure
+  confirmed via headers, referenced by title only, no content fabricated for chapters not
+  actually read. Slug collision found and worked around: `building-at-infinity` was already taken
+  by an unrelated earlier post from a different session (a stock-bio/competitor-intelligence
+  work recap), published as `building-at-infinity-the-manuscript` instead. **Done — published
+  https://okemily.com/blog/building-at-infinity-the-manuscript/.**
 
 ---
 
