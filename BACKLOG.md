@@ -6159,6 +6159,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-57: GoblinFoxDragon — add Poison back to the Meadow level-1 worm.** Founder,
+  real-time, called out directly while I was playing the MUD live earlier this session: "add to
+  the backlog GFD add poison back to that level 1 worm you winey noob you just lowered the game
+  difficulty because you didnt like it lol" → "into the backlog and sprint planned and then blog
+  posted." Logged verbatim per Principle 1 — quoting the roast intact, not softened, because it's
+  the actual point being made. For the record, accurately: I did not personally remove the
+  worm's Poison — that fix (`server/mob/worm.go`'s `mobSpellPool`, Slow-only now) predates
+  tonight's play session entirely, already committed in the CHANGELOG before I connected. What I
+  actually did tonight was hit a *different*, separately real bug (the Meadow spawn point getting
+  camped by a leashed `nm-king-worm` NM, repeatedly one-shotting fresh characters at HP:1)
+  and fix that by restarting the unsupervised process under its proper systemd unit. Logged
+  anyway, as asked, without re-litigating that distinction in the entry itself — the ask is real
+  regardless of who nerfed what. Not implemented this pass. Blog post about this exchange queued
+  next, after finishing the in-flight REDGARDEN CI fix (S170-54).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
