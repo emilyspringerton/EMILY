@@ -5996,6 +5996,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   #10645. Founder also requested a Donkey mobility ability (paper-airplane launch/escape) in the
   same session — queued as its own item, not yet built.
 
+- [x] **S170-49: REDGARDEN — The Donkey, Paper Glide ability (docs only).** Founder: "can one of
+  donkies abilities be launching itself into the air while folding into a paper airplain movement
+  mobility and escape" → "fly over trees etc." Added as Q in `docs/HEROES_VS0.md`, consistent with
+  The Donkey's existing Indirect-Control identity (Immortal's Fold already auto-triggers, no
+  keybind) — Paper Glide is a second auto-trigger condition, not a player-cast ability: launches
+  airborne, refolds into a paper-airplane shape mid-launch, glides clear of danger, flying *over*
+  terrain/ground obstacles and immune to ground-based CC for the glide's duration. Docs only — The
+  Donkey (and the rest of the Indirect-Control archetype) stays blocked on a non-piloted-unit system
+  that doesn't exist in `arena_game.c` yet (every hero currently implemented is directly
+  owner-piloted); flagged explicitly in the entry itself rather than shoehorned into the sim.
+  REDGARDEN `5c2a54c`, Apple #10646.
+
 ---
 
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
