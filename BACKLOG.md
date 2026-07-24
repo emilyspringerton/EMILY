@@ -5840,6 +5840,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   throughout. Server process count stayed healthy. **Done — Apple #10596 · REDGARDEN `432e2f3`.**
   Still honestly unverified: the SDL2 client's visual rendering of a live match (no Xvfb).
 
+- [x] **S170-44: MOBA player can join bot pool games.** Founder: "moba player can join bot pool
+  games" → "REDGARDEN" (confirming repo). The gap: `apps/arena`'s human client only supported
+  `--connect host:port` to an already-known server — no way to actually queue into the persistent
+  bot pool's matchmaker, which assigns a new port per match. Added `--queue <matchmaker_host>`
+  (`--matchmaker-port`, default 7778), reusing `apps/arena_bot`'s exact
+  `PACKET_FIND_MATCH`/`PACKET_MATCH_FOUND` queue pattern and `net_connect`'s existing ticket
+  handshake — pure client-side addition, no server changes needed. Verified live: real matchmaker
+  + one persistent bot, human client queued, matched with the bot, connected, assigned hero slot 1
+  on the same server the bot connected to (slot 0). Still bounded by the pre-existing no-Xvfb gap
+  — the join is proven at the protocol level, playing a full match still needs a real display.
+  Apple #10605 · REDGARDEN `b7bcc9d`.
+
 ---
 
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
