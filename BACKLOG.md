@@ -6551,7 +6551,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-79: Add Loki to the TYLER multiverse hero compendium, then into KNIGHTS_OF_THE_VOID
+- [x] **S170-79: Add Loki to the TYLER multiverse hero compendium, then into KNIGHTS_OF_THE_VOID
   as a real 12th hero kit, one shot.** Founder, real-time: "but do add LOKI to KNIGHTS_OF_THE_VOID
   hero multiverse then into the game one shot as a kit." Logged before writing per Principle 1.
   Checked `TYLER/multiverse_heroes.md` first: Loki himself has no entry in Faction 3 (The Valhalla
@@ -6559,10 +6559,10 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   venom-bowl for someone the document never actually gives an entry to. That's the real hook,
   matching the doc's own doctrine ("what's the version of this figure who lost, or compromised, or
   got left out of the story that made them famous") — Loki is the one figure in his own myth who
-  got left out of this particular document. Scope: one new lore entry (#37, Faction 3), then a
-  real 12th `ArenaHeroID` in REDGARDEN (`ARENA_HERO_LOKI`, `ARENA_HERO_COUNT` 11→12) with an
-  actual Q/W/E kit in `packages/simulation/arena_game.c`, not a stub — "one shot" per direct
-  instruction, no back-and-forth iteration on this pass. In progress.
+  got left out of this particular document. Lore entry #37 written, then a real
+  `ARENA_HERO_LOKI` (`ARENA_HERO_COUNT` 11→12) with an actual Q/W/R kit wired into every real call
+  site (armor calc, dispatch switches, bot AI, auto-draft pools, server pick validation, name
+  lookup, docs), not a stub. **Done — Apple #10689 · TYLER `c652883` · REDGARDEN `0b478fa`.**
 
 ---
 
