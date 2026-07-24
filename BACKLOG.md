@@ -5448,6 +5448,31 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   "ingesting court and code data" framing is flagged as an open question in the doc itself for
   founder follow-up before Phase 1 build.
 
+  **Update — identity discrepancy found, not yet resolved.** Founder, real-time: "WEST has a lot
+  of court data i believe." Research (WebSearch, this session) turned up zero evidence Intrado
+  holds court/litigation data — its confirmed public surface is 911/PSAP/GIS jurisdictional-
+  boundary and address data, not case law or docket data. "A lot of court data" reads as a much
+  closer match for Westlaw (Thomson Reuters, ticker `TRI`/`TRI.TO`) — the original guess before
+  the founder confirmed "Intrado" directly. Not silently reconciled either way — flagged as an
+  open contradiction for the founder to settle before `config/named_competitors.json` or any
+  watchlist edit happens.
+
+- [ ] **S170-21: PRRJECT_FATBABY — lawsuit-filing alerts on watchlist companies.** Founder,
+  real-time, landing alongside the S170-20 WEST/court-data thread: "we want to have alerts when
+  big time lawsuits get filed against public companies etc." Logged before any work per
+  Principle 1 — nothing built yet. Distinct feature from S170-20's named-competitor watch: this
+  is a new signal type for companies already on `config/watchlist.json` (the 50 tickers, all
+  public), not a name-based watch on a private company. Needs scoping before build: what counts
+  as "big time" (a materiality/dollar threshold? named-plaintiff class actions only? securities
+  fraud specifically?), and what the actual data source would be — public companies' own 8-K
+  "Legal Proceedings" disclosures are already inside `secwatch`'s existing EDGAR poll and forms
+  list, but full docket-level detection (the initial filing itself, before any 8-K disclosure)
+  would need a real court-records data source — PACER (federal), state-court systems, or a
+  paid aggregator (e.g. Court Signal, Trellis, Docket Alarm) — none of which this pipeline
+  currently touches. Likely connects back to the S170-20 WEST/Westlaw thread once that identity
+  question is resolved, since a legal-data-aggregator competitor is exactly the kind of company
+  that would sell this same detection capability.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
