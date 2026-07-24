@@ -1,3 +1,7 @@
+## 2026-07-24
+
+- Published 'The Morning Report, Early' — founder asked for today's scheduled morning briefing done ahead of time as a blog post rather than waiting on the automated 09:00 UTC FCM push; same last-24h Apple window `briefing.go` would use, written longhand instead of compressed into a push body. https://okemily.com/blog/morning-report-early-2026-07-24/ — Apple #10601.
+
 ## 2026-07-23
 
 - golden-index: GFD-HERO-FRAMEWORK added — `GoblinFoxDragon/docs2/HERO_CONTENT_FRAMEWORK.md`, the story-first process for turning a TYLER-HEROES entry into a dungeon/NM-boss/loot-drop, grounded in GFD's real mob/NM/itemdef/loot systems. Five worked examples, zero numbers yet. Also: live-played the freshly-deployed GFD MUD tonight and found + fixed two real new-player-blocking bugs (combat unreachable from spawn; a lethal worm Poison proc) — Apples #10514/#10516 (GFD), #10515 (IDUNA status-page addition), #10517 (blog post 'The First Ten Minutes'). Apple #10518 (framework doc).
