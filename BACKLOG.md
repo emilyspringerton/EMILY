@@ -6458,6 +6458,41 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-72: REDGARDEN arena — human hero appears to die almost instantly in real 10v10
+  matches, no team/enemy heroes visible either.** Founder, live, testing the S170-66/68 fix in
+  real time: "it works" → "n click" → "i cant see myself or team or enemies" → "but i can click"
+  → "vs0 achieved?" → "i think its because im dead" → "i dunno it looks like my health meter is
+  zero maybe a separate bug" → "golden god confirmed." Logged before further investigation per
+  Principle 1, and per direct instruction "work on the gameplay bugs first." Founder's own live
+  diagnosis lines up with the code: heroes only draw in the 3D loop when `alive`, and the HP bar
+  reads `h->hp/h->max_hp` unconditionally (no alive gate) — so a dead hero renders as invisible
+  with a zero-width health bar, which is exactly consistent with the human's own hero dying near-
+  instantly in the opening moments of a live 19-bots+1-human match, before there was time to see
+  or react. Not yet root-caused *why* death happens that fast — leading hypothesis, not yet
+  confirmed: `arena_init_teams()`'s two straight-line team spawns plus N-way melee
+  (`arena_nearest_enemy` per hero) means every hero on both sides can end up in mutual melee range
+  the instant `ARENA_PHASE_LIVE` starts, with no travel time before combat resolves, likely
+  compounded by one lone human hero getting focused by several nearby bots at once. Needs a real
+  read of `arena_update_teams`'s combat/targeting logic and the actual spawn separation distances
+  before concluding anything further — not fixed this pass, flagged instead of guessed at, per
+  "figure it out" discipline (S170-67).
+
+---
+
+- [ ] **S170-73: Blog post — "consult the duck."** Founder, real-time: "consult the duck" → "as a
+  blog post." Logged before writing per Principle 1. Landed mid-live-debug of S170-72, in the
+  same rapid-fire style as the founder's own rubber-duck-debugging aside. Queued behind S170-72's
+  actual investigation. Not started.
+
+---
+
+- [ ] **S170-74: Blog post — "what's a god to a nonbeliever."** Founder, real-time: "golden god
+  confirmed" → "whats a god to a nonbeliever as a blog post." Logged before writing per
+  Principle 1. Lands after the live REDGARDEN test session's "you are a golden god" /
+  "golden god confirmed" thread. Queued behind S170-72. Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
