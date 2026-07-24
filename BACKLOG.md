@@ -5689,16 +5689,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-35: OKEMILY — REDGARDEN wishlist landing page.** Founder, real-time, two fragments:
-  "i guess we need a landing page for a wishlist for a wishlist" (read as a single ask, doubled
-  phrasing) → "we will email you when wishlist goes live" (the page's email-capture copy/CTA).
-  Logged before writing per Principle 1. Known blocker, already on record: the mailing-list vault
-  (`cmd/mailing-list-unlock`) is confirmed locked from prior sessions — this page's email capture
-  can't actually persist/send anything server-side until a human runs the interactive unlock.
-  Scope for this pass: build the static landing page itself (copy, layout, email input) in
-  OKEMILY, wire it to the existing `/api/v1/mailing-list/subscribe` endpoint client-side exactly
-  like other okemily signup forms already do, and flag the vault-lock dependency plainly rather
-  than silently building a form that can't work yet.
+- [x] **S170-35: OKEMILY — REDGARDEN wishlist landing page.** Founder, real-time, two fragments:
+  "i guess we need a landing page for a wishlist for a wishlist" (read literally, not a typo: a
+  page for people to sign up *before* the actual Steam wishlist page exists) → "we will email you
+  when wishlist goes live" (the page's email-capture copy/CTA). Logged before writing per
+  Principle 1. Built `redgarden-wishlist.html`, distinct from the existing `redgarden.html`
+  early-access waitlist (that page = "get me a playable build"; this one = "tell me when there's
+  a Steam wishlist button to click") — own Mailchimp audience (`list:"redgarden-wishlist"`) so
+  the two intents aren't double-counted, cross-linked from `redgarden.html`. **Done — Apple
+  #10562 · OKEMILY `305a73a`, deployed via `okemily-deploy.sh`.** Known blocker, already on
+  record and re-flagged here: the mailing-list vault (`cmd/mailing-list-unlock`) is confirmed
+  locked — this page's email capture can't actually persist/send anything server-side until a
+  human runs the interactive unlock, same as every other okemily signup form.
 
 ---
 
