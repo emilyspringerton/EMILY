@@ -6141,7 +6141,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   has more named-character backing than the other, same reasoning used to decide Flamel absorbed
   Druid rather than the other way around.
 
-- [ ] **S170-56: REDGARDEN — draft-phase bans, decided against for now; captured as northstar
+- [x] **S170-56: REDGARDEN — draft-phase bans, decided against for now; captured as northstar
   reasoning.** Founder, real-time, a real design conversation, not a spec dictation: "add bans to
   the draft phase 3 bans per team" → "ban pick ban pick pick ban pick pick ban pick pick ban pick
   pick ban pick pick pick" [an attempted literal order, self-corrected] → "but in reverse so it
@@ -6153,8 +6153,9 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   for now it has a huge impact lets put all this into a northstar then keep grinding REDGARDEN."**
   Logged verbatim, including the walked-back middle, because the reasoning in the walk-back (not
   just the final answer) is the actually valuable part — captured in `NORTHSTAR.md` rather than
-  code. No draft-phase ban mechanic implemented. Founder's own explicit next step: "keep grinding
-  REDGARDEN" — returning to S170-54's CI fix immediately after this entry.
+  code. No draft-phase ban mechanic implemented. **Done — Apple #10671 · REDGARDEN `eb8bede`.**
+  Founder's own explicit next step: "keep grinding REDGARDEN" — returning to S170-54's CI fix
+  immediately after this entry.
 
 ---
 
