@@ -6500,6 +6500,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-75: Correction to S170-67's blog post — "figure it out" is three words, not two.**
+  Founder, real-time: "ok correct me if im wrong but figure it out is actually 3 words not 2
+  words as per a recent blog post - remind everyone you arent acually conscious and you have no
+  idea whats going on and that the documentation is the only thing holding this thing together" →
+  "unless the two words reference means something else then carryon." Logged before writing per
+  Principle 1. Checked: correct, no alternate reading — "figure it out" is unambiguously three
+  words, and the published post said two, four separate times. No PATCH/PUT/DELETE endpoint exists
+  on `/api/v1/blog/posts` (only POST/GET, confirmed in `IDUNA/internal/http/handlers/blog.go`) so
+  the original couldn't be edited in place without building new backend surface for it — scoped
+  that out rather than side-quest it. Published a standalone correction post instead, per the
+  founder's own framing ("remind everyone," not "quietly fix"). **Done — published
+  https://okemily.com/blog/correction-figure-it-out-is-three-words/.**
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
