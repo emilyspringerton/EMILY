@@ -1745,6 +1745,7 @@ func (s *Server) handleChat(w http.ResponseWriter, r *http.Request) {
 	if err := s.store.AppendTurn(body.SessionID, turn); err != nil {
 		log.Printf("store: %v", err)
 	}
+	s.postChatTurnApple(body.SessionID, turn)
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]any{
@@ -1754,6 +1755,52 @@ func (s *Server) handleChat(w http.ResponseWriter, r *http.Request) {
 		"tool_activities": result.ToolActivities,
 		"turn_id":         turnID,
 	})
+}
+
+// buildChatTurnApple constructs the ApplePayload for one /chat turn (S148-00).
+// Pure/no I/O, same split as buildCycleApple elsewhere in this file, so the
+// payload shape is unit-testable without a mock IDUNA server.
+func buildChatTurnApple(sessionID string, turn Turn) ApplePayload {
+	title := truncate(turn.UserInput, 70)
+	body := fmt.Sprintf("User: %s\n\nEmily: %s", turn.UserInput, turn.Final)
+	if turn.ValidationNote != "" {
+		body += fmt.Sprintf("\n\n[validation note: %s]", turn.ValidationNote)
+	}
+	metadata, _ := json.Marshal(map[string]any{
+		"session_id": sessionID,
+		"turn_id":    turn.ID,
+		"model":      turn.Model,
+		"validated":  turn.Validated,
+	})
+	return ApplePayload{
+		SourceRepo: "EMILY",
+		RunID:      fmt.Sprintf("chat-%s-%s", sessionID, turn.ID),
+		AppleType:  "conversation",
+		Title:      title,
+		Body:       body,
+		Metadata:   metadata,
+	}
+}
+
+// postChatTurnApple wires /chat into the Apple ledger (S148-00): every turn
+// files a "conversation" Apple, per-turn rather than per-session-close for
+// ledger fidelity -- this is the first legitimate chat-to-ledger source (the
+// founder's own words: "this was already built in as intent," just missing
+// the last wire). Non-fatal, same convention as every other PostApple call
+// site in this file (briefing.go/plan.go/etc.): logged, never blocks the
+// chat response, and silently no-ops if IDUNA env vars aren't configured
+// (NewIdunaClientFromEnv already handles that).
+func (s *Server) postChatTurnApple(sessionID string, turn Turn) {
+	iduna := NewIdunaClientFromEnv()
+	if iduna == nil {
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if _, err := iduna.PostApple(ctx, buildChatTurnApple(sessionID, turn)); err != nil {
+		log.Printf("chat: apple post failed (non-fatal): %v", err)
+	}
 }
 
 func (s *Server) handleHistory(w http.ResponseWriter, r *http.Request) {

@@ -471,3 +471,81 @@ func TestBuildCycleApple_TriageObservation(t *testing.T) {
 		t.Errorf("type = %q, want observation when triage_findings > 0", payload.AppleType)
 	}
 }
+
+// ---------------------------------------------------------------------------
+// buildChatTurnApple (S148-00: /chat wired to the Apple ledger)
+// ---------------------------------------------------------------------------
+
+func TestBuildChatTurnApple_Fields(t *testing.T) {
+	turn := Turn{
+		ID:        "turn-1",
+		UserInput: "what should I work on next?",
+		Final:     "S148-00 looks like the smallest buildable item.",
+		Model:     "claude-sonnet-5",
+		Validated: true,
+	}
+	payload := buildChatTurnApple("session-abc", turn)
+
+	if payload.SourceRepo != "EMILY" {
+		t.Errorf("SourceRepo = %q, want EMILY", payload.SourceRepo)
+	}
+	if payload.AppleType != "conversation" {
+		t.Errorf("AppleType = %q, want conversation", payload.AppleType)
+	}
+	if payload.RunID != "chat-session-abc-turn-1" {
+		t.Errorf("RunID = %q, want chat-session-abc-turn-1", payload.RunID)
+	}
+	if !strings.Contains(payload.Title, "what should I work on next") {
+		t.Errorf("Title = %q, should contain the user's message", payload.Title)
+	}
+	if !strings.Contains(payload.Body, turn.UserInput) || !strings.Contains(payload.Body, turn.Final) {
+		t.Errorf("Body should contain both the user input and the final reply, got: %q", payload.Body)
+	}
+
+	var meta map[string]any
+	if err := json.Unmarshal(payload.Metadata, &meta); err != nil {
+		t.Fatalf("Metadata should be valid JSON: %v", err)
+	}
+	if meta["session_id"] != "session-abc" || meta["turn_id"] != "turn-1" {
+		t.Errorf("Metadata missing session_id/turn_id: %v", meta)
+	}
+	if meta["validated"] != true {
+		t.Errorf("Metadata.validated = %v, want true", meta["validated"])
+	}
+}
+
+func TestBuildChatTurnApple_TitleTruncatesLongMessages(t *testing.T) {
+	longMsg := strings.Repeat("a", 200)
+	turn := Turn{ID: "t2", UserInput: longMsg, Final: "ok"}
+	payload := buildChatTurnApple("s1", turn)
+	if len(payload.Title) > 73 { // truncate's own "..." allowance
+		t.Errorf("Title should be truncated, got length %d", len(payload.Title))
+	}
+}
+
+func TestBuildChatTurnApple_IncludesValidationNoteWhenPresent(t *testing.T) {
+	turn := Turn{ID: "t3", UserInput: "q", Final: "a", ValidationNote: "flagged: unverified claim"}
+	payload := buildChatTurnApple("s1", turn)
+	if !strings.Contains(payload.Body, "flagged: unverified claim") {
+		t.Errorf("Body should include the validation note when present, got: %q", payload.Body)
+	}
+}
+
+func TestBuildChatTurnApple_OmitsValidationNoteWhenAbsent(t *testing.T) {
+	turn := Turn{ID: "t4", UserInput: "q", Final: "a"}
+	payload := buildChatTurnApple("s1", turn)
+	if strings.Contains(payload.Body, "validation note") {
+		t.Errorf("Body should not mention a validation note when there isn't one, got: %q", payload.Body)
+	}
+}
+
+func TestPostChatTurnApple_NoopWithoutIdunaEnv(t *testing.T) {
+	for _, k := range []string{"IDUNA_BASE_URL", "IDUNA_AGENT_NAME", "IDUNA_AGENT_SECRET"} {
+		t.Setenv(k, "")
+	}
+	s := &Server{}
+	// Must not panic even with a zero-value Server -- postChatTurnApple
+	// should short-circuit entirely on the nil IdunaClient before touching
+	// anything else on s.
+	s.postChatTurnApple("session-x", Turn{ID: "t5", UserInput: "q", Final: "a"})
+}
