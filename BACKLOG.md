@@ -6217,7 +6217,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-61: Blog post — "vibe coding is a skill issue."** Founder, real-time: "write a blog
+- [x] **S170-61: Blog post — "vibe coding is a skill issue."** Founder, real-time: "write a blog
   post 'vibe coding is a skill issue' the last blog post said it took one glance from someone who
   actually clicked the thing. one glance and 30 years of experience ahem." Logged before writing
   per Principle 1. Direct correction to S170-60's "Duh" post: that post credited the catch to
@@ -6227,4 +6227,4 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   vibes-based, it's risky specifically when there's no experienced human anywhere in the loop to
   catch what CI/automated verification structurally can't see (S170-59's own loopback-IP bug as
   the concrete case study) — the skill issue is skipping that person, not the practice itself.
-  Not started.
+  **Done — Apple #10677 · published okemily.com/blog/vibe-coding-is-a-skill-issue/.**
