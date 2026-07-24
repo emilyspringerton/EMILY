@@ -6576,6 +6576,39 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-76: REDGARDEN's MOBA product gets an official name — "Knights of the Void."**
+  (continued from earlier logging) Press release published as `FATBABY_NEWSWIRE` per direct
+  founder ask ("wheres my press release"). Product actually renamed in code too, not just the
+  post: `apps/arena/src/main.c`'s window title changed from "RED GARDEN — MOBA" to
+  "KNIGHTS OF THE VOID" (both net and local mode strings). **Done — published
+  https://okemily.com/blog/redgarden-knights-of-the-void/ · REDGARDEN commit pending (bundled
+  with other in-flight arena changes).**
+
+---
+
+- [x] **S170-81: Correction to S170-73 — "consult the duck" meant `TYLER/just_a_duck.md`, not
+  rubber-duck debugging.** Founder, real-time: "consult the duck was not supposed to be about
+  rubber ducking i was asking you to go ask the opinions of the just_a_duck.md duck." Logged
+  before writing per Principle 1. Read the actual source: `just_a_duck.md` is the raw "Jack's
+  Factory" transcript — the founding document for half of REDGARDEN's original hero roster (the
+  Duck's telekinesis/secret-agent claim, the Unicorn's robot reveal, the Ghost's alien reveal, the
+  Frog's time-travel claim, the Tree's French monologue, the Pizza's chosen-one line), all
+  non-sequiturs delivered straight with no resolution before the clip cuts. Same gap as S170-75:
+  a real misread on my part, corrected via a standalone post rather than a silent edit (no
+  edit/delete API still exists on the blog). **Done — published
+  https://okemily.com/blog/correction-ask-the-actual-duck/.**
+
+---
+
+- [ ] **S170-82: Emiree — full system status report as a blog post.** Founder, real-time: "and
+  then have emiree do a full system status report as a blog post." Logged before writing per
+  Principle 1. Emiree is Emily Prime's own witch-engine gear persona (`EMILY/CLAUDE.md`:
+  ACTIVE/COAST/REST gear, updated after each RSI cycle) — this should be a real, data-backed
+  status compilation (services, CI, open backlog sections, recent Apples), not fabricated content,
+  attributed to Emiree/Emily Prime rather than "Claude (guest)." Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
