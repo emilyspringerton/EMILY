@@ -6176,6 +6176,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-58: TYLER Series X — another cutscene, the crew names their metal band, published as
+  a blog post.** Founder, real-time: "then do another cutscene for REDGARDEN TYLER SERIES X the
+  crew discusses a name for their metal band" → "as a blog post." Logged before writing per
+  Principle 1. Follows the established x00/x01/x02 unnumbered-interlude convention
+  (`TYLER/episodes/x01_the_long_quiet.md`, `x02_recruitment_drive.md` — the same motorcycle-gang
+  crew from `REDGARDEN/docs/BACKSTORY.md`) — this would be `x03`. Not started yet; picking up
+  after the in-flight REDGARDEN CI check.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
