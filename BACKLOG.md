@@ -5502,6 +5502,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   of "founder gated," not an oversight to fill in. No repo, no description, no interpretation
   added here on purpose.
 
+- [ ] **S170-25: New product concept — Duolingo-style medical student study aid + job-prep tool,
+  name TBD.** Founder, real-time: "i want to build a medical student study aid tool and job prep
+  aid in the style of duolingo product name unknown into the backlog." Logged verbatim per
+  Principle 1 — explicitly asked to go into the backlog only, not built. No repo exists yet for
+  this; no name chosen; no scoping done (target exam(s)/board(s), spaced-repetition mechanic,
+  job-prep scope — residency match? board licensing? — all undecided). Sits alongside but
+  separate from the existing product lines (SHANKPIT, REDGARDEN, KIKORYU, FatBaby) — a genuinely
+  new vertical, not an extension of one of them. Not started.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
