@@ -6627,7 +6627,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   implementation before claiming what "parity" requires. Founder redirected priority
   immediately after logging this ("i mean backlog it then sprint plan it then iterate towards the
   fixes to the redgarden hame loop") — logged and queued, not investigated further this pass.
-  Not started.
+
+  **Resumed. Real finding before writing any code: shankpit-460's matchmaking is an intentional,
+  documented, different architecture, not an unfinished port of REDGARDEN's.** Per its own
+  `docs2/NORTHSTAR.md` §3: "v0 does *not* spin up per-match server instances — there is one
+  persistent server," matchmaking handled by IDUNA's own queue system
+  (`IDUNA/internal/http/handlers/shankpit_queue.go`, already built and live per S156-01/03),
+  explicitly chosen to avoid duplicating platform-level matchmaking the org needs anyway.
+  Flagged this to the founder rather than blindly porting REDGARDEN's per-match-ephemeral-server
+  pattern over it, which would have been regressive. **Founder chose "operational parity only"**
+  — scale up the bot pool and verify ops/firewall within the existing architecture, leave the
+  matchmaking design itself alone. Real gap found: `ops/systemd/shankpit460-emily-bot.service`
+  keeps exactly 1 filler bot (`-bots 1`), vs. REDGARDEN's 19 always-on. Also worth noting the
+  other direction: shankpit-460's ticket-secret handling (`EnvironmentFile=`, secret never in the
+  unit file itself) is actually *better* than what got shipped for REDGARDEN tonight
+  (`Environment=REDGARDEN_TICKET_SECRET=...` in plaintext) — a real thing to carry back over to
+  REDGARDEN later, not copy from it. In progress: bumping the bot pool, checking/opening the
+  firewall for 6969/udp (same class of gap that caused S170-72/85 in REDGARDEN).
 
 ---
 
