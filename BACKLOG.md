@@ -6110,6 +6110,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
-*The backlog is what outlasts everything.*
-*Clean builds first. Then custody. Then everything else.*
+- [ ] **S170-54: REDGARDEN GitHub Actions artifact is unsuitable — no distributable executable,
+  no SDL2 bundled.** Founder, real-time, four fragments: "the github artifact for REDGARDEN is
+  unsuitable" → "no executable" → "SDL dll not bundled" → "check shankpit for the protopattern."
+  Logged before writing per Principle 1. Root cause, checked before fixing: `REDGARDEN/.github/
+  workflows/ci.yml` only runs `scripts/build.sh` (the RTS-side binaries: server/bot/lobby/
+  matchmaker) — it never builds `apps/arena` (the actual product since today's pivot, NORTHSTAR
+  §13), and even the RTS binaries it does build are bare Linux ELFs with no packaging, no Windows
+  cross-compile, and no bundled SDL2 runtime — nothing a founder can just download and run.
+  `SHANKPIT/.github/workflows/release.yml` already solves exactly this: cross-compiles a real
+  Windows client via `mingw-w64` + a downloaded `SDL2-devel-*-mingw` package, then zips the .exe
+  together with `SDL2.dll` from that same package plus a `PLAY.bat` launcher. Scope: mirror that
+  pattern for REDGARDEN's arena client specifically (no GLU dependency, unlike SHANKPIT's client
+  — `build_arena.sh`'s own comment already notes this, one less DLL to bundle). Queuing a local
+  `mingw-w64` install (`sudo-queue/09-mingw-w64.sh`) to actually dry-run-verify the cross-compile
+  here before trusting CI alone to catch a broken workflow.
