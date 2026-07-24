@@ -6314,6 +6314,27 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-66: REDGARDEN arena — 10v10 matches resolve instantly ("YOU WIN"), real gameplay
+  bug, not a connection issue.** Founder, live, right after S170-63's fix confirmed working: "ok
+  it just says YOU WIN" → "it works there is a client but it just says YOU WIN" → "but the camera
+  works" → "there is a cube" → "you are a golden god." Logged before further investigation per
+  Principle 1. The good news first, confirmed real: the client connects, renders (camera + a
+  cube visible), and joins a live match end-to-end for the first time — S170-63/65's fixes are
+  genuinely working. The new, separate bug: every recent match log in `var/matches/` (checked the
+  5 most recent) has exactly one line, `match_start`, and nothing after — no snapshots, no
+  `match_end`, consistent with a match resolving to a winner on its very first tick, before any
+  real play happens. Correlated with a real resource symptom: `arena_server` processes have been
+  spawning roughly one per second continuously since the matchmaker restart (60+ counted, still
+  climbing), consistent with 20 bots instantly requeuing after each near-zero-length match rather
+  than a normal play-to-completion cycle. Not yet root-caused — the honest hypothesis (not
+  confirmed) is a team-mode initialization bug: if hero `active`/`alive` state isn't fully set for
+  all 20 slots before the first server tick evaluates the team-wipe win condition, one side could
+  register as already-dead immediately. Needs a real read of `arena_init_teams`/
+  `arena_update_teams` before concluding anything further — not fixed this pass, flagged instead
+  of guessed at.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
