@@ -6515,6 +6515,42 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-76: REDGARDEN's MOBA product gets an official name — "Knights of the Void."**
+  Founder, real-time: "and then do an update on KNIGHTS OF THE VOID REDGARDEN EDITION - ask the
+  duck" → "REDGARDEN - KNIGHTS OF THE VOID is the official name of the moba product as a press
+  release into the blog as FATBABY_NEWSWIRE." Logged before writing per Principle 1. Two parts:
+  (1) a press-release-style blog post under a new author convention, `FATBABY_NEWSWIRE`, not yet
+  used anywhere else in this session's posts; (2) naming the product for real in the actual repo
+  (window title currently reads "RED GARDEN — MOBA (networked PvP)" in `apps/arena/src/main.c`,
+  `README.md`/`NORTHSTAR.md` reference it as "REDGARDEN"/"the arena product"). Not started.
+
+---
+
+- [ ] **S170-77: REDGARDEN arena — keep iterating toward true online PvP for the hybrid
+  (human + bot) mode.** Founder, real-time, after S170-72's fix confirmed working live: "and tehn
+  continue iterating towards true online pvp for the hybrid." Logged before writing per
+  Principle 1. Open-ended direction, not a single bug — the connect/draft/requeue path is now
+  real and verified (S170-66/68/72), but the actual first full human-participated match (draft →
+  live → a real win/loss, not just a connection) still hasn't been confirmed end-to-end. Next
+  concrete steps once a human is actually in a match: watch for whether the "instant swarm focus-
+  fire" dynamic flagged as a hypothesis in the old S170-72 write-up is real once real play happens,
+  and whether S170-69's northstar items (real draft UI, hover cursor indicators) become urgent
+  once the auto-draft/no-UI shortcuts stop being sufficient for a genuinely fun match. Not started
+  — status check ("full process sync") confirms current live health: all three systemd units
+  active, matches cycling and correctly capping at 19/20 waiting on a human, `arena_server`
+  process count stable (12, not growing unbounded like before S170-72's fix).
+
+---
+
+- [ ] **S170-78: SHANKPIT — missile launcher weapon.** Founder, real-time: "all into the backlog
+  then into sprints and then iterate except the missiles backlog missile launcher into shankpuit
+  and sprint it too i guess but dont fire any missiles obviously." Logged before writing per
+  Principle 1 — explicitly backlog-only per the founder's own instruction, not implemented this
+  pass, and explicitly not any kind of real-world/literal weapons request (a game weapon in a
+  server-authoritative UDP FPS, same category as SHANKPIT's existing weapon set). Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
