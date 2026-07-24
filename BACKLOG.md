@@ -5980,6 +5980,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   (Donkey, Retrieval Cart, TYLER-the-hero) stay blocked on multi-unit-per-player or non-piloted
   units, neither built this pass. The Courier (Ratatoskr, TYLER #32) queued next.
 
+- [x] **S170-48: REDGARDEN arena — The Courier (Ratatoskr), eleventh hero, roster 10 → 11.**
+  Founder: "add The Courier (ratatoskr)." TYLER `multiverse_heroes.md` #32 is already nicknamed
+  exactly "The Courier" — the messenger between the eagle at Yggdrasil's crown and Nidhogg at its
+  root, who's "started editing" the messages after a long tenure. Mapped that two-fixed-point
+  framing directly onto the arena's two existing `ArenaNode` positions rather than a third system:
+  W (Between Eagle and Serpent) is a pure fixed-geography teleport — always jumps to whichever node
+  is farther away, distinct from every other hero's ally/foe-relative teleport. Q (a Unicorn-shaped
+  dash-strike) doubles as the passive's trigger: a landed cast cleanses The Courier's own active
+  debuffs. R (The Debt Collector's Due) is a flat life-drain execute on the nearest enemy. 7 new
+  headless tests (223 total). Pick-validation bound and draft modulo widened once more (10 → 11).
+  Verified live: cleaned up a stray leftover-process port conflict from the prior pass
+  (`pkill -9 -f red_garden`), relaunched the persistent bot pool (22 bots) on the current build —
+  all 11 hero_ids (0-10) drafted successfully, pool left running. REDGARDEN `d01eef8`, Apple
+  #10645. Founder also requested a Donkey mobility ability (paper-airplane launch/escape) in the
+  same session — queued as its own item, not yet built.
+
 ---
 
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
