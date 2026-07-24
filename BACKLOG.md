@@ -6195,6 +6195,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-59: REDGARDEN — PLAY.bat's hardcoded 127.0.0.1 is wrong for the actual distributed
+  client.** Founder, live, actually running the CI-built Windows client: "ok it executes a
+  terminal pops up saying queuing for match" → "also it says queuing at 127.0.0.1:7778 im not
+  sure if thats right" → "the client might assumne [sic] server is running on the lan or on the
+  same box." Logged before fixing per Principle 1. Real bug, confirmed: `ci.yml`'s bundling step
+  writes `PLAY.bat` as `start RedGarden.exe --queue 127.0.0.1` — a "test against a locally-running
+  matchmaker" default, wrong for a founder running the distributed .exe on a separate machine
+  wanting to reach this box's actual live bot pool. Correct command given directly:
+  `RedGarden.exe --queue 198.58.107.85`. Scope: fix `PLAY.bat`'s generated default in `ci.yml` to
+  point at the real box, not loopback, so the next download isn't misleading the same way.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
