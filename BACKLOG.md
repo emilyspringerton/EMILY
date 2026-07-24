@@ -5359,6 +5359,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-17: Incident — emily-agent dead 2 days, found and fixed.** Apple #10537. Root cause:
+  `emily-system.service` OOM-killed 9 minutes after the last VM boot (2026-07-21 22:03:01 UTC),
+  never auto-restarted — 2 full days with the entire RSI loop offline. Restarted via `emily start
+  --iduna`; cycle 8866 completed, Apple #10525 filed by the daemon itself. Surfaced HITL-11 (API
+  credit balance) as still-blocking, not new. No data loss verified across all four repos worked
+  on tonight (local HEAD == origin HEAD, checked directly, before and after).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
