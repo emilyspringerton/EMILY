@@ -3646,10 +3646,22 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Source: HQ-SPEC-SIM-100 §8 (Build Sequence), steps 1–5 only. One canonical motion asset (`.gband`), three consumers; this section backlogs the two software consumers — SHANKPIT playback and the RL reward compiler. Path B (Springerton Seam gate protocol, actuation ladder, Parks & Cruises hardware) is a long-horizon northstar per the spec's own text — "it disciplines the architecture now, it does not appear on a sprint board." Build steps 6–7 (hardware-in-the-loop bench, retarget feasibility tooling) and all seam crossings stay off this board behind human biometric + counsel gates (§6–7).*
 
-- [ ] **S144-01: `.gband` format + C sampler + Go pipeline tools** — content-addressed two-part asset
-  (JSON manifest + flat binary channel data), import from BVH/glTF, resample, hash, validate.
-  Acceptance test per spec: parser fits in ~a hundred lines of C. Determinism load-bearing: same clip
-  + same seed + same tick = bit-identical pose on every platform.
+- [x] **S144-01: `.gband` format + C sampler + Go pipeline tools** — New standalone repo
+  `GOLDENBAND` (not in `go.work`, per spec's "no engine dependency in the asset" rule, mirrors
+  SHANKPIT/PITVIPER/EmilyOS's own convention). Built: `format/GBAND_FORMAT.md` (fixed 84-byte
+  binary header + row-major float32 channel data, separate JSON manifest for the richer
+  authorship/intent-tag/loop-point/safety fields), `src/gband.c` (`gb_init`/`gb_sample`/
+  `gb_blend`/`gb_verify`, ~90 lines — comfortably inside the spec's own "hundred line parser"
+  acceptance test), self-contained `src/sha256.h` (trimmed from REDGARDEN's `hmac_sha256.h`,
+  re-verified against NIST FIPS 180-4 vectors independently), and `gbtool` (Go: BVH import,
+  hash, validate). 13 tests (3 C, 10 Go), all passing; full pipeline smoke-tested end to end
+  (synthetic BVH → `.gband` → validate → hash, clean). GOLDENBAND `a9de6b1`. Golden-indexed as
+  GBAND-FORMAT. **glTF import explicitly deferred** (BVH only this pass — glTF's skinning/
+  animation extensions are a real, separate undertaking, documented as a gap not silently
+  skipped). Skeleton assets/retargeting/feasibility passes, the reward compiler, and SHANKPIT
+  integration (S144-02+) remain open. **One real gap:** no GitHub remote exists for this new
+  repo (same blocker as S127-04/PITVIPER — no `gh` CLI, no API token) — committed locally only,
+  needs the founder to create `emilyspringerton/GOLDENBAND` before this can be pushed.
 
 - [ ] **S144-02: SHANKPIT integration** — skeletal playback locked to the 64-tick fixed timestep;
   render-rate smoothness from the existing state interpolation layer, never re-sampling. Scope: one

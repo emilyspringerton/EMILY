@@ -16,6 +16,9 @@ claims:
   - id: SIM-100.NAR-1
     type: NAR
     reality_binding: specified
+  - id: SIM-100.BEH-2
+    type: BEH
+    reality_binding: running
 ---
 
 # HQ-SPEC-SIM-100 — The Springerton Seam & the GOLDEN BAND Animation Layer
@@ -52,7 +55,7 @@ The animator's clip is the spec; physics is the implementation; the policy is th
 Content-addressed, versioned, two-part:
 
 - **Manifest (JSON):** skeleton reference (by hash), channel list, duration, tick rate, authorship provenance (who/what authored it — human animator, mocap session, or generative tool, *labeled honestly*), intent tags (`gait`, `gesture`, `idle`, `showpiece`), loop points, and safety annotations (see §7).
-- **Channel data (flat binary):** per-joint rotation/translation tracks, uniform sampling at authoring rate. No curves-with-twelve-interpolation-modes cleverness; resample at import. Simple enough to parse in a hundred lines of C — that's the bare metal test.
+- **Channel data (flat binary):** per-joint rotation/translation tracks, uniform sampling at authoring rate. No curves-with-twelve-interpolation-modes cleverness; resample at import. Simple enough to parse in a hundred lines of C — that's the bare metal test. *(SIM-100.BEH-2 — running: `GOLDENBAND` repo, build step 1 — `.gband` binary+manifest format, ~90-line C sampler (`gb_init`/`gb_sample`/`gb_blend`/`gb_verify`), Go `gbtool` (BVH import/hash/validate). Real, tested, not yet consumed by SHANKPIT/reward compiler — that's steps 2-3, still open.)*
 
 **Skeleton spec:** a canonical rig per character family — joint hierarchy, limits, and (for hardware-bound characters) actuator metadata: torque limits, velocity limits, gear backlash notes. The skeleton is where game fantasy and hardware truth are forced to negotiate.
 
