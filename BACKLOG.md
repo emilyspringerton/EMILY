@@ -6566,6 +6566,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-80: TYLER Series X — garage followup cutscene, "Ask the Frog (Not the Tree)."**
+  Founder, real-time: "and then do a followup in the garage 'ask the frog'" → "'not the tree'."
+  Logged before writing per Principle 1. Follows the x01/x02/x03 unnumbered-interlude convention
+  (same motorcycle-gang crew, same garage setting as `x03_the_band_name.md`) — working title "Ask
+  the Frog (Not the Tree)," presumably the crew consulting REDGARDEN's Frog hero over the Tree
+  hero for some in-universe decision, mirroring this session's own "consult the duck" thread.
+  Queued behind S170-79 (Loki, in progress). Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
