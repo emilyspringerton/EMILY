@@ -5545,9 +5545,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   INTERLUDE." Logged before writing per Principle 1. **Done — Apple #10550 · published
   okemily.com/blog/interlude/.**
 
-- [ ] **S170-28: Continue REDGARDEN — NORTHSTAR §12 Phase B (replay logging), next in the phase
+- [x] **S170-28: Continue REDGARDEN — NORTHSTAR §12 Phase B (replay logging), next in the phase
   order after Phase A (S170-26).** Founder, real-time: "then continue REDGARDEN." Logged before
-  writing per Principle 1. Not started.
+  writing per Principle 1. Built the RTS half exactly as §10 originally spec'd:
+  `apps/server` now appends `match_start`/`connect`/`card_play`/`match_end` JSON lines to
+  `var/matches/<port>-<timestamp>.jsonl` per match, with `connect`/`card_play` events carrying
+  the Phase A `player_id` (hex, or `"unregistered"` for a ticket without one). Verified against
+  real log output from `scripts/test_10_bots.sh`, not just read from the code. `var/` added to
+  `.gitignore`. **Done (RTS half) — Apple #10551 · REDGARDEN `cb71db6`.** `test_10_bots.sh` +
+  `test_arena.sh` still green. The MOBA half (`apps/arena`'s per-tick hero-state logging) is not
+  started — distinct next step within Phase B, not covered by this pass.
 
 ---
 
