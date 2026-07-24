@@ -6580,9 +6580,8 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   (continued from earlier logging) Press release published as `FATBABY_NEWSWIRE` per direct
   founder ask ("wheres my press release"). Product actually renamed in code too, not just the
   post: `apps/arena/src/main.c`'s window title changed from "RED GARDEN — MOBA" to
-  "KNIGHTS OF THE VOID" (both net and local mode strings). **Done — published
-  https://okemily.com/blog/redgarden-knights-of-the-void/ · REDGARDEN commit pending (bundled
-  with other in-flight arena changes).**
+  "KNIGHTS OF THE VOID" (both net and local mode strings). **Done — Apple #10690 · published
+  https://okemily.com/blog/redgarden-knights-of-the-void/ · REDGARDEN `62ca556`.**
 
 ---
 
