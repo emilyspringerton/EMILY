@@ -5448,14 +5448,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   "ingesting court and code data" framing is flagged as an open question in the doc itself for
   founder follow-up before Phase 1 build.
 
-  **Update — identity discrepancy found, not yet resolved.** Founder, real-time: "WEST has a lot
-  of court data i believe." Research (WebSearch, this session) turned up zero evidence Intrado
-  holds court/litigation data — its confirmed public surface is 911/PSAP/GIS jurisdictional-
-  boundary and address data, not case law or docket data. "A lot of court data" reads as a much
-  closer match for Westlaw (Thomson Reuters, ticker `TRI`/`TRI.TO`) — the original guess before
-  the founder confirmed "Intrado" directly. Not silently reconciled either way — flagged as an
-  open contradiction for the founder to settle before `config/named_competitors.json` or any
-  watchlist edit happens.
+  **Update — identity corrected: WEST = West Publishing/Westlaw (Thomson Reuters, TRI), not
+  Intrado.** Founder, real-time: "WEST has a lot of court data i believe" → flagged as a
+  discrepancy (no evidence Intrado holds court data) → founder corrected directly: "not intrado
+  do WEST publishing court data." `docs/COMPETITOR_WEST_NORTHSTAR.md` rewritten in place (Intrado
+  content replaced, not layered) to describe West Publishing/Westlaw, Thomson Reuters Corp
+  (NYSE/TSX `TRI`, SEC CIK 1075124, foreign-private-issuer filer — 6-K/40-F not 10-K/10-Q).
+  Unlike Intrado, TRI is public and fits the existing CIK-based pipeline directly — **added `TRI`
+  to `config/watchlist.json`** (6-K/40-F, sector "legal/information services", poll priority 3)
+  and a matching bio to `config/company_bios.json`, both committed. This is the actual "add west
+  press releases" ask, now served without a new watcher process. golden-docs-index.md entry
+  updated to match. **Done — Apple #10544 · PRRJECT_FATBABY `4bc803a`.** Westlaw-specific signal
+  filtering remains a northstar-only idea, not built.
 
 - [ ] **S170-21: PRRJECT_FATBABY — lawsuit-filing alerts on watchlist companies.** Founder,
   real-time, landing alongside the S170-20 WEST/court-data thread: "we want to have alerts when
@@ -5469,9 +5473,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   list, but full docket-level detection (the initial filing itself, before any 8-K disclosure)
   would need a real court-records data source — PACER (federal), state-court systems, or a
   paid aggregator (e.g. Court Signal, Trellis, Docket Alarm) — none of which this pipeline
-  currently touches. Likely connects back to the S170-20 WEST/Westlaw thread once that identity
-  question is resolved, since a legal-data-aggregator competitor is exactly the kind of company
-  that would sell this same detection capability.
+  currently touches. **Update:** S170-20's identity question is now resolved (WEST = Westlaw,
+  not Intrado) — Westlaw's own court-opinion-ingestion approach is the natural prior art to study
+  for this feature, since it already solves a version of "detect a filing exists" at scale.
+  Scoping still not done; not started.
+
+- [ ] **S170-22: PRRJECT_FATBABY — wire `config/company_bios.json` into live ticker-page
+  rendering.** Founder, real-time: "and ensure ticker page bios are live." Logged before any
+  work per Principle 1. This is the deferred second half of S166-03's one-shot bio pass — the
+  bios were explicitly written to a plain data file, not wired into any page, pending this exact
+  step. Scope: find the ticker-page template (likely in `cmd/newssite` or `cmd/dashboard`, not
+  yet confirmed) and render the matching `bios[ticker]` entry from the JSON file on that page.
+  Not started.
+
+- [ ] **S170-23: Blog post — "building at infinity" and business-pivot whiplash aren't in
+  tension on a long enough timeline (the ecosystem play).** Founder, real-time: "and write a blog
+  post about how building at infinity and the whiplash of business pivots are not at tension
+  especially on a long enough timeline (the ecosystem play)." Logged before writing per
+  Principle 1. Not started.
 
 ---
 
