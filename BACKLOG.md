@@ -6689,6 +6689,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   through to the dynamic port range. **Cannot self-resolve: requires the founder's own sudo access
   to run `sudo-queue/08-redgarden-arena-firewall.sh`.** Flagged, not guessed at.
 
+  **Founder ran it ("08 run"). Second, independent bug found on verification.** Checking whether
+  the firewall fix actually landed turned up a real second problem, unrelated to the firewall: 20
+  completely separate rogue `red_garden_arena_bot` processes (indices 1-20, running continuously
+  since 18:03 — hours before tonight's fixes even started, never under any systemd unit's
+  control) had been hammering the same matchmaker the whole time, competing with and starving out
+  the properly-supervised 19-bot pool. Every "matched 20 players" this session was likely coming
+  from a mix including these zombies, not the real pool — and the actual `redgarden-bot-pool.
+  service` had silently stopped responding to a `systemctl --user stop` and not restarted cleanly
+  during the diagnosis. Killed the 20 rogues, did a full clean sweep, restarted all three units.
+  Verified stable afterward: queue climbs cleanly to 19/20 and holds there with no further churn
+  — the correct, healthy waiting state. Cannot verify the firewall rule itself (no read access to
+  `/etc/ufw/user.rules` without sudo — `sudo -n` fails, file is `root:root 640`), but its
+  modification timestamp confirms it changed. Both fixes should now be in effect together.
+  Ready for the founder to retry — not yet confirmed with a real external connection.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
