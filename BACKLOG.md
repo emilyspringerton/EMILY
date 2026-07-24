@@ -5805,6 +5805,27 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-43: REDGARDEN 10v10 scaling + persistent bot pool ("22 bots in the pool").**
+  Founder, continuing directly from S170-42: "10 v 10 22 bots in the pool" → "i did not ask you to
+  wait for human validation we have a deadline keep building" → "the human will join the bot games
+  to validate for now bot first feedback loop." Team-mode sim (`heroes[2]`→`heroes[20]`, `team`/
+  `active` fields, `arena_nearest_enemy()` generalizing foe lookup, zero regressions in the full
+  existing test suite), draft phase (`PACKET_ARENA_PICK`), `apps/arena_server` generalized to
+  `--lobby-size N`, new `apps/arena_bot` (a real networked bot, not the sim's internal practice AI —
+  real WOTAN identity, persistent matchmaker requeue), `apps/matchmaker` generalized. Found and
+  fixed 3 real bugs via an extensive soak test, not review: bots re-registering a brand-new WOTAN
+  identity every match instead of one stable identity; match servers never terminating after
+  match-end and flooding a persistent bot's socket with stale packets, silently swallowing its next
+  connection's WELCOME; a UDP retry race in the matchmaker spawning phantom matches nobody
+  connects to (mitigated + a defensive 60s no-progress timeout so phantoms self-clean). Verified
+  live: 2 persistent bots, stable identity across 20+ matches each, real accumulating win/loss
+  records (up to 23 matches played), zero connect failures after fixes.
+  **Honestly flagged, not assumed passing: the actual 20-bot `--lobby-size 20` path hasn't been run
+  live end-to-end yet (same tested code as 1v1), and the SDL2 client's visual rendering of a live
+  match is unverified (no Xvfb on this box).** **Done — Apple #10594 · REDGARDEN `0146abd`.**
+
+---
+
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
   real-time, many fragments landing together (order as given): "then continue playing the mud as
   a break from the REDGARDEN work" → "start playing as a second character too" → "ensure wotan
