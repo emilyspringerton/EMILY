@@ -1,13 +1,23 @@
-// emily-agent/fable.go
-// FABLE — Emily Prime's advisory planning tier.
+// emily-agent/mimir.go
+// MIMIR — Emily Prime's advisory planning tier.
 //
-// FABLE calls claude-haiku with the compressed golden backlog (GOLDEN.md) and
+// Renamed from FABLE 2026-07-24 (EMILY/BACKLOG.md SECTION 145's naming-collision
+// note, found by the 2026-07-18 SAGA audit): this file's own "FABLE" collided
+// with HQ-SPEC-AI-103's sovereign in-house model line, also named FABLE — two
+// unrelated things sharing a name, a confusion risk flagged explicitly before
+// any SECTION 145 work started. This advisory tier is the smaller, more easily
+// renamed of the two; HQ-SPEC-AI-103 keeps FABLE. Named MIMIR (Norse: the wise
+// being the gods consult for counsel) to match this codebase's existing Norse
+// naming convention (NORN, SAGA, FATES) for exactly the role this file plays:
+// advising on what to do next.
+//
+// MIMIR calls claude-haiku with the compressed golden backlog (GOLDEN.md) and
 // recent Apple context to produce a prioritized sprint recommendation.
 // It answers "what should Emily work on next?" in a structured, actionable form.
 //
 // Routes wired in main.go:
-//   GET  /api/v1/emily/fable/advice    — generate a fresh FABLE sprint recommendation
-//   POST /api/v1/emily/fable/execute   — push top recommendation into RSI roadmap via HEIMDAL
+//   GET  /api/v1/emily/mimir/advice    — generate a fresh MIMIR sprint recommendation
+//   POST /api/v1/emily/mimir/execute   — push top recommendation into RSI roadmap via HEIMDAL
 
 package main
 
@@ -25,8 +35,8 @@ import (
 	"time"
 )
 
-// FableItem is a single prioritized recommendation from the FABLE advisor.
-type FableItem struct {
+// MimirItem is a single prioritized recommendation from the MIMIR advisor.
+type MimirItem struct {
 	Priority  int    `json:"priority"`  // 1 = highest
 	Title     string `json:"title"`     // short name (≤60 chars)
 	Rationale string `json:"rationale"` // why this is high priority now
@@ -34,21 +44,21 @@ type FableItem struct {
 	Effort    string `json:"effort"`    // "low" | "medium" | "high"
 }
 
-// FableAdvice is the full structured response from the FABLE advisor.
-type FableAdvice struct {
-	Recommendations []FableItem `json:"recommendations"`
+// MimirAdvice is the full structured response from the MIMIR advisor.
+type MimirAdvice struct {
+	Recommendations []MimirItem `json:"recommendations"`
 	Summary         string      `json:"summary"`
 	GeneratedAt     time.Time   `json:"generated_at"`
 }
 
-// runFableAdvice calls claude-haiku with golden backlog + recent Apple context
+// runMimirAdvice calls claude-haiku with golden backlog + recent Apple context
 // and returns a structured set of sprint recommendations.
-func runFableAdvice(ctx context.Context, apiKey, goldenBacklog, appleContext string) (FableAdvice, error) {
+func runMimirAdvice(ctx context.Context, apiKey, goldenBacklog, appleContext string) (MimirAdvice, error) {
 	if apiKey == "" {
-		return FableAdvice{}, fmt.Errorf("ANTHROPIC_API_KEY not set")
+		return MimirAdvice{}, fmt.Errorf("ANTHROPIC_API_KEY not set")
 	}
 
-	systemPrompt := `You are FABLE, Emily Prime's advisory planning module for EINHORN_INDUSTRIAL.
+	systemPrompt := `You are MIMIR, Emily Prime's advisory planning module for EINHORN_INDUSTRIAL.
 Your role: analyze the current backlog and recent system activity, then recommend the highest-impact next sprint items.
 
 Output ONLY valid JSON — no markdown, no explanation, just the JSON object.
@@ -93,7 +103,7 @@ Rules:
 	req, err := http.NewRequestWithContext(ctx, "POST",
 		"https://api.anthropic.com/v1/messages", bytes.NewReader(payload))
 	if err != nil {
-		return FableAdvice{}, err
+		return MimirAdvice{}, err
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("x-api-key", apiKey)
@@ -101,12 +111,12 @@ Rules:
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return FableAdvice{}, fmt.Errorf("anthropic api: %w", err)
+		return MimirAdvice{}, fmt.Errorf("anthropic api: %w", err)
 	}
 	defer resp.Body.Close()
 	raw, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode != 200 {
-		return FableAdvice{}, fmt.Errorf("anthropic api %d: %s", resp.StatusCode, raw)
+		return MimirAdvice{}, fmt.Errorf("anthropic api %d: %s", resp.StatusCode, raw)
 	}
 
 	var result struct {
@@ -116,7 +126,7 @@ Rules:
 		} `json:"content"`
 	}
 	if err := json.Unmarshal(raw, &result); err != nil {
-		return FableAdvice{}, fmt.Errorf("parse response: %w", err)
+		return MimirAdvice{}, fmt.Errorf("parse response: %w", err)
 	}
 	var text string
 	for _, block := range result.Content {
@@ -126,7 +136,7 @@ Rules:
 		}
 	}
 	if text == "" {
-		return FableAdvice{}, fmt.Errorf("no text block in response")
+		return MimirAdvice{}, fmt.Errorf("no text block in response")
 	}
 	if strings.HasPrefix(text, "```") {
 		lines := strings.Split(text, "\n")
@@ -140,32 +150,32 @@ Rules:
 		text = strings.Join(inner, "\n")
 	}
 
-	var advice FableAdvice
+	var advice MimirAdvice
 	if err := json.Unmarshal([]byte(text), &advice); err != nil {
-		return FableAdvice{}, fmt.Errorf("parse fable advice JSON: %w (raw: %s)", err, text[:min(len(text), 300)])
+		return MimirAdvice{}, fmt.Errorf("parse mimir advice JSON: %w (raw: %s)", err, text[:min(len(text), 300)])
 	}
 	advice.GeneratedAt = time.Now().UTC()
 	return advice, nil
 }
 
-// fableLoadContext returns the best available context for FABLE:
+// mimirLoadContext returns the best available context for MIMIR:
 // full-system-context.md if compiled, otherwise GOLDEN.md (backlog only).
-func fableLoadContext(emilyRoot string) ([]byte, error) {
+func mimirLoadContext(emilyRoot string) ([]byte, error) {
 	fullPath := filepath.Join(emilyRoot, "context", "full-system-context.md")
 	if data, err := os.ReadFile(fullPath); err == nil {
-		log.Printf("fable: loaded full-system-context.md (%d bytes)", len(data))
+		log.Printf("mimir: loaded full-system-context.md (%d bytes)", len(data))
 		return data, nil
 	}
 	goldenPath := filepath.Join(emilyRoot, "GOLDEN.md")
 	data, err := os.ReadFile(goldenPath)
 	if err != nil {
-		log.Printf("fable: could not read GOLDEN.md or full-system-context.md: %v", err)
+		log.Printf("mimir: could not read GOLDEN.md or full-system-context.md: %v", err)
 	}
 	return data, err
 }
 
-// fableIdunaClient returns an IdunaClient built from env vars, or nil if unconfigured.
-func fableIdunaClient() *IdunaClient {
+// mimirIdunaClient returns an IdunaClient built from env vars, or nil if unconfigured.
+func mimirIdunaClient() *IdunaClient {
 	baseURL := os.Getenv("IDUNA_BASE_URL")
 	agentName := os.Getenv("IDUNA_AGENT_NAME")
 	agentSecret := os.Getenv("IDUNA_AGENT_SECRET")
@@ -180,8 +190,8 @@ func fableIdunaClient() *IdunaClient {
 	}
 }
 
-// handleFableAdvice handles GET /api/v1/emily/fable/advice.
-func (s *Server) handleFableAdvice(w http.ResponseWriter, r *http.Request) {
+// handleMimirAdvice handles GET /api/v1/emily/mimir/advice.
+func (s *Server) handleMimirAdvice(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "GET only", http.StatusMethodNotAllowed)
 		return
@@ -193,14 +203,14 @@ func (s *Server) handleFableAdvice(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	goldenBytes, err := fableLoadContext(s.cfg.EmilyRoot)
+	goldenBytes, err := mimirLoadContext(s.cfg.EmilyRoot)
 	if err != nil {
 		http.Error(w, "could not read backlog context", http.StatusInternalServerError)
 		return
 	}
 
 	appleCtx := ""
-	if iduna := fableIdunaClient(); iduna != nil {
+	if iduna := mimirIdunaClient(); iduna != nil {
 		ctx, cancel := context.WithTimeout(r.Context(), 8*time.Second)
 		appleCtx = iduna.FetchAppleContext(ctx, 10)
 		cancel()
@@ -209,22 +219,22 @@ func (s *Server) handleFableAdvice(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), 45*time.Second)
 	defer cancel()
 
-	advice, err := runFableAdvice(ctx, apiKey, string(goldenBytes), appleCtx)
+	advice, err := runMimirAdvice(ctx, apiKey, string(goldenBytes), appleCtx)
 	if err != nil {
-		log.Printf("fable: advice error: %v", err)
-		http.Error(w, "fable advisor error: "+err.Error(), http.StatusInternalServerError)
+		log.Printf("mimir: advice error: %v", err)
+		http.Error(w, "mimir advisor error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	log.Printf("fable: generated %d recommendations", len(advice.Recommendations))
+	log.Printf("mimir: generated %d recommendations", len(advice.Recommendations))
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(advice)
 }
 
-// handleFableExecute handles POST /api/v1/emily/fable/execute.
-// It generates FABLE advice then files the top recommendation as a HEIMDAL sprint
+// handleMimirExecute handles POST /api/v1/emily/mimir/execute.
+// It generates MIMIR advice then files the top recommendation as a HEIMDAL sprint
 // so Emily Prime translates and queues it on the next cron cycle.
-func (s *Server) handleFableExecute(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleMimirExecute(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "POST only", http.StatusMethodNotAllowed)
 		return
@@ -236,13 +246,13 @@ func (s *Server) handleFableExecute(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	goldenBytes, err := fableLoadContext(s.cfg.EmilyRoot)
+	goldenBytes, err := mimirLoadContext(s.cfg.EmilyRoot)
 	if err != nil {
 		http.Error(w, "could not read backlog context", http.StatusInternalServerError)
 		return
 	}
 
-	iduna := fableIdunaClient()
+	iduna := mimirIdunaClient()
 	appleCtx := ""
 	if iduna != nil {
 		ctx, cancel := context.WithTimeout(r.Context(), 8*time.Second)
@@ -253,13 +263,13 @@ func (s *Server) handleFableExecute(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), 45*time.Second)
 	defer cancel()
 
-	advice, err := runFableAdvice(ctx, apiKey, string(goldenBytes), appleCtx)
+	advice, err := runMimirAdvice(ctx, apiKey, string(goldenBytes), appleCtx)
 	if err != nil {
-		http.Error(w, "fable advisor error: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "mimir advisor error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 	if len(advice.Recommendations) == 0 {
-		http.Error(w, "fable returned no recommendations", http.StatusInternalServerError)
+		http.Error(w, "mimir returned no recommendations", http.StatusInternalServerError)
 		return
 	}
 
@@ -267,10 +277,10 @@ func (s *Server) handleFableExecute(w http.ResponseWriter, r *http.Request) {
 	var sprintID int64
 
 	if iduna != nil {
-		requirement := fmt.Sprintf("[FABLE-%s] %s\n\nRationale: %s\nEffort: %s",
+		requirement := fmt.Sprintf("[MIMIR-%s] %s\n\nRationale: %s\nEffort: %s",
 			top.Section, top.Title, top.Rationale, top.Effort)
 		sprintBody, _ := json.Marshal(map[string]any{
-			"agent_name":  "FABLE",
+			"agent_name":  "MIMIR",
 			"requirement": requirement,
 		})
 		if authErr := iduna.authenticate(ctx); authErr == nil {
@@ -283,7 +293,7 @@ func (s *Server) handleFableExecute(w http.ResponseWriter, r *http.Request) {
 			sprintReq.Header.Set("Content-Type", "application/json")
 			resp, doErr := iduna.httpClient.Do(sprintReq)
 			if doErr != nil {
-				log.Printf("fable execute: submit heimdal sprint: %v", doErr)
+				log.Printf("mimir execute: submit heimdal sprint: %v", doErr)
 			} else {
 				defer resp.Body.Close()
 				var created struct {
@@ -293,7 +303,7 @@ func (s *Server) handleFableExecute(w http.ResponseWriter, r *http.Request) {
 					_ = json.Unmarshal(raw, &created)
 				}
 				sprintID = created.ID
-				log.Printf("fable execute: heimdal sprint %d submitted for %q (status %d)",
+				log.Printf("mimir execute: heimdal sprint %d submitted for %q (status %d)",
 					sprintID, top.Title, resp.StatusCode)
 			}
 		}

@@ -4,7 +4,7 @@
 // Chinese/English compression (~150 tokens per source).
 //
 // Called each cron cycle via MaybeRebuild (only rebuilds if a source changed).
-// The compiled context is prepended to emilyStaticPrompt and fed into FABLE.
+// The compiled context is prepended to emilyStaticPrompt and fed into MIMIR.
 
 package main
 

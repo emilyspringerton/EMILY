@@ -3692,6 +3692,22 @@ section's sovereign model-line FABLE. Not a build blocker, but a real confusion 
 work actually starts — whoever picks this up should resolve the naming collision (rename one of
 the two) before shipping code that makes it worse, not after.*
 
+*Resolved 2026-07-24, before starting S145: renamed the advisor (the smaller, more mechanically
+renameable of the two — HQ-SPEC-AI-103's sovereign model-line branding stays) to **MIMIR**
+(Norse: the wise being the gods consult for counsel — matches this codebase's existing Norse
+naming convention: NORN, SAGA, FATES). `emily-agent/fable.go` → `mimir.go`,
+`FableAdvice`/`FableItem` → `MimirAdvice`/`MimirItem`, routes `/api/v1/emily/fable/*` →
+`/api/v1/emily/mimir/*`. No external consumer depended on the old routes (checked — MJOLNIR
+doesn't call this endpoint). `docs/NORTHSTAR.md` and `docs/API_KEY_UNLOCK.md` updated to match;
+`docs/compression-experiment/analysis.md` left as-is (a point-in-time experiment record, not a
+live doc). **A second, bigger naming collision found while doing this, not yet resolved:** this
+environment's actual Claude model lineup includes a real model literally called Fable
+(`claude-fable-5`, alongside Sonnet 5/Opus 4.8/Haiku 4.5) — meaning HQ-SPEC-AI-103's own FABLE
+model-line branding *also* collides with something, just not the thing the 2026-07-18 audit
+caught. Not resolved here: renaming an entire spec's established branding (referenced across
+its own doc, golden-docs-index, and cross-references from other HQ-SPECs) is a real product-
+naming decision, not a mechanical rename — surfaced for the founder, not decided unilaterally.
+
 - [ ] **S145-01: `fabledata` snapshotting over the EPS headline corpus** — the richest oracle-graded set
   in the house. Content-addressed dataset manifests with per-record provenance (source event hash,
   labeling oracle, label date, license class); contamination tombstoning of eval records by hash —

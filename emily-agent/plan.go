@@ -174,7 +174,7 @@ func (s *Server) handlePlan(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sysCtxBytes, err := fableLoadContext(s.cfg.EmilyRoot)
+	sysCtxBytes, err := mimirLoadContext(s.cfg.EmilyRoot)
 	if err != nil {
 		http.Error(w, "could not read backlog context", http.StatusInternalServerError)
 		return

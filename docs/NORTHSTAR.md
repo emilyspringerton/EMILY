@@ -25,7 +25,7 @@ Sanskrit/Chinese transmission) + `docs/emiree-over-agent-spec.md`.
 ### Emily Prime — Chief of Staff
 The surface expression. Runs as a Go HTTP service on `:8086`. Talks to the CEO. Reads FatBaby
 observations, issues improvement tasks, manages escalations, files Apples after every meaningful
-cycle. The FABLE advisor (`GET /api/v1/emily/fable/advice`) reads full cross-repo golden context
+cycle. The MIMIR advisor (`GET /api/v1/emily/mimir/advice`) reads full cross-repo golden context
 and recommends the next sprint. System prompt built dynamically from `context/full-system-context.md`
 (compiled by GoldenDocCompiler each cron cycle). Implemented in `emily-agent/`.
 
@@ -44,7 +44,7 @@ CEO (Gmail escalations)
   ↕
 Emily Prime (:8086)
   ├─ Emiree witch engine (RSI pacing, gear state)
-  ├─ FABLE advisor (haiku sprint recommendations)
+  ├─ MIMIR advisor (haiku sprint recommendations)
   ├─ GoldenDocCompiler (cross-repo context, runs each cron cycle)
   ├─ HEIMDAL bridge (MJOLNIR → IDUNA sprints → Emily Prime)
   ├─ RSI loop (recursive self-improvement tasks)
@@ -74,7 +74,7 @@ FatBaby-Emily (PRRJECT_FATBABY)
 | `emily-agent/main.go` | HTTP server, tool loop, dynamic system prompt (`buildEmilySystemPrompt`) |
 | `emily-agent/cron.go` | Autonomous cycle, Emiree integration, goldenbuild wiring |
 | `emily-agent/goldenbuild.go` | GoldenDocCompiler — compresses all repo northstars into full-system-context.md |
-| `emily-agent/fable.go` | FABLE advisor — reads full-system-context.md → sprint recommendations |
+| `emily-agent/mimir.go` | MIMIR advisor — reads full-system-context.md → sprint recommendations |
 | `emily-agent/emiree.go` | Witch engine — seven-gear dynamical system |
 | `emily-agent/heimdal.go` | HEIMDAL bridge — MJOLNIR sprint translation |
 | `emily-agent/rsi.go` | RSI loop engine — iterative improvement with acceptance criteria |
@@ -95,7 +95,7 @@ All repo northstars (Tier 1 docs)
   → GoldenDocCompiler.Build() [haiku bilingual compression]
   → context/full-system-context.md
   → buildEmilySystemPrompt() [prepended to static prompt]
-  → every conversation + FABLE advisor
+  → every conversation + MIMIR advisor
 ```
 
 Rebuilds automatically on each cron cycle when any source has changed.
@@ -130,7 +130,7 @@ Emily Prime is the multiplier for the entire product portfolio:
 ## What "Done" Looks Like
 
 - Emily Prime's system prompt includes live compressed context from every active repo
-- FABLE recommendations account for all northstars, not just the backlog
+- MIMIR recommendations account for all northstars, not just the backlog
 - Emily Prime can accept a planning question and return a structured sprint batch
 - Planning happens in Emily Prime; Claude Code executes implementation
 - Every RSI cycle outcome is filed as an Apple, viewable in IDUNA Back Office

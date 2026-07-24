@@ -13,7 +13,7 @@ Emily Prime's 15-minute cron runs in degraded mode without `ANTHROPIC_API_KEY`:
 | emily-agent HTTP server | ✓ starts, all endpoints up | ✓ same |
 | Emiree witch engine | ✓ runs (no LLM) | ✓ same |
 | GoldenDocCompiler | writes placeholder sections | compresses via haiku |
-| FABLE advisor | returns error | sprint recommendations |
+| MIMIR advisor | returns error | sprint recommendations |
 | RSI task generation | returns error | haiku task generation |
 | HEIMDAL translation | returns error | haiku requirement translation |
 | `/chat` endpoint | returns error | full conversation |
@@ -71,10 +71,10 @@ bash /home/fatbaby/EMILY/scripts/compression-abtest.sh
 # If score < 95%: keep English-only, note result
 ```
 
-### 5. Verify FABLE advice endpoint
+### 5. Verify MIMIR advice endpoint
 
 ```bash
-curl -s http://localhost:8086/api/v1/emily/fable/advice | jq '.recommendations[].title'
+curl -s http://localhost:8086/api/v1/emily/mimir/advice | jq '.recommendations[].title'
 # Should return 3 sprint recommendations based on full-system-context.md
 # If emily-agent isn't running yet: emily start first
 ```
@@ -100,7 +100,7 @@ tail -f /home/fatbaby/EMILY/var/logs/emily-agent.log | grep -E "goldenbuild|cron
 **`emily context build` slow on first run**
 → Normal — 18 haiku calls serially (~30s total). Subsequent runs reuse cache for unchanged sources.
 
-**FABLE returns "no API key"**
+**MIMIR returns "no API key"**
 → emily-agent is still running the old binary. Check PID: `emily status`. Restart if needed.
 
 **Compression A/B test fails**
