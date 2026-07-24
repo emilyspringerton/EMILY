@@ -5755,22 +5755,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-39: TrapX — a real jail-simulator social system, added to TRAPX_NORTHSTAR.md.**
-  Founder, real-time, five fragments landing together: "social component of trapx serving your
-  time" → "real jail simulator" → "serve tyour time in a 10 man or the annex or in the 1 mans"
-  [sic] → "trapx north star" (the explicit instruction: this goes into the northstar doc, not just
-  the backlog). Logged before writing per Principle 1. Read as: incarceration in TRAPX
-  (`SHANKPIT/docs2/TRAPX_NORTHSTAR.md`) should be a real, socially-textured simulation rather than
-  an offscreen penalty timer — different housing configurations (a 10-person dorm, a named "Annex"
-  area, 1-person/solitary cells) with different social dynamics per configuration, not one generic
-  "jail" state. Checked the existing doc first: "Custody Lock" is already in the canonical
-  vocabulary list (FIELDOFFICE Systems section) but not elaborated anywhere in this doc — read as
-  the likely existing mechanic this idea gives real texture to, flagged as an inference, not
-  confirmed lore, since the fuller Custody Lock spec (if one exists) isn't in this file. Scope:
-  add a new subsection under FIELDOFFICE Systems capturing the housing-type concept and its social
-  angle as northstar direction — not a scoped implementation, no game code, no server system, no
-  UI. A concept capture, same tier as this doc's existing "Open Questions (hold for input)"
-  material.
+- [x] **S170-39: TrapX — a real jail-simulator social system, added to TRAPX_NORTHSTAR.md.**
+  Founder, real-time, fragments landing together: "social component of trapx serving your time" →
+  "real jail simulator" → "serve tyour time in a 10 man or the annex or in the 1 mans" [sic] →
+  "trapx north star" → "trustees as a trapx faction and then a new tyler faction" → "yes overlap
+  the references" → "no significance assigned" → "quote that exactly." Logged before writing per
+  Principle 1. Added a new "Custody Lock — the jail simulator" subsection to
+  `SHANKPIT/docs2/TRAPX_NORTHSTAR.md`: three housing tiers (10-man, Annex, 1-man) with different
+  social exposure; a **Trustees** TrapX faction plus a separate new TYLER-side faction (specifics
+  of either not invented, direction captured verbatim instead). Real, verified (not assumed)
+  finding: "Annex" already exists in TYLER lore (`episodes/s11e03_five_timelines.md`, "Eastwind
+  Site Annex A") — surfaced the collision rather than silently reusing the name, founder resolved
+  it directly ("yes overlap the references," "no significance assigned" — deliberate cross-layer
+  echo, not a plot hook). Concept capture only, no game code, no server system, no UI. **Done —
+  Apple #10569 · SHANKPIT `ad85a70`.**
 
 ---
 
