@@ -6673,5 +6673,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   human's connection is registering server-side at all (CLIENT N CONNECTED), what phase the match
   is actually in, and whether this is the same "no entities" class of bug as S170-72 or something
   new specific to a real (non-bot) client. Not yet root-caused. In progress.
+
+  **Root-caused, blocked on sudo:** the matchmaker log shows zero non-127.0.0.1 connections ever,
+  and even the local bot pool intermittently regresses to "0/20 connected" again despite the
+  S170-72 fix — the difference this time is that the *matchmaker* itself (port 7778/udp) is
+  reachable enough for the client to receive a `MatchFoundMsg` and open its window ("matchmaking
+  still launches the client"), but the *actual per-match game server*, on a dynamic port
+  (7300-7699/udp, incrementing every match) that changes on every single match, is a different
+  story for real external traffic. Found `sudo-queue/08-redgarden-arena-firewall.sh` — written
+  earlier this session, never run (confirmed: not in `sudo-queue/done/`). It opens exactly
+  7778/udp, 7779/udp, and 7300:7699/udp. Verified the port range is still accurate against the
+  currently running pool (`ps aux` shows active servers at 7395-7403, well inside 7300:7699).
+  Localhost bots bypass any firewall entirely, which is why they've looked healthy in every check
+  tonight while a real external connection — the founder's own client — has never once gotten
+  through to the dynamic port range. **Cannot self-resolve: requires the founder's own sudo access
+  to run `sudo-queue/08-redgarden-arena-firewall.sh`.** Flagged, not guessed at.
+
+---
+
+*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
