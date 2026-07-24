@@ -5938,6 +5938,48 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   Retrieval Cart, TYLER, Flamel, Druid) stay blocked on grid/territory or multi-unit-per-hero,
   neither of which this pass built.
 
+- [x] **S170-46: REDGARDEN arena — territory/node system.** Asked directly (a second "real decision
+  point" per S170-45's own audit, once allies were exhausted): territory/resource economy over
+  multi-unit-per-player or non-piloted units — it unblocks the most remaining heroes at once (Tree,
+  Pizza, and what was then still Druid) and is Flamel's own cooking prerequisite. Extended the two
+  previously-decorative `ArenaNode` markers (rendered-only, zero gameplay logic) with signed
+  `pressure` (-100..100), threshold-derived `owner`, and `marked_by_team`/`mark_ms_remaining`. New
+  `arena_tick_nodes()` sums weighted living-hero presence per team within a capture radius each tick
+  (Tree counts double), drifts pressure toward whichever team is ahead or decays toward neutral if
+  tied, and recomputes owner — called from both `arena_update()` (1v1) and `arena_update_teams()`
+  with zero special-casing, same "generalizes cleanly" precedent as `arena_nearest_ally`. Added a
+  centralized `apply_damage()` helper (every damage call site now routes through it, previously
+  duplicated per-site) — needed for real, not a nice-to-have, since Pizza's R is a genuine HP-floor
+  status effect every damage site must honor consistently. REDGARDEN `acdd8ce`, Apple #10644.
+
+- [x] **S170-47: REDGARDEN arena — Tree, Pizza, Flamel (absorbing Druid), Morrigan, Dagda; roster
+  5 → 10.** Mid-build founder redirect, "druid and flamel should be the same hero": cross-checked
+  `TYLER/multiverse_heroes.md` first — "Druid" had zero lore entries anywhere (a pure REDGARDEN-side
+  generic archetype) while Flamel (#110, Nicolas Flamel) is a fully-realized named figure. Kept
+  Flamel's name/identity, folded Druid's kit in as flavor (his alchemy *is* literal cultivation) —
+  documented in `docs/HEROES_VS0.md` before any code, same docs-before-software discipline used all
+  session. Tree and Pizza built against the same territory hooks (Tree's Root Network passive needs
+  no ability code at all; Pizza's R is a real damage floor, the reason `apply_damage()` above got
+  centralized). Then two more founder-driven additions on the same pass: "add the morrigan as a meta
+  jungler for the dynamic jungle" and "add the other irish guy too with the two natured hammer" —
+  checked `TYLER/multiverse_heroes.md` before designing either: real, adjacent entries (#68 Morrigan,
+  #69 Dagda), and `docs/HEROES_VS0.md` already had a "flagged, not built" note about a Morrigan/Druid
+  counter-play relationship from an earlier pass, now resolved for real against Flamel. No jungle-
+  camp system exists in this arena, so Morrigan's jungler identity is an affinity for contested
+  (unclaimed) node ground rather than a second system. Dagda's "two-natured hammer" is literal in
+  his Q: kills a hittable enemy in range if one's there, else heals a hurt ally in range instead —
+  the same tool, either direction, depending on what's there (revive simplified to a heal, no
+  respawn system exists). `apps/arena_server`'s pick-validation bound and `apps/arena_bot`'s draft
+  modulo widened 5→8→10 along the way. 62 new headless tests (216 total, up from 154), including one
+  caught-and-fixed test bug of the same shape as S170-45's own Frog bug: an exact-value assertion on
+  Morrigan's execute-tick damage was invalidated by a same-tick melee auto-attack plus HP-floor
+  clamping — fixed by comparing damage deltas across two isolated setups instead of an absolute
+  value. Verified live: relaunched the persistent bot pool on the freshest build, all 10 hero_ids
+  (0-9) drafted successfully across a real 20-bot match, pool left running (not torn down) so the
+  bots are actively playing the current roster. REDGARDEN `acdd8ce`, Apple #10644. Remaining heroes
+  (Donkey, Retrieval Cart, TYLER-the-hero) stay blocked on multi-unit-per-player or non-piloted
+  units, neither built this pass. The Courier (Ratatoskr, TYLER #32) queued next.
+
 ---
 
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
