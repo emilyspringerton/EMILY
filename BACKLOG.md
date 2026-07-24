@@ -6458,24 +6458,31 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-72: REDGARDEN arena — human hero appears to die almost instantly in real 10v10
+- [x] **S170-72: REDGARDEN arena — human hero appears to die almost instantly in real 10v10
   matches, no team/enemy heroes visible either.** Founder, live, testing the S170-66/68 fix in
   real time: "it works" → "n click" → "i cant see myself or team or enemies" → "but i can click"
   → "vs0 achieved?" → "i think its because im dead" → "i dunno it looks like my health meter is
-  zero maybe a separate bug" → "golden god confirmed." Logged before further investigation per
-  Principle 1, and per direct instruction "work on the gameplay bugs first." Founder's own live
-  diagnosis lines up with the code: heroes only draw in the 3D loop when `alive`, and the HP bar
-  reads `h->hp/h->max_hp` unconditionally (no alive gate) — so a dead hero renders as invisible
-  with a zero-width health bar, which is exactly consistent with the human's own hero dying near-
-  instantly in the opening moments of a live 19-bots+1-human match, before there was time to see
-  or react. Not yet root-caused *why* death happens that fast — leading hypothesis, not yet
-  confirmed: `arena_init_teams()`'s two straight-line team spawns plus N-way melee
-  (`arena_nearest_enemy` per hero) means every hero on both sides can end up in mutual melee range
-  the instant `ARENA_PHASE_LIVE` starts, with no travel time before combat resolves, likely
-  compounded by one lone human hero getting focused by several nearby bots at once. Needs a real
-  read of `arena_update_teams`'s combat/targeting logic and the actual spawn separation distances
-  before concluding anything further — not fixed this pass, flagged instead of guessed at, per
-  "figure it out" discipline (S170-67).
+  zero maybe a separate bug" → "golden god confirmed" → "maybe the game isnt actually working
+  right theres no entities" → "i can rotate the map and click." Logged before further
+  investigation per Principle 1, and per direct instruction "work on the gameplay bugs first."
+
+  **First hypothesis (dead hero → invisible + zero HP bar) was reasonable but wrong** — the
+  founder's own follow-up ("no entities" even after rotating the camera all the way around) ruled
+  it out: a genuinely dead hero would still leave 19+ other live heroes visible somewhere in view.
+
+  **Real root cause, confirmed via live process/log inspection, not guessed:** `ps aux` showed
+  ~55 accumulated zombie `arena_server` processes; the matchmaker's own log showed lobbies filling
+  to 20/20 and a real dedicated server spawning every time, but every single one sat at
+  "0/20 connected" until its 60s no-progress timeout, then repeated. `redgarden-bot-pool.service`
+  (the unit running the 19 persistent `apps/arena_bot` processes, S170-65) never had
+  `REDGARDEN_TICKET_SECRET` set in its environment — only the two matchmaker units did. Bots
+  could queue fine (no ticket needed for that step) but silently failed to mint a valid ticket for
+  the actual `PACKET_CONNECT` handshake, so every match formed and then sat permanently empty.
+  Not a rendering bug, not a death/HP bug — matches were never actually starting at all. Fixed
+  (`Environment=REDGARDEN_TICKET_SECRET=...` added to the bot-pool unit), redeployed, verified
+  live: real `CLIENT N CONNECTED` lines climbing to 18-20/20 across several matches post-fix —
+  capped only by the pool being 19 bots waiting on a 20th (human) player, exactly as intended.
+  **Done — Apple #10686 · REDGARDEN `221925e`.**
 
 ---
 
