@@ -5621,6 +5621,34 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-32: Continue REDGARDEN — NORTHSTAR §12 Phase D, third hero (The Ghost) + a roster-fit
+  audit of the remaining 9.** Founder: "continue." Logged before writing per Principle 1. Before
+  picking the next hero, checked all 10 remaining roster entries against arena's actual structural
+  constraints (1v1 only, self/foe targeting only — no allies, no `GridCell`/`alignment_pressure`
+  territory system, no multi-unit-per-player) rather than assuming every hero fits the same way
+  Unicorn/Duck did:
+  - **Blocked on the RED GARDEN grid** (Tree, Pizza, Druid, and half of Doc Wheel's kit) — their
+    whole identity is `alignment_pressure`/`GridCell` interaction, which `arena_game.h` (`ArenaNode`,
+    not `GridCell`) doesn't have at all.
+  - **Blocked on needing allies** (Doc Wheel fully — every ability is ally-targeted; Frog's W
+    partially).
+  - **Blocked on not being a piloted hero** (Retrieval Cart — "no active-use kit at all by
+    design"; Donkey — automatic HP-triggered unfold, never directly commanded, doesn't fit a
+    Q/W/E/R cast interface).
+  - **Blocked on multi-unit-per-player** (TYLER — Meepo-style clones, `heroes[2]` is fixed at
+    one unit per side).
+  - **Blocked on the cooking system** (Flamel — "entire kit is the cooking system made literal,"
+    which doesn't exist in arena).
+  - **Actually fits** (self-contained, self/foe-only, no grid/allies/clones needed): **Ghost** and
+    **Frog**. Picking Ghost for this pass — a meaningfully different kit shape again (skillshot +
+    self-buff + zone/DoT, vs. Unicorn's dash-tank and Duck's pull-burst), which requires adding
+    arena's first real status-effect fields (`silenced_ms`, `intangible_ms`) rather than reusing
+    the existing q/w/r-cooldown-only state shape.
+  This audit itself is worth keeping in the northstar even before Ghost is built — it's a real
+  finding about arena's ceiling as a full-roster testbed, not just a to-do list.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
