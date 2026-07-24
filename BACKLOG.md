@@ -6723,6 +6723,65 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-86: REDGARDEN arena — Q/W/E ability casts don't work for the human player in a live
+  match.** Founder, real-time, mid-match: "q w e r t dont seem to work" → "dont seem to work."
+  Logged before investigation per Principle 1. Client-side send logic checked and looks correct
+  (`net_send_cast(0/1/2)` fires for Q/W/E, gated correctly on `net_mode && arena_state.winner ==
+  0`). Server-side dispatch (`PACKET_ARENA_CAST` → `arena_cast_q`/`arena_toggle_w`/`arena_cast_r`
+  keyed by `client_id`) also checked and looks correct, and is hero-agnostic (works for any
+  `hero_id` including Loki). `net_server_addr` is re-set at the top of `net_connect()` on every
+  call, so a stale destination after a requeue looks unlikely too. Not yet root-caused — the
+  founder mentioned R/T, which don't map to anything in this client (only Q/W/E are bound; R is
+  local-only "restart," disabled entirely in net_mode) — worth clarifying whether the real
+  complaint is Q/W/E specifically or a broader "nothing responds" state. Continuing investigation.
+
+---
+
+- [ ] **S170-87: REDGARDEN arena — the two capture nodes render compressed onto one point in
+  net_mode.** Founder, real-time: "yea it replicates now its even weirder the battlefield
+  compressed the 2 capture nodes down to 1." Logged before investigation per Principle 1. Likely
+  root cause, found by inspection, not yet confirmed live: `ArenaSnapshotMsg`
+  (`packages/common/protocol.h`) never includes node data at all — only `heroes[]`, `winner`,
+  `phase`, `picked[]`. In net_mode the client never calls `arena_init()`/`arena_init_teams()`
+  locally (the server owns that), so `arena_state.nodes[0]`/`nodes[1]` are left at whatever the
+  global static default is — both zeroed to `(0,0,0)` — and the S170-66 requeue fix's
+  `memset(&arena_state, 0, sizeof(arena_state))` would re-zero them the same way on every requeue
+  too. Both nodes rendering at the identical origin point would look exactly like "compressed
+  down to 1." Real protocol gap: node state (position + `owner`/capture progress, which the HUD
+  presumably wants too) needs to actually be added to the snapshot wire format. Not fixed this
+  pass — flagged with a concrete hypothesis, not guessed at blindly.
+
+---
+
+- [ ] **S170-88: REDGARDEN arena — basic melee/cast animations.** Founder, real-time: "need basic
+  animations" → "basic melee animations nmneeded simple simple." Logged before writing per
+  Principle 1. Heroes currently render as static colored cubes with no visual feedback for melee
+  swings or ability casts — `spawn_ring` particle rings exist for move-clicks but nothing for
+  combat itself. Scope explicitly "simple simple" per direct instruction — not a real skeletal/
+  animation system, likely a cheap scale-pulse or color-flash on `damaged_this_tick`/attack-
+  cooldown-reset, matching the existing lightweight primitive-rendering style. Not started.
+
+---
+
+- [ ] **S170-89: REDGARDEN arena — floating health bar over each hero, not just the two fixed
+  HUD bars.** Founder, real-time: "health bar hgovers over hero." Logged before writing per
+  Principle 1. Currently only "YOU" and "ENEMY" (nearest, 1-slot) HP bars exist as fixed 2D HUD
+  elements — with up to 20 heroes on screen in team mode, a per-hero floating bar (billboarded
+  above each model, scaled by `hp/max_hp`) is a real, separate need, not covered by the existing
+  two-bar HUD. Not started.
+
+---
+
+- [ ] **S170-90: REDGARDEN arena — bots all bunch up on each other instead of spreading out.**
+  Founder, real-time: "all of the bots just bunch up on eachother." Logged before writing per
+  Principle 1. Likely a target-selection/pathing artifact of the simple `arena_nearest_enemy`
+  N-way melee AI (S170-72's own earlier hypothesis about swarm dynamics, now visually confirmed
+  live rather than just theorized) — many bots on the same team converging on the same nearest
+  target with no separation/formation logic. Not yet root-caused in the movement code
+  specifically. Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
