@@ -6017,6 +6017,49 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   owner-piloted); flagged explicitly in the entry itself rather than shoehorned into the sim.
   REDGARDEN `5c2a54c`, Apple #10646.
 
+- [x] **S170-50/51: REDGARDEN arena — Arathi Basin channel capture (redesigned from S170-46's
+  pressure model) + territorial jungle creeps + bot names.** Founder, direct and specific across
+  several messages: "we need the arathi basin true click to channel capture interruptable a
+  neutral period after the flag flips as you wait for it to finish capturing — adds objective
+  -focused play and the possibility of losing due to ignoring the objective, not just presence
+  -based" → "like a stealthed character shooting in and ninjaing an objective while 6 clueless
+  opponents run around nearby... a lineage of WoW Arathi PvP" → "capturing a flag start channel
+  breaks stealth" → "hitting channeling character interrupts capture cast" → "use the redgarden
+  docs to add territorial dynamic jungle creeps... territories are how you control macro and
+  economy... objectives are how the game is won... controlling the flavor and cadence of the
+  jungle helps create the meta to counter certain comps" → "ok then prep for an observation
+  phase i want to watch the stats of the bots evolve... interesting memorable names."
+  Replaced S170-46's ambient-pressure model (signed pressure drifting toward whichever team had
+  more weighted presence, owner derived from a threshold) entirely — it *was* the "just presence
+  based" thing being moved away from, not something to layer under the new one. New model:
+  exclusive single-team presence starts/continues a channel; the node flips neutral the instant a
+  channel starts against a node not already theirs (the "neutral period... as you wait for it to
+  finish capturing"); mixed presence, Pizza's corruption, or the channeling team leaving all
+  interrupt with zero progress preserved and no free revert to the prior owner — real teeth behind
+  "losing due to ignoring the objective." A lone stealthed hero (Frog's R) can channel undetected
+  through a crowd of visible enemies, but the channel starting breaks that stealth, and any damage
+  to the channeling team interrupts the capture — both exact, named WoW Arathi Basin rules, each
+  implemented the same session they were specified. Tree's Root Network and Flamel's Overgrowth
+  mark redesigned from pressure-pull bonuses to channel-speed bonuses, same flavor, new mechanic.
+  Added territorial jungle creeps: one per node, re-rolled from the node's current owner on every
+  respawn (not fixed at spawn) — a contested node's creep is rare/tanky/slow-respawn, granting a
+  big capture-progress swing on kill; an owned node's creep is common/weak/fast-respawn, healing
+  the owning team or helping the enemy flip the node depending who kills it — a real counter-play
+  tool against a turtling opponent, directly serving "counter certain comps or play styles."
+  Numbers adapted (not ported) from GoblinFoxDragon's real mob-difficulty-tiering spirit
+  (`server/mob/hills.go`). Separately found and fixed a real operational gap while investigating
+  the "track bot stats" ask: the persistent bot pool had been running all session on self-minted
+  tickets, not real WOTAN identities, because `IDUNA_AGENT_NAME`/`IDUNA_AGENT_SECRET` were never
+  exported when launching it — fixed operationally (the S170-41 code path was already correct),
+  confirmed real stats now accumulate on the public leaderboard. Gave bots memorable display names
+  (a curated 25-name Irish/Norse-flavored pool, `--index N` flag for stable per-slot assignment)
+  since IDUNA silently defaults to an ugly `player-<hash>` name when none is sent. 28 new headless
+  tests (251 total). Verified live: a real ~2.5-minute 20-hero match ran to completion on the
+  redesigned system with zero crashes; confirmed a real player_id's `display_name` came back
+  correctly through IDUNA's API. `okemily.com/tournaments.html`'s existing live leaderboard section
+  (built earlier this session) is the observation surface — nothing new needed there. REDGARDEN
+  `2cf6cdd`, Apple #10654.
+
 ---
 
 - [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
