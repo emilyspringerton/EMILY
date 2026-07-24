@@ -6083,6 +6083,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-52: REDGARDEN arena firewall — sudo commands queued for the founder.** Founder,
+  real-time: "ok give me the sudo commands that are needed into the usual place" (following
+  "im ready connect" — wanting to actually join the live 10v10/1v1 arena matchmaker pool from
+  their own machine). Logged after writing, matching the size of the ask — a single queued
+  script, not a build. Wrote `sudo-queue/08-redgarden-arena-firewall.sh`: `ufw allow` for the two
+  live matchmaker ports (7778 10v10, 7779 1v1), the game-server port range both allocate into
+  (7300-7699, `apps/matchmaker/src/main.c`'s `next_game_port++`), and the currently-live 9090-9099
+  batch found via `ps aux` (flagged in the script's own comment to re-verify that range is still
+  running before trusting it). Not run — no sudo access here, per the established `sudo-queue/`
+  convention; the founder runs it. Not committed to git — confirmed `sudo-queue/` is
+  intentionally untracked in the root `/home/fatbaby` repo (none of scripts 01-07 are tracked
+  either), matching existing convention, not an oversight.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
