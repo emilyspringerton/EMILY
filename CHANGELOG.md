@@ -1,5 +1,6 @@
 ## 2026-07-24
 
+- backlog: ✓ S143-01 — SAGA frontmatter schema (`docs/hq-specs/SAGA_SCHEMA.md`) + `emily saga lint` built (HQ-SPEC-DOC-102 build-sequence step 1). Retrofitted real frontmatter + inline claim citations onto all 7 live HQ-SPEC docs, DOC-102 first per its own instruction. Honest mixed reality-binding: PRIME-101's `CheckLineage`/`pkg/apples` and AI-103's entropy source marked `verified` (real running code), INFRA-105's MJOLNIR BuildConfig gap marked `diverged` (a real found gap). `emily saga lint` reports ALL CLEAN. emily.cli `92c0780`, Apple #10607.
 - Published 'The Morning Report, Early' — founder asked for today's scheduled morning briefing done ahead of time as a blog post rather than waiting on the automated 09:00 UTC FCM push; same last-24h Apple window `briefing.go` would use, written longhand instead of compressed into a push body. https://okemily.com/blog/morning-report-early-2026-07-24/ — Apple #10601.
 
 ## 2026-07-23

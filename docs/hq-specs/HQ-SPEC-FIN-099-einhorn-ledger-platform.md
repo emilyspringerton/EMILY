@@ -1,3 +1,23 @@
+---
+doc_id: FIN-099
+authority: draft
+supersedes: []
+amends: []
+claims:
+  - id: FIN-099.POL-1
+    type: POL
+    reality_binding: specified
+  - id: FIN-099.INV-1
+    type: INV
+    reality_binding: specified
+  - id: FIN-099.NAR-1
+    type: NAR
+    reality_binding: specified
+  - id: FIN-099.IFC-1
+    type: IFC
+    reality_binding: specified
+---
+
 # HQ-SPEC-FIN-099 — EINHORN Ledger Platform (ELP)
 
 **Status:** DRAFT v0 — pending Emily Prime review
@@ -13,15 +33,15 @@ The three partners occupy three different layers. Parity is layer-by-layer, not 
 
 | Layer | Reference | Parity target | Hard constraint |
 |---|---|---|---|
-| **Ledger & payment ops** | Modern Treasury | Full parity, in-house software | None. This is pure software. Buildable today. |
-| **Programmatic accounts & rails** | Increase | Parity via sponsor bank first, direct later | Rails access requires a bank in the loop until/unless EINHORN pursues charter or acquires one |
-| **Being the bank** | Column | Long-horizon option, not a commitment | Charter, capital requirements, regulators, counsel. A board-level decision, out of spec scope |
+| **Ledger & payment ops** | Modern Treasury | Full parity, in-house software | None. This is pure software. Buildable today. *(FIN-099.POL-1 — specified)* |
+| **Programmatic accounts & rails** | Increase | Parity via sponsor bank first, direct later | Rails access requires a bank in the loop until/unless EINHORN pursues charter or acquires one *(FIN-099.INV-1 — specified)* |
+| **Being the bank** | Column | Long-horizon option, not a commitment | Charter, capital requirements, regulators, counsel. A board-level decision, out of spec scope *(FIN-099.NAR-1 — specified)* |
 
 The strategy: build the Modern Treasury layer completely (it's the brain), rent the Increase layer (rails via sponsor/BaaS) while designing every interface as if the rails were ours, and keep the Column question open with clean books as the down payment.
 
 ## 1. System Overview
 
-ELP is five engines over one event store:
+ELP is five engines over one event store: *(FIN-099.IFC-1 — specified)*
 
 ```
                     ┌─────────────────────────────┐

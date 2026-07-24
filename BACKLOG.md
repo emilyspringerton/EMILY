@@ -3601,11 +3601,23 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 *Source: HQ-SPEC-DOC-102 §9 (Build Sequence). Three-way match between intent (specs), books (claim ledger), and reality (running software) — KAREN's reconciliation loop, for words. Prime principle: working software is truth; divergence never blocks shipping, it blocks golden status. SAGA (Librarian, registered in Iduna as `saga`) catalogs, detects, proposes — humans and NORN decide.*
 
-- [ ] **S143-01: Frontmatter schema + claim-ID convention + `saga lint`** — two status axes (authority:
-  draft→golden→amended→superseded; reality-binding: specified→…→verified/diverged), claim IDs
-  (`<DOC>.<TYPE>-<N>`), supersession-graph lint. Retrofit onto the live HQ-SPEC series: DOC-102 says
-  "097–102" but 097 does not exist (see S141 blocking note) — the actual retrofit surface is 098–103.
-  DOC-102 ships with its own claims tagged first ("DOC-102 eats first").
+- [x] **S143-01: Frontmatter schema + claim-ID convention + `saga lint`** — Built
+  `EMILY/docs/hq-specs/SAGA_SCHEMA.md` (the schema: two status axes, authority
+  draft→golden→amended→superseded and reality-binding specified→building→running→verified→diverged;
+  claim-ID convention `<DOC>.<TYPE>-<N>`) and `emily saga lint` (`emily.cli/cmd/saga.go`,
+  stdlib-only hand-rolled restricted-YAML parser, no new dependency) checking: enum validity,
+  claim-ID format + doc-of-origin ownership, ID collisions, dangling supersedes/amends references,
+  unenumerated inheritance, and orphan goldens (DOC-102 §8's metric, made mechanical). Retrofitted
+  real frontmatter + inline claim citations onto all 7 live HQ-SPEC docs (098, 099, 100, 101, 102,
+  103, 105 — the actual retrofit surface, correcting DOC-102's own "097–102" typo per the already-
+  noted S141 blocking note), DOC-102 first and deepest per its own instruction. Honest mixed
+  reality-binding, not uniformly "specified": PRIME-101.INV-2 and .BEH-1 marked `verified` (NORN's
+  `CheckLineage` + `pkg/apples` really exist, Apples #9926/#9927), AI-103.BEH-1 `verified`
+  (gpt2-alpine-c's entropy source, S26-05), INFRA-105.BEH-2 `diverged` (the MJOLNIR BuildConfig
+  gap the spec itself found). `emily saga lint` reports ALL CLEAN against the real corpus; 13 new
+  Go tests (parser + all 7 lint rules + a real-corpus integration check). Steps 2-6 (manifest
+  binding, Back Office queues, SAGA agent v0, semantic detection, corpus-wide gate) explicitly
+  deferred — this closes step 1 only, per DOC-102 §9's own sequencing.
 
 - [ ] **S143-02: `saga.manifest.yaml` format + CI gaps report** — claim-without-code (vaporware debt)
   and code-without-claim (dark matter) detection, one repo first: PRRJECT_FATBABY, which has the most

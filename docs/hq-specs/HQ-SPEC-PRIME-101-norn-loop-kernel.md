@@ -1,3 +1,23 @@
+---
+doc_id: PRIME-101
+authority: draft
+supersedes: []
+amends: []
+claims:
+  - id: PRIME-101.INV-1
+    type: INV
+    reality_binding: specified
+  - id: PRIME-101.INV-2
+    type: INV
+    reality_binding: verified
+  - id: PRIME-101.POL-1
+    type: POL
+    reality_binding: specified
+  - id: PRIME-101.BEH-1
+    type: BEH
+    reality_binding: verified
+---
+
 # HQ-SPEC-PRIME-101 — NORN: The Loop Kernel
 
 **Status:** DRAFT v0 — pending Emily Prime review
@@ -14,14 +34,14 @@ The same loop has now been independently derived at least six times: the EPS hea
 
 NORN extracts the loop once. Domains stop owning loops; they own **instantiations** — a proposer, an oracle binding, and a gate policy. The hazard analysis is done once, at the kernel, and inherited everywhere.
 
-**Cardinal rule:** NORN decides *promotion*, never *execution*. It answers "is this artifact now golden?" It never moves money, never actuates hardware, never deploys code. Execution lives in domain systems behind their own gates (KAREN's payment approval, the Springerton Seam's actuation ladder). A kernel that could act would be a kernel worth attacking; this one can only bless.
+**Cardinal rule:** NORN decides *promotion*, never *execution*. It answers "is this artifact now golden?" It never moves money, never actuates hardware, never deploys code. Execution lives in domain systems behind their own gates (KAREN's payment approval, the Springerton Seam's actuation ladder). A kernel that could act would be a kernel worth attacking; this one can only bless. *(PRIME-101.INV-1 — specified: architectural boundary, not yet exercised across most named domains.)*
 
 ## 2. The Loop, Formally (per PRIME-097)
 
 - Artifacts live in a **quality lattice** per domain; the promotion operator must be **monotone**: a promoted artifact is never worse than the incumbent on the frozen eval set. No-regression is not a policy preference — it is the monotonicity condition under which the fixed-point theorems apply at all.
-- **Frozen evals are the fixed metric.** Banach-style convergence arguments require the distance function to hold still. An eval set that drifts under the loop it grades destroys the contraction; therefore eval mutation is a *separate, slower loop* with its own oracle (§5).
+- **Frozen evals are the fixed metric.** Banach-style convergence arguments require the distance function to hold still. An eval set that drifts under the loop it grades destroys the contraction; therefore eval mutation is a *separate, slower loop* with its own oracle (§5). *(PRIME-101.POL-1 — specified.)*
 - The **fixed point** we converge toward per domain is "no proposable improvement passes the gate" — quiescence, which is a reportable state, not a failure.
-- **Löbian hazard, resolved structurally:** no artifact may be graded by an oracle whose lineage includes that artifact's proposer. Lineage is tracked by content hash; the check is mechanical, not procedural. A system may never prove its own soundness; it may only be graded by something rooted outside itself. The root of every oracle chain must terminate in **reality**: a filed 8-K, a bank-confirmed transaction, physical telemetry, a human decision. Reality is the root oracle; everything else is a cache of it.
+- **Löbian hazard, resolved structurally:** no artifact may be graded by an oracle whose lineage includes that artifact's proposer. Lineage is tracked by content hash; the check is mechanical, not procedural. A system may never prove its own soundness; it may only be graded by something rooted outside itself. The root of every oracle chain must terminate in **reality**: a filed 8-K, a bank-confirmed transaction, physical telemetry, a human decision. Reality is the root oracle; everything else is a cache of it. *(PRIME-101.INV-2 — verified: `CheckLineage` in `pkg/norn` enforces this mechanically today, per the SIM-100/FIN-099 amendment notes mapping their own gate rules onto it.)*
 
 ## 3. Core Abstractions (Go)
 
@@ -64,7 +84,7 @@ type Registry interface {
 **Event vocabulary** (append-only, house NDJSON store, `pgx/v5` projection pattern):
 `proposal_submitted` · `evaluation_completed` · `gate_evaluated` · `artifact_promoted` · `artifact_rejected` · `regression_detected` · `oracle_frozen` · `oracle_rotated` · `quiescence_declared` · `lineage_violation_blocked`
 
-Every `artifact_promoted` also emits an `ApplePublished` golden-log entry. Promotions are civic events.
+Every `artifact_promoted` also emits an `ApplePublished` golden-log entry. Promotions are civic events. *(PRIME-101.BEH-1 — verified: `NORN/pkg/apples` (`Client`, `PromoteAndNotify`, `PostPromotionFromEnv`) does exactly this — two real Apples filed live, #9926 eps_extractor and #9927 entity_graph_rules, S141-04.)*
 
 ## 4. Gate Policy & Approval Tiers
 

@@ -1,9 +1,29 @@
+---
+doc_id: SIM-100
+authority: draft
+supersedes: []
+amends: []
+claims:
+  - id: SIM-100.INV-1
+    type: INV
+    reality_binding: specified
+  - id: SIM-100.BEH-1
+    type: BEH
+    reality_binding: specified
+  - id: SIM-100.POL-1
+    type: POL
+    reality_binding: specified
+  - id: SIM-100.NAR-1
+    type: NAR
+    reality_binding: specified
+---
+
 # HQ-SPEC-SIM-100 — The Springerton Seam & the GOLDEN BAND Animation Layer
 
 **Status:** DRAFT v0 — pending Emily Prime review
 **Custody:** Emily OS
 **Governs:** The sim↔real boundary and the animation system that feeds both sides
-**Prime values, stated first because they govern everything below:** SAFETY and TRANSPARENCY. Autonomy is unlimited inside simulation; nothing crosses into atoms without a human gate; every crossing is provable after the fact.
+**Prime values, stated first because they govern everything below:** SAFETY and TRANSPARENCY. Autonomy is unlimited inside simulation; nothing crosses into atoms without a human gate; every crossing is provable after the fact. *(SIM-100.INV-1 — specified: the Seam/actuation ladder itself is not built yet.)*
 **Working name:** GOLDEN BAND — the animation layer. (A band is a timeline; the Logistics Architect of the Golden Band finally has her department. Rename if the resonance is wrong — but it isn't.)
 
 ---
@@ -16,7 +36,7 @@ One canonical motion asset, three consumers:
 2. **Reward compiler** — RL training in the physics backbone treats it as the imitation target: the policy is graded on how faithfully physics can honor the animator's intent.
 3. **Hardware deployment** — the trained policy, not the clip, drives physical characters for EINHORN Parks & Cruises attractions.
 
-The animator's clip is the spec; physics is the implementation; the policy is the compiled artifact. This is the Disney BDX insight made into house doctrine: charm is authored by humans, robustness is learned by machines, and the reward function is the contract between them.
+The animator's clip is the spec; physics is the implementation; the policy is the compiled artifact. This is the Disney BDX insight made into house doctrine: charm is authored by humans, robustness is learned by machines, and the reward function is the contract between them. *(SIM-100.NAR-1 — specified: narrative framing.)*
 
 ## 2. Positioning: Between Unreal and Godot, Bare Metal
 
@@ -24,8 +44,8 @@ The animator's clip is the spec; physics is the implementation; the policy is th
 
 - **Footprint like Godot, semantics like Unreal.** Full skeletal animation stack — blending, state machines, layered/masked playback, retargeting, root motion, IK passes — but no editor monolith, no scene-graph religion, no GC pauses in the hot path.
 - **Bare metal aesthetic:** core in C (linking cleanly into SHANKPIT's existing C/OpenGL 2.1 runtime), tooling and pipeline in Go (house language), data-driven everything. The runtime is a library, not a framework: `gb_init()`, `gb_sample(rig, clip, t)`, `gb_blend(...)`, and you own the loop.
-- **Determinism is load-bearing, not aspirational.** Animation sampling is locked to SHANKPIT's 64-tick fixed timestep; render-rate smoothness comes from the existing state interpolation layer, never from re-sampling. Same clip + same seed + same tick = bit-identical pose, on every platform. This is what makes a game replay, a training rollout, and an incident reconstruction the same operation.
-- **No engine dependency in the asset.** GOLDEN BAND assets know nothing about Unreal, Godot, or SHANKPIT. Adapters exist at the edges (a Godot GDExtension and an Unreal plugin are explicitly on the roadmap for external licensing/hiring reasons), but the canonical format is ours.
+- **Determinism is load-bearing, not aspirational.** Animation sampling is locked to SHANKPIT's 64-tick fixed timestep; render-rate smoothness comes from the existing state interpolation layer, never from re-sampling. Same clip + same seed + same tick = bit-identical pose, on every platform. This is what makes a game replay, a training rollout, and an incident reconstruction the same operation. *(SIM-100.BEH-1 — specified: S144-02 (SHANKPIT integration) not started yet.)*
+- **No engine dependency in the asset.** GOLDEN BAND assets know nothing about Unreal, Godot, or SHANKPIT. Adapters exist at the edges (a Godot GDExtension and an Unreal plugin are explicitly on the roadmap for external licensing/hiring reasons), but the canonical format is ours. *(SIM-100.POL-1 — specified.)*
 
 ## 3. The Canonical Motion Asset (`.gband`)
 

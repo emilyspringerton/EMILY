@@ -1,3 +1,35 @@
+---
+doc_id: DOC-102
+authority: draft
+supersedes: []
+amends: []
+claims:
+  - id: DOC-102.POL-1
+    type: POL
+    reality_binding: verified
+  - id: DOC-102.POL-2
+    type: POL
+    reality_binding: verified
+  - id: DOC-102.POL-3
+    type: POL
+    reality_binding: verified
+  - id: DOC-102.INV-1
+    type: INV
+    reality_binding: specified
+  - id: DOC-102.BEH-1
+    type: BEH
+    reality_binding: verified
+  - id: DOC-102.INV-2
+    type: INV
+    reality_binding: specified
+  - id: DOC-102.NAR-1
+    type: NAR
+    reality_binding: specified
+  - id: DOC-102.BEH-2
+    type: BEH
+    reality_binding: verified
+---
+
 # HQ-SPEC-DOC-102 — SAGA: The Documentation Curation Lifecycle
 
 **Status:** DRAFT v0 — pending Emily Prime review
@@ -22,7 +54,7 @@ The fix is the house pattern applied to knowledge: a three-way match between **i
 
 Documents are too coarse to reconcile. The unit of reconciliation is the **claim**: an addressable assertion with a stable ID.
 
-- **ID format:** `<DOC>.<TYPE>-<N>` — e.g., `FIN-098.INV-2` (invariant), `SIM-100.BEH-4` (behavior), `PRIME-101.IFC-1` (interface contract). IDs are permanent; a superseding doc that restates a claim *cites* the old ID and issues its own.
+- **ID format:** `<DOC>.<TYPE>-<N>` — e.g., `FIN-098.INV-2` (invariant), `SIM-100.BEH-4` (behavior), `PRIME-101.IFC-1` (interface contract). IDs are permanent; a superseding doc that restates a claim *cites* the old ID and issues its own. *(DOC-102.POL-1 — verified: `emily saga lint` enforces this exact format and checks doc-of-origin ownership.)*
 - **Claim types:** `INV` (invariant — must always hold), `BEH` (behavior — does X when Y), `IFC` (interface contract), `MET` (metric definition), `POL` (policy), `NAR` (narrative/rationale — explicitly *unverifiable by design*, exempt from reality-binding but still subject to authority lifecycle).
 - **Binding manifest:** a versioned file per repo (`saga.manifest.yaml`) mapping claim IDs to their verification anchors:
 
@@ -45,14 +77,14 @@ Documents are too coarse to reconcile. The unit of reconciliation is the **claim
 Every document carries structured frontmatter with both:
 
 **Axis 1 — Authority** (what the corpus says about the doc):
-`draft → golden → amended → superseded`
-- Append-only doctrine holds absolutely: supersession is a `supersedes: [HQ-SPEC-X]` pointer in a *new* document, never an edit to an old one. Amendment is a new doc with `amends:` scoped to named claims.
-- The supersession graph must be a DAG with no orphaned goldens: if doc B supersedes doc A only partially, B must enumerate which of A's claims it inherits, retires, or replaces. Unenumerated claims are a lint error, not a judgment call.
+`draft → golden → amended → superseded` *(DOC-102.POL-2 — verified: `emily saga lint` enforces this exact enum on every document's `authority` field.)*
+- Append-only doctrine holds absolutely: supersession is a `supersedes: [HQ-SPEC-X]` pointer in a *new* document, never an edit to an old one. Amendment is a new doc with `amends:` scoped to named claims. *(DOC-102.INV-1 — specified: not yet mechanically enforced — that would need a git-history check, out of scope for the lint tool built so far.)*
+- The supersession graph must be a DAG with no orphaned goldens: if doc B supersedes doc A only partially, B must enumerate which of A's claims it inherits, retires, or replaces. Unenumerated claims are a lint error, not a judgment call. *(DOC-102.BEH-1 — verified: `emily saga lint` rejects any `amends` entry with an empty `claims` list.)*
 
 **Axis 2 — Reality-binding** (what the running system says about each claim):
-`specified → building → running → verified → diverged`
+`specified → building → running → verified → diverged` *(DOC-102.POL-3 — verified: `emily saga lint` enforces this exact enum on every claim's `reality_binding` field.)*
 - Computed per-claim, rolled up per-doc. `verified` requires a passing bound verification; `diverged` fires automatically when a bound verification fails or an attestation expires.
-- A document may be **golden and diverged simultaneously.** That is not a contradiction; it is the honest state of an agile system, and hiding it is the actual failure. Golden ⁠+ diverged means "this was the agreed intent, and reality has moved" — which is precisely the signal that triggers curation.
+- A document may be **golden and diverged simultaneously.** That is not a contradiction; it is the honest state of an agile system, and hiding it is the actual failure. Golden ⁠+ diverged means "this was the agreed intent, and reality has moved" — which is precisely the signal that triggers curation. *(DOC-102.NAR-1 — narrative, exempt from reality-binding by design.)*
 
 ## 4. The Divergence & Conflict Queues
 
@@ -79,7 +111,7 @@ Per SYSTEM_GOVERNANCE: SAGA publishes observations and proposals, never directiv
 - Publish corpus health to Back Office and golden-log every authority transition to Apples.
 
 **SAGA does not:**
-- Promote documents (that is a NORN gate decision), edit any document, hold write access to code, or adjudicate conflicts. The Librarian catalogs, detects, and proposes; humans and NORN decide.
+- Promote documents (that is a NORN gate decision), edit any document, hold write access to code, or adjudicate conflicts. The Librarian catalogs, detects, and proposes; humans and NORN decide. *(DOC-102.INV-2 — specified: the SAGA agent itself is not built yet, build-sequence step 4.)*
 - Overlap with Apples: **Apples is the log of what was promoted; SAGA is the curator of what is currently true and where it conflicts.** Apples remembers events; SAGA maintains the living index over them. SAGA writes to Apples, never the reverse.
 
 ## 6. NORN Instantiation
@@ -109,7 +141,7 @@ Promotion to golden requires: lint clean, no unresolved conflicts naming the doc
 - **Dark matter count** per repo (target: monotone decreasing; every new API without a claim increments it in CI).
 - **Conflict half-life:** median days from detection to resolving doc golden.
 - **Attestation freshness:** expired human attestations outstanding.
-- **Supersession graph integrity:** orphan goldens (must be zero), longest unresolved partial-supersession chain.
+- **Supersession graph integrity:** orphan goldens (must be zero), longest unresolved partial-supersession chain. *(DOC-102.BEH-2 — verified: `emily saga lint` checks this exact condition — a fully-superseded document still marked golden.)*
 
 ## 9. Build Sequence
 

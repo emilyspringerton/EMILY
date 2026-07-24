@@ -1,3 +1,26 @@
+---
+doc_id: FIN-098
+authority: draft
+supersedes: []
+amends: []
+claims:
+  - id: FIN-098.NAR-1
+    type: NAR
+    reality_binding: specified
+  - id: FIN-098.POL-1
+    type: POL
+    reality_binding: specified
+  - id: FIN-098.INV-1
+    type: INV
+    reality_binding: specified
+  - id: FIN-098.INV-2
+    type: INV
+    reality_binding: specified
+  - id: FIN-098.POL-2
+    type: POL
+    reality_binding: specified
+---
+
 # HQ-SPEC-FIN-098 — Accounting Northstar
 
 **Status:** DRAFT v0 — pending Emily Prime review
@@ -11,16 +34,16 @@
 
 EINHORN runs its own auditable financial back office. Every dollar in, out, or at rest is represented as an append-only event, reconciled continuously by agents, and approved for movement only by a human. The end state is EINHORN as a credible, self-clearing counterparty: direct banking rails, real-time cash position, settlement managed in-house — with the audit trail so clean that counterparty due diligence is a read-only tour of the Back Office.
 
-The books are not a compliance afterthought. They are a first-class signal source, the same way EDGAR filings are for FatBaby. Cash position feeds Jon Stockwell's capital doctrine. Capital protection above all requires knowing where the capital *is*, to the cent, in real time.
+The books are not a compliance afterthought. They are a first-class signal source, the same way EDGAR filings are for FatBaby. Cash position feeds Jon Stockwell's capital doctrine. Capital protection above all requires knowing where the capital *is*, to the cent, in real time. *(FIN-098.NAR-1 — specified: narrative framing, not itself a testable claim.)*
 
 ## 2. Phasing
 
 ### Phase 0 — QuickBooks as System of Record (v0, now)
 
-- **QuickBooks Online (QBO) API** is the authoritative ledger. We do not build a general ledger yet; we adapt to one.
+- **QuickBooks Online (QBO) API** is the authoritative ledger. We do not build a general ledger yet; we adapt to one. *(FIN-098.POL-1 — specified: blocked on QBO company file + OAuth credentials, S142-01.)*
 - **Agents are the primary affordance.** No human drives the QBO UI as the normal workflow. All reads and writes go through the API under Iduna-scoped credentials. The QBO web UI is a fallback and an audit window, nothing more.
 - **KAREN** (the Controller agent) owns the QBO integration: chart of accounts, journal entries, invoice/bill lifecycle, vendor and customer records, class/location tagging.
-- **Event mirror:** every mutation KAREN performs against QBO is first written as an append-only NDJSON event in a dedicated store (`var/ledger`), then applied to QBO, then confirmed with a `qbo_applied` event carrying the QBO entity ID and SyncToken. QBO is the system of record; the event store is the system of *proof*.
+- **Event mirror:** every mutation KAREN performs against QBO is first written as an append-only NDJSON event in a dedicated store (`var/ledger`), then applied to QBO, then confirmed with a `qbo_applied` event carrying the QBO entity ID and SyncToken. QBO is the system of record; the event store is the system of *proof*. *(FIN-098.INV-1 — specified: KAREN/qbowatch not built yet, S142-01.)*
 - Read-side sync: a `qbowatch` ingestor (same pattern as `secwatch`/`prwatch`) polls QBO's Change Data Capture endpoint and emits `qbo_entity_changed` events, so out-of-band changes (accountant, human fallback) are captured and flagged.
 
 ### Phase 1 — Banking Read Rails
@@ -28,12 +51,12 @@ The books are not a compliance afterthought. They are a first-class signal sourc
 - Connect bank accounts read-only (aggregator first — Plaid or direct bank data APIs — whichever the bank supports natively wins).
 - `bankwatch` ingestor emits `bank_txn_observed` events.
 - **Continuous reconciliation loop:** KAREN matches `bank_txn_observed` against QBO transactions. Unmatched items age into a Back Office queue. Reconciliation is no longer a monthly ritual; it is a standing invariant with a lag metric.
-- Real-time cash position becomes a queryable signal, published to Emily Prime (and readable by Jon Stockwell as *observation only*, per SYSTEM_GOVERNANCE — KAREN publishes, it does not take trading direction).
+- Real-time cash position becomes a queryable signal, published to Emily Prime (and readable by Jon Stockwell as *observation only*, per SYSTEM_GOVERNANCE — KAREN publishes, it does not take trading direction). *(FIN-098.POL-2 — specified: Phase 1, sequenced after Phase 0.)*
 
 ### Phase 2 — Payment Initiation
 
 - Move from reading money to moving it: ACH, wire, RTP via banking APIs (direct bank API where available; a BaaS/payment-ops layer like Modern Treasury, Increase, or Column as the pragmatic bridge).
-- **Hard invariant:** no agent initiates external money movement autonomously. Every payment is a *proposal* event (`payment_proposed`) requiring human approval through the Android companion app's biometric gate before a `payment_approved` event unlocks execution. This is exactly the escalation-control surface the companion app was scoped for.
+- **Hard invariant:** no agent initiates external money movement autonomously. Every payment is a *proposal* event (`payment_proposed`) requiring human approval through the Android companion app's biometric gate before a `payment_approved` event unlocks execution. This is exactly the escalation-control surface the companion app was scoped for. *(FIN-098.INV-2 — specified: Phase 2, far downstream of the still-blocked Phase 0.)*
 - Dual representation: every executed payment exists as (a) a ledger event chain, (b) a QBO transaction, (c) a bank-confirmed transaction. Three-way match or it goes to the exception queue.
 
 ### Phase 3 — Counterparty Standing

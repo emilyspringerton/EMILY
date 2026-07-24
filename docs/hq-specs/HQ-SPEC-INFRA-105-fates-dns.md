@@ -1,3 +1,23 @@
+---
+doc_id: INFRA-105
+authority: draft
+supersedes: []
+amends: []
+claims:
+  - id: INFRA-105.BEH-1
+    type: BEH
+    reality_binding: verified
+  - id: INFRA-105.BEH-2
+    type: BEH
+    reality_binding: diverged
+  - id: INFRA-105.POL-1
+    type: POL
+    reality_binding: specified
+  - id: INFRA-105.POL-2
+    type: POL
+    reality_binding: specified
+---
+
 # HQ-SPEC-INFRA-105 — FATES: The Name Layer
 
 **Status:** DRAFT v0 — pending Emily Prime review
@@ -9,10 +29,10 @@
 
 ## 1. The Reality Today (verified 2026-07-17)
 
-- `farthq.com` resolves through Cloudflare's nameservers (`nicolas.ns.cloudflare.com`, `jocelyn.ns.cloudflare.com`). DNS is Cloudflare-managed today, edited by hand in the dashboard. Nothing about the zone is in a repo, nothing is Apple-audited, and no automation can see or change it.
+- `farthq.com` resolves through Cloudflare's nameservers (`nicolas.ns.cloudflare.com`, `jocelyn.ns.cloudflare.com`). DNS is Cloudflare-managed today, edited by hand in the dashboard. Nothing about the zone is in a repo, nothing is Apple-audited, and no automation can see or change it. *(INFRA-105.BEH-1 — verified: confirmed current state as of this writing.)*
 - `iduna.farthq.com` is live (198.58.107.85, the Dallas VM) and is currently 100% claimed by the EDIS WordPress nginx config (`sites-enabled/edis`, HTTP-only, no cert). The IDUNA path-based split (`/api/v1/`, `/.well-known/jwks.json`, `/auth/`, `/admin/`) is drafted and ready (`IDUNA/ops/nginx-front-door-snippet.conf`) but not applied.
 - Every other product surface is a port on one box with no DNS identity: newssite `:8082` and signalapi `:9091` (PRRJECT_FATBABY), the EMILY agent `:8086` (MJOLNIR's backend), SHANKPIT's UDP game server `:6969`. NORN has no network surface at all (library + CLIs only) — correctly so.
-- **Divergence, found writing this spec:** MJOLNIR's production `BuildConfig` already points *both* `IDUNA_BASE_URL` and `EMILY_BASE_URL` at `https://iduna.farthq.com` (`MJOLNIR/app/build.gradle.kts:31-32`) — but the drafted nginx snippet proxies nothing to `:8086`, and no cert exists, so prod MJOLNIR's EMILY calls have no working route today. A second flavor points at `iduna.einhorn.industrial`, a TLD we do not own. Both are exactly the claim-without-code debt DOC-102 §1 describes, in DNS form.
+- **Divergence, found writing this spec:** MJOLNIR's production `BuildConfig` already points *both* `IDUNA_BASE_URL` and `EMILY_BASE_URL` at `https://iduna.farthq.com` (`MJOLNIR/app/build.gradle.kts:31-32`) — but the drafted nginx snippet proxies nothing to `:8086`, and no cert exists, so prod MJOLNIR's EMILY calls have no working route today. A second flavor points at `iduna.einhorn.industrial`, a TLD we do not own. Both are exactly the claim-without-code debt DOC-102 §1 describes, in DNS form. *(INFRA-105.BEH-2 — diverged: this is dark matter/claim-without-code found live, not yet resolved — exactly the honest "golden-and-diverged" case DOC-102 §3 describes, though this doc isn't golden yet either.)*
 
 This spec exists because the system is one `dig` away from discovering that its network identity is managed by dashboard clicks nobody audits, in a shop whose entire ethos is "everything is code, everything is Apple-audited."
 
@@ -22,12 +42,12 @@ Emily Prime *is* her network presence, non-metaphorically: Apples are POSTs, ide
 
 Two doctrinal consequences:
 
-1. **Names are custody surface.** Whoever holds the registrar account holds every name; registrar credentials are exactly as security-critical as IDUNA's ES256 signing key and belong in the same custody audit. The registrar is a *deeper* root than the nameservers — Cloudflare can be swapped by whoever controls the registrar; nothing can swap the registrar but the registrar.
+1. **Names are custody surface.** Whoever holds the registrar account holds every name; registrar credentials are exactly as security-critical as IDUNA's ES256 signing key and belong in the same custody audit. The registrar is a *deeper* root than the nameservers — Cloudflare can be swapped by whoever controls the registrar; nothing can swap the registrar but the registrar. *(INFRA-105.POL-1 — specified.)*
 2. **The zone repo is the source of truth; Cloudflare is a cache of it.** This is PRIME-101 §2's root-oracle doctrine applied to naming: reality (what actually resolves publicly) is the root; the Cloudflare API state is the books; the zone file in git is the intent. Those three are reconciled, KAREN-style — never assumed equal.
 
 ## 3. Decision: Cloudflare Stays Authoritative. Sovereignty Lives in the Zone Repo.
 
-**Position: do not self-host authoritative DNS. Not now, and not as an aspiration for its own sake.**
+**Position: do not self-host authoritative DNS. Not now, and not as an aspiration for its own sake.** *(INFRA-105.POL-2 — specified: S151-01 (zone export) not started, blocked on a Cloudflare API token in the human unblock queue.)*
 
 The literal reading of "EINHORN operates its own DNS servers" fails on this system's actual constraints:
 

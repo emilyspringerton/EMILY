@@ -1,3 +1,23 @@
+---
+doc_id: AI-103
+authority: draft
+supersedes: []
+amends: []
+claims:
+  - id: AI-103.NAR-1
+    type: NAR
+    reality_binding: specified
+  - id: AI-103.POL-1
+    type: POL
+    reality_binding: building
+  - id: AI-103.BEH-1
+    type: BEH
+    reality_binding: verified
+  - id: AI-103.IFC-1
+    type: IFC
+    reality_binding: specified
+---
+
 # HQ-SPEC-AI-103 — FABLE: The In-House Model Line
 
 **Status:** DRAFT v0 — pending Emily Prime review
@@ -12,14 +32,14 @@
 
 Every high-volume, well-scoped inference task in EINHORN runs on weights EINHORN trained, from data EINHORN can produce the provenance of, gated by evals rooted in reality. Frontier APIs remain in the stack — as the ceiling FABLE is graded against and the fallback FABLE routes to — but the dependency arrow reverses over time: frontier becomes the exception handler, FABLE the workhorse.
 
-The strategic asset is not the model. It is the **oracle-graded data exhaust** the system already produces: EPS headlines graded by filed 8-Ks, recon matches confirmed by settled transactions, KAREN proposals accepted/rejected by Emily Prime, conflict calls adjudicated for SAGA, playtest metrics from SHANKPIT. Every NORN loop is a label factory whose labels are rooted in reality. That corpus is unpurchasable, and it is exactly the shape small models get strong on.
+The strategic asset is not the model. It is the **oracle-graded data exhaust** the system already produces: EPS headlines graded by filed 8-Ks, recon matches confirmed by settled transactions, KAREN proposals accepted/rejected by Emily Prime, conflict calls adjudicated for SAGA, playtest metrics from SHANKPIT. Every NORN loop is a label factory whose labels are rooted in reality. That corpus is unpurchasable, and it is exactly the shape small models get strong on. *(AI-103.NAR-1 — specified: narrative framing.)*
 
 ## 2. Why GPT-2 Class Is the Right Opening
 
-- **Trainable end-to-end in-house.** The 124M-parameter reproduction is a solved, cheap problem (llm.c / nanoGPT lineage — order of tens of dollars in rented GPU-hours; 1.5B in the hundreds). The entire training run fits in one auditable repo: data snapshot hash in, checkpoint hash out.
+- **Trainable end-to-end in-house.** The 124M-parameter reproduction is a solved, cheap problem (llm.c / nanoGPT lineage — order of tens of dollars in rented GPU-hours; 1.5B in the hundreds). The entire training run fits in one auditable repo: data snapshot hash in, checkpoint hash out. *(AI-103.POL-1 — building: local CPU LoRA rounds have run in `gpt2-alpine-c`; the actual Colab T4 GPU run is still HITL-blocked, S26-04/HITL-06.)*
 - **Small models + narrow tasks + good labels beats big models + no ownership** for the task portfolio in §3. Classification, extraction, tagging, templated generation — these saturate well below frontier scale when the fine-tuning data is clean and the output schema is enforced (Iduna-validated JSON, the house pattern).
-- **Auditability is a feature of scale.** A 124M model's training set can be enumerated, its eval history replayed, its behavior diffed checkpoint-to-checkpoint. Try that with an API.
-- **The ladder exists.** Nothing in this spec caps out at GPT-2. The pipeline (data engine, eval harness, NORN gates, serving) is size-agnostic; parameters are a config value. E0 through E4 in §6.
+- **Auditability is a feature of scale.** A 124M model's training set can be enumerated, its eval history replayed, its behavior diffed checkpoint-to-checkpoint. Try that with an API. *(AI-103.BEH-1 — verified: `gpt2-alpine-c`'s entropy source is functional and measured — base H_mean=4.4877, local 300-step fine-tune H_mean=4.6602, S26-05.)*
+- **The ladder exists.** Nothing in this spec caps out at GPT-2. The pipeline (data engine, eval harness, NORN gates, serving) is size-agnostic; parameters are a config value. E0 through E4 in §6. *(AI-103.IFC-1 — specified: E0 (S145-03) not started.)*
 
 ## 3. Task Portfolio — Scoped Honestly
 
