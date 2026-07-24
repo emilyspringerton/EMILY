@@ -5688,6 +5688,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-35: OKEMILY — REDGARDEN wishlist landing page.** Founder, real-time, two fragments:
+  "i guess we need a landing page for a wishlist for a wishlist" (read as a single ask, doubled
+  phrasing) → "we will email you when wishlist goes live" (the page's email-capture copy/CTA).
+  Logged before writing per Principle 1. Known blocker, already on record: the mailing-list vault
+  (`cmd/mailing-list-unlock`) is confirmed locked from prior sessions — this page's email capture
+  can't actually persist/send anything server-side until a human runs the interactive unlock.
+  Scope for this pass: build the static landing page itself (copy, layout, email input) in
+  OKEMILY, wire it to the existing `/api/v1/mailing-list/subscribe` endpoint client-side exactly
+  like other okemily signup forms already do, and flag the vault-lock dependency plainly rather
+  than silently building a form that can't work yet.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
