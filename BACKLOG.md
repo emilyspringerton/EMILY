@@ -5381,3 +5381,43 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   melee — proving one real kit works end-to-end, not the full roster. Reflection on the
   mid-work catch published: okemily.com/blog/reading-isnt-free/. **Done — Apple #10539 ·
   REDGARDEN `d4fe596`.** 9 new headless tests passing, client builds clean.
+- [ ] **S170-19: REDGARDEN — full roster in arena, replays/observer-mode, WOTAN player stats, and
+  a Game AI northstar reusing existing org tech. Northstar only this pass, not implementation.**
+  Founder, real-time, several threads landing together: "and the full roster" (beyond S170-18's
+  single proof-of-concept hero); "and observer mode is a first class citizen" → "as well as
+  replays" → "i want to start watching replays asap" (but: "get kits working first" — sequencing
+  honored, S170-18 landed before this); "so build out the wotan web interface too for the player
+  stats" → "like how can we find replays if we don't have players on wotan ya know?" (founder's
+  own dependency reasoning: WOTAN player identity is a prerequisite for replays being attributable
+  to anyone, not a parallel unrelated ask); "and the bots need personalities that evolve and learn
+  on their previous matches" → "using the full depth breadth and width of einhorn ai tech for
+  games" → "scan literally all md files in the whole home directory" → "find all of the ai tech
+  for game ai" → "incorporate all of the tech into the REDGARDEN bots" → "as a northstar" → "not
+  all at once obviously in phases." Logged before writing per Principle 1.
+
+  **Scan performed** (610 `.md` files across the home directory, grepped for AI/ML keywords, not
+  read individually): the existing, already-built pattern to extend is
+  `gpt2-alpine-c/docs/GAME_AI_NORTHSTAR.md` (2026-06-18) — GPT-2 as a game policy network,
+  state-serialize → generate action tokens → decode, with a replay-logging → fine-tune →
+  self-play flywheel already spec'd end-to-end for SHANKPIT/BedWars (Milestones 6-11). REDGARDEN
+  should extend this same architecture, not invent a parallel one. Also relevant: `NORN`'s
+  propose→grade→gate→promote loop kernel (`pkg/norn`) is the natural fit for formally evaluating
+  each bot generation ("second-gen bots measurably different from first-gen" in the existing
+  northstar's own acceptance criteria is exactly a NORN grading job, not a manual eyeball check);
+  `SHANKPIT/docs2/SHANKPIT_AI_ARCHITECTURE.md` and `packages/simulation/neural_net.h` are the
+  hand-authored feed-forward bot-brain lineage `arena_game.c`'s own bot brain already follows (its
+  own code comment already calls a trained pipeline "a fast-follow" — this northstar is that
+  fast-follow, named).
+
+  Full write-up landed in `REDGARDEN/NORTHSTAR.md` §12 (see below) — phased, not built:
+  Phase A (WOTAN player identity, prerequisite per founder's own reasoning) → Phase B (replay
+  logging, ties into apps/server-go-... i.e. REDGARDEN's own server/arena) → Phase C (observer
+  mode reading replay logs) → Phase D (full roster in arena, extending S170-18's Unicorn proof)
+  → Phase E (GPT-2 policy network + NORN-graded self-play flywheel, extending
+  `GAME_AI_NORTHSTAR.md`'s existing milestones rather than duplicating them). Not started.
+
+---
+
+*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
+*The backlog is what outlasts everything.*
+*Clean builds first. Then custody. Then everything else.*
