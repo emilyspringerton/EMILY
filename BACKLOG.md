@@ -6245,6 +6245,36 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-63: REDGARDEN — matchmaker was dead, then the client couldn't get a connect ticket
+  at all.** Founder, live, actually trying to play: "im queued up for a match can you force a
+  match reset so i can get into a game?" → "queued into the bot pool" → "ok the terminal exited
+  but the client never launched" → "somethings not working" → "i opened it again and it happened
+  again after a few seconds i was queued and then that terminal saying i was queued just closed
+  and nothing happened" → "yea i never logged in or anything im not sure how its supposed to
+  work." Logged mid-investigation, not before, since this was a live "player can't play" report
+  — real two-part root cause, found not guessed: (1) the matchmaker processes on 7778/7779 had
+  died at some point (bots were still alive, orphaned), so the client's queue packets went
+  nowhere — restarted. (2) The deeper issue, and the actual reason it kept failing even after the
+  restart: the client's `--queue` path only gets a real WOTAN ticket if `IDUNA_AGENT_NAME`/
+  `IDUNA_AGENT_SECRET` are set (they aren't, on a founder's own machine — there's no human login
+  flow for this yet), so it falls to self-minting a ticket via `REDGARDEN_TICKET_SECRET` — which
+  was **also unset on the client side**, so `net_connect`/`net_find_and_connect` failed at the
+  ticket step with "No WOTAN identity and no REDGARDEN_TICKET_SECRET -- cannot connect" and
+  `main()` exited immediately. Compounded by `PLAY.bat` having no `pause`, so the error flashed
+  and closed before it could be read — "the terminal exited... nothing happened" was accurate,
+  just too fast to see why. Along the way, my own diagnosis briefly went down a wrong path
+  (thought IDUNA's real ticket-signing secret and the game server's verification secret were
+  mismatched — they may genuinely differ, but that's irrelevant to an unauthenticated client using
+  the self-mint fallback, which is what's actually happening here) — corrected before acting on
+  it further. Also accidentally spawned one broken test bot with no ticket secret while
+  investigating, which spammed the bot-pool matchmaker with failed connect/requeue cycles and
+  orphaned several `arena_server` processes on incrementing ports — killed it and the orphans.
+  Fix in progress: matchmaker restarted with the same shared `REDGARDEN_TICKET_SECRET` the
+  self-mint path expects; `PLAY.bat` needs the same var set before launching, plus a `pause` so
+  future failures are actually readable instead of vanishing.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
