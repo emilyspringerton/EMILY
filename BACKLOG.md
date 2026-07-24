@@ -6611,6 +6611,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
+- [ ] **S170-83: shankpit-460 — bring lobby/matchmaking up to parity with REDGARDEN Knights of
+  the Void.** Founder, real-time: "shankpit460 lobby and matchmaking pariuty to REDGARDEN knights
+  of the void." Logged before investigation per Principle 1. Notable inversion worth flagging
+  honestly: `REDGARDEN/CLAUDE.md` documents shankpit-460 as "source of the connect-ticket auth
+  pattern this repo reuses" — REDGARDEN borrowed FROM shankpit-460 originally. Tonight's session
+  found and fixed two real bugs in REDGARDEN's matchmaking path that may or may not have
+  equivalents in shankpit-460 (the `#ifndef _WIN32` networking regression was arena-client-
+  specific; the missing `REDGARDEN_TICKET_SECRET` on the bot-pool systemd unit is an ops/deploy
+  gap that needs checking against shankpit-460's own process supervision, not assumed present).
+  Scope not yet determined — investigating shankpit-460's actual current lobby/matchmaker
+  implementation before claiming what "parity" requires. In progress.
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
