@@ -6124,4 +6124,40 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   pattern for REDGARDEN's arena client specifically (no GLU dependency, unlike SHANKPIT's client
   — `build_arena.sh`'s own comment already notes this, one less DLL to bundle). Queuing a local
   `mingw-w64` install (`sudo-queue/09-mingw-w64.sh`) to actually dry-run-verify the cross-compile
-  here before trusting CI alone to catch a broken workflow.
+  here before trusting CI alone to catch a broken workflow. **Status: still failing** after two
+  real fixes (missing `winsock2.h`/`ioctlsocket`/`closesocket`/`WSAStartup` branch entirely absent
+  from `apps/arena/src/main.c`; `mkdir(path, mode)`'s 2-arg POSIX signature not guarded for
+  MinGW's 1-arg version) — both committed (`1e61feb`, `f788d3a`), both verified not to regress
+  the Linux side, CI re-run still red on the actual Windows cross-compile step. Can't read GitHub
+  Actions job logs from here (403, "must have admin rights") and can't install `mingw-w64` locally
+  (no sudo) — diagnosing by careful source read + re-push + re-check cycle instead of seeing the
+  real compiler error directly. Continuing.
+
+- [ ] **S170-55: REDGARDEN — twelfth hero, John Dee / Paimon (merged, one character).** Founder,
+  real-time: "add john DEE /paimon as the same hero." Logged before writing per Principle 1. Not
+  started — mid-flight on S170-54's CI fix when this arrived; queued to pick up next. Needs a
+  TYLER lore check (same discipline as the earlier Druid/Flamel merge, S170-46/47) before writing
+  a kit — confirm both John Dee and Paimon exist in `multiverse_heroes.md` and whether one already
+  has more named-character backing than the other, same reasoning used to decide Flamel absorbed
+  Druid rather than the other way around.
+
+- [ ] **S170-56: REDGARDEN — draft-phase bans, decided against for now; captured as northstar
+  reasoning.** Founder, real-time, a real design conversation, not a spec dictation: "add bans to
+  the draft phase 3 bans per team" → "ban pick ban pick pick ban pick pick ban pick pick ban pick
+  pick ban pick pick pick" [an attempted literal order, self-corrected] → "but in reverse so it
+  goes pick pick pick ban pick" → "or something" → "have it be like the last 2 bans happen before
+  the last 4 characters are chosen (last ban and 2 chars per team)" → "im not sure if it should
+  start with a pick or a ban — starting with a ban i think optimizes for a toxic community
+  instead of a community focused on addressing a meta, not just banning something they dont
+  like" → "use fibonachi to figure it out" → **"i really think actually skip bans all together
+  for now it has a huge impact lets put all this into a northstar then keep grinding REDGARDEN."**
+  Logged verbatim, including the walked-back middle, because the reasoning in the walk-back (not
+  just the final answer) is the actually valuable part — captured in `NORTHSTAR.md` rather than
+  code. No draft-phase ban mechanic implemented. Founder's own explicit next step: "keep grinding
+  REDGARDEN" — returning to S170-54's CI fix immediately after this entry.
+
+---
+
+*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
+*The backlog is what outlasts everything.*
+*Clean builds first. Then custody. Then everything else.*
