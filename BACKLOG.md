@@ -6298,6 +6298,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-65: REDGARDEN arena matchmaker was never under systemd — the actual reason S170-63
+  happened at all.** Founder: "fix is not pushed." Logged before writing per Principle 1. Checked
+  before assuming what this meant: the S170-63 code fix genuinely was pushed and merged
+  (`a509174` confirmed on `origin/main` via `git fetch`, CI green) — "not pushed" is accurate
+  about something else: the live matchmaker/bot-pool processes have never run under systemd at
+  all, ever, on this box (`systemctl --user list-units` — no `redgarden-*` unit exists,
+  `launch_arena_pools.sh` has only ever been invoked manually/nohup'd). That's the actual root
+  cause of S170-63's outage in the first place — a manually-started process with no supervision,
+  no auto-restart, dies silently and stays dead until someone notices. Same class of gap as the
+  earlier `fatbaby-newssite`/`gfd-mud` incidents this session, just not yet caught here. Scope:
+  real systemd user units for the two matchmakers (bot-pool :7778, player-pool :7779), matching
+  the existing `fatbaby-newssite.service`/`gfd-mud.service` pattern (`Restart=on-failure`, proper
+  `WorkingDirectory`, logged output) — not another manual nohup.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
