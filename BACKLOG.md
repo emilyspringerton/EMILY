@@ -5598,24 +5598,26 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-31: Continue REDGARDEN — NORTHSTAR §12 Phase D, full roster in arena (second hero:
+- [x] **S170-31: Continue REDGARDEN — NORTHSTAR §12 Phase D, full roster in arena (second hero:
   The Duck).** Founder: "continue REDGARDEN." Logged before writing per Principle 1. Scope,
   checked against the code first: every ability function in `arena_game.c`
   (`arena_cast_q`/`arena_toggle_w`/`arena_cast_r`) is currently hardcoded `if (owner != 0) return`
-  — Unicorn-only, dispatch not generalized. This pass: (1) add a `hero_id` field to `ArenaHero`
-  so kit dispatch is by hero, not by owner slot; (2) generalize the three cast functions to switch
-  on `hero_id`; (3) wire **The Duck** (`docs/HEROES_VS0.md`) as the second kit — Q (Telekinetic
-  Yank: pull the foe toward the Duck + AD damage) and R (Total Telekinesis: bigger yank + AoE
-  damage, longer cooldown) only. Duck's **W (Government Clearance)** needs towers/objective
-  structures that don't exist in this 1v1 arena — skipped, flagged, not faked. Duck's **E (Chosen
-  One)** triggers on landing a killing blow, but arena's win condition ends the match on the same
-  kill — the buff window and match-end coincide, so it would have zero observable effect in this
-  format — skipped, flagged, same reasoning. (4) Give the bot hero (owner 1) a real kit for the
-  first time — default `arena_init()` to player=Unicorn, bot=Duck, with simple heuristic
+  — Unicorn-only, dispatch not generalized. Added a `hero_id` field to `ArenaHero` so kit dispatch
+  is by hero, not by owner slot; generalized the three cast functions to switch on `hero_id`;
+  wired **The Duck** (`docs/HEROES_VS0.md`) as the second kit — Q (Telekinetic Yank: pull the foe
+  toward the Duck + AD damage) and R (Total Telekinesis: bigger yank + AoE damage, longer
+  cooldown) only. Duck's **W (Government Clearance)** needs towers/objective structures that
+  don't exist in this 1v1 arena — skipped, flagged, not faked. Duck's **E (Chosen One)** triggers
+  on landing a killing blow, but arena's win condition ends the match on the same kill — the buff
+  window and match-end coincide, so it would have zero observable effect in this format —
+  skipped, flagged, same reasoning. Gave the bot hero (owner 1) a real kit for the first time —
+  `arena_init()` now defaults to player=Unicorn, bot=Duck, with simple heuristic
   cast-when-off-cooldown-and-in-range bot logic — the actual "both sides" requirement Phase D
-  states explicitly, not just a second player-selectable option. Tests mirroring the Unicorn kit's
-  own test style. Remaining 9 heroes are follow-on work, not this pass — "not all at once,
-  obviously in phases" applies inside Phase D too, not just across phases A-E.
+  states explicitly, not just a second player-selectable option. 6 new tests (including one
+  proving dispatch works from either owner slot), mirroring the Unicorn kit's own test style.
+  **Done — Apple #10556 · REDGARDEN `63b94e7`.** `test_arena.sh` + `test_10_bots.sh` still green.
+  Remaining 10 heroes are follow-on work, not this pass — "not all at once, obviously in phases"
+  applies inside Phase D too, not just across phases A-E.
 
 ---
 
