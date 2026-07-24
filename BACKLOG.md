@@ -5431,6 +5431,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-20: PRRJECT_FATBABY — competitive-intelligence northstar on "WEST" (a competitor
+  ingesting court + code/statute data), plus add WEST press releases to the pipeline's
+  monitoring.** Founder, real-time, two fragments landing together: "northstar WEST opo
+  (competitor) ingesting court and code data" → "also we need to add west press erleases [sic]."
+  Logged before any work per Principle 1 — nothing built yet, identity of "WEST" not yet
+  confirmed. Working assumption: "WEST" most likely refers to Thomson Reuters' Westlaw (the
+  legal-research product line ingesting court opinions/case law and statutory/code text) as a
+  competitor to watch, given PRRJECT_FATBABY's SEC/PR-newswire signal-pipeline domain — but this
+  is a guess, not confirmed, and the ticker/entity to add to `config/watchlist.json` for the
+  press-release half of this ask depends on getting that right (Thomson Reuters trades as
+  `TRI`/`TRI.TO`, not currently on the watchlist). Needs founder confirmation before the
+  watchlist edit or northstar scope is finalized — flagged rather than guessed into place.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
