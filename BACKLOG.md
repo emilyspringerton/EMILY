@@ -6195,7 +6195,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-59: REDGARDEN — PLAY.bat's hardcoded 127.0.0.1 is wrong for the actual distributed
+- [x] **S170-59: REDGARDEN — PLAY.bat's hardcoded 127.0.0.1 is wrong for the actual distributed
   client.** Founder, live, actually running the CI-built Windows client: "ok it executes a
   terminal pops up saying queuing for match" → "also it says queuing at 127.0.0.1:7778 im not
   sure if thats right" → "the client might assumne [sic] server is running on the lan or on the
@@ -6203,8 +6203,17 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   writes `PLAY.bat` as `start RedGarden.exe --queue 127.0.0.1` — a "test against a locally-running
   matchmaker" default, wrong for a founder running the distributed .exe on a separate machine
   wanting to reach this box's actual live bot pool. Correct command given directly:
-  `RedGarden.exe --queue 198.58.107.85`. Scope: fix `PLAY.bat`'s generated default in `ci.yml` to
-  point at the real box, not loopback, so the next download isn't misleading the same way.
+  `RedGarden.exe --queue 198.58.107.85`. Fixed `PLAY.bat`'s generated default in `ci.yml` to point
+  at the real box instead of loopback, plus an echo line showing what it's connecting to. **Done
+  — Apple #10675 · REDGARDEN `17fba8f`, CI re-verified green.** Blog post ("duh") queued next.
+
+---
+
+- [ ] **S170-60: Blog post — "duh."** Founder, real-time: "and then write a blog post 'duh'."
+  Logged before writing per Principle 1. Read as: a short, honest post about the S170-59 loopback-
+  IP mistake (`PLAY.bat` defaulting to `127.0.0.1` in a client meant to be run on someone else's
+  machine) — the kind of bug that's embarrassing specifically because it's obvious once pointed
+  out, which is the actual meaning of the title. Not started.
 
 ---
 
