@@ -5318,6 +5318,27 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-13: Retroactive fix — SHANKPIT Bedrock Racers had no backlog entry or Apple.**
+  Full-session audit ("ensure all requests made it into a sprint") found a real gap: the entire
+  Bedrock Racers vertical slice (F1 chassis wiring, racing_mode.go, matchmaker/track/HUD/items,
+  SHANKPIT commits `2ca3995`/`edd899d`) landed *before* this session's backlog-first discipline
+  was tightened (the emily-agent OOM incident, Principle 1 rewrite) and was never logged here —
+  nor was its completion Apple ever actually filed, despite the original implementation plan
+  calling for one. Both fixed now: Apple #10535 (retroactive), this entry (retroactive). Standing
+  rule going forward: this is exactly the failure mode Principle 1's tightening exists to prevent.
+- [ ] **S170-14: REDGARDEN MOBA-mode matchmaking pools.** Founder, real-time: "iterate towards
+  botgames for the moba mouse game i want to connect to the 10 v 10 bot games" → "and then
+  backlog the player only pool" → "and then backlog the ranked pool." Logged before writing per
+  Principle 1. Three matchmaking pools for `apps/arena`'s eventual multiplayer mode: (1) bot
+  games — extend the existing 1-hero-vs-1-bot demo toward 10v10 bot-populated matches, the MOBA-
+  mode analogue of the card-RTS mode's `scripts/test_10_bots.sh` validation; (2) player-only pool
+  — human-only matches, no bot fill; (3) ranked pool — competitive matchmaking, no design done
+  yet (rank model, MMR, queue rules all undecided). None built — `apps/arena` is currently a
+  single hardcoded 1v1 demo with no matchmaking layer of any kind yet (§3.5's own "not yet wired"
+  note applies here too). Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
