@@ -6647,6 +6647,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-84: REDGARDEN CI — hung build on the Knights of the Void rebrand commit.** Founder,
+  real-time: "we have a hung build for the rebrand in ci." Logged before investigation per
+  Principle 1. Confirmed via the GitHub Actions API: `62ca556`'s run sat "in_progress" on the
+  mingw-w64/SDL2 install step for 18+ minutes with byte-identical YAML to four immediately
+  preceding runs that all passed in seconds — a transient runner/mirror stall, not a code bug. No
+  `gh` CLI or token available in this environment to cancel it remotely, and nothing in the
+  workflow would have ever timed it out on its own (GitHub's default job ceiling is 6 hours).
+  Added real safeguards rather than just waiting it out: `timeout-minutes: 30` job-level,
+  `timeout-minutes: 10` on the specific step, `DEBIAN_FRONTEND=noninteractive` on its apt-get
+  (defends against an interactive alternatives prompt as one plausible cause), and a real
+  `wget --timeout=30` (previously only `--retry-connrefused`, which doesn't catch a connection
+  that succeeds and then stalls). The original hung run itself is still sitting in_progress —
+  can't be cancelled without a token, harmless since it's an independent run from the new one.
+  **Done — REDGARDEN `912cdff`, fresh run queued and unaffected by the hang.**
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
