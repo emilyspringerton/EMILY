@@ -1126,10 +1126,11 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   real traffic. Record req/s, p99 latency, cache hit rate. Document in ops-runbook.md.
   Acceptance: baseline documented; ceiling known before real traffic hits. (S24-05)
 
-- [ ] **S31-04: Verify logrotate + DIS tailer** — After midnight, confirm `systemctl status edis-dis`
-  shows active and `/dis/health` returns valid JSON. logrotate must NOT use copytruncate
-  (DIS tailer needs inode-change detection, not truncate). Check /etc/logrotate.d/nginx.
-  Acceptance: DIS health check passes 24h after first deploy.
+- [x] **S31-04: Verify logrotate + DIS tailer** — Verified 2026-07-24: `systemctl status edis-dis`
+  active (running) since 2026-07-21 21:53 UTC — 2+ days, well past the 24h bar, surviving at
+  least 2 daily rotations. `/dis/health` returns `{"state":"healthy","ad_mode":"svg",...}`.
+  `/etc/logrotate.d/nginx` uses standard rotate+create, no `copytruncate` directive present —
+  matches the acceptance criteria exactly (DIS tailer needs inode-change detection).
 
 ---
 
