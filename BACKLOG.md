@@ -6664,6 +6664,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
+- [ ] **S170-85: REDGARDEN — human tried the Loki build, matchmaking launches the client but
+  still no players/enemies visible.** Founder, real-time: "tried the loki build matchmaking still
+  launches the client but still no players no enemies nothing" → "figure it out." Logged before
+  investigation per Principle 1. This is the first real human connection attempt since S170-72's
+  fix landed — everything checked from the server side up to now (19 bots cleanly reaching 19/20)
+  was bot-only verification, never an actual human client. Investigating live now: whether the
+  human's connection is registering server-side at all (CLIENT N CONNECTED), what phase the match
+  is actually in, and whether this is the same "no entities" class of bug as S170-72 or something
+  new specific to a real (non-bot) client. Not yet root-caused. In progress.
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
