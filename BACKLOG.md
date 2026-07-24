@@ -930,9 +930,16 @@ Run: `emily backlog promote --limit=50 --batch=15`
   the design blocker.
   **2026-07-24: FRONT_DOOR_FUNNEL §7 step 1 landed** (IDUNA, no nginx/DNS touched) — `/admin/agents`
   no longer produces inert agents (PENDING→ACTIVE lifecycle, credential+permission gating). Apple
-  #10598. Steps 5–6 (fix VS0 web ceremony's stale bindings, apply the nginx front-door snippet +
-  dedicated `gate.farthq.com` subdomain) are the actual unblock for this item and are still not
-  started.
+  #10598.
+  **2026-07-24 (2): step 5 also landed** — the VS0 web ceremony turned out to have no server-side
+  honor-code-acceptance or gamertag-claim write path *at all* (not just wrong URLs); built
+  `internal/honorcode` + 3 new store methods + `internal/http/handlers/web_ceremony.go` registering
+  the six endpoints `app.js` already called, plus a CSRF `state` fix in `app.js` itself. IDUNA
+  `07b62a1`, Apple #10602. **Step 6 (nginx) is drafted but NOT applied** — `sudo-queue/07-iduna-
+  front-door-nginx.sh` is ready and syntax-verified, blocked on no passwordless sudo on this box
+  (founder action needed). The `gate.farthq.com` DNS record is a separate, harder blocker —
+  `SECTION 151` (FATES DNS-as-code) is entirely unstarted, gated on a Cloudflare token in the
+  S151-01 human unblock queue. This item stays open until both land.
 
 ## SECTION 24: NEWSSITE OPS HARDENING (traffic + production readiness)
 
