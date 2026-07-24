@@ -14,6 +14,15 @@ all yet. When an entry's intent becomes clear, promote it to `BACKLOG.md` and fl
 
 ---
 
+## 2026-07-24
+
+- **status: unprocessed** — Founder, mid-session, no accompanying task: "the snowmen are watching"
+  → (after I flagged no context) → "who watches the snowmen" / "trapx". No existing reference to
+  "snowmen" anywhere in the codebase (checked `SHANKPIT/docs2/` and repo-wide) — this reads as a
+  new concept/codename being floated for TRAPX's surveillance layer, in the register of "who
+  watches the watchmen," not yet connected to K9 doctrine/Attention/Rogue Swarms or any existing
+  TRAPX_NORTHSTAR.md mechanic. No further context given yet.
+
 ## 2026-07-23 (2)
 
 - **status: unprocessed** — YouTube Short, shared with no accompanying task:
