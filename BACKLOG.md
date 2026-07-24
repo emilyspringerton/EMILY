@@ -6318,7 +6318,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-66: REDGARDEN arena — 10v10 matches resolve instantly ("YOU WIN"), real gameplay
+- [x] **S170-66: REDGARDEN arena — 10v10 matches resolve instantly ("YOU WIN"), real gameplay
   bug, not a connection issue.** Founder, live, right after S170-63's fix confirmed working: "ok
   it just says YOU WIN" → "it works there is a client but it just says YOU WIN" → "but the camera
   works" → "there is a cube" → "you are a golden god." Logged before further investigation per
@@ -6343,6 +6343,47 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   not literal — the 10v10 pivot outran verifying this exact edge case) → "figure it out." Moving
   from flag-and-defer to actually fixing, per direct instruction.
 
+  **Real-time direction while fixing, logged per Principle 1:** "get the current shape of the game
+  working" → "terminal launching the client is fine for now aut [but] queuing into bot queue" →
+  "we need to requeue after a game after an ok button" → "get the gameplay working so the human
+  can actually participate" → "human / hybrid ;p" → "auto draft is fine for now" → "we will add the
+  draft ui interface soon but its not needed to validate the core game loop" → "print the auto
+  draft into the console." Narrowed the scope actually needed this pass: CLI/terminal-launched
+  client is acceptable (no in-client lobby UI needed yet), and auto-draft (no pick UI) is
+  acceptable — both deferred to a real northstar item, not blocking today's fix.
+
+  **Root cause, fully confirmed: not a team-init bug, a systemic `#ifndef _WIN32` regression.**
+  The newer 10v10 networked-PvP code (added after this repo's earlier S170-54 cross-platform fix)
+  reintroduced the exact same bug class in three places in `apps/arena/src/main.c`: the
+  `net_poll_snapshots()` call site, the click-to-move `net_send_move()` call site, and the Q/W/E
+  `net_send_cast()` call site were all wrapped in `#ifndef _WIN32`. On the founder's actual
+  platform (Windows), all three silently compiled out — no error, so it "worked." The result: the
+  client fell through to the LOCAL single-player practice path (`arena_update(dt)` against a local
+  practice-bot AI) instead of ever applying real server snapshots, which resolves near-instantly
+  and produces a "YOU WIN"/cube/camera-only experience completely disconnected from the real
+  networked match sitting untouched on the server. Confirmed via `grep -n "#ifndef _WIN32"` before
+  the fix (3 hits, all around net_mode branches) and after (0 hits — every remaining guard is a
+  correctly-scoped `#ifdef _WIN32` around an actual platform difference).
+
+  **A second, separate real blocker found and fixed in the same pass:** the persistent bot-pool
+  systemd unit (`redgarden-bot-pool.service`, S170-65) launched exactly 20 bots into a
+  `--lobby-size 20` matchmaker — meaning the bot-only lobby was permanently full and a human could
+  never actually get a slot. Fixed by dropping the pool to 19 bots (`scripts/run_bot_pool.sh`
+  default + the systemd unit's `ExecStart`), leaving exactly one open human slot.
+
+  **Also implemented in the same pass (absorbing part of S170-68's scope, per the founder's
+  real-time narrowing above):** `net_send_pick()` + auto-draft (client sends a `PACKET_ARENA_PICK`
+  the moment `net_phase` reports `ARENA_PHASE_DRAFT`, same roster-spread rule `apps/arena_bot`
+  already uses, logged to console) so a human doesn't get stuck in draft forever with no pick UI;
+  and a requeue "OK" button drawn/clicked on the win/lose screen in net_mode, which closes the old
+  match socket, resets local state, and re-runs the same `net_find_and_connect`/`net_connect` path
+  used at startup.
+
+  Verified: `bash scripts/build_arena.sh` clean, `bash scripts/test_arena.sh` all green, and a full
+  local mingw cross-compile (same toolchain/flags as CI) produced a clean 0-warning
+  `RedGarden.exe`. **Done — Apple #10684 · REDGARDEN `73c052a`. Systemd services restarted live
+  with the fix (bot pool relaunched at 19 bots, matchmakers restarted).**
+
 ---
 
 - [ ] **S170-67: Blog post — "'figure it out' — prompt engineering is a skill issue, part 3."**
@@ -6356,19 +6397,51 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-68: REDGARDEN arena client — no requeue-on-end, no draft phase UI, real
+- [x] **S170-68: REDGARDEN arena client — no requeue-on-end, no draft phase UI, real
   session-flow gaps blocking an actual playable loop.** Founder, real-time, while I was mid-fix
   on S170-66: "also once i win i need to re queue" → "we need to build the queueing and stuff
   into the client" → "where is my draft" → "what is happening." Logged before writing per
-  Principle 1, queued behind S170-66 (the instant-win bug is the root blocker — none of this is
-  fixable-feeling until a match actually plays out). Real gaps named: (1) the client exits/needs
-  manual relaunch after a match ends instead of automatically requeuing; (2) `--queue` is a
-  command-line flag, not an in-client flow — there's no queue/lobby UI at all; (3) draft phase
-  (`PACKET_ARENA_PICK`, `ARENA_PHASE_DRAFT`) exists server-side but nothing in the client
-  presents it — `arena_init_teams()` sets every hero to a placeholder (`ARENA_HERO_UNICORN`)
-  "until the real client's draft pick overrides it" per its own code comment, and if the client
-  never actually shows/sends a pick, every hero silently stays the placeholder with no visible
-  draft ever happening. Not started — S170-66 first.
+  Principle 1. Real gaps named: (1) the client exits/needs manual relaunch after a match ends
+  instead of automatically requeuing; (2) `--queue` is a command-line flag, not an in-client
+  flow — there's no queue/lobby UI at all; (3) draft phase (`PACKET_ARENA_PICK`,
+  `ARENA_PHASE_DRAFT`) exists server-side but nothing in the client presents it —
+  `arena_init_teams()` sets every hero to a placeholder (`ARENA_HERO_UNICORN`) "until the real
+  client's draft pick overrides it" per its own code comment, and if the client never actually
+  shows/sends a pick, every hero silently stays the placeholder with no visible draft ever
+  happening.
+
+  **Resolved, narrowed scope per the founder's own real-time direction during S170-66's fix**
+  ("terminal launching the client is fine for now" and "auto draft is fine for now" / "we will
+  add the draft ui interface soon but its not needed to validate the core game loop"): (1) fixed
+  for real — requeue is now a click-to-continue "OK" button on the win/lose screen, no manual
+  relaunch; (3) fixed for real — the client now auto-sends a `PACKET_ARENA_PICK` the instant
+  draft phase starts (console-logged per direct request), so a match never hangs waiting on a
+  pick that never comes. (2) explicitly deferred, not fixed — the founder confirmed the
+  terminal/CLI-flag launch flow is fine for this pass; a real in-client lobby UI and a real draft
+  hero-select UI (with hover cursor indicators distinguishing enemy vs. ally, per the founder's
+  separate real-time note) are queued as a genuine northstar item, not a bug — see NORTHSTAR
+  update below. **Done — Apple #10684 · REDGARDEN `73c052a` (same commit as S170-66).**
+
+---
+
+- [ ] **S170-69: REDGARDEN arena NORTHSTAR — real draft/lobby UI + hover cursor indicators
+  (enemy vs. ally).** Founder, real-time: "nice cursor indicators for hover over enemy vers aly
+  etc as a northstar." Logged before writing per Principle 1. Explicitly a northstar-level
+  direction, not an immediate fix — captures the deferred half of S170-68's scope (a real
+  in-client lobby/queue UI, a real draft hero-select UI) plus a new, related ask: hovering the
+  mouse over a hero in a live match should visually distinguish "this is an enemy" from "this is
+  an ally" (color/cursor-shape change, name/HP tooltip), which the current click-to-move/cast-only
+  input model doesn't do at all. Not started — northstar/design note, no code yet.
+
+---
+
+- [ ] **S170-70: Blog post — TYLER "Building at Infinity" manuscript synthesis.** Founder,
+  real-time: "read the tyler building at infinity manuscripts and put it all into one blog post."
+  Logged before writing per Principle 1. Source material: the "Emily Stillness" manuscript
+  trilogy (`TYLER/manuscripts/emily_stillness.md`, `_parts3_5.md`, `_parts6_7.md`), which contains
+  the "Building at Infinity" material. Queued behind finishing REDGARDEN S170-66/68 (in progress,
+  "we are so close" — founder's own sequencing signal), then S170-67 and S170-57's blog post
+  (both already queued ahead of this one). Not started.
 
 ---
 
