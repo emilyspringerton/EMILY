@@ -4944,6 +4944,17 @@ just our 50-ticker watchlist.*
   persona in this system. Scope, voice, and how MELODY's output gets reviewed before publishing
   (a company description is public-facing claim-bearing text, not internal commentary) are real
   design questions, not decided here.
+  **Update 2026-07-24 — quick one-shot pass, formal MELODY pipeline deferred.** Founder: "just go
+  ahead and do a big bang llm write a simple 7 sentence bio including sector using whatever
+  demigod llm context is already built in just one shot it for now we will run it through
+  editorial with formal log streaming stuff later we need a simple data enrichment to help the
+  founder reason about fatbaby while REDGARDEN percolates." Logged before writing per Principle
+  1. Scope: 7-sentence bio (name, sector, what it does, scale/notability, one thing worth
+  watching) for each of the 50 watchlist entries (48 unique companies —
+  BRK.A/BRK.B and GOOG/GOOGL are dupes), generated directly, no external API call, no logo/
+  metadata-API survey yet (that's the other half of this item, still open) — explicitly a draft
+  pass pending real editorial review, not a finished product. Not wired into ticker-page rendering
+  yet, written to a plain data file first.
 
 ---
 
