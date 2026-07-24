@@ -6386,14 +6386,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-67: Blog post — "'figure it out' — prompt engineering is a skill issue, part 3."**
+- [x] **S170-67: Blog post — "'figure it out' — prompt engineering is a skill issue, part 3."**
   Founder, real-time: "'figure it out' prompt engineering is a skill issue part 3 as a blog post."
   Logged before writing per Principle 1. Third in the S170-61/62 series — "figure it out" itself
   as the case study: the maximally-compressed prompt, trusting the recipient (human report or
   agent) to carry the full weight of the instruction. Queued after S170-66's actual fix lands,
   not before — "ensure it all lands into sprints and iterate towards a product where the human
-  can play" (the same real-time message) makes the priority explicit: the fix comes first, the
-  post about the fix comes after, not the other way around. Not started.
+  can play" (the same real-time message) made the priority explicit. Written after S170-66/68
+  actually landed, using the real S170-66 investigation (the `#ifndef _WIN32` regression) as the
+  grounded case study instead of an abstract one. **Done — published
+  https://okemily.com/blog/vibe-coding-is-a-skill-issue-part-3/.**
 
 ---
 
@@ -6442,6 +6444,17 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   the "Building at Infinity" material. Queued behind finishing REDGARDEN S170-66/68 (in progress,
   "we are so close" — founder's own sequencing signal), then S170-67 and S170-57's blog post
   (both already queued ahead of this one). Not started.
+
+---
+
+- [ ] **S170-71: REDGARDEN arena client — toggleable APM overlay, F11.** Founder, real-time:
+  "add toggalable apm overlay f11." Logged before writing per Principle 1. Ties into
+  `REDGARDEN/CLAUDE.md`'s standing UI constraint ("designed for pro-level play speed while
+  staying legible to a casual player standing next to them") — an on-screen actions-per-minute
+  readout, off by default, toggled with F11, in `apps/arena/src/main.c`. Needs an input-action
+  counter (clicks + Q/W/E casts, similar to the existing `arena_log_ability` hook) with a rolling
+  window, plus one more HUD draw_string call gated on a `show_apm` bool flipped by the F11 keydown.
+  Queued behind S170-70's blog post and the rest of the current queue. Not started.
 
 ---
 
