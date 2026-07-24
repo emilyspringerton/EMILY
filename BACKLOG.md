@@ -5772,6 +5772,27 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-40: WOTAN — cross-game leagues, bot/human parity, ranked REDGARDEN.** Founder,
+  real-time, many fragments landing together (order as given): "then continue playing the mud as
+  a break from the REDGARDEN work" → "start playing as a second character too" → "ensure wotan
+  leaderboards for the mud exist" → "im going to point WOTAN a to the box as an a[record]" [sic,
+  DNS] → "all in as wotan bots and humans parity" → "different leagues but also combined leagues"
+  → "'reference yt short the bot just aced'" → "also ranked REDGARDEN" → "at launch" → "but there
+  will be 22 bots to start in the league s1" → "we will faze out ss2 if possible" [sic]. Logged
+  verbatim before writing per Principle 1, deliberately not acted on yet — this thread arrived as
+  a rapid, interleaved burst across at least three distinct concerns (WOTAN leaderboards/leagues
+  design; a literal request to interact with GoblinFoxDragon's MUD; a DNS action the founder
+  described doing themselves) and genuinely needs disambiguation before building anything, rather
+  than guessing at scope on this much simultaneous, partially-garbled input. No doc/code written
+  for this yet. Read (tentatively, to be confirmed): WOTAN gets bot/human parity leaderboards
+  spanning both the MUD and REDGARDEN, with separate bot/human leagues that also roll up into a
+  combined league; REDGARDEN gets a ranked mode (ties to the still-open S170-14 REDGARDEN
+  matchmaking-pools item and S170-26/28's WOTAN player-identity work); League S1 launches with 22
+  seed bots, phased out across S2 as real players join, "if possible." A YouTube short
+  ("the bot just aced...") was named as a reference to incorporate, content/URL not yet provided.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
