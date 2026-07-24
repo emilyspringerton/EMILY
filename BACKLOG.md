@@ -6704,6 +6704,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   modification timestamp confirms it changed. Both fixes should now be in effect together.
   Ready for the founder to retry — not yet confirmed with a real external connection.
 
+  **Confirmed working: real external connection succeeded.** Founder: "ok it was working but
+  after 2 game requeues after losses we hit the stale bot issue again." First real end-to-end
+  confirmation this session — matchmaker log shows a genuine external IP
+  (`174.210.226.255:13273`) queuing, reaching 20/20, full draft (all 20 clients picked real hero
+  IDs, Loki included), and a live match starting on port 7303. Both S170-72 (ticket secret) and
+  the firewall fix are validated for real, not just against localhost bots. New, narrower problem
+  after 2-3 requeue cycles: bot logs (`var/arena_bot_1.log`, `_5.log`) show bots connecting and
+  drafting successfully into port 7302's match, but that match's own event log
+  (`var/matches/arena-server-7302-*.jsonl`) has only a `match_start` line — the match never
+  progressed to snapshots/`match_end`, consistent with a stall during ARENA_PHASE_DRAFT (not
+  everyone's pick landing) rather than the earlier LIVE-phase bugs. Bots requeuing independently
+  and out of sync with the human's own requeue pace looks like the likely mechanism — no barrier
+  exists to keep the pool synchronized, so by the time a human requeues, some bots may already be
+  mid-cycle into a different, human-less lobby, fragmenting the pool. Not yet confirmed — founder
+  asked to restart everything and attempt to reproduce live rather than guess further from logs
+  alone. Services restarted fresh (23:41 UTC). Reproduction attempt in progress.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
