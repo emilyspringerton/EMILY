@@ -5431,7 +5431,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-20: PRRJECT_FATBABY — competitive-intelligence northstar on "WEST" (confirmed:
+- [x] **S170-20: PRRJECT_FATBABY — competitive-intelligence northstar on "WEST" (confirmed:
   Intrado, private, emergency-communications/911 tech), plus track Intrado's press releases.**
   Founder, real-time, three fragments landing together: "northstar WEST opo (competitor)
   ingesting court and code data" → "also we need to add west press erleases [sic]" → confirmed
@@ -5441,8 +5441,12 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   live public newsroom to track: `intrado.com/news-releases` (paginated `/page/[1-5]`, individual
   posts at `intrado.com/news-releases/[slug]`) — this is the actual source, not a wire service.
   Scope: a northstar doc for a name-based (not CIK-based) competitor watcher reading Intrado's own
-  newsroom page directly, since it has no SEC filings or PR-Newswire feed to hook into. Nothing
-  built yet — northstar first, per the same phased discipline used for REDGARDEN's S170-19.
+  newsroom page directly, since it has no SEC filings or PR-Newswire feed to hook into. **Done —
+  Apple #10542 · PRRJECT_FATBABY `docs/COMPETITOR_WEST_NORTHSTAR.md`, registered as
+  FATBABY-COMPETITOR-WEST in golden-docs-index.md.** Northstar only, implementation (the
+  `named-competitor-watcher` process + `config/named_competitors.json`) not started — the exact
+  "ingesting court and code data" framing is flagged as an open question in the doc itself for
+  founder follow-up before Phase 1 build.
 
 ---
 
