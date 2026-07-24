@@ -6217,6 +6217,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
-*The backlog is what outlasts everything.*
-*Clean builds first. Then custody. Then everything else.*
+- [ ] **S170-61: Blog post — "vibe coding is a skill issue."** Founder, real-time: "write a blog
+  post 'vibe coding is a skill issue' the last blog post said it took one glance from someone who
+  actually clicked the thing. one glance and 30 years of experience ahem." Logged before writing
+  per Principle 1. Direct correction to S170-60's "Duh" post: that post credited the catch to
+  "someone actually clicking the thing," undersold as luck/freshness — founder's point is the
+  catch was fast *because* of real, specific experience recognizing the bug shape instantly, not
+  despite there being little to see. Argument to make: "vibe coding" isn't risky because it's
+  vibes-based, it's risky specifically when there's no experienced human anywhere in the loop to
+  catch what CI/automated verification structurally can't see (S170-59's own loopback-IP bug as
+  the concrete case study) — the skill issue is skipping that person, not the practice itself.
+  Not started.
