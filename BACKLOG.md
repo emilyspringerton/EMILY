@@ -5518,6 +5518,26 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-26: REDGARDEN NORTHSTAR §12 Phase A — WOTAN player identity, starting now.**
+  Founder, real-time: "then continue REDGARDEN," picking back up the §12 phase order after the
+  WEST/bios/blog-post thread. Logged before writing per Principle 1. Scope, checked against the
+  actual code first: REDGARDEN's connect-ticket flow (`apps/server/src/main.c`) already verifies
+  a real IDUNA-minted player_id inside the ticket but throws it away after verification — it's
+  never stored per-client. Porting shankpit-460's pattern verbatim: (1) `packages/common/
+  http_client.h` (self-contained blocking HTTP/1.1 POST client, same as the earlier
+  `hmac_sha256.h` port), (2) per-client `player_id`/`has_player_id` storage captured at connect
+  time, (3) IDUNA agent config loading (`IDUNA_BASE_URL`/`IDUNA_AGENT_NAME`/`IDUNA_AGENT_SECRET`).
+  **Real fork found, flagged rather than guessed past:** shankpit-460 reports FPS `kills`/`deaths`
+  to IDUNA's existing `/api/v1/players/{id}/session` endpoint — that schema is FPS-specific.
+  REDGARDEN is a card-RTS with a `match_winner` field, not kills/deaths; forcing win/loss into
+  the kills/deaths columns would corrupt shared WOTAN profile semantics across games. Not doing
+  that silently. This pass stops at capturing + threading the player_id (the actual prerequisite
+  Phase B needs); reporting REDGARDEN match results into IDUNA needs either a genre-agnostic
+  schema addition (`wins`/`losses`/`matches_played` columns) or a separate endpoint — a real
+  IDUNA schema decision, not something to guess into a live shared table.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
