@@ -5820,9 +5820,12 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   connects to (mitigated + a defensive 60s no-progress timeout so phantoms self-clean). Verified
   live: 2 persistent bots, stable identity across 20+ matches each, real accumulating win/loss
   records (up to 23 matches played), zero connect failures after fixes.
-  **Honestly flagged, not assumed passing: the actual 20-bot `--lobby-size 20` path hasn't been run
-  live end-to-end yet (same tested code as 1v1), and the SDL2 client's visual rendering of a live
-  match is unverified (no Xvfb on this box).** **Done — Apple #10594 · REDGARDEN `0146abd`.**
+  **Update, same day — the flagged 20-bot gap closed for real:** ran `--lobby-size 20` against 20
+  real `apps/arena_bot` processes. All 20 connected, all 20 drafted, correct team assignment
+  (owners 0-9/10-19), combat resolved across the full roster, match correctly ended on a real
+  team-wipe. All 20 then persisted and auto-requeued into a second full match, identity stable
+  throughout. Server process count stayed healthy. **Done — Apple #10596 · REDGARDEN `432e2f3`.**
+  Still honestly unverified: the SDL2 client's visual rendering of a live match (no Xvfb).
 
 ---
 
