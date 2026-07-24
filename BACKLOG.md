@@ -6209,11 +6209,11 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-60: Blog post — "duh."** Founder, real-time: "and then write a blog post 'duh'."
-  Logged before writing per Principle 1. Read as: a short, honest post about the S170-59 loopback-
-  IP mistake (`PLAY.bat` defaulting to `127.0.0.1` in a client meant to be run on someone else's
-  machine) — the kind of bug that's embarrassing specifically because it's obvious once pointed
-  out, which is the actual meaning of the title. Not started.
+- [x] **S170-60: Blog post — "duh."** Founder, real-time: "and then write a blog post 'duh'."
+  Logged before writing per Principle 1. On the S170-59 loopback-IP mistake — CI verified every
+  step up through the artifact existing, and none of those steps could see that `PLAY.bat`
+  pointed a distributed client at itself. **Done — Apple #10676 · published
+  okemily.com/blog/duh/.**
 
 ---
 
