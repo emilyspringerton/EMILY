@@ -6275,6 +6275,26 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-64: sudo-queue audit — archive scripts already done, confirmed live not assumed.**
+  Founder, real-time: "we may need nginx sudo scripts" → "check all the old sudo scripts and move
+  the outdated ones that arent needed anymore." Logged after the check (fast, verification-only
+  task), not before — matching the pattern used for S170-38's live bug-fix, not a delay for its
+  own sake. Checked all 9 scripts' actual end-state against the live box (`curl`/`dpkg`), not the
+  script descriptions: 4 confirmed done (`02-pitviper-sdl2.sh` — libsdl2-dev installed;
+  `03-okemily-nginx-admin-proxy.sh` — `/admin/` returns a real 401 from IDUNA, not a 404;
+  `04-edis-dis-pow-deploy.sh` — collector health check returns healthy; `05-install-glu-dev.sh` —
+  confirmed earlier this session) moved to `sudo-queue/done/` with a README explaining each
+  verification. 5 confirmed still genuinely pending, left in place: `01-edis-https-cert.sh`
+  (`iduna.farthq.com`'s live cert doesn't cover that hostname — real SSL error, checked directly);
+  `06-install-xvfb-for-arena-testing.sh`; `07-iduna-front-door-nginx.sh` (routing not applied,
+  confirmed via a plain 404 on the API path); `08-redgarden-arena-firewall.sh` (new this session);
+  `09-mingw-w64.sh` (not run, but its original purpose already achieved a different no-sudo way).
+  On "we may need nginx sudo scripts" specifically: two already exist and are still pending
+  (`01`, `07`, both nginx-related) — nothing new needed there unless a different nginx change is
+  meant.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
