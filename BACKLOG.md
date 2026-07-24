@@ -5541,6 +5541,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-27: Blog post — "Interlude."** Founder, real-time: "and then write a blog post
+  INTERLUDE." Logged before writing per Principle 1. Not started.
+
+- [ ] **S170-28: Continue REDGARDEN — NORTHSTAR §12 Phase B (replay logging), next in the phase
+  order after Phase A (S170-26).** Founder, real-time: "then continue REDGARDEN." Logged before
+  writing per Principle 1. Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
