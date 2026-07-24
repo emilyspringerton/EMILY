@@ -5478,13 +5478,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   for this feature, since it already solves a version of "detect a filing exists" at scale.
   Scoping still not done; not started.
 
-- [ ] **S170-22: PRRJECT_FATBABY — wire `config/company_bios.json` into live ticker-page
+- [x] **S170-22: PRRJECT_FATBABY — wire `config/company_bios.json` into live ticker-page
   rendering.** Founder, real-time: "and ensure ticker page bios are live." Logged before any
   work per Principle 1. This is the deferred second half of S166-03's one-shot bio pass — the
   bios were explicitly written to a plain data file, not wired into any page, pending this exact
-  step. Scope: find the ticker-page template (likely in `cmd/newssite` or `cmd/dashboard`, not
-  yet confirmed) and render the matching `bios[ticker]` entry from the JSON file on that page.
-  Not started.
+  step. Found the actual page: `cmd/newssite` → `internal/newssite`'s `serveTicker`/
+  `RenderTickerPage`/`tickerTemplate`. Built a new `internal/newssite/companybios` store
+  (mirrors the `epsread`/`guidanceread` flat-store convention), wired via a new
+  `-company-bios-path` flag, rendered above the lead story with a "not yet editorially reviewed"
+  note. **Done — Apple #10545 · PRRJECT_FATBABY `5be36a0`.** `go test ./...` green, 2 new tests.
 
 - [ ] **S170-23: Blog post — "building at infinity" and business-pivot whiplash aren't in
   tension on a long enough timeline (the ecosystem play).** Founder, real-time: "and write a blog
