@@ -3882,12 +3882,16 @@ including third-party Slack conversations she participated in but doesn't solely
 design pass before any capture code exists — see the queued Fable spec dispatch, referenced below
 once dispatched.*
 
-- [ ] **S148-00: Wire `/chat` to the Apple ledger** — smallest, most concrete, buildable-now item
-  in this section, independent of everything else below. `ConversationStore.AppendTurn` (currently
-  local-JSONL + optional local-git-only) gains an IDUNA Apple POST per turn (or per session-close —
-  decide which; per-turn is more ledger-faithful, per-session is cheaper). Apple type: new
-  `conversation` type, or reuse `observation` — decide and document. This finishes what the
-  founder says was already "built in" as intent; it just needs the last wire connected.
+- [x] **S148-00: Wire `/chat` to the Apple ledger** — Decided both open questions: **per-turn**
+  (more ledger-faithful, matches this codebase's "every meaningful outcome is a filed Apple"
+  ethos) and a **new `conversation` Apple type** (IDUNA's `apple_type` field isn't enum-enforced,
+  so this was safe to add; also added to the Back Office Apples filter dropdown, IDUNA `d2b9b6e`).
+  `handleChat` now calls `s.postChatTurnApple(sessionID, turn)` right after
+  `ConversationStore.AppendTurn` — non-fatal (logged, never blocks the chat response), silently
+  no-ops if IDUNA env vars aren't configured (existing `NewIdunaClientFromEnv` nil-check). Payload
+  construction split into a pure `buildChatTurnApple` function (same pattern as the existing
+  `buildCycleApple`) so it's unit-testable without a mock IDUNA server. 5 new tests, full existing
+  suite green. EMILY `b76f254`.
 
 - [ ] **S148-01: Personal writing corpus — design pass (Fable, queued)** — before any capture
   code: what's actually collected (chat-to-ledger from S148-00 is the first legitimate source —
