@@ -5369,7 +5369,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-18: Wire one real hero kit (The Unicorn) into apps/arena — the flagged next step
+- [x] **S170-18: Wire one real hero kit (The Unicorn) into apps/arena — the flagged next step
   from §3.5's status check.** Founder: "continue REDGARDEN," caught mid-work without a logged
   entry ("we did work in our repos without committing to emily first" → "emily first" → "always").
   Logged before writing per Principle 1 — code not yet touched as of this entry. Scope: extend
@@ -5379,4 +5379,5 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   Charge), W self-regen toggle (Spaghetti Vent), R temporary armor-double (Full Disclosure,
   taunt-on-others skipped, no other units exist in 1v1 to taunt). Bot hero (owner 1) stays plain
   melee — proving one real kit works end-to-end, not the full roster. Reflection on the
-  mid-work catch published: okemily.com/blog/reading-isnt-free/. Not started.
+  mid-work catch published: okemily.com/blog/reading-isnt-free/. **Done — Apple #10539 ·
+  REDGARDEN `d4fe596`.** 9 new headless tests passing, client builds clean.
