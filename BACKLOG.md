@@ -5657,19 +5657,26 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-33: Continue REDGARDEN — NORTHSTAR §12 Phase D, fourth hero: The Frog (the last
+- [x] **S170-33: Continue REDGARDEN — NORTHSTAR §12 Phase D, fourth hero: The Frog (the last
   clean-fit hero from S170-32's roster audit).** Founder: "continue." Logged before writing per
-  Principle 1. Scope: **Q — Loop Back** (rewind the Frog's own position/HP to 3s ago) needs a new
-  mechanic arena has never had — a small per-hero history ring buffer, sampled periodically,
-  since nothing currently records past state. **W — Borrowed Time** is ally-targeted (refunds an
-  ally's ability cooldown) — no ally exists in 1v1, skipped, flagged, same pattern as Doc
-  Wheel/Duck's ally-dependent parts. **R — The Secret** (vanish entirely for 5s, reappear at any
-  visited location) is simplified to reuse Ghost's `intangible_ms` mechanic at a longer duration —
-  the "reappear at a chosen visited location" part needs its own location-memory system, deferred
-  and flagged, not implemented as "reappear in place" pretending to be the full ability.
-  **Passive — Never Told Anyone** (no visible cooldown UI for enemies) is a UI/bluffing concept —
-  arena has no separate enemy-facing view to hide anything from, skipped, flagged, same reasoning
-  as Ghost's passive.
+  Principle 1. Scope: **Q — Loop Back** (rewind the Frog's own position/HP to 3s ago) needed a new
+  mechanic arena had never had — built a small per-hero loopback ring buffer (16 slots, 250ms
+  sample rate), sampled generically for every hero in `tick_hero_kit`; degrades to the oldest
+  available sample if cast before 3s of real history exists, rather than refusing to cast.
+  **W — Borrowed Time** is ally-targeted (refunds an ally's ability cooldown) — no ally exists in
+  1v1, skipped, flagged, same pattern as Doc Wheel/Duck's ally-dependent parts. **R — The Secret**
+  (vanish entirely for 5s, reappear at any visited location) is simplified to reuse Ghost's
+  `intangible_ms` mechanic at a longer duration — the "reappear at a chosen visited location" part
+  needs its own location-memory system, deferred and flagged, not implemented as "reappear in
+  place" pretending to be the full ability. **Passive — Never Told Anyone** (no visible cooldown
+  UI for enemies) is a UI/bluffing concept — arena has no separate enemy-facing view to hide
+  anything from, skipped, flagged, same reasoning as Ghost's passive. Bot heuristic is defensive
+  (rewind when hurt, vanish when critical) since Frog deals no damage at all. 4 new tests. **Done
+  — Apple #10559 · REDGARDEN `43ff608`.** `test_arena.sh` + `test_10_bots.sh` + `build.sh` +
+  `build_arena.sh` all still green. Arena has now absorbed every hero the S170-32 audit found to
+  fit its current constraints — the remaining 8 heroes need arena to grow new systems first
+  (allies, grid, multi-unit, cooking), a real decision point flagged in the northstar rather than
+  continuing to pick the next hero blindly.
 
 ---
 
