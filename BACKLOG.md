@@ -7600,15 +7600,17 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   mechanics as a HUD side effect; a real stun/slow system is separate kit work. Client-side only,
   clean build, full headless suite (366 checks) unaffected. REDGARDEN `c0eac23`, Apple #10807.
 
-- [ ] **S170-134: REDGARDEN/TYLER — MnM, a shapeshifting rapping crab tank from Detroit.**
+- [~] **S170-134: REDGARDEN/TYLER — MnM, a shapeshifting rapping crab tank from Detroit.**
   Founder, real-time, in sequence: "add MnM a shapeshifting rapping crab tank from detroit to
-  the lore docs first" → "have tyler and mid-piano cowrite it." Logged before writing per
-  Principle 1. TYLER lore entry first (`TYLER/multiverse_heroes.md`), written in-universe as a
-  Tyler + Mid-Piano co-written bit, same "Mid-Piano Presents" transcript format already
-  established for the Cain podcast piece — not a standard prose compendium entry like the other
-  111. REDGARDEN hero kit (Tank archetype, per the founder's own framing) is a later, separate
-  pass once the lore lands, same "lore before kit" sequencing as every other hero this session.
-  Not started.
+  the lore docs first" → "have tyler and mid-piano cowrite it."
+  **Lore stage done** — `multiverse_heroes.md` #114, appended as a "later addition" block after
+  the original 11-faction pass (no clean thematic home in any existing faction; renumbering
+  wasn't worth forcing a fit). Framed in-fiction as literally co-written by Tyler and Mid-Piano —
+  the entry narrates its own origin as their joint bit, including Mid-Piano's reframe of
+  "shapeshifting" as absorbing hits meant for someone else, translating the founder's "tank" ask
+  into the show's own voice rather than game jargon. TYLER `ec6c3ca`, Apple #10808.
+  **REDGARDEN hero kit (Tank archetype) still open** — separate later pass, same "lore before
+  kit" sequencing as every other hero this session. Not started.
 
 - [x] **S170-135: OKEMILY — FATBABY_NEWSWIRE milestone post, 25 heroes + mana economy.** Founder,
   real-time: "milestone FATBABY_NEWSWIRE PR TO THE BLOG." Published "Knights of the Void:
