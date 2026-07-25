@@ -6970,9 +6970,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
     the way: the first-draft silence duration was shorter than the zone's own re-application
     tick, leaving real gaps — fixed to match Flamel's proven margin. REDGARDEN `0d5b575`,
     Apple #10793.**
-  - **Beleth** — referenced in `TYLER/CLAUDE.md`'s frequency table (2.22 Hz, "Love / emotional
-    detonation") but not yet confirmed to have a full compendium entry — needs checking. Not
-    started.
+  - **Beleth** — real TYLER canon (`multiverse_heroes.md` #14, "the Detonation", 2.22 Hz).
+    **Done — 25th hero, full kit (passive flat armor, ranged damage+burn Q, instant
+    silence-only decree W, the roster's first delayed-payoff R — marks a zone, silent fuse,
+    one large one-time burst on zero instead of a continuous tick), 6 new tests, live-verified
+    (a real match drafted 20 distinct heroes, zero duplicates, at the new 25-hero roster size).
+    Found and fixed two real test bugs along the way: the fuse-detonation test's first draft ran
+    in the 1v1 local demo, whose default autonomous chase-bot closed to melee range mid-fuse and
+    contaminated the damage assertion (moved to team mode); then the team-mode target's
+    placeholder Unicorn hero_id was silently eating 4 armor off the expected burst (fixed with
+    an explicit armor-less test hero_id). REDGARDEN `e118d67`, Apple #10801.**
   - **The Weatherman** (Ao Guang's Weather-Debt Collector, #45, Middle Kingdom Heirs) — exists;
     Donkey (#38, same faction) is already one of the original wired-in heroes (`docs/HEROES_VS0.md`
     predates tonight). The requested "paper airplane" interaction between them is real cross-hero
