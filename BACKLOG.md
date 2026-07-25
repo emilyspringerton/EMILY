@@ -6184,12 +6184,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   original ask exactly.
 
 - [ ] **S170-55: REDGARDEN — twelfth hero, John Dee / Paimon (merged, one character).** Founder,
-  real-time: "add john DEE /paimon as the same hero." Logged before writing per Principle 1. Not
-  started — mid-flight on S170-54's CI fix when this arrived; queued to pick up next. Needs a
-  TYLER lore check (same discipline as the earlier Druid/Flamel merge, S170-46/47) before writing
-  a kit — confirm both John Dee and Paimon exist in `multiverse_heroes.md` and whether one already
-  has more named-character backing than the other, same reasoning used to decide Flamel absorbed
-  Druid rather than the other way around.
+  real-time: "add john DEE /paimon as the same hero." TYLER lore check done (same discipline as
+  Flamel/Druid, S170-46/47) — Paimon has the real `multiverse_heroes.md` #20 entry, John Dee folded
+  in as the vessel/practitioner. Kit written (`docs/HEROES_VS0.md`), `ARENA_HERO_PAIMON` added to
+  the enum, Q/W/R cast-dispatch implemented in `arena_game.c`, `ARENA_HERO_COUNT` bumped to 19 —
+  but **partially wired, not actually reachable yet**: no `arena_hero_name()`/`arena_ability_name()`
+  entries (renders as "unknown"), `apps/arena_server`'s pick-validation bound still stops at
+  `ARENA_HERO_TYLER`, and the draft-modulo in `apps/arena_bot`/`apps/arena` (both still `% 18`)
+  means Paimon can never be randomly drafted either. No headless tests yet. Left here as an honest
+  in-progress marker rather than checked off — next session should finish the wiring (4 files) +
+  tests before this is real.
 
 - [x] **S170-56: REDGARDEN — draft-phase bans, decided against for now; captured as northstar
   reasoning.** Founder, real-time, a real design conversation, not a spec dictation: "add bans to
@@ -7290,18 +7294,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `redgarden-knights-of-the-void` slug. Deployed via `~/okemily-deploy.sh`, verified live.
   OKEMILY `c9922d6`, Apple #10737.
 
-- [ ] **S170-121: REDGARDEN — controlling a node enables its spawn for your team.** Founder,
-  real-time: "redgarden controlling a node enables its spawn for your team." Ties node ownership
-  (`ArenaNode.owner`, already tracked and rendered per-team since S170-87) to a real gameplay
-  consequence — currently capture just changes node color/HUD state with no mechanical effect.
-  Needs: per-node creep/hero spawn point gated on `owner == team`, likely in the server tick
-  (`arena_update_teams()`) alongside the existing capture-progress logic.
+- [x] **S170-121: REDGARDEN — controlling a node enables its spawn for your team.** Founder,
+  real-time: "redgarden controlling a node enables its spawn for your team." No hero respawn system
+  existed before this — death was permanent for the rest of the match (`arena_update_teams` only
+  ever checked team-wipe for the win condition). Added `respawn_ms_remaining` (mirrors
+  `ArenaCreep`'s existing respawn idiom): armed on death, counts down, but respawn is withheld
+  until the team owns at least one `ArenaNode` — territory is the actual gate, not a modifier.
+  Respawns at the owned node closest to the team's spawn line, full HP, hero identity preserved.
+  Win condition updated: a team-wipe no longer instantly ends the match if the team still holds a
+  node. 4 new headless tests. — REDGARDEN `3b63e43`. Apple #10742.
 
-- [ ] **S170-122: REDGARDEN — basic animations for auto attacks.** Founder, real-time: "add basic
-  animations for auto attacks." Client-side (`apps/arena/src/main.c`) visual feedback for the
-  existing auto-attack/basic-hit logic — currently likely renders as an instant HP-bar change with
-  no visual tell. Scope: simple, readable animation (e.g. a brief lunge/flash/projectile-line), not
-  a full animation system.
+- [x] **S170-122: REDGARDEN — basic animations for auto attacks.** Founder, real-time: "add basic
+  animations for auto attacks." Frame-to-frame HP decrease (available uniformly across local/net/
+  replay render modes, unlike the deliberately minimal wire snapshot) triggers a brief orange-white
+  flash at the hit hero's position, reusing the existing placement-ring mesh/shader so it reads as
+  a related-but-distinct effect from the move-click ring. — REDGARDEN `3b63e43`. Apple #10742.
 
 ---
 
