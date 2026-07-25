@@ -7539,6 +7539,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-128: REDGARDEN arena — charming squish animations for movement, hits, and spell
+  casts.** Founder, real-time: "add charming squish animations" → "for movement also spell
+  casts." Logged before writing per Principle 1. Squash-and-stretch juice on the hero models
+  (`draw_hero_model`'s stacked-box silhouettes) triggered by three events: taking damage (already
+  detected via the S170-122 HP-delta hook), casting a spell (already detected via S170-124's
+  `cast_flash_slot`), and starting to move (new detection needed — `h->moving` transitioning
+  false→true). Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
