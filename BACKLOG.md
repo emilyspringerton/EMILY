@@ -953,6 +953,16 @@ Run: `emily backlog promote --limit=50 --batch=15`
 *Context: once EDIS and Ask Emily get traction we'll get hit hard. Need to be ready before not after.*
 *Ops infrastructure scaffolded 2026-06-12. Deploy steps documented in docs/ops-runbook.md.*
 
+- [ ] **S24-06: newssite content feels stale except "Stocks on the Move."** Founder, real-time
+  (garbled/duplicated transmission, read as one message): "everything on fatbaby news feels stale
+  except stocks on the move." Logged before investigation per Principle 1. Not yet root-caused —
+  candidates worth checking: whether commentary/EPS/guidance/dividend/buyback sections update on a
+  slower real cadence than the market-movers snapshot (`cmd/movers-watcher`, gated to real trading
+  days via `internal/marketcal`, per README's own "Ingestion" table), whether any of those watchers
+  have silently stalled (same class of bug S36-01..05 fixed for signal_failed rates back in
+  2026-06-17 — worth a fresh look, not assumed still fixed), or whether it's a page-rendering/cache
+  issue rather than a data-freshness one. No investigation done yet this pass.
+
 - [x] **S24-00: Ops scaffold** — nginx configs (newssite + signalapi), systemd service units
   (newssite, processor, secwatch, signalapi), docker-compose.prod.yml (MySQL + MongoDB + nginx),
   deploy.sh build+restart script, env.production template, ops-runbook.md.
