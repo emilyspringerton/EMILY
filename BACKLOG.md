@@ -7102,6 +7102,52 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-111: REDGARDEN — implement TYLER as the 18th hero.** Founder, real-time: "ensure
+  tyler lands in knights of the void - implement." Logged after writing per Principle 1 (quick
+  follow-through on the just-shipped SHANKPIT skins, work-then-log). `docs/HEROES_VS0.md` already
+  had a full Meepo-reskin design ("exact copy of Meepo's classic kit" incl. the real OG
+  clone-death rule) written well before any code existed for it. True multi-clone spawning isn't
+  buildable on this engine without touching the draft/pick/connection model — honestly simplified
+  and documented rather than silently narrowed: Q "Earthbind" roots+DoT, W "Poof" is a real
+  blink-strike, R "Divided We Stand" keeps the actual risk/reward point (self-buff, own armor
+  goes negative for the window) instead of literal shared-fate clones. `ARENA_HERO_COUNT` 17→18.
+  **Done — Apple #10721 · REDGARDEN `d2e30bb`.**
+
+---
+
+- [x] **S170-112: REDGARDEN — show real ability names on the HUD, not generic Q/W/E status.**
+  Founder, real-time, mid-live-play: "there is no way for me to know what hero i am" → "show
+  ability names on screen." Logged after writing per Principle 1. Hero names were already fixed
+  by a parallel pass (Emily Prime's own loop, S170-96) — this closed the other half: the Q/W/E
+  cooldown strip only ever said "Q READY"/"W ON," never which real ability that was. New
+  `arena_ability_name(hero_id, slot)` returns each hero's real name from `docs/HEROES_VS0.md`.
+  **Done — Apple #10722 · REDGARDEN `d2e30bb`.**
+
+---
+
+- [x] **S170-113: REDGARDEN CI — hard-broken by S170-96, no valid Windows build existed.**
+  Found while implementing S170-111/112 (a linker error surfaced it): the mingw cross-compile
+  step never had `arena_ai_bridge.c` added when S170-96's hero-name labels started calling
+  `arena_hero_name()` — confirmed via the GitHub Actions API that every commit since had failed
+  CI (`e53ee5f`). Fixed, verified with a local mingw cross-compile. **Done — Apple #10720 ·
+  REDGARDEN `d2e30bb`.**
+
+---
+
+- [x] **S170-114: REDGARDEN — live stalemate found and cleared, log preserved.** Founder,
+  real-time, mid-live-play: "reset the matches there is a stalemate and take that game log as one
+  that is very interesting in terms of hiow it ended" → "end it rppreserving the log" → "get
+  matcghmaking back up i am queeed." Confirmed live: 3 heroes (2 on team 0, 1 on team 1) frozen
+  identically across 5+ consecutive snapshots, all within ~2 units of each other at a map corner
+  — just outside `ARENA_ATTACK_RANGE` (1.6), never closing the last bit of distance to actually
+  fight. Preserved the full match log to
+  `var/matches/interesting/stalemate-corner-deadlock-2026-07-25.jsonl` before killing the stuck
+  server. Services confirmed healthy afterward — a fresh match went live immediately. **Done.**
+  Real root cause (why heroes stop closing distance at a map boundary) not yet investigated —
+  worth a follow-up pass using the preserved log, connects to S170-90's bot-bunching thread.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
