@@ -4462,13 +4462,20 @@ documentation pointing at which one is real:
   the wrong source.
   — Done 2026-07-18. Fixed to `make server`; verified clean-rebuild output is byte-identical
   (md5sum match) to the live-running binary. shankpit-460 `c38657c`. Apple #9999.
-- [ ] **S155-02: Decide the fate of the two dead server implementations.** `services/game-server/`
+- [x] **S155-02: Decide the fate of the two dead server implementations.** `services/game-server/`
   and `apps2/server-go` are both fully superseded by `apps/server/src/main.c` and both risk
   wasting a future engineer's (or agent's) time re-discovering this the hard way, as happened
   today. This is exactly the kind of call the fork's own `CLAUDE.md` says to make deliberately as
   part of writing its NORTHSTAR ("what specifically gets cut vs. kept... deliberately not
   improvised here") — don't delete unilaterally; fold into that scoping pass, or at minimum add a
   loud "NOT THE REAL SERVER" comment at the top of both until then.
+  **Picked up as the lowest-numbered actionable open item** (S151 blocked on the DNS human-unblock
+  queue; sections before it already closed). Took the minimal safe option named in the item
+  itself — confirmed both are unreferenced by any script/Makefile/systemd unit, then added the
+  loud warning comment to both rather than deleting or forcing the full NORTHSTAR pass now. Also
+  found and deliberately left untouched: unrelated uncommitted in-progress work on the S169-02
+  lobby button menu in `apps2/lobby/src/main.c` — not part of this task, flagging its existence
+  rather than acting on someone else's mid-flight work. shankpit-460 `dc21e96`, Apple #10812.
 
 **Finding 2 (fixed in the tool, no server-side bug):** the client's first working build showed
 `dmg_taken=false dmg_dealt=false` after 20s of two bots aiming and firing at each other, which
