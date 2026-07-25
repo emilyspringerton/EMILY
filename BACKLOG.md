@@ -7539,13 +7539,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-128: REDGARDEN arena — charming squish animations for movement, hits, and spell
+- [x] **S170-128: REDGARDEN arena — charming squish animations for movement, hits, and spell
   casts.** Founder, real-time: "add charming squish animations" → "for movement also spell
-  casts." Logged before writing per Principle 1. Squash-and-stretch juice on the hero models
-  (`draw_hero_model`'s stacked-box silhouettes) triggered by three events: taking damage (already
-  detected via the S170-122 HP-delta hook), casting a spell (already detected via S170-124's
-  `cast_flash_slot`), and starting to move (new detection needed — `h->moving` transitioning
-  false→true). Not started.
+  casts." Squash-and-stretch juice on the hero models (`draw_hero_model`'s stacked-box
+  silhouettes) triggered by three events: taking damage (S170-122 HP-delta hook), casting a
+  spell (S170-124's `cast_flash_slot`), and starting to move (`h->moving` false→true transition
+  detector, new). Real bug caught before shipping: `squish_age_ms[]` zero-initializes with
+  static storage, but 0.0f is `compute_squish`'s "just triggered" value, not neutral — every hero
+  would've appeared squashed for a frame at launch. Fixed with an explicit init loop. Client-side
+  only, no protocol/server changes. Verified: clean build, full headless suite (337 checks),
+  VS0/VS1 10-bot stability all pass. REDGARDEN `2874de8`. Apple #10797.
 
 ---
 
