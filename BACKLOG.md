@@ -7449,6 +7449,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-126: REDGARDEN — verify spell animations are actually firing live, not just
+  passing headless tests.** Founder, real-time: "continue REDGARDEN backlog make sure there are
+  spell animations." S170-124 (particle effects for spells) shipped earlier with 5 passing
+  headless tests, but those only prove `cast_flash_slot` gets set correctly in isolation — not
+  that it's actually exercised during real live play. Added a temporary server-side log line,
+  rebuilt, restarted live, ran a real 20/20 match: confirmed `cast_flash_slot=1` (Q) firing
+  continuously across many different heroes for the full length of the check (bot AI casts Q
+  roughly every 2s per `apps/arena_bot`'s own heuristic — this is the only slot bots ever cast,
+  so W/R are proven by the passing unit tests + identical code structure, not a second live
+  capture). Removed the temporary log line afterward (confirmed via `git diff`: zero net change
+  to the file, never committed) and restarted live services back to a clean state. No functional
+  code change this pass — a verification pass, not a fix. Apple #10778.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
