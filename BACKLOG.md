@@ -6861,7 +6861,32 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   Q "Ask Again Later" (self `intangible_ms`, short window, matching Bacon's withholding theme),
   W a free toggle that extends Q's own intangibility duration (Puck's duality — the longer nobody
   can confirm which version is real), R "The Trick Was Always the Same" (burst damage + self-heal
-  proportional to it, always commits). `ARENA_HERO_COUNT` 14→15. In progress.
+  proportional to it, always commits). `ARENA_HERO_COUNT` 14→15. **Done — Apple #10698 · REDGARDEN
+  `b2a03e3`.**
+
+---
+
+- [ ] **S170-96: REDGARDEN arena — hero name labels above the floating health bars.** Founder,
+  real-time: "add hero name labels above health bars." Logged before writing per Principle 1.
+  S170-89's per-hero floating bars (just shipped) have no name attached — with 15 heroes now in
+  the roster, telling who's who at a glance needs a label, not just a colored bar. Straightforward
+  extension of the existing `world_to_screen()` + per-hero HUD loop: one more `draw_string()` call
+  per alive hero, using `arena_hero_name()` (already exists, `packages/simulation/
+  arena_ai_bridge.c`) for the text. Not started.
+
+---
+
+- [ ] **S170-97: REDGARDEN — move all the per-hero "how to play" keybind comments up to the top
+  of the README.** Founder, real-time: "put all the hero doc comments that say how to play them
+  (what the kit keybinds do) move that up to the top of the readme." Logged before writing per
+  Principle 1. Currently scattered: Q/W/E keybind semantics live as scattered code comments in
+  `apps/arena/src/main.c` (e.g. "R is already bound to 'restart match' in local mode, so the
+  ultimate goes on E"), plus implicit convention across every entry in `docs/HEROES_VS0.md`
+  (Q/W/R labeled per hero but no single explanation of "Q/W/E are your keys, here's what each
+  slot generically means"). Needs a real "How to Play" section surfaced at the top of
+  `README.md`, not just moved comments verbatim — a genuine synthesis of the actual keybind
+  contract (click to move, Q/W/E for the three ability slots, F11 for the APM overlay, the OK-
+  requeue button after a match ends). Not started.
 
 ---
 
