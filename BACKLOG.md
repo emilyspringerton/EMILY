@@ -7205,7 +7205,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `scripts/build.sh`, `scripts/build_arena.sh`, `scripts/test_arena.sh`, local mingw cross-compile
   (all 4 source files). Commit `7378164`, Apple #10727.
 
-- [ ] **S170-119: REDGARDEN — expand arena map to Arathi Basin size, 5 capture nodes (up from
+- [x] **S170-119: REDGARDEN — expand arena map to Arathi Basin size, 5 capture nodes (up from
   2).** Founder, real-time: "expand the redgarden map to arathi size and 5 nodes." Logged before
   writing per Principle 1. Current map is `ARENA_HALF_EXTENT 12.0f` with `ARENA_NODE_COUNT 2`
   (S170-50/51's Arathi-style channel-capture mechanic already exists, just undersized relative to
@@ -7220,8 +7220,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   (`courier_toggle_w`, "Between Eagle and Serpent") is hardcoded to exactly `nodes[0]`/`nodes[1]`
   ("always lands, there are always exactly two nodes to jump between" — own comment, now false) —
   needs a real redesign to generalize "farthest node" across N nodes, plus the two dispatch-site
-  comments and `docs/HEROES_VS0.md`'s Courier section that also assert "two map nodes." In
-  progress.
+  comments and `docs/HEROES_VS0.md`'s Courier section that also assert "two map nodes." **Done** —
+  `arena_nodes_reset_layout()` places 5 nodes (two flanking each spawn + one contested center at
+  origin); Courier's W generalized to a real farthest-of-N loop. Two real bugs found via test
+  failures, not assumed: a stale test hardcoded the old 2-node teleport target (fixed to compute
+  the expected farthest node generically instead of a magic index), and the new center node at
+  (0,0) collided with an unrelated bot-AI-gating test's own arbitrary hero position — a jungle
+  creep spawning on the hero dealt damage the test misread as an ungated bot AI bug; fixed by
+  moving the test's position, not the node. Verified via full build/test suite (`scripts/build.sh`,
+  `scripts/build_arena.sh`, `scripts/test_arena.sh`, `scripts/test_10_bots.sh`) + local mingw
+  cross-compile. Commit `8b9aee5`, Apple #10729.
 
 ---
 
