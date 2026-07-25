@@ -7258,6 +7258,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-120: OKEMILY — rebrand `redgarden.html` + `redgarden-wishlist.html` to Knights of the
+  Void, real CI download instructions.** Founder, real-time: "update the redgarden landing page to
+  be knights of the void" → "current status download from artifacts on github instructions mailing
+  list for knights of the void wishlist on steam." Title/tagline/roadmap on both pages updated to
+  the official name (matching the `FATBABY_NEWSWIRE` press release) and the current MOBA/Arathi
+  Basin-capture identity — the old copy on `redgarden.html` still pitched the original card-RTS,
+  pre-pivot. New "Play the current build right now" section with real, accurate GitHub Actions
+  artifact download steps, checked directly against `.github/workflows/ci.yml` (the
+  `red-garden-build` artifact → `RedGarden_Client_*.zip` → `PLAY.bat`, pre-wired to connect straight
+  to the live bot pool), including the honest caveat that GitHub gates Actions-artifact downloads
+  behind a free account even on public repos — a platform limit, not something we're gating.
+  Steam wishlist page rebranded to match; fixed a broken blog link to the real
+  `redgarden-knights-of-the-void` slug. Deployed via `~/okemily-deploy.sh`, verified live.
+  OKEMILY `c9922d6`, Apple #10737.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
