@@ -7186,7 +7186,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-118: REDGARDEN — use SHANKPIT's og-engine models to enhance hero legibility (real
+- [x] **S170-118: REDGARDEN — use SHANKPIT's og-engine models to enhance hero legibility (real
   per-hero geometry, not colored cubes).** Founder, real-time: "use shankpit skins as a basic
   jump in graphics for redgarden models" → "use shankpit og engine models to enhance redgarden
   hero legibility." Logged before writing per Principle 1. Every hero currently renders as one
@@ -7198,7 +7198,12 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   for Duck/Unicorn/Ghost/Frog/Tree/Pizza/Tyler carries over as a multi-box composition using
   REDGARDEN's own existing pipeline. Scope: a real per-hero 2-4-box model for all 18 heroes (the
   7 with a SHANKPIT skin already designed reuse that silhouette; the remaining 11 get a new,
-  equally simple design matching their kit/lore identity). In progress.
+  equally simple design matching their kit/lore identity). **Done** — new `draw_hero_model()` in
+  `apps/arena/src/main.c` (per-`hero_id` switch, 1-3 `draw_mesh()` boxes each, axis-aligned since
+  this renderer has no `mat4_rotate`); existing self/team/enemy relationship coloring (S170-89)
+  untouched, shape now encodes identity, color still encodes relationship. Verified via
+  `scripts/build.sh`, `scripts/build_arena.sh`, `scripts/test_arena.sh`, local mingw cross-compile
+  (all 4 source files). Commit `7378164`, Apple #10727.
 
 ---
 
