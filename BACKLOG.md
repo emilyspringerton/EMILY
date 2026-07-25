@@ -6852,6 +6852,29 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-94: REDGARDEN — add Bacon and Puck as the same hero, 15th roster slot.** Founder,
+  real-time: "add bacon and puck as the same hero." Logged before writing per Principle 1. Same
+  merge pattern as Flamel/Druid (S170-... earlier roster work) — two existing lore entries,
+  Bacon (`multiverse_heroes.md` #5, "Custodian of the one location nobody's allowed to know yet,"
+  seed phrase "ask again later") and Puck (#67, "Between the Play and the Folklore" — a trickster
+  whose own defining trait is an unresolved duality between two versions of himself). Design:
+  Q "Ask Again Later" (self `intangible_ms`, short window, matching Bacon's withholding theme),
+  W a free toggle that extends Q's own intangibility duration (Puck's duality — the longer nobody
+  can confirm which version is real), R "The Trick Was Always the Same" (burst damage + self-heal
+  proportional to it, always commits). `ARENA_HERO_COUNT` 14→15. In progress.
+
+---
+
+- [ ] **S170-95: TYLER Series X — hype piece, "Mid-Piano" podcasts the new heroes, garage,
+  Joe-Rogan style.** Founder, real-time: "do some hype work - mid-piano podcast the new heroes in
+  the garage joe rogan style." Logged before writing per Principle 1. Follows the x01/x02/x03
+  unnumbered-interlude/garage convention, this time as an in-universe podcast transcript rather
+  than a scene — the crew's own band (`x03_the_band_name.md`) riffing on Loki/Gary/Flute
+  Debt/Bacon-Puck in a long-form, digressive, guest-heavy conversational register. Queued behind
+  S170-94. Not started.
+
+---
+
 - [ ] **S170-92: REDGARDEN — small musical/MIDI sound effects for gameplay legibility.**
   Founder, real-time: "add little musical sound effects to redgarden to add legibility via midi."
   Logged before writing per Principle 1. Real, currently-true gap: this client has zero audio of
