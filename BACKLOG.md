@@ -7043,17 +7043,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-92: REDGARDEN — small musical/MIDI sound effects for gameplay legibility.**
+- [x] **S170-92: REDGARDEN — small musical/MIDI sound effects for gameplay legibility.**
   Founder, real-time: "add little musical sound effects to redgarden to add legibility via midi."
-  Logged before writing per Principle 1. Real, currently-true gap: this client has zero audio of
-  any kind (confirmed via earlier reads of `apps/arena/src/main.c` — no SDL_mixer/audio init
-  anywhere). Scope needs real design before implementation, not a quick bolt-on: what
-  "legibility via midi" specifically means (short synthesized cues per event type — hit, cast,
-  death, requeue — vs. an actual MIDI-file playback system), whether SDL2_mixer is an acceptable
-  new dependency (the CI cross-compile pipeline would need a matching mingw devel package, same
-  pattern as the SDL2 install step), and what the Windows-bundle story is (another DLL to ship
-  alongside SDL2.dll in `PLAY.bat`'s zip, per S170-54's precedent). Not started — flagged for
-  scoping, not guessed into a shape that might not match what "via midi" actually means.
+  Real, currently-true gap when logged: this client had zero audio of any kind. Scope questions
+  named at logging time (SDL2_mixer dependency? Windows-bundle DLL story?) resolved by making a
+  real call rather than guessing: raw SDL2 core audio (`SDL_OpenAudioDevice`/`SDL_QueueAudio`), no
+  SDL2_mixer — both open questions dissolve since nothing new gets linked at all. "Via midi" read
+  as short, distinct musical notes per event, not literal `.mid` playback.
+
+  **Built:** a short low thud (220Hz) on any hit landing, and an ascending A4/C#5/E5 triad per
+  ability slot (Q/W/R) on cast — mirrors S170-124's spell-flash color tiers in sound, so which
+  slot just fired reads even without looking at the cast location. Gated to a ~15-unit hearing
+  radius around the local player's own hero (unfiltered, a real 20-hero match's several-casts-
+  per-second would be noise, not legibility). Graceful no-op if no audio device is available
+  (this box is headless; a real player's box might also lack sound hardware) — never a crash.
+  Client-only change, no protocol/server/bot changes, no live restart needed. Verified: clean
+  build, full headless suite (277 checks), VS0/VS1 stable. No headless test possible for actual
+  audio playback. — REDGARDEN `68c00a4`. Apple #10780.
 
 ---
 
