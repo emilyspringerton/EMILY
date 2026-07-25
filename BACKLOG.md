@@ -6981,7 +6981,10 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
     placeholder Unicorn hero_id was silently eating 4 armor off the expected burst (fixed with
     an explicit armor-less test hero_id). REDGARDEN `e118d67`, Apple #10801.**
   - **The Weatherman** (Ao Guang's Weather-Debt Collector, #45, Middle Kingdom Heirs). **Spec
-    done, not built — NORTHSTAR §16 (S170-133), scoped via AskUserQuestion to spec-first.**
+    done, not built — NORTHSTAR §16, scoped via AskUserQuestion to spec-first.** (Correcting my
+    own bookkeeping error: an earlier note here briefly cited this as "S170-133" — that ID
+    belongs to the separate, already-completed status-effect-label item below. This sub-item
+    stays under its parent S170-93, no ID of its own.)
     Correction to the note above: Donkey is NOT wired in — `docs/HEROES_VS0.md`'s own Donkey
     entry documents it as Indirect-Control, never owner-piloted, blocked on a non-piloted-unit
     system that doesn't exist in `arena_game.c` (every hero implemented so far is owner-piloted;
