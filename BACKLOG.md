@@ -7052,15 +7052,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-107: Press release — milestone confirmed by a real human, post-stream.** Founder,
+- [x] **S170-107: Press release — milestone confirmed by a real human, post-stream.** Founder,
   real-time: "and then a followup press release confirming the milestone achievement validated by
-  a human just after stream ended" → "not stream validated yet" → later: "prioritize press
-  release above all else." Logged before writing per Principle 1. Real tension worth surfacing,
-  not guessed past: the founder's own explicit caveat ("not stream validated yet") was never
-  retracted before the later "prioritize... above all else" — asking directly whether stream
-  validation has actually happened before publishing anything public-facing that claims it has,
-  rather than assuming either way on something that becomes a real, findable public claim once
-  published. Not started — blocked on that confirmation.
+  a human just after stream ended" → "not stream validated yet" → "prioritize press release above
+  all else" → confirmed: "game is human validated on stream via kick.com/rockbosss" → "write the
+  press release." Logged before writing per Principle 1. Held on the explicit caveat rather than
+  guessing either way — a public claim of a validated milestone is exactly the kind of thing not
+  to publish on an assumption. Written once the founder confirmed directly. **Done — published
+  https://okemily.com/blog/knights-of-the-void-human-validated/.**
 
 ---
 
