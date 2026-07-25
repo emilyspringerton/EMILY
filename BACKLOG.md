@@ -6980,11 +6980,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
     contaminated the damage assertion (moved to team mode); then the team-mode target's
     placeholder Unicorn hero_id was silently eating 4 armor off the expected burst (fixed with
     an explicit armor-less test hero_id). REDGARDEN `e118d67`, Apple #10801.**
-  - **The Weatherman** (Ao Guang's Weather-Debt Collector, #45, Middle Kingdom Heirs) — exists;
-    Donkey (#38, same faction) is already one of the original wired-in heroes (`docs/HEROES_VS0.md`
-    predates tonight). The requested "paper airplane" interaction between them is real cross-hero
-    design, not a stock kit-per-lore-entry job like Gary/Loki/Flute Debt — needs its own scoping.
-    Not started.
+  - **The Weatherman** (Ao Guang's Weather-Debt Collector, #45, Middle Kingdom Heirs). **Spec
+    done, not built — NORTHSTAR §16 (S170-133), scoped via AskUserQuestion to spec-first.**
+    Correction to the note above: Donkey is NOT wired in — `docs/HEROES_VS0.md`'s own Donkey
+    entry documents it as Indirect-Control, never owner-piloted, blocked on a non-piloted-unit
+    system that doesn't exist in `arena_game.c` (every hero implemented so far is owner-piloted;
+    the earlier "already wired-in" note conflated Donkey with the unrelated, already-wired Duck).
+    §16.1 specs the companion-slot system Donkey needs; §16.2 is Weatherman's full kit, written
+    from scratch (no prior writeup existed); §16.3 is the requested interaction — Weatherman's W
+    grounds an enemy mid-Paper-Glide or extends an ally's flight, same team-dependent-effect
+    precedent as Ghost's Recital. REDGARDEN `ed77327`, Apple #10805.
   - **Drowned Prince** — no existing entry found (`grep` came back empty). Would need new lore
     written from scratch, same as Loki's "who isn't here" treatment, not just wired in from an
     existing paragraph. Not started.
