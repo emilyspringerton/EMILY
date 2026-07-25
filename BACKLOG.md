@@ -7172,14 +7172,27 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-105: REDGARDEN — add Adelle: new lore, then a real hero, then "the boys do a
+- [~] **S170-105: REDGARDEN — add Adelle: new lore, then a real hero, then "the boys do a
   podcast with her."** Founder, real-time: "add Adelle" → "to the guide in tyler first" → "and
-  then to the game" → "then the boys do a podcast with her." Logged before writing per
-  Principle 1. No existing `multiverse_heroes.md` entry (`grep` empty) — needs new lore written
-  from scratch, same as Loki (S170-79) and Abraham (S170-103), before any kit or podcast work.
-  Full pipeline, in order per the founder's own sequencing: (1) lore entry, (2) real 18th hero kit
-  in REDGARDEN, (3) a Mid-Piano podcast episode with her as the guest, following S170-95's
-  established transcript/blog-post convention. In progress — starting with the lore entry.
+  then to the game" → "then the boys do a podcast with her." "Adelle" had zero anchor anywhere in
+  the TYLER corpus (`grep` empty) — unlike every other new hero this session (Loki, Abraham,
+  Paimon, NOOR-1), all of which map to a real mythological/historical figure or existing lore
+  file. Asked which identity anchor to use rather than inventing one blind; founder's answer:
+  "replace adelle with Cain."
+
+  **Lore + kit done, podcast not started.** Cain already has a real entry (`multiverse_heroes.md`
+  #80) — no new lore needed. Full kit built: passive flat armor, Q execute-scaled bolt ("The First
+  Murder"), W dash-away-from-nearest-enemy + self-cleanse ("Cursed to Wander"), R survive-floor
+  panic button ("The Mark" — the curse-and-mercy duality made literal). `ARENA_HERO_COUNT` 20 → 21.
+
+  **Real, live-found structural bug fixed in the same pass:** 21 heroes now exceeds
+  `ARENA_MAX_HEROES` (20) for the first time — the existing `owner % hero_count` auto-draft scheme
+  could never produce Cain's hero_id in a full lobby, confirmed live (not guessed). First fix
+  attempt (a per-bot random offset) introduced a duplicate-pick risk of its own; corrected to a
+  shared offset derived from the match's own connected port (zero coordination, zero duplicates).
+  Verified live: a real match drafted all 20 distinct heroes with zero duplicates, Cain included.
+  5 new headless tests, full suite (299 checks), VS0/VS1 stable. — REDGARDEN `9ddba5d`.
+  Apple #10786. Podcast stage (the third leg of the founder's own sequencing) still open.
 
 ---
 
