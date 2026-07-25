@@ -7394,6 +7394,21 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
+- [ ] **S170-124: REDGARDEN arena — particle effects for spells.** Founder, real-time: "redgarden
+  add particle effects to spells." Logged before writing per Principle 1. Distinct from S170-122's
+  auto-attack flash (which fires on any HP decrease, a signal that doesn't cover every spell —
+  Frog's Q rewinds position/HP with no damage at all, several kits have no damage component on
+  some slots). The wire snapshot (`ArenaHeroSnapshot`) carries no "an ability was just cast"
+  signal at all — needs a small, honest protocol addition (a per-hero last-cast-slot flag,
+  populated server-side whenever arena_cast_q/toggle_w/cast_r actually executes, cleared after one
+  broadcast) rather than a client-side HP-delta guess that would silently miss half the roster.
+  Not started.
+
+- [ ] **S170-69 (revisited): REDGARDEN arena — enhanced cursor hover state (enemy vs. ally).**
+  Founder, real-time: "do the enhanced cursor hover state work" — promotes this from the
+  northstar/design-note status it was logged at to actual implementation. Purely client-side:
+  `arena_state.heroes[i].team` is already populated in every render mode (local/net/replay), no
+  wire changes needed — hovering a hero should visually distinguish enemy from ally (and self),
+  same relationship-color convention the health bars/hero models already use. Not started.
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
