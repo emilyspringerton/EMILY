@@ -6991,7 +6991,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-103: REDGARDEN — add Abraham the Mage (new lore) and Ada Lovelace (existing lore,
+- [x] **S170-103: REDGARDEN — add Abraham the Mage (new lore) and Ada Lovelace (existing lore,
   wire-in) as heroes 16 and 17.** Founder, real-time: "add abraham the mage" → "add ada lovelace
   mech pilot." Logged before writing per Principle 1. Checked `multiverse_heroes.md` for both:
   Ada Lovelace already has a full entry (#112, Faction 11, The Unbound Historicals) — "wrote the
@@ -7003,7 +7003,8 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   influential in real Western ceremonial magic (Aleister Crowley's real "Abramelin Operation"),
   whose own historical existence is uncertain — fits Faction 11's exact doctrine ("the gap
   between the actual, mundane historical record and the legend that outgrew it"). New entry #113
-  needed before any kit work. In progress.
+  written first, then wired into a real kit. **Done — Apple #10704 · TYLER `f193d0e` · REDGARDEN
+  `2c4ad3d`.**
 
 ---
 
@@ -7015,6 +7016,39 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   Unicorn, a Pizza, a Tree — ordinary objects/figures given a hero identity) — NOOR-1's in-game
   model/theme is a snowman, distinct from her lore text. Queued behind S170-103 (Abraham the
   Mage/Ada Lovelace, in progress). Not started.
+
+---
+
+- [ ] **S170-105: REDGARDEN — add Adelle: new lore, then a real hero, then "the boys do a
+  podcast with her."** Founder, real-time: "add Adelle" → "to the guide in tyler first" → "and
+  then to the game" → "then the boys do a podcast with her." Logged before writing per
+  Principle 1. No existing `multiverse_heroes.md` entry (`grep` empty) — needs new lore written
+  from scratch, same as Loki (S170-79) and Abraham (S170-103), before any kit or podcast work.
+  Full pipeline, in order per the founder's own sequencing: (1) lore entry, (2) real 18th hero kit
+  in REDGARDEN, (3) a Mid-Piano podcast episode with her as the guest, following S170-95's
+  established transcript/blog-post convention. In progress — starting with the lore entry.
+
+---
+
+- [ ] **S170-106: Two more blog posts — "It Isn't Over" and "Bittersweet."** Founder, real-time:
+  "'it isn'nt over'" → "and then another 'bittersweet'." Logged before writing per Principle 1.
+  Landed in the same live-session, post-milestone register as the rest of tonight's reflective
+  posts (consult-the-duck, god-to-a-nonbeliever) — both read as closing-register pieces for
+  tonight's marathon REDGARDEN session specifically, given the timing (right after the pick-retry
+  fix confirmed working, "the game works"). Queued behind S170-105's podcast content per the
+  founder's own "prioritize all podcasts" → "then blog posts" sequencing. Not started.
+
+---
+
+- [ ] **S170-107: Press release — milestone confirmed by a real human, post-stream.** Founder,
+  real-time: "and then a followup press release confirming the milestone achievement validated by
+  a human just after stream ended" → "not stream validated yet" → later: "prioritize press
+  release above all else." Logged before writing per Principle 1. Real tension worth surfacing,
+  not guessed past: the founder's own explicit caveat ("not stream validated yet") was never
+  retracted before the later "prioritize... above all else" — asking directly whether stream
+  validation has actually happened before publishing anything public-facing that claims it has,
+  rather than assuming either way on something that becomes a real, findable public claim once
+  published. Not started — blocked on that confirmation.
 
 ---
 
