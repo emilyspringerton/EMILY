@@ -6518,14 +6518,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-76: REDGARDEN's MOBA product gets an official name — "Knights of the Void."**
+- [x] **S170-76: REDGARDEN's MOBA product gets an official name — "Knights of the Void."**
   Founder, real-time: "and then do an update on KNIGHTS OF THE VOID REDGARDEN EDITION - ask the
   duck" → "REDGARDEN - KNIGHTS OF THE VOID is the official name of the moba product as a press
-  release into the blog as FATBABY_NEWSWIRE." Logged before writing per Principle 1. Two parts:
-  (1) a press-release-style blog post under a new author convention, `FATBABY_NEWSWIRE`, not yet
-  used anywhere else in this session's posts; (2) naming the product for real in the actual repo
-  (window title currently reads "RED GARDEN — MOBA (networked PvP)" in `apps/arena/src/main.c`,
-  `README.md`/`NORTHSTAR.md` reference it as "REDGARDEN"/"the arena product"). Not started.
+  release into the blog as FATBABY_NEWSWIRE." Both parts confirmed done (picked up this pass,
+  found already complete rather than re-done blind): (1) press release published —
+  `okemily.com/blog/redgarden-knights-of-the-void/`, authored `FATBABY_NEWSWIRE` (a new author
+  convention, first use), Apple #10690; (2) window title renamed in `apps/arena/src/main.c`
+  (`REDGARDEN 62ca556`, "rebrand: client window title -> KNIGHTS OF THE VOID"). Item was left
+  open in the backlog despite both parts landing — closing now with evidence.
 
 ---
 
