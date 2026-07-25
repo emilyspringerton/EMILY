@@ -6947,27 +6947,31 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-93: REDGARDEN — next hero wave: Weatherman+Donkey interaction, Xiangu, Gunnr,
+- [~] **S170-93: REDGARDEN — next hero wave: Weatherman+Donkey interaction, Xiangu, Gunnr,
   Drowned Prince, Vassago, Beleth.** Founder, real-time, in rapid succession while S170-91 was
   still in progress: "add the weatherman and donkey specific donkey paper airplae weatherman
   interractions" → "add xiangu" → "add drowned prince" → "add gunnr" → "add vassago" → "add
   beleth." Logged before writing per Principle 1 — batched into one entry rather than
   implemented one at a time in real-time, matching the founder's own "backlog it, sprint plan it,
   iterate" sequencing from earlier tonight. Checked which already have lore vs. need new writing:
-  - **He Xiangu** (`multiverse_heroes.md` #39, Middle Kingdom Heirs) — exists.
-  - **Gunnr, Who Argued With a Raven** (#30, Valhalla Remnant) — exists.
+  - **He Xiangu** (`multiverse_heroes.md` #39, Middle Kingdom Heirs) — exists. Not started.
+  - **Gunnr, Who Argued With a Raven** (#30, Valhalla Remnant) — exists. **Done — 22nd hero,
+    full kit (passive flat armor, plain melee Q, free-toggle-regen W, execute-scaled R), 6 new
+    tests, live-verified (a real match drafted her with zero duplicate picks). REDGARDEN
+    `5ec3566`, Apple #10788.**
   - **Vassago, the Soft Foresight** (#16, Goetia Court) — exists, and is also TYLER canon
-    (`TYLER/CLAUDE.md`'s Goetia frequency table, 11.11 Hz).
+    (`TYLER/CLAUDE.md`'s Goetia frequency table, 11.11 Hz). Not started.
   - **Beleth** — referenced in `TYLER/CLAUDE.md`'s frequency table (2.22 Hz, "Love / emotional
-    detonation") but not yet confirmed to have a full compendium entry — needs checking.
+    detonation") but not yet confirmed to have a full compendium entry — needs checking. Not
+    started.
   - **The Weatherman** (Ao Guang's Weather-Debt Collector, #45, Middle Kingdom Heirs) — exists;
     Donkey (#38, same faction) is already one of the original wired-in heroes (`docs/HEROES_VS0.md`
     predates tonight). The requested "paper airplane" interaction between them is real cross-hero
     design, not a stock kit-per-lore-entry job like Gary/Loki/Flute Debt — needs its own scoping.
+    Not started.
   - **Drowned Prince** — no existing entry found (`grep` came back empty). Would need new lore
     written from scratch, same as Loki's "who isn't here" treatment, not just wired in from an
-    existing paragraph. Not started — queued as a real, scoped batch for the next implementation
-    pass rather than rushed piecemeal mid-session.
+    existing paragraph. Not started.
 
 ---
 
