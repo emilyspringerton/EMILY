@@ -7080,6 +7080,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-110: SHANKPIT (the original/parent engine, not shankpit-460) — add the "it's a
+  duck" cast and Tyler as cosmetic skins.** Founder, real-time: "continue the work - add all the
+  its a duck skins and tyler as skins to og shankpit engine." Logged before investigation per
+  Principle 1. Real scope: the `just_a_duck.md` cast (Duck, Unicorn, Ghost, Frog, Tree, Pizza —
+  the six original REDGARDEN heroes, all drawn from that same source transcript) plus Tyler
+  himself, added as selectable cosmetic character skins in `SHANKPIT` proper (explicitly the
+  parent repo — `SHANKPIT`, not the stripped-down esports fork `shankpit-460`, which has already
+  diverged and doesn't carry the persistent-world/cosmetic ambitions forward). Needs a real look
+  at whether SHANKPIT already has any skin/cosmetic system to extend before designing one from
+  scratch. In progress — investigating SHANKPIT's current character-rendering code first.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
