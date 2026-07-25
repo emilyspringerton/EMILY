@@ -4315,7 +4315,16 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   endpoints (emily-agent needs an HTTP listener in daemon mode first; SHANKPIT needs to actually be
   public, S19); per-target latency graphs from the already-recorded `latency_ms` column; a public
   incident/postmortem log tied to escalation Apples. Requested 2026-07-18, not yet scoped in
-  detail.
+  detail. **Partial progress 2026-07-25, see S153-16** — REDGARDEN's 3 services now checked; the
+  incident-timeline/latency-graph/postmortem-log candidates above are still open.
+
+- [x] **S153-16: REDGARDEN services on the status page.** Founder, real-time: "redgarden services
+  need okemily status page." Added the three live systemd `--user` units
+  (`redgarden-matchmaker-bots` 10v10, `redgarden-matchmaker-players` 1v1, `redgarden-bot-pool`
+  persistent 19-bot pool) as `CheckSystemdUnit` targets in `internal/statuspage/checker.go`, same
+  convention as `shankpit460-emily-bot.service`. `status.html` itself needed no changes — fully
+  data-driven off `GET /api/v1/status`. Live-verified: all three report `up: true` within one poll
+  cycle, visible at `okemily.com/status.html`. — IDUNA `e7f8a44`. Apple #10756.
 
 - [x] **S153-12: newssite hardened + linked publicly, "Enter the void" CTA** — newssite became a
   public-facing surface the moment okemily.com started proxying `/news/` to it, so it needed the
