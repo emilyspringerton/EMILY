@@ -7104,17 +7104,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-101: Blog post — next in the "compression" line, an LZ4 close-to-the-metal deep
+- [x] **S170-101: Blog post — next in the "compression" line, an LZ4 close-to-the-metal deep
   dive.** Founder, real-time: "add a next one in the blog line on compression 'ensure'" → "and
   then a close to the metal deep dive on lz4 compression" → "as a blog post" → "or whatever its
-  called." Logged before writing per Principle 1. Two things named, possibly one request:
-  (a) a next entry in an existing "compression" blog thread — need to find which prior post(s)
-  this continues before writing a sequel that doesn't match voice/thread; (b) a genuinely
-  technical LZ4 deep-dive (algorithm internals: the hash-chain match finder, the 4-byte minimum
-  match, literal/match-length encoding, why it trades ratio for raw decode speed vs. zstd/gzip).
-  Not started — needs a quick check of existing blog posts for a "compression" thread before
-  writing, to land it as a real sequel rather than a same-title collision (same class of mistake
-  already caught twice tonight, S170-70/S170-73).
+  called." Two things named, possibly one request: (a) a next entry in an existing "compression"
+  blog thread; (b) a genuinely technical LZ4 deep-dive. Left unstarted pending the thread check —
+  founder followed up later: "ok are we ready for that blog post?"
+
+  **Checked all 77 live posts for "compress" before writing** (same discipline that already
+  caught two same-title collisions tonight, S170-70/S170-73): the real thread is "Vibe Coding Is
+  a Skill Issue" (parts 1-3) — compression as a genuine philosophical throughline across all
+  three (expertise "compresses" into fast pattern-matching, "figure it out" as maximal
+  compression of an instruction), never literally about an algorithm. Published Part 4, cashing
+  that metaphor in for real: a technically accurate LZ4 deep-dive (4-byte minimum match
+  threshold, the hash-chain match finder, the token format, why the format's simplicity is what
+  buys multi-GB/s decode speed against zstd/gzip's better ratio) that closes the loop back to the
+  series' actual argument — LZ4's "good enough, fast" match-finding is the same trade "figure it
+  out" makes. Live at `okemily.com/blog/vibe-coding-is-a-skill-issue-part-4/`. Footer synced,
+  deployed. — OKEMILY `ee4cafe`. Apple #10791.
 
 ---
 
