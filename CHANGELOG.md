@@ -1,4 +1,5 @@
 ## 2026-07-25
+- OKEMILY: rebranded redgarden.html + redgarden-wishlist.html to Knights of the Void per real-time founder direction ('update the redgarden landing page to be knights of the void', 'current status download from artifacts on github instructions mailing list for knights of the void wishlist on steam'). New download section with real GitHub Actions artifact instructions checked against ci.yml. Deployed live. OKEMILY c9922d6, Apple #10737. (sess-20260723-2347-df115bd5)
 - backlog: ✓ S170-96 -- REDGARDEN hero name labels above floating health bars. arena_ai_bridge.c wasn't linked into the arena client build at all -- fixed. REDGARDEN e53ee5f, Apple #10714.
 - backlog: ✓ S170-90 -- REDGARDEN bots bunching up, fixed. Move-target logic sent the nearest enemy's exact coords instead of a spread approach angle. Verified live with a real 20/20 match. REDGARDEN b22ee89, Apple #10712.
 - backlog: ✓ S170-76 -- REDGARDEN 'Knights of the Void' naming, found already complete (blog post + window title rename both done, item was just left open). Closed with evidence.
