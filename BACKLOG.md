@@ -6767,19 +6767,23 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-87: REDGARDEN arena — the two capture nodes render compressed onto one point in
+- [x] **S170-87: REDGARDEN arena — the two capture nodes render compressed onto one point in
   net_mode.** Founder, real-time: "yea it replicates now its even weirder the battlefield
-  compressed the 2 capture nodes down to 1." Logged before investigation per Principle 1. Likely
-  root cause, found by inspection, not yet confirmed live: `ArenaSnapshotMsg`
-  (`packages/common/protocol.h`) never includes node data at all — only `heroes[]`, `winner`,
-  `phase`, `picked[]`. In net_mode the client never calls `arena_init()`/`arena_init_teams()`
-  locally (the server owns that), so `arena_state.nodes[0]`/`nodes[1]` are left at whatever the
-  global static default is — both zeroed to `(0,0,0)` — and the S170-66 requeue fix's
-  `memset(&arena_state, 0, sizeof(arena_state))` would re-zero them the same way on every requeue
-  too. Both nodes rendering at the identical origin point would look exactly like "compressed
-  down to 1." Real protocol gap: node state (position + `owner`/capture progress, which the HUD
-  presumably wants too) needs to actually be added to the snapshot wire format. Not fixed this
-  pass — flagged with a concrete hypothesis, not guessed at blindly.
+  compressed the 2 capture nodes down to 1." Logged before investigation per Principle 1. Root
+  cause confirmed exactly as first hypothesized: `ArenaSnapshotMsg` (`packages/common/protocol.h`)
+  never included node data at all — only `heroes[]`, `winner`, `phase`, `picked[]`. In net_mode the
+  client never calls `arena_init()`/`arena_init_teams()` locally (the server owns that), so
+  `arena_state.nodes[0]`/`nodes[1]` stayed at the zeroed global default — both at `(0,0)` — making
+  both nodes render on top of each other. **Fixed:** added `ArenaNodeSnapshot`
+  (x/z/owner/capturing_team/capture_progress_ms) + a `nodes[]` array to `ArenaSnapshotMsg`,
+  populated in `server_broadcast()`, consumed in `net_poll_snapshots()`. Also colored the node
+  cubes by owner (blue/red/gold, matching hero team colors) now that ownership data actually
+  reaches the client — the S170-50 territory redesign's whole visual point (who controls the
+  ground right now) was invisible before this fix. Verified: `build.sh`, `build_arena.sh`,
+  `test_arena.sh`, `test_10_bots.sh` all clean. Wire-format change, so restarted all three live
+  systemd units (`redgarden-matchmaker-bots`, `redgarden-matchmaker-players`, `redgarden-bot-pool`)
+  on the new build; confirmed the pool re-fills cleanly to 19/20 with no crash/size-mismatch.
+  REDGARDEN `36f868e`, Apple #10708.
 
 ---
 
@@ -7030,13 +7034,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-106: Two more blog posts — "It Isn't Over" and "Bittersweet."** Founder, real-time:
+- [x] **S170-106: Two more blog posts — "It Isn't Over" and "Bittersweet."** Founder, real-time:
   "'it isn'nt over'" → "and then another 'bittersweet'." Logged before writing per Principle 1.
   Landed in the same live-session, post-milestone register as the rest of tonight's reflective
   posts (consult-the-duck, god-to-a-nonbeliever) — both read as closing-register pieces for
   tonight's marathon REDGARDEN session specifically, given the timing (right after the pick-retry
-  fix confirmed working, "the game works"). Queued behind S170-105's podcast content per the
-  founder's own "prioritize all podcasts" → "then blog posts" sequencing. Not started.
+  fix confirmed working, "the game works"). Written ahead of S170-105's podcast content per the
+  founder's own later "then blog posts" priority reordering. **Done — published
+  https://okemily.com/blog/it-isnt-over/ and https://okemily.com/blog/bittersweet/.**
 
 ---
 
