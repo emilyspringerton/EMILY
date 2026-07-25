@@ -7073,15 +7073,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-100: REDGARDEN ops — keep the live arena_server binary always current with the
+- [x] **S170-100: REDGARDEN ops — keep the live arena_server binary always current with the
   latest passing CI build.** Founder, real-time: "ensure the server version always stays current
-  with the currently latest passing build." Logged before writing per Principle 1. Currently
-  manual: I rebuild `build/red_garden_arena_server` locally and the systemd units pick it up on
-  their next restart, with no automated tie to CI's own green/red signal. Real scope: some kind
-  of deploy hook (poll the GitHub Actions API for the latest successful run on `main`, pull that
-  commit, rebuild, restart the three arena systemd units) — needs real design, not a quick
-  bolt-on, especially given tonight's S170-84 CI-hang incident (a run can sit "in_progress"
-  indefinitely without ever reaching success/failure). Not started.
+  with the currently latest passing build." Logged before writing per Principle 1. Was manual: I'd
+  rebuild `build/red_garden_arena_server` locally and the systemd units picked it up on their next
+  restart, with no automated tie to CI's own green/red signal.
+
+  **Built:** `scripts/auto_deploy.sh` + `redgarden-auto-deploy.{service,timer}` (every 10 min).
+  Real design given the same night's S170-84 CI-hang incident: operates on a separate checkout
+  (`~/redgarden-deploy`), never the interactive dev directory (an automated `git checkout <sha>`
+  against active development would risk clobbering uncommitted work); only ever considers runs
+  with `status=completed` AND `conclusion=success`, never just "the latest run" — the direct
+  CI-hang guard; re-verifies locally (rebuild + full test suite) before touching anything live,
+  not blind trust in CI's word; publishes via copy-then-rename, not a direct overwrite — found
+  live on the very first real run: a direct `cp` onto `red_garden_arena_bot` hit `ETXTBSY` because
+  the 19-bot pool has that binary mapped the whole time it runs. Verified with a real end-to-end
+  run (not simulated): bootstrapped the deploy checkout, deployed the latest green SHA, restarted
+  all three systemd units, confirmed a real 20/20 match still forms afterward; a second run
+  correctly no-ops. Timer installed and enabled for real. — REDGARDEN `1d438e7`. Apple #10777.
 
 ---
 
