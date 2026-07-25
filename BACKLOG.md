@@ -7470,6 +7470,27 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-127: REDGARDEN — Overwatch-style recast-time tiles for Q/W/E, ported from SHANKPIT's
+  cooldown-tile visual.** Founder, real-time: "add the ability frame cooldown timer tiles from
+  shankpit og engine as recast time affordances" → "make it like overwatch recast frames for q w
+  e." Replaced the plain three-line text HUD ("Q: NAME [CD]") with real square ability tiles.
+  Visual language ported from SHANKPIT's own `apps/lobby/src/main.c` `draw_ability_one_tile()`
+  (bordered square, background/border color swap on cooldown, big centered countdown number,
+  keybind label) plus a real radial cooldown wipe on top — SHANKPIT's tile was built for one
+  hero's one fixed-length ability; REDGARDEN has 19 heroes across 3 slots with cooldowns ranging
+  roughly 2s–26s+, where "how much is left" matters more than a flat color tint shows. No
+  per-hero max-cooldown table exists client-side to compute that fraction against, so it's
+  tracked locally: remembers the highest `cooldown_ms` seen since it last hit 0 (arms the instant
+  a cast starts counting down from its real peak), wipes that fraction away as a dark wedge
+  sweeping clockwise from 12 o'clock. W's tile lights bright toggle-green while active, matching
+  the existing "W is ON" convention it replaces. Ability-name caption kept, drawn small below
+  each tile — known cosmetic limitation, not hidden: several hero names are long enough to
+  visually overflow the caption's tight column width at this tile size. Client-only change, no
+  protocol changes. Verified: clean build, full headless suite (277 checks), VS0/VS1 stable. —
+  REDGARDEN `f11f224`. Apple #10781.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
