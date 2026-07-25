@@ -6954,7 +6954,10 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   beleth." Logged before writing per Principle 1 — batched into one entry rather than
   implemented one at a time in real-time, matching the founder's own "backlog it, sprint plan it,
   iterate" sequencing from earlier tonight. Checked which already have lore vs. need new writing:
-  - **He Xiangu** (`multiverse_heroes.md` #39, Middle Kingdom Heirs) — exists. Not started.
+  - **He Xiangu** (`multiverse_heroes.md` #39, Middle Kingdom Heirs) — exists. **Done — 24th
+    hero, full kit (passive HP regen, heal-off-a-fraction Q, free-toggle second regen W, the
+    roster's first heal-only zone R), 5 new tests, live-verified (a real match drafted her with
+    zero duplicate picks). REDGARDEN `941949b`, Apple #10795.**
   - **Gunnr, Who Argued With a Raven** (#30, Valhalla Remnant) — exists. **Done — 22nd hero,
     full kit (passive flat armor, plain melee Q, free-toggle-regen W, execute-scaled R), 6 new
     tests, live-verified (a real match drafted her with zero duplicate picks). REDGARDEN
