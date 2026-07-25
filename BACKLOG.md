@@ -6808,13 +6808,17 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-90: REDGARDEN arena — bots all bunch up on each other instead of spreading out.**
-  Founder, real-time: "all of the bots just bunch up on eachother." Logged before writing per
-  Principle 1. Likely a target-selection/pathing artifact of the simple `arena_nearest_enemy`
-  N-way melee AI (S170-72's own earlier hypothesis about swarm dynamics, now visually confirmed
-  live rather than just theorized) — many bots on the same team converging on the same nearest
-  target with no separation/formation logic. Not yet root-caused in the movement code
-  specifically. Not started.
+- [x] **S170-90: REDGARDEN arena — bots all bunch up on each other instead of spreading out.**
+  Founder, real-time: "all of the bots just bunch up on eachother." Root cause confirmed:
+  `apps/arena_bot`'s move-target logic sent the nearest enemy's *exact* (x,z) as the move target —
+  whenever several bots on one team shared the same nearest enemy (common once a team clusters up
+  mid-fight), they'd all converge on the literal same point and stack. **Fixed:** spread each bot
+  to its own approach angle around the target, derived from its stable owner index (`my_owner % 8`,
+  no coordination needed between bots) at a radius just outside `ARENA_ATTACK_RANGE` — a real
+  surround formation instead of a single pile. Verified live: added a temporary 20th bot to the
+  persistent 19-bot pool's open human slot to force a real 20/20 match, confirmed genuinely
+  distinct position data across heroes on the same team in the match log, removed the extra bot
+  afterward so the pool returned to its intended state. REDGARDEN `b22ee89`, Apple #10712.
 
 ---
 
