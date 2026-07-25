@@ -6972,7 +6972,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-102: REDGARDEN — FFXI Rise of the Zilart-launch item parity, doc first.** Founder,
+- [x] **S170-102: REDGARDEN — FFXI Rise of the Zilart-launch item parity, doc first.** Founder,
   real-time: "in terms of items add parity with all ffxi items at rise of the ziliart launch" →
   "all items" → "ffxi" → "northstar" → "redgarden into a doc like the hero metaverse guide in
   tyler" → "and then we will add the most interesting ones as items to knights of the void" →
@@ -6986,7 +6986,8 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `gpt2-alpine-c`'s fine-tune pipeline to generate original item/mob names from, the same
   founder-established pattern this session already used for hero lore; (3) only after that,
   "the most interesting ones" get wired into KNIGHTS_OF_THE_VOID as real items — a later,
-  separate pass, not this one. In progress — starting the doc now.
+  separate pass, not this one. **Done — Apple #10703 · REDGARDEN `1ecbac1` ·
+  `docs/FFXI_ITEM_PARITY_SEED.md` · registered in golden-docs-index.md.**
 
 ---
 
