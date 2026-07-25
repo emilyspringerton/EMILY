@@ -6884,13 +6884,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-88: REDGARDEN arena — basic melee/cast animations.** Founder, real-time: "need basic
+- [x] **S170-88: REDGARDEN arena — basic melee/cast animations.** Founder, real-time: "need basic
   animations" → "basic melee animations nmneeded simple simple." Logged before writing per
   Principle 1. Heroes currently render as static colored cubes with no visual feedback for melee
   swings or ability casts — `spawn_ring` particle rings exist for move-clicks but nothing for
   combat itself. Scope explicitly "simple simple" per direct instruction — not a real skeletal/
   animation system, likely a cheap scale-pulse or color-flash on `damaged_this_tick`/attack-
   cooldown-reset, matching the existing lightweight primitive-rendering style. Not started.
+
+  **Duplicate of S170-122** ("add basic animations for auto attacks," a separate later real-time
+  ask, same scope down to the mechanism named here). Built there: frame-to-frame HP-decrease
+  detection (the actual signal available uniformly across local/net/replay modes — cleaner than
+  reaching into `damaged_this_tick`, which is sim-internal and not exposed over the wire) spawns a
+  quick orange-white flash at the hit hero's position, reusing the existing placement-ring mesh/
+  shader. Covers melee autos and ability damage alike (any HP drop), which is everything this item
+  actually asked for. — REDGARDEN `3b63e43`. Apple #10742. Closing here as resolved, not
+  duplicating the work under a second ID.
 
 ---
 
