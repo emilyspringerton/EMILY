@@ -6758,7 +6758,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-85: REDGARDEN — human tried the Loki build, matchmaking launches the client but
+- [x] **S170-85: REDGARDEN — human tried the Loki build, matchmaking launches the client but
   still no players/enemies visible.** Founder, real-time: "tried the loki build matchmaking still
   launches the client but still no players no enemies nothing" → "figure it out." Logged before
   investigation per Principle 1. This is the first real human connection attempt since S170-72's
@@ -6815,6 +6815,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   asked to restart everything and attempt to reproduce live rather than guess further from logs
   alone. Services restarted fresh (23:41 UTC). Reproduction attempt in progress.
 
+  **Root-caused and fixed for real: the "stale bot issue" was a matchmaker phantom-requeue
+  race.** `apps/arena_bot`'s `wait_for_match()` resends `PACKET_FIND_MATCH` after ~5s of silence.
+  If that resend was still in flight the instant the matchmaker actually matched and dequeued the
+  client, the late retry arrived with no way to tell it apart from a fresh request —
+  `enqueue()` re-added an address that was already off connecting to its real match, costing some
+  *future* lobby exactly one slot (that address's owner isn't listening for a second
+  `PACKET_MATCH_FOUND`). Exactly the "some bots may already be mid-cycle into a different,
+  human-less lobby" mechanism hypothesized above — confirmed, not just theorized: matchmaker
+  memorizes every address for a 10s post-match cooldown and ignores (doesn't re-queue) any
+  `FIND_MATCH` from it during that window. Verified live: reliably reproduced the 19/20-forever
+  failure against the real pool before the fix, then a clean 20/20 lobby + full draft + live match
+  + real snapshots streaming on the very first attempt after rebuild+restart. — REDGARDEN
+  `1e1e14f`. Apple #10760.
+
 ---
 
 - [ ] **S170-86: REDGARDEN arena — Q/W/E ability casts don't work for the human player in a live
@@ -6840,7 +6854,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   actually broken server-side, not just invisible. Needs the founder's next live retest to
   confirm either way.
 
----
+  **Additional real contributing cause found and fixed (S170-85's matchmaker phantom-requeue
+  race, REDGARDEN `1e1e14f`):** a match stranded in `ARENA_PHASE_WAITING`/`DRAFT` by that race
+  never reaches `ARENA_PHASE_LIVE` — the server correctly rejects Q/W/E casts the entire time
+  (`if (match_phase != ARENA_PHASE_LIVE) return;`), which alone would read exactly like "casts
+  dont work" even with perfectly correct send/dispatch code and even with real HP-bar/animation
+  feedback already shipped (S170-89, S170-122). This doesn't rule out the "invisible feedback"
+  theory above — both could have been compounding — but it's a second, confirmed way to produce
+  the exact symptom. Still needs the founder's next live retest, now against a matchmaker that
+  reliably reaches LIVE, to confirm whether casts show real effect once a match is actually live.
 
 - [x] **S170-87: REDGARDEN arena — the two capture nodes render compressed onto one point in
   net_mode.** Founder, real-time: "yea it replicates now its even weirder the battlefield
