@@ -7600,6 +7600,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   pass once the lore lands, same "lore before kit" sequencing as every other hero this session.
   Not started.
 
+- [x] **S170-135: OKEMILY — FATBABY_NEWSWIRE milestone post, 25 heroes + mana economy.** Founder,
+  real-time: "milestone FATBABY_NEWSWIRE PR TO THE BLOG." Published "Knights of the Void:
+  Twenty-Five Heroes and a Real Economy" (`/blog/knights-of-the-void-twenty-five-heroes-real-
+  economy/`), authored `FATBABY_NEWSWIRE`, same press-release voice/format as the original
+  naming announcement. Covers the roster's growth since that post (12 → 25 heroes) and the new
+  roster-wide mana economy (S170-132). Published via IDUNA's blog API (EMILY-PRIME agent,
+  `blog.write` scope), synced footer, deployed, verified live (200, correct title). OKEMILY
+  `556aacf`/`421022c`, Apple #10804.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
