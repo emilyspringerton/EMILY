@@ -1,4 +1,5 @@
 ## 2026-07-25
+- backlog: ✓ S170-76 -- REDGARDEN 'Knights of the Void' naming, found already complete (blog post + window title rename both done, item was just left open). Closed with evidence.
 
 - backlog: ✓ S170-87 -- REDGARDEN capture nodes rendering compressed onto one point, fixed. ArenaSnapshotMsg never included node data; added ArenaNodeSnapshot to the wire format + owner-based node coloring. Wire-format change, restarted all three live systemd units on the new build, verified clean. REDGARDEN 36f868e, Apple #10708.
 
