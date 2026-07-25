@@ -6824,7 +6824,31 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   R a fixed-duration root — "slow down, this isn't a track meet"), Flute Debt around a real
   debt/mark mechanic (Q applies the shared `burning_ms`/`burn_dps` DoT as "the wrong note," W a
   toggled self-heal, R "eventually collects" — bonus damage if the Q debt is still active on the
-  target, base damage otherwise). In progress.
+  target, base damage otherwise). **Done — Apple #10697 · REDGARDEN `53d9c20`.**
+
+---
+
+- [ ] **S170-93: REDGARDEN — next hero wave: Weatherman+Donkey interaction, Xiangu, Gunnr,
+  Drowned Prince, Vassago, Beleth.** Founder, real-time, in rapid succession while S170-91 was
+  still in progress: "add the weatherman and donkey specific donkey paper airplae weatherman
+  interractions" → "add xiangu" → "add drowned prince" → "add gunnr" → "add vassago" → "add
+  beleth." Logged before writing per Principle 1 — batched into one entry rather than
+  implemented one at a time in real-time, matching the founder's own "backlog it, sprint plan it,
+  iterate" sequencing from earlier tonight. Checked which already have lore vs. need new writing:
+  - **He Xiangu** (`multiverse_heroes.md` #39, Middle Kingdom Heirs) — exists.
+  - **Gunnr, Who Argued With a Raven** (#30, Valhalla Remnant) — exists.
+  - **Vassago, the Soft Foresight** (#16, Goetia Court) — exists, and is also TYLER canon
+    (`TYLER/CLAUDE.md`'s Goetia frequency table, 11.11 Hz).
+  - **Beleth** — referenced in `TYLER/CLAUDE.md`'s frequency table (2.22 Hz, "Love / emotional
+    detonation") but not yet confirmed to have a full compendium entry — needs checking.
+  - **The Weatherman** (Ao Guang's Weather-Debt Collector, #45, Middle Kingdom Heirs) — exists;
+    Donkey (#38, same faction) is already one of the original wired-in heroes (`docs/HEROES_VS0.md`
+    predates tonight). The requested "paper airplane" interaction between them is real cross-hero
+    design, not a stock kit-per-lore-entry job like Gary/Loki/Flute Debt — needs its own scoping.
+  - **Drowned Prince** — no existing entry found (`grep` came back empty). Would need new lore
+    written from scratch, same as Loki's "who isn't here" treatment, not just wired in from an
+    existing paragraph. Not started — queued as a real, scoped batch for the next implementation
+    pass rather than rushed piecemeal mid-session.
 
 ---
 
