@@ -970,6 +970,17 @@ Run: `emily backlog promote --limit=50 --batch=15`
   re-pages the full discovery history before reaching the live frontier.
   — PRRJECT_FATBABY `9fa7358`. Apple #10740.
 
+- [x] **S24-07: prwatch-body — persist the discovery-store cursor across restarts.** Follow-up
+  from S24-06, self-identified while closing that fix out. `RunBodyCrawler` always started
+  `lastSeq` at 1 on every restart — harmless (dedup catches it) but wasteful, and grows slower
+  every day as the discovery store grows. Added `CrawlerConfig.CursorPath` → `var/prwatch-body/
+  .cursor`, same idiom eps-processor/guidance-watcher/dividend-watcher already use. Verified live
+  across two real restarts: cursor saved at 513, next restart resumed from `from_sequence=513`.
+  Also found and fixed a real `.gitignore` bug while committing this: `/prwatch` (meant for a
+  stray build binary) was shadowing the actual `prwatch/` source package directory, silently
+  blocking new files from `git add` without `-f` — same class of bug as the DIS unanchored-`dis/`
+  fix (S23-07). — PRRJECT_FATBABY `c8b2c03`, `b9c113b`, `836e8a9`. Apple #10744.
+
 - [x] **S24-00: Ops scaffold** — nginx configs (newssite + signalapi), systemd service units
   (newssite, processor, secwatch, signalapi), docker-compose.prod.yml (MySQL + MongoDB + nginx),
   deploy.sh build+restart script, env.production template, ops-runbook.md.
