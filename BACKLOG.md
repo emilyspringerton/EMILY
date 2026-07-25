@@ -7150,14 +7150,25 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-104: REDGARDEN — add NOOR-1 as a snowman, 18th hero.** Founder, real-time: "add
-  NOOR-1 as a snowman." Logged before writing per Principle 1. NOOR-1 ("Four Days Behind",
-  `multiverse_heroes.md` #3, Jiangshi Syndicate) already exists — "sent in clean on purpose, and
-  it isn't working," an operative reading her own subject faster than she can file on him. "As a
-  snowman" reads as an in-game FORM directive, same convention as the original roster (a Duck, a
-  Unicorn, a Pizza, a Tree — ordinary objects/figures given a hero identity) — NOOR-1's in-game
-  model/theme is a snowman, distinct from her lore text. Queued behind S170-103 (Abraham the
-  Mage/Ada Lovelace, in progress). Not started.
+- [x] **S170-104: REDGARDEN — add NOOR-1 as a snowman, 20th hero.** Founder, real-time: "add
+  NOOR-1 as a snowman." NOOR-1 ("Four Days Behind", `multiverse_heroes.md` #3, Jiangshi Syndicate)
+  already exists — "sent in clean on purpose, and it isn't working," an operative reading her own
+  subject faster than she can file on him. "As a snowman" read as an in-game FORM directive, same
+  convention as the original roster (a Duck, a Unicorn, a Pizza, a Tree). S170-103 (Abraham/Ada)
+  landed first as queued.
+
+  **Built, fully wired end to end this pass** (every gap Paimon's initial landing left behind,
+  S170-55, closed here from the start rather than left partial): passive periodic-silence aura
+  (same idiom as Pizza's/Paimon's, themed as reading the enemy's next move before they commit to
+  it), Q a ranged damage+root bolt, W a self-cast intangibility on its own cooldown (same
+  mechanic as Ghost's Not a Ghost, "sent in clean"), R a fixed cold zone dealing periodic damage
+  with no ally-heal side ("do not approach" is one-sided). Distinct 3D silhouette: three stacked
+  boxes of decreasing size, the literal snowman form. `ARENA_HERO_COUNT` 19 → 20; pick-validation
+  bound, draft-modulo (both bot and human clients), name/ability-name tables all updated together.
+  5 new headless tests. Verified: full suite (289 checks), VS0/VS1 stable, live — rebuilt +
+  restarted all three systemd units, confirmed NOOR-1 (`hero_id=19`) actually gets drafted in a
+  real 20/20 match and runs stably with real snapshots streaming, no crash. — REDGARDEN `8d16fa8`.
+  Apple #10783.
 
 ---
 
