@@ -1,3 +1,7 @@
+## 2026-07-25
+
+- backlog: ✓ S170-87 -- REDGARDEN capture nodes rendering compressed onto one point, fixed. ArenaSnapshotMsg never included node data; added ArenaNodeSnapshot to the wire format + owner-based node coloring. Wire-format change, restarted all three live systemd units on the new build, verified clean. REDGARDEN 36f868e, Apple #10708.
+
 ## 2026-07-24
 - backlog: ✓ S170-50/51 -- REDGARDEN Arathi Basin channel capture (redesigned from S170-46) + territorial jungle creeps + bot names. Real WoW Arathi Basin rules built exactly as specified: stealth capture, stealth-breaks-on-channel-start, damage-interrupts-capture. Jungle creeps tie territory control to combat rewards, countering turtling comps. Activated real WOTAN bot stats tracking (was silently disabled all session) + memorable bot names. 28 new tests (251 total), verified live. REDGARDEN 2cf6cdd, Apple #10654.
 - Verified TYLER's IDUNA agent registration was already complete (stale backlog premise) -- closed SECTION 5 item and HITL-09 with DB evidence rather than building a redundant CLI. IDUNA Apple #10648.
