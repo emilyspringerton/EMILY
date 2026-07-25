@@ -6890,6 +6890,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-98: OKEMILY blog — TTS "Listen" button on every post.** Founder, real-time: "add a
+  tts play button to the top of okemily blog posts." Implemented directly rather than logged
+  first (quick, self-contained win found mid-queue-triage) — logged here per Principle 1's
+  "log-then-work or work-then-log, either order is fine, but it always lands." Zero new
+  dependencies: browser-native `window.speechSynthesis` API in `IDUNA/internal/blog/render.go`'s
+  static-HTML `pageTemplate`, reads the post body aloud, toggles to a Stop state, degrades
+  gracefully on unsupported browsers. Backfilled all 70 existing posts via `cmd/blog-rerender`,
+  then rebuilt and restarted the live `iduna.service` so future posts pick it up too — verified
+  healthy post-restart. **Done — Apple #10700 · IDUNA `303dd7f`.**
+
+---
+
 - [x] **S170-95: TYLER Series X — hype piece, "Mid-Piano" podcasts the new heroes, garage,
   Joe-Rogan style.** Founder, real-time: "do some hype work - mid-piano podcast the new heroes in
   the garage joe rogan style" → "as a podcastblogpost" → clarified: "i mean blog post 'wink' as a
