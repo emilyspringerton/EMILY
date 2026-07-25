@@ -6890,13 +6890,17 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-95: TYLER Series X — hype piece, "Mid-Piano" podcasts the new heroes, garage,
+- [x] **S170-95: TYLER Series X — hype piece, "Mid-Piano" podcasts the new heroes, garage,
   Joe-Rogan style.** Founder, real-time: "do some hype work - mid-piano podcast the new heroes in
-  the garage joe rogan style." Logged before writing per Principle 1. Follows the x01/x02/x03
-  unnumbered-interlude/garage convention, this time as an in-universe podcast transcript rather
-  than a scene — the crew's own band (`x03_the_band_name.md`) riffing on Loki/Gary/Flute
-  Debt/Bacon-Puck in a long-form, digressive, guest-heavy conversational register. Queued behind
-  S170-94. Not started.
+  the garage joe rogan style" → "as a podcastblogpost" → clarified: "i mean blog post 'wink' as a
+  podcast transcript." Logged before writing per Principle 1. Follows the x01/x02/x03
+  unnumbered-interlude/garage convention, this time as an in-universe podcast transcript
+  published straight to the blog (not a new TYLER episode file, per the clarified scope) — the
+  crew's own band (Unicorn/Duck/Tyler/Pizza from `x03_the_band_name.md`) interviewing
+  Loki/Gary/Flute Debt/Bacon+Puck, each new hero's bit drawn from their real lore/kit (Loki's
+  absence-as-the-point, Gary's stationary marksman deadpan, Flute Debt's "ask again later,"
+  Bacon+Puck literally answering in unison). **Done — published
+  https://okemily.com/blog/mid-piano-presents-the-new-guys/.**
 
 ---
 
