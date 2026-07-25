@@ -7052,6 +7052,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-108: REDGARDEN arena — missing font glyphs.** Founder, real-time: "we are missing a
+  lot of font glyphs in redgarden." Implemented directly (quick, self-contained fix found via
+  code inspection) — logged here per Principle 1's "log-then-work or work-then-log, either order
+  is fine, but it always lands." `draw_char()`'s hand-drawn vector font only ever covered digits
+  + `W,I,N,L,O,S,E,U,Y,H,P` + space; everything else fell through to a generic missing-glyph
+  placeholder box — much more visible now given tonight's own hero-name expansion (Gary,
+  Bacon+Puck, Abraham, Ada, Flute Debt), most of which use letters the font never had. Added the
+  remaining 15 uppercase letters, lowercase-folds-to-uppercase, and common punctuation, same
+  simple `GL_LINES` stroke style as the existing letters. **Done — REDGARDEN `a76e3d1`.**
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
