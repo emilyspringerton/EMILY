@@ -6997,7 +6997,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-97: REDGARDEN — move all the per-hero "how to play" keybind comments up to the top
+- [x] **S170-97: REDGARDEN — move all the per-hero "how to play" keybind comments up to the top
   of the README.** Founder, real-time: "put all the hero doc comments that say how to play them
   (what the kit keybinds do) move that up to the top of the readme." Logged before writing per
   Principle 1. Currently scattered: Q/W/E keybind semantics live as scattered code comments in
@@ -7007,7 +7007,13 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   slot generically means"). Needs a real "How to Play" section surfaced at the top of
   `README.md`, not just moved comments verbatim — a genuine synthesis of the actual keybind
   contract (click to move, Q/W/E for the three ability slots, F11 for the APM overlay, the OK-
-  requeue button after a match ends). Not started.
+  requeue button after a match ends).
+
+  New section right under the title, checked directly against the real SDL event handling (not
+  guessed): click-to-move (walking into range auto-attacks, no separate attack input), Q/W/E
+  slots, right-drag/wheel camera, F11 APM toggle, R restart (local-only), OK-to-requeue
+  (networked-only), plus a note that draft is currently automatic (no pick UI). — REDGARDEN
+  `4175ca6`. Apple #10768.
 
 ---
 
