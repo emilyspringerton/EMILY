@@ -7192,7 +7192,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [~] **S170-105: REDGARDEN — add Adelle: new lore, then a real hero, then "the boys do a
+- [x] **S170-105: REDGARDEN — add Adelle: new lore, then a real hero, then "the boys do a
   podcast with her."** Founder, real-time: "add Adelle" → "to the guide in tyler first" → "and
   then to the game" → "then the boys do a podcast with her." "Adelle" had zero anchor anywhere in
   the TYLER corpus (`grep` empty) — unlike every other new hero this session (Loki, Abraham,
@@ -7200,10 +7200,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   file. Asked which identity anchor to use rather than inventing one blind; founder's answer:
   "replace adelle with Cain."
 
-  **Lore + kit done, podcast not started.** Cain already has a real entry (`multiverse_heroes.md`
-  #80) — no new lore needed. Full kit built: passive flat armor, Q execute-scaled bolt ("The First
-  Murder"), W dash-away-from-nearest-enemy + self-cleanse ("Cursed to Wander"), R survive-floor
-  panic button ("The Mark" — the curse-and-mercy duality made literal). `ARENA_HERO_COUNT` 20 → 21.
+  **All three stages done.** Cain already has a real entry (`multiverse_heroes.md` #80) — no new
+  lore needed. Full kit built: passive flat armor, Q execute-scaled bolt ("The First Murder"), W
+  dash-away-from-nearest-enemy + self-cleanse ("Cursed to Wander"), R survive-floor panic button
+  ("The Mark" — the curse-and-mercy duality made literal). `ARENA_HERO_COUNT` 20 → 21. Podcast:
+  "Mid-Piano Presents: The Mark," same established transcript format as S170-95, a focused
+  single-guest episode with every beat drawn from Cain's real lore and kit — the curse-and-mercy
+  duality, founding the first city, R and W both explained through his actual ability design.
+  Live at `okemily.com/blog/mid-piano-presents-the-mark/`. — OKEMILY `cb9eeb7`. Apple #10796.
 
   **Real, live-found structural bug fixed in the same pass:** 21 heroes now exceeds
   `ARENA_MAX_HEROES` (20) for the first time — the existing `owner % hero_count` auto-draft scheme
