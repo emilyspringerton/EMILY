@@ -7572,6 +7572,36 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-132: REDGARDEN arena — mana resource layer, roster-wide.** Founder, real-time: "add
+  mp so toggling stuff has a cost spells cant be spammed unless its a zero mana spell or
+  ability." Second resource on top of cooldowns, `mp`/`max_mp` on `ArenaHero` (100 max, ~6/sec
+  regen). Flat per-slot costs (Q 20, W 20, R 45) hooked through the existing `cast_cooldown()`
+  choke point across all 63 landed-cast sites via a scripted pass — no per-hero logic touched.
+  Free-toggle W's (9 heroes) now cost mana to activate; deactivating stays free. A mana-blocked
+  cast behaves like a whiff (no cooldown consumed), matching existing codebase precedent. 12 new
+  tests, full suite (366 checks), live-verified stable (two clean real-match connects; a burst
+  of SIGKILLs in the journal during testing traced to my own rapid manual `systemctl restart`
+  calls, not the new code). REDGARDEN `9ad4369`, Apple #10803.
+
+- [ ] **S170-133: REDGARDEN arena — status-effect text label above the health bar.** Founder,
+  real-time: "text label above health bar above hero shows status effects like stun silence root
+  slow etc." Logged before writing per Principle 1. The HUD currently shows HP + ability
+  cooldown tiles but no readable indicator of which status effects (silenced_ms, rooted_ms,
+  intangible_ms, burning_ms, survive_floor_ms — all generic fields already shared across every
+  kit) are currently active on a hero. Not started.
+
+- [ ] **S170-134: REDGARDEN/TYLER — MnM, a shapeshifting rapping crab tank from Detroit.**
+  Founder, real-time, in sequence: "add MnM a shapeshifting rapping crab tank from detroit to
+  the lore docs first" → "have tyler and mid-piano cowrite it." Logged before writing per
+  Principle 1. TYLER lore entry first (`TYLER/multiverse_heroes.md`), written in-universe as a
+  Tyler + Mid-Piano co-written bit, same "Mid-Piano Presents" transcript format already
+  established for the Cain podcast piece — not a standard prose compendium entry like the other
+  111. REDGARDEN hero kit (Tank archetype, per the founder's own framing) is a later, separate
+  pass once the lore lands, same "lore before kit" sequencing as every other hero this session.
+  Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
