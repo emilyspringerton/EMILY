@@ -4700,17 +4700,17 @@ pass, not previously known.*
 accuracy records, 23 report types, parse_errors=0 on its last real batch. Not broken. These are
 concrete gaps found auditing it, not a redesign.*
 
-- [ ] **S159-01: EPS pending case with an empty ticker — confirms the tickerization gap directly.**
+- [~] **S159-01: EPS pending case with an empty ticker — confirms the tickerization gap directly.**
   `var/eps/oracle.ndjson` has a live pending case, `eps:4905f716794c7f58`, `source_identity:
   "pr:302827995"`, `"ticker": ""` — recorded 2026-07-16, can never reconcile because eps-reconciler
-  has nothing to match it against with no ticker. This is a real instance of exactly the gap
-  flagged earlier this session (robust PR-text ticker regex fallback, e.g. `(NYSE:F)`-style). Fix
-  should do two things: (1) add the regex fallback to the extraction path so cases like this get a
-  ticker in the first place, (2) guard case-recording so a case with an empty ticker either gets
-  backfilled before being written or is flagged distinctly from a normal "still waiting" pending
-  case — right now it's indistinguishable from case `eps:8bd28b7b713deb01` (NUE, pending since
-  2026-06-17, over a month, ticker present but just genuinely still waiting on a filed 8-K) even
-  though the two are completely different failure modes.
+  has nothing to match it against with no ticker. Fix has two parts: (1) **done** — the regex
+  fallback already existed (`internal/prwatch/tickers.go`) but wasn't firing reliably; root-caused
+  and fixed as S160-01 (silent-failure logging + bounded retry for the timing race), forward-only.
+  (2) **still open** — guard case-recording so a case with an empty ticker is flagged distinctly
+  from a normal "still waiting" pending case (right now indistinguishable from `eps:8bd28b7b713deb01`,
+  genuinely still waiting on a filed 8-K, ticker present). The specific already-stuck case
+  (`eps:4905f716794c7f58` itself) is not retroactively fixed either way — append-only store, needs
+  S160-05's separate backfill.
 - [ ] **S159-02: entity-graph 8-K detection has a confirmed, logged blind spot.**
   `entity-graph.log`, 2026-07-17 23:14:33: `WARNING: saw 1 source_document_persisted records but
   found 0 8-K documents to process — check form/source_type/url detection logic`. The detector
@@ -4735,7 +4735,7 @@ concrete gaps found auditing it, not a redesign.*
 *Founder asked for a robust regex fallback for press-release tickerization (e.g. `(NYSE:F)`-style).
 Audit found the exact fallback already exists, well-built — it's just not producing results live.*
 
-- [ ] **S160-01: `discoverTickers` (prwatch/runner.go:150) is silently returning empty on live
+- [x] **S160-01: `discoverTickers` (prwatch/runner.go:150) is silently returning empty on live
   discovery.** The extraction logic itself is solid and already committed:
   `internal/prwatch/tickers.go`'s `ExtractTickers`/`ExtractFromHTML` — regex for
   `(NASDAQ|NYSE|OTC...: SYMBOL)`, HTML-aware (meta description + body text, keyword precheck before
@@ -4744,20 +4744,26 @@ Audit found the exact fallback already exists, well-built — it's just not prod
   found). Confirmed live 2026-07-19: every recent `pr_discovered` record has `"identity":{}`
   empty, yet the *same URLs*, fetched moments later by `prwatch-body`'s separate crawler, contain
   real ticker text in the body (`(NASDAQ: ZG)`, `(NYSE: ZTS)`, `(NASDAQ: ADMA)`, etc. — confirmed
-  via direct grep on `var/prwatch-body/events/2026-07-18.ndjson`). So the tickers are genuinely
-  there to be found; `discoverTickers`'s own fetch of the same URL is coming back empty or
-  unmatched. **Root cause not fully nailed down — `discoverTickers` swallows every error silently
-  (`return nil, ""` on request-creation failure, HTTP failure, with zero logging at any of those
-  points)**, so there's currently no way to tell from logs whether it's a fetch failure, a timing
-  race (discovery fires before the page is fully live/crawlable — most likely hypothesis, prwatch
-  discovers near-instantly at publish time while prwatch-body's fetch happens on its own later
-  poll cycle), or something else. Fix: add logging to every silent-failure branch first (cheap,
-  immediately diagnostic), then address whatever the logs show — likely either a short retry/delay
-  before the discovery-time ticker fetch, or dropping the separate discovery-time fetch entirely
-  and relying on prwatch-body's already-working fetch + running `ExtractFromHTML` there instead
-  (simpler: one fetch, not two, and it already succeeds).
-- [ ] **S160-02: connects directly to S159-01** (EPS case with empty ticker) — fixing S160-01 is
-  the actual upstream fix for that downstream symptom.
+  via direct grep on `var/prwatch-body/events/2026-07-18.ndjson`).
+  **Picked up as the lowest-numbered actionable open item** (S151 blocked on the DNS human-unblock
+  queue; S155-02 done same pass; sections before it already closed or blocked). Added structured
+  logging to every silent-failure branch (request-creation, fetch, non-200, body-read) plus a
+  single bounded 5s retry when the fetch succeeds but yields zero refs — directly targeting the
+  timing-race hypothesis without redesigning the event/fetch model. 6 new tests against a fake
+  HTTP server (first-fetch success, retry-then-success, retry-then-still-empty, no-retry-on-
+  fetch-failure, nil-logger safety), `go test ./...` green. Live: rebuilt + restarted
+  `fatbaby-prwatch.service`, monitored ~90 minutes of real traffic — no regressions, tickers
+  still found correctly when present (NASDAQ: BRCB and a TripCom Group release both landed with
+  populated identity). The specific empty-then-retry-succeeds race didn't recur in this
+  particular window (real traffic is bursty, can't force it on demand) — the retry mechanism
+  itself is proven by the deterministic tests, not yet by a live occurrence; the new logging will
+  surface it live the next time it happens. **Forward-only**, same as S160-03: already-persisted
+  empty-identity records (including S159-01's own stuck case below) stay empty historically —
+  backfill is S160-05, already tracked, low priority. PRRJECT_FATBABY `bc902ed`, Apple #10813.
+- [x] **S160-02: connects directly to S159-01** (EPS case with empty ticker) — fixing S160-01 is
+  the actual upstream fix for that downstream symptom. Closed alongside S160-01 above; the
+  specific already-stuck case (`eps:4905f716794c7f58`) itself is not retroactively fixed
+  (append-only store) and would need S160-05's separate backfill.
 - [x] **S160-03: fixed a real bug that made "no press releases page" look true even though it
   wasn't.** Founder: "i still dont see a general press releases page on the news site that shows
   the prnewswire content." The page exists (`/wire`, labeled "The Wire") and works — but
