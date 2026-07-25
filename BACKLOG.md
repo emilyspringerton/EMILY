@@ -7591,12 +7591,14 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   of SIGKILLs in the journal during testing traced to my own rapid manual `systemctl restart`
   calls, not the new code). REDGARDEN `9ad4369`, Apple #10803.
 
-- [ ] **S170-133: REDGARDEN arena — status-effect text label above the health bar.** Founder,
+- [x] **S170-133: REDGARDEN arena — status-effect text label above the health bar.** Founder,
   real-time: "text label above health bar above hero shows status effects like stun silence root
-  slow etc." Logged before writing per Principle 1. The HUD currently shows HP + ability
-  cooldown tiles but no readable indicator of which status effects (silenced_ms, rooted_ms,
-  intangible_ms, burning_ms, survive_floor_ms — all generic fields already shared across every
-  kit) are currently active on a hero. Not started.
+  slow etc." `hero_status_label()` composes a short tag string (SILENCED, ROOTED, INTANGIBLE,
+  BURNING, UNKILLABLE) from the generic status fields already shared across every kit, drawn
+  above the existing name label only when something's active. Stun/slow aren't modeled as their
+  own generic fields in the sim yet — surfaced what actually exists rather than inventing new
+  mechanics as a HUD side effect; a real stun/slow system is separate kit work. Client-side only,
+  clean build, full headless suite (366 checks) unaffected. REDGARDEN `c0eac23`, Apple #10807.
 
 - [ ] **S170-134: REDGARDEN/TYLER — MnM, a shapeshifting rapping crab tank from Detroit.**
   Founder, real-time, in sequence: "add MnM a shapeshifting rapping crab tank from detroit to
