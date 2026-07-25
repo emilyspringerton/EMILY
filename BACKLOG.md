@@ -7186,6 +7186,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-118: REDGARDEN — use SHANKPIT's og-engine models to enhance hero legibility (real
+  per-hero geometry, not colored cubes).** Founder, real-time: "use shankpit skins as a basic
+  jump in graphics for redgarden models" → "use shankpit og engine models to enhance redgarden
+  hero legibility." Logged before writing per Principle 1. Every hero currently renders as one
+  identically-shaped colored cube — S170-89/96 (floating health bars + name labels) already fixed
+  "who is this" at a glance; this fixes "what does this hero actually look like." Can't literally
+  port SHANKPIT's `draw_player_skin_*()` functions verbatim — SHANKPIT's renderer is legacy
+  immediate-mode GL (`glBegin`/`glPushMatrix`), REDGARDEN's 3D world pass is shader-based
+  (`draw_mesh()` + real mat4 transforms) — but the same silhouette/color design already built
+  for Duck/Unicorn/Ghost/Frog/Tree/Pizza/Tyler carries over as a multi-box composition using
+  REDGARDEN's own existing pipeline. Scope: a real per-hero 2-4-box model for all 18 heroes (the
+  7 with a SHANKPIT skin already designed reuse that silhouette; the remaining 11 get a new,
+  equally simple design matching their kit/lore identity). In progress.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
