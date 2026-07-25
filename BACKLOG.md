@@ -953,15 +953,22 @@ Run: `emily backlog promote --limit=50 --batch=15`
 *Context: once EDIS and Ask Emily get traction we'll get hit hard. Need to be ready before not after.*
 *Ops infrastructure scaffolded 2026-06-12. Deploy steps documented in docs/ops-runbook.md.*
 
-- [ ] **S24-06: newssite content feels stale except "Stocks on the Move."** Founder, real-time
+- [x] **S24-06: newssite content feels stale except "Stocks on the Move."** Founder, real-time
   (garbled/duplicated transmission, read as one message): "everything on fatbaby news feels stale
-  except stocks on the move." Logged before investigation per Principle 1. Not yet root-caused —
-  candidates worth checking: whether commentary/EPS/guidance/dividend/buyback sections update on a
-  slower real cadence than the market-movers snapshot (`cmd/movers-watcher`, gated to real trading
-  days via `internal/marketcal`, per README's own "Ingestion" table), whether any of those watchers
-  have silently stalled (same class of bug S36-01..05 fixed for signal_failed rates back in
-  2026-06-17 — worth a fresh look, not assumed still fixed), or whether it's a page-rendering/cache
-  issue rather than a data-freshness one. No investigation done yet this pass.
+  except stocks on the move" → escalated with a concrete claim: "market open for days no fresh
+  content via the menu besides stocks on the move" → "still no press releases page or press
+  releases on ticker pages." Root-caused: eps-processor/guidance-watcher/dividend-watcher were
+  correctly reporting "nothing new" — their cursors were fully caught up to prwatch-body's own
+  store. The real stall was one level upstream: `prwatch-body`'s crawler (`prwatch/crawler.go`)
+  used `http.DefaultClient` with no timeout and no context deadline; `crawlBatch` blocks on
+  `wg.Wait()` for all 4 workers before the outer poll loop can run again, so a single hung PR
+  Newswire connection froze the entire crawler indefinitely — confirmed live (process alive since
+  Jul 21, ~6min total CPU time, zero log output for 4+ hours while `prwatch` discovery kept finding
+  new releases the whole time). Fixed with a 30s per-fetch context timeout in `crawlOne`. Restarted
+  live, confirmed it's actively re-draining the discovery backlog. Follow-up noted but not blocking:
+  `RunBodyCrawler` doesn't persist its discovery-store read cursor across restarts, so every restart
+  re-pages the full discovery history before reaching the live frontier.
+  — PRRJECT_FATBABY `9fa7358`. Apple #10740.
 
 - [x] **S24-00: Ops scaffold** — nginx configs (newssite + signalapi), systemd service units
   (newssite, processor, secwatch, signalapi), docker-compose.prod.yml (MySQL + MongoDB + nginx),
@@ -7282,6 +7289,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   Steam wishlist page rebranded to match; fixed a broken blog link to the real
   `redgarden-knights-of-the-void` slug. Deployed via `~/okemily-deploy.sh`, verified live.
   OKEMILY `c9922d6`, Apple #10737.
+
+- [ ] **S170-121: REDGARDEN — controlling a node enables its spawn for your team.** Founder,
+  real-time: "redgarden controlling a node enables its spawn for your team." Ties node ownership
+  (`ArenaNode.owner`, already tracked and rendered per-team since S170-87) to a real gameplay
+  consequence — currently capture just changes node color/HUD state with no mechanical effect.
+  Needs: per-node creep/hero spawn point gated on `owner == team`, likely in the server tick
+  (`arena_update_teams()`) alongside the existing capture-progress logic.
+
+- [ ] **S170-122: REDGARDEN — basic animations for auto attacks.** Founder, real-time: "add basic
+  animations for auto attacks." Client-side (`apps/arena/src/main.c`) visual feedback for the
+  existing auto-attack/basic-hit logic — currently likely renders as an instant HP-bar change with
+  no visual tell. Scope: simple, readable animation (e.g. a brief lunge/flash/projectile-line), not
+  a full animation system.
 
 ---
 
