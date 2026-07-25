@@ -6960,7 +6960,13 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
     tests, live-verified (a real match drafted her with zero duplicate picks). REDGARDEN
     `5ec3566`, Apple #10788.**
   - **Vassago, the Soft Foresight** (#16, Goetia Court) — exists, and is also TYLER canon
-    (`TYLER/CLAUDE.md`'s Goetia frequency table, 11.11 Hz). Not started.
+    (`TYLER/CLAUDE.md`'s Goetia frequency table, 11.11 Hz). **Done — 23rd hero, full kit
+    (passive HP regen, ranged damage+silence Q, ally next_cast_refund W, the roster's first
+    purely-control R — silence-only zone, zero damage), 6 new tests, live-verified (a real
+    match drafted her with zero duplicate picks). Found and fixed a real design issue along
+    the way: the first-draft silence duration was shorter than the zone's own re-application
+    tick, leaving real gaps — fixed to match Flamel's proven margin. REDGARDEN `0d5b575`,
+    Apple #10793.**
   - **Beleth** — referenced in `TYLER/CLAUDE.md`'s frequency table (2.22 Hz, "Love / emotional
     detonation") but not yet confirmed to have a full compendium entry — needs checking. Not
     started.
