@@ -6930,17 +6930,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-99: REDGARDEN — human reports "still after 1 game everything breaks."** Founder,
+- [x] **S170-99: REDGARDEN — human reports "still after 1 game everything breaks."** Founder,
   real-time: "still after 1 game in redgarden everything breaks." Logged before investigation per
   Principle 1. Real, confirmed live: matchmaker log shows a match reaching a genuine 20/20
   connected (including the founder's own external IP), entering draft, then — "No lobby progress
-  in 60s (phase=1, 20/20 connected) -- shutting down." `phase=1` is `ARENA_PHASE_DRAFT`. A fully
-  connected 20-player lobby is stalling in draft and dying after the 60s no-progress timeout —
-  this reads exactly like "everything breaks after one game": the human finishes a match, the
-  requeue reconnects them into a genuinely full new lobby, and then nothing happens for a full
-  minute before the server just disappears. Not yet root-caused which pick is missing or why —
-  reproducing live now by adding a controlled 20th test bot to an in-progress lobby rather than
-  guessing from logs alone. In progress.
+  in 60s (phase=1, 20/20 connected) -- shutting down." `phase=1` is `ARENA_PHASE_DRAFT`. Reproduced
+  a bot-only 20/20 lobby live to rule out a server-side draft bug — completed cleanly every time,
+  isolating it to the human's own pick specifically. Root-caused: `net_send_pick()` (and
+  `arena_bot`'s own `send_pick()`) was a single fire-and-forget UDP send with no retry at all,
+  unlike `net_connect()`/`net_find_and_connect()` which both already retry — rock-solid over
+  localhost loopback (all this path was ever tested against), but a real external connection can
+  drop that one unacknowledged packet, and `net_picked` latched to 1 on send, not confirmation, so
+  it was never resent. Fixed: resend every ~1s while still stuck in draft, in both clients.
+  **Done — Apple #10701 · REDGARDEN `b1bfd89`. Systemd services restarted with the fix.**
 
 ---
 
@@ -6967,6 +6969,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   Not started — needs a quick check of existing blog posts for a "compression" thread before
   writing, to land it as a real sequel rather than a same-title collision (same class of mistake
   already caught twice tonight, S170-70/S170-73).
+
+---
+
+- [ ] **S170-102: REDGARDEN — FFXI Rise of the Zilart-launch item parity, doc first.** Founder,
+  real-time: "in terms of items add parity with all ffxi items at rise of the ziliart launch" →
+  "all items" → "ffxi" → "northstar" → "redgarden into a doc like the hero metaverse guide in
+  tyler" → "and then we will add the most interesting ones as items to knights of the void" →
+  "do the doc first exact ffxi item mnames for now is fine we will iterateg gpt2 is exxcillent at
+  generating awesome mob and item names the ffxi list can seed into gpt2" → "for true ip." Logged
+  before writing per Principle 1. Real scope, clarified across the sequence: (1) a doc-first pass,
+  same shape as `TYLER/multiverse_heroes.md` — a real item compendium scoped to FFXI's actual
+  Rise of the Zilart launch-era item list, exact real names for now (explicitly not a legal
+  concern at the doc stage — internal reference only); (2) explicitly NOT for direct use in the
+  shipped game as-is — "for true ip" means the real FFXI names are seed data for
+  `gpt2-alpine-c`'s fine-tune pipeline to generate original item/mob names from, the same
+  founder-established pattern this session already used for hero lore; (3) only after that,
+  "the most interesting ones" get wired into KNIGHTS_OF_THE_VOID as real items — a later,
+  separate pass, not this one. In progress — starting the doc now.
 
 ---
 
