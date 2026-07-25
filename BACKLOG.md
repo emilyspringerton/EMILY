@@ -7404,11 +7404,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   broadcast) rather than a client-side HP-delta guess that would silently miss half the roster.
   Not started.
 
-- [ ] **S170-69 (revisited): REDGARDEN arena — enhanced cursor hover state (enemy vs. ally).**
+- [x] **S170-69 (revisited): REDGARDEN arena — enhanced cursor hover state (enemy vs. ally).**
   Founder, real-time: "do the enhanced cursor hover state work" — promotes this from the
   northstar/design-note status it was logged at to actual implementation. Purely client-side:
   `arena_state.heroes[i].team` is already populated in every render mode (local/net/replay), no
-  wire changes needed — hovering a hero should visually distinguish enemy from ally (and self),
-  same relationship-color convention the health bars/hero models already use. Not started.
+  wire changes needed. Hovering near a hero's floating health bar draws a relationship-colored
+  bracket outline (self/ally/enemy, same colors the bar fill already uses) plus a tooltip with
+  relationship, hero name, and real HP numbers near the cursor — found in the same per-hero pass
+  the health bars already run, no extra cost. Client-only rendering change, verified via clean
+  build (no headless test possible for SDL2/GL mouse-hover rendering). — REDGARDEN `b0cdaca`.
+  Apple #10772.
+
+---
+
+*EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
