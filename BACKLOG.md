@@ -5311,9 +5311,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   investor-alert headline) with EPS figures that are plausibly real numbers quoted *inside* the
   spam article, attributed to a nonexistent issuer. Neither watcher's fix is built —
   `S170-06`/`S170-07` below.
-- [ ] **S170-06: buyback-watcher residual noise** — determine how much traces back to the
+- [x] **S170-06: buyback-watcher residual noise** — determine how much traces back to the
   now-fixed nav-chrome path (should already be improving going forward) vs. a separate cause;
-  not started.
+  not started. **Done** — a separate cause, confirmed via real captured false positives, not the
+  nav-chrome path at all: `reComplete` (a properly proximity-scoped regex) was dead code, the
+  switch statement checked completion-verb presence and buyback-word presence independently with
+  no proximity requirement between them. 3 more related bugs found investigating (too-loose core
+  regex, too-tight authorize/complete windows missing real prose like a genuine CAE NCIB renewal,
+  dollar-figure extraction picking the first amount anywhere in the document instead of the one
+  actually near the buyback mention — Docusign's real figure is $317.5M vs. an unrelated $830.2M
+  revenue figure that happened to appear first). 6 new regression tests. Corrected the live
+  entity-graph (removed 8 fabricated/no-longer-qualifying signals, fixed 2 real ones' amounts) and
+  regenerated `var/buybacks/buybacks.ndjson` (14→4 records) by reclassifying real captured bodies
+  through the fixed code. Rebuilt + restarted `fatbaby-buyback-watcher.service`. Commit `9554f4c`,
+  Apple #10733.
 - [ ] **S170-07: guidance-watcher issuer-attribution bug** — investigate where `issuer` gets set
   in `internal/guidance` and whether INVESTOR ALERT/SHAREHOLDER-style headlines should be
   filtered pre-extraction, matching the dividend fix's approach; not started.
