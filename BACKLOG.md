@@ -7394,15 +7394,25 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-124: REDGARDEN arena — particle effects for spells.** Founder, real-time: "redgarden
+- [x] **S170-124: REDGARDEN arena — particle effects for spells.** Founder, real-time: "redgarden
   add particle effects to spells." Logged before writing per Principle 1. Distinct from S170-122's
   auto-attack flash (which fires on any HP decrease, a signal that doesn't cover every spell —
   Frog's Q rewinds position/HP with no damage at all, several kits have no damage component on
-  some slots). The wire snapshot (`ArenaHeroSnapshot`) carries no "an ability was just cast"
-  signal at all — needs a small, honest protocol addition (a per-hero last-cast-slot flag,
-  populated server-side whenever arena_cast_q/toggle_w/cast_r actually executes, cleared after one
-  broadcast) rather than a client-side HP-delta guess that would silently miss half the roster.
-  Not started.
+  some slots). The wire snapshot (`ArenaHeroSnapshot`) carried no "an ability was just cast"
+  signal at all — needed a small, honest protocol addition rather than a client-side HP-delta
+  guess that would silently miss half the roster.
+
+  **Built:** `ArenaHeroSnapshot.cast_flash_slot` (0/1/2/3 = none/Q/W/R), set the instant a cast
+  clears its gate in `arena_cast_q`/`arena_toggle_w`/`arena_cast_r` regardless of whether it lands
+  — a real cast animation fires on cast, not just on a landed hit. W needed care: some heroes are
+  pure toggles (Unicorn, no cooldown at all), others are instant-with-cooldown (Ghost/Tyler/
+  Paimon) — gated on `w_cooldown_ms <= 0`, correct for both. Server clears its own copy right
+  after each broadcast, one-tick lifetime, same idiom as `damaged_this_tick`. Client renders Q/W/R
+  as visually distinct tiers (small cyan, bigger violet, biggest gold); local 1v1 demo drains the
+  same field directly since there's no server broadcast to hook there. 5 new headless tests.
+  Verified: full suite (277 checks), VS0/VS1 stable, live — wire-format change, rebuilt+restarted
+  all three systemd units together, confirmed a real 20/20 match forms and streams snapshots with
+  no crash. — REDGARDEN `c7117fe`. Apple #10773.
 
 - [x] **S170-69 (revisited): REDGARDEN arena — enhanced cursor hover state (enemy vs. ally).**
   Founder, real-time: "do the enhanced cursor hover state work" — promotes this from the
