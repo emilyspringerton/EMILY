@@ -6991,6 +6991,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-103: REDGARDEN — add Abraham the Mage (new lore) and Ada Lovelace (existing lore,
+  wire-in) as heroes 16 and 17.** Founder, real-time: "add abraham the mage" → "add ada lovelace
+  mech pilot." Logged before writing per Principle 1. Checked `multiverse_heroes.md` for both:
+  Ada Lovelace already has a full entry (#112, Faction 11, The Unbound Historicals) — "wrote the
+  first computer program for a machine that was never built... cast as a mech pilot," same
+  pattern as Gary/Loki/Flute Debt (wire existing lore into a real kit, no new writing). Abraham
+  the Mage has no existing entry — checked, `grep` empty. Real hook found, not the biblical
+  patriarch: Abraham of Worms, the historically disputed author of the real grimoire *The Book of
+  the Sacred Magic of Abramelin the Mage* (title literally "...Abramelin the Mage"), hugely
+  influential in real Western ceremonial magic (Aleister Crowley's real "Abramelin Operation"),
+  whose own historical existence is uncertain — fits Faction 11's exact doctrine ("the gap
+  between the actual, mundane historical record and the legend that outgrew it"). New entry #113
+  needed before any kit work. In progress.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
