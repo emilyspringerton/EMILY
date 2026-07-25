@@ -5269,8 +5269,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   incident and declined one miner request today (2026-07-19) specifically over shared-resource
   risk — needs a deployment-isolation decision (container, or the same "dedicated hardware"
   answer already given for the miner) before anything installs.
-- [ ] **S170-03b: IDUNA Vault VS0 build** — split out from the old bundled S170-03 alongside
+- [x] **S170-03b: IDUNA Vault VS0 build** — split out from the old bundled S170-03 alongside
   S170-03a. Not started; CLI/API vault per `IDUNA/docs/NORTHSTAR_PASSWORD_MANAGER.md`'s VS0 scope.
+  **Done** — picked up per Principle 1 (lowest-numbered open section, S170-03a above it is
+  founder-blocked on a deployment-isolation decision, S170-03b was next and unblocked). New
+  `IDUNA/internal/vault` package + loopback-only `/api/v1/vault/*` handlers (init/unlock/lock/
+  status + item CRUD), five item types (login/note/api_key/totp/document), reuses
+  `internal/mailinglist.Vault`'s Argon2id+AES-256-GCM primitive directly per the northstar's own
+  "reuse, don't reinvent" instruction — turned out to be exact, the mailing-list vault already is
+  per-item encryption under one shared master key. New `emily vault init/unlock/lock/status/add/
+  get/list/delete` CLI. Verified end-to-end against a real running IDUNA instance on a throwaway
+  port (init, wrong-passphrase rejection, unlock, add, list, get, delete, lock, re-unlock with
+  data surviving the cycle) before deploying to production. `go test` green in both repos.
+  Deployed: live `iduna.service` rebuilt+restarted (known cost: re-locks the mailing-list vault
+  too, pre-existing, not new here). Live vault left deliberately uninitialized — passphrase must
+  be human-memorized by the founder, never chosen by an agent. IDUNA `6b76849`, emily.cli
+  `027d793`, Apple #10730.
 - [x] **S170-05: PRNewswire nav-chrome false-positive bug — found investigating "add dividends to
   newssite menu."** Apple #10296 · PRRJECT_FATBABY `79ac620`. Didn't build the requested nav link
   before checking the underlying data first: 10 of 13 live `var/dividends/dividends.ndjson`
