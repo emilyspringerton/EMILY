@@ -6947,7 +6947,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [~] **S170-93: REDGARDEN — next hero wave: Weatherman+Donkey interaction, Xiangu, Gunnr,
+- [x] **S170-93: REDGARDEN — next hero wave: Weatherman+Donkey interaction, Xiangu, Gunnr,
   Drowned Prince, Vassago, Beleth.** Founder, real-time, in rapid succession while S170-91 was
   still in progress: "add the weatherman and donkey specific donkey paper airplae weatherman
   interractions" → "add xiangu" → "add drowned prince" → "add gunnr" → "add vassago" → "add
@@ -6993,9 +6993,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
     from scratch (no prior writeup existed); §16.3 is the requested interaction — Weatherman's W
     grounds an enemy mid-Paper-Glide or extends an ally's flight, same team-dependent-effect
     precedent as Ghost's Recital. REDGARDEN `ed77327`, Apple #10805.
-  - **Drowned Prince** — no existing entry found (`grep` came back empty). Would need new lore
-    written from scratch, same as Loki's "who isn't here" treatment, not just wired in from an
-    existing paragraph. Not started.
+  - **Drowned Prince** — no existing entry found. **Done — lore only, no existing anchor, built
+    from scratch same as Loki's "who isn't here" treatment.** Grounded in real Welsh legend
+    (Cantre'r Gwaelod, the drowned lowland kingdom in Cardigan Bay, and Seithenyn, the sea-gate
+    guardian who was drinking during the storm that drowned it) rather than invented whole —
+    `multiverse_heroes.md` #115, appended to the same "later addition" block as MnM (#114). No
+    REDGARDEN hero kit requested for this one (unlike MnM, the founder's ask stopped at the lore
+    doc) — none built, none pending. TYLER `b001297`, Apple #10810.
+
+  **S170-93 batch complete** — all six sub-items resolved: He Xiangu, Gunnr, Vassago, Beleth
+  (full REDGARDEN kits), Weatherman+Donkey (spec, NORTHSTAR §16), Drowned Prince (lore only,
+  MnM's lore+kit tracked separately as its own S170-134 since it arrived as a distinct real-time
+  ask mid-batch, not originally part of this list).
 
 ---
 
