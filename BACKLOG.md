@@ -6930,6 +6930,46 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-99: REDGARDEN — human reports "still after 1 game everything breaks."** Founder,
+  real-time: "still after 1 game in redgarden everything breaks." Logged before investigation per
+  Principle 1. Real, confirmed live: matchmaker log shows a match reaching a genuine 20/20
+  connected (including the founder's own external IP), entering draft, then — "No lobby progress
+  in 60s (phase=1, 20/20 connected) -- shutting down." `phase=1` is `ARENA_PHASE_DRAFT`. A fully
+  connected 20-player lobby is stalling in draft and dying after the 60s no-progress timeout —
+  this reads exactly like "everything breaks after one game": the human finishes a match, the
+  requeue reconnects them into a genuinely full new lobby, and then nothing happens for a full
+  minute before the server just disappears. Not yet root-caused which pick is missing or why —
+  reproducing live now by adding a controlled 20th test bot to an in-progress lobby rather than
+  guessing from logs alone. In progress.
+
+---
+
+- [ ] **S170-100: REDGARDEN ops — keep the live arena_server binary always current with the
+  latest passing CI build.** Founder, real-time: "ensure the server version always stays current
+  with the currently latest passing build." Logged before writing per Principle 1. Currently
+  manual: I rebuild `build/red_garden_arena_server` locally and the systemd units pick it up on
+  their next restart, with no automated tie to CI's own green/red signal. Real scope: some kind
+  of deploy hook (poll the GitHub Actions API for the latest successful run on `main`, pull that
+  commit, rebuild, restart the three arena systemd units) — needs real design, not a quick
+  bolt-on, especially given tonight's S170-84 CI-hang incident (a run can sit "in_progress"
+  indefinitely without ever reaching success/failure). Not started.
+
+---
+
+- [ ] **S170-101: Blog post — next in the "compression" line, an LZ4 close-to-the-metal deep
+  dive.** Founder, real-time: "add a next one in the blog line on compression 'ensure'" → "and
+  then a close to the metal deep dive on lz4 compression" → "as a blog post" → "or whatever its
+  called." Logged before writing per Principle 1. Two things named, possibly one request:
+  (a) a next entry in an existing "compression" blog thread — need to find which prior post(s)
+  this continues before writing a sequel that doesn't match voice/thread; (b) a genuinely
+  technical LZ4 deep-dive (algorithm internals: the hash-chain match finder, the 4-byte minimum
+  match, literal/match-length encoding, why it trades ratio for raw decode speed vs. zstd/gzip).
+  Not started — needs a quick check of existing blog posts for a "compression" thread before
+  writing, to land it as a real sequel rather than a same-title collision (same class of mistake
+  already caught twice tonight, S170-70/S170-73).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
