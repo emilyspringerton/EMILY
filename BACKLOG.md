@@ -7007,6 +7007,17 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-104: REDGARDEN — add NOOR-1 as a snowman, 18th hero.** Founder, real-time: "add
+  NOOR-1 as a snowman." Logged before writing per Principle 1. NOOR-1 ("Four Days Behind",
+  `multiverse_heroes.md` #3, Jiangshi Syndicate) already exists — "sent in clean on purpose, and
+  it isn't working," an operative reading her own subject faster than she can file on him. "As a
+  snowman" reads as an in-game FORM directive, same convention as the original roster (a Duck, a
+  Unicorn, a Pizza, a Tree — ordinary objects/figures given a hero identity) — NOOR-1's in-game
+  model/theme is a snowman, distinct from her lore text. Queued behind S170-103 (Abraham the
+  Mage/Ada Lovelace, in progress). Not started.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
