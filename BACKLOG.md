@@ -7205,6 +7205,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `scripts/build.sh`, `scripts/build_arena.sh`, `scripts/test_arena.sh`, local mingw cross-compile
   (all 4 source files). Commit `7378164`, Apple #10727.
 
+- [ ] **S170-119: REDGARDEN — expand arena map to Arathi Basin size, 5 capture nodes (up from
+  2).** Founder, real-time: "expand the redgarden map to arathi size and 5 nodes." Logged before
+  writing per Principle 1. Current map is `ARENA_HALF_EXTENT 12.0f` with `ARENA_NODE_COUNT 2`
+  (S170-50/51's Arathi-style channel-capture mechanic already exists, just undersized relative to
+  its own namesake). Scope: bump `ARENA_NODE_COUNT` 2→5 (`packages/simulation/arena_game.h`) and
+  the wire-protocol mirror `ARENA_SNAPSHOT_NODE_COUNT` 2→5 (`packages/common/protocol.h`, must
+  stay equal per its own doc comment), lay out 5 node positions in a real Arathi Basin-style
+  spread (two-per-side + one center, not evenly circular), widen `ARENA_HALF_EXTENT` so 5 nodes
+  have real room (ground plane + movement clamp + minimap already derive from this constant, no
+  separate edits needed there). `ARENA_MAX_CREEPS` is `#define`d off `ARENA_NODE_COUNT` and
+  `creep_spawn()` derives flavor from `node->owner` dynamically, not a hardcoded index, so jungle
+  creeps scale to 5 automatically. One real blocker found while scoping: Courier's W
+  (`courier_toggle_w`, "Between Eagle and Serpent") is hardcoded to exactly `nodes[0]`/`nodes[1]`
+  ("always lands, there are always exactly two nodes to jump between" — own comment, now false) —
+  needs a real redesign to generalize "farthest node" across N nodes, plus the two dispatch-site
+  comments and `docs/HEROES_VS0.md`'s Courier section that also assert "two map nodes." In
+  progress.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
