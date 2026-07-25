@@ -7148,6 +7148,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-115: REDGARDEN — requeue looked exactly like a crash, real root cause of the
+  repeated stalled-match pattern.** Founder, real-time: "is the matchmaker bot pool running"
+  (checked live, confirmed yes). Found while investigating why matches kept stalling at
+  high-but-not-full connect counts: `net_find_and_connect()` blocks the whole event loop for up
+  to 60s with zero frame rendered in between, indistinguishable from a hang. Confirmed via the
+  matchmaker log: 13+ distinct source ports from the founder's own IP within a few minutes —
+  consistent with force-quitting an apparently-frozen window and relaunching repeatedly, each
+  relaunch abandoning its own in-progress match. New `draw_queuing_screen()` renders a real
+  "QUEUING FOR MATCH / PLEASE WAIT" frame before the blocking call starts. **Done — Apple #10723
+  · REDGARDEN `599f292`.**
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
