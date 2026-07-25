@@ -7173,14 +7173,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-117: OKEMILY — freshen up the main index landing page + add a news section.**
+- [x] **S170-117: OKEMILY — freshen up the main index landing page + add a news section.**
   Founder, real-time: "freshen up the okemily main index landing page content a bit with some of
-  the new updates and add a news section." Logged before investigation per Principle 1. Real
-  scope: read the current `index.html` first, update content to reflect tonight's real shipped
-  milestones (Knights of the Void human-validated on stream, 18-hero roster, the blog's TTS
-  button), and add a real news section — likely surfacing recent blog posts rather than
-  hand-maintained duplicate content, matching the "single source of truth" discipline already
-  used elsewhere in this stack. In progress — reading the current page first.
+  the new updates and add a news section" → "for the einhorn newswire posts to the blog." Logged
+  before investigation per Principle 1. New `.news` section right after the header, surfacing the
+  two real `FATBABY_NEWSWIRE`-authored posts, hand-maintained static links matching this page's
+  existing no-build-step/no-framework design constraint (confirmed via `OKEMILY/CLAUDE.md`) —
+  same pattern the footer's blog-links list already used, not a new API-fetch dependency. Also
+  lightly refreshed "What we're building" and the Game Worlds pillar to name Knights of the Void
+  directly. Deployed via `~/okemily-deploy.sh`, verified live on okemily.com. **Done — Apple
+  #10725 · OKEMILY `cbf5bf1`.**
 
 ---
 
