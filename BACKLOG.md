@@ -7552,6 +7552,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-131: REDGARDEN arena — ensure all characters have unique skinmodels.** Founder,
+  real-time: "ensure all characters have unique skinmodels." Audited all 24
+  `draw_hero_model()` cases (full coverage confirmed, none missing). Found two real
+  near-duplicate pairs: Gary/Abraham shared an identical base body + near-identical flat chest
+  accent; Cain/Tyler shared an identical base body with Cain's shoulder mark (0.14-unit cube) too
+  small to read against Tyler's deliberately bare body. Fixed: Gary got a side-mounted
+  rifle/scope bar (fits his marksman kit better than a chest slab), Abraham gained a floating
+  arcane orb accent, Cain's mark moved to the forehead and enlarged. Verified: clean build,
+  full headless suite (337 checks), purely client-side/visual, no sim logic touched.
+  REDGARDEN `b17ee23`. Apple #10799.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
