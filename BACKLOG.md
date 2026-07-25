@@ -7069,14 +7069,13 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-109: Blog post — "I Got No Roots, But My Home Was Never on the Ground."** Founder,
+- [x] **S170-109: Blog post — "I Got No Roots, But My Home Was Never on the Ground."** Founder,
   real-time: "i got no roots but my home was never on the ground in french and tehn a blog post."
   Logged before writing per Principle 1. Reads as a seed phrase/theme for The Tree (`docs/
   HEROES_VS0.md`'s "Keeper of the Universe's Greatest Secret, in French" — an original REDGARDEN
-  roster hero, French-speaking) — a real paradox worth taking seriously as a title: a tree that
-  has no roots, whose home was never grounded. Connects to the already-queued S170-80 ("Ask the
-  Frog, Not the Tree") garage cutscene. Queued behind S170-106's two posts ("It Isn't Over,"
-  "Bittersweet") per the founder's own message order. Not started.
+  roster hero, French-speaking) — a real paradox taken seriously as a title: a tree that has no
+  roots, whose home was never grounded. Connects to the already-queued S170-80 ("Ask the Frog,
+  Not the Tree") garage cutscene. **Done — published https://okemily.com/blog/i-got-no-roots/.**
 
 ---
 
