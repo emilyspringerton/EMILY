@@ -6211,17 +6211,22 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `RedGarden_Client_*.zip` (exe + SDL2.dll + PLAY.bat) and `RedGarden_Server_*.zip`, matching the
   original ask exactly.
 
-- [ ] **S170-55: REDGARDEN — twelfth hero, John Dee / Paimon (merged, one character).** Founder,
+- [x] **S170-55: REDGARDEN — twelfth hero, John Dee / Paimon (merged, one character).** Founder,
   real-time: "add john DEE /paimon as the same hero." TYLER lore check done (same discipline as
   Flamel/Druid, S170-46/47) — Paimon has the real `multiverse_heroes.md` #20 entry, John Dee folded
   in as the vessel/practitioner. Kit written (`docs/HEROES_VS0.md`), `ARENA_HERO_PAIMON` added to
   the enum, Q/W/R cast-dispatch implemented in `arena_game.c`, `ARENA_HERO_COUNT` bumped to 19 —
-  but **partially wired, not actually reachable yet**: no `arena_hero_name()`/`arena_ability_name()`
-  entries (renders as "unknown"), `apps/arena_server`'s pick-validation bound still stops at
-  `ARENA_HERO_TYLER`, and the draft-modulo in `apps/arena_bot`/`apps/arena` (both still `% 18`)
-  means Paimon can never be randomly drafted either. No headless tests yet. Left here as an honest
-  in-progress marker rather than checked off — next session should finish the wiring (4 files) +
-  tests before this is real.
+  but partially wired, not actually reachable, when first left off.
+
+  **Finished:** the five remaining gaps closed — `arena_hero_name()`/`arena_ability_name()`
+  entries, `apps/arena_server`'s pick-validation bound raised to `ARENA_HERO_PAIMON`, draft-modulo
+  in `apps/arena_bot`/`apps/arena` bumped `% 18` → `% 19`, `tick_hero_kit` case (passive periodic
+  silence aura + R-zone damage/heal tick) and `bot_cast_kit_if_ready` case added (the latter had
+  been a real, confirmed compiler warning: "enumeration value 'ARENA_HERO_PAIMON' not handled in
+  switch"). Also gave Paimon a distinct 3D silhouette instead of the generic default cube. 5 new
+  headless tests. Verified live: rebuilt + restarted all three systemd units, confirmed Paimon
+  (`hero_id=18`) actually gets drafted in a genuine 20/20 match and runs stably with real
+  snapshots streaming, no crash. — REDGARDEN `e12cf91`. Apple #10765.
 
 - [x] **S170-56: REDGARDEN — draft-phase bans, decided against for now; captured as northstar
   reasoning.** Founder, real-time, a real design conversation, not a spec dictation: "add bans to
