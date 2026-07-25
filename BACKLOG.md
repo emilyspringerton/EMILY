@@ -6813,7 +6813,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-91: REDGARDEN — add Gary and Flute Debt to the KNIGHTS_OF_THE_VOID hero roster.**
+- [x] **S170-91: REDGARDEN — add Gary and Flute Debt to the KNIGHTS_OF_THE_VOID hero roster.**
   Founder, real-time: "add GARY to redgarden" → "music" → "add flute debt" (the second message
   read in context as leading into the third — flute is a musical instrument — not a separate
   audio request). Logged before writing per Principle 1. Both already have full lore entries,
@@ -6852,7 +6852,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-94: REDGARDEN — add Bacon and Puck as the same hero, 15th roster slot.** Founder,
+- [x] **S170-94: REDGARDEN — add Bacon and Puck as the same hero, 15th roster slot.** Founder,
   real-time: "add bacon and puck as the same hero." Logged before writing per Principle 1. Same
   merge pattern as Flamel/Druid (S170-... earlier roster work) — two existing lore entries,
   Bacon (`multiverse_heroes.md` #5, "Custodian of the one location nobody's allowed to know yet,"
