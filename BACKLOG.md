@@ -981,6 +981,14 @@ Run: `emily backlog promote --limit=50 --batch=15`
   blocking new files from `git add` without `-f` — same class of bug as the DIS unanchored-`dis/`
   fix (S23-07). — PRRJECT_FATBABY `c8b2c03`, `b9c113b`, `836e8a9`. Apple #10744.
 
+- [x] **S24-08: Blog post — memorial for the prwatch-body deadlock incident.** Founder, real-time:
+  "write a blog post memorial cerimony for the incident titel of your choice." Chose S24-06/S24-07
+  (the crawler deadlock) as the incident, titled "Uptime Is Not Aliveness" — the central point
+  being that `systemctl status` reported `active (running)` truthfully for the entire 4.5-hour
+  window in which the process did nothing useful; "alive" and "working" are different claims.
+  Published via IDUNA blog.write API, live at `okemily.com/blog/uptime-is-not-aliveness/`, footer
+  synced, deployed. — OKEMILY `9244e32`. Apple #10746.
+
 - [x] **S24-00: Ops scaffold** — nginx configs (newssite + signalapi), systemd service units
   (newssite, processor, secwatch, signalapi), docker-compose.prod.yml (MySQL + MongoDB + nginx),
   deploy.sh build+restart script, env.production template, ops-runbook.md.
