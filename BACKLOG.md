@@ -7425,6 +7425,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   build (no headless test possible for SDL2/GL mouse-hover rendering). — REDGARDEN `b0cdaca`.
   Apple #10772.
 
+- [x] **S170-125: REDGARDEN arena — spec camera lock/unlock + fog of war, no code yet.** Founder,
+  real-time: "specdd unlockable and lockable camera and fog of war." Asked and confirmed scope
+  before writing (genuinely the founder's call, not guessable): spec only, same treatment as
+  `NORTHSTAR.md` §14's draft-ban thread — and if/when fog of war gets built, client-side visual
+  only for a first pass, not real server-side vision culling (which would need to touch
+  `server_broadcast()`'s per-client payload for real anti-cheat). New `NORTHSTAR.md` §15: camera
+  lock proposal (hard-center on the local hero, `C` to toggle, open question on whether zoom stays
+  free while rotation locks) and fog-of-war proposal (radius-based hard cutoff around the local
+  hero, allies always visible, honestly scoped as "the stock client chooses not to render this"
+  rather than real anti-cheat), plus named open questions for whoever picks this up next (team
+  vision sharing, node-ownership vision bonus, jungle-creep visibility). Nothing built this pass.
+  — REDGARDEN `706ec44`. Apple #10775.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
