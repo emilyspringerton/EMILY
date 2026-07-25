@@ -6813,6 +6813,35 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [ ] **S170-91: REDGARDEN — add Gary and Flute Debt to the KNIGHTS_OF_THE_VOID hero roster.**
+  Founder, real-time: "add GARY to redgarden" → "music" → "add flute debt" (the second message
+  read in context as leading into the third — flute is a musical instrument — not a separate
+  audio request). Logged before writing per Principle 1. Both already have full lore entries,
+  no new writing needed: Gary, Bifrost Security (Off-Duty) (`multiverse_heroes.md` #35, Valhalla
+  Remnant) and Han Xiangzi's Flute-Debt (#42, Middle Kingdom Heirs). 13th/14th heroes,
+  `ARENA_HERO_COUNT` 12→14, real kits following the Loki (S170-79) precedent: Gary as a
+  stationary long-range marksman (Q precision shot, W toggles Q's own range rather than a stat,
+  R a fixed-duration root — "slow down, this isn't a track meet"), Flute Debt around a real
+  debt/mark mechanic (Q applies the shared `burning_ms`/`burn_dps` DoT as "the wrong note," W a
+  toggled self-heal, R "eventually collects" — bonus damage if the Q debt is still active on the
+  target, base damage otherwise). In progress.
+
+---
+
+- [ ] **S170-92: REDGARDEN — small musical/MIDI sound effects for gameplay legibility.**
+  Founder, real-time: "add little musical sound effects to redgarden to add legibility via midi."
+  Logged before writing per Principle 1. Real, currently-true gap: this client has zero audio of
+  any kind (confirmed via earlier reads of `apps/arena/src/main.c` — no SDL_mixer/audio init
+  anywhere). Scope needs real design before implementation, not a quick bolt-on: what
+  "legibility via midi" specifically means (short synthesized cues per event type — hit, cast,
+  death, requeue — vs. an actual MIDI-file playback system), whether SDL2_mixer is an acceptable
+  new dependency (the CI cross-compile pipeline would need a matching mingw devel package, same
+  pattern as the SDL2 install step), and what the Windows-bundle story is (another DLL to ship
+  alongside SDL2.dll in `PLAY.bat`'s zip, per S170-54's precedent). Not started — flagged for
+  scoping, not guessed into a shape that might not match what "via midi" actually means.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
