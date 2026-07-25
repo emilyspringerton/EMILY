@@ -7160,14 +7160,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-116: Blog post — "Tyler Teaches Typing," a joke product idea written as a real,
+- [x] **S170-116: Blog post — "Tyler Teaches Typing," a joke product idea written as a real,
   deadpan northstar.** Founder, real-time: "and now a a joke for a joke northstar" → "tyler
   teaches typing" → "as a joje real northstar" → "as a blog post." Logged before writing per
   Principle 1. The joke is the format itself: full institutional northstar rigor (milestones,
   VS0/VS1 staging, explicit out-of-scope section, acceptance criteria) applied with complete
   seriousness to an inherently absurd premise — TYLER, whose entire character is that he "never
   completes a self-defining sentence" (`TYLER/CLAUDE.md`'s Writer's Room Rule #1), hosting a
-  typing tutor product. In progress.
+  typing tutor product, and the real design problem that trait creates for a feature whose whole
+  job is explaining things plainly. **Done — published
+  https://okemily.com/blog/tyler-teaches-typing/.**
 
 ---
 
