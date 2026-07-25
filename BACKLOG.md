@@ -6875,13 +6875,15 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-96: REDGARDEN arena — hero name labels above the floating health bars.** Founder,
-  real-time: "add hero name labels above health bars." Logged before writing per Principle 1.
-  S170-89's per-hero floating bars (just shipped) have no name attached — with 15 heroes now in
-  the roster, telling who's who at a glance needs a label, not just a colored bar. Straightforward
-  extension of the existing `world_to_screen()` + per-hero HUD loop: one more `draw_string()` call
-  per alive hero, using `arena_hero_name()` (already exists, `packages/simulation/
-  arena_ai_bridge.c`) for the text. Not started.
+- [x] **S170-96: REDGARDEN arena — hero name labels above the floating health bars.** Founder,
+  real-time: "add hero name labels above health bars." S170-89's per-hero floating bars had no
+  name attached — with 17+ heroes now in the roster, a colored bar alone doesn't say who's who at
+  a glance. One more `draw_string()` call per alive hero in the existing HUD loop, using
+  `arena_hero_name()` for the text, reusing the already-set team color for the label for free.
+  `arena_ai_bridge.c` wasn't actually linked into the arena client at all — added to
+  `scripts/build_arena.sh`. Verified: `build.sh`, `build_arena.sh`, `test_arena.sh` clean;
+  client-only change, no live restart needed; no display on this box, so verified by code review +
+  clean compile, not run interactively. REDGARDEN `e53ee5f`, Apple #10714.
 
 ---
 
