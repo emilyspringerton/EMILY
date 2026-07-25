@@ -1,4 +1,5 @@
 ## 2026-07-25
+- backlog: ✓ S170-96 -- REDGARDEN hero name labels above floating health bars. arena_ai_bridge.c wasn't linked into the arena client build at all -- fixed. REDGARDEN e53ee5f, Apple #10714.
 - backlog: ✓ S170-90 -- REDGARDEN bots bunching up, fixed. Move-target logic sent the nearest enemy's exact coords instead of a spread approach angle. Verified live with a real 20/20 match. REDGARDEN b22ee89, Apple #10712.
 - backlog: ✓ S170-76 -- REDGARDEN 'Knights of the Void' naming, found already complete (blog post + window title rename both done, item was just left open). Closed with evidence.
 
