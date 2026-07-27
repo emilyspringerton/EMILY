@@ -7849,6 +7849,39 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
   </details>
 
+- [x] **S170-144: REDGARDEN arena — AoE damage spells hit creeps too, plus live bot-mode
+  verification of the whole session's batch.** Founder, real-time: "ensure aoe damage spells
+  hit creeps" → "verify it with bot mode." New shared `arena_zone_damage_creeps()`
+  (`packages/simulation/arena_game.c`), called from all five damage-dealing zone/aura sites
+  (Ghost's Recital, Pizza's always-on burn aura, Beleth's Detonation burst, Paimon's Two
+  Hundred Legions, NOOR-1's Do Not Approach) — before this, each only ever checked the single
+  nearest-enemy-HERO parameter `tick_hero_kit` threads through, an existing, already-flagged
+  limitation (Pizza's own aura comment) that also meant a zone dropped on a jungle or lane
+  creep did nothing. Same team-exclusivity as melee: a team-flavored jungle creep or lane
+  creep is only a valid target for the *opposing* team's zone; a neutral jungle creep is fair
+  game for anyone. Zone kills grant no jungle-creep kill-credit reward (capture-bonus/heal) —
+  no single attributable hero slot in this simplified model, flagged not faked. 4 new headless
+  tests, each deliberately positioned within zone radius but outside melee attack range to
+  isolate the new path from the pre-existing, separate melee-vs-creep mechanics (the first
+  attempt at these tests initially "passed" for the wrong reason — melee auto-attack
+  contaminating the result — caught and fixed before landing, not shipped silently wrong).
+
+  **Live bot-mode verification, the whole session's batch (S170-139 through 144) at once.**
+  Ran a real `apps/arena_server --lobby-size 20` + 20 `apps/arena_bot` match on freshly built
+  binaries, fresh ports, deliberately isolated from the already-running persistent bot pool
+  discovered earlier this session (confirmed untouched before and after — process count
+  unchanged). Confirmed: all 20 bots connected and drafted distinct heroes cleanly (26-hero
+  roster intact), a real 10v10 team split, genuine sustained combat over 55+ seconds with zero
+  crash — 15 of 20 heroes actually died with real, varied HP values on the 5 survivors, not a
+  static snapshot. **Real gap found and fixed along the way, not just a clean pass reported**:
+  the first attempt used `--lobby-size 6` and silently produced a lopsided all-team-0 lobby
+  with no combat at all — `arena_init_teams()` splits by `i < ARENA_TEAM_SIZE` (10), so any
+  lobby smaller than 20 that isn't exactly 2 puts every player on the same team. Pre-existing,
+  not caused by anything this session touched (confirmed) — flagged as a real operational trap
+  for the next person reaching for a "small team test" lobby size, since nothing in the code
+  warns about it. REDGARDEN `212f753`, pushed to `origin/main` as `cd33bb5..212f753`. Full
+  suite green (450 checks, up from 446). Apple #11041.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
