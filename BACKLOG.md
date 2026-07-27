@@ -7929,6 +7929,29 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   pattern used above applies directly whenever it's picked up — extend `ArenaHeroSnapshot`'s
   own array bound or add a small parallel clone-snapshot array, same shape as this pass.
 
+- [x] **S170-147: REDGARDEN arena — healing fountains at 2 corners of the map, across from
+  each other.** Founder, real-time: "add healing fountains at 2 corners of the map across
+  from each other." Continuing without new direction beyond that one line ("continue any in
+  progress or backlog redgarden work" had been the standing instruction). New
+  `arena_fountain_position()` — a shared source of truth for both the sim tick and the client
+  renderer, same "static, deterministic layout, no wire sync needed" precedent
+  `arena_obstacles_reset_layout` already established — places two fountains at diagonally-
+  opposite corners `(-24,-24)`/`(24,24)`, clear of every jungle obstacle and within the hero
+  movement clamp. `arena_tick_fountains()` heals any active, alive hero within
+  `ARENA_FOUNTAIN_RADIUS` (3.0) for `ARENA_FOUNTAIN_HEAL_PER_SEC` (15) per second, fixed-
+  interval tick, capped at max_hp. **Deliberately neutral, not team-exclusive** — the
+  founder's own wording described map geography ("2 corners... across from each other"), not
+  "one per team's base" (which real MOBA fountains usually are); read as a genuinely
+  contestable resource matching this map's existing neutral-structure pattern (nodes, jungle
+  creeps) rather than guessing which team owns which corner — flagged as a real design choice
+  in the code, not silently assumed, easy to flip to team-exclusive later if that's what's
+  actually wanted. Rendered as a base+pillar cyan silhouette, distinct from every other shape
+  on the map; automatically gets visual feedback for free via S170-143's generic heal-flash
+  (fires on any HP increase, any source) — no extra wiring needed. 5 new headless tests.
+  Verified live with a real Xvfb screenshot of the local demo showing a fountain rendering
+  correctly. Full suite green (455 checks, up from 450). REDGARDEN `45cfa32`, pushed to
+  `origin/main` as `a060528..45cfa32`. Apple #11051.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
