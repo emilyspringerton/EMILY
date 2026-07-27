@@ -7799,13 +7799,36 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   REDGARDEN `699d1ff` (feature work), `342bc78` (four-branch merge), `c8f7f94` (changelog),
   pushed to `origin/main` as `67fc2a2..c8f7f94`. Apple #11015.
 
-- [ ] **S170-143: REDGARDEN arena — WoW-style mouseover/hover casting, starting with Doc
+- [x] **S170-143: REDGARDEN arena — WoW-style mouseover/hover casting, starting with Doc
   Wheel's heal abilities.** Founder, real-time: "add hover casting like in wow macros for
   healing start with doc wheel abilities that make sense for that ensuring we show cast
   animation on the target and the self so its legible to all heroes on the battlefield with
-  visibility of that interaction." Not started this session — logged per Principle 1 so it
-  isn't lost, picked up as the top of the sprint plan below. Scope as currently understood,
-  not yet confirmed against the code: Doc Wheel's Q (Bedside Manner, single-target heal) and
+  visibility of that interaction." New `arena_hover_ally_or_nearest()`
+  (`packages/simulation/arena_game.h`/`.c`) — a drop-in fallback-chain replacement for
+  `arena_nearest_ally()`: prefers the caster's recorded hover target if it's a valid, living,
+  same-team hero other than the caster, else behaves identically to the old always-nearest-
+  ally targeting. `ArenaCastCmd` (`packages/common/protocol.h`) gained a signed
+  `hover_target` byte over the wire, set by `apps/arena_server`'s cast handler via a new
+  generic `arena_set_hover_target()` (any slot could consult it; only Doc Wheel's Q does
+  today) and by the local 1v1 demo's own direct keybind path for parity. Client-side: the
+  existing S170-69 per-hero hover hit-test now publishes its result into a persistent
+  `g_hover_target` each frame, read by the QWE keybind handler when a cast fires (~1 frame of
+  latency, imperceptible). "Show cast animation on the target and the self": the caster's own
+  flash already existed (`cast_flash_slot`, S170-124); added a new generic heal-flash (any HP
+  increase, any source, reusing S170-122's own frame-to-frame-HP-delta idiom) that fires at
+  wherever the HP increase actually landed — the real gap a mouseover heal exposes, since the
+  target can be standing far from the caster. Doc Wheel's Q picked as the first hover-aware
+  ability specifically because a healer's whole kit is "choose exactly who this lands on," not
+  because the mechanism is Doc-Wheel-specific — any future ally-targeted kit can reuse
+  `arena_hover_ally_or_nearest()` the same way. 6 new headless tests (fallback with nothing
+  hovered, hover wins over a nearer un-hovered ally, hovering an enemy/dead hero safely falls
+  back, out-of-range owner is a no-op, full Doc Wheel Q integration). Full suite green (446
+  checks across 4 binaries, up from 439). REDGARDEN `cd33bb5`, pushed to `origin/main` as
+  `c8f7f94..cd33bb5`. Apple #11017.
+
+  <details><summary>Original real-scope note, kept for the record (superseded by the above)</summary>
+
+  Doc Wheel's Q (Bedside Manner, single-target heal) and
   W (House Call, currently a self-teleport-to-ally — may need reframing or may stay
   self-only) are the natural first candidates since they already target `arena_nearest_ally`
   rather than the enemy-facing `arena_nearest_enemy` every other Q uses. A real WoW-macro
@@ -7824,6 +7847,8 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   cast model doesn't have (S170-124's flash is caster-position-only) — a real, scoped
   addition, not assumed free.
 
+  </details>
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
@@ -7834,10 +7859,11 @@ iterate") asked for exactly this list plus continued momentum on it — captured
 next session (or this one, continuing) has a real punch list instead of re-deriving it from
 transcript.
 
-1. **S170-143 (hover casting, Doc Wheel first)** — the most recently asked-for, not started.
-   Real scope note above; start with the wire-protocol question (does `PACKET_ARENA_CAST`
-   need a target field, or can hover-state be resolved client-side and only the *result*
-   sent) before writing any client code against an assumption.
+1. ~~S170-143 (hover casting, Doc Wheel first)~~ — **done, same session**, see the entry
+   above (Apple #11017). Extending hover-aware targeting to other ally-targeted kits
+   (Ghost's R heal side, Flamel's W, He Xiangu's R) is a natural, cheap follow-on now that
+   `arena_hover_ally_or_nearest()` exists as a drop-in swap — not scoped or requested yet,
+   flagged here as a real opportunity, not a commitment.
 2. **Wire-sync jungle creeps, lane creeps, and Tyler's clones** — none of the three are
    currently in `ArenaSnapshotMsg`/`server_broadcast`, so none render in a real networked
    match today (confirmed by reading the code, not assumed) — only in the local 1v1 practice
