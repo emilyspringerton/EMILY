@@ -7649,6 +7649,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `blog.write` scope), synced footer, deployed, verified live (200, correct title). OKEMILY
   `556aacf`/`421022c`, Apple #10804.
 
+- [ ] **S170-136: REDGARDEN — first real projectile skill-shot, starting with Gary's Q.** Founder,
+  real-time: "we need to add spell animations and projectiles for some of the spells - some of the
+  spells obviously should be projectile skill shots instead of instant cast - find one such spell -
+  start with gary q" → "it should be a projectile skill shot with animations and affordances that
+  allow dodging as counterplay." Logged before writing per Principle 1. Gary's Q ("The Property")
+  is currently an instant hit-if-in-range check with no travel time at all — no projectile system
+  exists anywhere in the codebase yet (Ghost's Q is labeled "skillshot" in `docs/HEROES_VS0.md`
+  but is implemented identically to every instant-hit ability). Scope: a real `ArenaProjectile`
+  simulation (position, velocity, radius, travel time, real collision against hittable enemies —
+  actually dodgeable if the target moves off the flight line, not homing), synced to clients via a
+  new wire snapshot array, rendered as a real moving mesh in `apps/arena/src/main.c` so players can
+  see and react to it in flight. Gary's Q rewritten to spawn one instead of instant-hitting. In
+  progress.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
