@@ -7882,6 +7882,25 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   warns about it. REDGARDEN `212f753`, pushed to `origin/main` as `cd33bb5..212f753`. Full
   suite green (450 checks, up from 446). Apple #11041.
 
+- [x] **S170-145: REDGARDEN arena — auto-attack hit flashes on creeps, and jungle creeps
+  rendered client-side for the first time.** Founder, real-time: "when auto attacks hit a
+  creep or a hero it should show visual indication of such." The hero-side hit flash already
+  existed (S170-122, frame-to-frame HP-delta detection); creeps had none at all. Added the
+  same idiom for both jungle (`ArenaCreep`) and lane (`ArenaLaneCreep`) pools in
+  `apps/arena/src/main.c`, reusing the existing `attack_flashes` visual. **Real gap found
+  along the way, not just the literal ask**: jungle creeps were never rendered client-side at
+  all (confirmed by reading the code, not assumed) — a hit-flash on a creep nobody can see
+  would have been useless, so added real rendering for the first time too: a flavor-colored
+  box matching the existing node-ownership color convention exactly (gold = neutral, blue/red
+  = team-owned) rather than team-relative like heroes/lane creeps, since a jungle creep's
+  color is about whose territory it's tied to. **Verified with a real Xvfb screenshot**
+  (`red_garden_arena`'s local demo) — confirmed a gold neutral jungle creep rendering
+  correctly alongside the jungle-obstacle trees/rocks (S170-138) and a hero, not just assumed
+  from reading the code. Local-mode/1v1-demo only, same not-yet-networked scope jungle/lane
+  creeps already carry — flagged, not silently narrowed. Client-only change; full headless
+  suite unaffected (450 checks). REDGARDEN `fe3846e`, pushed to `origin/main` as
+  `212f753..fe3846e`. Apple #11044.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
