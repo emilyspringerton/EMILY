@@ -7649,19 +7649,19 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `blog.write` scope), synced footer, deployed, verified live (200, correct title). OKEMILY
   `556aacf`/`421022c`, Apple #10804.
 
-- [ ] **S170-136: REDGARDEN — first real projectile skill-shot, starting with Gary's Q.** Founder,
+- [x] **S170-136: REDGARDEN — first real projectile skill-shot, starting with Gary's Q.** Founder,
   real-time: "we need to add spell animations and projectiles for some of the spells - some of the
   spells obviously should be projectile skill shots instead of instant cast - find one such spell -
   start with gary q" → "it should be a projectile skill shot with animations and affordances that
-  allow dodging as counterplay." Logged before writing per Principle 1. Gary's Q ("The Property")
-  is currently an instant hit-if-in-range check with no travel time at all — no projectile system
-  exists anywhere in the codebase yet (Ghost's Q is labeled "skillshot" in `docs/HEROES_VS0.md`
-  but is implemented identically to every instant-hit ability). Scope: a real `ArenaProjectile`
-  simulation (position, velocity, radius, travel time, real collision against hittable enemies —
-  actually dodgeable if the target moves off the flight line, not homing), synced to clients via a
-  new wire snapshot array, rendered as a real moving mesh in `apps/arena/src/main.c` so players can
-  see and react to it in flight. Gary's Q rewritten to spawn one instead of instant-hitting. In
-  progress.
+  allow dodging as counterplay." Gary's Q ("The Property") converted from an instant hit-if-in-range
+  check to a real `ArenaProjectile` simulation (position, velocity, radius, travel time, real
+  collision against hittable enemies — actually dodgeable if the target moves off the flight line,
+  not homing), synced to clients via a new wire snapshot array, rendered as a real moving mesh in
+  `apps/arena/src/main.c`. **Closing out a stale entry**: the code shipped (REDGARDEN `67fc2a2`) and
+  three later sessions built directly on top of it (S170-140's Ghost/Tyler Q conversions + the
+  swept-collision fix, S170-144's AoE-vs-creeps pass all reuse `ArenaProjectile`/
+  `arena_spawn_projectile`) — this entry was simply never flipped to `[x]`, found and closed while
+  working the sprint plan rather than left dangling. Apple #11047.
 
 - [x] **S170-137: REDGARDEN arena — QWER ability tiles need to show real ready-vs-not-ready
   state.** Founder, real-time: "QWER animation frames need to indicate visually if an ability is
@@ -7901,6 +7901,34 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   suite unaffected (450 checks). REDGARDEN `fe3846e`, pushed to `origin/main` as
   `212f753..fe3846e`. Apple #11044.
 
+- [x] **S170-146: REDGARDEN arena — wire-sync jungle and lane creeps to the network, the
+  sprint plan's own #2 item.** Continuing without new founder direction ("continue any in
+  progress or backlog redgarden work"). `ArenaSnapshotMsg` carried heroes/nodes/projectiles
+  but neither creep pool — a real networked match (the actual product per NORTHSTAR §13)
+  never showed either kind of creep, only the local 1v1 practice demo did. New
+  `ArenaCreepSnapshot` (fixed 5-slot array, index-matched to nodes, mirroring
+  `ArenaHeroSnapshot`'s always-populated convention) and `ArenaLaneCreepSnapshot` (sparse
+  count+array, mirroring projectiles) in `packages/common/protocol.h`. `server_broadcast()`
+  populates both every tick; `net_poll_snapshots()` consumes them into the same
+  `arena_state.creeps[]`/`lane_creeps[]` S170-145's rendering/hit-flash code already reads
+  generically — **no client rendering changes needed at all**, that code was already
+  mode-agnostic by design. New packet size: 1244 bytes (was 968), comfortably under the
+  2048-byte client recv buffer and typical UDP MTU. **Verified live**: a real `arena_server` +
+  `arena_bot` + the actual SDL client (connected via `--connect`, under Xvfb) played a full
+  networked 1v1 match; a real screenshot confirms a jungle creep rendering client-side over
+  the live wire connection, not just in the local demo. Along the way, closed two other stale
+  loose ends found while working the backlog rather than left dangling: **S170-136** (Gary's Q
+  projectile) was still `[ ]`/"in progress" despite shipping and three later sessions building
+  directly on it — flipped to `[x]`, Apple #11047. Full headless suite unaffected (450 checks,
+  protocol/broadcast-only change). REDGARDEN `a060528`, pushed to `origin/main` as
+  `fe3846e..a060528`. Apple #11050.
+
+  **Tyler's clones remain unsynced** — the third item this sprint-plan entry named,
+  deliberately not attempted this pass: clones are a rarer, smaller-blast-radius feature than
+  creeps (only relevant when a Tyler is actually drafted and casts R), and the same wire
+  pattern used above applies directly whenever it's picked up — extend `ArenaHeroSnapshot`'s
+  own array bound or add a small parallel clone-snapshot array, same shape as this pass.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
@@ -7916,12 +7944,10 @@ transcript.
    (Ghost's R heal side, Flamel's W, He Xiangu's R) is a natural, cheap follow-on now that
    `arena_hover_ally_or_nearest()` exists as a drop-in swap — not scoped or requested yet,
    flagged here as a real opportunity, not a commitment.
-2. **Wire-sync jungle creeps, lane creeps, and Tyler's clones** — none of the three are
-   currently in `ArenaSnapshotMsg`/`server_broadcast`, so none render in a real networked
-   match today (confirmed by reading the code, not assumed) — only in the local 1v1 practice
-   demo, which drives `arena_update()` directly. This is the single biggest "looks unfinished
-   in a live match" gap left by this session's own new work, flagged rather than silently
-   carried forward again.
+2. ~~Wire-sync jungle creeps, lane creeps~~ — **done, same session**, see S170-146 above
+   (Apple #11050), verified live with a real Xvfb screenshot. **Tyler's clones remain
+   unsynced** — the smaller-blast-radius remainder of this item, same wire pattern applies
+   directly whenever it's picked up.
 3. **Tyler's W (Poof) teleporting the whole clone army, not just Tyler's own body** —
    explicitly flagged as not attempted in `docs/HEROES_VS0.md`'s S170-141 scope note, the
    natural next slice of "true Meepo parity" once picked back up.
