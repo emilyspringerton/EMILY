@@ -7663,6 +7663,26 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   see and react to it in flight. Gary's Q rewritten to spawn one instead of instant-hitting. In
   progress.
 
+- [x] **S170-137: REDGARDEN arena — QWER ability tiles need to show real ready-vs-not-ready
+  state.** Founder, real-time: "QWER animation frames need to indicate visually if an ability is
+  ready to cast or not." The S170-127 ability-tile HUD (dim border, radial cooldown wipe,
+  countdown number) already existed and looked complete, but root-caused to broken in the one
+  mode that matters: net_mode never calls `arena_update()` locally (`apps/arena_server` owns the
+  sim), and `ArenaSnapshotMsg` never carried cooldown or mana state at all, so a networked
+  client's own `q/w/r_cooldown_ms`/`mp` sat zeroed forever and every ability rendered permanently
+  "ready" regardless of the server's real state. Added `q_cooldown_ms`/`w_cooldown_ms`/
+  `r_cooldown_ms`/`mp` to `ArenaHeroSnapshot` (`packages/common/protocol.h`), populated in
+  `arena_server`'s `server_broadcast()`, consumed in `net_poll_snapshots()`. Also closed a second,
+  independent gap surfaced by the same fix: the S170-132 mana layer lets a cast whiff for
+  insufficient mp with cooldown untouched, so an off-cooldown-but-unaffordable ability previously
+  still read as fully ready. `draw_ability_tile()` now takes a `mana_blocked` flag (checked
+  against the slot's flat `ARENA_MP_COST_Q/W/R`) and dims the tile the same as a real cooldown,
+  printing "MP" in place of a countdown number since there's no fixed timer to animate for "wait
+  for regen." Verified: `build.sh`/`build_arena.sh` clean, full headless suite (`test_arena.sh`)
+  all-pass, and a live `arena_server` + 2 `arena_bot` match over the real network path completed
+  end to end with the larger snapshot struct (580 bytes/packet, well under the client's 2048-byte
+  recv buffer and typical UDP MTU). REDGARDEN `6846b33`, Apple #11009.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
