@@ -7707,6 +7707,162 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+- [x] **S170-139/140/141/142: REDGARDEN arena — lane creep waves, Ghost/Tyler Q converted to
+  projectiles (+ a swept-collision bugfix), Tyler's puppet clones ("true Meepo parity"),
+  per-hero cast colors, rooted name-label color — plus folding four parallel worktree
+  branches into `main`.** Founder, real-time, a long sequence in one session, logged
+  together per Principle 1 rather than split across near-duplicate entries:
+
+  1. **"add subsystems needed to make creeps a reality"** — clarified via a direct question
+     (jungle creeps, S170-51, already exist and are real) that this meant classic MOBA
+     lane-pushing waves instead. New `ArenaLaneCreep` pool: a per-team wave-spawn timer (with
+     a short real-MOBA-style grace period before the first wave, not an instant 0:00 spawn),
+     waypoint marching along the existing spawn-to-center-to-spawn axis, hero-vs-lane-creep
+     and lane-creep-vs-lane-creep combat through the same generic combat primitives every
+     other system already uses. Team mode only — no real "push" objective exists in the 1v1
+     practice demo, and running it there was found (via test regression, not review) to
+     intrude on solo-practice test assumptions. No structure/tower/economy exists yet for a
+     wave that reaches the enemy spawn to push against — despawns there, flagged not faked,
+     same as Duck's W's own long-standing gap. 9 new headless tests.
+  2. **"convert more spells to projectiles... ensure each spell is unique show different
+     color cast circles... ensure spell projectiles are shown on all player clients"** —
+     Ghost's Q (Alien Frequency, already documented as a "skillshot" in `docs/HEROES_VS0.md`
+     but never built as one) and Tyler's Q (Earthbind, "fires a net at a target area")
+     converted from instant-hit to real `ArenaProjectile` casts. New generic
+     `on_hit_silence_ms`/`on_hit_root_ms`/`on_hit_burn_ms`/`on_hit_burn_dps` fields on
+     `ArenaProjectile` (any future projectile-caster can reuse them) and
+     `arena_spawn_projectile` now returns a pointer so callers can set them.
+     **Real bug found and fixed, not just a feature added**: `arena_tick_projectiles`'
+     collision check only tested the position *after* moving each tick — a large `dt_ms`
+     (this codebase's own tests routinely call `*_update(1000)` for "one full second" steps)
+     could let a fast shot's position jump clean past a target without ever registering a
+     hit. Caught by `test_ghost_r_zone_damages_foe_over_time` flipping from reliably-passing
+     to failing the instant Ghost's Q became a projectile inside that exact test's
+     `arena_update(1000)` call — fixed with a proper swept segment-vs-point collision check,
+     which also retroactively fixes the same latent tunneling risk in Gary's Q (S170-136),
+     just never previously exercised by a large-single-tick test. On "shown to all clients":
+     checked the existing pipeline before writing anything — `apps/arena_server` already
+     broadcasts every projectile to every connected client with no distance culling, and the
+     client already spawns the visual unconditionally for every hero's cast; both Ghost's and
+     Tyler's new projectiles inherit this for free, zero additional wire work needed. Cast-
+     flash particles recolored per-hero (golden-angle HSV hue rotation off `hero_id` —
+     deterministic, no table to hand-maintain as the roster grows) instead of just per-Q/W/R-
+     slot, so 26 heroes' casts now read as genuinely distinct spells, not 26 identical cyan
+     circles. 7 new headless tests.
+  3. **"when the hero is rooted change the color of their name label to green"** — small,
+     isolated HUD tweak, `apps/arena/src/main.c`.
+  4. **"add tyler true meepo parity"** → **"do that work"** — real AI-driven puppet clones,
+     not a design-doc placeholder. The prior blocker ("`ArenaHero` slots are one-per-
+     connected-client, true clones sharing one HP pool aren't buildable without touching the
+     draft/pick/connection model") was specifically about *player-controlled* clones; Meepo's
+     actual identity doesn't need that. New `ARENA_MAX_CLONE_SLOTS` puppet range appended
+     *after* the real per-player range so a clone never competes with an actual connecting
+     client for a slot. Clones mirror Tyler's own move-target every tick and fight through
+     the exact same generalized `arena_nearest_enemy`/melee loop every hero already uses
+     (widened to see the puppet range) — no parallel combat system built. Real shared-fate
+     death for the first time: `apply_damage`'s death branch cascades the kill through every
+     `clone_owner`-linked entry, the literal OG "one dies, all die" rule, no exceptions (even
+     bypassing a linked entity's own `survive_floor_ms`). Team mode only; clones are melee-
+     only (no independent Q/W/R casts) and correctly excluded from team-alive-count/respawn
+     for free (those loops stayed bounded at the real per-player range). Full design/scope
+     note — including what's still simplified (W doesn't yet teleport the whole clone army,
+     clones don't independently cast) — written into `docs/HEROES_VS0.md`'s Tyler section
+     before code, same docs-first discipline as the rest of this roster. 7 new headless
+     tests, including one that runs real combat (not a direct state mutation — `apply_damage`
+     is `static`, tests only have public entry points) until a clone actually dies and
+     confirms the cascade.
+  5. **Four-branch merge to `main`, no PRs.** Founder, direct: *"you did some work in
+     branches that all needs to be folded into mainline i dont work in branches currently"*
+     → *"fix merge conflicts if easy but if its taking a lot of work abandon and redo the
+     work onto main no branches."* Discovered mid-session: three sibling sessions had each
+     built real, tested, backlog-marked-done work on their own worktree branches that never
+     actually reached `main` (S170-138 jungle obstacles/map expansion; the S170-137 QWER-
+     ready-indicator net_mode fix, already marked `[x]` above with commit `6846b33` despite
+     that commit living only on an unmerged branch; and a small "render heroes translucent
+     while intangible" visual fix). Merged all four into `main` directly, in dependency
+     order: QWER-indicator and translucent-intangible merged clean apart from a trivial
+     append-only CHANGELOG.md conflict each; jungle-obstacles merged with zero conflicts at
+     all (same base commit as this session's own branch, no shared lines touched). The one
+     real conflict was this session's own map-expansion pass (`ARENA_HALF_EXTENT` 20→30,
+     rescaled nodes, decorative non-colliding trees) against jungle-obstacles' more complete
+     version (20→28, real circle-vs-circle collision) — resolved per the founder's own
+     "abandon and redo" guidance by dropping this session's redundant map/tree work entirely
+     and reconciling the new lane-creep waypoints against jungle-obstacles' (unchanged) ±8
+     team spawn line rather than fighting the merge further. Full headless suite (439 checks
+     across all 4 test binaries) green after reconciliation; `scripts/test_10_bots.sh`
+     (unrelated card-RTS path) unaffected. Live smoke-testing against a real running server
+     was attempted but abandoned after discovering a genuine, already-running persistent bot
+     pool sharing this box (19+ `arena_bot` processes + a matchmaker, started outside this
+     session) — verification relied on the headless suite instead, to avoid any risk of
+     disrupting that live infrastructure.
+
+  REDGARDEN `699d1ff` (feature work), `342bc78` (four-branch merge), `c8f7f94` (changelog),
+  pushed to `origin/main` as `67fc2a2..c8f7f94`. Apple #11015.
+
+- [ ] **S170-143: REDGARDEN arena — WoW-style mouseover/hover casting, starting with Doc
+  Wheel's heal abilities.** Founder, real-time: "add hover casting like in wow macros for
+  healing start with doc wheel abilities that make sense for that ensuring we show cast
+  animation on the target and the self so its legible to all heroes on the battlefield with
+  visibility of that interaction." Not started this session — logged per Principle 1 so it
+  isn't lost, picked up as the top of the sprint plan below. Scope as currently understood,
+  not yet confirmed against the code: Doc Wheel's Q (Bedside Manner, single-target heal) and
+  W (House Call, currently a self-teleport-to-ally — may need reframing or may stay
+  self-only) are the natural first candidates since they already target `arena_nearest_ally`
+  rather than the enemy-facing `arena_nearest_enemy` every other Q uses. A real WoW-macro
+  mouseover-cast needs: (1) client-side hover *targeting* state (which hero, if any, the
+  mouse currently sits over via the existing per-hero HUD health-bar hover hit-test from
+  S170-69's cursor-hover work — the primitive already exists, reusing it for a real
+  targeting decision instead of just a tooltip is the new part), (2) a way for a cast command
+  to carry "cast on whoever I'm hovering, falling back to `arena_nearest_ally`/self if
+  nothing's hovered" instead of always resolving to nearest-ally server-side, which likely
+  means a wire-protocol change (`PACKET_ARENA_CAST` currently carries only a slot, no
+  target) — real scope, not a client-only change, since `arena_server` is the one that
+  actually resolves casts. (3) the "show cast animation on the target and the self" half is
+  mostly already free once the cast itself carries a real target: `cast_flash_slot` already
+  fires at the caster's own position; a mouseover heal landing on a *different* hero than the
+  caster needs its own visual at the target's position too, which the current one-flash-per-
+  cast model doesn't have (S170-124's flash is caster-position-only) — a real, scoped
+  addition, not assumed free.
+
+---
+
+## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
+
+Ordered by what unblocks the most follow-on work first, not strictly by when it was asked.
+Founder direction across this session, several items ("then sprint plan all of it," "then
+iterate") asked for exactly this list plus continued momentum on it — captured here so the
+next session (or this one, continuing) has a real punch list instead of re-deriving it from
+transcript.
+
+1. **S170-143 (hover casting, Doc Wheel first)** — the most recently asked-for, not started.
+   Real scope note above; start with the wire-protocol question (does `PACKET_ARENA_CAST`
+   need a target field, or can hover-state be resolved client-side and only the *result*
+   sent) before writing any client code against an assumption.
+2. **Wire-sync jungle creeps, lane creeps, and Tyler's clones** — none of the three are
+   currently in `ArenaSnapshotMsg`/`server_broadcast`, so none render in a real networked
+   match today (confirmed by reading the code, not assumed) — only in the local 1v1 practice
+   demo, which drives `arena_update()` directly. This is the single biggest "looks unfinished
+   in a live match" gap left by this session's own new work, flagged rather than silently
+   carried forward again.
+3. **Tyler's W (Poof) teleporting the whole clone army, not just Tyler's own body** —
+   explicitly flagged as not attempted in `docs/HEROES_VS0.md`'s S170-141 scope note, the
+   natural next slice of "true Meepo parity" once picked back up.
+4. **A real gold/XP economy** — named as a gap by both S170-139 (lane creep kills reward
+   nothing) and, going back further, several "no economy exists" simplification notes on
+   other kits. Worth a real design pass of its own before any single feature (lane creeps,
+   a future tower/structure system) gets built against a placeholder.
+5. **Structures/towers** — the actual "push" payoff lane creep waves are currently missing
+   (S170-139's own honest gap), and the same blocker already named for Duck's W since
+   S170-31. Two independent asks now point at the same missing system.
+6. **Live visual verification of everything built server-side-only this session** —
+   `scripts/test_arena.sh` proves the sim logic; nothing in this session was confirmed
+   against an actual rendered frame (the box remains headless, no Xvfb attempted this pass
+   after the earlier live-pool discovery redirected effort toward not disturbing shared
+   infrastructure). A real Xvfb pass (already used successfully for S170-138's own
+   verification, per that entry) is a cheap next step before scaling any of this further.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
