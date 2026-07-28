@@ -8493,8 +8493,13 @@ Founder, real-time, rapid-fire, immediately after S170-174's economy/structures 
 **"backlog first then plan into sprints"** → **"then iterate."** Same protocol as every other
 rapid-fire burst this session — log every request verbatim before implementing, no exceptions.
 
-- [ ] **S170-175: REDGARDEN arena — first-pass shop interface, two shops, FFXI+WoW item/slot
-  system, character stat pane.** The full request, in order:
+- [x] **S170-175: REDGARDEN arena — first-pass shop interface, two shops, FFXI+WoW item/slot
+  system, character stat pane.** All 4 sprints below shipped and closed (Apples #11127/#11128/
+  #11130/#11134); every bullet in the original ask is satisfied — two shops at the fountain-free
+  corners, the 3-tier FFXI item catalog, the 11-slot FFXI+WoW equip system with Trinket, auto-
+  equip/auto-sell-no-bag purchasing, Flow (renamed from gold) + XP tracked and visible, the
+  character pane, and real click/keybind affordances for all of it (shop panel, scoreboard).
+  Closing the parent ticket now that its full sprint plan is done. The full request, in order:
   - **"do a first pass shop interface have there be 2 shops in the other 2 corner of the maps
     that dont have fountains"** — two shop structures, one per team, in the two map corners the
     fountains (`arena_fountain_position`, (-24,-24)/(24,24)) don't occupy — the same corners
