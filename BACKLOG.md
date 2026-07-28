@@ -8861,6 +8861,29 @@ green, not yet committed):
   stable melee standoff in the unchanged engage branch (never reaching the node-capping branch
   at that low headcount), not a regression. REDGARDEN `ed59bc1` (+ CHANGELOG same commit range).
   Apple #11189.
+- [x] **S170-203: "switch gary w to aimed shot just like wow hunter cast time big damage for now
+  movement interrupts cast damage does not interrupt cast silence does" -> "ensure cast bar
+  affordance shown to user."** Gary's W (free toggle extending Q's own range) replaced with a
+  real WoW Hunter-style cast-time nuke on its own cooldown. New generic cast-time infrastructure
+  on `ArenaHero` (`casting_slot`/`cast_time_remaining_ms`/`cast_total_ms`/`cast_anchor_x,z`/
+  `cast_target`) — Aimed Shot is the first ability to use it, built to support future cast-time
+  abilities, not a one-off. Needs a hittable foe in range to even begin (no target = no-op, no
+  cost spent). Movement interrupts: live position checked every tick against where the cast
+  began — a fresh move command OR a forced displacement both catch uniformly via one position
+  check, no need to hook every movement code path. Silence interrupts, checked right after
+  `silenced_ms` ticks down each frame. Damage does NOT interrupt — no HP/combat-timer check
+  anywhere in the logic, deliberately. Target re-validated only at completion, not continuously —
+  stepping out of range mid-cast without the caster moving still costs the cast, same convention
+  Q's own travel-time dodge already holds itself to. Cast bar: `casting_slot`/
+  `cast_time_remaining_ms`/`cast_total_ms` synced on the wire and rendered as a real progress bar
+  under every casting hero's health bar, visible to everyone watching, not just the caster.
+  Ability tile also highlights while mid-cast. `gary_cast_q`, the toggle-hero list/ability name/
+  blurb, the internal bot AI's Gary heuristic, and `docs/HEROES_VS0.md` all updated to match. 6
+  new tests, build clean, full suite green (613/613). Live-verified: GUI client ran 6s under Xvfb
+  with the new render code, no crash. The external networked bot AI never casts W at all
+  (pre-existing, unrelated), so live-match verification of the mechanic itself is
+  unit-test-covered rather than bot-observed this pass — flagged, not faked. REDGARDEN `f64a9e2`
+  (+ CHANGELOG same commit range). Apple #11191.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
