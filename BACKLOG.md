@@ -8697,17 +8697,18 @@ green, not yet committed):
   character pane, bot AI shopping, assists) has been fully built and shipped this session.
   Added a status callout, marked §19.5 (structures) explicitly as still genuinely unbuilt. Docs
   only. REDGARDEN `ba24d49` (+ CHANGELOG `b3c48fa`). Apple #11152.
-- [ ] **S170-190: "add berserker and health regen powerups like from warsong gulch in between
-  the nodes."** Founder, real-time. Real WoW Warsong Gulch mechanic: neutral map pickups
-  (Berserker = damage buff, Restoration/Regen = health-regen buff) at fixed positions, grabbed
-  by walking near them, timed buff on pickup, the pickup itself respawns after a cooldown. Needs:
-  a new `ArenaPowerup` entity type (position, kind, active/respawn timer) positioned between the
-  5 existing capture nodes, pickup-radius detection, two new buff fields on `ArenaHero`
-  (berserker damage bonus, regen HP/sec) using the same generic `_ms` timer idiom as
-  stunned_ms/slowed_ms (S170-184), wire sync so the client can see powerup state and show the
-  buff on the status label, visual rendering of the powerup pickups themselves, and bot AI
-  awareness (at minimum: don't need bots to actively path for them this pass, matching the
-  shop's own Sprint-1-4-then-5 precedent -- flag if deferred, don't fake it).
+- [x] **S170-190: "add berserker and health regen powerups like from warsong gulch in between
+  the nodes."** New `ArenaPowerup` entity, two neutral pickups (Berserker damage buff, Regen
+  HP-regen buff) positioned at the midpoints between the node clusters, derived from
+  `arena_nodes_reset_layout`'s own table. Walking within pickup radius grabs it, granting a 20s
+  timed buff (Berserker +15 flat AD via a new `arena_hero_bonus_ad` helper; Regen +8 HP/sec,
+  same fractional-accumulator idiom as mana regen) — the powerup goes inactive and respawns 60s
+  later. Hero-only (clones excluded, same scoping as fountains/node-capture/creep-targeting).
+  Wire-synced (real dynamic state, unlike static fountains), rendered as a floating orb, status
+  label shows BERSERKER/REGEN tags. Works in both 1v1 and team mode. **Bot AI awareness
+  explicitly not built this pass** — bots simply won't seek these out yet, flagged not faked,
+  same Sprint-1-4-then-5 precedent the shop system itself set. 6 new tests, build clean, full
+  suite green (597/597). REDGARDEN `723dd82` (+ CHANGELOG `0531f50`). Apple #11160.
 - [ ] **S170-191: "use golden ratio to expand map size and add more jungle obstacles."**
   Founder, real-time. `ARENA_HALF_EXTENT` (currently 32.0, already bumped twice before --
   20→28→32) scales by the golden ratio (φ≈1.618) this time instead of an ad-hoc number.
