@@ -8401,9 +8401,13 @@ transcript.
    (Apple #11050), verified live with a real Xvfb screenshot. **Tyler's clones remain
    unsynced** — the smaller-blast-radius remainder of this item, same wire pattern applies
    directly whenever it's picked up.
-3. **Tyler's W (Poof) teleporting the whole clone army, not just Tyler's own body** —
-   explicitly flagged as not attempted in `docs/HEROES_VS0.md`'s S170-141 scope note, the
-   natural next slice of "true Meepo parity" once picked back up.
+3. ~~Tyler's W (Poof) teleporting the whole clone army, not just Tyler's own body~~ — **done,
+   2026-07-28 (S170-170)**. `tyler_cast_w` now teleports every active clone linked to Tyler to
+   the exact same point, each independently landing arrival damage on the same target —
+   concentrating the whole army's damage onto one enemy, the real "full-team dive tool" identity
+   from the original design. Removed `ARENA_TYLER_W_HIT_RADIUS` (now genuinely unused). 1 new
+   test, full suite green, live-verified via an isolated 20-bot match. REDGARDEN `79fbfc3`
+   (+ CHANGELOG `f48dfad`). Apple #11101.
 4. **A real gold/XP economy** — named as a gap by both S170-139 (lane creep kills reward
    nothing) and, going back further, several "no economy exists" simplification notes on
    other kits. Worth a real design pass of its own before any single feature (lane creeps,
