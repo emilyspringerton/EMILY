@@ -8708,6 +8708,13 @@ green, not yet committed):
   buff on the status label, visual rendering of the powerup pickups themselves, and bot AI
   awareness (at minimum: don't need bots to actively path for them this pass, matching the
   shop's own Sprint-1-4-then-5 precedent -- flag if deferred, don't fake it).
+- [ ] **S170-191: "use golden ratio to expand map size and add more jungle obstacles."**
+  Founder, real-time. `ARENA_HALF_EXTENT` (currently 32.0, already bumped twice before --
+  20→28→32) scales by the golden ratio (φ≈1.618) this time instead of an ad-hoc number.
+  Everything positioned relative to the map edge (fountains, shops, graveyards, node layout)
+  needs re-checking against the new extent so nothing ends up off-map or oddly cramped/spread.
+  Plus more jungle obstacles (`arena_obstacles_reset_layout`) to fill the larger space and keep
+  real lane-carving density, not just a bigger empty field.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
