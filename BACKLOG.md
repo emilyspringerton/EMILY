@@ -8219,6 +8219,59 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
+## Backlog dump — REDGARDEN arena, real-time founder direction (2026-07-28)
+
+Founder, real-time, rapid-fire mid-session: **"ensure all the requests this session make it into
+backlog then sprint plan then iterate implement."** Same protocol as the 2026-07-27 session below —
+log every request verbatim before/while implementing, no exceptions. Captured here as a batch since
+several arrived in quick succession while the previous item was still being built.
+
+- [ ] **S170-161: REDGARDEN arena — jungle creeps use the "dynamic creep ecosystem" direction
+  (NORTHSTAR §8), something simple to start.** Founder: "add jungle creeps use the redgarden
+  dynamic creep ecosystem something simple to start," refined immediately after with three
+  concrete follow-ups, all part of the same item:
+  - **"have the team creeps spawn and fan out from owned nodes marching towards unowned
+    nodes"** — team-flavored creeps continuously march toward the nearest node their own team
+    doesn't own, recomputed live each tick (reactive to ownership changing mid-march), each
+    owned node's creep naturally fanning out toward a different target with no explicit
+    coordination needed.
+  - **"initially they spawn from the graveyards behind the nodes not the center"** — spawn
+    position is the owning team's graveyard (`arena_graveyard_position`, S170-153/156), not the
+    node's own (x,z) — creeps march outward from the team's home base, not from the node they're
+    nominally attached to.
+  - **"tone down the strength of the team creeps just a bit they are so strong"** — reduce team
+    creep HP/damage a modest amount; neutral/contested creeps unchanged.
+  Neutral creeps unaffected by any of the above (still stationary at their own node, unchanged
+  spawn position and stats) — this is specifically about team-flavored creeps becoming a mobile,
+  reactive presence, matching §8's "the jungle is alive and dynamic, not static camps" language.
+
+- [ ] **S170-162/163/164/165: REDGARDEN arena — build out NORTHSTAR §17's click-to-attack
+  system, Gary's homing ranged auto-attack, visual affordances, bot AI target selection.**
+  Founder, real-time, building directly on the §17 LoL-parity spec written earlier this session
+  (S170-158, spec-only at the time):
+  - **"gary auto attacks are projetiles that always hit (visually projectile) they can still
+    miss or crit as normal but you cant juke them"** then **"implement that with the click to
+    auto attack northstar"** — build §17.4's target design for real (new attack command distinct
+    from move, windup/backswing state, persistent attack-target chase lock) and give Gary
+    specifically a ranged basic auto-attack that fires a real, visually-a-projectile shot that
+    **homes/tracks its target** (matches §17.2 exactly: not a skillshot, can't be juked/dodged by
+    moving) — distinct from the existing non-homing `ArenaProjectile` skillshot physics ability
+    casts already use. Whatever existing miss/crit RNG this engine has (if any) still applies
+    independently of the homing/hit-guarantee — "always hit" means "not dodgeable by
+    positioning," not "always deals full guaranteed damage regardless of any other mechanic."
+  - **"up our visual affordances for auto attacks so its readable"** — clear on-screen feedback
+    for the new attack state machine (windup, projectile flight, hit) so the mechanic reads
+    clearly to any hero watching the fight, not just the two heroes involved.
+  - **"and the bots will need to be updated so they choose their auto attack targets etc in
+    their brain"** — `apps/arena_bot` needs to actually issue the new attack command against a
+    chosen target instead of relying on today's move-into-melee-range-and-let-proximity-combat-
+    happen approach, or bots simply won't use the new system at all.
+  A substantially larger build than S170-161 above (new wire packet, new per-hero state fields,
+  a new projectile-physics variant, client input changes, bot AI changes) — sequenced as its own
+  pass after the jungle-creep work ships, not bolted on in the same commit.
+
+---
+
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
 
 Ordered by what unblocks the most follow-on work first, not strictly by when it was asked.
