@@ -8812,6 +8812,28 @@ green, not yet committed):
   (root + survive-floor ult), Duck (pull + on-kill buff), Gary (the one hero with zero
   dash/gap-closer, pure stand-and-shoot), He Xiangu (every ability heals, no combos to time).
   Docs-only, no code changed. REDGARDEN `3698202` (+ CHANGELOG same commit range). Apple #11184.
+- [x] **S170-200: "zone abilities dont read at all we need true aoe cast circle click
+  affordances that show cast radius also it should show a circle on the ground, nice shader
+  spell effect simple but nice showing to all participants that the spell was cast there so it
+  reads."** 8 heroes' R (Ghost/Flamel/Morrigan/Paimon/NOOR-1/Vassago/He Xiangu/Beleth) cast a
+  real fixed-position, radius-accurate, multi-second ground zone — none of that state was ever
+  on the wire, so a networked client had no way to know one existed, where it was, or how big,
+  and even locally the only visual was a generic "small/medium/big by slot" flash, not the
+  ability's real radius. New `arena_hero_r_zone_radius()` is the single source of truth for "how
+  big," reused by the existing (unchanged) mechanical damage/heal check and the new rendering.
+  `r_zone_x`/`r_zone_z`/`r_active_ms` added to `ArenaHeroSnapshot`, synced for every hero. New
+  `disc_mesh` (filled circle, same build-once-at-unit-scale idiom as `ring_mesh`) — a pulsing
+  filled disc + boundary ring renders at the zone's real position/radius for its real remaining
+  duration, identical for every client. Cast-radius preview: while your own hero's R is a zone
+  ability and actually castable, a faint outline ring shows where/how big it'll land before you
+  commit — every zone in this roster casts at the caster's own position (no ground-click
+  targeting exists in this input model at all), so a live self-centered preview is the honest,
+  buildable affordance this pass; a full click-to-place targeting system would need its own
+  aiming input mode and wire command, scoped out, not silently dropped. Build clean, full suite
+  green (607/607). Live-verified: an isolated 2-bot networked match completed cleanly with the
+  new wire fields (no truncation/protocol mismatch); the GUI client ran 6s under Xvfb with the
+  new per-frame render code active, no crash. REDGARDEN `5b08390` (+ CHANGELOG same commit
+  range). Apple #11186.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
