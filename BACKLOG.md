@@ -8697,8 +8697,17 @@ green, not yet committed):
   character pane, bot AI shopping, assists) has been fully built and shipped this session.
   Added a status callout, marked §19.5 (structures) explicitly as still genuinely unbuilt. Docs
   only. REDGARDEN `ba24d49` (+ CHANGELOG `b3c48fa`). Apple #11152.
-
----
+- [ ] **S170-190: "add berserker and health regen powerups like from warsong gulch in between
+  the nodes."** Founder, real-time. Real WoW Warsong Gulch mechanic: neutral map pickups
+  (Berserker = damage buff, Restoration/Regen = health-regen buff) at fixed positions, grabbed
+  by walking near them, timed buff on pickup, the pickup itself respawns after a cooldown. Needs:
+  a new `ArenaPowerup` entity type (position, kind, active/respawn timer) positioned between the
+  5 existing capture nodes, pickup-radius detection, two new buff fields on `ArenaHero`
+  (berserker damage bonus, regen HP/sec) using the same generic `_ms` timer idiom as
+  stunned_ms/slowed_ms (S170-184), wire sync so the client can see powerup state and show the
+  buff on the status label, visual rendering of the powerup pickups themselves, and bot AI
+  awareness (at minimum: don't need bots to actively path for them this pass, matching the
+  shop's own Sprint-1-4-then-5 precedent -- flag if deferred, don't fake it).
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
