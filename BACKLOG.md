@@ -8132,6 +8132,41 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   no crashes. REDGARDEN `3a4c845` (+ CHANGELOG `35ab0fe`), pushed to `origin/main` as
   `02b2f3f..35ab0fe`. Apple #11082.
 
+- [x] **S170-158: REDGARDEN arena — NORTHSTAR §17, League of Legends auto-attack movement
+  parity spec.** Founder, real-time: a detailed request for exactly how LoL's click-based
+  auto-attacking works with respect to movement — does the champion stop when auto-attacking,
+  does it chase a target that runs away, and how ranged auto-attacks are similar to/different
+  from melee — with LoL named explicitly as the gold standard for exact parity. Doc-only, spec
+  section, same "no code yet" treatment as §15/§16:
+  - Documented LoL's real three-phase attack state machine — windup (champion fully stops,
+    snaps to face target, canceling with a move command mid-windup drops the attack with no
+    penalty), the attack firing, and backswing (movement-cancellable, the actual mechanical
+    basis of kiting/orb-walking — only windup ever costs you movement, never backswing).
+  - Documented the persistent attack-target chase lock: a single attack-command click is not
+    "attack once," it locks onto the target and every subsequent tick auto-repaths toward its
+    *current* live position (pure pursuit, no intercept/lead prediction) until in range, with no
+    leash range or give-up timeout — the direct, literal answer to "if auto attacking and a
+    character runs away do you follow it": yes, automatically, indefinitely, until the lock
+    clears.
+  - Documented ranged vs melee: both fully stop for windup (no "walk and shoot" baseline), but a
+    ranged auto-attack fires a real projectile that **homes/tracks its target** rather than
+    being a skillshot — explicitly the opposite of how this arena's *existing* ability-cast
+    projectiles already work (`ArenaProjectile`'s own doc comment confirms non-homing, fixed
+    velocity from cast-time position, genuinely dodgeable), a real, easy-to-get-backwards
+    distinction called out precisely so a future implementer doesn't retrofit the wrong physics
+    model onto basic attacks.
+  - Grounded the gap analysis in the actual current code: `resolve_combat`/
+    `arena_hero_attack_creeps` are a single flat, always-on proximity check
+    (`ARENA_ATTACK_RANGE`, one constant for the whole 26-hero roster) fully decoupled from
+    movement — no windup, no attack command distinct from `PACKET_ARENA_MOVE`, no persistent
+    chase state, no ranged basic attacks at all today.
+  - §17.4 spec's the target design (not built): a new `PACKET_ARENA_ATTACK` command,
+    windup/backswing state fields on `ArenaHero`, a persistent `attack_target` lock field, and a
+    second homing-projectile variant for ranged basic attacks, distinct from the existing
+    skillshot `ArenaProjectile`.
+  REDGARDEN `372e9e2` (+ CHANGELOG `e126a17`), pushed to `origin/main` as `35ab0fe..e126a17`.
+  Apple #11084.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
