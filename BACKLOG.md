@@ -8030,6 +8030,34 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   (465 checks, up from 461). REDGARDEN `866dbfa`, pushed to `origin/main` as
   `e291f16..866dbfa`. Apple #11077.
 
+- [x] **S170-151/152: REDGARDEN arena — ability tiles bottom-center + H ability-help overlay
+  + new font glyphs; jungle creep no longer attacks its own owning team.** Founder,
+  real-time, several requests:
+  - **"move the cast frames bottom center"**: Q/W/E ability tiles moved from top-left to
+    bottom-center, the real MOBA (LoL/Dota) anchor convention. Existing retime countdown
+    (radial wipe + seconds text) and mana-blocked dark/"MP" state (S170-127/137) confirmed
+    unchanged by reading the code first — pure reposition, not new tile behavior.
+  - **"ensure our font has all necessary glyphs"**: found missing `%`, `?`, `;`, `/`, `&` in
+    this client's hand-drawn line-font ahead of the description overlay below — real ability
+    text would have silently hit the generic missing-glyph box otherwise.
+  - **"H should show an overlay with character ability descriptions"**: real H-key toggle
+    panel showing the local hero's Q/W/E names (existing `arena_ability_name()`) plus a new
+    `arena_ability_description()` — a full 26-hero × 3-slot table of short mechanical blurbs.
+  - **"capturing node should not make the user take damage"**: root cause was
+    `arena_tick_creeps()` having no team check at all — a team-flavored jungle creep attacked
+    ANY hero in its aggro radius, including its own owning team. Since
+    `ARENA_NODE_CAPTURE_RADIUS` (5.0) comfortably overlaps `ARENA_CREEP_AGGRO_RADIUS` (4.0),
+    any hero who stood still to channel-capture or simply defend/hold their own already-owned
+    node got attacked by their own "home-turf resupply" creep — thematically backwards, real
+    home turf doesn't hurt you for standing on it. Fixed: a team-flavored creep now only ever
+    targets the OPPOSING team, matching the counter-play framing its own kill-reward already
+    carries. A NEUTRAL/contested creep is unchanged — still attacks anyone, the real "fight
+    through the prize" challenge that flavor is meant to be.
+  6 new headless tests total. Verified live with a real Xvfb screenshot confirming the
+  repositioned tiles, the overlay panel, and every new glyph all rendering correctly. Full
+  suite green (468 checks, up from 465). REDGARDEN `760df37`, pushed to `origin/main` as
+  `866dbfa..760df37`. Apple #11078.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
