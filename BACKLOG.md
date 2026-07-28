@@ -8656,6 +8656,13 @@ green, not yet committed):
   time, same class of bug S170-180's `w_active` fix found. Fixed for all 7 fields. 9 new tests,
   build clean, full suite green (568/568). REDGARDEN `83cf303` (+ CHANGELOG `21a311a`).
   Apple #11143.
+- [ ] **S170-185: "ensure our font can render numbers."** Real bug found on investigation:
+  `draw_char`'s digit branch (`c >= '0' && c <= '9'`) draws the exact same generic box outline
+  for every single digit — 0 through 9 are visually identical, indistinguishable from each
+  other. Every numeric HUD value the game shows (HP/MP, ability cooldown countdown, Flow/XP/
+  item costs, K/D, APM) has been effectively illegible as a SPECIFIC number this whole session
+  — you could tell "some digits are here," not which ones. Fixing with real 7-segment-style
+  digit glyphs, same GL_LINES stroke style as every other glyph in this font.
 
 ---
 
