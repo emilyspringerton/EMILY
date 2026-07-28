@@ -8620,13 +8620,14 @@ green, not yet committed):
   (`SDL_CreateSystemCursor`/`SDL_SetCursor`: crosshair over a live hittable enemy, default arrow
   otherwise). Client-only, full suite green. REDGARDEN `a99eff4` (+ CHANGELOG `2badb4f`).
   Apple #11136.
-- [ ] **S170-182: REDGARDEN arena — real draft/lobby pick-a-hero UI.** Split out from the old
-  bundled S170-69 (see that entry above) — the half of it that's still genuinely unbuilt. Draft
-  is currently fully automatic (`net_draft_offset`, port-derived, no player input at all); a real
-  UI would let a player actually choose their hero from the roster during `ARENA_PHASE_DRAFT`
-  instead. Substantial standalone client work (a new screen/overlay, hero-list rendering, a pick
-  packet already exists — `PACKET_ARENA_PICK`/`ArenaPickCmd` — server-side handling is already
-  real, only the client-side UI to actually drive it by choice is missing). Not started.
+- [x] **S170-182: REDGARDEN arena — real draft/lobby pick-a-hero UI.** Split out from the old
+  bundled S170-69. A real 26-hero clickable grid screen (`draw_draft_screen`) replaces the
+  normal match view for as long as the local player hasn't picked yet, using the already-real
+  `PACKET_ARENA_PICK` server-side handling — only the client UI to drive it by choice was
+  missing. No auto-fallback if the player never clicks, a deliberate scope decision (flagged,
+  not an oversight). Build clean, full suite green; server-side draft flow verified via an
+  isolated bot-vs-bot match on a fresh port — the human click path itself isn't automatable in
+  this sandbox (no xdotool). REDGARDEN `1b16252` (+ CHANGELOG `389a396`). Apple #11138.
 
 ---
 
