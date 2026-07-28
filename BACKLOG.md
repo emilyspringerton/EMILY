@@ -8167,6 +8167,29 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   REDGARDEN `372e9e2` (+ CHANGELOG `e126a17`), pushed to `origin/main` as `35ab0fe..e126a17`.
   Apple #11084.
 
+- [x] **S170-159: REDGARDEN arena — resource-race bar color was absolute, not
+  viewer-relative.** Founder, real-time, live: **"check the win cons i think it shows the wrong
+  team winning"**, then, mid-investigation, the actual root cause: **"i think the color of the
+  bar ticking up may just be wrong."** Investigated the win-condition/simulation logic first,
+  live, before touching anything — temporarily lowered `ARENA_RESOURCE_CAP` (2000→60) and added
+  a debug print to `apps/arena_bot` logging each bot's own team/winner/resources/verdict on
+  match end, ran an isolated 20-bot match (unrelated port, matchmaker bypassed, persistent pool
+  untouched) to a real resource-cap win. Result: every single bot correctly computed its own
+  team and correctly reported win/loss matching the actual resource totals — the simulation's
+  `winner` logic (resource-cap check + S170-157's sudden-death fallback) has no bug at all. Both
+  debug changes reverted immediately after, confirmed zero diff left behind before moving on.
+  The real bug was in the resource bar itself (added this same session, S170-153): team 0 was
+  hardcoded blue and team 1 hardcoded red in the fill color, regardless of which team the local
+  viewer is actually on — the exact same absolute-vs-relative color mistake S170-149 already
+  found and fixed for node coloring earlier this session, reintroduced fresh in the newer code.
+  A team-1 player watching their own team's progress bar climb saw it rendered in "enemy" red,
+  reading as the opponent winning rather than their own progress. Fixed to color relative to the
+  viewer's own team (mine always blue, opponent's always red) — physical left/right layout
+  (team 0 always left, team 1 always right, matching the map's own -x/+x base layout) is
+  unchanged, only the fill/label colors are now viewer-relative, matching the convention hero
+  name labels and node coloring already use. REDGARDEN `0efade4` (+ CHANGELOG `704ab21`), pushed
+  to `origin/main` as `e126a17..704ab21`. Apple #11086.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
