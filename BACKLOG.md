@@ -8324,6 +8324,64 @@ several arrived in quick succession while the previous item was still being buil
   S170-162/163/165 above (`ef75e31`), numbering collision with the visual-affordances comment
   caught and fixed in a follow-up commit (`859a24a`).
 
+- [x] **S170-168: REDGARDEN arena — boids flocking made bots dance around node objectives
+  instead of capping.** Founder, real-time, live, caught while validating S170-160/161's own
+  work: "there is a bug where the boyds stuff makes the team do a weird cluster dance around the
+  objective im not sure if its preventing them from cap but it looks weird for sure they are
+  doing the boids dance around the objective not sitting right on it" → "at least one of them
+  should sit right on it and ignore the flock." Root cause: flocking's separation force is
+  strongest exactly when allies are close together, which is unavoidably true the instant several
+  bots converge on a shared node — nothing was ever letting anyone actually settle onto the
+  node's exact point long enough to make real capture progress. Fixed with a stateless,
+  no-coordination-needed "anchor" rule: a bot ignores the flock entirely and paths straight to
+  the node's exact `(x,z)` whenever its own owner index mod the node count matches the target
+  node's index; every other bot targeting that same node still flocks around it as a loose
+  escort — real capture progress guaranteed while keeping the organic squad-spread look flocking
+  was meant to produce in the first place. Live-verified via an isolated 20-bot match, no
+  crashes. REDGARDEN `9da7bb9` (+ CHANGELOG `f54bef3`), pushed to `origin/main` as
+  `859a24a..f54bef3`. Apple #11093.
+
+- [x] **S170-167: REDGARDEN arena — NORTHSTAR §18, unsupervised learning for the bot AI,
+  general + per-hero, cross-hero transfer.** Founder: **"write the northstar for unsupervised
+  learning - it will have to be both general and per hero - for example experience playing a
+  hero will help inform decisions playing with and against it on another hero,"** then two
+  grounding follow-ups: **"also look for archetype engine fwiw"** and **"we are going to want to
+  do long running per personality bot training but for now we need generalized ai for the
+  different heroes."** Doc-only, spec section, same "no code yet" treatment as §15-§17:
+  - Checked for an existing "archetype engine" per the founder's own explicit ask, matching this
+    repo's established "reuse existing org tech" discipline (§12 Phase E already set this
+    precedent finding `gpt2-alpine-c/docs/GAME_AI_NORTHSTAR.md`). Found a real one —
+    `EMILY/docs/ARCHETYPE_ENGINE_NORTHSTAR.md`, dual-persona (Carrier/Explorer) Goetia-spirit-
+    modulated LLM routing, partially coded in `EMILY/emily-agent/pkg/archetypes/` — unrelated to
+    hero-kit classification despite the name overlap with REDGARDEN's own informal
+    Fighter/Mage/Tank hero-archetype vocabulary, but a real architectural fit as a slower,
+    higher-level strategic tier.
+  - Proposed a two-tier architecture: **Tier 1** (fast, per-tick action decisions) is this repo's
+    own already-committed §12 Phase E GPT-2 policy-network plan
+    (`arena_serialize_state`/`arena_decode_action`, not yet wired to a live bot); **Tier 2**
+    (slow, occasional, strategic disposition) is the Archetype Engine — and explicitly the
+    natural home for the founder's own deferred "long-running per personality" training later,
+    not something this pass needs to build.
+  - Named the **general layer** as a genuinely unsupervised (next-token prediction, no win/loss
+    labels) pretraining stage on the existing replay corpus, slotting in FRONT of §12 Phase E's
+    own already-specced supervised fine-tune (Milestone 7+) rather than replacing or duplicating
+    it — standard unsupervised-pretrain-then-supervised-fine-tune shape applied to this repo's
+    own already-chosen GPT-2 architecture.
+  - Answered the founder's own worked cross-hero-transfer example concretely, not just
+    gesturally: shared weights (implicit lever — one model across all heroes, not per-hero silos)
+    plus explicit archetype/kit-shape tags (`ranged`/`melee`/`has_homing_attack`/etc.) added to
+    `arena_serialize_state`'s existing `self`/`foe` framing (built for a different reason
+    originally, reused here) — so a pattern learned playing or facing one hero transfers to any
+    other hero sharing the same tagged mechanic, even one with zero replay history of its own
+    (e.g. a *future* ranged hero with a homing attack inherits kiting/positioning patterns
+    learned against Gary specifically, day one).
+  - Sketched (not specced) the per-hero personality layer for later: likely a LoRA-style adapter
+    per hero on top of the shared general backbone, with the Archetype Engine's own
+    Carrier/Explorer divergence as a strong, cheap-to-explore candidate shape for what a trained
+    "personality" actually means.
+  REDGARDEN `666101a` (+ CHANGELOG `f54bef3`), pushed to `origin/main` as `9da7bb9..f54bef3`.
+  Apple #11094.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
