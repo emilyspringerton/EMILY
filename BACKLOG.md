@@ -8058,6 +8058,51 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   suite green (468 checks, up from 465). REDGARDEN `760df37`, pushed to `origin/main` as
   `866dbfa..760df37`. Apple #11078.
 
+- [x] **S170-153/154: REDGARDEN arena — permanent graveyards + Arathi-Basin resource-race win
+  condition + 30s wave respawns.** Founder, real-time: **"add graveyards behind the spawns
+  that never despawn so there is always a place to respawn and add true arathi basin node
+  control resource management as a win con instead of team wipe"**, then **"add resource
+  management (node capping) to the bot ai heuristic and brain"**, then **"respawns happen in
+  30 second waves."** Three-part, interdependent redesign:
+  - Team wipe no longer ends the match. A team that owns no node now respawns at a fixed,
+    permanent graveyard behind its own spawn (`arena_graveyard_position()`) instead of staying
+    dead for the rest of the game — removes the old dead-end where a team with no foothold was
+    just stuck forever.
+  - Win condition replaced: `arena_tick_resources()` fills each team's resource meter (capped
+    at `ARENA_RESOURCE_CAP`) every `ARENA_RESOURCE_TICK_MS`, scaled by how many of the 5 nodes
+    that team currently owns — first team to fill it wins, a real Arathi-Basin resource race
+    instead of straight elimination.
+  - Respawns switched from per-hero countdown to a global wave clock — every dead hero on both
+    teams comes back together the instant `respawn_wave_timer_ms` wraps at
+    `ARENA_RESPAWN_WAVE_MS` (30s), not staggered by individual death time. Dying right before a
+    wave costs almost nothing; dying right after costs almost the full 30s — real, intentional
+    timing tension.
+  - Networked bot AI (`apps/arena_bot`) gets a first-pass node-capping heuristic: walk to and
+    hold the nearest un-owned node when no enemy is within real engagement range, since node
+    control is now what actually wins a match — previously bots only ever chased whichever
+    enemy hero was nearest, anywhere on the map, with zero awareness of the resource race.
+  - Client HUD gets a resource-race tug-of-war bar (`resources[2]` wire-synced via a new
+    `ArenaSnapshotMsg` field, server_broadcast → net_poll_snapshots).
+  4 tests whose premises this redesign invalidated were rewritten (graveyard-fallback,
+  owned-node respawn, and the two old team-wipe-decides-the-match tests), plus 4 new tests
+  (wave respawn syncing multiple staggered deaths together, resource accumulation scaling with
+  nodes owned, resource-cap win condition both directions, one legacy S170-45-era team-wipe
+  test updated to confirm a wipe alone no longer wins). Full suite green. Live-verified via two
+  fresh, fully isolated (direct-connect, matchmaker bypassed entirely) 20-bot matches on unused
+  ports — confirmed no crash, real combat/movement, stable process count over the run.
+  **Real incident during verification, self-caught and fully remediated same session:** an
+  earlier live-test attempt queued 20 throwaway bots through the *shared persistent bot pool's*
+  matchmaker (port 7778) by mistake — `apps/arena_bot` has no `--matchmaker-port` flag, it
+  always dials a hardcoded default, so `--matchmaker-port` was silently a no-op. This spawned 3
+  extra orphaned `arena_server` processes in the real pool. Caught immediately from the process
+  list, confirmed via `var/matches/*.jsonl` that none of the 3 extras ever logged a single
+  snapshot (never reached `ARENA_PHASE_LIVE`, so no real persistent-pool bot was ever stuck
+  mid-match), killed only those 3 orphans, and confirmed the pool's process count and its
+  original in-progress match (port 7302) were both back to exactly their pre-test baseline
+  before doing anything else. All further live verification after that used direct
+  `--port`-based connections, which bypass the shared matchmaker entirely. REDGARDEN `5502f78`
+  (+ CHANGELOG `02b2f3f`), pushed to `origin/main` as `760df37..02b2f3f`. Apple #11081.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
