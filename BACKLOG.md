@@ -8595,15 +8595,19 @@ green, not yet committed):
   here). Sprint order for the three items above: 176 (affordance audit) and 178 (7v7) are
   independent and can land in either order; 177 (README) comes last since it should document
   the truly-final state of 176's audit, not get rewritten twice.
-- [ ] **S170-180: "it seems like toggelable abilities arent working."** Bug report, W-slot
-  toggle abilities (Loki's Bound Where the Myth Says, Ada's frame plating, MnM's shell toggle,
-  Unicorn's regen toggle) — needs investigation, not yet root-caused.
-- [ ] **S170-181: "also instead of initial mana cost toggle spells should drain mana over
-  time."** Design change for the same W-slot toggle kits: today they spend a flat `ARENA_MP_COST_W`
-  once on activation (same shape as Q/R); founder wants continuous per-tick drain while toggled
-  on instead, auto-detoggling on empty mana presumably. Likely related to S170-180 above —
-  investigate together, the "not working" report may turn out to be about the mana-cost model
-  itself rather than a separate defect.
+- [x] **S170-180: "it seems like toggelable abilities arent working."** Root-caused: `w_active`
+  was never on the wire at all (`ArenaHeroSnapshot` never carried it) — a networked client's own
+  local copy stayed permanently 0/off no matter what the server actually did, so the W tile's
+  "active" highlight was always wrong in net_mode. Not a toggle-logic bug; a missing sync field.
+  Fixed by adding it, same shape as every other per-hero snapshot field.
+- [x] **S170-181: "also instead of initial mana cost toggle spells should drain mana over
+  time."** The 10 true-toggle heroes (Unicorn/Loki/Gary/Flute Debt/Bacon Puck/Abraham/Ada/Gunnr/
+  He Xiangu/MnM) now activate free (`mp > 0` gate) and drain `ARENA_MP_DRAIN_W_PER_SEC`
+  continuously while active, auto-deactivating at 0 mana — new `arena_hero_w_is_toggle()` lets
+  the client HUD apply the correct mana-cost model per hero (instant-effect W heroes like Ghost/
+  Frog are untouched, still flat `ARENA_MP_COST_W`). 2 tests rewritten, 2 added, full suite
+  green. Landed together with S170-180 since they touched the same code and were reported in the
+  same breath. REDGARDEN `d917252` (+ CHANGELOG `7d0a871`). Apple #11133.
 
 ---
 
