@@ -8552,10 +8552,16 @@ Ordered by what unblocks the most follow-on work first:
    `equipped_item[]` onto `ArenaHeroSnapshot` for the client to read. Wire plumbing over
    already-tested logic — not live-network-verified with a raw UDP client this round, flagged not
    faked. Full suite green. REDGARDEN `c80cb93` (+ CHANGELOG `fb39f18`). Apple #11128.
-4. **Client UI: shop panel + character stat pane + all other affordances.** Keybind + click
-   access (this repo's own standing cross-cutting "high-APM, both keybind and click resolve
-   instantly" constraint, §2), Flow/XP visible in the HUD, equipped items visible in the
-   character pane.
+4. [x] **Client UI: shop panel + character stat pane + all other affordances.** Shop
+   structures at each `arena_shop_position()` (team-relative trim). Always-visible character
+   pane (HP/MP/AD/Armor/Flow/Flow-earned/XP/K-D, local hero). Shop panel (`B` toggle) —
+   click or `1`-`9` quick-buy, click-to-sell, no confirm step, satisfying this repo's own
+   cross-cutting "high-APM, both keybind and click resolve instantly" constraint (§2). Held-`TAB`
+   scoreboard: per-hero + team-aggregate K/D/Flow/XP. Build clean, full suite green. Visual
+   verification hit a pre-existing Xvfb/software-GL coordinate quirk in this sandbox that also
+   affects already-shipped HUD code (not a regression) — the 3D pass (incl. the new shop
+   structures) rendered correctly every time; real-desktop verification still open, flagged not
+   faked. REDGARDEN `4edf3cf` (+ CHANGELOG `0184994`). Apple #11130.
 5. **Bot AI shop interaction** — explicitly out of scope for this first pass unless time
    allows; bots simply won't buy anything yet, flagged not faked, same convention as every other
    scoped-out gap this session has been honest about.
@@ -8566,11 +8572,12 @@ Landed while step 4 above was already in progress (character pane, shop panel + 
 keybinds 1-9, click-to-sell, shop structures, held-TAB scoreboard already written, build/tests
 green, not yet committed):
 
-- [ ] **S170-176: "ensure we have ui ux affordances for all the new systems."** Confirms/extends
-  step 4 above — read as covering everything shipped in S170-175 sprints 1-3 (Flow/XP, items,
-  shop) plus anything else recent that's sim-only with no HUD readout yet. Audit needed once
-  Sprint 4's current in-flight work lands: what's synced to the wire but still invisible in the
-  client.
+- [x] **S170-176: "ensure we have ui ux affordances for all the new systems."** Audited every
+  recent sim-only system for a missing HUD readout. The one real gap was S170-175's own Flow/XP/
+  item shop (Flow/XP were sim-only through Sprint 3, synced over the wire but never drawn) —
+  closed by step 4 above. Everything else recent already had its affordance: auto-attack
+  projectiles/lock highlight (S170-162-166), hero/creep facing rotation (S170-171), fountains'
+  visual pillar (S170-147), status-effect labels (S170-133). No further gap found.
 - [ ] **S170-177: "and document it all in the readme."** `README.md`'s own "Current Status"
   section (referenced by this repo's own `CLAUDE.md`) needs the new systems (Flow/XP economy,
   item shop, character pane, scoreboard, shop structures) added once they're committed —
