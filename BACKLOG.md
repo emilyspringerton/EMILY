@@ -8667,6 +8667,18 @@ green, not yet committed):
   input, no cooldowns active at match start) — the segment mapping is a standard,
   directly-verifiable table, not a guess. REDGARDEN `fc95683` (+ CHANGELOG `ce5fa14`).
   Apple #11144.
+- [x] **S170-186: `scripts/build.sh` never built `apps/arena`.** Found while investigating an
+  unrelated rendering question: the script every "build clean" claim this session relied on
+  never actually compiled the human GUI client, only `scripts/build_arena.sh` did. Checked it
+  does compile clean (pre-existing warnings only) — no broken commits, just an unverified claim
+  that happened to hold. Folded the same `gcc` invocation into `build.sh`. Verified via full
+  `rm -rf build` + rebuild from scratch; full suite still green. REDGARDEN `870935a`
+  (+ CHANGELOG `6d31288`). Apple #11146.
+- [ ] **S170-187: "assists should gen flow."** Founder, real-time. Currently only the hero who
+  lands the killing blow gets `ARENA_HERO_KILL_FLOW`/`ARENA_HERO_KILL_XP` — no assist tracking
+  exists at all. Needs: a way to record "who else damaged this hero recently" (real MOBA assist
+  window, e.g. last N seconds before the kill), a reward split/bonus for assists distinct from
+  the full kill bounty, and test coverage for the new attribution logic.
 
 ---
 
