@@ -8411,12 +8411,21 @@ transcript.
 5. **Structures/towers** — the actual "push" payoff lane creep waves are currently missing
    (S170-139's own honest gap), and the same blocker already named for Duck's W since
    S170-31. Two independent asks now point at the same missing system.
-6. **Live visual verification of everything built server-side-only this session** —
-   `scripts/test_arena.sh` proves the sim logic; nothing in this session was confirmed
-   against an actual rendered frame (the box remains headless, no Xvfb attempted this pass
-   after the earlier live-pool discovery redirected effort toward not disturbing shared
-   infrastructure). A real Xvfb pass (already used successfully for S170-138's own
-   verification, per that entry) is a cheap next step before scaling any of this further.
+6. ~~Live visual verification of everything built server-side-only this session~~ — **done,
+   2026-07-28 (S170-169)**, at least for that session's own newest rendering-affecting work.
+   Founder: "continue." Launched an isolated 20-slot match (server + 19 bots + one real SDL
+   client under Xvfb :98, port 8060, matchmaker bypassed) and confirmed via two live screenshots
+   the resource-race bar's S170-159 viewer-relative color fix (this viewer's own team rendered
+   blue on the physically-right segment, the enemy team red on the left, matching the fix exactly
+   rather than the old absolute team0=blue/team1=red bug), the S170-162 attack-target pulsing
+   amber highlight (visible on multiple simultaneously-targeted heroes' name labels during a real
+   team fight, confirmed legible even in a chaotic multi-hero cluster), team-relative hero
+   coloring, and jungle terrain rendering. Cleaned up fully after (0 leftover processes,
+   persistent pool's own process count unaffected). The item's own original 27-07-session scope
+   (verifying EVERY feature from that entire earlier session) remains broader than this pass
+   covered — flagged as still partially open for anything from before 2026-07-28 not re-verified
+   here — but the specific concern ("nothing... confirmed against an actual rendered frame") no
+   longer applies to this session's own key visual changes.
 
 ---
 
