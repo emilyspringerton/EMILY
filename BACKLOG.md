@@ -8743,6 +8743,30 @@ green, not yet committed):
   before it becomes a live reliability problem -- not designing a fix here (splitting the
   snapshot into multiple smaller packets, or another approach, is a real networking-model
   decision, the founder's own call, not something to redesign unprompted).
+- [x] **S170-194/195: "do the work to prepare for unsupervised learning" -> "target torch
+  training on colab."** Two commits, one deliverable — the arena bot AI corpus-to-training
+  pipeline NORTHSTAR §18.4 names as the next buildable step, end to end.
+  - **S170-194 (C side):** `arena_serialize_state`'s "owner must be 0 or 1" restriction was a
+    real, load-bearing bug (team-mode is now the primary game mode) — fixed to accept any real
+    active hero slot, foe resolved via `arena_nearest_enemy`. Added a 26-hero kit-shape tag table
+    (`ranged`/`melee`, `has_homing_attack`, `has_knockback`, `has_heal`, `has_dash`,
+    `has_stealth` — §18.6's own "stronger lever" for cross-hero transfer) + `arena_hero_tags_
+    string()`. New `arena_corpus_record()` writes one `{"text": ...}` JSONL line per active hero
+    per tick, wired live into `apps/arena_server`. Also fixed `scripts/build.sh` never linking
+    `arena_ai_bridge.c` into the server build. 10 new tests, 607/607 green, verified live (real
+    isolated match, 38 valid corpus records).
+  - **S170-195 (Python/Colab side):** `scripts/build_ai_corpus.py` aggregates the per-match
+    corpus files; `scripts/colab_train.py` ports `gpt2-alpine-c`'s own proven GPT-2-small
+    next-token-prediction pretrain pattern (same `{"text": ...}` record shape, zero conversion);
+    `notebooks/redgarden_gpt2_pretrain_colab.ipynb` is the one-cell bootstrap (mount Drive,
+    git clone/pull, run the script) — training logic lives in the versioned script, not notebook
+    cells.
+
+  Genuinely §18.4's unsupervised pretraining stage (next-token prediction, no win/loss label),
+  not §12 Phase E's later supervised NORN-graded fine-tune — the checkpoint is meant as that
+  later stage's starting weights. Python/Colab half flagged, not faked: needs a real corpus from
+  played matches plus an actual Colab GPU, not runnable end-to-end in this sandbox. REDGARDEN
+  `6743964` + `2aa464d` (+ CHANGELOG in the same commits). Apple #11167.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
