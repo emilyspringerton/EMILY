@@ -8803,6 +8803,15 @@ green, not yet committed):
   section) — camera lock (§15.1, the `C` toggle) untouched, not part of this complaint. Build
   clean, full suite green (607/607). REDGARDEN `194de5a` (+ CHANGELOG same commit range).
   Apple #11183.
+- [x] **S170-199: "i need you to put the stats of the items in the readme and suggested
+  heroes."** Added the full 24-item `ARENA_ITEMS` catalog as a real markdown table (slot, cost,
+  AD/HP/MP/Armor/Move Speed bonuses) — previously only described in prose, no actual numbers
+  anywhere outside the source. Added a "suggested heroes for new players" section, 4 picks
+  spanning Tank/Fighter/Marksman/Support, chosen for kit simplicity — no clone management
+  (Tyler), no blink mind-games (Loki), no stealth timing (Frog/Ghost/NOOR-1/Bacon+Puck): MnM
+  (root + survive-floor ult), Duck (pull + on-kill buff), Gary (the one hero with zero
+  dash/gap-closer, pure stand-and-shoot), He Xiangu (every ability heals, no combos to time).
+  Docs-only, no code changed. REDGARDEN `3698202` (+ CHANGELOG same commit range). Apple #11184.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
