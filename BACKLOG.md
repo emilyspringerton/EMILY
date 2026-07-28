@@ -7983,6 +7983,35 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   rendering. Full suite green (461 checks, up from 455). REDGARDEN `0d6aecc`, pushed to
   `origin/main` as `45cfa32..0d6aecc`. Apple #11073.
 
+- [x] **S170-149: REDGARDEN arena — "wrong team wins" and "node flips wrong color," two real
+  high-impact team-mode bugs found from a live founder report.** Founder, real-time: "there
+  are bugs with node ownership sometimes the wrong team comes out of a node sometimes the
+  wrong team wins" → "yea theres a bug where i cap a node but it flips wrong color and then
+  my whole team comes out and then they kill the other team but it says i loose." Investigated
+  the sim-side capture/win-condition logic first (`arena_tick_nodes`,
+  `arena_team_owns_any_node`, the win-check in `arena_update_teams`) — all correct on careful
+  audit, no bug there. Root cause was two client-side display bugs instead:
+  1. **The "i loose" bug**: the "YOU WIN"/"YOU LOSE" HUD text compared `arena_state.winner`
+     (which team won, encoded 1/2) against `my_owner + 1` — `my_owner` is the raw
+     client_id/hero SLOT INDEX (0..19 in a real match), only equal to team index by
+     coincidence for owner 0, and only correct for owner 1 in the literal 1v1 case where
+     owner *is* team. Any real team-mode player past owner 1 — the overwhelming majority of
+     any real 10v10 match — got a flipped result. Fixed: compare against
+     `arena_state.heroes[my_owner].team + 1` instead.
+  2. **The "wrong color" bug**: node coloring was hardcoded absolute (owner==1 always blue,
+     owner==2 always red) while every hero on the same map is colored *relative* to the local
+     viewer (self/ally = blue-ish, enemy = red). For a team-1 viewer, their own just-captured
+     node rendered in the exact red already reserved for enemy heroes on their own screen —
+     looked identical to an enemy-held node. Fixed: nodes now color relative to the local
+     viewer's own team, same convention heroes already use.
+  **Verified live with the exact broken scenario, not just reasoned about**: a real 20-player
+  match (19 `arena_bot` processes + the actual SDL client under Xvfb), with the human client
+  deliberately connected *last* so it claimed owner slot 19 (team 1, guaranteed not owner
+  0/1, the exact class of slot that was broken) — match ended `winner:2` (team 1), a real
+  screenshot confirms "YOU WIN" now displays correctly for that slot. Client-only change;
+  full headless suite unaffected (461 checks). REDGARDEN `e291f16`, pushed to `origin/main` as
+  `0d6aecc..e291f16`. Apple #11075.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
