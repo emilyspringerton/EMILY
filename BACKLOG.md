@@ -8583,17 +8583,27 @@ green, not yet committed):
   item shop, character pane, scoreboard, shop structures) added once they're committed —
   keybinds (B for shop, 1-9 quick-buy, held-TAB for scoreboard) belong in a controls
   reference if one exists, otherwise inline.
-- [ ] **S170-178: "reduce it to 7 v 7."** `ARENA_TEAM_SIZE` (currently 10, `packages/simulation/
-  arena_game.h`) → 7. Scope check needed before touching the constant: anywhere hardcoding 10 or
-  assuming the old team size (draft/lobby sizing, matchmaker `--lobby-size`, bot-pool spawn
-  count, any test that asserts on the literal team size) has to move with it, not just the
-  #define.
+- [x] **S170-178: "reduce it to 7 v 7."** `ARENA_TEAM_SIZE` 10 → 7. Every sim-side array/loop
+  bound derives from `ARENA_MAX_HEROES`; the scope check found and updated the duplicated
+  constants that don't (protocol.h's `ARENA_SNAPSHOT_MAX_HEROES`, both pool-launch scripts, both
+  `ops/systemd/*.service` deploy sources — not the live pool itself, needs a manual host
+  re-deploy). Build clean, full suite green. REDGARDEN `9d88fa2` (+ CHANGELOG `01815fd`).
+  Apple #11131.
 - [x] **S170-179: "ensure all into backlog then sprints then iterate."** This entry — logged
   per this repo's own standing protocol (`CLAUDE.md`: founder real-time direction always goes
   into BACKLOG.md, log-then-work or work-then-log either order is fine but it always lands
   here). Sprint order for the three items above: 176 (affordance audit) and 178 (7v7) are
   independent and can land in either order; 177 (README) comes last since it should document
   the truly-final state of 176's audit, not get rewritten twice.
+- [ ] **S170-180: "it seems like toggelable abilities arent working."** Bug report, W-slot
+  toggle abilities (Loki's Bound Where the Myth Says, Ada's frame plating, MnM's shell toggle,
+  Unicorn's regen toggle) — needs investigation, not yet root-caused.
+- [ ] **S170-181: "also instead of initial mana cost toggle spells should drain mana over
+  time."** Design change for the same W-slot toggle kits: today they spend a flat `ARENA_MP_COST_W`
+  once on activation (same shape as Q/R); founder wants continuous per-tick drain while toggled
+  on instead, auto-detoggling on empty mana presumably. Likely related to S170-180 above —
+  investigate together, the "not working" report may turn out to be about the mana-cost model
+  itself rather than a separate defect.
 
 ---
 
