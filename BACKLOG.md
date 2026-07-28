@@ -6518,14 +6518,18 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-69: REDGARDEN arena NORTHSTAR — real draft/lobby UI + hover cursor indicators
+- [x] **S170-69: REDGARDEN arena NORTHSTAR — real draft/lobby UI + hover cursor indicators
   (enemy vs. ally).** Founder, real-time: "nice cursor indicators for hover over enemy vers aly
   etc as a northstar." Logged before writing per Principle 1. Explicitly a northstar-level
   direction, not an immediate fix — captures the deferred half of S170-68's scope (a real
   in-client lobby/queue UI, a real draft hero-select UI) plus a new, related ask: hovering the
   mouse over a hero in a live match should visually distinguish "this is an enemy" from "this is
   an ally" (color/cursor-shape change, name/HP tooltip), which the current click-to-move/cast-only
-  input model doesn't do at all. Not started — northstar/design note, no code yet.
+  input model doesn't do at all. **Hover-indicator half done in two passes:** color/label/
+  tooltip (S170-69 revisited, Apple #10772) and the literal cursor-SHAPE swap (real
+  `SDL_SetCursor` crosshair, Apple #11136, REDGARDEN `a99eff4`) — both now shipped, this item's
+  "hover cursor indicators" wording is fully satisfied. **Draft/lobby UI half split out** to its
+  own item, S170-182, since it's substantial standalone work unrelated to the cursor ask.
 
 ---
 
@@ -8610,6 +8614,19 @@ green, not yet committed):
   Frog are untouched, still flat `ARENA_MP_COST_W`). 2 tests rewritten, 2 added, full suite
   green. Landed together with S170-180 since they touched the same code and were reported in the
   same breath. REDGARDEN `d917252` (+ CHANGELOG `7d0a871`). Apple #11133.
+- [x] **S170-69 continued: real cursor-shape swap on enemy hover.** Closed out the literal
+  "cursor indicators" wording the original S170-69 northstar item never actually got — the
+  color/label/tooltip half shipped long ago (Apple #10772), this adds a real OS cursor swap
+  (`SDL_CreateSystemCursor`/`SDL_SetCursor`: crosshair over a live hittable enemy, default arrow
+  otherwise). Client-only, full suite green. REDGARDEN `a99eff4` (+ CHANGELOG `2badb4f`).
+  Apple #11136.
+- [ ] **S170-182: REDGARDEN arena — real draft/lobby pick-a-hero UI.** Split out from the old
+  bundled S170-69 (see that entry above) — the half of it that's still genuinely unbuilt. Draft
+  is currently fully automatic (`net_draft_offset`, port-derived, no player input at all); a real
+  UI would let a player actually choose their hero from the roster during `ARENA_PHASE_DRAFT`
+  instead. Substantial standalone client work (a new screen/overlay, hero-list rendering, a pick
+  packet already exists — `PACKET_ARENA_PICK`/`ArenaPickCmd` — server-side handling is already
+  real, only the client-side UI to actually drive it by choice is missing). Not started.
 
 ---
 
