@@ -8578,11 +8578,13 @@ green, not yet committed):
   closed by step 4 above. Everything else recent already had its affordance: auto-attack
   projectiles/lock highlight (S170-162-166), hero/creep facing rotation (S170-171), fountains'
   visual pillar (S170-147), status-effect labels (S170-133). No further gap found.
-- [ ] **S170-177: "and document it all in the readme."** `README.md`'s own "Current Status"
-  section (referenced by this repo's own `CLAUDE.md`) needs the new systems (Flow/XP economy,
-  item shop, character pane, scoreboard, shop structures) added once they're committed —
-  keybinds (B for shop, 1-9 quick-buy, held-TAB for scoreboard) belong in a controls
-  reference if one exists, otherwise inline.
+- [x] **S170-177: "and document it all in the readme."** Extended the existing S170-97 keybind
+  table (`B` shop, `1`-`9` quick-buy, held-`TAB` scoreboard, `H` overlay, W-toggle-vs-instant
+  mana distinction) rather than duplicating a second controls reference, and added a "Flow, XP,
+  and the item shop" section. Left the README's own pre-existing, already-known-stale "Current
+  Status (2026-07-23)" section (describes the pre-MOBA-pivot VS0/VS1 card-RTS, not `apps/arena`)
+  untouched — out of scope for this ask, a separate, bigger doc-debt item if it's ever wanted.
+  REDGARDEN `e3aaff8` (+ CHANGELOG `bb1607e`). Apple #11134.
 - [x] **S170-178: "reduce it to 7 v 7."** `ARENA_TEAM_SIZE` 10 → 7. Every sim-side array/loop
   bound derives from `ARENA_MAX_HEROES`; the scope check found and updated the duplicated
   constants that don't (protocol.h's `ARENA_SNAPSHOT_MAX_HEROES`, both pool-launch scripts, both
