@@ -8684,14 +8684,14 @@ green, not yet committed):
   the already-synced/displayed `flow`/`xp` fields. 4 new tests, build clean (via the now-fixed
   `scripts/build.sh`), full suite green (578/578). REDGARDEN `b524736` (+ CHANGELOG `1865ff7`).
   Apple #11148.
-- [ ] **S170-188: Tyler clone kills misattributed Flow/XP/kills.** Found via proactive audit
-  (no fresh backlog item queued, checked whether clone-fights-through-the-generic-melee-loop
-  interacted correctly with the new Flow/assist reward code). Real bug: a clone landing the
-  actual killing blow credited Flow/XP/kills to the clone's own disposable `ArenaHero` slot,
-  lost the instant that slot gets reused on Tyler's next R cast -- never reaching Tyler, the
-  real player whose army earned the kill. Fixing with a new `arena_reward_owner()` resolver
-  applied at the one call site a clone can ever land damage from (the flat melee loop; Gary's
-  own homing-shot path is bounded to `ARENA_MAX_HEROES` and never sees clones at all).
+- [x] **S170-188: Tyler clone kills misattributed Flow/XP/kills.** Found via proactive audit.
+  Real bug: a clone landing the actual killing blow credited Flow/XP/kills to the clone's own
+  disposable `ArenaHero` slot, lost the instant that slot gets reused on Tyler's next R cast —
+  never reaching Tyler, the real player whose army earned the kill. Fixed with a new
+  `arena_reward_owner()` resolver applied at the one call site a clone can ever land damage from
+  (the flat melee loop; Gary's own homing-shot path is bounded to `ARENA_MAX_HEROES` and never
+  sees clones at all). 1 new test, build clean, full suite green (583/583). REDGARDEN `d509c67`
+  (+ CHANGELOG `96cde96`). Apple #11150.
 
 ---
 
