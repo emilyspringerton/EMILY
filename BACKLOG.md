@@ -8788,6 +8788,21 @@ green, not yet committed):
   with no crash — the actual on-screen visual (fog cutoff, lock-freeze) isn't capturable in this
   sandbox (no xdotool for drag/hover input), same limitation S170-182/S170-185 already hit —
   flagged, not faked. REDGARDEN `c45fb6b` (+ CHANGELOG same commit). Apple #11169.
+- [x] **S170-197: "the economy is too slow i can never buy anything increase flow gained by 10x
+  from all sources."** All 4 Flow-earning constants x10: jungle creep kill 15→150, lane creep
+  kill 8→80, hero kill 100→1000, assist 35→350. XP left untouched — not mentioned, and XP has no
+  spend pressure the way Flow does. Every existing test already referenced the constants, not
+  literal numbers, so nothing needed updating. Build clean, full suite green (607/607). REDGARDEN
+  `731e6c1` (+ CHANGELOG same commit range). Apple #11182.
+- [x] **S170-198: "remove fog of war its only client side fuck that."** Founder, real-time,
+  immediately after S170-196 shipped fog of war. Correct call — NORTHSTAR §15.2 itself named
+  this exact tradeoff and explicitly deferred real server-side vision culling rather than build
+  it, so "the enemy just doesn't render" was always a cosmetic-only gate a modified client
+  trivially bypasses, not real information hiding. Reverted the fog half of S170-196
+  (`ARENA_VISION_RADIUS`, both distance-check skip blocks in `apps/arena/src/main.c`, the README
+  section) — camera lock (§15.1, the `C` toggle) untouched, not part of this complaint. Build
+  clean, full suite green (607/607). REDGARDEN `194de5a` (+ CHANGELOG same commit range).
+  Apple #11183.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
