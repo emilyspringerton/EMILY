@@ -8012,6 +8012,24 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   full headless suite unaffected (461 checks). REDGARDEN `e291f16`, pushed to `origin/main` as
   `0d6aecc..e291f16`. Apple #11075.
 
+- [x] **S170-150: REDGARDEN arena — mana trickles 1/sec even in combat, and a real latent
+  "regen never actually worked" bug fixed.** Founder, real-time: "have mana tic up slowly 1
+  per second always." New `ARENA_MP_REGEN_IN_COMBAT_PER_SEC` (1) — regen is two rates now,
+  not S170-148's hard on/off combat gate: a slow trickle even mid-fight, the faster
+  out-of-combat rate once `combat_timer_ms` expires. **Real bug found implementing this, not
+  the literal ask**: the regen math computed `(int)(rate * dt_ms / 1000.0f)` fresh every call
+  with zero persistence across ticks — at this codebase's own real production tick rate
+  (`apps/arena_server` always calls with `dt_ms=16`), that's `(int)0.096 == 0`, EVERY single
+  tick, for every rate this file has ever used. Mana regen had silently never actually worked
+  in real gameplay — only in tests, which happened to call with large `dt_ms=1000` steps that
+  mask the truncation. Fixed with a persistent `mp_regen_accum` float on `ArenaHero`.
+  3 new headless tests, including one running 63 real 16ms ticks specifically to catch this
+  bug class (which also caught and fixed a genuine test-setup gotcha along the way — the same
+  "deactivating an entire team instantly triggers a team-wipe win condition, freezing
+  subsequent ticks" trap this session already hit once in bot-mode testing). Full suite green
+  (465 checks, up from 461). REDGARDEN `866dbfa`, pushed to `origin/main` as
+  `e291f16..866dbfa`. Apple #11077.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
