@@ -8645,6 +8645,17 @@ green, not yet committed):
   not an oversight). Build clean, full suite green; server-side draft flow verified via an
   isolated bot-vs-bot match on a fresh port — the human click path itself isn't automatable in
   this sandbox (no xdotool). REDGARDEN `1b16252` (+ CHANGELOG `389a396`). Apple #11138.
+- [x] **S170-184: "add more status effects use GFD [as a reference]."** New generic
+  `stunned_ms` (hard CC) and `slowed_ms`/`slow_pct` (proportional move-speed debuff) fields on
+  `ArenaHero`, referencing GoblinFoxDragon's `server/status` package (Paralyze/Slow) — closes
+  the exact gap `hero_status_label`'s own doc comment already flagged. New
+  `arena_apply_stun`/`arena_apply_slow` kit-wiring hooks, no kit uses them yet (infrastructure
+  first, same precedent every earlier status field was built under). **Real bugfix found along
+  the way:** none of the 5 pre-existing status-effect fields were ever synced over the wire —
+  the status-label HUD has been silently non-functional in every networked match this whole
+  time, same class of bug S170-180's `w_active` fix found. Fixed for all 7 fields. 9 new tests,
+  build clean, full suite green (568/568). REDGARDEN `83cf303` (+ CHANGELOG `21a311a`).
+  Apple #11143.
 
 ---
 
