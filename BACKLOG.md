@@ -8226,7 +8226,7 @@ backlog then sprint plan then iterate implement."** Same protocol as the 2026-07
 log every request verbatim before/while implementing, no exceptions. Captured here as a batch since
 several arrived in quick succession while the previous item was still being built.
 
-- [ ] **S170-161: REDGARDEN arena — jungle creeps use the "dynamic creep ecosystem" direction
+- [x] **S170-161: REDGARDEN arena — jungle creeps use the "dynamic creep ecosystem" direction
   (NORTHSTAR §8), something simple to start.** Founder: "add jungle creeps use the redgarden
   dynamic creep ecosystem something simple to start," refined immediately after with three
   concrete follow-ups, all part of the same item:
@@ -8234,16 +8234,28 @@ several arrived in quick succession while the previous item was still being buil
     nodes"** — team-flavored creeps continuously march toward the nearest node their own team
     doesn't own, recomputed live each tick (reactive to ownership changing mid-march), each
     owned node's creep naturally fanning out toward a different target with no explicit
-    coordination needed.
+    coordination needed. Idles once its own team owns everything; redirects/stops the instant
+    its target gets captured mid-march.
   - **"initially they spawn from the graveyards behind the nodes not the center"** — spawn
     position is the owning team's graveyard (`arena_graveyard_position`, S170-153/156), not the
     node's own (x,z) — creeps march outward from the team's home base, not from the node they're
     nominally attached to.
-  - **"tone down the strength of the team creeps just a bit they are so strong"** — reduce team
-    creep HP/damage a modest amount; neutral/contested creeps unchanged.
+  - **"tone down the strength of the team creeps just a bit they are so strong"** — 
+    `ARENA_CREEP_TEAM_HP` 40→26; `ARENA_CREEP_DAMAGE` split into `ARENA_CREEP_NEUTRAL_DAMAGE`
+    (6, unchanged) / `ARENA_CREEP_TEAM_DAMAGE` (4, new) so only team creeps got nerfed.
   Neutral creeps unaffected by any of the above (still stationary at their own node, unchanged
   spawn position and stats) — this is specifically about team-flavored creeps becoming a mobile,
   reactive presence, matching §8's "the jungle is alive and dynamic, not static camps" language.
+  9 existing tests updated for the new positional assumptions (graveyard-spawn and march broke
+  several tests' "hero positioned at the node" premise — isolated per-test by owning every node
+  for the relevant team so nothing marches during that specific assertion, same "reduce moving
+  parts to what's being tested" convention this file already uses; one test also had to isolate
+  a real multi-creep-same-tile collision, since `arena_tick_creeps`' creep-initiated attack loop
+  has no "one hit per tick" cap the way hero-initiated attacks do). 6 new tests added (graveyard
+  spawn position, neutral unaffected, marches toward an unowned node, idles once owning
+  everything, redirects when the march target gets captured mid-flight). Full suite green.
+  Live-verified via an isolated 20-bot match: no crashes. REDGARDEN `bac3e1b` (+ CHANGELOG
+  `b930a87`), pushed to `origin/main` as `7090fd1..b930a87`. Apple #11089.
 
 - [ ] **S170-162/163/164/165: REDGARDEN arena — build out NORTHSTAR §17's click-to-attack
   system, Gary's homing ranged auto-attack, visual affordances, bot AI target selection.**
