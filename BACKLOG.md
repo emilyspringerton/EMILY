@@ -8571,9 +8571,12 @@ Ordered by what unblocks the most follow-on work first:
    affects already-shipped HUD code (not a regression) — the 3D pass (incl. the new shop
    structures) rendered correctly every time; real-desktop verification still open, flagged not
    faked. REDGARDEN `4edf3cf` (+ CHANGELOG `0184994`). Apple #11130.
-5. **Bot AI shop interaction** — explicitly out of scope for this first pass unless time
-   allows; bots simply won't buy anything yet, flagged not faked, same convention as every other
-   scoped-out gap this session has been honest about.
+5. [x] **Bot AI shop interaction.** Time allowed after all — simple heuristic: no enemy within a
+   safety radius + can afford the next catalog item → detour to own shop, buy, repeat.
+   `arena_shop_buy`'s own server-side validation does the real work. Build clean, full suite
+   green; verified live via an isolated 4-bot match (24s, no crashes) though a purchase isn't
+   directly visible in the match log's own minimal snapshot schema — flagged not faked.
+   REDGARDEN `73d386a` (+ CHANGELOG `302f26d`). Apple #11141.
 
 ### Real-time founder direction, 2026-07-28 (continued) — mid-Sprint-4
 
