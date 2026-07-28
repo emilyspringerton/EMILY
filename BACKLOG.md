@@ -8408,13 +8408,18 @@ transcript.
    from the original design. Removed `ARENA_TYLER_W_HIT_RADIUS` (now genuinely unused). 1 new
    test, full suite green, live-verified via an isolated 20-bot match. REDGARDEN `79fbfc3`
    (+ CHANGELOG `f48dfad`). Apple #11101.
-4. **A real gold/XP economy** — named as a gap by both S170-139 (lane creep kills reward
-   nothing) and, going back further, several "no economy exists" simplification notes on
-   other kits. Worth a real design pass of its own before any single feature (lane creeps,
-   a future tower/structure system) gets built against a placeholder.
-5. **Structures/towers** — the actual "push" payoff lane creep waves are currently missing
-   (S170-139's own honest gap), and the same blocker already named for Duck's W since
-   S170-31. Two independent asks now point at the same missing system.
+4. ~~A real gold/XP economy~~ — **design pass done, 2026-07-28 (S170-174, NORTHSTAR §19)**.
+   Found and resolved a real conflict first: `docs/CONSUMABLES_AND_COOKING.md` assumed cooking
+   spends from `resources[team]`, which S170-153 later made the win-condition meter — spending
+   on items would've slowed a team's own progress toward winning. Resolved with two separate
+   currencies (`resources[team]` stays win-condition-only; new per-hero gold, fed by kills,
+   handles personal power). Grounds the spend target in `docs/HEROES_VS0.md`'s existing 12-item
+   roster instead of inventing new items. Not implemented — spec only.
+5. ~~Structures/towers~~ — **design pass done, 2026-07-28 (S170-174, NORTHSTAR §19, same
+   section as item 4 above — designed together since a structure's gold-bounty payoff needs
+   gold to exist first)**. Designed around the map's real single-lane geometry (not an invented
+   3-lane layout), closing the "push payoff" gap this item and Duck's own W have both been
+   blocked on since S170-31/139. Not implemented — spec only.
 6. ~~Live visual verification of everything built server-side-only this session~~ — **done,
    2026-07-28 (S170-169)**, at least for that session's own newest rendering-affecting work.
    Founder: "continue." Launched an isolated 20-slot match (server + 19 bots + one real SDL
