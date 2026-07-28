@@ -8545,9 +8545,13 @@ Ordered by what unblocks the most follow-on work first:
    feeding HP/MP/armor/AD/move-speed bonuses into `arena_hero_armor()` and the relevant damage/
    motion call sites. 13 new tests, full suite green (546/546). REDGARDEN `f2c94e4` (+ CHANGELOG
    same commit range). Apple #11127.
-3. **Shop structures + proximity + wire protocol.** Two shop positions (corner-adjacent to each
-   team's own graveyard), `PACKET_ARENA_SHOP_BUY`/`PACKET_ARENA_SHOP_SELL`, server-side purchase
-   validation (proximity + Flow balance).
+3. [x] **Shop structures + proximity + wire protocol.** Two shop positions shipped in step 2
+   above (`arena_shop_position`, corner-adjacent to each team's own graveyard). This step added
+   `PACKET_ARENA_SHOP_BUY`/`PACKET_ARENA_SHOP_SELL` + dispatch in `server_handle_packet` (same
+   shape as the existing ATTACK packet), and synced `flow`/`flow_earned`/`xp`/`kills`/`deaths`/
+   `equipped_item[]` onto `ArenaHeroSnapshot` for the client to read. Wire plumbing over
+   already-tested logic — not live-network-verified with a raw UDP client this round, flagged not
+   faked. Full suite green. REDGARDEN `c80cb93` (+ CHANGELOG `fb39f18`). Apple #11128.
 4. **Client UI: shop panel + character stat pane + all other affordances.** Keybind + click
    access (this repo's own standing cross-cutting "high-APM, both keybind and click resolve
    instantly" constraint, §2), Flow/XP visible in the HUD, equipped items visible in the
