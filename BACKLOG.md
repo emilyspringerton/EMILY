@@ -8620,6 +8620,13 @@ green, not yet committed):
   (`SDL_CreateSystemCursor`/`SDL_SetCursor`: crosshair over a live hittable enemy, default arrow
   otherwise). Client-only, full suite green. REDGARDEN `a99eff4` (+ CHANGELOG `2badb4f`).
   Apple #11136.
+- [ ] **S170-183: "ok move back to 10 v 10."** Founder, real-time, mid the live-pool queueing
+  trouble investigated under S170-178's own entry above (matchmaker/server lobby-size mismatch,
+  likely from a concurrent session's own 7v7 deploy). Reverts `ARENA_TEAM_SIZE` 7 → 10 and every
+  duplicated constant/script/deploy-source touched by S170-178, symmetrically. Not yet clear
+  whether this alone resolves the live queueing issue (that may still need the live host's own
+  matchmaker/server binaries brought back in sync, a separate action from this source-level
+  revert) — founder confirmed still stuck queueing after their own restart attempt.
 - [x] **S170-182: REDGARDEN arena — real draft/lobby pick-a-hero UI.** Split out from the old
   bundled S170-69. A real 26-hero clickable grid screen (`draw_draft_screen`) replaces the
   normal match view for as long as the local player hasn't picked yet, using the already-real
