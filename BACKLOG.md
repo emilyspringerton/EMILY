@@ -8674,11 +8674,16 @@ green, not yet committed):
   that happened to hold. Folded the same `gcc` invocation into `build.sh`. Verified via full
   `rm -rf build` + rebuild from scratch; full suite still green. REDGARDEN `870935a`
   (+ CHANGELOG `6d31288`). Apple #11146.
-- [ ] **S170-187: "assists should gen flow."** Founder, real-time. Currently only the hero who
-  lands the killing blow gets `ARENA_HERO_KILL_FLOW`/`ARENA_HERO_KILL_XP` — no assist tracking
-  exists at all. Needs: a way to record "who else damaged this hero recently" (real MOBA assist
-  window, e.g. last N seconds before the kill), a reward split/bonus for assists distinct from
-  the full kill bounty, and test coverage for the new attribution logic.
+- [x] **S170-187: "assists should gen flow."** New `assist_owner[]`/`assist_ms[]` 4-slot
+  recent-attacker memory, recorded at the same melee/homing-shot damage sites
+  `last_attacked_by_owner` already uses. On a kill, everyone else in the victim's assist list
+  within a ~10s window (`ARENA_ASSIST_WINDOW_MS`) gets `ARENA_HERO_ASSIST_FLOW`/`XP` (35/20,
+  roughly a third of the full 100/60 kill bounty), excluding whoever landed the actual kill.
+  Fixed the same sentinel-after-memset gap this session has now hit three times, for
+  `assist_owner[]` this time, in both reset paths. No new wire/UI surface needed — flows into
+  the already-synced/displayed `flow`/`xp` fields. 4 new tests, build clean (via the now-fixed
+  `scripts/build.sh`), full suite green (578/578). REDGARDEN `b524736` (+ CHANGELOG `1865ff7`).
+  Apple #11148.
 
 ---
 
