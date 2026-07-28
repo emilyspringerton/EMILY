@@ -8730,6 +8730,19 @@ green, not yet committed):
   position literals updated to match. 1v1 local demo spawns deliberately left unscaled. Build
   clean, full suite green (597/597, audited beforehand for hardcoded position literals in
   tests — none found). REDGARDEN `6c69cfa` (+ CHANGELOG `6777639`). Apple #11162.
+- [ ] **S170-193: flagged risk, not a bug -- `ArenaSnapshotMsg` (2072 bytes incl. header) now
+  exceeds the typical 1500-byte Ethernet MTU.** Found while auditing for other instances of
+  S170-192's fixed-buffer class of bug (none found elsewhere -- the matchmaker and the old
+  card-RTS `apps/lobby` client never touch `ArenaSnapshotMsg` at all, confirmed by grep, so
+  their own small fixed buffers are unrelated and safe). This one isn't a receive-buffer sizing
+  bug like S170-192 -- both buffers now size dynamically and can't silently truncate again. It's
+  a real network-layer consideration: a UDP datagram bigger than the path MTU gets fragmented
+  by IP, and losing any ONE fragment loses the whole datagram, which is worse packet-loss
+  behavior than staying under MTU on a real (non-localhost) network. Given the snapshot has
+  grown substantially this session and will likely keep growing, this is worth a real look
+  before it becomes a live reliability problem -- not designing a fix here (splitting the
+  snapshot into multiple smaller packets, or another approach, is a real networking-model
+  decision, the founder's own call, not something to redesign unprompted).
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
