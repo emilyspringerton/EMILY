@@ -8431,6 +8431,36 @@ transcript.
    here — but the specific concern ("nothing... confirmed against an actual rendered frame") no
    longer applies to this session's own key visual changes.
 
+- [x] **S170-172 (blog): "State of the Garden: A Field Report" published live to
+  okemily.com.** Founder: "write a state of the product blog post" → "as the duck" → "publish
+  it to the okemily blog." Investigated OKEMILY's real publishing mechanism first rather than
+  guessing (`IDUNA/internal/http/handlers/blog.go` — `POST /api/v1/blog/posts`, `blog.write`
+  permission already granted to `EMILY-PRIME`, immediately live on request return, no build
+  step) — found the body only supports blank-line-paragraph "poor man's markdown"
+  (HTML-escaped, no custom styling), so adapted the artifact's styled dossier copy into clean
+  plain-text paragraphs, keeping The Duck's voice and every real fact intact. Published via
+  `EMILY-PRIME`'s M2M credential (`IDUNA/var/agent-secrets.env`), live at
+  `https://okemily.com/blog/state-of-the-garden/`. Followed through on the repo's own
+  maintenance convention (`sync-blog-footer.py` → commit → `~/okemily-deploy.sh`, correctly
+  `--exclude='blog'` per that repo's own hard-learned 2026-07-19 incident note) so the post is
+  discoverable from the homepage footer too. OKEMILY `8f4a54b`. Verified live on disk and via
+  HTTP after deploy.
+
+- [x] **S170-171: REDGARDEN arena — heroes and creeps now rotate to face their movement
+  direction.** Founder: "heroes and creeps should rotate to show what direction they are
+  facing currently they just float around there is no front of the model." Real,
+  previously-flagged gap: `draw_hero_model`'s own doc comment already said this renderer had
+  no rotation matrix at all. Added `mat4_rotate_y` to `packages/common/mat4.h`; facing derived
+  from observed position deltas frame-to-frame (no wire-protocol change needed, works
+  identically for local and net_mode), persists last known heading through a stop. Heroes'
+  existing asymmetric silhouettes (Unicorn's horn, Duck's bill, etc., S170-118) now rotate as
+  one rigid composite instead of staying frozen at a fixed +Z; jungle/lane creeps (plain
+  symmetric cubes before) got a small darker front-nub added so their new rotation
+  (S170-161's marching team creeps, lane creep waypoints) has something visible to show at
+  all. Live-verified via Xvfb — confirmed a creep rendering with a visibly offset front
+  marker. Full suite green (client-rendering-only). REDGARDEN `b582e82` (+ CHANGELOG
+  `e72687e`). Apple #11121.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
