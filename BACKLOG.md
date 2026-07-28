@@ -7952,6 +7952,37 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   correctly. Full suite green (455 checks, up from 450). REDGARDEN `45cfa32`, pushed to
   `origin/main` as `a060528..45cfa32`. Apple #11051.
 
+- [x] **S170-148: REDGARDEN arena — mana visible on the HUD, combat-gated regen, fountains
+  restore mana, and a real jungle-obstacles-disappearing bug fixed.** Founder, real-time,
+  three requests plus a live bug report in sequence:
+  - **"mana as a resource should be visible to the player"**: a real persistent mana bar
+    under the existing HP bar in the local player's HUD corner — before this, mana only ever
+    showed as occasional "MP" text on a blocked ability tile, never a standing meter. Uses
+    `ARENA_MP_MAX` directly (not `h->max_mp`, deliberately not part of the wire snapshot) so
+    it reads correctly in both local and net_mode.
+  - **"it should slowly regenerate when not in combat"**: new `combat_timer_ms` on
+    `ArenaHero`, re-armed to `ARENA_COMBAT_TIMEOUT_MS` (4000ms) by `apply_damage()` on any
+    damage taken; mana regen now gated on it hitting 0 — real WoW-style out-of-combat regen
+    instead of the previous always-on flat tick. Flagged simplification: keyed off damage
+    *taken*, not dealt (threading an attacker-side signal through every damage call site in
+    this file would be a much larger change for a rare edge case — real fights are
+    overwhelmingly mutual). The mana bar dims while in combat so the gate has a visible
+    answer on the bar itself.
+  - **"fountains should also restore mana"**: `arena_tick_fountains()` now restores
+    `ARENA_FOUNTAIN_MANA_PER_SEC` (15) alongside HP, unconditionally — a fountain is a
+    deliberate resource, not gated by the new combat timer.
+  - **Real bug found and fixed from a live report, not a design ask**: "the first game i
+    played i saw jungle rocks and trees but subsequent games were missing those." Root cause:
+    the requeue-after-a-networked-match button does a blanket
+    `memset(&arena_state, 0, ...)` before reconnecting, silently wiping the client's own
+    `obstacles[]` — obstacles are never wire-synced (client computes the same static layout
+    independently), so nothing ever repopulated it after that memset. Every match reached via
+    requeue after the first showed an empty map. `arena_obstacles_reset_layout()` made public
+    (was `static`) so the requeue handler can call it directly.
+  - 6 new headless tests. Verified live: a real Xvfb screenshot confirms the mana bar
+  rendering. Full suite green (461 checks, up from 455). REDGARDEN `0d6aecc`, pushed to
+  `origin/main` as `45cfa32..0d6aecc`. Apple #11073.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
