@@ -8560,6 +8560,34 @@ Ordered by what unblocks the most follow-on work first:
    allows; bots simply won't buy anything yet, flagged not faked, same convention as every other
    scoped-out gap this session has been honest about.
 
+### Real-time founder direction, 2026-07-28 (continued) — mid-Sprint-4
+
+Landed while step 4 above was already in progress (character pane, shop panel + quick-buy
+keybinds 1-9, click-to-sell, shop structures, held-TAB scoreboard already written, build/tests
+green, not yet committed):
+
+- [ ] **S170-176: "ensure we have ui ux affordances for all the new systems."** Confirms/extends
+  step 4 above — read as covering everything shipped in S170-175 sprints 1-3 (Flow/XP, items,
+  shop) plus anything else recent that's sim-only with no HUD readout yet. Audit needed once
+  Sprint 4's current in-flight work lands: what's synced to the wire but still invisible in the
+  client.
+- [ ] **S170-177: "and document it all in the readme."** `README.md`'s own "Current Status"
+  section (referenced by this repo's own `CLAUDE.md`) needs the new systems (Flow/XP economy,
+  item shop, character pane, scoreboard, shop structures) added once they're committed —
+  keybinds (B for shop, 1-9 quick-buy, held-TAB for scoreboard) belong in a controls
+  reference if one exists, otherwise inline.
+- [ ] **S170-178: "reduce it to 7 v 7."** `ARENA_TEAM_SIZE` (currently 10, `packages/simulation/
+  arena_game.h`) → 7. Scope check needed before touching the constant: anywhere hardcoding 10 or
+  assuming the old team size (draft/lobby sizing, matchmaker `--lobby-size`, bot-pool spawn
+  count, any test that asserts on the literal team size) has to move with it, not just the
+  #define.
+- [x] **S170-179: "ensure all into backlog then sprints then iterate."** This entry — logged
+  per this repo's own standing protocol (`CLAUDE.md`: founder real-time direction always goes
+  into BACKLOG.md, log-then-work or work-then-log either order is fine but it always lands
+  here). Sprint order for the three items above: 176 (affordance audit) and 178 (7v7) are
+  independent and can land in either order; 177 (README) comes last since it should document
+  the truly-final state of 176's audit, not get rewritten twice.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
