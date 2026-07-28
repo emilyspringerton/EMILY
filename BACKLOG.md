@@ -8709,13 +8709,27 @@ green, not yet committed):
   explicitly not built this pass** — bots simply won't seek these out yet, flagged not faked,
   same Sprint-1-4-then-5 precedent the shop system itself set. 6 new tests, build clean, full
   suite green (597/597). REDGARDEN `723dd82` (+ CHANGELOG `0531f50`). Apple #11160.
-- [ ] **S170-191: "use golden ratio to expand map size and add more jungle obstacles."**
-  Founder, real-time. `ARENA_HALF_EXTENT` (currently 32.0, already bumped twice before --
-  20→28→32) scales by the golden ratio (φ≈1.618) this time instead of an ad-hoc number.
-  Everything positioned relative to the map edge (fountains, shops, graveyards, node layout)
-  needs re-checking against the new extent so nothing ends up off-map or oddly cramped/spread.
-  Plus more jungle obstacles (`arena_obstacles_reset_layout`) to fill the larger space and keep
-  real lane-carving density, not just a bigger empty field.
+- [x] **S170-192 (found while building S170-191 below): CRITICAL — fixed-size 2048B receive
+  buffer silently truncated every real snapshot.** `apps/arena`'s and `apps/arena_bot`'s own
+  `net_poll_snapshots` both used a fixed `char rbuf[2048]`; every field this session added to
+  `ArenaHeroSnapshot`/`ArenaSnapshotMsg` grew the real wire packet to 2072 bytes, past that
+  fixed size, without anyone checking the receive side's own headroom. `recvfrom` silently
+  truncates an oversized UDP datagram, so every snapshot was truncated and rejected by the
+  existing size check — no client, bot or human, could ever see valid match state, so no draft
+  could complete. Found live: an isolated bot-vs-bot smoke test got stuck at "entering draft"
+  forever. Fixed by sizing both buffers to the real, current struct size instead of a magic
+  literal. Re-verified: draft, live play, clean match end all working. Plausibly explains part
+  of the "frozen 1v1" reported earlier this session (a separate, already-fixed live-pool
+  stale-binary mismatch was the other confirmed cause). REDGARDEN `6c69cfa`
+  (+ CHANGELOG `6777639`). Apple #11162.
+- [x] **S170-191: "use golden ratio to expand map size and add more jungle obstacles."**
+  `ARENA_HALF_EXTENT` now `32.0 * phi` (1.618034), left as a real expression not a pre-computed
+  literal. Node layout, jungle obstacles (+10 new pieces), and the S170-190 powerup layout all
+  scaled by the same phi factor. `arena_fountain_position` converted from a hardcoded literal —
+  found already stale before this pass — to a real formula. `apps/arena_bot`'s own duplicated
+  position literals updated to match. 1v1 local demo spawns deliberately left unscaled. Build
+  clean, full suite green (597/597, audited beforehand for hardcoded position literals in
+  tests — none found). REDGARDEN `6c69cfa` (+ CHANGELOG `6777639`). Apple #11162.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
