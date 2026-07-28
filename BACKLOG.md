@@ -8533,14 +8533,18 @@ rapid-fire burst this session — log every request verbatim before implementing
 
 Ordered by what unblocks the most follow-on work first:
 
-1. **Flow (currency) + XP fields and earning.** `ArenaHero.flow`/`.xp` fields, kill-attribution
-   wiring (jungle creep kills already have `last_attacked_by_owner`; lane creep kills need the
-   same field added, currently reward nothing per S170-139's own flagged gap; hero kills need a
-   new bounty-on-death hook). Nothing to spend Flow on yet without this landing first.
-2. **Item/slot data model + stat application.** The 11-slot enum, a curated item catalog
-   (generic/weird/specific per the founder's own three-tier ask), equip/replace/sell logic,
-   `arena_hero_armor()` and the flat AD/attack-cooldown constants becoming stat-driven per item
-   bonuses (same refactor NORTHSTAR §19.3 already named as real, nontrivial work).
+1. [x] **Flow (currency) + XP fields and earning.** `ArenaHero.flow`/`.flow_earned`/`.xp`/
+   `.kills`/`.deaths` fields. Lane creep kills now set `last_attacked_by_owner` and reward Flow/XP
+   (closing S170-139's own flagged gap); jungle creep and hero kills reward Flow/XP too, melee/
+   homing-shot only (ability-finished kills grant nothing, same precedent
+   `arena_zone_damage_creeps` already set). All fields survive `arena_respawn_hero`'s reset.
+2. [x] **Item/slot data model + stat application.** The 11-slot enum (FFXI+WoW slot names),
+   a 24-item catalog (12 specific from `docs/HEROES_VS0.md`, 2 weird, 10 generic FFXI names from
+   `docs/FFXI_ITEM_PARITY_SEED.md`), `arena_shop_buy`/`arena_shop_sell`
+   (auto-equip, no bag, auto-sell-then-replace, 50% sell refund) and `arena_recompute_item_stats`
+   feeding HP/MP/armor/AD/move-speed bonuses into `arena_hero_armor()` and the relevant damage/
+   motion call sites. 13 new tests, full suite green (546/546). REDGARDEN `f2c94e4` (+ CHANGELOG
+   same commit range). Apple #11127.
 3. **Shop structures + proximity + wire protocol.** Two shop positions (corner-adjacent to each
    team's own graveyard), `PACKET_ARENA_SHOP_BUY`/`PACKET_ARENA_SHOP_SELL`, server-side purchase
    validation (proximity + Flow balance).
