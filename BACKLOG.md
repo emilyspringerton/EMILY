@@ -8692,6 +8692,11 @@ green, not yet committed):
   (the flat melee loop; Gary's own homing-shot path is bounded to `ARENA_MAX_HEROES` and never
   sees clones at all). 1 new test, build clean, full suite green (583/583). REDGARDEN `d509c67`
   (+ CHANGELOG `96cde96`). Apple #11150.
+- [x] **S170-189: NORTHSTAR §19 status update.** Found via proactive audit: the section header
+  still read "spec only, no code yet" even though the economy half (Flow/XP, item shop,
+  character pane, bot AI shopping, assists) has been fully built and shipped this session.
+  Added a status callout, marked §19.5 (structures) explicitly as still genuinely unbuilt. Docs
+  only. REDGARDEN `ba24d49` (+ CHANGELOG `b3c48fa`). Apple #11152.
 
 ---
 
