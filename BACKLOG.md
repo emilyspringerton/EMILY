@@ -8767,6 +8767,27 @@ green, not yet committed):
   later stage's starting weights. Python/Colab half flagged, not faked: needs a real corpus from
   played matches plus an actual Colab GPU, not runnable end-to-end in this sandbox. REDGARDEN
   `6743964` + `2aa464d` (+ CHANGELOG in the same commits). Apple #11167.
+- [x] **S170-196: camera lock + fog of war, NORTHSTAR §15.** With the S170 sprint's actionable
+  backlog otherwise fully done (only S170-193 left, flagged as needing the founder's own design
+  call), asked directly which spec-only NORTHSTAR section to build next — chose §15 over §16
+  (Weatherman/Donkey), §17 (auto-attack LoL parity), and §19.5 (structures). **Camera lock
+  (§15.1):** new `C` toggle. The orbit pivot already hard-follows `my_owner`'s hero every frame
+  unconditionally, so locking only ever meant freezing the yaw/pitch rotation angle — the one way
+  a player can currently look away from their own hero. Zoom stays free while locked, resolving
+  §15.1's own open question per real-MOBA convention (League/Dota lock rotation, leave zoom
+  free). **Fog of war (§15.2):** client-side visual only, explicitly not real server-side vision
+  culling (named and accepted in the spec). New `ARENA_VISION_RADIUS` (16.0 * phi, ~25.89 — a
+  real fraction of the current golden-ratio-scaled node spacing, not the pre-S170-191 interaction
+  radii the original spec named, which never got rescaled with the map) — an enemy hero beyond
+  that radius of `my_owner`'s own hero is skipped entirely (no model, no health bar, no name, and
+  — a natural side effect of skipping before the hover computation — can't be hover-targeted or
+  attack-clicked). Allies and jungle creeps always visible, resolving §15.2's own open questions
+  toward their stated lean. README keybind table + new "Fog of war" section updated. Build clean,
+  full suite green (607/607). Live-verified: `red_garden_arena` ran 6s under Xvfb in local
+  practice mode (a real enemy hero on screen, exercising the new distance-check code every frame)
+  with no crash — the actual on-screen visual (fog cutoff, lock-freeze) isn't capturable in this
+  sandbox (no xdotool for drag/hover input), same limitation S170-182/S170-185 already hit —
+  flagged, not faked. REDGARDEN `c45fb6b` (+ CHANGELOG same commit). Apple #11169.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
