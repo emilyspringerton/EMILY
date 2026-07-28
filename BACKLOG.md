@@ -8103,6 +8103,35 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `--port`-based connections, which bypass the shared matchmaker entirely. REDGARDEN `5502f78`
   (+ CHANGELOG `02b2f3f`), pushed to `origin/main` as `760df37..02b2f3f`. Apple #11081.
 
+- [x] **S170-155/156/157: REDGARDEN arena — bigger map + corner graveyards + sudden-death
+  fallback closes a real zombie-match gap.** Founder, real-time: **"the map should be a little
+  bigger and the graveyards behind 2 of the corners not in the middle of the map."**
+  `ARENA_HALF_EXTENT` 28→32; `arena_graveyard_position()` moved from dead-center-behind-spawn
+  (x=±9, z=0 — literally the mid-line of the map along z) to the two corners
+  `arena_fountain_position()` doesn't already occupy, so a respawning hero reads as coming back
+  to a real corner base instead of a mid-map marker, and never lands on top of the neutral
+  fountain fight.
+  Separately, founder flagged a suspicion — **"i think there may be zombie games with infinite
+  win cons"** — that turned out to be a real, self-inflicted gap from S170-153 earlier the same
+  session: replacing the team-wipe win condition with the Arathi-Basin resource race also
+  removed the *only* mechanism that used to guarantee a live match eventually ends. If node
+  control keeps flipping without either team sustaining ownership long enough to fill the
+  meter, nothing forces resolution — and `apps/arena_server`'s own LIVE-phase loop turned out
+  to have no timeout of its own at all (`waiting_ticks_ms` only ever counts during
+  WAITING/DRAFT, confirmed by reading the loop directly). Investigated the actual currently-
+  running pool match live before concluding anything — it had already resolved naturally on
+  its own by the time this was checked, so no real match was stuck — but the structural gap
+  was real regardless: with the bot pool's queue exactly matching its lobby size (20/20), a
+  genuinely stalled match would freeze the *entire* persistent pool, not just one match. Fixed
+  with a real sudden-death fallback: `ARENA_MATCH_MAX_DURATION_MS` (12 real minutes) — past
+  that point without either side reaching the resource cap, whoever's ahead on resources wins
+  outright, ties broken by nodes currently owned, a still-exact tie resolving deterministically
+  to team 0. 4 new tests (no early fire, resource-lead wins, node-count tiebreak, full-tie
+  fallback). Full suite green. Live-verified via a fresh isolated 20-bot match confirming the
+  wider map bounds show up in real hero movement (`|x|` up to 21, `|z|` up to 23 observed) with
+  no crashes. REDGARDEN `3a4c845` (+ CHANGELOG `35ab0fe`), pushed to `origin/main` as
+  `02b2f3f..35ab0fe`. Apple #11082.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
