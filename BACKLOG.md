@@ -8483,6 +8483,77 @@ transcript.
 
 ---
 
+## Backlog dump — REDGARDEN arena shop/economy first pass, real-time founder direction (2026-07-28)
+
+Founder, real-time, rapid-fire, immediately after S170-174's economy/structures design pass landed:
+**"backlog first then plan into sprints"** → **"then iterate."** Same protocol as every other
+rapid-fire burst this session — log every request verbatim before implementing, no exceptions.
+
+- [ ] **S170-175: REDGARDEN arena — first-pass shop interface, two shops, FFXI+WoW item/slot
+  system, character stat pane.** The full request, in order:
+  - **"do a first pass shop interface have there be 2 shops in the other 2 corner of the maps
+    that dont have fountains"** — two shop structures, one per team, in the two map corners the
+    fountains (`arena_fountain_position`, (-24,-24)/(24,24)) don't occupy — the same corners
+    `arena_graveyard_position` (S170-153/156) already uses, so each team's shop sits near their
+    own permanent respawn point.
+  - **"use the ffxi items doc as a reference you can use most of those item names verbatim they
+    are incredibly generic"** — `docs/FFXI_ITEM_PARITY_SEED.md` (S170-102) real item names,
+    explicitly cleared for direct in-game use now (that doc's own header says "not for direct
+    use," a scoping note this real-time direction overrides for this specific pass).
+  - **"have them give generic and then also some weird items and also some specific items"** —
+    three item tiers: generic (plain FFXI names, flat stat bonuses), weird (unusual
+    stat-shape/mechanic items, `Kraken Club`/`Ridill` from the FFXI doc's own "notable end-game
+    weapons" section, both already flagged there as having real unusual mechanics), specific
+    (the already-written LoL-Season-3-styled 12-item roster from `docs/HEROES_VS0.md`).
+  - **"remember season 3 lol is the gold standard for the best meta ever"** — reconfirms
+    NORTHSTAR §19's own grounding choice to wire the existing 12-item roster in as the
+    "specific" tier rather than designing new build-defining items from scratch.
+  - **"also we need a character display pane that shows current stats"** — a new HUD panel
+    (local player only, first pass) showing current HP/MP/AD/Armor/currency/equipped items.
+  - **"add a cobination of ffxi and wow for the equipable item slots"** — an 11-slot equip
+    system combining both games' real slot vocabularies: Weapon, Head, Body, Hands, Legs, Feet,
+    Ring, Neck, Back, Waist, Trinket (Trinket is the WoW-specific addition on top of FFXI's own
+    slot set).
+  - **"i want trinkets too thats cool"** — confirms Trinket stays in the combined slot list.
+  - **"buying an item auto equips it for now no bag you can sell it back for less but no
+    unequip into bag for now"** — no inventory/bag system this pass: buy = immediate auto-equip
+    (replacing and auto-selling whatever was already in that slot), explicit sell action
+    refunds a fraction of purchase price and empties the slot, no "unequip to storage" option.
+  - **"we need affordances for all of it"** — every new system above (shop, character pane,
+    currency, equipped items) needs real, visible UI feedback, not backend-only logic.
+  - **"tracking xp and flow"** then **"we call gold flow"** — the currency introduced by
+    NORTHSTAR §19's own gold-economy design is renamed **Flow**, not gold, before any code for
+    it ships (caught before the naming landed anywhere) — XP (§19.4's own flat power-curve
+    design) gets tracked and displayed alongside it, both real, visible, tracked resources, not
+    background numbers.
+  A large, multi-part build — sequenced into a real sprint plan below rather than attempted as
+  one undifferentiated pass, per "backlog first then plan into sprints... then iterate."
+
+### Sprint plan for S170-175 (drawn up per founder's own explicit request)
+
+Ordered by what unblocks the most follow-on work first:
+
+1. **Flow (currency) + XP fields and earning.** `ArenaHero.flow`/`.xp` fields, kill-attribution
+   wiring (jungle creep kills already have `last_attacked_by_owner`; lane creep kills need the
+   same field added, currently reward nothing per S170-139's own flagged gap; hero kills need a
+   new bounty-on-death hook). Nothing to spend Flow on yet without this landing first.
+2. **Item/slot data model + stat application.** The 11-slot enum, a curated item catalog
+   (generic/weird/specific per the founder's own three-tier ask), equip/replace/sell logic,
+   `arena_hero_armor()` and the flat AD/attack-cooldown constants becoming stat-driven per item
+   bonuses (same refactor NORTHSTAR §19.3 already named as real, nontrivial work).
+3. **Shop structures + proximity + wire protocol.** Two shop positions (corner-adjacent to each
+   team's own graveyard), `PACKET_ARENA_SHOP_BUY`/`PACKET_ARENA_SHOP_SELL`, server-side purchase
+   validation (proximity + Flow balance).
+4. **Client UI: shop panel + character stat pane + all other affordances.** Keybind + click
+   access (this repo's own standing cross-cutting "high-APM, both keybind and click resolve
+   instantly" constraint, §2), Flow/XP visible in the HUD, equipped items visible in the
+   character pane.
+5. **Bot AI shop interaction** — explicitly out of scope for this first pass unless time
+   allows; bots simply won't buy anything yet, flagged not faked, same convention as every other
+   scoped-out gap this session has been honest about.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
