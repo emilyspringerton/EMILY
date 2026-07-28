@@ -8257,30 +8257,72 @@ several arrived in quick succession while the previous item was still being buil
   Live-verified via an isolated 20-bot match: no crashes. REDGARDEN `bac3e1b` (+ CHANGELOG
   `b930a87`), pushed to `origin/main` as `7090fd1..b930a87`. Apple #11089.
 
-- [ ] **S170-162/163/164/165: REDGARDEN arena — build out NORTHSTAR §17's click-to-attack
-  system, Gary's homing ranged auto-attack, visual affordances, bot AI target selection.**
-  Founder, real-time, building directly on the §17 LoL-parity spec written earlier this session
-  (S170-158, spec-only at the time):
-  - **"gary auto attacks are projetiles that always hit (visually projectile) they can still
-    miss or crit as normal but you cant juke them"** then **"implement that with the click to
-    auto attack northstar"** — build §17.4's target design for real (new attack command distinct
-    from move, windup/backswing state, persistent attack-target chase lock) and give Gary
-    specifically a ranged basic auto-attack that fires a real, visually-a-projectile shot that
-    **homes/tracks its target** (matches §17.2 exactly: not a skillshot, can't be juked/dodged by
-    moving) — distinct from the existing non-homing `ArenaProjectile` skillshot physics ability
-    casts already use. Whatever existing miss/crit RNG this engine has (if any) still applies
-    independently of the homing/hit-guarantee — "always hit" means "not dodgeable by
-    positioning," not "always deals full guaranteed damage regardless of any other mechanic."
-  - **"up our visual affordances for auto attacks so its readable"** — clear on-screen feedback
-    for the new attack state machine (windup, projectile flight, hit) so the mechanic reads
-    clearly to any hero watching the fight, not just the two heroes involved.
-  - **"and the bots will need to be updated so they choose their auto attack targets etc in
-    their brain"** — `apps/arena_bot` needs to actually issue the new attack command against a
-    chosen target instead of relying on today's move-into-melee-range-and-let-proximity-combat-
-    happen approach, or bots simply won't use the new system at all.
-  A substantially larger build than S170-161 above (new wire packet, new per-hero state fields,
-  a new projectile-physics variant, client input changes, bot AI changes) — sequenced as its own
-  pass after the jungle-creep work ships, not bolted on in the same commit.
+- [x] **S170-162/163/165: REDGARDEN arena — build out NORTHSTAR §17's click-to-attack system,
+  Gary's homing ranged auto-attack, visual affordances, bot AI target selection.** Founder,
+  real-time, building directly on the §17 LoL-parity spec written earlier this session (S170-158,
+  spec-only at the time): "gary auto attacks are projetiles that always hit (visually projectile)
+  they can still miss or crit as normal but you cant juke them" → "implement that with the click
+  to auto attack northstar" → "and the bots will need to be updated so they choose their auto
+  attack targets etc in their brain" → "up our visual affordances for auto attacks so its
+  readable" → "ensure that projectiles are shown for spells even the ones that are not skill
+  shots and auto target should still have visual affordances."
+  - **New `PACKET_ARENA_ATTACK` wire command + `ArenaHero.attack_target` persistent lock**
+    (S170-162), distinct from `PACKET_ARENA_MOVE` — §17.1's "right-click ground vs a unit" split,
+    on this game's own single-left-click convention rather than LoL's literal right-click. A
+    fresh move command clears the lock; the lock self-clears once the target dies, becomes
+    unhittable, or turns out to be the same team.
+  - **`arena_tick_attack_targets`** (S170-162): pure-pursuit chase toward the target's LIVE
+    position every tick while out of range — no intercept prediction, matching real League
+    exactly — the literal, direct answer to this session's earlier "if auto attacking and a
+    character runs away do you follow it": yes, automatically, every tick, no re-click needed.
+    Once in range, melee heroes are untouched (their real damage still comes from the existing
+    proximity-based combat loops, chase just closes the distance); Gary fires his new homing
+    shot instead.
+  - **`ArenaProjectile.homing_target`** (S170-163): Gary's basic auto-attack is now a real homing
+    projectile (`ARENA_GARY_ATTACK_RANGE`=6.0) that re-aims at its live target every tick and
+    connects regardless of how the target moves — explicitly NOT a skillshot, matching §17.2
+    exactly, the opposite of how this arena's existing ability-cast projectiles already work
+    (fixed velocity from cast-time position, genuinely dodgeable). This engine has no miss/crit
+    RNG at all — checked before building this — so "can still miss or crit as normal" is a no-op
+    against a mechanic that doesn't exist; homing only ever changes whether POSITIONING can dodge
+    it. Gary excluded from every flat-melee auto-attack path (hero-vs-hero, jungle creeps, lane
+    creeps — a real bug caught live during testing: he was incidentally melee-attacking a jungle
+    creep standing on the contested center node and burning his shared cooldown on it) so his
+    damage comes exclusively through the homing shot.
+  - **Visual affordances** (S170-162, "up our visual affordances"/"auto target should still have
+    visual affordances"): `attack_target` wire-synced per-hero
+    (`ArenaHeroSnapshot.attack_target`) so the lock is visible to every hero watching the fight,
+    not just the two involved — a pulsing amber outline renders around the health bar of
+    whoever's currently locked by anyone. Homing shots render through the exact same existing
+    projectile pipeline every ability-cast skillshot already uses — confirmed by design, zero
+    client rendering changes needed for that part ("projectiles are shown for spells even the
+    ones that are not skill shots" was already true once homing shots reuse the shared pool).
+  - **Bot AI** (S170-165, "the bots will need to be updated so they choose their auto attack
+    targets etc in their brain"): `apps/arena_bot` now sends an attack command every decision
+    tick, after its own move command (ordering matters — move clears the lock, so attack has to
+    be the last word each tick) — the actual mechanism that makes a bot-piloted Gary deal any
+    damage at all, and gives every bot the real chase-a-fleeing-target behavior for free on top
+    of its existing approach-angle movement.
+  17 new tests (lock set/clear/chase/re-chase-a-fleeing-target/own-team-rejection, Gary's homing
+  shot firing and exclusive damage channel, homing-shot-dodges-a-juke, fizzles-on-target-death).
+  Full suite green. Live-verified via an isolated 20-bot match: no crashes, damage visibly
+  landing. REDGARDEN `ef75e31` (+ CHANGELOG `22b7c0f`, numbering-collision fix `859a24a`), pushed
+  to `origin/main` as `b930a87..859a24a`. Apple #11092.
+
+- [x] **S170-166: REDGARDEN arena — human client auto-draft wasn't actually random.** Found
+  live while working in the same draft-pick code path as the item above. Founder: "ensure auto
+  draft is random i keep always drafting flutedebt first on a new client." Root cause: the
+  human client's `net_draft_offset` was derived purely from the connected server's port
+  (`ntohs(net_server_addr.sin_port) % ARENA_HERO_COUNT`), deliberately deterministic (same design
+  as `apps/arena_bot`'s own offset, chosen there specifically to avoid duplicate-pick collisions
+  across many bots in one lobby) — but a human player is very often owner 0 (the only or first
+  real client in a match, unlike the bot pool's always-full 20), so the same port range + same
+  owner landed on the same resulting hero across most real test sessions in a row, a real bug
+  and not a misperception. Fixed by mixing `rand()` (this file's own `srand(time(NULL))` already
+  runs at startup) in alongside the port term, keeping the original zero-coordination
+  exclusion-avoidance property while actually being random per client run. Same commit as
+  S170-162/163/165 above (`ef75e31`), numbering collision with the visual-affordances comment
+  caught and fixed in a follow-up commit (`859a24a`).
 
 ---
 
