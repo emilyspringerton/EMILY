@@ -8190,6 +8190,33 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   name labels and node coloring already use. REDGARDEN `0efade4` (+ CHANGELOG `704ab21`), pushed
   to `origin/main` as `e126a17..704ab21`. Apple #11086.
 
+- [x] **S170-160: REDGARDEN arena — boids flocking (alignment/cohesion/separation) in the
+  networked bot AI.** Founder: **"add boyds to the ai brain[,] check GFD apps2 crystal for a
+  reference if you need it."** `GoblinFoxDragon/apps2/crystal/main.go` turned out to have a
+  real, working Reynolds boids implementation already (`Boid` struct, `boidForces()` blending
+  alignment/cohesion/separation for its own free-roaming particle swarm) — used as the
+  structural reference, ported into `apps/arena_bot/src/main.c`'s own plain-float style and
+  applied to hero positions instead of that sim's particles.
+  Every bot previously picked its own move target completely independently — chase the nearest
+  enemy (S170-90's fixed per-owner approach-angle spread) or walk to the nearest un-owned node
+  (S170-155) — correct, but with zero awareness of where its own teammates currently are or are
+  heading. New `flock_offset()` computes a small steering offset from nearby, *living teammates
+  only* (never enemies) within a fixed radius: alignment toward their average recent heading
+  (inferred from this tick vs. a newly-tracked previous-tick snapshot, since the wire format
+  carries position only, never velocity — same "only ever sees what any client sees" constraint
+  this whole bot already lives under), cohesion toward their average position, and separation
+  pushing away from anyone actually crowding. Applied as a perturbation ADDED on top of whichever
+  objective target the bot already computed, not a replacement — real goal-seeking (capture the
+  node, engage the enemy) still always drives the bot, flocking just makes the group's motion
+  toward that goal read as an organized squad instead of independent islands. Weights are
+  deliberately separation-heavy so this reinforces, rather than quietly reintroduces through a
+  different code path, the "bots bunch up on each other" bug S170-90 already fixed once.
+  Live-verified via an isolated 20-bot match (fresh port, matchmaker bypassed, persistent pool
+  untouched): no crashes, teammates visibly clustering as loose squads in the match log rather
+  than either stacking exactly or scattering independently. Full suite green (bot-client-only
+  change, no sim/protocol code touched). REDGARDEN `64f7386` (+ CHANGELOG `7090fd1`), pushed to
+  `origin/main` as `704ab21..7090fd1`. Apple #11087.
+
 ---
 
 ## Sprint plan — REDGARDEN arena, drawn from this session (2026-07-27)
