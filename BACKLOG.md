@@ -8461,6 +8461,21 @@ transcript.
   marker. Full suite green (client-rendering-only). REDGARDEN `b582e82` (+ CHANGELOG
   `e72687e`). Apple #11121.
 
+- [x] **S170-173: REDGARDEN arena — bot AI seeks out healing fountains when critically low on
+  HP.** Founder: "add healing fountains to bot awairness brain and heuristics whatever makes
+  sense bots seek out fountains when super low." New top-priority check in `apps/arena_bot`'s
+  decision loop, evaluated before node-capping or enemy engagement — a hero below
+  `ARENA_BOT_LOW_HP_FRACTION` (25%) retreats to the nearest fountain and does nothing else that
+  tick (no capping, no engaging, no casting) until topped back up, the real "go here to top off"
+  MOBA instinct the fountain's own heal rate was already tuned for. Fountain positions are
+  static/deterministic, mirrored by hand from `arena_fountain_position()`'s two fixed points —
+  same "kept in sync by hand" convention this file already uses for roster-size constants, no
+  wire sync needed since neither fountain ever moves. Live-verified via an isolated 20-bot
+  match: 153 low-HP (≤25) snapshot instances observed across the match, 65 of them (42%) with
+  the hero positioned near a fountain corner — real evidence bots are actively retreating to
+  heal, not passing through by chance. No crashes, full suite green (bot-client-only).
+  REDGARDEN `07521af` (+ CHANGELOG `b84fd59`). Apple #11122.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
