@@ -9124,6 +9124,43 @@ Colab -- both genuinely new capability, not a gap in what's already documented.
    IDUNA blog API flow, verified live: https://okemily.com/blog/knights-of-the-void-twenty-
    seven-heroes-real-combat/
 
+## Sprint — REDGARDEN arena bot AI: reward-driven RL implementation, from NORTHSTAR §21 (2026-07-29)
+
+Founder, real-time, correcting S170-220's corpus-pretraining direction: "running training on a
+corpus of games is cool but thats not what i actually want right now i want unsupervised
+learning with rewards like in the unity ml-agents plugin." Then: "do all the reward
+engineering" (explicit approval to design the reward function without a further round-trip).
+Then: "all into the backlog first then sprints then iterate" -- this sprint, logged before
+continuing implementation, same discipline the founder invoked twice already this session.
+NORTHSTAR §21 (Apple #11228) is the spec this sprint builds against -- see that section for the
+full architecture, the SHANKPIT precedent it's grounded in (`apps/training/headless.c`'s
+ctypes-callable C environment API shape, `neural_net.h`/`brain_weights.h`'s small-MLP-as-literal-
+C-arrays embed pattern), and the complete reward function design.
+
+1. [x] **S170-223: NORTHSTAR §21 spec.** Done, Apple #11228, REDGARDEN `fd75729`
+   (+ CHANGELOG `3756e7d`).
+2. [ ] **S170-224: `apps/arena_training/headless.c` -- the C environment API.** Same three-
+   function shape as SHANKPIT's own `headless.c` (`sim_init`, `sim_step`, `sim_get_state`) plus
+   a `sim_reset` alias for cheap episode restarts -- wraps `arena_init_with_heroes`/
+   `arena_set_move_target`/`arena_cast_q`/`arena_toggle_w`/`arena_cast_r`/`arena_update` (all
+   already public, all already exercised headlessly by this repo's own test suite). Not started.
+3. [ ] **S170-225: Python `gymnasium.Env` wrapper.** `ctypes`-loads the compiled shared library
+   from S170-224, mirrors `ArenaState`'s field layout as a `ctypes.Structure` (numeric fields
+   read directly, no text-serialization round-trip), builds the observation vector, and
+   implements §21.2's own full reward function (dense per-tick shaping + terminal win/loss) as
+   consecutive-snapshot deltas. Not started.
+4. [ ] **S170-226: PPO training script.** Stable-Baselines3's PPO against the S170-225 env,
+   runnable locally (no display dependency) or via Colab matching S170-220's own delivery
+   pattern. §21.3's own open question (exact `net_arch`) defaults to SB3's own `[64, 64]`
+   unless real training results say otherwise. Not started.
+5. [ ] **S170-227: weight export to embedded C MLP + git-sync.** Extracts the trained PPO
+   policy network's weights, writes them as literal C float arrays (SHANKPIT's own
+   `brain_weights.h` pattern -- genuinely appropriate at this network's small size, unlike
+   GPT-2), a new small dependency-free C inference module (mirroring `neural_net.h`'s
+   `dense_layer` matmul+bias+activation, NOT `gpt2_infer.c` -- wrong shape for a fixed-size
+   numeric policy net), and reuses S170-220's own `git_sync_weights_to_repo()` SSH-key flow to
+   push to `origin/main`. Not started.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
