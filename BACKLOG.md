@@ -9223,6 +9223,24 @@ C-arrays embed pattern), and the complete reward function design.
    vs. Back=Donkey automatically), and the ability-tile row already draws Donkey's Paper Glide
    at tile index 4 with the same `draw_ability_tile()` call shape Blink Dagger's own index-3 tile
    uses. No bug found, no code change needed -- confirmed correct rather than assumed.
+4. [x] **S170-228 follow-up: fix CI's Linux build, broken by the RL-policy wiring, then restart
+   the live pool.** Founder: "the build is down when we wired the new ai brain in" -> "its an
+   issue with the linux bbuild" -> "restart the live bot pool with the fixed build." Root cause:
+   S170-228 added a `packages/common/mlp_infer.c` link dependency to `scripts/build.sh` and
+   `scripts/build_training.sh`, but missed two other places that compile `arena_game.c` --
+   `scripts/build_arena.sh` (CI's "Build Linux arena client" step, an executable link that
+   hard-fails with `undefined reference to mlp_forward`, unlike the training `.so`'s silent
+   undefined-dynamic-symbol case) and the mingw Windows cross-compile step in
+   `.github/workflows/ci.yml`. Both fixed the same way. Also found and fast-forwarded two stale
+   local checkouts that had compounded the confusion: `/home/fatbaby/REDGARDEN` (6 commits
+   behind `origin/main`, missing `rl_policy_weights.h` entirely) and `/home/fatbaby/redgarden-
+   deploy` (3 commits behind). Verified CI green on the fix commit, then ran
+   `scripts/auto_deploy.sh` (the sanctioned deploy path -- polls for the latest green CI SHA,
+   rebuilds+retests locally, atomically swaps binaries, restarts the systemd units) to publish
+   the fixed build; confirmed all three live units (`redgarden-matchmaker-bots`,
+   `redgarden-matchmaker-players`, `redgarden-bot-pool`) active and running a binary with the
+   `RL_POLICY_MODEL*` symbols present. REDGARDEN `345ffa7` (+ CHANGELOG same commit).
+   Apple #11243.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
