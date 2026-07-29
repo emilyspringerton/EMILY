@@ -9328,6 +9328,23 @@ C-arrays embed pattern), and the complete reward function design.
    across EMILY/IDUNA/PRRJECT_FATBABY/REDGARDEN/MJOLNIR/etc., not just this session's REDGARDEN
    scope -- queued rather than context-switched into mid-Zagan-implementation. Not started.
 
+## Backlog dump — REDGARDEN arena, real-time founder direction (2026-07-29)
+
+1. [x] **"check redgarden game i cant get into a game the window popped up but no draft
+   interface."** Founder, real-time, mid-session interrupt. Diagnosed live: 19 orphaned
+   `red_garden_arena_bot` processes (PPID reparented to 1, stale since 05:55 -- parent shell died
+   without the script's own `trap cleanup EXIT` firing) were still alive next to the current
+   systemd-supervised 19-bot pool (from 10:10), putting 38 bots against the bot-pool matchmaker's
+   20-slot lobby. Bots alone were enough to fill every batch, so the one open human slot never
+   got a real connection and `match_phase` never reached `ARENA_PHASE_DRAFT` -- the client window
+   opened and sat waiting, the draft screen (gated on that phase, `apps/arena/src/main.c`) never
+   rendered. Killed the 19 orphaned PIDs live, restoring the intended 19-bots-plus-1-open-slot
+   invariant (`scripts/run_bot_pool.sh`'s own S170-66 comment). Added a `pkill -f` guard at the
+   top of that script so a future unclean exit can't double the pool up again. REDGARDEN
+   `050c903`, Apple #11294. Note: remote had 9 newer commits (S170-211..218) not yet reflected in
+   the live `build/` binaries -- did not rebuild/restart the running matchmaker/server/bots as
+   part of this fix since a game may be live; flagging as a follow-up if staleness matters.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
