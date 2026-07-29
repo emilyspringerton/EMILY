@@ -9075,11 +9075,14 @@ last" shape the earlier batch used.
    follow-up hit finishes it) and confirms full Flow+XP kill credit regardless of who dealt the
    earlier damage. Full suite green. REDGARDEN `2af2003` (+ CHANGELOG same commit).
    Apple #11253.
-8. [ ] **S170-218: split the single lane's wave into melee + caster roles.** Biggest, most
-   structural item in this batch -- deliberately sequenced last, same "biggest last" reasoning
-   the S170-209 batch itself used for the creep-overhaul doc pass. Shares the existing one-lane
-   geometry (multi-lane stays explicitly out of scope per §20.4). Siege/cannon-every-third-wave
-   is real League depth but a stretch goal, not required for "roles exist at all." Not started.
+8. [x] **S170-218: split the single lane's wave into melee + caster roles.** Biggest, most
+   structural item in this batch -- deliberately sequenced last. New `ArenaLaneCreepRole`
+   (melee=0 default, reusing every original constant unchanged so all 15 pre-existing tests
+   passed unmodified); casters trade HP/damage for a real range advantage (6.0 vs melee's
+   3.5) -- "roles exist at all," not exact League parity. Siege/cannon-every-third-wave stayed
+   out of scope as a stretch goal, per plan. Wire-synced, distinct client silhouette. 2 new
+   tests. Full suite (772 checks) + test_10_bots.sh green. **Closes the S170-211..218
+   creep-overhaul batch.** REDGARDEN `6349d09` (+ CHANGELOG same commit). Apple #11264.
 
 **PAUSED (2026-07-29): founder called a code freeze before any of S170-211..218 above were
 started** -- "we are in a good place to do a code freeze and then train on colab." Feature work
