@@ -9043,11 +9043,15 @@ last" shape the earlier batch used.
    words (preserved verbatim). `ARENA_JUNGLE_CREEP_KILL_FLOW`/`_XP` ->
    `ARENA_NODE_GUARDIAN_KILL_FLOW`/`_XP`; 4 test names renamed to match. Full suite +
    test_10_bots.sh green. REDGARDEN `47c4ad7` (+ CHANGELOG same commit). Apple #11248.
-4. [ ] **S170-214: minion-aggro-redirect on lane creeps.** A hero attacking an enemy hero within
-   an opposing lane creep's aggro radius should draw that creep's aggro onto the attacker --
-   §20.1's real "minion aggro" mechanic, currently entirely missing (lane creeps only ever pick
-   nearest target independently of who's fighting whom). The single biggest missing piece of real
-   lane-trading risk per §20.3's own framing. Not started.
+4. [x] **S170-214: minion-aggro-redirect on lane creeps.** A hero attacking an enemy hero within
+   an opposing lane creep's aggro radius now draws that creep's aggro onto the attacker --
+   §20.1's real "minion aggro" mechanic, previously entirely missing (lane creeps only ever
+   picked nearest target independently of who's fighting whom). Detected via the defender-side
+   `last_attacked_by_owner` + `combat_timer_ms > 0` signal (already set for kill-credit);
+   `damaged_this_tick` isn't usable here due to call ordering (`arena_tick_lane_creeps` runs
+   before hero-vs-hero combat resolves each tick), flagged honestly rather than reordering call
+   sites. New test confirms the redirect wins over a geometrically closer bystander. Full suite +
+   test_10_bots.sh green. REDGARDEN `95567e7` (+ CHANGELOG same commit). Apple #11249.
 5. [ ] **S170-215: deny for lane creeps.** `arena_hero_attack_lane_creeps` currently filters a
    hero's own team's creeps out entirely (`if (creep->team == h->team) continue`) -- allow
    targeting an ally creep below 50% HP to kill it and deny the enemy the reward. §20.3 flags a
