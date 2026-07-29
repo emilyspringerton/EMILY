@@ -9164,13 +9164,21 @@ C-arrays embed pattern), and the complete reward function design.
    periodic + final checkpoints, real win/loss/draw evaluation against the heuristic bot AI.
    Same honest gap as S170-225: `stable_baselines3` not installable here, written to spec, not
    live-tested. REDGARDEN `6330631` (+ CHANGELOG `05f21fb`). Apple #11232.
-5. [ ] **S170-227: weight export to embedded C MLP + git-sync.** Extracts the trained PPO
-   policy network's weights, writes them as literal C float arrays (SHANKPIT's own
-   `brain_weights.h` pattern -- genuinely appropriate at this network's small size, unlike
-   GPT-2), a new small dependency-free C inference module (mirroring `neural_net.h`'s
-   `dense_layer` matmul+bias+activation, NOT `gpt2_infer.c` -- wrong shape for a fixed-size
-   numeric policy net), and reuses S170-220's own `git_sync_weights_to_repo()` SSH-key flow to
-   push to `origin/main`. Not started.
+5. [x] **S170-227: weight export to embedded C MLP + git-sync.** New
+   `packages/common/mlp_infer.c`/`.h` (small, generic, dependency-free dense-MLP forward pass --
+   SHANKPIT's own `neural_net.h` pattern, not `gpt2_infer.c`, wrong shape for this), 5 tests with
+   hand-computed expected outputs. New `scripts/export_rl_policy_to_c.py` extracts PPO's
+   action-mean network (not the value/critic net) to literal C float arrays + a clipped
+   `rl_policy_forward()` wrapper. New `scripts/git_sync_utils.py` factors the SSH-push logic out
+   of `colab_train.py`'s own `git_sync_weights_to_repo()` for reuse by both artifacts.
+   `rl_train.py` wires export+sync in automatically post-training. **Verified end to end**: a
+   hand-built PyTorch network shaped like SB3's own policy net was exported, compiled, and its C
+   output matched PyTorch to float32 precision. This closes the full S170-223..227 NORTHSTAR §21
+   reward-driven RL pipeline (spec → C env API → gymnasium.Env → PPO trainer → weight
+   export+sync) -- the real training run itself hasn't executed yet (needs `gymnasium`/
+   `stable_baselines3` installed somewhere that has them) and live bot-AI wiring is separate
+   future work, both flagged honestly rather than claimed. REDGARDEN `79175ee`
+   (+ CHANGELOG `327ba7b`). Apple #11234.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
