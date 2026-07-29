@@ -9352,7 +9352,29 @@ C-arrays embed pattern), and the complete reward function design.
    staleness -- every future green CI run reopens the same skew. Added the client to the publish
    loop, rebuilt everything from current `main`, restarted the live matchmaker/bot-pool/
    player-pool trio, confirmed a clean steady-state queue (19 bots + 1 open slot, no more
-   partial-connect timeouts). REDGARDEN `22498e1`, Apple #11296.
+   partial-connect timeouts). REDGARDEN `22498e1`, Apple #11296. Still not done -- third pass:
+   founder made it through draft this time but landed on the wrong hero (Unicorn) and couldn't
+   move, "game is having trouble actually starting or something." Real cause:
+   `redgarden-auto-deploy.timer` fires every 5 minutes and unconditionally `systemctl --user
+   restart`s the matchmaker/bot-pool services on any new green build; spawned match servers are
+   forked children of the matchmaker process (not their own units), so that restart's
+   control-group kill takes out any currently-live match too. Timestamps confirm it: the prior
+   fix's restart landed ~17:31, founder drafted in, timer fired again at 17:33:47 UTC and killed
+   the just-started match server out from under them -- explains both the dead-server "can't
+   move" and being stuck on whatever placeholder hero a fresh post-restart server defaults to.
+   Stopped the timer live (`systemctl --user stop redgarden-auto-deploy.timer`); deliberately
+   NOT re-enabled -- needs a real fix (skip the restart while a spawned match server child is
+   still alive / has connected players) before it's safe unattended again, flagging as an open
+   follow-up rather than building it blind mid-session. REDGARDEN `1a0b161`, Apple #11297.
+
+2. [ ] **Make `auto_deploy.sh` match-aware before re-enabling `redgarden-auto-deploy.timer`.**
+   Follow-up to item 1's third pass, Apple #11297. Currently the timer is stopped (not disabled
+   -- `systemctl --user stop`, will not survive a reboot as "off," needs `disable` too if it
+   should stay off longer-term). Needs: before `systemctl --user restart`ing the matchmaker
+   units, check whether any spawned `red_garden_arena_server` child has connected players (e.g.
+   parse `client_count`/`match_phase` off a status port, or check `ps --ppid` against the
+   matchmaker PID) and skip/defer the restart if so, so a live match never gets killed out from
+   under real players again. Re-enable the timer only after this lands.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
