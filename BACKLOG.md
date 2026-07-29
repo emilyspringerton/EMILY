@@ -9387,14 +9387,22 @@ C-arrays embed pattern), and the complete reward function design.
    still alive / has connected players) before it's safe unattended again, flagging as an open
    follow-up rather than building it blind mid-session. REDGARDEN `1a0b161`, Apple #11297.
 
-2. [ ] **Make `auto_deploy.sh` match-aware before re-enabling `redgarden-auto-deploy.timer`.**
-   Follow-up to item 1's third pass, Apple #11297. Currently the timer is stopped (not disabled
-   -- `systemctl --user stop`, will not survive a reboot as "off," needs `disable` too if it
-   should stay off longer-term). Needs: before `systemctl --user restart`ing the matchmaker
-   units, check whether any spawned `red_garden_arena_server` child has connected players (e.g.
-   parse `client_count`/`match_phase` off a status port, or check `ps --ppid` against the
-   matchmaker PID) and skip/defer the restart if so, so a live match never gets killed out from
-   under real players again. Re-enable the timer only after this lands.
+2. [x] **Make `auto_deploy.sh` match-aware before re-enabling `redgarden-auto-deploy.timer`.**
+   Follow-up to item 1's third pass, Apple #11297. Added a guard right before the systemctl
+   restart step: `pgrep -f "build/red_garden_arena_server --port"` (a spawned match server only
+   ever exists between "lobby just filled" and "match ended/timed out," a simple, sufficient
+   proxy for "a real match might be in progress," no new status endpoint needed) -- if found,
+   defers the restart AND skips marking the SHA as deployed, so the next 5-minute timer tick
+   retries the whole check rather than silently giving up after one skip. Binaries still publish
+   either way (harmless -- the matchmaker execs `server_bin` fresh per spawn regardless).
+   Live-verified the idle path end-to-end: ran the script for real with no match running, it
+   correctly found a new green SHA, built, tested, published, and restarted cleanly (19-bot pool
+   came back healthy). Did NOT force a live match just to verify the defer path itself -- earlier
+   this same session, deliberately spawning scratch test clients against the real production
+   queue caused real problems (phantom queue entries, stuck matches, Apple #11301's own finding)
+   -- the defer logic was code-reviewed instead, using the same `pgrep -f` pattern already
+   validated elsewhere this session. Timer re-enabled (`systemctl --user start` +
+   confirmed `enabled`, next trigger scheduled normally). REDGARDEN `10f38d6`, Apple #11328.
 
 3. [ ] **Matchmaker queue entries never expire.** Found live during the RL-bot verification pass
    (Apple #11301): `apps/matchmaker/src/main.c`'s `enqueue()`/`wait_queue[]` has no per-entry
