@@ -9270,7 +9270,7 @@ C-arrays embed pattern), and the complete reward function design.
    `redgarden-matchmaker-players`, `redgarden-bot-pool`) active and running a binary with the
    `RL_POLICY_MODEL*` symbols present. REDGARDEN `345ffa7` (+ CHANGELOG same commit).
    Apple #11243.
-5. [ ] **S170-230: hero Zagan, "The Confessor" -- unique kit, includes a stun.** Founder,
+5. [x] **S170-230: hero Zagan, "The Confessor" -- unique kit, includes a stun.** Founder,
    real-time, across two fragmented messages: "ero ZAGAN" (read as "hero ZAGAN" -- confirmed via
    AskUserQuestion) -> "unique kit adds stun[,] refer to" (confirmed via a second
    AskUserQuestion: build him now, kit must include a stun ability). Source: `TYLER/
@@ -9289,10 +9289,14 @@ C-arrays embed pattern), and the complete reward function design.
    caster weaker as the direct cost of using it). In progress: full C wiring (enum, stats,
    Q/W/R cast functions, bot AI, ai_bridge tables, docs entry, tests), following the
    MnM/Weatherman hero-addition pattern exactly. Two pre-existing bugs found while researching
-   the wiring, to fix alongside: `apps/arena_server/src/main.c:531` hard-codes
-   `> ARENA_HERO_MNM` (Weatherman is currently unpickable over the real network path) and
-   `apps/arena_bot/src/main.c`'s own duplicated `ARENA_HERO_COUNT` is stale at 26 (should already
-   be 27).
+   the wiring, fixed alongside: `apps/arena_server/src/main.c`'s hard-coded `> ARENA_HERO_MNM`
+   pick bound (Weatherman was silently unpickable over the real network path since he shipped;
+   now compares against `ARENA_HERO_COUNT` so it can't go stale a third time), `arena_hero_name`
+   was also missing a Weatherman case entirely (fell through to "unknown"), and
+   `apps/arena_bot/src/main.c`'s own duplicated `ARENA_HERO_COUNT` was stale at 26. 9 new tests
+   (passive trigger/no-retrigger, Q damage+shred+expiry, W stun in/out of range, R
+   mirror+live-fallback) plus an `arena_ai_bridge` tags-string test. Full suite (764 checks) +
+   test_10_bots.sh green. REDGARDEN `ab77c35` (+ CHANGELOG same commit). Apple #11262.
 6. [ ] **RL policy: longer training run + Norn-Gate promotion validation.** Founder: "do some
    longer running reinforcement learning" -> "use the norn gate to replace itself with the
    better version[,] validate via having the 2 models face off in the arena" (garbled across
