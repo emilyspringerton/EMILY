@@ -8964,7 +8964,21 @@ not arrival order.
    sites. Deliberately does not shrink windup duration -- matches NORTHSTAR §17.1's documented
    real-League behavior. Code complete, 5 new tests, full suite green. REDGARDEN `aba6c95`
    (+ CHANGELOG `6af70f7`). Apple #11201.
-3. [ ] **S170-208: MnM W rework -- Burrow.** Founder: "switch MnM w to burrow where he digs down
+3. [x] **S170-210: shop panel item cap fix + Donkey fold proc affordance.** Founder, real-time
+   direction mid-sprint (not part of the original S170-206/207/208/209 plan, logged here per
+   Backlog-First): "ensure the new items donkey and blink dagger are actually available in the
+   shop ui" -> "ensure donkey has affordances so its clear something is happening when it procs
+   on the 25% health thing." First was a real bug: `SHOP_ITEMS_PER_COL` was hardcoded to 12 (2
+   cols x 12 = 24), stale from when the item catalog had exactly 24 entries -- both the shop
+   panel's render loop and its click hit-test share that constant, so Blink Dagger (24), Donkey
+   (25), and Haste Trinket (26) rendered nowhere and couldn't be bought at all. Bumped to 15.
+   Second: added a gold-white FoldFlash burst, a distinct proc tone, and a "DONKEY FOLD" status
+   tag (replacing the generic UNKILLABLE one when Donkey is the actual source) for Immortal's
+   Fold's HP<25% proc -- reusing the heal/attack-flash frame-delta reconstruction idiom, no
+   wire-protocol change needed. Full sim test suite green; client binary smoke-tested under Xvfb
+   (no crash) since no display is normally available in this environment. REDGARDEN `fd63d0a`
+   (+ CHANGELOG `8babec6`). Apple #11202.
+4. [ ] **S170-208: MnM W rework -- Burrow.** Founder: "switch MnM w to burrow where he digs down
    below the map and is untargetable in that time dealing small aoe damage when he comes back
    up." Replaces "Wasn't That Shape A Second Ago" (a free toggle bonus armor stack) with a real
    cast: MnM goes untargetable for a fixed duration (reusing `intangible_ms`, same hit-eligibility
@@ -8972,7 +8986,7 @@ not arrival order.
    standing near his resurface point the instant he returns. Structurally close to Donkey's own
    Paper Glide (untargetable window, a real cooldown) but simpler -- no movement/reposition
    component, MnM resurfaces where he burrowed, not somewhere else. Not started.
-4. [ ] **S170-209: Full creep overhaul, League of Legends parity -- NORTHSTAR doc first.**
+5. [ ] **S170-209: Full creep overhaul, League of Legends parity -- NORTHSTAR doc first.**
    Founder: "full creep overhaul lol parity northstar doc first currently creeps are spooky too
    strong and hard to reason about." Same "spec before structural code" treatment §15/§16/§17
    already got -- a real northstar section pinning down League's actual minion-wave model
