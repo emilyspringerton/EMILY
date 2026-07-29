@@ -9275,13 +9275,41 @@ C-arrays embed pattern), and the complete reward function design.
    AskUserQuestion) -> "unique kit adds stun[,] refer to" (confirmed via a second
    AskUserQuestion: build him now, kit must include a stun ability). Source: `TYLER/
    multiverse_heroes.md` entry 19, MYTHIC tier -- "Zagan, the Standstill's Confessor," a
-   stillness/confession/monologue-themed Goetic demon ("presided over a forty-seven-minute
-   monologue that's still being peer-reviewed"; field signature 0.618 Hz / Δφ 47°, "well outside
-   the Golden Band"; seed phrase "the standstill confesses"). Not yet in REDGARDEN. Immediately
-   followed by "continue the creep work" -- logged here per Backlog First (log-then-work is
-   fine) and queued behind the in-progress S170-211..218 creep-overhaul batch rather than
-   interrupting it. Kit design (passive + Q/W/R, one ability a stun) not started; draw on the
-   stillness/monologue/confession theme for the design direction when picked up.
+   stillness/confession/monologue-themed Goetic demon. Founder follow-up: "continue ZAGAN be
+   sure to read that one alchemy blog post" -> "think of a way to give ZAGAN a unique kit that
+   changes meta." Read `TYLER/lore/activation_47_transmutation.md` (the full 47-minute
+   monologue, six alchemical stages) plus the two okemily.com posts that reference it
+   (`activation-114`, `ten-heroes-worth-a-closer-look`) -- both independently land on the same
+   thesis: Zagan's power should stay an unconfirmed, hedged claim, not a clean verified one.
+   Design landed: Passive (Base Metal Screams, threshold-crossing Flow trigger), Q (Calcination,
+   armor-shred burn), W (The Standstill -- the stun, and this roster's first kit to ever call
+   `arena_apply_stun`), R (Conjunction -- the actual meta lever: for the duration Zagan's TOTAL
+   armor becomes exactly his target's, a true live mirror, not an additive steal, so R-ing a
+   squishy target makes ZAGAN squishier too -- no other ability on this roster can make its own
+   caster weaker as the direct cost of using it). In progress: full C wiring (enum, stats,
+   Q/W/R cast functions, bot AI, ai_bridge tables, docs entry, tests), following the
+   MnM/Weatherman hero-addition pattern exactly. Two pre-existing bugs found while researching
+   the wiring, to fix alongside: `apps/arena_server/src/main.c:531` hard-codes
+   `> ARENA_HERO_MNM` (Weatherman is currently unpickable over the real network path) and
+   `apps/arena_bot/src/main.c`'s own duplicated `ARENA_HERO_COUNT` is stale at 26 (should already
+   be 27).
+6. [ ] **RL policy: longer training run + Norn-Gate promotion validation.** Founder: "do some
+   longer running reinforcement learning" -> "use the norn gate to replace itself with the
+   better version[,] validate via having the 2 models face off in the arena" (garbled across
+   many repeated-keystroke fragments, reconstructed and confirmed against context). A new
+   5,000,000-timestep PPO run (5x the S170-228 run) launched in the background
+   (`scripts/rl_train.py --total-timesteps 5000000 --skip-git-sync`, output dir
+   `/home/fatbaby/.claude/jobs/94ef6c60/tmp/rl_long_run/`), ~90+ min ETA at observed ~867 fps.
+   Founder's own framing invokes this monorepo's existing NORN-gate governance pattern (see
+   `EMILY/docs/hq-specs/HQ-SPEC-AI-103-fable-model-line.md`, `HQ-SPEC-DOC-102-saga-curation-
+   lifecycle.md`: never blindly promote a new artifact over the current production one --
+   promotion is a gated decision requiring eval evidence) -- applied here as: don't just
+   overwrite `packages/common/rl_policy_weights.h` with the new run's output once it finishes;
+   build a real old-policy-vs-new-policy face-off (both policies loaded simultaneously, one per
+   hero, in a real arena match) and only promote the new weights if they actually win. Not yet
+   built -- requires extending the single-global-`RL_POLICY_MODEL` C plumbing to support two
+   distinct policy models loaded side by side, real engineering not yet started. Queued behind
+   finishing Zagan's kit and the training run itself completing.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
