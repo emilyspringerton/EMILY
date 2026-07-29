@@ -9341,9 +9341,18 @@ C-arrays embed pattern), and the complete reward function design.
    rendered. Killed the 19 orphaned PIDs live, restoring the intended 19-bots-plus-1-open-slot
    invariant (`scripts/run_bot_pool.sh`'s own S170-66 comment). Added a `pkill -f` guard at the
    top of that script so a future unclean exit can't double the pool up again. REDGARDEN
-   `050c903`, Apple #11294. Note: remote had 9 newer commits (S170-211..218) not yet reflected in
-   the live `build/` binaries -- did not rebuild/restart the running matchmaker/server/bots as
-   part of this fix since a game may be live; flagging as a follow-up if staleness matters.
+   `050c903`, Apple #11294. That alone didn't fix it -- founder follow-up: "still waiting for the
+   queue to pop somethings wrong check everything." Real root cause, found on the second pass:
+   `scripts/auto_deploy.sh` (systemd timer, polls CI every ~10min) republishes
+   `red_garden_arena_server`/`_bot`/`matchmaker` on every green build but its publish loop never
+   included `red_garden_arena`, the actual human SDL2 client -- so the client silently drifted
+   hours and dozens of commits behind the auto-deployed server (confirmed: server was on
+   `6349d09` deployed 10:10 UTC, client was still hand-built at 06:52 UTC, missing Zagan's
+   28th-hero change which resizes wire-protocol structs). This is a standing bug, not one-off
+   staleness -- every future green CI run reopens the same skew. Added the client to the publish
+   loop, rebuilt everything from current `main`, restarted the live matchmaker/bot-pool/
+   player-pool trio, confirmed a clean steady-state queue (19 bots + 1 open slot, no more
+   partial-connect timeouts). REDGARDEN `22498e1`, Apple #11296.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
