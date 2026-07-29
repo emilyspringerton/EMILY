@@ -8954,12 +8954,16 @@ not arrival order.
    (21/21 processes healthy, real HP changes across 20/20 heroes). Docs updated
    (`docs/HEROES_VS0.md` -- Donkey entry repointed to the item roster, Weatherman kit added; also
    NORTHSTAR §16's own status block). REDGARDEN `664770a` (+ CHANGELOG `7d4c52d`). Apple #11199.
-2. [ ] **S170-207: Haste Trinket.** Founder: "add a haste trinket" -> "passive haste lowers cd
-   and auto attack cd make it a modest improvement 6%." A new passive item granting a flat 6%
-   reduction to BOTH ability cooldowns (Q/W/R, via `cast_cooldown()`) and the auto-attack cycle
-   (`attack_cooldown_ms`) -- the first cooldown-reduction stat this item catalog has ever needed,
-   a new `ArenaItemDef` field required (existing five are all flat HP/MP/AD/Armor/MS bonuses,
-   none compress time). Not started.
+2. [x] **S170-207: Haste Trinket.** Founder: "add a haste trinket" -> "passive haste lowers cd
+   and auto attack cd make it a modest improvement 6%." New Trinket item (900 Flow) granting a
+   flat 6% reduction to BOTH ability cooldowns (Q/W/R, via `cast_cooldown()`) and the auto-attack
+   cycle (`attack_cooldown_ms`) -- the first cooldown-reduction stat this item catalog has ever
+   needed. New `bonus_cdr_pct` field on `ArenaItemDef` (safe append, existing 26 rows zero-fill
+   per C aggregate-init rules), summed into `item_bonus_cdr_pct`, applied via a shared
+   `apply_cdr()` helper wired into `cast_cooldown()` and all 4 auto-attack cooldown assignment
+   sites. Deliberately does not shrink windup duration -- matches NORTHSTAR §17.1's documented
+   real-League behavior. Code complete, 5 new tests, full suite green. REDGARDEN `aba6c95`
+   (+ CHANGELOG `6af70f7`). Apple #11201.
 3. [ ] **S170-208: MnM W rework -- Burrow.** Founder: "switch MnM w to burrow where he digs down
    below the map and is untargetable in that time dealing small aoe damage when he comes back
    up." Replaces "Wasn't That Shape A Second Ago" (a free toggle bonus armor stack) with a real
