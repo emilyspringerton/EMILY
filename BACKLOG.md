@@ -9310,6 +9310,16 @@ C-arrays embed pattern), and the complete reward function design.
    built -- requires extending the single-global-`RL_POLICY_MODEL` C plumbing to support two
    distinct policy models loaded side by side, real engineering not yet started. Queued behind
    finishing Zagan's kit and the training run itself completing.
+7. [ ] **"The 6AM Report" -- next installment, state-of-the-enterprise blog post.** Founder,
+   real-time: "then do the 6 am report as a blog post" (queued after Zagan + the RL work
+   above). Established recurring series (S170-123 is the second installment, 2026-07-19/
+   2026-07-25 format, byline Emily Prime, published via the IDUNA blog API to okemily.com, same
+   pattern as the FATBABY_NEWSWIRE milestone posts) -- a real, cross-repo "state of the
+   enterprise" survey checked against actual recent commits/logs across the whole monorepo, not
+   invented, and an honest close about anything still broken/unbuilt (S170-123's own precedent:
+   no working outbound email path, stated plainly rather than glossed over). Needs a real survey
+   across EMILY/IDUNA/PRRJECT_FATBABY/REDGARDEN/MJOLNIR/etc., not just this session's REDGARDEN
+   scope -- queued rather than context-switched into mid-Zagan-implementation. Not started.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
