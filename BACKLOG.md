@@ -9064,6 +9064,12 @@ on this batch resumes only once the training/press-release work below is done an
 says to un-pause it. None of the 8 items above have any code changes yet, so nothing is
 mid-flight to protect against the freeze.
 
+**UN-PAUSED (2026-07-29):** everything the freeze was waiting on is done (Colab training docs,
+weight-embed pipeline, git-sync, milestone press release, the full S170-223..229 RL pipeline
+built/run/wired live, and the S170-228-follow-up CI build fix + live pool restart). Asked the
+founder directly whether to lift it; answer: "Lift it, start S170-211." Resuming with S170-211
+below.
+
 ## Sprint — REDGARDEN arena bot AI: Colab training docs + weight-embed-in-C + git-sync (2026-07-29)
 
 Founder, real-time, immediately after calling the code freeze above: "put instructions in the
