@@ -8989,16 +8989,19 @@ not arrival order.
    resolver, a real gap this change's own first test draft caught (a burrowed MnM could still
    swing). 11 new/updated tests, full suite green. REDGARDEN `508159c` (+ CHANGELOG `3d8e964`).
    Apple #11204.
-5. [ ] **S170-209: Full creep overhaul, League of Legends parity -- NORTHSTAR doc first.**
+5. [x] **S170-209: Full creep overhaul, League of Legends parity -- NORTHSTAR doc first.**
    Founder: "full creep overhaul lol parity northstar doc first currently creeps are spooky too
-   strong and hard to reason about." Same "spec before structural code" treatment §15/§16/§17
-   already got -- a real northstar section pinning down League's actual minion-wave model
-   (melee/caster/siege creep roles, last-hit/deny mechanics, aggro/tether rules, wave timing and
-   scaling) against REDGARDEN's current jungle-creep-only reality (`ARENA_CREEP_*`,
-   `arena_tick_creeps`) and lane-creep system (`arena_tick_lane_creeps`), naming the concrete gap
-   between "too strong and hard to reason about" and what real parity would look like, before any
-   rebalancing or structural rewrite starts. Not started -- biggest, least-scoped item in this
-   batch, deliberately sequenced last.
+   strong and hard to reason about." NORTHSTAR §20 written: pins down League's real minion-wave
+   model (melee/caster/siege roles, automatic wave clashes, minion-aggro-redirect on champion
+   attacks, gold-is-individual/XP-is-shared last-hit split, deny, structure pressure) against
+   REDGARDEN's own two separate creep systems. Headline finding: lane creeps (`ArenaLaneCreep`)
+   are the closer minion analog but collapsed to one role with no aggro-redirect/deny/XP-share;
+   jungle creeps (`ArenaCreep`) aren't League jungle camps at all -- they're node-ownership
+   guardians dealing flat unmitigated damage (no `apply_armor` call), wearing jungle-creep
+   terminology that's itself likely part of the "hard to reason about" complaint. §20.3 proposes
+   a sequenced target design; no numeric retuning decided, spec pass only, no code -- matches this
+   item's own "doc first" framing and closes out the S170-206/207/208/209 sprint plan committed
+   here earlier this session. REDGARDEN `7330f10` (+ CHANGELOG `278d117`). Apple #11206.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
