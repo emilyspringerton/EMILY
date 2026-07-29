@@ -9025,11 +9025,13 @@ last" shape the earlier batch used.
    default Unicorn hero (4 armor); updated to set the target hero to Duck (0 base armor) first,
    the same "exact hit-damage math" idiom already used elsewhere in the file. Full suite +
    test_10_bots.sh green. REDGARDEN `76a9d52` (+ CHANGELOG same commit). Apple #11245.
-2. [ ] **S170-212: legibility pass -- visible aggro-radius ring for node-guardian creeps.** Same
-   ring idiom the existing R-zone/cast-radius circles already use (S170-200) -- lets a player see
-   the boundary rather than learning it by taking an unexpected hit, particularly valuable since
-   these creeps' march-toward-unowned-node behavior already makes their position unpredictable in
-   a way a fixed camp wouldn't be. Not started.
+2. [x] **S170-212: legibility pass -- visible aggro-radius ring for node-guardian creeps.** Same
+   ring idiom the existing R-zone/cast-radius circles already use (S170-200), reusing each
+   creep's already-computed flavor color -- lets a player see the boundary rather than learning
+   it by taking an unexpected hit, particularly valuable since these creeps' march-toward-
+   unowned-node behavior already makes their position unpredictable in a way a fixed camp
+   wouldn't be. Outline only, no pulse -- a static passive boundary. Verified live under Xvfb.
+   REDGARDEN `400e708` (+ CHANGELOG same commit). Apple #11246.
 3. [ ] **S170-213: rename/reframe node-guardian creeps away from "jungle creep" terminology.**
    §20.2's own finding: they aren't League jungle camps at all (no buffs, no epic-objective
    equivalent, tied to node ownership, actively march) -- the mismatch between what "jungle
