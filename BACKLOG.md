@@ -9090,15 +9090,24 @@ Colab -- both genuinely new capability, not a gap in what's already documented.
    upload -> notebook bootstrap cell -> checkpoint output). Honestly flagged weight-embed-into-C
    and automated git-sync as not-yet-built rather than documenting them as if real.
    REDGARDEN `4ad8b32` (+ CHANGELOG `4e55145`). Apple #11221.
-2. [ ] **S170-220: design + implement weight-embed-into-C pipeline.** GPT-2-small at 124M params
-   (~496MB as raw float32) is almost certainly too large to embed as literal C arrays -- needs
-   research into how the sibling `gpt2-alpine-c` repo actually does this (in progress) before
-   committing to an approach; may require a smaller/distilled model architecture sized for
-   real embedding, not literally exporting the same GPT-2-small checkpoint this pipeline
-   currently trains.
-3. [ ] **S170-221: git-sync from Colab using an SSH key in MyDrive/.ssh.** The current notebook
-   only ever clones/pulls over HTTPS (read-only, no push capability) -- needs a real design
-   for how the training script authenticates and pushes safely from an unsupervised Colab run.
+2. [x] **S170-220: design + implement weight-embed-into-C pipeline.** Research: gpt2-alpine-c
+   doesn't embed as literal C arrays either -- flat binary blob + runtime `fread`. Ported that
+   engine verbatim into `packages/common/gpt2_infer.c`/`.h` (fully parameterized by
+   n_vocab/n_ctx/n_embd/n_layer/n_head already, zero changes needed for a smaller model). Asked
+   the founder directly on the GPT-2-small size problem (~497MB, too big to commit/too slow for
+   real-time inference); picked "shrink the model first" -- `colab_train.py` now trains a small
+   custom `GPT2Config` from scratch (4 layers/128 dim/4 heads default) instead of fine-tuning
+   the public checkpoint. Verified end to end locally: a real exported tiny model loaded
+   cleanly through the real C loader, finite logits on a real forward pass. 5 new tests, full
+   suite green. Live bot-AI wiring explicitly not done. REDGARDEN `10a705d`
+   (+ CHANGELOG `22c1d40`). Apple #11226.
+3. [x] **S170-221: git-sync from Colab using an SSH key in MyDrive/.ssh.** Landed in the same
+   commit as S170-220 above -- `git_sync_weights_to_repo()` copies the exported `.bin` to
+   `weights/redgarden-arena-bot.bin`, switches the origin remote to SSH, and pushes straight to
+   `origin/main` using a key at `MyDrive/.ssh/id_ed25519` (the founder's own chosen path,
+   overridable via `REDGARDEN_DRIVE_SSH_KEY`) -- degrades to "skip, checkpoint's still on
+   Drive" rather than failing the run if no key is found. REDGARDEN `10a705d`
+   (+ CHANGELOG `22c1d40`). Apple #11226.
 4. [x] **S170-222: FATBABY_NEWSWIRE-format milestone press release.** Research corrected an
    earlier misread: the "squad work" post (`mid-piano-presents-the-squad`) is authored by
    EINHORN_MEDIA, a podcast-transcript piece, not a FATBABY_NEWSWIRE milestone -- the real
