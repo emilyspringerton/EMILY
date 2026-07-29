@@ -9032,12 +9032,17 @@ last" shape the earlier batch used.
    unowned-node behavior already makes their position unpredictable in a way a fixed camp
    wouldn't be. Outline only, no pulse -- a static passive boundary. Verified live under Xvfb.
    REDGARDEN `400e708` (+ CHANGELOG same commit). Apple #11246.
-3. [ ] **S170-213: rename/reframe node-guardian creeps away from "jungle creep" terminology.**
+3. [x] **S170-213: rename/reframe node-guardian creeps away from "jungle creep" terminology.**
    §20.2's own finding: they aren't League jungle camps at all (no buffs, no epic-objective
    equivalent, tied to node ownership, actively march) -- the mismatch between what "jungle
    creep" implies and what this entity actually does is itself likely part of "hard to reason
-   about," independent of any mechanical change. Naming/UI-label pass; scope TBD (code identifiers
-   vs. just player-facing strings) when picked up. Not started.
+   about," independent of any mechanical change. Scope decision: identifiers, function/test
+   names, and comments describing this specific entity, plus the one live README line -- NOT the
+   separate, correctly-named "jungle obstacles/terrain" scenery system (shares the word "jungle"
+   as flavor, not the renamed entity) and NOT direct founder quotes using "jungle" in their own
+   words (preserved verbatim). `ARENA_JUNGLE_CREEP_KILL_FLOW`/`_XP` ->
+   `ARENA_NODE_GUARDIAN_KILL_FLOW`/`_XP`; 4 test names renamed to match. Full suite +
+   test_10_bots.sh green. REDGARDEN `47c4ad7` (+ CHANGELOG same commit). Apple #11248.
 4. [ ] **S170-214: minion-aggro-redirect on lane creeps.** A hero attacking an enemy hero within
    an opposing lane creep's aggro radius should draw that creep's aggro onto the attacker --
    §20.1's real "minion aggro" mechanic, currently entirely missing (lane creeps only ever pick
