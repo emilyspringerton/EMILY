@@ -9139,11 +9139,15 @@ C-arrays embed pattern), and the complete reward function design.
 
 1. [x] **S170-223: NORTHSTAR §21 spec.** Done, Apple #11228, REDGARDEN `fd75729`
    (+ CHANGELOG `3756e7d`).
-2. [ ] **S170-224: `apps/arena_training/headless.c` -- the C environment API.** Same three-
-   function shape as SHANKPIT's own `headless.c` (`sim_init`, `sim_step`, `sim_get_state`) plus
-   a `sim_reset` alias for cheap episode restarts -- wraps `arena_init_with_heroes`/
-   `arena_set_move_target`/`arena_cast_q`/`arena_toggle_w`/`arena_cast_r`/`arena_update` (all
-   already public, all already exercised headlessly by this repo's own test suite). Not started.
+2. [x] **S170-224: `apps/arena_training/headless.c` -- the C environment API.** Same
+   `sim_init`/`sim_step` shape as SHANKPIT's own `headless.c`, plus a `sim_reset` alias --
+   deliberately does NOT expose a raw `ArenaState*` the way SHANKPIT's own `sim_get_state()`
+   does (that struct is large and still growing; a Python `ctypes.Structure` mirror of its exact
+   layout would be fragile, uncompiled ABI surface). `sim_get_obs()` writes a small, fixed,
+   documented 18-float array instead. New `scripts/build_training.sh` builds
+   `libarena_training.so`. Verified via a live ctypes round-trip (real combat over 200 ticks,
+   real reset) plus 6 new headless C tests. Full suite green. REDGARDEN `64639be`
+   (+ CHANGELOG `f85c042`). Apple #11230.
 3. [ ] **S170-225: Python `gymnasium.Env` wrapper.** `ctypes`-loads the compiled shared library
    from S170-224, mirrors `ArenaState`'s field layout as a `ctypes.Structure` (numeric fields
    read directly, no text-serialization round-trip), builds the observation vector, and
