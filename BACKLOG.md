@@ -9410,13 +9410,18 @@ C-arrays embed pattern), and the complete reward function design.
    window (e.g. 30s), same "self-healing over silent leak" philosophy as the arena_server's own
    60s no-progress timeout.
 
-4. [ ] **RL-nudge combat feel needs a real playtest.** Follow-up to item 6, Apple #11301: the
-   trained-policy nudge in `apps/arena_bot`'s 19 real match bots was verified to compile, produce
-   bounded output, and not crash a live pool -- it was never watched in an actual match (no
-   display in this environment). Needs the founder to actually play a match and report back
-   whether combat reads as smarter, unchanged, or worse; the nudge step size (`RL_NUDGE_STEP =
-   3.0f`) and whether it should scale with distance/HP are both first-guess constants, not tuned
-   against real play.
+4. [x] **RL-nudge combat feel needs a real playtest.** Follow-up to item 6, Apple #11301. The
+   founder did play real matches and reported back concretely: "bots should consider healing
+   more than one tick at the fountain sometimes" (a real, separate hysteresis bug in the
+   fountain-retreat heuristic, unrelated to the RL nudge itself but found the same way -- fixed,
+   Apple #11325) and a broader design question, "how do we combine heuristics with the ml model
+   so we do a little fuzzy best of both worlds," which led to two real follow-ups: gating the
+   trained policy's casting to only the hero pairing it was trained on (Unicorn/Duck), and a new
+   `rl_engage_confidence()` scaling the movement nudge down in real teamfights the model never
+   trained against (Apples #11325/#11327). `RL_NUDGE_STEP`'s own fixed magnitude is still an
+   untuned first guess -- not changed this pass, left as a real open tuning question for a future
+   pass once more play data exists (see item 6's own hero win-rate tracking for the kind of data
+   that could eventually inform it).
 
 5. [x] **Team-mode initial spawn moved to the graveyards + RL spatial-generalization training
    env.** Founder, real-time: "we just need to move the initial spawn at start of game to the 2
