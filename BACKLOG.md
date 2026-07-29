@@ -9418,6 +9418,35 @@ C-arrays embed pattern), and the complete reward function design.
    3.0f`) and whether it should scale with distance/HP are both first-guess constants, not tuned
    against real play.
 
+5. [x] **Team-mode initial spawn moved to the graveyards + RL spatial-generalization training
+   env.** Founder, real-time: "we just need to move the initial spawn at start of game to the 2
+   graveyards not center of the map." `arena_init_teams()` now spawns each team at
+   `arena_graveyard_position()` instead of the old x=+-8 center-ish line. Real bug caught before
+   landing: a naive symmetric z-fan pushed heroes past the map boundary from a corner anchor
+   (one landed at z=-56.78 vs a +-51.78 map) -- fixed with an inward-only fan. Same pass also
+   closed the coordinate-frame gap item 4 above flags: new `sim_set_hero_position()` +
+   randomized spawn positions in `scripts/rl_env.py`'s `reset()`, `MOVE_TARGET_RANGE` now
+   matching the real `ARENA_HALF_EXTENT`. A fresh 5M-timestep run against this new environment
+   was launched and completed. REDGARDEN `f3c3887`, Apple #11313.
+
+6. [x] **Hero win-rate tracking, live on okemily.com.** Founder: "can we start crunching the
+   data on the heroes that are the strongest? does our match replay system let us start tracking
+   stats like win rate etc?" -> "ok i want to start tracking it on okemily.com" -> "wotan.okemily.com
+   dns already exists." Checked both existing data sources directly: neither REDGARDEN's local
+   match logs nor IDUNA's `player_game_stats` table ever recorded hero_id, only win/loss.
+   Built the full path: REDGARDEN's `match_log_draft_complete()` + `report_match_result` now
+   record/report per-hero outcomes (Apple #11318, #11322); new IDUNA migration
+   `redgarden_hero_stats` + `POST /api/v1/redgarden/hero-result` + public `GET
+   /api/v1/redgarden/hero-leaderboard` (Apple #11320), deployed live (binary restarted, DB
+   backed up first); new "REDGARDEN hero strength" section on `okemily.com/tournaments.html`,
+   deployed live and verified over HTTPS (Apple #11321). Also drafted `OKEMILY/ops/nginx-wotan.conf`
+   for the now-existing `wotan.okemily.com` DNS record, serving the same static root with
+   `tournaments.html` as index -- **NOT YET LIVE**, installing the vhost + TLS cert both need the
+   founder's own interactive `sudo` (exact commands given in that file's own header comment and
+   in-conversation). Data starts from zero real games going forward -- REDGARDEN's 5,860
+   pre-existing match logs are permanently unusable for this, hero identity was never recorded
+   in them.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
