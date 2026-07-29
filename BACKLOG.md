@@ -9253,6 +9253,18 @@ C-arrays embed pattern), and the complete reward function design.
    `redgarden-matchmaker-players`, `redgarden-bot-pool`) active and running a binary with the
    `RL_POLICY_MODEL*` symbols present. REDGARDEN `345ffa7` (+ CHANGELOG same commit).
    Apple #11243.
+5. [ ] **S170-230: hero Zagan, "The Confessor" -- unique kit, includes a stun.** Founder,
+   real-time, across two fragmented messages: "ero ZAGAN" (read as "hero ZAGAN" -- confirmed via
+   AskUserQuestion) -> "unique kit adds stun[,] refer to" (confirmed via a second
+   AskUserQuestion: build him now, kit must include a stun ability). Source: `TYLER/
+   multiverse_heroes.md` entry 19, MYTHIC tier -- "Zagan, the Standstill's Confessor," a
+   stillness/confession/monologue-themed Goetic demon ("presided over a forty-seven-minute
+   monologue that's still being peer-reviewed"; field signature 0.618 Hz / Δφ 47°, "well outside
+   the Golden Band"; seed phrase "the standstill confesses"). Not yet in REDGARDEN. Immediately
+   followed by "continue the creep work" -- logged here per Backlog First (log-then-work is
+   fine) and queued behind the in-progress S170-211..218 creep-overhaul batch rather than
+   interrupting it. Kit design (passive + Q/W/R, one ability a stun) not started; draw on the
+   stillness/monologue/confession theme for the design direction when picked up.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
