@@ -9052,11 +9052,15 @@ last" shape the earlier batch used.
    before hero-vs-hero combat resolves each tick), flagged honestly rather than reordering call
    sites. New test confirms the redirect wins over a geometrically closer bystander. Full suite +
    test_10_bots.sh green. REDGARDEN `95567e7` (+ CHANGELOG same commit). Apple #11249.
-5. [ ] **S170-215: deny for lane creeps.** `arena_hero_attack_lane_creeps` currently filters a
-   hero's own team's creeps out entirely (`if (creep->team == h->team) continue`) -- allow
-   targeting an ally creep below 50% HP to kill it and deny the enemy the reward. §20.3 flags a
-   sub-decision: whether to also add the "can't be finished by the enemy below 50%" half of the
-   real League rule, or just the "an ally CAN kill their own" half. Not started.
+5. [x] **S170-215: deny for lane creeps.** `arena_hero_attack_lane_creeps` used to filter a
+   hero's own team's creeps out entirely -- now an ally CAN target their own lane creep once it
+   drops below 50% HP, killing it to deny the enemy the reward. §20.3's sub-decision resolved:
+   built only "an ally CAN kill their own" half, not "can't be finished by the enemy below 50%"
+   -- that second half isn't how the real League mechanic works (deny is a race, not a block on
+   the enemy; adding it would be an artificial buff beyond what real deny does). Same
+   kill-reward path either way, no separate reduced-reward tuning. New test + existing test
+   message updated for accuracy. Full suite + test_10_bots.sh green. REDGARDEN `0a7f2ca`
+   (+ CHANGELOG same commit). Apple #11250.
 6. [ ] **S170-216: XP-share radius on lane creep kills.** Currently killer-only
    (`h->xp += ARENA_LANE_CREEP_KILL_XP` on the single hero whose hit landed) -- real parity grants
    XP to every allied hero within some radius regardless of who landed the kill, keeping gold
