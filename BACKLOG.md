@@ -9016,11 +9016,15 @@ first (armor mitigation, legibility, naming), then real new lane-creep mechanics
 biggest/most structural item (role split) last -- same "smallest/most independent first, biggest
 last" shape the earlier batch used.
 
-1. [ ] **S170-211: route node-guardian ("jungle") creep damage through `apply_armor`.** NORTHSTAR
-   §20.3's own first bullet -- these creeps currently deal flat, unmitigated damage
+1. [x] **S170-211: route node-guardian ("jungle") creep damage through `apply_armor`.** NORTHSTAR
+   §20.3's own first bullet -- these creeps used to deal flat, unmitigated damage
    (`ARENA_CREEP_TEAM_DAMAGE`/`ARENA_CREEP_NEUTRAL_DAMAGE` applied via a raw `apply_damage` call,
-   no `apply_armor` pass), unlike every other damage source in this codebase. Named in §20.2 as a
-   likely real contributor to "too strong," independent of any HP/damage retuning. Not started.
+   no `apply_armor` pass), unlike every other damage source in this codebase. Now
+   `apply_damage(target, apply_armor(<raw>, arena_hero_armor(target)))`, matching every
+   hero-vs-hero call site's shape. 3 tests asserted exact flat-damage numbers against the
+   default Unicorn hero (4 armor); updated to set the target hero to Duck (0 base armor) first,
+   the same "exact hit-damage math" idiom already used elsewhere in the file. Full suite +
+   test_10_bots.sh green. REDGARDEN `76a9d52` (+ CHANGELOG same commit). Apple #11245.
 2. [ ] **S170-212: legibility pass -- visible aggro-radius ring for node-guardian creeps.** Same
    ring idiom the existing R-zone/cast-radius circles already use (S170-200) -- lets a player see
    the boundary rather than learning it by taking an unexpected hit, particularly valuable since
