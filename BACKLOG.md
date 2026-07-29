@@ -9193,6 +9193,37 @@ C-arrays embed pattern), and the complete reward function design.
    previously-flagged "written to spec, not run" gap in S170-225/226/227. REDGARDEN `52bf4b8`
    (+ CHANGELOG `bcdab1b`, NORTHSTAR status update `2e80c2b`). Apple #11237.
 
+## Founder real-time direction, live-ops follow-ups (2026-07-29)
+
+1. [x] **S170-228: wire the trained RL policy into the live bot AI.** Founder: "let it train
+   longer then dump the weights into c and commit" -> "update our bots to use it instead of the
+   hand written net." Ran a real, fully-trained 1,000,000-timestep PPO run (30W/0L/0D eval over
+   30 episodes vs. the heuristic bot AI it trained against). `arena_bot_tick`'s own movement now
+   calls `rl_policy_forward()` (`packages/common/rl_policy_weights.h`) instead of the old
+   hand-picked-weight `bot_brain_forward()` -- scoped to movement only, matching the founder's
+   own specific phrasing ("the hand written net," not the per-hero Q/W/R casting heuristic,
+   untouched). Caught and fixed a real circular-dependency bug before it could bite: training's
+   own harness would otherwise have driven its "opponent" hero through whatever policy is
+   currently compiled in (via `arena_update`'s own automatic bot-tick), unstable and completely
+   unbuildable on the first run -- fixed by keeping the old logic alive as
+   `arena_bot_tick_heuristic` specifically for training to call directly. Fixed 5 existing tests
+   broken by the now-genuinely-effective bot movement. Verified live twice under Xvfb (interim
+   checkpoint, then the final model): real mutual combat engagement. Full suite green.
+   REDGARDEN `5e2840f` (+ CHANGELOG `97d2bac`). Apple #11240.
+2. [x] **S170-229: shop clicks no longer also move the player.** Founder: "clicking on item in
+   shop to buy should not cause playyer to move." Real bug: the shop-click and movement-click
+   handlers were two separate `if` blocks on the same click event with no shared state. New
+   `shop_click_consumed` flag (set when the click lands anywhere inside the shop panel's own
+   bounding box, not just directly on a buy/sell row) gates the movement handler. REDGARDEN
+   `ace2eb0` (+ CHANGELOG `97d2bac`). Apple #11241.
+3. [x] **Donkey hotkey + ability tile, confirmed already correctly wired.** Founder: "ensure
+   donkey hotkey and the ability tile on screen are wired up same as blink dagger." Checked
+   directly: the tilde/backquote hotkey already dispatches through the same generic
+   `arena_use_active_item()`/`net_send_active_item()` (server-side resolves Trinket=Blink Dagger
+   vs. Back=Donkey automatically), and the ability-tile row already draws Donkey's Paper Glide
+   at tile index 4 with the same `draw_ability_tile()` call shape Blink Dagger's own index-3 tile
+   uses. No bug found, no code change needed -- confirmed correct rather than assumed.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
