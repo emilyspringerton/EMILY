@@ -9067,12 +9067,14 @@ last" shape the earlier batch used.
    landed the kill, keeping gold individual/precise (unchanged) while XP stays generous/shared.
    New test confirms a nearby ally shares while a far-away ally gets nothing. Full suite +
    test_10_bots.sh green. REDGARDEN `07263c4` (+ CHANGELOG same commit). Apple #11252.
-7. [ ] **S170-217: confirm (via tests) that last-hit already works for lane creeps.** §20.3's own
+7. [x] **S170-217: confirm (via tests) that last-hit already works for lane creeps.** §20.3's own
    note: since lane-creep-vs-lane-creep damage and hero-vs-lane-creep damage are two independent
    sources converging on the same `hp` field, a hero finishing off an already-weakened creep
-   likely already reproduces real last-hit behavior -- needs a test confirming this, not new
-   code. Cheapest item in this batch; good candidate to fold into whichever other item lands
-   first if convenient. Not started.
+   likely already reproduces real last-hit behavior. Confirmed true -- no new code, new test
+   runs both real damage paths (an actual wave clash weakens the creep, then a hero's real
+   follow-up hit finishes it) and confirms full Flow+XP kill credit regardless of who dealt the
+   earlier damage. Full suite green. REDGARDEN `2af2003` (+ CHANGELOG same commit).
+   Apple #11253.
 8. [ ] **S170-218: split the single lane's wave into melee + caster roles.** Biggest, most
    structural item in this batch -- deliberately sequenced last, same "biggest last" reasoning
    the S170-209 batch itself used for the creep-overhaul doc pass. Shares the existing one-lane
