@@ -9061,10 +9061,12 @@ last" shape the earlier batch used.
    kill-reward path either way, no separate reduced-reward tuning. New test + existing test
    message updated for accuracy. Full suite + test_10_bots.sh green. REDGARDEN `0a7f2ca`
    (+ CHANGELOG same commit). Apple #11250.
-6. [ ] **S170-216: XP-share radius on lane creep kills.** Currently killer-only
-   (`h->xp += ARENA_LANE_CREEP_KILL_XP` on the single hero whose hit landed) -- real parity grants
-   XP to every allied hero within some radius regardless of who landed the kill, keeping gold
-   individual/precise while XP stays generous/shared. Not started.
+6. [x] **S170-216: XP-share radius on lane creep kills.** Was killer-only
+   (`h->xp += ARENA_LANE_CREEP_KILL_XP` on the single hero whose hit landed) -- now every allied
+   hero within the new `ARENA_LANE_CREEP_XP_SHARE_RADIUS` (8.0) shares the XP regardless of who
+   landed the kill, keeping gold individual/precise (unchanged) while XP stays generous/shared.
+   New test confirms a nearby ally shares while a far-away ally gets nothing. Full suite +
+   test_10_bots.sh green. REDGARDEN `07263c4` (+ CHANGELOG same commit). Apple #11252.
 7. [ ] **S170-217: confirm (via tests) that last-hit already works for lane creeps.** §20.3's own
    note: since lane-creep-vs-lane-creep damage and hero-vs-lane-creep damage are two independent
    sources converging on the same `hp` field, a hero finishing off an already-weakened creep
