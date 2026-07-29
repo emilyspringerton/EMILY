@@ -9004,6 +9004,102 @@ not arrival order.
    item's own "doc first" framing and closes out the S170-206/207/208/209 sprint plan committed
    here earlier this session. REDGARDEN `7330f10` (+ CHANGELOG `278d117`). Apple #11206.
 
+## Sprint plan — REDGARDEN creep overhaul, from NORTHSTAR §20.3 (2026-07-29)
+
+REDGARDEN's tracked backlog went fully clear after S170-193 closed. Asked the founder directly
+which of two documented-but-unbuilt NORTHSTAR checklists to pick up next (§20.3's creep-overhaul
+target design vs. §17.4's leftover auto-attack-parity items); founder picked §20.3 -- the direct
+sequel to S170-209's own "doc first" pass. Logged here per Backlog First before implementation
+starts, same "sprint plan committed before iterating" rhythm as the earlier S170-206/207/208/209
+batch. Sequencing: independent, lower-risk wins on the node-guardian ("jungle creep") system
+first (armor mitigation, legibility, naming), then real new lane-creep mechanics, then the
+biggest/most structural item (role split) last -- same "smallest/most independent first, biggest
+last" shape the earlier batch used.
+
+1. [ ] **S170-211: route node-guardian ("jungle") creep damage through `apply_armor`.** NORTHSTAR
+   §20.3's own first bullet -- these creeps currently deal flat, unmitigated damage
+   (`ARENA_CREEP_TEAM_DAMAGE`/`ARENA_CREEP_NEUTRAL_DAMAGE` applied via a raw `apply_damage` call,
+   no `apply_armor` pass), unlike every other damage source in this codebase. Named in §20.2 as a
+   likely real contributor to "too strong," independent of any HP/damage retuning. Not started.
+2. [ ] **S170-212: legibility pass -- visible aggro-radius ring for node-guardian creeps.** Same
+   ring idiom the existing R-zone/cast-radius circles already use (S170-200) -- lets a player see
+   the boundary rather than learning it by taking an unexpected hit, particularly valuable since
+   these creeps' march-toward-unowned-node behavior already makes their position unpredictable in
+   a way a fixed camp wouldn't be. Not started.
+3. [ ] **S170-213: rename/reframe node-guardian creeps away from "jungle creep" terminology.**
+   §20.2's own finding: they aren't League jungle camps at all (no buffs, no epic-objective
+   equivalent, tied to node ownership, actively march) -- the mismatch between what "jungle
+   creep" implies and what this entity actually does is itself likely part of "hard to reason
+   about," independent of any mechanical change. Naming/UI-label pass; scope TBD (code identifiers
+   vs. just player-facing strings) when picked up. Not started.
+4. [ ] **S170-214: minion-aggro-redirect on lane creeps.** A hero attacking an enemy hero within
+   an opposing lane creep's aggro radius should draw that creep's aggro onto the attacker --
+   §20.1's real "minion aggro" mechanic, currently entirely missing (lane creeps only ever pick
+   nearest target independently of who's fighting whom). The single biggest missing piece of real
+   lane-trading risk per §20.3's own framing. Not started.
+5. [ ] **S170-215: deny for lane creeps.** `arena_hero_attack_lane_creeps` currently filters a
+   hero's own team's creeps out entirely (`if (creep->team == h->team) continue`) -- allow
+   targeting an ally creep below 50% HP to kill it and deny the enemy the reward. §20.3 flags a
+   sub-decision: whether to also add the "can't be finished by the enemy below 50%" half of the
+   real League rule, or just the "an ally CAN kill their own" half. Not started.
+6. [ ] **S170-216: XP-share radius on lane creep kills.** Currently killer-only
+   (`h->xp += ARENA_LANE_CREEP_KILL_XP` on the single hero whose hit landed) -- real parity grants
+   XP to every allied hero within some radius regardless of who landed the kill, keeping gold
+   individual/precise while XP stays generous/shared. Not started.
+7. [ ] **S170-217: confirm (via tests) that last-hit already works for lane creeps.** §20.3's own
+   note: since lane-creep-vs-lane-creep damage and hero-vs-lane-creep damage are two independent
+   sources converging on the same `hp` field, a hero finishing off an already-weakened creep
+   likely already reproduces real last-hit behavior -- needs a test confirming this, not new
+   code. Cheapest item in this batch; good candidate to fold into whichever other item lands
+   first if convenient. Not started.
+8. [ ] **S170-218: split the single lane's wave into melee + caster roles.** Biggest, most
+   structural item in this batch -- deliberately sequenced last, same "biggest last" reasoning
+   the S170-209 batch itself used for the creep-overhaul doc pass. Shares the existing one-lane
+   geometry (multi-lane stays explicitly out of scope per §20.4). Siege/cannon-every-third-wave
+   is real League depth but a stretch goal, not required for "roles exist at all." Not started.
+
+**PAUSED (2026-07-29): founder called a code freeze before any of S170-211..218 above were
+started** -- "we are in a good place to do a code freeze and then train on colab." Feature work
+on this batch resumes only once the training/press-release work below is done and the founder
+says to un-pause it. None of the 8 items above have any code changes yet, so nothing is
+mid-flight to protect against the freeze.
+
+## Sprint — REDGARDEN arena bot AI: Colab training docs + weight-embed-in-C + git-sync (2026-07-29)
+
+Founder, real-time, immediately after calling the code freeze above: "put instructions in the
+readme for that i assume i upload the repo to drive and then what / we need to ensure that the
+model gets saved to drive / but actually we want to embed the weights right into the c code i
+think from python and then sync to git / we can do it all with colab scripts running python to
+do it all / i will put the keys in MyDrive/.ssh." Then, separately: "then do a milestone press
+release check the blog for the format FATBABY_NEWSWIRE with all of the features shipped sinse
+the previous releases." Logged here per Backlog First before any of it gets built.
+
+Existing state (S170-194/195, earlier this session): `scripts/build_ai_corpus.py` aggregates
+`var/corpus/*.jsonl` match logs; `scripts/colab_train.py` + `notebooks/
+redgarden_gpt2_pretrain_colab.ipynb` fine-tune GPT-2-small (124M params) unsupervised, saving an
+HF checkpoint tarball to Drive. The notebook already clones REDGARDEN straight from GitHub
+inside Colab (no repo upload needed) -- the founder's own "i assume i upload the repo to drive"
+is not how the current pipeline works, worth correcting directly rather than silently building
+around the assumption. Nothing currently converts a trained checkpoint into a form the actual
+C game engine can run inference against, and nothing currently pushes anything back to git from
+Colab -- both genuinely new capability, not a gap in what's already documented.
+
+1. [ ] **S170-219: README instructions for the Colab training workflow.** Correct the "upload
+   repo to Drive" assumption (the notebook clones from GitHub directly -- only the corpus file
+   needs to go to Drive), document the real end-to-end steps.
+2. [ ] **S170-220: design + implement weight-embed-into-C pipeline.** GPT-2-small at 124M params
+   (~496MB as raw float32) is almost certainly too large to embed as literal C arrays -- needs
+   research into how the sibling `gpt2-alpine-c` repo actually does this (in progress) before
+   committing to an approach; may require a smaller/distilled model architecture sized for
+   real embedding, not literally exporting the same GPT-2-small checkpoint this pipeline
+   currently trains.
+3. [ ] **S170-221: git-sync from Colab using an SSH key in MyDrive/.ssh.** The current notebook
+   only ever clones/pulls over HTTPS (read-only, no push capability) -- needs a real design
+   for how the training script authenticates and pushes safely from an unsupervised Colab run.
+4. [ ] **S170-222: FATBABY_NEWSWIRE-format milestone press release.** Covering everything shipped
+   since the previous REDGARDEN press release (the "squad work" post published live via the
+   IDUNA API earlier this session) -- format/tone/publish-mechanism research in progress.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
