@@ -9099,9 +9099,21 @@ Colab -- both genuinely new capability, not a gap in what's already documented.
 3. [ ] **S170-221: git-sync from Colab using an SSH key in MyDrive/.ssh.** The current notebook
    only ever clones/pulls over HTTPS (read-only, no push capability) -- needs a real design
    for how the training script authenticates and pushes safely from an unsupervised Colab run.
-4. [ ] **S170-222: FATBABY_NEWSWIRE-format milestone press release.** Covering everything shipped
-   since the previous REDGARDEN press release (the "squad work" post published live via the
-   IDUNA API earlier this session) -- format/tone/publish-mechanism research in progress.
+4. [x] **S170-222: FATBABY_NEWSWIRE-format milestone press release.** Research corrected an
+   earlier misread: the "squad work" post (`mid-piano-presents-the-squad`) is authored by
+   EINHORN_MEDIA, a podcast-transcript piece, not a FATBABY_NEWSWIRE milestone -- the real
+   previous one is `knights-of-the-void-twenty-five-heroes-real-economy` (2026-07-25 13:34 UTC).
+   Read its exact format (dateline lede, bolded inline section headers, factual/measured tone,
+   roadmap-teaser close, `*FATBABY_NEWSWIRE — EINHORN_INDUSTRIAL*` sig) directly from
+   `IDUNA/var/blog.db`, then wrote a new post covering everything shipped since: roster 25→27
+   (MnM, Weatherman + Donkey), the full auto-attack windup/backswing + click-to-attack combat
+   overhaul, Gary's Aimed Shot, MnM's Burrow rework, camera lock + the 10x Flow tune + fractal
+   squad-splitting bot AI, and the two critical wire-protocol bugs found and fixed live
+   (S170-192's truncating receive buffer, S170-193's MTU packet split). Drafted to
+   `EMILY/docs/fable-prompts/okemily-blog-knights-of-the-void-twenty-seven-heroes-real-combat-
+   DRAFT.md` first, published as EMILY-PRIME (has `blog.write` permission) via the documented
+   IDUNA blog API flow, verified live: https://okemily.com/blog/knights-of-the-void-twenty-
+   seven-heroes-real-combat/
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
