@@ -9084,9 +9084,12 @@ around the assumption. Nothing currently converts a trained checkpoint into a fo
 C game engine can run inference against, and nothing currently pushes anything back to git from
 Colab -- both genuinely new capability, not a gap in what's already documented.
 
-1. [ ] **S170-219: README instructions for the Colab training workflow.** Correct the "upload
+1. [x] **S170-219: README instructions for the Colab training workflow.** Corrected the "upload
    repo to Drive" assumption (the notebook clones from GitHub directly -- only the corpus file
-   needs to go to Drive), document the real end-to-end steps.
+   needs to go to Drive), documented the real end-to-end steps (build_ai_corpus.py -> Drive
+   upload -> notebook bootstrap cell -> checkpoint output). Honestly flagged weight-embed-into-C
+   and automated git-sync as not-yet-built rather than documenting them as if real.
+   REDGARDEN `4ad8b32` (+ CHANGELOG `4e55145`). Apple #11221.
 2. [ ] **S170-220: design + implement weight-embed-into-C pipeline.** GPT-2-small at 124M params
    (~496MB as raw float32) is almost certainly too large to embed as literal C arrays -- needs
    research into how the sibling `gpt2-alpine-c` repo actually does this (in progress) before
