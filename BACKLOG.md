@@ -8978,14 +8978,17 @@ not arrival order.
    wire-protocol change needed. Full sim test suite green; client binary smoke-tested under Xvfb
    (no crash) since no display is normally available in this environment. REDGARDEN `fd63d0a`
    (+ CHANGELOG `8babec6`). Apple #11202.
-4. [ ] **S170-208: MnM W rework -- Burrow.** Founder: "switch MnM w to burrow where he digs down
+4. [x] **S170-208: MnM W rework -- Burrow.** Founder: "switch MnM w to burrow where he digs down
    below the map and is untargetable in that time dealing small aoe damage when he comes back
-   up." Replaces "Wasn't That Shape A Second Ago" (a free toggle bonus armor stack) with a real
-   cast: MnM goes untargetable for a fixed duration (reusing `intangible_ms`, same hit-eligibility
-   gate Ghost/Frog/Donkey's own glide already use), then deals small AoE damage to whoever's
-   standing near his resurface point the instant he returns. Structurally close to Donkey's own
-   Paper Glide (untargetable window, a real cooldown) but simpler -- no movement/reposition
-   component, MnM resurfaces where he burrowed, not somewhere else. Not started.
+   up." Replaced "Wasn't That Shape A Second Ago" (a free toggle bonus armor stack) with a real
+   cast on a 14s cooldown: untargetable + rooted in place (`intangible_ms` + `rooted_ms`, same
+   combo his own R already uses) for 1.5s, then a one-shot AoE eruption (radius 3.0, 16 damage)
+   on the exact spot he burrowed, via a new dedicated `mnm_burrow_ms` countdown tick_hero_kit
+   watches for the zero-crossing -- no reposition, he resurfaces where he went under. Gated
+   `mnm_burrow_ms` across all three auto-attack loops plus the legacy 1v1 `resolve_combat`
+   resolver, a real gap this change's own first test draft caught (a burrowed MnM could still
+   swing). 11 new/updated tests, full suite green. REDGARDEN `508159c` (+ CHANGELOG `3d8e964`).
+   Apple #11204.
 5. [ ] **S170-209: Full creep overhaul, League of Legends parity -- NORTHSTAR doc first.**
    Founder: "full creep overhaul lol parity northstar doc first currently creeps are spooky too
    strong and hard to reason about." Same "spec before structural code" treatment §15/§16/§17
