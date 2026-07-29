@@ -9157,10 +9157,13 @@ C-arrays embed pattern), and the complete reward function design.
    installable in this environment -- no venv module, externally-managed Python, no sudo),
    flagged honestly rather than claimed. REDGARDEN `7d7e611` (+ CHANGELOG `00d8a33`).
    Apple #11231.
-4. [ ] **S170-226: PPO training script.** Stable-Baselines3's PPO against the S170-225 env,
-   runnable locally (no display dependency) or via Colab matching S170-220's own delivery
-   pattern. §21.3's own open question (exact `net_arch`) defaults to SB3's own `[64, 64]`
-   unless real training results say otherwise. Not started.
+4. [x] **S170-226: PPO training script.** `scripts/rl_train.py` -- SB3's PPO against the
+   S170-225 env, same CLI/env-var delivery pattern as `colab_train.py`. `net_arch` defaults to
+   SB3's own `[64, 64]` (§21.3's own explicit non-final-tuning call), passed as the flat-list
+   form (not the version-sensitive separate-pi/vf dict form). Parallel `SubprocVecEnv` envs,
+   periodic + final checkpoints, real win/loss/draw evaluation against the heuristic bot AI.
+   Same honest gap as S170-225: `stable_baselines3` not installable here, written to spec, not
+   live-tested. REDGARDEN `6330631` (+ CHANGELOG `05f21fb`). Apple #11232.
 5. [ ] **S170-227: weight export to embedded C MLP + git-sync.** Extracts the trained PPO
    policy network's weights, writes them as literal C float arrays (SHANKPIT's own
    `brain_weights.h` pattern -- genuinely appropriate at this network's small size, unlike
