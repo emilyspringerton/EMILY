@@ -8730,19 +8730,20 @@ green, not yet committed):
   position literals updated to match. 1v1 local demo spawns deliberately left unscaled. Build
   clean, full suite green (597/597, audited beforehand for hardcoded position literals in
   tests — none found). REDGARDEN `6c69cfa` (+ CHANGELOG `6777639`). Apple #11162.
-- [ ] **S170-193: flagged risk, not a bug -- `ArenaSnapshotMsg` (2072 bytes incl. header) now
-  exceeds the typical 1500-byte Ethernet MTU.** Found while auditing for other instances of
-  S170-192's fixed-buffer class of bug (none found elsewhere -- the matchmaker and the old
-  card-RTS `apps/lobby` client never touch `ArenaSnapshotMsg` at all, confirmed by grep, so
-  their own small fixed buffers are unrelated and safe). This one isn't a receive-buffer sizing
-  bug like S170-192 -- both buffers now size dynamically and can't silently truncate again. It's
-  a real network-layer consideration: a UDP datagram bigger than the path MTU gets fragmented
-  by IP, and losing any ONE fragment loses the whole datagram, which is worse packet-loss
-  behavior than staying under MTU on a real (non-localhost) network. Given the snapshot has
-  grown substantially this session and will likely keep growing, this is worth a real look
-  before it becomes a live reliability problem -- not designing a fix here (splitting the
-  snapshot into multiple smaller packets, or another approach, is a real networking-model
-  decision, the founder's own call, not something to redesign unprompted).
+- [x] **S170-193: flagged risk -- `ArenaSnapshotMsg` exceeded the typical 1500-byte Ethernet
+  MTU (grown to 2460 bytes by the time this got picked up, heroes[20] alone 1680 of that).**
+  Founder's call, asked directly: "split into multiple packets" (over trimming the payload or
+  accepting the fragmentation risk). heroes[] now goes out as 2 self-contained
+  `PACKET_ARENA_SNAPSHOT_HEROES` packets (10 heroes each, own `total_count` so neither depends
+  on packet arrival order) instead of living inside the world message -- new sizes ~788/~856
+  bytes, both with real headroom under MTU. Touches `server_broadcast`, `apps/arena`'s
+  `net_poll_snapshots`, and `apps/arena_bot`'s new `BotSnapshotView` reassembly (which also
+  fixed a related latent bug: prev/cur used to swap on every individual packet instead of once
+  per drained batch, subtly corrupting flock-velocity inference if the bot's loop ever fell
+  behind). Live-verified on isolated ports (never touched the live 7778/7779 pool): a 1v1 match
+  played to a real winner with real HP changes; a 12-hero match confirmed both hero chunks
+  (including owner slots 10/11, the second chunk) deliver real data. Full sim test suite green.
+  REDGARDEN `fd90fc6` (+ CHANGELOG `db23a55`). Apple #11208.
 - [x] **S170-194/195: "do the work to prepare for unsupervised learning" -> "target torch
   training on colab."** Two commits, one deliverable — the arena bot AI corpus-to-training
   pipeline NORTHSTAR §18.4 names as the next buildable step, end to end.
