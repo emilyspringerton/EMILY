@@ -8929,6 +8929,56 @@ green, not yet committed):
   ran 6s under Xvfb with the new keybind/tile render code active, no crash. REDGARDEN `bd1a963`
   (+ CHANGELOG same commit range). Apple #11196.
 
+### Sprint plan, 2026-07-29 real-time direction batch (founder: "all of it into backlog first
+then sprints then iterate")
+
+Logged as one batch since the founder issued all four in quick succession, mid-implementation of
+the first, before any of the later three had code started -- ordered below by dependency/size,
+not arrival order.
+
+1. [ ] **S170-206: Weatherman + Donkey, NORTHSTAR §16.** Founder: "add the weatherman and
+   donkey" -> [clarified via AskUserQuestion: Donkey's "owner" ambiguity] -> "donkey should be an
+   item" -> "3.2k flow" -> "tilda should make the hero do the paper airplane glide thing" ->
+   "longish range high speed escape can move above obstacles" -> "long ish cooldown" -> "2 minute
+   cooldown on paper plane fly mode" -> "but the thing where it unfolds and fights for you thats
+   a passive." Donkey shipped as an item (Back slot, 3200 Flow) -- sidesteps §16.1's whole
+   non-piloted-unit blocker entirely, no second targetable entity. Two independent procs:
+   Immortal's Fold (automatic, HP < 25% -> damage floor + periodic fight-back damage to the
+   nearest enemy, own proc cooldown) and Paper Glide (tilde-activated -- same key as Blink
+   Dagger, generalized to `arena_use_active_item` -- high-speed traversal away from the nearest
+   enemy, flies over obstacles, untargetable for the window, 2-minute cooldown). Weatherman
+   shipped as hero #27: Q Barometric Shove (ranged knockback, no damage), W Collects On What's
+   Owed (the Donkey interaction -- grounds an airborne enemy, extends an airborne ally),
+   R The Debt Compounds (AoE zone DPS), Passive The Ledger (Dagda's Undry regen shape). Code
+   complete, 16 new tests, full suite green (654/654), live-verified via an isolated 10v10 match
+   (21/21 processes healthy, real HP changes across 20/20 heroes). Docs updated
+   (`docs/HEROES_VS0.md` -- Donkey entry repointed to the item roster, Weatherman kit added).
+   Not yet committed/pushed/bookkept as of this log entry -- the very next thing to close out.
+2. [ ] **S170-207: Haste Trinket.** Founder: "add a haste trinket" -> "passive haste lowers cd
+   and auto attack cd make it a modest improvement 6%." A new passive item granting a flat 6%
+   reduction to BOTH ability cooldowns (Q/W/R, via `cast_cooldown()`) and the auto-attack cycle
+   (`attack_cooldown_ms`) -- the first cooldown-reduction stat this item catalog has ever needed,
+   a new `ArenaItemDef` field required (existing five are all flat HP/MP/AD/Armor/MS bonuses,
+   none compress time). Not started.
+3. [ ] **S170-208: MnM W rework -- Burrow.** Founder: "switch MnM w to burrow where he digs down
+   below the map and is untargetable in that time dealing small aoe damage when he comes back
+   up." Replaces "Wasn't That Shape A Second Ago" (a free toggle bonus armor stack) with a real
+   cast: MnM goes untargetable for a fixed duration (reusing `intangible_ms`, same hit-eligibility
+   gate Ghost/Frog/Donkey's own glide already use), then deals small AoE damage to whoever's
+   standing near his resurface point the instant he returns. Structurally close to Donkey's own
+   Paper Glide (untargetable window, a real cooldown) but simpler -- no movement/reposition
+   component, MnM resurfaces where he burrowed, not somewhere else. Not started.
+4. [ ] **S170-209: Full creep overhaul, League of Legends parity -- NORTHSTAR doc first.**
+   Founder: "full creep overhaul lol parity northstar doc first currently creeps are spooky too
+   strong and hard to reason about." Same "spec before structural code" treatment §15/§16/§17
+   already got -- a real northstar section pinning down League's actual minion-wave model
+   (melee/caster/siege creep roles, last-hit/deny mechanics, aggro/tether rules, wave timing and
+   scaling) against REDGARDEN's current jungle-creep-only reality (`ARENA_CREEP_*`,
+   `arena_tick_creeps`) and lane-creep system (`arena_tick_lane_creeps`), naming the concrete gap
+   between "too strong and hard to reason about" and what real parity would look like, before any
+   rebalancing or structural rewrite starts. Not started -- biggest, least-scoped item in this
+   batch, deliberately sequenced last.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
