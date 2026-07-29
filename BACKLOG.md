@@ -9460,6 +9460,24 @@ C-arrays embed pattern), and the complete reward function design.
    pre-existing match logs are permanently unusable for this, hero identity was never recorded
    in them.
 
+7. [ ] **Full-roster self-play RL -- Gen-1 training in progress, Gen-2 self-play queued behind
+   it.** Founder: "ok but i win every game i need the bots to be training on the full game rl" ->
+   "not just 2 heroes." True 20v20 team-mode training (nodes/objectives/19 other live agents) is
+   a much larger, separate undertaking -- scoped down to the achievable real slice for this pass:
+   self-play across the full hero roster instead of the original fixed Unicorn-vs-Duck pairing.
+   Infrastructure built and shipped (REDGARDEN `b517adb`, Apple #11332): observation extended
+   with one-hot self/foe hero identity (`18 -> 18+2*ARENA_HERO_COUNT`, previously the network had
+   NO way to condition on which hero it was playing at all), new `sim_step_both()` for real
+   self-play (both heroes driven by real actions, not the stable heuristic), `rl_env.py`/
+   `rl_train.py` gained `randomize_heroes`/`self_play_opponent` options (off by default, zero
+   behavior change for anything not opting in), live consumers updated behind a
+   `#if RL_POLICY_OBS_SIZE` guard so it's safe to land before a matching model exists. Gen-1
+   (`--randomize-heroes`, heuristic opponent, 8,000,000 timesteps, `var/rl_runs/
+   gen1_full_roster/`) launched and running in the background. Gen-2 (real self-play, Gen-1 as
+   the frozen `--self-play-opponent`) is the queued next step once Gen-1 finishes and gets
+   evaluated -- no valid multi-hero-aware checkpoint exists yet to self-play against until Gen-1
+   lands.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
