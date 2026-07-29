@@ -9148,11 +9148,15 @@ C-arrays embed pattern), and the complete reward function design.
    `libarena_training.so`. Verified via a live ctypes round-trip (real combat over 200 ticks,
    real reset) plus 6 new headless C tests. Full suite green. REDGARDEN `64639be`
    (+ CHANGELOG `f85c042`). Apple #11230.
-3. [ ] **S170-225: Python `gymnasium.Env` wrapper.** `ctypes`-loads the compiled shared library
-   from S170-224, mirrors `ArenaState`'s field layout as a `ctypes.Structure` (numeric fields
-   read directly, no text-serialization round-trip), builds the observation vector, and
-   implements §21.2's own full reward function (dense per-tick shaping + terminal win/loss) as
-   consecutive-snapshot deltas. Not started.
+3. [x] **S170-225: Python `gymnasium.Env` wrapper.** `scripts/rl_env.py` -- 18-float Box obs
+   space (named indices mirroring `sim_get_obs()`), 5-float Box action space, `compute_reward()`
+   implementing §21.2's full design as consecutive-snapshot deltas (kept standalone so it's
+   testable without gymnasium at all). Verified for real via `--smoke-test` against the compiled
+   `.so` (400 ticks, real combat, correct reward accumulation); the `gymnasium.Env` subclass
+   itself is written to spec but not live-tested (`gymnasium`/`stable-baselines3` aren't
+   installable in this environment -- no venv module, externally-managed Python, no sudo),
+   flagged honestly rather than claimed. REDGARDEN `7d7e611` (+ CHANGELOG `00d8a33`).
+   Apple #11231.
 4. [ ] **S170-226: PPO training script.** Stable-Baselines3's PPO against the S170-225 env,
    runnable locally (no display dependency) or via Colab matching S170-220's own delivery
    pattern. §21.3's own open question (exact `net_arch`) defaults to SB3's own `[64, 64]`
