@@ -8936,7 +8936,7 @@ Logged as one batch since the founder issued all four in quick succession, mid-i
 the first, before any of the later three had code started -- ordered below by dependency/size,
 not arrival order.
 
-1. [ ] **S170-206: Weatherman + Donkey, NORTHSTAR §16.** Founder: "add the weatherman and
+1. [x] **S170-206: Weatherman + Donkey, NORTHSTAR §16.** Founder: "add the weatherman and
    donkey" -> [clarified via AskUserQuestion: Donkey's "owner" ambiguity] -> "donkey should be an
    item" -> "3.2k flow" -> "tilda should make the hero do the paper airplane glide thing" ->
    "longish range high speed escape can move above obstacles" -> "long ish cooldown" -> "2 minute
@@ -8952,8 +8952,8 @@ not arrival order.
    R The Debt Compounds (AoE zone DPS), Passive The Ledger (Dagda's Undry regen shape). Code
    complete, 16 new tests, full suite green (654/654), live-verified via an isolated 10v10 match
    (21/21 processes healthy, real HP changes across 20/20 heroes). Docs updated
-   (`docs/HEROES_VS0.md` -- Donkey entry repointed to the item roster, Weatherman kit added).
-   Not yet committed/pushed/bookkept as of this log entry -- the very next thing to close out.
+   (`docs/HEROES_VS0.md` -- Donkey entry repointed to the item roster, Weatherman kit added; also
+   NORTHSTAR §16's own status block). REDGARDEN `664770a` (+ CHANGELOG `7d4c52d`). Apple #11199.
 2. [ ] **S170-207: Haste Trinket.** Founder: "add a haste trinket" -> "passive haste lowers cd
    and auto attack cd make it a modest improvement 6%." A new passive item granting a flat 6%
    reduction to BOTH ability cooldowns (Q/W/R, via `cast_cooldown()`) and the auto-attack cycle
