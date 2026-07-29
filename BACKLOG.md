@@ -9300,23 +9300,43 @@ C-arrays embed pattern), and the complete reward function design.
    (passive trigger/no-retrigger, Q damage+shred+expiry, W stun in/out of range, R
    mirror+live-fallback) plus an `arena_ai_bridge` tags-string test. Full suite (764 checks) +
    test_10_bots.sh green. REDGARDEN `ab77c35` (+ CHANGELOG same commit). Apple #11262.
-6. [ ] **RL policy: longer training run + Norn-Gate promotion validation.** Founder: "do some
+6. [x] **RL policy: longer training run + Norn-Gate promotion validation.** Founder: "do some
    longer running reinforcement learning" -> "use the norn gate to replace itself with the
    better version[,] validate via having the 2 models face off in the arena" (garbled across
-   many repeated-keystroke fragments, reconstructed and confirmed against context). A new
-   5,000,000-timestep PPO run (5x the S170-228 run) launched in the background
-   (`scripts/rl_train.py --total-timesteps 5000000 --skip-git-sync`, output dir
-   `/home/fatbaby/.claude/jobs/94ef6c60/tmp/rl_long_run/`), ~90+ min ETA at observed ~867 fps.
-   Founder's own framing invokes this monorepo's existing NORN-gate governance pattern (see
-   `EMILY/docs/hq-specs/HQ-SPEC-AI-103-fable-model-line.md`, `HQ-SPEC-DOC-102-saga-curation-
-   lifecycle.md`: never blindly promote a new artifact over the current production one --
-   promotion is a gated decision requiring eval evidence) -- applied here as: don't just
-   overwrite `packages/common/rl_policy_weights.h` with the new run's output once it finishes;
-   build a real old-policy-vs-new-policy face-off (both policies loaded simultaneously, one per
-   hero, in a real arena match) and only promote the new weights if they actually win. Not yet
-   built -- requires extending the single-global-`RL_POLICY_MODEL` C plumbing to support two
-   distinct policy models loaded side by side, real engineering not yet started. Queued behind
-   finishing Zagan's kit and the training run itself completing.
+   many repeated-keystroke fragments, reconstructed and confirmed against context). The queued
+   5,000,000-timestep PPO run finished (50W/0L/0D over 50 eval episodes vs. the heuristic bot AI,
+   strictly more training than the live 1M-timestep policy). Founder's real-time follow-up later
+   explicitly simplified the originally-scoped face-off down to a direct promote: "do more of the
+   reinforcement learning i want the bots to be smarter" -> "oh put the new checkpoint into the
+   embeddings in the c and push it up." Promoted straight into `packages/common/
+   rl_policy_weights.h`; full rebuild + `test_arena.sh` + `test_10_bots.sh` green. REDGARDEN
+   `50386ff`, Apple #11299. The two-model side-by-side face-off itself was never built (superseded
+   by the direct-promote instruction, not silently dropped) -- flagged as still-open if a future
+   promotion wants the fuller validation this one skipped.
+   — Founder then asked to close the real gap this promotion didn't touch: "and then once we get
+   the new model installed lets get all the 19 bots on it." Surfaced first (before building
+   anything) that the trained policy had ONLY ever driven the solo 1v1 local-practice bot
+   (`arena_game.c`) -- the 19 bots real players actually fight, `apps/arena_bot`, are a
+   completely separate hand-authored heuristic client with zero connection to the RL pipeline.
+   Wired it in anyway: new `rl_engage_nudge()` feeds self+nearest-enemy through the same trained
+   network, returns a small bounded directional STEP (not the network's raw absolute-target
+   output -- a real coordinate-frame mismatch found live: the policy's own output range (20.0) is
+   tuned for a small 1v1 training arena, the live map's real half-extent is ~51.78 post-S170-191,
+   so the raw output would read as map-center nonsense during any skirmish away from the middle).
+   Additive on top of the existing S170-90 anti-stack angle spread, not a replacement, so several
+   bots independently consulting the same network can't reintroduce that stacking bug.
+   `scripts/build.sh` now links `mlp_infer.c` into `red_garden_arena_bot`. Found and fixed a real
+   second bug while verifying this live: a scratch smoke-test (forced, since `apps/arena_bot`
+   hardcodes matchmaker port 7778, no sandboxed-port escape hatch) left phantom queue entries
+   that got matched into a real batch, and once that match's server hit its own 60s no-progress
+   timeout, all 19 real connected bots sat frozen instead of requeuing --
+   `play_one_match`'s own dead-server-detection threshold assumed a ~10ms tick but the loop
+   paces at 100ms, so real recovery was ~100s, not the ~10s the code's own comment claimed (a
+   real, reachable bug any time a player quits mid-queue, not just from testing). Fixed the
+   threshold (1000 -> 100). `test_arena.sh`/`test_10_bots.sh` green, live-verified the pool
+   recovers cleanly. REDGARDEN `25d9bb2`, Apple #11301. Not independently playtested for combat
+   feel -- no display in this environment; needs the founder's own eyes on whether it actually
+   plays smarter.
 7. [ ] **"The 6AM Report" -- next installment, state-of-the-enterprise blog post.** Founder,
    real-time: "then do the 6 am report as a blog post" (queued after Zagan + the RL work
    above). Established recurring series (S170-123 is the second installment, 2026-07-19/
@@ -9375,6 +9395,28 @@ C-arrays embed pattern), and the complete reward function design.
    parse `client_count`/`match_phase` off a status port, or check `ps --ppid` against the
    matchmaker PID) and skip/defer the restart if so, so a live match never gets killed out from
    under real players again. Re-enable the timer only after this lands.
+
+3. [ ] **Matchmaker queue entries never expire.** Found live during the RL-bot verification pass
+   (Apple #11301): `apps/matchmaker/src/main.c`'s `enqueue()`/`wait_queue[]` has no per-entry
+   timestamp or heartbeat -- once an address is queued, it sits there until matched, with no way
+   to detect it went stale (client crashed, quit, or was killed before ever completing a match).
+   A single dead entry silently occupies one of the 20 lobby slots in whatever batch it eventually
+   lands in, which then can never fully connect and burns a full match-server lifecycle (spawn +
+   60s no-progress timeout) for nothing -- exactly what happened today, twice, from both a
+   deliberate scratch test and (apparently) the founder's own client retrying without a clean
+   quit. Item 6's `silent_ticks` fix (Apple #11301) makes bots recover fast from the symptom, but
+   the root cause -- stale queue entries can form in the first place -- is still open. Fix:
+   timestamp each `wait_queue[]` entry at enqueue time, drop it if unmatched past some reasonable
+   window (e.g. 30s), same "self-healing over silent leak" philosophy as the arena_server's own
+   60s no-progress timeout.
+
+4. [ ] **RL-nudge combat feel needs a real playtest.** Follow-up to item 6, Apple #11301: the
+   trained-policy nudge in `apps/arena_bot`'s 19 real match bots was verified to compile, produce
+   bounded output, and not crash a live pool -- it was never watched in an actual match (no
+   display in this environment). Needs the founder to actually play a match and report back
+   whether combat reads as smarter, unchanged, or worse; the nudge step size (`RL_NUDGE_STEP =
+   3.0f`) and whether it should scale with distance/HP are both first-guess constants, not tuned
+   against real play.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
