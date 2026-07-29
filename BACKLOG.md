@@ -9180,6 +9180,19 @@ C-arrays embed pattern), and the complete reward function design.
    future work, both flagged honestly rather than claimed. REDGARDEN `79175ee`
    (+ CHANGELOG `327ba7b`). Apple #11234.
 
+   **Follow-up (2026-07-29): founder asked to actually run it here** ("can we run the
+   unsupervised stuff here" -> "reinforcement"). Installed `gymnasium`+`stable-baselines3` via
+   `pip --break-system-packages` (no clean alternative in this sandbox: no venv module, no
+   pyenv/conda, no apt packages) and ran the full pipeline for real -- a 4000-timestep PPO smoke
+   run trained cleanly (`SubprocVecEnv`, real checkpointing, real eval: 5W/0L/0D vs. the
+   heuristic bot AI, too short a run to mean much on its own). Exporting the REAL trained model
+   caught a genuine bug the earlier synthetic-network test never hit: exact-integer weight
+   values (real in an actual model's own untrained biases) produced invalid C float literals
+   (`0f` instead of `0.0f`). Fixed + re-verified against the real model (PyTorch vs. compiled C
+   match to float32 precision) + added a `--self-test` regression check. Closes every
+   previously-flagged "written to spec, not run" gap in S170-225/226/227. REDGARDEN `52bf4b8`
+   (+ CHANGELOG `bcdab1b`, NORTHSTAR status update `2e80c2b`). Apple #11237.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
