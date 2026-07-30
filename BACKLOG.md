@@ -9573,6 +9573,37 @@ C-arrays embed pattern), and the complete reward function design.
    synced + rendered client-side (tall stone spire, darkens toward red as HP drops). 4 new tests,
    full suite green (690 assertions), build clean. REDGARDEN `dc7be3d`, Apple #11349.
 
+5. [x] **Tower attacks became real projectiles.** Founder: "show the tower damage as
+   projectiles." `arena_tick_towers` now fires a non-homing `ArenaProjectile` instead of applying
+   damage instantly -- new `ARENA_PROJECTILE_NO_OWNER` (255) sentinel since a tower has no real
+   hero owner to thread through the homing-reward path or the client's owner-based color lookup
+   safely. Rendered ember-orange, distinct from every hero-shot color. Zero wire-protocol changes
+   needed (the owner field was already `uint8_t`). REDGARDEN `c53e9df`, Apple #11353.
+
+6. [x] **Tyler "Divided We Stand" rework -- real independent clone control.** Founder: "tyler...
+   how you spawn clones his kit was stubbed in" -> "clones multi control drag click all of it" ->
+   "divided we stand rework." Investigating the control-scheme ask surfaced a bigger, real
+   pre-existing bug: Tyler's puppet clones (built S170-141) had NEVER been synced to any client at
+   all -- the hero-snapshot chunk system only ever covered real player slots, so clones fought
+   server-side but were completely invisible in every real networked match, not just hard to
+   control. Fixed both: (1) wire sync widened (`ArenaHeroSnapshot` gained `is_clone`/
+   `clone_owner`, chunk range widened 20->28 slots, chunk size 10->14 keeping 2 chunks total, new
+   client-side clone draw pass + health bars kept deliberately separate from the real-hero loop to
+   avoid reading its `ARENA_MAX_HEROES`-sized tracking arrays out of bounds); (2) the old "clones
+   mirror Tyler's own move-target every tick" logic -- the opposite of real Meepo parity -- removed
+   entirely, replaced with new `arena_owner_controls(sender, target)` server-side authorization,
+   widened `arena_set_move_target`/`arena_set_attack_target`, new `unit_owner`/`commander_unit`
+   wire fields, and real client-side RTS drag-select (drag-vs-click resolved on mouse-up, the
+   standard convention, no new keybind) -- every hero other than Tyler is completely unaffected,
+   selection defaults to "just self" forever. `apps/arena_bot`'s 19-real-bot pool senders updated
+   too (an uninitialized `unit_owner` byte would have been a real, silent auth-check bug). Full
+   suite green (814 assertions), build clean across every binary touching the changed wire
+   structs. Live network round-trip not independently smoke-tested this pass (would have meant
+   touching the already-running production matchmaker/bot-pool services directly) -- relying on
+   full sim-level coverage plus a from-source clean build of every sender/receiver; real
+   validation lands once auto-deploy picks up this commit for a live match. REDGARDEN `8c48e70`,
+   Apple #11368.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
