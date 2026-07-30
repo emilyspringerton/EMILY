@@ -9482,9 +9482,22 @@ C-arrays embed pattern), and the complete reward function design.
    sessions) are the real remaining load, not this job -- did not restart training automatically
    given the load concern was the whole point of the founder's own instruction. The partial
    checkpoints on disk (~6% through) are too early to be a usable policy, nothing to promote or
-   self-play against from this attempt. Needs: relaunch Gen-1 (or a shorter-timestep version of
-   it) once the box has real headroom again, then Gen-2 (self-play against Gen-1) as originally
-   planned.
+   self-play against from this attempt.
+
+   **Second attempt, same session:** relaunched with `--n-envs 2` (down from 4) once load had
+   dropped to a healthy baseline (0.90/0.69/0.78) -- lighter CPU footprint (227% vs. the first
+   attempt's 314%) but load climbed to 6.15 within ~2 minutes anyway, higher than the level that
+   got the first attempt killed. This box's other live services (PRRJECT_FATBABY's signal
+   pipeline, other concurrent Claude Code sessions) appear to be running close enough to their
+   own ceiling already that even a reduced-worker-count training job pushes load past a
+   comfortable range quickly -- a real, now twice-reproduced pattern, not a fluke. Killed again
+   (clean, no orphaned workers) -- founder, real-time: "leave it dead." **Do not relaunch this
+   automatically or on a bare "continue" -- needs explicit founder instruction to try again**,
+   and probably needs a real resource-isolation plan (cgroup CPU limit, `nice`/`ionice`, or
+   running it off-hours/on different hardware) rather than a third bare attempt at whatever
+   `--n-envs` count, given two straight attempts at different worker counts both hit the same
+   wall. Gen-2 (self-play against whatever Gen-1 checkpoint eventually exists) stays queued
+   behind Gen-1 actually completing a real run.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
