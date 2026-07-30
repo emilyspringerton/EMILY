@@ -9662,6 +9662,12 @@ C-arrays embed pattern), and the complete reward function design.
    green, build clean, bot-pool matchmaker restarted to deploy live. REDGARDEN `94449bb`, Apple
    #11383.
 
+   **Follow-up, same session:** founder: "reduce garys range by 26%." Applied an additional
+   `* 0.74f` factor on top of the doubling above -- ATTACK/Q/W/R go from 12/12/18/12 to
+   8.88/8.88/13.32/8.88, written as a visible multiplier chain (not a pre-computed literal) so the
+   scaling history stays traceable. Full suite green, build clean, matchmaker restarted again to
+   deploy live. REDGARDEN `91da5de`, Apple #11385.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
