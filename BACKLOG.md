@@ -9671,6 +9671,18 @@ C-arrays embed pattern), and the complete reward function design.
    at their last known position rather than vanishing (OKEMILY `ac84a9d`, Apple #11378). Verified
    live: restarted the matchmaker again, confirmed a fresh match reports real coordinate values.
 
+   **Follow-up:** founder reported "live match not working on okemily" -- investigated live,
+   found it was actually working correctly: the bot-pool restart (item 7's own 20-bot bump) had
+   just dropped the current match into WAITING/DRAFT, and `report_live_match_state()` only fires
+   once `ARENA_PHASE_LIVE` -- `{"live":false}` was the honest answer for that few-second window,
+   not a bug. Confirmed live once the draft finished and reporting resumed.
+
+   **Second follow-up:** founder: "we need the stats on the wotan page on okemily those need to
+   live update just like the live-match page live updates." `tournaments.html`'s two leaderboards
+   (player + hero-strength) were fetch-once-on-page-load -- refactored into named functions polled
+   via `setInterval` (10s, not live-match's own 3s, since these are DB-backed aggregates that only
+   change once per completed match). Deployed and verified live. OKEMILY `00f9ab2`, Apple #11411.
+
 9. [x] **Gary: auto-attack range + all abilities doubled.** Founder: "double the range of gary
    auto attack and abilities." `ARENA_GARY_ATTACK_RANGE`/`Q_RANGE`/`W_RANGE`/`R_RANGE` doubled
    (6/6/9/6 -> 12/12/18/12). Verified every call site (targeting checks, the homing auto-attack's
