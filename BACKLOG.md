@@ -9643,6 +9643,15 @@ C-arrays embed pattern), and the complete reward function design.
    readable at both `localhost:8080` and the public `okemily.com/api/` proxy, confirmed
    `okemily.com/live-match.html` serves (200) and renders real in-progress bot-match data.
 
+   **Follow-up, same session:** founder: "can we get coords too and show a little map with
+   emojis." `report_live_match_state()`'s payload gained `x`/`z` on every node and hero (no IDUNA
+   changes needed -- the store holds the posted body as an opaque blob, new fields just pass
+   through, REDGARDEN `b22ff32`, Apple #11377). `live-match.html` gained a mini-map card:
+   node-owner-colored squares plus team-ringed hero emoji markers (new `HERO_EMOJI`, index-matched
+   to `HERO_NAMES`, same "hand-synced, not authoritative" spirit) -- dead heroes render grayscale
+   at their last known position rather than vanishing (OKEMILY `ac84a9d`, Apple #11378). Verified
+   live: restarted the matchmaker again, confirmed a fresh match reports real coordinate values.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
