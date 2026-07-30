@@ -9513,18 +9513,20 @@ C-arrays embed pattern), and the complete reward function design.
    three-way coexistence table (lane creeps / node-guardians / new jungle camps stay separate
    systems). Spec only, no code yet. REDGARDEN `67ebfd5`, Apple #11340.
 
-   **Follow-up started but not finished:** founder then said "continue the jungle creep work -
-   check the EMILY wiki on github for ecowar" -> "i know thats another version of the game but
-   some of the bvibes are useful." Cloned `EMILY.wiki` fresh (wasn't local before) to
-   `/tmp/EMILY-wiki-check`, began reading `ECOWAR-game-spec-1/2.md` and
-   `REDGARDEN-(ECOWAR)-SPEC-3.md` for concrete usable vibes (camps visibly growing before spawning,
-   a dragon that alters map rules on death, biome-specific camp flavor, etc.) to fold into §22 --
-   session moved on to other real-time direction (items northstar, donkey glide, shop overhaul)
-   before this was finished. **Still open**: only ~half of spec-1 was read, spec-2/spec-3 not
-   read at all; stripped plain-text copies survive at
-   `/tmp/claude-1000/-home-fatbaby/9e6bc294-7eae-4cc8-97a9-b275337cb6f2/scratchpad/` from that
-   session but that scratchpad is not durable -- re-pull from `EMILY.wiki` fresh next time this is
-   picked up.
+   **Follow-up, finished:** founder then said "continue the jungle creep work - check the EMILY
+   wiki on github for ecowar" -> "i know thats another version of the game but some of the bvibes
+   are useful" -> (later) "continue ecowar." Finished reading all three EMILY.wiki documents in
+   full (`ECOWAR-game-spec-1/2.md`, `REDGARDEN-(ECOWAR)-SPEC-3.md`) and wrote §22.5: spec-2/spec-3
+   turned out to duplicate the same Card-RTS unit roster §22.1 already sourced from
+   `REDGARDEN/wiki/SPEC-4` (two copies of the same underlying design conversation) plus a
+   vertical-slice sequencing memo, nothing new from either. Spec-1's own "Jungle Camps & Dragons
+   (MOBA DNA)" section named three real things not yet in §22: camps should visibly telegraph
+   before spawning/respawning (folded into §22.4's existing wire/HUD item), camps granting a real
+   temporary player-power buff on kill is a genuinely missing mechanic distinct from kill-credit/
+   gold (new §22.4 open question), and a boss's death should alter the match rather than just end
+   a fight (named as a design principle for §22.2's own boss, not resolved). The multi-biome map
+   concept (Verdant Wilds/Ash Barrens/Frozen Reach/Blighted Grid) was named explicitly as a real,
+   bigger, separate idea, out of scope here. No code changes. REDGARDEN `25a7651`, Apple #11347.
 
 2. [x] **NORTHSTAR §23: expanded item roster spec + Donkey Paper Glide 6x range.** Founder,
    real-time: "ok do a northstar for expanded items we just need more more variety more different
