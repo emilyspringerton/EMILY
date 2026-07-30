@@ -9668,6 +9668,19 @@ C-arrays embed pattern), and the complete reward function design.
    scaling history stays traceable. Full suite green, build clean, matchmaker restarted again to
    deploy live. REDGARDEN `91da5de`, Apple #11385.
 
+10. [x] **Gunnr's W reworked to Consecration.** Founder: "gunnr w switch it to consecration just
+    like wow" -> "same dot cast radius cd." Was a free toggle self-regen -- now a real cast-on-
+    cooldown ground zone at Gunnr's own feet, damaging any enemy standing in it every second for
+    its duration. Reuses the exact `r_zone_x`/`r_zone_z`/`r_active_ms`/`r_zone_tick_ms` fields and
+    `arena_hero_r_zone_radius` dispatch every other zone hero (Ghost/Flamel/Morrigan/Paimon/
+    NOOR-1/Vassago/He Xiangu's own R's) already shares -- Gunnr's is simply the first triggered
+    from W instead of R. DPS/radius/duration/cooldown copied from Ghost's own R zone (per the
+    founder's own "same dot cast radius cd") as Gunnr's own independently-tunable constants, no
+    ally-heal side this time, matching real Consecration's enemies-only damage. Updated every
+    downstream reference: `arena_hero_w_is_toggle`, ability-name/description HUD tables, AI-bridge
+    hero tags, bot AI heuristic. Full suite green, build clean, matchmaker restarted to deploy
+    live. REDGARDEN `ecd81ae`, Apple #11387.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
