@@ -9626,6 +9626,13 @@ C-arrays embed pattern), and the complete reward function design.
    once that in-progress match completes (~10-15 min based on match-log history). REDGARDEN
    `33c34d7`, Apple #11370.
 
+   **Same-day follow-up:** founder: "take the bot pool back down to 19." Reverts the 20-bot
+   self-sustaining change above -- `redgarden-bot-pool.service` back to `run_bot_pool.sh 19`,
+   restoring the "one slot open for a human" default on `:7778`. The stats-reporting fix itself
+   (IDUNA agent credentials) is unaffected, only the guaranteed-match-without-a-human tradeoff
+   was undone. Deployed live: redeployed the unit, restarted, confirmed 19 bot processes running.
+   REDGARDEN `db2e6e6`, Apple #11404.
+
 8. [x] **Live-match spectator dashboard, phone-friendly.** Founder: "i want to watch the match on
    my phone web view" -> (scoping question, "live text dashboard" chosen over a full visual
    WebGL/canvas replay client, which would be a much bigger separate build). Three-repo pipeline,
