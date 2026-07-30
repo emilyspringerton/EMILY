@@ -9652,6 +9652,16 @@ C-arrays embed pattern), and the complete reward function design.
    at their last known position rather than vanishing (OKEMILY `ac84a9d`, Apple #11378). Verified
    live: restarted the matchmaker again, confirmed a fresh match reports real coordinate values.
 
+9. [x] **Gary: auto-attack range + all abilities doubled.** Founder: "double the range of gary
+   auto attack and abilities." `ARENA_GARY_ATTACK_RANGE`/`Q_RANGE`/`W_RANGE`/`R_RANGE` doubled
+   (6/6/9/6 -> 12/12/18/12). Verified every call site (targeting checks, the homing auto-attack's
+   own projectile `max_range`, Q's projectile `max_range`, bot AI decision distances) keys off
+   the named constants with no hardcoded literals, so doubling the `#define`s alone was
+   sufficient -- confirmed by reading every use site first, not assumed. Existing tests reference
+   the constants themselves, so they scaled automatically, zero test changes needed. Full suite
+   green, build clean, bot-pool matchmaker restarted to deploy live. REDGARDEN `94449bb`, Apple
+   #11383.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
