@@ -9560,13 +9560,18 @@ C-arrays embed pattern), and the complete reward function design.
    via a clean `scripts/build.sh` with no new warnings, UI behavior itself unverified until Xvfb
    or a founder plays a live client build. REDGARDEN `b847400`, Apple #11345.
 
-4. [ ] **Towers -- asked, not yet confirmed.** Founder asked "how are we going to introduce
-   building towers"; answered that NORTHSTAR §19.5 already specs single-lane structures and its
-   prerequisite (the gold/Flow economy) is now fully built, and asked whether to build now or
-   finish the jungle/ECOWAR work first. Founder moved on to other real-time direction (items,
-   glide, shop) without answering either way. **Still open** -- needs an explicit founder call
-   before starting, don't default to picking this without asking again given it was already asked
-   once.
+4. [x] **Towers, built.** Founder: "add towers around the nodes so beginning of game is a little
+   slower" -- a different, more specific ask than the earlier open question (item 4's original
+   text) about NORTHSTAR §19.5's single-lane structure proposal. What shipped: one neutral
+   `ArenaTower` per node (all 5), hostile to both teams, gating `arena_tick_nodes`' own capture
+   channel outright until destroyed -- the real mechanism slowing the opening node-grab race.
+   Superseded §19.5's original lane-defense framing (updated in place, not deleted, see that
+   section's own note). Team-mode only; explicitly NOT wired into the shared `arena_init_teams()`
+   ~300 existing tests call directly (would have auto-attacked heroes at convenient test
+   coordinates like the Blacksmith node's own (0,0)) -- `arena_towers_reset()` instead called once,
+   at the real server's own match-start call site, so zero existing test behavior changed. Wire-
+   synced + rendered client-side (tall stone spire, darkens toward red as HP drops). 4 new tests,
+   full suite green (690 assertions), build clean. REDGARDEN `dc7be3d`, Apple #11349.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
