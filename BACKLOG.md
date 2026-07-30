@@ -9604,6 +9604,28 @@ C-arrays embed pattern), and the complete reward function design.
    validation lands once auto-deploy picks up this commit for a live match. REDGARDEN `8c48e70`,
    Apple #11368.
 
+7. [x] **Hero-stats pipeline fixed + bot pool made self-sustaining.** Founder: "ensure stats is
+   working" + "add a 20th bot." The hero-leaderboard has been empty this ENTIRE session --
+   real root cause: neither matchmaker systemd unit (`redgarden-matchmaker-bots.service`,
+   `redgarden-matchmaker-players.service`) ever set `IDUNA_AGENT_NAME`/`IDUNA_AGENT_SECRET`, so
+   every real match's own `arena_server` process printed "WOTAN match-result reporting disabled"
+   and silently never reported a single hero-result, even though the `REDGARDEN-BOTS` IDUNA agent
+   (with the exact `redgarden.match.write` permission needed) had already been fully provisioned
+   since 2026-07-24 -- the credential simply never made it into these unit files. Fixed via a new
+   gitignored `REDGARDEN/var/redgarden-iduna-agent.env` + `EnvironmentFile=` in both units.
+   Second, related fix: `apps/matchmaker` only ever spawns a match once its queue reaches
+   `lobby_size` exactly -- at 19 bots (S170-66's own deliberate "leave a human slot open" choice)
+   with no human queued, the bot-pool lobby sat at 19/20 forever, so no match (and therefore no
+   stats) was ever generated on its own. Bumped to 20 bots, deliberately re-accepting the
+   tradeoff S170-66 moved away from (no human can queue into `:7778` anymore; the player-only
+   pool at `:7779` is unaffected) for a fully self-sustaining data-generating pool. Both fixes
+   verified live (not just committed): restarted all three affected systemd units directly,
+   confirmed the newest match server prints "IDUNA agent configured: name=REDGARDEN-BOTS...
+   (WOTAN match-result reporting available)" instead of the warning, and confirmed a fresh match
+   spawned immediately after the bot-pool restart. First real hero-result data point will land
+   once that in-progress match completes (~10-15 min based on match-log history). REDGARDEN
+   `33c34d7`, Apple #11370.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
