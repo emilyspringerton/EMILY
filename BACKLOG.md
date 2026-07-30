@@ -9633,6 +9633,18 @@ C-arrays embed pattern), and the complete reward function design.
    was undone. Deployed live: redeployed the unit, restarted, confirmed 19 bot processes running.
    REDGARDEN `db2e6e6`, Apple #11404.
 
+   **Same-day follow-up, again:** founder asked to check for high load -- real finding: an
+   orphaned Python `multiprocessing.forkserver` (leftover from an earlier RL training kill this
+   session that didn't fully clean up) had been pegging a full CPU core at 100% for ~12 hours with
+   zero output. Killed it, load dropped immediately. Founder then asked whether input lag was
+   coming from the live-match reporter (measured: <1ms per report, not the cause) -- real cause
+   traced instead to repeated manual `systemctl restart` calls made to verify each of today's
+   incremental changes live immediately, which (unlike `auto_deploy.sh`'s own already-match-aware
+   guard) killed in-progress matches outright on every restart. Founder then: "bring bot pool back
+   up to 20" -- reverted back to 20 again, deployed live, confirmed running. Going forward, live
+   redeploys default to auto-deploy's own scheduled, match-aware cycle rather than an immediate
+   manual restart per change. REDGARDEN `ccccefa`, Apple #11410.
+
 8. [x] **Live-match spectator dashboard, phone-friendly.** Founder: "i want to watch the match on
    my phone web view" -> (scoping question, "live text dashboard" chosen over a full visual
    WebGL/canvas replay client, which would be a much bigger separate build). Three-repo pipeline,
