@@ -9499,6 +9499,73 @@ C-arrays embed pattern), and the complete reward function design.
    wall. Gen-2 (self-play against whatever Gen-1 checkpoint eventually exists) stays queued
    behind Gen-1 actually completing a real run.
 
+## Backlog dump — REDGARDEN arena, real-time founder direction (2026-07-30)
+
+1. [x] **NORTHSTAR §22: real jungle camps spec.** Founder, real-time: "but we want to make the
+   jungle more dynamic and alive those concepts come from the original game" -> "the jungle right
+   now is like nothing we need more going on" -> "use it as inspiration in terms of mob types and
+   write it into a northstar." Reviewed `REDGARDEN/wiki/SPEC-4` (the Card-RTS predecessor) at the
+   founder's own direction ("Just review/discuss it" -- not a port target), then wrote §22
+   resolving §20.4's own deferred jungle-camp-architecture question: what transfers from SPEC-4
+   (tiered mob roster, weighted target scoring) vs. what doesn't (card/deck economy, Conway grid,
+   generic-fantasy names), a GoblinFoxDragon-pattern graft direction (port the mob/NM *design* --
+   state machine, tag-on-first-hit, placeholder/window/respawn boss -- not the Go code), and a
+   three-way coexistence table (lane creeps / node-guardians / new jungle camps stay separate
+   systems). Spec only, no code yet. REDGARDEN `67ebfd5`, Apple #11340.
+
+   **Follow-up started but not finished:** founder then said "continue the jungle creep work -
+   check the EMILY wiki on github for ecowar" -> "i know thats another version of the game but
+   some of the bvibes are useful." Cloned `EMILY.wiki` fresh (wasn't local before) to
+   `/tmp/EMILY-wiki-check`, began reading `ECOWAR-game-spec-1/2.md` and
+   `REDGARDEN-(ECOWAR)-SPEC-3.md` for concrete usable vibes (camps visibly growing before spawning,
+   a dragon that alters map rules on death, biome-specific camp flavor, etc.) to fold into §22 --
+   session moved on to other real-time direction (items northstar, donkey glide, shop overhaul)
+   before this was finished. **Still open**: only ~half of spec-1 was read, spec-2/spec-3 not
+   read at all; stripped plain-text copies survive at
+   `/tmp/claude-1000/-home-fatbaby/9e6bc294-7eae-4cc8-97a9-b275337cb6f2/scratchpad/` from that
+   session but that scratchpad is not durable -- re-pull from `EMILY.wiki` fresh next time this is
+   picked up.
+
+2. [x] **NORTHSTAR §23: expanded item roster spec + Donkey Paper Glide 6x range.** Founder,
+   real-time: "ok do a northstar for expanded items we just need more more variety more different
+   effects etc same DNA ffxi item names even the stats on some may be useful to design the items
+   system." Read `docs/FFXI_ITEM_PARITY_SEED.md` in full and wrote §23: the current 6-flat-stat
+   ceiling, the seed doc's own "not for direct use" caveat named but not re-litigated (founder's
+   framing this pass reads as a clear continue-the-precedent choice, already-shipped `ArenaItemTier`
+   uses real FFXI names verbatim), and new categories translated into concrete `ArenaItemDef`-shaped
+   directions with honest prerequisites named where they don't exist yet: latent/conditional
+   effects, proc effects (needs real RNG -- founder confirmed "yea crit" as a wanted direction,
+   not yet built), regen/refresh, relic-tier unique-mechanic weapons, enmity-adjacent items (needs
+   an enmity system), elemental resistance (needs damage typing). Same commit also landed "donkey
+   glide needs to be 6 times as far" -- scaled `ARENA_DONKEY_GLIDE_DURATION_MS` alongside
+   `ARENA_DONKEY_GLIDE_RANGE` (not speed) since reach is duration*speed-bounded; one test's
+   assertion fixed to reflect the new range legitimately exceeding `ARENA_HALF_EXTENT` from a
+   map-center start. Spec only for §23 itself; glide change is real, shipped code. Full suite
+   green. REDGARDEN `9e7eea6`, Apple #11343.
+
+3. [x] **Shop UI/UX overhaul: proximity auto-open, pagination, page buttons.** Founder, real-time:
+   "we need shop ui ux overhaul have it pop the shop window up when you get close to the shop
+   enough to buy" -> "too many items per page more pages navigate pages with shift 1 2 3" -> "and
+   buttons." All three landed in `apps/arena/src/main.c`: (1) the panel now opens/closes itself,
+   edge-triggered against the same `ARENA_SHOP_RADIUS` `arena_shop_buy` enforces server-side, so
+   it never fights the manual B toggle; (2) replaced the old 2-column x 15-row single page (all 27
+   items visible/clickable at once) with a single buy column of `SHOP_ITEMS_PER_PAGE` (9, matching
+   the existing 1-9 quick-buy range) with `SHOP_PAGE_COUNT` a self-scaling ceiling division,
+   Shift+1/2/3 jumps to a page; (3) three clickable on-screen page-number buttons above the buy
+   list, current page filled solid. Client-only change -- no automated coverage exists for
+   `apps/arena`'s own SDL2/OpenGL code in this headless environment (`scripts/test_arena.sh` only
+   exercises `packages/simulation`, a gap its own comment already admits pending Xvfb); verified
+   via a clean `scripts/build.sh` with no new warnings, UI behavior itself unverified until Xvfb
+   or a founder plays a live client build. REDGARDEN `b847400`, Apple #11345.
+
+4. [ ] **Towers -- asked, not yet confirmed.** Founder asked "how are we going to introduce
+   building towers"; answered that NORTHSTAR §19.5 already specs single-lane structures and its
+   prerequisite (the gold/Flow economy) is now fully built, and asked whether to build now or
+   finish the jungle/ECOWAR work first. Founder moved on to other real-time direction (items,
+   glide, shop) without answering either way. **Still open** -- needs an explicit founder call
+   before starting, don't default to picking this without asking again given it was already asked
+   once.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
