@@ -9626,6 +9626,23 @@ C-arrays embed pattern), and the complete reward function design.
    once that in-progress match completes (~10-15 min based on match-log history). REDGARDEN
    `33c34d7`, Apple #11370.
 
+8. [x] **Live-match spectator dashboard, phone-friendly.** Founder: "i want to watch the match on
+   my phone web view" -> (scoping question, "live text dashboard" chosen over a full visual
+   WebGL/canvas replay client, which would be a much bigger separate build). Three-repo pipeline,
+   same shape as the hero-leaderboard work: IDUNA gained `POST /api/v1/redgarden/live-match`
+   (requires `redgarden.match.write`) + public `GET .../latest`, deliberately in-memory rather
+   than DB-backed since it's ephemeral "what's happening right now" state, 30s staleness so an
+   ended/crashed match doesn't read as a frozen "live" one forever (IDUNA `0d36e1c`, Apple
+   #11372). `apps/arena_server` gained `report_live_match_state()`, posting phase/resources/
+   nodes/towers/per-hero HP-K-D-Flow every 3s while `ARENA_PHASE_LIVE`, token cached and reused
+   (5-min refresh) since this fires repeatedly through a whole match unlike the one-shot
+   `report_match_result` (REDGARDEN `7788787`, Apple #11373). New `OKEMILY/live-match.html`,
+   mobile-first single column, auto-refreshing scoreboard (OKEMILY `d673442`, Apple #11374).
+   Verified live end to end, not just committed: restarted the
+   bot-pool matchmaker to pick up the new binary, confirmed a fresh match reports real data
+   readable at both `localhost:8080` and the public `okemily.com/api/` proxy, confirmed
+   `okemily.com/live-match.html` serves (200) and renders real in-progress bot-match data.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
