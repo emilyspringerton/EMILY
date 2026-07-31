@@ -10317,6 +10317,19 @@ archetype instead of Milestone 2. Milestone table renumbered. REDGARDEN `8d4f545
 **Milestone 2, corrected, is the real next step if this thread continues**: real group-order
 commands for Tyler's own drag-selected clone group.
 
+**Iterated further, same session.** Corrected Milestone 2's own first real slice shipped: the
+**Stop** command — the first of the real WC3 group-order vocabulary (attack-move/hold/patrol/
+stop) for Tyler's own clone-control system. Real `S` keybind (previously unbound), new
+`PACKET_ARENA_STOP`/`ArenaStopCmd` wire packet, server-side `arena_stop_unit(owner)` (cancels the
+unit's current move target and attack-target lock, resets `target_x/z` to its own current
+position rather than leaving it stale). Applies to the whole currently drag-selected group via
+the exact same `selected_or_self()` resolution and `arena_owner_controls` authorization every
+other group command (move, attack) already uses — a Tyler player with several clones selected
+stops all of them at once, matching real WC3's own group-order behavior. 3 new tests, full
+`scripts/test_arena.sh` suite + `scripts/test_10_bots.sh` stability green. REDGARDEN `10faf25`
+(+ `fdf04bb` doc fixup), Apple #11535. **Attack-move, hold, and patrol are still open** — this
+milestone stays IN PROGRESS, not DONE.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
