@@ -10123,11 +10123,34 @@ doesn't touch chaining. 4 new tests (`test_warrior_q_hard_slash_damages_in_melee
 `test_warrior_r_frostbite_hits_hardest`), `scripts/build.sh` clean, `scripts/test_arena.sh` full
 suite green, `scripts/test_10_bots.sh` stable. `docs2/REDGARDEN_GUI_NORTHSTAR.md`'s milestone
 table + status line updated in place. REDGARDEN `cbcd4ed` (Apple #11513), GoblinFoxDragon
-`2f9cfef` (Apple #11514). **Milestones 2-5 still ahead**: skillchain resonance detection in
-`arena_game.c`, the Battlegrounds entry-point hook, the reward-credit hook, and end-to-end
-validation — none of which land a real GUI login path on their own until the entry-point hook
-(Milestone 3) exists, so "can i log into gfd gui yet" is still honestly "not yet," closer than
-before this session started.
+`2f9cfef` (Apple #11514).
+
+**Milestone 2 shipped same session, still 2026-07-31.** Real skillchain resonance detection in
+`REDGARDEN/packages/simulation/arena_game.c`. `ArenaResonance` + `resonance_combo` are a straight
+C port of `GoblinFoxDragon/server/skillchain.go`'s own `combinationTable` (same real 14 elements,
+same real tier-1/2/3 multipliers 20%/35%/50%) — two separate language codebases, ported not
+shared. Tracked per-TARGET (`sc_pending_attrs`/`sc_pending_attr_count`/`sc_pending_age_ms` on
+`ArenaHero`), matching real FFXI's own "a chain forms on whoever gets hit twice, from any
+source" rule (not per-caster), aged every tick in `tick_hero_kit` alongside `combat_timer_ms`'s
+own existing "generic across every hero" countdown idiom. New `apply_weapon_skill_damage` is the
+one choke point every real weapon-skill cast (Warrior's Q/W/R today) now routes through instead
+of a bare `apply_damage`/`apply_armor` pair — ordinary abilities and basic attacks never touch
+it, matching real FFXI where only weapon skills open/close/continue a chain. `skillchain_flash_tier`
+is a new, distinct one-tick wire-visible event (same lifetime idiom as the existing
+`cast_flash_slot`), deliberately not folded into it or the generic hit-feedback path, per the
+northstar's own explicit Milestone 2 requirement. Verified real, not just plausible: Warrior's
+own Q (Scission) into R (Induration+Reverberation) closes an actual Tier 2 Distortion chain per
+the real table — the one pairing achievable with Milestone 1's own in-kit content alone, without
+needing a second job to exist yet. 2 new tests (`test_warrior_q_then_r_closes_a_real_skillchain`,
+`test_warrior_skillchain_window_expires`), `scripts/build.sh` clean, `scripts/test_arena.sh` full
+suite green, `scripts/test_10_bots.sh` stable. `docs2/REDGARDEN_GUI_NORTHSTAR.md`'s milestone
+table + status line updated again. REDGARDEN `21ad0dc` (Apple #11516), GoblinFoxDragon `d9d59ac`
+(Apple #11517).
+
+**Milestones 3-5 still ahead**: the Battlegrounds entry-point hook, the reward-credit hook, and
+end-to-end validation — none of which land a real GUI login path on their own until the
+entry-point hook (Milestone 3) exists, so "can i log into gfd gui yet" is still honestly "not
+yet," closer than before this session started.
 
 ---
 
