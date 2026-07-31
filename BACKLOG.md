@@ -9974,14 +9974,21 @@ implementing, no exceptions.
    existing tests upstream, reused rather than re-derived by hand). `PacketWSCast` now rejects
    casting from a KO'd caster and casting at an already-KO'd target. GoblinFoxDragon `2295009`,
    Apple #11498. **Follow-up landed same day**: new `PacketRespawn`/`PacketRespawnResult` —
-   `apps2/mud`'s own real "type home" flow (`knockOut()` + `HPState.Raise`) reduced to its core
-   mechanic, `RaiseDefault(0)` — always against 0 XP since real per-player XP tracking doesn't
-   exist on this backend yet (named honestly in the code, not silently wrong). GoblinFoxDragon
-   `aeaa567`, Apple #11500. **Still not done**: no job-gating of which weapon skills a player can
-   select (note: `apps2/mud` doesn't gate this either, checked directly — not a real gap, an
-   aspiration this item's own earlier note overstated); enmity untouched; real per-player XP
-   tracking; `apps2/mud`'s telnet players and `apps2/server-go`'s UDP players still don't share
-   live state — that last one is the real, large remaining piece of "unify the backends," not a
+   `apps2/mud`'s own real "type home" flow reduced to its core mechanic. **Correction, same
+   day**: the first version of this called `HPState.RaiseDefault`, which applies
+   `combat.DefaultRaisePenaltyPct` (10%) — checked against `apps2/mud`'s own actual live
+   behavior and that's the wrong number (and the wrong claim: `apps2/mud`'s real `cmdHome`
+   hand-computes an 8% penalty, `homepoint.DefaultXPPenaltyPct`, and doesn't call `HPState.Raise`
+   at all). Fixed by passing `homepoint.DefaultXPPenaltyPct` explicitly into `HPState.Raise`
+   instead of trusting its own unrelated default, and wired real per-player XP
+   (`fetchCharacterCombatStats` now also returns IDUNA's real `Character.CurrentXP`) so the
+   penalty is computed against a real number instead of a hardcoded 0. GoblinFoxDragon `aeaa567`
+   + `0b01c07`, Apple #11500 + #11502. **Still not done**: no job-gating of which weapon skills a
+   player can select (note: `apps2/mud` doesn't gate this either, checked directly — not a real
+   gap, an aspiration this item's own earlier note overstated); enmity untouched; XP earned isn't
+   written back to IDUNA yet (in-memory only, same "not done" shape as the rename left it);
+   `apps2/mud`'s telnet players and `apps2/server-go`'s UDP players still don't share live
+   state — that last one is the real, large remaining piece of "unify the backends," not a
    quick follow-up.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
