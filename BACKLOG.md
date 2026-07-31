@@ -9955,7 +9955,19 @@ implementing, no exceptions.
    existing hitscan combat. "Whatever makes sense" — implementation shape not dictated by founder,
    scoped in the sprint plan below. "Clean builds first" — `GOWORK=off go test ./...` verified
    green across all of `dragonsnshit` before starting (baseline, not yet re-verified after any
-   change).
+   change). **Sprint 3 landed** (first real slice, not the full item — stays open): new
+   `PacketWSCast`/`PacketWSResult` wire packets; `apps2/server-go` directly imports
+   `server/combat`/`server/skillchain` (not a rewrite — the same tested packages `apps2/mud`
+   already calls); every `BtnAttack` feeds real TP alongside the existing hitscan, not replacing
+   it; `PacketWSCast` validates against the real weapon-skill registry, checks real TP, scores a
+   real skillchain against whatever last landed on the target (PvP-shaped, no mob registry in
+   this backend). `resolveWSCast` extracted as a standalone, unit-tested function — 4 new tests
+   including a real Tier-2 Fusion closure. `go build`/`go test` clean throughout. GoblinFoxDragon
+   `cc0d46f`, Apple #11495. **Still not done**: no real IDUNA character/job fetch on connect for
+   `apps2/server-go` clients (job-gating which weapon skills a player can even select), no
+   HP/death tracking on this backend's own `clientInfo` at all (damage is currently a reported
+   placeholder number, not applied to anything), enmity not touched, `apps2/mud`'s telnet players
+   and `apps2/server-go`'s UDP players still don't share live state.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
    Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
