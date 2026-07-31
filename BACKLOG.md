@@ -10289,6 +10289,34 @@ REDGARDEN `114d542`, Apple #11529. **Milestone 2 needs a real hero pick from §7
 a founder/content call, not made here** (same "founder's own S-tier pick" pattern every existing
 queue entry follows) — asked directly rather than guessed.
 
+**Iterated further, same session.** Founder chose Milestone 2's real hero: The Retrieval Cart
+(TYLER `multiverse_heroes.md` #10) — the one entry in §7's own hero queue never built. Real lore
+constraint found and honored, not overridden: the compendium's own 2026-07-23 gameplay note
+already named the Cart's whole identity as "nobody, including its own controller, gets to
+request what." Asked directly (AskUserQuestion) whether to honor that or override it for a real
+directly-commanded WC3-style kit — founder chose to honor it. Shipped as Indirect-Control (same
+archetype §16.1 already built for Donkey): Q is a small self-heal ("Maintenance" — the Cart isn't
+a combatant per its own lore); W/R ("No Requester in the Ledger" / "Already Waiting") open a
+delivery zone at the Cart's own position — whoever steps in first, ally or foe or the Cart's own
+controller, gets one of 4 real equally-weighted outcomes (heal 25% max HP / restore 25% max MP /
+30% slow 3s / +50 Flow), not always good, single-use. First hero with two zone-shaped abilities
+sharing the same fields every other zone hero already uses — documented last-cast-wins
+interaction, not hidden. Real bug caught by the build itself: `apps/arena_server` never called
+`srand()`, so `rand()` would have used the default seed (1) every server restart, making "random"
+deliveries fully predictable in real matches — fixed, matching the pattern `apps/arena`/
+`apps/arena_bot` already used. 5 new tests, full suite + 10-bot stability green. REDGARDEN
+`f1666d2`, Apple #11532.
+
+**Founder correction, same session:** "the unit controls are supposed to be for tyler." §24's own
+Milestone 2 had been framed as "give a second hero real directly-controlled units" — corrected to
+its actual intent: real WC3-shaped group-order vocabulary (attack-move/hold/patrol/stop) for
+Tyler's own already-shipped clone mechanic, not a new hero. The Cart above was never that
+milestone in the first place (already flagged Indirect-Control before this correction landed) —
+real, separate, lore-faithful content, not superseded, just correctly filed under its own real
+archetype instead of Milestone 2. Milestone table renumbered. REDGARDEN `8d4f545`, Apple #11533.
+**Milestone 2, corrected, is the real next step if this thread continues**: real group-order
+commands for Tyler's own drag-selected clone group.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
