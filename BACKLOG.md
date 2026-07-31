@@ -9969,11 +9969,17 @@ implementing, no exceptions.
    subtracts damage from the target's real HP and reports `target_hp`/`target_max_hp`/`killed`
    instead of just a discarded placeholder number. 1 new test (WAR/level-1 fallback, verified
    deterministically against an unreachable IDUNA URL). GoblinFoxDragon `e553860`, Apple #11497.
-   **Still not done**: no death/respawn handling once `killed=true` fires (target just sits at 0
-   HP), no job-gating of which weapon skills a player can select (note: `apps2/mud` doesn't gate
-   this either, checked directly — not a real gap to close, just an aspiration this item's own
-   earlier note overstated), enmity untouched, `apps2/mud`'s telnet players and
-   `apps2/server-go`'s UDP players still don't share live state.
+   **Follow-up landed same day**: `clientInfo.hp`/`maxHP` raw ints replaced with real
+   `hpState *combatTp.HPState` (`server/combat`'s own `NewHPState`/`TakeDamage`/`IsKO`, 17
+   existing tests upstream, reused rather than re-derived by hand). `PacketWSCast` now rejects
+   casting from a KO'd caster and casting at an already-KO'd target. GoblinFoxDragon `2295009`,
+   Apple #11498. **Still not done, named honestly rather than hidden**: no respawn/home-point
+   flow once `killed=true` fires — a KO'd player on this backend just stays KO'd forever, since
+   porting `apps2/mud`'s own real `knockOut()`/home-point-return flow is separate, larger work;
+   no job-gating of which weapon skills a player can select (note: `apps2/mud` doesn't gate this
+   either, checked directly — not a real gap, an aspiration this item's own earlier note
+   overstated); enmity untouched; `apps2/mud`'s telnet players and `apps2/server-go`'s UDP
+   players still don't share live state.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
    Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
