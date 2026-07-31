@@ -4711,14 +4711,19 @@ concrete gaps found auditing it, not a redesign.*
   genuinely still waiting on a filed 8-K, ticker present). The specific already-stuck case
   (`eps:4905f716794c7f58` itself) is not retroactively fixed either way — append-only store, needs
   S160-05's separate backfill.
-- [ ] **S159-02: entity-graph 8-K detection has a confirmed, logged blind spot.**
-  `entity-graph.log`, 2026-07-17 23:14:33: `WARNING: saw 1 source_document_persisted records but
-  found 0 8-K documents to process — check form/source_type/url detection logic`. The detector
-  (`cmd/entity-graph/main.go` ~line 208) already has 4 fallback signals for identifying an 8-K
-  (`doc.Form`, URL substring match, a historical-recovery form lookup, a 4th signal) — this
-  document fell through all 4 anyway. Find that specific document (should be identifiable from the
-  same day's secwatch/prwatch events) and determine whether it's a one-off malformed record or a
-  systematic gap in the detection logic.
+- [x] **S159-02: entity-graph 8-K detection has a confirmed, logged blind spot.** Resolved
+  2026-07-31, Apple #11511, PRRJECT_FATBABY commit `4ad0ab1`. Found the flagged document
+  (`entity-graph.log` 2026-07-17 23:14:33, seq=108601) directly in
+  `var/secwatch/events/2026-07-17.ndjson`: a Netflix 10-Q (`"form":"10-Q"`), correctly rejected
+  by all 4 of the classifier's 8-K signals — **not a detection gap, not malformed**, just a
+  non-8-K document. Checked all 16 historical firings of the warning back to 2026-06-17 the same
+  way: every single one was either a lone non-8-K document (routine — most SEC filings on any
+  given day aren't 8-Ks) or a batch where real 8-Ks were correctly found and processed, just
+  without Item 5.07 content. There was already an uncommitted partial fix sitting in
+  `cmd/entity-graph/main.go` (split `is8KCount` from `processed` for exactly this reason) whose
+  own comment concluded there was no real gap, yet still logged the remaining case as an
+  actionable-sounding `WARNING: ... check form/source_type/url detection logic` — demoted both
+  branches to `info` to match its own stated conclusion. `go build ./...` + `go test ./...` clean.
 - [ ] **S159-03: extend the graph — join financial outcomes to governance nodes.** Current graph
   is governance-only: directors, voting/approval percentages, board tenure, auditor/insider-trade/
   dividend signals (`nodes.ndjson`/`signals.ndjson`). EPS reconciliation outcomes (`var/eps/`) are
