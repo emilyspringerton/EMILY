@@ -10192,12 +10192,42 @@ do. Job pick is a stub (Warrior is the only ported job, nothing to choose betwee
 `f336df2` (Apple #11519), GoblinFoxDragon `9dc9bc5` (Apple #11520), REDGARDEN `20ce8cc`
 (Apple #11521).
 
-**Milestones 4-5 still ahead**: the reward-credit hook and end-to-end validation. No GUI login
+**Milestone 4 shipped same session, still 2026-07-31.** The reward-credit hook — new IDUNA
+`GET /api/v1/characters/by-player/:player_id` (resolves a WOTAN player_id to its DragonsNShit
+character; 3 new tests) + REDGARDEN `apps/arena_server`'s `report_match_result` now credits real
+Flow (100 win / 25 loss — a first real number, not a design review's output, tuned later against
+real playtesting) to that character via the existing `gold/credit` endpoint. Gated on the lookup
+succeeding — a REDGARDEN-only player's real 404 is the common, expected case, not logged as an
+error. `packages/common/http_client.h` gained a general `http_json_request(method, ...)` (only
+POST existed before; GET/PATCH both needed here) — `http_post_json` is now a thin wrapper so
+every existing call site is untouched. Caught a real bug via `-Wformat-truncation` before it
+shipped: the by-player lookup path buffer was 64 bytes, too tight for the real path + a 36-char
+UUID (67 needed) — fixed to 96. Full `scripts/test_arena.sh` suite green, `scripts/test_10_bots.sh`
+stable. IDUNA `33b7a0d` (Apple #11524), REDGARDEN `1fcf09e` (Apple #11525).
+
+**Only Milestone 5 (end-to-end validation) left** on this northstar's own table. No GUI login
 path exists yet end-to-end — a player still has to run REDGARDEN's client by hand with the
 printed command, no in-client "join Battlegrounds" button — so "can i log into gfd gui yet" is
-still honestly "not fully automated yet," meaningfully closer than before this session started
-(the real ticket/identity/auth chain now genuinely works end-to-end, verified live, which it
-did not before today).
+still honestly "not fully automated yet," but the real ticket/identity/auth/reward chain now
+genuinely works end-to-end, verified live, which it did not before today.
+
+---
+
+## Founder direction (2026-07-31): Summoner job, avatars pulled from REDGARDEN's own roster
+
+Founder, real-time, mid-Milestone-4-work: **"zagan beleth vassago as summoner avatars GFD."**
+Logged per Principle 1 before scoping. Reading: DragonsNShit's real 22-job roster includes SMN
+(Summoner, `server/job.go`'s own `AllJobs`) — real FFXI Summoners fight through Avatars they call
+forth, not their own weapon. This is the REVERSE direction from Milestones 1-2 above (which
+ported a DragonsNShit job's content INTO REDGARDEN as Battlegrounds ability content): three of
+REDGARDEN's own existing, already-built TYLER-lore heroes — Zagan (armor-shred/stun/mirror),
+Beleth (burn-DoT/silence/delayed-burst), Vassago (silence/cast-refund/zone) — become SMN's real
+Avatar pool inside DragonsNShit itself (`apps2/mud`/`server/job`), not new content invented from
+scratch. `REDGARDEN_GUI_NORTHSTAR.md` §4.2 explicitly named the OTHER direction as out of scope
+("this doc isn't claiming Ghost or Tyler become jobs, or that a job becomes a REDGARDEN hero") —
+this is a genuine, deliberate founder extension of that boundary, not a contradiction to silently
+paper over; needs its own doc note in that northstar (or a sibling doc) rather than assumed.
+Scoping and picking this up now.
 
 ---
 
