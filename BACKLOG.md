@@ -6710,12 +6710,25 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-78: SHANKPIT — missile launcher weapon.** Founder, real-time: "all into the backlog
+- [x] **S170-78: SHANKPIT — missile launcher weapon.** Founder, real-time: "all into the backlog
   then into sprints and then iterate except the missiles backlog missile launcher into shankpuit
-  and sprint it too i guess but dont fire any missiles obviously." Logged before writing per
-  Principle 1 — explicitly backlog-only per the founder's own instruction, not implemented this
-  pass, and explicitly not any kind of real-world/literal weapons request (a game weapon in a
-  server-authoritative UDP FPS, same category as SHANKPIT's existing weapon set). Not started.
+  and sprint it too i guess but dont fire any missiles obviously." A fictional in-game weapon in
+  a server-authoritative UDP FPS, same category as SHANKPIT's existing weapon set — not any kind
+  of real-world/literal weapons request. Sprint 1 (server-authoritative core) shipped 2026-07-31,
+  Apple #11508, SHANKPIT commit `7bb01df`: `WPN_MISSILE` (7th weapon, `MAX_WEAPONS` 6→7), real
+  stats (130 dmg / 95 rof — slowest in the game / 3-round clip / no spread), reuses the existing
+  tested `Projectile`/`spawn_projectile`/`update_projectiles` pipeline the sniper's storm-charge
+  ultimate already exercises (first travelling-projectile *base* weapon — every other weapon is
+  hitscan), plus new real AOE splash damage on detonation (`explode_splash()`, linear falloff,
+  100%→40% across `MISSILE_SPLASH_RADIUS`) gated by a `Projectile.splash_radius` field that
+  defaults to 0 so the storm-charge shot's existing point-damage behavior is untouched. New
+  `test_missile_launcher_contract` in `apps/tests/test_netcode.c` (6/6 passing). `make server`
+  + `make lobby` both clean, zero new warnings.
+  **Sprint 2 (not started, real remaining gap):** client-side viewmodel render, HUD weapon icon,
+  weapon-select keybind (slot 7 — only 1–6 are bound in `apps/lobby/src/main.c`), world pickup
+  spawns, audio SFX (`packages/audio/audio.c`'s per-weapon table stops at katana), and bot AI
+  weapon selection (`story_ai.c`) — all real, visible gaps deliberately left out of Sprint 1
+  since none of it is verifiable without running the SDL2 client visually.
 
 ---
 
