@@ -10229,6 +10229,50 @@ this is a genuine, deliberate founder extension of that boundary, not a contradi
 paper over; needs its own doc note in that northstar (or a sibling doc) rather than assumed.
 Scoping and picking this up now.
 
+**Shipped same session, still 2026-07-31.** New `job.SummonerAbilities()`
+(`summon_zagan`/`summon_beleth`/`summon_vassago`, real `Ability` data through the same
+`RecastTracker` every other job uses) wired into `apps2/mud`'s `ja` command. Each applies real
+`server/status` effects to the caster's live duel opponent, translated from that hero's real
+REDGARDEN kit rather than invented: Zagan -> Bind (closest existing Kind to "stun," this package
+has no Stun Kind), Beleth -> Poison+Silence (her own real Q+W, both real, both ported), Vassago
+-> Silence + a small direct hit (her real Q, damage clamped to never drop the opponent below 1 HP
+so it doesn't have to touch `duel.Manager`'s own win-condition path). Honestly scoped, not a full
+kit port: no armor-shred/mirror (this package's `Protect` Kind is buff-only, not
+Category-flexible per `Effect`), no cast-refund, no delayed-burst zone, and no mob-targeted
+version at all (`mob.Mob` has no status stack yet — a real, separate, structural gap named not
+attempted). 2 new tests in `server/job`. Live smoke-tested via two telnet sessions — confirmed
+`setjob SMN` applies real SMN stats (HP:60/MP:90, matching `job.jobStats[SMN]`) and the duel
+challenge/accept flow works through the same command-dispatch path `ja` uses; the final `ja
+summon_*` output specifically wasn't reliably captured due to telnet/FIFO test-harness timing
+fragility, not a code issue — `go build`/`go test ./...` clean, and `cmdSummonAvatar`'s own
+`gw.mu.Lock()` was checked directly against every call site upstream of it (`cmdJA`, `handle()`)
+to rule out a deadlock. GoblinFoxDragon `654d2a8`, Apple #11527.
+
+---
+
+## Founder direction (2026-07-31): REDGARDEN full unit control, Warcraft 3-shaped
+
+Founder, real-time, immediately after the Summoner-avatars work above: **"redgarden full unit
+control affordances northstar warcraft 3."** Logged per Principle 1. This is a REDGARDEN-internal
+concern (not cross-repo), so it landed as a new numbered section in REDGARDEN's own
+`NORTHSTAR.md` (§24) rather than a new sibling doc — same convention every other spec-only
+addition to that file already follows (§15/§18/§20/§22/§23). **Shipped same session**: §24 names
+the real current shape (every REDGARDEN hero is owner-piloted, lane creeps are autonomous-AI-only,
+zero player unit production) and the one real precedent that already exists — Tyler's own
+clone/drag-select system (`is_clone`/`clone_owner`, `selected_units[]`, real box-select +
+group-move UX, founder's own words when it shipped: "clones multi control drag click all of it"),
+currently hardcoded to Tyler only. Directly cites §16.1's own honest "sidestepped, not solved"
+companion-unit gap (Donkey shipped as an equippable item specifically to avoid building a
+companion-slot system) as still-open and directly relevant prior art. Real, scoped path proposed:
+generalize Tyler's already-shipped mechanism off Tyler-only (Milestone 1) before giving a second
+hero real controllable units (Milestone 2) and real WC3-shaped group-order vocabulary — attack-
+move/hold/patrol/stop, not just group-move (Milestone 3); a real unit-production economy is named
+as a separate, much bigger, explicitly-undecided pivot (Milestone 4), not assumed or scoped here.
+REDGARDEN `6df998f`, Apple #11528. **Milestone 1 (generalize the clone mechanism) is the real
+next step if this thread continues** — no code changes landed with this pass, spec only, matching
+every other northstar-writing pass in this file's own history before its milestones get built out
+turn by turn (same shape REDGARDEN_GUI_NORTHSTAR.md itself followed above).
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
