@@ -9731,6 +9731,19 @@ C-arrays embed pattern), and the complete reward function design.
     no sim-logic touched, so headless coverage doesn't exercise it directly; no display available
     in this environment to visually confirm the rendered result. REDGARDEN `ce19053`, Apple #11469.
 
+13. [x] **`redgarden.html` funnel page refreshed, stale since 2026-07-25.** Founder: "update
+    redgarden funnel page ots stale." Last touched before a real week of REDGARDEN shipping:
+    destructible node towers gating capture, real dodgeable skill-shot projectiles (replacing
+    instant hits), the 27-item proximity-auto-open shop (Blink Dagger's real active among them),
+    and a genuine click-to-pick hero draft screen all landed since. VS2 "what's built" bullet now
+    names all four. "Next" row dropped "draft/lobby UI" and "hover-based targeting indicators" --
+    both already live (hover-cast targeting shipped alongside the shop work, S170-143) -- and
+    added the jungle-camp ecosystem (NORTHSTAR §22, spec written, not yet built) as what's
+    genuinely still ahead alongside ranked/ELO (confirmed still not built via grep, no real
+    rating-system code exists anywhere in the repo). Deployed via `okemily-deploy.sh`, verified
+    live (`curl` confirmed all five new phrases present on the live page). OKEMILY `8a40070`,
+    Apple #11473.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
