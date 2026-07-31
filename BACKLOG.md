@@ -10441,6 +10441,25 @@ shrinks/shifts to fit whatever window size is live; verified all 30 hero tiles s
 in-bounds from 1280px down to 500px wide. REDGARDEN `5916dc5` (+ changelog `00e0aff`), Apple
 #11562.
 
+**Founder real-time direction, same session, verbatim:** "ok we had another crash ensure any
+fixes land in git asap." Found the real cause, more severe than the draft-grid bug above: the
+founder's just-successful Tyler pick had gone live into a real match, and it died seconds later
+with no `match_end` ever logged. Root cause: `scripts/test_10_bots.sh`'s cleanup trap used
+`pkill -9 -f red_garden_matchmaker`/`red_garden_bot`/`'red_garden_server --port'` -- these match
+by command-line substring across the *entire machine*, not this script's own spawned children.
+`auto_deploy.sh` runs this exact script every deploy cycle (~5-10 min) against a separate
+checkout for local re-verification, so every single cycle SIGKILLed the real live production
+matchmakers/bot-pool/match-server on this box regardless of which checkout started them --
+confirmed via `journalctl`: both live matchmaker units got `status=9/KILL` at the exact second
+of the founder's match's last log write. This is why the match-aware restart guard added to
+`auto_deploy.sh` earlier today (S170, Apple #11297 follow-up) didn't actually prevent a repeat:
+that guard only protects the later `systemctl restart` call, never this earlier unconditional
+kill -- so the underlying incident class was never actually fixed, only half-addressed. Fixed by
+tracking this run's own spawned PIDs (matchmaker + each bot) and scoping cleanup + the stability
+check to exactly those (`pkill -P <matchmaker-pid>` for its spawned children) instead of a
+global name match. Verified live production PIDs and restart counters byte-for-byte unchanged
+after running the fixed script. REDGARDEN `c8758ac` (+ changelog `6041705`), Apple #11565.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
