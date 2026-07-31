@@ -9901,6 +9901,31 @@ C-arrays embed pattern), and the complete reward function design.
     `REDGARDEN_GUI_NORTHSTAR.md`'s milestone table to match. Registered in golden-docs-index.
     GoblinFoxDragon `da9be81`, EMILY `85dfe4f`, Apple #11489.
 
+18. [x] **REDGARDEN Battlegrounds design corrected twice in real time.** Founder #1: "some of the
+    docs say we arent bringing redgardens gameplay just the ui thats not right i want dragonsnshit
+    mmo to feel like redgarden like battlegrounds for dragonsnshit is redgarden." Item 15/17's
+    `REDGARDEN_GUI_NORTHSTAR.md` had the core call backwards — it said REDGARDEN contributes only
+    "rendering grammar" and DragonsNShit's own systems replace REDGARDEN's actual gameplay
+    underneath. Corrected: REDGARDEN's full real-time combat framework
+    (`arena_server`/`apps/matchmaker` process, Q/W/R slot UI, item shop, node-capture map) becomes
+    DragonsNShit's Battlegrounds — an instanced PvP mode, same relationship WoW Battlegrounds or
+    FFXI's own self-contained minigames have to their main games. Founder #2, immediately after:
+    "like not the same literal game loop maybe but we want to amend our ould systems like
+    skillchains etc work wwith redgarden affordances." Refined further: the process/loop
+    separation stays (Battlegrounds is still its own spawned-per-match process, not merged into
+    the persistent world's own loop) — but the *ability content* cast through REDGARDEN's Q/W/R
+    slots is `apps2/mud`'s real job/weapon-skill/skillchain system ported into `arena_game.c`'s
+    slot machinery, not REDGARDEN's fixed 28-hero kit roster left untouched. A Battleground
+    combatant picks a job (Warrior, Black Mage, ...), not a REDGARDEN hero; that job's real
+    abilities render through REDGARDEN's existing cast-ring/projectile/zone-circle vocabulary;
+    real skillchain resonance triggers between players' casts, shown with REDGARDEN's own visual
+    language rather than folded into its generic `attack_flash`. Both corrections labeled and
+    dated in place in `REDGARDEN_GUI_NORTHSTAR.md` (§§1/4.1/4.2/5/6 rewritten across both) so the
+    doc's own reasoning history stays legible rather than silently overwritten. Milestone table
+    rewritten: port Warrior's real kit into `arena_game.c` first, then skillchain resonance, then
+    the entry-point/reward-credit hooks, then end-to-end validation. Registered update in
+    golden-docs-index. GoblinFoxDragon `c83b40b`, EMILY `16a5978`, Apple #11491.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
