@@ -5424,22 +5424,31 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `fatbaby-dividend-watcher.service`. PRRJECT_FATBABY `14c2930` + `c6a5fc2`, Apple #11482. New
   follow-up spun out to S170-231 below rather than chased in the same pass.
 
-- [ ] **S170-231: dividend-watcher — Target "Annual Meeting of Shareholders" misclassified as a
+- [x] **S170-231: dividend-watcher — Target "Annual Meeting of Shareholders" misclassified as a
   dividend raise.** Found as a residual while regenerating `var/dividends/dividends.ndjson` for
   S170-07's dividend-watcher follow-up (2026-07-31): a real, non-spam Target press release
   ("Target Announces Voting Results from 2026 Annual Meeting of Shareholders") survived the new
   litigation-alert filter (correctly — it's not spam) but is still classified `EventType: raise`
   with `AmountPerShare: 0.00` and written to entity-graph as a bullish dividend-raise signal.
-  Different root cause from the spam contamination just fixed: `internal/dividend.Classify`'s
-  own trigger regex (`reDividendCore` "dividend|distribution" + `reRaise` "increas|rais...
-  dividend" anywhere in headline+body) fires on *something* in this release's body text even
-  though the release itself isn't announcing a dividend change — plausibly a routine proxy-vote
-  mention of an existing dividend/DRIP policy, not a real raise. Not yet investigated how common
-  this specific false-positive shape is across the rest of the live dataset (this was the one
-  residual noticed by inspection, not a systematic sweep) — that sweep, plus a proximity-scoped
-  fix mirroring S170-06's own buyback-watcher precedent (a regex that requires the action word
-  and "dividend" close together, not just both present anywhere in the document), is the actual
-  scope of this item.
+  **Done** — this entry's own original hypothesis ("plausibly a routine proxy-vote mention of an
+  existing dividend/DRIP policy") was wrong; root-caused instead of guessed further: the
+  release's own page embeds PRNewswire's "Also from this source" related-articles widget, teasing
+  a real but DIFFERENT Target press release ("Target Corporation Increases Quarterly Dividend by
+  1.8 Percent") a few paragraphs down the same page — `dividend.Classify`'s trigger regex ran
+  over the full body and had no way to know that language belonged to a release it wasn't
+  actually looking at. Not a rare edge case: 2358 occurrences of the marker across the full
+  `var/prwatch-body` corpus. Added `prspam.StripRelatedArticles` (truncates at the widget marker,
+  same fail-open philosophy as `internal/prspam`'s existing nav-chrome fix) to the shared package
+  from S170-07, wired into dividend-watcher before classification — not the proximity-scoped
+  regex this entry originally proposed, since the real cause turned out to be page cruft, not a
+  loose action-word/dividend distance. Hand-checked the one other borderline record (OceanaGold,
+  also a `$0.00` "raise") before touching it: real, a genuine CEO quote about future capital-
+  return plans in the company's own real buyback-renewal release, not a bug — left alone.
+  `go test ./...` green. Regenerated `var/dividends/dividends.ndjson` (7 → 6 records, TGT's
+  fabricated signal gone). Rebuilt and restarted `fatbaby-dividend-watcher.service`. Not checked
+  this pass: whether the same related-article-widget contamination affects guidance-watcher's,
+  buyback-watcher's, or eps-processor's historical data — flagged as a possible, unconfirmed
+  follow-up, not chased speculatively. PRRJECT_FATBABY `daaa917` + `d6c0ac4`, Apple #11486.
 
 - [x] **S170-08: RED GARDEN — VS0 bot-match validation, VS1 online play + matchmaking + accounts.**
   Founder, real-time: "iterate towards vs0 bot matches and vs1 online play validated with 10
