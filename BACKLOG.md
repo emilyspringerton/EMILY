@@ -10404,6 +10404,15 @@ unbuilt follow-up work. (2) Fully automating the real GUI client's draft-pick/ca
 GUI-input injection tooling (e.g. `xdotool`), also not built. New §9 in the northstar with the
 full honest breakdown. GoblinFoxDragon `05d65b2`, Apple #11546.
 
+**Founder real-time direction, same session, verbatim:** "ok i want to play REDGARDEN but i dont
+want to scale the bot pool to 19 via you pls make it a emily.cli command make it so i can set it
+19 or 20 i guess let me set the number have it default to 20." Self-service tool shipped:
+`emily redgarden bots [N]` (default 20) + `emily redgarden status`, editing the live systemd user
+unit (`~/.config/systemd/user/redgarden-bot-pool.service`)'s `ExecStart=`/`Description=` in
+place, then `daemon-reload` + `restart`. Rejects out-of-range counts (0-20, `lobby_size` is fixed
+at 20). Verified end-to-end against the real running pool (20 → 19 → 20), live bot process count
+confirmed each step. emily.cli `6d6bff9`, Apple #11550.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
