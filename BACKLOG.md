@@ -9604,46 +9604,33 @@ C-arrays embed pattern), and the complete reward function design.
    validation lands once auto-deploy picks up this commit for a live match. REDGARDEN `8c48e70`,
    Apple #11368.
 
-7. [x] **Hero-stats pipeline fixed + bot pool made self-sustaining.** Founder: "ensure stats is
-   working" + "add a 20th bot." The hero-leaderboard has been empty this ENTIRE session --
-   real root cause: neither matchmaker systemd unit (`redgarden-matchmaker-bots.service`,
-   `redgarden-matchmaker-players.service`) ever set `IDUNA_AGENT_NAME`/`IDUNA_AGENT_SECRET`, so
-   every real match's own `arena_server` process printed "WOTAN match-result reporting disabled"
-   and silently never reported a single hero-result, even though the `REDGARDEN-BOTS` IDUNA agent
-   (with the exact `redgarden.match.write` permission needed) had already been fully provisioned
-   since 2026-07-24 -- the credential simply never made it into these unit files. Fixed via a new
-   gitignored `REDGARDEN/var/redgarden-iduna-agent.env` + `EnvironmentFile=` in both units.
-   Second, related fix: `apps/matchmaker` only ever spawns a match once its queue reaches
-   `lobby_size` exactly -- at 19 bots (S170-66's own deliberate "leave a human slot open" choice)
-   with no human queued, the bot-pool lobby sat at 19/20 forever, so no match (and therefore no
-   stats) was ever generated on its own. Bumped to 20 bots, deliberately re-accepting the
-   tradeoff S170-66 moved away from (no human can queue into `:7778` anymore; the player-only
-   pool at `:7779` is unaffected) for a fully self-sustaining data-generating pool. Both fixes
-   verified live (not just committed): restarted all three affected systemd units directly,
-   confirmed the newest match server prints "IDUNA agent configured: name=REDGARDEN-BOTS...
-   (WOTAN match-result reporting available)" instead of the warning, and confirmed a fresh match
-   spawned immediately after the bot-pool restart. First real hero-result data point will land
-   once that in-progress match completes (~10-15 min based on match-log history). REDGARDEN
-   `33c34d7`, Apple #11370.
+7. [x] **Hero-stats pipeline fixed (real fix) + bot pool count is a live, oscillating tradeoff.**
+   Founder: "ensure stats is working." Real root cause of the empty hero-leaderboard: neither
+   matchmaker systemd unit ever set `IDUNA_AGENT_NAME`/`IDUNA_AGENT_SECRET`, so every match
+   silently ran with WOTAN reporting disabled despite the `REDGARDEN-BOTS` IDUNA agent already
+   being fully provisioned since 2026-07-24. Fixed via a new gitignored
+   `REDGARDEN/var/redgarden-iduna-agent.env` + `EnvironmentFile=` in both matchmaker units --
+   this part is settled, done, verified live (REDGARDEN `33c34d7`, Apple #11370).
 
-   **Same-day follow-up:** founder: "take the bot pool back down to 19." Reverts the 20-bot
-   self-sustaining change above -- `redgarden-bot-pool.service` back to `run_bot_pool.sh 19`,
-   restoring the "one slot open for a human" default on `:7778`. The stats-reporting fix itself
-   (IDUNA agent credentials) is unaffected, only the guaranteed-match-without-a-human tradeoff
-   was undone. Deployed live: redeployed the unit, restarted, confirmed 19 bot processes running.
-   REDGARDEN `db2e6e6`, Apple #11404.
+   Separately, related but distinct: `apps/matchmaker` only ever spawns a match once its queue
+   reaches `lobby_size` (20) exactly, so at 19 bots + no human, the pool never generates a match
+   on its own at all. 20 bots makes it self-sustaining at the cost of a human never being able to
+   queue into `:7778` (`:7779`, the player-only pool, is unaffected either way). This tradeoff
+   flipped four times across 2026-07-30/31 on real-time founder direction (20 -> 19 -> 20 -> 19,
+   REDGARDEN `33c34d7`/`db2e6e6`/`ccccefa`/`ff7d51f`, Apples #11370/#11404/#11410/#11463) -- not a
+   bug each time, a genuinely reversible live-ops choice. Check `ops/systemd/
+   redgarden-bot-pool.service`'s own git log for whichever count is actually live rather than
+   trusting this backlog entry's own number, which will go stale the next time it flips.
 
-   **Same-day follow-up, again:** founder asked to check for high load -- real finding: an
-   orphaned Python `multiprocessing.forkserver` (leftover from an earlier RL training kill this
-   session that didn't fully clean up) had been pegging a full CPU core at 100% for ~12 hours with
-   zero output. Killed it, load dropped immediately. Founder then asked whether input lag was
-   coming from the live-match reporter (measured: <1ms per report, not the cause) -- real cause
-   traced instead to repeated manual `systemctl restart` calls made to verify each of today's
-   incremental changes live immediately, which (unlike `auto_deploy.sh`'s own already-match-aware
-   guard) killed in-progress matches outright on every restart. Founder then: "bring bot pool back
-   up to 20" -- reverted back to 20 again, deployed live, confirmed running. Going forward, live
-   redeploys default to auto-deploy's own scheduled, match-aware cycle rather than an immediate
-   manual restart per change. REDGARDEN `ccccefa`, Apple #11410.
+   Two real findings surfaced investigating this thread, both fixed: an orphaned Python
+   `multiprocessing.forkserver` (leftover from an earlier RL-training kill that didn't fully
+   clean up) had been pegging a full CPU core at 100% for ~12 hours with zero output -- killed,
+   load dropped immediately. And perceived input lag was traced NOT to the live-match reporter
+   (measured <1ms per report) but to repeated manual `systemctl restart` calls made to verify each
+   incremental change live immediately, which -- unlike `auto_deploy.sh`'s own already-match-aware
+   guard -- killed in-progress matches outright every time. Going forward, live redeploys default
+   to auto-deploy's own scheduled, match-aware cycle rather than an immediate manual restart per
+   change, unless a change is specifically being verified live on request.
 
 8. [x] **Live-match spectator dashboard, phone-friendly.** Founder: "i want to watch the match on
    my phone web view" -> (scoping question, "live text dashboard" chosen over a full visual
