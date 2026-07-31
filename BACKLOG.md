@@ -10006,11 +10006,21 @@ implementing, no exceptions.
    credit/add endpoint exists at all, so completing this needs new IDUNA API surface (a real,
    separate, cross-repo task, not attempted — a partial fix covering only the decrease direction
    was considered and deliberately rejected as worse than clearly not-done). Corrected in place
-   in the audit doc. GoblinFoxDragon `2fb4f8e`, Apple #11505. **Genuinely still open**: no
+   in the audit doc. GoblinFoxDragon `2fb4f8e`, Apple #11505. **Follow-up landed same day, closes
+   this gap for real**: new IDUNA `PATCH /api/v1/characters/:id/gold/credit` (`handleCreditGold`,
+   bounded by a 10,000-per-call sanity cap since unlike deduction it has no natural balance
+   ceiling; 5 new tests) — IDUNA `1b7f43d`, Apple #11503 (IDUNA repo). Symmetric
+   `idunaclient.CreditGold` client method added (3 new tests — this package's first test file at
+   all, `DeductGold` and every other existing method shipped with zero coverage, backfilling
+   those is separate, larger, not attempted). Wired into `apps2/mud`'s own connect/disconnect
+   flow: `startingFlow` captures the real IDUNA balance right after the existing fetch-or-create
+   call, disconnect computes the session's net Flow delta and calls `CreditGold`/`DeductGold`
+   accordingly. `apps2/mud`'s Flow now genuinely round-trips through IDUNA, same as level/XP/
+   position already did. GoblinFoxDragon `3b75d33`, Apple #11507. **Genuinely still open**: no
    job-gating of which weapon skills a player can select (note: `apps2/mud` doesn't gate this
    either, checked directly — not a real gap, an aspiration this item's own earlier note
-   overstated); a new IDUNA gold-credit endpoint + wiring it into `apps2/mud`'s own disconnect
-   sync; continuous (not just connect/disconnect) sync for both backends, if that's ever wanted.
+   overstated); continuous (not just connect/disconnect) sync for both backends, if that's ever
+   wanted — the remaining gaps here are now refinements, not missing mechanisms.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
    Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
