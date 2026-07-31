@@ -9821,6 +9821,28 @@ C-arrays embed pattern), and the complete reward function design.
     live. OKEMILY `9dde74d`, Apple #11474. Live at
     `okemily.com/blog/mid-piano-presents-the-scoreboard/`.
 
+15. [x] **REDGARDEN-as-GUI northstar for DragonsNShit MMO.** Founder, real-time: "can we graft
+    redgarden frontend onto GFD mud as a gui to make our mmorpg?" → "i dont care how you do it fork
+    redgarden into GFD write the northstar this is the mmo. this is dragonsnshit" → "cli will
+    continue to work" → "redgarden as a gui" → "like old school runescape." Wrote
+    `GoblinFoxDragon/docs2/REDGARDEN_GUI_NORTHSTAR.md`: forks REDGARDEN's real-time SDL2/OpenGL
+    client's rendering/input machinery (click-to-move, hero-silhouette rendering, Q/W/R
+    cast-ring/projectile/zone-circle UI, item-shop chrome, connect-ticket HMAC auth) — not its
+    MOBA hero-kit combat sim — onto `apps2/mud`'s real, already-shipped FFXI-parity Go MMORPG
+    backend (22 jobs, skillchains/magic bursts, enmity, conquest, NM spawns/treasure pool,
+    crafting guilds, parties/linkshells, currently telnet-only on `:2323`) as a second, parallel
+    client protocol added alongside a new binary listener. Telnet keeps working unchanged, per
+    founder direction — one authoritative Go game loop, two client surfaces sharing the same
+    action dispatch. Core design call: REDGARDEN contributes the rendering grammar, `apps2/mud`
+    keeps owning the RPG mechanics underneath — no REDGARDEN hero identity carries over, only its
+    UI vocabulary. Amended `docs2/MMO_NORTHSTAR.md`'s "Integration Architecture" frontend line
+    (was "SHANKPIT runtime, extended") and flagged that doc's own milestone table (last updated
+    2026-06-21) as stale against `apps2/mud`'s real shipped systems work (S76-S87 landed since
+    without the table being updated) — found while grounding this doc in verified fact rather
+    than assuming the old table was current. 7-milestone table, spec only, everything past this
+    doc itself NOT STARTED. Registered in `EMILY/context/golden-docs-index.md`. GoblinFoxDragon
+    `3fed438`, EMILY `89cb62e`, Apple #11484.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
