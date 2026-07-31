@@ -5383,9 +5383,29 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   regenerated `var/buybacks/buybacks.ndjson` (14→4 records) by reclassifying real captured bodies
   through the fixed code. Rebuilt + restarted `fatbaby-buyback-watcher.service`. Commit `9554f4c`,
   Apple #10733.
-- [ ] **S170-07: guidance-watcher issuer-attribution bug** — investigate where `issuer` gets set
+- [x] **S170-07: guidance-watcher issuer-attribution bug** — investigate where `issuer` gets set
   in `internal/guidance` and whether INVESTOR ALERT/SHAREHOLDER-style headlines should be
-  filtered pre-extraction, matching the dividend fix's approach; not started.
+  filtered pre-extraction, matching the dividend fix's approach. **Done** — picked up as the
+  highest-priority unblocked item in the lowest-numbered open section (everything ahead of it in
+  SECTIONS 2–32 was either closed or genuinely human-blocked: API keys, Steam/Stripe accounts,
+  MySQL root credentials, a physical Android device, or an explicit "ask founder before running
+  a load test against live prod" flag already in this file). Turned out much bigger than the
+  ticket's own single-record example: 58 of 109 live `var/guidance/articles.ndjson` records were
+  fabricated from securities-litigation-solicitation press releases (SueWallSt, Pomerantz, Levi &
+  Korsinsky, Robbins Geller, Wolf Haldenstein, Hagens Berman, The Gross Law Firm, DJS Law Group)
+  that name a real ticker while soliciting plaintiffs against it — no wire signal distinguishes
+  these from genuine guidance, so the extractor fabricated "company raises guidance" articles
+  attributed to companies that never issued them. Added `isLitigationAlertHeadline` (phrase-
+  matched pre-extraction filter, not a law-firm name list — validated against the full
+  9625-headline `var/prwatch` corpus, ~12% flagged, manually verified no real release caught) and
+  `reHeadlineTimePrefix` (strips a leading "HH:MM ET" scrape artifact that garbled every
+  extracted issuer name, real or spam — the literal symptom this ticket named). 6 new/expanded
+  tests using real headline strings pulled from live data, not invented ones. `go test ./...`
+  green. Regenerated `var/guidance/articles.ndjson` through the fixed pipeline (109 → 47 records,
+  original backed up to `var/guidance/pre-s170-07-backup/`), rebuilt and restarted
+  `fatbaby-guidance-watcher.service`, verified live on `news.okemily.com/section/guidance` (200
+  OK, zero litigation-alert terms on the rendered page). PRRJECT_FATBABY `17b69a2` + `a01076f`,
+  Apple #11480.
 - [ ] **S170-08: RED GARDEN — VS0 bot-match validation, VS1 online play + matchmaking + accounts.**
   Founder, real-time: "iterate towards vs0 bot matches and vs1 online play validated with 10
   independent headless bots connected" → "simple match making" → "accounts" → "backlog first" →
