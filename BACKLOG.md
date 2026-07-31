@@ -9926,6 +9926,78 @@ C-arrays embed pattern), and the complete reward function design.
     the entry-point/reward-credit hooks, then end-to-end validation. Registered update in
     golden-docs-index. GoblinFoxDragon `c83b40b`, EMILY `16a5978`, Apple #11491.
 
+---
+
+## Backlog dump — REDGARDEN/DragonsNShit, real-time founder direction (2026-07-31)
+
+Founder, real-time, rapid-fire, immediately after item 18's Battlegrounds design corrections
+landed: **"convert gil to flow"** → **"in terms of the 2 backends the mud backend"** →
+**"yes unify the backends"** → **"whatever makes sense"** → **"clean builds first"** →
+**"give gunnrs E a stun"** → **"all into the backlog then sprint plan then iterate."** Same
+protocol as every other rapid-fire burst this session — log every request verbatim before
+implementing, no exceptions.
+
+1. [ ] **Convert `gil` to `Flow` across DragonsNShit's own economy.** REDGARDEN already has real,
+   shipped "Flow" economy terminology (S170-175, `ARENA_ITEMS`' `cost` field) — DragonsNShit's
+   currency naming (`apps2/mud`'s real `p.gil int` field, `cmdShopBuy`/`cmdShopSell`, IDUNA's own
+   IDUNA/DragonsNShit reward vocabulary) unifies to match rather than keeping FFXI's "gil".
+   `REDGARDEN_GUI_NORTHSTAR.md`'s own reward-shape references already updated to say Flow
+   (GoblinFoxDragon, same-day commit) as an interim doc-only fix; the actual rename inside
+   `apps2/mud`'s real code (the `gil` field itself, every `cmd*` function referencing it, in-game
+   command text) is real work, not done yet.
+2. [ ] **Unify DragonsNShit's two backends.** Confirms `docs2/DRAGONSNSHIT_TWO_BACKENDS_AUDIT.md`'s
+   own recommendation as a real, current priority, not an optional future track: port
+   `apps2/mud`'s real RPG systems (job/skillchain/combat/enmity — the packages already exist,
+   tested, in `server/job`/`server/skillchain`/`server/combat`/`server/enmity`) to run inside
+   `apps2/server-go`'s authoritative UDP loop, backed by IDUNA's already-existing
+   `characters`/`character_skills` schema, alongside (not necessarily replacing) `HandleShankFire`'s
+   existing hitscan combat. "Whatever makes sense" — implementation shape not dictated by founder,
+   scoped in the sprint plan below. "Clean builds first" — `GOWORK=off go test ./...` verified
+   green across all of `dragonsnshit` before starting (baseline, not yet re-verified after any
+   change).
+3. [ ] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
+   (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
+   Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
+   Q/W/E/R mental model minus REDGARDEN's own missing 4th slot. Zagan's W (The Standstill,
+   S170-230) is this roster's own first stun and the real precedent to follow — same
+   `arena_apply_stun` call, not a new stun mechanism invented from scratch.
+
+### Sprint plan
+
+**Sprint 1 — Gunnr's R stun (REDGARDEN, smallest/cleanest, done first).** Add `arena_apply_stun`
+to Gunnr's R (`case ARENA_HERO_GUNNR` in the R-cast function, `packages/simulation/arena_game.c`),
+following Zagan's own W-stun implementation as the exact pattern (duration/radius numbers
+copied from Zagan's own real constants unless Gunnr's existing R numbers give a more natural
+fit — checked against real code before deciding, not guessed). New test mirroring Zagan's own
+"W stun in/out of range" pair. `docs/HEROES_VS0.md` entry updated. Full suite + `test_10_bots.sh`
+green before commit.
+
+**Sprint 2 — `gil` → `Flow` rename in `apps2/mud` (GoblinFoxDragon).** Real find-and-rename pass:
+the `gil int` field on `player`, every `cmd*` function that reads/writes it
+(`cmdShopBuy`/`cmdShopSell`/`cmdMogStore`/etc.), in-game command output text. `GOWORK=off go
+test ./...` green before/after. Small, mechanical, low-risk — done before the much larger
+backend-unification sprint so it doesn't get lost inside a bigger diff.
+
+**Sprint 3 — Backend unification, first real slice (GoblinFoxDragon).** Scoped down from "port
+everything" to a genuinely completable increment: wire real TP tracking
+(`server/combat.TPState`) + real weapon-skill casting + real skillchain detection
+(`server/skillchain.Chain`) into `apps2/server-go`'s own UDP loop, between two connected PLAYERS
+(PvP-shaped, matching the eventual REDGARDEN Battlegrounds use case directly — not mob/PvE combat,
+which would additionally require porting `apps2/mud`'s own mob-registry system, a separably
+larger task not attempted here). New packet types (`PacketWSCast`/`PacketWSResult`), a real
+IDUNA-backed job fetch on connect (matching `PacketTelecrystalUse`'s own existing
+`idunaClient.GetCharacter` pattern) replacing the currently-unused local `shankPlayer` stub for
+job/HP purposes. `GOWORK=off go build ./...`/`go test ./...` clean at every step, not just at
+the end — "clean builds first" taken as a continuous constraint, not a one-time gate.
+
+**Sprint 4 — Iterate/validate.** Live-verify Sprint 1 (a real Gunnr R cast lands a real stun,
+in/out of range both checked). Live-verify Sprint 3 end-to-end where feasible in this headless
+environment (unit/integration tests standing in for a real two-client PvP session, same
+limitation this whole session's REDGARDEN work has already been honest about — no display, no
+real multi-client test rig for `apps2/server-go` today).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
