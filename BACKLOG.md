@@ -10273,6 +10273,22 @@ next step if this thread continues** — no code changes landed with this pass, 
 every other northstar-writing pass in this file's own history before its milestones get built out
 turn by turn (same shape REDGARDEN_GUI_NORTHSTAR.md itself followed above).
 
+**Iterated same session.** Started Milestone 1 (generalize the clone/drag-select mechanism off
+Tyler-only) and found, by checking every real gate directly rather than assuming, that the
+mechanism was never actually Tyler-hardcoded — `arena_owner_controls`, `tyler_clone_cascade_kill`,
+every hittable/targeting check, and the entire client-side drag-select/rendering path all branch
+on `is_clone`/`clone_owner` alone, no `hero_id == ARENA_HERO_TYLER` gate anywhere. Only the spawn
+trigger (`tyler_spawn_clones`, called only from Tyler's own R) and one sizing constant
+(`ARENA_MAX_SELECTED_UNITS`) are Tyler-specific, and both need a real second hero's real kit
+numbers to generalize correctly — inventing them now would mean guessing numbers with no real kit
+behind them. **Milestone 1 collapses into Milestone 2**: there's no standalone infrastructure work
+left before a real second hero is picked. Also caught and fixed a real citation error in the
+original §24 draft (`HERO_CONTENT_FRAMEWORK.md` is GoblinFoxDragon's own DragonsNShit lore-hero
+pipeline, not this roster's — corrected to §7 / `TYLER/multiverse_heroes.md`, the real one).
+REDGARDEN `114d542`, Apple #11529. **Milestone 2 needs a real hero pick from §7's own queue —
+a founder/content call, not made here** (same "founder's own S-tier pick" pattern every existing
+queue entry follows) — asked directly rather than guessed.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
