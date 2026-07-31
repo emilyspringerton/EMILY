@@ -9744,6 +9744,28 @@ C-arrays embed pattern), and the complete reward function design.
     live (`curl` confirmed all five new phrases present on the live page). OKEMILY `8a40070`,
     Apple #11473.
 
+14. [x] **Blog: "Mid-Piano Presents: The Scoreboard," a data-driven episode on the first 24h of
+    real hero win-rate tracking.** Founder: "do a 24 hours of data hero power blog post as a mid
+    piano podcast." Reconstructed real per-hero win/loss from REDGARDEN's own
+    `var/matches/*.jsonl` logs (`draft_complete` + `match_end` events) across every match file
+    written in the last 24h -- 416 files, 199 with a complete draft and a real finish.
+    Cross-checked several heroes against `/api/v1/redgarden/hero-leaderboard`'s cumulative
+    totals and they matched exactly (e.g. Tyler 73-50-123, Courier 88-67-155), confirming
+    hero-level tracking has only been live for about this same window -- "24 hours of data" is
+    genuinely the whole dataset so far, not a cherry-picked slice. Also confirmed draft
+    assignment is round-robin by hero_id, not skill-based bot picking, so the win-rate spread is
+    a clean read on kit power rather than pick bias -- used as an in-episode plot point (Tyler
+    defending his own #1 spot isn't rigged). Real findings: Tyler/Ada lead at ~59%, Duck is dead
+    last at 42.8% of 28, and all 8 of the most recently added heroes (Cain/Gunnr/Vassago/He
+    Xiangu/Beleth/MnM/Weatherman/Zagan) cluster in the bottom 10 -- including Gunnr, whose W got
+    reworked to Consecration mid-window earlier today (item 10 above), flagged in-episode as an
+    honest old-kit/new-kit blend rather than a clean read. Read three existing "Mid-Piano
+    Presents" posts (The Squad, The Mark, The New Guys) for voice/format before writing, per
+    OKEMILY's own CLAUDE.md guidance. Published directly via `POST /api/v1/blog/posts` as
+    EMILY-PRIME (the documented working path for this repo, not draft-then-Fable), verified
+    live. OKEMILY `9dde74d`, Apple #11474. Live at
+    `okemily.com/blog/mid-piano-presents-the-scoreboard/`.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
