@@ -10413,6 +10413,34 @@ place, then `daemon-reload` + `restart`. Rejects out-of-range counts (0-20, `lob
 at 20). Verified end-to-end against the real running pool (20 → 19 → 20), live bot process count
 confirmed each step. emily.cli `6d6bff9`, Apple #11550.
 
+**Founder real-time direction, same session:** "permission denied when i try to set the bots to
+19 via cli." Real bug, not user error: this session's `XDG_RUNTIME_DIR` was inherited as
+`/run/user/0` (root's runtime dir) even though the process runs as uid 1000, so `systemctl
+--user` reached for root's session bus instead of the founder's own -- `emily redgarden`'s env
+helper only filled the var in when unset, so a wrong-but-present value passed straight through.
+Fixed to always override to the actual uid's runtime dir. Fixing it surfaced a second, real
+correctness bug: the founder's failed attempt had already written the new bot count to the live
+unit file before the (then-failing) `daemon-reload`/`restart` steps, leaving the on-disk config
+silently out of sync with the still-running pool (file said 19, live pool still ran 20). Both
+steps now roll the file back to its prior content on any failure. Verified against the founder's
+exact broken environment (reproduced `XDG_RUNTIME_DIR=/run/user/0`): `bots 19` now writes,
+reloads, restarts, and lands the live pool at 19 correctly. emily.cli `2837e49`, Apple #11561.
+
+**Founder real-time direction, same session, verbatim:** "ok skip [livereload clarification]
+pivot to fix redgarden i broke the server (tyler makes things wonky i think (lore accurate))."
+Real, reproducible bug found and fixed, not a Tyler-kit issue: `var/logs/matchmaker-bots.log`
+showed a full 20/20-connected lobby stuck forever at phase=1 (hero-pick), one `CLIENT` id never
+appearing in the pick log, dying on the server's own 60s no-progress timeout. Root cause: the
+draft/pick screen's 6-column hero grid (`draft_grid_origin`/`draft_screen_hero_at`/
+`draw_draft_screen`, `apps/arena/src/main.c`) was centered on `win_w/2` with no clamp against the
+actual (resizable) window size -- fine at the 1280x720 default, but below ~1134px wide the
+rightmost column (`hero_id % 6 == 5`, which includes Tyler at id 17) rendered mostly or fully
+past the window edge: unclickable, or only clickable in a mislabeled sliver, so that player's
+pick packet could never be sent -- server-side indistinguishable from an AFK client. Grid now
+shrinks/shifts to fit whatever window size is live; verified all 30 hero tiles stay fully
+in-bounds from 1280px down to 500px wide. REDGARDEN `5916dc5` (+ changelog `00e0aff`), Apple
+#11562.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
