@@ -5406,6 +5406,41 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   `fatbaby-guidance-watcher.service`, verified live on `news.okemily.com/section/guidance` (200
   OK, zero litigation-alert terms on the rendered page). PRRJECT_FATBABY `17b69a2` + `a01076f`,
   Apple #11480.
+
+  **Follow-up, same session** — founder: "continue checking the fatbaby data ingestion." Checked
+  every other `prwatch-body` consumer for the identical contamination: buyback-watcher and
+  eps-processor were clean; earnings-calendar had 4 stale, empty-ticker records dated
+  2026-06-07 (predates a guard already in the current code, not worth chasing further);
+  dividend-watcher was 70% contaminated (14 of 20 live `var/dividends/dividends.ndjson`
+  records), including a fabricated "raise" signal already written to entity-graph from an
+  "FSK INVESTOR ALERT" (`dividend.Classify`'s core regex only needs "dividend" to appear
+  anywhere in headline+body, same exposure as guidance-watcher's own trigger-word gap).
+  Extracted the litigation-alert filter + headline-timestamp strip out of guidance-watcher into
+  a new shared `internal/prspam` package (two independent consumers needing the identical logic
+  was the concrete trigger for pulling it out, not speculative reuse) — guidance-watcher
+  refactored onto it (no behavior change), wired into dividend-watcher. `go test ./...` green.
+  Regenerated `var/dividends/dividends.ndjson` through the fixed pipeline (20 → 7 records,
+  backed up to `var/dividends/pre-s170-07-backup/`), rebuilt and restarted
+  `fatbaby-dividend-watcher.service`. PRRJECT_FATBABY `14c2930` + `c6a5fc2`, Apple #11482. New
+  follow-up spun out to S170-231 below rather than chased in the same pass.
+
+- [ ] **S170-231: dividend-watcher — Target "Annual Meeting of Shareholders" misclassified as a
+  dividend raise.** Found as a residual while regenerating `var/dividends/dividends.ndjson` for
+  S170-07's dividend-watcher follow-up (2026-07-31): a real, non-spam Target press release
+  ("Target Announces Voting Results from 2026 Annual Meeting of Shareholders") survived the new
+  litigation-alert filter (correctly — it's not spam) but is still classified `EventType: raise`
+  with `AmountPerShare: 0.00` and written to entity-graph as a bullish dividend-raise signal.
+  Different root cause from the spam contamination just fixed: `internal/dividend.Classify`'s
+  own trigger regex (`reDividendCore` "dividend|distribution" + `reRaise` "increas|rais...
+  dividend" anywhere in headline+body) fires on *something* in this release's body text even
+  though the release itself isn't announcing a dividend change — plausibly a routine proxy-vote
+  mention of an existing dividend/DRIP policy, not a real raise. Not yet investigated how common
+  this specific false-positive shape is across the rest of the live dataset (this was the one
+  residual noticed by inspection, not a systematic sweep) — that sweep, plus a proximity-scoped
+  fix mirroring S170-06's own buyback-watcher precedent (a regex that requires the action word
+  and "dividend" close together, not just both present anywhere in the document), is the actual
+  scope of this item.
+
 - [ ] **S170-08: RED GARDEN — VS0 bot-match validation, VS1 online play + matchmaking + accounts.**
   Founder, real-time: "iterate towards vs0 bot matches and vs1 online play validated with 10
   independent headless bots connected" → "simple match making" → "accounts" → "backlog first" →
