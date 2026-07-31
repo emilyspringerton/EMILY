@@ -26,9 +26,9 @@
       "updated_at": "2026-06-23T13:06:17Z"
     },
     "/home/fatbaby/EMILY/docs/NORTHSTAR.md": {
-      "hash": "8602fec313b0ac978437b385db05e18a6249f42d0fe5fef7e01136c1176aedc5",
+      "hash": "67b3ba92d1cbfbf7fa672e2526367e24c0550a632cb506a207df026f3c006b0f",
       "compressed": "## EMILY-NORTH\n# EMILY — Northstar\n\n*Last updated: 2026-06-12*\n\n---\n\n## Three-Sentence Version\n\nEMILY is the meta-orchestration layer for EINHORN_INDUSTRIAL: Emily Prime (chief of staff),\nEmiree (the witch engine governing RSI pacing), and FatBaby-Emily (domain signal intelligence).\nEmily Prime reads observations, issues directed tasks, runs RSI improvement loops, and files\nApples — the system's auditable paper trail. The recursive self-improvement loop is the product.\n\n---\n\n## The Three Agents\n\n### Emiree\n",
-      "updated_at": "2026-07-23T23:12:52Z"
+      "updated_at": "2026-07-24T11:14:45Z"
     },
     "/home/fatbaby/EMILY/docs/NORTHSTAR_BABY_ERP.md": {
       "hash": "62c73b5bf27e8bb0e321e40d6598e24c23b2e05f312cb428128020cc647442d3",
@@ -56,9 +56,9 @@
       "updated_at": "2026-07-18T13:24:49Z"
     },
     "/home/fatbaby/EMILY/docs/THE_EMILY_WAY.md": {
-      "hash": "a60fa54675bbdc1ce1c73f5d5cd0fe12377e237c93a383c18ee35b2247f94d29",
+      "hash": "fbf0718d1f55f803a15913f370a42961a13ac604b213cc578d5cacf6817e3e94",
       "compressed": "## THE-EMILY-WAY\n# The Emily Way\n## How EINHORN_INDUSTRIAL builds things\n\n*Synthesized from CLAUDE.md files, git commits, changelogs, and RSI loop observations across all repos.*\n*Last updated: 2026-07-17*\n\n---\n\n## Three-Sentence Version\n\nEmily Prime plans; Claude Code implements; every outcome is an Apple.\nThe backlog is the load-bearing node — every decision is traceable to a backlog item, every completion has an Apple as proof.\nRecursive self-improvement is the product: each cycle makes the next cycle faste\n",
-      "updated_at": "2026-07-23T23:12:53Z"
+      "updated_at": "2026-07-23T23:28:04Z"
     },
     "/home/fatbaby/EMILY/docs/TRAINING_PIPELINE.md": {
       "hash": "6b42e16fcaaa7a1e3631e3500454072c7ab6d85298ad9dca74a92826f2669089",
@@ -75,10 +75,15 @@
       "compressed": "## EMIREE-SPEC\n\n**목적:** Emily Prime RSI 순환의 페이싱을 관찰·통제하는 over-agent. 7단계 기어 시스템으로 max_iters·pace 조절.\n\n**상태:** 활성 — 매 cron 순환 실행. `emily-agent/emiree.go` 구현. 상태 영속: `emily-state/emiree-state.json`\n\n**핵심 구조:** 2차원 결합 비선형 동역학계\n- `h` (humor): 창의성/수렴성 [0,1], 목표 0.65\n- `p` (power): 실행용량/컬렉터 건강도 [0,1], 목표 0.70\n\n**7 기어 (gear → max_iters, pace)**\n- 0: idle (3, 600s) | h\u003c0.15\n- 1: slow (4, 300s) | h\u003c0.25\n- 2: cruise (6, 120s) | h\u003c0.40 — 콜드스타트 기본값\n- 3: active (8, 60s) | h≥0.40, p≥0.25\n- 4: drive (10, 30s) | h≥0.55, p≥0.45\n- 5: high-power (12, 15s) | h≥0.70, p≥0.60\n- 6: overload (15, 5s) | 모두 만\n",
       "updated_at": "2026-06-16T13:25:09Z"
     },
+    "/home/fatbaby/EMILY/docs/hq-specs/SAGA_SCHEMA.md": {
+      "hash": "e75a129ec6b5f4b6da2fafdd01ff68f99052a1284bfb058c9e0b47e34249f2c1",
+      "compressed": "## SAGA-SCHEMA\n# SAGA Frontmatter Schema + Claim-ID Convention\n\n`status: draft — build sequence step 1 of HQ-SPEC-DOC-102`\n`role: defines the machine-parseable frontmatter every doc in EMILY/docs/hq-specs/ carries,\nand the claim-ID convention SAGA's tooling (emily saga lint) checks against`\n\n*Per HQ-SPEC-DOC-102 §9 Build Sequence step 1: \"Frontmatter schema + claim-ID convention +\nlinter (saga lint), retrofit onto the live spec series. This document ships with its own\nclaims tagged — DOC-102 eats first.\" \n",
+      "updated_at": "2026-07-24T10:15:55Z"
+    },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "e9232cb0e6e1b322d7720aac3ac90bbf61abe69273319d217559a48a08439e41",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-07-20T21:29:00Z | cycle 8766 | idle | idle — no queued tasks\n2026-07-20T21:43:53Z | cycle 8767 | idle | idle — no queued tasks\n2026-07-20T21:58:34Z | cycle 8768 | idle | idle — no queued tasks\n2026-07-20T22:12:42Z | cycle 8769 | idle | idle — no queued tasks\n2026-07-20T22:27:14Z | cyc\n",
-      "updated_at": "2026-07-23T23:12:53Z"
+      "hash": "69266216ee98044b0d0e98643f845634eb7ed3f57bb69999a2a2711f5f9cda0e",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-07-30T15:12:47Z | cycle 9507 | idle | idle — no queued tasks\n2026-07-30T15:28:17Z | cycle 9508 | idle | idle — no queued tasks\n2026-07-30T15:43:45Z | cycle 9509 | idle | idle — no queued tasks\n2026-07-30T15:57:48Z | cycle 9510 | idle | idle — no queued tasks\n2026-07-30T16:11:59Z | cyc\n",
+      "updated_at": "2026-07-31T16:09:28Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "f63534f2f4e98e0a9d3194362da0cc5e2c515cb8523c9a200a13b385244a7ee4",
@@ -191,9 +196,9 @@
       "updated_at": "2026-07-18T05:54:23Z"
     },
     "/home/fatbaby/REDGARDEN/NORTHSTAR.md": {
-      "hash": "2ef39992a970eb48f0aa1b264bdbc7da64ac62c27f1d3ee51b9433bd8cc3c377",
-      "compressed": "## REDGARDEN-NORTH\n# NORTHSTAR — RED GARDEN\n\n**Status:** Core product (elevated 2026-07-19) — real-time scoping session, capturing founder\ndirection accurately before implementation continues, per the Emily Way's \"spec before\nimplementation.\"\n\n---\n\n## 1. What this is\n\nA deck-based real-time strategy game: **Clash Royale's model** (card hand, mana/influence\neconomy, drag-and-drop deployment onto a live board, real-time not turn-based) — not Clash of\nClans (base-building), not an autobattler (units aren't auto\n",
-      "updated_at": "2026-07-23T23:12:53Z"
+      "hash": "0350fbebd69c44828377af038805f576f62c7e8d3b621ffc02048685c0f07d77",
+      "compressed": "## REDGARDEN-NORTH\n# NORTHSTAR — RED GARDEN\n\n**Status:** Core product (elevated 2026-07-19). **Product pivot 2026-07-24 — see §13: `apps/arena`\n(the hero click-to-move MOBA) is the product now, not the card-RTS.** Read §13 before assuming\nanything in §1-§12 below still reflects where new work should go — those sections predate the\npivot and are kept for the card-RTS's own (now secondary) history, not as current direction.\n\n---\n\n## 1. What this is\n\nA deck-based real-time strategy game: **Clash Royale's mo\n",
+      "updated_at": "2026-07-24T07:46:05Z"
     },
     "/home/fatbaby/SHANKPIT/docs2/NORTHSTAR.md": {
       "hash": "a41f6ed09e5e2b5ff53aa7b19c0a4862826471360e3d52af5bda66f2d8454e12",
