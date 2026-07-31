@@ -9616,21 +9616,28 @@ C-arrays embed pattern), and the complete reward function design.
    reaches `lobby_size` (20) exactly, so at 19 bots + no human, the pool never generates a match
    on its own at all. 20 bots makes it self-sustaining at the cost of a human never being able to
    queue into `:7778` (`:7779`, the player-only pool, is unaffected either way). This tradeoff
-   flipped four times across 2026-07-30/31 on real-time founder direction (20 -> 19 -> 20 -> 19,
-   REDGARDEN `33c34d7`/`db2e6e6`/`ccccefa`/`ff7d51f`, Apples #11370/#11404/#11410/#11463) -- not a
-   bug each time, a genuinely reversible live-ops choice. Check `ops/systemd/
-   redgarden-bot-pool.service`'s own git log for whichever count is actually live rather than
-   trusting this backlog entry's own number, which will go stale the next time it flips.
+   flipped five times across 2026-07-30/31 on real-time founder direction (20 -> 19 -> 20 -> 19 ->
+   20, REDGARDEN `33c34d7`/`db2e6e6`/`ccccefa`/`ff7d51f`/`7d6dc94`, Apples
+   #11370/#11404/#11410/#11463/#11465) -- not a bug each time, a genuinely reversible live-ops
+   choice. Check `ops/systemd/redgarden-bot-pool.service`'s own git log for whichever count is
+   actually live rather than trusting this backlog entry's own number, which will go stale the
+   next time it flips.
 
-   Two real findings surfaced investigating this thread, both fixed: an orphaned Python
+   Three real findings surfaced investigating this thread, all fixed: an orphaned Python
    `multiprocessing.forkserver` (leftover from an earlier RL-training kill that didn't fully
    clean up) had been pegging a full CPU core at 100% for ~12 hours with zero output -- killed,
-   load dropped immediately. And perceived input lag was traced NOT to the live-match reporter
+   load dropped immediately. Perceived input lag was traced NOT to the live-match reporter
    (measured <1ms per report) but to repeated manual `systemctl restart` calls made to verify each
    incremental change live immediately, which -- unlike `auto_deploy.sh`'s own already-match-aware
-   guard -- killed in-progress matches outright every time. Going forward, live redeploys default
-   to auto-deploy's own scheduled, match-aware cycle rather than an immediate manual restart per
-   change, unless a change is specifically being verified live on request.
+   guard -- killed in-progress matches outright every time; going forward, live redeploys default
+   to auto-deploy's own scheduled, match-aware cycle unless a change needs verifying live on
+   request. And a real, separate bug: even `auto_deploy.sh`'s OWN match-aware guard had a genuine
+   TOCTOU race (founder: "the whole game just stops... like the server process died" -- it had) --
+   a single point-in-time `pgrep` check killed a match with active combat mid-fight, no
+   `match_end` ever logged. Hardened with two independent signals (`pgrep` re-checked after a 3s
+   settle delay, plus a new `recent_match_log_activity()` check against `var/matches/*.jsonl`'s
+   own 500ms snapshot cadence) -- either one defers the restart. Validated live against the
+   currently-running match. REDGARDEN `7d6dc94`, Apple #11465.
 
 8. [x] **Live-match spectator dashboard, phone-friendly.** Founder: "i want to watch the match on
    my phone web view" -> (scoping question, "live text dashboard" chosen over a full visual
