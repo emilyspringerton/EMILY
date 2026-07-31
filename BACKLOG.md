@@ -9963,11 +9963,17 @@ implementing, no exceptions.
    real skillchain against whatever last landed on the target (PvP-shaped, no mob registry in
    this backend). `resolveWSCast` extracted as a standalone, unit-tested function — 4 new tests
    including a real Tier-2 Fusion closure. `go build`/`go test` clean throughout. GoblinFoxDragon
-   `cc0d46f`, Apple #11495. **Still not done**: no real IDUNA character/job fetch on connect for
-   `apps2/server-go` clients (job-gating which weapon skills a player can even select), no
-   HP/death tracking on this backend's own `clientInfo` at all (damage is currently a reported
-   placeholder number, not applied to anything), enmity not touched, `apps2/mud`'s telnet players
-   and `apps2/server-go`'s UDP players still don't share live state.
+   `cc0d46f`, Apple #11495. **Follow-up landed same day**: real IDUNA job/level fetch on
+   `PacketConnect` (`fetchCharacterCombatStats`, WAR/level-1 fallback if IDUNA has no character
+   row) + real, in-memory HP tracking (`jobpkg.HPAtLevel`-seeded) — `PacketWSCast` now actually
+   subtracts damage from the target's real HP and reports `target_hp`/`target_max_hp`/`killed`
+   instead of just a discarded placeholder number. 1 new test (WAR/level-1 fallback, verified
+   deterministically against an unreachable IDUNA URL). GoblinFoxDragon `e553860`, Apple #11497.
+   **Still not done**: no death/respawn handling once `killed=true` fires (target just sits at 0
+   HP), no job-gating of which weapon skills a player can select (note: `apps2/mud` doesn't gate
+   this either, checked directly — not a real gap to close, just an aspiration this item's own
+   earlier note overstated), enmity untouched, `apps2/mud`'s telnet players and
+   `apps2/server-go`'s UDP players still don't share live state.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
    Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
