@@ -9987,11 +9987,17 @@ implementing, no exceptions.
    `currentXP` now persists back to IDUNA via the already-existing (just previously unused)
    `idunaclient.Client.UpdateCharacterLevel`, fire-and-forget goroutine same as
    `PacketSkillXP`'s own `IncrementSkill` call. GoblinFoxDragon `c183b9f`, Apple #11503.
-   **Still not done**: no job-gating of which weapon skills a player can select (note:
-   `apps2/mud` doesn't gate this either, checked directly — not a real gap, an aspiration this
-   item's own earlier note overstated); enmity untouched; `apps2/mud`'s telnet players and
-   `apps2/server-go`'s UDP players still don't share live
-   state — that last one is the real, large remaining piece of "unify the backends," not a
+   **Correction on "enmity untouched"**: checked `server/enmity` before trying to wire it in —
+   it's a genuine PvE "who does the mob attack" hate-table (`Add`/`Top`/`Score`), built entirely
+   around `apps2/mud`'s own mob AI (`gw.mobEnmity[mobID]`). `apps2/server-go` has no mob system
+   at all — it's PvP-only. There's no real mechanic to port here without inventing a new PvP use
+   for a PvE-shaped tool, which breaks this whole thread's own "port real mechanics, don't
+   invent" discipline — removed from the gap list, not a real remaining item. **Genuinely still
+   not done**: no job-gating of which weapon skills a player can select (note: `apps2/mud`
+   doesn't gate this either, checked directly — not a real gap, an aspiration this item's own
+   earlier note overstated); `apps2/mud`'s telnet players and `apps2/server-go`'s UDP players
+   still don't share live state — that's the real, large remaining piece of "unify the
+   backends," not a
    quick follow-up.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
