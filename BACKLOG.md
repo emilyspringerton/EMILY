@@ -9955,12 +9955,16 @@ implementing, no exceptions.
    scoped in the sprint plan below. "Clean builds first" — `GOWORK=off go test ./...` verified
    green across all of `dragonsnshit` before starting (baseline, not yet re-verified after any
    change).
-3. [ ] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
+3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
    Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
    Q/W/E/R mental model minus REDGARDEN's own missing 4th slot. Zagan's W (The Standstill,
    S170-230) is this roster's own first stun and the real precedent to follow — same
-   `arena_apply_stun` call, not a new stun mechanism invented from scratch.
+   `arena_apply_stun` call, not a new stun mechanism invented from scratch. **Done (Sprint 1)** —
+   `arena_apply_stun(foe->owner, ARENA_GUNNR_R_STUN_MS)` added to the same target/range check R's
+   existing execute-scaled damage already uses, duration (1100ms) copied from Zagan's own stun as
+   a named constant. HUD text + `docs/HEROES_VS0.md` updated. 2 new/expanded tests, full suite +
+   `test_10_bots.sh` green. REDGARDEN `5d4ae44`, Apple #11493.
 
 ### Sprint plan
 
