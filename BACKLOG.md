@@ -9937,14 +9937,15 @@ landed: **"convert gil to flow"** → **"in terms of the 2 backends the mud back
 protocol as every other rapid-fire burst this session — log every request verbatim before
 implementing, no exceptions.
 
-1. [ ] **Convert `gil` to `Flow` across DragonsNShit's own economy.** REDGARDEN already has real,
+1. [x] **Convert `gil` to `Flow` across DragonsNShit's own economy.** REDGARDEN already has real,
    shipped "Flow" economy terminology (S170-175, `ARENA_ITEMS`' `cost` field) — DragonsNShit's
-   currency naming (`apps2/mud`'s real `p.gil int` field, `cmdShopBuy`/`cmdShopSell`, IDUNA's own
-   IDUNA/DragonsNShit reward vocabulary) unifies to match rather than keeping FFXI's "gil".
-   `REDGARDEN_GUI_NORTHSTAR.md`'s own reward-shape references already updated to say Flow
-   (GoblinFoxDragon, same-day commit) as an interim doc-only fix; the actual rename inside
-   `apps2/mud`'s real code (the `gil` field itself, every `cmd*` function referencing it, in-game
-   command text) is real work, not done yet.
+   currency naming unifies to match rather than keeping FFXI's "gil". **Done (Sprint 2)** —
+   renamed `apps2/mud`'s `player.gil` field (all call sites, all in-game command text), the
+   `"gil-drop"` loot item (→ `"flow-drop"`/"100 Flow"), `server/quest`'s
+   `RewardGil`/`Result.Gil`, `server/auction`'s `ErrInsufficientGil`/`buyerGil` (+ test rename),
+   `server/market/ah.go`'s comments. `GOWORK=off go build ./...`/`go test ./...` clean across the
+   whole `dragonsnshit` module. Both of today's earlier docs updated to reflect the completed
+   rename rather than left stale. GoblinFoxDragon `a99c9bc`, Apple #11494.
 2. [ ] **Unify DragonsNShit's two backends.** Confirms `docs2/DRAGONSNSHIT_TWO_BACKENDS_AUDIT.md`'s
    own recommendation as a real, current priority, not an optional future track: port
    `apps2/mud`'s real RPG systems (job/skillchain/combat/enmity — the packages already exist,
