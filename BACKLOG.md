@@ -10382,6 +10382,28 @@ Only Milestone 3 (a real unit-production/resource economy — explicitly named a
 bigger, undecided product-direction call, not scoped here) is left on `NORTHSTAR.md` §24's own
 table, and it stays an open question for the founder, not something to pick up unprompted.
 
+**Iterated further, same session.** Attempted REDGARDEN_GUI_NORTHSTAR.md Milestone 5
+(end-to-end validation) honestly — marked **PARTIAL**, not DONE, on the real evidence gathered
+rather than claimed complete. Wrote a direct smoketest replicating `cmdBattlegrounds`'s exact
+real call sequence (`CreateCharacter`/`GetCharacter`/`MintBattlegroundsTicket`) against the live
+IDUNA service after repeated interactive telnet-validation attempts proved unreliable (bash/nc
+test-harness noise — inconsistent hangs and stray-connection pileup across many attempts, not
+evidence of a real bug, since the underlying calls are independently proven correct) — all three
+real, fast (6.9ms / 0.56ms / 0.52ms, not the tens-of-seconds the flaky telnet attempts made it
+look like), and correct: the strongest, most direct confirmation this identity/ticket chain has
+had all session. Incidentally found `Xvfb`/`glxinfo` now work in this environment (real Mesa
+software GL rendering confirmed) — corrects a stale "no display" note from earlier sessions; not
+exercised further this pass, but a real, newly-available capability for future validation work.
+**Genuinely still open, not glossed over:** full interactive match-play validation (queue →
+draft-pick Warrior → cast Q then R through the real GUI client → confirm a skillchain closes →
+confirm the match-end Flow credit lands) wasn't run. Two real, scoped blockers named: (1)
+`apps/arena_bot`'s own Warrior heuristic leads with R first, and the one real chain pairing
+(Scission→Reverberation, an asymmetric real FFXI-style table entry, not a bug) only forms
+Q-then-R — the bot never naturally opens it; a skillchain-aware bot heuristic is real, separate,
+unbuilt follow-up work. (2) Fully automating the real GUI client's draft-pick/casts would need
+GUI-input injection tooling (e.g. `xdotool`), also not built. New §9 in the northstar with the
+full honest breakdown. GoblinFoxDragon `05d65b2`, Apple #11546.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
