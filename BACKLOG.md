@@ -10348,6 +10348,22 @@ matching the underlying attack-target/chase system's own existing scope. 5 new t
 `scripts/test_arena.sh` suite + `scripts/test_10_bots.sh` stability green. REDGARDEN `f5fa45a`,
 Apple #11537. **Hold and patrol are the real remaining pieces** — Milestone 2 stays IN PROGRESS.
 
+**Iterated further, same session.** **Hold Position** shipped — the third real slice of Milestone
+2's WC3 group-order vocabulary. Real `D` keybind (`H`, WC3/StarCraft's own real convention, was
+already taken by this file's own ability-help toggle — "Defend" is the exact synonym several
+other RTS UIs already use for the same order). New `PACKET_ARENA_HOLD` wire packet,
+`arena_hold_position(owner)` halts the unit in place, same shape as Stop. The real behavioral
+difference: a held unit never chases a target that leaves range (`arena_tick_attack_targets` now
+drops the lock instead of pure-pursuing when `hold_position` is set) but still opportunistically
+defends itself against whoever wanders into range — reuses attack-move's own opportunistic-engage
+scan, extended to also run for held units, not just attack-move ones. That extension specifically
+matters for ranged heroes (Gary so far), whose basic attacks only ever fire through
+`attack_target`; melee "just works" the moment it stops moving via the existing always-on flat
+proximity loop. Cleared by any other move/attack/attack-move/stop command, same "a new command
+always wins" convention every other group order already follows. 4 new tests, full
+`scripts/test_arena.sh` suite + `scripts/test_10_bots.sh` stability green. REDGARDEN `c147691`,
+Apple #11539. **Only patrol is left** — Milestone 2 stays IN PROGRESS.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
