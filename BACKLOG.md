@@ -10101,6 +10101,34 @@ into `arena_game.c`'s Q/W/R slots as the first real ability content, since Miles
 portal, reward-credit hook, end-to-end validation) all depend on Milestone 1 landing first.
 Resuming there now, not the SHANKPIT/FatBaby items picked up in between.
 
+**Milestone 1 shipped same session, 2026-07-31.** Warrior — the first DragonsNShit job, not a
+TYLER hero — ported into `REDGARDEN/packages/simulation/arena_game.c` as real Battlegrounds
+ability content: `ARENA_HERO_WARRIOR` appended to `ArenaHeroID` (28→29, doc-commented as job
+content living in the hero enum only until Milestone 3's real job-select entry point exists). Q
+Hard Slash/W Power Slash/R Frostbite — three real Great Sword weapon skills pulled from
+`GoblinFoxDragon/server/skillchain.CanonicalWeaponSkills`, matching WAR's real job stat block
+(`server/job.jobStats[WAR]`, STR-8/VIT-8 — this roster's most physically front-loaded job), each
+harder than the last on a longer cooldown, real FFXI starter→mid→finisher WS progression, not
+invented numbers. `apps2/mud`'s weapon skills all share one real, uniform cost
+(`server/combat.TPWSThreshold`, 100 TP); REDGARDEN has no TP resource, so MP substitutes (the
+existing `ARENA_MP_COST_*` affordance) — an honest amendment, not a literal port, matching
+founder direction earlier this session ("we want our old systems like skillchains etc [to] work
+with redgarden affordances"). Wired into the real Q/W/R cast dispatch + bot AI heuristic (all 6
+switch statements a new hero touches, same shape as every other roster entry) plus
+`arena_ai_bridge.c`'s name/ability-name/description/tag tables. Resonance attributes (Scission /
+Transfixion / Induration+Reverberation) documented in code comments and `docs/HEROES_VS0.md` for
+Milestone 2 (real skillchain detection in `arena_game.c`) to consume later — this milestone
+doesn't touch chaining. 4 new tests (`test_warrior_q_hard_slash_damages_in_melee_range` /
+`test_warrior_q_out_of_range_whiffs` / `test_warrior_w_power_slash_hits_harder_than_q` /
+`test_warrior_r_frostbite_hits_hardest`), `scripts/build.sh` clean, `scripts/test_arena.sh` full
+suite green, `scripts/test_10_bots.sh` stable. `docs2/REDGARDEN_GUI_NORTHSTAR.md`'s milestone
+table + status line updated in place. REDGARDEN `cbcd4ed` (Apple #11513), GoblinFoxDragon
+`2f9cfef` (Apple #11514). **Milestones 2-5 still ahead**: skillchain resonance detection in
+`arena_game.c`, the Battlegrounds entry-point hook, the reward-credit hook, and end-to-end
+validation — none of which land a real GUI login path on their own until the entry-point hook
+(Milestone 3) exists, so "can i log into gfd gui yet" is still honestly "not yet," closer than
+before this session started.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
