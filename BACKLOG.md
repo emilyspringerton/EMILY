@@ -10364,6 +10364,24 @@ always wins" convention every other group order already follows. 4 new tests, fu
 `scripts/test_arena.sh` suite + `scripts/test_10_bots.sh` stability green. REDGARDEN `c147691`,
 Apple #11539. **Only patrol is left** — Milestone 2 stays IN PROGRESS.
 
+**Iterated further, same session — NORTHSTAR §24 Milestone 2 is now FULLY SHIPPED.** **Patrol**,
+the fourth and last real WC3 group-order command, landed: real `P` keybind, walks the unit back
+and forth forever between its own position at the moment of issue (point A) and the clicked point
+(point B), flipping direction on arrival, opportunistically engaging anything encountered along
+the way via a newly-factored-out `arena_find_opportunistic_target` helper (previously duplicated
+inline — patrol needing the exact same scan a third time, after attack-move and hold, was the
+point where extracting it stopped being premature). Cleared by any other move/attack/attack-move/
+hold/stop command, same "a new command always wins" convention every group order already follows.
+4 new tests (13 total across all four commands shipped today). Full `scripts/test_arena.sh` suite
++ `scripts/test_10_bots.sh` stability green. REDGARDEN `e7e0467`, Apple #11541.
+
+**Milestone 2 in full: Stop, Attack-move, Hold Position, and Patrol all shipped in one session,
+all sharing one `arena_owner_controls`-authorized wire surface.** Tyler's drag-selected clone
+group now has the complete real WC3/StarCraft command vocabulary this northstar set out to build.
+Only Milestone 3 (a real unit-production/resource economy — explicitly named as a separate,
+bigger, undecided product-direction call, not scoped here) is left on `NORTHSTAR.md` §24's own
+table, and it stays an open question for the founder, not something to pick up unprompted.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
