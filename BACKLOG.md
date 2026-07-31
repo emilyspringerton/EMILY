@@ -9713,6 +9713,24 @@ C-arrays embed pattern), and the complete reward function design.
     buttons), Tyler's drag-select. Fixed the stale item count (24 -> 27) and the zone-abilities
     note (Gunnr's Consecration is a zone cast from W, not R). REDGARDEN `6d166e6`, Apple #11468.
 
+12. [x] **Ghost's Q gets a lightning-crackle visual, in-flight and on impact.** Founder: "ghost's
+    q should have a cool crackle lightning shader spell animation lightniaffordance showing where
+    the spell hit." Two client-only additions in `apps/arena/src/main.c`: (1) in-flight crackle --
+    while a Ghost-owned projectile (`hero_id == ARENA_HERO_GHOST`) travels, 4 thin jittered box
+    slivers are drawn around it every frame, fully re-rolled each frame for a flickering electric
+    look, layered on its existing cube; (2) impact burst -- a new `LightningBurst` effect (same
+    `{x,z,age_ms,active}` shape as AttackFlash/HealFlash/FoldFlash) fired off a new
+    `prev_projectile_active[]` edge-detect on the projectile slot's active->inactive transition
+    (hit-vs-whiff ambiguity accepted, same honest scoping AttackFlash's own doc comment already
+    lives with -- no wire signal distinguishes the two), rendered as 8 radiating jittered slivers
+    expanding/fading over 300ms at the shot's last-known position (the snapshot-apply path never
+    clears x/z/hero_id on despawn, so the slot's last position is still readable same-frame). Both
+    reuse `draw_hero_box_facing` (no new draw primitive), bright electric cyan-white, distinct from
+    every projectile owner-color and the generic orange-white `attack_flash`. `scripts/build.sh`
+    clean (no new warnings), `scripts/test_arena.sh` full suite green -- purely visual/client-side,
+    no sim-logic touched, so headless coverage doesn't exercise it directly; no display available
+    in this environment to visually confirm the rendered result. REDGARDEN `ce19053`, Apple #11469.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
