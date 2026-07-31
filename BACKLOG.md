@@ -10147,10 +10147,57 @@ suite green, `scripts/test_10_bots.sh` stable. `docs2/REDGARDEN_GUI_NORTHSTAR.md
 table + status line updated again. REDGARDEN `21ad0dc` (Apple #11516), GoblinFoxDragon `d9d59ac`
 (Apple #11517).
 
-**Milestones 3-5 still ahead**: the Battlegrounds entry-point hook, the reward-credit hook, and
-end-to-end validation — none of which land a real GUI login path on their own until the
-entry-point hook (Milestone 3) exists, so "can i log into gfd gui yet" is still honestly "not
-yet," closer than before this session started.
+**Milestone 3 shipped same session, still 2026-07-31.** The Battlegrounds entry-point hook —
+`apps2/mud`'s new `battlegrounds`/`bg` command, resolving §4.3's own open question as a discrete
+command (same shape as `cmdGo`'s existing zone-transfer precedent, which §4.3 itself named as the
+closest one). Two real, previously-undiscovered bugs found and fixed along the way, not
+invented-to-justify-scope:
+1. **`idunaclient.Client` was sending the raw `IDUNA_AGENT_SECRET` directly as the Bearer
+   token** — IDUNA's real `jwt.Verify`-based `RequireAuth` middleware has always rejected that
+   with 401. Confirmed live against the running service (not just theorized from reading code):
+   the live `characters` table was empty, and a direct curl with the raw secret as bearer
+   returned 401. Every IDUNA call `apps2/mud`/`apps2/server-go` (both share this package) have
+   ever made has been silently failing this entire session, masked by "best-effort, non-blocking"
+   error handling at every call site — meaning earlier "IDUNA job/HP fetch"/"Flow round-trips
+   through IDUNA" work this session was verified via mocked-HTTP-server unit tests, never against
+   a real, live IDUNA. Fixed: `New()` now also reads `IDUNA_AGENT_NAME`; new `ensureToken()`
+   performs the real `POST /api/v1/auth/agent` exchange, caches/refreshes the resulting JWT.
+   Verified live end-to-end post-fix: real character creation now succeeds against the running
+   service. 4 new tests, backward-compatible with every existing test in the package.
+2. **`CreateCharacter`'s `player_id` argument was `conn.RemoteAddr().String()`** (a TCP socket
+   address) — not a valid UUID, different every reconnect, and IDUNA's ticket endpoints
+   `uuid.Parse` it. Fixed with a new `mudPlayerIDCache` (`var/mud-player-ids.json`, same
+   load/persist shape as the existing `mudCharCache`) minting and persisting a real
+   `crypto/rand` UUIDv4 per character name on first use — stdlib-only, no new dependency. Does
+   **not** solve real player identity (OAuth/email login for a telnet interface is a genuinely
+   separate, larger, undesigned question, flagged honestly in the northstar rather than oversold)
+   — only makes the existing anonymous, name-keyed identity model stable and UUID-shaped.
+
+New IDUNA `POST /api/v1/redgarden/player-ticket` + `redgarden.player-ticket.mint` permission +
+`DRAGONSNSHIT-MUD` M2M agent — the real, non-bot counterpart to the existing
+`redgarden.ticket.mint`/`RedgardenTicketHandler` (deliberately untouched: that handler stays
+scoped to `redgarden_bot`-provider players only). The new handler checks the opposite condition
+(a real `characters` row, not a `redgarden_bot`-provider `players` row) so neither permission can
+satisfy the other's trust model even if one agent's secret leaked. Provisioned live via
+`cmd/bootstrap` against the running SQLite truestore (idempotent, every existing agent
+untouched), IDUNA service rebuilt and restarted to pick up the new route, verified end-to-end
+against the live, running service (new agent logs in, mints a real ticket for a real character).
+5 new tests. New REDGARDEN `apps/arena --ticket <hex>` flag — `net_connect` now checks an
+externally-supplied ticket before the existing WOTAN self-registration and self-minted dev
+fallback paths, the piece that makes the mud command's printed join-command actually runnable.
+`battlegrounds`/`bg` fetches the player's real character, mints a real ticket, and prints the
+exact `red_garden_arena --queue <host> --matchmaker-port 7778 --ticket <hex>` command to run —
+telnet can't launch a GUI process itself, so this is the honest "hand off" a text interface can
+do. Job pick is a stub (Warrior is the only ported job, nothing to choose between yet). IDUNA
+`f336df2` (Apple #11519), GoblinFoxDragon `9dc9bc5` (Apple #11520), REDGARDEN `20ce8cc`
+(Apple #11521).
+
+**Milestones 4-5 still ahead**: the reward-credit hook and end-to-end validation. No GUI login
+path exists yet end-to-end — a player still has to run REDGARDEN's client by hand with the
+printed command, no in-client "join Battlegrounds" button — so "can i log into gfd gui yet" is
+still honestly "not fully automated yet," meaningfully closer than before this session started
+(the real ticket/identity/auth chain now genuinely works end-to-end, verified live, which it
+did not before today).
 
 ---
 
