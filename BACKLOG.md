@@ -9877,6 +9877,30 @@ C-arrays embed pattern), and the complete reward function design.
     surfaced, Related Docs table updated), registered in golden-docs-index. Spec only, no code.
     GoblinFoxDragon `1b8bbcd`, EMILY `d1eb4f6`, Apple #11488.
 
+17. [x] **Found DragonsNShit has two non-unified backends — corrected the REDGARDEN bridge
+    target.** Founder: "continue dragons n shit" (continuing "do the docs first"). While
+    grounding item 16's bridge spec against real code before starting the actual Milestone 1
+    implementation, found a second real backend neither item 15 nor item 16 knew about:
+    `apps2/server-go`, a UDP server on `:6969` with a real, actually-wired IDUNA-JWT-
+    authenticated protocol (`PacketConnect`/`PacketUserCmd`/`PacketChat`, real Telecrystal
+    travel + crafting + skill-XP genuinely calling IDUNA) — unlike `apps2/mud`'s own
+    `idunaclient`, which is imported and instantiated but never once actually called anywhere in
+    the 7,310-line file (confirmed via repo-wide grep, not assumed). `apps2/server-go`'s combat
+    is SHANKPIT-shaped hitscan (`HandleShankFire`), not `apps2/mud`'s real RPG job/skillchain/
+    enmity depth — the two backends don't share any state at all. Also found `apps2/lobby`, an
+    existing 884-line C client already targeting `apps2/server-go`'s protocol, smaller than
+    REDGARDEN and blocked by the same `GL/glu.h` dependency issue that's hit this monorepo
+    repeatedly — reinforces REDGARDEN as the stronger client foundation, not a reason to change
+    direction. Wrote `GoblinFoxDragon/docs2/DRAGONSNSHIT_TWO_BACKENDS_AUDIT.md` with the full
+    finding and a revised recommendation: unify `apps2/mud`'s RPG logic into `apps2/server-go`'s
+    authoritative loop, backed by IDUNA's already-existing `characters`/`character_skills`/
+    `character_equipment`/`character_inventory` schema, before REDGARDEN's own bridge work lands
+    — REDGARDEN then targets `apps2/server-go` directly as a peer of `apps2/lobby`, no new
+    listener needed. Marked item 16's `REDGARDEN_MUD_BRIDGE_SPEC.md` superseded in place (kept
+    for its still-real movement/targeting gap-finding, not deleted); rewrote
+    `REDGARDEN_GUI_NORTHSTAR.md`'s milestone table to match. Registered in golden-docs-index.
+    GoblinFoxDragon `da9be81`, EMILY `85dfe4f`, Apple #11489.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
