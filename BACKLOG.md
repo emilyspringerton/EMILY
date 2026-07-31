@@ -9992,13 +9992,25 @@ implementing, no exceptions.
    around `apps2/mud`'s own mob AI (`gw.mobEnmity[mobID]`). `apps2/server-go` has no mob system
    at all — it's PvP-only. There's no real mechanic to port here without inventing a new PvP use
    for a PvE-shaped tool, which breaks this whole thread's own "port real mechanics, don't
-   invent" discipline — removed from the gap list, not a real remaining item. **Genuinely still
-   not done**: no job-gating of which weapon skills a player can select (note: `apps2/mud`
-   doesn't gate this either, checked directly — not a real gap, an aspiration this item's own
-   earlier note overstated); `apps2/mud`'s telnet players and `apps2/server-go`'s UDP players
-   still don't share live state — that's the real, large remaining piece of "unify the
-   backends," not a
-   quick follow-up.
+   invent" discipline — removed from the gap list, not a real remaining item. **Major correction,
+   later same day**: "`apps2/mud`'s telnet players and `apps2/server-go`'s UDP players still
+   don't share live state" (this item's own earlier framing) turned out to overstate the gap —
+   traced while investigating what real state-sharing would take, found the earlier
+   `docs2/DRAGONSNSHIT_TWO_BACKENDS_AUDIT.md` claim that `apps2/mud` has "no real IDUNA
+   persistence" was itself wrong (a grep for the wrong field name — `idunaclient`/`idunaClient`
+   instead of the real `gw.iduna` — found nothing and concluded nothing was there). `apps2/mud`
+   genuinely does fetch/create a real IDUNA character on connect and sync level/XP/position back
+   on disconnect — both backends already converge on the same IDUNA rows, just not continuously.
+   The one real, precisely-scoped gap: `p.flow` (gold) is read on connect but never written back,
+   because IDUNA's own `/characters/:id/gold` endpoint only supports *deducting* gold — no
+   credit/add endpoint exists at all, so completing this needs new IDUNA API surface (a real,
+   separate, cross-repo task, not attempted — a partial fix covering only the decrease direction
+   was considered and deliberately rejected as worse than clearly not-done). Corrected in place
+   in the audit doc. GoblinFoxDragon `2fb4f8e`, Apple #11505. **Genuinely still open**: no
+   job-gating of which weapon skills a player can select (note: `apps2/mud` doesn't gate this
+   either, checked directly — not a real gap, an aspiration this item's own earlier note
+   overstated); a new IDUNA gold-credit endpoint + wiring it into `apps2/mud`'s own disconnect
+   sync; continuous (not just connect/disconnect) sync for both backends, if that's ever wanted.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
    Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
