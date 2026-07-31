@@ -10460,6 +10460,35 @@ check to exactly those (`pkill -P <matchmaker-pid>` for its spawned children) in
 global name match. Verified live production PIDs and restart counters byte-for-byte unchanged
 after running the fixed script. REDGARDEN `c8758ac` (+ changelog `6041705`), Apple #11565.
 
+**Founder real-time direction, same session:** "ok is GFD client suitable for download? SDL and
+PLAY.bat etc? ... ok i launched GFD client it launched like the regular shankpit lobby im not
+sure if thats correct is this my GUI frontend for the MUD?" Investigated honestly: what launched
+(`GoblinFoxDragon/apps/lobby`) is a stale copy of SHANKPIT's own lobby client (window title still
+literally says `SHANKPIT [BUILD 181 - CTF RELOADED]`, boots into SHANKPIT's own
+`SCENE_GARAGE_OSAKA`) with only the EduScript "Architect Trial" scripting minigame genuinely
+GFD-specific. `docs2/REDGARDEN_GUI_NORTHSTAR.md` (already written, founder: "redgarden as a gui...
+like old school runescape") names the REAL answer: REDGARDEN's own `apps/arena` ships as-is as
+DragonsNShit's Battlegrounds, and that doc's own open gap is "No GUI login path exists yet
+end-to-end." Founder: "ensure there is a login screen test test for the uname pw" -> clarified ->
+"the login screen needs to be on my new frontend mud gui that we built from redgarden... Real
+IDUNA-backed login (recommended)."
+
+Shipped end-to-end: IDUNA `POST /api/v1/redgarden/self-ticket` (mints on behalf of the caller's
+own JWT subject, same trust model as `ShankpitTicketHandler`, deliberately separate from the
+agent-only `RedgardenPlayerTicketHandler`), IDUNA `5cd0fd0`, Apple #11581. REDGARDEN `apps/arena`
+gained a real email+password SDL2 login screen (`9c98342`) shown before any networking when
+launched without `--ticket`/bot-agent identity -- `main()` restructured so the SDL window exists
+before connecting; bots/`--ticket`/dev-agent paths verified untouched. Founder also asked for a
+real installable (PLAY.bat + SDL) -- found and fixed a real gap the login screen alone would have
+shipped broken: `packages/common/http_client.h`'s Windows build was a stub that always failed, so
+`RedGarden.exe` (the actual CI-built client real players download) would render the login screen
+but every login attempt would fail. Real Winsock port shipped (`e6fb748`). Visually verified
+under Xvfb (screenshot); full HTTP protocol verified via curl against live IDUNA; live production
+pool confirmed untouched throughout. mingw unavailable locally to verify the Windows cross-compile
+directly -- CI is the real check, monitored after push. Named, not fixed: no TLS on either
+platform (a real concern once a player's login screen reaches IDUNA over the open internet, not
+just same-LAN). REDGARDEN Apple #11582.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
