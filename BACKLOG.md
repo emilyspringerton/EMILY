@@ -9983,11 +9983,14 @@ implementing, no exceptions.
    instead of trusting its own unrelated default, and wired real per-player XP
    (`fetchCharacterCombatStats` now also returns IDUNA's real `Character.CurrentXP`) so the
    penalty is computed against a real number instead of a hardcoded 0. GoblinFoxDragon `aeaa567`
-   + `0b01c07`, Apple #11500 + #11502. **Still not done**: no job-gating of which weapon skills a
-   player can select (note: `apps2/mud` doesn't gate this either, checked directly — not a real
-   gap, an aspiration this item's own earlier note overstated); enmity untouched; XP earned isn't
-   written back to IDUNA yet (in-memory only, same "not done" shape as the rename left it);
-   `apps2/mud`'s telnet players and `apps2/server-go`'s UDP players still don't share live
+   + `0b01c07`, Apple #11500 + #11502. **Follow-up landed same day**: the post-penalty
+   `currentXP` now persists back to IDUNA via the already-existing (just previously unused)
+   `idunaclient.Client.UpdateCharacterLevel`, fire-and-forget goroutine same as
+   `PacketSkillXP`'s own `IncrementSkill` call. GoblinFoxDragon `c183b9f`, Apple #11503.
+   **Still not done**: no job-gating of which weapon skills a player can select (note:
+   `apps2/mud` doesn't gate this either, checked directly — not a real gap, an aspiration this
+   item's own earlier note overstated); enmity untouched; `apps2/mud`'s telnet players and
+   `apps2/server-go`'s UDP players still don't share live
    state — that last one is the real, large remaining piece of "unify the backends," not a
    quick follow-up.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
