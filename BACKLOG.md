@@ -9973,13 +9973,16 @@ implementing, no exceptions.
    `hpState *combatTp.HPState` (`server/combat`'s own `NewHPState`/`TakeDamage`/`IsKO`, 17
    existing tests upstream, reused rather than re-derived by hand). `PacketWSCast` now rejects
    casting from a KO'd caster and casting at an already-KO'd target. GoblinFoxDragon `2295009`,
-   Apple #11498. **Still not done, named honestly rather than hidden**: no respawn/home-point
-   flow once `killed=true` fires — a KO'd player on this backend just stays KO'd forever, since
-   porting `apps2/mud`'s own real `knockOut()`/home-point-return flow is separate, larger work;
-   no job-gating of which weapon skills a player can select (note: `apps2/mud` doesn't gate this
-   either, checked directly — not a real gap, an aspiration this item's own earlier note
-   overstated); enmity untouched; `apps2/mud`'s telnet players and `apps2/server-go`'s UDP
-   players still don't share live state.
+   Apple #11498. **Follow-up landed same day**: new `PacketRespawn`/`PacketRespawnResult` —
+   `apps2/mud`'s own real "type home" flow (`knockOut()` + `HPState.Raise`) reduced to its core
+   mechanic, `RaiseDefault(0)` — always against 0 XP since real per-player XP tracking doesn't
+   exist on this backend yet (named honestly in the code, not silently wrong). GoblinFoxDragon
+   `aeaa567`, Apple #11500. **Still not done**: no job-gating of which weapon skills a player can
+   select (note: `apps2/mud` doesn't gate this either, checked directly — not a real gap, an
+   aspiration this item's own earlier note overstated); enmity untouched; real per-player XP
+   tracking; `apps2/mud`'s telnet players and `apps2/server-go`'s UDP players still don't share
+   live state — that last one is the real, large remaining piece of "unify the backends," not a
+   quick follow-up.
 3. [x] **Gunnr's third ability slot ("E") gets a stun.** REDGARDEN only has three cast slots
    (Q/W/R, confirmed via `ArenaCastCmd`'s own `slot` field convention all session) — "E" read as
    Gunnr's R (Valhalla Has Yet to Admit It), the third/final slot, matching the LoL-style
