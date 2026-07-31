@@ -5441,7 +5441,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   and "dividend" close together, not just both present anywhere in the document), is the actual
   scope of this item.
 
-- [ ] **S170-08: RED GARDEN — VS0 bot-match validation, VS1 online play + matchmaking + accounts.**
+- [x] **S170-08: RED GARDEN — VS0 bot-match validation, VS1 online play + matchmaking + accounts.**
   Founder, real-time: "iterate towards vs0 bot matches and vs1 online play validated with 10
   independent headless bots connected" → "simple match making" → "accounts" → "backlog first" →
   "real game" → "24 hours" → "then a blog post pressure makes diamonds". Picks up from S170-04
@@ -5512,8 +5512,12 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   established astrology-reference-location convention (`server-location-dallas` memory). All of
   it hashed down to a short legible tag (`sess-YYYYMMDD-HHMMSS-<8hex>`). `emily session current`
   retrieves the active tag for the rest of the session. Full record (fractal art + gematria string
-  + moon phase + tag) appended to a session-invocation log, `EMILY/var/sessions.ndjson`. Not
-  started.
+  + moon phase + tag) appended to a session-invocation log, `EMILY/var/sessions.ndjson`.
+  **Correction 2026-07-31**: this entry's own trailing "Not started" was stale — checked
+  directly, `emily.cli/cmd/session.go` (388 lines) fully implements every piece described above
+  (`mandelbrotFingerprint`, `squished`/gematria AZ/ZA encoding, moon-phase calc, session tag,
+  `session new`/`session current` commands), landed same day as this entry in commit `b45f7e2`.
+  The `[x]` above was already correct; only this trailing sentence needed fixing.
 
 ---
 
