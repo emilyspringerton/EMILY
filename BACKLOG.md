@@ -9856,6 +9856,27 @@ C-arrays embed pattern), and the complete reward function design.
     doc itself NOT STARTED. Registered in `EMILY/context/golden-docs-index.md`. GoblinFoxDragon
     `3fed438`, EMILY `89cb62e`, Apple #11484.
 
+16. [x] **REDGARDEN ↔ apps2/mud packet-level bridge spec.** Founder: "continue dragons n shit do
+    the docs first." Wrote `GoblinFoxDragon/docs2/specs/REDGARDEN_MUD_BRIDGE_SPEC.md`, the
+    concrete packet-level layer item 15's northstar named as its own Milestone 1 — grounded in
+    real code on both sides (`REDGARDEN/packages/common/protocol.h`'s actual structs,
+    `apps2/mud/main.go`'s actual `cmd*` handlers), not assumed shapes. Reuses REDGARDEN's real
+    HMAC connect-ticket handshake verbatim; maps real packets onto real functions
+    (`ArenaAttackCmd`→`cmdAttack`, `ArenaCastCmd`→`cmdWS`, `ArenaShopBuyCmd`→`cmdShopBuy`); drops
+    `PACKET_ARENA_PICK` entirely — no hero draft in a persistent-character MMO. Two real gaps
+    found and named while writing this, not glossed over: `apps2/mud` has zero continuous
+    intra-zone movement server-side today (`cmdGo`'s own code confirms `n/s/e/w` only ever
+    teleports between zones, `cmdAttack`'s auto-approach snaps position directly onto the
+    target) — `PACKET_ARENA_MOVE` has nothing to bridge onto without real new server code,
+    reframing the northstar's own Milestone 3 scope; and `PACKET_ARENA_ATTACK`'s hero-slot-index
+    targeting has no equivalent against apps2/mud's string-ID mob/player targeting. Proposed a
+    genuine `MudEvent` list to replace REDGARDEN's flat HP-delta-driven visual-effect idiom,
+    which can't carry skillchain/status-effect semantics the way a flat HP diff can't. UDP, port
+    2324 proposed — resolves one of the northstar's own open questions. Updated
+    `REDGARDEN_GUI_NORTHSTAR.md` in place (2 open questions resolved/refined, 2 new ones
+    surfaced, Related Docs table updated), registered in golden-docs-index. Spec only, no code.
+    GoblinFoxDragon `1b8bbcd`, EMILY `d1eb4f6`, Apple #11488.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
