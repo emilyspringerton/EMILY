@@ -9706,6 +9706,13 @@ C-arrays embed pattern), and the complete reward function design.
     hero tags, bot AI heuristic. Full suite green, build clean, matchmaker restarted to deploy
     live. REDGARDEN `ecd81ae`, Apple #11387.
 
+11. [x] **README keybind table refreshed.** Founder: "add the full current kit keybinds to the top
+    of the readme not the top top above the items." Table was already correctly positioned (`How
+    to Play`, above the item catalog), just stale across this whole session's client changes --
+    added active-item use (backquote), shop pagination (page-relative `1`-`9`, `Shift+1/2/3`, page
+    buttons), Tyler's drag-select. Fixed the stale item count (24 -> 27) and the zone-abilities
+    note (Gunnr's Consecration is a zone cast from W, not R). REDGARDEN `6d166e6`, Apple #11468.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
