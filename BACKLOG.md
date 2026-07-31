@@ -10330,6 +10330,24 @@ stops all of them at once, matching real WC3's own group-order behavior. 3 new t
 (+ `fdf04bb` doc fixup), Apple #11535. **Attack-move, hold, and patrol are still open** — this
 milestone stays IN PROGRESS, not DONE.
 
+**Iterated further, same session.** **Attack-move** shipped — the second real slice of Milestone
+2's WC3 group-order vocabulary, and simultaneously closes `NORTHSTAR.md` §17.4's own long-open
+"Attack-move command (LoL's 'A' + click)" checklist item (the same real gap, closed once). Real
+LoL/WC3 "hold A, then click ground": moves toward the clicked point like a plain move, but
+opportunistically diverts to attack whatever enemy comes within range along the way (reusing the
+existing, unchanged `arena_tick_attack_targets` chase/combat system once a target's acquired),
+re-acquires a new target automatically if the current one dies (unlike a direct attack-target
+lock, which just goes idle), and resumes the ORIGINAL destination once nothing's left to engage —
+a new `attack_move_x/z` pair remembers it, since `target_x/z` gets overwritten mid-chase by the
+existing pure-pursuit system's own real behavior. Held-key detection (`SDL_SCANCODE_A` read at
+the moment of a ground click), not a separate mode-toggle keypress — same "held, not toggled"
+idiom the existing Tab scoreboard already uses. New `PACKET_ARENA_ATTACK_MOVE` wire packet, same
+`arena_owner_controls` authorization every other group command already enforces; cleared by any
+other move/attack/stop command, same "a new command always wins" convention. Team-mode only,
+matching the underlying attack-target/chase system's own existing scope. 5 new tests, full
+`scripts/test_arena.sh` suite + `scripts/test_10_bots.sh` stability green. REDGARDEN `f5fa45a`,
+Apple #11537. **Hold and patrol are the real remaining pieces** — Milestone 2 stays IN PROGRESS.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
