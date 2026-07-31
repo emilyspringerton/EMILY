@@ -10086,6 +10086,23 @@ real multi-client test rig for `apps2/server-go` today).
 
 ---
 
+## Founder redirect (2026-07-31): back to the MMORPG, not side quests
+
+Founder, real-time, after asking "can i log into gfd gui yet?" and being told honestly that no
+GUI login path exists yet (only `apps2/mud`'s telnet interface, and the server wasn't even
+running): **"ok i asked for the mmorpg i provided the inputs continue to work on that."** Logged
+per Principle 1 before resuming. Re-reading the original ask this session already has on record
+(`REDGARDEN_GUI_NORTHSTAR.md`'s own opening log, item 15 above): "can we graft redgarden frontend
+onto GFD mud as a gui to make our mmorpg? ... fork redgarden into GFD write the northstar this is
+the mmo. this is dragonsnshit ... cli will continue to work ... redgarden as a gui ... like old
+school runescape." The concretely-scoped, currently-unstarted next step toward an actual GUI
+login is Milestone 1 of that northstar's own milestone table: port Warrior's real weapon skills
+into `arena_game.c`'s Q/W/R slots as the first real ability content, since Milestones 2-5 (entry
+portal, reward-credit hook, end-to-end validation) all depend on Milestone 1 landing first.
+Resuming there now, not the SHANKPIT/FatBaby items picked up in between.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
