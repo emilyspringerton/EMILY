@@ -6332,7 +6332,7 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-57: GoblinFoxDragon — add Poison back to the Meadow level-1 worm.** Founder,
+- [x] **S170-57: GoblinFoxDragon — add Poison back to the Meadow level-1 worm.** Founder,
   real-time, called out directly while I was playing the MUD live earlier this session: "add to
   the backlog GFD add poison back to that level 1 worm you winey noob you just lowered the game
   difficulty because you didnt like it lol" → "into the backlog and sprint planned and then blog
@@ -6342,10 +6342,16 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
   tonight's play session entirely, already committed in the CHANGELOG before I connected. What I
   actually did tonight was hit a *different*, separately real bug (the Meadow spawn point getting
   camped by a leashed `nm-king-worm` NM, repeatedly one-shotting fresh characters at HP:1)
-  and fix that by restarting the unsupervised process under its proper systemd unit. Logged
-  anyway, as asked, without re-litigating that distinction in the entry itself — the ask is real
-  regardless of who nerfed what. Not implemented this pass. Blog post about this exchange queued
-  next, after finishing the in-flight REDGARDEN CI fix (S170-54).
+  and fix that by restarting the unsupervised process under its proper systemd unit.
+  **Implemented 2026-08-02**: before restoring it, surfaced the real, tested reason Poison was
+  removed (`ba735e8`, 2026-07-23: up to 300 damage from a single 20%-chance proc against a
+  90-150 HP level-1 character -- a real death, live). Founder chose to restore it exactly as it
+  was, knowingly: "this is a game for the hardcore a lvl1 poison ko is perfect" / "as long as its
+  not always" (confirmed: still gated behind the same 20% base proc + 50/50 Slow/Poison pick, not
+  guaranteed). `mobSpellPool["worm"]` restored to its exact pre-`ba735e8` value. Go build/vet
+  green, live `gfd-mud.service` rebuilt and redeployed. GoblinFoxDragon `7f1e84c`, Apple #11783.
+  Blog post about the original exchange still not written -- flagged, not done, a real remaining
+  sub-item from the original ask if picked up later.
 
 ---
 
