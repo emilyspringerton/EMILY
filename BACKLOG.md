@@ -11131,6 +11131,23 @@ guessing.
   anti-stall escalation -> camp respawn -> REDGARDEN backport), registered in golden-docs-index
   as JUNGLE-CAMPS. All milestones past the doc itself are NOT STARTED.
 
+- [x] **Four Kings buff mechanics designed, real work not started**: founder designed North's own
+  buff directly -- **"i want the god of music to give a buff that sticks around as long as one of
+  yor team has it he can spread it to teamers after they respawn its like a catchy song that
+  spreads - design the other mechanics for the rewards for the other encounters"** -> **"also
+  minions should spawn from the camps in waves"** -> **"and the bosses dont start to spawn in
+  until 1 minute in."** Designed all four with genuinely different persistence mechanics, not
+  four reskins of the same timer: North/Music (team-viral -- persists on the team as long as one
+  member carries it, auto-spreads to any teammate on respawn, un-siegeable in a single fight),
+  South/War (individual, stacking bonus damage per takedown, lost entirely on death -- high-risk
+  aggression reward), East/Hunt (team-wide flat timer, vision + gold, deliberately the simple
+  one), West/Stone (proximity damage-reduction aura, rewards grouping up around the holder rather
+  than scattering). Confirmed camp minions wave from 0:00 (reusing the lane-creep pattern), Kings
+  silent until 1:00 (real MOBA "breathing room before the jungle opens up" precedent, same
+  reasoning the existing lane-wave initial-delay already uses). Resolved 2 of the doc's own open
+  questions; added milestone 2.5 for the one genuinely new mechanic needed (Music's team-level
+  buff-carrier set -- no existing primitive to extend, has to be built). GoblinFoxDragon `31f7726`.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
