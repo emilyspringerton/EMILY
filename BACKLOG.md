@@ -10609,6 +10609,51 @@ only). M1 is next.
 
 ---
 
+## Backlog dump — fork REDGARDEN into TRAPX, REDGARDEN itself goes into validation (2026-08-02)
+
+Founder, real-time, verbatim: **"add to backlog fork REDGARDEN into TRAPX i want to iterate on
+REDGARDEN experimentally and also experiment with an urban map i want to consider REDGARDEN in
+validation stage we want to get players to see if people find it fun we dont want to keep
+changing it but we do want to move forward in 2 directions - dragonsnshit - and TRAPX - do not do
+the thing where you fuck REDGARDEN up with the new stuff instead of copying REDGARDEN into
+TRAPX."** Explicitly "add to backlog" only -- not acted on this session, logged as directed.
+
+- [ ] **REDGARDEN itself → validation stage, not active iteration.** Founder: "i want to consider
+  REDGARDEN in validation stage we want to get players to see if people find it fun we dont want
+  to keep changing it." The question REDGARDEN's own current build answers moving forward is "is
+  this fun," not "what's the next feature" -- new gameplay experiments branch off via forks (see
+  below), not further changes to REDGARDEN's own tree. Matches REDGARDEN's own `CLAUDE.md`
+  framing ("Prototype proving-ground for FIELDOFFICE/TrapX's territory-custody mechanic... build
+  it here first, port proven mechanics later") -- this is that handoff point actually arriving.
+- [ ] **Two forward directions, both forks, neither touching REDGARDEN's own tree.**
+  - DragonsNShit: already real and already the precedent this instruction explicitly points at
+    -- `GoblinFoxDragon/apps2/battlegrounds_gui/`, forked from REDGARDEN `61baafb`
+    (GoblinFoxDragon `134b6a2`), self-contained (own `packages/`), diverging freely since (Town
+    scene, combat log, chat, WASD, 1/2/3 keybinds -- all this session, none of it touching
+    REDGARDEN's own copy).
+  - TRAPX: a NEW fork, not started. Founder's own two stated experiments for it: **"iterate on
+    REDGARDEN experimentally"** (free to change gameplay/mechanics without validation-stage
+    REDGARDEN needing to move) and **"experiment with an urban map"** (a new map/environment,
+    distinct from REDGARDEN's current one). Real prior art already in this monorepo for the TRAPX
+    name and direction: `SHANKPIT/docs2/TRAPX_NORTHSTAR.md` (territory-custody mechanic, K9
+    doctrine, Attention, Rogue Swarms, doom clock, party stores as VS2 infrastructure) -- this
+    backlog item is that northstar's own game-loop prototype finally getting a home to fork into,
+    not a separate, unrelated TRAPX. Open, not resolved here: which repo TRAPX's own fork lives
+    in (a new top-level repo, a new directory in SHANKPIT next to the existing TRAPX docs, or
+    elsewhere) -- a real decision for whenever this item is actually picked up, not guessed at
+    while just logging the direction.
+- [ ] **Standing constraint, repeated explicitly because it was violated once already this
+  session (see the reverted REDGARDEN bot-AI detour, above, same day):** any TRAPX/urban-map
+  work is a **copy-then-diverge fork**, same shape as `battlegrounds_gui`'s own precedent --
+  REDGARDEN's own tree does not get modified as a side effect of building TRAPX's new stuff.
+  Founder's own words: "do not do the thing where you fuck REDGARDEN up with the new stuff
+  instead of copying REDGARDEN into TRAPX."
+
+Not yet implemented -- logged only, per "add to backlog." No fork created, no code copied, no
+Apple filed.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
