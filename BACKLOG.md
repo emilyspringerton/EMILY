@@ -10606,9 +10606,14 @@ The doc's own §5 milestone table **is** the sprint plan:
   same way it reaches IDUNA directly, so the IDUNA-relay indirection wasn't needed. Real,
   intentional deviation, not an oversight. Known gap, named not fixed: no auth at all on this
   endpoint yet (`character_id` is caller-supplied, not derived from a verified identity).
-- [ ] **M3: Battlegrounds chat box routes `/`-prefixed lines to it.** Still not built -- the new
-  combat endpoint is triggered by attacking near the worm, not yet wired into the existing
-  in-match chat box's own `/`-command convention.
+- [x] **M3: Battlegrounds chat box routes `/`-prefixed lines to it.** Done 2026-08-02, founder:
+  "i want you to sync up town with the MUD" -> "real MUD commands from Town's chat box." Real
+  end-to-end: `/look` (or any real MUD command) typed into either chat box routes through
+  `chat_send_or_command` to the real headless-session dispatch, output in the combat log. Also
+  built the same day, not originally in M3's own scope: telnet players now see Town's presence
+  live (`getOrCreateHeadlessPlayer` registers into `gw.zoneMgr`/`gw.chatRouter`, broadcasts "X
+  has entered the world") -- live-verified with two real characters, one's session buffer
+  capturing the other's real-time entrance broadcast. GoblinFoxDragon `17a7b86`, Apple #11801.
 - [ ] **M4: idle eviction + telnet-conflict handling.** Still not built, named explicitly in
   GoblinFoxDragon `3a2940d`'s own commit: a headless session stays registered (and therefore
   keeps auto-attacking if it has a live target) for the rest of the process's life once created;
