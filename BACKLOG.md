@@ -10860,6 +10860,51 @@ Known, accepted gaps, not fixed here: no distance-based label culling (all 25 bu
 render regardless of distance -- real clutter up close); `/api/town/command` still has no auth
 (named in the earlier headless-combat Apple, unchanged).
 
+## Backlog dump — Real Auction House, doubled town, /logout (2026-08-02)
+
+Founder, continuing the same real-time rapid-fire session: **"make the auction house real - menu
+based system navigatable with arrow keys and enter just like ffxi - have it be interractable on
+right click (the whole auction house building for now is fine)"** → **"double the size of the
+town and the buildings"** → **"in the chat /logout should log me out"** → (live-testing reports)
+**"persistance isnt working i closed the app inside the fishing building but when i logged back
+in i wasnt there"** → **"ok new client ... and the buildings are totally gone - not the worst the
+size of the town is good."**
+
+- [x] **Real FFXI-style Auction House menu** -- right-click the Auction House building opens a
+  real menu (`AHScreen`: MAIN → CATEGORIES → CATEGORY_ITEMS / MY_LISTINGS), Up/Down navigate with
+  wraparound, Enter confirms, Backspace goes back a level, Escape closes. Wired to apps2/mud's
+  real, pre-existing `ah` command surface (browse/sell/buy/history/status/cancel) via
+  `/api/town/command` -- no mocked data. Real bug found live during testing: the blocking HTTP
+  calls froze the frame with no feedback; fixed with `ah_draw_loading`, same pattern
+  `draw_queuing_screen` already established. Known real gap, not solved here: `ah browse
+  <category>` only returns item-level aggregates, no listing IDs -- buying a specific other
+  player's listing has no command surface yet.
+- [x] **Doubled the town** -- every `TOWN_BUILDINGS[]` position and half-extent x2 (25 entries),
+  worm-hut cluster x2 to match (`server/mob/worm.go`). Diffed field-by-field against the
+  pre-doubling commit to confirm an exact 2x with no math errors.
+- [x] **`/logout` chat command** -- typing `/logout` quits the client, in both Town's own chat and
+  Battlegrounds' in-match chat. Real bug found and fixed along the way: the in-match chat handler
+  had never actually been converted to `chat_send_or_command` by an earlier edit, so
+  `/`-commands only worked from Town, not from an in-progress match.
+- [x] **Both live "bug" reports investigated and closed as not-bugs**: the "persistence isn't
+  working" report and the later "buildings totally gone" report both trace back to the same
+  session's own doubling work moving every building's world coordinates -- a saved position from
+  before the doubling lands somewhere with nothing nearby afterward. The second report's specific
+  cause was more direct: a test character had been positioned at the Auction House's exact center
+  for AH testing, so it was standing inside the building's own backface-culled mesh -- looks
+  identical to "no buildings," isn't one. Repositioned clear of all building bounding boxes.
+
+GoblinFoxDragon `92c48e3`, Apple #11805. Go build/vet/test green; full multi-file C link build
+(main.c + arena_game.c + arena_ai_bridge.c + arena_replay.c + mlp_infer.c) green; visually
+verified under Xvfb against a real login.
+
+Not yet started, needs clarification before implementing: founder's **"then implement the zone
+with the worms we need to unify combat with the mud and battlegrounds"** -- ambiguous scope
+(worm zone already exists as of the prior dump; "unify combat with mud and battlegrounds" could
+mean anything from what's already shipped to porting the MUD's job/weapon-skill system into
+`arena_game.c` itself). Queued for a clarifying question before spending real implementation time
+guessing.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
