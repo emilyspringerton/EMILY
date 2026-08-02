@@ -11006,6 +11006,70 @@ guessing.
   registered in golden-docs-index as DUNGEON-NORTH. All milestones past the doc itself are NOT
   STARTED -- next step is incorporating the founder's art drop once shared.
 
+- [x] **Dungeon art follow-up**: founder: **"feel free to chunky 2 d sprites rendered in 3d if
+  thats easier"** -> **"one more pull for art 1"**. Confirmed no texture/billboard rendering
+  exists in the client at all today (no `SDL_image`, no `glTexImage2D`), so sprites and full 3D
+  models are BOTH new infrastructure -- sprites are the simpler of two things that don't exist
+  yet, not a shortcut around existing capability. Pulled the third file (`art1.jpeg`,
+  GoblinFoxDragon `6ad32fa`) -- turned out to be ornate weapon/dagger + totem-staff concepts, not
+  more mob art, so it maps to loot/item design (DUNGEON_NORTHSTAR §5's open rewards question) not
+  the mob/boss population plan. Updated `docs2/DUNGEON_NORTHSTAR.md` with all 3 files' real
+  content (`kikoryu.jpeg` boss, `art2.jpeg` minion sheet, `art1.jpeg` loot/items) and a new
+  milestone 4.5 for the billboard-sprite subsystem itself. GoblinFoxDragon `cf4aae3` + follow-up
+  commit for art1.
+
+- [x] **Sunderworm world event -- real boss content shipped, most of VS0 still open**: founder,
+  rapid-fire: **"backlog dump all that and then start working on the sunderworm world event"** ->
+  **"build out the dragonfly pipeline"** -> **"cook cook cook"** -> **"worm as the northstar"** ->
+  **"sunderworm"** -> **"build it on top of our starter zone on top of dragonfly."** Found this
+  wasn't a new idea to design -- "Sunderworm" is a real, already-named event with a full existing
+  spec (`docs2/specs/WORLD_CRISIS_VS0.md`, a serious multi-week Definition-of-Done checklist) and
+  a real, tested phase-machine backend (`server/worldcrisis`, `OMENS -> BURROW -> EMERGENCE ->
+  SPLIT_WAR -> FINAL_WINDOW -> RESOLUTION`, LEY_INTEGRITY decay, 3-objective concurrency gate)
+  already wired into `apps2/mud`. Researched exactly how far it got before touching anything:
+  the phase machine works and broadcasts real messages, but the trigger auto-restarted the
+  instant any player was online with **zero cooldown** (spec E2 violation), the Anchor objective
+  (one of the 3 required for the Final Window gate) had **zero real implementation** anywhere
+  (only referenced in its own test file), and **no Sunderworm entity existed at all** --
+  "Chaos Elementals emerge in the Swamp" was 3 generic reskinned mobs in the wrong zone with no
+  boss mechanics (no invuln state, no weak point, no add-waves, no sub-bosses). Persistence,
+  rewards/merit, cooldown config, and client-side wiring are ALL unimplemented (packet built
+  server-side, nothing consumes it; the only UI is `packages/world/town_debug_ui.c`'s
+  `CrisisMockState`, fully disconnected from real server data).
+  - Shipped: `server/mob/sunderworm.go` -- a real Sunderworm boss (15,000 HP) reusing
+    `StateBurrowed` unchanged as its invulnerable state (no new mechanic needed -- the phase
+    names OMENS/BURROW/EMERGENCE already describe exactly that cycle), plus two Sunderworm Head
+    sub-bosses (4,000 HP each) for Split War, satisfying D2's "at least two sub-bosses in
+    different locations." "Worm as the northstar" literally: scaled up from the exact mob type
+    (`KindWorm`) already living in the starter zone, not an unrelated new creature.
+  - Wired into `apps2/mud/main.go`'s crisis phase handler: spawns burrowed at the real Worm Hut
+    position in zone 4 (New Handington, the starter zone -- founder: "build it on top of our
+    starter zone") when Burrow begins; the crisis handler itself surfaces it (not an autonomous
+    per-mob timer) at Emergence, alongside a 3-mob "Sunderworm Brood" add-wave in the same zone
+    (D1's "add waves that threaten objectives," replacing the old generic swamp spawn); two
+    geo-separated Heads (B3) spawn east/west of the hut at Split War; Resolution soft-despawns
+    everything (`Registry` has no removal API -- marks mobs dead in place instead, a named,
+    not-solved gap).
+  - Real, previously-total gap closed: killing a Sunderworm Head now completes the Anchor
+    objective (`+15 LEY`) -- before this, Anchor had no player-facing action anywhere, meaning
+    the Final Window's own 3-objective concurrency gate could never actually be satisfied in
+    practice.
+  - Real bug fixed: added `crisisCooldown` (20 min) + `world.lastCrisisEndAt`, gating the
+    auto-restart so the event can't immediately re-trigger the instant it resolves (spec E2).
+  - Go build/vet/test green (`server/mob`, `server/worldcrisis`); redeployed `gfd-mud.service`;
+    live-verified via a real telnet session + the existing `/api/town/command` headless endpoint.
+  - **What's still open, honestly, per the spec's own DoD checklist**: persistence (state is
+    still pure in-memory, `EventID` is never populated so the existing `PatchWorldEvent` IDUNA
+    call never fires, and there's no `/api/v1/world-events/` route to persist to even if it
+    did); rewards/merit/tiering (F1/F2, zero implementation); the Builder/Ritualist non-combat
+    roles (C1/C2 -- the "Ritual" objective is still just repurposed ore-mining, not a real
+    ritual mechanic); diminishing-returns anti-zerg (B2); weak-point/armor-break mechanics
+    beyond the burrow/surface cycle (D1's fuller requirement); and all client-side rendering
+    (no GUI client consumes the crisis packet or shows real Sunderworm state -- the "dragonfly
+    pipeline" tie-in from the founder's own direction is real future work, not done here, since
+    `SMOOTH_TERRAIN_NORTHSTAR`'s own milestones are still all NOT STARTED). This is a real,
+    substantial vertical slice of new content, not the full VS0.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
