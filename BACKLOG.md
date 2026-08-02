@@ -10794,6 +10794,17 @@ longer watchdog window, or not starting the 60s clock until the real (non-bot) p
 actually connected, would close the underlying race -- open for whenever REDGARDEN's own
 server/matchmaker are back in scope.
 
+**Same underlying race, narrower manifestation, same day**: founder reported "i closed
+dragonsnshit client and reopened it and that did not fix it - well it did something different it
+put me into the map with nothing happening skipping the draft." `net_connect()` can receive a
+real `PACKET_WELCOME` right before the watchdog kills the match -- the client legitimately
+connected, so the earlier connect-failure fallback never fires, but `net_phase` stays stuck at
+`ARENA_PHASE_WAITING` forever (no draft screen, no state updates). Fixed the same way, client-side
+only: `g_net_last_packet_ms` tracks real server activity since connect; 10s of total silence
+recovers to Town. Live-verified against a fake matchmaker+server reproducing the exact race.
+GoblinFoxDragon `3d54634`, Apple #11799. The underlying REDGARDEN-side race is still the same
+open item above -- not re-litigated, same deferred status.
+
 ---
 
 ## Backlog dump — Town HUD, unified combat keybind, and New Handington town layout (2026-08-02)
