@@ -10725,11 +10725,22 @@ Sprint plan:
   for the gui xyz source of truth." Done, GoblinFoxDragon `50d582e`. M1-M4 live-verified
   end-to-end against the real test account and live IDUNA (login → fetch → simulated movement →
   position persisted back, exact values confirmed) and visually under Xvfb.
-- [ ] **M5: ability panes ported from Battlegrounds' HUD into Town**, inert/decorative for now --
-  Town has no cast/combat system yet, named honestly rather than faked as functional. Not started.
+- [x] **M5: ability panes ported from Battlegrounds' HUD into Town**, inert/decorative for now --
+  Town has no cast/combat system yet, named honestly rather than faked as functional. Done,
+  GoblinFoxDragon `ab1a197`, Apple #11777.
 
-M1-M4 done same day (GoblinFoxDragon `50d582e`), Apple #11775. M5 (ability panes, cosmetic-only)
-is the only open item from this sprint plan.
+M1-M5 all done same day (GoblinFoxDragon `50d582e` + `ab1a197`), Apple #11775 + follow-up. Extra,
+unplanned same-day scope beyond the original 5 milestones: founder asked to "implement the
+starter area worm" and flagged "you may need to add the next zone" -- added a real new zone
+(`server/zone/zone.go` zone 4, "Town Square", kept separate from Meadow/zone 0 specifically to
+avoid conflating a live telnet MUD zone with Town's own local-only scene) with a real worm mob
+spawned into `apps2/mud`'s own mob registry (`server/mob/worm.go`'s new `TownSquareWormSpawns`),
+plus a decorative client-side worm silhouette at its real spawn position. Live apps2/mud
+(`gfd-mud.service`) rebuilt and restarted with the new zone; Meadow's own 8 worms confirmed
+unaffected. Explicitly not built, flagged rather than guessed at: wiring Town into
+`apps2/server-go`'s own real voxel "Dragonfly" world (`server/worldapi`'s
+`DragonflyChunkGenerator`) -- that would need a whole new UDP protocol client in the GUI, a
+separate, much larger undertaking.
 
 ---
 
