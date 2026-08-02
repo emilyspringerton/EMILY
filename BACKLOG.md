@@ -10709,22 +10709,27 @@ Sprint plan:
 
 - [x] **M0: ownership-check hardening on the position-update endpoint** -- done same day, IDUNA
   `ab35b72`, ahead of Town becoming its first non-M2M caller.
-- [ ] **M1: Town fetches the real character on entry.** `GET /api/v1/characters/by-player/:id`
+- [x] **M1: Town fetches the real character on entry.** `GET /api/v1/characters/by-player/:id`
   using the `player_id` already captured from login's self-ticket response; new
-  `http_extract_json_double_field` helper for `pos_x`/`pos_y`/`pos_z`.
-- [ ] **M2: a real avatar rendered in Town** at the fetched position, reusing Battlegrounds' own
-  hero-drawing code. Needs a placeholder job→hero-visual mapping (open question above) since no
-  real one exists yet.
-- [ ] **M3: real movement in Town** -- WASD + click-to-move, same shape Battlegrounds already
-  uses, purely local/client-side (no server involved in Town's own rendering).
-- [ ] **M4: position flows back to IDUNA.** `PATCH /api/v1/characters/:id/position`, throttled
-  (not every frame) while the avatar moves -- "the xyz at least needs to flow back to the
-  dragonfly server for the gui xyz source of truth."
+  `http_extract_json_double_field` helper for `pos_x`/`pos_y`/`pos_z`. Done, GoblinFoxDragon
+  `50d582e`.
+- [x] **M2: a real avatar rendered in Town** at the fetched position, reusing Battlegrounds' own
+  hero-drawing code. `job_main` "WAR" → `ARENA_HERO_WARRIOR` (the one real, non-guessed mapping);
+  every other job falls back to it, named as a placeholder, not resolved further. Done,
+  GoblinFoxDragon `50d582e`.
+- [x] **M3: real movement in Town** -- WASD + click-to-move, same shape Battlegrounds already
+  uses, purely local/client-side (no server involved in Town's own rendering). Camera now follows
+  the avatar. Done, GoblinFoxDragon `50d582e`.
+- [x] **M4: position flows back to IDUNA.** `PATCH /api/v1/characters/:id/position`, throttled
+  (2s, only if actually moved) -- "the xyz at least needs to flow back to the dragonfly server
+  for the gui xyz source of truth." Done, GoblinFoxDragon `50d582e`. M1-M4 live-verified
+  end-to-end against the real test account and live IDUNA (login → fetch → simulated movement →
+  position persisted back, exact values confirmed) and visually under Xvfb.
 - [ ] **M5: ability panes ported from Battlegrounds' HUD into Town**, inert/decorative for now --
-  Town has no cast/combat system yet, named honestly rather than faked as functional.
+  Town has no cast/combat system yet, named honestly rather than faked as functional. Not started.
 
-Not yet implemented past M0 -- logged per "backlog dump all... backlog that work," to be iterated
-on next.
+M1-M4 done same day (GoblinFoxDragon `50d582e`). M5 (ability panes, cosmetic-only) is the only
+open item from this sprint plan.
 
 ---
 
