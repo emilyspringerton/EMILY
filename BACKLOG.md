@@ -10988,6 +10988,24 @@ guessing.
   in golden-docs-index as SMOOTH-TERRAIN. All milestones past the doc itself are NOT STARTED --
   next open item whenever work on a non-Town zone begins.
 
+- [x] **Golden doc written, real work not started**: founder: **"ok can you make a dungeon like
+  diablo 2 dungeons?"** -> scoped via AskUserQuestion: instanced (spawned per-group like a
+  Battlegrounds match, ends on clear/leave) + procedural (regenerates each visit, not a fixed
+  layout) -> **"use some of the arena heroes as dungeon mobs and bosses"** -> **"also the
+  different minions whatever im uploading some art in a second"** (art not yet received when this
+  doc was written -- named as an explicit open gap, not guessed at). Researched real code: REDGARDEN
+  matchmaker's fork/exec spawn is already generic (reused for 2 server binaries today, just needs
+  extended arg-passing + a mode flag on `PACKET_MATCH_FOUND`); the Caves scene's own corridor
+  carving is fixed/deterministic (no randomness at all) -- a representation reference, not a
+  reusable generator; `server/mob`'s `Registry.Spawn` is a generic primitive with no existing
+  runtime spawn-table API; `zone.Manager.AddZone` supports ephemeral per-instance zones; none of
+  the client's 3 existing render modes fit "walk a generated space and fight," needs a new one.
+  Mobs/bosses are REDGARDEN's existing hero-kit AI (`apps/arena_bot`) repurposed as hostile NPCs,
+  not new enemy AI built from scratch. Wrote `docs2/DUNGEON_NORTHSTAR.md`, a 6-milestone plan +
+  3 explicitly unresolved open questions (party queue flow, rewards, difficulty scaling),
+  registered in golden-docs-index as DUNGEON-NORTH. All milestones past the doc itself are NOT
+  STARTED -- next step is incorporating the founder's art drop once shared.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
