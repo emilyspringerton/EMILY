@@ -10731,6 +10731,11 @@ Sprint plan:
   for the gui xyz source of truth." Done, GoblinFoxDragon `50d582e`. M1-M4 live-verified
   end-to-end against the real test account and live IDUNA (login → fetch → simulated movement →
   position persisted back, exact values confirmed) and visually under Xvfb.
+  **Follow-up (2026-08-02, same day)**: founder asked to explicitly "ensure... login to same
+  spot" -- found and fixed a real gap the 2s throttle left open (a quick quit after moving lost
+  the last few steps). `town_sync_position` gained a forced flush on shutdown. Live-verified
+  session-to-session: forced movement + quit at 800ms (under the throttle) still persisted; a
+  fresh second launch loaded from that exact spot. GoblinFoxDragon `3ae38ff`, Apple #11785.
 - [x] **M5: ability panes ported from Battlegrounds' HUD into Town**, inert/decorative for now --
   Town has no cast/combat system yet, named honestly rather than faked as functional. Done,
   GoblinFoxDragon `ab1a197`, Apple #11777.
