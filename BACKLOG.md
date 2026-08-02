@@ -11110,6 +11110,27 @@ guessing.
     **Next step, real priority**: root-cause the headless-path deadlock before attempting the GUI
     wiring again.
 
+- [x] **Golden doc written, real work not started**: founder: **"ok for arena in the north south
+  east and west (the bases are at the corners between the corners if you fold it you get 4 spots
+  we can spawn minions from and spawn boss monsters that give buffs)"** -> **"this way those
+  camps will spawn mobs that will eventually assault the towers so it becomes difficult to stale
+  out the game by never attacking towers"** -> **"the four heavenly kings"** -> **"as a northstar
+  first."** Scoped via AskUserQuestion first, since this sounded like real REDGARDEN
+  `apps/arena_server` gameplay logic and the standing "keep battlegrounds/REDGARDEN's own
+  server as-is" rule has held all session: founder chose GoblinFoxDragon's own fork
+  (`apps2/battlegrounds_gui`'s local single-binary simulation) for now, REDGARDEN's real server
+  gets these changes backported later as a deliberate separate pass. Grounded against real code:
+  only 2 of the map's 4 corners are actual team bases (fountains at diagonal corners, shops at
+  the other two) -- matches "bases at the corners, fold it for 4 spots" exactly; the existing
+  lane-creep wave/march system and the existing powerup/timed-buff system (`ArenaPowerupKind`)
+  are real, reusable primitives for camp minions and King kill-rewards respectively, not systems
+  to build from scratch. Real open question flagged, not resolved: the existing "towers" are
+  one-time node-capture guards, not a repeatable siege objective -- unclear whether that's what
+  "assault the towers" means or whether it motivates a new objective-tower system. Wrote
+  `docs2/JUNGLE_CAMPS_NORTHSTAR.md`, a 5-milestone plan (camp placement/minions -> Four Kings ->
+  anti-stall escalation -> camp respawn -> REDGARDEN backport), registered in golden-docs-index
+  as JUNGLE-CAMPS. All milestones past the doc itself are NOT STARTED.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
