@@ -11070,6 +11070,46 @@ guessing.
     `SMOOTH_TERRAIN_NORTHSTAR`'s own milestones are still all NOT STARTED). This is a real,
     substantial vertical slice of new content, not the full VS0.
 
+- [ ] **Open**: founder: **"ensure the sunderworm events make it into the chat log"** (i.e. Town's
+  GUI combat-log pane, fed via the headless `/api/town/command` poll). Not confirmed either way --
+  investigation got interrupted by the telecrystal deadlock work below before a clean test
+  completed. The mechanism SHOULD already work (`sendf`/`send` write unconditionally to `p.w`
+  regardless of headless vs telnet, and headless sessions register in the same `gw.players` map
+  the crisis broadcast loop iterates), but one live drain check came back empty at a moment whose
+  exact timing relative to the actual broadcast wasn't cleanly isolated. Needs a real, clean
+  re-test: trigger a crisis phase change, immediately drain the headless buffer, confirm the
+  broadcast text is actually present.
+
+- [x] **Telecrystal to the starter zone added; real critical bug found and deliberately NOT
+  shipped to the GUI**: founder: **"how do we get from town to the starter zone? have one of the
+  gates act as a telecrystal I guess - check the shankpit dragonsnshit codebase for the
+  telecrystal logic"** -> **"in the goblinfoxdragon repo the shankpit lobby with the town has
+  telecrystals."** Found apps2/mud already has a full, real, player-facing telecrystal system
+  (`server/telecrystal`, `cmdCrystals`/`cmdTravel`/`cmdTouchCrystal`) that apps/lobby's own
+  SHANKPIT-style client already uses for Town/Mines/Docks/Giza travel -- New Handington (zone 4,
+  apps2/battlegrounds_gui's own newer Town) predates that network and had no crystal of its own.
+  Added `TELECRYSTAL_ID_HANDINGTON_TO_MEADOW` + its return pair (free -- a starter-zone shuttle a
+  level-1 character needs before they'd have Flow to spend on the older network), positioned at
+  New Handington's real Dragon Gate building. Verified working correctly via a real telnet
+  session.
+  - **Real, critical, unresolved bug found live, deliberately not shipped**: the exact same
+    crystal, invoked via real telnet, works every time. Invoked via the headless
+    `/api/town/command` HTTP path -- what Town's GUI client uses for every chat/gate command --
+    `cmdTravel`'s `gw.mu.Lock()` call never returns, and takes the WHOLE mud server down with it:
+    confirmed via a real SIGQUIT goroutine dump that `gameLoop`'s own 1Hz tick, ticking healthily
+    seconds earlier, permanently stops too -- every player, not just the one request. Reproduced
+    even with `cmdTravel`'s body stripped to a bare `Lock()`/`Unlock()`, ruling out the crystal
+    data and the Sunderworm work as causes. Root cause not isolated given time already spent.
+    Converted the manual `Lock()`/`Unlock()` to `defer` (real hardening against a future panic,
+    does not fix the actual hang). Given the severity, deliberately reverted the Dragon Gate's
+    GUI right-click wiring rather than ship a feature that can deadlock the entire server for
+    every player -- left a clear warning comment in the C client instead, and told the founder
+    directly not to type `/travel` in chat either (same danger, same headless path). The
+    server-side telecrystal system itself is real and sound for telnet players; only the
+    headless/GUI invocation path is unsafe right now. GoblinFoxDragon `8de8f25`, Apple #11817.
+    **Next step, real priority**: root-cause the headless-path deadlock before attempting the GUI
+    wiring again.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
