@@ -10654,6 +10654,80 @@ Apple filed.
 
 ---
 
+## Backlog dump + sprint plan — Town avatar/movement/ability panes, backed by the real DragonsNShit character backend (2026-08-02)
+
+Founder, real-time, verbatim, building across several messages: **"ok and so we need to be able
+to run around town a) i dont have an avatar or ability panes - we need to bring those over from
+the battlegrounds - not sure if we are on the server or what - the MUD may need to be updated on
+the backend to store xyz coodinates etc --actually this is the time to unify the whole bich"** →
+**"wire up the dragonfly backend"** → **"keep the battlegrounds working as is do not change that
+keep that server and matchmaking as is"** → **"the xyz at least needs to flow back to the
+dragonfly server for the gui xyz source of truth - it might get weird having the gui and the mud
+play nice but for now it gets us a lot more of an experience to build from if we think about how
+we might use both as we iterate on the player experienmce"** → **"backlog dump all - sprint plan
+- iterate"** → **"backlog that work on the avatar in the outer world backed by dragonfly."**
+
+Real findings from scoping this before writing any code:
+
+- "The dragonfly backend"/"the MUD backend" is IDUNA's already-existing `characters` table
+  (`pos_x/pos_y/pos_z`, `job_main`, `scene_id`, `gold_balance`, `level`, `current_xp`) --
+  `apps2/mud` already reads and writes this same table on every login/disconnect. GoblinFoxDragon's
+  own `go.mod` module name is literally `dragonsnshit` -- there is no separate, literal
+  Minecraft-protocol Dragonfly server anywhere in this repo despite the top-level `CLAUDE.md`
+  non-workspace-repos table's "Dragonfly/Bedrock fork" framing; that framing describes the
+  persistent-world *concept*, not literal Bedrock protocol code. "Wire up the dragonfly backend"
+  means wire Town up to this real character record, not build a new server.
+- `PATCH /api/v1/characters/:id/position` and `GET /api/v1/characters/by-player/:player_id`
+  already exist (`REDGARDEN_GUI_NORTHSTAR.md` Milestone 4, `IDUNA` `mmo.go`) -- no new backend
+  surface needed to read or write a character's position, just new client-side HTTP calls from
+  `apps2/battlegrounds_gui`.
+- Real gap found and already fixed (`IDUNA` `ab35b72`, same day): the position-update endpoint's
+  doc comment says "game server M2M" and had no ownership check -- fine while only apps2/mud's
+  trusted agent JWT ever called it, not fine once Town calls it directly with a real player's own
+  JWT for the first time. Fixed with an ownership check (agent JWTs still exempt, matching
+  apps2/mud's existing call unchanged), 4 new tests, live-verified not to disrupt the in-progress
+  REDGARDEN match at the time.
+- Every player who successfully reaches Town already has a real character row -- login's own
+  `/api/v1/redgarden/self-ticket` call 404s pre-login otherwise ("No DragonsNShit character yet"),
+  and its response already includes `player_id`, so resolving player_id → character_id →
+  job/position needs zero new backend surface.
+- Real, small client-side gap: `packages/common/http_client.h` only has string/int JSON field
+  extractors, no float/double one yet -- needed for `pos_x`/`pos_y`/`pos_z` (SQL `REAL` columns).
+- Real, unresolved design question, flagged not guessed at: REDGARDEN's hero roster (Unicorn,
+  Duck, Gary, etc.) has no existing correspondence to `apps2/mud`'s FFXI-style jobs (WAR, etc.) --
+  Town's avatar needs *some* visual per character, and there's no real job→hero mapping to draw
+  on yet.
+- Standing constraint, stated twice this session: **battlegrounds' own server and matchmaker are
+  completely out of scope for this work** -- everything here is additive to Town + IDUNA's
+  already-existing character REST API, never touching `apps/arena_server`/`apps/matchmaker`.
+- Founder's own explicit, accepted tradeoff, not solved here: real-time position sync between a
+  fast-moving GUI client and the MUD's own slower loop "might get weird" -- accepted for now in
+  favor of "a lot more of an experience to build from," not resolved with a real conflict-
+  resolution design in this pass.
+
+Sprint plan:
+
+- [x] **M0: ownership-check hardening on the position-update endpoint** -- done same day, IDUNA
+  `ab35b72`, ahead of Town becoming its first non-M2M caller.
+- [ ] **M1: Town fetches the real character on entry.** `GET /api/v1/characters/by-player/:id`
+  using the `player_id` already captured from login's self-ticket response; new
+  `http_extract_json_double_field` helper for `pos_x`/`pos_y`/`pos_z`.
+- [ ] **M2: a real avatar rendered in Town** at the fetched position, reusing Battlegrounds' own
+  hero-drawing code. Needs a placeholder job→hero-visual mapping (open question above) since no
+  real one exists yet.
+- [ ] **M3: real movement in Town** -- WASD + click-to-move, same shape Battlegrounds already
+  uses, purely local/client-side (no server involved in Town's own rendering).
+- [ ] **M4: position flows back to IDUNA.** `PATCH /api/v1/characters/:id/position`, throttled
+  (not every frame) while the avatar moves -- "the xyz at least needs to flow back to the
+  dragonfly server for the gui xyz source of truth."
+- [ ] **M5: ability panes ported from Battlegrounds' HUD into Town**, inert/decorative for now --
+  Town has no cast/combat system yet, named honestly rather than faked as functional.
+
+Not yet implemented past M0 -- logged per "backlog dump all... backlog that work," to be iterated
+on next.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
