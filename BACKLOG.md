@@ -10593,25 +10593,43 @@ scene itself (once headless sessions are real, it's a REDGARDEN-fork client-side
 local render, no matchmaker/draft/shop/node-capture, position sourced from the headless session).
 The doc's own §5 milestone table **is** the sprint plan:
 
-- [ ] **M1: headless session mechanism proven.** Direct Go test: construct a real headless
-  `player` from a real IDUNA character, `w: bufio.NewWriter(&buf)`, run `look` through the real
-  `handle(p, line)` dispatch, assert captured output is a real room description. Not yet wired to
-  chat/HTTP — proves the mechanism in isolation first.
-- [ ] **M2: `POST /api/v1/mud/command` IDUNA relay.** New endpoint, same shape as the existing
-  chat relay (`chat_messages.go`); apps2/mud polls and dispatches to a headless session (creating
-  one via M1's mechanism if none exists yet), response relayed back.
-- [ ] **M3: Battlegrounds chat box routes `/`-prefixed lines to it.** Real end-to-end: type
-  `/look` in a live Battlegrounds match, see apps2/mud's real room description in the chat log.
-- [ ] **M4: idle eviction + telnet-conflict handling.** Headless sessions persist to IDUNA and
-  drop cleanly after an idle window; a real telnet login for the same character correctly tears
-  down and flushes any live headless session first — never two live `player` structs for one
-  character.
-- [ ] **M5: the second scene (client-side).** New REDGARDEN-fork client mode in
-  `apps2/battlegrounds_gui`: local render only, no match resources, position sourced from the
-  character's headless session, WASD writing position back through it.
+- [x] **M1: headless session mechanism proven.** Done 2026-08-02, GoblinFoxDragon `3a2940d` --
+  built as real production code (`getOrCreateHeadlessPlayer`) rather than an isolated unit test
+  first, but live-verified more thoroughly than a unit test would: real character, real `look`
+  AND real combat (`attack`) through the real `handle(p, line)` dispatch, `headlessBuf` output
+  captured correctly. Apple #11792.
+- [x] **M2: command relay, built differently than originally planned.** Original plan was an
+  IDUNA-relayed `/api/v1/mud/command` endpoint (apps2/mud polling IDUNA for pending commands,
+  same shape chat uses). What actually got built (founder: "the real MUD combat system", in
+  response to "can we kill worms?"): a direct `POST /api/town/command` on apps2/mud's own
+  existing `:7171` API instead -- Town's GUI already reaches apps2/mud's API port directly, the
+  same way it reaches IDUNA directly, so the IDUNA-relay indirection wasn't needed. Real,
+  intentional deviation, not an oversight. Known gap, named not fixed: no auth at all on this
+  endpoint yet (`character_id` is caller-supplied, not derived from a verified identity).
+- [ ] **M3: Battlegrounds chat box routes `/`-prefixed lines to it.** Still not built -- the new
+  combat endpoint is triggered by attacking near the worm, not yet wired into the existing
+  in-match chat box's own `/`-command convention.
+- [ ] **M4: idle eviction + telnet-conflict handling.** Still not built, named explicitly in
+  GoblinFoxDragon `3a2940d`'s own commit: a headless session stays registered (and therefore
+  keeps auto-attacking if it has a live target) for the rest of the process's life once created;
+  the same character logging in over telnet while a headless session is active would register a
+  second, independent `gw.players` entry rather than taking over the existing one.
+- [x] **M5: the second scene, superseded by this session's own Town work.** Not built as
+  originally scoped ("position sourced from the character's headless session") -- Town's avatar
+  position comes from direct IDUNA REST sync (`50d582e`), not from a headless session. But the
+  actual goal (a real, separate, walkable client-side scene) is done and now has real combat on
+  top of it, which exceeds M5's original scope. Superseded, not literally completed as written.
 
-Not yet implemented — no code shipped this arc yet, no Apple filed (northstar + backlog dump
-only). M1 is next.
+**Two real, pre-existing bugs found and fixed while building M1/M2**, both affecting real telnet
+play, not just this feature: `gfd-mud.service` never had `IDUNA_AGENT_NAME`/`IDUNA_AGENT_SECRET`
+configured (every `idunaclient` call from the live process silently 401ing this whole time, fixed
+via a new `~/.config/gfd-mud/env`); `idunaclient.UpdateCharacterLevel` called a route that never
+existed on IDUNA, meaning level/XP has never actually persisted across `apps2/mud` restarts for
+any real player, ever (fixed with a new IDUNA route, `PATCH /api/v1/characters/:id/level`, IDUNA
+`3ebad87`, agent-only).
+
+M1/M2 shipped 2026-08-02, Apple #11792. M3/M4 remain open for whenever this arc is picked up
+again.
 
 ---
 
