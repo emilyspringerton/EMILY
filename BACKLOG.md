@@ -10535,6 +10535,22 @@ self-mint fallback; (2) `PLAY.bat` never set `IDUNA_BASE_URL`, so any real downl
 noted, not acted on. GFD's fork is unaffected either way: self-contained, no build-time dependency
 on REDGARDEN's current state.)
 
+**Founder real-time direction, same session, after the REDGARDEN revert above:** "also starting a
+new game it pops a game but its stuck when the game starts" -> "draft works but then the game is
+just frozen never start" -> "is there a fix? for the future?" -> "iterate prioritize fixes." Real,
+live bug: a real human's match disappearing entirely (process gone, zero snapshots, no
+`match_end`) while every controlled bot-only reproduction ran clean. Local REDGARDEN clone synced
+to the founder's own reverted remote (`git reset --hard origin/main`, founder: "feel free to move
+and reclone... fastest way to sync"). Reapplied two confirmed, independent, low-risk fixes lost in
+the revert (`arena_bot`'s stale `ARENA_HERO_COUNT`, `test_10_bots.sh`'s PID-scoped cleanup --
+Apple #11565's exact live-match-killing bug, reintroduced by the same revert) -- both verified
+live with zero disruption to the founder's own active match at the time. Directly tested and
+**disproved** the natural Warrior/Cart hypothesis via controlled reproduction. Shipped real crash
+diagnostics (signal handler dumping match state + backtrace) since the actual incident left
+nothing to investigate after the fact -- root cause of the real crash is still open, named
+honestly, not glossed over; the next live occurrence will have real forensic data. REDGARDEN
+`77f1321` + `4c6aa11` + `452f6d8`, Apple #11769.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
