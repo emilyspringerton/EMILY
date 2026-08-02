@@ -1,3 +1,18 @@
+## 2026-08-02
+- fix(emily-agent): RSI loop was re-issuing the same ~9 directed tasks into `signals/tasks/`
+  forever. Founder: "the rsi loop keeps putting the same stale 7ish tasks into the backlog."
+  Root cause: `runPrimeTriage` re-scores the same `ReadObservations(10)` window every cycle with
+  no cursor tracking which observations had already been triaged for tasking -- `WriteTask`'s
+  own `recentDuplicateExists` (a rolling 4h content-match window) only ever rate-limited this to
+  once per ~4h12m (window expires -> next 15-min poll finds no recent match -> writes a fresh
+  duplicate -> clock resets), not stopped it. 260 duplicate copies of the same 9 tasks had
+  accumulated in `signals/tasks/` over roughly 45 days. Fixed with a `.task-cursor` file mirroring
+  the existing (correctly-working) `.escalation-cursor` pattern -- once an observation's been
+  triaged for tasking, it's never re-decided. 2 new regression tests, one of which specifically
+  backdates a task file past the 4h window to prove the fix (not the pre-existing dedup layer) is
+  what prevents the duplicate; both confirmed to fail without the fix, pass with it.
+  `emily-agent/integration.go`.
+
 ## 2026-07-25
 - OKEMILY: rebranded redgarden.html + redgarden-wishlist.html to Knights of the Void per real-time founder direction ('update the redgarden landing page to be knights of the void', 'current status download from artifacts on github instructions mailing list for knights of the void wishlist on steam'). New download section with real GitHub Actions artifact instructions checked against ci.yml. Deployed live. OKEMILY c9922d6, Apple #10737. (sess-20260723-2347-df115bd5)
 - backlog: ✓ S170-96 -- REDGARDEN hero name labels above floating health bars. arena_ai_bridge.c wasn't linked into the arena client build at all -- fixed. REDGARDEN e53ee5f, Apple #10714.

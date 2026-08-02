@@ -966,17 +966,44 @@ func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipe
 		lastEscalated = strings.TrimSpace(string(b))
 	}
 
+	// Load task cursor so we don't re-issue directed tasks for observations already triaged for
+	// tasking. Real bug found live 2026-08-02 (founder: "the rsi loop keeps putting the same
+	// stale 7ish tasks into the backlog"): task-writing had NO cursor at all -- every cycle
+	// re-ran Triage/TaskFromTriage over the same ReadObservations(10) window and, absent new
+	// observations to push old ones out, kept re-deciding to task the same handful forever.
+	// WriteTask's own recentDuplicateExists already tried to guard against exactly this with a
+	// rolling 4h content-match window, but that's the wrong shape for "already queued, possibly
+	// still waiting to be worked" -- it only ever rate-limited the bug to once every ~4h12m
+	// (dedup window expires -> next 15-min poll finds no recent match -> writes a fresh
+	// duplicate -> clock resets), not stopped it. 260 duplicate copies of the same 9 tasks had
+	// accumulated in signals/tasks/ over roughly 45 days before this was caught. This cursor
+	// mirrors the escalation cursor just above -- once an observation's been triaged for
+	// tasking, it's never re-decided, regardless of how long it stays near the top of
+	// ReadObservations. recentDuplicateExists stays as a harmless defense-in-depth safety net,
+	// not the primary fix.
+	taskCursorPath := filepath.Join(store.signalsDir, "observations", ".task-cursor")
+	lastTasked := ""
+	if b, err := os.ReadFile(taskCursorPath); err == nil {
+		lastTasked = strings.TrimSpace(string(b))
+	}
+
 	tasksWritten := 0
 	escalations := 0
 	alertsSent := 0
 	newLastEscalated := lastEscalated
+	newLastTasked := lastTasked
 
 	// obs is sorted newest-first; iterate newest-first so the cursor advances to latest.
 	for _, o := range obs {
 		t := Triage(o, priorities)
-		if task := TaskFromTriage(o, t); task != nil {
-			if writeErr := store.WriteTask(*task); writeErr == nil {
-				tasksWritten++
+		if o.Timestamp > lastTasked {
+			if task := TaskFromTriage(o, t); task != nil {
+				if writeErr := store.WriteTask(*task); writeErr == nil {
+					tasksWritten++
+				}
+			}
+			if o.Timestamp > newLastTasked {
+				newLastTasked = o.Timestamp
 			}
 		}
 		if t.RequiresCEOVisibility {
@@ -1015,6 +1042,10 @@ func runPrimeTriage(ctx context.Context, store *IntegrationStore, pipeline *Pipe
 	// Persist cursor so the next cycle doesn't re-send the same alerts.
 	if newLastEscalated != lastEscalated {
 		_ = os.WriteFile(escalationCursorPath, []byte(newLastEscalated), 0o644)
+	}
+	// Persist cursor so the next cycle doesn't re-triage-for-tasking the same observations.
+	if newLastTasked != lastTasked {
+		_ = os.WriteFile(taskCursorPath, []byte(newLastTasked), 0o644)
 	}
 
 	// Autonomous backlog curation: append uncurated FatBaby obs to INTAKE QUEUE.
