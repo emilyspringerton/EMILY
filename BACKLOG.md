@@ -10796,6 +10796,52 @@ server/matchmaker are back in scope.
 
 ---
 
+## Backlog dump — Town HUD, unified combat keybind, and New Handington town layout (2026-08-02)
+
+Founder, real-time, rapid-fire after the first worm kill: **"where is my chat window and combat
+log window in town? those are going to stay up during normal gameplay"** → **"add tab and shift
+tab to cycle through targets like wow"** → **"to be clear we need to unify battlegrounds combat
+with the mud combat on the dragonsnshit side dont touch our MOBA in REDGARDEN repo"** → **"where's
+my starter zone outside of town with the worms?"** → **"add jump space bar"** → (separately)
+uploaded a real hand-drawn map straight to GitHub, `town-map.jpeg` → **"town-map.jpeg added to
+upstream github make sure to do a rebase pull"** → **"i want the town layout to match town map
+pretty much exactly."**
+
+- [x] **Chat + combat log panes in Town.** `chat_draw`/`combat_log_draw` (already built for
+  Battlegrounds) now render in Town too, with full chat input handling wired into Town's own
+  event loop.
+- [x] **Tab/Shift+Tab target cycling**, WoW-style, through the worm ring -- amber highlight on
+  the selected target, HUD readout.
+- [x] **"1" (Battlegrounds' own ability-slot keybind) triggers the real MUD attack command** --
+  the concrete first step of "unify battlegrounds combat with the mud combat": same keybind
+  language, real backend combat underneath, via a new throttled poll (`town_poll_combat`)
+  feeding the shared combat log. REDGARDEN's own repo untouched, as explicitly instructed.
+- [x] **Worm ring expanded 1→4** (`server/mob/worm.go`'s `TownSquareWormSpawns`) -- "a single
+  worm" didn't read as "a starter zone."
+- [x] **Cosmetic space-bar jump** -- sine-arc vertical bounce, no verticality/collision system to
+  interact with, named honestly.
+- [x] **New Handington town layout** -- 25 named buildings transcribed from the real hand-drawn
+  `town-map.jpeg` into `TOWN_BUILDINGS`, positioned at a row/col reading of the sketch's own
+  relative layout (axis-aligned boxes, matching this renderer's existing art style, not literal
+  hand-drawn shapes), category-colored, with floating name labels. Zone 4 renamed "Town Square" →
+  "New Handington." Worm spawns repositioned from an origin ring to the map's own real "Worm Hut"
+  location.
+- [x] **Real bug found and fixed along the way**: `/api/town/command`'s JSON response used Go's
+  default HTML-escaping, garbling real MUD combat text (`>>> LEVEL UP <<<` style markers) into
+  something the client's minimal JSON extractor couldn't unescape. Fixed with
+  `Encoder.SetEscapeHTML(false)`.
+
+All done same day, GoblinFoxDragon `7f1c53c` + `20b418e`, Apple #11797. Go build/test green
+throughout; visually verified under Xvfb with synthetic input (Tab, "1", Space) against a real
+login -- chat history, real combat text, target highlight, and the building layout all confirmed
+live.
+
+Known, accepted gaps, not fixed here: no distance-based label culling (all 25 building names
+render regardless of distance -- real clutter up close); `/api/town/command` still has no auth
+(named in the earlier headless-combat Apple, unchanged).
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
