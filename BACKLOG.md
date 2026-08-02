@@ -10614,11 +10614,15 @@ The doc's own §5 milestone table **is** the sprint plan:
   live (`getOrCreateHeadlessPlayer` registers into `gw.zoneMgr`/`gw.chatRouter`, broadcasts "X
   has entered the world") -- live-verified with two real characters, one's session buffer
   capturing the other's real-time entrance broadcast. GoblinFoxDragon `17a7b86`, Apple #11801.
-- [ ] **M4: idle eviction + telnet-conflict handling.** Still not built, named explicitly in
-  GoblinFoxDragon `3a2940d`'s own commit: a headless session stays registered (and therefore
-  keeps auto-attacking if it has a live target) for the rest of the process's life once created;
-  the same character logging in over telnet while a headless session is active would register a
-  second, independent `gw.players` entry rather than taking over the existing one.
+- [x] **M4: idle eviction + telnet-conflict handling.** Done 2026-08-02. `evictIdleHeadlessSessions`
+  drops sessions idle past 10 minutes (`headlessLastActive`), flushing final position via the new
+  shared `disconnectHeadlessSession` teardown -- same function also runs when a real telnet login
+  arrives for a character with a live headless session. Symmetric case handled too: a headless
+  command for a character already on telnet now returns 409 instead of crashing (a real telnet
+  player's `w` wraps a socket, not a buffer -- no output to hand back). Live-verified both
+  directions with real characters. GoblinFoxDragon `40c40c9`, Apple #11803.
+
+**HEADLESS_SESSION_NORTHSTAR.md's full 5-milestone table is now closed (M1-M5 all done).**
 - [x] **M5: the second scene, superseded by this session's own Town work.** Not built as
   originally scoped ("position sourced from the character's headless session") -- Town's avatar
   position comes from direct IDUNA REST sync (`50d582e`), not from a headless session. But the
