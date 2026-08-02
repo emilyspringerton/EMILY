@@ -10728,8 +10728,8 @@ Sprint plan:
 - [ ] **M5: ability panes ported from Battlegrounds' HUD into Town**, inert/decorative for now --
   Town has no cast/combat system yet, named honestly rather than faked as functional. Not started.
 
-M1-M4 done same day (GoblinFoxDragon `50d582e`). M5 (ability panes, cosmetic-only) is the only
-open item from this sprint plan.
+M1-M4 done same day (GoblinFoxDragon `50d582e`), Apple #11775. M5 (ability panes, cosmetic-only)
+is the only open item from this sprint plan.
 
 ---
 
