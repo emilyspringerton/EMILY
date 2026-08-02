@@ -10553,6 +10553,62 @@ honestly, not glossed over; the next live occurrence will have real forensic dat
 
 ---
 
+## Backlog dump + sprint plan — GFD headless MUD sessions ("the second scene"), real-time founder direction (2026-08-02)
+
+Founder, real-time, verbatim, two messages building on each other: **"ok how can we keep
+battlegrounds as is and have a separate scene for our game world - to start the second scene can
+be the same as the first just no match resources if you know what i mean we can iterate on that
+while unifying the experience with the affordances of the mud"** → **"if you think about it once
+we add the chat interface we can have the mud commands work in the chat window and then all of a
+sudden we have a mmo that isnt just a mud anymore."** Asked to choose between a smaller read-only
+`/char`+`/inventory`-only first slice or the full session model; founder chose explicitly:
+**"go straight for the session model."** Then: **"backlog dump all;; sprint plan all;; iterate."**
+
+Real gap found while scoping: both of the founder's own framings (chat-routed MUD commands, a
+walkable second scene) turn out to be the same missing piece from two directions — a character
+needs real MUD state and real MUD actions **without an open telnet connection**, since a player
+sitting in a REDGARDEN Battlegrounds match has no telnet session running (Battlegrounds is a
+separate UDP process apps2/mud knows nothing about). Real mechanism found in `apps2/mud/main.go`:
+`player.w` is a `*bufio.Writer`, which wraps *any* `io.Writer` — a real `net.Conn` for telnet, or
+an in-memory `bytes.Buffer` for a headless session — so `handle(p, line)`'s entire existing
+command dispatch (`cmdLook`, `cmdInventory`, every job/craft/party command) runs completely
+unchanged against a buffer-backed player. No command-processing code needs to change; only new
+code is constructing that player from a persisted IDUNA character and capturing what got written
+to the buffer.
+
+Full design written and registered: `GoblinFoxDragon/docs2/HEADLESS_SESSION_NORTHSTAR.md`
+(GoblinFoxDragon `27597d9`, golden-docs-index EMILY `8c83a12`, HEADLESS-SESSION row). Covers the
+headless player registry (`gw.headlessPlayers`, keyed by character ID, separate from `gw.players`
+so telnet and headless sessions can never collide), lifecycle (first-command construction,
+session reuse across chat messages, telnet-conflict teardown-and-flush, idle eviction), command
+routing from Battlegrounds chat (`/`-prefixed lines → new IDUNA-relayed `POST /api/v1/mud/command`
+→ apps2/mud dispatch → relayed response, same shape as the existing chat relay), and the second
+scene itself (once headless sessions are real, it's a REDGARDEN-fork client-side-only feature —
+local render, no matchmaker/draft/shop/node-capture, position sourced from the headless session).
+The doc's own §5 milestone table **is** the sprint plan:
+
+- [ ] **M1: headless session mechanism proven.** Direct Go test: construct a real headless
+  `player` from a real IDUNA character, `w: bufio.NewWriter(&buf)`, run `look` through the real
+  `handle(p, line)` dispatch, assert captured output is a real room description. Not yet wired to
+  chat/HTTP — proves the mechanism in isolation first.
+- [ ] **M2: `POST /api/v1/mud/command` IDUNA relay.** New endpoint, same shape as the existing
+  chat relay (`chat_messages.go`); apps2/mud polls and dispatches to a headless session (creating
+  one via M1's mechanism if none exists yet), response relayed back.
+- [ ] **M3: Battlegrounds chat box routes `/`-prefixed lines to it.** Real end-to-end: type
+  `/look` in a live Battlegrounds match, see apps2/mud's real room description in the chat log.
+- [ ] **M4: idle eviction + telnet-conflict handling.** Headless sessions persist to IDUNA and
+  drop cleanly after an idle window; a real telnet login for the same character correctly tears
+  down and flushes any live headless session first — never two live `player` structs for one
+  character.
+- [ ] **M5: the second scene (client-side).** New REDGARDEN-fork client mode in
+  `apps2/battlegrounds_gui`: local render only, no match resources, position sourced from the
+  character's headless session, WASD writing position back through it.
+
+Not yet implemented — no code shipped this arc yet, no Apple filed (northstar + backlog dump
+only). M1 is next.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
