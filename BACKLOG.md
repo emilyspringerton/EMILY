@@ -10728,6 +10728,29 @@ on next.
 
 ---
 
+## Founder-reported bug, root cause found, fix deferred by choice — REDGARDEN's 60s no-lobby-progress watchdog racing a slow requeue (2026-08-02)
+
+Founder: **"if i dont requeue fast enough in GFD when i requeue it is like an empty game it says
+matchmaking fail."** Root cause confirmed live via `REDGARDEN/var/logs/matchmaker-bots.log`:
+`No lobby progress in 60s (phase=0, 19/20 connected) -- shutting down.` -- `apps/arena_server`'s
+own watchdog kills a freshly-matched lobby if not everyone connects within 60s; a slow requeue
+can lose this race against the bot pool's own fast cycling, leaving the human's client trying to
+talk to a server process that already exited.
+
+Given the same-session standing instruction ("keep the battlegrounds working as is do not change
+that keep that server and matchmaking as is"), the founder was offered three options (fix in
+REDGARDEN, fix client-side only, or just flag it) and chose **client-side only**. Fixed:
+GoblinFoxDragon's requeue handler now lands the player back in Town on a failed reconnect instead
+of leaving `arena_state` blank/zeroed with no way forward (GoblinFoxDragon `05e0c25`). REDGARDEN's
+own `apps/arena_server`/`apps/matchmaker` are untouched -- the actual race (a lobby's 60s clock
+can expire before a slow human finishes connecting) still exists and will still happen; it's just
+recoverable now instead of a dead end. Real, deferred-by-choice fix, not resolved: either a
+longer watchdog window, or not starting the 60s clock until the real (non-bot) player has
+actually connected, would close the underlying race -- open for whenever REDGARDEN's own
+server/matchmaker are back in scope.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
