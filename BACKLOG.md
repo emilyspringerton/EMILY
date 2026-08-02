@@ -10516,6 +10516,25 @@ structural bug plus a skillchain-aware cast heuristic -- was started while "cont
 was explicitly not requested; founder corrected course and it was fully reverted, uncommitted,
 before this task-cursor fix began. Not logged as a backlog item since nothing shipped from it.)
 
+**Founder real-time direction, same session:** "keep working on GFD GUI client" -> corrected the
+earlier live-checkout approach ("REDGARDEN isnt literally the GUI its supposed to be a starting
+place for the GUI like a clean fork") -> "switch the abilities from qwe to 123 and enable wasd
+movement" -> "ensure i can log in with test test to enter the game." Real, standalone fork
+shipped: `apps2/battlegrounds_gui/` in GoblinFoxDragon, forked from REDGARDEN `61baafb`,
+self-contained (own `packages/`, no collision with GFD's existing top-level trees), CI builds
+directly from it. Ability casts rebound Q/W/E -> 1/2/3, continuous camera-relative WASD movement
+added alongside click-to-move. Two real bugs found and fixed live while testing the founder's own
+`test@test.com` account: (1) IDUNA's own `REDGARDEN_TICKET_SECRET` didn't match the live game
+server's -- every IDUNA-minted ticket had never verified, bots were silently masking it via
+self-mint fallback; (2) `PLAY.bat` never set `IDUNA_BASE_URL`, so any real downloaded client got
+"Could not reach login server" off-box. Verified live end-to-end: login -> ticket mint -> connect
+-> "20/20 connected" in a real match. GoblinFoxDragon `134b6a2` + `1fbcb98`, REDGARDEN `00116d7` +
+`ff78efb`, Apple #11766.
+
+(Founder is separately force-pushing over REDGARDEN's own history after `00e0aff` on their own --
+noted, not acted on. GFD's fork is unaffected either way: self-contained, no build-time dependency
+on REDGARDEN's current state.)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
