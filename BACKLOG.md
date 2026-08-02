@@ -10937,6 +10937,31 @@ guessing.
   `refresh_self_ticket()`: re-mints from the stored login JWT before every connect instead of
   reusing the first one. GoblinFoxDragon `88581af`, Apple #11809.
 
+- [x] **Follow-up, same requeue investigation, founder confirmed it can still repeat**: "this
+  bug is most important to fix for now" / "a real fix - clean builds first." Live-reproduced the
+  19/20-stuck race again even after the ticket fix -- confirmed via REDGARDEN's own matchmaker
+  log a fresh attempt sat stuck exactly like before. The stale-ticket bug and the 19-bot/20-lobby
+  zero-margin race are BOTH real, independent contributors to the same symptom -- fixing one
+  doesn't fully fix the other. Widened the margin: restarted the live `redgarden-bot-pool`
+  systemd unit (deployed `~/.config/systemd/user/redgarden-bot-pool.service`, not REDGARDEN's
+  repo -- a live-infra operational change, same category the unit file's own comment already
+  calls out as "deliberately not done as part of this commit") with the bot count dropped from
+  19 to 18, leaving 2 open slots instead of 1. Also restarted `redgarden-matchmaker-bots` to
+  flush a stale queue backlog accumulated from repeated test restarts during this same
+  investigation. Verified settled: exactly 18 real bot processes, queue steady at 18/20, no
+  phantom entries.
+
+- [x] **Real, separate bug found live in the same session**: founder, testing the Auction House
+  fix: **"the reason the auction house menu doesnt work is im trying to hit enter but that is
+  triggering chat can we get a different hotkey than enter to start a chat enter can still send
+  the chat"** -> **"how about make it work for c y and t just have them all map to start chat for
+  now"** -> **"and then when we are not in the auction house enter also will open the chat."**
+  The earlier Enter-ordering fix (this same backlog dump, above) was necessary but the founder's
+  own experience showed it wasn't sufficient in practice -- added C/Y/T as additional chat-open
+  keys alongside Enter, in both Town and in-match chat. "C" deliberately skipped in Battlegrounds'
+  own in-match chat only -- already NORTHSTAR §15.1's `cam_locked` toggle there, "keep
+  battlegrounds as is" applies. GoblinFoxDragon `a6fd091`, Apple #11811.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
