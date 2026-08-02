@@ -10489,6 +10489,33 @@ directly -- CI is the real check, monitored after push. Named, not fixed: no TLS
 platform (a real concern once a player's login screen reaches IDUNA over the open internet, not
 just same-LAN). REDGARDEN Apple #11582.
 
+**Founder real-time direction, same session:** "the rsi loop keeps putting the same stale 7 ish
+tasks into the backlog not sure if thats it." Confirmed and fixed: `runPrimeTriage` re-scored the
+same `ReadObservations(10)` window every cycle with no cursor tracking which observations had
+already been triaged for tasking. `WriteTask`'s own `recentDuplicateExists` (a rolling 4h
+content-match window) only ever rate-limited the resulting duplicate to once per ~4h12m (window
+expires -> next poll finds no recent match -> writes a fresh duplicate -> clock resets), not
+stopped it -- 260 duplicate copies of the same 9 tasks had accumulated in `signals/tasks/` over
+roughly 45 days, because no genuinely new observation had arrived since 2026-06-13 to push the
+same top-10 window forward. Fixed with a `.task-cursor` file mirroring the existing,
+correctly-working `.escalation-cursor` pattern. 2 new regression tests -- one specifically
+backdates a task file past the 4h window to prove the new cursor, not the pre-existing dedup
+layer, is what prevents the duplicate; both confirmed to fail without the fix, pass with it.
+Two adjacent issues found and handled along the way: 91 legitimate local EMILY commits had never
+been pushed to origin (pushed now); the live `emily-agent` daemon has not actually been running
+under its own `emily-system.service` since that unit was OOM-killed on 2026-07-21 -- it's been
+running ad-hoc from a temp `go-build` binary since 2026-07-23. Rebuilt with the fix and restarted
+in place (same ad-hoc shape, not migrated to systemd here -- flagged, not fixed, out of scope for
+this specific ask). Verified live against real production data: cursor created correctly, no new
+duplicate task files written on the first post-fix cycle. Also flagged, not fixed: the Anthropic
+API key emily-agent uses has run out of credit balance, breaking HEIMDAL sprint translation.
+EMILY `7d64f5a`, Apple #11763.
+
+(Earlier in this same session, a REDGARDEN bot-AI detour -- a real stale-`ARENA_HERO_COUNT`
+structural bug plus a skillchain-aware cast heuristic -- was started while "continuing GFD" but
+was explicitly not requested; founder corrected course and it was fully reverted, uncommitted,
+before this task-cursor fix began. Not logged as a backlog item since nothing shipped from it.)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
