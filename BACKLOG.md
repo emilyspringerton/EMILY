@@ -10905,6 +10905,33 @@ mean anything from what's already shipped to porting the MUD's job/weapon-skill 
 `arena_game.c` itself). Queued for a clarifying question before spending real implementation time
 guessing.
 
+- [x] **Real bug fixed same session, live-reported**: founder, testing the just-shipped Auction
+  House: **"ok auction house - good work - when i hit enter for browse categories the whole
+  client crashes."** Not a real crash -- Town's event loop checked the "Enter opens chat"
+  shortcut BEFORE the AH menu's own Enter handling, so for any real logged-in player (`g_chat_jwt`
+  set, never true in this session's own earlier dev-agent testing, which is why it went unnoticed
+  until a real login hit it) Enter opened the chat box instead of confirming the menu selection,
+  then ate every further keystroke as chat text with the AH menu stuck open and no way out --
+  indistinguishable from a hang at the keyboard. Fixed by checking the AH-menu block first, same
+  precedence `chat_input_active` itself gets. Verified both directions with a real
+  `SDL_KEYDOWN`/`SDLK_RETURN` event pushed through the actual dispatch code (a direct function
+  call to `ah_handle_enter` did NOT reproduce it -- had to go through the real event queue):
+  confirmed repro against the pre-fix commit, confirmed fixed against the new one. GoblinFoxDragon
+  `419efba`, Apple #11807.
+
+- [ ] **Open, under investigation**: founder, live: **"ok if i queue for battle grounds and then
+  after that game return to town and then requeu for battlegrounds it doesnt work"** -- symptom,
+  per founder follow-up ("it does 2 then 1"): first requeue attempt connects, never loads the
+  match, and the client's existing 10s dead-connection recovery correctly dumps back to Town;
+  second requeue attempt right after that hangs on the "please wait" queuing screen (matches
+  `net_find_and_connect`'s own up-to-60s blocking wait for `PACKET_MATCH_FOUND`, which never
+  arrives). Strong suspicion, not yet confirmed: a REDGARDEN-side matchmaker/bot-pool
+  repopulation timing issue, same general class as the earlier "skipped the draft" dead-connection
+  bug, now recurring specifically on a second requeue -- REDGARDEN's own server/matchmaker are
+  explicitly out of scope to modify ("dont touch our MOBA in REDGARDEN repo"), so this needs
+  characterizing further (read-only) before deciding whether there's any real client-side
+  mitigation left, or whether this is purely a REDGARDEN-side report to hand off.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
