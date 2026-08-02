@@ -10919,18 +10919,23 @@ guessing.
   confirmed repro against the pre-fix commit, confirmed fixed against the new one. GoblinFoxDragon
   `419efba`, Apple #11807.
 
-- [ ] **Open, under investigation**: founder, live: **"ok if i queue for battle grounds and then
-  after that game return to town and then requeu for battlegrounds it doesnt work"** -- symptom,
-  per founder follow-up ("it does 2 then 1"): first requeue attempt connects, never loads the
-  match, and the client's existing 10s dead-connection recovery correctly dumps back to Town;
-  second requeue attempt right after that hangs on the "please wait" queuing screen (matches
-  `net_find_and_connect`'s own up-to-60s blocking wait for `PACKET_MATCH_FOUND`, which never
-  arrives). Strong suspicion, not yet confirmed: a REDGARDEN-side matchmaker/bot-pool
-  repopulation timing issue, same general class as the earlier "skipped the draft" dead-connection
-  bug, now recurring specifically on a second requeue -- REDGARDEN's own server/matchmaker are
-  explicitly out of scope to modify ("dont touch our MOBA in REDGARDEN repo"), so this needs
-  characterizing further (read-only) before deciding whether there's any real client-side
-  mitigation left, or whether this is purely a REDGARDEN-side report to hand off.
+- [x] **Real fix found and shipped**: founder, live: **"ok if i queue for battle grounds and then
+  after that game return to town and then requeu for battlegrounds it doesnt work"** -- worked
+  twice, then failed every time; founder's own follow-up test nailed the real signal: **"ok yea
+  killing my client and relaunching it fixes it its a bug."** That pointed straight at client
+  state, not the server. First investigation pass (real, live-confirmed via REDGARDEN's own
+  matchmaker log showing `No lobby progress in 60s (phase=0, 19/20 connected)`) found the bot
+  pool runs 19 bots against a 20-slot lobby by design, leaving exactly one slot for a human with
+  zero margin -- a real, documented REDGARDEN tradeoff, but a red herring for THIS bug once the
+  "restart fixes it" signal came in. Traced precisely instead: `get_player_login_ticket` mints a
+  connect ticket once at initial login; `net_connect()` reused that same ticket for every
+  reconnect all session. IDUNA's `RedgardenTicketTTL` is a hardcoded 5 minutes, and
+  `arena_server` silently drops `PACKET_CONNECT` for an expired ticket with no rejection sent
+  back -- indistinguishable from "the human never joined the lobby," which is exactly the
+  19/20-stuck symptom the first pass found. A fresh client relaunch mints a fresh ticket at its
+  own new login, which is why that "fixed" it -- never a REDGARDEN-side bug. Added
+  `refresh_self_ticket()`: re-mints from the stored login JWT before every connect instead of
+  reusing the first one. GoblinFoxDragon `88581af`, Apple #11809.
 
 ---
 
