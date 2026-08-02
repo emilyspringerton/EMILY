@@ -10951,6 +10951,17 @@ guessing.
   investigation. Verified settled: exactly 18 real bot processes, queue steady at 18/20, no
   phantom entries.
 
+  **Correction, same session, minutes later**: this was wrong -- 18 bots + 1 human is 19, never
+  20, so the lobby could no longer fill AT ALL (worse than the original bug: the original 19-bot
+  design was already exactly right, 19+1=20, a real, deliberate "no margin needed, just needs to
+  land" setup, not a margin problem to widen). Founder hit it live ("im queued and its not
+  popping"), confirmed via the matchmaker log (a real human IP queued and sat at 19/20 forever).
+  Reverted the live unit back to 19 immediately, restarted matchmaker + pool again to flush the
+  resulting stale-queue mess (which briefly dumped the founder into a near-empty match --
+  "and then it dumped me into an empty battlefield" -- 2 real connections out of a stale 20-match,
+  died on its own 60s watchdog, not a lasting bug). Re-verified clean: exactly 19 real bot
+  processes, queue settled at 19/20.
+
 - [x] **Real, separate bug found live in the same session**: founder, testing the Auction House
   fix: **"the reason the auction house menu doesnt work is im trying to hit enter but that is
   triggering chat can we get a different hotkey than enter to start a chat enter can still send
@@ -10961,6 +10972,21 @@ guessing.
   keys alongside Enter, in both Town and in-match chat. "C" deliberately skipped in Battlegrounds'
   own in-match chat only -- already NORTHSTAR §15.1's `cam_locked` toggle there, "keep
   battlegrounds as is" applies. GoblinFoxDragon `a6fd091`, Apple #11811.
+
+- [x] **Golden doc written, real work not started**: founder, looking past Town's flat ground to
+  future zones: **"the town we have is flat and thats cool but when we have other zones we are
+  going to want biome like stuff including different elevations is it possible to use the voxel
+  stuff in dragonfly but we show it as a smooth terrain?"** -> **"yea use dragonfly but make it
+  look natural not like blocks interpolate or whatever"** -> **"golden doc it."** Researched the
+  real backend (`server/worldapi`'s `/chunks` endpoint + `ProceduralWorldStore`'s per-scene column
+  generation, Hills already computes height-per-column internally) and the client's mesh pipeline
+  (pos+normal only, no per-vertex color, reusable for a heightfield with zero shader changes) and
+  SHANKPIT's own voxel renderer (legacy blocky per-cube `glBegin(GL_QUADS)`, explicitly not
+  reusable -- the exact look being avoided). Wrote `docs2/SMOOTH_TERRAIN_NORTHSTAR.md`, a
+  5-milestone plan (backend heightmap exposure -> client heightfield mesh -> flat biome coloring
+  -> movement/camera elevation awareness -> stretch: smooth per-vertex biome blending), registered
+  in golden-docs-index as SMOOTH-TERRAIN. All milestones past the doc itself are NOT STARTED --
+  next open item whenever work on a non-Town zone begins.
 
 ---
 
