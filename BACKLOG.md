@@ -11460,6 +11460,22 @@ session's back half into one explicit order, since several real things are now i
   to connect from off-LAN; (e) SMOOTH_TERRAIN's own stretch goal (per-vertex biome blending) --
   has no real multi-biome-in-one-chunk content to blend yet, would be premature infrastructure.
   Not picking one of these without direction.
+- [x] **Real backend-unification slice: server-authoritative position + PacketSnapshot. DONE.**
+  Founder picked "real backend unification" from the options above, then specifically
+  "server-authoritative position" over trusting client-reported position (a real cheat vector).
+  Closes `DRAGONSNSHIT_TWO_BACKENDS_AUDIT.md`'s own named next step -- `PacketSnapshot` was
+  defined but never sent; other players couldn't see each other at all. New
+  `apps2/server-go/snapshot.go`: `integrateMovement` is the first general-purpose on-foot
+  movement integration anywhere in this codebase family (not even SHANKPIT's own more mature
+  sibling has one outside its racing minigame's vehicle physics); `buildSnapshotPacket` matches
+  `apps2/lobby`'s real, compiler-padded C struct layout byte-for-byte, verified via a standalone
+  `gcc`+`offsetof` probe rather than assumed. Broadcast runs from the existing main loop, not a
+  new goroutine, since `clients`/`clientAddrs` have no real mutex yet and a second unsynchronized
+  accessor would be a genuine new crash risk -- ~4Hz cadence, a named limitation. 7 new tests.
+  **Live-verified**: real `gfd-server-go.service` rebuilt, redeployed, confirmed stable including
+  the zero-clients edge case. **Real, named gaps, not solved here**: no world-geometry collision
+  (pre-existing stub), FPS-specific `NetPlayer` fields this backend doesn't track are zero-filled
+  not faked, mobs remain out of scope. GoblinFoxDragon `7d369cc`, Apple #11902.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
