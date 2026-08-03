@@ -11301,10 +11301,22 @@ session's back half into one explicit order, since several real things are now i
   muddy Swamp) render simultaneously with visibly distinct hues, confirmed via screenshot. `go
   vet`/`go test ./...` and a direct `gcc` client build both clean. GoblinFoxDragon `d955423`,
   Apple #11839.
-- [ ] **Next up, not started**: Milestone 4 (movement/camera elevation awareness) per
-  `SMOOTH_TERRAIN_NORTHSTAR.md` §5 -- the last milestone before the stretch goal (§5, per-vertex
-  biome blending). Real, necessary work once a zone actually has elevation (§3.4); not attempted
-  for Town itself, which stays intentionally flat by design.
+- [x] **SMOOTH_TERRAIN_NORTHSTAR.md Milestone 4 -- movement/camera elevation awareness. DONE.**
+  New `terrain_test_height_at` samples the same CPU-side heights the GPU mesh was built from and
+  returns real terrain height when standing inside an F10 test patch, 0 (Town's own flat ground)
+  elsewhere -- Town itself untouched, stays flat by design. Wired into camera focus
+  (`mat4_orbit_view`'s `focus_y`, was hardcoded 0.0f) and the avatar's draw-time Y offset. New
+  `terrain_test_offset_x` is the one shared source of each patch's world placement, used by both
+  renderer and height lookup so they can't drift apart. **Explicitly not done, named rather than
+  silently skipped**: `screen_to_ground`'s click-to-move ray-cast still targets a flat y=0 plane
+  (real ray-vs-heightfield intersection is a harder geometric problem, out of scope); WASD's own
+  x/z update logic is unchanged, only the rendered Y now follows terrain. **Live-verified
+  visually under Xvfb**: screenshotted the camera settling onto the real sloped terrain surface at
+  the avatar's position instead of floating/clipping. `go vet`/`go test ./...` and a direct `gcc`
+  client build both clean. This closes SMOOTH_TERRAIN_NORTHSTAR's core milestone sequence (0
+  through 4) -- only the stretch goal (per-vertex biome blending, §5) remains, plus the still-open
+  §3.6 Town<->Dragonfly bridge question and §3.7 gaps (world sculpting, real Bedrock content
+  bridging). GoblinFoxDragon `a31fb54`, Apple #11840.
 
 ---
 
