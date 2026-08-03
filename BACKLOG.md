@@ -11525,6 +11525,43 @@ session's back half into one explicit order, since several real things are now i
   explicitly a *later* layer on top of that foundation, not before it. **Not yet scoped**: what
   "unify combat with Battlegrounds first" concretely means as a first buildable slice -- flagged
   for the next session/conversation to scope properly, not guessed at here.
+- [x] **Meadow real gentle-roll elevation + denser tree cover. DONE.** Founder: "meadows are not
+  completely flat my bro" → "i dont see any updates yet expanding our meadow scene adding more
+  trees." New `meadowColumnHeight` (range 3-5, shared by block generation and heightmap exposure,
+  one real formula). `meadowTrees` density bumped from 1-3/chunk (one bare bucket) to a real
+  5-6 every bucket. `go test ./...` clean, `server-go` rebuilt/redeployed, live-verified via curl
+  (real min/max variation). GoblinFoxDragon `992f0a2`, Apple #11914.
+- [x] **Real Meadow worm combat in the Dragonfly zone, avatar Y bugfix, bigger zone, relog safety
+  net. DONE.** Founder: "and we can fight worms in that new area?" → "do the engineering work to
+  fix that first"; "my avatar is not visible in the meadow scene"; "also the scene seems quite
+  small"; live, mid-session: "i was in the meadow and closed the game - then... i was in the
+  middle of nowhere not in town... i guess we need a town teleport button." Root-caused and fixed
+  four real, distinct bugs in one pass: (1) avatar invisibility was a clip-space-vs-world-space
+  matrix bug (`hero_y` now threaded through the model side, not a `vp` pre-multiply hack); (2)
+  Meadow's real worms (`server/mob/worm.go`'s already-live `MeadowWormSpawns`) were unreachable
+  from the GUI because `town_telecrystal_travel` bypassed apps2/mud's own `travel` command (a
+  workaround for a self-deadlock bug that's since been fixed, `15ea788`, but the client bypass
+  never caught up) -- confirmed end-to-end via a direct `/api/town/command` probe before writing
+  any render code; (3) `TERRAIN_TEST_CELL_SIZE`/`HEIGHT_SCALE` bumped (5.0/1.5) so the zone is
+  bigger and the real elevation data reads as a visible roll; (4) `town_fetch_character` never
+  read `scene_id`, so relaunching after last being in Meadow rendered real Meadow-space
+  coordinates as Town coordinates, stranding the avatar outside Town's own footprint -- fixed by
+  switching render mode to match the real scene, plus a real "H" emergency return-to-town
+  keybind (founder's own proposed fix) that bypasses the normal range-gated crystal UX. `gcc
+  -Wall -Wextra` and `go test ./...` clean. GoblinFoxDragon `d921df6`, Apple #11915.
+- [ ] **Deferred by founder, not yet scoped**: "ok then we should be able to auto attack trees to
+  collect lumber? ... full crafting provenance shows date and time of the extraction of the
+  resource from exactly where at what time etc this is already in the notes somewhere as a
+  crafting northstar" -- explicitly queued for *after* the in-flight worm/avatar/scene fixes above
+  resolved (now done). Could not locate an exact "crafting provenance" northstar doc matching this
+  description (`INVENTORY_EQUIPMENT_NORTHSTAR.md`, `MMO_NORTHSTAR.md`, `NORTHSTAR_SUPPLY_CHAIN.md`
+  checked -- none match; `NORTHSTAR_SUPPLY_CHAIN.md` specifically is about Emily Prime's own
+  vendor research provenance, unrelated). Needs the doc reference clarified with the founder
+  before scoping lumber-harvesting/crafting-provenance work.
+- [ ] **Deferred by founder, real future interest, not for now**: "i did want the shankpit lobby
+  to connect up to the game world too at some point" -- connecting `apps2/lobby` (the older
+  SHANKPIT-style client) to the real Dragonfly/MUD game world content. Explicitly a later
+  integration, not scoped or started.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
