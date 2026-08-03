@@ -11278,9 +11278,22 @@ session's back half into one explicit order, since several real things are now i
   the northstar's own §4. New tests cross-check the heightmap directly against `hillsChunk`'s own
   real block output. Live-verified against the running `gfd-server-go.service`. `go vet`/
   `go test ./...` clean. GoblinFoxDragon `f9b4f14`, Apple #11836.
-- [ ] **Next up, not started**: Milestone 2 (client heightfield mesh -- render the new heightmap
-  data as a smooth, interpolated surface in `apps2/battlegrounds_gui`) per
-  `SMOOTH_TERRAIN_NORTHSTAR.md` §5.
+- [x] **SMOOTH_TERRAIN_NORTHSTAR.md Milestone 2 -- client heightfield mesh. DONE.** New
+  `build_heightfield_mesh`/`heightfield_sample` in `apps2/battlegrounds_gui/src/main.c` fetch a
+  real heightmap from Milestone 1's `/heightmap` endpoint, bilinearly interpolate at 2x source
+  resolution, and derive per-vertex normals from finite-difference height gradients -- through the
+  exact same pos+normal `upload_mesh`/`draw_mesh` pipeline every other mesh in this client uses,
+  no shader change. New `http_extract_json_uint8_array_field` parses the wire format. Wired as an
+  F10 debug toggle rendering the real live Hills chunk beside Town -- deliberately not integrated
+  into Town itself (stays flat by design) and not wired into movement (Milestone 4, later).
+  **Live-verified visually, not just compiled**: built and ran the real client under Xvfb,
+  connected to Town via a WOTAN dev-agent identity, screenshotted the F10 mesh -- confirmed a
+  real smooth, continuously gradient-shaded rolling surface, not stair-stepped cubes. `go vet`/
+  `go test ./...` and a direct `gcc` client build both clean. GoblinFoxDragon `46e849f`,
+  Apple #11837.
+- [ ] **Next up, not started**: Milestone 3 (biome flat-coloring) or Milestone 4
+  (movement/camera elevation awareness) per `SMOOTH_TERRAIN_NORTHSTAR.md` §5 -- no priority given
+  between them yet.
 
 ---
 
