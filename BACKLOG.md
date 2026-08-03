@@ -11365,6 +11365,21 @@ session's back half into one explicit order, since several real things are now i
   directly exercised `town_move_half_extent()` confirming a runaway target position (999 units)
   clamps correctly to the new 24-unit bound. `go vet`/`go test ./...` and a direct `gcc` client
   build both clean. GoblinFoxDragon `8dddccb`, Apple #11847.
+- [x] **Real telecrystal cast UX, ported from apps/lobby's own reference. DONE.** Founder: "check
+  the shankpit side of the codebase there is telecrystals the ux is good i want it like that
+  circle showing cast radius cast bar ticks up." Replaced the click-based Dragon Gate trigger
+  entirely with the same real mechanic `apps/lobby/src/main.c` (this repo's own older
+  SHANKPIT-style client) already ships: a pulsing world-space ring at the crystal's real
+  interaction radius (12 units both directions, `server/telecrystal`'s own registry values),
+  turning solid white when the player is inside it; pressing G while in range starts a real cast,
+  not an instant teleport; a fill bar with a commit tick-mark advances over 1000ms, the real
+  travel/return call fires at the 600ms commit mark, leaving the ring before commit cancels the
+  cast. New `draw_mesh_lines` (GL_LINE_LOOP twin of `draw_mesh`) since this client's 3D pass is
+  shader-bound, not the legacy matrix stack apps/lobby's own ring uses -- the ring is a real mesh
+  through the existing pipeline instead of mixed-in immediate-mode calls. **Live-verified
+  visually under Xvfb**: screenshotted mid-cast showing the fill bar, commit marker, and "CASTING:
+  TELEPORT MEADOW" text against the real in-range white ring. `go vet`/`go test ./...` and a
+  direct `gcc` client build both clean. GoblinFoxDragon `16d314c`, Apple #11849.
 
 ---
 
