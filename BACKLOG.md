@@ -11489,6 +11489,22 @@ session's back half into one explicit order, since several real things are now i
   rebuilt, redeployed, confirmed stable. **Still not done**: horizontal wall collision
   (`world.RayTrace` itself, unchanged stub) -- vertical grounding only, by design. GoblinFoxDragon
   `3f40f8e`, Apple #11904.
+- [x] **Real entity hit detection for hitscan shooting, ported from SHANKPIT. DONE.** Checked
+  SHANKPIT's own sibling repo first: its `world.RayTrace` is real, but only does
+  ray-vs-player-sphere intersection, never voxel/wall raycasting -- neither sibling has real wall
+  collision. That also meant GoblinFoxDragon's own hitscan shooting could never hit *anything* at
+  all before today, not just "no wall collision" -- genuinely no hit detection of any kind, on
+  any client's shots, ever. Ported SHANKPIT's own real `gameWorld`/`gameEntityHit` directly
+  (ray-vs-sphere intersection, chest-height approximation, `hitboxRadius=0.4`), dropping only its
+  sceneID cross-scene guard. **Also fixed a real, separate bug found in the process**: every
+  client's shots used to fire through one single, shared, static player stub created once at
+  startup (position always the literal origin, for every shooter, forever) -- now a real per-shot
+  player uses the actual shooter's own real, tracked position. New `Vec3.Sub`/`Dot`/`Len`. 10 new
+  tests covering the real hit-detection geometry. **Live-verified**: real
+  `gfd-server-go.service` rebuilt, redeployed, confirmed stable. **Still not done, matching
+  SHANKPIT's own real precedent, not a new corner cut**: no real damage applied on hit yet
+  (`nopEntity.Hurt` still a no-op there too); voxel/wall raycasting remains completely unbuilt in
+  both sibling repos. GoblinFoxDragon `3db3316`, Apple #11907.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
