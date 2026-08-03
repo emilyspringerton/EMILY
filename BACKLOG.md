@@ -11596,6 +11596,20 @@ session's back half into one explicit order, since several real things are now i
   `town_recenter_in_town()` close the gap for good. `gcc -Wall -Wextra` clean, live-verified via
   Xvfb (reproduced the exact corrupted state, confirmed both the button and the "H" hint now
   render). GoblinFoxDragon `b5ec132`, Apple #11922.
+- [x] **Real worm creature model + nameplates/health bars, golden-ratio zone expansion. DONE.**
+  Founder: "the worms look like 3 little poops on the ground next to eachother not like a worm
+  ... have the worms more worm like and like slightly floating in the air or something - bigger -
+  like a lot bigger" + "we also need nameplates and health bars like in battlegrounds" + "expand
+  the zone have it be the golden ratio but on the long ways have it like 4x as big as it is
+  currently." New 5-segment arched, floating, ~4x-bigger worm silhouette (`WORM_SEG_*`,
+  `WORM_FLOAT_Y`); real nameplate/health-bar overlay (`town_draw_worm_nameplates`) reusing
+  Battlegrounds' own `world_to_screen` bar technique (honest full/green bar -- apps2/mud still has
+  no live mob-HP surface). Meadow's real footprint reshaped to a real golden-ratio rectangle
+  (`DFZONE_CELL_SIZE_X`/`_Z`: 320-unit long axis, short axis = long/phi, real not rounded) --
+  `build_heightfield_mesh`, `dfzone_height_at`, `town_move_half_extent_x/z`, and tree/flower
+  position math all updated to per-axis scaling; F10's own debug patches stay square/untouched.
+  `gcc -Wall -Wextra` clean, live-verified via Xvfb for both pieces. GoblinFoxDragon `e751acb`,
+  Apple #11924.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
