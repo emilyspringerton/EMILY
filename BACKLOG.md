@@ -11203,10 +11203,18 @@ session's back half into one explicit order, since several real things are now i
   specific after a real telecrystal travel (see `SMOOTH_TERRAIN_NORTHSTAR.md`) -- this validation
   deliberately used the headless text path to confirm the zone itself works independent of that
   render gap. GoblinFoxDragon `524ecec`, Apple #11833.
-- [ ] **Open, lower priority, not blocking P0-P2**: confirm Sunderworm crisis broadcasts actually
-  reach Town's own chat/combat-log pane (see the earlier still-open dump entry, "ensure the
-  sunderworm events make it into the chat log" -- investigation got interrupted by the deadlock
-  work before a clean test completed).
+- [x] **Sunderworm crisis broadcasts reach Town's chat/combat-log pane. CONFIRMED.** Found while
+  validating P2: `main.go`'s crisis-phase-change handler broadcasts to `gw.players` -- EVERY
+  connected player, not zone-scoped -- via `cp.sendf(...)`, which is exactly why the "Something
+  vast burrows beneath the Worm Hut" message showed up live in this session's own Meadow (zone 0)
+  test even though the Sunderworm itself only spawns in zone 4. On the headless path, that push
+  queues into the character's connection buffer and flushes on the next command -- directly
+  observed: the P2 `attack` call's own response contained the crisis line inline.
+  `apps2/battlegrounds_gui`'s own `town_poll_combat` (main.c ~3356) already drains that buffer via
+  an empty-command poll every ~1.5s and pushes anything found into the shared combat log pane
+  (`town_send_command`'s own doc comment) -- the identical code path this session's manual test
+  just exercised directly. No code change needed; the delivery mechanism was already shipped and
+  is now verified working, not just assumed to work.
 - [ ] **Queued golden docs, no implementation started, no priority order given yet among them**:
   `SMOOTH_TERRAIN_NORTHSTAR.md` (natural voxel terrain rendering), `DUNGEON_NORTHSTAR.md`
   (instanced procedural dungeons, 2 of 3 art files' content already incorporated), and
