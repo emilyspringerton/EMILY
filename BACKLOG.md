@@ -11148,6 +11148,17 @@ guessing.
   questions; added milestone 2.5 for the one genuinely new mechanic needed (Music's team-level
   buff-carrier set -- no existing primitive to extend, has to be built). GoblinFoxDragon `31f7726`.
 
+- [x] **Correction, same design pass**: founder: **"check wikipedia for the 4 heavenly kings
+  budhism and update the designs accordingly."** Checked the real Shitennō -- the initial draft
+  had the Musician King at North; he's actually East (Dhrtarastra, carries a pipa, leads the
+  Gandharvas). Corrected all four to their real directions/domains, same 4 mechanics preserved
+  just remapped to the direction each actually belongs to: East/Music (Dhrtarastra), South/Growth
+  (Virudhaka, sword+wind, leads Kumbhandas -- kept the stacking-damage mechanic, a real thematic
+  fit), West/All-Seeing (Virupaksha, nagas/dragons -- the vision buff moved here since sight is
+  his real domain), North/Wealth (Vaisravana, chief of the four, umbrella, leads the Yakshas --
+  the proximity-aura buff moved here, added a small gold trickle as a direct nod to his real
+  wealth domain rather than an invented flourish). GoblinFoxDragon `3019cf7`.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
