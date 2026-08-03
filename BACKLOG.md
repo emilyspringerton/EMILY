@@ -11413,6 +11413,18 @@ session's back half into one explicit order, since several real things are now i
   correctly cancelled and never committed to travel. No source changes -- pure verification.
   Closes out testing coverage for the full cast state machine: start, commit, complete, cancel,
   all confirmed working. Apple #11875 (audit).
+- [x] **Real trees rendering in the Dragonfly zone -- closes founder's original ask. DONE.**
+  Closes the founder's own original request ("render the dragonfly biomes smooth with trees"),
+  only half-delivered until now -- smooth terrain since Milestone 2, trees never actually
+  rendered. New `town_meadow_tree_positions` mirrors `server/worldapi/scenes.go`'s own
+  `meadowTrees` hash directly in C rather than fetching/parsing the full `/chunks` block list
+  (~1300 objects for one chunk) -- same "client keeps its own copy of world data" convention the
+  telecrystal work already established. `town_draw_dfzone_trees` reuses `draw_hero_box` (the same
+  stacked-primitive technique every hero/worm/building already uses) for a thin trunk plus two
+  tapering canopy tiers, sitting at the zone's own real terrain height rather than assuming y=0.
+  Meadow only. **Live-verified visually under Xvfb**: screenshotted a real tree standing in the
+  Meadow zone at its correct deterministic position. `go vet`/`go test ./...` and a direct `gcc`
+  client build both clean. GoblinFoxDragon `2674334`, Apple #11883.
 
 ---
 
