@@ -11476,6 +11476,19 @@ session's back half into one explicit order, since several real things are now i
   the zero-clients edge case. **Real, named gaps, not solved here**: no world-geometry collision
   (pre-existing stub), FPS-specific `NetPlayer` fields this backend doesn't track are zero-filled
   not faked, mobs remain out of scope. GoblinFoxDragon `7d369cc`, Apple #11902.
+- [x] **Real Y-axis ground collision for apps2/server-go. DONE.** The smaller, more
+  directly-connected half of "no collision against world geometry" named in the slice above. New
+  `worldapi.ColumnHeight` (single-column version of the already-tested `HeightmapChunk`, so a
+  per-player per-tick lookup doesn't generate all 256 columns of its chunk to read one).
+  `apps2/server-go`'s new `groundClampY` calls it directly (same process) right after
+  `integrateMovement`, so a player's real server-side Y now agrees with actual terrain instead of
+  drifting wherever spawn/portal last left it. Hardcodes scene 0 (Meadow) -- matches this
+  backend's own existing single-scene reality; Meadow's real height (4) already matched the
+  client's own hardcoded `groundY = 4` fallback, not a coincidence. 5 new tests including a real
+  negative-coordinate floor-division regression. **Live-verified**: real `gfd-server-go.service`
+  rebuilt, redeployed, confirmed stable. **Still not done**: horizontal wall collision
+  (`world.RayTrace` itself, unchanged stub) -- vertical grounding only, by design. GoblinFoxDragon
+  `3f40f8e`, Apple #11904.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
