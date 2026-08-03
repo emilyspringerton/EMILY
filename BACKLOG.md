@@ -11317,6 +11317,27 @@ session's back half into one explicit order, since several real things are now i
   through 4) -- only the stretch goal (per-vertex biome blending, §5) remains, plus the still-open
   §3.6 Town<->Dragonfly bridge question and §3.7 gaps (world sculpting, real Bedrock content
   bridging). GoblinFoxDragon `a31fb54`, Apple #11840.
+- [x] **Real Town <-> Dragonfly zone teleport via Dragon Gate. DONE.** Founder: "im expecting to
+  teleport from town to the new zone" -- closed the exact named gap in `town_telecrystal_travel`'s
+  own old doc comment (it stopped at the IDUNA position PATCH, leaving Town's own geometry on
+  screen). Now lazy-loads the real Dragonfly Meadow heightmap from worldapi (`dfzone_load`) and
+  switches the client's own render mode (`g_dfzone_active`): Town's ground/buildings/worms/labels
+  stop drawing, `town_draw_dfzone` draws the real live heightfield mesh (reusing Milestones 2-4's
+  pipeline unchanged) at the world origin, camera/avatar height follow it (`dfzone_height_at`).
+  New dedicated "G" key is the real return trip (`town_telecrystal_return`, real
+  `TELECRYSTAL_ID_MEADOW_RETURN_HANDINGTON` values) -- not hijacking right-click, needed for
+  camera control while exploring the new zone. **Also fixed a real bug found while wiring this**:
+  the F10 debug toggle from Milestone 2 lived in the wrong event loop (battlegrounds-match,
+  `e`-scoped) which Town's own render branch skips entirely via `continue;` whenever `in_town` is
+  true -- F10 was dead code for real Town play this whole time; every earlier "live-verified"
+  screenshot for Milestones 2-4 actually used a temporary env-var test hook, not the real key.
+  Moved into Town's own event loop where it's now actually reachable. **Live-verified visually
+  under Xvfb**: screenshotted Town's own geometry disappearing and the real Meadow terrain filling
+  the screen at the destination. `go vet`/`go test ./...` and a direct `gcc` client build both
+  clean. **Still-named gap**: this is a real render bridge, not a backend unification -- the
+  character's real session stays in `apps2/mud`'s text MUD (position PATCHed via IDUNA), not
+  actually inside `apps2/server-go`'s UDP world; no mobs/players/mud-chat sync render in the
+  Dragonfly zone yet. GoblinFoxDragon `f587c5b`, Apple #11843.
 
 ---
 
