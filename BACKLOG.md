@@ -11291,9 +11291,20 @@ session's back half into one explicit order, since several real things are now i
   real smooth, continuously gradient-shaded rolling surface, not stair-stepped cubes. `go vet`/
   `go test ./...` and a direct `gcc` client build both clean. GoblinFoxDragon `46e849f`,
   Apple #11837.
-- [ ] **Next up, not started**: Milestone 3 (biome flat-coloring) or Milestone 4
-  (movement/camera elevation awareness) per `SMOOTH_TERRAIN_NORTHSTAR.md` §5 -- no priority given
-  between them yet.
+- [x] **SMOOTH_TERRAIN_NORTHSTAR.md Milestone 3 -- biome flat-coloring. DONE.** New `biome_color`
+  in `apps2/battlegrounds_gui/src/main.c` maps worldapi's own `scene`/biome id to a flat RGB per
+  draw call (Meadow grass green, Hills olive, Swampville muddy brown-green, unknown grey). The
+  F10 debug scene (Milestone 2) now fetches and renders all three column-derived biomes side by
+  side instead of a single hardcoded color, so the milestone's own test scaffolding is the live
+  proof. No new client-side enum -- reuses worldapi's own informal sceneID-as-biome convention.
+  **Live-verified visually under Xvfb**: all three patches (flat Meadow, undulating olive Hills,
+  muddy Swamp) render simultaneously with visibly distinct hues, confirmed via screenshot. `go
+  vet`/`go test ./...` and a direct `gcc` client build both clean. GoblinFoxDragon `d955423`,
+  Apple #11839.
+- [ ] **Next up, not started**: Milestone 4 (movement/camera elevation awareness) per
+  `SMOOTH_TERRAIN_NORTHSTAR.md` §5 -- the last milestone before the stretch goal (§5, per-vertex
+  biome blending). Real, necessary work once a zone actually has elevation (§3.4); not attempted
+  for Town itself, which stays intentionally flat by design.
 
 ---
 
