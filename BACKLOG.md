@@ -11610,6 +11610,20 @@ session's back half into one explicit order, since several real things are now i
   position math all updated to per-axis scaling; F10's own debug patches stay square/untouched.
   `gcc -Wall -Wextra` clean, live-verified via Xvfb for both pieces. GoblinFoxDragon `e751acb`,
   Apple #11924.
+- [x] **Right-click = attack-move/interact, Town/Meadow AND Battlegrounds. DONE.** Founder:
+  "switch right click to attack move /interract for both the mud gui battlegrounds as well as
+  meadows ensuring meadows shows nameplates with healthbars for the worms" + "ensuring tyler
+  clones have the ability to attack with right click." Town/Meadow: new click-vs-drag distinction
+  on right-click dispatches building-interact > worm-attack (`town_worm_hit_test`, real
+  screen-space hit-test) > move-there, in that priority; left-click is UI-buttons only now.
+  Battlegrounds: its existing move/attack/attack-move/patrol dispatch (NORTHSTAR §17.1 already
+  specified right-click, it was just never bound there) moved from left to right mouseup;
+  `commanders[]`/`selected_or_self` -- already clone-inclusive -- moved verbatim, so Tyler clone
+  attack-move is unchanged by the rebind; left-click gained real single-unit-select so a
+  non-drag click isn't dead. Verified end-to-end via a real synthetic SDL right-click
+  (`SDL_PushEvent`) at a live worm's own screen position, confirming the full pipeline dispatches
+  the real "attack worm-meadow-N" command. `gcc -Wall -Wextra` clean. GoblinFoxDragon `f292989`,
+  Apple #11930.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
