@@ -11624,6 +11624,19 @@ session's back half into one explicit order, since several real things are now i
   (`SDL_PushEvent`) at a live worm's own screen position, confirming the full pipeline dispatches
   the real "attack worm-meadow-N" command. `gcc -Wall -Wextra` clean. GoblinFoxDragon `f292989`,
   Apple #11930.
+- [x] **Fixed scene_id-reverting position sync + revived KO'd test character. DONE.** Founder,
+  live: "ok i ran up to a worm and right click - it turns yellow on the name plate good but i
+  never actually auto attack." Two real, separate issues found on investigation: (1)
+  `town_sync_position` hardcoded `TOWN_ZONE_ID` unconditionally in its periodic position PATCH, so
+  simply walking around in Meadow silently reverted the real `scene_id` back to Town on every
+  step -- live evidence: `test@test.com`'s TestWarrior had `scene_id=4` sitting next to real
+  Meadow-space coordinates. Fixed (`sync_scene_id = g_dfzone_active ? g_dfzone_scene :
+  TOWN_ZONE_ID`) -- the same "stranded on relog" bug class reopened by a different constant. (2)
+  The real reason the attack never landed: the character was genuinely KO'd (a live 800HP
+  `nm-king-worm` NM is present in this Meadow instance) -- confirmed via a direct
+  `/api/town/command` probe, not a client bug. Revived via the real `home` command (agent JWT,
+  free respawn, HP:1/90) and corrected the corrupted IDUNA row. `gcc -Wall -Wextra` clean.
+  GoblinFoxDragon `6dbd8e7`, Apple #11937.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
