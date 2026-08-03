@@ -11390,6 +11390,23 @@ session's back half into one explicit order, since several real things are now i
   under Xvfb**: simulated walking from outside the ring to inside it and screenshotted the cast bar
   already progressing on arrival, no keypress simulated. `go vet`/`go test ./...` and a direct
   `gcc` client build both clean. GoblinFoxDragon `d445f43`, Apple #11850.
+- [x] **End-to-end verification: full telecrystal cast flow, no new bugs found.** Ran a full
+  simulated playtest under Xvfb: walked from outside the Dragon Gate's ring to inside it, let the
+  auto-started cast progress through commit (600ms) to completion (1000ms), traced
+  `dfzone_active`/`gatecast_type`/`gate_in_range` at two checkpoints. Commit correctly fires the
+  real `town_telecrystal_travel()` call; it no-ops in this specific test only because the WOTAN
+  dev-agent test identity has no real Town character (an already-understood limitation, not a new
+  bug). After the cast's full visual duration, the UI cleanly resets to the ready-to-cast prompt
+  with no stuck state or crash. No source changes -- pure verification. Apple #11866 (audit).
+- [x] **Telecrystal arrival banner ported from apps/lobby -- reference UX now complete. DONE.**
+  New `town_draw_travel_overlay`/`g_travel_overlay_text` show a brief, large, screen-centered
+  "TRAVELING: MEADOW"/"TRAVELING: NEW HANDINGTON" banner right at the moment of arrival, the last
+  piece of `apps/lobby`'s own telecrystal UX (`draw_travel_overlay`/`travel_overlay_text`) not yet
+  ported. Distinct from `combat_log_push`'s own arrival line -- a scrolling log entry, easy to
+  miss mid-fight; the banner isn't. Set at both real arrival points, 1.4s duration. **Live-
+  verified visually under Xvfb**. `go vet`/`go test ./...` and a direct `gcc` client build both
+  clean. This completes the apps/lobby telecrystal UX port started earlier today: ring, auto-cast,
+  cast bar, commit marker, and now the arrival banner. GoblinFoxDragon `76b83d0`, Apple #11872.
 
 ---
 
