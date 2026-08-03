@@ -11580,6 +11580,22 @@ session's back half into one explicit order, since several real things are now i
   `town_queue_button_rect`'s own real position so it can't drift out of place under it. Only
   shown while `g_dfzone_active` (Meadow). `gcc -Wall -Wextra` clean, live-verified via Xvfb
   screenshot. GoblinFoxDragon `b6d11ab`, Apple #11918.
+- [x] **Bootstrapped IDUNA webmaster + created eli@okemily.com account. DONE.** Founder: "make me
+  a new account eli@okemily.com pw testtest." `local_users` was completely empty on this box (no
+  `var/webmaster.json` had ever existed); seeded it (gitignored, real random password), restarted
+  `iduna`, then created the real requested account via `POST /api/v1/users`, confirmed with a real
+  login as `eli`. IDUNA `14a4fc1`, Apple #11920.
+- [x] **Teleport-to-town button/H now also cover a stranded-in-Town position, not just Meadow.
+  DONE.** Founder, live: "teleport to town button does not work... look into why i might not have
+  seen the button." Real root cause found live: `test@test.com`'s character ("TestWarrior") had
+  `scene_id=4` (real Town) but `pos_z=3977.48` -- corrupted data predating the
+  `TOWN_MOVE_HALF_EXTENT` movement clamp, which stops new bad writes but never repaired old ones.
+  Both "H" and the button were gated on `g_dfzone_active` (Meadow) alone, so neither ever appeared
+  for this real case. Manually fixed the live character via a direct IDUNA agent-JWT PATCH
+  (scene_id=4, pos now the real Dragon Gate spawn). New `town_player_lost()`/
+  `town_recenter_in_town()` close the gap for good. `gcc -Wall -Wextra` clean, live-verified via
+  Xvfb (reproduced the exact corrupted state, confirmed both the button and the "H" hint now
+  render). GoblinFoxDragon `b5ec132`, Apple #11922.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
