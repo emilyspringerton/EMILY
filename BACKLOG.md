@@ -11425,8 +11425,25 @@ session's back half into one explicit order, since several real things are now i
   Meadow only. **Live-verified visually under Xvfb**: screenshotted a real tree standing in the
   Meadow zone at its correct deterministic position. `go vet`/`go test ./...` and a direct `gcc`
   client build both clean. GoblinFoxDragon `2674334`, Apple #11883.
-
----
+- [x] **Verified F10 debug patches don't overlap at the new 3x scale, no bugs found.** Re-checked
+  the F10 debug scene after the playtest-fix session bumped `TERRAIN_TEST_CELL_SIZE` 1.0 -> 3.0;
+  the spacing formula was updated at the time but never re-screenshotted since. Confirmed via
+  Xvfb: Meadow and Hills patches render cleanly separated, no overlap. No regression, no source
+  changes. Apple #11884 (audit).
+- [ ] **Session pause point, 2026-08-03**: SMOOTH_TERRAIN_NORTHSTAR's core sequence (0-4), the
+  real Town<->Dragonfly render bridge, the full apps/lobby telecrystal UX port, and real trees are
+  all done and live-verified -- this closes the founder's own original ask in full ("render the
+  dragonfly biomes smooth with trees... teleport from town to the new zone"). Remaining threads
+  are all bigger, undesigned initiatives needing a founder decision before more work should
+  happen unprompted: (a) real backend unification (`apps2/mud`'s RPG logic ported into
+  `apps2/server-go`'s own loop, per the two-backends audit's own closing recommendation) -- the
+  current bridge is render-only, no mobs/players/chat sync in the Dragonfly zone yet; (b) world
+  sculpting -- needs a real persistence layer `ProceduralWorldStore` doesn't have; (c) real
+  Bedrock-protocol content bridging via the founder's own `emilyspringerton/dragonfly` fork
+  (confirmed genuine, runs today, but only serves vanilla content, not GoblinFoxDragon's own); (d)
+  SMOOTH_TERRAIN's own stretch goal (per-vertex biome blending) -- has no real multi-biome-in-one-
+  chunk content to blend yet, would be premature infrastructure. Not picking one of these without
+  direction.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
