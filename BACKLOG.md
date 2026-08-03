@@ -11227,6 +11227,38 @@ session's back half into one explicit order, since several real things are now i
   `TOWN_MOVE_HALF_EXTENT` (derived from the ground's own real rendered footprint, can't drift out
   of sync with it) and clamped both movement paths. GoblinFoxDragon `cb8609e`, Apple #11821.
 
+- [x] **Dragonfly-rendering tangent, off the sprint plan's own order**: founder asked, in sequence,
+  "can we warp from town to the zone backed by dragonfly?" → "the northstar of that is we want it
+  to render the dragonfly biomes smooth with trees" → "like a nice minecraft meadow biome but we
+  render it with our frontend" → "for now we need to get the dragonfly server seeded with a
+  world?" → "can we at least get the dragonfly backend set up such that for debug i could connect
+  from my phones minecraft? to debug" → "forked to emilyspringerton/dragonfly".
+  - Amended `SMOOTH_TERRAIN_NORTHSTAR.md` (§3.5 Trees -- `meadowChunk` already generates real
+    trees server-side, live-verified 1308 blocks/8 tree-logs; §3.6 the Town↔Dragonfly bridge, an
+    open question, not resolved; §3.7 explicitly out-of-scope: world sculpting has no persistence
+    layer to write into, and real Bedrock connectivity wasn't vendored in this repo as of this
+    check). Added Milestone 0.5.
+  - Got `apps2/server-go` running under real supervision for the first time (it had only ever
+    been built, never run as a service). Found and fixed a real port conflict: its hardcoded UDP
+    `:6969` was already held live by SHANKPIT's own `shank_server` (`lsof -i :6969`, not `ss`,
+    is what actually revealed this). Added a `-udp-port` flag, deployed a new systemd unit on
+    `:6970` deliberately not touching SHANKPIT's live process. Live-verified `/chunks` now serves
+    real Meadow block+tree data — "seeded with a world" is now literally true.
+  - Founder's `emilyspringerton/dragonfly` fork confirmed genuine: `go.mod` module path is
+    `github.com/df-mc/dragonfly`, zero commits ahead of upstream `master` (clean, unmodified
+    fork). Built and ran it vanilla (Go 1.26 toolchain, real `sandertv/gophertunnel` +
+    `sandertv/go-raknet` deps) — it stood up a real RakNet/Bedrock listener on UDP `:19132`,
+    `mc-version=1.26.30`. **This genuinely answers the "connect from my phone's minecraft, to
+    debug" ask, today, unmodified** — but with vanilla dragonfly's own default world content, not
+    GoblinFoxDragon's own Meadow biome. Getting real Meadow content reachable the same way needs a
+    custom `df-mc/dragonfly` world/chunk provider sourcing from `server/worldapi`'s
+    `ProceduralWorldStore` — a separate, much larger integration, not designed or estimated here.
+  - GoblinFoxDragon `2d0abf0`, Apple #11830.
+- [ ] **Open follow-on, not started**: if real phone-Minecraft debug access to GoblinFoxDragon's
+  *own* Meadow content (not vanilla dragonfly content) becomes a priority, design the
+  `df-mc/dragonfly` world-provider bridge named above. No estimate given; flagged honestly as
+  the real next step in this thread, not attempted yet.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
