@@ -11349,6 +11349,22 @@ session's back half into one explicit order, since several real things are now i
   construction, so a player acting on their own character always passes the handler's ownership
   check -- ruled out as the failure mode. Fixed both call sites to check `status != 204`.
   GoblinFoxDragon `eeba56d`, Apple #11845.
+- [x] **Real bugs found live, off the sprint plan's own order: "it kind of worked... hard to
+  trigger... we teleported to a floating green plane i was pretty big in relation to it and i
+  fell off of it."** Founder's first real playtest of the fizzle-fixed teleport. Three separate,
+  real bugs, all fixed: (1) **fell off / floating in the air** -- movement clamped to Town's own
+  ~57-unit footprint even while standing on the real ~8-unit dfzone mesh, same failure class as
+  the earlier Town "floating in a blue abyss" bug, just not caught for this new case; new
+  `town_move_half_extent()` picks the right bound for whichever ground is actually rendered. (2)
+  **too small relative to the avatar** -- `TERRAIN_TEST_CELL_SIZE` tripled 1.0 -> 3.0, tripling
+  the physical footprint without touching the fixed 16x16 heightmap resolution;
+  `terrain_test_offset_x`'s own spacing scales with it so the F10 debug patches can't overlap.
+  (3) **hard to trigger the gate** -- the click required landing inside the building's tiny
+  ~5-unit visual box; now checks the real 12-unit telecrystal radius against the gate's own
+  position instead, ~25x more click-tolerant. Live-verified: screenshotted the larger footprint,
+  directly exercised `town_move_half_extent()` confirming a runaway target position (999 units)
+  clamps correctly to the new 24-unit bound. `go vet`/`go test ./...` and a direct `gcc` client
+  build both clean. GoblinFoxDragon `8dddccb`, Apple #11847.
 
 ---
 
