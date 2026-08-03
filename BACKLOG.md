@@ -11165,20 +11165,28 @@ Founder: "ok so ensure we backlog and sprint plan all the in flight i think the 
 telecrystal working and then we validate the new zone." Consolidating every open thread from this
 session's back half into one explicit order, since several real things are now in flight at once.
 
-- [x] **P0 -- root-cause the headless-path `gw.mu` deadlock.** NOT solved, but no longer blocking:
-  exhaustive investigation (real SIGQUIT dumps, a `-race` build, a live `dlv` session with direct
-  mutex memory inspection confirming `gw.mu` genuinely shows `{state: 17}` locked with 2 real
-  waiters and zero live holders anywhere in the complete, delve-enumerated goroutine list) did not
-  find the true cause. Ruled out: the new crystal's own data, stale test-character state, the
-  crisis/Sunderworm code (disabled, still reproduced), and the closure-vs-flat-function structural
-  shape. `/p` party chat (identical `Lock()`/`defer Unlock()` pattern) works instantly via the
-  same headless path, ruling out "any locked command via headless" as too broad an explanation.
-  Given the severity (whole-server deadlock, not one request) and that this exhausted the obvious
-  leads, shipped a real workaround instead of leaving telecrystal unusable -- see P1. Real,
-  unconfirmed, live risk flagged for whoever picks this back up: `cmdBattlegrounds` and
-  `cmdSummonAvatar` share the exact same "locks `gw.mu`, called via `handle()`'s dispatch switch"
-  shape as `cmdTravel` and have not been tested for the identical bug. Full writeup:
-  GoblinFoxDragon `f3d90e9`, Apple #11826.
+- [x] **P0 -- root-cause the headless-path `gw.mu` deadlock. ACTUALLY SOLVED** (founder: "pls fix"
+  -- correctly unsatisfied with the workaround alone). Real cause: a plain self-deadlock.
+  `handle()` already locks `gw.mu` unconditionally right before its own dispatch switch (every
+  command except `/p`'s own early return runs inside that lock); `cmdTravel` then tried to lock
+  the same non-reentrant mutex again on the SAME goroutine. Go doesn't detect or panic on this, it
+  just blocks forever -- which is exactly why no "holder" ever showed up in any goroutine dump
+  (SIGQUIT or the earlier live `dlv` session): the holder WAS the stuck goroutine, one frame
+  further up its own stack inside `handle()`. Also explains why the earlier telnet A/B test looked
+  like it succeeded: the "crystal resonates" message sends BEFORE the lock attempt, so the client
+  saw it before that same connection silently self-deadlocked afterward -- never tested with a
+  follow-up command on the same session, which would have shown it too. Found via one precise
+  test: a trivial inline `gw.mu.Lock()` added directly to `handle()`'s switch hung identically;
+  the same code moved to `/p`'s own position (before the switch) worked. Fixed `cmdTravel`
+  (removed its redundant lock) and audited every other `gw.mu.Lock()` site in the file, finding
+  three more real, live, previously-undiscovered instances of the identical bug:
+  `cmdBattlegrounds`, `cmdSummonAvatar`, and the `warcry` ability case (called the locking
+  `broadcastZone` instead of `broadcastZoneNoLock`). All four fixed. Live-verified against the
+  real production `gfd-mud.service`: two consecutive telecrystal trips, the new Meadow crystal,
+  and `battlegrounds` ticket minting -- all instant (~0.015s), `gameLoop`'s tick confirmed healthy
+  throughout. GoblinFoxDragon `15ea788`, Apple #11827. The client-side workaround from the
+  previous pass (`town_telecrystal_travel`, direct IDUNA PATCH) is left in place, not reverted --
+  harmless now that the underlying path is actually safe too.
 - [x] **P1 -- Dragon Gate telecrystal, shipped via a safe workaround, live-verifiable.**
   `town_telecrystal_travel()` bypasses `apps2/mud` (and P0's unresolved deadlock) entirely --
   a direct PATCH to IDUNA's own `/api/v1/characters/:id/position`, the same safe mechanism
