@@ -11192,16 +11192,17 @@ session's back half into one explicit order, since several real things are now i
   a direct PATCH to IDUNA's own `/api/v1/characters/:id/position`, the same safe mechanism
   `town_sync_position` already uses continuously for ordinary movement. Free, matching the
   server-side crystal's own `CastCost` of 0. GoblinFoxDragon `f3d90e9`.
-- [ ] **P2 -- validate the new zone (Meadow).** Now the real next step. Meadow is the real starter
-  zone (`MeadowWormSpawns`, real telnet players' own default spawn) but has never been reached
-  through the GUI client before -- confirm what's actually usable there today: combat,
-  chat/commands, whatever Town's own client can render for a zone it wasn't originally built
-  around. **Known, named gap going in, not a surprise to rediscover**: `apps2/battlegrounds_gui`'s
-  Town rendering is entirely New-Handington-specific -- after a real, correct telecrystal travel,
-  the character's backend zone/position are genuinely Meadow, but the 3D view keeps showing New
-  Handington's own geometry until relogin (or a real future Meadow render mode, see
-  `SMOOTH_TERRAIN_NORTHSTAR.md`). Validating combat/chat there can still happen via the existing
-  headless `/api/town/command` text path even without real 3D rendering.
+- [x] **P2 -- validate the new zone (Meadow). DONE.** Validated end-to-end via the real headless
+  `/api/town/command` path: `look` shows real Meadow room text + 8 real worm mobs; `crystals`
+  lists the real telecrystal network with the return-to-New-Handington crystal in range;
+  `attack worm-meadow-0` landed a real 30-damage hit with TP gain (0→40), and a live world-crisis
+  event fired mid-fight ("Something vast burrows beneath the Worm Hut"), after which all Meadow
+  worms went `(burrowed)`; `north`/`south` correctly transitioned Meadow↔Hills and back; `say`
+  worked. Confirms Meadow is a fully live, playable zone today, not just data on paper. **Known gap
+  going in, not a surprise found**: `apps2/battlegrounds_gui`'s 3D view stays New-Handington-
+  specific after a real telecrystal travel (see `SMOOTH_TERRAIN_NORTHSTAR.md`) -- this validation
+  deliberately used the headless text path to confirm the zone itself works independent of that
+  render gap. GoblinFoxDragon `524ecec`, Apple #11833.
 - [ ] **Open, lower priority, not blocking P0-P2**: confirm Sunderworm crisis broadcasts actually
   reach Town's own chat/combat-log pane (see the earlier still-open dump entry, "ensure the
   sunderworm events make it into the chat log" -- investigation got interrupted by the deadlock
