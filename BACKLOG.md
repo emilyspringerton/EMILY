@@ -11573,6 +11573,13 @@ session's back half into one explicit order, since several real things are now i
   block-ID-19 entries for chunk (0,0); a debug-instrumented client build confirmed the real draw
   call firing every frame with correct positions (temp instrumentation fully reverted before
   commit). GoblinFoxDragon `5787884`, Apple #11917.
+- [x] **Real "TELEPORT TO TOWN" button under the queue button. DONE.** Founder: "give me a
+  teleport to town button under queue for battlegrounds." Same real, unconditional
+  `town_telecrystal_return` the "H" emergency keybind (2026-08-03, Apple #11915) already calls,
+  now with a clickable affordance too. New `town_teleport_town_button_rect`/`_hit`, anchored off
+  `town_queue_button_rect`'s own real position so it can't drift out of place under it. Only
+  shown while `g_dfzone_active` (Meadow). `gcc -Wall -Wextra` clean, live-verified via Xvfb
+  screenshot. GoblinFoxDragon `b6d11ab`, Apple #11918.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
