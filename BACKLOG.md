@@ -11267,6 +11267,20 @@ session's back half into one explicit order, since several real things are now i
   *own* Meadow content (not vanilla dragonfly content) becomes a priority, design the
   `df-mc/dragonfly` world-provider bridge named above. No estimate given; flagged honestly as
   the real next step in this thread, not attempted yet.
+- [x] **SMOOTH_TERRAIN_NORTHSTAR.md Milestone 1 -- backend heightmap exposure. DONE.** Picked up
+  as the next concrete, scoped step in this same thread (lowest-numbered sections elsewhere in
+  this backlog were either HITL-blocked on a founder-supplied API key or explicitly deprioritized
+  "Emily Prime decides when to promote" items). New `GET /heightmap?scene=N&cx=X&cz=Z` in
+  `server/worldapi` returns per-column height + biome for Meadow (flat), Hills (real per-column
+  variation -- `hillsColumnHeight` split out of `hillsChunk` so the endpoint and the real block
+  generation share one formula, can't drift apart), and Swampville (flat, water one block higher
+  than land). Caves correctly 204s -- genuinely 3D, no single height per column, out of scope by
+  the northstar's own §4. New tests cross-check the heightmap directly against `hillsChunk`'s own
+  real block output. Live-verified against the running `gfd-server-go.service`. `go vet`/
+  `go test ./...` clean. GoblinFoxDragon `f9b4f14`, Apple #11836.
+- [ ] **Next up, not started**: Milestone 2 (client heightfield mesh -- render the new heightmap
+  data as a smooth, interpolated surface in `apps2/battlegrounds_gui`) per
+  `SMOOTH_TERRAIN_NORTHSTAR.md` §5.
 
 ---
 
