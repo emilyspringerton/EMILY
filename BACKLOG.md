@@ -11159,6 +11159,45 @@ guessing.
   the proximity-aura buff moved here, added a small gold trickle as a direct nod to his real
   wealth domain rather than an invented flourish). GoblinFoxDragon `3019cf7`.
 
+## Sprint plan — everything currently in flight, in order (2026-08-03)
+
+Founder: "ok so ensure we backlog and sprint plan all the in flight i think the order is get
+telecrystal working and then we validate the new zone." Consolidating every open thread from this
+session's back half into one explicit order, since several real things are now in flight at once.
+
+- [ ] **P0 -- fix the headless-path `gw.mu` deadlock.** The real blocker on everything below it.
+  `cmdTravel` (and, by the same mechanism, likely any other `apps2/mud` command that calls
+  `gw.mu.Lock()` from inside the headless `/api/town/command` HTTP path) deadlocks the entire mud
+  server -- confirmed via a live SIGQUIT goroutine dump, reproduced with the function's body
+  stripped to a bare `Lock()`/`Unlock()`. Real telnet sessions are unaffected; only headless/GUI
+  invocation triggers it. Full writeup: the "Telecrystal to the starter zone added" dump entry
+  above (GoblinFoxDragon `8de8f25`). Nothing past this point is safe to wire into the GUI client
+  until it's root-caused and fixed.
+- [ ] **P1 -- re-wire the Dragon Gate to `travel`, live-verify.** Once P0 is fixed: restore the
+  right-click → `travel TELECRYSTAL_ID_HANDINGTON_TO_MEADOW` trigger in
+  `apps2/battlegrounds_gui/src/main.c` (deliberately reverted this session, see the same dump
+  entry), confirm a real GUI session can travel New Handington -> Meadow and back without taking
+  the server down.
+- [ ] **P2 -- validate the new zone (Meadow).** Founder's own stated next step after P1. Meadow is
+  the real starter zone (`MeadowWormSpawns`, real telnet players' own default spawn) but has never
+  been reached through the GUI client before -- once travel works, confirm what's actually usable
+  there today: combat, chat/commands, whatever Town's own client can render for a zone it wasn't
+  originally built around (apps2/battlegrounds_gui's Town rendering is entirely New-Handington-
+  specific -- Meadow may show wrong/no geometry even once the character's real zoneID correctly
+  updates server-side; a real, separate gap from the deadlock itself, worth confirming honestly
+  rather than assuming it "just works" visually).
+- [ ] **Open, lower priority, not blocking P0-P2**: confirm Sunderworm crisis broadcasts actually
+  reach Town's own chat/combat-log pane (see the earlier still-open dump entry, "ensure the
+  sunderworm events make it into the chat log" -- investigation got interrupted by the deadlock
+  work before a clean test completed).
+- [ ] **Queued golden docs, no implementation started, no priority order given yet among them**:
+  `SMOOTH_TERRAIN_NORTHSTAR.md` (natural voxel terrain rendering), `DUNGEON_NORTHSTAR.md`
+  (instanced procedural dungeons, 2 of 3 art files' content already incorporated), and
+  `JUNGLE_CAMPS_NORTHSTAR.md` (Four Heavenly Kings jungle camps, buff mechanics fully designed).
+  All three sit behind P0-P2 in practice since none of them are what the founder just asked to
+  prioritize, but none are explicitly deprioritized either -- next real design/implementation
+  choice once P0-P2 close.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
