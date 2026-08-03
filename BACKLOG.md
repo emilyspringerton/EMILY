@@ -11562,6 +11562,17 @@ session's back half into one explicit order, since several real things are now i
   to connect up to the game world too at some point" -- connecting `apps2/lobby` (the older
   SHANKPIT-style client) to the real Dragonfly/MUD game world content. Explicitly a later
   integration, not scoped or started.
+- [x] **Block-backed flowers in Meadow. DONE.** Founder: "add some block backed flowers to the
+  meadow." New `meadowFlowers` (server/worldapi/scenes.go), same deterministic-per-chunk
+  discipline as `meadowTrees`, real `minecraft:poppy`/`minecraft:dandelion` blocks (new voxel
+  block ID 19 in `dragonfly_gen.go` -- SHANKPIT's own `block_map.go` has no flower content
+  anywhere, named gap not a guessed cross-repo sync). Client-side
+  `town_meadow_flower_positions`/`town_draw_dfzone_flowers` mirror the real positions and render
+  on the zone's own real terrain height. New `TestProceduralWorldStore_Scene0Meadow_Flowers`.
+  `go test ./...` and `gcc -Wall -Wextra` clean. Live-verified: `/chunks` now returns 8 real
+  block-ID-19 entries for chunk (0,0); a debug-instrumented client build confirmed the real draw
+  call firing every frame with correct positions (temp instrumentation fully reverted before
+  commit). GoblinFoxDragon `5787884`, Apple #11917.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
