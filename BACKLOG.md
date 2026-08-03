@@ -11505,6 +11505,26 @@ session's back half into one explicit order, since several real things are now i
   SHANKPIT's own real precedent, not a new corner cut**: no real damage applied on hit yet
   (`nopEntity.Hurt` still a no-op there too); voxel/wall raycasting remains completely unbuilt in
   both sibling repos. GoblinFoxDragon `3db3316`, Apple #11907.
+- [x] **Real damage on hitscan hit -- closes SHANKPIT-hitscan thread for now. DONE.** Founder:
+  "for damage we want to make it match up." `gameEntityHit`'s own `Entity()` returned a no-op
+  stub even after real hit detection landed -- a hit was detected but never actually hurt anyone.
+  New `realEntity` applies real damage to the hit client's own `hpState`, mirroring
+  `PacketWSCast`'s own already-real damage application exactly. 6 new tests. **Live-verified**:
+  real `gfd-server-go.service` rebuilt, redeployed, confirmed stable. GoblinFoxDragon `7629477`,
+  Apple #11909.
+- [ ] **Real-time founder direction, mid-session, real priority shift**: "combat should be
+  unified with battlegrounds first not shankpit" → "once we get traditional mmo stuff down we
+  will consider bringing the real time shooter stuff on top" → "so you understand we are making
+  an mmo where the combat is somewhere between wow ffxi and league of legend." This closes out
+  the SHANKPIT-hitscan-combat thread (`apps2/server-go`'s `gameWorld`/entity-hit-detection/
+  damage work above) as far as it goes *for now* -- real, working, tested, but not the actual
+  target combat shape. **Real priority going forward**: unify combat with Battlegrounds
+  (REDGARDEN's own MOBA client, tab-target/ability-kit, Q/W/E/R hero abilities) as the real MMO
+  foundation first -- WoW/FFXI/LoL-blended (tab-target polish + FFXI job/skillchain depth +
+  LoL-style ability kits), not hitscan FPS. Real-time shooter mechanics (SHANKPIT-shaped) are
+  explicitly a *later* layer on top of that foundation, not before it. **Not yet scoped**: what
+  "unify combat with Battlegrounds first" concretely means as a first buildable slice -- flagged
+  for the next session/conversation to scope properly, not guessed at here.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
