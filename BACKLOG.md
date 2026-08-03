@@ -11430,20 +11430,36 @@ session's back half into one explicit order, since several real things are now i
   the spacing formula was updated at the time but never re-screenshotted since. Confirmed via
   Xvfb: Meadow and Hills patches render cleanly separated, no overlap. No regression, no source
   changes. Apple #11884 (audit).
+- [x] **Real `df-mc/dragonfly` fork deployed as a persistent supervised service.** Picked as the
+  smallest bounded, safe next step among the four large undesigned options below -- doesn't touch
+  GoblinFoxDragon's own systems at all, just makes the founder's own earlier manual test
+  (vanilla dragonfly, confirmed genuine) permanent. New user-level systemd unit
+  (`dragonfly-debug.service`) supervises the real RakNet/Bedrock listener on UDP `:19132`,
+  auto-restarting on failure. Confirmed listening and logging real startup under supervision.
+  Serves vanilla content only, not GoblinFoxDragon's own Meadow. **Honest, named gap**: WAN/
+  firewall reachability from a phone outside this box's own LAN was NOT verified -- no sudo
+  access this session to check firewall/security-group state for inbound UDP `:19132`; same-LAN
+  connectivity confirmed, public reachability is not. Unit deployed locally only, not committed
+  into `~/dragonfly` itself (the founder's own personal fork of a real external project --
+  binaries/service units don't belong in that repo's history). GoblinFoxDragon `84de13f`
+  (docs/changelog only), Apple #11887.
 - [ ] **Session pause point, 2026-08-03**: SMOOTH_TERRAIN_NORTHSTAR's core sequence (0-4), the
-  real Town<->Dragonfly render bridge, the full apps/lobby telecrystal UX port, and real trees are
-  all done and live-verified -- this closes the founder's own original ask in full ("render the
-  dragonfly biomes smooth with trees... teleport from town to the new zone"). Remaining threads
-  are all bigger, undesigned initiatives needing a founder decision before more work should
-  happen unprompted: (a) real backend unification (`apps2/mud`'s RPG logic ported into
+  real Town<->Dragonfly render bridge, the full apps/lobby telecrystal UX port, real trees, and
+  now a persistent dragonfly-fork debug service are all done and live-verified -- this closes the
+  founder's own original ask in full ("render the dragonfly biomes smooth with trees... teleport
+  from town to the new zone... connect from my phones minecraft to debug"). Remaining threads are
+  all bigger, undesigned initiatives needing a founder decision before more work should happen
+  unprompted: (a) real backend unification (`apps2/mud`'s RPG logic ported into
   `apps2/server-go`'s own loop, per the two-backends audit's own closing recommendation) -- the
   current bridge is render-only, no mobs/players/chat sync in the Dragonfly zone yet; (b) world
   sculpting -- needs a real persistence layer `ProceduralWorldStore` doesn't have; (c) real
-  Bedrock-protocol content bridging via the founder's own `emilyspringerton/dragonfly` fork
-  (confirmed genuine, runs today, but only serves vanilla content, not GoblinFoxDragon's own); (d)
-  SMOOTH_TERRAIN's own stretch goal (per-vertex biome blending) -- has no real multi-biome-in-one-
-  chunk content to blend yet, would be premature infrastructure. Not picking one of these without
-  direction.
+  Bedrock-protocol content bridging (GoblinFoxDragon's own Meadow served through the real
+  dragonfly fork, not vanilla content) -- the fork itself is now persistently running, but the
+  actual world-provider integration is a separate, much larger piece, still not attempted; (d) a
+  real firewall/WAN-reachability check for the new dragonfly-debug service, if the founder wants
+  to connect from off-LAN; (e) SMOOTH_TERRAIN's own stretch goal (per-vertex biome blending) --
+  has no real multi-biome-in-one-chunk content to blend yet, would be premature infrastructure.
+  Not picking one of these without direction.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
