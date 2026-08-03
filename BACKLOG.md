@@ -11338,6 +11338,17 @@ session's back half into one explicit order, since several real things are now i
   character's real session stays in `apps2/mud`'s text MUD (position PATCHed via IDUNA), not
   actually inside `apps2/server-go`'s UDP world; no mobs/players/mud-chat sync render in the
   Dragonfly zone yet. GoblinFoxDragon `f587c5b`, Apple #11843.
+- [x] **Real bug found live, off the sprint plan's own order: "the crystal fizzles -- travel
+  failed."** Founder hit this immediately trying the real teleport above. Root cause: IDUNA's own
+  `handleUpdatePosition` (`IDUNA/internal/http/handlers/mmo.go`) returns **204 No Content** on
+  success, not 200 -- `town_telecrystal_travel`/`town_telecrystal_return` were checking
+  `status != 200`, so every genuinely successful position update reported as a failure. Never
+  surfaced before because `town_sync_position` (the only other caller of this exact endpoint)
+  never checks the response status at all. Confirmed via direct code read, not guessed: player
+  JWTs set `sub` to the player's own real `player_id`, matching `characters.player_id` by
+  construction, so a player acting on their own character always passes the handler's ownership
+  check -- ruled out as the failure mode. Fixed both call sites to check `status != 204`.
+  GoblinFoxDragon `eeba56d`, Apple #11845.
 
 ---
 
