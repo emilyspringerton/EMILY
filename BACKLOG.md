@@ -11165,27 +11165,35 @@ Founder: "ok so ensure we backlog and sprint plan all the in flight i think the 
 telecrystal working and then we validate the new zone." Consolidating every open thread from this
 session's back half into one explicit order, since several real things are now in flight at once.
 
-- [ ] **P0 -- fix the headless-path `gw.mu` deadlock.** The real blocker on everything below it.
-  `cmdTravel` (and, by the same mechanism, likely any other `apps2/mud` command that calls
-  `gw.mu.Lock()` from inside the headless `/api/town/command` HTTP path) deadlocks the entire mud
-  server -- confirmed via a live SIGQUIT goroutine dump, reproduced with the function's body
-  stripped to a bare `Lock()`/`Unlock()`. Real telnet sessions are unaffected; only headless/GUI
-  invocation triggers it. Full writeup: the "Telecrystal to the starter zone added" dump entry
-  above (GoblinFoxDragon `8de8f25`). Nothing past this point is safe to wire into the GUI client
-  until it's root-caused and fixed.
-- [ ] **P1 -- re-wire the Dragon Gate to `travel`, live-verify.** Once P0 is fixed: restore the
-  right-click → `travel TELECRYSTAL_ID_HANDINGTON_TO_MEADOW` trigger in
-  `apps2/battlegrounds_gui/src/main.c` (deliberately reverted this session, see the same dump
-  entry), confirm a real GUI session can travel New Handington -> Meadow and back without taking
-  the server down.
-- [ ] **P2 -- validate the new zone (Meadow).** Founder's own stated next step after P1. Meadow is
-  the real starter zone (`MeadowWormSpawns`, real telnet players' own default spawn) but has never
-  been reached through the GUI client before -- once travel works, confirm what's actually usable
-  there today: combat, chat/commands, whatever Town's own client can render for a zone it wasn't
-  originally built around (apps2/battlegrounds_gui's Town rendering is entirely New-Handington-
-  specific -- Meadow may show wrong/no geometry even once the character's real zoneID correctly
-  updates server-side; a real, separate gap from the deadlock itself, worth confirming honestly
-  rather than assuming it "just works" visually).
+- [x] **P0 -- root-cause the headless-path `gw.mu` deadlock.** NOT solved, but no longer blocking:
+  exhaustive investigation (real SIGQUIT dumps, a `-race` build, a live `dlv` session with direct
+  mutex memory inspection confirming `gw.mu` genuinely shows `{state: 17}` locked with 2 real
+  waiters and zero live holders anywhere in the complete, delve-enumerated goroutine list) did not
+  find the true cause. Ruled out: the new crystal's own data, stale test-character state, the
+  crisis/Sunderworm code (disabled, still reproduced), and the closure-vs-flat-function structural
+  shape. `/p` party chat (identical `Lock()`/`defer Unlock()` pattern) works instantly via the
+  same headless path, ruling out "any locked command via headless" as too broad an explanation.
+  Given the severity (whole-server deadlock, not one request) and that this exhausted the obvious
+  leads, shipped a real workaround instead of leaving telecrystal unusable -- see P1. Real,
+  unconfirmed, live risk flagged for whoever picks this back up: `cmdBattlegrounds` and
+  `cmdSummonAvatar` share the exact same "locks `gw.mu`, called via `handle()`'s dispatch switch"
+  shape as `cmdTravel` and have not been tested for the identical bug. Full writeup:
+  GoblinFoxDragon `f3d90e9`, Apple #11826.
+- [x] **P1 -- Dragon Gate telecrystal, shipped via a safe workaround, live-verifiable.**
+  `town_telecrystal_travel()` bypasses `apps2/mud` (and P0's unresolved deadlock) entirely --
+  a direct PATCH to IDUNA's own `/api/v1/characters/:id/position`, the same safe mechanism
+  `town_sync_position` already uses continuously for ordinary movement. Free, matching the
+  server-side crystal's own `CastCost` of 0. GoblinFoxDragon `f3d90e9`.
+- [ ] **P2 -- validate the new zone (Meadow).** Now the real next step. Meadow is the real starter
+  zone (`MeadowWormSpawns`, real telnet players' own default spawn) but has never been reached
+  through the GUI client before -- confirm what's actually usable there today: combat,
+  chat/commands, whatever Town's own client can render for a zone it wasn't originally built
+  around. **Known, named gap going in, not a surprise to rediscover**: `apps2/battlegrounds_gui`'s
+  Town rendering is entirely New-Handington-specific -- after a real, correct telecrystal travel,
+  the character's backend zone/position are genuinely Meadow, but the 3D view keeps showing New
+  Handington's own geometry until relogin (or a real future Meadow render mode, see
+  `SMOOTH_TERRAIN_NORTHSTAR.md`). Validating combat/chat there can still happen via the existing
+  headless `/api/town/command` text path even without real 3D rendering.
 - [ ] **Open, lower priority, not blocking P0-P2**: confirm Sunderworm crisis broadcasts actually
   reach Town's own chat/combat-log pane (see the earlier still-open dump entry, "ensure the
   sunderworm events make it into the chat log" -- investigation got interrupted by the deadlock
