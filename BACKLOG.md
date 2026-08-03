@@ -11380,6 +11380,16 @@ session's back half into one explicit order, since several real things are now i
   visually under Xvfb**: screenshotted mid-cast showing the fill bar, commit marker, and "CASTING:
   TELEPORT MEADOW" text against the real in-range white ring. `go vet`/`go test ./...` and a
   direct `gcc` client build both clean. GoblinFoxDragon `16d314c`, Apple #11849.
+- [x] **Telecrystal cast now auto-starts on ring entry, no key needed. DONE.** Founder: "pressing
+  g does nothing i expect it to auto cast when i enter the ring." The first pass ported
+  apps/lobby's own G-press-to-start mechanic verbatim -- not what was actually wanted.
+  `town_gate_tick` now auto-starts the cast itself on the ring-enter edge (`was_in_range` false ->
+  true, tracked via a static so a completed/cancelled cast doesn't instantly restart every frame
+  still standing in the ring). `town_gate_start_cast` still exists and G is left wired to it as a
+  harmless manual fallback, but the primary path is pure proximity now. **Live-verified visually
+  under Xvfb**: simulated walking from outside the ring to inside it and screenshotted the cast bar
+  already progressing on arrival, no keypress simulated. `go vet`/`go test ./...` and a direct
+  `gcc` client build both clean. GoblinFoxDragon `d445f43`, Apple #11850.
 
 ---
 
