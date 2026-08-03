@@ -11407,6 +11407,12 @@ session's back half into one explicit order, since several real things are now i
   verified visually under Xvfb**. `go vet`/`go test ./...` and a direct `gcc` client build both
   clean. This completes the apps/lobby telecrystal UX port started earlier today: ring, auto-cast,
   cast bar, commit marker, and now the arrival banner. GoblinFoxDragon `76b83d0`, Apple #11872.
+- [x] **Verified telecrystal cast-cancel path, no bugs found.** Tested the one remaining untested
+  edge case: leaving the ring before the 600ms commit mark. Simulated under Xvfb: walked into the
+  ring (auto-cast starts, confirmed mid-cast), walked back out before commit -- confirmed the cast
+  correctly cancelled and never committed to travel. No source changes -- pure verification.
+  Closes out testing coverage for the full cast state machine: start, commit, complete, cancel,
+  all confirmed working. Apple #11875 (audit).
 
 ---
 
