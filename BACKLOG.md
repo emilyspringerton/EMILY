@@ -11198,6 +11198,19 @@ session's back half into one explicit order, since several real things are now i
   prioritize, but none are explicitly deprioritized either -- next real design/implementation
   choice once P0-P2 close.
 
+- [x] **Real bug found and fixed live, off the sprint plan's own order**: founder: **"ok now when
+  i log in im not in town as far as i can tell but it does say town i am floating in a blue abyss
+  and it looks like theres some white writing off in the distance."** Confirmed via the real
+  character's own IDUNA position: `(61, 0, 3332.6)`, thousands of units past the ~113-unit real
+  ground/building layout. Root cause: neither Town's click-to-move nor its WASD movement ever
+  clamped position, unlike Battlegrounds' own hero movement (bounded to `ARENA_HALF_EXTENT`) --
+  WASD held long enough compounds every ~100ms with no cap, easily drifting this far. Nothing 3D
+  renders that far from the origin; only 2D building-name labels still project onto screen from
+  any distance, which is exactly what read as "white writing in the distance" with everything
+  else gone. Repositioned the live character back to open ground via a direct IDUNA update, added
+  `TOWN_MOVE_HALF_EXTENT` (derived from the ground's own real rendered footprint, can't drift out
+  of sync with it) and clamped both movement paths. GoblinFoxDragon `cb8609e`, Apple #11821.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
