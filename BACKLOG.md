@@ -11830,6 +11830,37 @@ session's back half into one explicit order, since several real things are now i
   crisis window. All disposable test accounts/characters and temp debug instrumentation
   reverted/deleted before commit. `gcc -Wall` clean. GoblinFoxDragon `3e5aebb`, Apple #12019.
 
+- [ ] **SHANKPIT-460 (shankpit-460 repo): bot-pool deathmatch, client boots directly in.**
+  Founder real-time direction (2026-08-04): "as per shankpit 460 we need to give it the treatment
+  our early arena builds establishedf - the client will boot into matchmaking directly - first
+  into the bot pool - deathmatch first to 13 kills wins or 5minutes" -> "for now just the bot pool
+  we will bring the lobby back once we get the bot matches working" -> "have the bot games be like
+  10 players so the bot pool should be 9." Real state, confirmed by reading source before
+  planning: `/home/fatbaby/shankpit-460` (a separate fork repo, own git remote
+  emilyspringerton/shankpit-460 -- NOT the same tree as `/home/fatbaby/SHANKPIT`) is where all
+  real SHANKPIT-460 match/queue/auth work already lives (EMILY/BACKLOG.md SECTIONS 155-156).
+  `apps/server/src/main.c` is the real, live server tree (confirmed earlier this session's own
+  audit); `apps/lobby/src/main.c` is the real client lobby tree (a separate, dead `apps2/lobby`
+  tree exists too, already flagged stale in S169-01/02 -- don't touch it).
+  Three real gaps found, not guessed: (1) `packages/simulation/bot_ai.h`'s own real
+  `bot_think(PlayerState*, ServerState*)` (heuristic aim/move/shoot, `PlayerState.is_bot` already
+  exists in protocol.h) is dead code -- not called anywhere in the server tick loop, so bots don't
+  actually fight today despite the AI already existing. (2) `complete_match()`
+  (`apps/server/src/main.c`, wired to `--match-minutes`) only has a time-limit win condition, no
+  kill-count check against `PlayerState.kills`. (3) `apps/lobby/src/main.c`'s `main()` always
+  boots to `STATE_LOBBY` (a hotkey menu) -- no `--queue`/`--connect`-style auto-connect flag exists
+  the way GoblinFoxDragon's own battlegrounds_gui client already has (`--queue`/`--matchmaker-port`
+  -> `net_find_and_connect` polls until matched, a real transferable pattern to mirror, not
+  reinvent). IDUNA's real matchmaking queue (`/api/v1/shankpit/queue/{join,leave,status}`,
+  `ShankpitQueueMinPlayers=2`) has no bot-pool concept at all -- current plan is to skip it for
+  this pass (client connects straight to the game server, server self-fills 9 bots) rather than
+  extend the real-player queue, matching "for now just the bot pool" literally. Scope, in order:
+  (1) wire bot_think() into the server tick loop for every is_bot PlayerState, (2) auto-spawn 9
+  bots so a real player's match is a real 10-player game, (3) add the 13-kill win condition
+  alongside the existing 5-minute timer, (4) change the client's boot flow to auto-connect
+  directly into a bot-pool match, lobby UI parked (not deleted) for later. Not yet started at time
+  of logging.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
