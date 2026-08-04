@@ -12119,6 +12119,22 @@ session's back half into one explicit order, since several real things are now i
   queue/lobby (this is still direct-connect, same simplification shankpit-460 itself started
   with); race structure (laps, checkpoints, win condition) -- currently just free-roam driving.
   WEAKNIGHT_BEDROCK_RACERS `3d4c9f3`, Apple #12047.
+- [x] **MJOLNIR: CI fail-fast validation for google-services.json + install guide linked. DONE.**
+  Founder: "ok i have an android tablet how do i get mjolnir installed from github artifacts?"
+  Investigated and found both real CI runs to date (2026-06-17, 2026-07-23) failed at "Build
+  staging APK" with no artifact ever produced. Root cause inferred, not directly confirmed --
+  this environment has no `gh` CLI, no GitHub token, and no local JDK to reproduce the Gradle
+  build, so the raw CI logs (private repo, 403 without admin rights) and a local repro were both
+  unavailable. Most likely cause: the `GOOGLE_SERVICES_JSON` repo secret was never set, so the
+  workflow writes an empty/placeholder file and the google-services plugin fails deep inside the
+  build -- independently corroborated by `docs/GETTING_STARTED.md`'s own pre-existing Step 1,
+  which already names this exact secret as a prerequisite (that doc existed already and is
+  correct; it just wasn't linked from the README, so it was hard to find). Added a real "Validate
+  google-services.json" CI step that fails fast with an actionable message instead of an opaque
+  Gradle stack trace, and linked GETTING_STARTED.md from the README's docs index. Does **not**
+  fix the underlying missing secret -- that's a real action item for the founder in GitHub repo
+  settings (Settings > Secrets and variables > Actions > GOOGLE_SERVICES_JSON), flagged clearly,
+  not fixable from this environment. MJOLNIR `5ed64c8`/`abc5963`, Apple #12048.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
