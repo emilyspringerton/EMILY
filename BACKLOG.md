@@ -12100,6 +12100,25 @@ session's back half into one explicit order, since several real things are now i
   genuine partial-then-ramping acceleration and a continuous turn at exactly the coded
   `RC_TURN_RATE_MAX` (2.2 rad/s), confirmed against real tick-over-tick yaw deltas. `gcc -Wall
   -Wextra` clean. WEAKNIGHT_BEDROCK_RACERS `ddef03f`, Apple #12045.
+- [x] **WEAKNIGHT_BEDROCK_RACERS: 8-slot bot match, 1 human + 7 real autonomous bots. DONE.**
+  Founder: "can we get 8 player online bot matches? same pattern as before 7 bots so i can queue
+  into a game." Same real shape shankpit-460's own bot pool used: fixed slot count, direct-connect
+  into a running match (no separate matchmaker/lobby service yet, matching that fork's own
+  earlier-stage simplification). `RC_MAX_VEHICLES=8`; the snapshot now carries all 8 vehicles'
+  state plus active/is_bot flags. Slot 0 reserved for the first human; slots 1-7 spawn active and
+  bot-controlled at server start, spread around a real starting circle, not stacked at the origin.
+  New `racer_bot_drive_toward`: real reactive waypoint-seeking through the exact same
+  `racer_vehicle_tick` physics every vehicle uses -- no teleporting, no pre-baked path -- each bot
+  picks a randomized point inside the real terrain chunk every few seconds (or early on arrival)
+  and derives throttle/steer fresh every tick from its own current heading error, slowing for
+  sharp turns. Client renders every active slot, own car red, others blue-grey, camera anchored on
+  slot 0. Live-verified: server tick log showed real bot movement and heading changes before any
+  human ever connected, and a live screenshot after joining showed five distinct bot cars at
+  different real positions and orientations (independent real headings, not a shared script)
+  alongside the player's own car. `gcc -Wall -Wextra` clean on both binaries. Not yet done: a real
+  queue/lobby (this is still direct-connect, same simplification shankpit-460 itself started
+  with); race structure (laps, checkpoints, win condition) -- currently just free-roam driving.
+  WEAKNIGHT_BEDROCK_RACERS `3d4c9f3`, Apple #12047.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
