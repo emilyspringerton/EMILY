@@ -12001,6 +12001,35 @@ session's back half into one explicit order, since several real things are now i
   -- not the full VS0 spec). Golden-indexed. Not yet started past NORTHSTAR/repo-scaffold at time
   of logging.
 
+- [x] **Fixed: dead worms never disappeared, no respawn after death (real Home Point Crystal
+  added). DONE.** Founder, live: "dragonsnshit i think i am dead? i have no health and combat
+  against worms stopped working (it was workin for a bit! but dead worms didnt disappear) i think
+  i died and theres no respawn rig up home point like wow a crystal in town and we will have other
+  crystals so you can move your respawn" -> "use the arena mobba fountain model as the homepoint
+  crystal (make it look a little nicer)." Note: distinct from the still-open silent-repeat-death
+  investigation above (a different character/root-cause hunt) -- this item is the requested
+  respawn *feature* itself, which didn't exist at all until now regardless of death cause. Three
+  real fixes: (1) `town_draw_worms`/`town_worm_hit_test`/the worm nameplate loop now skip any worm
+  at `g_target_hp[i] == 0`, so corpses stop rendering and can no longer be re-targeted; (2) new
+  `g_town_ko_respawn_sent`-gated auto-respawn -- the moment a real status-line parse reports
+  `g_town_hp == 0`, the client auto-sends the MUD's own `home` command (`sethome`/`home` were
+  already fully implemented server-side all session, just never wired to fire automatically); (3)
+  a new Home Point Crystal in Town, modeled on the arena's own healing-fountain build (S170-147)
+  per the founder's direction -- 3 tapering tiers, each a 45-degree-rotated pair of boxes for a
+  faceted silhouette, plus a real sine-based pulsing glow -- whose right-click sends the real
+  `sethome` command. First test pass forced `g_town_hp` locally and got a false negative
+  (`respawn_sent` never flipped); root cause was a test-setup bug, not a code bug -- the test
+  binary launched without `--queue`, so `in_town` was false and the entire Town per-frame block
+  (including the KO check) never ran a single iteration. Re-verified for real end-to-end instead:
+  used curl against a disposable IDUNA test character to fight it down to a genuine server-side
+  KO (`HP: 0 / 90`, "** KNOCKED OUT **"), watched the *live, non-test-instrumented* client poll
+  real `hp=0` for three consecutive real ticks, then auto-fire `home` on its own -- character came
+  back at HP 1/90 with real XP loss, confirming an actual server-side respawn, not a client display
+  artifact. `sethome` itself curl-confirmed separately ("Home Point registered at Meadow"). Crystal
+  render screenshot-confirmed under Xvfb. `gcc -Wall` clean; all temp `GFD_CRYSTAL_TEST`
+  instrumentation and the disposable test character were removed/deleted before commit.
+  GoblinFoxDragon `93aabdc`/`eaab1bf`, Apple #12039.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
