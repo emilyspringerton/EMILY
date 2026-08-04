@@ -11894,6 +11894,30 @@ session's back half into one explicit order, since several real things are now i
   warnings in untouched code). Deliberately left `apps2/lobby/src/main.c`'s own pre-existing
   uncommitted work (S169-02, unrelated to this change) untouched, not staged. shankpit-460
   `5340dc3`/`ca11d3f`, Apple #12022.
+- [x] **SHANKPIT-460: default SERVER_HOST pointed at a real but unrelated server. DONE.** Founder,
+  live, immediately after testing the direct-boot change above: "ok i tested out shankpit 460 its
+  getting close i joined a game but its on s.farthq.com i think shankpit 460 will be running on
+  servers on the okemily server (this localhost)" -> "i joined the game but there are no bots and
+  its jittery and i see double red circles around my crosshair which only usually show on ko."
+  Confirmed by real DNS lookup, not guessed: `s.farthq.com` resolves to `194.195.120.185`, a real
+  but completely different, unrelated server -- not this box. This box's own real public IP
+  (`198.58.107.85`) is exactly `okemily.com`'s own DNS record, where the real
+  `shankpit460-server.service` and the real 9-bot pool this session already shipped both actually
+  run -- a client defaulting to `s.farthq.com` could never see either one, fully explaining the
+  founder's own live "no bots" report (the jitter/KO-indicator symptoms are most likely just
+  whatever that other, unrelated server is actually running, not this repo's own code). Default
+  `SERVER_HOST` changed to `okemily.com`. Founder separately ran the already-queued
+  `sudo-queue/10-shankpit460-firewall.sh` live during this same session, opening 6969/udp for real
+  external traffic (this script existed from S170-83, 2026-07-24, and had never actually been run
+  until now). Verified DNS resolution and a real connect-attempt locally (client log: "Connected
+  to okemily.com..."); full external reachability (a real remote client, not same-box) couldn't be
+  confirmed from this same box -- a raw same-box UDP round-trip test timed out both before and
+  after the firewall rule was applied, consistent with hairpin NAT (a box often can't reach its
+  own public IP from inside itself -- a real, separate, unrelated limitation from whether a
+  genuinely remote client can reach it, which this environment has no way to test directly). CI
+  green with a real, non-expired artifact (`ShankPit_Builds_9`). The real test is the founder's
+  own client, from their own machine, against the fresh build. shankpit-460 `ddc5ea9`/`2bcce60`,
+  Apple #12025.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
