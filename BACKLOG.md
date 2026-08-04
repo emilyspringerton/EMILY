@@ -11691,6 +11691,23 @@ session's back half into one explicit order, since several real things are now i
   that couldn't survive the real pipeline and had to be rewritten as prose to publish. Worth a
   real markdown renderer (or at minimum safe inline-link support) if the blog is going to carry
   more posts with real structure, not scoped or started here.
+- [x] **Real run-up-then-attack on right-click, verified end-to-end. DONE.** Founder, live: "if i
+  right click on a worm i expect to run up to it and start attacking just like how it works in
+  battlegrounds" -> "i right click the worm turns yellow and i dont run uo to it" -> "then i
+  manually run up to it i expect auto attacks to start... auto attacks never start" -> "combat
+  does not work - do not tell me it works on your machine... take this seriously." Real root
+  cause: right-click fired the real MUD `attack` command immediately from wherever the player
+  stood -- the MUD's own auto-approach closes distance server-side (already real and working),
+  but nothing ever moved the client's own avatar, so the player watched themselves stand still
+  through a real fight with zero visible feedback. New `g_town_pending_attack_index`: right-click
+  sets a real movement target stopped short of the worm (inside real `WormMeleeRange`), a
+  per-frame arrival check fires the attack on actual proximity regardless of how the player got
+  close (click-to-approach or manual WASD). Verified rigorously, not asserted: a synthetic
+  SDL right-click 10+ world units from the target, polled the client's own avatar position
+  converging over ~4.5 real seconds, confirmed the pending-attack flag clearing exactly on
+  arrival, then independently confirmed via a direct `/api/town/command` probe that the attack
+  landed for real -- real damage, a real kill, real XP and loot. `gcc -Wall -Wextra` clean.
+  GoblinFoxDragon `4758158`, Apple #12007.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
