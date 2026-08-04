@@ -11708,6 +11708,27 @@ session's back half into one explicit order, since several real things are now i
   arrival, then independently confirmed via a direct `/api/town/command` probe that the attack
   landed for real -- real damage, a real kill, real XP and loot. `gcc -Wall -Wextra` clean.
   GoblinFoxDragon `4758158`, Apple #12007.
+- [x] **Fixed real JSON-escape decoding bug causing corrupted combat log + no visible damage
+  feedback. DONE.** Founder, live, immediately after the run-up fix above: "ok progress we run
+  up to our guy now but there are still no visible auto attacking going on." Real root cause,
+  found by reading the shared JSON string decoder's own source after a raw debug dump showed
+  decoded MUD output containing the literal two-character sequence "rn" in place of every real
+  line break: `http_extract_json_string_field` skipped the backslash on any `\`-escape and copied
+  whatever character followed it literally -- correct by accident for `\"`/`\\`, silently wrong
+  for `\r`/`\n`/`\t`. Every real multi-line MUD response (apps2/mud's own `\r\n`-separated combat
+  text) decoded to plain "rn," so `town_mud_command`'s own `\r\n`-based line-splitting saw the
+  whole response as one unsplittable blob -- this had been silently corrupting the combat log all
+  session, the real reason combat feedback never read as "visible" even once the run-up fix
+  landed. Fixed to decode the standard JSON escapes to their real bytes. New floating
+  damage-popup feature added on top (rising WoW/LoL-style numbers parsed from the same
+  now-correctly-split real combat lines). Verified two ways: a standalone unit test compiled
+  directly against the fixed function showing real byte-level CRLF output where the old code
+  produced none, and a full live end-to-end run via synthetic SDL right-click injection against a
+  real worm fight under Xvfb -- combat log rendered clean individually-split lines for the first
+  time this session, damage popups fired with amounts matching the real MUD text exactly, through
+  an actual kill with real XP and loot. All temp debug instrumentation and every disposable test
+  character from this debugging arc reverted/deleted before commit. `gcc -Wall -Wextra` clean; no
+  Go changes in this repo. GoblinFoxDragon `76768f8`, Apple #12010.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
