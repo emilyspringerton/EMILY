@@ -12000,6 +12000,31 @@ session's back half into one explicit order, since several real things are now i
   a single vehicle driving around real voxel terrain, nothing else, as the true first proof point
   -- not the full VS0 spec). Golden-indexed. Not yet started past NORTHSTAR/repo-scaffold at time
   of logging.
+- [x] **WEAKNIGHT_BEDROCK_RACERS Phase 0 shipped: real vehicle on real voxel terrain,
+  server-authoritative. DONE.** Founder: "go phase 0." New `apps/server` (UDP, fixed 60Hz tick)
+  fetches GoblinFoxDragon's own real, already-deployed `worldapi` `/heightmap` HTTP endpoint (port
+  7070) at startup -- confirmed live before writing a line of client/server code, not assumed --
+  and resolves a real arcade-tier vehicle sim (`packages/common/racer_vehicle.h`: real accel/
+  friction/braking, speed-scaled turn rate, terrain-relative Y every tick) purely from the client's
+  own UDP `UserCmd` packets, never trusting a client-claimed position. Found and fixed a real gap
+  live during verification: a hung/disconnected client left the vehicle stuck at max throttle
+  forever with no input-staleness check; added a 300ms stale-usercmd zeroing safety net. New
+  `apps/client` (SDL2 + legacy GL, deliberately not battlegrounds_gui's own modern-GL shader
+  pipeline -- Phase 0 doesn't need it yet) fetches the same real heightmap, renders it as an actual
+  sloped triangle mesh, and renders the vehicle at the server's own authoritative position via a
+  real chase camera. `packages/common` ported `http_client.h`/`mat4.h` verbatim from
+  GoblinFoxDragon (real reuse per NORTHSTAR's own decision) plus new `racer_protocol.h`/
+  `racer_vehicle.h` sized for one vehicle instead of forking shankpit-460's much larger FPS
+  protocol wholesale. Live-verified end-to-end in two stages: (1) a raw UDP test client drove the
+  server vehicle through real accel/turn/coast-to-stop, confirmed via real snapshot data (position/
+  yaw/speed math checked out, and the vehicle correctly froze in place once input went stale
+  instead of drifting); (2) the real SDL2 client under Xvfb (real keyboard input stood in for via
+  a temp `RC_TEST_DRIVE` env-var hook, reverted before commit) showed the vehicle actually driving
+  and turning across real rolling Meadow terrain across two live screenshots taken seconds apart
+  (different position/camera angle, not a static frame). `gcc -Wall -Wextra` clean on both
+  binaries. Not yet done: a live human at a real keyboard hasn't driven it (only the test-hook
+  stand-in has); Phase 1 (real F1-tier physics, destructible terrain, second vehicle) not started.
+  WEAKNIGHT_BEDROCK_RACERS `6d01e17`, Apple #12041.
 
 - [x] **Fixed: dead worms never disappeared, no respawn after death (real Home Point Crystal
   added). DONE.** Founder, live: "dragonsnshit i think i am dead? i have no health and combat
