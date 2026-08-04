@@ -12087,6 +12087,19 @@ session's back half into one explicit order, since several real things are now i
   root cause was the test script itself reading the wrong tuple index (z instead of yaw), caught
   by re-deriving the expected math rather than assuming a regression. `gcc -Wall -Wextra` clean.
   WEAKNIGHT_BEDROCK_RACERS `df0d1ce`, Apple #12044.
+- [x] **WEAKNIGHT_BEDROCK_RACERS: real Xbox controller support, pressure-sensitive triggers. DONE.**
+  Founder: "do pressure sensitive controls for bedrock racers for my controller (xbox one
+  controller)." Client opens the first `SDL_GameController` found (hot-plug supported), falling
+  back to keyboard when none is connected. RT/LT drive real analog throttle/brake off true 0..32767
+  trigger travel (a light tap genuinely produces less throttle than a full pull, not a digital
+  button standing in for "pressure sensitive"), left stick steers with a real dead zone, left
+  bumper is the handbrake. Verified for real: a standalone harness confirmed SDL's virtual-joystick
+  API round-trips real axis/button values through `SDL_GameController` in this environment, then a
+  temp env-var-gated virtual pad wired directly into the real client binary (reverted before
+  commit) forced a real half-pulled trigger + full-right stick -- live server tick data showed
+  genuine partial-then-ramping acceleration and a continuous turn at exactly the coded
+  `RC_TURN_RATE_MAX` (2.2 rad/s), confirmed against real tick-over-tick yaw deltas. `gcc -Wall
+  -Wextra` clean. WEAKNIGHT_BEDROCK_RACERS `ddef03f`, Apple #12045.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
