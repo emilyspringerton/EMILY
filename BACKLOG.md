@@ -12229,6 +12229,25 @@ first, open design questions last.
   network edge, before it ever reaches this box's own kernel. No Linode API/CLI credentials
   available in this environment to check or fix directly -- **real founder action needed**:
   console.linode.com -> instance -> Firewalls -> add an inbound rule for UDP 6969.
+- [x] **BRAWLPIT: fixed character select getting stuck on rematch. DONE.** Founder, live, real-time
+  during this same testing pass (not originally part of the backlog dump above -- landed while
+  scoping TIPJAR's own base engine): "ok the current build of brawlpit has issues - in single
+  player ,ode the first geame works but the next game it says character select and it sseems
+  lijk i cant selecti the character to play again." Real root cause, traced via `select_cursor`'s
+  own mutation sites: every return-to-character-select path already reset `select_confirmed` back
+  to `{0,0}`, but left `select_cursor` wherever match 1's own selection ended it (slot 1 --
+  confirming slot 0 auto-advances the cursor there). On the second trip through character select,
+  the player's inputs silently edited `selected_chars[1]` (the bot's slot) instead of their own --
+  `select_confirmed[0]` could never become true again, so the match-start condition never fired.
+  Looked and felt exactly like character select had stopped responding. Live-verified under Xvfb:
+  forced the exact end-of-match1 state and dispatched a real `SDLK_RETURN` event through the
+  actual `STATE_RESULTS` handler -- confirmed cursor resets to 0 and confirmed resets to `[0,0]`
+  post-fix. `tests/test_physics.c` still passes. Also switched the repo's git remote from HTTPS
+  (no cached credentials, push failed) to SSH, matching every other repo in the monorepo -- a
+  real, one-time fix, not expected to recur. BRAWLPIT `bde1b6d`/`dd85cd2`, Apple #12053. Directly
+  relevant to TIPJAR (confirmed direction: build as a mode inside BRAWLPIT) -- a broken rematch
+  loop in the base engine would have blocked TIPJAR's own single-player shift loop from being
+  playable more than once per launch.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
