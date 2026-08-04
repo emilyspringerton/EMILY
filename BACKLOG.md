@@ -12055,6 +12055,26 @@ session's back half into one explicit order, since several real things are now i
   instrumentation and the disposable test character were removed/deleted before commit.
   GoblinFoxDragon `93aabdc`/`eaab1bf`, Apple #12039.
 
+- [x] **Published two blog posts: DragonsNShit tech stack + Bedrock Racers explainer. DONE.**
+  Founder, live: "write the blog post on the tech stack for dragonsnshit" -> "and then another
+  blog post on what we are building for bedrock racers because i honestly forgot." Both published
+  live via the real `POST /api/v1/blog/posts` API (EMILY-PRIME agent JWT, `blog.write`, real M2M
+  exchange via `/api/v1/auth/agent` -- note the registered agent name is `EMILY-PRIME`, hyphenated,
+  not the `EMILY_PRIME` underscore form `IDUNA_AGENT_NAME` uses elsewhere; the first auth attempt
+  with the underscore form failed closed as expected, not a real bug). "The Shape of DragonsNShit"
+  (`/blog/the-shape-of-dragonsnshit/`) covers the real current architecture: GoblinFoxDragon as a
+  Dragonfly/Bedrock fork, `worldapi`'s real procedural heightmap now shared live between the MUD
+  client and WEAKNIGHT_BEDROCK_RACERS (the exact reuse this session's own Phase 0 work just
+  shipped), `apps2/mud`'s server-authoritative combat backend, `battlegrounds_gui`'s bespoke
+  SDL2/GL client (not the real Bedrock client) hosting both Town/Meadow and a separate MOBA-style
+  arena mode with RL-trained bot AI, and IDUNA as the shared identity/trust layer underneath all of
+  it. "What We're Building With Bedrock Racers" (`/blog/what-we-are-building-with-bedrock-racers/`)
+  recaps the original VS0 pitch (F1-tier physics, destructible terrain, emergent systems) and
+  reports Phase 0 (Apple #12041, shipped earlier this same session) as real, verified progress, not
+  a plan. Both plain-paragraph prose, no markdown -- `blog.Renderer.toParagraphs`'s own real
+  "poor man's markdown" limit was already a logged, known gap, not rediscovered here. OKEMILY,
+  Apple #12042.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
