@@ -11651,6 +11651,17 @@ session's back half into one explicit order, since several real things are now i
   focused debugging session (attach to the live process, or add temp instrumentation around
   `EvtMobAttack`/`knockOut`) rather than further black-box polling. GoblinFoxDragon `634b9eb`,
   Apple #11958 (observation, not completion -- nothing shipped for this specific item yet).
+- [x] **Fixed real click-to-ground bug in Meadow. DONE.** Founder, live: "click to move doesnt
+  work in meadow either" -> "try harder." `screen_to_ground` (click-to-move AND the worm/building
+  right-click hit-tests all sit on this one function) has always solved the mouse ray against a
+  hardcoded y=0 ground plane -- correct for Town, never actually correct for Meadow's own real
+  rolling terrain (world-space range ~4.5-7.5). Confirmed via live math: at the real Meadow
+  ground height, the old y=0-only solve resolved a click roughly *2x* farther from the player than
+  it should -- not subtle drift, a real, large mispositioning on every click. Fixed with real
+  iterative refinement against `dfzone_height_at` (solve for y=0, then re-solve against the real
+  terrain height at that point, repeat to convergence), Town's own ground untouched. `gcc -Wall
+  -Wextra` clean, live-verified via a debug-instrumented build (temp instrumentation reverted).
+  GoblinFoxDragon `27995b2`, Apple #11959.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
