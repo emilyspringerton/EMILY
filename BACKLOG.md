@@ -12305,17 +12305,19 @@ first, open design questions last.
   respawn fired automatically before that command's own dispatch ran. Deployed to the live service
   (`go build` + `systemctl --user restart gfd-mud.service`). `go test ./...` (GOWORK=off) passes.
   GoblinFoxDragon `82f72a5`/`3b9af90`, Apple #12057.
-- [ ] **Open, found live, not yet fixed: a custom Home Point doesn't survive a fresh headless
-  session.** Found investigating the item just above: `sethome` persists to IDUNA
-  (`characters.home_scene_id`/`home_pos_x/y/z` columns are real and written), but
-  `getOrCreateHeadlessPlayer` always constructs a fresh `homepoint.NewState(ch.SceneID)` on session
-  creation and never reloads the persisted value -- any custom Home Point silently reverts to
-  unset the moment a session is recreated (idle eviction, or a `gfd-mud.service` restart like the
-  one used to deploy the fix above). Confirmed as a real, visible side effect: the founder's own
-  TestWarrior had their real Home Point (Meadow) reset to "not set" by the very deploy that fixed
-  the KO-recovery bug. Real fix: read `home_scene_id`/`home_pos_x/y/z` from the IDUNA character
-  row in `getOrCreateHeadlessPlayer` (and `handleConn`'s own telnet path, same gap) and seed
-  `homePoint.Home` from it instead of leaving it empty by default.
+- [x] **Custom Home Point now survives a fresh headless session. DONE.** Founder: "iterate."
+  Correction to the note directly above: `characters.home_scene_id`/`home_pos_x/y/z` columns
+  existed in the schema but were never actually written -- `sethome` only ever mutated the
+  in-memory `homePoint` struct. Real fix, both sides: IDUNA got a new `PATCH
+  /api/v1/characters/:id/home` (mirrors `/position`) and both character GET handlers now return
+  the home fields; GoblinFoxDragon's `cmdSetHome` now calls a new `idunaclient.UpdateHome`, and
+  `getOrCreateHeadlessPlayer` seeds `homePoint` from the real persisted value on session creation.
+  Live-verified end-to-end against the real live services: `sethome` -> real DB row confirmed
+  written; restarted `gfd-mud.service` (a real fresh session, the exact scenario that lost the
+  founder's own TestWarrior Home Point earlier today) -> `status` correctly showed it restored.
+  Also fixed a real test fixture gap this surfaced (`mmo_inventory_test.go`'s in-memory schema
+  was missing the new columns, breaking 3 tests) -- full suite green on both repos. IDUNA
+  (CHANGELOG 2026-08-04 (3)), GoblinFoxDragon (CHANGELOG 2026-08-04 (10)), Apple #12069.
 - [x] **IDUNA: real DragonsNShit test-account creation, atomic in the existing register endpoint.
   DONE.** Founder: "i need a way to create dragonsnshit accounts for testing - i need iduna login
   i think it should live in iduna create account for dragonsnshit." Before this, every disposable
