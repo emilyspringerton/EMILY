@@ -11729,17 +11729,32 @@ session's back half into one explicit order, since several real things are now i
   an actual kill with real XP and loot. All temp debug instrumentation and every disposable test
   character from this debugging arc reverted/deleted before commit. `gcc -Wall -Wextra` clean; no
   Go changes in this repo. GoblinFoxDragon `76768f8`, Apple #12010.
-- [ ] **Right-click run-up-to-attack still reported broken by founder after the fixes above.**
-  Founder, live, after downloading a fresh artifact built from `76768f8`: "ok it still doesnt work
-  for me right click to start auto attacks" -> "right click run up nothing happens." Not yet
-  re-investigated -- my own re-verification of the run-up fix and the JSON-escape fix both used
-  the IDUNA_AGENT_NAME/IDUNA_AGENT_SECRET dev-agent login bypass (`run_login_screen` is skipped
-  entirely when `iduna_agent_configured`, apps2/battlegrounds_gui/src/main.c ~line 4832), never
-  the real email/password `run_login_screen` path a real player actually goes through -- a real,
-  unclosed gap in my own testing, not yet ruled out as the actual cause. Founder chose to pivot to
-  the job-change NPC / BLM spell / shop work below rather than keep chasing this immediately;
-  parked here, not dropped -- pick this back up with a real-login-path test, not another
-  dev-agent-bypass one.
+- [ ] **Right-click run-up-to-attack still reported broken by founder -- real-login-path gap now
+  closed, mechanic confirmed working, real cause still unknown.** Founder, live, after downloading
+  a fresh artifact built from `76768f8`: "ok it still doesnt work for me right click to start auto
+  attacks" -> "right click run up nothing happens." Follow-up investigation (2026-08-04, after the
+  job-NPC/BLM-spell/shop pivot below shipped): closed the exact testing gap flagged when this was
+  first parked -- registered a real, disposable player account through IDUNA's own real
+  `/api/v1/auth/email/register`, gave it a real character, and drove `run_login_screen` with
+  genuine synthetic SDL_TEXTINPUT keystrokes (not the IDUNA_AGENT_NAME/SECRET dev-agent bypass
+  every earlier test this session used). Confirmed real login succeeded (`g_chat_jwt`/
+  `g_player_id`/`g_town_char_id` all correctly populated via the real `/api/v1/auth/email/login` ->
+  `town_fetch_character` path, `g_dfzone_active` correctly auto-detected from the character's real
+  `scene_id`), then ran the exact same synthetic right-click-on-worm test already used to verify
+  the run-up fix originally -- avatar walked the real distance, `g_town_pending_attack_index`
+  cleared exactly on arrival, the real `attack` command reached the server (confirmed via a debug
+  capture of the full real response: "You close the distance..." + "You target worm-meadow-7
+  (worm). Auto-attacking."), and the worm actually died with real damage exchanged both ways
+  (confirmed via a direct `look` probe). The real login path was a dead end, not the cause -- the
+  underlying mechanic is now confirmed correct through every code path this environment can drive.
+  Real, still-open gap: this environment can only test a Linux build over localhost; the founder
+  runs the cross-compiled Windows artifact on a separate machine over a real network, and that gap
+  can't be closed from here. Next step if this keeps reproducing: rule out a stale/cached local
+  download first (confirm the exact artifact run number against the latest GitHub Actions build),
+  then look for a genuine Windows/SDL2 or real-network-latency difference this Linux/localhost
+  testing can't surface -- not another server-side or aggro-system theory, since combat itself is
+  now proven sound end-to-end. All temp debug instrumentation and the disposable test account/
+  character reverted/deleted; no code changes resulted (nothing was found broken to fix).
 - [x] **Pivot, founder real-time direction (2026-08-04): job-change NPC + BLM starter spells +
   starter ability kits + Town shop. DONE.** Verbatim, in order: "maybe pivot? add an npc in town that
   lets player change jobs" -> "implement blm with a starter fireball and poison spells" ->
