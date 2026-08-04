@@ -12153,6 +12153,80 @@ session's back half into one explicit order, since several real things are now i
   yet fully confirmed**: pushing triggered a real CI run (#783) automatically, which was still
   `in_progress` at time of filing -- worth a follow-up check that it actually went green.
 
+## Backlog dump — real-time founder direction, mid-session (2026-08-04)
+
+Founder: "backlog dump all -> sprint plan -> iterate." Everything below is real-time direction
+from this same session not yet logged as an open item (completed items from this session are
+already `[x]` above with real Apple IDs). Sprint order chosen: confirmed-scoped and blocking items
+first, open design questions last.
+
+- [ ] **SHANKPIT (og engine): helicopter "doesn't quite work."** Founder, live: "get the
+  hellicopter working in og engine shankpit currently it dont quite work" -> "helicopter" ->
+  "its close i think but it dont work." Real vehicle system already exists (`NetHelicopter`/
+  `HelicopterState`/`HeliInputState` in `packages/common/protocol.h`, server-side enter/exit/tick
+  logic in `apps/server/src/main.c` and `packages/simulation/local_game.h`, spawns in
+  `SCENE_VOXWORLD` via `heli_spawn_defaults`) -- not a stub, a real but broken feature. In
+  progress at time of logging: investigating server-side enter/tick/exit flow live under Xvfb,
+  same rigor as every other fix this session (real repro, not a guess).
+- [ ] **Controller mappings audit across all game repos.** Founder: "ensure we have controller
+  mappings for all games." Known state at time of logging: `WEAKNIGHT_BEDROCK_RACERS` has real
+  Xbox `SDL_GameController` support (pressure-sensitive triggers, analog steer, handbrake on LB --
+  Apple #12045); `BRAWLPIT` already has Xbox controller support merged (`f4c6e3b`, "Add SDL2
+  gamecontroller support for Xbox-style input") per its own git log, not yet independently
+  verified live this session. Not yet checked: `shankpit-460`, `SHANKPIT` (og), `GoblinFoxDragon`
+  (`battlegrounds_gui`), `REDGARDEN`. Needs a real sweep -- grep each for `SDL_GameController`/
+  `SDL_INIT_GAMECONTROLLER`, and where absent, add real support following the
+  WEAKNIGHT_BEDROCK_RACERS pattern (pressure-sensitive triggers where the game has analog
+  throttle-like input, digital buttons otherwise), not a copy-paste stub.
+- [ ] **TIPJAR: build as a real mode inside BRAWLPIT, not a separate fork.** Founder direction,
+  live, via AskUserQuestion: "Mode inside BRAWLPIT." Real planning already exists and needs no
+  further scoping -- `BRAWLPIT/docs/TIPJAR_ROADMAP.md` (7-step plan, added 2026-02-03) and
+  `BRAWLPIT/docs/net_plan.md` (networking plan) were already written by the founder months ago;
+  the TIPJAR wiki (`github.com/emilyspringerton/TIPJAR/wiki`) carries the original pitch + a
+  contract-style acceptance-criteria doc (`Product-Core-Acceptance.md`, v0 single-player through
+  v1 4-player split-screen competitive/co-op). Zero TIPJAR-specific code exists yet anywhere
+  (confirmed via grep -- no `Customer`/`Drink`/`BUBBLED`/`vibe` symbols in BRAWLPIT's tree).
+  BRAWLPIT's real engine (`Turnip` projectiles, `BTN_JUMP/ATTACK/SHIELD/SPECIAL`, hitstun/
+  knockback, shield/parry, smash-charge) is exactly what both docs assume is already there, and it
+  genuinely is. Next real step per the roadmap's own Step 1: core single-player loop (customer
+  spawn/order/patience state machine, delivery, vibe meter, minimal bouncer de-escalate loop,
+  win/loss + results screen) -- not started.
+- [ ] **Port the SHANKPIT (og) coliseum/dirt-track arena map into WEAKNIGHT_BEDROCK_RACERS.**
+  Founder, live: "ther eis a shankpit map that is like a big arena with like colleseum seats and
+  there is like a dirt track around it - i can tell you the color of the portal maybe" -> "we can
+  port that map" -> "from og shankpit engine." Not yet located or investigated -- next step is
+  finding the actual map/scene data in `SHANKPIT` (likely `packages/map/` or a scene definition
+  near `SCENE_VOXWORLD`/`SCENE_STADIUM`), understanding its real format, then deciding a real
+  port path into Bedrock Racers' own worldapi-heightmap-based terrain (may not be a direct format
+  match -- Bedrock Racers uses a 16x16 per-column heightmap, SHANKPIT's arena may be authored
+  differently; needs real investigation before assuming a clean port).
+- [ ] **Open design question, not yet scoped: "Mario Kart style racing mixed with Rocket
+  League."** Founder, live: "i guess we need a racetrack with mario cart style racing mixed with
+  rocket league whatever that means?" -- explicitly uncertain phrasing ("whatever that means"),
+  not a concrete spec. Deliberately not started without real scoping first (same "spec before
+  implementation" discipline as everything else in this repo) -- Mario Kart implies items/laps/
+  checkpoints on a real track (the coliseum map port above may be the actual track), Rocket
+  League implies physics-ball-in-goal mechanics, a genuinely different genre layer on top of
+  Bedrock Racers' current free-roam single-vehicle-physics scope. Needs a real conversation with
+  the founder about which parts are load-bearing before any NORTHSTAR gets written for it.
+- [ ] **Open, blocked on founder action, not further fixable from this environment: shankpit-460
+  real remote players still can't connect.** Founder, live (repeated across multiple real test
+  attempts): "still same thing i am queued into a game but i am stuck in osaka garage and cant
+  move." Root cause conclusively diagnosed this session: real server log (11M+ lines, weeks of
+  history) shows **zero** non-`127.0.0.1` `CLIENT CONNECTED` entries ever -- every real fix
+  shipped this session (SERVER_HOST correction, missing connect-ticket, WELCOME-time deadlock,
+  priming-retry, CONNECT-retry) is confirmed working over loopback, and packets are confirmed
+  correctly leaving the client (a real, separate misleading-log bug was found and fixed alongside
+  this: `net_connect()`'s "Connected to %s..." printed on every bare retry send with no ack
+  involved, shankpit-460 `f45e625`), but nothing from a real remote IP has ever reached the
+  server's own socket, which IS correctly bound to `0.0.0.0:6969` (verified) and whose DNS
+  (`okemily.com` -> `198.58.107.85`) correctly matches this box's own real public IPv4 (verified).
+  Strongest remaining explanation: Linode's separate Cloud Firewall product (distinct from the
+  `ufw` rule the founder already opened earlier this session) is blocking inbound UDP 6969 at the
+  network edge, before it ever reaches this box's own kernel. No Linode API/CLI credentials
+  available in this environment to check or fix directly -- **real founder action needed**:
+  console.linode.com -> instance -> Firewalls -> add an inbound rule for UDP 6969.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
