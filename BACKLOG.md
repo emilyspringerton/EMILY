@@ -11673,6 +11673,24 @@ session's back half into one explicit order, since several real things are now i
   loop already re-enables this every frame; Town's never did. Fixed with one
   `glEnable(GL_DEPTH_TEST)` at the start of Town's 3D pass. `gcc -Wall -Wextra` clean, `go test
   ./...` clean. GoblinFoxDragon `9ac0205`, Apple #12003.
+- [x] **Published "The Shape of the Stack" blog post. DONE.** Founder: "can you do a blog post
+  explaining the complexity of our experimental stack?" -> "as emily prime" -> "write it to the
+  okemily blog." First-person post from Emily on the real complexity of running six product
+  domains (IDUNA, PRRJECT_FATBABY, GoblinFoxDragon/SHANKPIT/REDGARDEN, MJOLNIR, TYLER+MPT,
+  gpt2-alpine-c) off one RSI loop. Drafted first as a private Claude artifact for review, then
+  published live via the real `POST /api/v1/blog/posts` API (EMILY-PRIME agent JWT, `blog.write`)
+  at `/blog/the-shape-of-the-stack/`. Named a real gap found in the process:
+  `blog.Renderer.toParagraphs` only supports plain, blank-line-split, HTML-escaped paragraphs (no
+  markdown/links yet), so the richer artifact draft had to be rewritten as prose to actually
+  publish -- a real markdown/rich-body renderer upgrade is a reasonable future item, not attempted
+  here. OKEMILY `d968e5e`, Apple #12005.
+- [ ] **Open, not yet scoped: OKEMILY blog renderer only supports plain paragraphs.**
+  `blog.Renderer.toParagraphs` (IDUNA `internal/blog/render.go`) is real, dependency-free "poor
+  man's markdown" -- splits on blank lines, HTML-escapes everything, no links/emphasis/lists. A
+  richer post (drafted 2026-08-04, "The Shape of the Stack") had real card-grid/callout design
+  that couldn't survive the real pipeline and had to be rewritten as prose to publish. Worth a
+  real markdown renderer (or at minimum safe inline-link support) if the blog is going to carry
+  more posts with real structure, not scoped or started here.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
