@@ -11948,6 +11948,19 @@ session's back half into one explicit order, since several real things are now i
   Deliberately left `apps2/lobby/src/main.c`'s own pre-existing uncommitted work (S169-02,
   unrelated) untouched, not staged. The real test is still the founder's own client, from their
   own machine, against this fresh build. shankpit-460 `ee69bfc`/`870e0ae`, Apple #12033.
+- [x] **SHANKPIT-460: retry the priming UserCmd until sync succeeds, not one shot. DONE.** Founder,
+  live, after testing the WELCOME-time priming fix: "ok still same thing i am queued into a game
+  but i am stuck in osaka garage and cant move." Real gap in the previous fix: it sent exactly one
+  priming UserCmd, a single unreliable UDP packet with no retry -- fine over this same box's own
+  loopback (near-zero packet loss, where it was verified), but a genuinely remote connection over
+  the real internet can lose that one packet and land right back in the exact same stuck state
+  with zero recovery, indistinguishable from the founder's own experience. Now retries on the real
+  per-frame throttle interval for as long as `net_have_initial_local_snapshot_sync` hasn't flipped
+  true. Verified live under Xvfb against the real local production server: fresh connect
+  immediately shows "cmd_seen=1 player_active=1" and "Clients: 10," no regression from the
+  original fix's own verified behavior, now with real packet-loss resilience. `gcc -Wall` clean.
+  CI green with a real artifact (`ShankPit_Builds_13`). shankpit-460 `68597e3`/`be94a99`, Apple
+  #12034.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
