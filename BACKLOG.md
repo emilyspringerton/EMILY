@@ -11740,8 +11740,8 @@ session's back half into one explicit order, since several real things are now i
   the job-change NPC / BLM spell / shop work below rather than keep chasing this immediately;
   parked here, not dropped -- pick this back up with a real-login-path test, not another
   dev-agent-bypass one.
-- [ ] **Pivot, founder real-time direction (2026-08-04): job-change NPC + BLM starter spells +
-  starter ability kits + Town shop.** Verbatim, in order: "maybe pivot? add an npc in town that
+- [x] **Pivot, founder real-time direction (2026-08-04): job-change NPC + BLM starter spells +
+  starter ability kits + Town shop. DONE.** Verbatim, in order: "maybe pivot? add an npc in town that
   lets player change jobs" -> "implement blm with a starter fireball and poison spells" ->
   "ensure spell casting works o n the worms and puts them into combat" -> "we will map out more
   expanded abilities once we get our systems working underneath" -> "and then add a couple starter
@@ -11763,8 +11763,21 @@ session's back half into one explicit order, since several real things are now i
   so it properly aggros mobs, (2) add a real "poison" BLM spell on that fixed path, (3) 2 starter
   abilities each for MNK/BLM/RDM/THF wired into `cmdJA`, (4) a Town vendor NPC + starter catalog,
   (5) client: job-change NPC building + job-select UI sending real `setjob <JOB>`, (6) client: shop
-  buy/sell UI modeled on the Auction House UI. Tracked as GoblinFoxDragon backlog work, not yet
-  started at time of logging.
+  buy/sell UI modeled on the Auction House UI. All 6 pieces shipped and verified live against the
+  running gfd-mud.service / a real Xvfb-driven client, not asserted: poison casting a real worm and
+  setting its real `AggroSlot` (confirmed via the `(!)` indicator in a fresh `look`), Chakra healing
+  a real nonzero amount after taking real damage, Convert's HP/MP trade with correct clamping,
+  Elemental Seal's level gate, the job-change menu actually flipping a character's real job
+  (confirmed via a direct `jobs` probe showing the `<--` marker land on BLM), and a full shop
+  buy-then-sell round-trip moving real flow (5000 -> 4950 -> 4975, matching the real 50/25 prices,
+  confirmed via a direct `inventory` probe). One real naming collision caught during the build
+  (new shop code first named `shop_*`, colliding with Battlegrounds' own pre-existing `shop_open`
+  global, S170-175) and fixed before it could ship. All disposable test characters and temp debug
+  instrumentation reverted/deleted before each commit. `go build/test/vet/gofmt` and
+  `gcc -Wall -Wextra` clean; GitHub Actions Windows build confirmed green with a real non-expired
+  artifact (`GoblinFoxDragon_Builds_258_5d1a2e7`). GoblinFoxDragon `1bba8da` (aggro fix + poison +
+  starter abilities), `6f56b67` (Town vendor NPC), `5d1a2e7` (client job-change + shop UIs), Apple
+  #12013.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
