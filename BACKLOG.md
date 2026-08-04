@@ -11637,6 +11637,20 @@ session's back half into one explicit order, since several real things are now i
   `/api/town/command` probe, not a client bug. Revived via the real `home` command (agent JWT,
   free respawn, HP:1/90) and corrected the corrupted IDUNA row. `gcc -Wall -Wextra` clean.
   GoblinFoxDragon `6dbd8e7`, Apple #11937.
+- [ ] **Open, unresolved: silent repeat-death bug on a real Meadow character.** Founder, live:
+  "combat against worms does not work... currently nothing happens... besides it does turn
+  yellow." Right-click attack itself is confirmed CORRECT (verified on a disposable test
+  character: real damage exchanged both ways, real combat text). `test@test.com`'s own character
+  (TestWarrior) separately found dying within seconds of every revive (`home`, HP:1/90), THREE
+  times, with zero combat text ever appearing during active polling -- a live `nm-king-worm` NM
+  (800 HP, 60 dmg/hit, AggroRange 15/LeashRange 40) is present in this same Meadow instance and is
+  the strong suspect, but the real mechanism was never caught in the act (the real damage code
+  path, `apps2/mud/main.go`'s `EvtMobAttack` handler, does send a message on every branch
+  including the death branch -- so either the message is being lost somewhere between the tick and
+  the next headless poll, or something other than that code path is the real cause). Needs a
+  focused debugging session (attach to the live process, or add temp instrumentation around
+  `EvtMobAttack`/`knockOut`) rather than further black-box polling. GoblinFoxDragon `634b9eb`,
+  Apple #11958 (observation, not completion -- nothing shipped for this specific item yet).
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
