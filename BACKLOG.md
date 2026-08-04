@@ -12370,6 +12370,27 @@ first, open design questions last.
   `cmdHelp`'s real "Commands: look / l ..." text landed in the shared combat log. `go test ./...`
   clean. GoblinFoxDragon `5fae09d`/`52d94b9`, Apple #12078.
 
+- [x] **WEAKNIGHT_BEDROCK_RACERS: SHANKPIT's coliseum arena ported as a second selectable circuit,
+  `--track stadium`. DONE.** Founder: "ther eis a shankpit map that is like a big arena with like
+  colleseum seats and there is like a dirt track around it" -> "we can port that map" -> "from og
+  shankpit engine." Investigated SHANKPIT's real stadium first: `map_geo_stadium` (hand-authored
+  collision boxes for seating/grandstand/towers) plus a genuinely real, separate deterministic
+  heightfield generator (`init_stadium_terrain` in `physics.h`) driving the actual walkable/
+  driveable ground -- ring/noise/ridge/bowl/berm terms plus a real dirt-track carve following
+  `stadium_rally_loop`'s own racing line. Given a real fork in approach (self-contained local
+  circuit vs. a full persistent-world scene built into GoblinFoxDragon), asked the founder;
+  chose the self-contained option. Ported the exact terrain formula verbatim into a new
+  `packages/common/racer_track_stadium.h` -- deliberately NOT a second voxel engine (this repo's
+  own CLAUDE.md says "don't build a second, parallel voxel engine" for the real worldapi-backed
+  Meadow path; one hardcoded deterministic height function for one fixed circuit doesn't conflict
+  with that, same shape SHANKPIT's own stadium already is). Selected via `--track stadium` on
+  both server and client (default `meadow`, completely unchanged); both sides independently
+  generate byte-identical terrain with no wire-protocol change. Live-verified end-to-end under
+  Xvfb: server log confirmed `slot0 Y=3.00` at `(0,14)` -- the exact flattened arena-center
+  height the formula targets, not a fallback/garbage value -- and a screenshot confirmed bots
+  visibly navigating the real dirt-track terrain. Both binaries build clean (`gcc -Wall`).
+  WEAKNIGHT_BEDROCK_RACERS `d36e93b`, Apple #12082.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
