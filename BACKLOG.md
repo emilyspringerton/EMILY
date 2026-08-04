@@ -12171,16 +12171,23 @@ first, open design questions last.
   line 14px below it into unreadable garbled text -- that's what actually felt "close but doesn't
   work." Fixed by deriving the gap from the real glyph height instead of a magic-number offset.
   SHANKPIT `86fa6c2`/`459cad1`, Apple #12051.
-- [ ] **Controller mappings audit across all game repos.** Founder: "ensure we have controller
-  mappings for all games." Known state at time of logging: `WEAKNIGHT_BEDROCK_RACERS` has real
-  Xbox `SDL_GameController` support (pressure-sensitive triggers, analog steer, handbrake on LB --
-  Apple #12045); `BRAWLPIT` already has Xbox controller support merged (`f4c6e3b`, "Add SDL2
-  gamecontroller support for Xbox-style input") per its own git log, not yet independently
-  verified live this session. Not yet checked: `shankpit-460`, `SHANKPIT` (og), `GoblinFoxDragon`
-  (`battlegrounds_gui`), `REDGARDEN`. Needs a real sweep -- grep each for `SDL_GameController`/
-  `SDL_INIT_GAMECONTROLLER`, and where absent, add real support following the
-  WEAKNIGHT_BEDROCK_RACERS pattern (pressure-sensitive triggers where the game has analog
-  throttle-like input, digital buttons otherwise), not a copy-paste stub.
+- [x] **Controller mappings audit across all game repos. DONE (except REDGARDEN, explicitly
+  skipped).** Founder: "ensure we have controller mappings for all games." `WEAKNIGHT_BEDROCK_RACERS`
+  and `BRAWLPIT` already had real Xbox `SDL_GameController` support. Added the same real pattern
+  (hot-plug via `CONTROLLERDEVICE` events, keyboard/mouse fallback, pressure-sensitive triggers
+  where relevant) to the three that didn't: `shankpit-460` (dual-stick move/look, pressure-
+  sensitive fire, Apple #12070), `SHANKPIT` og engine (same, plus reload correctly suppressed
+  while in a helicopter matching the existing keyboard convention, Apple #12072), and
+  `GoblinFoxDragon/battlegrounds_gui` (left-stick movement for both Town/Meadow's and the Arena's
+  own separate WASD systems -- two genuinely different movement code paths in that one file --
+  stick only overrides when the keyboard gave nothing that frame, so mixed play can't fight
+  itself, Apple #12073). `REDGARDEN` deliberately NOT touched -- this session's own standing
+  constraint ("never touch REDGARDEN's own repo/server/matchmaker directly") still applies, and
+  live worktrees under `REDGARDEN/.claude/worktrees/` show other in-progress work there right now.
+  All three new integrations: `gcc`/`gcc -Wall` clean, smoke-tested live under Xvfb (clean launch,
+  no crash) -- not a full per-button Xvfb+virtual-joystick re-verification given how many times
+  this exact pattern was already proven correct earlier the same day (WEAKNIGHT_BEDROCK_RACERS'
+  own pass).
 - [ ] **TIPJAR: build as a real mode inside BRAWLPIT, not a separate fork.** Founder direction,
   live, via AskUserQuestion: "Mode inside BRAWLPIT." Real planning already exists and needs no
   further scoping -- `BRAWLPIT/docs/TIPJAR_ROADMAP.md` (7-step plan, added 2026-02-03) and
