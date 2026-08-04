@@ -12269,6 +12269,36 @@ first, open design questions last.
   untended. `tests/test_physics.c` still passes. BRAWLPIT `2ec202f`/`034ab5a`, Apple #12055. Not
   yet done: Steps 2-7 of the real roadmap (player-indexed multiplayer framework, split-screen,
   competitive/co-op modes, content minimums, polish) -- Step 1 only.
+- [x] **DragonsNShit (GoblinFoxDragon): auto-recover a KO'd character on the next real command, not
+  just "home". DONE.** Founder, live: "i believe i am dead" -> "yea i logged in as most recent
+  client - i think im dead so nothing works but it doesnt respawn me" -> "ensuring my character
+  gets moved to the home point if im dead on login." Investigated the founder's own real
+  test@test.com/TestWarrior character live via IDUNA + the MUD HTTP API: confirmed HP 1/90 (alive
+  but critical -- the game's own intentional FFXI-style post-KO weakness, not literally 0), no
+  active aggro, Home Point already Meadow -- consistent with an earlier KO+auto-respawn (this
+  session's own earlier feature) having already resolved their immediate danger, but the founder's
+  broader concern (a KO'd session not reliably recovering on reconnect) was real and separate.
+  Root cause: `getOrCreateHeadlessPlayer` reuses an existing headless session across client
+  reconnects with no recovery check at all -- a character KO'd in a previous session stayed
+  exactly KO'd until they happened to type `home` themselves. Extracted `cmdHome`'s real logic
+  into `performHomeRespawn`, called whenever an existing session is picked back up with `IsKO`
+  still true. Live-verified against an isolated test instance (separate port, same real IDUNA
+  backend, live service untouched during testing): killed a disposable character via real combat,
+  confirmed a genuine KO, then issued a normal next command with no "home" in it -- the real
+  respawn fired automatically before that command's own dispatch ran. Deployed to the live service
+  (`go build` + `systemctl --user restart gfd-mud.service`). `go test ./...` (GOWORK=off) passes.
+  GoblinFoxDragon `82f72a5`/`3b9af90`, Apple #12057.
+- [ ] **Open, found live, not yet fixed: a custom Home Point doesn't survive a fresh headless
+  session.** Found investigating the item just above: `sethome` persists to IDUNA
+  (`characters.home_scene_id`/`home_pos_x/y/z` columns are real and written), but
+  `getOrCreateHeadlessPlayer` always constructs a fresh `homepoint.NewState(ch.SceneID)` on session
+  creation and never reloads the persisted value -- any custom Home Point silently reverts to
+  unset the moment a session is recreated (idle eviction, or a `gfd-mud.service` restart like the
+  one used to deploy the fix above). Confirmed as a real, visible side effect: the founder's own
+  TestWarrior had their real Home Point (Meadow) reset to "not set" by the very deploy that fixed
+  the KO-recovery bug. Real fix: read `home_scene_id`/`home_pos_x/y/z` from the IDUNA character
+  row in `getOrCreateHeadlessPlayer` (and `handleConn`'s own telnet path, same gap) and seed
+  `homePoint.Home` from it instead of leaving it empty by default.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
