@@ -11729,6 +11729,42 @@ session's back half into one explicit order, since several real things are now i
   an actual kill with real XP and loot. All temp debug instrumentation and every disposable test
   character from this debugging arc reverted/deleted before commit. `gcc -Wall -Wextra` clean; no
   Go changes in this repo. GoblinFoxDragon `76768f8`, Apple #12010.
+- [ ] **Right-click run-up-to-attack still reported broken by founder after the fixes above.**
+  Founder, live, after downloading a fresh artifact built from `76768f8`: "ok it still doesnt work
+  for me right click to start auto attacks" -> "right click run up nothing happens." Not yet
+  re-investigated -- my own re-verification of the run-up fix and the JSON-escape fix both used
+  the IDUNA_AGENT_NAME/IDUNA_AGENT_SECRET dev-agent login bypass (`run_login_screen` is skipped
+  entirely when `iduna_agent_configured`, apps2/battlegrounds_gui/src/main.c ~line 4832), never
+  the real email/password `run_login_screen` path a real player actually goes through -- a real,
+  unclosed gap in my own testing, not yet ruled out as the actual cause. Founder chose to pivot to
+  the job-change NPC / BLM spell / shop work below rather than keep chasing this immediately;
+  parked here, not dropped -- pick this back up with a real-login-path test, not another
+  dev-agent-bypass one.
+- [ ] **Pivot, founder real-time direction (2026-08-04): job-change NPC + BLM starter spells +
+  starter ability kits + Town shop.** Verbatim, in order: "maybe pivot? add an npc in town that
+  lets player change jobs" -> "implement blm with a starter fireball and poison spells" ->
+  "ensure spell casting works o n the worms and puts them into combat" -> "we will map out more
+  expanded abilities once we get our systems working underneath" -> "and then add a couple starter
+  kits 2 abilities per job to the basic jobs" -> "put a fuew basic items into the shops in town and
+  build a npc buy sell ui similar to the auction house ui." Real gaps found by reading the source
+  before writing anything (not guessed): `cmdCastBlackMagic` in apps2/mud/main.go directly mutates
+  `m.HP -= dmg` instead of calling the real `reg.Hit(mobID, attackerSlot, damage)` (server/mob/
+  mob.go), which is the only path that sets `AggroSlot`/`StatePursuing`/fires `EvtMobAggro` -- so
+  every existing BLM nuke (fire/blizzard/thunder/stone/water/aero) already silently bypasses mob
+  aggro today, not just a new poison spell would. No "poison" spell exists yet. `abilitiesForJob`
+  (apps2/mud/main.go) only has real ability sets for WAR/WHM/SMN (job/subjob.go's
+  WarriorAbilities/WhiteMageAbilities/SummonerAbilities) -- MNK/BLM/RDM/THF, the rest of FFXI's 6
+  starter jobs, return nil. Zone 4 (Town/New Handington, battlegrounds_gui's own Town scene) has no
+  vendor NPC in `npcs`/`npcVendorCatalog` at all (`zoneVendorNPC(4)` returns nil today) -- Meadow/
+  Hills/Swamp each have one. Client-side, Town's right-click building-interact only recognizes the
+  Auction House; no job-change NPC or shop UI exists yet (`ah_open`/`AHScreen` state machine is the
+  real pattern to mirror for the new shop UI). Scope, in priority order (server first -- real,
+  `go test`-verifiable Go changes; client UI after): (1) route BLM spell damage through `reg.Hit`
+  so it properly aggros mobs, (2) add a real "poison" BLM spell on that fixed path, (3) 2 starter
+  abilities each for MNK/BLM/RDM/THF wired into `cmdJA`, (4) a Town vendor NPC + starter catalog,
+  (5) client: job-change NPC building + job-select UI sending real `setjob <JOB>`, (6) client: shop
+  buy/sell UI modeled on the Auction House UI. Tracked as GoblinFoxDragon backlog work, not yet
+  started at time of logging.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
