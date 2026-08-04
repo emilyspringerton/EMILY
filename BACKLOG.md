@@ -12160,14 +12160,17 @@ from this same session not yet logged as an open item (completed items from this
 already `[x]` above with real Apple IDs). Sprint order chosen: confirmed-scoped and blocking items
 first, open design questions last.
 
-- [ ] **SHANKPIT (og engine): helicopter "doesn't quite work."** Founder, live: "get the
-  hellicopter working in og engine shankpit currently it dont quite work" -> "helicopter" ->
-  "its close i think but it dont work." Real vehicle system already exists (`NetHelicopter`/
-  `HelicopterState`/`HeliInputState` in `packages/common/protocol.h`, server-side enter/exit/tick
-  logic in `apps/server/src/main.c` and `packages/simulation/local_game.h`, spawns in
-  `SCENE_VOXWORLD` via `heli_spawn_defaults`) -- not a stub, a real but broken feature. In
-  progress at time of logging: investigating server-side enter/tick/exit flow live under Xvfb,
-  same rigor as every other fix this session (real repro, not a guess).
+- [x] **SHANKPIT (og engine): helicopter HUD text overlap fixed -- flight physics were never
+  broken. DONE.** Founder, live: "get the hellicopter working in og engine shankpit currently it
+  dont quite work" -> "helicopter" -> "its close i think but it dont work." Live-tested under
+  Xvfb (temp `SHANKPIT_HELI_TEST` env-var hook, real F-to-enter + forward+ascend input sequence,
+  reverted before commit): flight physics were never broken -- clean liftoff, real thrust, and a
+  rock-solid hover once input stopped, all confirmed via live position/velocity logging matching
+  the tuning constants. The real bug was purely visual, found via screenshot: "HELI ONLINE" (a
+  real ~84px-tall string at scale 12, each glyph a 7-row bitmap cell) overlapped the HP/ALT status
+  line 14px below it into unreadable garbled text -- that's what actually felt "close but doesn't
+  work." Fixed by deriving the gap from the real glyph height instead of a magic-number offset.
+  SHANKPIT `86fa6c2`/`459cad1`, Apple #12051.
 - [ ] **Controller mappings audit across all game repos.** Founder: "ensure we have controller
   mappings for all games." Known state at time of logging: `WEAKNIGHT_BEDROCK_RACERS` has real
   Xbox `SDL_GameController` support (pressure-sensitive triggers, analog steer, handbrake on LB --
