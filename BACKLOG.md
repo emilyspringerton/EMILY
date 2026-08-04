@@ -12266,9 +12266,26 @@ first, open design questions last.
   follow-up clean rerun also confirmed the vibe-collapse loss condition is real, correctly-paced
   pressure, not a bug -- the original test's apparent runaway vibe loss was the background
   process continuing to run across several follow-up tool calls while five of six customers went
-  untended. `tests/test_physics.c` still passes. BRAWLPIT `2ec202f`/`034ab5a`, Apple #12055. Not
-  yet done: Steps 2-7 of the real roadmap (player-indexed multiplayer framework, split-screen,
-  competitive/co-op modes, content minimums, polish) -- Step 1 only.
+  untended. `tests/test_physics.c` still passes. BRAWLPIT `2ec202f`/`034ab5a`, Apple #12055.
+- [x] **TIPJAR Step 2 shipped: real player-indexed simulation, entity ownership. DONE.** Founder:
+  "iterate on tipjar" (continuing `TIPJAR_ROADMAP.md`'s own Step 2). `tipjar_tick` now takes the
+  real player array plus one `TipjarPlayerInput` per slot instead of a single hardcoded `p0`,
+  looping every real interaction (delivery, de-escalate, bubble throw, brawler chase/bump, push)
+  over every active player. `TipjarState.score`/`player_hp`/`last_bump_ms` are real per-player
+  arrays; `Customer.bubbled_by` gives real eject credit to whoever actually landed the bubble,
+  not whoever happens to be pushing -- matches the roadmap's own Step 2 exit criteria ("no
+  gameplay system assumes player 0 is the only real human... every interactive entity has
+  owner_id"). The bar itself (customers, vibe, shift timer/quota) stays one shared co-op
+  instance -- Competitive Party's separate-per-player instances are Step 4, not guessed at here.
+  Live-verified under Xvfb: spawned a real second active player (driven via a temp scripted test
+  hook, reverted before commit, since only slot 0 has real client input today -- this engine's
+  own existing single-local-human constraint, unchanged by this pass), had it independently
+  deliver a drink, confirmed `score[1]` credited while `score[0]` stayed untouched and the
+  combined total was correct. `gcc -O2` clean, `tests/test_physics.c` still passes. BRAWLPIT
+  `c179717`/`d590d33`, Apple #12060. Not yet done: Steps 3-7 (split-screen, competitive/co-op
+  modes, content minimums, polish) -- and real simultaneous local multi-human input (keyboard +
+  a second controller both driving independent players at once) remains a genuine gap the client
+  itself doesn't support yet, for TIPJAR or the base fighting game.
 - [x] **DragonsNShit (GoblinFoxDragon): auto-recover a KO'd character on the next real command, not
   just "home". DONE.** Founder, live: "i believe i am dead" -> "yea i logged in as most recent
   client - i think im dead so nothing works but it doesnt respawn me" -> "ensuring my character
