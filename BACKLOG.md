@@ -12248,6 +12248,27 @@ first, open design questions last.
   relevant to TIPJAR (confirmed direction: build as a mode inside BRAWLPIT) -- a broken rematch
   loop in the base engine would have blocked TIPJAR's own single-player shift loop from being
   playable more than once per launch.
+- [x] **TIPJAR Step 1 shipped: real bar + bouncer single-player shift loop. DONE.** Founder:
+  "iterate tipjar." New `STATE_TIPJAR` mode (T from the lobby), new
+  `packages/simulation/tipjar.h`: real customer state machine (WAITING_DRINK -> HAPPY / BRAWLING
+  -> BUBBLED) with real per-tick patience decay and seat respawn cycle; delivery for a real tip;
+  a real bouncer de-escalation action (Shield restores patience); bubbles reuse the existing
+  Turnip pipeline but resolve separately from `update_turnips` so real fighting-game player-
+  knockback logic never touches them; real player-driven pushing of bubbled customers to an
+  eject-door zone (the wiki's actual spec -- "pushing works" -- not just auto-drift); real
+  win/loss (quota, vibe collapse, or shift timer) with a results screen. Deliberately doesn't
+  route through `update_entity`'s own Special-button handling (turnip-pull/Up-B/wavedash) so none
+  of the existing fighting-game behavior can fire in this mode. Live-verified end-to-end under
+  Xvfb: delivery, escalation, bubble-hit, real push-to-door ejection, and seat respawn all
+  confirmed via live state logging. Caught and fixed a real live balance bug: the original
+  3000ms bubble duration made the eject mechanic practically unreachable (up to 47 units to the
+  door vs. ~2.7 units of real drift); fixed via a 7000ms duration + the real push mechanic. A
+  follow-up clean rerun also confirmed the vibe-collapse loss condition is real, correctly-paced
+  pressure, not a bug -- the original test's apparent runaway vibe loss was the background
+  process continuing to run across several follow-up tool calls while five of six customers went
+  untended. `tests/test_physics.c` still passes. BRAWLPIT `2ec202f`/`034ab5a`, Apple #12055. Not
+  yet done: Steps 2-7 of the real roadmap (player-indexed multiplayer framework, split-screen,
+  competitive/co-op modes, content minimums, polish) -- Step 1 only.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
