@@ -11662,6 +11662,17 @@ session's back half into one explicit order, since several real things are now i
   terrain height at that point, repeat to convergence), Town's own ground untouched. `gcc -Wall
   -Wextra` clean, live-verified via a debug-instrumented build (temp instrumentation reverted).
   GoblinFoxDragon `27995b2`, Apple #11959.
+- [x] **Fixed GL_DEPTH_TEST never re-enabled in Town's render loop. DONE.** Founder, live: "its
+  really laggy in the meadow and in the town" + "the 3d stff looks a little weird buildings
+  showing through eachother etc." Real root cause explaining BOTH reports at once:
+  `glEnable(GL_DEPTH_TEST)` was only ever called once at startup; every 2D HUD pass Town's own
+  loop calls each frame disables it and nothing re-enabled it before the next frame's 3D draws --
+  so from frame 2 of the whole session onward, every 3D draw rendered with depth testing off
+  (wrong occlusion -- "buildings showing through each other" -- AND lost early-Z hardware culling,
+  real overdraw cost, worse the more geometry got added this session). Battlegrounds' own separate
+  loop already re-enables this every frame; Town's never did. Fixed with one
+  `glEnable(GL_DEPTH_TEST)` at the start of Town's 3D pass. `gcc -Wall -Wextra` clean, `go test
+  ./...` clean. GoblinFoxDragon `9ac0205`, Apple #12003.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
