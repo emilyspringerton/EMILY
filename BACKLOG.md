@@ -11961,6 +11961,21 @@ session's back half into one explicit order, since several real things are now i
   original fix's own verified behavior, now with real packet-loss resilience. `gcc -Wall` clean.
   CI green with a real artifact (`ShankPit_Builds_13`). shankpit-460 `68597e3`/`be94a99`, Apple
   #12034.
+- [x] **SHANKPIT-460: retry the initial CONNECT itself, not just the priming UserCmd. DONE.**
+  Proactive follow-up, same session, while investigating the priming-UserCmd retry fix above --
+  same real class of bug, one stage earlier in the handshake: `net_connect()` was only ever called
+  once at boot, with nothing to retry it if the initial CONNECT packet, or the server's WELCOME
+  reply, is lost in transit. A lost CONNECT (or lost WELCOME) leaves the client stuck showing its
+  own local-mode fallback scene forever -- indistinguishable from every other "connected but
+  nothing happens" report already chased down this session, just one handshake stage earlier.
+  Retries every 2s for as long as `my_client_id` is still unset (never welcomed) -- safe to
+  repeat, the guard means it only ever fires before any real WELCOME has landed, so no risk of
+  double-joining or wasting a real one-seat-per-identity slot on an already-connected session.
+  Verified live under Xvfb against the real local production server: clean single connect (exactly
+  one real "CLIENT 10 CONNECTED" log line, no retry spam once WELCOME lands), same real
+  cmd_seen=1/Clients:10 result as the other verified fixes today -- no regression, real resilience
+  against a failure mode nothing covered before. `gcc -Wall` clean. CI green with a real artifact
+  (`ShankPit_Builds_15`). shankpit-460 `7a6e202`/`32301be`, Apple #12035.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
