@@ -11860,6 +11860,40 @@ session's back half into one explicit order, since several real things are now i
   alongside the existing 5-minute timer, (4) change the client's boot flow to auto-connect
   directly into a bot-pool match, lobby UI parked (not deleted) for later. Not yet started at time
   of logging.
+- [x] **SHANKPIT-460 (shankpit-460 repo): bot-pool deathmatch, client boots directly in. DONE.**
+  Founder real-time direction (2026-08-04): "as per shankpit 460 we need to give it the treatment
+  our early arena builds establishedf - the client will boot into matchmaking directly - first
+  into the bot pool - deathmatch first to 13 kills wins or 5minutes" -> "for now just the bot pool
+  we will bring the lobby back once we get the bot matches working" -> "have the bot games be like
+  10 players so the bot pool should be 9." Real 13-kill win condition added alongside the existing
+  5-minute timer (`complete_match`, checked every server tick); default match length 10 -> 5 min
+  to match. Considered and reverted a server-simulated bot-AI system before committing --
+  `bot_ai.h`'s own dead-code `bot_think()` looked like the obvious fix, but this fork already has
+  a proven, live, real bot-pool mechanism (`shankpit460-emily-bot.service`, real
+  network-connected processes, the exact same REDGARDEN-parity pattern this fork's own backlog
+  already names as the model to match, S170-83) -- building a second, parallel, server-simulated
+  NPC system alongside a working one would have been real, unnecessary duplication, caught and
+  reverted before commit. Bumped that existing pool 6 -> 9 instead, so a real player + the bot
+  pool is a real 10-player match. Real bug found and fixed in the client while wiring the
+  boot-flow change: `apps/lobby`'s own `net_connect()` never sent a connect ticket at all, despite
+  the server requiring one (fail-closed) since S156-02 (2026-07-18) -- the real graphical client
+  could never actually connect to the real production server, a real, previously-undiscovered gap.
+  Fixed by minting a real, valid HMAC-SHA256 ticket client-side (same wire format/algorithm the
+  server already verifies with, mirroring `apps2/emily-bot`'s own already-proven approach), not
+  yet tied to a real IDUNA identity -- that OAuth-login flow doesn't exist in this client yet, a
+  real, explicit, separate-scope gap, not a silent one (`report_match_results` already skips
+  anyone without `has_player_id`). Client now boots directly into a networked bot-pool match
+  (`STATE_GAME_NET` + `net_connect()`, the same real path the lobby's own JOIN button already
+  used) instead of waiting at the lobby menu -- lobby code left fully intact for when it comes
+  back, per the founder's own explicit sequencing. Verified live end-to-end under Xvfb against
+  the real local production server, not asserted: client skipped the lobby entirely, connected
+  with a real ticket (server log: "CLIENT 10 CONNECTED"), and rendered the real in-game HUD (Osaka
+  Garage scene, weapon-ready indicator, health bar) alongside the 9 already-connected real bots;
+  kill-count win condition separately verified live (server log: "MATCH_WIN_BY_KILLS client=3
+  kills=13," a fresh match started correctly). `gcc -Wall` clean (only pre-existing, unrelated
+  warnings in untouched code). Deliberately left `apps2/lobby/src/main.c`'s own pre-existing
+  uncommitted work (S169-02, unrelated to this change) untouched, not staged. shankpit-460
+  `5340dc3`/`ca11d3f`, Apple #12022.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
