@@ -12299,6 +12299,27 @@ first, open design questions last.
   the KO-recovery bug. Real fix: read `home_scene_id`/`home_pos_x/y/z` from the IDUNA character
   row in `getOrCreateHeadlessPlayer` (and `handleConn`'s own telnet path, same gap) and seed
   `homePoint.Home` from it instead of leaving it empty by default.
+- [x] **IDUNA: real DragonsNShit test-account creation, atomic in the existing register endpoint.
+  DONE.** Founder: "i need a way to create dragonsnshit accounts for testing - i need iduna login
+  i think it should live in iduna create account for dragonsnshit." Before this, every disposable
+  test character across this session (including this same day's own KO-recovery and Home Point
+  Crystal verification passes) was a raw SQLite INSERT straight into IDUNA's own `characters`
+  table -- no real login, no real player row, nothing a human tester could actually sign into.
+  New optional `character_name` (+ `character_job`) field on the existing `POST
+  /api/v1/auth/email/register` -- the same real place a DragonsNShit-playing account is already
+  created, not a second parallel test-account endpoint. When set, the same request also inserts a
+  real `characters` row (`mmo.go`'s own `handleCreateCharacter` shape) in the same transaction,
+  returning `character_id`/`character_name` alongside real login credentials. Live-verified
+  end-to-end against the real running services: register -> real character_id; login -> real JWT;
+  `GET /api/v1/characters/:id` with that JWT -> real character row; a real MUD command against
+  that exact `character_id` -> a real, live, playable character. Test account cleaned up after
+  verification. Also found and fixed a real, separate operational issue while deploying: an
+  orphaned, untracked `iduna` process from 2026-08-03 was squatting on `:8080`, silently causing
+  every systemd-managed restart to crash-loop on "address already in use" while the stale binary
+  kept serving all traffic -- killed it; `iduna.service` runs under real supervision again. No
+  sudo was actually needed, contrary to the founder's own expectation -- `systemctl --user`
+  worked once `XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS` were exported with the correct real
+  uid. `go build`/`go test` both clean. IDUNA `e8645f3`/`34a5ee1`, Apple #12059.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
