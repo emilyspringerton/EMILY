@@ -12347,6 +12347,29 @@ first, open design questions last.
   worked once `XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS` were exported with the correct real
   uid. `go build`/`go test` both clean. IDUNA `e8645f3`/`34a5ee1`, Apple #12059.
 
+- [x] **`emily iduna create-account` — real DragonsNShit test-account CLI tool. DONE.** The
+  register-endpoint feature above existed but nothing wrapped it into something a tester could
+  actually run — this closes that gap. `emily iduna create-account <name>` POSTs to
+  `/api/v1/auth/email/register` with an auto-generated disposable email/password (or explicit
+  `--email`/`--password`), prints the resulting `character_id`/`player_id`/credentials. Live-
+  verified: created a real character, confirmed the login round-trips to a real IDUNA JWT.
+  `go build ./...` + `go test ./...` clean. emily.cli `db61f88`/`b73663f`, Apple #12076.
+
+- [x] **DragonsNShit (GoblinFoxDragon): "/" opens Town/in-match chat pre-seeded with "/" for quick
+  MUD slash-commands. DONE.** Founder, live: "GFD mud gui /help should work" -> "as well as the
+  other commands in the chat" -> "also / should start the chat with slash for the user to enter
+  quick / commands." Real gap found: chat only ever opened via Enter/C/Y/T with an empty buffer --
+  "/" itself (the universal MMO slash-command reflex) did nothing at all. The underlying dispatch
+  (`chat_send_or_command` routing "/"-prefixed lines to the real MUD via `town_send_command`) was
+  already real and working -- there was just no way to reach it with "/" itself. Added `SDLK_SLASH`
+  as an open-chat binding in both the Town and in-match event loops, seeding `chat_input_buf` with
+  "/" (same non-leaking keydown-before-`SDL_StartTextInput()` shape Enter/C/Y/T already rely on).
+  Live-verified end-to-end via a temporary Xvfb + synthetic-SDL-event test hook (reverted before
+  commit): logged in as a real disposable test character (minted via the new `emily iduna
+  create-account` tool, see below), injected "/" -> "help" -> Enter, screenshot confirmed
+  `cmdHelp`'s real "Commands: look / l ..." text landed in the shared combat log. `go test ./...`
+  clean. GoblinFoxDragon `5fae09d`/`52d94b9`, Apple #12078.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
