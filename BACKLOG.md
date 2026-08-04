@@ -11793,6 +11793,42 @@ session's back half into one explicit order, since several real things are now i
   artifact (`GoblinFoxDragon_Builds_258_5d1a2e7`). GoblinFoxDragon `1bba8da` (aggro fix + poison +
   starter abilities), `6f56b67` (Town vendor NPC), `5d1a2e7` (client job-change + shop UIs), Apple
   #12013.
+- [x] **Character screen, real self/worm nameplates, job-aware ability bar, real cast timer.
+  DONE.** Founder, live, in order: "ok i think job change may have worked not sure - we need a
+  character screen /check but a hotkey for your own character p" -> "it will show equiped
+  equipment job level etc stats" -> "also now that im blm im expecting 1 2 3 to be differebnt
+  spells" -> "it should work like if i click on a enemy it targets it and hiting the hotkey casts
+  a spell" -> "there will be cast timer and if the player moves before 94% casted then the cast
+  cancels" -> "also give a slash command in the chat for casting the same spells" -> "the worm
+  health bar does not update - i dont even have a healthbar in town" -> "i should have my name and
+  health over my head just like the enemies." Fixed a real bug (g_town_job never updated after a
+  real setjob, so nothing keyed on job -- ability bar, character screen -- reflected a real change
+  until a relog). New: real client+server left-click targeting (separate from right-click's
+  attack-move); a client-side cast-timer (town_start_cast/town_cast_tick) gating real spells
+  behind a visible progress bar, cancelling on real displacement before 94% progress -- the "cast"
+  command is simply never sent, not a server-side interrupt (apps2/mud has no notion of an
+  in-progress cast); a job-aware 1/2/3 ability bar (BLM: Fire/Poison/Clear Mind; other jobs use
+  this session's earlier starter-kit work); `/cast fire|poison|cure` in chat routes through the
+  same cast-timer, not a second instant path that could skip the cast time; real self HP (parsed
+  from the status line every response already carries) and real per-target worm HP (new periodic
+  silent "look" poll, matched by name -- melee text carries no mob-HP field to parse inline)
+  replacing the old static full bars; a new floating self nameplate; a new read-only character
+  screen (P) showing real "status"+"gear" output. Verified live under Xvfb against the running
+  gfd-mud.service with fresh, isolated disposable accounts, not the dev-agent bypass alone -- two
+  real test-environment bugs found and fixed along the way (a stale movement-target causing a
+  false cast-cancel on the first attempt, and confirming Town's real WASD reads OS key state, not
+  the event queue, so the move-cancel test needed direct position mutation). End-to-end: job-aware
+  tiles matched exactly, left-click set a real server-side target, a real Fire cast fired after
+  ~2s and killed its target (confirmed via HP dropping to 0), a second cast was correctly
+  cancelled by real displacement before completion, character screen rendered real BLM stats and
+  equipment slots. Also investigated live: founder report "auto attacking does not work on the
+  second worm in town" -- reproduced the exact sequence (right-click worm-town-0, then
+  worm-town-1) under Xvfb; both worked correctly end-to-end, worm-town-1 confirmed killed. No code
+  fix applied -- a live Sunderworm World Crisis event with several very-high-HP mobs was active in
+  Town during the same investigation, a more likely explanation for an inconsistent real-world
+  result than a reproducible client bug. Flagged here for a repeat report if it recurs outside a
+  crisis window. All disposable test accounts/characters and temp debug instrumentation
+  reverted/deleted before commit. `gcc -Wall` clean. GoblinFoxDragon `3e5aebb`, Apple #12019.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
