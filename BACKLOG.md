@@ -11977,6 +11977,30 @@ session's back half into one explicit order, since several real things are now i
   against a failure mode nothing covered before. `gcc -Wall` clean. CI green with a real artifact
   (`ShankPit_Builds_15`). shankpit-460 `7a6e202`/`32301be`, Apple #12035.
 
+- [ ] **WEAKNIGHT_BEDROCK_RACERS: new repo, founder real-time direction (2026-08-04).** Founder,
+  live, immediately after the SHANKPIT-460 reliability fixes above shipped: "finish up those fixes
+  then continue work on bedrock racers (new repo cloned down)." Real state at time of logging:
+  `/home/fatbaby/WEAKNIGHT_BEDROCK_RACERS` is a brand-new repo, one commit, containing only a
+  README.md -- a pasted, chatty design pitch for a "Vertical Slice 0" (voxel Bedrock-backed world,
+  F1-tier racing physics, destructible terrain, boids flocking, trade routes, power grid cascades,
+  self-healing cities, evolving factions, community-hosted multiplayer), no code, no tech stack
+  decision, no NORTHSTAR. Real, deliberate scoping decision made before writing any code, per this
+  repo's own standing "spec before implementation" principle (same one shankpit-460's own
+  CLAUDE.md already states: "write a real NORTHSTAR.md... before cutting code"): the pasted VS0
+  spec bundles together what would realistically be many real milestones (a working vehicle
+  controller alone is a serious project; boids/trade-routes/power-grids/self-healing-cities/
+  evolving-factions is a second, separate, later-stage systems-simulation effort) -- building all
+  of it at once, unscoped, isn't a real starting point. Wrote a real, phased NORTHSTAR.md instead,
+  explicitly proposing reuse of this monorepo's own existing Bedrock-protocol voxel infrastructure
+  (GoblinFoxDragon's `apps2/server-go` + `server/worldapi`, already real, already tested, already
+  used by both GoblinFoxDragon's own Town/Meadow scenes and SHANKPIT) rather than building a third
+  parallel voxel engine from scratch -- the exact same "check for existing infra before building a
+  parallel system" lesson this same session already had to apply once today (the SHANKPIT-460 bot
+  AI system). See `WEAKNIGHT_BEDROCK_RACERS/docs/NORTHSTAR.md` for the real phased plan (Phase 0:
+  a single vehicle driving around real voxel terrain, nothing else, as the true first proof point
+  -- not the full VS0 spec). Golden-indexed. Not yet started past NORTHSTAR/repo-scaffold at time
+  of logging.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
