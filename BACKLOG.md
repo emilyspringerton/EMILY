@@ -11918,6 +11918,36 @@ session's back half into one explicit order, since several real things are now i
   green with a real, non-expired artifact (`ShankPit_Builds_9`). The real test is the founder's
   own client, from their own machine, against the fresh build. shankpit-460 `ddc5ea9`/`2bcce60`,
   Apple #12025.
+- [x] **SHANKPIT-460: connect/movement deadlock -- priming UserCmd on WELCOME. DONE.** Founder,
+  live, immediately after the SERVER_HOST fix let a real remote client connect for the first time:
+  "ok it says connected to okemily.com in the console i am in the osaka garage and i cant move and
+  the dagger is equipped" -> "i dont see any enemies." Real, complete deadlock found by reading
+  both sides of the wire protocol, not guessed: the client's own per-frame movement block only
+  ever calls `net_send_cmd` once `net_have_initial_local_snapshot_sync` is true (set the moment a
+  real snapshot containing this client's own id arrives), but `apps/server/src/main.c`'s own
+  `server_broadcast` only includes a client in ANY snapshot once `slots[client_id].cmd_seen` is
+  true -- set only inside `process_user_cmd`, which only ever runs on a real `PACKET_USERCMD` from
+  that client. A freshly connected real player could therefore never move at all, and could never
+  even appear in a snapshot for anyone else to see: the client waits for a snapshot that will
+  never arrive because the server waits for a command that will never be sent -- fully explaining
+  all three real symptoms (no movement, no visible bots, stuck on the client's own pre-connect
+  local-mode default weapon) as one single root cause. Likely never hit before this exact session
+  -- the real connect-ticket bug (fixed earlier the same day, this same backlog entry's own
+  predecessor) meant no real remote client had ever gotten past the connection stage at all until
+  today, so this deadlock had no way to surface before now. Fixed by sending one real, neutral
+  (zero movement, no buttons) UserCmd immediately on WELCOME -- the exact same packet shape and
+  send path the normal per-frame loop already uses, just fired once up front instead of waiting on
+  a condition that could never be satisfied without it. Verified live under Xvfb against the real
+  local production server, not asserted: before the fix, a connected slot never progressed past
+  WELCOME in the server's own periodic status log at all (silent stall, no rejection message
+  either); after the fix, "slot=10 active=1 welcomed=1 cmd_seen=1 player_active=1" and "Clients:
+  10" (9 bots + the real client) appear immediately, and the client's own rendered camera
+  position/world state visibly changes frame to frame (real snapshot-driven sync) instead of
+  staying frozen on one identical static view every time, as it reproducibly did before the fix.
+  `gcc -Wall` clean. CI green with a real, non-expired artifact (`ShankPit_Builds_11`).
+  Deliberately left `apps2/lobby/src/main.c`'s own pre-existing uncommitted work (S169-02,
+  unrelated) untouched, not staged. The real test is still the founder's own client, from their
+  own machine, against this fresh build. shankpit-460 `ee69bfc`/`870e0ae`, Apple #12033.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
