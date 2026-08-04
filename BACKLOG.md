@@ -12135,6 +12135,23 @@ session's back half into one explicit order, since several real things are now i
   fix the underlying missing secret -- that's a real action item for the founder in GitHub repo
   settings (Settings > Secrets and variables > Actions > GOOGLE_SERVICES_JSON), flagged clearly,
   not fixable from this environment. MJOLNIR `5ed64c8`/`abc5963`, Apple #12048.
+- [x] **SHANKPIT (og engine): CI fix, added missing cutscene.c/audio.c to Windows client build.
+  DONE.** Founder: "shankpit og engine is failing build on github" -> "pls fix." Every real CI
+  run since build #721 (2026-06-11) had failed at "Build Windows Client" with undefined
+  references to `cutscene_*`/`audio_*` symbols. Root cause: the cutscene system (`52e321e`) and
+  spatial audio engine (`767bbe7`) added real new source files
+  (`packages/simulation/cutscene.c`, `packages/audio/audio.c`) that `apps/lobby/src/main.c` now
+  calls into, but CI's hardcoded mingw build command was never updated -- a stale file list, not
+  a code bug. No mingw toolchain, `gh` CLI, or GitHub token available in this environment, so
+  verified by reproducing the exact same build command natively with `gcc` instead: got the
+  identical undefined-reference errors on the old file list, and a clean build with no errors
+  after adding both files. Neither new file has any POSIX-only calls (checked), so the same fix
+  should cross-compile under mingw the same way. Fixed identically in both `release.yml` and
+  `tests.yml` (duplicated build command). Linux Server build step untouched -- confirmed
+  `apps/server/src/main.c` never references these symbols (only a same-prefix false positive, an
+  unrelated `g_story_cutscene_done` variable). SHANKPIT `dd8541e`/`a648dec`, Apple #12049. **Not
+  yet fully confirmed**: pushing triggered a real CI run (#783) automatically, which was still
+  `in_progress` at time of filing -- worth a follow-up check that it actually went green.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
