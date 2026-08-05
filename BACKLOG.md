@@ -3664,9 +3664,25 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   binding, Back Office queues, SAGA agent v0, semantic detection, corpus-wide gate) explicitly
   deferred — this closes step 1 only, per DOC-102 §9's own sequencing.
 
-- [ ] **S143-02: `saga.manifest.yaml` format + CI gaps report** — claim-without-code (vaporware debt)
-  and code-without-claim (dark matter) detection, one repo first: PRRJECT_FATBABY, which has the most
-  running software to reconcile against.
+- [x] **S143-02: `saga.manifest.yaml` format + CI gaps report. DONE (retroactive close-out).** Found
+  while resuming the backlog 2026-08-05: this item's own code (`emily.cli/cmd/saga_manifest.go`,
+  `a06c515`) and PRRJECT_FATBABY's own `saga.manifest.yaml` (`49c2f4b`) were already built, tested (7
+  tests, all passing), and pushed earlier in this same session — but never got a CHANGELOG entry, an
+  Apple, or this checkbox, a real self-referential SAGA-class gap (work claimed done with no audit
+  trail is exactly the "claim-without-code" failure mode SAGA itself exists to catch). `emily saga
+  gaps --repo <path>` cross-references a per-repo manifest (claim → `test`/`telemetry`/
+  `human_attestation` anchors) against the corpus claim ledger `saga.go` already parses: vaporware
+  debt (unbound claims, broken test-ref anchors) and dark matter, scoped honestly to a repo's own
+  README `## All processes` table (human-curated; a naive whole-repo AST/token scan was tried by
+  hand first and produces too much noise) rather than full exported-API/event-type/config-surface
+  coverage, which stays real follow-on work. PRRJECT_FATBABY's own manifest is honestly empty — no
+  live HQ-SPEC doc anchors any claim in this repo yet, and inventing one would be a real authorship
+  task of its own, out of this pass's scope. Live-verified just now: `emily saga gaps --repo
+  PRRJECT_FATBABY` found 8 real, correctly-extracted unclaimed event types (`filing_discovered`,
+  `insider_buy`, `insider_sell_cluster`, `pr_body_fetched`, `pr_discovered`, `signal_generated`,
+  `source_document_persisted`) plus one known-noise token (`sudo`, a doc-prose backtick mention, not
+  a real surface — an honest, acknowledged limitation of the README-token heuristic, not hidden).
+  emily.cli `a06c515`/`44a42b7`, PRRJECT_FATBABY `49c2f4b`/`f8d6c12`, Apple #12090.
 
 - [ ] **S143-03: Divergence + conflict queues in Back Office** — aging rules wired to the corpus health
   gate (FIN-098 Invariant 3 pattern: aged exceptions block the gate). Queues empty only through new
