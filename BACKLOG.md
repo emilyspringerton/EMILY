@@ -12823,6 +12823,19 @@ first, open design questions last.
   unsupported-Java-version warning did not reappear. README/CLAUDE.md updated.
   EINHORN_SURVIVAL commits `d5e7f81`/`243ad4a`, Apple #12218.
 
+- [x] **S171-08: Upgrade to Paper 26.2 (build 97, STABLE). DONE.** `26.2` flipped from ALPHA to
+  STABLE same-day as S171-06's ViaVersion fix — the server had been logging "2 release(s) behind
+  the latest stable release" since first boot on `26.1.2`. Founder, live while connected from
+  Bedrock testing the ViaVersion fix: "no upgrade now lets see what happens." Downloaded build 97,
+  checksum-verified against PaperMC's real Fill API before deploying, swapped into `start.sh`,
+  restarted. Clean boot: all 3 plugins (Geyser/Floodgate/ViaVersion) reloaded without error,
+  Geyser rebound `19133` correctly (one transient bind-conflict on `19132` from an earlier
+  intermediate restart self-resolved on the next clean boot). ViaVersion now reports "no
+  compatible versions for this server version" — expected and harmless, since the server itself
+  is at the newest protocol and there's nothing older left to bridge. `server/version_history.json`
+  moved under `server/.paper/` in this Paper release, gitignored to match the existing
+  cache/libraries/versions policy. EINHORN_SURVIVAL commits `d082bf2`/`96b8a06`, Apple #12223.
+
 - [x] **S171-07: First-class citizen — emily CLI parity + golden-doc registration. DONE.** Founder:
   "the minecraft server is now a first class citizen" (also asked, separately, for a repo command to
   tail server logs, then redirected: "or into emily cli fuckit"). Added `emily survival
@@ -12857,6 +12870,22 @@ first, open design questions last.
   on this server. No Field Office/Watcher/K9 systems implemented yet — VS0 is the actual next
   work. Registered as a golden doc (`GTA7-NORTH`). GTA7 commits `e6619f6`/`2d102f6`,
   EINHORN_SURVIVAL/top-level CLAUDE.md updated, Apple #12222.
+
+- [x] **S172-02: VS0 — Field Office claim/Contest Window/Flow loop, live. DONE.** Founder: "si"
+  (confirming "start VS0" after the scoping pass). Real implementation, not a stub: right-click a
+  Beacon to claim it as a Field Office (`FieldOfficeManager`, YAML-persisted); right-click someone
+  else's to open a 60-second Contest Window (`ContestManager`, in-memory by design — a contest
+  mid-flight at restart is meant to be lost, not resumed), flips to the challenger if they're
+  within 15 blocks of the FO when the timer resolves. Flow ticks +5/minute per held Field Office;
+  `/flow` shows a player's total balance and how many FOs they hold. Claim/flip events post as
+  real IDUNA Apples via `ReceiptPoster` (shells out to the already-authenticated `emily` CLI
+  asynchronously, off the main server thread — reuses the exact same ledger every other repo in
+  this monorepo already writes to, no new auth infra). Built, deployed into
+  `EINHORN_SURVIVAL/server/plugins/`, confirmed enabling cleanly in `server.log` before
+  committing. **Not yet live-tested by a real connected client** — this session has no way to
+  connect a Minecraft client itself, so the actual claim/Contest Window gameplay is unverified
+  beyond "loads without error." Founder should playtest and report back. GTA7 commits
+  `49ce743`/`b6dce77`, Apple #12224.
 
 ---
 
