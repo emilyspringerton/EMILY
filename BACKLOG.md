@@ -12811,6 +12811,18 @@ first, open design questions last.
   (`mc.okemily.com` for Java, `mc.okemily.com:19133` for Bedrock — port must be typed explicitly
   on Bedrock's own connect screen). EINHORN_SURVIVAL commits `bd37f82`/`9bdfe86`, Apple #12216.
 
+- [x] **S171-06: ViaVersion — fix Geyser/Bedrock Java-protocol-version rejection. DONE.** Founder,
+  after trying to connect from Bedrock post-S171-05: "it almost connected and complained about via
+  version plugin needed." Confirmed live in `server.log`: Geyser rejected the connection because
+  this exact pinned Paper build (`26.1.2`) didn't cover the range of Java protocol versions Geyser
+  translates Bedrock clients into, with a real disconnected player (`GarbageMan4147`, "Outdated
+  server! I'm still on 26.1.2"). Found the real, stable Release-channel ViaVersion build (`5.11.0`,
+  not the newer but less-stable `5.12.0-SNAPSHOT`) via PaperMC's Hangar API, deployed into
+  `server/plugins/`, restarted. Re-verified clean on the next boot: `server.log` shows
+  `[ViaVersion] ViaVersion detected server version: 26.1-26.1.2 (775)` and the earlier
+  unsupported-Java-version warning did not reappear. README/CLAUDE.md updated.
+  EINHORN_SURVIVAL commits `d5e7f81`/`243ad4a`, Apple #12218.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
