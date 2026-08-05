@@ -12477,6 +12477,38 @@ first, open design questions last.
   own scoping conversation before any redesign work starts.** PRRJECT_FATBABY `33d7904`/`74f1df2`,
   Apple #12094.
 
+- [x] **S170-233: IDUNA Back Office expansion — admin login, /admin/ 404 fix, dashboard,
+  DragonsNShit account creation, first Game Master tool. DONE.** Founder, live, in sequence:
+  "i need you to make me an admin login can you put the secret in ~/.ssh" → "call the login name
+  eddy" → "make the secret at least 25 characters" → "ok my admin login worked and it routed me
+  to /admin which is a 404" → "maybe give me some kind of dashboard with a link to create
+  dragonsnshit accounts" → "other dashboard features or links whatever you think makes sense
+  simple using the iduna style guide" → "dashboard can show email signups stats" → "also we will
+  need gamemaster tools for dragonsnshit to start a way to disable accounts and later we will
+  have more gamemaster tools." New `cmd/create-admin-agent` CLI provisioned a real agent (EDDY,
+  `iduna.admin`, 64-char secret) via the same Store methods the Back Office's own agent UI uses;
+  verified end-to-end login both directly and via the `okemily.com/admin/login` proxy; secret
+  written to `~/.ssh/iduna-admin-eddy.txt` (mode 600, founder's own explicit ask, deliberately
+  excluded from this entry and the Apple record since both are far more widely synced than one
+  local file). Real bug found immediately after: okemily.com's nginx `/admin/` location never
+  matches a bare `/admin` request, so WordPress's own catch-all 301-redirected it to `/admin/` —
+  which reached IDUNA fine but had no matching Go handler (exact-only pattern, not a subtree) and
+  404'd; fixed by registering `/admin/` directly. Dashboard gained a Quick Actions card and a real
+  Mailing List Signups card (`mailinglist.Store.Count`/`CountsBySource`, plaintext-only, never
+  touches the encrypted email column). New `/admin/dragonsnshit/create` calls the real register
+  endpoint (same one `emily iduna create-account` wraps) instead of reimplementing it. First Game
+  Master tool: `/admin/gm` searches DragonsNShit accounts by email or character name,
+  disable/enable a real account via new `players.disabled_at` (migration `202608050001`), enforced
+  server-side in `handleLogin` — checked after the password compare so a genuine account owner
+  gets a distinct "account disabled" message. New regression test
+  (`TestEmailLogin_DisabledAccountRejected`) proves disable/re-enable both actually gate login, not
+  just the UI badge. `go test ./...` clean. Live-verified end-to-end: `/admin/` 200 (was 404) both
+  directly and via okemily.com; created a real test account through the new form; found it in GM
+  tools; disabled it → login correctly 403'd; re-enabled → login worked again; dashboard rendered a
+  real signup count (6). More GM tools explicitly deferred, per the founder's own framing ("to
+  start... later we will have more"). IDUNA `73c705b` (create-admin-agent) + `cbd561c` (Back
+  Office expansion), Apples #12101 + #12103.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
