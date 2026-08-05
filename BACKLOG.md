@@ -12767,6 +12767,33 @@ first, open design questions last.
   non-workspace repos table. EINHORN_SURVIVAL commit `5511511`. Founder owns DNS setup separately.
   Apple #12210.
 
+- [x] **S171-02: Real, verified plugin-dev workflow (README). DONE.** Founder: "ok update the
+  readme including how we can dev plugins for our server." Not written blind: set up Maven
+  without root (same apt-download + `dpkg-deb -x` pattern as the JDK), wrote a real example
+  plugin against the exact `paper-api` build the live server runs (`26.1.2.build.74-stable`,
+  checked against PaperMC's real Maven metadata — the version scheme differs from older Paper),
+  built it, deployed it into the live server, confirmed in `server.log` it actually enabled before
+  writing any of it down. `plugins/example-plugin/` keeps the real source. EINHORN_SURVIVAL
+  commits `2580dee`/`094580a`, Apple #12212.
+
+- [x] **S171-03: Open access (whitelist off, ban-based moderation) + real DNS. DONE.** Founder:
+  "im down for online mode true for now but i am not down for the whitelist blacklist only until
+  we have reason to switch" → "update the readme the dns name is mc.okemily.com." Flipped
+  `white-list`/`enforce-whitelist` off, `online-mode` stays true (real-accounts-only).
+  README/CLAUDE.md updated with the real DNS name and the moderation-model change, live-verified
+  after restart. EINHORN_SURVIVAL commits `b0fe89c`/`02013cf`, Apple #12213.
+
+- [ ] **S171-04: GFD ↔ EINHORN_SURVIVAL cross-server chat bridge.** Founder: "can we dev cross
+  server chat? GFD to paper?" Real, scoped assessment given (not built): the two servers speak
+  completely different protocols (GFD's own custom UDP packets vs. real Minecraft/Paper), so this
+  needs a small relay bridge — a Paper plugin listening to chat events on one side, Go code on
+  GFD's side, connected through something simple. IDUNA is the natural shared coordination point
+  (already the trust/coordination hub for everything else in this monorepo) rather than inventing
+  a new channel. Founder's own framing: worth doing once both servers are stable and actually
+  have players — EINHORN_SURVIVAL is live now (`mc.okemily.com`), so that condition is closer to
+  met than when this was first raised. Not started — needs a real scoping pass (message format,
+  how GFD's Go side subscribes/publishes, rate limiting/spam handling) before writing code.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
