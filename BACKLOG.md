@@ -12547,6 +12547,41 @@ first, open design questions last.
   process them when they do, not the underlying news cycle. PRRJECT_FATBABY `86c66b6`/`68ed030`,
   Apple #12107.
 
+- [x] **S170-235: pr-reaction-watcher — track real stock price reaction after a PR/filing release.
+  DONE.** Founder, live: "we need to start tracking price action/reaction when a pr is released
+  and then at certain time intervals after the release so we can start tracking how certain
+  companies respond to news." Asked a clarifying question on the exact sample schedule (would have
+  shaped the event schema either way) — founder confirmed: T+0 (release), +15min, +1h, EOD (real
+  trading-day close), +1 trading day, +3 trading days. New `cmd/pr-reaction-watcher` +
+  `internal/prreaction`: market-calendar-aware target-time math (real NYSE trading days/early
+  closes via `internal/marketcal`, not naive calendar arithmetic), Yahoo Finance v8 chart API
+  quotes (1-minute resolution for the three intraday offsets, daily for the three close-based
+  ones — same retry shape `cmd/market-data-watcher`'s own fetcher already uses). Reads two
+  existing real event stores (secwatch's `filing_discovered`, prwatch's `pr_discovered` — both
+  already carry a ticker directly) and writes its own `var/pr-reaction` store; state rebuilds from
+  that store's own history on every restart. Real gap found and fixed before shipping: a naive
+  first pass scheduled (and would never sample) every historical filing a cold-start backfill saw
+  — AAPL alone goes back to 2017 — added a 96h horizon guard so only genuinely recent releases get
+  tracked. `go test ./...` clean (`schedule_test.go` covers the trading-calendar math directly:
+  after-hours rollover, weekend rollover, t1d/t3d trading-day arithmetic). Live-verified against
+  the real read-only input stores before deploying, then deployed for real via systemd
+  (`fatbaby-pr-reaction-watcher.service`), confirmed clean startup. **Newssite/signalapi display
+  surface not built yet** — this ships the real data-collection layer only; a UI to actually view
+  the reaction data is real, separate follow-on work. PRRJECT_FATBABY `5e23b16`/`9dffd20`, Apple
+  #12110.
+  — **Follow-up, same conversation**: founder asked "figure out how 2 pr sources can play nice - we
+  will need them to be both labled as pressreleases somehow with separate types prnewswire and
+  businesswire." Investigated: the pipeline already supports this cleanly — `PressReleaseDiscovered.
+  Source` already exists precisely for this (currently hardcoded `"prnewswire"` at prwatch's own two
+  real discovery call sites, `prwatch/runner.go`), and nothing downstream (eps-processor,
+  dividend-watcher, guidance-watcher, buyback-watcher, the new pr-reaction-watcher, newssite
+  rendering) discriminates by `Source` value — everything reads `pr_discovered`/`pr_body_fetched`
+  generically by event type. **No architecture change needed.** What's still genuinely missing: a
+  real BusinessWire discovery loop (BusinessWire's own feed/page structure hasn't been researched —
+  no existing code references it beyond one unused label in `archetype_provider.go`'s speculative
+  spirit-routing switch). Real, separate, scoped follow-on work — not built here, since it needs
+  real research into BusinessWire's actual feed format before writing a scraper against it.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
