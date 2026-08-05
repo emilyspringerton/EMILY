@@ -3776,6 +3776,16 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   sampler, same fallback safety, live-verified under Xvfb in that client specifically (Tyler
   renders as a real multi-box rig there too, distinct from Unicorn), `mud` rebuilt per this repo's
   own tracked-binary convention. GoblinFoxDragon `18049ef`/`450ddae`, Apple #12150.
+  **Two real CI/distribution bugs found and fixed after ship, both from founder live-testing:**
+  (1) "gfd build failed on cross compile step" — GFD's own `build.yml` has a *separate* mingw
+  cross-compile step for `battlegrounds_gui` that I hadn't updated with the two new GOLDENBAND
+  source files (only REDGARDEN's CI list was updated) — undefined-reference link failure, fixed
+  `7dc8efc`. (2) "i dont see the skeleton tyler animations in GFD arena ... do i need to hit a
+  special hotkey?" — no hotkey ever existed; the real bug was the distributed
+  `DragonsNShit_MUD_GUI_Client` zip never bundling `assets/goldenband` at all, so
+  `gband_rig_init`'s CWD-relative path found nothing on any downloaded build and silently fell back
+  to the old plain box (no crash, no error — exactly the reported symptom). Fixed `022172d`/
+  `252fad6`. Apple #12172.
 
 - [ ] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. BLOCKED on founder Blender asset.**
   Same founder direction as S144-06. No `.blend`/`.fbx`/`.gltf` exists anywhere in the monorepo, so
