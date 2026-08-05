@@ -12836,6 +12836,28 @@ first, open design questions last.
   it isn't lost, applies going forward to S171-04 and any future EINHORN_SURVIVAL work.
   emily.cli commits `6bb5427`/`2651dd2`, Apple #12219.
 
+## SECTION 172: GTA7 — TRAPX DOCTRINE ON REAL MINECRAFT (2026-08-05)
+
+- [x] **S172-01: Scoping doc + loadable plugin skeleton. DONE.** Founder: "OK I WANT TO PLAY
+  GTA7 OF MINECRAFT — use the trapx docs and the plugin language" — `GTA7` upstream repo created.
+  Not a rebuild of TRAPX's own from-scratch GoblinFoxDragon voxel/RPG engine (confirmed: none of
+  `server/watcher`, `server/fieldoffice`, `server/k9`, etc. exist in GFD yet — TRAPX is a
+  northstar, not a built system). Instead: real scoping doc (`GTA7/docs/NORTHSTAR.md`) mapping
+  every TRAPX system (Field Offices/Flow/Contest Windows, Watchers/Enforcement, K9 Doctrine,
+  Media, Party Stores, factions, receipts) onto real Paper/Minecraft primitives running on the
+  already-live EINHORN_SURVIVAL server — real Wolves as K9 units, real Villager trading + the
+  real day/night cycle as Party Stores, `TextDisplay` entities as in-world broadcast TVs, IDUNA as
+  the receipt ledger (same Apple pipeline every other repo already uses). Buildability table
+  confirms every TRAPX system has a real mapping except the 22-job GFD RPG engine, flagged as the
+  single biggest open question (VS5+, no clean path yet). VS0–VS4 milestone plan (Field Office
+  claim/Flow loop → Watchers/Enforcement → K9/Party Stores → Media/factions → Rogue
+  Swarms/Custody Lock). Plugin skeleton (`industrial.einhorn.gta7.GTA7Plugin`) built, deployed
+  into `EINHORN_SURVIVAL/server/plugins/`, confirmed live in `server.log`
+  (`[GTA7] GTA7 enabled`) before committing — same verification discipline as every other plugin
+  on this server. No Field Office/Watcher/K9 systems implemented yet — VS0 is the actual next
+  work. Registered as a golden doc (`GTA7-NORTH`). GTA7 commits `e6619f6`/`2d102f6`,
+  EINHORN_SURVIVAL/top-level CLAUDE.md updated, Apple #12222.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
