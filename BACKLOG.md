@@ -3851,6 +3851,26 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `.gband` directly from keyframed Actions, verified against a real test animation). REDGARDEN
   `f59b310`/`fcca4db`, Apple #12193. GoblinFoxDragon `b8b6052`/`13a3e17`/`ff38809`, Apple #12194.
   GOLDENBAND `707048b`/`2ae67aa` (the export-script fixes themselves).
+  **Two more real bugs, same day, both founder-reported and both fixed+verified before
+  reporting back:** (1) Both distributed client zips (`RedGarden_Client`, `DragonsNShit_MUD_GUI_
+  Client`) had the exact same missing-asset-bundling gap already fixed once for GFD earlier —
+  founder: "it seemed like the tyler model was not updated so i closed the game." Every download
+  silently fell back to the plain box, no error. Fixed in both, REDGARDEN CI confirmed green
+  before telling the founder to re-download (`f59f31b`/`1443616`, Apple #12197). (2) Founder,
+  after re-downloading: real model renders and animates, but "looks like an inside out lobster"
+  (confirmed: ~13% of vertices have inward-facing normals, a real Blender-side fix — `Shift+N`
+  recalculate normals outside, not something to patch in code) — "its super laggy" and "it looks
+  like hes swimming." Benchmarked the CPU skinning math directly (0.12ms/frame against the real
+  2922-vert mesh) before guessing, ruled it out, applied VBO buffer-orphaning as the
+  evidence-narrowed fix for the lag. For the swimming: checked the founder's real rig directly and
+  found ~178° of rest rotation baked into the L_Arm/R_Arm bones — the hand-authored
+  `tyler_idle`/`walk.gband` clips assumed zero rest rotation (fine for the synthetic proof
+  skeleton, wrong for a real Blender rig), producing genuinely wrong-axis motion. Fixed by scoping
+  animation clips per mesh (`tyler_body_idle`/`walk.gband`) and generating real clips directly on
+  the founder's actual rig via real Blender, through the same verified export pipeline.
+  Live-verified: coherent upright-humanoid silhouette, not the previous propeller-cross shape.
+  REDGARDEN `f6293f4`/`2af8591`/`c8c6f7b`, Apple #12201. GoblinFoxDragon `799296d`/`8441b69`,
+  Apple #12202.
 
 ---
 
