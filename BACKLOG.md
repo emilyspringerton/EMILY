@@ -12945,6 +12945,23 @@ first, open design questions last.
   `fd108eb`/`76774a7`, Apple #12232. Gameplay (K9 assignment, contest defense, store
   designation/trading/closure) not yet exercised by a real connected client.
 
+- [x] **S172-06: VS3 — Media broadcast TVs + Factions, plus README. DONE.** Founder: "yes
+  continue" → separately, mid-build: "ensure GTA7 readme has how to play both how to connect to
+  server and also how to play." **Media**: `/gta7tv` places a real `TextDisplay` entity (Paper
+  1.19.4+, confirmed real via `javap` before coding, not guessed) showing a rolling feed of recent
+  claims/flips/Contest Windows/Enforcement callouts/Party Store closures — no resource pack or
+  client mod, the CRT-broadcast framing from `NORTHSTAR.md`'s meta-frame section without any
+  client-side shader work. **Factions**: `/faction join <FREQUENCY|BLOC|PROCUREMENT>` — the three
+  player-alignable factions from `NORTHSTAR.md`'s own Faction Reputation table (Oversight
+  Sects/Media Apparatus are NPC-only per that table, correctly excluded from the joinable set);
+  real Bukkit `Team` for nametag color, reputation earned from claims (+5)/flips (+10),
+  YAML-persisted, team re-applied on join since Teams themselves don't survive a restart the way
+  the YAML does. **README.md** (new): connection instructions (mirrors `EINHORN_SURVIVAL/README.md`
+  since GTA7 is a plugin on that same live server, not a separate one) plus a full how-to-play
+  guide for every system shipped across VS0–VS3. Built, deployed, confirmed enabling cleanly in
+  `server.log` with zero exceptions. GTA7 commits `bf02032`/`909b754`, Apple #12233. Gameplay
+  (TVs, faction join/reputation) not yet exercised by a real connected client.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
