@@ -275,6 +275,8 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **emily-bot QA run vs 127.0.0.1:6969: PASS — 2/2 bots connected, 200 commands s…** — Duplicate: same emily-bot headless E2E effort fully documented in SECTION 155 (built, live-verified 2-bot/8-bot runs, 3 real bugs found and fixed). Obs: 2026-07-18T10:41:50Z. — CLOSED, no new Apple (superseded, not new work) — 2026-07-24.
 - [ ] **portfolio alerts** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T02:57:41Z.
 - [ ] **ADD MARKET CAP TO TICKER PAGES** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T02:53:21Z.
+- [ ] **ADD MARKET CAP TO TICKER PAGES** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T17:47:49Z.
+- [ ] **portfolio alerts** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T17:47:38Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -844,8 +846,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
-- [ ] **ADD MARKET CAP TO TICKER PAGES** — obs `2026-08-05T17:47:49Z`. CURATED: 2026-08-05.
-- [ ] **portfolio alerts** — obs `2026-08-05T17:47:38Z`. CURATED: 2026-08-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
