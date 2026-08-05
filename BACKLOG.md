@@ -3810,6 +3810,19 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   port of the proof rig itself not done (test content only, lower priority than S144-06 was). Full
   spec: `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 2, §4. GoblinFoxDragon
   `12044c8`/`9650eb2`, golden-indexed as GOLDENBAND-GFD-NORTH.
+  **Follow-up, same day — founder: "i cant run any scripts locally (im on windows with no
+  space)."** Both Blender scripts above now also run entirely on CI, so the founder never touches
+  a script or terminal: `.github/workflows/blender-tools.yml` in GOLDENBAND — `workflow_dispatch`
+  (Actions tab → Run workflow) builds a fresh `TylerRig.blend` as a downloadable artifact; pushing
+  a `.blend`/`.bvh` to `incoming/` via GitHub's website upload UI auto-runs
+  `export_gband_rig.py`/`gbtool import` and uploads the results. **Self-verified for real**, not
+  just written: pushed a trivial test `.bvh`, watched the actual Actions run via the API, confirmed
+  success and a real 685-byte output artifact, then removed the test fixture. The
+  `workflow_dispatch` armature-build half (needs `apt-get install blender` on the runner) could
+  **not** be self-verified — no API token available in this environment to trigger
+  `workflow_dispatch`, only push events are self-testable this way; founder needs to trigger it
+  once and report back if it fails. GOLDENBAND `270a0e9`/`e69e32c`/`c79a221`/`d049d5b`,
+  Apple #12181.
 
 ---
 
