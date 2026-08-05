@@ -842,6 +842,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
+- [ ] **portfolio alerts** — obs `2026-08-05T02:57:41Z`. CURATED: 2026-08-05.
+- [ ] **ADD MARKET CAP TO TICKER PAGES** — obs `2026-08-05T02:53:21Z`. CURATED: 2026-08-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -12594,6 +12596,16 @@ first, open design questions last.
   (`SDL_PushEvent` bypasses SDL's own modifier-state tracking), but follows the identical pattern
   `KMOD_SHIFT`'s own Tab-cycle handling already uses successfully elsewhere in this same file.
   GoblinFoxDragon `a963653`/`9951317`, Apple #12112.
+
+- [x] **S170-237: MJOLNIR README — clearer install-blocker step split. DONE.** Founder: "how do i
+  get mjolnir installed on my android" → answered live (checked the real, current CI run via the
+  GitHub API rather than trusting the README's own possibly-stale claim — confirmed still blocked,
+  run #5, same "Validate google-services.json" step) → "add that to the mjolnir readme." Content
+  was already there; restructured into explicit **Step 1** (the one thing only the founder can
+  do — add the real `GOOGLE_SERVICES_JSON` secret) vs **Step 2** (tablet-only download/install
+  walkthrough), and refreshed the stale run-count the README had been citing (#4 → #5). MJOLNIR
+  `f6235b8`/`157ee02`, Apple #12115. **Still blocked on founder action** (the secret itself) —
+  same as before, just documented more clearly now.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
