@@ -12432,14 +12432,38 @@ first, open design questions last.
   screenshot confirmed a real "FIRE" cast bar filling, not an instant melee attack. `go test ./...`
   clean in both repos. IDUNA `63e6b6e`/`c438fee`, GoblinFoxDragon `a471599`/`dc2eff9`, Apple #12086.
 
-- [ ] **S170-232: newssite — almost all header pages stale; ~3 live feeds, none working.** Founder,
-  live, real-time: "almost all of the pages in fatbaby news site from the header are stale" →
-  "theres like 3 different live feeds and none of them work." Investigating. Not yet root-caused —
-  candidate causes to check: nginx `proxy_cache` TTLs (SECTION 24/31 both flagged cache tuning as
-  untested pending real traffic), the prwatch-body crawler-hang bug class fixed once already (S24-06
-  — could have recurred or have a sibling instance in another poller), or something specific to
-  whatever "live feed" mechanism each of the ~3 pages uses (SSE dashboard on :8080? wire page? ticker
-  live updates?). Will update this entry with root cause + fix as found.
+- [x] **S170-232: newssite — almost all header pages stale; ~3 live feeds, none working. DONE.**
+  Founder, live, real-time: "almost all of the pages in fatbaby news site from the header are
+  stale" → "theres like 3 different live feeds and none of them work" → "all the governance stuff
+  stale" → "front page stale" → "front page needs whole rework" (last part not yet scoped — see
+  below). Root-caused live: `cmd/entity-graph/main.go`'s `runBatch` gated its entire flush block
+  (`WriteSignals`, feeding `signals.ndjson` — the one file `/section/governance`, `/live`,
+  `/breaking`, and the front page's ticker-tape all read via a 30s-refreshed in-memory store) on
+  `processed > 0`, but `processed` only counts genuinely new 8-K filings parsed that batch.
+  `ScoreLongTenure` and everything cascading from it (`governance_health`, decay,
+  `board_decay_concern`) compute real signals every batch regardless, against the whole graph —
+  any batch whose new records weren't a fresh 8-K (market data, PR discovery, ...) silently
+  discarded all of that freshly-computed output. Confirmed live before the fix: a real batch
+  logged fresh `governance_health ticker=BA score=0.000` lines, the cursor genuinely advanced, and
+  none of it reached disk. Last real write before this fix: 2026-07-31 — five days of newssite
+  faithfully re-rendering genuinely stale data, the whole time correctly doing its own job. The
+  process never tripped any watchdog: cursor advancement (`saveCursor`) and the checkpoint-
+  freshness touches (`touchFilingIndexSnapshot`/`touchAccuracyIndexSnapshot`, built in this
+  session's own SECTION 1 Phase 3) both happen unconditionally, before this gate — a real, newly-
+  found blind spot in that freshness watchdog, worth a follow-up. Fix: split the gate.
+  `FlushNodes`/`FlushEdges`/`FlushAuditors` (full-graph redump, no diffing) stay behind
+  `processed > 0` to avoid unbounded duplicate growth; `WriteSignals` (appends only this batch's
+  own output, an already-accepted repeat-write shape per `director_long_tenure`'s own doc comment)
+  now fires whenever `len(allSignals) > 0`. New regression test
+  `TestRunBatch_WritesSignalsEvenWithoutANew8K`, verified to actually catch the bug (fails pre-fix
+  via `git stash`, passes post-fix). `go test ./...` clean. Live-deployed (service restarted).
+  **Not yet independently reconfirmed against fresh real-world data** — no new secwatch/prwatch
+  record arrived in the ~20 minutes after deploy to trigger a live end-to-end check; the fix itself
+  is proven mechanically (the regression test *is* that exact live scenario, reproduced), so this
+  is logged as done rather than left open pending a real-world coincidence. **Founder's separate
+  "front page needs whole rework" comment is a real, distinct ask — not addressed here, needs its
+  own scoping conversation before any redesign work starts.** PRRJECT_FATBABY `33d7904`/`74f1df2`,
+  Apple #12094.
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
