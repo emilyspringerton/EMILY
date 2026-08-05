@@ -3771,9 +3771,11 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Xvfb: two screenshots a second apart show a real multi-box rig with a visible pose shift,
   confirmed distinct from Unicorn's static shape. Existing `test_arena.sh` suite still fully
   passes. REDGARDEN `8dbf1c3`/`a28a186`, Apple #12148. Full spec:
-  `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 1. GFD's own
-  `battlegrounds_gui` port is a separate, not-yet-done follow-up (built in REDGARDEN first per
-  founder direction).
+  `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 1. **Ported into GFD's own
+  `battlegrounds_gui` same session** — the real DragonsNShit MOBA client, same rig/clips/vendored
+  sampler, same fallback safety, live-verified under Xvfb in that client specifically (Tyler
+  renders as a real multi-box rig there too, distinct from Unicorn), `mud` rebuilt per this repo's
+  own tracked-binary convention. GoblinFoxDragon `18049ef`/`450ddae`, Apple #12150.
 
 - [ ] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. BLOCKED on founder Blender asset.**
   Same founder direction as S144-06. No `.blend`/`.fbx`/`.gltf` exists anywhere in the monorepo, so
