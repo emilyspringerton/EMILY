@@ -3754,6 +3754,32 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 - [ ] **S144-05: Physics-driven NPC in SHANKPIT** — Path A shipped; the personality proving ground is
   open. A character that can't be charming at 64 ticks/sec doesn't earn a body.
 
+- [ ] **S144-06: GOLDENBAND → GFD, Phase 1 — procedural box-rig proof.** Founder: "how are we gonna
+  do animations for arena or dragonsnshit? ... do we need to write some kind of engine?" → "i need
+  it rigged up for GFD." Full plan written first (see S144-07 for why): `.gband` today is a flat
+  motion-curve sampler with no skeleton/mesh concept, and `battlegrounds_gui` draws every hero as
+  hardcoded box stacks with no skinning. This item is the buildable-now, zero-founder-dependency
+  half: a small hand-authored test skeleton (5 joints), a real `.gband` clip via hand-written BVH
+  through the already-shipped `gbtool import --bvh`, real forward kinematics, rendered as one
+  existing cube per joint in `battlegrounds_gui` — proves sample→FK→render end to end using the
+  existing shader/VBO pipeline unchanged, as a debug-spawned test entity (no real hero art
+  touched). Full spec: `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 1.
+
+- [ ] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. BLOCKED on founder Blender asset.**
+  Same founder direction as S144-06. No `.blend`/`.fbx`/`.gltf` exists anywhere in the monorepo, so
+  designing a mesh/skin format blind was rejected (confirmed via AskUserQuestion) in favor of
+  writing the full plan first. Scope once unblocked: new `.gskel`/`.gmesh` binary formats in
+  `GOLDENBAND/format/`, a Blender Python exporter (animation export reuses Blender's own built-in
+  BVH exporter feeding the existing `gbtool` path — no new animation-import code needed), and CPU
+  linear-blend skinning chosen specifically so `battlegrounds_gui`'s existing shader needs zero
+  changes. **What's needed from the founder** (§4 of the northstar doc, concrete checklist): model
+  any low-poly character, rig with one Armature (suggested bone names matching S144-06's test
+  skeleton so an early animation is reusable), weight-paint vertex groups matching bone names,
+  author Idle + Walk actions, export each via Blender's built-in `File → Export → Motion Capture
+  (.bvh)`. Mesh/skin export itself needs our not-yet-written exporter — that part is on us, not the
+  founder. Full spec: `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 2, §4.
+  GoblinFoxDragon `12044c8`, golden-indexed as GOLDENBAND-GFD-NORTH.
+
 ---
 
 ## SECTION 145: FABLE — IN-HOUSE MODEL LINE (2026-07-16)
