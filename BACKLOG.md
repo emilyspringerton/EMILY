@@ -12432,6 +12432,15 @@ first, open design questions last.
   screenshot confirmed a real "FIRE" cast bar filling, not an instant melee attack. `go test ./...`
   clean in both repos. IDUNA `63e6b6e`/`c438fee`, GoblinFoxDragon `a471599`/`dc2eff9`, Apple #12086.
 
+- [ ] **S170-232: newssite — almost all header pages stale; ~3 live feeds, none working.** Founder,
+  live, real-time: "almost all of the pages in fatbaby news site from the header are stale" →
+  "theres like 3 different live feeds and none of them work." Investigating. Not yet root-caused —
+  candidate causes to check: nginx `proxy_cache` TTLs (SECTION 24/31 both flagged cache tuning as
+  untested pending real traffic), the prwatch-body crawler-hang bug class fixed once already (S24-06
+  — could have recurred or have a sibling instance in another poller), or something specific to
+  whatever "live feed" mechanism each of the ~3 pages uses (SSE dashboard on :8080? wire page? ticker
+  live updates?). Will update this entry with root cause + fix as found.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
