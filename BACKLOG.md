@@ -12509,6 +12509,44 @@ first, open design questions last.
   start... later we will have more"). IDUNA `73c705b` (create-admin-agent) + `cbd561c` (Back
   Office expansion), Apples #12101 + #12103.
 
+- [x] **S170-234: newssite staleness, continued — real prwatch-body stall + LLM taken out of
+  processor's critical path. DONE.** Direct continuation of S170-232 above (founder: "fatbaby all
+  the links in the header are still super stale except obviously stocks on the move - i cant find
+  any contnet from this month" — the entity-graph flush-gate fix alone wasn't enough; two more
+  real, separate root causes were still active). **(1) prwatch-body genuinely stalled**: alive
+  since 2026-07-25 with zero restarts, but completing only one real batch/day instead of every
+  15s. Root-caused to `loadBodySeenIDs` (called once at every start, before the main loop) still
+  using the same `from:=1`/paged-`ReadFrom` O(n²) pattern already found and fixed in 9 other
+  places this session — missed here since this file lives under `prwatch/`, outside that sweep's
+  own scope at the time. Migrated to `eventstore.Scan`. Restarting live immediately drained an
+  11-day backlog (13+ real press releases per batch, earnings/dividend content included) in under
+  a minute. **(2) A separate, bigger finding**: the Anthropic API credit balance is genuinely
+  exhausted right now (confirmed via a live API call) and has been since 2026-08-03 12:06 UTC —
+  every SEC filing seen since then was silently and permanently dropped, because `processor`'s
+  `handleOne` persists the real source document *before* calling the LLM, but returns early with
+  **no signal_generated event and no retry** if that call fails. Founder: "we dont need the llm in
+  the critical path of the data... figure out a way around it for now i dont want to be relying on
+  something we never do and the system assumes works" → "i never really asked for the llm
+  sentiment anyway... we dont want llm generated data like that in the critical path for now." The
+  credit top-up itself is a real, separate, human-action blocker the founder is already aware of
+  and has explicitly deprioritized as a cost/revenue tradeoff — not chased here. What *was* fixed:
+  new `HeuristicProvider` (`internal/processor`) classifies every filing from its own known
+  form/source_type (8-K → MaterialEvent, 10-Q/10-K → PeriodicReport, Form 4 →
+  InsiderTransaction, ...) with **no network call at all**, so `AnalyzeText` can structurally never
+  fail again — Sentiment stays `0` rather than fabricating a score never measured. This is now
+  `cmd/processor/main.go`'s **default**; `HaikuProvider`/`ArchetypeProvider` (unchanged, not
+  deleted — the "THE_FIELD" archetype-engine routing SAGA's own audit already flagged as a real
+  fiction-to-spec-leak concern elsewhere is *also* no longer default-active for real financial
+  data as a side effect) now require a new explicit `-enable-llm` flag instead of auto-activating
+  whenever `ANTHROPIC_API_KEY` happens to be set. `go test ./...` clean (new
+  `heuristic_provider_test.go`). Live-verified: both services rebuilt and restarted; `processor`
+  logs `provider=heuristic (default...)` and completed its real startup backfill scan (12,428 seen
+  signals) with zero LLM calls; `prwatch-body`'s fixed scan correctly resumed from its real
+  persisted cursor. **Full "fresh content on every page" may still take real-world time to show**
+  — new filings/press releases have to actually happen; this fixes the pipeline's ability to
+  process them when they do, not the underlying news cycle. PRRJECT_FATBABY `86c66b6`/`68ed030`,
+  Apple #12107.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
