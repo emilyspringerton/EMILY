@@ -3687,6 +3687,18 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 - [ ] **S143-03: Divergence + conflict queues in Back Office** — aging rules wired to the corpus health
   gate (FIN-098 Invariant 3 pattern: aged exceptions block the gate). Queues empty only through new
   documents, never quiet edits.
+  **First slice DONE 2026-08-05** (founder, asked whether to build a modest slice, skip, or stop —
+  chose the modest slice): real, read-only `/admin/saga` page in IDUNA's Back Office listing
+  claim-without-code (vaporware debt) and code-without-claim (dark matter) per repo, via `emily
+  saga gaps --repo <path> --json` (new `--json` flag, emily.cli `4cc144b`). `sagaRepos` is a small
+  hand-maintained list (PRRJECT_FATBABY only, the one repo with a manifest so far — S143-02).
+  Real tests (binary-path resolution, a real integration test against the actual `emily` binary,
+  an httptest render check), `go test ./...` clean both repos, live-deployed and verified (route
+  returns 401 — correctly auth-gated — not 404). **Still open, deliberately not built in this
+  pass**: the conflict queue (nothing real to show yet — semantic conflict detection is step 5,
+  unbuilt) and aging/gate logic (what a "corpus health gate" concretely blocks is a real,
+  undecided design question, not mechanical to add — needs an actual design conversation before
+  guessing at it). IDUNA `9ef930b`, emily.cli `f401d51`, Apple #12098.
 
 - [ ] **S143-04: SAGA agent v0 — deterministic parts first** — claim index, supersession-graph lint,
   query tools (`saga which-doc-governs / status / conflicts / gaps`) as a tool surface for every other
