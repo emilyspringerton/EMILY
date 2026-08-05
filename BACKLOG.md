@@ -3787,8 +3787,8 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   to the old plain box (no crash, no error — exactly the reported symptom). Fixed `022172d`/
   `252fad6`. Apple #12172.
 
-- [ ] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. Engine side DONE; still blocked on
-  founder Blender export.** Founder: "next i need a mesh - do i need to rig it or will you rig it
+- [x] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. DONE — real founder-modeled Tyler
+  ships in both REDGARDEN and GFD.** Founder: "next i need a mesh - do i need to rig it or will you rig it
   to the skeleton you already made." Engine side fully built and live-verified: `.gskel`
   (skeleton: joints, rest pose, precomputed inverse-bind matrices) + `.gmesh` (skinned geometry,
   up to 4 bone weights/vertex) binary formats + C loaders in GOLDENBAND (13 tests, all passing,
@@ -3823,6 +3823,34 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   `workflow_dispatch`, only push events are self-testable this way; founder needs to trigger it
   once and report back if it fails. GOLDENBAND `270a0e9`/`e69e32c`/`c79a221`/`d049d5b`,
   Apple #12181.
+  **Final push, same day — founder uploaded `TYLER-rigged3.blend` (real model + rig + real
+  vertex-group weights via Ctrl+P auto-weight) to `incoming/`.** What looked like real file
+  corruption across two upload attempts turned out to be two separate real bugs on my own
+  tooling side, not the founder's files — traced with real evidence each time, not assumed:
+  (1) my Blender test builds (4.0.2 via apt, 4.2.23 portable) were both older than the founder's
+  real Blender (5.2.0) and simply couldn't read newer-format files — "not a blend file" looked
+  like corruption but was a version mismatch; fixed by downloading real 5.2.0 locally and in CI.
+  (2) `find_armature_and_mesh()` required the mesh to be Blender's "active object" at save
+  time — brittle and irrelevant for CI; rewritten to scan the file for a mesh with a real
+  Armature modifier instead. Also added a `MODEL_SCALE` constant (founder: "the unit scale
+  isnt going to match you are going to have to scale it") after the real export measured
+  ~6.82 engine units tall against every other hero's ~1.3 — verified the fix lands at 1.296.
+  Confirmed (retested against the correct Blender version) that compressed saves work
+  natively — founder doesn't need to change any Blender export settings, matching "lean into
+  the defaults." Real export succeeded: 2922 verts, 5 vertex groups, every vertex weighted.
+  Wired `tyler_body.gskel`/`.gmesh` into Tyler's actual hero rendering in both REDGARDEN (built
+  first) and GFD's `battlegrounds_gui` (real DragonsNShit client), replacing the box-rig, real
+  fallback chain (mesh → box-rig → plain box), F9 A/B-toggles the two. Real bug found+fixed:
+  the dynamic vertex buffer's 512-vert cap (sized for the small synthetic proof mesh) silently
+  dropped every draw call for the real model's 2922 verts — raised to 8192. A second real bug
+  specific to the GFD port: testing from the wrong working directory made both rigs silently
+  fail, looking like a regression until traced to cwd. Live-verified under Xvfb in both repos:
+  real model geometry renders, team-tinted via the existing shader (no texture/paint needed,
+  confirmed to the founder directly). No animation yet (nothing keyframed) — Idle/Walk still
+  open, whenever the founder gets to it, same `export_gband_rig.py` (already extended to export
+  `.gband` directly from keyframed Actions, verified against a real test animation). REDGARDEN
+  `f59b310`/`fcca4db`, Apple #12193. GoblinFoxDragon `b8b6052`/`13a3e17`/`ff38809`, Apple #12194.
+  GOLDENBAND `707048b`/`2ae67aa` (the export-script fixes themselves).
 
 ---
 
