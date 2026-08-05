@@ -12887,6 +12887,41 @@ first, open design questions last.
   beyond "loads without error." Founder should playtest and report back. GTA7 commits
   `49ce743`/`b6dce77`, Apple #12224.
 
+- [x] **S172-03: VS1 — Watcher alertness + Enforcement spawns, live. DONE.** Founder: "do the
+  nasty" → "vs0 and beyond" (continue past VS0). Per-Field-Office alertness (0-100, in-memory —
+  a "heat" reading, restart calms the city down, a reasonable read of a server bounce): claims
+  +15, Contest Windows opening +25, flips +15, PvP within 15 blocks of a held FO +10; decays -5
+  every 30s. At alertness >=65, `EnforcementManager` spawns a 2-mob squad named "Enforcement" near
+  the FO; if the owner is online and within 40 blocks they're set as the immediate target — real
+  vanilla mob AI (`Mob#setTarget`) does the actual chase/attack, no custom Goal needed. Verified
+  against the real `paper-api-26.2.build.97-stable` jar's `Pathfinder`/`MobGoals`/`Goal` classes
+  (`javap`'d directly) before writing any code against them, not guessed. Alertness decaying back
+  down does not force-despawn an already-spawned squad — documented as a deliberate choice, not an
+  oversight. Built, deployed, confirmed enabling cleanly in `server.log` with zero exceptions.
+  GTA7 commit `8802226`, Apple #12230 (combined with S172-04 below).
+
+- [x] **S172-04: Real IDUNA integration + WOTAN player identity. DONE.** Founder: "iduna
+  integration" → "wotan integration" → "hta7 iterate". Registered a real M2M agent
+  (`GTA7-SERVER`, `apples.write` permission, IDUNA migration
+  `202608050002_gta7_server_agent.sql`, following the exact same shape as
+  `202607170003_missing_agents_table_rows.sql`/REDGARDEN-BOTS/DRAGONSNSHIT-MUD's own precedent —
+  `config/agents.json` entry + a matching `agents` table row via migration, since `cmd/bootstrap`
+  only provisions secrets for agents that already have a table row). Bootstrapped for real
+  (non-dry-run) against the live IDUNA service (briefly restarted to apply the migration, health
+  check passed clean), verified end-to-end via raw `curl` — auth → Apple post → player register —
+  all real, before any Java was written against it. `IdunaClient` (direct HTTP, cached JWT)
+  replaces VS0's original CLI-shell-out `ReceiptPoster` shortcut. **WOTAN integration**:
+  `PlayerIdentityListener` registers every joining player into IDUNA's real, generic player
+  registry (`provider=minecraft`, `provider_sub`=Bukkit UUID) via the same
+  `/api/v1/players/register` endpoint REDGARDEN-BOTS already uses — a GTA7 player and a
+  WOTAN/SHANKPIT player are the same IDUNA `player_id` if they're the same person. Flow/Field-
+  Office numbers deliberately stay in GTA7's own YAML, not forced into WOTAN's kills/deaths/
+  sessions schema (SHANKPIT-shaped, would corrupt its meaning) — a shared stats surface is
+  flagged as real future work, not attempted here. Built, deployed, confirmed enabling cleanly
+  with zero exceptions. IDUNA commits `3fffc87`/`5103e3e`, Apple #12229. GTA7 commits
+  `378a080`/`c44cd33`, Apple #12230. Real player-join identity linking and Enforcement gameplay
+  not yet exercised by a real connected client — founder should playtest.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
