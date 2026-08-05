@@ -3754,16 +3754,26 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 - [ ] **S144-05: Physics-driven NPC in SHANKPIT** — Path A shipped; the personality proving ground is
   open. A character that can't be charming at 64 ticks/sec doesn't earn a body.
 
-- [ ] **S144-06: GOLDENBAND → GFD, Phase 1 — procedural box-rig proof.** Founder: "how are we gonna
-  do animations for arena or dragonsnshit? ... do we need to write some kind of engine?" → "i need
-  it rigged up for GFD." Full plan written first (see S144-07 for why): `.gband` today is a flat
-  motion-curve sampler with no skeleton/mesh concept, and `battlegrounds_gui` draws every hero as
-  hardcoded box stacks with no skinning. This item is the buildable-now, zero-founder-dependency
-  half: a small hand-authored test skeleton (5 joints), a real `.gband` clip via hand-written BVH
-  through the already-shipped `gbtool import --bvh`, real forward kinematics, rendered as one
-  existing cube per joint in `battlegrounds_gui` — proves sample→FK→render end to end using the
-  existing shader/VBO pipeline unchanged, as a debug-spawned test entity (no real hero art
-  touched). Full spec: `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 1.
+- [x] **S144-06: GOLDENBAND → GFD, Phase 1 — procedural box-rig proof. DONE.** Founder: "how are we
+  gonna do animations for arena or dragonsnshit? ... do we need to write some kind of engine?" →
+  "i need it rigged up for GFD" → "do the first phase of the gband work with the stick figure -
+  have it animate TYLER in battlegrounds in GFD" → "do the work in the redgarden repo first" (GFD's
+  `battlegrounds_gui` forks REDGARDEN's `apps/arena`, so built upstream first). Real, already-live
+  hero `ARENA_HERO_TYLER` ("deliberately unremarkable plain humanoid") was the natural target —
+  its box case was one static cube. Built: vendored GOLDENBAND's C sampler
+  (`packages/goldenband`, from `/home/fatbaby/GOLDENBAND/src`), hand-authored `tyler_idle.bvh`/
+  `tyler_walk.bvh` matching a hardcoded 5-joint skeleton (Hips→Spine→{Head,L_Arm,R_Arm}), ran them
+  through the real `gbtool import --bvh` to produce real `.gband` files (verified channel order
+  against the generated manifest, not assumed), wrote forward kinematics + one-cube-per-joint
+  rendering (`gband_rig.c`), wired into `ARENA_HERO_TYLER`'s draw call with a safe fallback to the
+  old plain box if assets fail to load. Idle/walk selection derived client-side from position
+  deltas (same pattern `update_facing_from_motion` already uses for facing). Live-verified under
+  Xvfb: two screenshots a second apart show a real multi-box rig with a visible pose shift,
+  confirmed distinct from Unicorn's static shape. Existing `test_arena.sh` suite still fully
+  passes. REDGARDEN `8dbf1c3`/`a28a186`, Apple #12148. Full spec:
+  `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 1. GFD's own
+  `battlegrounds_gui` port is a separate, not-yet-done follow-up (built in REDGARDEN first per
+  founder direction).
 
 - [ ] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. BLOCKED on founder Blender asset.**
   Same founder direction as S144-06. No `.blend`/`.fbx`/`.gltf` exists anywhere in the monorepo, so
