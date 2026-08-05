@@ -12582,6 +12582,19 @@ first, open design questions last.
   spirit-routing switch). Real, separate, scoped follow-on work — not built here, since it needs
   real research into BusinessWire's actual feed format before writing a scraper against it.
 
+- [x] **S170-236: DragonsNShit login screen — real clipboard paste (Ctrl+V). DONE.** Founder,
+  live: "ensure i am able to paste the email and password into" the login screen. Real gap: the
+  email/password fields only ever handled `SDL_TEXTINPUT` keystrokes, no clipboard support at
+  all — a real problem for the long random passwords this session's own tooling now generates
+  (`emily iduna create-account`, IDUNA's admin dashboard). Added Ctrl+V:
+  `SDL_GetClipboardText()` appended to whichever field has focus, truncated the same way typed
+  input already is. Verified the clipboard mechanism itself under Xvfb (a real
+  `SDL_SetClipboardText`/`SDL_GetClipboardText` round-trip, real text in, real text out) — the
+  `KMOD_CTRL` modifier check isn't independently testable via synthetic SDL events
+  (`SDL_PushEvent` bypasses SDL's own modifier-state tracking), but follows the identical pattern
+  `KMOD_SHIFT`'s own Tab-cycle handling already uses successfully elsewhere in this same file.
+  GoblinFoxDragon `a963653`/`9951317`, Apple #12112.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
