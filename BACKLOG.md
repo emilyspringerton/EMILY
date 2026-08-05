@@ -12823,6 +12823,19 @@ first, open design questions last.
   unsupported-Java-version warning did not reappear. README/CLAUDE.md updated.
   EINHORN_SURVIVAL commits `d5e7f81`/`243ad4a`, Apple #12218.
 
+- [x] **S171-07: First-class citizen — emily CLI parity + golden-doc registration. DONE.** Founder:
+  "the minecraft server is now a first class citizen" (also asked, separately, for a repo command to
+  tail server logs, then redirected: "or into emily cli fuckit"). Added `emily survival
+  logs/status/restart` to emily.cli (`SurvivalRoot` config field, `cmd/survival.go`), matching
+  `emily shankpit`/`emily redgarden`'s systemd --user operating pattern exactly — live-tested against
+  the running server (`emily survival logs -f=false`, `emily survival status` both confirmed working).
+  Registered `EINHORN_SURVIVAL/CLAUDE.md` in `EMILY/context/golden-docs-index.md` as
+  `EINHORN-SURVIVAL-NORTH` so Emily Prime can see it. Founder also flagged a **30-year operating
+  horizon** for this server — a durability/longevity bar for future decisions here (real audit
+  trails over throwaway shortcuts, no "we'll fix it later" shims), not a specific task; noted here so
+  it isn't lost, applies going forward to S171-04 and any future EINHORN_SURVIVAL work.
+  emily.cli commits `6bb5427`/`2651dd2`, Apple #12219.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
