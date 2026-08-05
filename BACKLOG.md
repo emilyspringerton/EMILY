@@ -12607,6 +12607,19 @@ first, open design questions last.
   `f6235b8`/`157ee02`, Apple #12115. **Still blocked on founder action** (the secret itself) —
   same as before, just documented more clearly now.
 
+- [x] **S170-238: MJOLNIR README — full Firebase project + secret walkthrough. DONE.** Founder,
+  live: "ok give me detailed instructions to get that blocker json into the readme / proceed" —
+  S170-237's Step 1 was still just a terse 4-line pointer ("download it from Firebase, paste it in
+  the secret"), not the detailed walkthrough asked for. Rewrote Step 1 into two real sub-sections:
+  **1a** creates the Firebase project and registers the Android app (with the exact required
+  package name, `industrial.einhorn.mjolnir`, pulled live from `app/build.gradle.kts`'s
+  `applicationId` rather than assumed), **1b** copies the downloaded file's contents into the
+  `GOOGLE_SERVICES_JSON` GitHub Actions secret and re-triggers a build. Also refreshed the run
+  count again (had drifted to #5→#7 in the time since S170-237, still failing at the same
+  "Validate google-services.json" step — checked live via the GitHub API before writing anything).
+  MJOLNIR `820c5db`/`e450aa5`, Apple #12128. **Still blocked on founder action** — no code path
+  can do this part; the secret has to come from a real Firebase console visit.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
