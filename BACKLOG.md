@@ -12922,6 +12922,29 @@ first, open design questions last.
   `378a080`/`c44cd33`, Apple #12230. Real player-join identity linking and Enforcement gameplay
   not yet exercised by a real connected client — founder should playtest.
 
+- [x] **WOTAN identity link confirmed live with a real player.** Founder connected via Bedrock
+  ("ill connect now") while S172-04's changes were live — `server.log` shows
+  `.GarbageMan4147 linked to IDUNA player_id f9554ac4-ba5d-48fb-943c-7c8278ee95da` fired from a
+  real join, not a test. First real-client confirmation of any GTA7 system working end-to-end,
+  not just "compiles and boots clean."
+
+- [x] **S172-05: VS2 — K9 Doctrine + Party Stores. DONE.** Founder: "ok continue to implement the
+  trapx systems" (after the live WOTAN confirmation above). **K9**: sneak + right-click your own
+  tamed Wolf near a Field Office you hold to assign it as a K9 unit (`K9Manager`). Diminishing-
+  returns defense score (`1 + 0.85 + 0.85² + ...`, TRAPX's own spec) extends a Contest Window's
+  duration (+10s per defense point) and sets live K9 wolves to target the challenger for its
+  length — real vanilla `Mob#setTarget` AI does the rest, same mechanism VS1's Enforcement already
+  uses. Satisfies NORTHSTAR.md's own VS2 acceptance criterion verbatim: "a K9 unit meaningfully
+  slows a Contest Window flip attempt." **Party Stores**: sneak + right-click an un-designated
+  Villager to make it one (`PartyStoreManager`, YAML-persisted). Real vanilla trading
+  (`PlayerTradeEvent`, confirmed real via `javap` before use) builds per-player goodwill; closes
+  at night (world time 13000–23000, matching `PARTY_STORES.md`'s day/night-hours design) or
+  force-closes 5 minutes after PvP within 15 blocks, satisfying "closes early after sustained
+  nearby PvP and reopens once things cool down" verbatim too. Built, deployed to the live server,
+  confirmed enabling cleanly in `server.log` with zero exceptions. GTA7 commits
+  `fd108eb`/`76774a7`, Apple #12232. Gameplay (K9 assignment, contest defense, store
+  designation/trading/closure) not yet exercised by a real connected client.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
