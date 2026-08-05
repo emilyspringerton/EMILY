@@ -12794,6 +12794,23 @@ first, open design questions last.
   met than when this was first raised. Not started — needs a real scoping pass (message format,
   how GFD's Go side subscribes/publishes, rate limiting/spam handling) before writing code.
 
+- [x] **S171-05: Geyser + Floodgate — real Bedrock connectivity. DONE.** Founder: "lol im tryna
+  connect with bedrock - theres a way to allow both to connect whats that called we need that" →
+  "yes floodgate please make haste" → "set it all up for me to connect from bedrock and then
+  update the readme once its ready." Downloaded Geyser + Floodgate's real Spigot builds via
+  GeyserMC's actual API, deployed, confirmed both loaded in `server.log` before writing anything
+  down. Found a real port conflict, not assumed: Geyser's default Bedrock port `19132` was already
+  owned by a separate, unrelated real Dragonfly server (`/home/fatbaby/dragonfly`, running 2+ days
+  — a genuinely separate project from GoblinFoxDragon/DragonsNShit, found live via `ss -ulnp`).
+  Moved Geyser to `19133` rather than touch a running service this project doesn't own. Also fixed
+  Geyser's generated default `auth-type: online` → `floodgate` (the whole point of installing
+  Floodgate — Bedrock players join with their real Bedrock identity, no separate Java account
+  link). Re-verified clean after both fixes: "Started Geyser on UDP port 19133". Firewall script
+  (`sudo-queue/11-einhorn-survival-firewall.sh`) updated for `19133/udp` alongside the existing
+  `25565/tcp`. README/CLAUDE.md updated with real per-edition connection instructions
+  (`mc.okemily.com` for Java, `mc.okemily.com:19133` for Bedrock — port must be typed explicitly
+  on Bedrock's own connect screen). EINHORN_SURVIVAL commits `bd37f82`/`9bdfe86`, Apple #12216.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
