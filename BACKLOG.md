@@ -3787,20 +3787,29 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   to the old plain box (no crash, no error — exactly the reported symptom). Fixed `022172d`/
   `252fad6`. Apple #12172.
 
-- [ ] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. BLOCKED on founder Blender asset.**
-  Same founder direction as S144-06. No `.blend`/`.fbx`/`.gltf` exists anywhere in the monorepo, so
-  designing a mesh/skin format blind was rejected (confirmed via AskUserQuestion) in favor of
-  writing the full plan first. Scope once unblocked: new `.gskel`/`.gmesh` binary formats in
-  `GOLDENBAND/format/`, a Blender Python exporter (animation export reuses Blender's own built-in
-  BVH exporter feeding the existing `gbtool` path — no new animation-import code needed), and CPU
-  linear-blend skinning chosen specifically so `battlegrounds_gui`'s existing shader needs zero
-  changes. **What's needed from the founder** (§4 of the northstar doc, concrete checklist): model
-  any low-poly character, rig with one Armature (suggested bone names matching S144-06's test
-  skeleton so an early animation is reusable), weight-paint vertex groups matching bone names,
-  author Idle + Walk actions, export each via Blender's built-in `File → Export → Motion Capture
-  (.bvh)`. Mesh/skin export itself needs our not-yet-written exporter — that part is on us, not the
-  founder. Full spec: `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 2, §4.
-  GoblinFoxDragon `12044c8`, golden-indexed as GOLDENBAND-GFD-NORTH.
+- [ ] **S144-07: GOLDENBAND → GFD, Phase 2 — true skinned mesh. Engine side DONE; still blocked on
+  founder Blender export.** Founder: "next i need a mesh - do i need to rig it or will you rig it
+  to the skeleton you already made." Engine side fully built and live-verified: `.gskel`
+  (skeleton: joints, rest pose, precomputed inverse-bind matrices) + `.gmesh` (skinned geometry,
+  up to 4 bone weights/vertex) binary formats + C loaders in GOLDENBAND (13 tests, all passing,
+  pure data, no engine dependency, matching `gband.c`'s own philosophy), real CPU linear-blend
+  skinning in REDGARDEN `packages/goldenband/gband_mesh_rig.c` driven by the same
+  `tyler_idle.gband`/`tyler_walk.gband` clips S144-06 already uses. Proven with a synthetic test
+  mesh (`gen_synthetic_body.py`, real multi-bone blended weights up the torso, not rigid boxes),
+  live-verified under Xvfb via a new F9 debug toggle in `apps/arena` — renders as a real tapered
+  continuous silhouette with two arm nubs, confirmed not a box. Deliberately **not** wired to any
+  real hero (test content only, zero regression risk). Also wrote — but could not run, no Blender
+  in this environment — two Blender scripts in `GOLDENBAND/tools/blender_export/`:
+  `create_tyler_armature.py` (builds the exact matching 5-bone armature so the founder doesn't
+  place bones by hand) and `export_gband_rig.py` (writes real `.gskel`/`.gmesh` from a rigged +
+  auto-weighted mesh; documents its own one real unknown — Blender-Z-up to engine-Y-up axis
+  conversion — as the first thing to sanity-check against a real export). **What's left for the
+  founder** (§4 of the northstar doc): model, run the armature script, `Ctrl+P` auto-weight,
+  animate, export via Blender's built-in BVH exporter + the new `export_gband_rig.py`. GOLDENBAND
+  `79f2bd6`/`06a20bf`/`53ca67d`, REDGARDEN `1ea9fa0`/`f8236f6`, Apple #12178. GFD `battlegrounds_gui`
+  port of the proof rig itself not done (test content only, lower priority than S144-06 was). Full
+  spec: `GoblinFoxDragon/docs2/GOLDENBAND_INTEGRATION_NORTHSTAR.md` §2 Phase 2, §4. GoblinFoxDragon
+  `12044c8`/`9650eb2`, golden-indexed as GOLDENBAND-GFD-NORTH.
 
 ---
 
