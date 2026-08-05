@@ -12740,6 +12740,35 @@ first, open design questions last.
   MJOLNIR `820c5db`/`e450aa5`, Apple #12128. **Still blocked on founder action** — no code path
   can do this part; the secret has to come from a real Firebase console visit.
 
+---
+
+## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
+
+- [x] **S171-01: Real Paper survival server, live and running. DONE.** Founder: "we need to set up
+  a real EINHORN_INDUSTRIAL community survival minecraft server i will setup dns will dragonfly
+  work for that or is that not suitable for a survival server currently?" — clarified live: GFD's
+  existing "Dragonfly fork" is actually a from-scratch custom UDP protocol in Dragonfly's
+  architectural style, not real Bedrock protocol, not a candidate for real clients joining. Founder
+  → "i want spigot" → "or whatever the most modern equivalent is." Built Paper `26.1.2` build 74
+  (checked the real PaperMC API for the STABLE channel specifically — the newest version family,
+  `26.2`, was still ALPHA at setup time, not what a real community server should run). No JDK or
+  root/sudo on this box — downloaded the portable Temurin 25 LTS tarball directly instead of
+  fighting the apt-dependency rabbit hole (same lesson as this session's earlier Blender install).
+  Real first-boot test before wiring up persistence: world generated cleanly (overworld/nether/
+  end), clean SIGTERM shutdown confirmed safe to use in systemd. Live now: user-level systemd
+  service (`ops/systemd/einhorn-survival.service`, no root), enabled + running, listening on
+  `:25565`, `loginctl` lingering already enabled on this box so it survives logout/reboot without
+  an active session. Real config decisions made and documented (not silent defaults):
+  `online-mode=true` (blocks impersonation via cracked clients), `white-list=true` +
+  `enforce-whitelist=true` (closed by default, safer starting posture, trivial to open later),
+  `-Xms3G -Xmx3G` + Aikar's flags (sized against this box's real ~7.8GB total RAM, shared with
+  IDUNA/EMILY/other game servers already running here). New repo `EINHORN_SURVIVAL`
+  (`emilyspringerton/EINHORN_SURVIVAL`), registered in the top-level `/home/fatbaby/CLAUDE.md`
+  non-workspace repos table. EINHORN_SURVIVAL commit `5511511`. Founder owns DNS setup separately.
+  Apple #12210.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
