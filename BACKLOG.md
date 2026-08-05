@@ -12391,6 +12391,31 @@ first, open design questions last.
   visibly navigating the real dirt-track terrain. Both binaries build clean (`gcc -Wall`).
   WEAKNIGHT_BEDROCK_RACERS `d36e93b`, Apple #12082.
 
+- [x] **DragonsNShit (GoblinFoxDragon): 1/2/3 ability hotkeys not matching real spells in Meadow.
+  DONE.** Founder, live: "GFD town meadow (not arena it already works) abilities should cast with
+  1 2 3 hotkeys." Investigated live: the client-side ability-bar/hotkey/cast-timer code
+  (town_ability_for_slot, the "1"/"2"/"3" SDLK handler, town_start_cast) was already correct and
+  identical for Town and Meadow (shares one event loop, `g_dfzone_active` only switches render/
+  target sets) -- confirmed via a temporary Xvfb + synthetic-input test hook (reverted before
+  commit) that a fresh WAR test character's "1" key did land a real melee attack in Meadow (server
+  confirmed real XP gain). The real bug, found by then testing a caster job: `cmdSetJob`/
+  `cmdSetSubJob` in apps2/mud only ever mutated the in-memory session, never IDUNA's own
+  `job_main`/`job_sub` -- and `getOrCreateHeadlessPlayer` separately hardcoded every brand-new
+  headless session to WAR at level 1 regardless of the character's real IDUNA record (unlike
+  Level/GoldBalance/HomePoint, which were already correctly seeded a few lines below). Together:
+  any fresh session (relaunch, idle-eviction, service restart) silently reverted a real caster back
+  to WAR, so "1" sent "attack" instead of "cast fire" -- exactly the founder's report, and
+  specifically more likely to surface in Meadow since that's where a player would actually go to
+  use real spells against real mobs. Fixed both sides: new IDUNA `PATCH
+  /api/v1/characters/:id/job` (agent-only, mirrors the existing `/home`/`/level` routes),
+  `idunaclient.UpdateJob` wired into both job-change command paths, headless-session creation now
+  seeds job/HP/MP from the real persisted record. Live-verified end-to-end against the real running
+  services (rebuilt + restarted `iduna.service` + `gfd-mud.service`): `setjob BLM` → forced a truly
+  fresh session via a service restart → `status` showed real `[BLM]` HP 71/71 MP 132/132, not WAR's
+  L1 defaults → relaunched the GUI client fresh, traveled to Meadow, targeted a worm, pressed "1" →
+  screenshot confirmed a real "FIRE" cast bar filling, not an instant melee attack. `go test ./...`
+  clean in both repos. IDUNA `63e6b6e`/`c438fee`, GoblinFoxDragon `a471599`/`dc2eff9`, Apple #12086.
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
