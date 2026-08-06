@@ -5037,11 +5037,16 @@ Audit found the exact fallback already exists, well-built — it's just not prod
   `fatbaby-processor.service` rebuilt + restarted). **Forward-only** — the event store is
   append-only, so already-persisted mistagged 10-Q/10-K docs stay tagged `press_release`
   historically; only newly-processed filings after the restart classify correctly.
-- [ ] **S160-04: "The Wire" isn't a discoverable name for a press-releases page.** Founder didn't
-  recognize it as one. Low-effort fix, real design call not mine to improvise: either rename the
-  nav label (`internal/newssite/templates.go:332`, currently `<a href="/wire">The Wire</a>`) to
-  something like "Press Releases," or add a `/press-releases` route/alias pointing at the same
-  handler for a more expected URL. Doesn't require touching `serveWire`'s logic.
+- [x] **S160-04: "The Wire" isn't a discoverable name for a press-releases page. DONE.** Did
+  both suggested options rather than picking one: nav label renamed to "Press Releases"
+  (`internal/newssite/templates.go`), plus a new `/press-releases` route alias to the same
+  `serveWire` handler (`/wire` still works for existing links). Page's own internal heading
+  ("The Wire") left as-is, same pattern as "Boardroom"/"Auditor Watch" being named sections, not
+  literal descriptions — the scoped problem was nav discoverability, not a full rebrand. 1 new
+  test. Found and fixed a real, unrelated pre-existing `go.sum` gap while rebuilding (missing
+  `go.mod` checksum for `golang.org/x/sys` v0.46.0, silently blocking `go build ./cmd/newssite`
+  entirely) — purely additive, no dependency version changed. Live-verified: both routes 200,
+  nav shows the new label. PRRJECT_FATBABY `eee221d`. Apple #12397.
 - [ ] **S160-05: backfill cleanup for historically mistagged docs** (optional, low priority) — a
   one-off migration could re-derive `source_type` for already-persisted `source_document_persisted`
   events from their `Form` field and emit correction events, cleaning up `/wire`'s existing
