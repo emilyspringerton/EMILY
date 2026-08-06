@@ -13010,6 +13010,19 @@ first, open design questions last.
   deploy incident found along the way. OKEMILY commits `68ad373`/`2306e6c`, Apple #12372,
   published https://okemily.com/blog/read-further-than-the-first-scan/.
 
+- [x] **S170-259: "TINA: CAMELS — What We Won't Claim to Know." DONE.** Founder: "on camels" —
+  scoped via `AskUserQuestion` (CAMELS bank rating, not a game feature) → "as a blog post not in
+  French." Real constraint found before writing anything: CAMELS ratings are confidential
+  regulatory data (Fed/FDIC/OCC examiner-assigned, never publicly disclosed) — fabricating or
+  estimating one for a real bank would read exactly like real sourced TINA content while actually
+  being an unfounded guess, directly against TINA's own doctrine (`docs/northstar/
+  tina-engine.md`'s "no source, no publish"). Wrote the honest version instead of a fake score:
+  what CAMELS is, why TINA won't produce one, and real filing-date data for JPM/BAC/WFC/C/GS/MS/
+  SCHW checked directly against the event store (JPM/BAC/WFC/C all filed 8-Ks on 2026-07-14,
+  matching real mid-July bank earnings-season timing, not a coordinated event). Full disclosure
+  block included. OKEMILY commits `5cf2147`/`e305524`, Apple #12374, published
+  https://okemily.com/blog/tina-camels-what-we-wont-claim-to-know/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
