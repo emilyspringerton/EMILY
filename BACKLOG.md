@@ -3733,9 +3733,18 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   undecided design question, not mechanical to add — needs an actual design conversation before
   guessing at it). IDUNA `9ef930b`, emily.cli `f401d51`, Apple #12098.
 
-- [ ] **S143-04: SAGA agent v0 — deterministic parts first** — claim index, supersession-graph lint,
-  query tools (`saga which-doc-governs / status / conflicts / gaps`) as a tool surface for every other
-  agent. SAGA never promotes (NORN gate), never edits documents, never adjudicates.
+- [x] **S143-04: SAGA agent v0 — query tools. DONE (deterministic parts).** Claim index +
+  supersession-graph lint + `gaps` already existed (S143-01/02); built the remaining query
+  surface: `emily saga which-doc-governs <claim-id>` (resolves current governing doc by walking
+  the amends/supersedes graph, partial amendment checked before full supersession), `emily saga
+  status [doc-id]` (corpus-wide or per-doc claim/authority table), `emily saga conflicts` (two
+  structural checks lint's hard errors don't cover: amends referencing a nonexistent claim ID, and
+  a claim whose governance moved to a lower-authority doc than its original owner — e.g. verified
+  golden claim now only draft-backed). Semantic conflict detection (S143-05) explicitly stays out
+  of scope, gated on NORN/S141 same as before. 8 new tests, `go test ./...` clean, live-verified
+  against the real `EMILY/docs/hq-specs` corpus (all 7 docs retain 100% of their own claims, 0
+  structural conflicts). SAGA still never promotes/edits/adjudicates — pure read-only query tools.
+  emily.cli commit `71cf083`. Apple #12386.
 
 - [ ] **S143-05: Semantic conflict detection as NORN-looped proposals** — SAGA proposes suspected
   conflicts into the queue; human confirmation required; the confirmed/rejected corpus becomes the
