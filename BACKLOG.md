@@ -12747,6 +12747,32 @@ first, open design questions last.
   MJOLNIR `820c5db`/`e450aa5`, Apple #12128. **Still blocked on founder action** — no code path
   can do this part; the secret has to come from a real Firebase console visit.
 
+- [x] **S170-239: TYLER reading room — dedicated okemily.com/tyler/ pages, separate from the
+  blog. DONE.** Founder: "please create a reading experience separate from the blog on okemily for
+  the [tyler] content with audio play button and nice reading experienc[e] [iduna] style guide" →
+  "for the Tyler content." Real gap found before building: the existing blog renderer
+  (`internal/blog`) only does "poor man's markdown" (blank-line paragraph splitting, no real
+  headers/bold/tables) — TYLER episode scripts have real `#`/`##`/`###` headers, `**bold**`
+  character tags, `- [x]` consistency checklists, and pipe tables (hero ability comparisons),
+  which would render as garbled literal text through it. Built a new, separate system instead of
+  extending the blog: `IDUNA/internal/tyler` (own SQLite store, same one-file-per-domain shape as
+  `internal/blog`), a real (scoped, dependency-free) markdown-to-HTML converter — unit tested
+  against real TYLER syntax including an XSS-escaping test, not shipped on faith — and a Renderer
+  styled on IDUNA's own style guide (`IDUNA/styles.css`: cream background, gold accent, Cormorant
+  Garamond serif) instead of the blog's dark developer-blog theme, for an actual book-reading feel.
+  Ships the same `speechSynthesis`-based "Listen" audio button the blog already has, restyled to
+  match. New `tyler.write` permission (migration `202608060001_tyler_permissions.sql`), granted to
+  EMILY-PRIME (same agent that already holds `blog.write`). `okemily-deploy.sh` updated to exclude
+  `tyler/` from its rsync, same protection `blog/` already has (undocumented before this, a real
+  near-miss waiting to happen the way `blog/` almost did on 2026-07-19) — documented in
+  `OKEMILY/CLAUDE.md` alongside the blog's own publishing instructions. All 5 existing Series X
+  interludes (`x00`–`x04`, including S170-80's "Ask the Frog") published:
+  `okemily.com/tyler/the-custody-of-a-duck/`, `/the-long-quiet/`, `/recruitment-drive/`,
+  `/the-band-name/`, `/ask-the-frog-not-the-tree/`. The ~80 numbered season episodes are
+  deliberately **not** backfilled — flagged as a real, separate scope decision, not assumed either
+  way. IDUNA commits `5a79962`/`6177ae4`, Apple #12290. OKEMILY commit `4195a14`/`29a1ac1`.
+  Top-level `okemily-deploy.sh` commit `9d2e5bd`.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
