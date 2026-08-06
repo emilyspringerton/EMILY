@@ -12947,6 +12947,22 @@ first, open design questions last.
   than blurring the two into one undifferentiated "not done." OKEMILY commits `3af1d87`/`c241488`,
   Apple #12348, published https://okemily.com/blog/the-plan-as-far-as-it-goes/.
 
+- [x] **S170-252: GTA7 VS4 — Rogue Swarms + Custody Lock, all 5 milestones live. DONE.** Founder:
+  "then continue" — following the plan just published in S170-251 (finish GTA7's own scoped work
+  before starting anything new). **Rogue Swarms**: trigger automatically at Watcher alertness 90
+  (above Enforcement's 65), 3 real containment objectives, any faction's damage counts as
+  participation, 3-minute window. Success rewards every participant with faction rep regardless of
+  side — real cross-faction cooperation per `NORTHSTAR.md`'s own VS4 spec. Failure scars the
+  Field Office: reverts to unclaimed, halved Flow generation persists through the next claim.
+  **Custody Lock**: dying to a named Enforcement mob sends the player to a real jail
+  (`GameMode.SPECTATOR`, 2-minute real restriction, re-applied on rejoin), `/gta7jail` (op-only)
+  sets the location. Deliberately left the 10-man/Annex/1-man housing-tier split unbuilt — TRAPX's
+  own source doctrine lists that split as undecided, so this doesn't invent an answer the spec
+  itself hasn't settled. Built, deployed, confirmed enabling cleanly with zero exceptions — **all
+  5 GTA7 milestones (VS0–VS4) from the original scoping doc are now live**, same day the doc was
+  written. GTA7 commits `b632c1f`/`c378a77`/`994c003`, Apple #12351. First commits under the new
+  Traditional-Chinese-commit-description convention (S170-249) — verified live on GitHub.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
