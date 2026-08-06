@@ -13029,16 +13029,21 @@ first, open design questions last.
   README/CLAUDE.md updated with the real DNS name and the moderation-model change, live-verified
   after restart. EINHORN_SURVIVAL commits `b0fe89c`/`02013cf`, Apple #12213.
 
-- [ ] **S171-04: GFD ↔ EINHORN_SURVIVAL cross-server chat bridge.** Founder: "can we dev cross
-  server chat? GFD to paper?" Real, scoped assessment given (not built): the two servers speak
-  completely different protocols (GFD's own custom UDP packets vs. real Minecraft/Paper), so this
-  needs a small relay bridge — a Paper plugin listening to chat events on one side, Go code on
-  GFD's side, connected through something simple. IDUNA is the natural shared coordination point
-  (already the trust/coordination hub for everything else in this monorepo) rather than inventing
-  a new channel. Founder's own framing: worth doing once both servers are stable and actually
-  have players — EINHORN_SURVIVAL is live now (`mc.okemily.com`), so that condition is closer to
-  met than when this was first raised. Not started — needs a real scoping pass (message format,
-  how GFD's Go side subscribes/publishes, rate limiting/spam handling) before writing code.
+- [ ] **S171-04: GFD ↔ EINHORN_SURVIVAL cross-server chat bridge. SCOPED, not yet built.** Founder:
+  "can we dev cross server chat? GFD to paper?" → later, real-time: "continue" (following the
+  Emiree plan post's own priority order — finish scoped work before new lines). Real scoping pass
+  now done: `GoblinFoxDragon/docs2/CHAT_BRIDGE_TO_EINHORN_SURVIVAL_SPEC.md`, checked against actual
+  code rather than designed abstractly — GFD's chat router (`server/chat/chat.go`) is real, wired
+  at `apps2/server-go/main.go:800`, but a real structural blocker was found: `clientAddrs` (needed
+  to broadcast to all connected clients) is a function-local map inside `main()`, not
+  package-level, so a bridge poller can't just call into the existing send path as-is. Proposed
+  design: new IDUNA `internal/chatbridge` package (same shape as blog/tyler), `ChatYell`-only
+  bridging, `chatbridge.write` permission, 4-phase build order (IDUNA → EINHORN_SURVIVAL/GTA7,
+  reusing the existing `IdunaClient` pattern → GFD last, since it's touching a live already-running
+  UDP server → rate limiting, deliberately punted until real usage exists to design against).
+  Registered as golden doc (`CHAT-BRIDGE-SPEC`). GoblinFoxDragon commits `e6f8cd4`/`b7a335a`, Apple
+  #12359. **Not implemented yet** — this closes the "needs a real scoping pass" blocker the
+  original note named, the actual build is still open.
 
 - [x] **S171-05: Geyser + Floodgate — real Bedrock connectivity. DONE.** Founder: "lol im tryna
   connect with bedrock - theres a way to allow both to connect whats that called we need that" →
