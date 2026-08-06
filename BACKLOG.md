@@ -6908,13 +6908,20 @@ section either depends on it (S169-02) or is independent enough to sequence sepa
 
 ---
 
-- [ ] **S170-80: TYLER Series X — garage followup cutscene, "Ask the Frog (Not the Tree)."**
-  Founder, real-time: "and then do a followup in the garage 'ask the frog'" → "'not the tree'."
-  Logged before writing per Principle 1. Follows the x01/x02/x03 unnumbered-interlude convention
-  (same motorcycle-gang crew, same garage setting as `x03_the_band_name.md`) — working title "Ask
-  the Frog (Not the Tree)," presumably the crew consulting REDGARDEN's Frog hero over the Tree
-  hero for some in-universe decision, mirroring this session's own "consult the duck" thread.
-  Queued behind S170-79 (Loki, in progress). Not started.
+- [x] **S170-80: TYLER Series X — garage followup cutscene, "Ask the Frog (Not the Tree)." DONE.**
+  Founder, real-time: "and then do a followup in the garage 'ask the frog'" → "'not the tree'" →
+  (much later, different session) "continue tylerseries x". Follows the x01/x02/x03 unnumbered-
+  interlude convention exactly (same motorcycle-gang crew, same garage, `x04_ask_the_frog_not_
+  the_tree.md`, Build 0133/Attempt Nine). Grounded in real, already-shipped mechanics rather than
+  invented fresh, same discipline as x03's Mid-Piano receipt: checked REDGARDEN's actual kit table
+  (`packages/simulation/arena_ai_bridge.c`) and found the joke already sitting there — Tree's W is
+  literally named `UNTRANSLATED` (a no-op passive) and its R, `GRAND SECRET`, is bigger-sounding
+  than Frog's R (`THE SECRET`) but structurally unusable, matching the already-established "Tree
+  speaks French, never subtitled" bit exactly. Frog's real kit (`LOOP BACK`, `BORROWED TIME`,
+  `THE SECRET`) is functionally interactive by comparison — the house rule the founder named was
+  already true in the game files before this episode said it out loud. No new hero/code, pure
+  episode-writing. Published to the blog (author EINHORN_MEDIA), same convention as x01/x03:
+  https://okemily.com/blog/ask-the-frog-not-the-tree/. TYLER commit `3d07a2f`, Apple #12279.
 
 ---
 
