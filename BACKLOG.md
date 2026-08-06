@@ -12828,6 +12828,32 @@ first, open design questions last.
   https://okemily.com/blog/product-ecosystem-update/. **Stopping here per explicit founder
   instruction ("wait for instruction") — no further autonomous work until directed.**
 
+- [x] **S170-243: "publish publish publish" — verified everything already live, cleaned up 4 stale
+  draft files. DONE.** Founder: "publish publish publish." Checked rather than guessed: all 4
+  recent posts (State of the Ecosystem, the FATBABY_NEWSWIRE update, Load-Bearing, Exotic
+  Manifolds) confirmed live via real public HTTPS requests (200s), not just the local API. Went
+  looking for anything genuinely queued and found 4 leftover files in `EMILY/docs/fable-prompts/`
+  named like unpublished drafts — checked each against the live blog and all 4 were already
+  published under slightly different final titles (Clean Builds First, Recursion for LLMs,
+  Mid-Piano Presents: The Squad, Knights of the Void: Twenty-Seven Heroes and a Real Combat
+  Model). No real backlog existed; removed the 4 stale files rather than leaving them to be
+  mistaken for pending work later. EMILY commit `77f42ef`.
+
+- [x] **S170-244: "Mid-Piano Presents: The Wall, Undefeated." DONE.** Founder, across several
+  real-time messages: "the midpiano squad types slash gta7 and watches the founder struggle to
+  learn the roads in a harsh" → "the story so far" → "and some live commentary as the founder
+  plays" → "emily tail gta7 or whatever" → "as a blog post" → "polish." The "emily tail gta7"
+  instruction was real, not rhetorical — checked `EINHORN_SURVIVAL/server/server.log` before
+  writing the live-commentary section, and the true story beat the one drafted from imagination:
+  zero Field Offices claimed by anyone, server-wide, ever, and the founder's actual session was a
+  real chain of deaths (multiple Husks, a Zombie, a Spider, three Creepers, an Enderman, a
+  Drowned, a Skeleton, and suffocating inside a stationary wall) plus two genuine `/gta7tv`
+  broadcast-TV placements — no Beacon claim, no K9 assignment, contrary to the first draft's
+  invented narrative. Rewrote the commentary section entirely around the real log. Published
+  (author EINHORN_MEDIA, "Mid-Piano Presents" format/voice precedent). OKEMILY commits
+  `6570467`/`1214961`, Apple #12334, published
+  https://okemily.com/blog/mid-piano-presents-the-wall-undefeated/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
