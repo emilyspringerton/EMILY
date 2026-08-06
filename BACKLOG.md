@@ -3796,6 +3796,39 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 - [ ] **S144-02: SHANKPIT integration** — skeletal playback locked to the 64-tick fixed timestep;
   render-rate smoothness from the existing state interpolation layer, never re-sampling. Scope: one
   character, one idle, one walk.
+  **Researched 2026-08-06, not implemented — a real fork found, needs a call before writing code.**
+  Full recon (`apps/lobby/src/main.c`, the actual FPS client despite the dir name): confirmed real
+  64-tick fixed timestep (`TICK_RATE 64`, lines 7222-7223) with a genuine two-snapshot alpha-blend
+  render layer already live for the local player (`snapshot_prev_players()` → tick loop →
+  `alpha = accumulator/TICK_DT` lerp, lines 7240/7704/7884-7891) — real precedent to hook into, as
+  hoped. But: **SHANKPIT has zero shaders and zero VBOs anywhere in the repo** — 100% legacy
+  fixed-function `glBegin/glVertex3f` immediate mode (confirmed via corpus-wide grep, zero hits for
+  `glGenBuffers|glCreateShader|glUseProgram`). This is a fundamentally different starting point
+  than REDGARDEN/GFD, which already had a GLSL+VAO/VBO pipeline before S144-06/07 landed there —
+  there, the rig work reused an existing shader; here, wiring in `gband_mesh_rig`'s skinned-vertex
+  output means either (a) building SHANKPIT's first-ever shader+dynamic-VBO subsystem from scratch,
+  or (b) an adapter that re-emits CPU-skinned world-space verts through the existing legacy
+  `glBegin(GL_TRIANGLES)` path each frame — no new pipeline, but slower and more vertex-count-
+  sensitive. That's a real architecture fork affecting every future SHANKPIT render feature, not
+  just this one — a founder call, not something to pick unilaterally (same reasoning as S144-03's
+  physics-backbone choice being flagged for human decision rather than guessed). Second real
+  finding: the reference `gband_mesh_rig_draw()` in REDGARDEN/GFD does **not** actually use
+  tick/alpha interpolation itself — both call sites feed it raw wall-clock `dt_ms`
+  (`apps/arena/src/main.c:2523`, GFD `main.c:5670`) inside loops that have no fixed-timestep
+  accumulator at all. So SHANKPIT would be the *first* consumer requiring the interpolation-aware
+  behavior this item asks for — the existing rig code needs a real rewrite of its clock-advance and
+  pose-blend internals for SHANKPIT (advance by `TICK_DT` inside the tick loop, keep two sampled
+  poses, blend by the same `alpha` already computed at line 7884), not a drop-in port; only the
+  low-level `.gband`/`.gskel`/`.gmesh` loaders and FK/skinning math are reusable as-is. Also no
+  `Mat4` type exists in SHANKPIT (`gband_mesh_rig.h`'s API is `Mat4`-shaped). Existing
+  `draw_player_skin_tyler()`/`SKIN_TYLER` (lines 4062/185) is the natural attach point — Tyler
+  already exists as a selectable skin, same shape as GFD's pre-port `ARENA_HERO_TYLER` slot. Third,
+  smaller finding, unrelated to this item but real: the *current* procedural walk-cycle animation
+  (`compute_player_anim_pose`, line 2823) already ignores the tick/alpha layer and free-runs on
+  `SDL_GetTicks()` wall-clock — a pre-existing inconsistency, not something this item's own scope
+  created, flagged not fixed. Not attempting the shader-vs-legacy-immediate-mode fork blind — that's
+  a bigger, more consequential call than "one character, one idle, one walk" reads on its face.
+  Apple #12388.
 
 - [ ] **S144-03: Reward compiler v0 + training-backbone adapter** — one character learns to walk in
   physics sim tracking the authored clip (DeepMimic/AMP-lineage reward terms per §4); CAST the
