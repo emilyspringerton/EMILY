@@ -3364,8 +3364,9 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 - [x] **S132-07: Close the remaining CI gaps — GTA7, EDIS, SKULDMARK.** Swept all repos in
   the monorepo (workspace + non-workspace) for missing `.github/workflows`; found 3 real gaps
-  among repos that postdate this section. GTA7: build-gate CI (JDK 21 + `mvn package` + jar
-  artifact) — no test suite exists, honestly noted (real gameplay verification needs a connected
+  among repos that postdate this section. GTA7: build-gate CI (originally JDK 21, corrected to
+  JDK 25 — see follow-up below) + `mvn package` + jar
+  artifact — no test suite exists, honestly noted (real gameplay verification needs a connected
   client). EDIS: Go job (`internal/dis`/`cmd/dis`, verified passing locally) + a PHP syntax-check
   job (`php -l` across all 17 plugin/theme files) — which found and fixed a real, previously
   undetected parse error in `themes/goblindragon/index.php` (unescaped apostrophe in "What's
@@ -3376,6 +3377,22 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   hosted runner — build/test commands were verified locally instead (GTA7's `mvn` wasn't
   available locally either; the workflow is unverified beyond `pom.xml` correctness). GTA7
   `23d1390`/`6f6427a`, EDIS `9e24ef2`/`712e73e`, SKULDMARK `67ff78e`/`0e51ffa`. Apple #12387.
+
+- [x] **S132-08: GTA7 CI actually failed — real fix, found and verified by actually running it,
+  not assumed.** Founder: "gta7 build fail." The `6f6427a` run really did fail. Downloaded a real
+  portable Maven (no sudo needed) and reproduced locally: JDK 21 (what CI used) gets "bad class
+  file" on every `org.bukkit.*`/`io.papermc.*` symbol — `paper-api-26.2.build.97-stable`'s own
+  class files are compiled for a newer JDK than 21 can read. JDK 25 (matching
+  `EINHORN_SURVIVAL/jdk25`, what this repo's own `CLAUDE.md` already documents for local builds)
+  builds clean — confirmed by literally reproducing the failure, then the fix, both with a real
+  `mvn package`, not guessed. Fixed by pinning CI to JDK 25 instead of the compiler-target-derived
+  21. **Real gap not fully closed**: pushed the fix (`83c5d7e`) and waited 5+ minutes with a live
+  poll against the GitHub Actions API — no new workflow run was ever created for that commit,
+  despite the workflow showing `state: active` and the commit confirmed on `main`. No `gh` CLI or
+  API token available to inspect repo-level Actions settings for why. The fix itself is verified
+  correct (real local repro of both the failure and the success); whether it actually goes green
+  on GitHub is not yet confirmed — founder should check the Actions tab directly.
+  GTA7 `83c5d7e`.
 
 ---
 
@@ -4936,15 +4953,19 @@ pass, not previously known.*
 accuracy records, 23 report types, parse_errors=0 on its last real batch. Not broken. These are
 concrete gaps found auditing it, not a redesign.*
 
-- [~] **S159-01: EPS pending case with an empty ticker — confirms the tickerization gap directly.**
+- [x] **S159-01: EPS pending case with an empty ticker — confirms the tickerization gap directly.
+  DONE, both parts.**
   `var/eps/oracle.ndjson` has a live pending case, `eps:4905f716794c7f58`, `source_identity:
   "pr:302827995"`, `"ticker": ""` — recorded 2026-07-16, can never reconcile because eps-reconciler
   has nothing to match it against with no ticker. Fix has two parts: (1) **done** — the regex
   fallback already existed (`internal/prwatch/tickers.go`) but wasn't firing reliably; root-caused
   and fixed as S160-01 (silent-failure logging + bounded retry for the timing race), forward-only.
-  (2) **still open** — guard case-recording so a case with an empty ticker is flagged distinctly
-  from a normal "still waiting" pending case (right now indistinguishable from `eps:8bd28b7b713deb01`,
-  genuinely still waiting on a filed 8-K, ticker present). The specific already-stuck case
+  (2) **done 2026-08-06** — new `VerdictUnresolvable` + `oracleInitialVerdict(ticker)` helper in
+  eps-processor sets it (with an explanatory note) at record time instead of `VerdictPending`,
+  plus a new `OracleSummary.Unresolvable` field so the two are distinct in reporting too — no
+  longer indistinguishable from `eps:8bd28b7b713deb01`'s genuine "still waiting" pending case. 3
+  new tests, `go test` clean, live service (`fatbaby-eps-processor`) rebuilt and restarted.
+  PRRJECT_FATBABY `5011a18`, Apple #12394. The specific already-stuck case
   (`eps:4905f716794c7f58` itself) is not retroactively fixed either way — append-only store, needs
   S160-05's separate backfill.
 - [x] **S159-02: entity-graph 8-K detection has a confirmed, logged blind spot.** Resolved
