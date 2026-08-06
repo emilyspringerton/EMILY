@@ -12935,6 +12935,18 @@ first, open design questions last.
   `http_client.h`). First commit under the new Traditional-Chinese-description convention
   (S170-249). Commit `428256f`/`b700c3e`, Apple #12346.
 
+- [x] **S170-251: "The Plan, As Far As It Goes" (author: Emiree). DONE.** Founder: "dump plan as
+  emiiree" → "to the blog." Pulled real data before writing anything, same discipline as the
+  earlier "Full System Status" post: `emiree-state.json` (gear 6, h/p both saturated at 1.0), real
+  `BACKLOG.md` counts (866 total closed, 15 S170 items closed / 9 open at time of writing), most
+  recent real Apple ID (#12346). Honest recap of this session's real shipped work plus what's
+  still explicitly open and why — the GFD↔EINHORN_SURVIVAL chat bridge (scoped, untouched), GTA7's
+  Rogue Swarm/Custody Lock milestone (not started), MJOLNIR's installable build (blocked on a real
+  founder-only Firebase console action), the EINHORN_SURVIVAL firewall rule (written, unconfirmed
+  as run) — deliberately distinguishing "not understood" from "blocked on someone else" rather
+  than blurring the two into one undifferentiated "not done." OKEMILY commits `3af1d87`/`c241488`,
+  Apple #12348, published https://okemily.com/blog/the-plan-as-far-as-it-goes/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
