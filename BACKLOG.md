@@ -12805,6 +12805,29 @@ first, open design questions last.
   that's simply invisible to Emily Prime, no collapse to alert anyone. EMILY Apple #12321,
   published https://okemily.com/blog/exotic-manifolds/.
 
+- [x] **S170-242: Ecosystem keynote + press release + funnel page refresh. DONE.** Founder: "the
+  okemily main funnel page is a bit stale. please do a state of the product ecosystem blog post as
+  a Steve Jobs keynote with full blocking as a blog post" → "then a fatbabynewswire press release
+  with some product ecosystem updates that quotes it" → "then do an update to okemily main index
+  funnel copy and add a feature and then wait for instruction." Published "State of the Ecosystem"
+  (author EINHORN_INDUSTRIAL) — full theatrical blocking/stage directions, classic keynote
+  rhetorical structure ("one more thing," dramatic pauses, product reveals), genuinely covering the
+  real product line (SHANKPIT, Knights of the Void's real 30-hero roster, GTA7, EINHORN_SURVIVAL's
+  real Bedrock crossplay, IDUNA as trust authority, the Apple audit trail, the new TYLER reading
+  room) — presenter deliberately attributed to "THE FOUNDER," not literally labeled as the real
+  (deceased) public figure whose keynote genre this borrows, to keep it a style homage rather than
+  fabricated speech attributed to a specific real person. Published a FATBABY_NEWSWIRE press
+  release quoting it, same convention as prior product-update press releases. Founder's own "a bit
+  stale" flag checked and confirmed real: `index.html` still said 18 heroes (real count is 30,
+  `ARENA_HERO_COUNT` in `arena_game.h`) and had zero mention anywhere of the live Minecraft server,
+  GTA7, or the new TYLER reading room. Refreshed tagline/pillars copy and added one new feature
+  section, "Play right now" — the page's first real join-today action (`mc.okemily.com`) rather
+  than something to only read about. Deploy re-verified both `blog/` and `tyler/` rsync exclusions
+  held (Principle 17 in direct practice). OKEMILY commits `a3850ac`/`62ca4bb`, Apple #12329.
+  Published https://okemily.com/blog/state-of-the-ecosystem/ and
+  https://okemily.com/blog/product-ecosystem-update/. **Stopping here per explicit founder
+  instruction ("wait for instruction") — no further autonomous work until directed.**
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
