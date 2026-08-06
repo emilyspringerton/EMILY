@@ -12963,6 +12963,15 @@ first, open design questions last.
   written. GTA7 commits `b632c1f`/`c378a77`/`994c003`, Apple #12351. First commits under the new
   Traditional-Chinese-commit-description convention (S170-249) — verified live on GitHub.
 
+- [ ] **S170-253: Queue fail2ban install script. Written, not run — blocked on founder sudo.**
+  Founder: "install fail2ban." Confirmed (again) no root/sudo in this environment before writing
+  anything. New `sudo-queue/12-install-fail2ban.sh`, same numbered convention as the existing
+  scripts: installs `fail2ban`, writes a real `jail.local` override (never edits `jail.conf`
+  directly) enabling the `sshd` jail against SSH's real, confirmed-listening port 22 (`ss -tlnp`,
+  not assumed), fail2ban's own documented default bantime/findtime/maxretry, enables + starts the
+  service, prints status for immediate verification. EMILY Apple #12352. Run with
+  `sudo bash /home/fatbaby/sudo-queue/12-install-fail2ban.sh`.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
