@@ -13036,21 +13036,30 @@ first, open design questions last.
   README/CLAUDE.md updated with the real DNS name and the moderation-model change, live-verified
   after restart. EINHORN_SURVIVAL commits `b0fe89c`/`02013cf`, Apple #12213.
 
-- [ ] **S171-04: GFD ↔ EINHORN_SURVIVAL cross-server chat bridge. SCOPED, not yet built.** Founder:
-  "can we dev cross server chat? GFD to paper?" → later, real-time: "continue" (following the
-  Emiree plan post's own priority order — finish scoped work before new lines). Real scoping pass
-  now done: `GoblinFoxDragon/docs2/CHAT_BRIDGE_TO_EINHORN_SURVIVAL_SPEC.md`, checked against actual
-  code rather than designed abstractly — GFD's chat router (`server/chat/chat.go`) is real, wired
-  at `apps2/server-go/main.go:800`, but a real structural blocker was found: `clientAddrs` (needed
-  to broadcast to all connected clients) is a function-local map inside `main()`, not
-  package-level, so a bridge poller can't just call into the existing send path as-is. Proposed
-  design: new IDUNA `internal/chatbridge` package (same shape as blog/tyler), `ChatYell`-only
-  bridging, `chatbridge.write` permission, 4-phase build order (IDUNA → EINHORN_SURVIVAL/GTA7,
-  reusing the existing `IdunaClient` pattern → GFD last, since it's touching a live already-running
-  UDP server → rate limiting, deliberately punted until real usage exists to design against).
-  Registered as golden doc (`CHAT-BRIDGE-SPEC`). GoblinFoxDragon commits `e6f8cd4`/`b7a335a`, Apple
-  #12359. **Not implemented yet** — this closes the "needs a real scoping pass" blocker the
-  original note named, the actual build is still open.
+- [ ] **S171-04: GFD ↔ EINHORN_SURVIVAL cross-server chat bridge. IDUNA + EINHORN_SURVIVAL side
+  DONE, GFD side open.** Founder: "can we dev cross server chat? GFD to paper?" → "continue" (×2,
+  following the Emiree plan post's own priority order). Scoping pass:
+  `GoblinFoxDragon/docs2/CHAT_BRIDGE_TO_EINHORN_SURVIVAL_SPEC.md` — found GFD's `clientAddrs`
+  (needed to broadcast to all connected clients) is function-local in `main()`, not package-level,
+  a real blocker for GFD's own side. **Course-correction found during implementation, not
+  guessed:** the spec's original "new `internal/chatbridge` package" plan was scrapped after
+  discovering IDUNA already has an equivalent endpoint — `/api/v1/chat/messages`
+  (`202608020001_chat_messages.sql`), built for a real, separate bridge (`apps2/mud` telnet chat
+  ↔ REDGARDEN's Battlegrounds GUI). Extended it instead (`gfd_server`/`einhorn_survival` sources,
+  `gta7` channel) rather than building a parallel system — same "check for an existing system
+  before building a parallel one" discipline already applied once today on shankpit-460's bot AI.
+  No new IDUNA endpoint/permission/agent needed — `GTA7-SERVER`'s existing credential worked
+  immediately, verified via real `curl` before any Java was written. **EINHORN_SURVIVAL/GTA7
+  side built and live**: `ChatBridgeListener` (real `AsyncChatEvent` → plain text → IDUNA),
+  `ChatBridgePoller` (5s async poll, hops to the main thread for `broadcastMessage`, prefixed
+  `[DragonsNShit]`, starts from the current high-water mark so a restart doesn't replay GFD's
+  history). Deployed, confirmed enabling cleanly with zero exceptions. Honestly noted: deploying
+  needed a full `systemctl restart` (dropping the connected player) — no RCON/console access
+  exists for a lighter plugin-only reload, a real tooling gap, not glossed over (see
+  `feedback-respawn-not-reboot.md`). IDUNA commits `6eedaf2`/`4332362`, GTA7 commits
+  `0d2a1c2`/`fa9bab2`, GoblinFoxDragon doc-correction commit `21436b4`, Apple #12365. **GFD side
+  still open**: `clientAddrs` needs lifting to package scope before the publish/receive hooks can
+  be added — the last real piece of this feature.
 
 - [x] **S171-05: Geyser + Floodgate — real Bedrock connectivity. DONE.** Founder: "lol im tryna
   connect with bedrock - theres a way to allow both to connect whats that called we need that" →
