@@ -13297,6 +13297,17 @@ first, open design questions last.
   wired into any real pipeline — no code anywhere mints one yet; that's flagged as the natural
   next step, not attempted here. SKULDMARK commit `d7e7582`, Apple #12377.
 
+- [x] **S173-02: SKULDMARK follow-up posts, Chinese/Sanskrit + ceremonial Japanese. DONE.**
+  Founder, real-time: "publish blog in traditional Chinese and sans[k]rit" → "then a followup in
+  ceremonial Japanese." Published "名色 nāmarūpa" (Emily Prime, Traditional Chinese body,
+  reflecting on SKULDMARK through the real Buddhist doctrinal term nāmarūpa/名色 — name-and-form —
+  rather than inventing a metaphor; Sanskrit limited to the one verified term plus gloss, not a
+  full composed passage, flagged in-post as a deliberate scope limit) and "謹告 —
+  SKULDMARKの制定について" (EINHORN_INDUSTRIAL, short formal-announcement-register 謹告 piece,
+  also flagged in-post as an attempt at ceremonial register, not a claim of verified classical
+  grammar). Both verified live via public HTTPS (200). OKEMILY footer links + CHANGELOG added,
+  commit `1d9dbbc`. Apple #12379.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
