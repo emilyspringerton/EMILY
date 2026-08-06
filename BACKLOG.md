@@ -13046,9 +13046,10 @@ first, open design questions last.
   README/CLAUDE.md updated with the real DNS name and the moderation-model change, live-verified
   after restart. EINHORN_SURVIVAL commits `b0fe89c`/`02013cf`, Apple #12213.
 
-- [ ] **S171-04: GFD ↔ EINHORN_SURVIVAL cross-server chat bridge. IDUNA + EINHORN_SURVIVAL side
-  DONE, GFD side open.** Founder: "can we dev cross server chat? GFD to paper?" → "continue" (×2,
-  following the Emiree plan post's own priority order). Scoping pass:
+- [x] **S171-04: GFD ↔ EINHORN_SURVIVAL cross-server chat bridge. ALL 3 SIDES BUILT AND DEPLOYED.**
+  Founder: "can we dev cross server chat? GFD to paper?" → "continue" (×3, following the Emiree
+  plan post's own priority order — each time correctly picking this up as the next scoped-but-
+  unfinished item). Scoping pass:
   `GoblinFoxDragon/docs2/CHAT_BRIDGE_TO_EINHORN_SURVIVAL_SPEC.md` — found GFD's `clientAddrs`
   (needed to broadcast to all connected clients) is function-local in `main()`, not package-level,
   a real blocker for GFD's own side. **Course-correction found during implementation, not
@@ -13067,9 +13068,24 @@ first, open design questions last.
   needed a full `systemctl restart` (dropping the connected player) — no RCON/console access
   exists for a lighter plugin-only reload, a real tooling gap, not glossed over (see
   `feedback-respawn-not-reboot.md`). IDUNA commits `6eedaf2`/`4332362`, GTA7 commits
-  `0d2a1c2`/`fa9bab2`, GoblinFoxDragon doc-correction commit `21436b4`, Apple #12365. **GFD side
-  still open**: `clientAddrs` needs lifting to package scope before the publish/receive hooks can
-  be added — the last real piece of this feature.
+  `0d2a1c2`/`fa9bab2`, GoblinFoxDragon doc-correction commit `21436b4`, Apple #12365.
+  **GFD side, second correction found mid-implementation:** the earlier `clientAddrs`-needs-
+  lifting conclusion was wrong too — a second existing mechanism, `broadcastCh` (already used by
+  the World Crisis ticker), makes that restructuring unnecessary. Also found: `apps2/server-go`
+  already runs with a real, live `DRAGONSNSHIT-MUD` IDUNA credential and `idunaclient.Client`
+  already has working `PostChatMessage`/`GetChatMessages` (built for `apps2/mud`'s own real
+  bridge) — no new agent needed either. Built: `EncodeChat` exported, `PostChatMessageAs` added
+  (existing `PostChatMessage` now a thin wrapper, `apps2/mud`'s call site untouched), a `ChatYell`
+  publish hook, and a 5s receive/broadcast poller (same pattern as the existing World Crisis
+  ticker). **Real deploy incident found and fixed, not GFD-code-related:** the live `server-go`
+  process turned out to be an unsupervised orphan (`PPID=1`, never actually run under
+  `gfd-server-go.service` despite the unit existing) blocking the port and crash-looping the real
+  systemd unit — confirmed it was fatbaby's own process (a misleading cgroup path initially
+  suggested root) before stopping it and starting the properly-supervised instance for what's
+  apparently the first time. Full `go test ./...` passes. GoblinFoxDragon commits
+  `ae1dd3d`/`132f89d`/`f1d4ce3`, Apple #12370. **All 3 sides (IDUNA, EINHORN_SURVIVAL/GTA7, GFD)
+  built and deployed. Real player-facing verification — an actual cross-server message seen by a
+  person — has not happened yet**, honestly flagged rather than assumed.
 
 - [x] **S171-05: Geyser + Floodgate — real Bedrock connectivity. DONE.** Founder: "lol im tryna
   connect with bedrock - theres a way to allow both to connect whats that called we need that" →
