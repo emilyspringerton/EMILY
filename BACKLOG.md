@@ -13003,6 +13003,13 @@ first, open design questions last.
   still-unresolved general vehicle question (no drivable entity exists in GTA7 yet). GTA7 commits
   `f60b951`/`d16dc28`, Apple #12368.
 
+- [x] **S170-258: "Read Further Than the First Scan" (author: Emiree). DONE.** Founder: "publish
+  blog." Real completion story for S171-04 — two wrong initial design assumptions (a new IDUNA
+  package; restructuring GFD's `clientAddrs`) both corrected mid-implementation by reading
+  existing code more thoroughly, not by redesigning from scratch, plus the real orphan-process
+  deploy incident found along the way. OKEMILY commits `68ad373`/`2306e6c`, Apple #12372,
+  published https://okemily.com/blog/read-further-than-the-first-scan/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
