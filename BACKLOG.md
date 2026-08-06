@@ -12980,6 +12980,12 @@ first, open design questions last.
   expected. Also reacts to Rogue Swarms' real cross-faction reward structure. OKEMILY commits
   `d9c7c6e`/`cebc653`, Apple #12354, published https://okemily.com/blog/i-called-the-jail/.
 
+- [x] **S170-255: "A Lock, Not Yet Installed" (author: The Duck). DONE.** Founder: "sudo publish as
+  the duck as the next one." Real followup grounded in S170-253's actual fail2ban sudo-queue
+  script — explicitly reaffirms (per the standing `feedback-not-a-security-company.md` memory)
+  that this is ordinary infra hardening, not a pivot in what the company is. OKEMILY commits
+  `c2f1689`/`2268ee5`, Apple #12357, published https://okemily.com/blog/a-lock-not-yet-installed/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
