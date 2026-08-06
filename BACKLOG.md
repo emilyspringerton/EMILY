@@ -12914,6 +12914,27 @@ first, open design questions last.
   it would to an automated extraction. Full disclosure block included. OKEMILY commits
   `45d6c37`/`d5e2df9`, Apple #12344, published https://okemily.com/blog/tina-cat-q2-2026-results/.
 
+- [x] **S170-249: Standing rule — commit messages in Traditional Chinese. DONE.** Founder: "remember
+  all commit messages in traditional Chinese to save tokens" — surfaced once during the earlier
+  fragmented burst, then repeated cleanly; scope confirmed via `AskUserQuestion` rather than
+  guessed: keep the conventional `type(scope):` prefix in English, description/body in Traditional
+  Chinese. Saved as a persistent feedback memory
+  (`feedback-commits-traditional-chinese.md`) so it survives across sessions. First real commit
+  under the new convention: `WEAKNIGHT_BEDROCK_RACERS` commit `428256f` (see S170-250 below). Known
+  gap, not fixed here: `emily changelog add`'s own auto-generated commits stay in English — that's
+  a deeper `emily.cli` change, not silently taken on without being asked.
+
+- [x] **S170-250: WEAKNIGHT_BEDROCK_RACERS — new GitHub Actions CI workflow. DONE.** Founder: "add
+  github workload for WEAKNIGHT BEDROCK RACERS." New `.github/workflows/ci.yml`, based on
+  REDGARDEN's sibling `ci.yml` (the closest real template — same SDL2/GL C client shape) but
+  deliberately scoped down to what's actually real here: Phase 0 only, no Windows cross-compile or
+  packaging step, since neither `CLAUDE.md` nor `docs/NORTHSTAR.md` claims a distributable build
+  exists yet — not assumed or copied wholesale from REDGARDEN's more built-out pipeline. Verified
+  both compile commands locally before writing the workflow, not guessed: `gcc -std=c99` server
+  and SDL2/GL client both build clean (only pre-existing unused-function warnings in
+  `http_client.h`). First commit under the new Traditional-Chinese-description convention
+  (S170-249). Commit `428256f`/`b700c3e`, Apple #12346.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
