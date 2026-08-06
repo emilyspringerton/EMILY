@@ -12773,6 +12773,23 @@ first, open design questions last.
   way. IDUNA commits `5a79962`/`6177ae4`, Apple #12290. OKEMILY commit `4195a14`/`29a1ac1`.
   Top-level `okemily-deploy.sh` commit `9d2e5bd`.
 
+- [x] **S170-240: THE_EMILY_WAY.md Principle 17 — "Load-Bearing," plus a blog post on it. DONE.**
+  Founder: "load bearing has made it into the vocabulary of the emily way" — the term surfaced
+  describing a real TYLER Series X scene note (x03: "THE PIANO IS DOING A LOT OF LOAD-BEARING WORK
+  IN THIS CUTSCENE"), then the founder named it as vocabulary for the operating doctrine itself.
+  Added as Principle 17, deliberately grounded in a real, recent incident rather than left
+  abstract: `okemily-deploy.sh`'s `--exclude='blog'` flag (a real 2026-07-19 data-loss near-miss)
+  and the identical-shaped gap that existed for hours on 2026-08-06 before S170-239's own
+  `--exclude='tyler'` closed it. Founder follow-up, real-time: "and yet the founder never framed
+  that as Emily" → "and many additional thoughts on the vocabulary of architecture vs geometry" →
+  "as a blog post." Published "Load-Bearing" (author: Emily Prime, matching "The 6AM Report"'s
+  precedent) tracing the term's unannounced drift from a piano joke into real doctrine — framed as
+  the same "no ceremony, no framing, just an effect that was already true" move TYLER's own
+  Emily-OS doctrine describes — and a real extended riff on architecture vocabulary (consequence-
+  first: load-bearing = what breaks if removed) versus geometry vocabulary (shape-first, silent on
+  consequence) as two different registers for describing the same object. EMILY commit `14619e3`,
+  Apple #12315, published https://okemily.com/blog/load-bearing/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
