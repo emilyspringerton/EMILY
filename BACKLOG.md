@@ -13277,6 +13277,28 @@ first, open design questions last.
 
 ---
 
+## SECTION 173: SKULDMARK — 25-CHARACTER INSTRUMENT IDENTIFIER (2026-08-06)
+
+- [x] **S173-01: SKULDMARK-25 format + reference implementation. DONE.** Founder, real-time:
+  "can we make 25 character instrument identifiers?" → "hallucinate a project name for it" →
+  "unlicense". No existing real standard lands on 25 (ISIN 12, CUSIP 9, LEI 20), so instead of
+  inventing an arbitrary serial the width was derived from three real fields FatBaby's own
+  `PRRJECT_FATBABY/internal/identity.SecurityRef` already tracks (exchange, symbol, CIK): `EIN`
+  prefix (3) + ISO 10383 MIC (4) + padded ticker (10) + zero-padded SEC CIK (7) + base-36
+  checksum (1) = 25 exactly. New standalone repo `SKULDMARK` (not a go.work member, same pattern
+  as GOLDENBAND/PITVIPER/EmilyOS), `Encode`/`Decode`/`Validate`, full test coverage including a
+  checksum-corruption test, `go test ./...` clean. Deliberately does not import
+  `identity.SecurityRef` directly — Go's `internal/` visibility wouldn't allow it across module
+  boundaries anyway, and it's a genuinely general-purpose format, not FatBaby-specific. Real
+  limitation stated in the README rather than hidden: SEC's own spec allows CIK up to 10 digits;
+  this format's 7-digit CIK field is a real ceiling (no issued CIK exceeds 7 digits today, but a
+  future one past 9,999,999 wouldn't fit and would need a v2). Public domain (The Unlicense, per
+  founder instruction). Registered in top-level `CLAUDE.md`'s Non-Workspace Repos table. Not yet
+  wired into any real pipeline — no code anywhere mints one yet; that's flagged as the natural
+  next step, not attempted here. SKULDMARK commit `d7e7582`, Apple #12377.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
