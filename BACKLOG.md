@@ -12902,6 +12902,18 @@ first, open design questions last.
   linking, not assumed). Linked from `index.html`'s footer. OKEMILY commits `d98ea80`/`8c85161`,
   Apple #12341, live at https://okemily.com/mjolnir.html.
 
+- [x] **S170-248: "TINA: CAT Q2 2026 Results." DONE.** Founder: "ok one more from TINA for $CAT."
+  Checked the real event store before writing anything, same discipline as S170-246: found CAT's
+  actual 10-Q filed 2026-08-05 (period ended 2026-06-30). The pipeline's `eps-processor` hadn't
+  reconciled this filing into a structured record yet, so read the primary filing's own
+  Consolidated Statement of Results of Operations directly and transcribed the real figures: Q2
+  2026 diluted EPS $7.77 vs $4.62 prior year, revenue $20,543M vs $16,569M, operating profit
+  $4,295M vs $2,860M — a large, real, sourced year-over-year GAAP increase, stated plainly because
+  it's what the filing says. Confidence note explicit that these were manually read from the
+  source document, not pipeline-reconciled, so no historical precision statistic applies the way
+  it would to an automated extraction. Full disclosure block included. OKEMILY commits
+  `45d6c37`/`d5e2df9`, Apple #12344, published https://okemily.com/blog/tina-cat-q2-2026-results/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
