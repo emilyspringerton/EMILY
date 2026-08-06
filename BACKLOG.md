@@ -12993,6 +12993,16 @@ first, open design questions last.
   update. OKEMILY commits `a5a550f`/`b0afad8`, Apple #12361, published
   https://okemily.com/blog/one-line-from-the-last-report/.
 
+- [x] **S170-257: GTA7 — recorded CRAZY_KRANKENVAGEN vehicle concept. DONE.** Founder: "gta7
+  system northstar .CRAZY_KRANKENVAGEN" — `Krankenwagen` is German for ambulance, mapped to GTA's
+  own real Paramedic-mission tradition (drive an ambulance, race injured NPCs to a hospital point,
+  chain runs for escalating reward, a crash ends the streak). Recorded under `docs/NORTHSTAR.md`'s
+  existing Vehicles open question, with a real fit noted against GTA7's already-shipped systems
+  (`RogueSwarmManager`'s spawn-near-a-hot-FO pattern for wounded NPCs, `MediaManager.broadcast()`
+  for completed/failed runs) rather than left as a vague idea. Documentation only — depends on the
+  still-unresolved general vehicle question (no drivable entity exists in GTA7 yet). GTA7 commits
+  `f60b951`/`d16dc28`, Apple #12368.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
