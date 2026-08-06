@@ -12854,6 +12854,25 @@ first, open design questions last.
   `6570467`/`1214961`, Apple #12334, published
   https://okemily.com/blog/mid-piano-presents-the-wall-undefeated/.
 
+- [x] **S170-245: "Field Report: Two Doors" (author: The Duck). DONE.** Founder: "then have
+  emergency watch the packets" — scoped via `AskUserQuestion` (read "emergency" as "Emiree",
+  confirmed the real ask was a genuine packet capture on `EINHORN_SURVIVAL`, not a creative piece)
+  → "as paymen[t]" / "publish" / "guest" / "do a report" / "Qa" / "as the duck" (author
+  attribution, landed on The Duck's established "field report" voice from "State of the Garden").
+  Attempted a real `tcpdump` capture first — confirmed no root/`CAP_NET_RAW` available, same
+  standing no-sudo constraint as the rest of this session, not glossed over or faked. Used real
+  socket-level data instead (`ss`, no root needed): confirmed `25565/tcp` (Java) and `19133/udp`
+  (Bedrock via Geyser) both genuinely listening, zero established player connections at the moment
+  of observation (GarbageMan4147 had just disconnected — slain by a Spider, per `server.log`), and
+  2 real outbound HTTPS(443) connections from the `java` process (session/profile auth lookups).
+  Published honestly framing the root-access gap as a real operational limit the report works
+  around, not a capability silently claimed. **Separately, founder flagged real scope-control
+  guidance mid-task:** "we are not a security company we have a security product or two in our
+  ecosystem.slash.backlog" → "we're getting ahead of it" — saved as a persistent feedback memory
+  (`feedback-not-a-security-company.md`) so future security/monitoring-flavored content doesn't
+  imply a company-identity pivot toward security. OKEMILY commits `73528ab`/`d846d3f`, Apple
+  #12337, published https://okemily.com/blog/field-report-two-doors/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
