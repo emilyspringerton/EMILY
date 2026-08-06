@@ -12873,6 +12873,35 @@ first, open design questions last.
   imply a company-identity pivot toward security. OKEMILY commits `73528ab`/`d846d3f`, Apple
   #12337, published https://okemily.com/blog/field-report-two-doors/.
 
+- [x] **S170-246: "TINA: COP Files Q2 2026 Results." DONE.** Founder: "then do a piece as TINA
+  this is not advice assume long and short all positions COC earnings to fatbaby markets desk full
+  disclosure engine treatment." Ticker unresolved on arrival — "COC" matched nothing in
+  `config/watchlist.json` or recent EPS/oracle data; scoped via `AskUserQuestion` rather than
+  guessed (landed on COIN), then founder corrected mid-research: "it's actually COP" → "ISSUE A
+  CORRECTION" (nothing had been published under COIN, so no public correction post was needed —
+  pivoted research cleanly, noted here instead). Checked the real event store before writing
+  anything: a real COP 8-K and 10-Q both filed 2026-08-06 for Q2 2026 (period ended 2026-06-30),
+  real SEC source URLs. The EPS-extraction pipeline had not yet processed a confirmed figure from
+  this filing — rather than inventing one, the piece says so explicitly, matching TINA's own
+  northstar (`docs/northstar/tina-engine.md`): no source, no publish; honest about confidence,
+  never round up. Published with a full disclosure block (not advice, assume long/short positions,
+  not a registered investment adviser). **A dense, fragmented burst of unrelated instructions
+  arrived mid-task** (Twitter posting, OpenClaw, sudo-queue updates, backlog dumps, sprint
+  planning, a commit-language change) that stopped resolving into coherent asks — none were acted
+  on; checked in with the founder directly instead of guessing, per the standing judgment that an
+  irreversible or hard-to-verify action shouldn't be taken on a garbled signal. OKEMILY Apple
+  #12339, published https://okemily.com/blog/tina-cop-q2-2026-filing/.
+
+- [x] **S170-247: New MJOLNIR product funnel page, multi-CTA. DONE.** Founder: "mjplnir product
+  funnel multi cta." New `/mjolnir.html`, same visual template as `redgarden.html`/`stinkies.html`.
+  Checked MJOLNIR's real status first (`CLAUDE.md` + S170-236/237/238) rather than assuming: CI is
+  genuinely blocked on a Firebase `google-services.json` secret only a founder console visit can
+  produce, no public build exists — stated plainly in a "What's actually built" section instead of
+  a fake download button. Three real CTAs: email waitlist (`list:"mjolnir"`, existing mailing-list
+  infra), GitHub source link, and a link to `docs/SPEC.md` (verified it exists on `main` before
+  linking, not assumed). Linked from `index.html`'s footer. OKEMILY commits `d98ea80`/`8c85161`,
+  Apple #12341, live at https://okemily.com/mjolnir.html.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
