@@ -273,10 +273,39 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [x] **FatBaby system health check: 4 fixes applied** — signalapi O(N) scan (86% CPU → 0%), form4-watcher XSL prefix (0→479 transactions), form4-watcher 4MB→32MB body limit, SQLite COMMENT= migration. All 14 processes healthy. Apple #1114 | 2026-06-17.
 - [x] **signal pipeline audit: 10748 signal_failed today (9435=EDGAR 429 no-retry, 977=…** — Addressed by S36-01 (429 retry+throttle), S36-02 (skip pre-2000 empty URL filings), S36-03 (4MB→16MB limit), S36-05 (empty ticker). All 4 root causes fixed 2026-06-17. Apple #1229–#1236. Obs: 2026-06-17T22:21:23Z. — CLOSED — 2026-06-18
 - [x] **emily-bot QA run vs 127.0.0.1:6969: PASS — 2/2 bots connected, 200 commands s…** — Duplicate: same emily-bot headless E2E effort fully documented in SECTION 155 (built, live-verified 2-bot/8-bot runs, 3 real bugs found and fixed). Obs: 2026-07-18T10:41:50Z. — CLOSED, no new Apple (superseded, not new work) — 2026-07-24.
-- [ ] **portfolio alerts** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T02:57:41Z.
-- [ ] **ADD MARKET CAP TO TICKER PAGES** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T02:53:21Z.
-- [ ] **ADD MARKET CAP TO TICKER PAGES** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T17:47:49Z.
-- [ ] **portfolio alerts** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-05T17:47:38Z.
+- [ ] **ADD MARKET CAP TO TICKER PAGES** — Two duplicate raw observations (2026-08-05T02:53:21Z,
+  2026-08-05T17:47:49Z), never routed into the real INTAKE QUEUE (`emily backlog promote -dry-run`
+  confirms it's empty — a real gap in the observation→intake pipeline, separate issue). Picked up
+  and investigated 2026-08-06 as the lowest-numbered actionable open item: `catalog.TickerRow`
+  (`internal/newssite/catalog/catalog.go`) has no market-cap field and is built purely from
+  internal signal/governance counts, not live market data — this is new data acquisition, not
+  surfacing already-ingested data like S154's directors/earnings-date wins were. `internal/movers`
+  (Yahoo's screener endpoint) carries `marketCap` but only for the fixed day_gainers/day_losers
+  predefined lists, not arbitrary watchlist symbols. Tested the three real Yahoo endpoints that
+  *would* carry per-symbol market cap (`v7/finance/quote`, `v8/finance/chart` — the same one the
+  live `market-data-watcher` process uses successfully on its 24h/600ms-paced cycle — and
+  `v10/finance/quoteSummary`): all three returned live `429 Too Many Requests` when queried
+  directly just now, while the screener endpoint returned a clean `200` seconds earlier — most
+  likely self-inflicted by querying too many symbol-family endpoints back-to-back outside the
+  watcher's own pacing, not a standing outage (the live watcher completed a clean full cycle
+  yesterday, 2026-08-05T22:03:59Z, over the same v8/chart endpoint). Not implemented this pass —
+  would be irresponsible to ship a feature against an endpoint just observed rate-limiting,
+  without a real backoff/caching design. Real next step, not attempted here: extend
+  `market-data-watcher` itself (already paced, already scheduled, already proven reliable) to also
+  capture market cap per ticker on its existing cycle rather than fetching live on page load, then
+  surface the cached value on `serveTicker`.
+- [ ] **portfolio alerts** — Two duplicate raw observations (2026-08-05T02:57:41Z,
+  2026-08-05T17:47:38Z), same routing gap as above. Investigated 2026-08-06: not a vague ask —
+  `internal/newssite/render.go:1587`'s own `RenderPaywallPage` already advertises "portfolio
+  alerts" as a named benefit of the real $29/month Emily+ upsell (`mailto:` CTA, no payment
+  backend). No portfolio-tracking or alerting code exists anywhere in the repo — the feature is
+  currently promised in paywall copy and not built. Genuinely FatBaby's own monitoring catching a
+  real promise/delivery gap, not a false alarm. Not scoped or attempted here — building it means
+  real product decisions (does a user need an account to hold a portfolio? does Emily+ get real
+  billing before or alongside this? what counts as an "alert" — price move, governance signal,
+  both?) that are a founder call, not something to guess into existence. Flagging with the real
+  finding rather than leaving as a noise stub or silently building something unscoped.
+  Both entries triaged together, Apple #12382.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
