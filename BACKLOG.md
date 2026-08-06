@@ -13308,6 +13308,18 @@ first, open design questions last.
   grammar). Both verified live via public HTTPS (200). OKEMILY footer links + CHANGELOG added,
   commit `1d9dbbc`. Apple #12379.
 
+- [x] **S173-03: TYLER Series X ground-state episodes published to reading room. DONE.**
+  Founder: "continue Tyler series x." The 5 unnumbered interludes (x00-x04) were already live in
+  the reading room; the 5 numbered SERIES X — SEASON 0 (GROUND STATE) episodes were not (S00E-1
+  "The Determination," S00E00 "Pontiac," S00E01 "Neptune," S00E02 "Arrival," S00E03 "July 4," per
+  `TYLER/EPISODES.md`). Published all 5 via the existing `tyler.write` endpoint, header-stripped
+  per the established convention, in story-chronological order (S00E-1 first — its own file notes
+  it's a bridge episode that precedes S00E00 in story time despite being produced last). All 5
+  verified live via public HTTPS (200). Series X is now fully represented in the reading room (10
+  of 10 pieces). The ~80 numbered S01-S11 season episodes remain a separate, deliberately
+  undecided scope question — not touched here (per the reading-room's own existing scope note).
+  TYLER commit `8f758fa`. Apple #12380.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
