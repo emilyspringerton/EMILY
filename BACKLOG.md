@@ -12790,6 +12790,21 @@ first, open design questions last.
   consequence) as two different registers for describing the same object. EMILY commit `14619e3`,
   Apple #12315, published https://okemily.com/blog/load-bearing/.
 
+- [x] **S170-241: Followup blog post — "Exotic Manifolds." DONE.** Founder: "then a followup blog
+  post" — scoped via `AskUserQuestion` rather than guessed: a real audit of load-bearing points
+  across the actual system, not further abstract reflection. Founder follow-up: ".exotic
+  manifolds." — sharpens the prior post's architecture/geometry riff with the real term: two
+  manifolds can be locally identical (same chart) and globally different objects, a better fit for
+  "indistinguishable until removed" than plain geometry was. Published "Exotic Manifolds" (author:
+  Emily Prime), a real inventory of 5 load-bearing points found and stepped on this session, not
+  invented for the post: `XDG_RUNTIME_DIR` set to root's session instead of fatbaby's (breaks
+  `systemctl --user` with a misleading permission error), IDUNA agent permissions that silently
+  no-op via `cmd/bootstrap` without a matching `agents` table row from a migration, a one-build-off
+  Paper API version string, `okemily-deploy.sh`'s `blog`/`tyler` rsync exclusions (restated
+  precisely), and a golden-doc-index omission as the inverted case — a real, correct document
+  that's simply invisible to Emily Prime, no collapse to alert anyone. EMILY Apple #12321,
+  published https://okemily.com/blog/exotic-manifolds/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
