@@ -3362,6 +3362,21 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 - [ ] **S132-06: PITVIPER push CI to GitHub** — Blocked on S127-04: create emilyspringerton/PITVIPER repo, then `cd PITVIPER && git push -u origin main`. (Human action.)
 
+- [x] **S132-07: Close the remaining CI gaps — GTA7, EDIS, SKULDMARK.** Swept all repos in
+  the monorepo (workspace + non-workspace) for missing `.github/workflows`; found 3 real gaps
+  among repos that postdate this section. GTA7: build-gate CI (JDK 21 + `mvn package` + jar
+  artifact) — no test suite exists, honestly noted (real gameplay verification needs a connected
+  client). EDIS: Go job (`internal/dis`/`cmd/dis`, verified passing locally) + a PHP syntax-check
+  job (`php -l` across all 17 plugin/theme files) — which found and fixed a real, previously
+  undetected parse error in `themes/goblindragon/index.php` (unescaped apostrophe in "What's
+  Happening in the City" breaking its single-quoted string). SKULDMARK: `go vet`+`go test`
+  workflow committed but not pushed — no GitHub remote yet, same gap GOLDENBAND had at S144-01,
+  needs the founder to create `emilyspringerton/SKULDMARK`. Honest caveat: no `gh` CLI or GitHub
+  API token in this environment, so none of the three could be watched actually running on a
+  hosted runner — build/test commands were verified locally instead (GTA7's `mvn` wasn't
+  available locally either; the workflow is unverified beyond `pom.xml` correctness). GTA7
+  `23d1390`/`6f6427a`, EDIS `9e24ef2`/`712e73e`, SKULDMARK `67ff78e`/`0e51ffa`. Apple #12387.
+
 ---
 
 ## SECTION 133: TRAPX VIGILANTE ANOMALY SYSTEM (2026-06-25)
