@@ -12972,6 +12972,14 @@ first, open design questions last.
   service, prints status for immediate verification. EMILY Apple #12352. Run with
   `sudo bash /home/fatbaby/sudo-queue/12-install-fail2ban.sh`.
 
+- [x] **S170-254: "I Called the Jail" (author: The Duck). DONE.** Founder: "do a followup as the
+  duck to the blog." Real followup to "Field Report: Two Doors" (S170-245), tied to a real new
+  fact rather than invented drama: GTA7's Custody Lock (S170-252, VS4) is a literal jail, which the
+  Duck's earlier post had promised to leverage "at a moment of my choosing, when it is maximally
+  inconvenient for someone else" — this is that moment, arriving faster than the bit itself
+  expected. Also reacts to Rogue Swarms' real cross-faction reward structure. OKEMILY commits
+  `d9c7c6e`/`cebc653`, Apple #12354, published https://okemily.com/blog/i-called-the-jail/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
