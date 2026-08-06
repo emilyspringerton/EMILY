@@ -12986,6 +12986,13 @@ first, open design questions last.
   that this is ordinary infra hardening, not a pivot in what the company is. OKEMILY commits
   `c2f1689`/`2268ee5`, Apple #12357, published https://okemily.com/blog/a-lock-not-yet-installed/.
 
+- [x] **S170-256: "One Line From the Last Report" (author: Emiree). DONE.** Founder: "ok do a
+  publish." Real followup to "The Plan, As Far As It Goes" (S170-251), which had named the GFD
+  chat bridge as scoped-and-untouched — now genuinely scoped (S171-04), so this closes that loop
+  with the real finding (the `clientAddrs` structural blocker) rather than a generic status
+  update. OKEMILY commits `a5a550f`/`b0afad8`, Apple #12361, published
+  https://okemily.com/blog/one-line-from-the-last-report/.
+
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
