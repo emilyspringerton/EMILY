@@ -203,6 +203,50 @@ existed at capture time, and a `status` (`unprocessed` / `triaged` / `discarded`
 status in place when an entry graduates or gets consciously dropped; don't delete the entry
 either way — the audit trail is the point.
 
+### 17. Load-Bearing — Know What You Can't Remove Without Everything Falling Down
+
+Founder, 2026-08-06, after "load-bearing" came up describing a TYLER Series X gag (a scene note:
+*"THE PIANO IS DOING A LOT OF LOAD-BEARING WORK IN THIS CUTSCENE"*): *"load bearing has made it
+into the vocabulary of the Emily way."* Borrowed from architecture — a load-bearing wall holds up
+the structure; a partition wall just divides a room, and you can knock it out for free. Most code,
+docs, and config in this monorepo are partition walls: reasonable, replaceable, fine to change
+without much ceremony. A few things are load-bearing: remove or quietly break them and something
+distant, non-obvious, and already-shipped fails — often silently, often not discovered until it
+already has.
+
+**The concrete example this principle is grounded in, not a hypothetical:** `okemily-deploy.sh`'s
+`--exclude='blog'` rsync flag. One line, looks like boilerplate. It is the only thing standing
+between a routine static-site sync and silently deleting every published blog post — happened for
+real on 2026-07-19, recovered only because the actual source of truth (`IDUNA/var/blog.db`)
+survived and could be re-rendered. The exact same near-miss existed again for a matter of hours on
+2026-08-06 the moment `internal/tyler` started rendering into `/var/www/okemily/tyler/` — a second
+load-bearing exclusion that didn't exist yet, caught and added (`--exclude='tyler'`) before the
+next deploy could run and take it out, not after.
+
+**What this means in practice:**
+
+1. **When you're about to change, "clean up," or remove something, ask first: is this
+   load-bearing?** Does it look replaceable but is actually the one thing another system depends
+   on not moving? A one-line exclusion flag, an ID convention another table's foreign key assumes,
+   a hardcoded path three unrelated scripts all resolve against — these read as small precisely
+   because they're load-bearing; the whole point of a load-bearing wall is that it doesn't look
+   special until it's gone.
+2. **When you build something new that creates a load-bearing dependency elsewhere, go update the
+   other side yourself, immediately — don't wait for it to break or for someone to ask.** Shipping
+   `internal/tyler` rendering into a new static-site directory is not done until the deploy script
+   that syncs that directory also knows the new directory exists. The feature and the thing that
+   would silently destroy it are the same unit of work.
+3. **Document load-bearing status at the point of the code/config itself, not only in a separate
+   doc.** `okemily-deploy.sh`'s own comment above the exclusion flag is what makes the next person
+   (human or Claude Code) editing that file see the danger before they remove it, not after. A
+   principle in `THE_EMILY_WAY.md` explains *why this matters generally*; the inline comment is
+   what actually prevents the specific mistake at the moment someone's hand is on the line.
+4. **This is not a license to over-document everything "just in case."** Most things genuinely
+   aren't load-bearing, and treating them like they are is its own failure mode (see the standing
+   instruction against comments that don't carry a non-obvious WHY). The discipline is narrow on
+   purpose: find the actual few load-bearing points, mark those clearly, and leave the partition
+   walls alone.
+
 ---
 
 ## The Feedback Loop
