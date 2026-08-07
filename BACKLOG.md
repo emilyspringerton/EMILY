@@ -3852,7 +3852,22 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   GLSL/VAO/VBO pipeline rather than staying 100% fixed-function. Staged: (A) foundational shader
   compile/link + dynamic VBO helpers, proven by re-rendering something already on screen through
   the new path with visual parity, before (B) porting the interpolation-aware `gband_mesh_rig`
-  rewrite and (C) wiring into `SKIN_TYLER`. In progress.
+  rewrite and (C) wiring into `SKIN_TYLER`.
+
+  **Stage A DONE, same day.** New `packages/render/gl_shader.c/.h`: GL 2.0+ function pointers via
+  `SDL_GL_GetProcAddress` (portable to the mingw Windows target, unlike a direct `-lGL` link which
+  only works because Linux's `libGL.so` happens to export modern symbols directly), shader
+  compile/link with real error logging, a fixed `a_pos`/`a_normal` attribute contract matching a
+  dynamic VBO laid out exactly like GOLDENBAND's `gband_mesh_rig` output, buffer-orphaning
+  re-upload (same fix GFD's `battlegrounds_gui` needed for its own skinned mesh). Live-verified
+  under real Xvfb screenshot, not just compiled: a magenta square renders correctly through the
+  new pipeline with zero interference to existing fixed-function rendering (buggies/HUD/terrain
+  all normal). A temporary auto-start-into-game hook used to reach the render loop for the
+  screenshot was reverted before committing, confirmed via `git diff`. Native Linux build clean.
+  **Honest gap**: the mingw Windows cross-compile target shares the same source list but
+  couldn't be verified here (no mingw toolchain in this environment) — portability was a design
+  choice, not yet a build-verified fact on that platform. SHANKPIT `a5a04c2`. Apple #12400.
+  **Stages B and C not started.**
 
 - [ ] **S144-03: Reward compiler v0 + training-backbone adapter** — one character learns to walk in
   physics sim tracking the authored clip (DeepMimic/AMP-lineage reward terms per §4); CAST the
