@@ -3847,6 +3847,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   a bigger, more consequential call than "one character, one idle, one walk" reads on its face.
   Apple #12388.
 
+  **Decision made, 2026-08-07 — founder, real-time: "build shankpit shader dynamic vbo."** Real
+  shader+VBO subsystem chosen over the legacy-immediate-mode adapter — SHANKPIT gets its first
+  GLSL/VAO/VBO pipeline rather than staying 100% fixed-function. Staged: (A) foundational shader
+  compile/link + dynamic VBO helpers, proven by re-rendering something already on screen through
+  the new path with visual parity, before (B) porting the interpolation-aware `gband_mesh_rig`
+  rewrite and (C) wiring into `SKIN_TYLER`. In progress.
+
 - [ ] **S144-03: Reward compiler v0 + training-backbone adapter** — one character learns to walk in
   physics sim tracking the authored clip (DeepMimic/AMP-lineage reward terms per §4); CAST the
   rollouts. Backbone (Isaac Lab vs MJX vs Genesis) deliberately open — the spec says decide by running
