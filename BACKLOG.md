@@ -5068,13 +5068,17 @@ unshown data sources.*
   `effectiveDate` (FilingDate when present, else `PersistedAt`). Regression test added
   (`TestRecent_MixedDatedAndUndatedSortsUnified`). Rebuilt `bin/newssite`, restarted
   `fatbaby-newssite.service`, verified live. PRRJECT_FATBABY `5bc87ee`.
-- [ ] **S161-02: governance health score + trend is computed but never shown on ticker pages.**
-  `internal/entitygraph/accuracy.go`'s `HealthSnapshot`/`LoadHealthHistory` (reads
-  `var/entity-graph/health_history.ndjson`) tracks a composite per-ticker governance health score
-  over time, specifically built so `ScoreGovernanceHealthTrend` can detect deterioration/
-  improvement — but there's no `graphread` query method exposing it and no template rendering it.
-  This is exactly the kind of at-a-glance signal (score + trend arrow) a ticker page benefits from
-  and it's sitting fully computed, unused. Real UI work, not a one-liner — scope as its own item.
+- [x] **S161-02: governance health score + trend, surfaced on ticker pages. DONE.**
+  New `entitygraph.LoadHealthHistorySeries` (full per-ticker series, vs. the existing
+  latest-only `LoadHealthHistory`), `graphread.Store.HealthTrendFor(ticker)` keeping the last 2
+  snapshots per ticker in memory (same `Refresh()`-populated pattern as `DirectorsFor`/
+  `AuditorFor`), new Fact Box row: score + trend arrow (▲/▼/—) + label
+  (improving/deteriorating/steady). 7 new tests. Live-verified against real data post-
+  rebuild+restart: BEN 20% (steady), AAPL 86% (steady). Noted, not fixed (pre-existing, out of
+  scope): AAPL's page also carries an older still-`ValidThrough` narrative signal claiming
+  "0.76 → 0.64" — a separately-lifecycled `Signal`, not a bug in the new box, which reads current
+  raw `health_history` data (confirmed: AAPL's last 5 real entries are all 0.86, most recent
+  2026-08-06). PRRJECT_FATBABY `ea77d25`. Apple #12398.
 - [ ] **S161-03: the accuracy/backtesting system (20+ correlate functions) is purely internal,
   never shown to users.** `internal/entitygraph/accuracy.go` has a genuinely sophisticated
   self-grading system — `CorrelateDirectorFrictionEscalation`, `CorrelateAuditorChangeFilingRisk`,
