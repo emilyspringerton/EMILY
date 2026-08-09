@@ -888,6 +888,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: the LLM/emily session ID is not showing up in git commit messages anywhere — needs to go in ALL co…** — done as S170-272 (SECTION 170). obs `2026-08-09T15:48:32Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: SKULDMARK format needs an API/version bump from v0 to v1** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:23Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: SKULDMARK padding is wrong** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:07Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: experimental TYLER x2 — redo the S1E0 cold open ('he just smiled and came in') from the original pil…** — obs `2026-08-09T16:10:28Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
