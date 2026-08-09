@@ -895,6 +895,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: move the stickers project (VS0 merch) forward — have the Mid-Piano team brainstorm sticker ideas and…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:28Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — done as S170-276 (SECTION 170). obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: find the 'Tyler Teaches Typing' NORTHSTAR referenced in the blog posts and promote it to a real nort…** — done as S170-278 (SECTION 170). obs `2026-08-09T17:57:49Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: next episode, same GPT-2 treatment — seed a new ramping generation (16/32/64/128/256) from x05's own…** — obs `2026-08-09T18:40:05Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
