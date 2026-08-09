@@ -888,7 +888,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: the LLM/emily session ID is not showing up in git commit messages anywhere — needs to go in ALL co…** — done as S170-272 (SECTION 170). obs `2026-08-09T15:48:32Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: SKULDMARK format needs an API/version bump from v0 to v1** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:23Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: SKULDMARK padding is wrong** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:07Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: experimental TYLER x2 — redo the S1E0 cold open ('he just smiled and came in') from the original pil…** — obs `2026-08-09T16:10:28Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: experimental TYLER x2 — redo the S1E0 cold open ('he just smiled and came in') from the original pil…** — scoped as S170-274 (SECTION 170), in progress. obs `2026-08-09T16:10:28Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13368,6 +13368,23 @@ first, open design questions last.
   byte-slice truncations (`observe.go`/`primetask.go`/`sync.go`/`status.go` title/commit
   truncation) untouched — same class, no reported symptom yet, noted as a follow-up rather than
   swept in this pass. emily.cli commit `ab0084d`. Apple #12698.
+- [ ] **S170-274: "experimental TYLER x2" — redo the S1E0 pilot cold open, GPT-2-assisted.**
+  Founder: "do the cold open with the normal s1e0 he just smiled and came in original pilot
+  episode - but use the gpt2 api inference to help you write it - it can only handle output of
+  characters up to like 512 tokens out but i would do 256 at a time seems good but start smaller
+  like 16 so the context locks in cleanly" → "then amp up the tokens up until you get to the
+  200-300 range" → "it takes about 4 minutes to get gpt2 responses we will make it faster later
+  work with the constraint for now." Target scene: `TYLER/episodes/s01e01_pilot.md`'s existing
+  COLD OPEN (00:00–01:30), specifically the "Because he smiled" beat. Confirmed the GPT-2 stack is
+  live: `emily gpt2 generate` / direct `POST :8088/generate`, fine-tuned checkpoint
+  (`emily-ft`), server-side hard cap `min(max_tokens, 512)` matching the founder's own figure.
+  Confirmed the ~4min/call latency for real (load average 10 on a 4-core box, single-threaded
+  stdlib `HTTPServer`, one request at a time) — not investigating/fixing that now, per the
+  founder's explicit "work with the constraint for now." Kicked off a ramping background script:
+  seed prompt (the pilot's own "he just smiled and came in" beat) → sequential calls at
+  max_tokens 16/32/64/128/256, each call's output appended to a growing context fed back in as
+  the next prompt. In progress — this item stays open until the raw GPT-2 output is in hand and
+  shaped into an actual experimental scene draft (`episodes/`), not just the raw model output.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
