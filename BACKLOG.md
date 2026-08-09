@@ -3068,6 +3068,27 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   silently falling back to a truncated compile every cycle since). Not a transient blip; nothing
   else here can fix it. Unblocks: SECTION 157 below, and Emily Prime's own cron cycle actually
   reading current backlog state instead of a month-stale compile.
+  — **Re-confirmed still dead 2026-08-09** (same key, hash-verified identical between this shell's
+  env and the live `emily-agent --daemon` process, PID 1577239): `emily context build --dry-run`
+  hit `credit balance too low` on all 45/45 golden sources. Same root cause as S170-265 below.
+
+---
+
+## HITL-11 SIDE-FINDING: `full-system-context.md` mtime is fresh, content is likely stale-cached
+
+Investigating S170-265 (2026-08-09) surfaced this: `EMILY/context/full-system-context.md` on disk
+carries today's date and "Sources compiled: 45/45" from `GoldenDocCompiler` (emily-agent's
+internal compiler, separate Go implementation from the CLI's `emily context build`), and its
+bilingual-compressed prose looks genuinely translated, not raw/truncated — but per HITL-11 the
+underlying API key has had zero credit since 2026-07-19, and the same key hash was confirmed
+identical between this shell and the live daemon. The most likely explanation, not fully
+confirmed here (would need to read `GoldenDocCompiler`'s Go source in `EMILY/emily-agent/` to be
+sure): the daemon is rewriting the file's timestamp/envelope every cycle while reusing per-source
+compressed text cached from before credits ran out, so the file *looks* fresh but the actual
+compressed content is a month-plus stale snapshot, same failure mode already named for `GOLDEN.md`
+in HITL-11 ("silently falling back... since"). Flagging as a side-finding rather than fixing here
+— confirming the caching hypothesis and deciding whether to add a staleness marker to the output
+is real scoped work, blocked on the same HITL-11 credit top-up to even test against a working key.
 
 ---
 
@@ -13186,18 +13207,26 @@ first, open design questions last.
   Codified as `EMILY/docs/THE_EMILY_WAY.md` Principle 18 ("Pave the Cow Paths"), cross-referenced
   from root `CLAUDE.md` (new §1a) and `EMILY/CLAUDE.md`'s Backlog Protocol. EMILY `c3e395b`, root
   monorepo `cb0de74` (local-only repo, no remote configured — commit stands as the record).
-- [ ] **S170-262: update `run.sh`** — founder: "that is what is run right now and its supposed to
-  start up with some context but im not sure if its stale or needs a better prompt or what."
-  Audit `run.sh` against what actually starts a session today (obs-watcher/emily start/emily.cli
-  context loading) and fix/refresh if stale. Not started this pass.
+- [x] **S170-262: update `run.sh`.** Audited: the prompt only said "read CLAUDE.md then
+  BACKLOG.md, pick highest-priority item" — no session tagging, no check for founder input that
+  arrived while offline. Fixed: script now runs `emily session new` before invoking claude, and
+  the prompt requires `emily backlog curate --all` + a check of the observation queue/SECTION 170
+  before picking backlog work, per the Principle 18 process established earlier this session.
+  Apple #12666 · root monorepo `2505c4e` (local-only repo, no remote configured).
 - [ ] **S170-263: WEAKNIGHT_BEDROCK_RACERS build artifacts should match SHANKPIT/REDGARDEN
   pattern** — founder: Windows client artifacts, `run.bat`, SDL2, same as SHANKPIT and REDGARDEN's
   existing build output. Not started this pass.
 - [ ] **S170-264: verify SHANKPIT CI/CD is passing on the recent build** — founder real-time ask.
   Not started this pass.
-- [ ] **S170-265: `emily cli context` — ensure full state hydration to compile the golden doc
-  index** — founder real-time ask, exact scope TBD (audit what `emily` subcommand currently
-  assembles context/golden-docs-index.md and whether it's complete). Not started this pass.
+- [~] **S170-265: `emily cli context` — ensure full state hydration to compile the golden doc
+  index** — investigated 2026-08-09: `emily context build` already exists (compiles all Tier-1
+  rows from `EMILY/context/golden-docs-index.md`, 45 sources currently, into
+  `EMILY/context/full-system-context.md` via haiku bilingual compression), and a separate internal
+  `GoldenDocCompiler` in emily-agent keeps the same output file warm every RSI cycle. Both are
+  blocked on the same root cause as HITL-11 (`ANTHROPIC_API_KEY` credit balance dead since
+  2026-07-19, re-confirmed dead today) — see the HITL-11 side-finding entry above for the likely
+  stale-cache mechanism. Nothing to build here beyond what already exists; genuinely blocked on
+  the founder topping up credits, not an engineering gap.
 - [ ] **S170-266: read all okemily.com blog posts for session context** — founder: "go read all
   the blog posts so you have some sense of the work we have been doing over the last week or
   two," then clarified: "figure out how to read the blog posts they are in an iduna api i think?
