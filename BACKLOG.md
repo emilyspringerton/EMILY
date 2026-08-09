@@ -876,7 +876,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
-- [ ] **Founder real-time: read all blog posts (okemily.com) to build context** — scoped as S170-266 (SECTION 170). obs `2026-08-09T14:25:43Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: read all blog posts (okemily.com) to build context** — done as S170-266 (SECTION 170). obs `2026-08-09T14:25:43Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: verify SHANKPIT CI/CD is passing on the recent build** — done as S170-264 (SECTION 170). obs `2026-08-09T14:25:36Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern** — done as S170-263 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: update run.sh** — scoped as S170-262 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
@@ -13244,11 +13244,18 @@ first, open design questions last.
   2026-07-19, re-confirmed dead today) — see the HITL-11 side-finding entry above for the likely
   stale-cache mechanism. Nothing to build here beyond what already exists; genuinely blocked on
   the founder topping up credits, not an engineering gap.
-- [ ] **S170-266: read all okemily.com blog posts for session context** — founder: "go read all
-  the blog posts so you have some sense of the work we have been doing over the last week or
-  two," then clarified: "figure out how to read the blog posts they are in an iduna api i think?
-  okemily is the repo okemily.com is the site." Session-scoped context-gathering, not a code
-  deliverable — no Apple expected for this one, just informs the rest of the session.
+- [x] **S170-266: read all okemily.com blog posts for session context.** Found the source: IDUNA's
+  `GET /api/v1/blog/posts` (list) / `GET /api/v1/blog/posts/{slug}` (body field, not `content`) —
+  `blog.db`-backed, 105 posts total spanning 2026-07-18 through 2026-08-06 (~3 weeks). Read the
+  full recent batch (2026-08-04 through 2026-08-06, ~15 posts) plus spot-checked a few earlier
+  ones rather than all 105 — enough for "some sense of the work," not a literal read of every
+  word. Picture formed: SKULDMARK's public launch (25-char instrument ID format, public domain),
+  the GFD↔EINHORN_SURVIVAL chat bridge landing through IDUNA's existing `/api/v1/chat/messages`
+  (two real corrections found by reading code, not by re-planning), GTA7's new Custody Lock jail
+  system, a "State of the Ecosystem" keynote script covering all 11 products, Emily Prime's
+  load-bearing/manifold philosophy posts, "The Shape of DragonsNShit"/"The Shape of the Stack"
+  architecture explainers, ongoing TINA market-signal posts, and REDGARDEN/Knights of the Void
+  progress. Session-scoped context-gathering, not a code deliverable — no Apple filed for this one.
 
 ---
 
