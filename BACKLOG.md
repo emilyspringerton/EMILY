@@ -885,6 +885,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: SHANKPIT needs Android build artifacts (a real Android client build, distinct from MJOLNIR)** — scoped as S170-268 (SECTION 170). obs `2026-08-09T15:09:50Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: propagate the observe-first/sprint-plan-then-iterate instruction to ALL CLAUDE.md files across the monorepo** — done as S170-269 (SECTION 170). obs `2026-08-09T15:13:36Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: shankpit-460 boot-straight-into-game is broken — player gets into a match but is stuck in the cent…** — obs `2026-08-09T15:40:30Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: the LLM/emily session ID is not showing up in git commit messages anywhere — needs to go in ALL co…** — obs `2026-08-09T15:48:32Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: SKULDMARK format needs an API/version bump from v0 to v1 (accompanying the CIK/ticker padding fix �…** — obs `2026-08-09T15:46:23Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: SKULDMARK padding is wrong — ticker is padded to 10 chars (way more than enough), CIK is NOT padde…** — obs `2026-08-09T15:46:07Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
