@@ -895,7 +895,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: move the stickers project (VS0 merch) forward — have the Mid-Piano team brainstorm sticker ideas and…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:28Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — done as S170-276 (SECTION 170). obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: find the 'Tyler Teaches Typing' NORTHSTAR referenced in the blog posts and promote it to a real nort…** — done as S170-278 (SECTION 170). obs `2026-08-09T17:57:49Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: next episode, same GPT-2 treatment — seed a new ramping generation (16/32/64/128/256) from x05's own…** — scoped as S170-280 (SECTION 170), in progress. obs `2026-08-09T18:40:05Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: next episode, same GPT-2 treatment — seed a new ramping generation (16/32/64/128/256) from x05's own…** — done as S170-280 (SECTION 170); flagged content finding, see full entry. obs `2026-08-09T18:40:05Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13479,13 +13479,22 @@ first, open design questions last.
   slide table pulled from real `TYLER/episodes/` dialogue lines (short, punchy lines — not
   monologue paragraphs). Live-verify under Xvfb before shipping, same discipline as every other
   SHANKPIT client change this session.
-- [ ] **S170-280: TYLER x06 — fourth render experiment, seeded from x05's own emergent line.**
-  Founder, quoting x05's raw output back verbatim: *"but i don't remember saying goodbye or
-  anything"* → *"next episode"* → *"same treatment."* Same ramp (16/32/64/128/256) seeded from
-  the DREIFER, PAUL fabricated-testimony line x05 itself produced — a render seeding a render
-  seeding a render, continuing the chain from S170-276→S170-277. In progress — stays open until
-  the raw output is shaped into a full episode (`x06`), continuing the Kernel / fabricated-citation
-  thread.
+- [x] **S170-280: TYLER x06 "The Press Conference That Never Happened" — fifth render experiment,
+  flagged content finding.** Founder, quoting x05's raw output back verbatim: *"but i don't
+  remember saying goodbye or anything"* → *"next episode"* → *"same treatment."* Same ramp
+  (16/32/64/128/256, ~11 min, 18:40–18:51) seeded from x05's own emergent line — a render seeding
+  a render seeding a render. **This run's drift is a real content finding, flagged explicitly, not
+  played as a bit**: the final passes fabricated a mock press-conference transcript (invented
+  reporter "Sarah Carter," invented official "Mr Lech") discussing race in America, naming a real
+  public figure only as the subject of the invented speakers' claims — deliberately never given
+  fabricated dialogue of his own by either the model or the episode's own writing. Shaped into
+  `x06_the_press_conference_that_never_happened.md`: the in-scene crew reacts with professional
+  alarm specifically because a small model manufacturing plausible political-transcript content on
+  a real subject is a materially different risk than garbled historical trivia; closing card
+  states plainly that none of the named speakers exist and nothing quoted happened. Production
+  note explicitly recommends against further auto-chaining future seeds from this episode's own
+  output without review first, given the drift trend across the chain. Not promoted to canon.
+  TYLER commit `ab04fa6`. Apple #12733.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
