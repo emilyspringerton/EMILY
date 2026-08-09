@@ -306,6 +306,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   both?) that are a founder call, not something to guess into existence. Flagging with the real
   finding rather than leaving as a noise stub or silently building something unscoped.
   Both entries triaged together, Apple #12382.
+- [ ] **Founder standing process directive: route all real-time founder input through '…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-09T14:19:36Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -875,7 +876,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
-- [ ] **Founder standing process directive: route all real-time founder input through 'emily observe' into the FatBaby observat…** — obs `2026-08-09T14:19:36Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
