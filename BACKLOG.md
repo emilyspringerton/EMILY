@@ -884,10 +884,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — done as S170-267 (SECTION 170), deployed live. obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: SHANKPIT needs Android build artifacts (a real Android client build, distinct from MJOLNIR)** — scoped as S170-268 (SECTION 170). obs `2026-08-09T15:09:50Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: propagate the observe-first/sprint-plan-then-iterate instruction to ALL CLAUDE.md files across the monorepo** — done as S170-269 (SECTION 170). obs `2026-08-09T15:13:36Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: shankpit-460 boot-straight-into-game is broken — player gets into a match but is stuck in the cent…** — obs `2026-08-09T15:40:30Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: the LLM/emily session ID is not showing up in git commit messages anywhere — needs to go in ALL co…** — obs `2026-08-09T15:48:32Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: SKULDMARK format needs an API/version bump from v0 to v1 (accompanying the CIK/ticker padding fix �…** — obs `2026-08-09T15:46:23Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: SKULDMARK padding is wrong — ticker is padded to 10 chars (way more than enough), CIK is NOT padde…** — obs `2026-08-09T15:46:07Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: shankpit-460 boot-straight-into-game is broken — player gets into a match but is stuck in the cent…** — done as S170-270 (SECTION 170). obs `2026-08-09T15:40:30Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: the LLM/emily session ID is not showing up in git commit messages anywhere — needs to go in ALL co…** — done as S170-272 (SECTION 170). obs `2026-08-09T15:48:32Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: SKULDMARK format needs an API/version bump from v0 to v1** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:23Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: SKULDMARK padding is wrong** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:07Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13308,6 +13308,65 @@ first, open design questions last.
   and `redgarden-deploy` — both are separate local clones of the same REDGARDEN git remote, not
   independent repos; editing all three would risk push conflicts, so only the canonical
   `REDGARDEN/` was touched. All 18 pushed cleanly. Apple #12681.
+- [x] **S170-270: shankpit-460 — diagnosed "stuck in the center of the Osaka garage" report.**
+  Founder: "i want to boot right into a game... i get in a game but im stuck in the center of the
+  osaka garage." Investigated `apps/lobby/src/main.c` (the real shipped client — `apps2/lobby` is
+  confirmed-dead uncommitted S169-02 work, not what's running) and found the live `shank_server`
+  process had been running since 2026-08-04 15:50:52, **2+ hours before** the same-day
+  connect/movement deadlock fixes (`ee69bfc`/`68597e3`/`7a6e202`/`f45e625`) landed — 5 days stale.
+  Rebuilt clean from HEAD, restarted the server (first attempt lost the ticket secret in a
+  kill/read race against the dying old process, caught and corrected by sourcing it from the real
+  `~/.config/iduna/env` file instead), rebuilt `bin/emily-bot` (had gone missing — `make clean`
+  wiped it since it isn't one of the Makefile's own build targets — from `apps2/emily-bot`,
+  `GOWORK=off go build`), relaunched the 9-bot pool (cleaned up a duplicate-process mess along the
+  way). **Live-verified twice end-to-end under Xvfb**: fresh `bin/shank_lobby --host 127.0.0.1`
+  connects (WELCOME, client id 10) and moves (NET reconcile ack climbing steadily, no deadlock).
+  Conclusion: the code is correct and working — the founder's symptom matches exactly what the OLD
+  pre-fix client did, so this is almost certainly a stale/cached client build on their end, not a
+  live regression. CI (run 31320530538, commit `39e531b`) has a fresh Windows artifact
+  `ShankPit_Builds_21` with all fixes baked in — founder should redownload rather than reuse an
+  old build. shankpit-460 changelog commit `730724e`. Apple #12691.
+- [x] **S170-271: SKULDMARK v1 — swap SYMBOL/CIK field widths + version tag.** Founder: "we pad
+  the ticker to 10 which is way more than enough but we dont pad the cik to 10 even though we are
+  aware that CIK could be up to 10... pad the cik to 10 with xs or whatever and we only need to
+  pad the ticker to 7" → "we need an api version update there v0 to v1." Confirmed the exact bug
+  by reading `skuldmark.go`'s own doc comment, which candidly named this tradeoff already
+  (`symbolLen=10`/`cikLen=7`, with the SEC's real spec allowing CIK up to 10 digits). Swapped to
+  `symbolLen=7`/`cikLen=10` — total `Length` stays 25, zero downstream consumers exist yet
+  (grepped PRRJECT_FATBABY, none), so this is a clean, safe swap, not a migration. Updated the
+  package doc (new layout diagram, explicit "v1" framing vs. the never-tagged "v0" initial
+  release), fixed `TestEncodeRejectsOversizedCIK`'s boundary (was asserting an 8-digit CIK gets
+  rejected, no longer true at 10-digit width), added `TestEncodeAcceptsFullWidthCIK` to actually
+  exercise the new 10-digit ceiling round-trip. `go test`/`go vet` clean. Tagged `v1.0.0` (first
+  real tag this repo has ever had) and pushed. SKULDMARK commit `b906d2f`.
+- [x] **S170-272: session tag was missing from git commit messages — CLI fix + standing manual
+  rule.** Founder: "i am not seeing the llm session id being included in the commit messages
+  anywhere - it needs to go in all the commit messages" → "from cli emily session new." Real gap
+  found in `emily.cli`: `currentSessionTag()` was already wired into the CHANGELOG.md line text
+  and the Apple `run_id`, but the actual `git commit` message for both `emily changelog add` and
+  every BACKLOG.md auto-commit (`gitCommitBacklog`, the one function shared by
+  curate/promote/archive) used the untagged original message — the tag never made it into the
+  commit itself. Fixed both call sites to append a `Session: <tag>` trailer; `gitCommitBacklog`
+  fix is centralized so all 6 callers pick it up for free. `go build`/`test`/smoke clean,
+  dogfooded live (this fix's own CHANGELOG commit shows the trailer). **Hand-written `git commit
+  -m` calls aren't automatable this way** — documented as a standing manual rule in
+  `THE_EMILY_WAY.md` Principle 3 and root `CLAUDE.md`'s commit-format section: every commit
+  message body ends with a blank line then `session: <tag>`, every time, in every repo. emily.cli
+  commit `61b0a53`. Apple #12696.
+- [x] **S170-273: `truncate()` byte-slice bug corrupting BACKLOG.md UTF-8, found live while
+  working S170-271.** Not founder-directed — a real bug this session's own tooling tripped over
+  and fixed on the spot. `cmd/apples.go`'s shared `truncate()` (17+ call sites, including
+  `backlog.go`'s INTAKE QUEUE bullet generation) sliced on bytes, not runes — a truncation
+  boundary landing mid-multibyte-UTF-8-character produces an invalid byte sequence. Two SKULDMARK
+  intake-queue bullets got corrupted this way, which then made several plain `grep` invocations on
+  BACKLOG.md silently treat the whole 13000+-line file as binary and return zero matches (`grep
+  -a` unaffected) — real, confusing false negatives mid-session (briefly looked like S170-269's
+  content had vanished; it hadn't). Fixed `truncate()` to slice on `[]rune`; manually repaired the
+  two already-corrupted lines via a byte-level Python script (the Edit tool can't match invalid
+  UTF-8 as an old_string). `go build`/`test`/smoke clean. Left several other same-bug-class inline
+  byte-slice truncations (`observe.go`/`primetask.go`/`sync.go`/`status.go` title/commit
+  truncation) untouched — same class, no reported symptom yet, noted as a follow-up rather than
+  swept in this pass. emily.cli commit `ab0084d`. Apple #12698.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
