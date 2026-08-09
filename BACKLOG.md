@@ -881,7 +881,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern** — done as S170-263 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: update run.sh** — scoped as S170-262 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
+- [~] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — built as S170-267 (SECTION 170), code done, deploy pending founder go-ahead. obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13256,6 +13256,21 @@ first, open design questions last.
   load-bearing/manifold philosophy posts, "The Shape of DragonsNShit"/"The Shape of the Stack"
   architecture explainers, ongoing TINA market-signal posts, and REDGARDEN/Knights of the Void
   progress. Session-scoped context-gathering, not a code deliverable — no Apple filed for this one.
+- [~] **S170-267: GTA7 `/sudoku` — self-smite command for getting unstuck from terrain.** Founder,
+  real-time: "add a slash command to gta7 that lets you get smited to reset if you get stuck in a
+  hole /sudoku (yes sudoku) should do a self smite kausing a ko allowing respawn." New
+  `SudokuCommand`: cosmetic `strikeLightningEffect` (no damage — real lightning is
+  armor/absorption-dependent and not reliably lethal, which would defeat the point) +
+  `setHealth(0.0)` for a guaranteed KO. No killer `LivingEntity` is involved in that death, so
+  `CustodyListener.onDeath`'s Enforcement-kill check never fires — self-sudoku does not send the
+  player to Custody Lock jail (checked this deliberately; would have been a bad surprise
+  otherwise). Self-service, no op gate, matching `FlowCommand`'s pattern rather than `JailCommand`'s.
+  `plugin.yml` `commands.sudoku` entry added, registered in `GTA7Plugin.onEnable`. `mvn package`
+  builds clean. Apple #12674 · GTA7 `c3b6bbd`. **Not yet deployed to the live server** — the only
+  documented deploy path is a full `systemctl --user restart einhorn-survival.service`, which
+  drops every connected player (the exact thing `feedback-respawn-not-reboot` flags as a standing
+  gap — GTA7 has no plugin-only hot-reload yet). Holding the restart for explicit founder
+  go-ahead rather than dropping players unannounced.
 
 ---
 
