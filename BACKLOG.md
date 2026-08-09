@@ -307,6 +307,8 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   finding rather than leaving as a noise stub or silently building something unscoped.
   Both entries triaged together, Apple #12382.
 - [ ] **Founder standing process directive: route all real-time founder input through '…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-09T14:19:36Z.
+- [ ] **Founder real-time: use the exact GPT-2 output line 'the only airplanes to do an…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-09T17:44:30Z.
+- [ ] **Founder real-time: write a clean new TYLER episode using the two x2 GPT-2 rende…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-09T17:44:07Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -892,8 +894,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: before writing the Mid-Piano stickers brainstorm post, read all the existing blog posts for context/…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:41Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: move the stickers project (VS0 merch) forward — have the Mid-Piano team brainstorm sticker ideas and…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:28Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — done as S170-276 (SECTION 170). obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: use the exact GPT-2 output line 'the only airplanes to do anything are buses' as the seed for a new …** — obs `2026-08-09T17:44:30Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: write a clean new TYLER episode using the two x2 GPT-2 render experiments (S01E01 and S01E02) as con…** — obs `2026-08-09T17:44:07Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: find the 'Tyler Teaches Typing' NORTHSTAR referenced in the blog posts and promote it to a real nort…** — done as S170-278 (SECTION 170). obs `2026-08-09T17:57:49Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
