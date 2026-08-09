@@ -883,6 +883,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — done as S170-267 (SECTION 170), deployed live. obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: SHANKPIT needs Android build artifacts (a real Android client build, distinct from MJOLNIR)** — scoped as S170-268 (SECTION 170). obs `2026-08-09T15:09:50Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: propagate the observe-first/sprint-plan-then-iterate instruction to ALL CLAUDE.md files across the m…** — obs `2026-08-09T15:13:36Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
