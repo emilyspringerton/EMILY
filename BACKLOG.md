@@ -876,6 +876,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
+- [ ] **Founder real-time: read all blog posts (okemily.com) to build context on the last 1-2 weeks of work** — obs `2026-08-09T14:25:43Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: verify SHANKPIT CI/CD is passing on the recent build** — obs `2026-08-09T14:25:36Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern — Windows clien…** — obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: update run.sh — it's what actually launches the session right now and may be stale / need a better…** — obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
