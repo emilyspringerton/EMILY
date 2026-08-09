@@ -882,7 +882,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: update run.sh** — scoped as S170-262 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — done as S170-267 (SECTION 170), deployed live. obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: SHANKPIT needs Android build artifacts (a real Android client build, distinct from MJOLNIR) — conf…** — obs `2026-08-09T15:09:50Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: SHANKPIT needs Android build artifacts (a real Android client build, distinct from MJOLNIR)** — scoped as S170-268 (SECTION 170). obs `2026-08-09T15:09:50Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13275,7 +13275,22 @@ first, open design questions last.
   Apple #12676. The underlying gap `feedback-respawn-not-reboot` names (no plugin-only hot-reload,
   every plugin update still drops connected players) remains open and unscoped — worth a real
   backlog item on its own later, not solved here.
-
+- [ ] **S170-268: SHANKPIT Android build artifacts.** Founder asked whether this was already
+  backlogged — it wasn't; confirmed via grep across BACKLOG.md, SHANKPIT's own CLAUDE.md/
+  docs2/NORTHSTAR.md/EA_BUILD.md, and its CI workflows: zero existing Android scoping anywhere.
+  The only Android product in this monorepo is MJOLNIR (a separate native Kotlin/Compose app,
+  SECTION 9) — not SHANKPIT itself. Real scoping, not attempted here (no Android SDK/NDK toolchain
+  available in this environment, and this needs real design decisions before any code): SDL2 on
+  Android is a materially different build shape than the mingw-Windows-cross-compile pattern
+  SHANKPIT/REDGARDEN/WEAKNIGHT_BEDROCK_RACERS all now share (raw gcc + linked libs) — Android
+  requires SDL2's own `android-project` Gradle template, native sources built via the NDK
+  (`ndk-build` or CMake) into a `.so` loaded by a Java/Kotlin `SDLActivity` shell, an
+  `AndroidManifest.xml`, Gradle build config, and an APK signing keystore, none of which exist
+  yet. Bigger open question before any of that: SHANKPIT's entire input model
+  (`SDL_GetKeyboardState`, mouse-look) has no touch-control equivalent designed anywhere in
+  `docs2/` — a real UI/UX design pass (virtual joystick/buttons or a fundamentally different
+  control scheme) is a prerequisite, not a packaging detail. Flagging as a real, scoped-but-not-
+  started item rather than either building a token stub or leaving it as a vague one-liner.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
