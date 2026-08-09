@@ -889,8 +889,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: SKULDMARK format needs an API/version bump from v0 to v1** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:23Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: SKULDMARK padding is wrong** -- done as S170-271 (SECTION 170). obs `2026-08-09T15:46:07Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: experimental TYLER x2 — redo the S1E0 cold open ('he just smiled and came in') from the original pil…** — done as S170-274 (SECTION 170). obs `2026-08-09T16:10:28Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: before writing the Mid-Piano stickers brainstorm post, read all the existing blog posts for context/…** — obs `2026-08-09T16:49:41Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: move the stickers project (VS0 merch) forward — have the Mid-Piano team brainstorm sticker ideas and…** — obs `2026-08-09T16:49:28Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: before writing the Mid-Piano stickers brainstorm post, read all the existing blog posts for context/…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:41Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: move the stickers project (VS0 merch) forward — have the Mid-Piano team brainstorm sticker ideas and…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:28Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -3495,6 +3495,12 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
   Apple #9918 (research_log). Unblocks: S135-03/04/05 once the founder picks from the above.
   **Bumped to `EMILY/docs/DESKTOP_QUEUE.md` 2026-07-19** — this is the whole blocker on our
   actual first live revenue stream; nothing else is pending here except the vendor pick.
+
+- [x] **S135-02b: "Mid-Piano Presents: The Stickers" — 6 real character-driven sticker concepts,
+  published as a blog post** (2026-08-09, founder real-time direction, full detail at SECTION 170
+  S170-275) — expands the SKU brief beyond the 3 locked minimal brand marks. Does not unblock
+  S135-02's vendor-pick blocker. https://okemily.com/blog/mid-piano-presents-the-stickers/ · Apple
+  #12708.
 
 - [ ] **S135-03: EDIS WooCommerce product listing** — Add sticker SKUs to EDIS WordPress instance. WooCommerce: individual sticker pack ($8), full VS0 set ($22), international shipping matrix. Payment via existing Stripe integration. Emily Prime can create products via EDIS API or `emily install --edis` flow.
 
@@ -13391,6 +13397,25 @@ first, open design questions last.
   verbatim, unedited, including an unprompted watermelon/"Zidane" hallucination by the later
   passes) could be used honestly as part of the scene rather than discarded or smoothed over. Not
   promoted to canon. TYLER commit `8e949d7`. Apple #12704.
+- [x] **S170-275: "Mid-Piano Presents: The Stickers" — real sticker concepts, published.**
+  Founder: "lets get the stickers project moving forward - we need the mid piano team to
+  brainstorm some sticker ideas as a blog post" → "be sure to read all the other blog posts for
+  context." Read the existing Mid-Piano corpus (`the-mark`, `the-new-guys`, `the-wall-undefeated`,
+  the `the-band-name` origin post) for voice before writing, and the real, locked S135 brief
+  (`EMILY/docs/merch/stickers_vs0_brief.md` — 3 minimal brand-mark SKUs, nothing character-driven)
+  so the pitch wouldn't contradict what's already speced. Wrote a full episode: the cast pitches 6
+  real, printable concepts grounded in their own bits — Duck's holographic "ASSET" reveal, Frog's
+  fully-redacted sticker, a real Mid-Piano band mark (piano key mid-press) as a companion line
+  rather than a competitor to the existing 3 SKUs, Pizza's glow-in-the-dark "STILL HOT," the
+  Tree's line printed in French and deliberately never translated, Gary's under-scoped clipboard
+  sticker — and has the cast surface the real open blocker honestly in-scene rather than pretend
+  it's solved: S135-02's vendor pick is still the gate, none of this prints itself. Published live
+  via the documented IDUNA blog API workflow (`OKEMILY/CLAUDE.md`'s "publish it yourself" path,
+  `EMILY-PRIME`'s `blog.write` credential): https://okemily.com/blog/mid-piano-presents-the-stickers/
+  . No git commit needed — blog content lives in `IDUNA/var/blog.db`, not version-controlled.
+  Does not unblock S135-03/04/05 (vendor selection is still a real founder decision, unchanged),
+  but gives the eventual listing real design options beyond the 3 austere brand marks. Apple
+  #12708.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
