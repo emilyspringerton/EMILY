@@ -876,11 +876,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
-- [ ] **Founder real-time: read all blog posts (okemily.com) to build context on the last 1-2 weeks of work** — obs `2026-08-09T14:25:43Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: verify SHANKPIT CI/CD is passing on the recent build** — obs `2026-08-09T14:25:36Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern — Windows clien…** — obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: update run.sh — it's what actually launches the session right now and may be stale / need a better…** — obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: read all blog posts (okemily.com) to build context** — scoped as S170-266 (SECTION 170). obs `2026-08-09T14:25:43Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: verify SHANKPIT CI/CD is passing on the recent build** — scoped as S170-264 (SECTION 170). obs `2026-08-09T14:25:36Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern** — scoped as S170-263 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: update run.sh** — scoped as S170-262 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13166,6 +13166,43 @@ first, open design questions last.
   matching real mid-July bank earnings-season timing, not a coordinated event). Full disclosure
   block included. OKEMILY commits `5cf2147`/`e305524`, Apple #12374, published
   https://okemily.com/blog/tina-camels-what-we-wont-claim-to-know/.
+
+- [x] **S170-260: `emily observe` filename-collision data-loss fix + session-tag wiring. DONE.**
+  Founder fired 6 real-time asks in quick succession (S170-261 through S170-266 below); posting
+  them via `emily observe` live surfaced a real bug — filenames are only second-precision RFC3339,
+  so 5 of the 6 collided into 1 surviving file, silently. Fixed `internal/obs/writer.go` to detect
+  the collision and append a numeric suffix instead of overwriting. Also wired
+  `currentSessionTag()` into `emily observe` (payload `session_tag` + Apple `run_id`), matching
+  the existing `apples post`/`changelog add` convention (`EMILY/docs/THE_EMILY_WAY.md` Principle
+  3 updated to document it). `go test ./...` green, `build.sh` smoke tests pass. Apple #12658 ·
+  emily.cli `8ac855f` + `c3b14f9`.
+- [x] **S170-261: "Pave the cow paths" — founder input routed through the observation queue
+  first, always. DONE.** Founder, verbatim: "whenever we have founder input i want you to send it
+  to the system via the fatbaby cli fatbaby observation so it goes to the observations - you then
+  check the observations and then always backlog and sprint plan first... if we send the new
+  input from me through there always we can help enforce process." Clarified immediately after:
+  not FatBaby-specific despite the name (naming to be adjusted later, not now), and the point is
+  that input given while the agent is offline still gets picked up once obs-watcher polls again.
+  Codified as `EMILY/docs/THE_EMILY_WAY.md` Principle 18 ("Pave the Cow Paths"), cross-referenced
+  from root `CLAUDE.md` (new §1a) and `EMILY/CLAUDE.md`'s Backlog Protocol. EMILY `c3e395b`, root
+  monorepo `cb0de74` (local-only repo, no remote configured — commit stands as the record).
+- [ ] **S170-262: update `run.sh`** — founder: "that is what is run right now and its supposed to
+  start up with some context but im not sure if its stale or needs a better prompt or what."
+  Audit `run.sh` against what actually starts a session today (obs-watcher/emily start/emily.cli
+  context loading) and fix/refresh if stale. Not started this pass.
+- [ ] **S170-263: WEAKNIGHT_BEDROCK_RACERS build artifacts should match SHANKPIT/REDGARDEN
+  pattern** — founder: Windows client artifacts, `run.bat`, SDL2, same as SHANKPIT and REDGARDEN's
+  existing build output. Not started this pass.
+- [ ] **S170-264: verify SHANKPIT CI/CD is passing on the recent build** — founder real-time ask.
+  Not started this pass.
+- [ ] **S170-265: `emily cli context` — ensure full state hydration to compile the golden doc
+  index** — founder real-time ask, exact scope TBD (audit what `emily` subcommand currently
+  assembles context/golden-docs-index.md and whether it's complete). Not started this pass.
+- [ ] **S170-266: read all okemily.com blog posts for session context** — founder: "go read all
+  the blog posts so you have some sense of the work we have been doing over the last week or
+  two," then clarified: "figure out how to read the blog posts they are in an iduna api i think?
+  okemily is the repo okemily.com is the site." Session-scoped context-gathering, not a code
+  deliverable — no Apple expected for this one, just informs the rest of the session.
 
 ---
 
