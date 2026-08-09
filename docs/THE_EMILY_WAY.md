@@ -39,6 +39,15 @@ emily apples post -t completion -repo <REPONAME> "<title>"
 ```
 No Apple = not done. The Apple is the proof. The Apple ID goes in the backlog entry next to `[x]`.
 
+**Session tagging.** `emily apples post`, `emily changelog add`, and `emily observe` all auto-stamp
+the active `emily session` fingerprint (`sess-YYYYMMDD-HHMM-<8hex>`, see `emily session new` /
+`emily session current`) as the Apple's `run_id` (or appended to the changelog line) whenever one
+is active — no flag needed, explicit `-run-id` still wins if set. When you hand-write a BACKLOG.md
+entry instead of going through the CLI, append the current session tag yourself (`emily session
+current`) so the entry is traceable to the session that logged it, matching the auto-tagged Apple
+and CHANGELOG trail. Founder direction, 2026-08-09: this closes the gap where only Apples/
+CHANGELOG were traceable to a session but hand-edited BACKLOG.md prose wasn't.
+
 ### 4. CHANGELOG on Every Meaningful Change
 ```bash
 emily changelog add <repo> "<what changed>"
@@ -246,6 +255,45 @@ next deploy could run and take it out, not after.
    instruction against comments that don't carry a non-obvious WHY). The discipline is narrow on
    purpose: find the actual few load-bearing points, mark those clearly, and leave the partition
    walls alone.
+
+### 18. Pave the Cow Paths — Founder Input Goes Through the Observation Queue
+
+Founder, 2026-08-09, after firing several real-time asks in quick succession: *"whenever we have
+founder input i want you to send it to the system via the fatbaby cli fatbaby observation so it
+goes to the observations - you then check the observations and then always backlog and sprint
+plan first - if we send the new input from me through there always we can help enforce process."*
+Clarified immediately after: *"it's not just fatbaby stuff that will go in there but its ok we
+will adjust the naming of that system - for now it is a way that i can fire stuff into the
+system... i want you to fire stuff into the system in the same way and always work from that
+queue so that my input when i am offline gets picked up as soon as you come back online."*
+
+**The mechanism:** any founder real-time direction — mid-session, on any repo, not just
+FatBaby/PRRJECT_FATBABY-flavored asks — gets posted immediately via `emily observe -s info
+"Founder real-time: <summary>"` *before* acting on it. This is upstream of Principle 1's "backlog
+first": observe writes the raw signal (durable, session-tagged, Apple-receipted, watched by
+obs-watcher independent of any live chat session), then `emily backlog curate` / a direct
+BACKLOG.md edit turns it into a scoped, sub-tasked entry per Principle 1, and only then does
+implementation start.
+
+**Why this exists, specifically:** the observation queue is polled by obs-watcher independent of
+whether a Claude Code session is live — routing founder input through it means direction given
+while the agent loop is offline still gets picked up the moment it comes back, instead of only
+existing in a chat transcript nobody re-reads. It's also the structural version of "always log
+founder direction": a CLI call is cheaper to actually do every time than remembering to hand-edit
+BACKLOG.md mid-conversation, so it's more likely to actually happen under time pressure.
+
+**Naming caveat, called out explicitly by the founder so a future session doesn't "fix" it
+prematurely:** the mechanism is named `emily observe` / "FatBaby observation" for historical
+reasons (it started as FatBaby-pipeline-specific), but it is now the general-purpose intake queue
+for founder input across every repo in the monorepo. The founder said the naming may get adjusted
+later — don't block on that, don't rename it unprompted, just use it as the general intake path
+until told otherwise.
+
+**This does not replace Principle 16 (the inbox).** The inbox is for unscoped fragments with no
+clear intent yet ("save this somewhere, I don't know what it is"); `emily observe` is for founder
+direction that already has a clear ask attached, even if the implementation isn't scoped yet. When
+in doubt about which applies: if you can write one sentence saying what the founder wants done,
+it's an observation; if you can't yet, it's an inbox entry.
 
 ---
 

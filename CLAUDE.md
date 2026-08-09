@@ -64,10 +64,13 @@ patches sprint to `complete`/`blocked` + FCM push.
 ## Backlog Protocol
 
 1. Read BACKLOG.md before starting any work.
-2. Pick the highest-priority `[ ]` item in the lowest-numbered open section.
+2. Pick the highest-priority `[ ]` item in the lowest-numbered open section — unless founder
+   real-time direction is present, in which case route it through `emily observe` first (see
+   `docs/THE_EMILY_WAY.md` Principle 18), then log it into BACKLOG.md before working it.
 3. Do the work.
-4. Post Apple to IDUNA.
-5. Mark `[x]` with Apple ID.
+4. Post Apple to IDUNA (`emily apples post` auto-tags with the active `emily session`).
+5. Mark `[x]` with Apple ID; hand-written BACKLOG.md entries should also carry the session tag
+   (`emily session current`) for traceability.
 6. `git add BACKLOG.md && git commit && git push`.
 
 ## Related Repos
