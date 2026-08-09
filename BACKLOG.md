@@ -891,7 +891,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: experimental TYLER x2 — redo the S1E0 cold open ('he just smiled and came in') from the original pil…** — done as S170-274 (SECTION 170). obs `2026-08-09T16:10:28Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: before writing the Mid-Piano stickers brainstorm post, read all the existing blog posts for context/…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:41Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: move the stickers project (VS0 merch) forward — have the Mid-Piano team brainstorm sticker ideas and…** — done as S170-275 (SECTION 170). obs `2026-08-09T16:49:28Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — scoped as S170-276 (SECTION 170), in progress. obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — done as S170-276 (SECTION 170). obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13417,7 +13417,7 @@ first, open design questions last.
   Does not unblock S135-03/04/05 (vendor selection is still a real founder decision, unchanged),
   but gives the eventual listing real design options beyond the 3 austere brand marks. Apple
   #12708.
-- [ ] **S170-276: TYLER x2 treatment, next canonical script — S01E02 "The School That Isn't
+- [x] **S170-276: TYLER x2 treatment, next canonical script — S01E02 "The School That Isn't
   There."** Founder confirmed the S01E01 x2 experiment (S170-274) landed well and asked for the
   same treatment on the next script in the canon, "using appropriate series and episode
   identifiers" (S170-274 itself was informally called "S1E0" by the founder; confirmed via
@@ -13425,9 +13425,14 @@ first, open design questions last.
   `s01e02_school.md` — S01E02, not S00 material, which is a separate prequel/interlude
   numbering). Cold open seed: the episode's own "It wasn't there Thursday... Then Friday morning
   there's a school" beat (`[00:00–00:30]`). Same ramping approach as S170-274: 5 sequential
-  `POST :8088/generate` calls, `max_tokens` 16/32/64/128/256, each output appended to a growing
-  context fed back as the next prompt. In progress — stays open until the raw output is shaped
-  into an actual scene draft under `episodes/`.
+  `POST :8088/generate` calls, `max_tokens` 16/32/64/128/256 (~12 min total this run), each output
+  appended to a growing context fed back as the next prompt. **Shaped into a real draft**:
+  `TYLER/episodes/s01e02_school_coldopen_x2_experimental.md`. This run's drift differed
+  meaningfully from S01E01's watermelon tangent — unprompted screenplay-format slugs, an invented
+  voice called "Kernel," and an unprompted swerve into "the first year of World War II" by the
+  final pass, left as open, unresolved creative questions (does the WWII drift deserve a real
+  thread, given the show's own "unstuck in time" premise) rather than answered here. Not promoted
+  to canon. TYLER commit `abaa6f3`. Apple #12715.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
