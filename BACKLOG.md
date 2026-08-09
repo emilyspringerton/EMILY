@@ -881,6 +881,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern** — scoped as S170-263 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: update run.sh** — scoped as S170-262 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
