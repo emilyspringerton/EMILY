@@ -894,7 +894,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — done as S170-276 (SECTION 170). obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: use the exact GPT-2 output line 'the only airplanes to do anything are buses' as the seed for a new …** — obs `2026-08-09T17:44:30Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: write a clean new TYLER episode using the two x2 GPT-2 render experiments (S01E01 and S01E02) as con…** — obs `2026-08-09T17:44:07Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: find the 'Tyler Teaches Typing' NORTHSTAR referenced in the blog posts and promote it to a real nort…** — obs `2026-08-09T17:57:49Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: find the 'Tyler Teaches Typing' NORTHSTAR referenced in the blog posts and promote it to a real nort…** — done as S170-278 (SECTION 170). obs `2026-08-09T17:57:49Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13449,6 +13449,35 @@ first, open design questions last.
   against. Placed in the documentary-crew format (not the RED GARDEN garage/Mid-Piano format),
   explicitly scoped to not touch Season 6's Hastings Street/Constructions continuity. Not promoted
   to canon. TYLER commit `587fa4c`. Apple #12722.
+- [x] **S170-278: "Tyler Teaches Typing" promoted from blog-post bit to a real SHANKPIT
+  northstar.** Founder: "can we find the northstar for tyler teaches typing in the blog posts and
+  promote it to a real northstar in shankpit we want to convert the cave option on the shankpit
+  menu that does some cool typing on the screen - we want to actually have that be mvp vs0 of
+  tyler teaches typing." Found `okemily.com/blog/tyler-teaches-typing/` (a prior session's bit,
+  already written in real VS0/VS1/VS2 house format). Promoted to
+  `SHANKPIT/docs2/NORTHSTAR_TYLER_TEACHES_TYPING.md`, keeping the original structure/acceptance
+  criteria and adding the concrete SHANKPIT mapping it didn't have: read
+  `packages/simulation/cutscene.c` first — `CutsceneState`/`cutscene_tick`'s typewriter reveal is
+  purely timer-driven, no keystroke-matching loop exists anywhere yet, which is VS0's real gap to
+  build, not a re-skin of something that already works that way. Concrete plan: new
+  `TypingLessonState` (reuses `CutsceneSlide`'s line shape), a new keydown-driven advance
+  function, `draw_tyler_cutscene` reused with one real change (color already-typed text by
+  correctness). **Flagged, explicitly not decided**: whether VS0 replaces the real, already-shipped
+  `LOBBY_STORY_CAVE` ("CAVE-001") menu entry (`apps/lobby/src/main.c:1149`) or adds an adjacent
+  new one — a real content-removal decision (Load-Bearing principle) needing founder confirmation
+  before implementation. Registered in golden-docs-index (`TYLER-TYPING-NORTH`). **VS0
+  implementation not started this pass** — the founder's ask was specifically to find and promote
+  the northstar; real next step is confirming the menu-placement question, then building
+  `typing_lesson.h`/`.c`. SHANKPIT commit `ae10d6a` · EMILY commit `994bc1b` · Apple #12726.
+- [ ] **S170-279: Tyler Teaches Typing VS0 — real implementation, follow-up to S170-278.** Blocked
+  on one founder decision first (`NORTHSTAR_TYLER_TEACHES_TYPING.md`'s own "Real Decision Needed"
+  section): does VS0 replace the real, already-shipped `LOBBY_STORY_CAVE` ("CAVE-001") menu entry,
+  or add an adjacent new one? Once answered: build `packages/simulation/typing_lesson.h`/`.c`
+  (`TypingLessonState`, keydown-driven advance, WPM/accuracy calc), the one real
+  `draw_tyler_cutscene` rendering change (color already-typed text by correctness), and the source
+  slide table pulled from real `TYLER/episodes/` dialogue lines (short, punchy lines — not
+  monologue paragraphs). Live-verify under Xvfb before shipping, same discipline as every other
+  SHANKPIT client change this session.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
