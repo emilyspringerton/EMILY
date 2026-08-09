@@ -42,11 +42,19 @@ No Apple = not done. The Apple is the proof. The Apple ID goes in the backlog en
 **Session tagging.** `emily apples post`, `emily changelog add`, and `emily observe` all auto-stamp
 the active `emily session` fingerprint (`sess-YYYYMMDD-HHMM-<8hex>`, see `emily session new` /
 `emily session current`) as the Apple's `run_id` (or appended to the changelog line) whenever one
-is active — no flag needed, explicit `-run-id` still wins if set. When you hand-write a BACKLOG.md
-entry instead of going through the CLI, append the current session tag yourself (`emily session
-current`) so the entry is traceable to the session that logged it, matching the auto-tagged Apple
-and CHANGELOG trail. Founder direction, 2026-08-09: this closes the gap where only Apples/
-CHANGELOG were traceable to a session but hand-edited BACKLOG.md prose wasn't.
+is active — no flag needed, explicit `-run-id` still wins if set. Every `git commit` that
+`emily.cli` generates automatically (the `changelog add` commit itself, and every BACKLOG.md
+auto-commit via `curate`/`promote`/`archive`) also carries a `Session: <tag>` trailer in the
+commit message body, not just in the CHANGELOG.md text — this was a real gap (founder caught it,
+2026-08-09: the tag was landing in the CHANGELOG line but not the git commit message itself)
+fixed in `cmd/changelog.go`/`cmd/backlog.go`'s shared `gitCommitBacklog`.
+
+**Every hand-written `git commit -m` needs the same trailer — this is not automatable at the CLI
+layer** (Claude Code writes these directly, not through a wrapper), so it's a standing per-commit
+habit: append a blank line then `session: <tag>` (read via `emily session current`) to the bottom
+of every commit message body you write by hand, in every repo, every time. Same requirement for
+hand-written BACKLOG.md entries (append the tag yourself so the entry is traceable to the session
+that logged it, matching the auto-tagged Apple/CHANGELOG trail).
 
 ### 4. CHANGELOG on Every Meaningful Change
 ```bash
