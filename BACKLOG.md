@@ -883,7 +883,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — done as S170-267 (SECTION 170), deployed live. obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: SHANKPIT needs Android build artifacts (a real Android client build, distinct from MJOLNIR)** — scoped as S170-268 (SECTION 170). obs `2026-08-09T15:09:50Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: propagate the observe-first/sprint-plan-then-iterate instruction to ALL CLAUDE.md files across the m…** — obs `2026-08-09T15:13:36Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: propagate the observe-first/sprint-plan-then-iterate instruction to ALL CLAUDE.md files across the monorepo** — done as S170-269 (SECTION 170). obs `2026-08-09T15:13:36Z`. CURATED: 2026-08-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13292,6 +13292,18 @@ first, open design questions last.
   `docs2/` — a real UI/UX design pass (virtual joystick/buttons or a fundamentally different
   control scheme) is a prerequisite, not a packaging detail. Flagging as a real, scoped-but-not-
   started item rather than either building a token stub or leaving it as a vague one-liner.
+- [x] **S170-269: propagate the "Founder Real-Time Direction" protocol to every CLAUDE.md in the
+  monorepo.** Founder confirmed the observe-first pattern worked well this session and asked for
+  it enforced structurally everywhere, not just root/`EMILY`/`emily.cli` (which already had it
+  from S170-261 earlier this session). Added a `## Founder Real-Time Direction` section — route
+  through `emily observe` first, then sprint-plan into `BACKLOG.md`, then implement, pointing at
+  `THE_EMILY_WAY.md` Principle 18 — to all 19 remaining CLAUDE.md files: APPLES, EDIS,
+  EINHORN_SURVIVAL, EmilyOS, GOLDENBAND, gpt2-alpine-c, GTA7, IDUNA, MJOLNIR, NORN, OKEMILY,
+  PITVIPER, PRRJECT_FATBABY, QUEENSALLYONLINEBOOKOFMAGIFICATIONANDUNICOR, REDGARDEN,
+  shankpit-460, SHANKPIT, TYLER, WEAKNIGHT_BEDROCK_RACERS. Deliberately skipped `fix/REDGARDEN`
+  and `redgarden-deploy` — both are separate local clones of the same REDGARDEN git remote, not
+  independent repos; editing all three would risk push conflicts, so only the canonical
+  `REDGARDEN/` was touched. All 18 pushed cleanly. Apple #12681.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
