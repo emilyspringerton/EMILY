@@ -877,8 +877,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **S29-05 smoke: obs-watcher dispatch verification — RSI loop end-to-end test** — Covered by S29-05 above. Apple #848.
 - [x] **S29-05 final smoke: single-obs dispatch test — confirm obs-watcher picks up and dispatches to Claude** — Covered by S29-05 above. Apple #848.
 - [ ] **Founder real-time: read all blog posts (okemily.com) to build context** — scoped as S170-266 (SECTION 170). obs `2026-08-09T14:25:43Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: verify SHANKPIT CI/CD is passing on the recent build** — scoped as S170-264 (SECTION 170). obs `2026-08-09T14:25:36Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern** — scoped as S170-263 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: verify SHANKPIT CI/CD is passing on the recent build** — done as S170-264 (SECTION 170). obs `2026-08-09T14:25:36Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern** — done as S170-263 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: update run.sh** — scoped as S170-262 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
@@ -13214,11 +13214,27 @@ first, open design questions last.
   the prompt requires `emily backlog curate --all` + a check of the observation queue/SECTION 170
   before picking backlog work, per the Principle 18 process established earlier this session.
   Apple #12666 · root monorepo `2505c4e` (local-only repo, no remote configured).
-- [ ] **S170-263: WEAKNIGHT_BEDROCK_RACERS build artifacts should match SHANKPIT/REDGARDEN
-  pattern** — founder: Windows client artifacts, `run.bat`, SDL2, same as SHANKPIT and REDGARDEN's
-  existing build output. Not started this pass.
-- [ ] **S170-264: verify SHANKPIT CI/CD is passing on the recent build** — founder real-time ask.
-  Not started this pass.
+- [x] **S170-263: WEAKNIGHT_BEDROCK_RACERS build artifacts should match SHANKPIT/REDGARDEN
+  pattern.** Added a Windows job to `.github/workflows/ci.yml`: mingw-w64 + SDL2 mingw devel
+  cross-compile of `apps/client/src/main.c` → `WeaknightRacers.exe`, bundled with `SDL2.dll` +
+  generated `run.bat` into a zip artifact, same proven shape as SHANKPIT's `release.yml` /
+  REDGARDEN's `ci.yml`. Added missing `_WIN32`/winsock2 guards to `apps/client/src/main.c` (had
+  none at all — mingw would have failed on raw POSIX socket headers), ported from SHANKPIT's
+  `apps/lobby/src/main.c`. Server stays Linux-only, matching both sibling repos. **CI run
+  confirmed green** (`b4fa80d`, run 31318901258) — the Windows client artifact actually builds,
+  not just compiles locally. Apple #12668 · WEAKNIGHT_BEDROCK_RACERS `b4fa80d`.
+- [x] **S170-264: verify SHANKPIT CI/CD is passing on the recent build.** It wasn't — latest run
+  on `a5a04c2` (S144-02, shader/VBO pipeline) failed at "Build Windows Client" with exit 1. Root
+  cause: that commit added `packages/render/gl_shader.c` and wired `apps/lobby/src/main.c` to call
+  its exported functions (`gl_shader_load_extensions`, `gl_dynamic_vbo_init`, etc.); the Makefile's
+  `LOBBY_SRC` was updated to include the new file, but `tests.yml`/`release.yml`'s mingw
+  cross-compile step hardcodes its own separate gcc source list, which wasn't — linker couldn't
+  find the new symbols. The commit's own message admits mingw was never available to test locally
+  ("此環境未安裝 mingw 工具鏈,無法驗證"), which is exactly why this slipped through. Fixed both
+  workflow files to include the missing source file; verified native Linux `make` build stays
+  clean and `GOWORK=off go test ./...` green first (no mingw/sudo available locally to
+  cross-compile-test directly). **CI run confirmed green after the fix** (`0d3a363`, run
+  31319045332, "Build Windows Client" step passing). Apple #12672.
 - [~] **S170-265: `emily cli context` — ensure full state hydration to compile the golden doc
   index** — investigated 2026-08-09: `emily context build` already exists (compiles all Tier-1
   rows from `EMILY/context/golden-docs-index.md`, 45 sources currently, into
