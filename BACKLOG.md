@@ -13435,6 +13435,19 @@ first, open design questions last.
   final pass, left as open, unresolved creative questions (does the WWII drift deserve a real
   thread, given the show's own "unstuck in time" premise) rather than answered here. Not promoted
   to canon. TYLER commit `abaa6f3`. Apple #12715.
+- [x] **S170-277: TYLER x05 "The Only Airplanes Are Buses" — third render experiment, first full
+  episode.** Founder, real-time, quoting the S01E02 render's own emergent line back: *"the only
+  airplanes to do anything are buses"* → *"same gpt2 treatment"* → *"fulll new episode."* Not
+  another cold-open variant — seeded a brand-new 5-call ramp (16/32/64/128/256, ~11 min,
+  17:44–17:55) from that exact render-produced sentence rather than an existing script, then wrote
+  a full Series X unnumbered episode (`x05_the_only_airplanes_are_buses.md`) around what came
+  back. The final pass fabricated a complete archival citation format with two named "witnesses"
+  (KINGSTON, JOHN / DREIFER, PAUL) and a Kennedy/Johnson/Vietnam conflation against the WWII
+  seed — the episode's actual plot is the documentary crew investigating that fabrication,
+  explicit in-text that the names are unverified because there's nothing real to verify them
+  against. Placed in the documentary-crew format (not the RED GARDEN garage/Mid-Piano format),
+  explicitly scoped to not touch Season 6's Hastings Street/Constructions continuity. Not promoted
+  to canon. TYLER commit `587fa4c`. Apple #12722.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
