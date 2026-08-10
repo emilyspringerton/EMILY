@@ -14159,6 +14159,45 @@ first, open design questions last.
 
 ---
 
+## SECTION 174: SESSION-TAG COMMIT AUDIT + THE TREE'S FRENCH BLOG POST (2026-08-10)
+
+- [x] **S174-01: monorepo-wide session-tag commit audit and fix. DONE.** Founder, real-time:
+  "where in the fuck is my llm session id anywhere ... commits etc i saw the session go off when
+  i started this script" → "apparently the process has not been updated to include that in all
+  commits" → "ensure that the entire monorepo always gets that session id in alkl commits."
+  Root cause: emily.cli's own `gitCommitBacklog`/changelog commit paths got the `Session: <tag>`
+  trailer fix on 2026-08-09 (commit `61b0a53`), but 3 OTHER separate Go modules with their own
+  independent git-commit helpers never got the same fix — EMILY/emily-agent (`integration.go`'s
+  `gitCommit`, `emilytools.go`'s `emilyGitAddCommit`, 2 more call sites in `main.go`), IDUNA
+  (`apples.go`'s `syncAppleToGit`), PRRJECT_FATBABY (`cmd/emily-agent/main.go`, 2 call sites),
+  plus emily.cli's own remaining gaps (`backlog_archive.go`, `sync.go`). All fixed — duplicated a
+  small `currentSessionTag()` helper (reading the same `EMILY_ROOT/var/current-session.json`
+  every module already shares data-side) into each module lacking one, since go.work modules
+  can't import each other's internal packages. `go build ./...` + `go test ./...` green across
+  all 4 modules. Rebuilt+reinstalled `emily` CLI, rebuilt `emily-agent` and restarted
+  `emily-system.service` to pick up the fix live — caught and fixed a real, separate bug during
+  the restart itself (a diagnostic `pgrep` command's own literal text matched observation-
+  watcher's idempotency check pattern, so the first restart silently skipped starting it; caught
+  via direct `ps aux` verification, not just trusting `systemctl status`, second restart
+  confirmed clean). Commits: EMILY `c41aefd`, emily.cli `b7e551e`, IDUNA `aa9edfc`,
+  PRRJECT_FATBABY `eac6cd4`. Apples #12851/#12852.
+
+- [x] **S174-02: "Non Traduit" — The Tree's French blog post on the training-pipeline fix. DONE.**
+  Founder, real-time: "then write a blog post on the new pipeline as tree in french" → "no
+  translation pure french" → "tree beter be the byline." The Tree's own canonical lore
+  (`REDGARDEN/docs/HEROES_VS0.md`: "Keeper of the Universe's Greatest Secret, **in French**,"
+  passive literally named "Untranslated") made this a real in-character joke, not an arbitrary
+  language request — honored by publishing genuinely native French with no English version
+  anywhere. Followed the established REDGARDEN-hero-byline precedent this blog already has (The
+  Duck's own field reports, e.g. "State of the Garden"). Content: this session's real
+  multi-agent-training-pipeline bug fix and the Four Heavenly Kings / synergy decay work,
+  rendered in Tree's own root/stillness voice and lore (teammates frozen not by choice the way
+  Tree chooses stillness, but because nobody had told the simulation they existed). Published via
+  IDUNA's blog API (EMILY-PRIME agent, `blog.write` permission), live at
+  `https://okemily.com/blog/non-traduit/`, author field "The Tree." Apple #12856.
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
