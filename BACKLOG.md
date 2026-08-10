@@ -13614,6 +13614,36 @@ first, open design questions last.
   "one-off job" until a real integrate-vs-divest decision is made; do not add it there without
   new, explicit direction. CarePyre commits `ee8e31a`, `d7ad5be` · root monorepo commit `d134029`
   (sudo-queue script, local-only, no remote) · Apple #12786.
+
+- [x] **S170-285: CarePyre — Contact Us wired to IDUNA, Back Office view instead of email.**
+  Founder: "can we make the contact us a form that dumps to iduna?" → "remove hello@carepyre.org
+  and use the real contact form" → (musing on notification options: "have the contact form send to
+  emilyspringerton@gmail.com for now" → "or like not even an email" → "so a backend in iduna
+  backoffice" → "make the contact form send to a page in iduna back office" → "not real email to
+  keep scope small") → "i need this functional asap" → "obvioously backlog and sprintplan but
+  prioritize this work." New public IDUNA endpoint `POST /api/v1/carepyre/contact`
+  (`IDUNA/internal/http/handlers/carepyre_contact.go`, CORS-scoped to carepyre.org, 5 req/min/IP,
+  no auth — visitor has no IDUNA identity, modeled on MailingListHandler's subscribe endpoint minus
+  the vault/Mailchimp machinery) writes into new table `carepyre_contact_submissions`
+  (plaintext at rest, same as other operational tables — not the mailing list's
+  never-at-rest-unencrypted posture, which is a marketing-consent-specific policy). New Back Office
+  page `/admin/carepyre` lists the latest 200 submissions, linked from the dashboard's Quick
+  Actions card — deliberately no email notification per founder's explicit scope call.
+  `CarePyre/index.html`'s Contact Us section replaced with a real form (name/email/message),
+  same-origin `fetch('/api/v1/carepyre/contact')` — no CORS needed once nginx proxies `/api/` to
+  IDUNA on :8080, identical pattern to okemily.com's own `/api/` proxy. mailto:hello@carepyre.org
+  removed from the page entirely (header and footer both). IDUNA binary rebuilt and redeployed live
+  (`systemctl --user restart iduna`, verified via a real end-to-end POST before touching nginx).
+  **Deploy split, same as the original domain standup**: `/var/www/carepyre/index.html` pushed
+  directly (fatbaby-owned dir, no sudo needed); nginx's `location /api/` proxy block needs
+  `sudo-queue/14-carepyre-api-proxy.sh` run by the founder (root-owned `/etc/nginx/`) — not yet run
+  as of this entry. **Known gap, noted honestly**: attempted to file the completion Apple for this
+  via `emily apples post`, but the checked-in `IDUNA/var/agent-secrets.env` EMILY_PRIME secret no
+  longer authenticates against the live IDUNA instance (`AGENT_AUTH_FAILED` on both the CLI and a
+  raw curl to `/api/v1/auth/agent`) — a pre-existing credential-drift issue, not caused by this
+  work, left unfixed here since it's out of scope for "get the contact form working." Commits:
+  IDUNA `ec9824f` · CarePyre `b1b05b8` · root monorepo `d81ee65` (sudo-queue script, local-only, no
+  remote).
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
