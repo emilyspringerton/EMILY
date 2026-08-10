@@ -314,6 +314,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: add more items to REDGARDEN (referenced 'in GFD') — focus on…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:36:04Z.
 - [ ] **Founder real-time: shankpit-460 — 'I have never been in a bot game.' Reported a…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:41:12Z.
 - [ ] **Founder real-time: paused shankpit-460 troubleshooting mid-session ('stop tryin…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T01:00:58Z.
+- [ ] **Founder real-time: make the CarePyre landing page Contact Us a real form that s…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T01:57:25Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -909,7 +910,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: do NOT register a golden doc for CarePyre in EMILY (one-off job until integration/divestment decisio…** — obs `2026-08-10T01:42:54Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
-- [ ] **Founder real-time: make the CarePyre landing page Contact Us a real form that submits into IDUNA (not a mailto: link) -…** — obs `2026-08-10T01:57:25Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
