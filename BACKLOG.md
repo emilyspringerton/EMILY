@@ -913,6 +913,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [ ] **Founder real-time: REDGARDEN is now dedicated to R&D (MARL/UED experimentation); GoblinFoxDragon's Battlegrounds needs …** — obs `2026-08-10T03:50:57Z`. CURATED: 2026-08-10.
+- [ ] **Founder: iterate -- built the real Python multi-agent training pipeline (ArenaTeamVecEnv + rl_train_team.py), ran a rea…** — obs `2026-08-10T04:10:40Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13755,6 +13756,23 @@ first, open design questions last.
      full 19-bot pools plus both matchmakers adds real memory pressure; founder explicit: proceed
      anyway, upgrade the Linode if it becomes a real problem, not a reason to hold back scope
      here.
+
+- [x] **S170-290: Real multi-agent team training pipeline, Python side (NORTHSTAR §25.2).**
+  Founder: "iterate." Built `scripts/rl_env_team.py` (`ArenaTeamVecEnv`, an SB3 `VecEnv` wrapping
+  the team-mode C API directly — `team_size` agent slots sharing ONE match via a single
+  `sim_step_team()` call per tick, giving real shared-parameter multi-agent PPO out of SB3's
+  existing PPO with zero new dependencies) and `scripts/rl_train_team.py` (training/checkpoint/
+  eval/export script mirroring `rl_train.py`'s own pattern). Ran a real end-to-end smoke pass
+  (team_size=3, 1536 timesteps — trained, checkpointed, evaluated, exported to a C header).
+  Found and fixed a real bug in the process: `rl_env.py`'s hand-synced `ARENA_HERO_COUNT`
+  constant was stale (28 vs. `arena_game.h`'s real 30) — undersized every ctypes observation
+  buffer by 8 floats, corrupting memory; segfaulted the moment the team env's larger per-agent
+  observation actually exercised the overrun. Fixed at the source; confirmed no regression on
+  the existing 1v1 `rl_env.py --smoke-test`. Team-trained export is deliberately a different
+  filename/header-guard from the live 1v1 `rl_policy_weights.h` and not auto-git-synced —
+  wiring a team-trained policy into a live consumer is a real design decision NORTHSTAR §25.5
+  doesn't resolve, not something a training run should do as a side effect. Commit REDGARDEN
+  `76d321d` · Apple #12805.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
