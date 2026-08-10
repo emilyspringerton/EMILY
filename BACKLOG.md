@@ -899,6 +899,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: TTT (Tyler Teaches Typing) repo created on GitHub. Implementation sequencing: build it inside SHANKP…** — obs `2026-08-10T00:38:07Z`. CURATED: 2026-08-10.
 - [ ] **Founder real-time: implement Tyler Teaches Typing VS0 (follow-up to the northstar promotion, S170-278/279)** — obs `2026-08-10T00:37:34Z`. CURATED: 2026-08-10.
 - [ ] **Founder real-time: add more items to REDGARDEN (referenced 'in GFD') — focus on unique/weird items** — obs `2026-08-10T00:36:04Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: shankpit-460 — 'I have never been in a bot game.' Reported after this session's earlier fix (stale…** — obs `2026-08-10T00:41:12Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
