@@ -13797,6 +13797,35 @@ first, open design questions last.
   Gaussian filter above. A real substantial team-mode training run + live team-observation
   consumer wiring is separate, larger future work, not done in this pass. Commit REDGARDEN
   `f2a40c4` · Apple #12807.
+
+- [x] **S170-292: Heuristic fountain camping + powerup awareness (REDGARDEN); Jungle Camps
+  Milestone 1 (GoblinFoxDragon), all real and deployed/tested.** Founder: "we need to train on
+  the games played so that bots learn about the fountain camping meta" → "but we probably cant
+  because of memory" (agreed — training job already running) → "bots need to learn and evolve
+  from fountain camping meta" → "either heuristically or via learning" (chose heuristic) →
+  "also heuristically make bots aware of berserk and regen powerups" → "currently they only pick
+  them up iuf they happen to run over em" → "then implement the 4 gods of the 4 north south east
+  and west" → "before you implement UED" → "there should be a northstar on te gods of the four
+  cardinal directions" (already existed — `GoblinFoxDragon/docs2/JUNGLE_CAMPS_NORTHSTAR.md`,
+  written 2026-08-02, all 6 milestones NOT STARTED past the doc itself).
+  **REDGARDEN** (`apps/arena_bot/src/main.c`): fountain camping — after a kill/assist (Flow jump
+  ≥350) while healthy (≥90% HP), a bot heads for the ENEMY fountain and loiters (bounded 20s,
+  exits early on low HP) instead of node-capping/shopping; doesn't touch the existing
+  nearest-enemy-engage logic at all, an enemy who wanders back to their own fountain still gets
+  engaged normally. Powerup awareness — detours to the nearest active berserker/regen powerup
+  within a 25-unit radius when no enemy is in engage range (previously only picked up
+  incidentally). Built, `test_arena.sh` + `test_10_bots.sh` both pass, deployed to the live R&D
+  pool. Commit REDGARDEN `88046ec`.
+  **GoblinFoxDragon** (`apps2/battlegrounds_gui`): Jungle Camps Milestone 1 only — 4 fixed camps
+  at the map's N/S/E/W edge midpoints spawn neutral-hostile minion waves from the opening bell
+  (new `ArenaCampMinion` pool, mirrors `ArenaLaneCreep` simplified: neutral aggro, stationary, no
+  waypoint march yet). No build script exists for this fork — verified via direct gcc syntax
+  check + real compile + a standalone smoke test (8 minions spawn at the correct 4 positions, a
+  hero standing in a camp takes real damage over time). **Milestone 2 (the Four Kings themselves,
+  §3.3's four distinct buff mechanics — especially Music's team-viral buff-carrier system, which
+  needs a genuinely new primitive) is explicitly NOT built in this pass** — real, larger,
+  separate follow-up, northstar's own milestone table updated to say so honestly rather than
+  implied done. Commit GoblinFoxDragon `bff785f`. Apple #12809.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
