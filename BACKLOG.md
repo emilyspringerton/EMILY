@@ -914,6 +914,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [ ] **Founder real-time: REDGARDEN is now dedicated to R&D (MARL/UED experimentation); GoblinFoxDragon's Battlegrounds needs …** — obs `2026-08-10T03:50:57Z`. CURATED: 2026-08-10.
 - [ ] **Founder: iterate -- built the real Python multi-agent training pipeline (ArenaTeamVecEnv + rl_train_team.py), ran a rea…** — obs `2026-08-10T04:10:40Z`. CURATED: 2026-08-10.
+- [ ] **Founder: introduce a gaussian filter to the heuristic vs RL-policy blend, deploy the frontier trained model to live bot…** — obs `2026-08-10T04:16:17Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
