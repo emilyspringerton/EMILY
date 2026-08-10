@@ -13644,7 +13644,40 @@ first, open design questions last.
   raw curl to `/api/v1/auth/agent`) — a pre-existing credential-drift issue, not caused by this
   work, left unfixed here since it's out of scope for "get the contact form working." Commits:
   IDUNA `ec9824f` · CarePyre `b1b05b8` · root monorepo `d81ee65` (sudo-queue script, local-only, no
-  remote).
+  remote). **Correction (S170-286)**: the Apple-auth failure above turned out to be self-inflicted
+  — a later plain `emily observe`/`emily apples post` call with no manual env override succeeded
+  cleanly (Apple #12793, #12795). The CLI auto-loads credentials fine on its own; exporting
+  `IDUNA_AGENT_SECRET` by hand from `agent-secrets.env` clobbered it with a stale value. Not a real
+  credential-drift bug — don't hand-export that var again.
+
+- [x] **S170-286: HOUSE admin agent created; carepyre.org contact form confirmed working end to
+  end.** Founder ran `sudo-queue/14-carepyre-api-proxy.sh` (confirmed live by the nginx conf's
+  `location /api/` block showing up on the box) — verified the form with a real POST through
+  `https://carepyre.org/api/v1/carepyre/contact`, `{"status":"ok"}`. Founder: "ok i need a new
+  iduna admin login make the agent HOUSE and then put the secret in ~/secret2.txt" — used the
+  existing `cmd/create-admin-agent -name HOUSE` CLI (provisions a `human_operator` agent, grants
+  `iduna.admin`, prints the plaintext secret once). Secret + the actually-reachable login URL
+  (`https://okemily.com/admin/login` — `iduna.farthq.com` has no live HTTPS cert yet, okemily.com's
+  own nginx proxies `/admin/` straight through to IDUNA on :8080) written to `~/secret2.txt`.
+  Verified end-to-end: POST `/admin/login` with the new credentials → 303 → session cookie with
+  `"permissions":["iduna.admin"]` → `GET /admin/` → 200. Agent ID
+  `a75adb0f-d0e6-4632-89af-c6ad4c38c580`.
+
+- [x] **S170-287: CarePyre landing copy — removed snark toward traditional charity partners.**
+  Founder: "ok really check carepyre copy and make it really robust its a little snarky
+  traditional charity are our partners and it kind of shits on them" → "we are going to bring them
+  forward into the future" → "pls ensure our partnerships are good thx." Audited the full page;
+  found real adversarial phrasing in four sections — mission ("legacy systems manage the symptoms
+  of poverty... while extracting whatever resources are left," "...instead of a debt someone else
+  profits from"), the C.H.A.N.G.E. stack intro ("most support systems fail," read as a dig at
+  existing services), structure ("owned by the people it serves, not extracted from them"), and
+  get-involved ("people who want governance, not just a donation request"). Rewrote all four to
+  frame CarePyre as infrastructure built *alongside* the nonprofits, congregations, and community
+  organizations already doing this work in Pontiac, not in opposition to or superior to them.
+  Added a permanent "Traditional charities and nonprofits are partners, not a foil" guardrail to
+  `STYLE_GUIDE.md`'s Tone/Voice section, quoting the founder's correction directly, so future edits
+  don't regress into the same framing. Pushed live to `/var/www/carepyre/`. Commit `3b901f7` ·
+  Apple #12795.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
