@@ -13826,6 +13826,19 @@ first, open design questions last.
   needs a genuinely new primitive) is explicitly NOT built in this pass** — real, larger,
   separate follow-up, northstar's own milestone table updated to say so honestly rather than
   implied done. Commit GoblinFoxDragon `bff785f`. Apple #12809.
+
+- [x] **S170-293: start.sh gets full Emily Way context hydration, not just service recovery.**
+  Founder: "ok all in on updating our start.sh script for maximum context hydration" → "but we
+  need the gold standard of context hydration." `start.sh` (the post-reboot entry point) only
+  ever pointed a fresh session at `REBOOT_RUNBOOK.md` — never read `CLAUDE.md`, never read
+  `BACKLOG.md`, never tagged a session, never curated the observation queue, unlike `run.sh`'s
+  own already-comprehensive day-to-day hydration (session tagging, CLAUDE.md → BACKLOG.md →
+  `emily backlog curate --all` for anything the founder fired in while no session was live).
+  Rewrote `start.sh` as two explicit phases: Phase 1 (service recovery via the runbook) has to
+  run first since Phase 2's observation-queue curation needs a live IDUNA; Phase 2 ports
+  `run.sh`'s own full hydration so a post-reboot session actually picks up founder direction that
+  arrived during the downtime, not just the service stack. Root monorepo commit `3ba252c`
+  (local-only, no remote). Apple #12811.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
