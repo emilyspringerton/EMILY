@@ -313,6 +313,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: implement Tyler Teaches Typing VS0 (follow-up to the northst…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:37:34Z.
 - [ ] **Founder real-time: add more items to REDGARDEN (referenced 'in GFD') — focus on…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:36:04Z.
 - [ ] **Founder real-time: shankpit-460 — 'I have never been in a bot game.' Reported a…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:41:12Z.
+- [ ] **Founder real-time: paused shankpit-460 troubleshooting mid-session ('stop tryin…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T01:00:58Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -900,7 +901,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — done as S170-276 (SECTION 170). obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: find the 'Tyler Teaches Typing' NORTHSTAR referenced in the blog posts and promote it to a real nort…** — done as S170-278 (SECTION 170). obs `2026-08-09T17:57:49Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: next episode, same GPT-2 treatment — seed a new ramping generation (16/32/64/128/256) from x05's own…** — done as S170-280 (SECTION 170); flagged content finding, see full entry. obs `2026-08-09T18:40:05Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: paused shankpit-460 troubleshooting mid-session ('stop trying'). State to preserve: ticket-secret fi…** — obs `2026-08-10T01:00:58Z`. CURATED: 2026-08-10.
 - [x] **Founder real-time: 'ensure ops' — after finding shankpit460-server.service (already-enabled systemd unit) was crash-loo…** — done as S170-281 (SECTION 170). obs `2026-08-10T01:08:15Z`. CURATED: 2026-08-10.
 - [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS Windows client fails with 'FATAL: could not load real terrain from worldapi…** — done as S170-282 (SECTION 170). obs `2026-08-10T01:03:27Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
