@@ -317,6 +317,9 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: make the CarePyre landing page Contact Us a real form that s…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T01:57:25Z.
 - [ ] **Founder real-time: CarePyre copy read as snarky toward traditional charity/nonp…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T02:26:41Z.
 - [ ] **Founder real-time: pull AGI/multi-agent RL research from the CarePyre transcrip…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T03:36:52Z.
+- [ ] **Founder real-time: REDGARDEN is now dedicated to R&D (MARL/UED experimentation)…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T03:50:57Z.
+- [ ] **Founder: iterate -- built the real Python multi-agent training pipeline (ArenaT…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T04:10:40Z.
+- [ ] **Founder: introduce a gaussian filter to the heuristic vs RL-policy blend, deplo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T04:16:17Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -912,9 +915,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: do NOT register a golden doc for CarePyre in EMILY (one-off job until integration/divestment decisio…** — obs `2026-08-10T01:42:54Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
-- [ ] **Founder real-time: REDGARDEN is now dedicated to R&D (MARL/UED experimentation); GoblinFoxDragon's Battlegrounds needs …** — obs `2026-08-10T03:50:57Z`. CURATED: 2026-08-10.
-- [ ] **Founder: iterate -- built the real Python multi-agent training pipeline (ArenaTeamVecEnv + rl_train_team.py), ran a rea…** — obs `2026-08-10T04:10:40Z`. CURATED: 2026-08-10.
-- [ ] **Founder: introduce a gaussian filter to the heuristic vs RL-policy blend, deploy the frontier trained model to live bot…** — obs `2026-08-10T04:16:17Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
