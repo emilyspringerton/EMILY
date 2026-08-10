@@ -941,6 +941,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (GTA7 party stores TNT+potions thread, full spec now settled): (1) TNT sell chance up ~90000% -- effe…** — obs `2026-08-10T08:45:07Z`. CURATED: 2026-08-10.
 - [ ] **Founder real-time (same TNT thread, GTA7 party stores): also add an extensive potion selection to party store stock** — obs `2026-08-10T08:44:17Z`. CURATED: 2026-08-10.
 - [ ] **Founder real-time: increase party store TNT sell chance by ~90000% (i.e. massively multiply the drop/sell probability o…** — obs `2026-08-10T08:43:59Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time (GTA7 Krankenvagen thread, full spec now settled): (1) reskin the boat-delivery wounded-NPC spawn fro…** — obs `2026-08-10T09:16:28Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time (GTA7 Krankenvagen thread): (1) turn the Wandering Trader (the one that spawns with llamas) into a Kr…** — obs `2026-08-10T09:15:25Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time (GTA7 difficulty thread, follow-up to 'this shit is hard'): (1) specific pain point identified via As…** — obs `2026-08-10T09:12:26Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: GTA7 is too hard ('ok HTA7 this shit is hard') -- specific pain point not yet identified, needs foll…** — obs `2026-08-10T09:11:14Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
