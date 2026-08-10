@@ -13773,6 +13773,28 @@ first, open design questions last.
   wiring a team-trained policy into a live consumer is a real design decision NORTHSTAR §25.5
   doesn't resolve, not something a training run should do as a side effect. Commit REDGARDEN
   `76d321d` · Apple #12805.
+
+- [x] **S170-291: Gaussian confidence filter for the heuristic/RL-policy blend, deployed live.**
+  Founder: "did we update the weights with the new training data?" → confirmed no (smoke-test
+  only, live game unaffected) → "for the live game?" → confirmed → "iterate" → "update live bots
+  with frontier model of our ai" → "whatever the cutting edgiest ai we have" → "also i know its
+  heuristic based" → "we need to introduce a gaussian filter to the heuristic vs llm based
+  inputs." Clarified in the moment: no LLM exists anywhere in the bot decision loop — the "ai" is
+  `rl_policy_forward()`, a small trained MLP (~5K params). `apps/arena_bot`'s
+  `rl_engage_confidence()` already blends the heuristic angle-spread against the RL policy's
+  movement nudge (S170-223's own "fuzzy best of both worlds") but via a crude discrete
+  `confidence *= 0.5` step per nearby combatant — replaced with a real Gaussian falloff,
+  `confidence = exp(-n²/(2·σ²))`, σ=1.5 (same order of magnitude as the old step function at
+  small n, but smooth — no more hard 2x jump when one combatant drifts in/out of range
+  mid-fight). Built, `scripts/test_arena.sh` all pass, deployed to the live R&D bot pool
+  (`:7778`) — explicitly NOT the stable GFD Battlegrounds deployment, which stays untouched per
+  S170-289's own split. **On "frontier model"**: no substantially-trained team-mode policy
+  exists yet (S170-290's own run was a tiny smoke test, deleted) and nothing in the live game can
+  consume team-shaped weights regardless — the actual live "frontier" model right now is still
+  the existing 5M-step 1v1 policy from `b9d20f6` (2026-07-29), now blended better via the
+  Gaussian filter above. A real substantial team-mode training run + live team-observation
+  consumer wiring is separate, larger future work, not done in this pass. Commit REDGARDEN
+  `f2a40c4` · Apple #12807.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
