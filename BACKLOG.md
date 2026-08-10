@@ -928,6 +928,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: all the CarePyre/multi-agent R&D (role discovery, autocurriculum, commander-soldier hierarchy) shoul…** — obs `2026-08-10T05:48:20Z`. CURATED: 2026-08-10. — track 1 done (Apple #12833), track 2 (R&D fold-in) tracked as its own open item above.
 - [x] **Founder real-time: fold the tower-stall bot tactic into the wholistic bot-training / fractal AI commander-squad work (N…** — obs `2026-08-10T05:48:12Z`. CURATED: 2026-08-10. — same as above.
 - [x] **Founder real-time: REDGARDEN bot AI currently rushes towers immediately, which is bad strategy -- better to let the opp…** — obs `2026-08-10T05:48:12Z`. CURATED: 2026-08-10. — heuristic fix done, Apple #12833, REDGARDEN commit `ba5d5a4`.
+- [ ] **Founder real-time: ensure we are actually running some of the new exotic training approaches (role discovery, noisy ges…** — obs `2026-08-10T05:57:37Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: confirms double the memory headroom now available (quantifies the earlier 'more memory to run traini…** — obs `2026-08-10T05:57:31Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
