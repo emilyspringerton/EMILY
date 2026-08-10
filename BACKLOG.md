@@ -904,6 +904,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'ensure ops' — after finding shankpit460-server.service (already-enabled systemd unit) was crash-loo…** — done as S170-281 (SECTION 170). obs `2026-08-10T01:08:15Z`. CURATED: 2026-08-10.
 - [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS Windows client fails with 'FATAL: could not load real terrain from worldapi…** — done as S170-282 (SECTION 170). obs `2026-08-10T01:03:27Z`. CURATED: 2026-08-10.
 - [x] **Founder real-time: new repo 'CarePyre' created on GitHub — clone it locally, add a stub README and CLAUDE.md, more dire…** — done as S170-283 (SECTION 170). obs `2026-08-10T01:32:43Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: CarePyre design direction pivot — light blue/white/cyan/orange, friendly healthcare vibe, not the da…** — obs `2026-08-10T01:44:51Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: pulling okemily.com down may be needed to get a certbot cert for carepyre.org — a real, disruptive a…** — obs `2026-08-10T01:43:12Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: do NOT register a golden doc for CarePyre in EMILY (one-off job until integration/divestment decisio…** — obs `2026-08-10T01:42:54Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
