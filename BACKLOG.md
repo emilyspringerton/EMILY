@@ -921,6 +921,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: box upgrade means more memory is now available to run training (context: REDGARDEN squad training sc…** — obs `2026-08-10T05:12:36Z`. CURATED: 2026-08-10.
 - [ ] **Founder real-time: after Four Gods, go all in on the new REDGARDEN squad training scheme** — obs `2026-08-10T05:12:33Z`. CURATED: 2026-08-10.
 - [ ] **Founder real-time: once we are stabilized (post-reboot recovery), continue work on the Four Gods implementation for RED…** — obs `2026-08-10T05:10:58Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: 'Four Gods' = the Four Heavenly Kings jungle-camp northstar (GoblinFoxDragon/docs2/JUNGLE_CAMPS_NORT…** — obs `2026-08-10T05:18:36Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time (fragment, part of REDGARDEN squad training scheme thread): alternating Jimmy/Timmy/Spike/Johnny stuf…** — obs `2026-08-10T05:13:17Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time (fragment, part of REDGARDEN squad training scheme thread): role discovery** — obs `2026-08-10T05:13:03Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time (fragment, part of REDGARDEN squad training scheme thread): commander/soldier role hierarchy** — obs `2026-08-10T05:13:03Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
