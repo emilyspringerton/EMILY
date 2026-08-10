@@ -67,7 +67,11 @@ Rules:
 - effort: low = <2h, medium = 2–8h, high = >8h
 - Prefer high-leverage items that unblock others
 - Prefer items with concrete acceptance criteria over vague explorations
-- section must match existing BACKLOG sections if possible, else empty`
+- section must match existing BACKLOG sections if possible, else empty
+- Frame-break lens (REDGARDEN/NORTHSTAR.md §28): before picking sprints, consider what general
+  structural pattern the planning question is one instance of — this can sharpen which sprints
+  you pick and their rationale, but never changes the output contract above; still ONLY the JSON
+  schema, no visible reframing/commentary in the output itself`
 
 // runPlan calls claude-haiku with backlog context + the user's question
 // and returns a structured sprint batch.
