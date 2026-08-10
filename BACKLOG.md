@@ -917,6 +917,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: do NOT register a golden doc for CarePyre in EMILY (one-off job until integration/divestment decisio…** — obs `2026-08-10T01:42:54Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
+- [ ] **Founder real-time: write up a new NORTHSTAR covering the bleeding-edge R&D findings pulled from the CarePyre transcript…** — obs `2026-08-10T05:12:45Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: box upgrade means more memory is now available to run training (context: REDGARDEN squad training sc…** — obs `2026-08-10T05:12:36Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: after Four Gods, go all in on the new REDGARDEN squad training scheme** — obs `2026-08-10T05:12:33Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: once we are stabilized (post-reboot recovery), continue work on the Four Gods implementation for RED…** — obs `2026-08-10T05:10:58Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
