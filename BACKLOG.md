@@ -13499,6 +13499,28 @@ first, open design questions last.
   note explicitly recommends against further auto-chaining future seeds from this episode's own
   output without review first, given the drift trend across the chain. Not promoted to canon.
   TYLER commit `ab04fa6`. Apple #12733.
+- [x] **S170-281: shankpit-460 — REAL root cause of "stuck in Osaka garage" found: distributed
+  client never had a valid connect ticket.** Founder escalated hard, live, after S170-270's
+  earlier "fix" (server restart) didn't resolve their actual experience — rightly: that fix
+  addressed a real staleness issue but was never the actual blocker. Ruled out, in order, on the
+  founder's own real-time pushback: cloud firewall (founder confirmed directly — not it); stale
+  client build (founder confirmed already using fresh GitHub artifacts). **Real root cause**:
+  `mint_client_ticket()` (`apps/lobby/src/main.c`) reads `SHANKPIT_TICKET_SECRET` via `getenv()`
+  — that variable only ever existed in this server's own `~/.config/iduna/env`, never in the
+  distributed `PLAY.bat`. Every real downloaded client signed its ticket with an empty-string key;
+  the server's `verify_connect_ticket()` silently drops any invalid ticket — no slot allocated, no
+  WELCOME sent, **nothing logged** — indistinguishable from a network/firewall block to every
+  diagnostic that doesn't know to check this specific thing. This is why none of the prior 4 fix
+  rounds (movement deadlock, retry logic, SERVER_HOST correction, stale-server restart) ever
+  closed it: the connection was dying before any of that code ran. Fixed `tests.yml` and
+  `release.yml` to write `SHANKPIT_TICKET_SECRET` into the generated `PLAY.bat`, same pattern
+  REDGARDEN's own `PLAY.bat` already uses for its ticket secret. Live-verified the fix itself:
+  a client using only this env var connects clean, real WELCOME, real snapshot reconciliation.
+  shankpit-460 commit `ae7b63e`. **Explicit self-correction on process, not just code**: every
+  "verified" claim made earlier in this session about shankpit-460 connectivity was tested via
+  loopback/same-box only, which cannot prove real remote reachability — that repeated overclaim,
+  not just the underlying bugs, is what made this feel unfixed "4 times over." Apple pending CI
+  artifact confirmation.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
