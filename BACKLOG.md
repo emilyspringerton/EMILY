@@ -896,6 +896,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: apply the same GPT-2-assisted x2 treatment to the next script in the TYLER canon (after s01e01_pilot…** — done as S170-276 (SECTION 170). obs `2026-08-09T17:06:39Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: find the 'Tyler Teaches Typing' NORTHSTAR referenced in the blog posts and promote it to a real nort…** — done as S170-278 (SECTION 170). obs `2026-08-09T17:57:49Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: next episode, same GPT-2 treatment — seed a new ramping generation (16/32/64/128/256) from x05's own…** — done as S170-280 (SECTION 170); flagged content finding, see full entry. obs `2026-08-09T18:40:05Z`. CURATED: 2026-08-09.
+- [ ] **Founder real-time: TTT (Tyler Teaches Typing) repo created on GitHub. Implementation sequencing: build it inside SHANKP…** — obs `2026-08-10T00:38:07Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: implement Tyler Teaches Typing VS0 (follow-up to the northstar promotion, S170-278/279)** — obs `2026-08-10T00:37:34Z`. CURATED: 2026-08-10.
+- [ ] **Founder real-time: add more items to REDGARDEN (referenced 'in GFD') — focus on unique/weird items** — obs `2026-08-10T00:36:04Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
