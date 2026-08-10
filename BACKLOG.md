@@ -904,11 +904,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'ensure ops' — after finding shankpit460-server.service (already-enabled systemd unit) was crash-loo…** — done as S170-281 (SECTION 170). obs `2026-08-10T01:08:15Z`. CURATED: 2026-08-10.
 - [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS Windows client fails with 'FATAL: could not load real terrain from worldapi…** — done as S170-282 (SECTION 170). obs `2026-08-10T01:03:27Z`. CURATED: 2026-08-10.
 - [x] **Founder real-time: new repo 'CarePyre' created on GitHub — clone it locally, add a stub README and CLAUDE.md, more dire…** — done as S170-283 (SECTION 170). obs `2026-08-10T01:32:43Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: CarePyre design direction pivot — light blue/white/cyan/orange, friendly healthcare vibe, not the da…** — obs `2026-08-10T01:44:51Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: pulling okemily.com down may be needed to get a certbot cert for carepyre.org — a real, disruptive a…** — obs `2026-08-10T01:43:12Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: do NOT register a golden doc for CarePyre in EMILY (one-off job until integration/divestment decisio…** — obs `2026-08-10T01:42:54Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10.
+- [x] **Founder real-time: CarePyre design direction pivot — light blue/white/cyan/orange, friendly healthcare vibe, not the da…** — obs `2026-08-10T01:44:51Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
+- [x] **Founder real-time: pulling okemily.com down may be needed to get a certbot cert for carepyre.org — a real, disruptive a…** — obs `2026-08-10T01:43:12Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
+- [x] **Founder real-time: do NOT register a golden doc for CarePyre in EMILY (one-off job until integration/divestment decisio…** — obs `2026-08-10T01:42:54Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
+- [x] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
+- [x] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13573,6 +13573,47 @@ first, open design questions last.
   Registered in root `CLAUDE.md`'s non-workspace repos table. Nothing built — waiting on real
   direction. CarePyre commit `f6ba482` · root monorepo commit `d9e71e6` (local-only, no remote).
   Apple #12777.
+- [x] **S170-284: CarePyre — file ingestion, landing site, design pivot, domain standup, all in
+  one arc.** Founder: "i have a large file i need you to ingest" → "check ~/carepyrefile for the
+  google drive link ingest the file" → "ok we need to create the main carepyre landing site dont
+  go into the part about how we are going to be our own healthcare plan reveal the whole rest of
+  the plan" → "the same way you stood up okemily.com standup carepyre.org via that golden doc" →
+  "do not add that golden doc to emily this is like a one of job until we integrate unless we
+  divest" → "but still carepyre.org is set to the box" → design pivot ("very health care vibe...
+  light blue" → "and white" → "cyan and white" → "and orange" → "do the style guide first into the
+  repo pls") → "ran the sudo skrip." **Process gap, noted honestly**: the initial "check
+  ~/carepyrefile" instruction didn't get its own `emily observe` call before acting — caught only
+  in retrospect; the rest of the thread (5 further directives) went through the queue correctly.
+  **Ingestion**: the Drive link was an 8-something-page-per-`file`-utility (actually 179 real
+  pages per `pypdf`) Gemini conversation export. A hand-rolled zlib/regex PDF text extractor
+  failed silently (Chrome's Skia/PDF output uses hex-encoded font-subset glyphs, not literal text
+  operators) — installed `pypdf` (`pip3 install --user --break-system-packages`, a low-risk
+  pure-Python library, no system packages touched) instead of continuing to fight a fragile
+  hand-rolled parser. Full raw text (725K chars) saved to
+  `CarePyre/source/gemini-transcript-2026-08-09.md`, preserved faithfully including the unrelated
+  ML/multi-agent-RL/AGI tangent that precedes the real content. **What the file actually contained**:
+  a real venture plan — CarePyre Trust (a 501(c)(3) Foundation + worker-owned Networks co-op)
+  building community telecom mesh, digital identity, AI navigation, and financial-protection
+  infrastructure for Pontiac, Oakland County, MI, with a staged strategy to eventually compete
+  with Centene/Meridian in Michigan Medicaid managed care — plus what reads as real personal
+  career-transition planning (a resignation/offboarding letter draft). Handled as genuinely
+  sensitive material: ingested faithfully and completely, but the public landing page deliberately
+  excludes the Medicaid-MCO-displacement strategy and specific capitation-rate figures, per
+  explicit founder instruction, and this backlog entry itself doesn't reproduce the personal
+  career-transition content. **Landing site**: first draft used a dark "ember/fire" theme matching
+  "Pyre" literally — founder redirected mid-build to a light blue/white/cyan/orange
+  healthcare-friendly palette and asked for `STYLE_GUIDE.md` committed *before* the rebuild, which
+  is the order this happened in. **Domain**: `carepyre.org` DNS was already pointed at this box
+  (confirmed via `getent hosts`, same IP as `okemily.com`). Prepared
+  `CarePyre/ops/nginx-carepyre.conf` + `sudo-queue/13-carepyre-domain-setup.sh` (same standup
+  pattern as `okemily.com`'s own — Claude has no sudo on this box, `/var/www/` itself is
+  root-owned). Founder ran the script. **Confirmed live**: `https://carepyre.org/` returns 200
+  with a real cert, HTTP redirects to HTTPS, `okemily.com` unaffected. **Explicit, deliberate
+  exception to normal practice**: NOT registered in `EMILY/context/golden-docs-index.md` — per
+  founder instruction, CarePyre stays outside the RSI-loop golden-doc system as a standalone
+  "one-off job" until a real integrate-vs-divest decision is made; do not add it there without
+  new, explicit direction. CarePyre commits `ee8e31a`, `d7ad5be` · root monorepo commit `d134029`
+  (sudo-queue script, local-only, no remote) · Apple #12786.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
