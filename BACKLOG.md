@@ -13713,6 +13713,47 @@ first, open design questions last.
   itself and on narrating a necessary bug fix as a detour rather than just fixing it — noted here
   since it's real, session-shaping feedback, not smoothed over. Commit REDGARDEN `b314e45` ·
   Apple #12800.
+
+- [x] **S170-289: Frame-break reframing (§28) rolled out monorepo-wide; REDGARDEN split into
+  R&D vs. stable deployments so GFD's Battlegrounds stops depending on REDGARDEN's own fast-
+  churning R&D backend.** Founder: "apply serction 28 to the whole emily system" → "including
+  EMILY REPO" → "and all CLAUDE md" → "entire monorepo" → "REDGARDEN is now dedicated to R and D"
+  → "i want HFD battlegrounds stable" → "we will iterate on that product there" → "we need fulll
+  duplicate backend surfaces including matchmaking and bot pools" → "redgarden needs a separate
+  one working totally separate from HFD" → "previously FGD used the same matchmaking and bot
+  pool" → "we are up against ram we will upgrade the linode if necessary proceed as tho its
+  fine." Two real pieces of work:
+  1. **Frame-break rollout**: added as an internal reasoning lens to `emily-agent/plan.go`'s
+     `planSystemPrompt` only (Emily Prime's actual judgment/planning module) — deliberately NOT
+     added to `rsi.go`'s generator/evaluator prompts or `fatbaby_emily.go`'s executor prompt,
+     both of which have strict output contracts (exact JSON / "response IS the artifact") that
+     a reframing instruction would work against, not augment. Same short section appended to all
+     23 `CLAUDE.md` files across the monorepo, framed as additive (augments judgment, never
+     replaces direct execution of the literal ask).
+  2. **REDGARDEN R&D/stable split**: found GoblinFoxDragon's Battlegrounds (`apps2/mud/main.go`)
+     pointed directly at REDGARDEN's own `:7778` bot-pool matchmaker — the same one now getting
+     fast MARL/autocurriculum iteration and continuous CI auto-deploy churn
+     (`redgarden-auto-deploy.timer`). Built a genuinely separate, duplicate deployment: a second
+     REDGARDEN checkout (`/home/fatbaby/redgarden-stable`), its own matchmaker (`:8778`) and
+     19-bot pool, own systemd units (`redgarden-stable-matchmaker-bots.service`/
+     `redgarden-stable-bot-pool.service`), manually promoted (not wired into the auto-deploy
+     timer at all). Two real infra bugs found and fixed while building it, before either
+     deployment could actually run side by side safely: (a) `apps/arena_bot`'s matchmaker port
+     was a hardcoded `#define`, no runtime override — added `--matchmaker-port`; (b)
+     `scripts/run_bot_pool.sh`'s own orphan-guard `pkill` matched a bare relative path shared by
+     BOTH checkouts (`build/red_garden_arena_bot --host 127.0.0.1`) — starting/restarting either
+     deployment would have killed the other's bots too, exactly the cross-contamination "totally
+     separate" was meant to prevent; scoped to each checkout's own absolute path instead.
+     GoblinFoxDragon's `redgardenMatchmakerPort` repointed to 8778, `gfd-mud.service` rebuilt and
+     restarted live. REDGARDEN's `CLAUDE.md` gained a "Deployments" table documenting the full
+     split for future sessions. Verified live: both matchmakers + both 19-bot pools running
+     simultaneously with zero PID overlap. Commits: REDGARDEN `f14010b`+`0a52829`,
+     GoblinFoxDragon `a8ffa30`, EMILY `529272f` + 23× CLAUDE.md commits (one per repo) · Apple
+     #12803. **Known constraint, founder-acknowledged**: the box is genuinely tight on RAM
+     (free -h showed ~294Mi free / swap nearly full before this work even started) — running two
+     full 19-bot pools plus both matchmakers adds real memory pressure; founder explicit: proceed
+     anyway, upgrade the Linode if it becomes a real problem, not a reason to hold back scope
+     here.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
