@@ -8,6 +8,20 @@ here yet — see "Update 2026-07-19" below. If you are a fresh Claude Code
 session picking this up with no memory of the prior conversation, this
 file is self-contained — start here.
 
+**Update 2026-08-10, ahead of a planned box upgrade (founder: "we will
+upgrade the box... but just in case document everything meticulously
+before you go down"):** re-verified against live `systemctl --user
+list-unit-files --state=enabled` rather than trusting the 2026-07-19
+snapshot below, which had drifted significantly — 21 more units exist now
+that this doc never listed (REDGARDEN's R&D+stable split, GoblinFoxDragon,
+EINHORN_SURVIVAL, SHANKPIT-460, WEAKNIGHT_RACERS, and several more
+`fatbaby-*` watchers), and two of the doc's own claims were stale
+(`fatbaby-entity-graph.service` is enabled now, not disabled;
+`fatbaby-eps-processor.service` has a real unit now, contradicting "no
+unit and genuinely needs `emily start --all`"). See the fully rewritten
+"What's now systemd-supervised" list immediately below — treat it as the
+current source of truth, not the history above it.
+
 ## What's now systemd-supervised (auto-starts on boot, no login needed)
 
 Linger is enabled for `fatbaby` (`sudo loginctl enable-linger fatbaby`,
@@ -58,6 +72,32 @@ systemctl --user list-unit-files --state=enabled   # full current picture, not j
 curl -s localhost:8080/health
 ```
 
+**Full current enabled-unit list (2026-08-10, re-verified live — this supersedes every partial
+list above in this doc, which are kept only as history of how we got here):**
+
+| Unit | What it is |
+|---|---|
+| `iduna.service` | IDUNA IAM (:8080), `Restart=on-failure`, has an `ExecStartPost` health check |
+| `emily-system.service` | oneshot — `emily start --iduna --agi`, brings up observation-watcher + the emily-agent RSI daemon (see "Known gaps" below: NOT individually restart-supervised after that) |
+| `fatbaby-secwatch.service`, `fatbaby-prwatch.service`, `fatbaby-prwatch-body.service`, `fatbaby-processor.service`, `fatbaby-eps-reconciler.service`, `fatbaby-eps-processor.service`, `fatbaby-newssite.service`, `fatbaby-signalapi.service`, `fatbaby-entity-graph.service`, `fatbaby-form4-watcher.service`, `fatbaby-guidance-watcher.service`, `fatbaby-dividend-watcher.service`, `fatbaby-buyback-watcher.service`, `fatbaby-nt-watcher.service`, `fatbaby-schd13-watcher.service`, `fatbaby-market-data-watcher.service`, `fatbaby-earnings-calendar.service`, `fatbaby-pr-reaction-watcher.service` | every PRRJECT_FATBABY watcher/processor now has its own unit — `Type=simple`, `Restart=on-failure` |
+| `fatbaby-bond-watcher.timer`, `fatbaby-movers-watcher.timer` | timer-triggered FatBaby jobs |
+| `einhorn-survival.service` | the real community Minecraft server (Paper, :25565) |
+| `gfd-mud.service` | GoblinFoxDragon's DragonsNShit MUD (`:2323`, `-api-port 7171`) — **the old "died on reboot, restart with `go run ./apps2/mud &`" instruction below this table is stale, left only as history; this is a real supervised unit now** |
+| `gfd-server-go.service` | GoblinFoxDragon's real Go UDP backend (`-udp-port 6970 -worldapi-port 7070 -trapx-port 7071`) |
+| `dragonfly-debug.service` | Dragonfly/Bedrock fork debug instance |
+| `redgarden-matchmaker-bots.service` (:7778), `redgarden-matchmaker-players.service` (:7779), `redgarden-bot-pool.service` | REDGARDEN's **R&D** deployment (2026-08-10 split — see `REDGARDEN/CLAUDE.md`'s own "Deployments" table) |
+| `redgarden-stable-matchmaker-bots.service` (:8778), `redgarden-stable-bot-pool.service` | REDGARDEN's **stable** deployment, dedicated to GoblinFoxDragon's Battlegrounds — separate checkout (`/home/fatbaby/redgarden-stable`), NOT touched by `redgarden-auto-deploy.timer` |
+| `redgarden-auto-deploy.timer` | polls CI, redeploys the **R&D** REDGARDEN units only when a new green build lands — never the stable ones |
+| `shankpit460-server.service`, `shankpit460-emily-bot.service` | SHANKPIT-460 game server (UDP :6969) + its bot |
+| `weaknight-racers-server.service` | WEAKNIGHT_BEDROCK_RACERS server |
+| `session-migration.service` | (check its own unit file if unfamiliar — not otherwise documented here) |
+
+Confirm linger + this full list survived the upgrade with one command:
+```bash
+loginctl show-user fatbaby | grep -i linger   # expect: Linger=yes
+systemctl --user list-unit-files --state=enabled
+```
+
 ## What does NOT auto-start — restart manually
 
 **Update 2026-07-15:** `emily start`'s `--all` flag now covers newssite,
@@ -72,12 +112,17 @@ live game server + fill bots. That's now gated only by `--shankpit`.
 **Update 2026-07-19:** most of what this section used to call "manual" is
 now systemd-supervised instead (see S152-03 above) — newssite, signalapi,
 secwatch, prwatch, prwatch-body, processor, and eps-reconciler all
-auto-start now. Only **entity-graph** and **eps-processor** still have no
-unit and genuinely need `emily start --all` (or `--entity-graph`
-/`--eps-processor`) after a reboot. Run `systemctl --user list-unit-files
---state=enabled` first to see what's already covered before reaching for
-`emily start --all`, to avoid the eps-reconciler double-start described
-above.
+auto-start now.
+
+**Update 2026-08-10, correcting the above — re-verified live, both claims in the previous
+paragraph are now stale:** `fatbaby-entity-graph.service` and `fatbaby-eps-processor.service`
+are BOTH enabled, real units (`systemctl --user is-enabled` confirms both) — this section's own
+2026-07-19 claim that they "still have no unit and genuinely need `emily start --all`" is wrong
+as of today. The real remaining gaps are `gpt2-alpine-c`'s `serve.py` and `cmd/broker`, covered
+in their own section below — not entity-graph/eps-processor. Always run `systemctl --user
+list-unit-files --state=enabled` first to see current real coverage before reaching for `emily
+start --all`, same "don't trust a doc, check live" discipline this whole update applies
+throughout.
 
 ```bash
 emily start --iduna --all
@@ -102,11 +147,17 @@ before starting: `dashboard`,
 are still manual — `emily start --shankpit` — even though the game server
 itself now auto-starts via `shankpit460-server.service`.)
 
-Unrelated to the IDUNA/FatBaby chain but also died on reboot — restart if
-wanted:
-```bash
-cd /home/fatbaby/GoblinFoxDragon && go run ./apps2/mud &
-```
+**Update 2026-08-10, re-verified live — real gaps, confirmed by `ps aux` having no matching
+systemd unit at all:**
+- **`gpt2-alpine-c/scripts/serve.py` (GPT-2 inference server, :8088)** — no systemd unit exists.
+  Restart manually: `cd /home/fatbaby/gpt2-alpine-c && python3 scripts/serve.py --model ft --port 8088 &`
+  (or nohup/disown it properly — don't leave it attached to a login shell).
+- **`cmd/broker` (gpt2-alpine-c's routing broker, :8679)** — no systemd unit exists. Restart:
+  `cd /home/fatbaby/gpt2-alpine-c && go run ./cmd/broker --routes config/broker-routes.json --addr :8679 --store /home/fatbaby/EMILY/var/broker-events &`
+
+The GFD MUD instruction that used to be here (`cd GoblinFoxDragon && go run ./apps2/mud &`) is
+now WRONG — see `gfd-mud.service` in the table above, it's a real supervised unit as of
+2026-08-06 and needs no manual restart.
 
 ## Reboot-as-deploy caution
 
