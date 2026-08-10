@@ -903,7 +903,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: next episode, same GPT-2 treatment — seed a new ramping generation (16/32/64/128/256) from x05's own…** — done as S170-280 (SECTION 170); flagged content finding, see full entry. obs `2026-08-09T18:40:05Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: 'ensure ops' — after finding shankpit460-server.service (already-enabled systemd unit) was crash-loo…** — done as S170-281 (SECTION 170). obs `2026-08-10T01:08:15Z`. CURATED: 2026-08-10.
 - [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS Windows client fails with 'FATAL: could not load real terrain from worldapi…** — done as S170-282 (SECTION 170). obs `2026-08-10T01:03:27Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: new repo 'CarePyre' created on GitHub — clone it locally, add a stub README and CLAUDE.md, more dire…** — obs `2026-08-10T01:32:43Z`. CURATED: 2026-08-10.
+- [x] **Founder real-time: new repo 'CarePyre' created on GitHub — clone it locally, add a stub README and CLAUDE.md, more dire…** — done as S170-283 (SECTION 170). obs `2026-08-10T01:32:43Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -13559,6 +13559,15 @@ first, open design questions last.
   fixed `run.bat` now uses. No ticket-auth system exists in this server (confirmed by reading
   the source), so shankpit-460's specific silent-rejection failure mode doesn't apply here.
   WEAKNIGHT_BEDROCK_RACERS commit `09893ef`.
+- [x] **S170-283: CarePyre — new repo cloned, stub README + CLAUDE.md.** Founder: "ok we have a
+  new repo CarePyre in github clone it down and put in a stub readme and claude file more
+  direction will follow." Cloned `emilyspringerton/CarePyre` (was empty). No scope guessed —
+  honest placeholder content only, per the founder's own framing and root `CLAUDE.md`'s Spec
+  Before Implementation principle. `CLAUDE.md` includes the standard Founder Real-Time Direction +
+  Commit Protocol sections from day one, matching every other repo in the monorepo per S170-269.
+  Registered in root `CLAUDE.md`'s non-workspace repos table. Nothing built — waiting on real
+  direction. CarePyre commit `f6ba482` · root monorepo commit `d9e71e6` (local-only, no remote).
+  Apple #12777.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
