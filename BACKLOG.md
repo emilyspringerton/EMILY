@@ -14196,6 +14196,17 @@ first, open design questions last.
   IDUNA's blog API (EMILY-PRIME agent, `blog.write` permission), live at
   `https://okemily.com/blog/non-traduit/`, author field "The Tree." Apple #12856.
 
+- [x] **S174-03: propagate session-tag commit rule into all monorepo CLAUDE.md files. DONE.**
+  Founder, real-time: "update all the claude files" (following S174-01's fix). Added a paragraph
+  to the Commit Protocol section of all 21 sub-repo CLAUDE.md files on the shared template, plus
+  APPLES/CLAUDE.md (which had no Commit Protocol section at all -- added one) and root CLAUDE.md
+  (backfilled a missing Frame-Break Reframing section found while in there). Deliberately skipped
+  redgarden-stable and redgarden-deploy -- both intentionally lag REDGARDEN's origin/main until
+  manually promoted; committing CLAUDE.md there directly would have broken that separation for no
+  reason (the promotion flow will carry the change over next time redgarden-stable is promoted).
+  All 21 sub-repo + APPLES commits pushed clean. Root committed locally (monorepo home has no
+  remote). Apple #12857.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
