@@ -13679,6 +13679,39 @@ first, open design questions last.
   `STYLE_GUIDE.md`'s Tone/Voice section, quoting the founder's correction directly, so future edits
   don't regress into the same framing. Pushed live to `/var/www/carepyre/`. Commit `3b901f7` ·
   Apple #12795.
+
+- [x] **S170-288: AGI/multi-agent RL research from the CarePyre transcript → real research
+  northstars in REDGARDEN.** Founder: "ok so the carepyre doc actually has some cracked agi
+  research" → "identify how many new northstars we need" → "be extremely thorough pulling
+  northstar systems from the carepyre pdf" → named specific threads real-time (multiagent
+  reinforcement, role discovery, noisy gestalt, synergy degradation, autocurriculum engine) →
+  "but i need all of it built" → "put the fucking research into the repo" → "abstract the
+  research from the pdfs into research northstars in the provided repo." Read the ~5000-line
+  pre-CarePyre-business-plan tangent in `CarePyre/source/gemini-transcript-2026-08-09.md`
+  directly — flagged real concerns about parts of it (invented acronyms, DOD/military framing,
+  manipulation letters to senators/a CEO/Melania Trump, physics misinformation, a resignation
+  letter) and declined to spec those; founder heard it ("i understand you gave doubts") and
+  redirected to the real, groundable kernel. Found REDGARDEN already has real RL infrastructure
+  (`scripts/rl_train.py`/`rl_env.py`, `NORTHSTAR.md` §21, a trained-and-exported policy) —
+  this wasn't new territory, it was §21.3's own already-named-and-deferred gap ("team-mode
+  multi-agent RL... substantially harder problem... still out of scope") picked back up.
+  `NORTHSTAR.md` §25-28 added: §25 multi-agent team training (role discovery, noisy-gestalt
+  diversity training, synergy decay, autocurriculum) with VS0 REAL — `sim_init_team`/
+  `sim_step_team`/`sim_get_obs_team`/`sim_get_done_team`/`sim_get_winner_team` added to
+  `apps/arena_training/src/headless.c`, compiled clean, verified end-to-end via a real ctypes
+  smoke test (caught and fixed a real bug in the process: `arena_bot_tick_heuristic` is
+  hardcoded to `heroes[1]` vs `heroes[0]`, not safely callable per-agent in a team loop — fixed
+  by driving each team-B bot's movement directly instead). §26 cross-game strategic transfer
+  (contrastive state encoders, fractal commander/soldier hierarchy) — spec only. §27
+  physics-informed simulation research — research note, honestly scoped (no PDE-shaped problem
+  in this org today; GOLDENBAND flagged as the nearest real candidate if picked up later). §28
+  frame-break prompt pattern — technique reference, not a REDGARDEN feature. New
+  `docs2/MULTI_AGENT_RD_RESEARCH_NOTES.md` captures the full source research (all four threads)
+  independent of what got spec'd. **Process note, honest**: founder pushed back hard mid-thread
+  ("i am questioning your judgement... beginning to at least") on both the initial pushback
+  itself and on narrating a necessary bug fix as a detour rather than just fixing it — noted here
+  since it's real, session-shaping feedback, not smoothed over. Commit REDGARDEN `b314e45` ·
+  Apple #12800.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
