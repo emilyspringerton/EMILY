@@ -56,9 +56,9 @@
       "updated_at": "2026-07-18T13:24:49Z"
     },
     "/home/fatbaby/EMILY/docs/THE_EMILY_WAY.md": {
-      "hash": "fbf0718d1f55f803a15913f370a42961a13ac604b213cc578d5cacf6817e3e94",
+      "hash": "929945f4db0270637c70503ea6af94d98846a8d59736d0d3d7b6b50588ee62fe",
       "compressed": "## THE-EMILY-WAY\n# The Emily Way\n## How EINHORN_INDUSTRIAL builds things\n\n*Synthesized from CLAUDE.md files, git commits, changelogs, and RSI loop observations across all repos.*\n*Last updated: 2026-07-17*\n\n---\n\n## Three-Sentence Version\n\nEmily Prime plans; Claude Code implements; every outcome is an Apple.\nThe backlog is the load-bearing node — every decision is traceable to a backlog item, every completion has an Apple as proof.\nRecursive self-improvement is the product: each cycle makes the next cycle faste\n",
-      "updated_at": "2026-07-23T23:28:04Z"
+      "updated_at": "2026-08-09T16:08:10Z"
     },
     "/home/fatbaby/EMILY/docs/TRAINING_PIPELINE.md": {
       "hash": "6b42e16fcaaa7a1e3631e3500454072c7ab6d85298ad9dca74a92826f2669089",
@@ -81,9 +81,9 @@
       "updated_at": "2026-07-24T10:15:55Z"
     },
     "/home/fatbaby/EMILY/emily-memory/cycle-log.md": {
-      "hash": "b32d92ce113d25157cb27403f60907ea0ebaa706f5a9db6b67a22e29f9ccf753",
-      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-08-04T01:18:47Z | cycle 9932 | idle | idle — no queued tasks\n2026-08-04T01:33:48Z | cycle 9933 | idle | idle — no queued tasks\n2026-08-04T01:48:09Z | cycle 9934 | idle | idle — no queued tasks\n2026-08-04T02:04:03Z | cycle 9935 | idle | idle — no queued tasks\n2026-08-04T02:19:19Z | cyc\n",
-      "updated_at": "2026-08-05T02:19:05Z"
+      "hash": "f54ebb9d8d083f8c4ef768153c8c324e7a12b018844ceea899b4318b6c147813",
+      "compressed": "## EMILY-CYCLE-LOG\n# EMILY PRIME — CYCLE LOG\n## Rolling log of RSI cycle outcomes. Updated each cron cycle. Kept last 100 entries.\n## Format: YYYY-MM-DDTHH:MM:SSZ | cycle N | task_id | outcome\n\n\u003c!-- CYCLE_LOG_START --\u003e\n2026-08-09T04:23:58Z | cycle 10425 | idle | idle — no queued tasks\n2026-08-09T04:38:28Z | cycle 10426 | idle | idle — no queued tasks\n2026-08-09T04:52:41Z | cycle 10427 | idle | idle — no queued tasks\n2026-08-09T05:07:47Z | cycle 10428 | idle | idle — no queued tasks\n2026-08-09T05:23:41Z |\n",
+      "updated_at": "2026-08-10T05:24:21Z"
     },
     "/home/fatbaby/EMILY/emily-memory/world-state.md": {
       "hash": "f63534f2f4e98e0a9d3194362da0cc5e2c515cb8523c9a200a13b385244a7ee4",
