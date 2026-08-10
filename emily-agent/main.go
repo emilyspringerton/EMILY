@@ -611,6 +611,9 @@ func registerGitTools(d *ToolDispatcher, repoDir string) {
 			log.Printf("git add proposals: %v -- %s", err, out)
 		}
 		msg := fmt.Sprintf("proposal: %s", p)
+		if tag := currentSessionTag(envOr("EMILY_ROOT", "/home/fatbaby/EMILY")); tag != "" {
+			msg = msg + "\n\nSession: " + tag
+		}
 		if out, err := exec.Command("git", "-C", repoDir, "commit", "-m", msg,
 			"--author=Emily Agent <emily@agent.local>").CombinedOutput(); err != nil {
 			log.Printf("git commit proposal: %v -- %s", err, out)
@@ -948,7 +951,15 @@ func (s *ConversationStore) gitCommitGenerated(sessionID, turnID string, paths .
 		return
 	}
 	msg := fmt.Sprintf("Conversation: %s with CEO", conversationCommitSlug(paths))
+	// "session"/"turn" here are the CONVERSATION's own IDs, a different concept from the
+	// CLAUDE.md-mandated RSI session: <tag> fingerprint (emily session new/current) --
+	// appended separately below so both survive, not conflated. Real gap found and fixed
+	// 2026-08-10 (founder: "ensure the entire monorepo always gets that session id in all
+	// commits").
 	body := fmt.Sprintf("session: %s\nturn: %s", sessionID, turnID)
+	if tag := currentSessionTag(envOr("EMILY_ROOT", "/home/fatbaby/EMILY")); tag != "" {
+		body = body + "\n\nSession: " + tag
+	}
 	if out, err := exec.Command("git", "-C", s.dir, "commit", "-m", msg, "-m", body,
 		"--author=Emily Springerton <emily@fartcoamerica.com>").CombinedOutput(); err != nil {
 		log.Printf("git commit: %v -- %s", err, out)

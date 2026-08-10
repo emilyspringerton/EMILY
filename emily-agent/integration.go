@@ -318,7 +318,37 @@ func (s *IntegrationStore) LoadSignalPriorities() (SignalPriorities, error) {
 	return p, nil
 }
 
+// currentSessionTag reads the active Claude Code session fingerprint from
+// var/current-session.json (written by `emily session new`), same file and
+// same JSON shape emily.cli's own cmd/session.go#currentSessionTag reads --
+// duplicated here rather than imported since emily-agent and emily.cli are
+// separate Go modules in go.work with no existing shared package for this.
+// Returns "" (not an error) if no session is active, same "don't hard-fail
+// on missing session state" posture that helper already established.
+func currentSessionTag(gitRoot string) string {
+	data, err := os.ReadFile(filepath.Join(gitRoot, "var", "current-session.json"))
+	if err != nil {
+		return ""
+	}
+	var rec struct {
+		Tag string `json:"tag"`
+	}
+	if err := json.Unmarshal(data, &rec); err != nil {
+		return ""
+	}
+	return rec.Tag
+}
+
 // gitCommit adds and commits a single file.
+//
+// Real gap found and fixed 2026-08-10 (founder, real-time: "where in the
+// fuck is my llm session id anywhere ... commits etc" -- this function's
+// own automated commits, e.g. every observation/task file Emily Prime files
+// via the integration layer, never carried the session: <tag> trailer
+// CLAUDE.md's own commit protocol requires, unlike emily.cli's own
+// gitCommitBacklog/changelog commit paths which got this same fix a day
+// earlier (2026-08-09, commit 61b0a53) -- that fix never propagated to
+// emily-agent's own, separate git-commit helper.
 func (s *IntegrationStore) gitCommit(absPath, msg string) {
 	if s.gitRoot == "" {
 		return
@@ -330,6 +360,9 @@ func (s *IntegrationStore) gitCommit(absPath, msg string) {
 	if out, err := exec.Command("git", "-C", s.gitRoot, "add", rel).CombinedOutput(); err != nil {
 		_ = out // best-effort
 		return
+	}
+	if tag := currentSessionTag(s.gitRoot); tag != "" {
+		msg = msg + "\n\nSession: " + tag
 	}
 	exec.Command("git", "-C", s.gitRoot, "commit", "-m", msg,
 		"--author=Emily Prime <emily-prime@agent.local>").Run()

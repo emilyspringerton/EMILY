@@ -485,10 +485,22 @@ func supplyCreateOrder(ctx context.Context, iduna *IdunaClient, vendorID, produc
 }
 
 // emilyGitAddCommit stages relPath and creates a commit in repoDir.
+//
+// Real gap found and fixed 2026-08-10 (founder, real-time: "ensure the
+// entire monorepo always gets that session id in all commits"): this
+// commits to ARBITRARY repos (repoDir is a caller-supplied parameter, e.g.
+// emily_write_file targeting any repo in the monorepo), so the session tag
+// -- which always lives at EMILY_ROOT/var/current-session.json, not
+// necessarily inside repoDir -- is looked up via EMILY_ROOT specifically,
+// same envOr("EMILY_ROOT", "/home/fatbaby/EMILY") convention every other
+// EMILY_ROOT resolution in this package already uses, not repoDir itself.
 func emilyGitAddCommit(repoDir, relPath, msg string) error {
 	add := exec.Command("git", "-C", repoDir, "add", relPath)
 	if out, err := add.CombinedOutput(); err != nil {
 		return fmt.Errorf("git add: %w: %s", err, strings.TrimSpace(string(out)))
+	}
+	if tag := currentSessionTag(envOr("EMILY_ROOT", "/home/fatbaby/EMILY")); tag != "" {
+		msg = msg + "\n\nSession: " + tag
 	}
 	commit := exec.Command("git", "-C", repoDir, "commit", "-m", msg)
 	if out, err := commit.CombinedOutput(); err != nil {
