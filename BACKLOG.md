@@ -909,6 +909,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: do NOT register a golden doc for CarePyre in EMILY (one-off job until integration/divestment decisio…** — obs `2026-08-10T01:42:54Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: stand up carepyre.org the same way okemily.com was stood up, following the existing golden doc that …** — obs `2026-08-10T01:42:23Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
 - [x] **Founder real-time: build the main CarePyre landing site — explicitly exclude the 'become our own healthcare plan / Medi…** — obs `2026-08-10T01:42:14Z`. CURATED: 2026-08-10. — done as S170-284 (SECTION 170).
+- [ ] **Founder real-time: make the CarePyre landing page Contact Us a real form that submits into IDUNA (not a mailto: link) -…** — obs `2026-08-10T01:57:25Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
