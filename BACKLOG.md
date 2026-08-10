@@ -322,6 +322,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder: introduce a gaussian filter to the heuristic vs RL-policy blend, deplo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T04:16:17Z.
 - [ ] **Founder: implement fountain camping + powerup awareness heuristically in REDGAR…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T04:41:44Z.
 - [ ] **Founder: update start.sh for maximum/gold-standard context hydration. Merged ru…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T04:45:50Z.
+- [ ] **Founder real-time: ensure we are actually running some of the new exotic traini…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T05:57:37Z.
+- [ ] **Founder real-time: confirms double the memory headroom now available (quantifie…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T05:57:31Z.
+- [ ] **Founder real-time: ensure the ENTIRE monorepo always includes the session ID in…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T08:07:17Z.
+- [ ] **Founder real-time: found that automated 'emily backlog curate'/'emily backlog p…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T08:07:06Z.
+- [ ] **Founder real-time: pivot to GTA7 -- implement a 'krankenwagen' (ambulance) conc…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T07:56:03Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -932,11 +937,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: all the CarePyre/multi-agent R&D (role discovery, autocurriculum, commander-soldier hierarchy) shoul…** — obs `2026-08-10T05:48:20Z`. CURATED: 2026-08-10. — track 1 done (Apple #12833), track 2 (R&D fold-in) tracked as its own open item above.
 - [x] **Founder real-time: fold the tower-stall bot tactic into the wholistic bot-training / fractal AI commander-squad work (N…** — obs `2026-08-10T05:48:12Z`. CURATED: 2026-08-10. — same as above.
 - [x] **Founder real-time: REDGARDEN bot AI currently rushes towers immediately, which is bad strategy -- better to let the opp…** — obs `2026-08-10T05:48:12Z`. CURATED: 2026-08-10. — heuristic fix done, Apple #12833, REDGARDEN commit `ba5d5a4`.
-- [ ] **Founder real-time: ensure we are actually running some of the new exotic training approaches (role discovery, noisy ges…** — obs `2026-08-10T05:57:37Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: confirms double the memory headroom now available (quantifies the earlier 'more memory to run traini…** — obs `2026-08-10T05:57:31Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: ensure the ENTIRE monorepo always includes the session ID in ALL commits (not just backlog curate/pr…** — obs `2026-08-10T08:07:17Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: found that automated 'emily backlog curate'/'emily backlog promote' git commits (e.g. 'emily-prime: …** — obs `2026-08-10T08:07:06Z`. CURATED: 2026-08-10.
-- [ ] **Founder real-time: pivot to GTA7 -- implement a 'krankenwagen' (ambulance) concept. Idea floated: turn boats into ambul…** — obs `2026-08-10T07:56:03Z`. CURATED: 2026-08-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
