@@ -309,8 +309,8 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder standing process directive: route all real-time founder input through '…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-09T14:19:36Z.
 - [ ] **Founder real-time: use the exact GPT-2 output line 'the only airplanes to do an…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-09T17:44:30Z.
 - [ ] **Founder real-time: write a clean new TYLER episode using the two x2 GPT-2 rende…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-09T17:44:07Z.
-- [ ] **Founder real-time: TTT (Tyler Teaches Typing) repo created on GitHub. Implement…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:38:07Z.
-- [ ] **Founder real-time: implement Tyler Teaches Typing VS0 (follow-up to the northst…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:37:34Z.
+- [x] **Founder real-time: TTT (Tyler Teaches Typing) repo created on GitHub. Implement…** — Obs: 2026-08-10T00:38:07Z. — TTT repo found (probed name, existed empty), cloned, stubbed with README/CLAUDE.md pointing to SHANKPIT's own real implementation (this repo's own purpose vs. SHANKPIT's still undecided, same CarePyre precedent). Apple #13013, TTT commit `88c1738`.
+- [x] **Founder real-time: implement Tyler Teaches Typing VS0 (follow-up to the northst…** — Obs: 2026-08-10T00:37:34Z. — See S170-279 below, now updated with the full completion detail.
 - [ ] **Founder real-time: add more items to REDGARDEN (referenced 'in GFD') — focus on…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:36:04Z.
 - [ ] **Founder real-time: shankpit-460 — 'I have never been in a bot game.' Reported a…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T00:41:12Z.
 - [ ] **Founder real-time: paused shankpit-460 troubleshooting mid-session ('stop tryin…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T01:00:58Z.
@@ -13535,14 +13535,8 @@ first, open design questions last.
   implementation not started this pass** — the founder's ask was specifically to find and promote
   the northstar; real next step is confirming the menu-placement question, then building
   `typing_lesson.h`/`.c`. SHANKPIT commit `ae10d6a` · EMILY commit `994bc1b` · Apple #12726.
-- [ ] **S170-279: Tyler Teaches Typing VS0 — real implementation, follow-up to S170-278.** Blocked
-  on one founder decision first (`NORTHSTAR_TYLER_TEACHES_TYPING.md`'s own "Real Decision Needed"
-  section): does VS0 replace the real, already-shipped `LOBBY_STORY_CAVE` ("CAVE-001") menu entry,
-  or add an adjacent new one? Once answered: build `packages/simulation/typing_lesson.h`/`.c`
-  (`TypingLessonState`, keydown-driven advance, WPM/accuracy calc), the one real
-  `draw_tyler_cutscene` rendering change (color already-typed text by correctness), and the source
-  slide table pulled from real `TYLER/episodes/` dialogue lines (short, punchy lines — not
-  monologue paragraphs). Live-verify under Xvfb before shipping, same discipline as every other
+- [ ] **S170-279: Tyler Teaches Typing VS0 — real implementation, follow-up to S170-278.** Menu-placement question RESOLVED 2026-08-11 (asked directly): **replace `LOBBY_STORY_CAVE`**, matching the founder's original literal phrasing. Logic layer DONE the same day: `packages/simulation/typing_lesson.h`/`.c` (`TypingLessonState`, `typing_lesson_start`/`_on_text`/`_advance`, real WPM/accuracy calc, miss-flash-holds-position, 13-line VS0 slide table verbatim from `TYLER/episodes/s01e01_pilot.md`/`s01e02_school.md`), wired into the `Makefile`'s `LOBBY_SRC`, `make lobby` clean. Apple #13012, SHANKPIT commit `b3c3bb3`. Real remaining work, deliberately not attempted in the same pass: the actual menu/render wiring in `apps/lobby/src/main.c` (~8700 lines, unfamiliar app_state/event-dispatch control flow, no display available here to verify interactively) — relabel/repoint `LOBBY_STORY_CAVE`, wire `SDL_TEXTINPUT` to `typing_lesson_on_text` + SPACE/ENTER to `typing_lesson_advance`, and the
+  `draw_tyler_cutscene` rendering change (color already-typed text by correctness). Live-verify under Xvfb before shipping, same discipline as every other
   SHANKPIT client change this session.
 - [x] **S170-280: TYLER x06 "The Press Conference That Never Happened" — fifth render experiment,
   flagged content finding.** Founder, quoting x05's raw output back verbatim: *"but i don't
