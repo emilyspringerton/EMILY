@@ -950,6 +950,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (item-tuning autocurriculum thread, now made concrete): (1) do a first manual/designed pass generatin…** — obs `2026-08-11T12:07:00Z`. CURATED: 2026-08-11.
 - [ ] **Founder real-time (same autocurriculum/draft research thread, more additions): (1) walking back the 'blocked on real ga…** — obs `2026-08-11T12:05:09Z`. CURATED: 2026-08-11.
 - [ ] **Founder real-time (REDGARDEN bot-training R&D, autocurriculum thread): log a future research direction into the docs --…** — obs `2026-08-11T12:01:07Z`. CURATED: 2026-08-11.
+- [ ] **Founder real-time: write a blog post on this session's recent updates, in-character as Pizza (REDGARDEN hero)** — obs `2026-08-11T12:21:40Z`. CURATED: 2026-08-11.
+- [ ] **Founder real-time (same items thread): use GPT-2 (gpt2-alpine-c) to generate NEW original item names for future item pa…** — obs `2026-08-11T12:18:22Z`. CURATED: 2026-08-11.
+- [ ] **Founder real-time (same GOLDENBAND thread): also audit the system for other similar 'quick win' instant/snap-style abil…** — obs `2026-08-11T12:16:52Z`. CURATED: 2026-08-11.
+- [ ] **Founder real-time (new, distinct thread from items/AD-AP -- GOLDENBAND animation): use GOLDENBAND (the .gband animation…** — obs `2026-08-11T12:16:45Z`. CURATED: 2026-08-11.
+- [ ] **Founder real-time (new, distinct thread from the item/autocurriculum one): a real design question -- should ability (Q/…** — obs `2026-08-11T12:14:29Z`. CURATED: 2026-08-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
