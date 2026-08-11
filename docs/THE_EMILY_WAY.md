@@ -303,6 +303,16 @@ direction that already has a clear ask attached, even if the implementation isn'
 in doubt about which applies: if you can write one sentence saying what the founder wants done,
 it's an observation; if you can't yet, it's an inbox entry.
 
+**Session-boundary directives count too, not just feature asks.** Founder, 2026-08-11, after
+noticing a "stop soldier, rest" directive hadn't been logged automatically and had to ask for an
+Apple to be filed after the fact: short conversational directives to stop, pause, or rest are
+founder real-time direction under this same principle, not exempt from it just because they
+aren't shaped like a feature request. Post the `emily observe` call — which auto-files an Apple —
+*before* complying with the stop, not after being asked a second time. This was an
+under-application of the existing rule, not a new one: it's easy to mentally file "stop" as "not
+real work" and skip the log, but the whole point of this mechanism is a durable record of when
+work actually stopped and on whose instruction.
+
 ---
 
 ## The Feedback Loop
