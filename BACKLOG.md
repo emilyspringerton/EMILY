@@ -327,21 +327,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: ensure the ENTIRE monorepo always includes the session ID in…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T08:07:17Z.
 - [ ] **Founder real-time: found that automated 'emily backlog curate'/'emily backlog p…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T08:07:06Z.
 - [ ] **Founder real-time: pivot to GTA7 -- implement a 'krankenwagen' (ambulance) conc…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T07:56:03Z.
-- [ ] **Founder real-time (GTA7 party stores TNT+potions thread, full spec now settled)…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T08:45:07Z.
-- [ ] **Founder real-time (same TNT thread, GTA7 party stores): also add an extensive p…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T08:44:17Z.
-- [ ] **Founder real-time: increase party store TNT sell chance by ~90000% (i.e. massiv…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T08:43:59Z.
-- [ ] **Founder real-time (GTA7 Krankenvagen thread, full spec now settled): (1) reskin…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-10T09:16:28Z.
-- [ ] **Founder real-time: stop working and rest for this session -- founder said 'stop…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T11:47:33Z.
-- [ ] **Founder real-time (item-tuning autocurriculum thread, now made concrete): (1) d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:07:00Z.
-- [ ] **Founder real-time (same autocurriculum/draft research thread, more additions): …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:05:09Z.
-- [ ] **Founder real-time (REDGARDEN bot-training R&D, autocurriculum thread): log a fu…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:01:07Z.
-- [ ] **Founder real-time: write a blog post on this session's recent updates, in-chara…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:21:40Z.
-- [ ] **Founder real-time (same items thread): use GPT-2 (gpt2-alpine-c) to generate NE…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:18:22Z.
-- [ ] **Founder real-time (same GOLDENBAND thread): also audit the system for other sim…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:16:52Z.
-- [ ] **Founder real-time (new, distinct thread from items/AD-AP -- GOLDENBAND animatio…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:16:45Z.
-- [ ] **Founder real-time (new, distinct thread from the item/autocurriculum one): a re…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:14:29Z.
-- [ ] **Founder real-time: a new GitHub upstream repo has been created for 'autocurricu…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:32:47Z.
-- [ ] **Founder real-time (GPT-2 item-name-generation thread, methodology detail): prom…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-11T12:26:40Z.
+- [x] **Founder real-time (GTA7 party stores TNT+potions thread, full spec now settled)…** obs `2026-08-10T08:45:07Z`. — duplicate of the already-fully-logged Party Store entry above (Apple #12865).
+- [x] **Founder real-time (same TNT thread, GTA7 party stores): also add an extensive p…** obs `2026-08-10T08:44:17Z`. — same, Apple #12865.
+- [x] **Founder real-time: increase party store TNT sell chance by ~90000% (i.e. massiv…** obs `2026-08-10T08:43:59Z`. — same, Apple #12865.
+- [x] **Founder real-time (GTA7 Krankenvagen thread, full spec now settled): (1) reskin…** obs `2026-08-10T09:16:28Z`. — duplicate of the already-fully-logged Krankenvagen entry above (Apple #12877).
+- [x] **Founder real-time: stop working and rest for this session -- founder said 'stop…** obs `2026-08-11T11:47:33Z`. — Apple #12984 filed per this exact request; also became the trigger for the standing "log stop directives too" process fix (root `CLAUDE.md` Principle 1a, `EMILY/docs/THE_EMILY_WAY.md` Principle 18).
+- [x] **Founder real-time (item-tuning autocurriculum thread, now made concrete): (1) d…** obs `2026-08-11T12:07:00Z`. — the "weird items + shop page 4" ask, done as squad-training-thread item (6), Apple #13000.
+- [x] **Founder real-time (same autocurriculum/draft research thread, more additions): …** obs `2026-08-11T12:05:09Z`. — logged in `REDGARDEN/NORTHSTAR.md` §26.3.1/§26.3.2 + the "decision points opened 2026-08-11" backlog entry above.
+- [x] **Founder real-time (REDGARDEN bot-training R&D, autocurriculum thread): log a fu…** obs `2026-08-11T12:01:07Z`. — the pick/ban commander-agent research note, logged in `NORTHSTAR.md` §26.3.1.
+- [x] **Founder real-time: write a blog post on this session's recent updates, in-chara…** obs `2026-08-11T12:21:40Z`. — duplicate of the already-logged Pizza blog post entry above (Apple #13003).
+- [x] **Founder real-time (same items thread): use GPT-2 (gpt2-alpine-c) to generate NE…** obs `2026-08-11T12:18:22Z`. — logged as a decision point above (Apple #12997), not built yet.
+- [x] **Founder real-time (same GOLDENBAND thread): also audit the system for other sim…** obs `2026-08-11T12:16:52Z`. — logged as a decision point above (Apple #12996), not started.
+- [x] **Founder real-time (new, distinct thread from items/AD-AP -- GOLDENBAND animatio…** obs `2026-08-11T12:16:45Z`. — Duck telekinesis animation ask, logged as a decision point above (Apple #12995), not started.
+- [x] **Founder real-time (new, distinct thread from the item/autocurriculum one): a re…** obs `2026-08-11T12:14:29Z`. — the AD/AP ability-scaling design question, logged as a decision point above (Apple #12994), not started.
+- [x] **Founder real-time: a new GitHub upstream repo has been created for 'autocurricu…** obs `2026-08-11T12:32:47Z`. — duplicate of the already-logged EXODUS repo entry above (Apple #13007).
+- [x] **Founder real-time (GPT-2 item-name-generation thread, methodology detail): prom…** obs `2026-08-11T12:26:40Z`. — duplicate of the GPT-2 methodology note folded into the decision-points entry above (Apple #13001).
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
