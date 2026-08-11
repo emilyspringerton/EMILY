@@ -959,6 +959,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (same GOLDENBAND thread): also audit the system for other similar 'quick win' instant/snap-style abil…** — obs `2026-08-11T12:16:52Z`. CURATED: 2026-08-11.
 - [ ] **Founder real-time (new, distinct thread from items/AD-AP -- GOLDENBAND animation): use GOLDENBAND (the .gband animation…** — obs `2026-08-11T12:16:45Z`. CURATED: 2026-08-11.
 - [ ] **Founder real-time (new, distinct thread from the item/autocurriculum one): a real design question -- should ability (Q/…** — obs `2026-08-11T12:14:29Z`. CURATED: 2026-08-11.
+- [ ] **Founder real-time: a new GitHub upstream repo has been created for 'autocurriculum' (possible codename or separate name…** — obs `2026-08-11T12:32:47Z`. CURATED: 2026-08-11.
+- [ ] **Founder real-time (GPT-2 item-name-generation thread, methodology detail): prompt the GPT-2 model with 2 current/existi…** — obs `2026-08-11T12:26:40Z`. CURATED: 2026-08-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
