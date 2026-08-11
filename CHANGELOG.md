@@ -1,3 +1,7 @@
+## 2026-08-11
+
+- Pizza 部落格文章發布：'Nobody Checked'，涵蓋本次 session 的 REDGARDEN/GTA7 更新 (sess-20260810-0505-a53abca2)
+
 ## 2026-08-10
 
 - CLAUDE.md 規範宣導：session tag commit 規則推廣到全 monorepo 21 個 sub-repo + APPLES + root (sess-20260810-0505-a53abca2)
