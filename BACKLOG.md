@@ -988,6 +988,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: at some point ensure the CANNON/siege-minion feature (REDGARDEN NORTHSTAR §20.4, already flagged as …** — obs `2026-08-13T22:34:32Z`. CURATED: 2026-08-13.
 - [x] **Founder real-time: ECOWAR should also incorporate bot/hero MOBA elements from the arena side, not purely the original c…** — obs `2026-08-13T22:32:56Z`. CURATED: 2026-08-13. Folded into §29 as one of the 4 explicitly-flagged open questions (full hero kits vs. simpler unit tier). session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: ECOWAR needs a fully separate client too -- 'separate everything' (mode, matchmaking, client), not s…** — obs `2026-08-13T22:31:57Z`. CURATED: 2026-08-13. Folded into §29 -- client unification explicitly deferred per founder ("we will unify clients later"). session: sess-20260813-2154-dda37e8b
+- [ ] **Founder real-time: check whether we're saving price-action data against stocks-on-the-move (movers-watcher) yet** — obs `2026-08-13T22:44:24Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: newssite's SEC filings display is 'a garbled mess' -- needs cleanup for accessibility while keeping …** — obs `2026-08-13T22:43:22Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: PITVIPER detail -- should be installable as a terminal client the same way SHANKPIT/GFD/REDGARDEN ga…** — obs `2026-08-13T22:42:02Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: PITVIPER detail -- needs a hotkey that SSHes into iduna.farthq.com using the local ~/.ssh profile (r…** — obs `2026-08-13T22:41:30Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: get PITVIPER working (memory conflicts on current state -- reboot runbook says remote was fixed 2026…** — obs `2026-08-13T22:41:12Z`. CURATED: 2026-08-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
