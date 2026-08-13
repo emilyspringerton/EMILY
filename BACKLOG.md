@@ -998,6 +998,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'and then the UNICORN blog post' / 'and then do another building at infinity blog post' / 'as paimon'.** obs `2026-08-13T22:46:55Z`. Hand-added -- also silently dropped by curate. Done: published "Building at Infinity: Two Hundred Legions" as Paimon (first-ever blog dialogue for this hero, voice grounded in his real HEROES_VS0.md kit description) — https://okemily.com/blog/building-at-infinity-two-hundred-legions/ (verified live, HTTP 200). Apple #13320. session: sess-20260813-2154-dda37e8b
 - [ ] **Founder real-time: the 'Building at Infinity' blog post should be written as the Paimon persona (REDGARDEN hero)** — obs `2026-08-13T22:52:19Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: wants another 'Building at Infinity' blog post (existing series/title, check okemily.com blog for pr…** — obs `2026-08-13T22:51:41Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: reprioritize -- after finishing the current task (newssite PR-indexing fix), do the all-repos status…** — obs `2026-08-13T22:46:55Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: need to get 'HX' set up with a GitHub upstream (repo name/scope unclear, needs clarification when pi…** — obs `2026-08-13T22:41:12Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: wants EMILY's initial README/git commit (the original ~24-line scope) checked, all repos surveyed, a…** — obs `2026-08-13T22:40:35Z`. CURATED: 2026-08-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
