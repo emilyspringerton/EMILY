@@ -978,6 +978,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: any future updates to the startup/reboot process (systemd units, runbook changes) should be queued t…** — obs `2026-08-13T22:09:24Z`. CURATED: 2026-08-13.
 - [x] **Founder real-time: wants full descriptions of the nature/lore of all items just added to REDGARDEN (the 6 page-4 items:…** — obs `2026-08-13T22:22:27Z`. CURATED: 2026-08-13. Done: "Item mechanics beyond the stat columns" README section, covers page-4 items plus Donkey/Blink Dagger/Haste Trinket (the "hidden ability" items founder flagged specifically). Apple #13280, commit `70b4a56`. session: sess-20260813-2154-dda37e8b
 - [ ] **Founder real-time: wants current-status updates (READMEs/status sections) refreshed across all repos, not just REDGARDE…** — obs `2026-08-13T22:16:41Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: check on a previous long-running REDGARDEN AI training run that was in progress before the reboot --…** — obs `2026-08-13T22:30:21Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: all REDGARDEN shop items except Blink Dagger and Donkey (legacy) need a big Flow price increase** — obs `2026-08-13T22:27:40Z`. CURATED: 2026-08-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
