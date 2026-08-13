@@ -966,6 +966,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: file an Apple with whatever comes back from the gpt2 broker/serve.py smoke test during reboot verifi…** — obs `2026-08-13T22:00:00Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: processify the gpt2-alpine-c serve.py + broker manual restarts (give them real systemd units instead…** — obs `2026-08-13T22:00:00Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: fully sync with --rebase, new file in EMILY and root MONOREPO repos** — obs `2026-08-13T22:00:00Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: needs GOLDENBAND README instructions for attaching a rig-provided skeleton + model in Blender** — obs `2026-08-13T22:06:08Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: REDGARDEN README needs a full refresh -- old items are still there but new items are missing, wants …** — obs `2026-08-13T22:04:12Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: new claire.md.txt file uploaded to EMILY + MONOREPO repos (identical content) reads as a prompt-inje…** — obs `2026-08-13T22:04:03Z`. CURATED: 2026-08-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
