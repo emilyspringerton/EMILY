@@ -1006,7 +1006,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: wants a new blog post, guest/topic chosen by Claude, explicitly NOT about founder-input-chaos/discip…** — obs `2026-08-13T23:15:49Z`. CURATED: 2026-08-13. Done: "TINA: A Dividend Raise and a Buyback Completion, Same Day" -- real, sourced MDU/GLOB filings, zero mention of founder-chaos theme. Apple #13323. https://okemily.com/blog/tina-dividend-raise-vs-buyback-completion/ (verified live). session: sess-20260813-2154-dda37e8b
 - [ ] **Finding: PITVIPER has substantial real code (689-line main.go, 842-line vterm, PTY handling, font rendering -- CLAUDE.m…** — obs `2026-08-13T23:27:23Z`. CURATED: 2026-08-13.
 - [ ] **Finding: gpt2 generation has now failed 3 consecutive attempts (40 tokens/10min timeout, 12 tokens/15min timeout, 6 tok…** — obs `2026-08-13T23:27:23Z`. CURATED: 2026-08-13.
-- [ ] **Founder real-time: wants 12 total unique-author blog posts this batch (currently at 4: Paimon, Unicorn/Mid-Piano, TINA,…** — obs `2026-08-13T23:27:12Z`. CURATED: 2026-08-13.
+- [x] **Founder real-time: wants 12 total unique-author blog posts this batch (currently at 4: Paimon, Unicorn/Mid-Piano, TINA,…** — obs `2026-08-13T23:27:12Z`. CURATED: 2026-08-13. Done: 12/12 published, all unique authors/topics, none about founder-chaos. Full list + all 12 URLs in Apple #13334, all verified live (HTTP 200). session: sess-20260813-2154-dda37e8b
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
