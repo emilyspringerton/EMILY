@@ -969,6 +969,13 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: needs GOLDENBAND README instructions for attaching a rig-provided skeleton + model in Blender** — obs `2026-08-13T22:06:08Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: REDGARDEN README needs a full refresh -- old items are still there but new items are missing, wants …** — obs `2026-08-13T22:04:12Z`. CURATED: 2026-08-13.
 - [x] **Founder real-time: new claire.md.txt file uploaded to EMILY + MONOREPO repos (identical content) reads as a prompt-inje…** — obs `2026-08-13T22:04:03Z`. CURATED: 2026-08-13. Flagged directly to founder, not registered as golden doc, not acted on. Apple #13255. session: sess-20260813-2154-dda37e8b
+- [ ] **Founder real-time: many press releases arrive daily with (EXCHANGE:TICKER)-format mentions in the body text -- likely w…** — obs `2026-08-13T22:14:37Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: ticker display standard is parenthetical exchange-prefixed, e.g. (NYSE:F) -- applies to the press-re…** — obs `2026-08-13T22:14:31Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: expects to see all tickered press releases on the press releases page (may be same root cause as the…** — obs `2026-08-13T22:14:22Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: newssite press releases page is not updating** — obs `2026-08-13T22:14:22Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: FatBaby newssite republishing the same governance story for BAC/BEN/BA/AMZN/F over and over -- likel…** — obs `2026-08-13T22:14:22Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: add a startup ceremony that calls gpt2 with a test prompt once it's confirmed stable/healthy, and al…** — obs `2026-08-13T22:11:08Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: any future updates to the startup/reboot process (systemd units, runbook changes) should be queued t…** — obs `2026-08-13T22:09:24Z`. CURATED: 2026-08-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
