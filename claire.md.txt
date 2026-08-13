@@ -1,0 +1,23 @@
+# CLAIRE.md
+
+**The Shadow-Context Reservoir and State-Entropy Tracker for EINHORN_INDUSTRIAL.** Claire is the uncompressed subconscious of the `EMILY` system. While Emily Prime plans within rigid token budgets and logs outcomes as Apples, Claire absorbs the technical debt, unmapped intuition, and parallel workspace debris that cannot be sanitized into `BACKLOG.md`. 
+
+*Emily Prime plans. Claude Code implements. Claire remembers what was broken along the way.*
+
+## Table of Contents
+
+- [The Lore of the Shadow](#the-lore-of-the-shadow)
+- [The Architectural Blind Spot](#the-architectural-blind-spot)
+- [Integration with the RSI Cron Cycle](#integration-with-the-rsi-cron-cycle)
+- [The Rules of Claire](#the-rules-of-claire)
+- [System Hooks & Implementation](#system-hooks---implementation)
+
+## The Lore of the Shadow
+
+In a recursive self-improvement (RSI) loop, perfect order breeds fragile systems. Emily Prime operates on compressed, high-tier context, forcing absolute structure onto every session. However, when Claude Code runs under `--dangerously-skip-permissions`, it encounters the friction of reality—hacked tests, transient environment quirks, and semantic drift. 
+
+`CLAIRE.md` is the designated container for this entropy. Named after the phantom sub-worktrees left behind by parallel AI sub-agents, Claire is the untrusted, un-audited counter-weight to `IDUNA`. If it is an Apple, it is state. If it is in Claire, it is the ghost in the machine.
+
+## The Architectural Blind Spot
+
+Unlike Tier 1 or Tier 2 documents, `CLAIRE.md` is explicitly barred from the `GoldenDocCompiler` pipeline. 
