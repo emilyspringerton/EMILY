@@ -1,3 +1,7 @@
+## 2026-08-13
+
+- REBOOT_RUNBOOK.md updated: gpt2-serve + fatbaby-broker now real systemd units, not manual-restart; documented broker's hardcoded 30s timeout vs serve.py's real multi-minute cold-inference latency (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-11
 
 - Pizza 部落格文章發布：'Nobody Checked'，涵蓋本次 session 的 REDGARDEN/GTA7 更新 (sess-20260810-0505-a53abca2)
