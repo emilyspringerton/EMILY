@@ -976,6 +976,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: FatBaby newssite republishing the same governance story for BAC/BEN/BA/AMZN/F over and over -- likel…** — obs `2026-08-13T22:14:22Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: add a startup ceremony that calls gpt2 with a test prompt once it's confirmed stable/healthy, and al…** — obs `2026-08-13T22:11:08Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: any future updates to the startup/reboot process (systemd units, runbook changes) should be queued t…** — obs `2026-08-13T22:09:24Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: wants full descriptions of the nature/lore of all items just added to REDGARDEN (the 6 page-4 items:…** — obs `2026-08-13T22:22:27Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: wants current-status updates (READMEs/status sections) refreshed across all repos, not just REDGARDE…** — obs `2026-08-13T22:16:41Z`. CURATED: 2026-08-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
