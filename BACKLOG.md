@@ -980,6 +980,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: wants current-status updates (READMEs/status sections) refreshed across all repos, not just REDGARDE…** — obs `2026-08-13T22:16:41Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: check on a previous long-running REDGARDEN AI training run that was in progress before the reboot --…** — obs `2026-08-13T22:30:21Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: all REDGARDEN shop items except Blink Dagger and Donkey (legacy) need a big Flow price increase** — obs `2026-08-13T22:27:40Z`. CURATED: 2026-08-13.
+- [ ] **Founder real-time: wants a new REDGARDEN game mode called ECOWAR (likely realizing the legacy design doc's 'Ecosystem W…** — obs `2026-08-13T22:31:02Z`. CURATED: 2026-08-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
