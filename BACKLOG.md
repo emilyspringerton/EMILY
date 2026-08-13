@@ -980,14 +980,14 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: wants current-status updates (READMEs/status sections) refreshed across all repos, not just REDGARDE…** — obs `2026-08-13T22:16:41Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: check on a previous long-running REDGARDEN AI training run that was in progress before the reboot --…** — obs `2026-08-13T22:30:21Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: all REDGARDEN shop items except Blink Dagger and Donkey (legacy) need a big Flow price increase** — obs `2026-08-13T22:27:40Z`. CURATED: 2026-08-13.
-- [ ] **Founder real-time: wants a new REDGARDEN game mode called ECOWAR (likely realizing the legacy design doc's 'Ecosystem W…** — obs `2026-08-13T22:31:02Z`. CURATED: 2026-08-13.
-- [ ] **Founder real-time: ECOWAR should be a genuinely separate game mode with separate matchmaking (its own queue/port), not …** — obs `2026-08-13T22:31:46Z`. CURATED: 2026-08-13.
-- [ ] **Founder real-time: ECOWAR game mode should incorporate REDGARDEN's original deck-building mechanic from the vertical-sl…** — obs `2026-08-13T22:31:40Z`. CURATED: 2026-08-13.
+- [x] **Founder real-time: wants a new REDGARDEN game mode called ECOWAR (likely realizing the legacy design doc's 'Ecosystem W…** — obs `2026-08-13T22:31:02Z`. CURATED: 2026-08-13. Scoped: NORTHSTAR.md §29, checked against real code (local_game.c + arena_game.c), 4 open architecture questions flagged, not built. Apple #13297, commit `a234ebf`. session: sess-20260813-2154-dda37e8b
+- [x] **Founder real-time: ECOWAR should be a genuinely separate game mode with separate matchmaking (its own queue/port), not …** — obs `2026-08-13T22:31:46Z`. CURATED: 2026-08-13. Folded into §29 -- apps/matchmaker's existing dual-role (--lobby-size/--server-bin) pattern flagged as the real precedent. session: sess-20260813-2154-dda37e8b
+- [x] **Founder real-time: ECOWAR game mode should incorporate REDGARDEN's original deck-building mechanic from the vertical-sl…** — obs `2026-08-13T22:31:40Z`. CURATED: 2026-08-13. Folded into §29 -- confirmed packages/simulation/local_game.c already implements the card/grid MVP this refers to. session: sess-20260813-2154-dda37e8b
 - [ ] **Founder real-time, resolving the CLAIRE population question via AskUserQuestion: build a real but auditable log capturi…** — obs `2026-08-13T22:35:31Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: at some point ensure a full process sync (unspecified scope -- likely referring to the monorepo-wide…** — obs `2026-08-13T22:34:32Z`. CURATED: 2026-08-13.
 - [ ] **Founder real-time: at some point ensure the CANNON/siege-minion feature (REDGARDEN NORTHSTAR §20.4, already flagged as …** — obs `2026-08-13T22:34:32Z`. CURATED: 2026-08-13.
-- [ ] **Founder real-time: ECOWAR should also incorporate bot/hero MOBA elements from the arena side, not purely the original c…** — obs `2026-08-13T22:32:56Z`. CURATED: 2026-08-13.
-- [ ] **Founder real-time: ECOWAR needs a fully separate client too -- 'separate everything' (mode, matchmaking, client), not s…** — obs `2026-08-13T22:31:57Z`. CURATED: 2026-08-13.
+- [x] **Founder real-time: ECOWAR should also incorporate bot/hero MOBA elements from the arena side, not purely the original c…** — obs `2026-08-13T22:32:56Z`. CURATED: 2026-08-13. Folded into §29 as one of the 4 explicitly-flagged open questions (full hero kits vs. simpler unit tier). session: sess-20260813-2154-dda37e8b
+- [x] **Founder real-time: ECOWAR needs a fully separate client too -- 'separate everything' (mode, matchmaking, client), not s…** — obs `2026-08-13T22:31:57Z`. CURATED: 2026-08-13. Folded into §29 -- client unification explicitly deferred per founder ("we will unify clients later"). session: sess-20260813-2154-dda37e8b
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
