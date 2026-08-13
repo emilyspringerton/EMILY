@@ -91,6 +91,8 @@ list above in this doc, which are kept only as history of how we got here):**
 | `shankpit460-server.service`, `shankpit460-emily-bot.service` | SHANKPIT-460 game server (UDP :6969) + its bot |
 | `weaknight-racers-server.service` | WEAKNIGHT_BEDROCK_RACERS server |
 | `session-migration.service` | (check its own unit file if unfamiliar — not otherwise documented here) |
+| `gpt2-serve.service` | gpt2-alpine-c inference server (:8088, emily-ft checkpoint) — added 2026-08-13, see "processify" note below, was manual-restart-only before this |
+| `fatbaby-broker.service` | tenant-aware proxy fronting gpt2-serve.service (:8679) — added 2026-08-13, source is `PRRJECT_FATBABY/cmd/broker` despite the `gpt2-alpine-c`-looking name history below |
 
 Confirm linger + this full list survived the upgrade with one command:
 ```bash
@@ -147,8 +149,30 @@ before starting: `dashboard`,
 are still manual — `emily start --shankpit` — even though the game server
 itself now auto-starts via `shankpit460-server.service`.)
 
-**Update 2026-08-10, re-verified live — real gaps, confirmed by `ps aux` having no matching
-systemd unit at all:**
+**Update 2026-08-13 — both of the below are now real, enabled systemd units. Processified during
+post-upgrade reboot recovery (founder real-time: "we need to processify that") — this whole
+subsection is now history, not an active gap.** `gpt2-serve.service` (source:
+`gpt2-alpine-c/ops/systemd/gpt2-serve.service`) and `fatbaby-broker.service` (source:
+`PRRJECT_FATBABY/ops/systemd/fatbaby-broker.service`) — both `Type=simple`, `Restart=on-failure`,
+`WantedBy=default.target`, deployed the same way as every other unit in this doc (`cp` to
+`~/.config/systemd/user/`, `daemon-reload`, `enable --now`). Add both to the "What's now
+systemd-supervised" table above on the next full re-verification pass.
+
+One correction while fixing this: this doc previously said `cmd/broker` lives in
+`gpt2-alpine-c` — wrong. The actual Go source is `PRRJECT_FATBABY/cmd/broker`;
+`gpt2-alpine-c/config/broker-routes.json` is only the routing config (tenant_id "emily-prime",
+upstream `http://localhost:8088`). `fatbaby-broker.service` builds/runs from PRRJECT_FATBABY and
+points `--routes` at the gpt2-alpine-c config file.
+
+**Known issue carried forward, not fixed by processifying:** `cmd/broker/main.go` hardcodes a 30s
+`ResponseHeaderTimeout`/context timeout on the upstream call. `serve.py`'s real `/generate`
+latency has been observed at ~8 minutes on a cold request (stdlib `http.server`, single-threaded,
+not `ThreadingHTTPServer`) — so the broker path 502s ("upstream unavailable") on any real
+generation call today. Confirmed via direct smoke test 2026-08-13, Apple #13254. Both the
+timeout mismatch and the single-threaded server are real, separate follow-up work — not touched
+here since fixing them wasn't in scope for reboot recovery / processifying.
+
+Original 2026-08-10 manual-restart note, kept as history:
 - **`gpt2-alpine-c/scripts/serve.py` (GPT-2 inference server, :8088)** — no systemd unit exists.
   Restart manually: `cd /home/fatbaby/gpt2-alpine-c && python3 scripts/serve.py --model ft --port 8088 &`
   (or nohup/disown it properly — don't leave it attached to a login shell).
