@@ -1007,8 +1007,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Finding: PITVIPER has substantial real code (689-line main.go, 842-line vterm, PTY handling, font rendering -- CLAUDE.m…** — obs `2026-08-13T23:27:23Z`. CURATED: 2026-08-13.
 - [ ] **Finding: gpt2 generation has now failed 3 consecutive attempts (40 tokens/10min timeout, 12 tokens/15min timeout, 6 tok…** — obs `2026-08-13T23:27:23Z`. CURATED: 2026-08-13.
 - [x] **Founder real-time: wants 12 total unique-author blog posts this batch (currently at 4: Paimon, Unicorn/Mid-Piano, TINA,…** — obs `2026-08-13T23:27:12Z`. CURATED: 2026-08-13. Done: 12/12 published, all unique authors/topics, none about founder-chaos. Full list + all 12 URLs in Apple #13334, all verified live (HTTP 200). session: sess-20260813-2154-dda37e8b
-- [ ] **Founder real-time: wants 12 MORE blog posts, unique authors (distinct from the first 12 batch: Paimon/Unicorn/TINA/K9/G…** — obs `2026-08-13T23:45:50Z`. CURATED: 2026-08-13.
-- [ ] **Founder real-time: 'then iterate' / 'while true continue' -- keep working continuously without stopping for permission …** — obs `2026-08-13T23:46:10Z`. CURATED: 2026-08-13.
+- [x] **Founder real-time: wants 12 MORE blog posts, unique authors (distinct from the first 12 batch: Paimon/Unicorn/TINA/K9/G…** — obs `2026-08-13T23:45:50Z`. CURATED: 2026-08-13. Done: 12/12 published, revenue-source theme per follow-up. Apple #13341, all 12 verified live (HTTP 200). Running total 24 unique-author posts this session. session: sess-20260813-2154-dda37e8b
+- [x] **Founder real-time: 'then iterate' / 'while true continue' -- keep working continuously without stopping for permission …** — obs `2026-08-13T23:46:10Z`. CURATED: 2026-08-13. Acknowledged and applied -- worked the full 12-post batch without pausing for confirmation between posts. session: sess-20260813-2154-dda37e8b
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
