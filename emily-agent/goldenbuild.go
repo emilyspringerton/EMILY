@@ -29,6 +29,15 @@ type goldenCacheEntry struct {
 	Hash       string `json:"hash"`       // sha256 of source content at last compress
 	Compressed string `json:"compressed"` // haiku-compressed section
 	UpdatedAt  string `json:"updated_at"` // RFC3339
+	// IsFallback marks an entry produced by the 500-char truncated fallback
+	// (haiku compression failed, e.g. HITL-11's credit balance) rather than a
+	// real haiku compression. Without this, a fallback entry with a hash that
+	// still matches the source would be reused forever, even after haiku
+	// starts working again -- found live 2026-08-14: 32/45 sources (71%) were
+	// stuck on this exact bug, degrading Emily Prime's own system prompt
+	// silently. A fallback entry is always retried on the next Build(),
+	// hash match or not.
+	IsFallback bool `json:"is_fallback,omitempty"`
 }
 
 // goldenCache persists per-source compressed sections so unchanged sources
@@ -150,7 +159,12 @@ func (g *GoldenDocCompiler) MaybeRebuild(ctx context.Context) error {
 			continue
 		}
 		h := contentHash(raw, src.Budget)
-		if entry, ok := cache.Entries[src.Path]; !ok || entry.Hash != h {
+		entry, ok := cache.Entries[src.Path]
+		// A fallback-flagged entry must also trigger a rebuild attempt even
+		// when its hash still matches -- otherwise this same hash-only check
+		// is exactly what let 32/45 sources stay silently stuck on the
+		// 500-char truncated fallback indefinitely (found live 2026-08-14).
+		if !ok || entry.Hash != h || entry.IsFallback {
 			anyChanged = true
 			break
 		}
@@ -174,7 +188,7 @@ func (g *GoldenDocCompiler) Build(ctx context.Context) error {
 			continue
 		}
 		h := contentHash(raw, src.Budget)
-		if entry, ok := cache.Entries[src.Path]; ok && entry.Hash == h && entry.Compressed != "" {
+		if entry, ok := cache.Entries[src.Path]; ok && entry.Hash == h && entry.Compressed != "" && !entry.IsFallback {
 			sections = append(sections, entry.Compressed)
 			reused++
 			built++
@@ -186,22 +200,36 @@ func (g *GoldenDocCompiler) Build(ctx context.Context) error {
 			text = text[:src.Budget]
 		}
 		compressed, err := g.compress(ctx, src.Name, text)
+		isFallback := false
 		if err != nil {
 			log.Printf("goldenbuild: compress %s failed (%v), using truncated fallback", src.Name, err)
 			if len(text) > 500 {
 				text = text[:500]
 			}
 			compressed = fmt.Sprintf("## %s\n%s\n", src.Name, text)
+			isFallback = true
+		} else if g.apiKey == "" {
+			// compress's own "no ANTHROPIC_API_KEY" stub returns err == nil, but it's
+			// just as degraded as the truncated fallback above -- also worth retrying
+			// once a key is actually configured, not cached as if it were real.
+			isFallback = true
 		}
 		cache.Entries[src.Path] = goldenCacheEntry{
 			Hash:       h,
 			Compressed: compressed,
 			UpdatedAt:  time.Now().UTC().Format(time.RFC3339),
+			IsFallback: isFallback,
 		}
 		sections = append(sections, compressed)
 		built++
 	}
-	log.Printf("goldenbuild: %d sources built (%d reused from cache, %d new haiku calls)", built, reused, built-reused)
+	fallback := 0
+	for _, e := range cache.Entries {
+		if e.IsFallback {
+			fallback++
+		}
+	}
+	log.Printf("goldenbuild: %d sources built (%d reused from cache, %d new haiku calls, %d degraded on truncated fallback)", built, reused, built-reused, fallback)
 
 	var b strings.Builder
 	b.WriteString(fmt.Sprintf("# 全系統上下文 FULL SYSTEM CONTEXT — %s\n", time.Now().UTC().Format("2006-01-02")))
