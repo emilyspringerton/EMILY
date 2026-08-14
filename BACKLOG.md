@@ -5354,13 +5354,9 @@ Audit found the exact fallback already exists, well-built — it's just not prod
   `go.mod` checksum for `golang.org/x/sys` v0.46.0, silently blocking `go build ./cmd/newssite`
   entirely) — purely additive, no dependency version changed. Live-verified: both routes 200,
   nav shows the new label. PRRJECT_FATBABY `eee221d`. Apple #12397.
-- [ ] **S160-05: backfill cleanup for historically mistagged docs** — **priority raised
-  2026-08-14, was wrongly filed as "optional, low priority."** This is the real root cause of
-  S166-01 (earnings widget showing 2003/2008-era dates on ticker pages) — not just `/wire`
-  cosmetic contamination. Full scope measured: 1,104 records / 11 tickers, see S166-01's writeup
-  for the complete chain and the two-part real fix (event-store correction + `docindex.Ingest`'s
-  first-write-wins dedup, which silently swallows a correction event unless also fixed). Scoping
-  as one combined pass with S166-01 rather than two separate tickets touching the same records.
+- [x] **S160-05: backfill cleanup for historically mistagged docs. DONE 2026-08-14.** Combined
+  pass with S166-01 (same records, same fix) — see S166-01's writeup for the full chain, fix, and
+  live verification. Apple #13603, PRRJECT_FATBABY commit `c9e94be`. session: sess-20260813-2154-dda37e8b
 
 ---
 
@@ -5628,8 +5624,8 @@ just our 50-ticker watchlist.*
 
 *Three rapid-fire asks, captured per founder instruction to keep backlogging even mid-burst.*
 
-- [ ] **S166-01: earnings widget is showing stale/wrong dates, not real data. ROOT CAUSE FOUND
-  2026-08-14, not fixed yet — real fix needs its own pass, see below.** Founder: "ticker
+- [x] **S166-01: earnings widget is showing stale/wrong dates, not real data. FIXED 2026-08-14.**
+  Founder: "ticker
   page earnings widget should show the actual earnings data." Live-checked
   `curl localhost:8082/ticker/AAPL`: the Earnings sidebar box shows **"Jan 22, 2008 — Q1 2008"**
   and **"Oct 15, 2003 — FY 2003"** — two records 18-23 years stale, no upcoming date at all.
@@ -5656,18 +5652,21 @@ just our 50-ticker watchlist.*
   tickers — AAPL(279), MSTR(212), IBKR(128), BRK.B(86), NVDA(87), BEN(78), MSFT(37), GOOG(52),
   PLTR(65), LLY(66), BLK(14). This is the same gap S160-05 below already named ("backfill cleanup
   for historically mistagged docs") — S160-05 undersold its own real impact; it's not "optional,
-  low priority," it's this bug. **Not fixed here, deliberately** — a real fix needs to (a) re-derive
-  the correct `form`/`source_type` per record from its own `filing_discovered` event (not from the
-  broken `source_document_persisted.Form`, which is empty — S160-05's own proposed approach of
-  deriving from `Form` doesn't work on these specific records) and emit a correction, AND (b) fix
-  `internal/newssite/docindex/docindex.go`'s `Ingest` — it's first-write-wins on `Identity`
-  (`if _, exists := idx.byIdentity[doc.Identity]; exists { return nil }`), so appending a corrected
-  event alone would be silently ignored by newssite's own index even after the event-store fix.
-  Two real code changes, not a data-only patch — scoping as its own pass rather than rushing
-  a partial fix that only touches one of the two dedup layers. BLK is additionally still blocked
-  independent of this bug (SECTION 175's earlier finding: its watchlist CIK doesn't match SEC's
-  own record of the real trading entity). session: sess-20260813-2154-dda37e8b
-  single-record data problem vs. a systemic query bug.
+  low priority," it's this bug.
+
+  **Fixed 2026-08-14, both real code changes landed** — (a) re-derived the correct `form`/
+  `source_type` per record from its own `filing_discovered` event (which was always correct;
+  S160-05's own proposed approach of deriving from the broken `source_document_persisted.Form`
+  wouldn't have worked, since that field is itself empty on these records — new
+  `cmd/backfill-source-doc-labels` one-shot migration handles this properly, reusing already-
+  fetched `CleanedText` rather than re-fetching from SEC); (b) fixed `internal/newssite/docindex/
+  docindex.go`'s `Ingest` from first-write-wins to last-write-wins on `Identity`, so the
+  correction events actually take effect instead of being silently ignored. 1,104/1,104 records
+  corrected (dry-run and live run matched exactly, 0 no-match). Live-verified end to end: AAPL's
+  ticker page Earnings widget went from "Jan 22, 2008" to "Jan 29, 2026"; NVDA/GOOG/MSTR/IBKR
+  spot-checked correct too. BLK remains separately blocked (SECTION 175's earlier finding: its
+  watchlist CIK doesn't match SEC's own record of the real trading entity — unrelated to this
+  bug). Apple #13603, PRRJECT_FATBABY commit `c9e94be`. session: sess-20260813-2154-dda37e8b
 - [ ] **S166-02: expand ticker coverage beyond the current 50-name watchlist.** Founder request,
   no further spec given yet — real design questions before building: how many more tickers, what
   selection criteria (S&P 500? Russell 1000? founder-curated list?), and whether
