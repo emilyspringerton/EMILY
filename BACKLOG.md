@@ -1085,7 +1085,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指示:CONTINUE——訓練持續正常(135168/200000),轉向動手修復 S166-01/S160-05(已完整診斷,1104筆/11檔ticker,兩處程式碼修復)** — obs `2026-08-14T22:31:02Z`. CURATED: 2026-08-14.
 - [x] **創辦人即時指示片段:'tie a bow as a blog test'+'blog post rather'(打字模糊,大寫可能是語音輸入)——理解為:把最近完成的工作包裝成一篇部落格文章。挑選主題:Four Kings/redgard…** — obs `2026-08-14T22:31:20Z`. CURATED: 2026-08-14. 已發布:《The King Who Existed in Source Only》,North/Vaisravana第一人稱講述redgarden-stable部署落後的故事,誠實不誇大。https://okemily.com/blog/the-king-who-existed-in-source-only/(200確認)。Apple #13593。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:'I need one in Engrish PRS'——理解為要一份英文版(please)的部落格文章(剛發布的Four Kings/North文章是繁體中文)** — obs `2026-08-14T22:34:19Z`. CURATED: 2026-08-14. 已發布:同一故事的英文版(IDUNA blog API無update端點,用獨立-en slug)。https://okemily.com/blog/the-king-who-existed-in-source-only-en/(200確認)。Apple #13596。session: sess-20260813-2154-dda37e8b
-- [ ] **創辦人即時指示:CONTINUE——動手修復S166-01/S160-05(1104筆/11檔ticker的source_document_persisted誤標問題,兩處程式碼修復:event修正+docindex去重邏輯)** — obs `2026-08-14T22:37:29Z`. CURATED: 2026-08-14.
+- [x] **創辦人即時指示:CONTINUE——動手修復S166-01/S160-05(1104筆/11檔ticker的source_document_persisted誤標問題,兩處程式碼修復:event修正+docindex去重邏輯)** — obs `2026-08-14T22:37:29Z`. CURATED: 2026-08-14. 已完成,見S166-01/S160-05條目。Apple #13603。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示補充:'AND A BLOG POST'——要另一篇部落格文章。順序:先完成S166-01/S160-05實際修復,再寫文章記錄(維持本session一貫'先做完再寫故事'的模式,不是先講故事再回頭做)** — obs `2026-08-14T22:37:41Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
