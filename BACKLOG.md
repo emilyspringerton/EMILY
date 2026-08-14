@@ -1019,6 +1019,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time, refining the manifest ask: wants a single text file served LIVE on the okemily.com server containing…** — obs `2026-08-14T00:56:52Z`. CURATED: 2026-08-14. Done: https://okemily.com/blog-manifest.txt live, robots-excluded. IDUNA commit `fde6149`, Apple #13368. Real bug found+fixed along the way: okemily-deploy.sh's rsync --delete wiped it immediately after first generation -- root MONOREPO commit `54fc435`. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: wants a manifest file indexing all repos' files, built as a GitHub Actions artifact (workflow_dispat…** — obs `2026-08-14T00:55:23Z`. CURATED: 2026-08-14. Done: OKEMILY/.github/workflows/repo-manifest.yml + scripts/generate_repo_manifest.py, commit `6af891a`. Requires a MANIFEST_PAT repo secret (cross-repo read access) to actually run -- not something I can set myself; documented in the workflow's own header. session: sess-20260813-2154-dda37e8b
 - [ ] **Answer: yes, movers-watcher has been saving real structured price-action data (market_movers_snapshot events -- price, …** — obs `2026-08-14T00:54:19Z`. CURATED: 2026-08-14.
+- [ ] **Fixed the entity-graph observation-writer collision bug (Apple #13374, PRRJECT_FATBABY commit c0e1932) -- the same clas…** — obs `2026-08-14T01:04:35Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
