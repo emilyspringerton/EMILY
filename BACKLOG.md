@@ -1021,6 +1021,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Answer: yes, movers-watcher has been saving real structured price-action data (market_movers_snapshot events -- price, …** — obs `2026-08-14T00:54:19Z`. CURATED: 2026-08-14.
 - [x] **Fixed the entity-graph observation-writer collision bug (Apple #13374, PRRJECT_FATBABY commit c0e1932) -- the same clas…** — obs `2026-08-14T01:04:35Z`. CURATED: 2026-08-14. Own status-report observation, duplicate of the completion noted above. session: sess-20260813-2154-dda37e8b
 - [x] **Correction to the earlier 'emily backlog curate silently drops valid observations' finding (obs 2026-08-13T22:59:14Z, A…** — obs `2026-08-14T01:05:44Z`. CURATED: 2026-08-14. Resolved: no separate curate-tool bug exists -- fully explained by the now-fixed entity-graph collision bug (Apple #13374). The original obs `2026-08-13T22:59:14Z` never made it into BACKLOG.md either (same collision-era casualty), nothing further to reconcile. session: sess-20260813-2154-dda37e8b
+- [ ] **CANNON: re-investigated for real, found a different blocker than what NORTHSTAR §20.4 named (structures blocker resolve…** — obs `2026-08-14T01:09:25Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
