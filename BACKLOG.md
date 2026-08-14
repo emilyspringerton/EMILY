@@ -3387,15 +3387,18 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
   "GOBLIN FOX DRAGON" text, "● CONNECTING..." blinking. Rendered via SDL2 FillRect + renderBarText.
   Repo: PITVIPER. Apple #3648 · PITVIPER a3e3c15
 
-- [ ] **S127-03: PitViper HITL — sudo apt install libsdl2-dev on dev machine** — SDL2 not installed.
-  Run: `sudo apt-get install -y libsdl2-dev`
-  Then: `GOWORK=off CGO_ENABLED=1 go build ./cmd/pitviper`
-  Test: `./pitviper --gfd localhost:2323`
-  (Human action required — needs sudo.)
+- [x] **S127-03: PitViper HITL — sudo apt install libsdl2-dev on dev machine** — Stale, found
+  2026-08-14: `dpkg -l libsdl2-dev` shows `ii` (already installed, 2.30.0+dfsg-1ubuntu3.1), `pkg-config
+  --exists sdl2` succeeds. `GOWORK=off CGO_ENABLED=1 go build ./cmd/pitviper` builds clean, real
+  8.1MB ELF binary, `--help` runs and lists real flags (`--gfd`, `--gfd-webmaster`, `--shell`,
+  `--version`). Whatever installed this predates this item's own premise -- the sudo blocker no
+  longer applies. session: sess-20260813-2154-dda37e8b
 
-- [ ] **S127-04: PitViper create GitHub remote** — Remote emilyspringerton/PITVIPER not found.
-  Create repo at github.com/emilyspringerton/PITVIPER then: `git push -u origin main`
-  (Human action — needs GitHub repo creation.)
+- [x] **S127-04: PitViper create GitHub remote** — Stale, found 2026-08-14: `git remote -v` shows
+  `origin` already pointing at `git@github.com:emilyspringerton/PITVIPER.git`, `git status -sb`
+  shows `main...origin/main` in sync (no ahead/behind), `github.com/emilyspringerton/PITVIPER`
+  returns 200. Remote was created and synced at some undocumented earlier point -- this item's
+  premise no longer applies. session: sess-20260813-2154-dda37e8b
 
 - [x] **S127-05: PitViper GFD district overlay pane** — Ctrl+D opens a split pane showing live
   district state from IDUNA: district name, FO custody state, alertness level, mood.
