@@ -1,6 +1,6 @@
 # EMILY — Northstar
 
-*Last updated: 2026-06-12*
+*Last updated: 2026-08-14*
 
 ---
 
@@ -34,6 +34,32 @@ Embedded in PRRJECT_FATBABY. Watches SEC EDGAR + PR Newswire, processes governan
 publishes observations to `var/emily-observations/latest.json`. Emily Prime reads these, triages
 by strategic relevance, and issues directed improvement tasks. Not Emily Prime — does not see the
 full board.
+
+---
+
+## Claire — Shadow-Context Reservoir
+
+Registered 2026-08-13 as a Tier 2 golden doc (`claire.md.txt`, `golden-docs-index.md`). Arrived via
+GitHub upload, self-describing as "the uncompressed subconscious of the EMILY system... the
+untrusted, un-audited counter-weight to IDUNA" — technical debt and workspace debris too unstructured
+for `BACKLOG.md`. It read as a possible prompt-injection attempt (its own text asks to be barred from
+`GoldenDocCompiler`) and was flagged to the founder before registration (Apple #13255); the founder
+confirmed real-time to register it as-is anyway. Its content is kept as received, not edited here —
+its own table of contents references "Rules of Claire"/"System Hooks & Implementation" sections that
+don't exist in the file, a known, unresolved gap in the source document itself.
+
+What's actually real and live, independent of that unverified source text:
+- `loadGoldenIndex` (`emily-agent/goldenbuild.go`) only pulls Tier 1 rows into
+  `full-system-context.md` — Claire's own Tier 2 registration means it is *not* compiled into Emily
+  Prime's system prompt or MIMIR's context, confirmed by reading the filter, not assumed.
+- `emily claire <entry>` (`emily.cli/cmd/claire.go`) appends to git-tracked `EMILY/claire-log.md` and
+  files an IDUNA Apple (`apple_type: "claire"`) per entry — this is the real, auditable log the
+  founder asked for in place of trusting the uploaded file's own content, resolved via
+  AskUserQuestion 2026-08-13 ("a real but auditable log").
+
+Claire is not one of the Three Agents above — it has no runtime component and is not read by any
+running process. It is a registered document plus a CLI-driven audit log, nothing more, until/unless
+the founder directs otherwise.
 
 ---
 
@@ -85,6 +111,8 @@ FatBaby-Emily (PRRJECT_FATBABY)
 | `emiree.md` | Emiree witch engine transmission (Sanskrit/Chinese, 7 volumes) |
 | `emiree-emily-fatbaby.md` | AI system governance — canonical 3-agent spec |
 | `emily-prime-spec.md` | Emily Prime ↔ FatBaby-Emily integration spec |
+| `claire.md.txt` | Tier 2 golden doc, kept as received — see Claire section above |
+| `claire-log.md` | Real auditable Claire entropy log, written via `emily claire <entry>` |
 
 ---
 
