@@ -1,4 +1,5 @@
 ## 2026-08-14
+- goldenbuild: fallback entries(500字元截斷版)從沒被自動重試的bug修復,71%的golden context來源受影響。IsFallback欄位+Build/MaybeRebuild兩處判斷修正。commit 70b1857。 (sess-20260813-2154-dda37e8b)
 - S175-04 完成:開放資料釋出 teaser 部落格文章已發布(繁中/梵文/英譯三語),https://okemily.com/blog/the-thread-not-yet-cut/ (sess-20260813-2154-dda37e8b)
 - docs/NORTHSTAR.md: added Claire section (Tier 2 golden doc, excluded from GoldenDocCompiler by tier filter, real emily claire CLI + claire-log.md audit trail); Key Files table updated. (sess-20260813-2154-dda37e8b)
 
