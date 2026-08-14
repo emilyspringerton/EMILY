@@ -5339,11 +5339,13 @@ Audit found the exact fallback already exists, well-built — it's just not prod
   `go.mod` checksum for `golang.org/x/sys` v0.46.0, silently blocking `go build ./cmd/newssite`
   entirely) — purely additive, no dependency version changed. Live-verified: both routes 200,
   nav shows the new label. PRRJECT_FATBABY `eee221d`. Apple #12397.
-- [ ] **S160-05: backfill cleanup for historically mistagged docs** (optional, low priority) — a
-  one-off migration could re-derive `source_type` for already-persisted `source_document_persisted`
-  events from their `Form` field and emit correction events, cleaning up `/wire`'s existing
-  contamination instead of just waiting for it to age out. Not urgent; new content is already
-  correct as of S160-03.
+- [ ] **S160-05: backfill cleanup for historically mistagged docs** — **priority raised
+  2026-08-14, was wrongly filed as "optional, low priority."** This is the real root cause of
+  S166-01 (earnings widget showing 2003/2008-era dates on ticker pages) — not just `/wire`
+  cosmetic contamination. Full scope measured: 1,104 records / 11 tickers, see S166-01's writeup
+  for the complete chain and the two-part real fix (event-store correction + `docindex.Ingest`'s
+  first-write-wins dedup, which silently swallows a correction event unless also fixed). Scoping
+  as one combined pass with S166-01 rather than two separate tickets touching the same records.
 
 ---
 
@@ -5611,16 +5613,45 @@ just our 50-ticker watchlist.*
 
 *Three rapid-fire asks, captured per founder instruction to keep backlogging even mid-burst.*
 
-- [ ] **S166-01: earnings widget is showing stale/wrong dates, not real data.** Founder: "ticker
+- [ ] **S166-01: earnings widget is showing stale/wrong dates, not real data. ROOT CAUSE FOUND
+  2026-08-14, not fixed yet — real fix needs its own pass, see below.** Founder: "ticker
   page earnings widget should show the actual earnings data." Live-checked
   `curl localhost:8082/ticker/AAPL`: the Earnings sidebar box shows **"Jan 22, 2008 — Q1 2008"**
   and **"Oct 15, 2003 — FY 2003"** — two records 18-23 years stale, no upcoming date at all.
   SECTION 154 (S154-02) claimed this was fixed 2026-07-18 ("next upcoming + up to 4 most recent
   past report dates") — that claim does not match live behavior right now, whether from
-  regression or a query/sort bug that was never actually correct for every ticker. Root cause not
-  yet investigated — likely a sort-direction or date-comparison bug in whatever
-  `earningscal.Store` query populates this widget (`internal/newssite/handler.go`/`render.go`,
-  `serveTicker`'s earnings panel). Check other tickers too, not just AAPL, before assuming a
+  regression or a query/sort bug that was never actually correct for every ticker. Check other
+  tickers too, not just AAPL, before assuming a
+
+  **Full root-cause chain, traced end to end (not guessed):** `earningscal`'s 8-K source
+  (`cmd/earnings-calendar/main.go`) requires `source_document_persisted.Form == "8-K"` (or
+  `SourceType == "sec_8k"`) plus `Item 2.02`/`Results of Operations` text to derive a confirmed
+  report date. For AAPL, every `source_document_persisted` record has `form: ""` and
+  `source_type: "press_release"` — even though the *originating* `filing_discovered` event
+  (verified directly against the live event store, unmarshaled with the current code) correctly
+  carries `form_type: "8-K"`. Traced to: on 2026-05-30, `processor` persisted these records with
+  the pre-S160-01 `sourceTypeForForm` logic, whose default branch mislabeled anything it didn't
+  correctly read as `form` as `"press_release"` (this is the exact bug S160-01, 2026-07-19, fixed
+  going forward — but never backfilled what it had already written). Those bad records are
+  permanently stuck: `processor`'s own `seen.hasSource`/`sourceDocumentExists` dedup means a
+  correctly-labeled record is never regenerated for an identity that already has one, no matter
+  how wrong. **Measured full scope, not just AAPL's 6 earnings-affected tickers**: 1,104 of
+  13,744 `source_document_persisted` records (real SEC filings under
+  `https://www.sec.gov/Archives/...`, mislabeled `press_release` with empty `form`) across 11
+  tickers — AAPL(279), MSTR(212), IBKR(128), BRK.B(86), NVDA(87), BEN(78), MSFT(37), GOOG(52),
+  PLTR(65), LLY(66), BLK(14). This is the same gap S160-05 below already named ("backfill cleanup
+  for historically mistagged docs") — S160-05 undersold its own real impact; it's not "optional,
+  low priority," it's this bug. **Not fixed here, deliberately** — a real fix needs to (a) re-derive
+  the correct `form`/`source_type` per record from its own `filing_discovered` event (not from the
+  broken `source_document_persisted.Form`, which is empty — S160-05's own proposed approach of
+  deriving from `Form` doesn't work on these specific records) and emit a correction, AND (b) fix
+  `internal/newssite/docindex/docindex.go`'s `Ingest` — it's first-write-wins on `Identity`
+  (`if _, exists := idx.byIdentity[doc.Identity]; exists { return nil }`), so appending a corrected
+  event alone would be silently ignored by newssite's own index even after the event-store fix.
+  Two real code changes, not a data-only patch — scoping as its own pass rather than rushing
+  a partial fix that only touches one of the two dedup layers. BLK is additionally still blocked
+  independent of this bug (SECTION 175's earlier finding: its watchlist CIK doesn't match SEC's
+  own record of the real trading entity). session: sess-20260813-2154-dda37e8b
   single-record data problem vs. a systemic query bug.
 - [ ] **S166-02: expand ticker coverage beyond the current 50-name watchlist.** Founder request,
   no further spec given yet — real design questions before building: how many more tickers, what
