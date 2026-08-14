@@ -1064,9 +1064,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示:then continue** — obs `2026-08-14T20:50:14Z`. CURATED: 2026-08-14. 已完成:REDGARDEN/gpt2-alpine-c皆無新checkpoint;已啟動新一輪 --autocurriculum+--noisy-gestalt 訓練(200K timesteps,背景執行中)。Apple #13555,REDGARDEN commit `d8dfff0`。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示補充:檢查完現有訓練狀態後,啟動新一輪 autocurriculum 訓練** — obs `2026-08-14T20:50:48Z`. CURATED: 2026-08-14. 已完成:REDGARDEN/gpt2-alpine-c皆無新checkpoint;已啟動新一輪 --autocurriculum+--noisy-gestalt 訓練(200K timesteps,背景執行中)。Apple #13555,REDGARDEN commit `d8dfff0`。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示補充:同時檢查有沒有新的模型(model checkpoints)產出** — obs `2026-08-14T20:50:33Z`. CURATED: 2026-08-14. 已完成:REDGARDEN/gpt2-alpine-c皆無新checkpoint;已啟動新一輪 --autocurriculum+--noisy-gestalt 訓練(200K timesteps,背景執行中)。Apple #13555,REDGARDEN commit `d8dfff0`。session: sess-20260813-2154-dda37e8b
-- [ ] **創辦人即時指示片段:'then'(可能未打完,持續等待更多內容;同時依既有'unblocked revenue順序'方向繼續推進 S175-03)** — obs `2026-08-14T20:58:40Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:continue(確認'then continue'——繼續推進,S175-03開放資料釋出規劃)** — obs `2026-08-14T20:58:46Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示片段:'backlog'(組合成'then continue backlog'——重申照backlog/unblocked revenue順序繼續,非新方向)** — obs `2026-08-14T20:58:56Z`. CURATED: 2026-08-14.
+- [x] **創辦人即時指示片段:'then'(可能未打完,持續等待更多內容;同時依既有'unblocked revenue順序'方向繼續推進 S175-03)** — obs `2026-08-14T20:58:40Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示:continue(確認'then continue'——繼續推進,S175-03開放資料釋出規劃)** — obs `2026-08-14T20:58:46Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示片段:'backlog'(組合成'then continue backlog'——重申照backlog/unblocked revenue順序繼續,非新方向)** — obs `2026-08-14T20:58:56Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
