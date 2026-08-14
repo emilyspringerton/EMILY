@@ -1057,8 +1057,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示:優先確保發布成功,以防之後遇到 rate limit——現在立即動手寫並發布繁中/梵文/英譯三語 teaser 文章** — obs `2026-08-14T02:06:26Z`. CURATED: 2026-08-14. 已完成,併入 S175-04(Apple #13456)。
 - [x] **創辦人即時指示:continue(繼續處理 backlog 隊列)——鑑於先前 session 額度提醒尚未撤回,優先挑選範圍明確、可在合理時間內完整收斂的項目(S175-05/06 watcher 健康檢查),暫不啟動 S175-01 …** — obs `2026-08-14T02:10:27Z`. CURATED: 2026-08-14. DONE:S175-05/06 完成,Apple #13534。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:continue(打字片段'tinue'/'bitch'/'continue'——催促繼續,無新實質內容)** — obs `2026-08-14T20:30:58Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:Minecraft 端 chat bridge 出錯,顯示需要一組 key,founder 認為這不合理('i think thats bullshit')——立即調查** — obs `2026-08-14T20:32:19Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:確認要修——立即開始調查 chat bridge 的 key 錯誤** — obs `2026-08-14T20:32:26Z`. CURATED: 2026-08-14.
+- [x] **創辦人即時指示:Minecraft 端 chat bridge 出錯,顯示需要一組 key,founder 認為這不合理('i think thats bullshit')——立即調查** — obs `2026-08-14T20:32:19Z`. CURATED: 2026-08-14. 已修復:根因是 Paper enforce-secure-profile,非 GTA7 chat bridge 本身。Apple #13544,commit `14e07c7`。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示:確認要修——立即開始調查 chat bridge 的 key 錯誤** — obs `2026-08-14T20:32:26Z`. CURATED: 2026-08-14. 已修復:根因是 Paper enforce-secure-profile,非 GTA7 chat bridge 本身。Apple #13544,commit `14e07c7`。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:修完 chat bridge 之後,接下來照 backlog 裡'unblocked revenue'順序繼續工作** — obs `2026-08-14T20:35:16Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
