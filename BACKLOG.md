@@ -3565,7 +3565,9 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
 
 - [x] **S132-05: PITVIPER CI workflow committed** — `feat(ci)` · PITVIPER (local) — test + CGO/SDL2 build + construct bundle. Blocked on S127-04 (no GitHub remote).
 
-- [ ] **S132-06: PITVIPER push CI to GitHub** — Blocked on S127-04: create emilyspringerton/PITVIPER repo, then `cd PITVIPER && git push -u origin main`. (Human action.)
+- [x] **S132-06: PITVIPER push CI to GitHub** — Unblocked by this session's S127-04 finding (remote
+  already existed, was already synced). Confirmed: `.github/workflows/ci.yml` is on `origin/main`
+  (commits `9c8f6bb`, `f2e81f1`), nothing further to push. session: sess-20260813-2154-dda37e8b
 
 - [x] **S132-07: Close the remaining CI gaps — GTA7, EDIS, SKULDMARK.** Swept all repos in
   the monorepo (workspace + non-workspace) for missing `.github/workflows`; found 3 real gaps
