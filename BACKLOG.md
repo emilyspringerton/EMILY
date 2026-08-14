@@ -1084,6 +1084,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示,組合完整:'wtf redgarden [n]ew...i dont see em'——founder去REDGARDEN/GFD找Four Kings機制(記憶記錄:Jungle Camps Milestone 5,已p…** — obs `2026-08-14T21:34:18Z`. CURATED: 2026-08-14. 已修復:真正根因是redgarden-stable(GFD Battlegrounds真正部署)自08-10就沒promote,不是Four Kings程式碼本身有問題(REDGARDEN main/GFD fork的Four Kings工作都是真的、測試通過的)。已git pull+rebuild+重啟兩個服務,live確認健康。Apple #13584,REDGARDEN commit `237bf6e`。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:CONTINUE——訓練持續正常(135168/200000),轉向動手修復 S166-01/S160-05(已完整診斷,1104筆/11檔ticker,兩處程式碼修復)** — obs `2026-08-14T22:31:02Z`. CURATED: 2026-08-14.
 - [x] **創辦人即時指示片段:'tie a bow as a blog test'+'blog post rather'(打字模糊,大寫可能是語音輸入)——理解為:把最近完成的工作包裝成一篇部落格文章。挑選主題:Four Kings/redgard…** — obs `2026-08-14T22:31:20Z`. CURATED: 2026-08-14. 已發布:《The King Who Existed in Source Only》,North/Vaisravana第一人稱講述redgarden-stable部署落後的故事,誠實不誇大。https://okemily.com/blog/the-king-who-existed-in-source-only/(200確認)。Apple #13593。session: sess-20260813-2154-dda37e8b
+- [ ] **創辦人即時指示:'I need one in Engrish PRS'——理解為要一份英文版(please)的部落格文章(剛發布的Four Kings/North文章是繁體中文)** — obs `2026-08-14T22:34:19Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
