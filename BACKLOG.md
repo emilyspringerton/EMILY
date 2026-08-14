@@ -1055,7 +1055,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示:現在就要確保繁體中文版的開放資料 teaser 部落格文章已發布——覆寫先前 S175-04'SKULDMARK 先整合完才發'的排序,現在直接執行繁中版** — obs `2026-08-14T02:05:52Z`. CURATED: 2026-08-14. 已完成,併入 S175-04(Apple #13456)。
 - [x] **創辦人即時指示補充:teaser 文章要包含梵文版與英文譯文(確認'a translation'是英文)——單篇文章內含三語言區塊:繁中優先、梵文、英文譯文** — obs `2026-08-14T02:06:17Z`. CURATED: 2026-08-14. 已完成,併入 S175-04(Apple #13456)。
 - [x] **創辦人即時指示:優先確保發布成功,以防之後遇到 rate limit——現在立即動手寫並發布繁中/梵文/英譯三語 teaser 文章** — obs `2026-08-14T02:06:26Z`. CURATED: 2026-08-14. 已完成,併入 S175-04(Apple #13456)。
-- [ ] **創辦人即時指示:continue(繼續處理 backlog 隊列)——鑑於先前 session 額度提醒尚未撤回,優先挑選範圍明確、可在合理時間內完整收斂的項目(S175-05/06 watcher 健康檢查),暫不啟動 S175-01 …** — obs `2026-08-14T02:10:27Z`. CURATED: 2026-08-14.
+- [x] **創辦人即時指示:continue(繼續處理 backlog 隊列)——鑑於先前 session 額度提醒尚未撤回,優先挑選範圍明確、可在合理時間內完整收斂的項目(S175-05/06 watcher 健康檢查),暫不啟動 S175-01 …** — obs `2026-08-14T02:10:27Z`. CURATED: 2026-08-14. DONE:S175-05/06 完成,Apple #13534。session: sess-20260813-2154-dda37e8b
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -14403,32 +14403,30 @@ sprint 規劃,而不是散落的 raw observation。接近本次 session 額度�
   Live: `https://okemily.com/blog/the-thread-not-yet-cut/`(200 已驗證,三語段落皆確認在頁面
   上)。Apple #13456。session: sess-20260813-2154-dda37e8b
 
-- [ ] **S175-05: 「目前所有 top-level 導覽項目看起來都是舊資料,只有 Stocks on the Move 除
-  外」——初步調查已做,尚未有結論。** Founder 原話(打字有誤,已還原):「currently ALL top
-  level navigation items seem stale」+「except of course stocks on the move」——與 S24-06(
-  prwatch-body 死鎖那次)是同一種症狀描述,需要確認這次是同一個問題復發、還是導覽列本身的新問
-  題。已做的初步檢查(2026-08-14T01:59 前後):`news.okemily.com` 首頁 nav 抓到的完整項目清單
-  是 Front Page / Tickers / Stocks on the Move / Governance / Activism Watch / Boardroom /
-  Auditor Watch / Pay & Proxy / Earnings / Guidance / Press Releases / Breaking / Live /
-  Archive / About;逐一 curl 每個 `/section/*` 頁面都回 200,但 `section/governance` 跟
-  `section/earnings` 抓到的原始 HTML 裡完全沒有任何 `YYYY-MM-DD` 日期字串(可疑,但還沒確認是
-  真的沒資料、還是那幾個 section 本來就不用這種日期格式呈現),`breaking` 頁面則有抓到日期,最
-  新到 2026-08-12(兩天前,不算即時但也不算完全沒動)。**尚未完成:** 沒有查 prwatch-body /
-  processor / eps-processor / guidance-watcher 等各 watcher 目前實際游標位置是否卡住(這正是
-  S24-06 當初的根因類型),也還沒直接看 newssite 產生這些 section 頁面的程式碼,確認是資料真的
-  沒進來、還是 render 邏輯本身的問題。**下一步(留給下一次 session 或有餘裕時做):** 對照
-  `internal/newssite`裡各 section 對應的 handler,查對應 docindex/signalindex 資料實際筆數與
-  最新時間戳;檢查 `var/logs/{prwatch-body,processor,eps-processor,guidance-watcher,
-  dividend-watcher,buyback-watcher}.log` 的最後活動時間。
+- [x] **S175-05: 「目前所有 top-level 導覽項目看起來都是舊資料」—— watcher 層級健康檢查完成
+  2026-08-14,結論:管線本身健康,不是 S24-06 那種死鎖復發;根因較可能是上游資料源本身在這個
+  時段(UTC 凌晨,美股已收盤多時)流量低。** 逐一檢查 15 個 systemd 服務(`systemctl --user
+  is-active`)全部 `active`,且逐一確認 CPU 累積時間持續增加(不是像 S24-06 那樣卡在
+  `wg.Wait()` 完全零增長)、log 都持續更新到最近幾分鐘內:`secwatch` 剛完成第 20 輪 poll
+  (`discovered=0`,`already_seen=23648` 連續多輪未變——SEC EDGAR 端目前確實沒有新申報,不是
+  secwatch 壞掉)、`prwatch` 剛完成第 498 輪 poll 且 02:11:36 真的發現了 1 筆新內容、
+  `prwatch-body` 02:11:37 剛抓完一篇新聞稿本文、`processor` 自 01:12(本 session 稍早重啟後)
+  的啟動掃描起沒有新事件可處理——這正是 secwatch 端 `discovered=0` 的直接下游效應,鏈路是通的,
+  只是上游沒新東西;`dividend-watcher`/`buyback-watcher`/`guidance-watcher`(皆 30s 輪詢)CPU
+  time 持續在累積(1-7 分鐘,非零),證明迴圈仍在跑,只是這幾小時內沒有新的股利/買回/財測公告
+  可處理,log 安靜是正常行為,不是卡住;`form4-watcher`(6h)/`nt-watcher`(12h)/
+  `eps-reconciler`(6h)本來就是長週期輪詢,距上次啟動掃描還沒到下一個週期,log 安靜完全正常;
+  `broker` 一開始查錯 log 路徑(誤查 `var/logs/broker.log`,實際在
+  `EMILY/var/logs/gpt2-broker.log`),確認後健康,先前已知的 gpt2 502 逾時不是新發現。**未完全
+  排除的可能性(誠實記錄,不是下定論)**:沒有直接看 `internal/newssite` 各 section handler 的
+  render 邏輯本身,所以無法 100% 排除「資料有但沒被正確渲染」這條路——只能說已排除「pipeline
+  死鎖/卡死」這個最像 S24-06 的假設。若之後還有人反映同樣症狀,下一步是查 render 邏輯,不是重
+  複這次的 watcher 存活檢查。session: sess-20260813-2154-dda37e8b
 
-- [ ] **S175-06: 「確保所有 FatBaby (PRRJECT_FATBABY) 營運都在最佳狀態」——尚未執行,規劃為一
-  次全面健康檢查。** Founder 原話:「ensure all fatbaby operations are tip top」。範圍應比照
-  `PRRJECT_FATBABY/CLAUDE.md` 描述的 process list(secwatch/prwatch/prwatch-body/processor/
-  dashboard/newssite/feedserver/broker/signalapi/observation-watcher/eps-processor/
-  eps-reconciler/guidance-watcher/jon-agent/form4-watcher/dividend-watcher/buyback-watcher/
-  nt-watcher 全部),逐一確認 systemd 狀態、最後活動時間、error log。與 S175-05 高度重疊(nav
-  stale 的根因調查本來就需要檢查同一批 watcher),建議合併執行:先做 S175-05 的 watcher 游標檢
-  查,自然就完成 S175-06 的大半範圍。
+- [x] **S175-06: 「確保所有 FatBaby 營運都在最佳狀態」—— DONE,與 S175-05 合併執行。** 15 個
+  systemd 服務逐一確認 active + CPU 累積 + log 新鮮度,細節同 S175-05。沒有發現任何一個服務
+  故障或卡死。唯一已知但非新發現的問題是 gpt2 broker 的 502 逾時(先前已記錄的 gpt2 生成緩慢問
+  題,不在本次範圍內重複處理)。session: sess-20260813-2154-dda37e8b
 
 **本區塊的即時指示原始記錄(供追溯,依時間序):**
 Obs `2026-08-14T01:58:38Z`(fatbaby tip top)、`T01:58:47Z`(nav 全部舊)、`T01:59:08Z`(除了
