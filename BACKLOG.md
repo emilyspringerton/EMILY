@@ -4761,11 +4761,11 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   immediately after use, never left as plaintext). Live-verified end-to-end: real subscribe request
   → encrypted row in `var/mailinglist.db` → `mailchimp_synced = 1`, no error logged. Apple #9958.
 
-- [ ] **S153-04: HTTPS for okemily.com** — `~/certbot_okemily.sh` is written and ready; founder
-  hasn't run it yet as of this writing. Also still open: `iduna.farthq.com` itself has no HTTPS
-  cert (pre-existing gap, HQ-SPEC-INFRA-105 S151-04) — not blocking S153 since the mailing-list
-  form was deliberately routed same-origin through `okemily.com`'s own nginx `/api/` proxy instead
-  of depending on that.
+- [x] **S153-04: HTTPS for okemily.com** — Stale, confirmed live 2026-08-14: real cert issued
+  (`notBefore=Jul 17 23:25:47 2026 GMT`, `notAfter=Oct 15 23:25:46 2026 GMT`), `curl -I
+  https://okemily.com/` returns 200. Ran at some undocumented earlier point after this item was
+  written. `iduna.farthq.com` HTTPS gap (S151-04) is separate and still open, unrelated to this
+  item. session: sess-20260813-2154-dda37e8b
 
 - [x] **S153-05: `emily key` CLI command for writing secrets to env files** — generalized beyond
   hardcoded `ANTHROPIC_API_KEY`: `emily key set <NAME> <VALUE> [--target emily|iduna] [--file
