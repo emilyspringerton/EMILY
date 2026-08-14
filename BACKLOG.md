@@ -1060,10 +1060,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示:Minecraft 端 chat bridge 出錯,顯示需要一組 key,founder 認為這不合理('i think thats bullshit')——立即調查** — obs `2026-08-14T20:32:19Z`. CURATED: 2026-08-14. 已修復:根因是 Paper enforce-secure-profile,非 GTA7 chat bridge 本身。Apple #13544,commit `14e07c7`。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:確認要修——立即開始調查 chat bridge 的 key 錯誤** — obs `2026-08-14T20:32:26Z`. CURATED: 2026-08-14. 已修復:根因是 Paper enforce-secure-profile,非 GTA7 chat bridge 本身。Apple #13544,commit `14e07c7`。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:修完 chat bridge 之後,接下來照 backlog 裡'unblocked revenue'順序繼續工作** — obs `2026-08-14T20:35:16Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:檢查 REDGARDEN 的 exotic training(noisy-gestalt/autocurriculum等)是否真的在跑——先完成手上 SKULDMARK 收尾(已接近完成),再處理這個** — obs `2026-08-14T20:50:26Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:then continue** — obs `2026-08-14T20:50:14Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示補充:檢查完現有訓練狀態後,啟動新一輪 autocurriculum 訓練** — obs `2026-08-14T20:50:48Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示補充:同時檢查有沒有新的模型(model checkpoints)產出** — obs `2026-08-14T20:50:33Z`. CURATED: 2026-08-14.
+- [x] **創辦人即時指示:檢查 REDGARDEN 的 exotic training(noisy-gestalt/autocurriculum等)是否真的在跑——先完成手上 SKULDMARK 收尾(已接近完成),再處理這個** — obs `2026-08-14T20:50:26Z`. CURATED: 2026-08-14. 已完成:REDGARDEN/gpt2-alpine-c皆無新checkpoint;已啟動新一輪 --autocurriculum+--noisy-gestalt 訓練(200K timesteps,背景執行中)。Apple #13555,REDGARDEN commit `d8dfff0`。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示:then continue** — obs `2026-08-14T20:50:14Z`. CURATED: 2026-08-14. 已完成:REDGARDEN/gpt2-alpine-c皆無新checkpoint;已啟動新一輪 --autocurriculum+--noisy-gestalt 訓練(200K timesteps,背景執行中)。Apple #13555,REDGARDEN commit `d8dfff0`。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示補充:檢查完現有訓練狀態後,啟動新一輪 autocurriculum 訓練** — obs `2026-08-14T20:50:48Z`. CURATED: 2026-08-14. 已完成:REDGARDEN/gpt2-alpine-c皆無新checkpoint;已啟動新一輪 --autocurriculum+--noisy-gestalt 訓練(200K timesteps,背景執行中)。Apple #13555,REDGARDEN commit `d8dfff0`。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示補充:同時檢查有沒有新的模型(model checkpoints)產出** — obs `2026-08-14T20:50:33Z`. CURATED: 2026-08-14. 已完成:REDGARDEN/gpt2-alpine-c皆無新checkpoint;已啟動新一輪 --autocurriculum+--noisy-gestalt 訓練(200K timesteps,背景執行中)。Apple #13555,REDGARDEN commit `d8dfff0`。session: sess-20260813-2154-dda37e8b
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
