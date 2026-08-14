@@ -14411,13 +14411,46 @@ sprint 規劃,而不是散落的 raw observation。接近本次 session 額度�
 - [ ] **S175-03: 開放資料釋出(open release),對象是研究者與產業界,徵求 feedback。**
   Founder 原話:「we are going to publish our data」+「we are going to do an open release for
   feedback from researchers and industry」。SKULDMARK 會是這次釋出的 ID 標準格式
-  (Obs `2026-08-14T02:00:50Z`)。**明確要求:S175-01(SKULDMARK 真的接進 intake)必須先完成,
-  這個項目才能動。** 範圍留待 S175-01 完成後再細部規劃(哪些資料表、什麼授權條款、透過什麼管道
-  釋出),現在不猜測細節。**「資料量多大」的直接回答(2026-08-14 實測,不是估計)**:
-  `PRRJECT_FATBABY/var/secwatch`(核心 event store)共 657MB、119,940 筆事件、42 個每日分片檔
-  案,時間範圍 2026-05-30 至今;整個 `var/` 目錄(含所有 watcher 的衍生資料、索引、checkpoint)
-  共 1.4GB。這只是 event store 原始大小,還沒算 MySQL/MongoDB projection 或未來釋出格式會是
-  多大。
+  (Obs `2026-08-14T02:00:50Z`)。S175-01(SKULDMARK 真的接進 intake)已完成,前置依賴解除。
+  **「資料量多大」的直接回答(2026-08-14 實測,不是估計)**:`PRRJECT_FATBABY/var/secwatch`
+  (核心 event store)共 657MB、119,940 筆事件、42 個每日分片檔案,時間範圍 2026-05-30 至今;
+  整個 `var/` 目錄(含所有 watcher 的衍生資料、索引、checkpoint)共 1.4GB。
+
+  **初步規劃草案(2026-08-14,基於真實資料分佈,非猜測)——需要 founder 拍板,不自行決定:**
+
+  Event store 真實事件類型分佈(`var/secwatch`,一次真實掃描):
+  `signal_failed` 77,542、`filing_discovered` 23,221、`source_document_persisted` 13,744、
+  `signal_generated` 5,335、`bond_yield_observed` 80、`market_movers_snapshot` 22。
+
+  按類型評估公開適合度(誠實列選項,不擅自拍板):
+  - **推薦優先公開:`signal_generated`**(5,335 筆)——完全是我們自己的衍生分析(governance
+    signal 分類、重要性分數、情緒分數、影響分析摘要),不含任何第三方受版權內容逐字複製,法律
+    風險最低,也最能展示分析能力本身(真實範例已核對:`{"ticker":"COP","signal_type":
+    "MaterialEvent","importance":7,"summary":"8-K filed...","impact_analysis":"Classified by
+    form/source type only..."}`)。
+  - **公開前需要先過一輪確認:`source_document_persisted`**(13,744 筆)——內含清洗過的
+    press release 全文,SEC filing 原文本身屬公開領域風險低,但 PR Newswire 新聞稿全文的
+    重新散布權限未經法務確認,不該未經 review 就公開逐字全文。
+  - **不建議公開:`signal_failed`**(77,542 筆)——系統內部錯誤/失敗紀錄,公開會洩漏我們自己
+    pipeline 的實作細節與已知弱點,對外部使用者也沒有價值。
+  - `filing_discovered`(23,221 筆)——純 metadata(ticker/CIK/表單類型/時間),風險低,可視為
+    `signal_generated` 的補充索引一起考慮。
+
+  授權條款選項(常見選項列出,由 founder 選,不預設):CC-BY 4.0(允許商用,要求署名)/
+  CC-BY-NC 4.0(禁止商用,適合擔心競爭者直接拿去用的情況)/自訂條款(例如要求標註來源
+  + 限研究/非競爭用途)。
+
+  釋出管道選項:GitHub Release(tarball/CSV/JSON,簡單但版本管理笨重)/Hugging Face Datasets
+  (對 ML/研究社群曝光度最高,原生版本化+串流讀取,最貼合「對 researchers」這個訴求)/
+  公開唯讀 API endpoint(即時但要考慮 rate limit/濫用防範,可仿照 `signalapi` 現有架構開一個
+  公開唯讀 mirror)。
+
+  **需要 founder 拍板的具體問題(規劃到此為止,不擅自選一個方案就動工):**
+  (1) 只公開 `signal_generated`(+ `filing_discovered` 索引),還是也要包含 `source_document_
+  persisted`(需要先確認 PR Newswire 版權)? (2) 選哪個授權條款? (3) 主要透過哪個管道釋出,
+  可以多個並行? (4) 要不要先跑一輪 PII/敏感資料 review(目前掃過的欄位看起來都是公開金融資訊,
+  沒有個資疑慮,但沒有正式覆核過)?
+  session: sess-20260813-2154-dda37e8b
 
 - [x] **S175-04: 部落格預告開放資料釋出。DONE 2026-08-14。**
   原本排序是「SKULDMARK(S175-01)要先整合完才發預告」,但 founder 隨後明確覆寫此排序,直接
