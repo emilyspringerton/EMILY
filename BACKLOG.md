@@ -14346,6 +14346,89 @@ first, open design questions last.
 
 ---
 
+## SECTION 175: SKULDMARK 全面接入 + 開放資料釋出 (2026-08-14)
+
+*本區塊把 2026-08-14 深夜一連串即時指示(Obs `2026-08-14T01:59:22Z` 起共 10+ 則)整理成正式
+sprint 規劃,而不是散落的 raw observation。接近本次 session 額度上限時收到指示,先規劃、不動
+工大型實作,細節見各子項。*
+
+- [ ] **S175-01: SKULDMARK v1 接入所有 intake 端點,且要盡量在 pipeline 最早期做 tickerize。**
+  `SKULDMARK/skuldmark.go` 已有完整、有測試的 `Encode(Instrument{MIC, Symbol, CIK})` 參考實作
+  (public domain),但目前完全沒有任何程式碼在用它——`README.md` 自己也寫明「the natural next
+  step if this is adopted, not assumed here」。`PRRJECT_FATBABY/internal/identity.SecurityRef`
+  已經有 Exchange/Symbol/CIK 三個欄位,但沒有 Exchange→MIC(ISO 10383)對照表,也沒有任何地方
+  真的去 mint 一組 25 碼 ID。範圍:(a) 新增一個 adapter package(例如
+  `internal/skuldmarkid`)把 `SecurityRef` 轉成 `skuldmark.Instrument` 並呼叫 `Encode`;
+  (b) 接進最早的兩個 intake 進入點——`cmd/secwatch`(SEC EDGAR discovery,CIK 是 EDGAR 本來就
+  有的)、`cmd/prwatch`(PR Newswire discovery,CIK 不一定馬上有,需要處理缺值情況);
+  (c) SKULDMARK 目前不在 `go.work` workspace 內(是獨立倉庫),需要決定用 `go.work use` 納入還
+  是走 `replace` directive,兩者都要先跟 CLAUDE.md 的「Non-Workspace Repos」表格對一下,不要
+  無聲改變它現在的定位。要求「v1 not v0」——做真的、完整的接線,不是 stub。
+  **狀態:規劃完成,尚未動工**(founder 明確指示 SKULDMARK 要先完成整合,才能做 S175-02 的公開
+  釋出/部落格預告)。
+
+- [ ] **S175-02: 用資料庫技術加速 SKULDMARK 查詢(index/projection)。明確列為 roadmap 項目,不
+  急。** Founder 原話:「mongo postgres mysql whatever」+「indexes etc」+「projections」——不
+  挑資料庫,但要有正確索引。天然銜接點是既有的 S20 CQRS 架構(`internal/mongowriter`、
+  `cmd/projector` → MySQL `governance_signals`/`entity_timeline`):等 S175-01 真的開始產生
+  SKULDMARK ID 之後,在這些既有 projection 加一個 `skuldmark_id` 欄位 + index,並視需要在
+  `internal/apiserver`(參考 `/v1/eps/{ticker}` 的既有寫法)加一個用 SKULDMARK ID 查詢的端點。
+  **依賴 S175-01 先落地,現在不動工。**
+
+- [ ] **S175-03: 開放資料釋出(open release),對象是研究者與產業界,徵求 feedback。**
+  Founder 原話:「we are going to publish our data」+「we are going to do an open release for
+  feedback from researchers and industry」。SKULDMARK 會是這次釋出的 ID 標準格式
+  (Obs `2026-08-14T02:00:50Z`)。**明確要求:S175-01(SKULDMARK 真的接進 intake)必須先完成,
+  這個項目才能動。** 範圍留待 S175-01 完成後再細部規劃(哪些資料表、什麼授權條款、透過什麼管道
+  釋出),現在不猜測細節。**「資料量多大」的直接回答(2026-08-14 實測,不是估計)**:
+  `PRRJECT_FATBABY/var/secwatch`(核心 event store)共 657MB、119,940 筆事件、42 個每日分片檔
+  案,時間範圍 2026-05-30 至今;整個 `var/` 目錄(含所有 watcher 的衍生資料、索引、checkpoint)
+  共 1.4GB。這只是 event store 原始大小,還沒算 MySQL/MongoDB projection 或未來釋出格式會是
+  多大。
+
+- [ ] **S175-04: 部落格預告開放資料釋出。明確排在 S175-01/S175-03 之後,現在先不寫。**
+  Founder 原話:「tease it on the blog」,但緊接著澄清「has to be integrated first」——先讓
+  SKULDMARK 真的落地,才發預告文,不要空頭支票先發出去。
+
+- [ ] **S175-05: 「目前所有 top-level 導覽項目看起來都是舊資料,只有 Stocks on the Move 除
+  外」——初步調查已做,尚未有結論。** Founder 原話(打字有誤,已還原):「currently ALL top
+  level navigation items seem stale」+「except of course stocks on the move」——與 S24-06(
+  prwatch-body 死鎖那次)是同一種症狀描述,需要確認這次是同一個問題復發、還是導覽列本身的新問
+  題。已做的初步檢查(2026-08-14T01:59 前後):`news.okemily.com` 首頁 nav 抓到的完整項目清單
+  是 Front Page / Tickers / Stocks on the Move / Governance / Activism Watch / Boardroom /
+  Auditor Watch / Pay & Proxy / Earnings / Guidance / Press Releases / Breaking / Live /
+  Archive / About;逐一 curl 每個 `/section/*` 頁面都回 200,但 `section/governance` 跟
+  `section/earnings` 抓到的原始 HTML 裡完全沒有任何 `YYYY-MM-DD` 日期字串(可疑,但還沒確認是
+  真的沒資料、還是那幾個 section 本來就不用這種日期格式呈現),`breaking` 頁面則有抓到日期,最
+  新到 2026-08-12(兩天前,不算即時但也不算完全沒動)。**尚未完成:** 沒有查 prwatch-body /
+  processor / eps-processor / guidance-watcher 等各 watcher 目前實際游標位置是否卡住(這正是
+  S24-06 當初的根因類型),也還沒直接看 newssite 產生這些 section 頁面的程式碼,確認是資料真的
+  沒進來、還是 render 邏輯本身的問題。**下一步(留給下一次 session 或有餘裕時做):** 對照
+  `internal/newssite`裡各 section 對應的 handler,查對應 docindex/signalindex 資料實際筆數與
+  最新時間戳;檢查 `var/logs/{prwatch-body,processor,eps-processor,guidance-watcher,
+  dividend-watcher,buyback-watcher}.log` 的最後活動時間。
+
+- [ ] **S175-06: 「確保所有 FatBaby (PRRJECT_FATBABY) 營運都在最佳狀態」——尚未執行,規劃為一
+  次全面健康檢查。** Founder 原話:「ensure all fatbaby operations are tip top」。範圍應比照
+  `PRRJECT_FATBABY/CLAUDE.md` 描述的 process list(secwatch/prwatch/prwatch-body/processor/
+  dashboard/newssite/feedserver/broker/signalapi/observation-watcher/eps-processor/
+  eps-reconciler/guidance-watcher/jon-agent/form4-watcher/dividend-watcher/buyback-watcher/
+  nt-watcher 全部),逐一確認 systemd 狀態、最後活動時間、error log。與 S175-05 高度重疊(nav
+  stale 的根因調查本來就需要檢查同一批 watcher),建議合併執行:先做 S175-05 的 watcher 游標檢
+  查,自然就完成 S175-06 的大半範圍。
+
+**本區塊的即時指示原始記錄(供追溯,依時間序):**
+Obs `2026-08-14T01:58:38Z`(fatbaby tip top)、`T01:58:47Z`(nav 全部舊)、`T01:59:08Z`(除了
+stocks on the move)、`T01:59:22Z`(SKULDMARK 接進 intake)、`T01:59:32Z`(盡早 tickerize)、
+`T01:59:38Z`(SKULDMARK 強調重申)、`T02:00:00Z`(資料庫技術)、`T02:00:06Z`(不挑資料庫+index)、
+`T02:00:17Z`(projections/also)、`T02:00:22Z`(要公開釋出資料+資料量多大)、`T02:00:27Z`(部落
+格預告)、`T02:00:43Z`(對象是研究者與產業界)、`T02:00:50Z`(SKULDMARK 是 ID 標準)、
+`T02:00:58Z`(SKULDMARK 要先整合)、`T02:01:04Z`(v1 not v0)、`T02:01:57Z`×3(session 額度上
+限提醒 + 改繁體中文 + 要求全部進 backlog sprint 規劃)、`T02:02:05Z`(sprint 項目本身也要繁體
+中文)。session: sess-20260813-2154-dda37e8b
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
