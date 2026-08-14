@@ -3699,6 +3699,12 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
   #12708.
 
 - [ ] **S135-03: EDIS WooCommerce product listing** — Add sticker SKUs to EDIS WordPress instance. WooCommerce: individual sticker pack ($8), full VS0 set ($22), international shipping matrix. Payment via existing Stripe integration. Emily Prime can create products via EDIS API or `emily install --edis` flow.
+  **BLOCKED, confirmed 2026-08-14** — this item's own premise ("Emily Prime can create products
+  via EDIS API") doesn't hold: no sudo password for `www-data`, `wp-config.php` is `600`/
+  `www-data`-owned, no WooCommerce REST API consumer key/secret found anywhere in EDIS or IDUNA
+  vault (vault itself locked, no documented unlock credential). Apple #13349. S135-04/05 also
+  blocked transitively (vendor selection is a named "Emily (human)" decision per the brief, not
+  Emily Prime's to make — see line 1818's S135-02 note).
 
 - [ ] **S135-04: First batch order + QC** — Order 250-unit VS0 batch from selected vendor. QC criteria: registration accuracy <0.5mm, color delta-E <3, adhesive durability (water/UV). Receive, inspect, file Apple with cost basis + margin + drop date. Commit photos to `EMILY/docs/merch/vs0_qc/`.
 
