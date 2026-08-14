@@ -1069,6 +1069,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示:continue(確認'then continue'——繼續推進,S175-03開放資料釋出規劃)** — obs `2026-08-14T20:58:46Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示片段:'backlog'(組合成'then continue backlog'——重申照backlog/unblocked revenue順序繼續,非新方向)** — obs `2026-08-14T20:58:56Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:continue(繼續backlog隊列)** — obs `2026-08-14T21:13:50Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示補充串:(1) especially Live/Breaking等即時頁面要優先確保當前內容 (2) ALL newswires都要涵蓋,不只PR Newswire (3) also skuldmark(這次修復也要考慮SK…** — obs `2026-08-14T21:23:20Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示補充:確保所有fatbaby top-level nav項目都有當前內容——重申並擴大先前nav過舊的要求,不只是earnings widget一項** — obs `2026-08-14T21:23:09Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示:then/continue(訓練持續正常,30720+43008 timesteps進度確認)——繼續深查S166-01根因(已追到processor unmarshal filing_discovered的欄位缺失問題)** — obs `2026-08-14T21:21:03Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
