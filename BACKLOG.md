@@ -14372,7 +14372,7 @@ first, open design questions last.
 sprint 規劃,而不是散落的 raw observation。接近本次 session 額度上限時收到指示,先規劃、不動
 工大型實作,細節見各子項。*
 
-- [ ] **S175-01: SKULDMARK v1 接入所有 intake 端點,且要盡量在 pipeline 最早期做 tickerize。**
+- [x] **S175-01: SKULDMARK v1 接入所有 intake 端點,且要盡量在 pipeline 最早期做 tickerize。DONE 2026-08-14。**
   `SKULDMARK/skuldmark.go` 已有完整、有測試的 `Encode(Instrument{MIC, Symbol, CIK})` 參考實作
   (public domain),但目前完全沒有任何程式碼在用它——`README.md` 自己也寫明「the natural next
   step if this is adopted, not assumed here」。`PRRJECT_FATBABY/internal/identity.SecurityRef`
@@ -14384,8 +14384,18 @@ sprint 規劃,而不是散落的 raw observation。接近本次 session 額度�
   (c) SKULDMARK 目前不在 `go.work` workspace 內(是獨立倉庫),需要決定用 `go.work use` 納入還
   是走 `replace` directive,兩者都要先跟 CLAUDE.md 的「Non-Workspace Repos」表格對一下,不要
   無聲改變它現在的定位。要求「v1 not v0」——做真的、完整的接線,不是 stub。
-  **狀態:規劃完成,尚未動工**(founder 明確指示 SKULDMARK 要先完成整合,才能做 S175-02 的公開
-  釋出/部落格預告)。
+  **完成內容**:(a) `internal/skuldmarkid` adapter,含 Exchange→MIC 對照表(涵蓋 secwatch 的
+  SEC Title Case 跟 prwatch 的 regex 全大寫兩種格式,大小寫不敏感);(b) `secwatch` 用
+  watchlist 自己的真實 Exchange 欄位 mint(`buildIssuerRegistry` 補上了 `RunnerConfig.
+  IssuerRegistry` 這個設計好卻從沒人建構過的機制),`prwatch` 用 regex 抓到的 ticker 反查
+  watchlist CIK mint(大部分 press release ticker 不在 watchlist 上,誠實不 mint);
+  (c) 用 `go.mod` 的本地 `replace` directive 引入 SKULDMARK,不動 `go.work`,維持它獨立模組
+  的定位。`config/watchlist.json` 51 檔核對 SEC 官方 `company_tickers_exchange.json`,49/51
+  補上真實 Exchange;過程發現真實資料品質問題:BLK/XOM 的 CIK 在 SEC 自己系統裡不是目前實際
+  交易的法人實體(`data.sec.gov/submissions` 查證 tickers 是空陣列),誠實留空不猜測。順手修正
+  SKULDMARK 自己 README 過時的 v0 範例(獨立 commit)。go build/vet/test ./... 全綠,secwatch/
+  prwatch 二進位已重建部署,live 確認 mint/skip 邏輯都正確運作。Apple #13553,PRRJECT_FATBABY
+  commit `fcefbe2`,SKULDMARK commit `f4cadac`。session: sess-20260813-2154-dda37e8b
 
 - [ ] **S175-02: 用資料庫技術加速 SKULDMARK 查詢(index/projection)。明確列為 roadmap 項目,不
   急。** Founder 原話:「mongo postgres mysql whatever」+「indexes etc」+「projections」——不
