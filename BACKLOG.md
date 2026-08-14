@@ -1031,6 +1031,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: asking status + wants the okemily blog-manifest URL surfaced now** — obs `2026-08-14T01:21:37Z`. CURATED: 2026-08-14. Verified live (not assumed): `curl -I https://okemily.com/blog-manifest.txt` → 200, 490024 bytes, `Last-Modified` today; `robots.txt` disallow confirmed live too. Surfaced directly to founder. Second manifest ask (GitHub Actions repo-file-index) still blocked on manual `MANIFEST_PAT` secret setup — `gh` CLI not installed on this box, could not check/set. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:45:59Z`. CURATED: 2026-08-14. S31-01 DIS checklist partial pass (5/10 real). SECTION 127: S127-03/S127-04 found stale (SDL2 installed, remote synced) -- which unblocked the two PITVIPER founder asks from SECTION 25 (installable-as-client + SSH hotkey), both built and live-verified. session: sess-20260813-2154-dda37e8b
 - [ ] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:58:15Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time: integrate SKULDMARK (25-char instrument identifier format) into all intake operations** — obs `2026-08-14T01:59:22Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time, clarifying: nav items stale except 'Stocks on the Move' -- same pattern as S24-06 (prwatch-body dead…** — obs `2026-08-14T01:59:08Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time: ALL top level navigation items currently seem stale** — obs `2026-08-14T01:58:47Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time: ensure all fatbaby (PRRJECT_FATBABY) operations are tip top** — obs `2026-08-14T01:58:38Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
