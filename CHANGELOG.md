@@ -1,3 +1,7 @@
+## 2026-08-14
+
+- HITL-11 re-confirmed dead 2026-08-14; corrected 19 misleading SECTION 5 backlog entries pointing at a missing-env-var explanation that was false (key is set, just out of credit). (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-13
 
 - REBOOT_RUNBOOK.md updated: gpt2-serve + fatbaby-broker now real systemd units, not manual-restart; documented broker's hardcoded 30s timeout vs serve.py's real multi-minute cold-inference latency (sess-20260813-2154-dda37e8b)
