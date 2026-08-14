@@ -1067,6 +1067,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示片段:'then'(可能未打完,持續等待更多內容;同時依既有'unblocked revenue順序'方向繼續推進 S175-03)** — obs `2026-08-14T20:58:40Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:continue(確認'then continue'——繼續推進,S175-03開放資料釋出規劃)** — obs `2026-08-14T20:58:46Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示片段:'backlog'(組合成'then continue backlog'——重申照backlog/unblocked revenue順序繼續,非新方向)** — obs `2026-08-14T20:58:56Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
+- [ ] **創辦人即時指示:then continue——S175-03已規劃到需founder拍板的節點,不擅自選方案動工,轉回一般backlog picking找其他可獨立推進的項目** — obs `2026-08-14T21:02:59Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
