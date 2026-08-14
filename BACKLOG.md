@@ -1031,25 +1031,26 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: asking status + wants the okemily blog-manifest URL surfaced now** — obs `2026-08-14T01:21:37Z`. CURATED: 2026-08-14. Verified live (not assumed): `curl -I https://okemily.com/blog-manifest.txt` → 200, 490024 bytes, `Last-Modified` today; `robots.txt` disallow confirmed live too. Surfaced directly to founder. Second manifest ask (GitHub Actions repo-file-index) still blocked on manual `MANIFEST_PAT` secret setup — `gh` CLI not installed on this box, could not check/set. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:45:59Z`. CURATED: 2026-08-14. S31-01 DIS checklist partial pass (5/10 real). SECTION 127: S127-03/S127-04 found stale (SDL2 installed, remote synced) -- which unblocked the two PITVIPER founder asks from SECTION 25 (installable-as-client + SSH hotkey), both built and live-verified. session: sess-20260813-2154-dda37e8b
 - [ ] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:58:15Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time: integrate SKULDMARK (25-char instrument identifier format) into all intake operations** — obs `2026-08-14T01:59:22Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, clarifying: nav items stale except 'Stocks on the Move' -- same pattern as S24-06 (prwatch-body dead…** — obs `2026-08-14T01:59:08Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time: ALL top level navigation items currently seem stale** — obs `2026-08-14T01:58:47Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time: ensure all fatbaby (PRRJECT_FATBABY) operations are tip top** — obs `2026-08-14T01:58:38Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, emphatic reiteration of the SKULDMARK-into-intake ask ('SKULDMARK thet bitch') -- same thread, no ne…** — obs `2026-08-14T01:59:38Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, refining SKULDMARK ask: tickerize as early in the pipeline as possible** — obs `2026-08-14T01:59:32Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, SKULDMARK/DB thread, final detail: not picky about which DB (mongo/postgres/mysql/whatever) -- just …** — obs `2026-08-14T02:00:06Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, SKULDMARK thread cont'd: use database tech for fast SKULDMARK-keyed API queries -- flagged as roadma…** — obs `2026-08-14T02:00:00Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time: tease the upcoming data-publishing product on the blog** — obs `2026-08-14T02:00:27Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, new thread: 'we are going to publish our data' + direct question 'how big is our data' -- answering …** — obs `2026-08-14T02:00:22Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, SKULDMARK/DB thread, more fragments arriving ('projections', 'also') -- likely referencing S20's exi…** — obs `2026-08-14T02:00:17Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, tying threads together: SKULDMARK is the ID scheme for the open data release** — obs `2026-08-14T02:00:50Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, data-publishing thread refined: open release for feedback from researchers and industry (not just a …** — obs `2026-08-14T02:00:43Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, sequencing correction: SKULDMARK has to be integrated first, before the blog tease/open-release anno…** — obs `2026-08-14T02:00:58Z`. CURATED: 2026-08-14.
-- [ ] **Founder real-time, final detail: SKULDMARK integration should be v1 (real/complete), not v0 (stub) -- moving to actual …** — obs `2026-08-14T02:01:04Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:確保目前所有項目都進 backlog 並完成 sprint 規劃(不是零散的 raw observation)** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:之後所有 thinking 都改用繁體中文** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:接近本次 session 額度上限,先暫停開新的大型實作(SKULDMARK go module 跨 repo 接線),優先把目前所有零散指示做成真正的 backlog sprint 規劃** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示補充:sprint 規劃項目本身也要用繁體中文寫** — obs `2026-08-14T02:02:05Z`. CURATED: 2026-08-14.
+- [x] **Founder real-time: integrate SKULDMARK (25-char instrument identifier format) into all intake operations** — obs `2026-08-14T01:59:22Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, clarifying: nav items stale except 'Stocks on the Move' -- same pattern as S24-06 (prwatch-body dead…** — obs `2026-08-14T01:59:08Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time: ALL top level navigation items currently seem stale** — obs `2026-08-14T01:58:47Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time: ensure all fatbaby (PRRJECT_FATBABY) operations are tip top** — obs `2026-08-14T01:58:38Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, emphatic reiteration of the SKULDMARK-into-intake ask ('SKULDMARK thet bitch') -- same thread, no ne…** — obs `2026-08-14T01:59:38Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, refining SKULDMARK ask: tickerize as early in the pipeline as possible** — obs `2026-08-14T01:59:32Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, SKULDMARK/DB thread, final detail: not picky about which DB (mongo/postgres/mysql/whatever) -- just …** — obs `2026-08-14T02:00:06Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, SKULDMARK thread cont'd: use database tech for fast SKULDMARK-keyed API queries -- flagged as roadma…** — obs `2026-08-14T02:00:00Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time: tease the upcoming data-publishing product on the blog** — obs `2026-08-14T02:00:27Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, new thread: 'we are going to publish our data' + direct question 'how big is our data' -- answering …** — obs `2026-08-14T02:00:22Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, SKULDMARK/DB thread, more fragments arriving ('projections', 'also') -- likely referencing S20's exi…** — obs `2026-08-14T02:00:17Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, tying threads together: SKULDMARK is the ID scheme for the open data release** — obs `2026-08-14T02:00:50Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, data-publishing thread refined: open release for feedback from researchers and industry (not just a …** — obs `2026-08-14T02:00:43Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, sequencing correction: SKULDMARK has to be integrated first, before the blog tease/open-release anno…** — obs `2026-08-14T02:00:58Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **Founder real-time, final detail: SKULDMARK integration should be v1 (real/complete), not v0 (stub) -- moving to actual …** — obs `2026-08-14T02:01:04Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **創辦人即時指示:確保目前所有項目都進 backlog 並完成 sprint 規劃(不是零散的 raw observation)** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **創辦人即時指示:之後所有 thinking 都改用繁體中文** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **創辦人即時指示:接近本次 session 額度上限,先暫停開新的大型實作(SKULDMARK go module 跨 repo 接線),優先把目前所有零散指示做成真正的 backlog sprint 規劃** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [x] **創辦人即時指示補充:sprint 規劃項目本身也要用繁體中文寫** — obs `2026-08-14T02:02:05Z`. CURATED: 2026-08-14. 已整併進 SECTION 175 正式 sprint 規劃。
+- [ ] **創辦人即時指示補充:部落格預告文語言規格——先繁體中文版,再梵文版。維持先前'SKULDMARK 要先整合完才發預告'的排序,這裡先記錄語言規格,不視為覆寫排序指示** — obs `2026-08-14T02:04:13Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
