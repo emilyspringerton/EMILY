@@ -1015,6 +1015,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'ok iterate on core product work focusing on unblkoccked revenue' -- investigated S135-03 (blocked, …** — obs `2026-08-14T00:17:46Z`. CURATED: 2026-08-14. Done: TIPJAR Step 3 (real 2-player split-screen), verified live via Xvfb+screenshot. Apple #13352, BRAWLPIT commit `5376a84`. S135-03 confirmed genuinely blocked (Apple #13349) -- no sudo/WooCommerce creds available. session: sess-20260813-2154-dda37e8b
 - [x] **PITVIPER: fixed the real compile error (terminal.Close type mismatch). Also flagged the founder's other 2 PITVIPER asks…** — obs `2026-08-14T00:46:01Z`. CURATED: 2026-08-14. Duplicate of the completion noted above (this was my own status-report observation, not a new ask). session: sess-20260813-2154-dda37e8b
 - [x] **Fixed the real SEC-filings-display bug (garbled mess = leaked Inline-XBRL ix:header content, 6.5% of a real Costco 10-Q…** — obs `2026-08-14T00:53:14Z`. CURATED: 2026-08-14. Duplicate of the completion noted above (own status-report observation). session: sess-20260813-2154-dda37e8b
+- [ ] **Both manifest asks done: (1) live blog manifest text file at https://okemily.com/blog-manifest.txt (all 156 posts conca…** — obs `2026-08-14T01:00:36Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time, refining the manifest ask: wants a single text file served LIVE on the okemily.com server containing…** — obs `2026-08-14T00:56:52Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time: wants a manifest file indexing all repos' files, built as a GitHub Actions artifact (workflow_dispat…** — obs `2026-08-14T00:55:23Z`. CURATED: 2026-08-14.
+- [ ] **Answer: yes, movers-watcher has been saving real structured price-action data (market_movers_snapshot events -- price, …** — obs `2026-08-14T00:54:19Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
