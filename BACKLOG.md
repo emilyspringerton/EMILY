@@ -1024,6 +1024,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **CANNON: re-investigated for real, found a different blocker than what NORTHSTAR §20.4 named (structures blocker resolve…** — obs `2026-08-14T01:09:25Z`. CURATED: 2026-08-14. Own status-report observation, duplicate of the completion noted above. session: sess-20260813-2154-dda37e8b
 - [x] **Process sync done: rebuilt+restarted processor and prwatch-body (were running pre-XBRL-fix binaries). Apple #13387. Als…** — obs `2026-08-14T01:12:56Z`. CURATED: 2026-08-14. Own status-report observation, duplicate of the completion above. session: sess-20260813-2154-dda37e8b
 - [x] **TIPJAR/BRAWLPIT build checked thoroughly -- was never actually broken (fresh clone + gcc build both pass clean, exit 0)…** — obs `2026-08-14T01:12:00Z`. CURATED: 2026-08-14. Done: added scripts/build.sh (repo never had one) -- build itself was always fine. Apple #13384, commit `6872f01`. session: sess-20260813-2154-dda37e8b
+- [ ] **Founder real-time: iterate (continue normal backlog picking now that queue is clear)** — obs `2026-08-14T01:16:39Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
