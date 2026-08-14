@@ -1,4 +1,5 @@
 ## 2026-08-14
+- docs/NORTHSTAR.md: added Claire section (Tier 2 golden doc, excluded from GoldenDocCompiler by tier filter, real emily claire CLI + claire-log.md audit trail); Key Files table updated. (sess-20260813-2154-dda37e8b)
 
 - HITL-11 re-confirmed dead 2026-08-14; corrected 19 misleading SECTION 5 backlog entries pointing at a missing-env-var explanation that was false (key is set, just out of credit). (sess-20260813-2154-dda37e8b)
 
