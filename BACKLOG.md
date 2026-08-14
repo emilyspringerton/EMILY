@@ -1070,10 +1070,18 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示片段:'backlog'(組合成'then continue backlog'——重申照backlog/unblocked revenue順序繼續,非新方向)** — obs `2026-08-14T20:58:56Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:continue(繼續backlog隊列)** — obs `2026-08-14T21:13:50Z`. CURATED: 2026-08-14.
 - [ ] **創辦人即時指示補充串:(1) especially Live/Breaking等即時頁面要優先確保當前內容 (2) ALL newswires都要涵蓋,不只PR Newswire (3) also skuldmark(這次修復也要考慮SK…** — obs `2026-08-14T21:23:20Z`. CURATED: 2026-08-14.
+  **部分處理,仍open:** (3) SKULDMARK 已在 S175-01 完成整合。(4) "newsier page sparse" 初步查過
+  `/breaking`:確有內容,最新到2026-08-12(2天前,不算完全空但不夠即時)。**尚未處理:** (1) Live/
+  Breaking 頁面沒有做額外優先權處理;(2) "ALL newswires" 需要 founder 決定要接哪些供應商
+  (Business Wire/GlobeNewswire等)——目前只有 PR Newswire 一個來源,擴大是新功能規模的決策,
+  不是我能片面決定的。session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示補充:確保所有fatbaby top-level nav項目都有當前內容——重申並擴大先前nav過舊的要求,不只是earnings widget一項** — obs `2026-08-14T21:23:09Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示:then/continue(訓練持續正常,30720+43008 timesteps進度確認)——繼續深查S166-01根因(已追到processor unmarshal filing_discovered的欄位缺失問題)** — obs `2026-08-14T21:21:03Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示片段:'okn9indon the 4 kings'(疑似'ok on the 4 kings'打字錯誤)——含義不明確,查詢相關脈絡中** — obs `2026-08-14T21:34:07Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示,組合完整:'wtf redgarden [n]ew...i dont see em'——founder去REDGARDEN/GFD找Four Kings機制(記憶記錄:Jungle Camps Milestone 5,已p…** — obs `2026-08-14T21:34:18Z`. CURATED: 2026-08-14.
+  **部分處理:** S166-01/S160-05 根因已完整追查(1104筆/11檔ticker 受影響),但真正修復(兩處程式
+  碼改動)尚未動手,留待獨立一個 pass。其餘 nav 項目(governance/earnings/press-releases 等)
+  尚未逐一巡查。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示:then/continue(訓練持續正常,30720+43008 timesteps進度確認)——繼續深查S166-01根因(已追到processor unmarshal filing_discovered的欄位缺失問題)** — obs `2026-08-14T21:21:03Z`. CURATED: 2026-08-14. 已完成:S166-01/S160-05完整根因追查(1104筆/11檔ticker,見該條目),未動手修(範圍需獨立pass)。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示片段:'okn9indon the 4 kings'(疑似'ok on the 4 kings'打字錯誤)——含義不明確,查詢相關脈絡中** — obs `2026-08-14T21:34:07Z`. CURATED: 2026-08-14. 已解答:片段組合後是'wtf redgarden new...i dont see em'(見下一條),Four Kings問題已找到根因並修復。session: sess-20260813-2154-dda37e8b
+- [x] **創辦人即時指示,組合完整:'wtf redgarden [n]ew...i dont see em'——founder去REDGARDEN/GFD找Four Kings機制(記憶記錄:Jungle Camps Milestone 5,已p…** — obs `2026-08-14T21:34:18Z`. CURATED: 2026-08-14. 已修復:真正根因是redgarden-stable(GFD Battlegrounds真正部署)自08-10就沒promote,不是Four Kings程式碼本身有問題(REDGARDEN main/GFD fork的Four Kings工作都是真的、測試通過的)。已git pull+rebuild+重啟兩個服務,live確認健康。Apple #13584,REDGARDEN commit `237bf6e`。session: sess-20260813-2154-dda37e8b
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
