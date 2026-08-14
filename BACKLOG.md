@@ -1037,6 +1037,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ensure all fatbaby (PRRJECT_FATBABY) operations are tip top** — obs `2026-08-14T01:58:38Z`. CURATED: 2026-08-14.
 - [ ] **Founder real-time, emphatic reiteration of the SKULDMARK-into-intake ask ('SKULDMARK thet bitch') -- same thread, no ne…** — obs `2026-08-14T01:59:38Z`. CURATED: 2026-08-14.
 - [ ] **Founder real-time, refining SKULDMARK ask: tickerize as early in the pipeline as possible** — obs `2026-08-14T01:59:32Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time, SKULDMARK/DB thread, final detail: not picky about which DB (mongo/postgres/mysql/whatever) -- just …** — obs `2026-08-14T02:00:06Z`. CURATED: 2026-08-14.
+- [ ] **Founder real-time, SKULDMARK thread cont'd: use database tech for fast SKULDMARK-keyed API queries -- flagged as roadma…** — obs `2026-08-14T02:00:00Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
