@@ -5169,12 +5169,22 @@ around it.*
   fresh check against current `edis-ask-emily` code — may also already be done. Close or rewrite
   each once HITL-11 unblocks real translation, don't let them auto-translate against month-old
   context.
-- [ ] **S157-02: `goldenbuild` fallback path — audit whether the truncated fallback is safe.**
-  Confirmed 2026-07-19: `goldenbuild: compress EMILY-CYCLE-LOG failed ... using truncated
-  fallback` fires every cycle right now. Verify what "truncated fallback" actually contains and
-  whether Emily Prime's cron cycle is operating on meaningfully incomplete context as a result, or
-  whether the fallback is a safe no-op. Not urgent on its own — HITL-11 fixes the root cause — but
-  worth knowing how degraded the loop has actually been while blocked.
+- [x] **S157-02: `goldenbuild` fallback path — audit whether the truncated fallback is safe.
+  DONE 2026-08-14 — it was NOT safe, and worse than "degraded context," it was permanent.**
+  Real bug found, not a no-op: cache-hit logic only compared source-file hash, never
+  distinguished a real haiku compression from a 500-char truncated fallback. Once a source hit
+  the fallback (HITL-11's exhausted credit), it stayed cached as if final forever — even after
+  HITL-11 eventually gets fixed, nothing would have ever re-triggered a real recompression unless
+  the source file's own content happened to change. Measured live: 32/45 sources (71%) were stuck
+  this way, including `THE_EMILY_WAY.md`/`NORTHSTAR.md` — Emily Prime's own system prompt has
+  effectively been running on the first ~500 chars of its core operating docs, not the designed
+  dense bilingual compression. Fixed in two places (`Build()`'s cache check AND `MaybeRebuild()`'s
+  own independent change-detection — fixing only one still leaves the other silently skipping
+  retries): new `IsFallback` field forces a retry on next build regardless of hash match. 5 new
+  regression tests, one-time migration of the 32 known-degraded cache entries. Live-verified:
+  restart correctly retried all 32 (still degraded pending HITL-11 itself, but will now
+  self-heal automatically on the first cron cycle after credit is restored — no manual
+  intervention needed). Apple #13569, commit `70b1857`. session: sess-20260813-2154-dda37e8b
 - [ ] **S157-03: Once HITL-11 lands, confirm the whole chain end-to-end** — HEIMDAL sprint
   translate → RSI roadmap item → Apple → FCM push, and `goldenbuild` recompiling `GOLDEN.md` from
   current `BACKLOG.md` (not the 2026-06-14 snapshot). Don't just assume billing fixes everything;
