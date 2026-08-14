@@ -1013,6 +1013,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Finding: entity-graph's own observation-writer (var/emily-observations/*.json, source=entity-graph) has no filename-col…** — obs `2026-08-13T23:58:27Z`. CURATED: 2026-08-14.
 - [ ] **Finding: S135-03 (EDIS WooCommerce sticker listing, backlog claims 'Emily Prime can create products via EDIS API') is n…** — obs `2026-08-14T00:04:51Z`. CURATED: 2026-08-14.
 - [x] **Founder real-time: 'ok iterate on core product work focusing on unblkoccked revenue' -- investigated S135-03 (blocked, …** — obs `2026-08-14T00:17:46Z`. CURATED: 2026-08-14. Done: TIPJAR Step 3 (real 2-player split-screen), verified live via Xvfb+screenshot. Apple #13352, BRAWLPIT commit `5376a84`. S135-03 confirmed genuinely blocked (Apple #13349) -- no sudo/WooCommerce creds available. session: sess-20260813-2154-dda37e8b
+- [ ] **PITVIPER: fixed the real compile error (terminal.Close type mismatch). Also flagged the founder's other 2 PITVIPER asks…** — obs `2026-08-14T00:46:01Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
