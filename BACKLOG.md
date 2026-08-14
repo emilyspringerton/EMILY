@@ -1054,6 +1054,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示補充:部落格預告文三個版本——繁體中文、梵文、然後附一個翻譯版本。持續是語言規格細節,尚未動工(維持 S175-04 排序:SKULDMARK 先整合完)** — obs `2026-08-14T02:04:23Z`. CURATED: 2026-08-14. 已併入 S175-04。
 - [ ] **創辦人即時指示:現在就要確保繁體中文版的開放資料 teaser 部落格文章已發布——覆寫先前 S175-04'SKULDMARK 先整合完才發'的排序,現在直接執行繁中版** — obs `2026-08-14T02:05:52Z`. CURATED: 2026-08-14.
 - [ ] **創辦人即時指示補充:teaser 文章要包含梵文版與英文譯文(確認'a translation'是英文)——單篇文章內含三語言區塊:繁中優先、梵文、英文譯文** — obs `2026-08-14T02:06:17Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示:優先確保發布成功,以防之後遇到 rate limit——現在立即動手寫並發布繁中/梵文/英譯三語 teaser 文章** — obs `2026-08-14T02:06:26Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -14390,12 +14391,16 @@ sprint 規劃,而不是散落的 raw observation。接近本次 session 額度�
   共 1.4GB。這只是 event store 原始大小,還沒算 MySQL/MongoDB projection 或未來釋出格式會是
   多大。
 
-- [ ] **S175-04: 部落格預告開放資料釋出。明確排在 S175-01/S175-03 之後,現在先不寫。**
-  Founder 原話:「tease it on the blog」,但緊接著澄清「has to be integrated first」——先讓
-  SKULDMARK 真的落地,才發預告文,不要空頭支票先發出去。**語言規格(2026-08-14 補充)**:三個
-  版本——繁體中文版優先、梵文版、再加一個翻譯版本(梵文版的譯文,語言待定,依上下文推測是英文
-  或中文)。這幾則都只是規格補充,不是要求現在立刻動工;S175-01(SKULDMARK 真整合)仍是前置
-  依賴,尚未開始。
+- [x] **S175-04: 部落格預告開放資料釋出。DONE 2026-08-14。**
+  原本排序是「SKULDMARK(S175-01)要先整合完才發預告」,但 founder 隨後明確覆寫此排序,直接
+  指示:「ensure traditional chinese teaser blog post is posted」+「including sanskrit and
+  english translations」+「prioritize publication at all steps in case we get rate limited」。
+  已發布單篇三語文章 *The Thread, Not Yet Cut*(作者 SKULDMARK,延續既有人設但主題不同於前作
+  *The Thread, Once Cut*——這篇是釋出公告角度):繁體中文優先、梵文、英文譯文三個區塊。內容誠
+  實揭露現況:引用 S175-03 實測的資料量數字(657MB / 119,940 筆事件),並明確說明 SKULDMARK 目
+  前尚未真正接入 pipeline(S175-01 仍未開工)——這是 teaser,不是「已完成釋出」的假公告。
+  Live: `https://okemily.com/blog/the-thread-not-yet-cut/`(200 已驗證,三語段落皆確認在頁面
+  上)。Apple #13456。session: sess-20260813-2154-dda37e8b
 
 - [ ] **S175-05: 「目前所有 top-level 導覽項目看起來都是舊資料,只有 Stocks on the Move 除
   外」——初步調查已做,尚未有結論。** Founder 原話(打字有誤,已還原):「currently ALL top
