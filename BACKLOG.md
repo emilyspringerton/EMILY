@@ -1348,6 +1348,24 @@ as a single OpenAPI 3.0.3 spec in EMILY.
   checklist: verify hostile_ratio non-zero after traffic, confirm log tailer survived logrotate,
   check hostile_ratio baseline (>5% on quiet day = recalibrate).
   Acceptance: all 10 items in checklist checked off; baseline documented.
+  **Partial pass 2026-08-14, not closing out** -- 5 of the doc's checklist items verified live,
+  the rest blocked by this box's permission limits or deliberately not attempted: (1) `/dis/health`
+  → `healthy`/`svg`. (2) `/dis/posture` → `hostile_ratio: 0`, well-formed, no anomaly. (3)
+  `systemctl status edis-dis` active, stable since this session's reboot restart (S31-04 separately
+  verified 2+ days pre-reboot). (4) Live tailing proven directly, stronger than the doc's own
+  suggested proxy: made a real request to okemily.com through the shared nginx access.log this
+  collector tails, `/dis/health`'s `updated` timestamp advanced to match within ~1s -- the tailer
+  is processing new lines in real time, not stalled. (5) Collector RSS: 9.5MB, well under the 50MB
+  ceiling. **Not verified, permission-blocked**: WP admin panel visual check (would need
+  Xvfb+screenshot, out of scope for a quick checklist pass), PHP `wp_remote_get` error log (no read
+  permission), `parseNginxCombined` skip-line audit via journalctl (not in `adm`/`systemd-journal`
+  group, no sudo). **Not attempted, deliberately**: ForceState elevated/healthy toggle (flips live
+  ad-serving state on a real site) and the fail-open `systemctl stop edis-dis` test -- same class of
+  "don't touch live production shared infra without explicit go-ahead" this box already established
+  for S24-05/S31-03's load tests, after a real prior OOM incident. hostile_ratio baseline (>5% on a
+  quiet day = recalibrate) needs a real quiet-day sample the collector doesn't expose historically
+  (no stats/metrics endpoint, only current-state `/dis/posture`) -- can't be answered from one
+  snapshot. session: sess-20260813-2154-dda37e8b
 
 - [ ] **S31-02: nginx cache tuning** — After first real traffic, review cache hit rate via nginx
   stub_status or access log analysis. Tune `proxy_cache_valid` TTLs if hit rate < 80%.
