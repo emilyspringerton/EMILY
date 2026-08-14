@@ -1053,6 +1053,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示補充:部落格預告文語言規格——先繁體中文版,再梵文版。維持先前'SKULDMARK 要先整合完才發預告'的排序,這裡先記錄語言規格,不視為覆寫排序指示** — obs `2026-08-14T02:04:13Z`. CURATED: 2026-08-14. 已併入 S175-04。
 - [x] **創辦人即時指示補充:部落格預告文三個版本——繁體中文、梵文、然後附一個翻譯版本。持續是語言規格細節,尚未動工(維持 S175-04 排序:SKULDMARK 先整合完)** — obs `2026-08-14T02:04:23Z`. CURATED: 2026-08-14. 已併入 S175-04。
 - [ ] **創辦人即時指示:現在就要確保繁體中文版的開放資料 teaser 部落格文章已發布——覆寫先前 S175-04'SKULDMARK 先整合完才發'的排序,現在直接執行繁中版** — obs `2026-08-14T02:05:52Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示補充:teaser 文章要包含梵文版與英文譯文(確認'a translation'是英文)——單篇文章內含三語言區塊:繁中優先、梵文、英文譯文** — obs `2026-08-14T02:06:17Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
