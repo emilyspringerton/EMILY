@@ -1049,6 +1049,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指示:確保目前所有項目都進 backlog 並完成 sprint 規劃(不是零散的 raw observation)** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14.
 - [ ] **創辦人即時指示:之後所有 thinking 都改用繁體中文** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14.
 - [ ] **創辦人即時指示:接近本次 session 額度上限,先暫停開新的大型實作(SKULDMARK go module 跨 repo 接線),優先把目前所有零散指示做成真正的 backlog sprint 規劃** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示補充:sprint 規劃項目本身也要用繁體中文寫** — obs `2026-08-14T02:02:05Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
