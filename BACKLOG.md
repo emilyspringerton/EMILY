@@ -1073,6 +1073,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指示補充:確保所有fatbaby top-level nav項目都有當前內容——重申並擴大先前nav過舊的要求,不只是earnings widget一項** — obs `2026-08-14T21:23:09Z`. CURATED: 2026-08-14.
 - [ ] **創辦人即時指示:then/continue(訓練持續正常,30720+43008 timesteps進度確認)——繼續深查S166-01根因(已追到processor unmarshal filing_discovered的欄位缺失問題)** — obs `2026-08-14T21:21:03Z`. CURATED: 2026-08-14.
 - [ ] **創辦人即時指示片段:'okn9indon the 4 kings'(疑似'ok on the 4 kings'打字錯誤)——含義不明確,查詢相關脈絡中** — obs `2026-08-14T21:34:07Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示,組合完整:'wtf redgarden [n]ew...i dont see em'——founder去REDGARDEN/GFD找Four Kings機制(記憶記錄:Jungle Camps Milestone 5,已p…** — obs `2026-08-14T21:34:18Z`. CURATED: 2026-08-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
