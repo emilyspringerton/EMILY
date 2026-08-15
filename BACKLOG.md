@@ -5766,9 +5766,12 @@ links").
 - [ ] **S167-04: apply the same standard to every future Gauntlet-managed content type** (EIA/Fed
   articles once those phases exist, any human-authored content once the newsroom side of Gauntlet
   is real). Not urgent — nothing else generates ticker-referencing content yet.
-- [ ] **S167-05: `commentary.Store`/`Append` should dedupe by article ID** (found as S167-03's
+- [x] **S167-05: `commentary.Store`/`Append` should dedupe by article ID** (found as S167-03's
   follow-up, above) — same-day re-runs or retries currently produce duplicate NDJSON rows and
-  duplicate list-page cards until manually cleaned up.
+  duplicate list-page cards until manually cleaned up. Fixed: `Refresh()` now dedups on load by
+  ID, last-write-wins, mirroring docindex's correction logic; no live duplicates existed at fix
+  time so no migration was needed. Apple #13714, PRRJECT_FATBABY commit fef827e.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
