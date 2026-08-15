@@ -258,6 +258,18 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   backups. Ref: TYLER/outlines/emily_iduna_bootstrap.md Option B.
   Dependency: embedded SQLite stable ✓ (already done), need concrete reason to upgrade.
 
+- [x] **Founder real-time: "can we get the frog to do a blog post on recent ecosystem
+  updates?"** — Identified "the frog" as TYLER Series X's established character/voice
+  (`episodes/x04_ask_the_frog_not_the_tree.md`, Apple #12279, the already-published "Ask the Frog
+  (Not the Tree)" garage interlude) rather than guessing at a new persona. Wrote a new post in
+  Frog's established voice (dry, mystically self-important undercut by mundane practicality,
+  callbacks to the Tree/French running gag) recapping real recent shipped work — S167-05
+  commentary dedup, S144-02 SHANKPIT skinned mesh (+ its two real caught bugs), S145-01/02
+  fabledata+fableeval, S150-01 towerprint-augmented records, S150-02 vectorcache v0, the still-
+  running 10v10 training. Published via IDUNA blog API, live-verified 200 OK at
+  https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739.
+  (sess-20260813-2154-dda37e8b)
+
 - [x] **Tyler IDUNA agent registration via iduna CLI** — Picked up as the lowest-numbered open,
   unblocked item; before building a speculative new `iduna agents register` CLI, verified whether
   Tyler actually still lacked registration. It didn't: queried `var/iduna.db` directly — TYLER
