@@ -4743,7 +4743,7 @@ pretend the tech exists; this section proposes building a real one.*
   pairs, 0 skipped, inspected output confirms correct prompt/tower pairing. Apple #13734, commit
   `00da185` + CHANGELOG `ed7f16d`. (sess-20260813-2154-dda37e8b)
 
-- [ ] **S150-02: Real embedding/vector-cache component** — reference implementation recovered
+- [~] **S150-02: Real embedding/vector-cache component** — reference implementation recovered
   2026-07-16: `gpt2-alpine-c/docs/reference/vector_cache.md`, a working Python design (FAISS
   `IndexFlatIP` for cosine-similarity search, local `sentence-transformers` embeddings —
   `all-MiniLM-L6-v2`, cheap and free, answering S150-02's original open question in favor of
@@ -4759,6 +4759,25 @@ pretend the tech exists; this section proposes building a real one.*
   real foundation instead of a second bespoke one). The reference's Merkle hashing fits this
   house's existing provenance/hash-chain conventions (NORN lineage, `fabledata` snapshots)
   directly — port that part faithfully, don't simplify it away.
+
+  **v0 DONE 2026-08-15, real embedder still open — genuinely partial, marked `[~]` not `[x]`.**
+  New `gpt2-alpine-c/pkg/vectorcache`: `Cache` (flat brute-force cosine-similarity search,
+  `IndexFlatIP`-equivalent — exact search, the same algorithm FAISS's own "Flat" index performs,
+  not a shortcut around it), `Node` with Merkle-style per-node hashing ported faithfully
+  (query+response+embedding+children-hashes, per this item's own "don't simplify it away"), hit/
+  miss `Stats` with derived hit rate. Pluggable `Embedder` interface. **Honest scope cut**: v0
+  ships only `StubEmbedder` — deterministic (sha256-derived) but explicitly **not** semantically
+  meaningful, so the cache mechanics could be built and tested now without a running embedding
+  service; wiring the real `sentence-transformers`/`all-MiniLM-L6-v2` embedder (or a local HTTP
+  service serving it, the same pattern `scripts/serve.py` already uses for GPT-2 inference) is the
+  remaining real work — this item stays open until that lands, since a semantic cache with a
+  non-semantic embedder doesn't yet deliver (a) or (b) above for real, only proves the mechanics
+  underneath them work. `Cache` deliberately owns no LLM client/credentials — `Lookup`/`Add` are
+  separate calls, caller owns the miss→fetch→`Add` sequence, keeping this a pure caching layer
+  (the house's existing `LLMClient` interface is where API credentials belong). 19 tests including
+  `-race`, all green. Verified end-to-end with a real demo run: 5 queries → 2 hits / 3 misses / 40%
+  hit rate, access counts and stats all correct. Apple #13736, commit `2953b21` + CHANGELOG
+  `1055593`. (sess-20260813-2154-dda37e8b)
 
 - [ ] **S150-03: NORN instantiation for the vector cache's own quality** — per PRIME-101's pattern:
   cache hit/miss rates and staleness are exactly the kind of metric a NORN instantiation grades
