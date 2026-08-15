@@ -362,7 +362,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **創辦人即時指示補充:確保所有fatbaby top-level nav項目都有當前內容——重申並擴大先前nav過舊的要求,不只是earnings widget…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T21:23:09Z.
 - [ ] **創辦人即時指示:CONTINUE——訓練持續正常(135168/200000),轉向動手修復 S166-01/S160-05(已完整診斷,1104筆/11檔t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T22:31:02Z.
 - [ ] **自我修正:剛才Apple #13608跟REDGARDEN commit都誤稱這是'首次'真正end-to-end --autocurriculum訓練——…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T23:39:45Z.
-- [ ] **emily backlog curate 截斷長摘要時沒顧到 UTF-8 字元邊界,曾一次讓 BACKLOG.md 出現無效 byte(已手動修復該案例,co…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-15T18:53:00Z.
+- [x] **emily backlog curate 截斷長摘要時沒顧到 UTF-8 字元邊界的 bug 已真正修復。** 原始猜測(bug 在
+  `emily.cli/cmd/backlog.go`)是錯的——那邊的 `truncate()` 早就是 rune-safe。真正根因是
+  `EMILY/emily-agent/integration.go` 自己獨立實作的 `runBacklogCuration`(背景 RSI cron 每 15
+  分鐘呼叫的那份,用 `summary[:119]` byte-slice 截斷),跟 `emily.cli` 各自實作同一段邏輯,一份
+  修好一份沒有。改用 `[]rune`,新增 regression test(用真實撞到 bug 的生產資料,驗證過修復前
+  FAIL/修復後 PASS)。emily-agent daemon 已重啟生效。Apple #13707,commit `1a00e2e`。
+  session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:while true do continue——重申標準'持續運作'模式,不停下等許可,繼續backlog隊列(10v10訓練背景跑著,同時處…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-15T18:56:49Z.
 ---
 
