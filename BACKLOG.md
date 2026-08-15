@@ -1091,6 +1091,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **自我修正:剛才Apple #13608跟REDGARDEN commit都誤稱這是'首次'真正end-to-end --autocurriculum訓練——�…** — obs `2026-08-14T23:39:45Z`. CURATED: 2026-08-14.
 - [ ] **創辦人即時指示:continue(繼續backlog隊列工作)** — obs `2026-08-15T18:23:49Z`. CURATED: 2026-08-15.
 - [ ] **創辦人即時指示:檢查目前long running訓練狀態(之前的200K autocurriculum已於昨晚完成,35% win rate,已report過)** — obs `2026-08-15T18:23:57Z`. CURATED: 2026-08-15.
+- [ ] **創辦人即時指示:確保最先進(frontier)模型用在REDGARDEN 10v10 bot對戰——先調查現況(記憶:先前RL checkpoint都是team_size=3訓練的,10v10 pool之前是hard-gated no-o…** — obs `2026-08-15T18:24:29Z`. CURATED: 2026-08-15.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
