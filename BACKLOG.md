@@ -4354,10 +4354,29 @@ caught. Not resolved here: renaming an entire spec's established branding (refer
 its own doc, golden-docs-index, and cross-references from other HQ-SPECs) is a real product-
 naming decision, not a mechanical rename — surfaced for the founder, not decided unilaterally.
 
-- [ ] **S145-01: `fabledata` snapshotting over the EPS headline corpus** — the richest oracle-graded set
+- [x] **S145-01: `fabledata` snapshotting over the EPS headline corpus** — the richest oracle-graded set
   in the house. Content-addressed dataset manifests with per-record provenance (source event hash,
   labeling oracle, label date, license class); contamination tombstoning of eval records by hash —
   mechanical, not procedural. Training never reads live stores.
+
+  **DONE 2026-08-15.** Go rewrite of the contract gpt2-alpine-c's own Python prototype (S146-01/02,
+  `scripts/prime_directive_dataset.py`) already established, per SECTION 146's own note that those
+  items "feed S145-01/02/03; they do not replace them." New `PRRJECT_FATBABY/internal/fabledata`
+  package + `cmd/fabledata`: joins `var/eps/articles.ndjson` (generated headline text) against
+  `var/eps/oracle.ndjson` (reality-rooted grade from the filed 8-K) by `SourceIdentity`;
+  content-addressed manifest (sha256 over sorted example IDs, immutable once written — a re-run
+  over unchanged data is a no-op, not an overwrite); contamination-tombstone mechanism wired in
+  now, even though it's empty until `fableeval`/S145-02 lands. **Real bug self-caught after the
+  first pass landed**: initially gated on confirmed+contradicts (both are "reality-graded" in an
+  oracle-governance sense), but re-reading SECTION 146's own S146-02 note ("only `confirmed` cases
+  are FABLE-eligible; pending/contradicted excluded and counted") caught that `contradicts` means
+  the extraction pipeline got the headline *wrong* — training on it would teach a generator to
+  reproduce its own error, not grade it against reality. Fixed to confirmed-only, with exclusions
+  counted (not silently dropped) via a new `Stats` return value, matching the Python prototype's
+  own established contract exactly. 11 tests, `go build`/`vet`/`test ./...` clean. Verified against
+  the live corpus: 0 confirmed examples today (all 39 current oracle cases are still `pending` —
+  `eps-reconciler` hasn't matched an 8-K yet), correctly — honest quiescence, not a bug. Apples
+  #13720 + #13721, commits `fff1d0e` + `5743e97` + `b77cb01`. (sess-20260813-2154-dda37e8b)
 
 - [ ] **S145-02: `fableeval` — EPS suite frozen as oracle v1, before any training** — so day-one numbers
   are honest. Suites declare their reality root and live under PRIME-101 §5 oracle governance (frozen,
