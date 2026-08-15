@@ -1102,6 +1102,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示:確保最先進(frontier)模型用在REDGARDEN 10v10 bot對戰——先調查現況(記憶:先前RL checkpoint都是team_size=3訓練的,10v10 pool之前是hard-gated no-o…** — obs `2026-08-15T18:24:29Z`. CURATED: 2026-08-15. 已調查:10v10 pool確認純heuristic,team_rl_engage_nudge有硬性gate(team_size!=3即no-op)——所有checkpoint都是team_size=3維度,套到10v10會讀錯記憶體位置。已用AskUserQuestion確認方向,見下一條。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人決策(AskUserQuestion):啟動全新team_size=10訓練(大工程,推薦先確認範圍)——先調查scripts/rl_train_team.py/rl_env_team.py對team_size=10的支援程度,再評…** — obs `2026-08-15T18:33:44Z`. CURATED: 2026-08-15. 已完成:C simulation+Python env層本就通用支援team_size 2-10,smoke test確認313fps,已啟動500K timesteps正式訓練(--noisy-gestalt,比照先前最佳3v3規模)。Apple #13699,REDGARDEN commit `b6ed8c0`。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:continue——team_size=10 smoke test還在背景跑(5分鐘上限,測試真實fps),同時繼續處理其他backlog項目** — obs `2026-08-15T18:47:57Z`. CURATED: 2026-08-15. 已完成:同上,訓練已啟動,Monitor持續追蹤中。session: sess-20260813-2154-dda37e8b
+- [ ] **自我修正:先前估計team_size=10訓練約27分鐘完成是錯的——那是用純rollout collection的313fps估算,沒算進PPO policy update時間。實測完整訓練速度是51 timesteps/sec,500…** — obs `2026-08-15T19:04:41Z`. CURATED: 2026-08-15.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
