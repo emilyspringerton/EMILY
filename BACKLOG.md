@@ -1095,6 +1095,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人決策(AskUserQuestion):啟動全新team_size=10訓練(大工程,推薦先確認範圍)——先調查scripts/rl_train_team.py/rl_env_team.py對team_size=10的支援程度,再評…** — obs `2026-08-15T18:33:44Z`. CURATED: 2026-08-15. 已完成:C simulation+Python env層本就通用支援team_size 2-10,smoke test確認313fps,已啟動500K timesteps正式訓練(--noisy-gestalt,比照先前最佳3v3規模)。Apple #13699,REDGARDEN commit `b6ed8c0`。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:continue——team_size=10 smoke test還在背景跑(5分鐘上限,測試真實fps),同時繼續處理其他backlog項目** — obs `2026-08-15T18:47:57Z`. CURATED: 2026-08-15. 已完成:同上,訓練已啟動,Monitor持續追蹤中。session: sess-20260813-2154-dda37e8b
 - [ ] **emily backlog curate 截斷長摘要時沒顧到 UTF-8 字元邊界,曾一次讓 BACKLOG.md 出現無效 byte(已手動修復該案例,commit `4da2b14`)——curate 工具本身的截斷邏輯(疑似 Go 的 byte-slice `[:N]` 而非 rune-safe 切法)尚未修,是獨立的、值得之後找時間修的小 bug。** — obs `2026-08-15T18:53:00Z`. CURATED: 2026-08-15. session: sess-20260813-2154-dda37e8b
+- [ ] **創辦人即時指示:while true do continue——重申標準'持續運作'模式,不停下等許可,繼續backlog隊列(10v10訓練背景跑著,同時處理其他項目)** — obs `2026-08-15T18:56:49Z`. CURATED: 2026-08-15.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
