@@ -357,6 +357,13 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **創辦人即時指示:continue(打字片段'tinue'/'bitch'/'continue'——催促繼續,無新實質內容)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T20:30:58Z.
 - [ ] **創辦人即時指示:修完 chat bridge 之後,接下來照 backlog 裡'unblocked revenue'順序繼續工作** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T20:35:16Z.
 - [ ] **創辦人即時指示:then continue——S175-03已規劃到需founder拍板的節點,不擅自選方案動工,轉回一般backlog picking找其他…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T21:02:59Z.
+- [ ] **創辦人即時指示:continue(繼續backlog隊列)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T21:13:50Z.
+- [ ] **創辦人即時指示補充串:(1) especially Live/Breaking等即時頁面要優先確保當前內容 (2) ALL newswires都要涵蓋,不只P…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T21:23:20Z.
+- [ ] **創辦人即時指示補充:確保所有fatbaby top-level nav項目都有當前內容——重申並擴大先前nav過舊的要求,不只是earnings widget…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T21:23:09Z.
+- [ ] **創辦人即時指示:CONTINUE——訓練持續正常(135168/200000),轉向動手修復 S166-01/S160-05(已完整診斷,1104筆/11檔t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T22:31:02Z.
+- [ ] **自我修正:剛才Apple #13608跟REDGARDEN commit都誤稱這是'首次'真正end-to-end --autocurriculum訓練——…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-14T23:39:45Z.
+- [ ] **emily backlog curate 截斷長摘要時沒顧到 UTF-8 字元邊界,曾一次讓 BACKLOG.md 出現無效 byte(已手動修復該案例,co…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-15T18:53:00Z.
+- [ ] **創辦人即時指示:while true do continue——重申標準'持續運作'模式,不停下等許可,繼續backlog隊列(10v10訓練背景跑著,同時處…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-15T18:56:49Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1069,33 +1076,26 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示片段:'then'(可能未打完,持續等待更多內容;同時依既有'unblocked revenue順序'方向繼續推進 S175-03)** — obs `2026-08-14T20:58:40Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:continue(確認'then continue'——繼續推進,S175-03開放資料釋出規劃)** — obs `2026-08-14T20:58:46Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示片段:'backlog'(組合成'then continue backlog'——重申照backlog/unblocked revenue順序繼續,非新方向)** — obs `2026-08-14T20:58:56Z`. CURATED: 2026-08-14. 已完成:S175-03 開放資料釋出規劃草案(Apple #13563)。session: sess-20260813-2154-dda37e8b
-- [ ] **創辦人即時指示:continue(繼續backlog隊列)** — obs `2026-08-14T21:13:50Z`. CURATED: 2026-08-14.
-- [ ] **創辦人即時指示補充串:(1) especially Live/Breaking等即時頁面要優先確保當前內容 (2) ALL newswires都要涵蓋,不只PR Newswire (3) also skuldmark(這次修復也要考慮SK…** — obs `2026-08-14T21:23:20Z`. CURATED: 2026-08-14.
   **部分處理,仍open:** (3) SKULDMARK 已在 S175-01 完成整合。(4) "newsier page sparse" 初步查過
   `/breaking`:確有內容,最新到2026-08-12(2天前,不算完全空但不夠即時)。**尚未處理:** (1) Live/
   Breaking 頁面沒有做額外優先權處理;(2) "ALL newswires" 需要 founder 決定要接哪些供應商
   (Business Wire/GlobeNewswire等)——目前只有 PR Newswire 一個來源,擴大是新功能規模的決策,
   不是我能片面決定的。session: sess-20260813-2154-dda37e8b
-- [ ] **創辦人即時指示補充:確保所有fatbaby top-level nav項目都有當前內容——重申並擴大先前nav過舊的要求,不只是earnings widget一項** — obs `2026-08-14T21:23:09Z`. CURATED: 2026-08-14.
   **部分處理:** S166-01/S160-05 根因已完整追查(1104筆/11檔ticker 受影響),但真正修復(兩處程式
   碼改動)尚未動手,留待獨立一個 pass。其餘 nav 項目(governance/earnings/press-releases 等)
   尚未逐一巡查。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:then/continue(訓練持續正常,30720+43008 timesteps進度確認)——繼續深查S166-01根因(已追到processor unmarshal filing_discovered的欄位缺失問題)** — obs `2026-08-14T21:21:03Z`. CURATED: 2026-08-14. 已完成:S166-01/S160-05完整根因追查(1104筆/11檔ticker,見該條目),未動手修(範圍需獨立pass)。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示片段:'okn9indon the 4 kings'(疑似'ok on the 4 kings'打字錯誤)——含義不明確,查詢相關脈絡中** — obs `2026-08-14T21:34:07Z`. CURATED: 2026-08-14. 已解答:片段組合後是'wtf redgarden new...i dont see em'(見下一條),Four Kings問題已找到根因並修復。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示,組合完整:'wtf redgarden [n]ew...i dont see em'——founder去REDGARDEN/GFD找Four Kings機制(記憶記錄:Jungle Camps Milestone 5,已p…** — obs `2026-08-14T21:34:18Z`. CURATED: 2026-08-14. 已修復:真正根因是redgarden-stable(GFD Battlegrounds真正部署)自08-10就沒promote,不是Four Kings程式碼本身有問題(REDGARDEN main/GFD fork的Four Kings工作都是真的、測試通過的)。已git pull+rebuild+重啟兩個服務,live確認健康。Apple #13584,REDGARDEN commit `237bf6e`。session: sess-20260813-2154-dda37e8b
-- [ ] **創辦人即時指示:CONTINUE——訓練持續正常(135168/200000),轉向動手修復 S166-01/S160-05(已完整診斷,1104筆/11檔ticker,兩處程式碼修復)** — obs `2026-08-14T22:31:02Z`. CURATED: 2026-08-14.
 - [x] **創辦人即時指示片段:'tie a bow as a blog test'+'blog post rather'(打字模糊,大寫可能是語音輸入)——理解為:把最近完成的工作包裝成一篇部落格文章。挑選主題:Four Kings/redgard…** — obs `2026-08-14T22:31:20Z`. CURATED: 2026-08-14. 已發布:《The King Who Existed in Source Only》,North/Vaisravana第一人稱講述redgarden-stable部署落後的故事,誠實不誇大。https://okemily.com/blog/the-king-who-existed-in-source-only/(200確認)。Apple #13593。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:'I need one in Engrish PRS'——理解為要一份英文版(please)的部落格文章(剛發布的Four Kings/North文章是繁體中文)** — obs `2026-08-14T22:34:19Z`. CURATED: 2026-08-14. 已發布:同一故事的英文版(IDUNA blog API無update端點,用獨立-en slug)。https://okemily.com/blog/the-king-who-existed-in-source-only-en/(200確認)。Apple #13596。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:CONTINUE——動手修復S166-01/S160-05(1104筆/11檔ticker的source_document_persisted誤標問題,兩處程式碼修復:event修正+docindex去重邏輯)** — obs `2026-08-14T22:37:29Z`. CURATED: 2026-08-14. 已完成,見S166-01/S160-05條目。Apple #13603。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示補充:'AND A BLOG POST'——要另一篇部落格文章。順序:先完成S166-01/S160-05實際修復,再寫文章記錄(維持本session一貫'先做完再寫故事'的模式,不是先講故事再回頭做)** — obs `2026-08-14T22:37:41Z`. CURATED: 2026-08-14. 已發布:《I Lied for Five Years and Nobody Asked》(財報日期小工具第一人稱)。https://okemily.com/blog/i-lied-for-five-years-and-nobody-asked/(200確認)。Apple #13605。session: sess-20260813-2154-dda37e8b
-- [ ] **自我修正:剛才Apple #13608跟REDGARDEN commit都誤稱這是'首次'真正end-to-end --autocurriculum訓練——…** — obs `2026-08-14T23:39:45Z`. CURATED: 2026-08-14.
 - [x] **創辦人即時指示:continue(繼續backlog隊列工作)** — obs `2026-08-15T18:23:49Z`. CURATED: 2026-08-15. 已完成:S166-01/S160-05修復+訓練檢查+10v10調查,見下方條目。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:檢查目前long running訓練狀態(之前的200K autocurriculum已於昨晚完成,35% win rate,已report過)** — obs `2026-08-15T18:23:57Z`. CURATED: 2026-08-15. 已回答:目前無訓練在跑,200K autocurriculum已於前晚23:39完成(35% win rate)。Apple #13690。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:確保最先進(frontier)模型用在REDGARDEN 10v10 bot對戰——先調查現況(記憶:先前RL checkpoint都是team_size=3訓練的,10v10 pool之前是hard-gated no-o…** — obs `2026-08-15T18:24:29Z`. CURATED: 2026-08-15. 已調查:10v10 pool確認純heuristic,team_rl_engage_nudge有硬性gate(team_size!=3即no-op)——所有checkpoint都是team_size=3維度,套到10v10會讀錯記憶體位置。已用AskUserQuestion確認方向,見下一條。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人決策(AskUserQuestion):啟動全新team_size=10訓練(大工程,推薦先確認範圍)——先調查scripts/rl_train_team.py/rl_env_team.py對team_size=10的支援程度,再評…** — obs `2026-08-15T18:33:44Z`. CURATED: 2026-08-15. 已完成:C simulation+Python env層本就通用支援team_size 2-10,smoke test確認313fps,已啟動500K timesteps正式訓練(--noisy-gestalt,比照先前最佳3v3規模)。Apple #13699,REDGARDEN commit `b6ed8c0`。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示:continue——team_size=10 smoke test還在背景跑(5分鐘上限,測試真實fps),同時繼續處理其他backlog項目** — obs `2026-08-15T18:47:57Z`. CURATED: 2026-08-15. 已完成:同上,訓練已啟動,Monitor持續追蹤中。session: sess-20260813-2154-dda37e8b
-- [ ] **emily backlog curate 截斷長摘要時沒顧到 UTF-8 字元邊界,曾一次讓 BACKLOG.md 出現無效 byte(已手動修復該案例,commit `4da2b14`)——curate 工具本身的截斷邏輯(疑似 Go 的 byte-slice `[:N]` 而非 rune-safe 切法)尚未修,是獨立的、值得之後找時間修的小 bug。** — obs `2026-08-15T18:53:00Z`. CURATED: 2026-08-15. session: sess-20260813-2154-dda37e8b
-- [ ] **創辦人即時指示:while true do continue——重申標準'持續運作'模式,不停下等許可,繼續backlog隊列(10v10訓練背景跑著,同時處理其他項目)** — obs `2026-08-15T18:56:49Z`. CURATED: 2026-08-15.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
