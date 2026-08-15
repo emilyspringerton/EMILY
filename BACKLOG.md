@@ -4462,10 +4462,21 @@ not replace them.*
   generation, before dedupe/write; manifest records the tombstone list's own hash. 12 new tests
   (40 total, all green). Apple #9913, gpt2-alpine-c commit `458756c`.
 
-- [ ] **S146-05: corpus_stats.py provenance audit mode** — for snapshot corpora: verdict / oracle /
+- [x] **S146-05: corpus_stats.py provenance audit mode** — for snapshot corpora: verdict / oracle /
   license-class breakdown + contamination check (zero tombstoned hashes present, else exit
   non-zero) — the "contamination audit results (must be zero findings)" metric from
   HQ-SPEC-AI-103 §7.
+
+  **DONE 2026-08-15.** New `--provenance-audit` flag in `scripts/corpus_stats.py`: reads only
+  records carrying a `_provenance` block (the S146-01/02 snapshot format), reports verdict /
+  source-pipeline / license-class breakdown (`_source` used as the honest proxy for "oracle" —
+  the schema's `_provenance` block carries `oracle_case_id`, which *case*, not a named oracle
+  field), then cross-checks every record's `source_event_hash` against `var/eval-tombstones.json`
+  (S146-04) — any overlap is a real contamination finding and exits non-zero, not a warning to
+  note and move past. 15 new tests, full suite 55/55 green. Verified end-to-end against a real
+  live-built `--fable-eps` snapshot (0 records, correctly — 0 confirmed cases exist in the corpus
+  today) and a synthetic snapshot with a deliberately planted contaminated record (correctly
+  caught, exit 1). Apple #13726, commit `192d906` + CHANGELOG `257bb26`. (sess-20260813-2154-dda37e8b)
 
 - [x] **S146-06: Track A rebuild + baseline refresh** — rebuild the general Emily corpus so the six
   newly-registered HQ-SPEC docs (098–103, Tier 2) are ingested; run corpus_stats; refresh
