@@ -871,8 +871,14 @@ func (s *IntegrationStore) runBacklogCuration() (int, error) {
 			continue
 		}
 		summary := obs.Summary
-		if len(summary) > 120 {
-			summary = summary[:119] + "…"
+		if r := []rune(summary); len(r) > 120 {
+			// Rune-safe, not byte-safe -- a byte-slice cut (the previous
+			// summary[:119]) can land mid-multibyte-character for non-ASCII
+			// text (Chinese summaries are the common case here) and emit an
+			// invalid UTF-8 byte into BACKLOG.md. Found live 2026-08-15: this
+			// silently broke plain `grep` against the whole file (grep treats
+			// a file with invalid UTF-8 as binary and skips text search).
+			summary = string(r[:119]) + "…"
 		}
 		// Escape markdown bold markers.
 		summary = strings.ReplaceAll(summary, "**", "*")
