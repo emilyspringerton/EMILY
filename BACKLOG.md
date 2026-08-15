@@ -5752,11 +5752,26 @@ just our 50-ticker watchlist.*
   — founder self-serve registration at eia.gov/opendata/register.php (email only, no OAuth/
   browser-consent flow), queued in `EMILY/docs/DESKTOP_QUEUE.md`. Once a key exists: new watcher
   following the exact `market-data-watcher` shape.
-- [ ] **S165-03: Phase 3 — Federal Reserve / FOMC.** Two pieces: (a) ingest
+- [x] **S165-03: Phase 3 — Federal Reserve / FOMC.** Two pieces: (a) ingest
   `federalreserve.gov/feeds/press_monetary.xml` (public RSS, no key) on a poll, same shape as
   `prwatch`; (b) a small fixed calendar of published FOMC meeting dates (announced yearly, not
   rule-computable like NYSE holidays — sourced from the Fed's own published schedule, not
   invented).
+
+  **DONE 2026-08-15.** New `PRRJECT_FATBABY/internal/fedwatch` + `cmd/fed-watch`. (a) Real
+  `encoding/xml` RSS parsing (not regex — unlike PR Newswire, this source is already well-formed
+  RSS), same discover→load-seen→dedupe→append shape as `prwatch.RunDiscovery`, `fomc_press_
+  discovered` events. (b) FOMC calendar 2021–2027 fetched live from `federalreserve.gov/
+  monetarypolicy/fomccalendars.htm` and cross-checked against the live press feed's own "Federal
+  Reserve issues FOMC statement" items — both the June 16-17 and July 28-29 2026 statement dates
+  in the live feed match tracked meetings exactly, confirming the calendar against real
+  independent evidence, not just transcribed once and trusted. 20 tests, including a real RSS
+  fixture captured live (not synthesized). `go build`/`vet`/`test ./...` clean. Verified end-to-
+  end against the real live feed, not just fixtures: 15 real press releases discovered and
+  persisted on first run, correctly deduped (0 discovered, 15 seen-skipped) on a second run;
+  next-meeting computation correctly returned Sep 15-16 2026 given today's date. **Data-ingestion
+  only** — no display surface yet, same ship-the-data-first sequencing S165-05 (bonds) already
+  used. Apple #13743, commit `06705e2` + CHANGELOG `a8d5853`. (sess-20260813-2154-dda37e8b)
 - [ ] **S165-04: Phase 4 — investor/earnings conference call schedule.** Distinct from the
   existing `internal/earningscal` (tracks report *date* + BMO/AMC only, no dial-in/webcast/call-
   time info). No source picked yet — real research/founder decision needed before any code:
