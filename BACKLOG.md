@@ -4379,9 +4379,28 @@ naming decision, not a mechanical rename — surfaced for the founder, not decid
   `eps-reconciler` hasn't matched an 8-K yet), correctly — honest quiescence, not a bug. Apples
   #13720 + #13721, commits `fff1d0e` + `5743e97` + `b77cb01`. (sess-20260813-2154-dda37e8b)
 
-- [ ] **S145-02: `fableeval` — EPS suite frozen as oracle v1, before any training** — so day-one numbers
+- [x] **S145-02: `fableeval` — EPS suite frozen as oracle v1, before any training** — so day-one numbers
   are honest. Suites declare their reality root and live under PRIME-101 §5 oracle governance (frozen,
   versioned, rotated only against held-out reality). Depends: S141-01 for freeze/version mechanics.
+
+  **DONE 2026-08-15.** New `PRRJECT_FATBABY/internal/fableeval`, mirroring `internal/eps/norngate`'s
+  `EPSOracle` pattern (S141-02, unblocked here since S141-01/02 already landed) but for
+  headline-*generation* quality instead of extraction accuracy: `EPSHeadlineOracle` implements
+  `norn.Oracle`, `Version()` is a content hash over the eval-set definition (PRIME-101 §5's
+  freeze/version mechanics, inherited directly — no new mechanism needed), `Grade()` runs
+  `eps.Generate()` against a frozen 4-case fixture set (one per `buildHeadline` branch: GAAP
+  positive, GAAP loss, adjusted-only, full-year period) and scores exact-match accuracy. This *is*
+  "the EPS suite frozen as oracle v1" — a real, versioned, gradeable oracle exists now, ahead of
+  any FABLE training, exactly the ordering the spec calls for. Graded the one real headline
+  generator that exists today (deterministic, template-based) rather than leaving the harness
+  unproven until E0 lands — the same "prove the harness against something real" move S141-02 made
+  for extraction. Same interface a future FABLE checkpoint gets graded through once S145-03 lands:
+  swap `eps.Generate()` for a checkpoint's inference call, no harness change. Fixture-based for the
+  same disclosed reason `EPSOracle`'s own `DefaultEvalSet` is — the live `fabledata` corpus
+  (S145-01) has zero confirmed cases today, no real graded ground truth to freeze yet. 5 tests
+  including a negative control (a deliberately-wrong expected headline must fail `Grade`, proving
+  it's actually comparing text, not vacuously passing). `go build`/`vet`/`test ./...` clean. Apple
+  #13724, commit `92c7934` + CHANGELOG `7c6b42c`. (sess-20260813-2154-dda37e8b)
 
 - [ ] **S145-03: E0 — fine-tune published GPT-2 weights on EPS headlines** — stand the whole stack up
   end to end; wire NORN; first gated promotion (or honest rejection) of a FABLE checkpoint. Expected
