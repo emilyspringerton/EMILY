@@ -1,3 +1,7 @@
+## 2026-08-15
+
+- emily-agent/integration.go: runBacklogCuration截斷summary改用rune-safe([]rune),修復真正的無效UTF-8根因(不是emily.cli,是RSI cron自己獨立實作的一份重複邏輯)。新增regression test。commit 1a00e2e。 (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-14
 - goldenbuild: fallback entries(500字元截斷版)從沒被自動重試的bug修復,71%的golden context來源受影響。IsFallback欄位+Build/MaybeRebuild兩處判斷修正。commit 70b1857。 (sess-20260813-2154-dda37e8b)
 - S175-04 完成:開放資料釋出 teaser 部落格文章已發布(繁中/梵文/英譯三語),https://okemily.com/blog/the-thread-not-yet-cut/ (sess-20260813-2154-dda37e8b)
