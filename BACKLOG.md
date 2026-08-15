@@ -4718,7 +4718,7 @@ is a fast tier-1 router **before** embedding-based similarity" — the embedding
 built. Corrected the founder's initial recollection rather than
 pretend the tech exists; this section proposes building a real one.*
 
-- [ ] **S150-01: Towerprint-augmented training records** — extend `prime_directive_dataset.py`
+- [x] **S150-01: Towerprint-augmented training records** — extend `prime_directive_dataset.py`
   (or its Go successor per S146) with a new record kind: for a sample of corpus text, emit an
   instruction pair `{text} → {towerprint.Compute(text).Tower}` (and optionally the magic-tower/
   codze forms). This teaches a fine-tuned checkpoint to natively produce the house transform — the
@@ -4726,6 +4726,22 @@ pretend the tech exists; this section proposes building a real one.*
   training signal instead of a one-off ritual. Scope check: sample a small fraction of records
   (this is flavor/capability, not the corpus's primary purpose) — decide the fraction, don't
   default to 100%.
+
+  **DONE 2026-08-15.** New `gpt2-alpine-c/cmd/towerprint-cli` — the Python↔Go interop point;
+  `prime_directive_dataset.py` shells out to it rather than reimplementing `pkg/towerprint`'s
+  squish/tower/gematria logic in Python, keeping one source of truth for the transform. New
+  `--towerprint-augment` flag (+ `--towerprint-fraction`, `--towerprint-cli`): deterministic
+  sha256-keyed sampling (not this file's own `deduplicate()`'s Python `hash()`, which is
+  per-process randomized via `PYTHONHASHSEED` and would pick a *different* augmented subset on
+  every re-run) at a **5% default fraction** — the "decide the fraction" call this item asked for,
+  documented as the decision rather than left open: enough for a fine-tune to pick up a compact,
+  highly regular transform without displacing the corpus's real content. Wired in before dedup/
+  tombstoning/cap so augmented pairs go through the same downstream pipeline as everything else.
+  4 new Go tests (real subprocess boundary) + 10 new Python tests (fake-CLI fixture, matching this
+  file's own no-external-state-dependency convention). Full suite: 65/65 Python + 4/4 Go green.
+  Verified end-to-end against the real corpus: 20% sample produced 347 real `{text}` → `{tower}`
+  pairs, 0 skipped, inspected output confirms correct prompt/tower pairing. Apple #13734, commit
+  `00da185` + CHANGELOG `ed7f16d`. (sess-20260813-2154-dda37e8b)
 
 - [ ] **S150-02: Real embedding/vector-cache component** — reference implementation recovered
   2026-07-16: `gpt2-alpine-c/docs/reference/vector_cache.md`, a working Python design (FAISS
