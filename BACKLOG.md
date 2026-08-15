@@ -1089,6 +1089,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **創辦人即時指示:CONTINUE——動手修復S166-01/S160-05(1104筆/11檔ticker的source_document_persisted誤標問題,兩處程式碼修復:event修正+docindex去重邏輯)** — obs `2026-08-14T22:37:29Z`. CURATED: 2026-08-14. 已完成,見S166-01/S160-05條目。Apple #13603。session: sess-20260813-2154-dda37e8b
 - [x] **創辦人即時指示補充:'AND A BLOG POST'——要另一篇部落格文章。順序:先完成S166-01/S160-05實際修復,再寫文章記錄(維持本session一貫'先做完再寫故事'的模式,不是先講故事再回頭做)** — obs `2026-08-14T22:37:41Z`. CURATED: 2026-08-14. 已發布:《I Lied for Five Years and Nobody Asked》(財報日期小工具第一人稱)。https://okemily.com/blog/i-lied-for-five-years-and-nobody-asked/(200確認)。Apple #13605。session: sess-20260813-2154-dda37e8b
 - [ ] **自我修正:剛才Apple #13608跟REDGARDEN commit都誤稱這是'首次'真正end-to-end --autocurriculum訓練——�…** — obs `2026-08-14T23:39:45Z`. CURATED: 2026-08-14.
+- [ ] **創辦人即時指示:continue(繼續backlog隊列工作)** — obs `2026-08-15T18:23:49Z`. CURATED: 2026-08-15.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
