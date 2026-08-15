@@ -4102,7 +4102,7 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
   repo (same blocker as S127-04/PITVIPER — no `gh` CLI, no API token) — committed locally only,
   needs the founder to create `emilyspringerton/GOLDENBAND` before this can be pushed.
 
-- [ ] **S144-02: SHANKPIT integration** — skeletal playback locked to the 64-tick fixed timestep;
+- [x] **S144-02: SHANKPIT integration** — skeletal playback locked to the 64-tick fixed timestep;
   render-rate smoothness from the existing state interpolation layer, never re-sampling. Scope: one
   character, one idle, one walk.
   **Researched 2026-08-06, not implemented — a real fork found, needs a call before writing code.**
@@ -4159,7 +4159,41 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
   **Honest gap**: the mingw Windows cross-compile target shares the same source list but
   couldn't be verified here (no mingw toolchain in this environment) — portability was a design
   choice, not yet a build-verified fact on that platform. SHANKPIT `a5a04c2`. Apple #12400.
-  **Stages B and C not started.**
+
+  **Stages B+C DONE, 2026-08-15.** Ported REDGARDEN/GFD's S144-07 `gband_mesh_rig` (loaders +
+  CPU skinning) into `packages/goldenband/`, added `packages/common/mat4.h` (the gap flagged
+  above), copied `tyler_body.gskel/.gmesh/_idle.gband/_walk.gband` into `assets/goldenband/`, and
+  wired into `draw_player_skin_tyler()`/`SKIN_TYLER` exactly as staged — real character now
+  renders instead of the procedural box body, falling back to the box on any load failure.
+  **Deliberate deviation from the original Stage B plan**: did NOT do the tick/alpha-blend
+  rewrite (advance by `TICK_DT` inside the tick loop, blend two sampled poses by render `alpha`)
+  that this item's own 2026-08-06 research called for. Re-reading `gband.h`'s own spec comment
+  while implementing: "render smoothing comes from the consumer's own state-interpolation layer,
+  never from re-sampling here" — `gband_mesh_rig_draw`'s existing per-call `dt_ms` accumulator
+  (exactly how REDGARDEN/GFD already call it) already IS a valid state-interpolation layer,
+  frame-rate-independent on its own; the tick/alpha convention SHANKPIT's other systems use exists
+  specifically to smooth discrete network-tick *position* updates between server ticks, a
+  different problem than continuous skeletal animation clock advancement. Lower-risk, less new
+  code, same visual smoothness — used the simpler approach with this reasoning made explicit
+  rather than the originally-scoped one. Two real bugs found and fixed via Xvfb screenshot
+  verification, not assumed: (1) `gband_mesh_rig_draw` hardcoded hero Y to 0 in the original
+  (fine for REDGARDEN's flat arena) — added a real `hero_y` parameter since SHANKPIT has actual
+  jumping/verticality; a floating/ground-desynced mesh would have shipped silently otherwise.
+  (2) facing: naive guess was "reuse the box body's `(180-draw_yaw)` formula" — wrong, caught by
+  comparing box-body vs mesh renders at the identical yaw=0 (an offline 2-bot local match, camera
+  and bot pinned to fixed positions every frame including inside the tick loop, since bot AI was
+  found to silently override a once-per-frame pin) — the box showed its back at yaw=0 as expected,
+  the mesh showed its front, an exact 180-degree mismatch traced to the two assets' bind poses
+  facing opposite directions. Fixed to `-draw_yaw` (no `+180` term), re-verified at yaw=0/90/180
+  (back/profile/front-with-visible-face all read correctly). Stage A's magenta-square
+  pipeline-proof code removed, superseded by the real mesh now proving the same thing better.
+  `MAX_SLOTS` bumped 64→70 in this port to match SHANKPIT's own `MAX_CLIENTS` (an FPS lobby has
+  more concurrent players than REDGARDEN's MOBA-style hero cap). All temporary debug/preview CLI
+  hooks used for Xvfb verification reverted before commit, confirmed via `git diff`. `make lobby`
+  clean, `go build ./...` unaffected (pure C change). **Same honest gap as Stage A**: mingw
+  Windows cross-compile still unverified, no toolchain in this environment. **Not done, separate
+  future scope**: per-part material/color variety for the mesh (currently one flat grey, same as
+  the box body never had per-part palette either). SHANKPIT `f31cfcd` + `253d956`. Apple #13718.
 
 - [ ] **S144-03: Reward compiler v0 + training-backbone adapter** — one character learns to walk in
   physics sim tracking the authored clip (DeepMimic/AMP-lineage reward terms per §4); CAST the
