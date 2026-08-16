@@ -6065,9 +6065,29 @@ marked.*
   `SDL_OpenAudioDevice` failure path (no ALSA device in this environment) logs and continues
   normally — the designed fail-safe, not a crash. Apple #13798, commit `9904e04` + CHANGELOG
   `7193683`. (sess-20260813-2154-dda37e8b)
-- [ ] **S169-10: backport the scoreboard from `SHANKPIT` (parent repo) to `shankpit-460`.** Not
+- [~] **S169-10: backport the scoreboard from `SHANKPIT` (parent repo) to `shankpit-460`.** Not
   scoped yet — needs locating the parent repo's scoreboard implementation first (likely
   `packages/` or `apps/server`) before porting.
+
+  **FFA path DONE 2026-08-16, team-mode still open — genuinely partial, `[~]` not `[x]`.** Located
+  it: `draw_tab_scoreboard` in SHANKPIT's `apps/lobby/src/main.c`, TAB-held overlay with an FFA
+  branch and a team-mode (TDM/CTF) branch. Ported the FFA branch verbatim. Team-mode branch
+  deliberately **not** ported: it's keyed off `TDMB_BLUE_TEAM`/`TDMB_RED_TEAM` and a per-team
+  `local_state.team_scores` array, neither of which exist in this fork — shankpit-460's own
+  `GameMode` enum never gained the "B"/"O" bot-compatible team-mode variants SHANKPIT added after
+  the 2026-03-31 fork point, and `PlayerState.team_id` is declared but never actually assigned
+  anywhere in this codebase (confirmed by grep across both `apps/server` and `apps/lobby`, not
+  assumed). Porting team-mode UI on top of team data that doesn't exist would be a real-looking
+  display with nothing behind it. The FFA path shipped instead is grounded in real data —
+  kills/deaths are live-tracked (`packages/simulation/local_game.h`'s `apply_projectile_damage`)
+  and confirmed working via the `emily-bot` regression test's own per-bot kill/death columns.
+  Verified visually, not just compiled: a temporary throwaway build (TAB-held gate bypassed,
+  never touching the committed source — confirmed via `grep` after cleanup) run against a real
+  server and screenshotted under Xvfb — panel background, border, header text, and column labels
+  all render correctly at the right position/style. Real server+bot regression smoke test
+  (`emily-bot`, 3 bots) also PASS on the actual committed binary. Team-mode scoreboard stays open,
+  blocked on team-assignment logic that's a separate, larger feature — flagged, not silently
+  dropped. Apple #13800, commit `4ba4e94` + CHANGELOG `f839c6c`. (sess-20260813-2154-dda37e8b)
 - [ ] **S169-03: SHANKPIT login/accounts ("also login and all that").** Not scoped. Real design
   question: IDUNA already does Google OAuth for humans — a native SDL2 desktop client doing
   OAuth would need a system-browser + loopback-redirect flow, the same pattern just proven
