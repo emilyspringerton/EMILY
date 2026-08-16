@@ -5059,8 +5059,20 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   endpoints (emily-agent needs an HTTP listener in daemon mode first; SHANKPIT needs to actually be
   public, S19); per-target latency graphs from the already-recorded `latency_ms` column; a public
   incident/postmortem log tied to escalation Apples. Requested 2026-07-18, not yet scoped in
-  detail. **Partial progress 2026-07-25, see S153-16** — REDGARDEN's 3 services now checked; the
-  incident-timeline/latency-graph/postmortem-log candidates above are still open.
+  detail. **Partial progress 2026-07-25, see S153-16** — REDGARDEN's 3 services now checked.
+
+  **Partial progress 2026-08-16 — incident-timeline candidate DONE.** `GET /api/v1/status/history?
+  target=<name>&hours=<n>` (`statuspage.Store.History`, no schema change) exposes the same
+  `checks` rows `UptimePercent` already rolled up, now raw and chronological, capped at 500
+  samples/168h. `status.html` renders one colored bar per check per service (up/down, hover for
+  exact time + latency) — this is the "just needs a rendered history view" candidate this item
+  itself named as already-buildable, built as scoped. Live-verified through `okemily.com`'s public
+  proxy against real production data. 9 new tests, `go build`/`vet`/`test -race ./...` clean both
+  repos. IDUNA `bb83539`, OKEMILY `20c6936`, Apple #13807. **Still open**: per-target latency-graph
+  chart (the raw latency_ms is now in the API response, just not charted — a small follow-up, not
+  attempted here to keep this pass's scope to one shippable slice), more checked targets
+  (emily-agent/SHANKPIT still blocked on the same prerequisites as before), public postmortem log
+  tied to escalation Apples (real design work, not mechanical). (sess-20260813-2154-dda37e8b)
 
 - [x] **S153-16: REDGARDEN services on the status page.** Founder, real-time: "redgarden services
   need okemily status page." Added the three live systemd `--user` units
