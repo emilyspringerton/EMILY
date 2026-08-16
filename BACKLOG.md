@@ -6013,7 +6013,7 @@ marked.*
   remains stale/broken (references the deleted `apps/shank-fps/src/main.c`) but is irrelevant now
   that CI is confirmed as the real build path. Still open: `make lobby` fails locally on this box
   (`GL/glu.h` missing) — blocks verifying client changes locally, doesn't block CI.
-- [ ] **S169-02: 3-button lobby menu (BOTS / ONLINE / EMPTY) — needs porting.** Founder: "2
+- [x] **S169-02: 3-button lobby menu (BOTS / ONLINE / EMPTY) — needs porting.** Founder: "2
   buttons bots and online... a third for empty." Fully designed and implemented, but **against
   the wrong tree** (`apps2/lobby/src/main.c`, confirmed dead by S169-01) — sitting uncommitted,
   not lost. Needs porting to the real `apps/lobby/src/main.c`, which already has a more evolved
@@ -6021,6 +6021,27 @@ marked.*
   interactions) — this is an adaptation into that existing architecture, not a blind copy-paste
   of the apps2 patch. Design decision to re-confirm on port: **ONLINE meaning the local Go
   server (127.0.0.1)**, not `s.farthq.com` (unverified current build/status there).
+
+  **DONE 2026-08-16.** `LobbyAction` enum + `LOBBY_LABELS` trimmed from 6 entries (DEMO/BATTLE/
+  TDM/CTF/EVOLUTION/JOIN) to 3 (BOTS/ONLINE/EMPTY) — this flows straight through the real tree's
+  existing generic N-item list renderer, hit-tester, server-driven `ui_state.entries` override,
+  and double-click rename UI with **zero changes** to any of that machinery, exactly the
+  "adaptation, not copy-paste" this item called for; the apps2 reference patch's own hardcoded
+  fixed-position 3-button widget was not needed. TDM/CTF/Evolution/direct-remote-join are gone
+  from the front door (not deleted from the codebase, just not surfaced) — matches this repo's
+  own "lean esports fork" mission. ONLINE now explicitly overrides `SERVER_HOST` to `127.0.0.1`
+  in `lobby_start_action` before connecting, rather than trusting whatever `SERVER_HOST` already
+  held (its own default is `okemily.com`, the remote production host) — the re-confirmed design
+  decision, enforced not just documented. Verified visually, not just compiled: the lobby is
+  currently bypassed by an unconditional auto-connect-to-bot-pool boot hook (founder, 2026-08-04),
+  so a temporary throwaway build skipped just that one hook to actually reach `STATE_LOBBY` for a
+  screenshot — confirmed via `grep` afterward that the real committed source's hook is untouched.
+  Xvfb screenshot: three color-coded boxes reading BOTS/ONLINE/EMPTY, double-click-rename hint
+  text intact, rendering correctly through the existing list UI. Real server+bot regression smoke
+  test (`emily-bot`, 3 bots) also PASS on the actual committed binary. `apps2/lobby/src/main.c`'s
+  own uncommitted reference patch left exactly as found — not staged, not discarded, someone
+  else's in-progress work, now used as a working reference rather than touched. Apple #13803,
+  commit `009a5b4` + CHANGELOG `ba5c291`. (sess-20260813-2154-dda37e8b)
 - [x] **S169-08: portals should work without a hotkey** — founder: "portals should work without
   a hotkey" / "jump in them and you [g]o thru." Walking/jumping into a portal volume should
   trigger traversal automatically; no separate keypress. Not scoped — needs locating the current
