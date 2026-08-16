@@ -3985,7 +3985,16 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
     events there for no real consumer would be dependency for its own sake. Skipped — `nornd` (when
     built) will write directly into `Registry` (already NDJSON) and Back Office will poll it, the
     same pattern IDUNA's existing Apples Ledger panel already uses.
-  - **`norn` CLI, `nornd` daemon (scheduling + budget enforcement), Back Office metrics panel — not
+  - **`norn` CLI — DONE 2026-08-16.** `NORN/cmd/norn`: read-only `golden`/`history`/`status`
+    subcommands over an NDJSON registry file; `-kind` defaults to the registry's filename per the
+    one-kind-per-file convention every real instantiation already follows. Never writes — the
+    migration CLIs stay the only writers. Live-verified against both real production registries
+    (`eps_extractor.ndjson`, `entity_graph_rules.ndjson`) in `PRRJECT_FATBABY/var/norn/`: `status`
+    correctly summarized both kinds' real promotion history, `golden`/`history` round-tripped the
+    real recorded artifacts byte-for-byte. Unit test on the filename→kind inference + a real-binary
+    integration test. `go build`/`vet`/`test -race ./...` clean workspace-wide. NORN `9d2f5c7`,
+    Apple #13804.
+  - **`nornd` daemon (scheduling + budget enforcement), Back Office metrics panel — still not
     started.** IDUNA's admin UI has no plugin/registration mechanism (verified — every panel is a
     hardcoded route + template); a Back Office panel would follow the exact copy-paste pattern the
     existing Apples Ledger panel uses. Deferred to a future iteration rather than built shallow.
