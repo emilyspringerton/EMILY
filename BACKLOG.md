@@ -258,6 +258,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   backups. Ref: TYLER/outlines/emily_iduna_bootstrap.md Option B.
   Dependency: embedded SQLite stable ✓ (already done), need concrete reason to upgrade.
 
+- [x] **Founder real-time: "and a blog post pls... as GUNNR... re[garding]... stats... wotan...
+  hero stats... gunnr is in redgarden... then read gunnr in redgarden and the hero compendium in
+  tyler... also gpt2"** — Garbled, pieced together across ~10 dictation fragments. Identified
+  GUNNR as a real established REDGARDEN hero (TYLER `multiverse_heroes.md` #30, "Gunnr, Who
+  Argued With a Raven"; `ARENA_HERO_GUNNR` in `arena_game.h`/`arena_ai_bridge.c`). Ran
+  `REDGARDEN/scripts/hero_stats.py` for real per-hero win-rate data (374 real matches with
+  completed draft+outcome, not invented). Wrote the post in Gunnr's voice, honestly including
+  her own real 39.4% win rate (274 games, 108 wins — below median) rather than cherry-picking
+  flattering numbers, matching her established characterization (right about things nobody
+  credits her for, via checking rather than trusting authority). Tied in gpt2-alpine-c's
+  fabledata/fableeval "confirmed by reality, not just asserted" ethos and the 10v10 training's
+  honest 40% result, per the "also gpt2" fragment. Published via IDUNA blog API, live-verified
+  200 OK: https://okemily.com/blog/the-raven-was-wrong-so-are-half-my-matchups/. Apple #13793.
+  (sess-20260813-2154-dda37e8b)
+
 - [x] **Founder real-time: "can we get the frog to do a blog post on recent ecosystem
   updates?"** — Identified "the frog" as TYLER Series X's established character/voice
   (`episodes/x04_ask_the_frog_not_the_tree.md`, Apple #12279, the already-published "Ask the Frog
