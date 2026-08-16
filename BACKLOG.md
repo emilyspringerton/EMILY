@@ -6040,12 +6040,31 @@ marked.*
   — building portal-position-aware bot movement was judged disproportionate scope for a fix this
   size; flagged rather than silently skipped. Apple #13751, commit `d48e57c` + CHANGELOG `7bb71b5`.
   (sess-20260813-2154-dda37e8b)
-- [ ] **S169-09: backport spatial audio from `SHANKPIT` (parent repo) to `shankpit-460`.**
+- [~] **S169-09: backport spatial audio from `SHANKPIT` (parent repo) to `shankpit-460`.**
   Already specced, not blank-slate: `docs2/NORTHSTAR.md` §7 (commit `39ad098`) records the
   direction — SHANKPIT's existing `packages/audio/` (SDL2, procedural MIDI-style synthesis,
   spatial panning) is the base to port in, not build from scratch; the actual gap is an interface
   seam for a later real-asset swap-in. That commit was "design record only, no code written yet"
   — this is the founder now asking for the actual port.
+
+  **Weapon audio DONE 2026-08-16, footstep/ambient wiring still open — genuinely partial, `[~]`
+  not `[x]`.** New `shankpit-460/packages/audio/`: the synthesis engine ported unchanged, wrapped
+  behind a new `SoundEngine` vtable (`play_weapon`/`play_footstep`/`play_ambient`/`shutdown`) per
+  §7's own instruction to build the interface seam before porting — a future real-asset backend
+  becomes a second implementation behind the same `audio_play_weapon()`/etc. call sites, not a
+  rewrite. `play_ambient` didn't exist in SHANKPIT's original at all; added as a real callable
+  no-op (no ambient content designed yet) rather than omitted from the interface. Wired
+  `audio_play_weapon()` into the existing shooting-edge-detection point in
+  `apps/lobby/src/main.c`, spatialized against the local listener. **Not wired in this pass**:
+  footstep audio (no existing movement-cadence hook to attach `audio_play_footstep()` to — real
+  follow-on, not improvised) and ambient audio (no content designed yet, matches the interface's
+  own honest no-op). 11 new unit tests for the spatial-gain math (position/panning/distance-
+  rolloff/listener-yaw-rotation all independently verified). Both binaries build clean. Real
+  server+bot regression smoke test (`emily-bot`, 3 bots) PASS — confirms server side unaffected
+  (audio is client-only). Client verified live under Xvfb: starts clean, the engine's own graceful
+  `SDL_OpenAudioDevice` failure path (no ALSA device in this environment) logs and continues
+  normally — the designed fail-safe, not a crash. Apple #13798, commit `9904e04` + CHANGELOG
+  `7193683`. (sess-20260813-2154-dda37e8b)
 - [ ] **S169-10: backport the scoreboard from `SHANKPIT` (parent repo) to `shankpit-460`.** Not
   scoped yet — needs locating the parent repo's scoreboard implementation first (likely
   `packages/` or `apps/server`) before porting.
