@@ -258,6 +258,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   backups. Ref: TYLER/outlines/emily_iduna_bootstrap.md Option B.
   Dependency: embedded SQLite stable ✓ (already done), need concrete reason to upgrade.
 
+- [x] **Founder real-time: "and another blog as the duck... on being last"** — Identified Duck
+  as a real REDGARDEN hero (TYLER `multiverse_heroes.md` #103, "A Duck, Reportedly Telekinetic";
+  `ARENA_HERO_DUCK`, Telekinetic Yank/Total Telekinesis kit). Same `hero_stats.py` data run as
+  the Gunnr post: Duck is dead last on the whole roster, 297 games, 106 wins, 35.7% win rate.
+  Written in Duck's established voice (mythic/mundane deliberately unresolved, grandiose, never
+  breaks character to confirm or deny) rather than Gunnr's flat-honest register — the comedy is
+  Duck refusing to treat the real number as bad news without ever disputing it. Published:
+  https://okemily.com/blog/last-place-and-not-confirming-anything-about-it/. Apple #13796.
+  (sess-20260813-2154-dda37e8b)
+
 - [x] **Founder real-time: "and a blog post pls... as GUNNR... re[garding]... stats... wotan...
   hero stats... gunnr is in redgarden... then read gunnr in redgarden and the hero compendium in
   tyler... also gpt2"** — Garbled, pieced together across ~10 dictation fragments. Identified
