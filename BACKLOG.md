@@ -5990,10 +5990,26 @@ marked.*
   interactions) — this is an adaptation into that existing architecture, not a blind copy-paste
   of the apps2 patch. Design decision to re-confirm on port: **ONLINE meaning the local Go
   server (127.0.0.1)**, not `s.farthq.com` (unverified current build/status there).
-- [ ] **S169-08: portals should work without a hotkey** — founder: "portals should work without
+- [x] **S169-08: portals should work without a hotkey** — founder: "portals should work without
   a hotkey" / "jump in them and you [g]o thru." Walking/jumping into a portal volume should
   trigger traversal automatically; no separate keypress. Not scoped — needs locating the current
   portal-interaction code (`apps/lobby` and/or `apps/server`) first.
+
+  **DONE 2026-08-16.** Located both call sites: `apps/server/src/main.c` (the real authoritative
+  check) and `apps/lobby/src/main.c` (local single-player mode's client-side prediction) both
+  ANDed `use_pressed`/`use` (the USE-button edge trigger) onto `scene_portal_triggered`'s own
+  pure-proximity check — the proximity math itself was already correct, just gated behind a key
+  that shouldn't have been required. Removed the gate on both sides; vehicle enter/exit (a
+  separate interaction sharing the same USE button) split into its own branch, still keypress-
+  gated as before. Existing anti-retrigger guards (`portal_cooldown_until_ms` server-side,
+  `transition_timer` client-side) left unchanged, verified by reading through their own logic
+  that they still prevent an instant re-trigger loop. Both binaries build clean. Real server+bot
+  regression smoke test (`emily-bot`, 3 bots, real ticket auth): PASS — confirms the change
+  doesn't regress connection/combat/respawn logic. **Honest gap**: portal walk-through itself was
+  verified via code-tracing of the unchanged proximity math, not a live bot walking into a portal
+  — building portal-position-aware bot movement was judged disproportionate scope for a fix this
+  size; flagged rather than silently skipped. Apple #13751, commit `d48e57c` + CHANGELOG `7bb71b5`.
+  (sess-20260813-2154-dda37e8b)
 - [ ] **S169-09: backport spatial audio from `SHANKPIT` (parent repo) to `shankpit-460`.**
   Already specced, not blank-slate: `docs2/NORTHSTAR.md` §7 (commit `39ad098`) records the
   direction — SHANKPIT's existing `packages/audio/` (SDL2, procedural MIDI-style synthesis,
