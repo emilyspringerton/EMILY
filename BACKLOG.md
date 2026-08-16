@@ -5172,6 +5172,28 @@ response). Backlogged rather than dropped.*
   path, and re-derived/corrected all 61 live records. PRRJECT_FATBABY `7fc2b54` + `95764ee`.
   Apple #10011. Insider clusters / buyback / dividend / guidance still open.
 
+  **Partial progress 2026-08-16.** Checked all three remaining candidates before building
+  anything. **Insider clusters / dividend / buyback: already done, stale premise.** All three
+  already render live on ticker pages via the generic `graphread.LiveSignals` signal-card
+  mechanism — live-verified with real curl against PLTR (`insider_sell_cluster`, 3 real cards)
+  and TGT (`dividend_raise`) before writing any code. Same class of correction as S154-01's
+  directors panel. **Guidance: real gap, now closed.** `guidanceread.Store.ForTicker` existed,
+  tested, unused since `/section/guidance` landed — wired into `serveTicker` via the existing
+  `GuidanceItemsFrom` conversion, new "Guidance" sidebar box. **Self-caught bug on the first
+  attempt**: the panel initially landed in the wrong `html/template` block (`frontTemplate`
+  instead of `tickerTemplate` — both view structs share an `Earnings` field name, which is what
+  made the wrong insertion point compile and vet clean); `{{if .Guidance}}` executing against
+  `FrontPageView` (no such field) would have broken the live front page with a template
+  execution error the moment `.Lead` was non-nil — caught via a direct render test before it
+  ever reached production, fixed, and locked in with `TestTickerPage_Guidance` +
+  `TestTickerPage_Guidance_NilStore`. Live-verified against real production data: DOV (Dover's
+  real "raises FY 2026 EPS guidance to $8.94–$9.14") renders correctly; front page and a
+  no-guidance ticker (AAPL) both confirmed render-error-free. `go build`/`vet`/`test ./...`
+  clean. PRRJECT_FATBABY `b861e1f`, Apple #13809. **Still open**: the "one redesign" framing
+  this item originally asked for (deciding what belongs together visually) — each candidate
+  landed as its own independent sidebar box/mechanism rather than a unified panel; a real design
+  pass, not attempted here. (sess-20260813-2154-dda37e8b)
+
 ---
 
 ## SECTION 155: SHANKPIT-460 HEADLESS E2E TEST CLIENT + FINDINGS (2026-07-18)
