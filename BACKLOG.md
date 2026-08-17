@@ -15395,6 +15395,12 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   rest of a run, not just the one before the first request. 3 new tests. emily.cli `464a97b`.
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-16: 4 founder-named styles added to the registry.** Founder: "add these as top level
+  hard coded styles to potentially pull from - Whiteboard, Paper-craft, Anime, Kawaii." Registry
+  grows 14 → 18 (matches the existing bar: subject-agnostic transformation concepts, `surreal`
+  kind like every non-tobacco-card entry). 1 new test. emily.cli `8e784c0`.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
