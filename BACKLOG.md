@@ -15346,6 +15346,17 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   remembers-it-was-a-different-process/ (EMILY commit, changelog entry above).
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-13: Fix broken images on Prompt-o-verse subject pages.** Founder: "subject pages
+  work but the images are broken links." Root cause: `subject/<slug>/index.html` lives one
+  directory deeper than a leaf page (`<slug>/index.html`), but its `<img src>` reused the bare
+  `<slug>/<file>` relative path that's only correct from the top-level index one level up — every
+  subject page's images 404ed while the page itself (and its `<a href>` links, already absolute)
+  worked fine. Switched the `<img src>` to the same absolute `/prompt-o-verse/<slug>/<file>` shape
+  the `<a href>`s already used. Added a regression assertion on the actual resolved `src` — the
+  existing test only checked the `href`, which is exactly why this shipped unnoticed. Rebuilt,
+  restarted `iduna.service`, re-ran `cmd/promptoverse-rerender` to fix every already-published
+  subject page, not just future ones. IDUNA `4d0b39d`. (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
