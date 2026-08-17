@@ -1161,6 +1161,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T11:17:50Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: con (garbled 'continue' — standing 'keep working the backlog autonomously' reaffirmation, no new sub…** — obs `2026-08-17T11:17:34Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T11:38:51Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:34:42Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:25:26Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
