@@ -14978,23 +14978,31 @@ mission is to categorize all information." / "the affordance is the gallery/play
 humans an interface." Logged before writing per Principle 1; spec-only, same posture as SECTION
 170's Vault + OpenClaw northstars — grew out of real-time ideation, no code yet.*
 
-- [x] **S176-01: Write the Prompt-o-verse northstar.** Synthesized every fragment (5 separate
-  `emily observe` posts across the conversation, logged before each edit) into one coherent
-  document: the "categorize all information" mission reframe (generate-then-discover-taxonomy
-  instead of crawl-then-index); the taxonomy discovery loop (generate broad → observe emergent
-  categories → isolate the prompt per category → build the tree); two taxonomy branches
-  (historical/stylistic, matching something that really existed, vs. surreal/whimsical creative-
-  range demos like "ice cream novelty portraits," which don't); two-tier prompting (EZ prompt →
-  stored-or-model-expanded feature-rich prompt, left open which); the gallery/playground framed
-  correctly as *the affordance* per the founder's own correction, not a late bolt-on; a genuine
-  but undecided architectural fit with `NORN`'s propose→grade→gate→promote loop (HQ-SPEC-PRIME-101)
-  for the discovery loop's own candidate-grading step, flagged not assumed. Named what's
-  deliberately not decided rather than guessing: image-generation backend (checked — no existing
-  image-gen infrastructure exists anywhere in this monorepo today), repo home (none yet; doc lives
-  in `EMILY/docs/` per the OpenClaw precedent until a real repo exists), which domain comes after
-  baseball cards, moderation policy for a public rated gallery. VS0→VS1→VS2 phased plan: prove the
-  discovery loop by hand → build the two-tier prompt system → build the public gallery. Golden-
-  indexed as `PROMPT-O-VERSE-NORTH`. EMILY `docs/NORTHSTAR_PROMPT_O_VERSE.md`, commit pending.
+- [x] **S176-01: Write the Prompt-o-verse northstar.** Synthesized every fragment (12 separate
+  `emily observe` posts across the conversation, logged before each edit) into one coherent,
+  iteratively-refined document: the "categorize all information" mission reframe (generate-then-
+  discover-taxonomy instead of crawl-then-index); the **"reverse labeled dataset" framing**
+  (founder's own sharpest articulation — the taxonomy/label structure is the primary durable
+  asset, generated images are cheap regeneratable exemplars tagged back to their label, not the
+  dataset itself); the three-stage discovery mechanism (label → generate → label the generated
+  data itself, which is concretely how the per-category feature-value space gets discovered); two
+  taxonomy branches (historical/stylistic, matching something that really existed, vs. surreal/
+  whimsical creative-range demos like "ice cream novelty portraits," which don't); two-tier
+  prompting (EZ prompt → a *space* of feature-value combinations per category, not one fixed
+  expanded prompt — a single node like "80s mall portrait" can have 100+ real variations); the
+  gallery/playground framed correctly as *the affordance* per the founder's own correction, not a
+  late bolt-on; a genuine but undecided architectural fit with `NORN`'s propose→grade→gate→promote
+  loop (HQ-SPEC-PRIME-101) for the discovery loop's own candidate-grading step; a brainstormed
+  "beyond the playground" section (bootstrapping the tier-2 expansion model from its own discovery
+  data, a frozen `NORN`-Oracle eval benchmark, reverse style lookup, cross-repo creative-asset
+  seeding, a licensable dataset in its own right, prompt-engineering curriculum) — all flagged as
+  option value, none committed. Named what's deliberately not decided rather than guessing: image-
+  generation backend (checked — no existing image-gen infrastructure exists anywhere in this
+  monorepo today), repo home (none yet; doc lives in `EMILY/docs/` per the OpenClaw precedent
+  until a real repo exists), which domain comes after baseball cards, moderation policy for a
+  public rated gallery. VS0→VS1→VS2 phased plan: prove the discovery loop by hand → build the
+  two-tier prompt system → build the public gallery. Golden-indexed as `PROMPT-O-VERSE-NORTH`.
+  EMILY `docs/NORTHSTAR_PROMPT_O_VERSE.md`, commits `e937f19` + `854d814`.
   (sess-20260813-2154-dda37e8b)
 
 ---
