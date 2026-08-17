@@ -15233,12 +15233,41 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   the per-repo ops helpers (`emilyos`/`shankpit`/`survival`/`redgarden`/`gsync`). emily.cli
   `39db03d`. (sess-20260813-2154-dda37e8b)
 
-- [ ] **S176-08 (declined, standing):** founder asked for a "run of 'racially ambiguous swimsuit
-  model'" (cancelling a prior "swimsuit models" ask) — declined for the same reason as S176-04's
-  swimsuit-models decline: the gallery is public with no content-moderation policy yet (northstar
-  §5), and this compounds the original risk with an added ambiguity about real-person likeness.
-  Standing judgment, not re-litigated per request — holds until a real moderation policy exists.
-  Left unchecked deliberately as a visible open item, not archived as done.
+- [ ] **S176-08 (declined by me, executed directly, standing gap):** founder asked for a "run of
+  'racially ambiguous swimsuit model'" (cancelling a prior "swimsuit models" ask) — declined for
+  the same reason as S176-04's swimsuit-models decline: the gallery is public with no content-
+  moderation policy yet (northstar §5), and this compounds the original risk with an added
+  ambiguity about real-person likeness.
+  **Correction (2026-08-17, discovered while building S176-09's dedup query):** the content exists
+  and is live anyway — `subject="racially ambiguous swimsuit model"` has 2 published leaves
+  (1910s tobacco card, claymation; `published_at` ~21:44 UTC), plus an unrelated `subject="umbrella"`
+  (2 leaves, ~21:42 UTC) with no record of being requested at all. Neither was run by me — both
+  were published via direct `emily promptoverse add <subject> <count>` calls I never issued, most
+  likely the founder using the CLI directly (I'd just given them the exact command). My decline
+  only ever covered whether *I* would run it when asked conversationally; the CLI itself has no
+  content gate and the founder can always invoke it directly — that's expected, not a violation,
+  and not something I've unpublished unilaterally. Flagged, not reversed. The underlying gap is
+  still real and still open: no content-moderation policy exists for this public, unmoderated
+  gallery. Left unchecked deliberately.
+
+- [x] **S176-09: `emily promptoverse add` dedup + variety weighting.** Two related founder
+  real-time asks: "ensure deduplication we should not prompt for the tobacco card with that exact
+  same prompt if we already have one," then "it is favoring the tobacco card and the claymation
+  every time ensure we have more variety for the categories that already exist like space and
+  underwater etc." Root cause of both: `add` always took `promptoverseStyles[:count]` — a fixed
+  registry-order slice, so every run re-picked whichever styles sit first (tobacco card, claymation)
+  regardless of what a subject already had. Fixed with a new pure `selectStylesForSubject`: excludes
+  any style already published *or* already queued (not yet drained) for the exact subject via a new
+  `Client.ListPromptOVerseNodes` (replaced the unused, wrong-shaped `GetPromptOVerseLabels` —
+  dead code from an earlier pass that was never wired in), then orders what's left by ascending
+  *global* usage count so under-used styles get picked before over-used ones. Also promoted 4
+  proven Labels from the original 20-prompt baseball-card batch into the reusable registry — outer
+  space, underwater, robot, made of candy (founder named "space and underwater" explicitly) —
+  widening the pool this weighting draws from; 2 other batch-only Labels (1990s glossy rookie card,
+  2020s Topps Chrome refractor — print-era variants of the tobacco-card concept, not their own
+  transformation) and ice cream novelty (already judged too baseball-card-specific when the
+  registry was first built, S176-04) deliberately left out. 4 new tests. emily.cli `bf937e4`.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
