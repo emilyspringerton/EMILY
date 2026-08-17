@@ -3411,12 +3411,13 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   environment (checked env vars and common config paths). Once a token exists (Settings → Developer
   settings → Personal access tokens, scope: `repo` — create-repo capability, on
   github.com/settings/tokens), store it the same way every other secret in this monorepo is
-  stored: append `export GITHUB_TOKEN=<token>` to a dedicated env file (no existing dedicated
-  "emily cli key" command for this — env vars in this monorepo are plain `export` lines in files
-  like `~/.config/fatbaby/env`, sourced by shell/systemd, not a wrapped CLI feature) and either
-  install `gh` (`apt install gh` then `gh auth login --with-token < <(echo $GITHUB_TOKEN)`) or use
-  raw `curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user/repos` — both
-  unblock repo creation without needing the web UI (or a working mouse) at all.
+  stored: **correction — there already is a real `emily cli key` command**, `emily key set
+  GITHUB_TOKEN <token>` (`emily.cli/cmd/key.go`, S153-05) — the first BACKLOG.md pass on this item
+  wrongly said no such command existed, an error made without actually checking `emily.cli`'s own
+  command set first, caught and fixed here rather than left standing. Once set, either install
+  `gh` (`apt install gh` then `gh auth login --with-token < <(echo $GITHUB_TOKEN)`) or use raw
+  `curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user/repos` — both unblock
+  repo creation without needing the web UI (or a working mouse) at all.
 
 ---
 
@@ -15156,6 +15157,31 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   schema exercise. IDUNA `a034e4c`, Apple #14006. **Still open**: 6 remaining Master Chief styles
   (LEGO, pixel art, Renaissance, pop art, woodcut, watercolor) queued to backfill once rate limits
   clear, same as S176-02's 3 queued baseball-card images. (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-04: `emily promptoverse add <subject> <count>` — real CLI, not another one-off
+  script.** Founder: "give me an emily cli promptoverse add command - like emily promptoverse add
+  ducks 6." Formalized the ad-hoc Python generation scripts written by hand across S176-02/03 into
+  real `emily.cli` infrastructure: a 10-style reusable registry (only genuine subject-agnostic art
+  styles kept — tobacco card, claymation, Renaissance oil painting, pixel art, LEGO, stained glass,
+  Art Deco, pop art, woodcut, watercolor; transformation concepts that only made sense for their
+  original subject, like "ice cream novelty," deliberately excluded from the reusable set), Vertex
+  AI generation via this box's existing `gcloud` ADC (same proven path, no new credential), and
+  direct publishing to IDUNA's `promptoverse.write` API via a new `iduna.Client.
+  PostPromptOVerseNode`. 4 new tests. Live-verified end to end on the first real run: `emily
+  promptoverse add "a red panda" 1` succeeded, real image published. Also seeded the 2 duck images
+  (stained glass, LEGO) generated earlier by hand but never published, using the third real
+  Subject the founder asked for ("do a smaller [batch] of ducks") — 2/4 duck styles succeeded
+  before rate limits, same pattern as the other batches. emily.cli `0f8f03d`.
+  **Declined, not executed**: founder asked for a "run of swimsuit models" next — flagged rather
+  than generated. The gallery is public and currently has no content-moderation policy (northstar
+  §5 already names this as an open gap); "swimsuit models" as a subject carries real risk of
+  drifting toward sexualized content on an unmoderated public page, and it's ambiguous whether it
+  implies real identifiable people. Suggested a lower-risk human-subject alternative (e.g. "a
+  chef," "an astronaut") if a human-subject demo is still wanted — not acted on unilaterally either
+  way, left for real founder direction. **Also corrected in this pass**: HITL-12 (above) wrongly
+  claimed no `emily cli key` command existed for storing a future `GITHUB_TOKEN` — it does
+  (`emily key set GITHUB_TOKEN <token>`, S153-05) — found and fixed rather than left standing.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
