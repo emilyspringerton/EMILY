@@ -15002,7 +15002,15 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   until a real repo exists), which domain comes after baseball cards, moderation policy for a
   public rated gallery. VS0→VS1→VS2 phased plan: prove the discovery loop by hand → build the
   two-tier prompt system → build the public gallery. Golden-indexed as `PROMPT-O-VERSE-NORTH`.
-  EMILY `docs/NORTHSTAR_PROMPT_O_VERSE.md`, commits `e937f19` + `854d814`.
+  Also added a GPT-2-assisted extrapolation section: run the existing `gpt2-alpine-c` fine-tune +
+  inference pipeline (already built for Emily Prime) over segments of the taxonomy data to propose
+  categories/prompts for "realities that don't yet exist as far as we are aware" — a second-order
+  use of the reverse-labeled dataset (labels generating more labels), distinct from §2's pure
+  observation-based discovery; fits `NORN` as a concrete Proposer candidate feeding the existing
+  discovery mechanism's Oracle/Gate. Honestly disclosed, not glossed: `gpt2-alpine-c`'s Colab fine-
+  tune pipeline exists in code but hasn't completed a first real run yet (S26-04, still open) —
+  this would be a new consumer of that pipeline, not something that unblocks it. EMILY
+  `docs/NORTHSTAR_PROMPT_O_VERSE.md`, commits `e937f19` + `854d814` + `3bfc8ee`.
   (sess-20260813-2154-dda37e8b)
 
 ---
