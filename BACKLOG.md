@@ -5647,13 +5647,23 @@ CI fixes, admin-login proxy, subfooter, footer auto-sync). These two are the onl
   a relative `/signalapi` URL, correct on whatever domain actually fronts newssite. 2 new tests.
   Verified live end-to-end after rebuilding both `newssite` and `signalapi` (missed the signalapi
   rebuild on the first pass — caught it because the spec's `servers` field was still stale).
-- [ ] **S162-02: expand the TYLER easter egg on okemily.com.** Currently a triple-click-the-year
+- [x] **S162-02: expand the TYLER easter egg on okemily.com.** Currently a triple-click-the-year
   reveal showing one italic quote (`television as code. the show runs forever because the
   writer's room has physics, not just vibes. — tyler × tides of paradox, s00e00`). Founder wants
   it expanded — scope and content not specified, real design call: more quotes on repeated
   clicks? A second, deeper easter egg? Tie-in to the OKEMILY blog's existing Fable/Claude guest
   posts that already reference TYLER (`activation-114`, `clean-builds-first`)? Needs a concrete
   proposal before building, not improvised inline.
+
+  **DONE 2026-08-17.** Took the two most concrete options this item itself already named — "more
+  quotes on repeated clicks" plus the `activation-114`/`clean-builds-first` tie-in — rather than
+  inventing a new direction. Two new quotes pulled from those actually-published guest posts
+  ("clean builds first. not a rule anymore — physics." / "The log stays open."), not written
+  fresh for this box. First triple-click reveal stays identical to the original s00e00 line
+  (backward compatible); each subsequent reveal cycles to the next real quote and wraps around.
+  Verified the extracted click-handler logic through a full 4-reveal cycle with a Node/DOM-stub
+  harness before ever deploying, then live-verified the deployed page on okemily.com. OKEMILY
+  `967c1e0`, Apple #13913. (sess-20260813-2154-dda37e8b)
 
 ---
 
