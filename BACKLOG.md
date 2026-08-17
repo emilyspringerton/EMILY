@@ -15314,6 +15314,27 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   fall back to the default rather than producing a zero/negative sleep. 1 new test. emily.cli
   `93c9010`. (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-12: Adaptive cross-invocation backoff + `--force`.** Founder: "keep a local variable
+  to estimate the retry for rerunning even on the first gen like if i run twice or 3 in a row it
+  fails on api overload it should wait a little longer the third time i try to run it ya know? -
+  add a --force flag to skip that functionality" + "like even on the first try" + "it should check
+  that var to determine if it queries right away or does a preemptive backoff." New
+  `promptoverse_backoff.go` persists `(consecutive_failures, last_failure_at)` to
+  `EMILY/var/promptoverse-backoff.json`. `drainQueue` consults it *before* its first request of a
+  run, not just between retries within one run — that's the actual point: three separate `add`/
+  `work` invocations in a row that each hit a 429 make the *third* one preemptively wait longer
+  before it even tries, not only react after failing again. Linear 30s/failure, capped at 5
+  minutes (not exponential — "wait a little longer," not a runaway multiplier); a failure older
+  than 15 minutes doesn't penalize a fresh attempt (the overload has likely cleared). Any
+  successful generation resets the streak. `--force` (both `add` and `work`) skips the preemptive
+  wait for one run without disabling the bookkeeping — a real failure during a forced run still
+  gets recorded for the next one. 8 new tests. emily.cli `cecabd8`.
+  **Also raised, not yet acted on:** founder floated writing a blog post if this backoff shape
+  (persisted, cross-*process* state consulted preemptively — not the same as an in-process
+  circuit breaker or plain exponential backoff, which only react within one running instance)
+  turns out to be a genuinely distinct pattern worth naming. Not evaluated/written yet.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
