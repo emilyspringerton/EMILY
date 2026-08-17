@@ -15410,6 +15410,43 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   kind like every non-tobacco-card entry). 1 new test. emily.cli `8e784c0`.
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-17: GPT-2 brainstorm tool + gpt2-serve stuck-process fix.** Founder: "develop a new
+  tool to expand styles - prompt gpt 2 like this - pop art silkscreen, woodcut block print,
+  underwater, outer space, robot" + "and then see what it responds with" + "parse out the tags it
+  presents." New `emily promptoverse brainstorm` -- deliberately separate from `add`'s existing
+  Vertex-AI structured discovery (base GPT-2 has no instruction-following, so the only useful mode
+  is raw few-shot list continuation): seeds with the current registry (or `--seed`), appends
+  `", "`, parses whatever plausible short tags come out via a real filter (drops sentence
+  punctuation, over-length, and letterless fragments), review-only, nothing auto-added.
+  Empirically evaluated both checkpoints against this box's live stack before writing the parser:
+  the fine-tuned one (trained on Emily's own writing) drifts into first-person prose almost
+  immediately; the base checkpoint reliably holds list-continuation format longer, though topic
+  drift is real and expected (it's a generic LM, not fine-tuned on style names) -- tests use real
+  captured completions, not synthetic ones. Live-ran it multiple times against `gpt2-serve
+  --model base` and showed the founder actual output, including the honest "no plausible tags
+  parsed" path when the model fully drifted.
+  **Also fixed along the way:** `gpt2-serve` (PID 7204) had been wedged since 2026-08-13, throwing
+  repeated `BrokenPipeError`s in a loop and blocking `:8088` for every caller including
+  `emily-agent`'s own health checks -- unrelated pre-existing issue, found only because this task
+  needed a working GPT-2 endpoint. Killed and restarted clean via `emily gpt2 start`.
+  7 new tests. emily.cli `b2a6fd1`. (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-18: `--tag` forces a specific style into `add`.** Founder: "princess 4 --tag
+  gladiator forces a new or already existing style gladiator and then queues 3 more princess via
+  the deduped tag selection process already established." `emily promptoverse add <subject>
+  <count> --tag <style>`: if `<style>` is already in the pool (hardcoded or discovered), forces it
+  as slot 1; if not, calls Vertex AI's Gemini text model (new `expandNamedStyle`, sharing HTTP
+  plumbing with `maybeDiscoverStyle` via a factored-out `vertexTextGenerate` -- no decline path
+  here, since the caller fixed the name on purpose) to write a real template for that exact name,
+  persisting it the same way S176-09's automatic discovery does, so it becomes reusable for every
+  future subject too, not a one-off. A tag that would duplicate what's already published/queued
+  for the subject is ignored rather than force-added — dedup still wins. Remaining `count-1` slots
+  fill via the existing `selectStylesForSubject` unchanged. Live-verified end to end: `add princess
+  4 --tag gladiator` created + persisted "gladiator," forced it as slot 1, filled the other 3
+  (whiteboard, paper-craft, anime) via normal selection, and it was already being reused for a
+  second subject ("Andre 3000") moments later by a concurrent live use of the tool. 7 new tests.
+  emily.cli `b8c0a84`. (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
