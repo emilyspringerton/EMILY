@@ -1,3 +1,7 @@
+## 2026-08-17
+
+- docs(blog): 'The Backoff That Remembers It Was A Different Process' -- write-up of the promptoverse adaptive cross-invocation backoff pattern (persisted failure state consulted preemptively before a stateless CLI's first request of a new run, not just mid-run retries) (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-15
 
 - emily-agent/integration.go: runBacklogCuration截斷summary改用rune-safe([]rune),修復真正的無效UTF-8根因(不是emily.cli,是RSI cron自己獨立實作的一份重複邏輯)。新增regression test。commit 1a00e2e。 (sess-20260813-2154-dda37e8b)
