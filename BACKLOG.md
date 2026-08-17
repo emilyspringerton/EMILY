@@ -1173,6 +1173,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'hallucinate 20 top level prompts and build it out' -- scaling VS0 MVP up from 6 to 20 real top-leve…** — obs `2026-08-17T20:44:04Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'ok vs0 mvp it i want to see the output' -- greenlighting Prompt-o-verse VS0 for real: run the disco…** — obs `2026-08-17T20:43:33Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time context led to a major empirical success: tested Vertex AI's Gemini image generation endpoint (aiplat…** — obs `2026-08-17T20:40:48Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'ensure there is a link to the new tool from the okemily footer like we have wotan login etc' -- add…** — obs `2026-08-17T21:01:49Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'if you got some data but are now rate limited just proceed with what you have and circle back for t…** — obs `2026-08-17T20:53:38Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time, four-part direction, same burst: (1) 'give me an emily cli key command to set my github key into the…** — obs `2026-08-17T20:50:07Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'i think we can get a god API key for google cloud to let us provision users or service accounts to …** — obs `2026-08-17T20:38:53Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'need to circle back to see if the google cloud has sorted itself out or what -- one of the main way…** — obs `2026-08-17T20:37:47Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
