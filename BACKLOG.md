@@ -15026,6 +15026,19 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   parent→child), not only a tree. Storage shape (relational, attribute store, graph-native) left
   as an implementation decision. Golden-index token budget bumped again (4500→5000). EMILY commit
   `8575d53` + `618f181`.
+
+  **Final refinements (same real-time session, 6 more `emily observe` posts):** a real
+  self-questioning tension the founder raised and then answered in the doc's own words — if
+  everything (including a top-level/EZ prompt) reduces to tags, "top-level prompt" isn't a
+  structurally distinct object, it's a deliberate **steering** combination inside the same
+  feature space, earning its keep by targeting regions pure random/temperature-based generation
+  won't reliably hit on its own. This makes coverage gaps concrete and operational: examine the
+  third-level tagged output per category and look for expected feature values that never show up
+  (worked example kept in the doc — a category with real lighting/background variety but zero
+  cartoon/illustrated depictions). Graph edges between top-level prompts (already captured) are
+  refined from binary to **weighted** — some third-level tags naturally align more strongly with
+  a given top-level prompt, and edge strength is what separates a real "related via common
+  depiction" signal from incidental tag overlap. EMILY commits `79f043f` + `9845bc6`.
   (sess-20260813-2154-dda37e8b)
 
 ---
