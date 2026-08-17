@@ -229,6 +229,29 @@ build plan:
   generation, rate limits, ToS constraints on stored/rated outputs), a self-hosted open-weights
   model (the gpt2-alpine-c precedent of owning the inference stack, but for images — real GPU/cost
   implications), or both, is unpicked.
+
+  **Researched 2026-08-17: Google's "Nano Banana" (Gemini image generation) is a real, strong,
+  cheap candidate — currently blocked on account access, not architecture.** Real, current, well-
+  documented REST API (`generativelanguage.googleapis.com`, `x-goog-api-key` auth, model IDs
+  `gemini-3.1-flash-image` / `gemini-3-pro-image` / legacy `gemini-2.5-flash-image`, reported
+  around $0.02/image for the base tier) — a genuinely viable VS0 backend if it can be reached.
+  Two access paths checked, both dead right now, not assumed:
+  1. **This box's existing OAuth-personal Gemini CLI credential** (`~/.gemini/oauth_creds.json`,
+     `garybifrost@gmail.com`) — tested directly, confirmed dead: `IneligibleTierError`, "This
+     client is no longer supported for Gemini Code Assist for individuals... migrate to the
+     Antigravity suite of products." Google deprecated free-tier individual OAuth access for this
+     client; not a config problem on this end.
+  2. **A dedicated `GEMINI_API_KEY`** — founder already spent ~2 hours trying to obtain one; one of
+     Google's own recommended key-creation paths hit a 404 loop. Confirmed via live web search
+     this is a real, currently-active platform-side issue, not founder error or a stale one-off:
+     Google's own AI Developer Forum has open threads since May 2026 for "Failed to generate API
+     key, the request is suspicious, please try again," plus separate 403/404 permission-denied
+     threads on API key creation, still unresolved as of this research.
+
+  Bottom line: Nano Banana is the leading real candidate for VS0's backend, but neither currently-
+  available auth path on this account works — this is Google's bug/deprecation, worth periodically
+  checking whether it's resolved rather than assumed permanently blocked (see the matching HITL
+  item in `EMILY/BACKLOG.md`).
 - **Repo home.** No dedicated repo exists yet. This doc lives in `EMILY/docs/` for now, same
   precedent as `NORTHSTAR_OPENCLAW_INTEGRATION.md` before OpenClaw had a repo — move it once (or
   if) a real repo is created and scoped, matching the `CarePyre`/`EXODUS`/`TTT` pattern of
