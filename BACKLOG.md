@@ -1193,6 +1193,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'if taxonomies have at least 2 leaf nodes make the taxonomy tag like a duck wearing a tuxedo clickab…** — obs `2026-08-17T21:33:47Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time, converges the plan: 'what we have is good for baseball cards but we need a second category, vastly d…** — obs `2026-08-17T21:09:46Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'now we need to add a level -- stained glass is top level -- right now its all baseball cards but it…** — obs `2026-08-17T21:09:22Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: (1) queue has duplicates not getting deduped, new promptoverse add inputs always fail because drainQ…** — obs `2026-08-17T21:56:15Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: (1) emily promptoverse add should dedupe -- not re-prompt for a style already generated for a subjec…** — obs `2026-08-17T21:50:45Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time (result of empirical test): tested the existing OAuth-personal Gemini CLI credential directly -- conf…** — obs `2026-08-17T20:37:38Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'gemini api key is so hard to get i tried for like 2 hours the other day' -- real, demonstrated fric…** — obs `2026-08-17T20:37:12Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'lets see if we can use nano banana api to go from top level to the gen data' -- proposing a concret…** — obs `2026-08-17T20:35:06Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
