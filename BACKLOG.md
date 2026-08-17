@@ -15449,6 +15449,77 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   second subject ("Andre 3000") moments later by a concurrent live use of the tool. 7 new tests.
   emily.cli `b8c0a84`. (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-19: `--slow` flag doubles all waits.** Founder: "add --slow flag that doubles
+  waits." Added to `add` and `work`; orthogonal to `--force` (which zeroes the cross-invocation
+  backoff extra) -- `--slow` doubles whatever's left: base delay, per-run growth, and any backoff
+  extra, applied to both the preemptive wait and every inter-request gap. 3 new tests. emily.cli
+  `1b73000`. (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-20: Marble-bag selection, rare tier, pity, requeue.** Large connected real-time arc.
+  **Root cause fix** for "yea tag selection is wonky you are including underwater and robot and
+  outerspace over and over again": `globalUsage` only tallied PUBLISHED nodes, never pending queue
+  items, so a style queued dozens of times behind a slow drain still looked "0 uses, freshest
+  pick" to every new `add` -- pending items now count toward usage too. **Selection algorithm**
+  rewritten from a strict ascending-usage sort to weighted random sampling WITHOUT replacement
+  (weight `1/(usage+1)`) -- founder: "it shouldnt always fill in the lowest tags... because it
+  already has a lot of tobacco cards" + "watercolor is fire but we havent generated one in quite a
+  few gens now" + "it should favor the less represented styles but also be random" + "use the
+  marble bag architecture" (researched the WoW/gacha "marble bag" and standard weighted-sampling-
+  without-replacement game-dev pattern before implementing, per founder's own suggestion). **Rare
+  tier**: ice cream novelty, 1990s glossy rookie card, 2020s Topps Chrome refractor moved out of
+  the always-eligible registry into a new `promptoverseRareStyles` (+ `discoveredStyle.Rare` for
+  anything promoted/discovered later) -- excluded by default, one shared per-run roll makes the
+  whole tier eligible ("the too specific ones should still trigger on a somewhat rare basis...
+  like the shiny tops"). **Pity system** (new `promptoverse_pity.go`): that roll, plus a new
+  "spontaneous discovery" roll (a brand new style can now emerge even without `--tag`, when the
+  batch was already full — "when i am querying for new stuff i should occasionally see a new
+  style category emerge"), escalate via a Fibonacci-scaled counter instead of flat probability —
+  "like the same way a legendary pull percentage goes up after opening a certain number of packs,"
+  then "use fibinacci... whatever you think make it more novel." **Subject-aware discovery**:
+  `maybeDiscoverStyle`'s prompt now explicitly weighs whether the triggering subject has a
+  well-known iconic style not yet in the registry (founder's example: Aphrodite → ancient Greek
+  marble statue) as a real reason to propose something. **`emily promptoverse requeue`** (+
+  `queueItem.Forced`, set only by `--tag`): re-picks the style for every non-forced queued item
+  with current logic, keeping subject counts/FIFO order — founder: "i have 100 gens queued already
+  with the bad rng - can we have a requeue function." **Auto-requeue**: every `add`/`work` now
+  calls this automatically before draining — "it should requeue on every run except if --tag hard
+  coded a tag." Live-verified against the real 105+-item backlog: robot 8→4, underwater 7→4, made
+  of candy 8→4, and all 3 rare styles (previously locked out entirely) appeared for the first
+  time; a forced `--tag` item survived a later auto-requeue untouched while 103 others around it
+  were re-picked. 19+ new tests across emily.cli `f8e360d`. (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-21: GPT-2 tag-promotion pipeline (persistence + promote).** Founder: "ensure we have
+  the gpt2 tag promotion pipeline setup" + "that page has the tags suggested from promotion
+  harvested from gpt2." `brainstorm`'s default seed is now a random SAMPLE of the registry
+  (`--sample`, default 5) instead of the full thing every time -- "we can have any number of 4 [or
+  so] prompts we already have as styles as a perturbation for gpt2." Parsed candidates not already
+  in the pool now persist to `EMILY/var/promptoverse-candidate-tags.json` (deduped case-
+  insensitively) instead of being printed and discarded. New `emily promptoverse promote <label>
+  [--rare]`: same Vertex AI template-writing path `--tag` uses for an unknown name, invoked
+  directly; marks the matching candidate record promoted rather than deleting it. Live-verified:
+  `brainstorm --sample 4` harvested + persisted 4 real candidates from a 4-style seed; `promote
+  vernacular --rare` produced a genuinely good template and marked the candidate promoted. 10 new
+  tests. emily.cli `9cf0523`. **Still open**: the read-only public page surfacing this registry +
+  candidate list (founder asked "wheres the link to the tag discovery page" — not yet built) and
+  a footer link for it; founder also asked to mirror this entire pattern (marble bag, rare tier,
+  pity, GPT-2 brainstorm) for subject/topic discovery, not yet scoped.
+  (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-22: Fixed misdiagnosed "broken tool" — Vertex content-policy block, not auth
+  failure.** Founder, real-time: "ok the tool is broken first i got a bad key error then i got no
+  image data in response not sure if our key got turned off from hammering the api too much or if
+  a recent update botched us." Root cause, confirmed live: `finishReason: IMAGE_PROHIBITED_CONTENT`
+  for "anime x Rapunzel" (Vertex's own third-party-IP filter — Rapunzel is Disney IP, every style
+  applied to that subject blocks identically) — the generic "no image data in response" gave no
+  signal this was a real platform decision, not a broken key. `parseVertexImageResponse` (split
+  out for testability) now includes `finishReason`/`finishMessage` in the error; new
+  `errVertexContentBlocked` sentinel makes `drainQueue` skip-and-continue on a permanent rejection
+  instead of stopping the whole run (retrying gets the identical result forever — would have
+  jammed the queue the same way the earlier duplicate-entry bug did). Live-verified: re-drain
+  correctly skipped 2 more Rapunzel items with a clear reason, then stopped cleanly on a real
+  transient 429. 3 new tests using the actual captured Vertex response body. emily.cli `4048b63`.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
