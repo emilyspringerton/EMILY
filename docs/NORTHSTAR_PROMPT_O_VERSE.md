@@ -225,7 +225,42 @@ free once it exists:
   styles work" teaching resource — a natural fit for this codebase's existing teaching-through-
   real-examples pattern (`TYLER`, the `TTT` "Tyler Teaches Typing" repo).
 
-## 7. Phased plan
+## 7. GPT-2-assisted extrapolation — prompts for "realities that don't yet exist"
+
+Stated directly by the founder: run GPT-2 — the existing `gpt2-alpine-c` fine-tuning + inference
+infrastructure already built for Emily Prime — over different levels and segments of the taxonomy
+data (top-level labels only; one branch, e.g. all historical eras; the full feature-tag corpus per
+node) to help identify and generate prompts for **"realities that don't yet exist as far as we are
+aware."** This is a distinct move from §2's discovery loop, worth being precise about the
+difference: §2 discovers categories that are *already latent* in what a broad prompt generates —
+observing what's there. This is extrapolation — training a model on the taxonomy *as it exists so
+far* and using its own generative capacity to propose plausible categories nobody has generated an
+example of yet, the same way a language model trained on real sentences can produce a grammatical
+sentence nobody has typed before. The taxonomy stops being purely observational and starts being
+generative in its own right — a second-order use of the reverse-labeled dataset (§1): first the
+labels generate images, then the labels themselves become training data that generates *more
+labels*.
+
+Concretely, this reuses `gpt2-alpine-c`'s established pipeline shape almost directly rather than
+requiring new infrastructure: build a JSONL corpus from taxonomy segments (mirroring
+`scripts/prime_directive_dataset.py`'s existing golden-doc-to-corpus pattern), fine-tune via the
+same Colab notebook flow, serve via the same inference API (`scripts/serve.py`, proxied through
+`emily-agent`'s `:8086/api/v1/gpt2/generate`). **Honest caveat, not glossed over:** this pipeline
+exists in code but a first real Colab fine-tune run hasn't actually completed successfully yet
+anywhere in this system as of this writing (`EMILY/BACKLOG.md` S26-04, still open/HITL-blocked) —
+Prompt-o-verse would be a new *consumer* of that pipeline, not something that gets it working for
+the first time; the two are coupled but this document doesn't assume S26-04 resolves itself.
+
+This also closes a loop with §2's flagged `NORN` fit rather than competing with it: GPT-2 fits
+naturally as the **Proposer** in a propose→grade→gate→promote instantiation — it proposes candidate
+new taxonomy nodes/prompts, and the existing discovery mechanism (generate an image from the
+candidate, check whether it actually holds together as a real category, i.e. the Oracle/Gate) is
+what decides whether an extrapolated "reality that doesn't exist yet" earns a place in the real
+taxonomy or gets discarded as a plausible-sounding dead end. Not decided here whether this is
+built as a formal `NORN` instantiation or something lighter — flagged as the same clean fit §2
+already named, now with a concrete Proposer candidate.
+
+## 8. Phased plan
 
 **VS0 — prove the discovery loop, no product surface yet.** Pick one image-generation backend
 (cheapest path to a working proof, not necessarily the eventual production choice), run the
