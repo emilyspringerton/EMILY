@@ -1203,6 +1203,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ensure all is ingested and planned and then iterate' -- closing signal on the Prompt-o-verse real-t…** — obs `2026-08-17T20:33:55Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time, refining the graph-via-shared-tags idea: 'there are third level prompts that are going to more natur…** — obs `2026-08-17T20:32:41Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: Prompt-o-verse extension -- run GPT-2 (the existing gpt2-alpine-c infra in this monorepo) on differe…** — obs `2026-08-17T20:27:38Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: subject pages work but the images are broken links** — obs `2026-08-17T22:22:56Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'there is a great deal of variation -- we can generate multiple gens from a top level prompt with va…** — obs `2026-08-17T20:25:53Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: pipeline clarification -- 'we have the label (top level prompt), then the gen data, then we can labe…** — obs `2026-08-17T20:25:32Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'its a multi layered dataset' -- reinforces the taxonomy's hierarchical depth (top-level category ->…** — obs `2026-08-17T20:25:01Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: sharpened the core data-model insight for Prompt-o-verse across 3 fragments -- 'it's like a reverse …** — obs `2026-08-17T20:24:28Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
