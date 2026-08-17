@@ -15046,7 +15046,23 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   down to `§8`; a redundant `§` before a BACKLOG item number). Every one of the 18 real-time
   fragments across this exchange was logged via `emily observe` before being folded into the doc —
   confirmed nothing was acted on without being routed through the observation queue first, per
-  Principle 18. EMILY commit `d1e13f3`. (sess-20260813-2154-dda37e8b)
+  Principle 18. EMILY commit `d1e13f3`.
+
+  **Major follow-on, same real-time session: the image-generation-backend open question is
+  RESOLVED, not just researched.** Founder proposed using `gcloud`/service-account provisioning
+  instead of fighting Google Cloud Console's UI (which is where the founder's prior ~2-hour
+  `GEMINI_API_KEY` attempt died in a real, confirmed-still-active Google-side 404/permission-denied
+  bug — verified via live web search, not assumed fixed). Checked this box's existing `gcloud`
+  auth (`garybifrost@gmail.com`) — already has `aiplatform.googleapis.com` enabled and an active
+  billing account. Real test call to Vertex AI's `gemini-2.5-flash-image` ("Nano Banana") using
+  `gcloud auth print-access-token`, completely bypassing both dead paths (the deprecated Gemini
+  CLI OAuth tier, and the buggy AI Studio API-key UI) — **succeeded**, producing a genuinely
+  convincing 1024×1024 "1990s glossy baseball rookie card portrait" on the first real prompt. This
+  is empirical proof VS0's core mechanic (top-level prompt → generated data) works right now, not
+  just that a backend exists on paper. Saved as the project's first real artifact:
+  `EMILY/docs/prompt-o-verse/vs0-proof/1990s-rookie-card-portrait.png` + README with the exact
+  call. Golden-docs-index description updated to reflect the resolution. EMILY commit `f6221dc`.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
