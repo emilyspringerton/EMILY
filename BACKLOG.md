@@ -15306,6 +15306,14 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   `extractGeminiText`/`parseStyleProposalJSON` split out as pure functions). emily.cli `80011b7`.
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-11: Longer inter-request delay during queue drain, made configurable.** Founder:
+  "when draining the queue we need a longer wait between." 6s wasn't reliably avoiding 429s across
+  this session's batches. Bumped `promptoverseDefaultInterRequestDelay` 6s → 20s, and made it
+  overridable via `PROMPTOVERSE_INTER_REQUEST_DELAY_SECONDS` so a future "still not enough" or
+  "too conservative now" doesn't need another code round-trip. Malformed/non-positive overrides
+  fall back to the default rather than producing a zero/negative sleep. 1 new test. emily.cli
+  `93c9010`. (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
