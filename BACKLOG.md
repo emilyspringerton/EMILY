@@ -3389,6 +3389,25 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   send a future session down the same dead end; the var is set and the key is simply out of
   credit. No further action possible here without a top-up.
 
+- [ ] **HITL-12: GitHub Personal Access Token, so Claude Code can create repos, not just push to
+  existing ones.** Surfaced 2026-08-17 during Prompt-o-verse: founder wants `prompt-o-verse` as
+  its own upstream GitHub repo (matching the `CarePyre`/`EXODUS`/`TTT` precedent) but can't create
+  it right now (dead mouse battery blocking GitHub's web UI) and asked for me to have standing
+  "git service account" capability instead of needing this every time. Checked what's actually
+  available: this box's git auth is SSH-key-only (`~/.ssh/id_ed25519`, pushes to already-existing
+  `emilyspringerton/*` repos) — real for push/pull, but SSH access alone cannot create a new
+  GitHub repository; that needs the GitHub REST/GraphQL API (or the web UI), which needs a PAT.
+  No `gh` CLI is installed, and no `GITHUB_TOKEN`/`GH_TOKEN`/PAT exists anywhere in this
+  environment (checked env vars and common config paths). Once a token exists (Settings → Developer
+  settings → Personal access tokens, scope: `repo` — create-repo capability, on
+  github.com/settings/tokens), store it the same way every other secret in this monorepo is
+  stored: append `export GITHUB_TOKEN=<token>` to a dedicated env file (no existing dedicated
+  "emily cli key" command for this — env vars in this monorepo are plain `export` lines in files
+  like `~/.config/fatbaby/env`, sourced by shell/systemd, not a wrapped CLI feature) and either
+  install `gh` (`apt install gh` then `gh auth login --with-token < <(echo $GITHUB_TOKEN)`) or use
+  raw `curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user/repos` — both
+  unblock repo creation without needing the web UI (or a working mouse) at all.
+
 ---
 
 ## HITL-11 SIDE-FINDING: `full-system-context.md` mtime is fresh, content is likely stale-cached
@@ -15068,6 +15087,34 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   `EMILY/docs/prompt-o-verse/vs0-proof/1990s-rookie-card-portrait.png` + README with the exact
   call. Golden-docs-index description updated to reflect the resolution. EMILY commit `f6221dc`.
   (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-02: VS0 MVP — real gallery live on okemily.com, "I want to see the output."**
+  Founder greenlit VS0 for real, then scaled it up live: "hallucinate 20 top level prompts and
+  build it out" → "focusing on fun ideas for new ai users" → "expecting 3 pieces of data per page
+  — top level prompt, gendata (image), taxonomies (labeled gendata)" → "use all the html semantic
+  tags we can" → "for now we will build it into okemily.com like tyler reading room." Built new
+  `IDUNA/internal/promptoverse` (store + renderer, same shape as `internal/tyler`) +
+  `PromptOVerseHandler`, wired into okemily.com at `/prompt-o-verse/`; real semantic HTML
+  (`<article>`, `<figure>`/`<figcaption>`, `<dl>`/`<dt>`/`<dd>` for tags, `<time datetime>`) per
+  explicit direction. 20 real top-level prompts: 3 historical anchors (1910s tobacco card, 1990s
+  glossy rookie card, 2020s Topps Chrome refractor) grounding the taxonomy, 17 fun/surreal
+  transformations (ice cream novelty, claymation, LEGO, stained glass, Renaissance painting,
+  pixel art, candy, pop art, robot, watercolor, underwater, woodcut, outer space, ...) aimed at
+  people new to generative AI. Generated via Vertex AI's `gemini-2.5-flash-image`
+  (S176-01's already-proven `gcloud` ADC path) — 17/20 succeeded, 3 hit real rate limits (429s);
+  stopped there per the founder's own "proceed with what you have and circle back later" call
+  rather than fighting the limiter. `okemily-deploy.sh` fixed to exclude `prompt-o-verse/` from
+  its static-file rsync (same blog/tyler live-render protection — would otherwise get wiped on
+  next deploy). New `promptoverse.write` permission (migration `202608170002`), granted to
+  EMILY-PRIME via `cmd/bootstrap`. 11 new tests (store CRUD/dedup/ordering, renderer semantic-
+  HTML/index output). `go build`/`vet`/`test ./...` clean. Live-verified: real generated images
+  rendering correctly at `okemily.com/prompt-o-verse/`, e.g. "Chilly McFreeze" of the "Sundae
+  City Sensations" (the ice-cream-novelty node) and a genuinely convincing holographic 1990s
+  rookie card. IDUNA `fbc795c`, Apple #13995. **Still open**: GitHub repo creation for
+  `prompt-o-verse` as its own upstream (founder can't right now — dead mouse battery blocking the
+  web UI; I don't have GitHub API credentials either, only SSH push access to already-existing
+  repos — see the HITL note below) and backfilling the 3 rate-limited images
+  (`16-felt-plush`/`19-origami`/`20-balloon-animal`). (sess-20260813-2154-dda37e8b)
 
 ---
 
