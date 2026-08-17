@@ -14815,13 +14815,31 @@ sprint 規劃,而不是散落的 raw observation。接近本次 session 額度�
   prwatch 二進位已重建部署,live 確認 mint/skip 邏輯都正確運作。Apple #13553,PRRJECT_FATBABY
   commit `fcefbe2`,SKULDMARK commit `f4cadac`。session: sess-20260813-2154-dda37e8b
 
-- [ ] **S175-02: 用資料庫技術加速 SKULDMARK 查詢(index/projection)。明確列為 roadmap 項目,不
+- [x] **S175-02: 用資料庫技術加速 SKULDMARK 查詢(index/projection)。明確列為 roadmap 項目,不
   急。** Founder 原話:「mongo postgres mysql whatever」+「indexes etc」+「projections」——不
   挑資料庫,但要有正確索引。天然銜接點是既有的 S20 CQRS 架構(`internal/mongowriter`、
   `cmd/projector` → MySQL `governance_signals`/`entity_timeline`):等 S175-01 真的開始產生
   SKULDMARK ID 之後,在這些既有 projection 加一個 `skuldmark_id` 欄位 + index,並視需要在
   `internal/apiserver`(參考 `/v1/eps/{ticker}` 的既有寫法)加一個用 SKULDMARK ID 查詢的端點。
   **依賴 S175-01 先落地,現在不動工。**
+
+  **DONE 2026-08-17.** 確認 S175-01 早已落地後動工,查下去發現原文字把這寫得太簡單——真正的缺口
+  比「加欄位+index」深:S175-01 minting 出來的 SKULDMARK ID 有寫進 `FilingDiscovered`(write-side
+  struct)的 `Identity.PrimaryTicker.SkuldmarkID`,但 `internal/processor` 實際拿來反序列化真實
+  event JSON 的是另一個平行 struct `FilingDiscoveredEvent`(read-side)——**根本沒有 Identity 欄
+  位**,`json.Unmarshal` 靜靜把 identity 資料整包丟掉,SKULDMARK ID 從沒真的傳到 processor,更
+  別說 projector。修法:`FilingDiscoveredEvent` 補上 `Identity` 欄位(照抄 write-side 的
+  shape)+ nil-safe `SkuldmarkID()` helper;`worker.go` 比照既有 `source_published_at` 寫法塞進
+  `RawMetadata`;`cmd/projector` 兩個 INSERT 都讀出來寫進新欄位(`sql.NullString`,沒值是 SQL
+  NULL 不是空字串);新 migration,兩張表都加 `skuldmark_id VARCHAR(25)` + index,沿用既有
+  `IF NOT EXISTS` 慣例可重複執行。6 個新測試,涵蓋真實 production code path(真實 mint 函式、真
+  實 JSON marshal/unmarshal、真實 `handleOne` 對真實 httptest server)。`go build`/`vet`/
+  `test ./...` 全綠。**誠實揭露**:secwatch/processor(兩個 live production service)已重建
+  binary + 重啟,但重啟後還沒等到一筆全新真實 SEC filing 走完整 pipeline 現場確認;`cmd/projector`
+  本身完全沒有部署(`MYSQL_URL` 未設,S30-02「MySQL+MongoDB in production」仍是既有 open 項目,
+  不是這次新發現的缺口),所以 projector 端的 SQL 寫入邏輯只在程式碼層級 verified。
+  `internal/apiserver` 的 SKULDMARK 查詢端點(原文「視需要」,非必做)這次沒做,保持誠實範圍。
+  PRRJECT_FATBABY `9c623be`,Apple #13915。(sess-20260813-2154-dda37e8b)
 
 - [ ] **S175-03: 開放資料釋出(open release),對象是研究者與產業界,徵求 feedback。**
   Founder 原話:「we are going to publish our data」+「we are going to do an open release for
