@@ -14446,7 +14446,7 @@ first, open design questions last.
   arrived during the downtime, not just the service stack. Root monorepo commit `3ba252c`
   (local-only, no remote). Apple #12811.
 
-- [~] **S170-294: Founder real-time: "ensure ops for our exotic training" → clarified mid-turn:
+- [x] **S170-294: Founder real-time: "ensure ops for our exotic training" → clarified mid-turn:
   "exotic training refers to autocurriculum".** Audited before acting: no training process was
   running; both prior autocurriculum-family runs (2026-08-14 200K/35%, 2026-08-15 10v10
   512K/40%) had already completed cleanly and been reported (Apple #13608/#13610, #13748) — no
@@ -14458,10 +14458,16 @@ first, open design questions last.
   `--autocurriculum` only, noisy-gestalt off) to test that hypothesis properly. Verified healthy
   before moving on: process alive, real startup banner printed, fps=99, writing checkpoints
   normally. PID 522839, log `var/logs/rl_train_autocurriculum_20260817T104814Z.log`, output
-  `rl_team_checkpoints_autocurriculum_500k/`. REDGARDEN `f101106`, Apple #13908. **Marked `[~]`,
-  not `[x]`: the run is in progress (~2-3h estimated based on the reference run's timing) — will
-  report the final win rate honestly on completion, same discipline as every prior run this
-  session.** (sess-20260813-2154-dda37e8b)
+  `rl_team_checkpoints_autocurriculum_500k/`. REDGARDEN `f101106`, Apple #13908.
+
+  **Control run complete 2026-08-17.** 503808/500000 timesteps, ~6h wall clock (this box under
+  real concurrent load the whole time — much slower than the reference run's original timing
+  estimate). Result: **14W-6L-0D, 70.0% win rate** — same tier as the 75% reference run, not the
+  35% outlier. Confirms the hypothesis: the 35% score was genuinely under-convergence from the
+  confounded config, not a regression in the autocurriculum mechanism. 70% vs 75% is normal
+  run-to-run variance at matched config, not a new finding to chase further. Final policy +
+  exported weights explicitly not wired into any live consumer, same discipline as every prior
+  run. REDGARDEN `0a0df1b`, Apple #13945. (sess-20260813-2154-dda37e8b)
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
