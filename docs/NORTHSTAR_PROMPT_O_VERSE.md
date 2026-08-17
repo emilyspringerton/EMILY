@@ -155,6 +155,31 @@ generation:
   schema, a tag/attribute store, something graph-native) is left as an implementation decision, not
   picked here.
 
+  **A real tension the founder raised and then answered, worth keeping both halves of:** if
+  everything — including a top-level/EZ prompt itself — can be fully expressed as a tag
+  combination, is "top-level prompt" a genuinely distinct concept, or just a common/privileged
+  point in the same tag-space as everything else? Self-answered rather than left hanging: top-level
+  prompts and explicit tags earn their keep as a **deliberate steering mechanism**, not because
+  they're ontologically special. Pure random generation (§2.1, sampling broadly under temperature)
+  won't reliably hit every real combination on its own — some genuine categories are rare enough
+  in the model's own output distribution that chance alone leaves them undiscovered. An explicit
+  prompt or tag is how the taxonomy gets **deliberately steered** toward a specific point in the
+  space instead of waiting for temperature to wander there. This also means taxonomy coverage has
+  a real, nameable gap class going forward: regions of tag-space nobody has explicitly steered
+  toward yet, distinct from regions genuinely absent from the model's learned distribution — worth
+  distinguishing in practice, not assumed to be the same kind of "missing."
+
+  **Landed on, not just floated:** "any top-level prompt can probably be expressed via a third-
+  level feature" — the tension resolves by unifying, not by keeping "top-level prompt" and "tag"
+  as two kinds of object. There's one feature space; a top-level/EZ prompt is a named, commonly-
+  useful combination within it, not a structurally different thing from a tag. Gap detection
+  becomes concrete and operational under this model: examine the tagged output collected for a
+  category (the "third-level labeled gen output") and look for expected feature values that never
+  show up — e.g. noticing a category has real generated variety across lighting and background but
+  **no cartoon/illustrated depictions at all**, even though nothing rules that out conceptually.
+  That absence is exactly the signal for where to deliberately steer (previous paragraph) rather
+  than keep sampling broadly and hoping.
+
 **Open question, correctly left open rather than picked here:** whether tier-2 expansion is (a) a
 **stored** expanded prompt per known taxonomy node — a lookup, cheap and deterministic, but only
 covers styles the taxonomy already knows about — or (b) a **dedicated expansion model/prompt**
