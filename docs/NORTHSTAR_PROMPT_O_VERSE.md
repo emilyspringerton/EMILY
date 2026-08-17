@@ -39,6 +39,17 @@ nobody has written down as an explicit, generateable taxonomy. That's the actual
 first pass: not "a baseball card generator," but a **map of what baseball card photography even
 is**, expressed as prompts that reliably reproduce each node on the map.
 
+**The sharpest framing of what's actually novel here, the founder's own: "it's like a reverse
+labeled dataset — a dataset with only labels — and then we can tag output examples of prompts."**
+Every conventional ML dataset starts with raw data and adds labels on top (a photo exists, someone
+annotates it "1980s mall portrait"). This inverts that: the label/taxonomy — the prompt tree
+itself — is the primary, durable asset, built *before* any specific image does. Generated images
+are cheap, regeneratable **exemplars tagged back to their originating label**, not the dataset
+itself. The taxonomy would still be worth having with zero images attached to it; the images are
+proof-of-concept instances, not the asset being categorized. This is the actual mechanism behind
+"categorize all information" (§ above) — the categorizing happens at the label layer, generation
+is just how a label gets made checkable/visible/browsable.
+
 The mission is broader than mapping realistic/historical styles, though — stated explicitly by the
 founder, not inferred: **the end goal is a whole universe of prompt ideas that expands what people
 think is even possible to ask a generative model for.** That includes a second, deliberately
@@ -68,6 +79,14 @@ The core mechanic, restated as a repeatable process rather than a one-off explor
    card" and "1990s glossy rookie card" are not the same prompt with different years swapped in —
    they likely need genuinely different vocabulary (illustration/lithograph terms for the former,
    camera/lighting/film-stock terms for the latter).
+
+   **The concrete three-stage mechanism, stated directly:** label (the top-level/category prompt)
+   → generate (many images from that label) → **label the generated data itself** (tag each
+   individual output with its own specific feature values — this makeup, this hair, this
+   background). Step 3's "isolate the prompt per category" and §3's per-category feature-value
+   space aren't separate ideas — the second labeling pass, applied across many generations under
+   one top-level label, is literally how the feature-axis space for that category gets discovered:
+   the aggregate of individual-output tags *is* the feature space.
 4. **Build the tree.** Top-level prompts (broad category, e.g. "era: early 20th century") branch
    into sub-prompts (e.g. "tobacco card portrait" vs. "tobacco card action pose"), which can branch
    further. The taxonomy *is* a prompt tree — walking down it is choosing a more specific prompt.
@@ -173,7 +192,40 @@ build plan:
 - **Moderation.** A public gallery of AI-generated imagery with user ratings needs a real content
   policy before it's public — not addressed here, flagged so it isn't skipped later.
 
-## 6. Phased plan
+## 6. Beyond the playground — other uses for a reverse-labeled dataset
+
+The gallery (§4) is the primary product, but it's worth naming — the founder's own prompt,
+interpolating the mission (§1, categorize all information) and the product (§4, the playground) —
+what else a **multi-layered** taxonomy (top-level category → sub-category → feature-value space →
+tagged exemplars, §2/§3) is actually good for once it exists, since the durable asset is the label
+structure, not any specific image (§1's "reverse labeled dataset" framing). None of these are
+scoped or committed — brainstormed, flagged as real option value the taxonomy creates almost for
+free once it exists:
+
+- **Bootstrapping tier 2 itself.** The EZ-prompt → expanded-prompt pairs collected while building
+  the taxonomy (§3) are exactly the parallel corpus needed to train or few-shot the expansion
+  model §3 leaves as an open question — the dataset teaches the tool that later serves it.
+- **A frozen eval benchmark for image-gen backends.** A rated, tagged corpus per taxonomy node is
+  a real ground truth for "does this backend actually reproduce '80s mall portrait' when asked" —
+  reusable as a `NORN` Oracle (§2's flagged fit) for grading any future backend or prompt-strategy
+  change against a frozen standard, the same oracle-freezing discipline `PRIME-101` already uses
+  elsewhere in this system.
+- **Reverse style lookup.** Upload a real photo, match it against the taxonomy, return "this reads
+  as `90s yearbook photo`" plus the prompt that reproduces or riffs on it — the mission's mirror
+  image: recognizing a category in existing data instead of generating an instance of one.
+- **Cross-repo creative-asset seeding.** A structured, named style space is directly useful to
+  anything in this monorepo that needs stylistically-coherent generated content — merch design
+  (STINKIES' sticker/hoodie drops), procedural cosmetic variety (`GOLDENBAND`/`REDGARDEN`/
+  `SHANKPIT`), no design work spent from scratch each time.
+- **A citable, licensable dataset in its own right.** Same instinct already active elsewhere in
+  this system (SKULDMARK's planned open release to researchers/industry, §S175-03 in
+  `EMILY/BACKLOG.md`) — a well-documented taxonomy of generative style-space is a real research/
+  industry artifact independent of any product built on top of it.
+- **Prompt-engineering curriculum.** The taxonomy *is* a documented "here's exactly what makes 40
+  styles work" teaching resource — a natural fit for this codebase's existing teaching-through-
+  real-examples pattern (`TYLER`, the `TTT` "Tyler Teaches Typing" repo).
+
+## 7. Phased plan
 
 **VS0 — prove the discovery loop, no product surface yet.** Pick one image-generation backend
 (cheapest path to a working proof, not necessarily the eventual production choice), run the
