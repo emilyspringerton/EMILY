@@ -6203,7 +6203,7 @@ marked.*
   Way's "spec before implementation." This is about `SHANKPIT` (the parent repo, persistent-
   world/DragonsNShit ambitions), explicitly not `shankpit-460` (the lean esports fork) — the two
   repos have deliberately different missions per each one's own CLAUDE.md.
-- [ ] **S169-07: Two blog posts queued, not written.** (a) The client-tree-fragmentation
+- [~] **S169-07: Two blog posts queued, not written.** (a) The client-tree-fragmentation
   discovery itself (S169-01) — write once it's actually resolved, not before, so the post
   describes a real fix rather than an open problem. (b) A second, explicitly thematic piece
   titled/framed around **"fragmentation as a witch"** — founder's own phrase, presumably
@@ -6211,6 +6211,15 @@ marked.*
   witch-engine framing already established in this codebase's writing (`emiree.md`,
   `docs/emiree-over-agent-spec.md`). Needs the same TYLER-adjacent voice care as the "And Yet"
   guest post (Apple #10230) if it's meant to land the same way — not a rushed tie-in.
+
+  **(a) DONE 2026-08-17.** Confirmed the item's own precondition first — S169-01 landed this
+  session. Written in the established SHANKPIT-460 first-person voice (matched against the two
+  closest-precedent posts, "I Don't Trust the Client" and "Scoped to Prove Different Things," not
+  invented fresh): the real story of two plausible client trees, the 3-button lobby menu built
+  first against the wrong one, resolved not by vibes but by checking what CI's release pipeline
+  actually gates on. Live-verified published: https://okemily.com/blog/the-lobby-that-was-never-
+  going-to-ship/. Apple #13921. **(b) still open, deliberately** — genuinely needs the deeper
+  voice care this item itself calls for, not attempted in this pass. (sess-20260813-2154-dda37e8b)
 
 **Suggested real next step, when picked back up:** resolve S169-01 first (which tree is
 canonical, fix `libglu1-mesa-dev` so builds can be verified at all) — everything else in this
