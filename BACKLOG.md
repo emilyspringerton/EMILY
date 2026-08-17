@@ -15126,6 +15126,37 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   repos — see the HITL note below) and backfilling the 3 rate-limited images
   (`16-felt-plush`/`19-origami`/`20-balloon-animal`). (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-03: Real taxonomy level — style as subcategory, subject as the axis under it, two-
+  tier prompts made concrete.** Founder walked through the design live across ~12 real-time
+  fragments — "stained glass is top level," "it won't all be baseball cards," "the top-top-level
+  prompt is lego minifigure baseball card, that unfurls into the actual prompt on record," "we
+  don't necessarily need separate pages for the 2 different mediums — renaissance oil painting can
+  have the baseball card AND master chief from halo," "each prompt that gives an actual image will
+  want a leaf node page ... so might as well do that from the very beginning," "have master chief
+  be the next category ... limited run 5-10 styles ... including the 1920 tobacco card" — synthesized
+  into a single confirmed design before building: `Label` (style, e.g. "Renaissance oil painting")
+  is the real organizing subcategory; `Subject` (baseball card / Master Chief) is the orthogonal
+  axis a style gets applied to; `EZPrompt` (short, bare) and `ExpandedPrompt` (the real detailed
+  prompt actually used) are both stored per leaf, not one undifferentiated string — formalizing
+  the northstar's own already-documented two-tier prompting model (§3) as real schema. Leaf nodes
+  keep individual SEO-indexable pages always, regardless of grouping — explicitly confirmed after
+  the founder considered and rejected a "condense small categories" alternative. Index page
+  rewritten to group leaves by `Label` with semantic `<section>` blocks, so a shared style shows
+  once with a real variant count instead of implying baseball-card-specificity — this is what
+  actually makes the hierarchy visible ("we want to see the whole hierarchy"). New Master Chief
+  (Halo) batch: 9 existing styles reused verbatim (1910s tobacco card, stained glass, 8-bit pixel
+  art, Renaissance oil painting, LEGO minifigure, claymation, pop art silkscreen, woodcut,
+  watercolor) — 3/9 succeeded (tobacco card, stained glass, claymation) before sustained Vertex AI
+  rate limits, stopped per the founder's own repeated "proceed with what you have" guidance rather
+  than fighting the limiter further. Wiped and reseeded all 20 live nodes against the new schema.
+  2 new regression tests + existing tests updated for the renamed/added fields. `go build`/`vet`/
+  `test ./...` clean. Live-verified: shared styles correctly show "2 variants" on the index; the
+  1910s-tobacco-card-style Master Chief leaf renders a genuinely convincing period lithograph card
+  labeled "MASTER CHIEF · SPARTAN II · UNSC," proving the style/subject split is real, not just a
+  schema exercise. IDUNA `a034e4c`, Apple #14006. **Still open**: 6 remaining Master Chief styles
+  (LEGO, pixel art, Renaissance, pop art, woodcut, watercolor) queued to backfill once rate limits
+  clear, same as S176-02's 3 queued baseball-card images. (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
