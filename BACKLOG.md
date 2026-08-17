@@ -1163,6 +1163,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T11:38:51Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:34:42Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:25:26Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time, confirming the collapse: 'so any top level prompt can probably be expressed via a third level featur…** — obs `2026-08-17T20:32:08Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: concrete example of gap detection -- 'we identify the third level labeled gen output and we identify…** — obs `2026-08-17T20:31:56Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time, resolving the tension just raised: 'or its a way to fill in data that the gen data does not randomly…** — obs `2026-08-17T20:31:22Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time, self-questioning mid-thought: 'all the photos in the unreal [engine] style, those top level prompts …** — obs `2026-08-17T20:31:10Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: Prompt-o-verse data-model refinement -- the expanded/tier-2 description shouldn't be stored as one l…** — obs `2026-08-17T20:30:03Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -15011,6 +15016,16 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   tune pipeline exists in code but hasn't completed a first real run yet (S26-04, still open) —
   this would be a new consumer of that pipeline, not something that unblocks it. EMILY
   `docs/NORTHSTAR_PROMPT_O_VERSE.md`, commits `e937f19` + `854d814` + `3bfc8ee`.
+
+  Also added a tier-2 data-model refinement: store the expanded description as **normalized,
+  queryable tags** (camera setup, lighting, background, etc. as their own attributes), not one long
+  free-text prompt — for dedup (shared shot-description components stop being re-written per
+  category) and real queryability. Real emergent property named, not designed for in advance:
+  shared tags surface associations between top-level prompts that don't obviously share context —
+  the taxonomy is a **graph** (edges via shared tags) layered on top of the browsing **tree** (§2.4
+  parent→child), not only a tree. Storage shape (relational, attribute store, graph-native) left
+  as an implementation decision. Golden-index token budget bumped again (4500→5000). EMILY commit
+  `8575d53` + `618f181`.
   (sess-20260813-2154-dda37e8b)
 
 ---
