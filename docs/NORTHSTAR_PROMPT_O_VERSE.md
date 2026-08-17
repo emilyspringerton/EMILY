@@ -150,10 +150,13 @@ generation:
   fashion tag — connections a human skimming category names would never notice, but that fall out
   for free once the feature values are tagged data instead of prose. This means the taxonomy isn't
   purely a tree (parent → child categories) — it's also a **graph**, with edges formed by shared
-  tags cutting across the tree's branches. Both structures coexist: the tree is how a person
-  browses (§4); the graph is what a query can surface. Which storage shape (a real relational
-  schema, a tag/attribute store, something graph-native) is left as an implementation decision, not
-  picked here.
+  tags cutting across the tree's branches. Refined, not just binary present/absent: some
+  third-level tags naturally align more strongly with a given top-level prompt than others, so
+  edge *strength* (how much depiction two categories genuinely share, not just whether they share
+  any tag at all) is what separates a meaningful "these are related via common depiction" signal
+  from incidental overlap. Both structures coexist: the tree is how a person browses (§4); the
+  graph is what a query can surface. Which storage shape (a real relational schema, a tag/attribute
+  store, something graph-native) is left as an implementation decision, not picked here.
 
   **A real tension the founder raised and then answered, worth keeping both halves of:** if
   everything — including a top-level/EZ prompt itself — can be fully expressed as a tag
