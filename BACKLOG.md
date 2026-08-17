@@ -1183,6 +1183,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, thought-out-loud through an alternative and rejected it, confirming current approach: considered 'co…** — obs `2026-08-17T21:12:01Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time, confirms the plan (no change): 'for SEO taxonomy pages we want the leaf nodes like we have now' + 't…** — obs `2026-08-17T21:11:03Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'we dont necessarily need separate pages for the 2 different mediums -- like renaissance oil paintin…** — obs `2026-08-17T21:10:18Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'run gen requestws fifo so duck is after the previous request' -- real infrastructure gap: emily pro…** — obs `2026-08-17T21:29:44Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'then do a run of a duck wearing a tuxedo' -- new Subject, same benign whimsical register as prior d…** — obs `2026-08-17T21:27:06Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'then do a run of swimsuit models' -- declining to generate this subject for the public Prompt-o-ver…** — obs `2026-08-17T21:25:23Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'give me an emily cli promptoverse add command - like emily promptoverse add ducks 6' -- wants a rea…** — obs `2026-08-17T21:20:53Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'then do a smaller of ducks' -- a third Subject variant, ducks (likely a callback to REDGARDEN's Duc…** — obs `2026-08-17T21:19:12Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
