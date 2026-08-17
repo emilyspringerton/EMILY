@@ -135,6 +135,26 @@ generation:
   sampling a combination from that space, not replaying one fixed template — the taxonomy node
   owns a structured feature space, and any point in that space is a valid instance of the category.
 
+  **Data-model refinement, also stated directly:** don't store the expanded description as one long
+  free-text prompt string — normalize it into structured, queryable tags/fields instead (camera
+  setup, lighting, background, etc. as their own attributes, not prose). Two concrete reasons, both
+  named by the founder: **dedup** — a lot of these long shot-description components repeat across
+  otherwise-unrelated categories (the same "diffused three-point studio lighting" phrase doesn't
+  need to be re-written every time a category happens to use it), so normalizing once and
+  referencing it beats storing the same paragraph N times; and **queryability** — a long prose
+  string isn't data you can actually query ("show me every category using hard flash lighting"
+  is unanswerable against a blob of text, trivial against a tag). The genuinely valuable emergent
+  property this creates: **shared tags surface associations between top-level prompts that don't
+  obviously share context.** Two categories with nothing in common by name or by parent node in
+  the taxonomy tree (§2.4) can turn out to share a lighting tag, a background tag, an era-adjacent
+  fashion tag — connections a human skimming category names would never notice, but that fall out
+  for free once the feature values are tagged data instead of prose. This means the taxonomy isn't
+  purely a tree (parent → child categories) — it's also a **graph**, with edges formed by shared
+  tags cutting across the tree's branches. Both structures coexist: the tree is how a person
+  browses (§4); the graph is what a query can surface. Which storage shape (a real relational
+  schema, a tag/attribute store, something graph-native) is left as an implementation decision, not
+  picked here.
+
 **Open question, correctly left open rather than picked here:** whether tier-2 expansion is (a) a
 **stored** expanded prompt per known taxonomy node — a lookup, cheap and deterministic, but only
 covers styles the taxonomy already knows about — or (b) a **dedicated expansion model/prompt**
