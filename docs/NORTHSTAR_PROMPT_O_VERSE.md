@@ -224,34 +224,32 @@ pattern used elsewhere in this system) or something else entirely.
 Named plainly rather than glossed over, matching this document's job as a northstar and not a
 build plan:
 
-- **Image-generation backend.** No existing image-generation infrastructure exists anywhere in
-  this monorepo today (checked, not assumed) — whether this runs against a hosted API (cost per
-  generation, rate limits, ToS constraints on stored/rated outputs), a self-hosted open-weights
-  model (the gpt2-alpine-c precedent of owning the inference stack, but for images — real GPU/cost
-  implications), or both, is unpicked.
+- **Image-generation backend — RESOLVED 2026-08-17, no longer open.** No existing image-generation
+  infrastructure existed anywhere in this monorepo before today (checked, not assumed). Google's
+  "Nano Banana" (Gemini image generation) is the real answer, but getting there took two dead ends
+  first, both worth keeping as a record: (1) this box's existing OAuth-personal Gemini CLI
+  credential (`~/.gemini/oauth_creds.json`) — tested directly, confirmed dead,
+  `IneligibleTierError` ("no longer supported for Gemini Code Assist for individuals... migrate to
+  Antigravity"), a real Google-side deprecation, not a config problem here; (2) a dedicated
+  `GEMINI_API_KEY` via Google AI Studio — founder spent ~2 hours on this already, hit a 404 loop on
+  one of Google's own recommended key-creation paths; live web research confirmed this is a real,
+  currently-active platform-side bug (Google's own AI Developer Forum has open threads since May
+  2026 for "Failed to generate API key, the request is suspicious," plus separate unresolved
+  403/404 permission-denied threads), not founder error.
 
-  **Researched 2026-08-17: Google's "Nano Banana" (Gemini image generation) is a real, strong,
-  cheap candidate — currently blocked on account access, not architecture.** Real, current, well-
-  documented REST API (`generativelanguage.googleapis.com`, `x-goog-api-key` auth, model IDs
-  `gemini-3.1-flash-image` / `gemini-3-pro-image` / legacy `gemini-2.5-flash-image`, reported
-  around $0.02/image for the base tier) — a genuinely viable VS0 backend if it can be reached.
-  Two access paths checked, both dead right now, not assumed:
-  1. **This box's existing OAuth-personal Gemini CLI credential** (`~/.gemini/oauth_creds.json`,
-     `garybifrost@gmail.com`) — tested directly, confirmed dead: `IneligibleTierError`, "This
-     client is no longer supported for Gemini Code Assist for individuals... migrate to the
-     Antigravity suite of products." Google deprecated free-tier individual OAuth access for this
-     client; not a config problem on this end.
-  2. **A dedicated `GEMINI_API_KEY`** — founder already spent ~2 hours trying to obtain one; one of
-     Google's own recommended key-creation paths hit a 404 loop. Confirmed via live web search
-     this is a real, currently-active platform-side issue, not founder error or a stale one-off:
-     Google's own AI Developer Forum has open threads since May 2026 for "Failed to generate API
-     key, the request is suspicious, please try again," plus separate 403/404 permission-denied
-     threads on API key creation, still unresolved as of this research.
-
-  Bottom line: Nano Banana is the leading real candidate for VS0's backend, but neither currently-
-  available auth path on this account works — this is Google's bug/deprecation, worth periodically
-  checking whether it's resolved rather than assumed permanently blocked (see the matching HITL
-  item in `EMILY/BACKLOG.md`).
+  **What actually worked, founder's own idea:** bypass the console entirely and use this account's
+  existing `gcloud` ADC credentials against **Vertex AI** instead of the consumer AI Studio API —
+  a completely different auth path (standard GCP IAM, not the buggy API-key UI), and this account
+  already has `aiplatform.googleapis.com` enabled with an active billing account. Tested for real:
+  `POST https://us-central1-aiplatform.googleapis.com/v1/projects/{PROJECT}/locations/us-central1/
+  publishers/google/models/gemini-2.5-flash-image:generateContent`, `Authorization: Bearer $(gcloud
+  auth print-access-token)`. Real success — genuinely convincing 1024×1024 output on the first
+  real Prompt-o-verse prompt ("a 1990s glossy baseball rookie card portrait, studio lighting, blue
+  background"), saved as the project's first real artifact:
+  `EMILY/docs/prompt-o-verse/vs0-proof/1990s-rookie-card-portrait.png` (README alongside it has
+  the exact call). This is real evidence VS0's core mechanic works, not just that a backend exists
+  on paper — the backend question converts from "unpicked" to "picked and proven": Vertex AI via
+  existing `gcloud` ADC, no new credential needed.
 - **Repo home.** No dedicated repo exists yet. This doc lives in `EMILY/docs/` for now, same
   precedent as `NORTHSTAR_OPENCLAW_INTEGRATION.md` before OpenClaw had a repo — move it once (or
   if) a real repo is created and scoped, matching the `CarePyre`/`EXODUS`/`TTT` pattern of
