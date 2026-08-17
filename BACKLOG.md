@@ -1188,6 +1188,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'then do a run of swimsuit models' -- declining to generate this subject for the public Prompt-o-ver…** — obs `2026-08-17T21:25:23Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'give me an emily cli promptoverse add command - like emily promptoverse add ducks 6' -- wants a rea…** — obs `2026-08-17T21:20:53Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'then do a smaller of ducks' -- a third Subject variant, ducks (likely a callback to REDGARDEN's Duc…** — obs `2026-08-17T21:19:12Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: (1) update emily.cli README with all commands including promptoverse; (2) 'added' timestamps showing…** — obs `2026-08-17T21:42:18Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'cancel previous requests for a run of swimsuit models and do a run of racially ambiguous swimsuit m…** — obs `2026-08-17T21:34:35Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'if taxonomies have at least 2 leaf nodes make the taxonomy tag like a duck wearing a tuxedo clickab…** — obs `2026-08-17T21:33:47Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time, converges the plan: 'what we have is good for baseball cards but we need a second category, vastly d…** — obs `2026-08-17T21:09:46Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'now we need to add a level -- stained glass is top level -- right now its all baseball cards but it…** — obs `2026-08-17T21:09:22Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
