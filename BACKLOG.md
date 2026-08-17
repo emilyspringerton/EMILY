@@ -14403,6 +14403,23 @@ first, open design questions last.
   `run.sh`'s own full hydration so a post-reboot session actually picks up founder direction that
   arrived during the downtime, not just the service stack. Root monorepo commit `3ba252c`
   (local-only, no remote). Apple #12811.
+
+- [~] **S170-294: Founder real-time: "ensure ops for our exotic training" → clarified mid-turn:
+  "exotic training refers to autocurriculum".** Audited before acting: no training process was
+  running; both prior autocurriculum-family runs (2026-08-14 200K/35%, 2026-08-15 10v10
+  512K/40%) had already completed cleanly and been reported (Apple #13608/#13610, #13748) — no
+  silent crash, no stuck process, nothing unreported. Real gap found while auditing, not assumed:
+  the 35% run changed two variables at once versus the 75% reference run (halved timesteps *and*
+  added `--noisy-gestalt`), so the standing "probably under-convergence, not a mechanism
+  regression" hypothesis in REDGARDEN's own CHANGELOG was never actually isolated. Relaunched a
+  clean control run matching the 75% run's exact config (`team_size=3`, 500K timesteps,
+  `--autocurriculum` only, noisy-gestalt off) to test that hypothesis properly. Verified healthy
+  before moving on: process alive, real startup banner printed, fps=99, writing checkpoints
+  normally. PID 522839, log `var/logs/rl_train_autocurriculum_20260817T104814Z.log`, output
+  `rl_team_checkpoints_autocurriculum_500k/`. REDGARDEN `f101106`, Apple #13908. **Marked `[~]`,
+  not `[x]`: the run is in progress (~2-3h estimated based on the reference run's timing) — will
+  report the final win rate honestly on completion, same discipline as every prior run this
+  session.** (sess-20260813-2154-dda37e8b)
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
