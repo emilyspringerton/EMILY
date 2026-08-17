@@ -1198,6 +1198,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (result of empirical test): tested the existing OAuth-personal Gemini CLI credential directly -- conf…** — obs `2026-08-17T20:37:38Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'gemini api key is so hard to get i tried for like 2 hours the other day' -- real, demonstrated fric…** — obs `2026-08-17T20:37:12Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'lets see if we can use nano banana api to go from top level to the gen data' -- proposing a concret…** — obs `2026-08-17T20:35:06Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: promptoverse should keep a local variable estimating retry backoff across invocations -- if 2-3 runs…** — obs `2026-08-17T22:11:27Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: when draining the promptoverse queue we need a longer wait between requests** — obs `2026-08-17T22:05:27Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: 'ensure all is ingested and planned and then iterate' -- closing signal on the Prompt-o-verse real-t…** — obs `2026-08-17T20:33:55Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time, refining the graph-via-shared-tags idea: 'there are third level prompts that are going to more natur…** — obs `2026-08-17T20:32:41Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time: Prompt-o-verse extension -- run GPT-2 (the existing gpt2-alpine-c infra in this monorepo) on differe…** — obs `2026-08-17T20:27:38Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
