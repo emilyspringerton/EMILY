@@ -14966,6 +14966,39 @@ stocks on the move)、`T01:59:22Z`(SKULDMARK 接進 intake)、`T01:59:32Z`(盡�
 
 ---
 
+## SECTION 176: PROMPT-O-VERSE — GENERATIVE TAXONOMY NORTHSTAR (2026-08-17)
+
+*Founder, real-time, assembled across several fragments: "what if our mission was to organize the
+world's information like google but instead of going the way google is doing it... we start with a
+prompt like baseball card photography and generate a bunch of different versions... identify the
+categories... build a taxonomy... 2 levels — the ez prompt and the expanded/feature-rich prompt."
+Mid-turn: "it should be a playground for those learning gen AI... with a rating." / "another meta
+has weird prompts like ice cream novelties... the goal is a universe of prompt ideas." / "the main
+mission is to categorize all information." / "the affordance is the gallery/playground to give
+humans an interface." Logged before writing per Principle 1; spec-only, same posture as SECTION
+170's Vault + OpenClaw northstars — grew out of real-time ideation, no code yet.*
+
+- [x] **S176-01: Write the Prompt-o-verse northstar.** Synthesized every fragment (5 separate
+  `emily observe` posts across the conversation, logged before each edit) into one coherent
+  document: the "categorize all information" mission reframe (generate-then-discover-taxonomy
+  instead of crawl-then-index); the taxonomy discovery loop (generate broad → observe emergent
+  categories → isolate the prompt per category → build the tree); two taxonomy branches
+  (historical/stylistic, matching something that really existed, vs. surreal/whimsical creative-
+  range demos like "ice cream novelty portraits," which don't); two-tier prompting (EZ prompt →
+  stored-or-model-expanded feature-rich prompt, left open which); the gallery/playground framed
+  correctly as *the affordance* per the founder's own correction, not a late bolt-on; a genuine
+  but undecided architectural fit with `NORN`'s propose→grade→gate→promote loop (HQ-SPEC-PRIME-101)
+  for the discovery loop's own candidate-grading step, flagged not assumed. Named what's
+  deliberately not decided rather than guessing: image-generation backend (checked — no existing
+  image-gen infrastructure exists anywhere in this monorepo today), repo home (none yet; doc lives
+  in `EMILY/docs/` per the OpenClaw precedent until a real repo exists), which domain comes after
+  baseball cards, moderation policy for a public rated gallery. VS0→VS1→VS2 phased plan: prove the
+  discovery loop by hand → build the two-tier prompt system → build the public gallery. Golden-
+  indexed as `PROMPT-O-VERSE-NORTH`. EMILY `docs/NORTHSTAR_PROMPT_O_VERSE.md`, commit pending.
+  (sess-20260813-2154-dda37e8b)
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
