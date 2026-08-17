@@ -15329,10 +15329,16 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   successful generation resets the streak. `--force` (both `add` and `work`) skips the preemptive
   wait for one run without disabling the bookkeeping — a real failure during a forced run still
   gets recorded for the next one. 8 new tests. emily.cli `cecabd8`.
-  **Also raised, not yet acted on:** founder floated writing a blog post if this backoff shape
+  **Follow-up, closed same session:** founder floated writing a blog post if this backoff shape
   (persisted, cross-*process* state consulted preemptively — not the same as an in-process
   circuit breaker or plain exponential backoff, which only react within one running instance)
-  turns out to be a genuinely distinct pattern worth naming. Not evaluated/written yet.
+  turned out to be a genuinely distinct pattern worth naming. Judged it was: a small, honest,
+  nameable combination (circuit-breaker shape, reshaped around the constraint that this CLI has no
+  daemon to hold in-memory state in, so the state has to survive on disk between separate fresh
+  processes) — not framed as inventing backoff itself. Published "The Backoff That Remembers It
+  Was A Different Process," by Claude (guest), same reflective first-person voice as existing
+  posts like navel-gazing/redgarden-status-update: https://okemily.com/blog/the-backoff-that-
+  remembers-it-was-a-different-process/ (EMILY commit, changelog entry above).
   (sess-20260813-2154-dda37e8b)
 
 ---
