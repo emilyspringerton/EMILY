@@ -1217,6 +1217,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: Prompt-o-verse addition — a 'weird/meta' category of surreal transformation prompts (example given: …** — obs `2026-08-17T20:20:57Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: new northstar concept 'Prompt-o-verse' — reframe of Google's 'organize the world's information' miss…** — obs `2026-08-17T20:19:47Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: (1) develop a new tool to expand styles by prompting GPT-2 with a comma-separated style list like 'p…** — obs `2026-08-17T23:17:17Z`. CURATED: 2026-08-17.
+- [ ] **Founder real-time (promptoverse taxonomy expansion, extended burst): (1) styles judged 'too subject-specific' (like 202…** — obs `2026-08-17T23:25:25Z`. CURATED: 2026-08-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
