@@ -15269,6 +15269,38 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   registry was first built, S176-04) deliberately left out. 4 new tests. emily.cli `bf937e4`.
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-10: Queue self-heals past duplicates; style discovery via Vertex AI.** Founder:
+  "the queue needs to be cleared out we have some duplicates queued that are not getting deduped
+  so new inputs always fail." Root cause: `drainQueue` stopped the *entire* drain on any publish
+  failure, including IDUNA's 409 "already exists" for a stale/duplicate entry — one bad item at
+  the head permanently blocked everything queued behind it. New `iduna.ErrPromptOVerseNodeExists`
+  sentinel lets `drainQueue` skip-and-continue on that specific error. `appendQueue` now also
+  dedupes on write, closing the TOCTOU race between two concurrent `add` calls that both see an
+  empty pending set before either has written — this is exactly how "ghost playing the piano" got
+  queued twice live. Cleaned the 4 stale duplicate entries out of the live
+  `EMILY/var/promptoverse-queue.jsonl` by hand (2 exact republish-duplicates of already-published
+  `racially ambiguous swimsuit model` leaves, 2 exact in-queue repeats of `ghost playing the
+  piano`) — left the 2 *non*-duplicate `racially ambiguous swimsuit model` queue entries
+  (Renaissance oil painting, 8-bit pixel art) untouched and did not drain them myself: they're not
+  duplicates, so outside the scope of "clear duplicates," and dropping a subject the founder
+  queued directly isn't my call either way — flagged instead of resolved unilaterally.
+  **Style discovery** ("in the same way you came up with the styles for the baseball card we need
+  to do a step where we consider creating a new style if it is the second or later generation
+  (always add to the graph first then expand it)" + "using the google cloud apis" + "we should not
+  add frivolous styles so the second gen will not necessarily always expand the graph if it
+  doesn't make sense to do so"): on the 2nd+ generation for a subject (never the first — matches
+  how the original baseball-card batch only ever used the fixed registry), if the existing
+  registry (hardcoded + previously-discovered) ran short, `add` makes exactly ONE attempt to
+  propose a new style via Vertex AI's Gemini text model (`gemini-2.5-flash`, same `gcloud` ADC
+  already required for image generation — no new credential). The model can decline via a
+  structured `{"propose": false}` contract instead of being forced to invent something just to
+  hit the requested count — declining is the expected common outcome, not an error path. Anything
+  accepted is persisted to `EMILY/var/promptoverse-discovered-styles.json` and becomes part of the
+  registry for every future subject, not just the one that triggered it. 15 new tests (queue
+  dedup + the full discovery/validation pipeline, testable without a live network call via
+  `extractGeminiText`/`parseStyleProposalJSON` split out as pure functions). emily.cli `80011b7`.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
