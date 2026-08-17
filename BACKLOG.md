@@ -15362,6 +15362,39 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   restarted `iduna.service`, re-ran `cmd/promptoverse-rerender` to fix every already-published
   subject page, not just future ones. IDUNA `4d0b39d`. (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-14: Live-updating gallery index + Style/<label> pages.** Founder: "in the same way
+  that live match and wotan hero rankings is live updating make promptoverse a gallery home page
+  live update when new nodes are published." Researched the actual existing pattern first
+  (`OKEMILY/live-match.html`, `OKEMILY/tournaments.html`, `IDUNA/internal/http/handlers/
+  redgarden_stats.go`) rather than inventing a new mechanism: plain `fetch()` + `setInterval`
+  polling a JSON endpoint, full `innerHTML` re-render each tick, no SSE/WebSocket. Copied
+  tournaments.html's `loadHeroLeaderboard` shape — 10s poll (its `STATS_POLL_MS` reasoning applies
+  directly: DB-backed, changes on the order of minutes, not live-match's several-times-a-second
+  positional state) against the *already-existing* `GET /api/v1/promptoverse/nodes` — no backend
+  change needed. No immediate `poll()` on load (unlike tournaments.html's empty-container start)
+  since the page is already server-rendered with current nodes.
+  **Same session, second ask:** "we have no way to go from node up a level like im on the lego
+  baseball card but theres no way for me to go to the lego page to show all those nodes (those
+  pages may not even exist yet)." New Style pages at `/prompt-o-verse/style/<label-slug>/`,
+  mirroring S176-05's Subject pages for the *other* taxonomy axis — every leaf's `<h1>{{.Label}}</h1>`
+  and every index category heading now link to it. Unlike Subject pages, no `>=2` leaf threshold:
+  Label is required on every node and is already the index's primary grouping key, so even a
+  style with 1 leaf gets a real page. 6 new/updated tests. Ran `cmd/promptoverse-rerender` to
+  backfill both features onto all already-published nodes. IDUNA `59b6f0f`.
+  (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-15: Escalating inter-request delay within a run.** Founder: "ok im still getting
+  backoffs inbetween can we add a bit more between dynamically or whatever you think?" then: "to
+  be clear we are still getting apilimited in like our 3rd or 4th gen usually." The flat 20s base
+  delay (S176-11) plus the cross-invocation preemptive backoff (S176-12) still weren't enough —
+  both only affected the *first* request of a run, not the ongoing spacing once a run was already
+  a few requests in, and the actual limit looks like it behaves closer to requests/minute than
+  seconds-since-last-request. New `promptoverseEffectiveDelay`: base + 15s per successful request
+  already made *this* run (capped at +2m) — gap sequence goes 20s, 35s, 50s, 65s, ... instead of a
+  flat 20s throughout — plus the cross-invocation backoff extra now applies to every gap for the
+  rest of a run, not just the one before the first request. 3 new tests. emily.cli `464a97b`.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
