@@ -5413,7 +5413,7 @@ planning" as the organizing concept (backlog sections, Fable-prompt queue entrie
 system is down, and queue the actual investigation/fix as real backlog work instead of pretending
 around it.*
 
-- [ ] **S157-01: Reconcile the 3 stale pending HEIMDAL sprints.** IDs 1/2/3 in IDUNA's
+- [x] **S157-01: Reconcile the 3 stale pending HEIMDAL sprints.** IDs 1/2/3 in IDUNA's
   `heimdal_sprints` table, all created 2026-06-13 — over a month old, stuck in `pending` because
   every translation attempt has failed since (first on old blockers, now on HITL-11). Sprint 3
   (S24-01+S23-01 "the flip") and sprint 2 (production server provisioning) are largely superseded
@@ -5423,6 +5423,21 @@ around it.*
   fresh check against current `edis-ask-emily` code — may also already be done. Close or rewrite
   each once HITL-11 unblocks real translation, don't let them auto-translate against month-old
   context.
+
+  **DONE 2026-08-17 — the real blocker wasn't HITL-11.** Checked directly rather than waiting:
+  `PATCH /api/v1/heimdal/sprints/{id}` requires `heimdal.process` or `apples.admin`, and *no
+  agent in `config/agents.json` had either* — despite `heimdal.process` being seeded in the
+  permissions catalog since day one, commented "(Emily Prime only)," and the handler's own doc
+  comment naming Emily Prime as the intended caller. The sprints weren't stuck on a broken
+  translation pipeline; nothing could ever PATCH them, credit balance irrelevant. Granted
+  `heimdal.process` to EMILY-PRIME (dry-ran `cmd/bootstrap` first to confirm no credential
+  rotation — the S141-04 `writeSecretsEnv` merge fix holds), verified a freshly minted JWT
+  carries it. Reconciled all 3 by hand against already-confirmed BACKLOG.md state, not
+  haiku-translated against 2-month-old context: sprint 1 (S21-03) → complete, cleanly done
+  2026-06-13; sprint 2 (server provisioning) → complete, done under `news.okemily.com` not the
+  sprint's stale `fatbaby.io` acceptance criteria; sprint 3 (the flip) → complete, S24-01+S23-01
+  both done, S23-01b (HTTPS/merge) correctly left as its own separate open item, not folded in.
+  IDUNA `9236c56`, Apple #13924. (sess-20260813-2154-dda37e8b)
 - [x] **S157-02: `goldenbuild` fallback path — audit whether the truncated fallback is safe.
   DONE 2026-08-14 — it was NOT safe, and worse than "degraded context," it was permanent.**
   Real bug found, not a no-op: cache-hit logic only compared source-file hash, never
