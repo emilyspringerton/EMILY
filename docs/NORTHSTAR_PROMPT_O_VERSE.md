@@ -199,7 +199,7 @@ Stated directly by the founder and worth being exact about: **the gallery/playgr
 affordance** — the actual human-facing interface the categorization mission (§1) is *for*. A
 taxonomy nobody can browse is a research artifact; the gallery is what turns "we categorized all
 this" into something a person can actually use, learn from, and enjoy. This isn't a late feature
-layered on top of the real product — it's the product's face, and §6's phasing (which builds the
+layered on top of the real product — it's the product's face, and §8's phasing (which builds the
 taxonomy mechanic before the gallery) is an engineering sequencing choice about what has to be
 proven first, not a claim that the gallery matters less.
 
@@ -266,7 +266,7 @@ free once it exists:
   (STINKIES' sticker/hoodie drops), procedural cosmetic variety (`GOLDENBAND`/`REDGARDEN`/
   `SHANKPIT`), no design work spent from scratch each time.
 - **A citable, licensable dataset in its own right.** Same instinct already active elsewhere in
-  this system (SKULDMARK's planned open release to researchers/industry, §S175-03 in
+  this system (SKULDMARK's planned open release to researchers/industry, S175-03 in
   `EMILY/BACKLOG.md`) — a well-documented taxonomy of generative style-space is a real research/
   industry artifact independent of any product built on top of it.
 - **Prompt-engineering curriculum.** The taxonomy *is* a documented "here's exactly what makes 40
