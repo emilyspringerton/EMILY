@@ -15039,7 +15039,14 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   refined from binary to **weighted** — some third-level tags naturally align more strongly with
   a given top-level prompt, and edge strength is what separates a real "related via common
   depiction" signal from incidental tag overlap. EMILY commits `79f043f` + `9845bc6`.
-  (sess-20260813-2154-dda37e8b)
+
+  **Closed out per founder's "ensure all is ingested and planned and then iterate":** re-read the
+  full document end to end as a verification pass, found and fixed two stale cross-references left
+  by the section renumbering (a `§6` reference that should have followed the phased-plan section
+  down to `§8`; a redundant `§` before a BACKLOG item number). Every one of the 18 real-time
+  fragments across this exchange was logged via `emily observe` before being folded into the doc —
+  confirmed nothing was acted on without being routed through the observation queue first, per
+  Principle 18. EMILY commit `d1e13f3`. (sess-20260813-2154-dda37e8b)
 
 ---
 
