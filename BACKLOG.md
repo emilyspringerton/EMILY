@@ -1283,6 +1283,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, generalizing the crossover-style idea (logged, staying on live-reload fix): 'all the crossover style…** — obs `2026-08-18T04:18:40Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, another style idea (logged, staying on live-reload fix): 'Final Fantasy crossover style' -- another …** — obs `2026-08-18T04:18:36Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, new taxonomy idea (logged, not acted on -- staying on the live-reload fix per 'prioritize above all …** — obs `2026-08-18T04:18:11Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, frustrated: 'LIVE RELOAD STILL BROKEN WTF BRO' -- correctly calling out that the subject/style-page …** — obs `2026-08-18T04:31:11Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, further clarifying the variants design (matches what's being built): 'if the subject and style tag e…** — obs `2026-08-18T04:26:03Z`. CURATED: 2026-08-18.
+- [ ] **CRITICAL correction, arrived mid-build: 'to be clear we need to keep both and i think for seo reasons we should condens…** — obs `2026-08-18T04:25:20Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, direct go-ahead: 'add that feature to the cli whatever affordance makes sense to get that functional…** — obs `2026-08-18T04:23:14Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, concrete content-correction request: 'i need to gen lil wayne papercraft with a red hoodie instead o…** — obs `2026-08-18T04:22:23Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -15838,7 +15843,27 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   (inserts a `Cache-Control: no-cache` location block into both server blocks, braces balance) —
   **queued, not applied**, needs sudo this box doesn't have. MONOREPO `05e4740`, Apple #14156.
   Founder should hard-refresh (Ctrl/Cmd+Shift+R) the tab they're testing in as an immediate
-  workaround while the nginx fix is pending. (sess-20260813-2154-dda37e8b)
+  workaround while the nginx fix is pending.
+
+  **THE ACTUAL BUG, found on a third pass**: founder, real-time, while checking whether a new
+  Pinup Girl MTG-crossover card had appeared: "also where is my pinup power mtg card on
+  promptoverse?" then, after continued confusion, escalating to "LIVE RELOAD IS STILL BROKEN
+  PRIORITIZE THAT ABOVE ALL ELSE". Grepped `render.go` for `setInterval`/`insertNewCards` before
+  fixing this — exactly ONE hit in the whole file, only in `indexTemplate`. `subjectTemplate` and
+  `styleTemplate` (e.g. the Pinup Girl subject page the founder was actually watching) had **no
+  poll script at all**, ever, since S176-14 first built live-reload for the index page only. Every
+  previous fix this session (stale binary rebuild, Cache-Control) could only ever have fixed the
+  index page's mechanism, because subject/style pages had nothing broken to fix — they were
+  static by design and would never auto-update no matter how many times `iduna.service` got
+  rebuilt. New shared `leafPollScript` (same incremental-patch shape as the index page's) spliced
+  into both templates via data attributes (`data-filter-key`/`data-filter-value` select which
+  nodes from the shared API response belong on that page). **This fix was built, tested, then
+  initially left undeployed** — founder correctly called that out live: "LIVE RELOAD STILL BROKEN
+  WTF BRO" / "prioritize a fix above all else", after which it was immediately rebuilt, restarted,
+  re-rendered, and live-verified (curl: correct poll script + filter attributes now served on the
+  real Pinup Girl page; Playwright/Chromium against the index page: zero console/page errors, a
+  real 175→176 card-count change caught live with all original `<img>` elements surviving intact).
+  16 new tests. IDUNA `b6b5187`, Apple #14197. (sess-20260813-2154-dda37e8b)
 
 - [ ] **S176-33 (not yet scoped): Extract the live-gallery pattern into a reusable plugin.**
   Founder: "ok we built a sick gallery plugin can we backlog extracting it from promptoverse?" —
