@@ -1274,6 +1274,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, narration/color, not a new instruction: 'i started making a supercar mashup in that prompt but it wa…** — obs `2026-08-18T03:26:56Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, clarifying the mashup nomination widget example: 'i mean on the iduna page you can create the john w…** — obs `2026-08-18T03:26:26Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, UI detail for mashup nomination widget: 'on the supercar page you can pull up a search tag auto comp…** — obs `2026-08-18T03:25:54Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'build out mashup nomination as a social tool' -- narrows the 'build out social features' ask to a s…** — obs `2026-08-18T03:23:17Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, concrete infra direction for social features: 'you should be able to get iduna gcloud logins working…** — obs `2026-08-18T03:22:46Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'build out the social features' -- direct go-ahead to build S176-27 (Reddit-style voting for candida…** — obs `2026-08-18T03:22:33Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
