@@ -15551,6 +15551,29 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   emily.cli `2276638`/`528dd7a` and IDUNA `3e70e0b`, OKEMILY `bd5b964`.
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-24: Cron-driven thumbnails + optimized images.** Founder: "we also need a way to on
+  a cron or whatever move our images to multiple thumbnail sizes or at least the thumbnail and the
+  original size - when we first gen go ahed and load the whole image and scale it with styles or
+  whatever we are doing (it loads slwo its fine) ok but at some point a tootally background
+  process optimizes ... for now we just need 2 or 3 versions, original, thumbnail, optimized (full
+  size with jpg compression or whatever would be fastest) so imagemagic goes on a cron and adds
+  thumbnails and ooptimized versions and then our webapp loads the optimized or the thumbnail
+  optimized versions if they are avaailable and falls backk to full size if they arent." New IDUNA
+  `cmd/promptoverse-thumbnails`: idempotent (skips any node with both files already present),
+  shells out to ImageMagick `convert` per node — a 320×320 cropped-to-fill JPEG thumbnail and a
+  same-resolution JPEG-recompressed "optimized" version, original PNG untouched — then re-renders
+  every page so new files show up immediately. Renderer's `toView` became a method (needed
+  `OutputDir` for `os.Stat` checks); `nodeView` gained `GalleryImageFile`/`HeroImageFile`, resolved
+  at render time with fallback to the original. Gallery grids use the thumbnail; a leaf page's own
+  hero image uses the optimized version. The live-update JS can't `os.Stat` from the browser, so
+  it always points at the thumbnail path with an `onerror` fallback to the original — the
+  client-side equivalent of the same check. Wired as a systemd user timer (15min interval,
+  `OnBootSec=5min`), same shape as the existing `fatbaby-movers-watcher` precedent. Live-verified
+  twice: a manual run processed all 103 existing nodes (real numbers: a 1.9MB PNG → 236KB
+  optimized JPEG + 24KB thumbnail, ~87-98% size reduction), then the timer's own first automatic
+  fire correctly picked up only the 2 nodes published since, confirming idempotency. 4 new tests.
+  IDUNA `a2692e4`. (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
