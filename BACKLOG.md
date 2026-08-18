@@ -15773,7 +15773,30 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   restart, health check passed), then re-rendering all 134 live nodes. Live-verified: served HTML
   now contains `insertNewCards`/`knownSlugs` (the incremental patch) and no longer contains the old
   `root.innerHTML = html` full-rebuild line. IDUNA rebuilt+restarted from `b719b3a4`, Apple #14148.
-  (sess-20260813-2154-dda37e8b)
+
+  **Founder reported it still broken after this landed**: "live reload still seems broken" / "auto
+  reload seems broken." Re-verified server-side end to end — real nodes are still publishing on a
+  normal ~2-3min cadence, `index.html`'s `Last-Modified` matches the most recent publish exactly,
+  the served JS is still definitely the fixed incremental-patch version. No server-side staleness
+  found on this second pass. Real gap identified instead: `/prompt-o-verse/` is served with
+  **zero** `Cache-Control`/`Expires` headers (confirmed via `curl -D -`) — under RFC 7234 heuristic
+  freshness, any browser that loaded the gallery even once before today's fixes landed can keep
+  showing that old cached snapshot indefinitely with no visible error, which looks exactly like
+  "live reload is broken" from that browser's side. `sudo-queue/16-prompt-o-verse-nocache.sh`
+  written and its config-editing logic verified against a real copy of the live nginx config
+  (inserts a `Cache-Control: no-cache` location block into both server blocks, braces balance) —
+  **queued, not applied**, needs sudo this box doesn't have. MONOREPO `05e4740`, Apple #14156.
+  Founder should hard-refresh (Ctrl/Cmd+Shift+R) the tab they're testing in as an immediate
+  workaround while the nginx fix is pending. (sess-20260813-2154-dda37e8b)
+
+- [ ] **S176-33 (not yet scoped): Extract the live-gallery pattern into a reusable plugin.**
+  Founder: "ok we built a sick gallery plugin can we backlog extracting it from promptoverse?" —
+  the live-polling + incremental-DOM-patch gallery grid pattern built for Prompt-o-verse
+  (`IDUNA/internal/promptoverse/render.go`'s `indexTemplate` script block: `knownSlugs` seeding,
+  `ensureCategorySection`, `insertNewCards`) is general enough to reuse anywhere else in the
+  monorepo that needs a live-updating card grid, not specific to Prompt-o-verse. Not scoped further
+  — where it would live, what the extraction API looks like, and which other pages would adopt it
+  are all open. (sess-20260813-2154-dda37e8b)
 
 ---
 
