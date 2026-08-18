@@ -1221,7 +1221,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (continued burst): (1) requeue command to re-pick queued styles with fixed selection logic, confirmed…** — obs `2026-08-17T23:44:08Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: tool broken, 'bad key error' then 'no image data in response' -- diagnosed live as NOT an auth/key p…** — obs `2026-08-17T23:48:53Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: need a cron/background process that generates thumbnail + optimized JPEG versions of Prompt-o-verse …** — obs `2026-08-18T00:22:03Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18.
+- [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
 - [ ] **Founder real-time, continuing the governance/access-control thread for future account-gated features: 'iduna gated' (no…** — obs `2026-08-18T00:42:52Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, policy decision for the future account-gated proposal/voting system: 'all promotion approvals run th…** — obs `2026-08-18T00:42:16Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, further clarifying the account-gated features cluster (voting): topic proposal and tag proposal shou…** — obs `2026-08-18T00:41:47Z`. CURATED: 2026-08-18.
@@ -15609,12 +15609,66 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   category's first-card position can shift even when the node set is identical. IDUNA `e158f00`.
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-28: Second gallery-index flicker fix (real incremental DOM patch).** Founder,
+  real-time, after S176-26 shipped: "im still getting a flicker." Root cause of why the S176-26
+  fix (skip-render-if-slug-order-unchanged) was insufficient: real publish activity this session
+  was firing every ~90-130s, well within the 10s poll window, so most ticks legitimately DID have
+  a changed node set and still tore down/rebuilt the whole `#gallery-root` innerHTML. Replaced the
+  signature-skip approach with true incremental patching: `knownSlugs` seeded from the
+  server-rendered `<li><a href>` elements on page load, `cardEl(n)` builds a real DOM `<li>`
+  (not an HTML string), `ensureCategorySection(label)` finds-or-creates a `<section>`, and
+  `insertNewCards(nodes)` only touches slugs NOT already in `knownSlugs` — existing `<img>`
+  elements are never destroyed or recreated, only genuinely new cards get appended. IDUNA
+  `8a836b7`. (sess-20260813-2154-dda37e8b)
+
 - [ ] **S176-27 (not yet built): Reddit-style voting for candidates.** Founder: "add a subject
   voting section like reddit." Real open design questions before implementation: a public voting
   endpoint needs abuse/rate-limit protection and some one-vote-per-visitor tracking (cookie? IP?),
   and where vote counts get persisted/who can write them crosses the Discovery page's current
   read-only boundary (IDUNA currently only *reads* emily.cli's candidate files, never writes to
   them). Logged, not scoped or started.
+
+- [ ] **S176-29 (not yet built): Native mashup discovery.** Founder, real-time: "ok then we need a
+  way to natively discover mashups - like if i ask for Fractal Raccoon it should show those
+  mashups on the fractal page and raccoon page." Follow-up clarifications: "subjects that may
+  start as non mashups can become mashups if their components are later added as individual
+  subjects" and "so a subject being a mashup is basically just metadata" — mashup-ness is derived
+  at query/render time by decomposing a subject label against the CURRENT subject registry, not a
+  flag stored at generation time, so a subject like "Fractal Raccoon" retroactively picks up
+  cross-links the moment "Fractal" and/or "Raccoon" independently exist as their own subjects.
+  Not yet scoped in detail or started — next up.
+
+---
+
+## SECTION 177: FATBABY BACKUP TOOLING — GOOGLE CLOUD, S3-PARITY DESIGN (2026-08-18)
+
+- [x] **S177-01: `emily backup run`/`emily backup decrypt` — GCS backup for iduna/promptoverse/
+  fatbaby data.** Founder, real-time, across 5 fragments: "ok can we start building s3 backup
+  tools? fatbaby backup" / "build it as google cloud firast with s3 parity" / "we want to backup
+  fatbaby data" / "and promptoverse data" / "and iduna data" / "encrypted at resk for the iduna
+  data." Scoped first via AskUserQuestion given the real stakes (credentials, encryption,
+  retention): new GCS bucket dedicated to backups, client-side encryption before upload, curated
+  state dirs only (not a blind whole-repo dump). New bucket `gs://project-d24a71e9-2daf-4b2d-917-
+  backups` (uniform bucket-level access, public access prevention on, 30-day object-age lifecycle
+  deletion). `emily backup run --target <iduna|promptoverse|fatbaby|all>` tars+gzips each target's
+  curated paths, uploads via `gcloud storage cp`. IDUNA target is AES-256-GCM encrypted client-side
+  before upload (key generated once at `IDUNA_ROOT/var/backup-encryption.key`, 0600, deliberately
+  never uploaded alongside the data it protects — printed warning tells the founder to back it up
+  elsewhere). `emily backup decrypt <file> <output>` reverses it. S3 parity is a documented future
+  extension point (bucket/target abstraction, not yet built against S3 itself).
+  Archive-time filtering (`excludedDirNames`, `looksLikeSecret`) excludes `logs/` subtrees and any
+  `*.env`/`*secret*`/`webmaster.json` file — caught and fixed TWO real bugs before ever running the
+  tool for real: (1) an early draft's doc comments claimed secrets were excluded when the actual
+  walk had zero filtering, verified by listing `IDUNA/var/` and seeing real credential files sitting
+  right there; (2) the bare-file top-level exclusion branch used `return nil` instead of `continue`,
+  which would have silently aborted archiving of every REMAINING path in the target on hitting any
+  one excluded top-level file — caught via self-review, fixed, locked in with a dedicated regression
+  test. 7 new unit tests, all passing. Live-verified end-to-end against the real bucket for all
+  three targets: `iduna` (38.6MB encrypted, round-tripped through decrypt with zero secrets present
+  in the decrypted archive), `promptoverse` (226MB), `fatbaby` (218MB) — each run correctly excluded
+  the real secrets files present in its target paths (`agent-secrets.env`, `webmaster.json`,
+  `emily-secrets.env`). Not yet wired to a systemd timer for scheduled/automatic runs — manual
+  `emily backup run` only, for now. emily.cli `92a6dc5`. Apple #14094. (sess-20260813-2154-dda37e8b)
 
 ---
 
