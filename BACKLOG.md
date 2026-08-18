@@ -1298,6 +1298,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, final detail: 'but section by section not snapping all 3 sections in at once' -- when a single poll …** — obs `2026-08-18T05:06:43Z`. CURATED: 2026-08-18.
 - [ ] **MAJOR CLARIFICATION on the earlier 'flicker' mystery: founder, real-time: 'ok the live reload kind of snaps a bunch in …** — obs `2026-08-18T05:06:24Z`. CURATED: 2026-08-18.
 - [ ] **Decision: NOT firing the remaining 5 FFXI garage-gang generations right now -- the background drain from the duck reque…** — obs `2026-08-18T05:05:15Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'northstar it' -- wants a NORTHSTAR doc for the LEGO/bricks.json birthday-gift initiative, matching …** — obs `2026-08-18T05:19:30Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, personal context for the LEGO/bricks.json initiative: 'for my daughter' / 'for her birthday' -- this…** — obs `2026-08-18T05:19:17Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, more LEGO-initiative context (still deferred, logged): 'and then later we will need to use promptove…** — obs `2026-08-18T05:19:07Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, MAJOR new initiative (fundamentally different scale from other asks -- logged, explicitly NOT attemp…** — obs `2026-08-18T05:18:41Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, REPEATED (standalone this time, taken as confirmed go-ahead): 'feel free to create a whole sprite ge…** — obs `2026-08-18T05:18:04Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
