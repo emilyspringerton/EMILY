@@ -15521,6 +15521,36 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   transient 429. 3 new tests using the actual captured Vertex response body. emily.cli `4048b63`.
   (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-23: Content-policy dead-letter dataset + Discovery page.** Founder: "we need a dead
+  letter queue that tracks content violations like our rapunzel icecream so we can start to track
+  a dataset that has IP implications (rapunzel is not disney but certain depictions of her are so
+  icecream or candy rapunzle may proportionately cause more content sensitive api responses)" +
+  "dead letter queue should not be retried" (already true) + "the data should just be tracked" +
+  "add a page on iduna to view that data" + "ensure we are logging such the next content sensitive
+  response gets logged such that we can ensure our code works." `contentBlockedError` (S176-22)
+  refactored into a typed error (Reason/Message fields, `Is()` keeps `errors.Is` working) so
+  `drainQueue`'s skip branch can record a structured entry to
+  `EMILY/var/promptoverse-content-blocked.jsonl` (append-only, never replayed) instead of just
+  logging to stderr — explicit "recorded to dead-letter dataset: `<path>`" confirmation on
+  success. Live-verified end to end against the real API (temporary smoke test, removed after
+  confirming): hit the actual Rapunzel/anime block, confirmed the typed error parses correctly,
+  confirmed a real entry gets written.
+  **Discovery page**: founder asked "wheres the link to the tag discovery page with the candidates
+  for style promotion via the gpt2 discovery pipeline?" — clarified via AskUserQuestion as
+  read-only (not an interactive promote UI, which would need real auth for a write action). New
+  `writeHardcodedStylesSnapshot` (emily.cli, refreshed every `emily promptoverse` invocation)
+  exports the compiled-in registry to `EMILY/var/promptoverse-hardcoded-styles.json`, since IDUNA
+  has no other way to see Go-source-only data. New IDUNA `GET /api/v1/promptoverse/discovery`
+  (public, read-only) combines that + discovered styles + GPT-2 candidates + the dead-letter
+  dataset into one response, degrading gracefully per-section on a missing/malformed file. New
+  static page `OKEMILY/prompt-o-verse-discovery.html` — same live-update idiom as the gallery
+  index and WOTAN's hero leaderboard (`fetch`+`setInterval`, 15s), three tables (registry with
+  rare/discovered badges, candidates with promote status, dead letters), linked from the OKEMILY
+  footer next to the gallery link. Live-verified through the real `okemily.com` HTTPS/nginx path
+  end to end (`/api/` proxy, footer link, real data all confirmed). 12 new tests total across
+  emily.cli `2276638`/`528dd7a` and IDUNA `3e70e0b`, OKEMILY `bd5b964`.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
