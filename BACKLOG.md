@@ -15664,12 +15664,42 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   elements are never destroyed or recreated, only genuinely new cards get appended. IDUNA
   `8a836b7`. (sess-20260813-2154-dda37e8b)
 
-- [ ] **S176-27 (not yet built): Reddit-style voting for candidates.** Founder: "add a subject
-  voting section like reddit." Real open design questions before implementation: a public voting
-  endpoint needs abuse/rate-limit protection and some one-vote-per-visitor tracking (cookie? IP?),
-  and where vote counts get persisted/who can write them crosses the Discovery page's current
-  read-only boundary (IDUNA currently only *reads* emily.cli's candidate files, never writes to
-  them). Logged, not scoped or started.
+- [x] **S176-27: Mashup nomination — the first real social feature built.** Founder: "add a
+  subject voting section like reddit," later reopened and narrowed: "build out social features" →
+  "build out mashup nomination as a social tool" → "two subjects already in the system" → "on a
+  subject page there will be the mashup creation widget which will encourage user account
+  creations." Scoped via AskUserQuestion (propose-new-generation vs curate-existing): chose
+  propose-new — a nomination requests combining two real existing subjects into a new mashup,
+  which is real generation spend, so it sits pending until an EINHORN_INDUSTRIAL admin reviews it
+  (matches the already-established "promotions run through admins before hitting the gen pipeline"
+  rule). Approval doesn't auto-generate — admin still runs `emily promptoverse promote-subject` by
+  hand. Resolves the open design questions this item was originally blocked on: abuse/rate-limiting
+  is a per-user pending cap (5) + a UNIQUE(subject_a, subject_b, nominated_by) constraint; the
+  read-only-boundary question is resolved by giving IDUNA its own real write path
+  (`mashup_nominations` table + `MashupNominationsHandler`) rather than writing into emily.cli's
+  files. Auth reuses the EXISTING Google ID-token flow (`/api/v1/auth/google`, Google Identity
+  Services client-side JS) per founder direction ("you should be able to get iduna gcloud logins
+  working") — deliberately NOT the redirect-based web ceremony, which needs a `gate.farthq.com` DNS
+  record that doesn't exist yet (SECTION 151). Honor-code gating reuses the EXISTING
+  `Store.AcceptHonorCode`/`users.honor_accepted_current` infra from the earlier VS0 ceremony work,
+  per founder: "honor code gated." Frontend: a "Nominate a mashup" widget added to every subject
+  page (autocomplete `<datalist>` over other real subjects, Sign-In button, nomination form). 16
+  new tests across store/handler/render layers. Live-verified: rebuilt+restarted `iduna.service`,
+  re-rendered all 165 nodes, widget confirmed present on real subject pages through the live HTTPS
+  path, `GET /api/v1/promptoverse/mashup-nominations` returns 200, unauthenticated `POST` correctly
+  401s. IDUNA `41a21b0`, Apple #14167. **Real remaining gap, tracked as S176-34**: no
+  `GOOGLE_CLIENT_ID` exists anywhere in this environment, so sign-in doesn't actually work yet — the
+  widget shows a clear "not yet available" state instead of a broken button, and will activate
+  automatically the moment a real Client ID is set, no redeploy needed. (sess-20260813-2154-dda37e8b)
+
+- [ ] **S176-34 (blocked, human action): Create a Google OAuth Client ID.** Unblocks S176-27's
+  sign-in flow end to end. `GOOGLE_CLIENT_ID` is unset everywhere in this environment (checked:
+  process env, `agent-secrets.env`, every `var/*.env` file). Creating one requires the Google Cloud
+  Console UI (OAuth consent screen configuration generally isn't fully scriptable) — same class of
+  human-only blocker as the Steam Direct account (S19-03) and the Cloudflare DNS token (S151-01).
+  Once created: set `GOOGLE_CLIENT_ID` in `IDUNA/var/agent-secrets.env` (or the environment
+  `iduna.service` reads), restart `iduna.service`, re-render — the widget already reads this at
+  render time and needs no code change to activate. (sess-20260813-2154-dda37e8b)
 
 - [x] **S176-29: Native mashup discovery.** Founder, real-time: "ok then
   we need a way to natively discover mashups - like if i ask for Fractal Raccoon it should show
