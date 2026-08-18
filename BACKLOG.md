@@ -1251,6 +1251,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, real concern about the marble-bag weighted-random selection: 'i dont understand why our marble bag i…** — obs `2026-08-18T01:24:42Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, NEW feature request (separate from the in-progress mashup work, queued for after): 'emily promptover…** — obs `2026-08-18T01:23:39Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, closing remark on the graph-context idea: 'it can probably detect consistency or context issues' -- …** — obs `2026-08-18T01:14:47Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, refining the LLM-judgment mashup query design: 'especially if we ocasionally feed in the full graph …** — obs `2026-08-18T01:14:39Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, two terse fragments during the LLM-judgment mashup build, meaning not fully certain: 'fractal datase…** — obs `2026-08-18T01:13:40Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, finalizing scope for LLM-judgment mashup detection: 'as we dont have any free claude credits to use'…** — obs `2026-08-18T01:13:28Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, continuing the ontology-solved-by-LLM-query thread: 'lean on claude' / 'or gemini api for now' -- sp…** — obs `2026-08-18T01:13:09Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, reopening the deferred mashup/ontology work (S176-29): 'i think the ontology problem could be solved…** — obs `2026-08-18T01:12:45Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
