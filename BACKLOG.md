@@ -15797,14 +15797,27 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   (S176-27, still separately deferred). emily.cli `b31d8a6`, IDUNA `6f0ef19`, Apple #14134.
   (sess-20260813-2154-dda37e8b)
 
-- [ ] **S176-30 (deferred, ordered after S176-27): Regenerate-with-variation.** Founder: "for
-  example each of the tree speaking untanslated french gens could be regenned same prompt with a
-  different french dialog for the tree for example" — concrete example of "infinite potential for
-  variation": reroll one specific detail (e.g. the French dialogue text) within an already-
-  generated (subject, style) pair, rather than only ever picking a new subject/style combination.
-  Founder, immediately: "defer that but make sure that it is marked for later enhancement after
-  initial social fatures are built out" — explicitly deferred, explicitly ordered to come after
-  S176-27 (Reddit-style voting/social features), not scoped further. (sess-20260813-2154-dda37e8b)
+- [x] **S176-30: Regenerate-with-variation.** Founder: "for example each of the tree speaking
+  untanslated french gens could be regenned same prompt with a different french dialog for the
+  tree for example" — concrete example of "infinite potential for variation": reroll one specific
+  detail within an already-generated (subject, style) pair. Founder, immediately: "defer that but
+  make sure that it is marked for later enhancement after initial social fatures are built out" —
+  deferred, ordered after S176-27. Once S176-27 shipped, reopened by a real concrete request:
+  "i need to gen lil wayne papercraft with a red hoodie instead of a grey goodie" → "add that
+  feature to the cli whatever affordance makes sense to get that functionality." First
+  implementation attempt (overwrite the existing node's prompt/image in place) was caught and
+  corrected mid-build: "we need to keep both and i think for seo reasons we should condense the
+  forced feature leaf nodes onto the same html page" / "showing all metadata for both" — variants
+  are additive, never destructive, and render alongside the original on the SAME leaf URL (SEO:
+  one page, multiple images, not one page per variant). New IDUNA `node_variants` table +
+  `Store.AddVariant`/`ListVariants`, `POST /api/v1/promptoverse/nodes/{slug}/variants`
+  (`promptoverse.write`), node pages render every variant's full metadata (ez_prompt,
+  expanded_prompt, note) next to the original. `emily.cli`: `emily promptoverse regenerate <slug>
+  --note "<what should change>"` looks up the existing node, asks the Vertex text model to revise
+  just the requested detail, generates a new image, adds it as a variant. 20 new tests across both
+  repos. Live-verified for real against production: `lil-wayne-paper-craft` now shows both the
+  original grey-hoodie image and a new red-hoodie variant on the same page. IDUNA `b6b5187`,
+  emily.cli `00e791f`, Apples #14197/#14198. (sess-20260813-2154-dda37e8b)
 
 - [x] **S176-31: `--tag` forced items jump to the front of the queue.** Founder, real-time: "add
   fox 3 --tag 'outer space' fifos the tag subject combo to the top of the queue and starts on that
