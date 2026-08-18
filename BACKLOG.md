@@ -16161,6 +16161,15 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   to support this. Live-verified: `add 3 --tag "game sprite"` queued Raccoon/Aphrodite/Mr. T, first
   published at okemily.com/prompt-o-verse/raccoon-game-sprite/. Documented in `--help`,
   docs/COMMANDS.md, and README.md. Apple #14330, emily.cli 88da91c/9949557. (sess-20260813-2154-dda37e8b)
+- [x] **S180-07: Fix vertexTextGenerate 30s timeout causing silent style-creation hangs.** Founder,
+  real-time: "i tried to run emily promptoverse add Fox --tag emo --tag FFXU its hanging context
+  deadline exceeded" (real command run was `--tag FFXI`). Root cause: creating a brand-new forced/
+  hybrid style calls `vertexTextGenerate`, which had only a 30s HTTP timeout — far tighter than
+  `vertexGenerateImage`'s 90s — and runs BEFORE anything gets written to the queue, so a slow
+  response there killed the whole command with nothing queued and no output, indistinguishable from
+  a real hang. Bumped to 90s. Live-verified with the founder's exact command: created the "emo ×
+  FFXI" hybrid style and published okemily.com/prompt-o-verse/fox-emo-ffxi/. Apple #14337, emily.cli
+  4536e9e. (sess-20260813-2154-dda37e8b)
 
 ---
 
