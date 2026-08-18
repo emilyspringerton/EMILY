@@ -15722,6 +15722,31 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   initial social fatures are built out" — explicitly deferred, explicitly ordered to come after
   S176-27 (Reddit-style voting/social features), not scoped further. (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-31: `--tag` forced items jump to the front of the queue.** Founder, real-time: "add
+  fox 3 --tag 'outer space' fifos the tag subject combo to the top of the queue and starts on that
+  (force or not force) but the other 2 gens get added end of queue same as always," and a
+  subject-with-no-count shape ("add fox --tag 'outer space' --force SHOULD SKIP QUEUE... ONLY IF A
+  NUMBER IS NOT SET"). New `prependQueue()` puts --tag-forced items ahead of everything already
+  pending (not just the rest of the same batch); normal selection still uses `appendQueue()`.
+  `parseAddPositionalArgs` (extracted for testability) adds the subject-alone-with-`--tag` shape,
+  defaulting count to 1. 11 new tests. Not live-verified against the real queue -- 91 items were
+  already pending in production and `add` always fully drains, so a live test would have either
+  triggered a very long drain or interfered with the existing backlog; unit coverage is the
+  verification for this pass. emily.cli `73421bb`, Apple #14145. (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-32: Fixed stale live-reload JS (deploy race, not a code bug).** Founder, real-time:
+  "livereload seems broken - prioritize that fix." Root cause: `iduna.service`'s binary was built
+  and the service started at 00:41:34 UTC during this session's reboot-recovery phase -- ~21
+  seconds BEFORE commit `8a836b7` (the real incremental-DOM-patch flicker fix, from EARLIER the
+  same session) actually landed. The service kept re-stamping the OLD full-innerHTML-rebuild JS
+  onto `index.html` on every single publish since then, including all the way through this
+  session's mashup-discovery work -- the fix was correct in git the whole time, just never running
+  live. Fixed by rebuilding `iduna` from current HEAD and restarting `iduna.service` (clean
+  restart, health check passed), then re-rendering all 134 live nodes. Live-verified: served HTML
+  now contains `insertNewCards`/`knownSlugs` (the incremental patch) and no longer contains the old
+  `root.innerHTML = html` full-rebuild line. IDUNA rebuilt+restarted from `b719b3a4`, Apple #14148.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 ## SECTION 177: FATBABY BACKUP TOOLING — GOOGLE CLOUD, S3-PARITY DESIGN (2026-08-18)
