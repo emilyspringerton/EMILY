@@ -15698,7 +15698,14 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   401s. IDUNA `41a21b0`, Apple #14167. **Real remaining gap, tracked as S176-34**: no
   `GOOGLE_CLIENT_ID` exists anywhere in this environment, so sign-in doesn't actually work yet — the
   widget shows a clear "not yet available" state instead of a broken button, and will activate
-  automatically the moment a real Client ID is set, no redeploy needed. (sess-20260813-2154-dda37e8b)
+  automatically the moment a real Client ID is set, no redeploy needed.
+
+  **Funnel follow-up, same session**: founder noticed sign-in was only discoverable inside the
+  subject-page widget: "ok but where is the funnel? like in the footer or the header or something a
+  login button?" Added a shared site-wide auth strip (single CSS/HTML/JS source spliced into all 4
+  page templates — node, index, subject, style) so the Sign in / Signed in pill is visible on every
+  page, one shared localStorage token. 3 more tests, live-verified on all 4 page types through the
+  real HTTPS path. IDUNA `fdd9216`, Apple #14172. (sess-20260813-2154-dda37e8b)
 
 - [ ] **S176-34 (blocked, human action): Create a Google OAuth Client ID.** Unblocks S176-27's
   sign-in flow end to end. `GOOGLE_CLIENT_ID` is unset everywhere in this environment (checked:
