@@ -1,3 +1,7 @@
+## 2026-08-18
+
+- NORTHSTAR_PROMPT_O_VERSE.md §9: mashup/hybrid discovery requirements, deferred pending semantic-judgment mechanism (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-17
 
 - docs(blog): 'The Backoff That Remembers It Was A Different Process' -- write-up of the promptoverse adaptive cross-invocation backoff pattern (persisted failure state consulted preemptively before a stateless CLI's first request of a new run, not just mid-run retries) (sess-20260813-2154-dda37e8b)
