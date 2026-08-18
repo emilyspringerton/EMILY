@@ -1246,6 +1246,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, possible live bug report (uncertain): 'live reload seems broken not sure fi it is' -- concerning the…** — obs `2026-08-18T01:35:32Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, another big-bang seed-domain candidate (tentative): 'like for example propaganda might be a good one…** — obs `2026-08-18T01:28:04Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, continuing the big-bang seed-domain thread: 'like we cant do it for licensing but big banging Mario …** — obs `2026-08-18T01:27:32Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, new direction (separate thread, after the mashup engine build): 'ok when we started you big banged a…** — obs `2026-08-18T01:26:52Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, walking back the marble-bag concern: 'maybe i just need to be patient' -- lowers urgency on the Rena…** — obs `2026-08-18T01:24:47Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, real concern about the marble-bag weighted-random selection: 'i dont understand why our marble bag i…** — obs `2026-08-18T01:24:42Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, NEW feature request (separate from the in-progress mashup work, queued for after): 'emily promptover…** — obs `2026-08-18T01:23:39Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, closing remark on the graph-context idea: 'it can probably detect consistency or context issues' -- …** — obs `2026-08-18T01:14:47Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
