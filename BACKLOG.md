@@ -16089,12 +16089,17 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   step if needed. Scope as a NORTHSTAR.md (not software yet): image → structured parts list →
   bricks.json → real order, explicitly NOT attempting to train the model itself this pass.
   (sess-20260813-2154-dda37e8b)
-- [ ] **S179-05 (not started): "Tyler and the gang in the garage" blog post + full Prompt-o-verse
-  stats rundown.** Founder: "ok tyler and the gang in the garage as a blog post full statistical
-  rundown on the data generated via promptoverse so far topics styles metadata leaf nodes" / "all
-  of it." Pairs the TYLER FFXI-style garage-gang batch (S178-02, still partially blocked on queue
-  contention) with a real statistical accounting of everything Prompt-o-verse has generated to
-  date. (sess-20260813-2154-dda37e8b)
+- [x] **S179-05: "Tyler and the gang" blog post + full Prompt-o-verse stats rundown.** Founder,
+  reconfirmed/reshaped today: "ok have tyler and the gang in a podcast as a blog post do a deep
+  dive on promptoverse stats - subjects - styles - generations." Published as a podcast-transcript-
+  format piece — Tyler hosting, the `just_a_duck.md` garage cast (Duck/Unicorn/Ghost/Frog/Tree/
+  Pizza) in character, riffing on real live-queried numbers: 285 nodes, 53 subjects, 34 styles,
+  78/207 historical/surreal split, Medusa leading all subjects at 26 generations, "outer space"
+  leading all styles at 19, a 9-subject long tail, a real burst-then-13-hour-lull-then-resume
+  timeline, and the first-ever variant + first-ever style hybrid both still sitting at sample size
+  1. https://okemily.com/blog/the-custody-of-a-podcast-promptoverse-stats/. Apple #14335, no code
+  changed (blog content only). Does NOT include the FFXI-style garage-gang image batch — that
+  stays open as S178-02, a separate deliverable. (sess-20260813-2154-dda37e8b)
 
 ## SECTION 180: PROMPT-O-VERSE ANNOTATIONS + STYLE HYBRIDS (2026-08-18)
 
