@@ -15657,8 +15657,17 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   wearing a tuxedo" and "a president wearing a tuxedo may or may not be different from president
   wearing a tuxedo" — "the president" can carry a specific/definite referent distinct from generic
   "president," so blind article-stripping isn't actually judgment-free either; it collapses back
-  into the same semantic-judgment bucket as the rest of S176-29. Not built. Logged, not started.
-  (sess-20260813-2154-dda37e8b)
+  into the same semantic-judgment bucket as the rest of S176-29. Not built.
+
+  **Requirementized 2026-08-18** per founder direction ("all of that needs to be requirementized"):
+  full write-up now lives in `EMILY/docs/NORTHSTAR_PROMPT_O_VERSE.md` §9 (mashup/hybrid discovery
+  requirements) and `emily.cli/README.md`'s new "Ontology" section (subject-identity requirements:
+  compositional ambiguity, paraphrase equivalence and its limits, definite vs indefinite reference,
+  stateless vs stateful execution, fixed points/zero points in time — including a live example, the
+  Rapunzel content-policy block, and a 20-year trademark-drift horizon). Styles/tags flagged in the
+  README as likely having the same issues, explicitly deferred rather than scoped. Still not
+  started — this is documentation of requirements, not an implementation. EMILY `8bbae85`,
+  emily.cli `c9cf55f`+`1460cee`. Apple #14110. (sess-20260813-2154-dda37e8b)
 
 ---
 
