@@ -348,3 +348,66 @@ model is worth building next.
 open questions from §4 (accounts, abuse-resistance, access model) get real answers instead of
 being flagged. Only after VS0 proves the mechanic and VS1 proves the two-tier prompt system is
 usable — the gallery is the product's face, but it's built on a taxonomy that has to be real first.
+
+## 9. Mashup / hybrid discovery — requirements (deferred, not built)
+
+Founder: "ok then we need a way to natively discover mashups - like if i ask for Fractal Raccoon
+it should show those mashups on the fractal page and raccoon page." The ask names a real gap: a
+compound subject like "Fractal Raccoon" currently has no cross-link back to "Fractal" or "Raccoon"
+as its own subjects, even when both already exist in the taxonomy. Two founder follow-ups fix the
+shape of the requirement before any mechanism is chosen:
+
+- **Mashup-ness is derived metadata, not a stored flag.** "subjects that may start as non mashups
+  can become mashups if their components are later added as individual subjects" / "so a subject
+  being a mashup is basically just metadata." A subject's mashup relationships must be computed
+  against the *current* subject registry at query/render time, not fixed at the moment the subject
+  was created — publishing "Fractal" as its own subject later should retroactively make "Fractal
+  Raccoon" show up as a mashup on the new "Fractal" page, with no backfill/migration step.
+
+**First implementation attempt, and why it was wrong.** The obvious mechanism is lexical: treat a
+subject as a mashup of another if that other subject's words are a substring/subset of the first,
+and treat two labels as "the same hybrid" if they're word-order permutations of each other. Both
+rules were caught and abandoned mid-build once tested against the founder's own counterexamples:
+
+- **False positive (substring/subset containment).** "tuxedo duck and tuxedo might not be the same
+  hybrid" — "tuxedo duck" is plausibly just a real duck breed/color-morph name, a single concept,
+  not a clothing+animal mashup at all. Lexical containment can't distinguish a genuine compositional
+  mashup from a compound noun phrase that happens to contain a shorter subject's words.
+- **False negative (word-order equality as "same hybrid").** "tuxedo duck is the same hybrid as a
+  duck wearing a tuxedo but neither of them is the same as duck tuxedo" — the correct pairing (same
+  concept, wildly different wording) shares almost no words in common, while the wrong pairing (same
+  words, reordered) is explicitly *not* the same concept. Word-bag/word-order matching gets this
+  exactly backwards in both directions.
+- **Definite vs. indefinite reference compounds the problem further.** "president wearing a tuxedo
+  may or may not be different from the president wearing a tuxedo," and "a president wearing a
+  tuxedo is usually different from the president wearing a tuxedo" — "the president" can carry a
+  specific/definite referent ("usually different") that generic "president" doesn't, so even the
+  narrower fallback of blind leading-article normalization ("a X" == "X") was proposed, approved,
+  and then retracted within the same real-time exchange once this counterexample surfaced. No
+  purely mechanical string transform survived contact with a real example.
+
+**Requirement, not yet built.** Mashup/hybrid-equivalence detection needs semantic judgment, not
+string manipulation — most likely an LLM judgment call shaped like the existing
+`maybeDiscoverStyle`/`maybeDiscoverSubject` Vertex AI calls (`emily.cli/cmd/promptoverse_discover.go`,
+`promptoverse_subjects.go`): given a subject label and the current subject registry, judge (a)
+which existing subjects, if any, it's a genuine compositional mashup of, and (b) which other labels,
+if any, describe the same hybrid concept in different words. Results would need to be
+cached/persisted (mirroring the pity-state and discovered-subject persistence pattern already in
+`EMILY/var/`) so judgment isn't re-run against every subject pair on every page render — the
+subject registry is small today but the judgment call itself is not free.
+
+**Ontology note, for whoever builds this next.** Subject-identity judgment is genuinely
+context-dependent, not a fixed lexical property of a string — the same surface phrase ("the
+president") can refer to a specific real-world entity or a generic role depending on what state
+(prior conversation, prior generations, an established taxonomy context) is available when it's
+interpreted. A **stateless** judgment call (one subject label in, one verdict out, no memory of
+what else has been generated) will get this wrong in exactly the ways a **stateful** one (aware of
+the rest of the current registry, and ideally of what a given subject was intended to mean when it
+was created) would not. Any future design should decide explicitly which of these two modes it's
+building, rather than defaulting to stateless because it's simpler — see `emily.cli/README.md`'s
+"Ontology" section for the fuller discussion.
+
+Scoped via AskUserQuestion (options offered: LLM judgment call / manual-tagging-only / defer
+entirely) — founder chose **defer entirely**, given how much real ambiguity the examples above
+surfaced in a single exchange. Tracked as `EMILY/BACKLOG.md` S176-29. No code was written for
+either the lexical version or a replacement semantic version; nothing here is a live behavior yet.
