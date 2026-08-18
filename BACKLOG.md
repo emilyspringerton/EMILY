@@ -16135,6 +16135,14 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   rebuilding for this pass: `promptoverse-mashups.timer` had `emily` running at install time, and
   `cp` can't overwrite an executing binary — switched to build-to-temp+`mv` (atomic rename).
   Apple #14320, emily.cli 0572ae5. (sess-20260813-2154-dda37e8b)
+- [x] **S180-05: README.md audited for full command coverage.** Founder: "ensure all emily cli
+  functionality is documented in the readme." Diffed README.md's documented commands against
+  main.go's actual dispatch table — found `emily backup` (GCS archive tool, AES-256-GCM for the
+  IDUNA target; "double encrypted google cloud file backups" from earlier this session) entirely
+  undocumented in both README.md and docs/COMMANDS.md, added to both. README's Prompt-o-verse
+  section was also stale (missing regenerate/annotations/backfill-annotation/hybrids, same gap
+  S180-04's in-code `--help` fix had already found and fixed there). Corrected a stale test count
+  (109 → 236, 5 packages unchanged). Apple #14327, emily.cli 5f5f74d. (sess-20260813-2154-dda37e8b)
 
 ---
 
