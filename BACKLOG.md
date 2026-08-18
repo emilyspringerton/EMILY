@@ -1261,6 +1261,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, immediately following approval to build article-normalization dedup: 'president wearing a tuxedo may…** — obs `2026-08-18T00:59:25Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, mashup discovery thread: 'duck wearing a tuxedo is the same subject as a duck wearing a tuxedo' -- t…** — obs `2026-08-18T00:58:46Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, mashup discovery — further confirming example (feature already deferred, S176-29): 'duck tuxedo' !==…** — obs `2026-08-18T00:58:21Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, mashup discovery — final scoping answer via AskUserQuestion: deferred entirely for now, not building…** — obs `2026-08-18T00:57:47Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, mashup discovery — critical correction to my in-progress design: pure lexical/word-bag matching is w…** — obs `2026-08-18T00:57:19Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, mashup discovery follow-up: word-order variants of the same hybrid subject (e.g. 'Dragon Fox' and 'F…** — obs `2026-08-18T00:55:27Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, mashup discovery follow-up: mashup detection must be dynamic/retroactive - a subject like 'Fractal R…** — obs `2026-08-18T00:52:26Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: native mashup discovery - e.g. querying 'Fractal Raccoon' should surface that mashup as a cross-link…** — obs `2026-08-18T00:52:02Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
