@@ -1268,6 +1268,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: native mashup discovery - e.g. querying 'Fractal Raccoon' should surface that mashup as a cross-link…** — obs `2026-08-18T00:52:02Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, backup tooling scoping answered via AskUserQuestion: (1) new GCS bucket in the existing project-d24a…** — obs `2026-08-18T00:37:39Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: (1) copy the whole style-discovery pattern (marble bag, rare tier, pity, GPT-2 brainstorm, promote) …** — obs `2026-08-18T00:36:00Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: (1) 'ok we built a sick gallery plugin can we backlog extracting it from promptoverse?' -- wants the…** — obs `2026-08-18T03:17:49Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
