@@ -1231,6 +1231,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, ontology thread, concrete supporting example: 'the rapunzel icecream query triggered a content warni…** — obs `2026-08-18T01:02:41Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, ontology thread continued (now written up, not just logged): 'identifying zero points in terms of wh…** — obs `2026-08-18T01:02:20Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'and then also blog posted about' -- fragment, appears cut off mid-thought. Likely continuing the pa…** — obs `2026-08-18T01:00:16Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, excited about the render-side payoff: 'can you imagine displaying the mashups at the buttom of the s…** — obs `2026-08-18T01:17:43Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'also we are going to need the exact same everything for hybrid styles' -- mirror the LLM-judgment m…** — obs `2026-08-18T01:17:29Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, design note tying two deferred/in-progress threads together: 'social features will give us an escape…** — obs `2026-08-18T01:16:00Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'it should run once an hour to detect hybrids' -- concrete scheduling requirement for the LLM-judgme…** — obs `2026-08-18T01:15:54Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, further extending the graph-context idea (exploratory, not blocking current build): 'especially as t…** — obs `2026-08-18T01:15:33Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
