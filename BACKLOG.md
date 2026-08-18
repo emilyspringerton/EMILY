@@ -16054,6 +16054,47 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   (3) for anything judged not mission-critical, document that judgment in the relevant repo's
   CLAUDE.md rather than silently skipping it. (sess-20260813-2154-dda37e8b)
 
+## SECTION 179: PROMPT-O-VERSE SPRITE SUBSYSTEM + QUEUE BACK OFFICE (2026-08-18)
+
+- [x] **S179-01: Prompt-o-verse sprite-generation subsystem.** Founder: "feel free to create a whole
+  sprite generation subsystem for promptoverse if that helps" (repeated standalone as explicit
+  go-ahead). New "game sprite" style requests a solid-green (#00FF00) chroma-key background with
+  explicit no-scenery/no-shadow/no-gradient negative constraints; `drainQueue` pipes the raw
+  generation through ImageMagick (`convert -fuzz 12% -transparent`) before publish, turning the
+  flat green into real alpha transparency. Verified against a synthetic test PNG (chroma-keyed
+  corner confirmed `srgba(0,0,0,0)`, subject pixel opaque). Falls back to publishing the
+  ungreened original on a strip failure rather than losing a paid-for generation. Lays the
+  groundwork for real (non-portrait-card) BRAWLPIT sprites. Apple #14308, emily.cli 29fa278.
+  (sess-20260813-2154-dda37e8b)
+- [x] **S179-02: Fix BRAWLPIT sprite alpha blending.** `draw_sprite_quad` drew textured portraits
+  with no GL blend state set at all — harmless for opaque portrait crops, but would have broken
+  the chroma-keyed sprite output from S179-01. Now enables `GL_SRC_ALPHA`/`GL_ONE_MINUS_SRC_ALPHA`
+  and saves/restores the caller's prior blend state (main.c's particle effects rely on additive
+  `GL_ONE` blending elsewhere). Apple #14309, BRAWLPIT c76e98a. (sess-20260813-2154-dda37e8b)
+- [x] **S179-03: Prompt-o-verse queue fix + Back Office admin page.** Founder: "i fat fingereed
+  icelabdic horse into promptoverse queue can you clear that out and then queue a way for me to do
+  that via iduna back office?" Removed 8 fat-fingered "icelabdic horse" lines from
+  `EMILY/var/promptoverse-queue.jsonl` (backup kept alongside). Built `/admin/promptoverse-queue`
+  in IDUNA's Back Office (list/add/remove-by-index against the same queue file emily.cli's
+  add/work commands use) so this class of fix doesn't need CLI access going forward. Apple
+  #14307, IDUNA 0e06c5e. (sess-20260813-2154-dda37e8b)
+- [ ] **S179-04 (not started): LEGO minifigure → real brick order pipeline, NORTHSTAR.** Founder:
+  "we need to train a custom model that can convert one of our promptoverse images like ballerina
+  lego minifigure to real brick link order via bricks.json... for my daughter... for her
+  birthday... northstar it." Concrete target image identified: a Prompt-o-verse LEGO-minifigure-
+  style generation of "the ghost of Abraham Lincoln" — founder noted this "is going to require
+  custom supply chain management" (i.e. real BrickLink/LEGO parts sourcing, not just a bricks.json
+  digital format) and suggested Google Vision API as the image → structured-parts-list translation
+  step if needed. Scope as a NORTHSTAR.md (not software yet): image → structured parts list →
+  bricks.json → real order, explicitly NOT attempting to train the model itself this pass.
+  (sess-20260813-2154-dda37e8b)
+- [ ] **S179-05 (not started): "Tyler and the gang in the garage" blog post + full Prompt-o-verse
+  stats rundown.** Founder: "ok tyler and the gang in the garage as a blog post full statistical
+  rundown on the data generated via promptoverse so far topics styles metadata leaf nodes" / "all
+  of it." Pairs the TYLER FFXI-style garage-gang batch (S178-02, still partially blocked on queue
+  contention) with a real statistical accounting of everything Prompt-o-verse has generated to
+  date. (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
