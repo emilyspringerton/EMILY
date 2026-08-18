@@ -1278,6 +1278,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, concrete infra direction for social features: 'you should be able to get iduna gcloud logins working…** — obs `2026-08-18T03:22:46Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'build out the social features' -- direct go-ahead to build S176-27 (Reddit-style voting for candida…** — obs `2026-08-18T03:22:33Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'ok but where is the funnel? like in the footer or the header or something a login button?' -- real …** — obs `2026-08-18T04:01:01Z`. CURATED: 2026-08-18.
+- [ ] **Founder asking again 'where is my pinup power mtg card on promptoverse?' -- reconfirms the root-cause diagnosis: it IS …** — obs `2026-08-18T04:19:44Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, continuing the crossover-style-family idea (logged, staying on live-reload fix): 'use existing subje…** — obs `2026-08-18T04:18:44Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, generalizing the crossover-style idea (logged, staying on live-reload fix): 'all the crossover style…** — obs `2026-08-18T04:18:40Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, another style idea (logged, staying on live-reload fix): 'Final Fantasy crossover style' -- another …** — obs `2026-08-18T04:18:36Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, new taxonomy idea (logged, not acted on -- staying on the live-reload fix per 'prioritize above all …** — obs `2026-08-18T04:18:11Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
