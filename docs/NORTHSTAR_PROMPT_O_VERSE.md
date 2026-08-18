@@ -386,28 +386,59 @@ rules were caught and abandoned mid-build once tested against the founder's own 
   and then retracted within the same real-time exchange once this counterexample surfaced. No
   purely mechanical string transform survived contact with a real example.
 
-**Requirement, not yet built.** Mashup/hybrid-equivalence detection needs semantic judgment, not
-string manipulation — most likely an LLM judgment call shaped like the existing
-`maybeDiscoverStyle`/`maybeDiscoverSubject` Vertex AI calls (`emily.cli/cmd/promptoverse_discover.go`,
-`promptoverse_subjects.go`): given a subject label and the current subject registry, judge (a)
-which existing subjects, if any, it's a genuine compositional mashup of, and (b) which other labels,
-if any, describe the same hybrid concept in different words. Results would need to be
-cached/persisted (mirroring the pity-state and discovered-subject persistence pattern already in
-`EMILY/var/`) so judgment isn't re-run against every subject pair on every page render — the
-subject registry is small today but the judgment call itself is not free.
+**Requirement, scoped via AskUserQuestion, then built 2026-08-18.** First deferred (options offered:
+LLM judgment call / manual-tagging-only / defer entirely — founder chose defer entirely, given how
+much ambiguity the examples above surfaced in one exchange), then reopened by the founder in the
+same session: "i think the ontology problem could be solved with a very clever query... llm
+query... lean on claude or gemini api for now... build claude gemini parity for that so we can
+switch to claude or we can even run them in paralell for AB testing in the future."
 
-**Ontology note, for whoever builds this next.** Subject-identity judgment is genuinely
+Built as `emily.cli/internal/mashupjudge`: a `Provider` interface with `GeminiProvider` (Vertex AI,
+the active default — "as we dont have any free claude credits to use") and `ClaudeProvider`
+(Anthropic Messages API, built for parity and future A/B testing, exercised by tests against a
+mock server rather than live given the stated credit constraint). Both providers share one prompt
+builder and response parser so their judgments stay comparable. The prompt encodes the
+counterexamples above directly (tuxedo duck, the president, referent stability over time) rather
+than assuming the model already knows this document's history. `emily promptoverse mashups
+[--target subjects|styles] [--provider gemini|claude|all] [--subject <label>]` judges the current
+registry and upserts results (keyed by subject/style + provider, so reruns update rather than
+duplicate) to `EMILY/var/promptoverse-mashup-judgments.json` /
+`promptoverse-style-mashup-judgments.json`. Runs hourly via a systemd timer per founder direction
+("it should run once an hour to detect hybrids").
+
+IDUNA's `internal/promptoverse/mashups.go` reads that cache and renders a "Mashups" section on
+subject/style pages — the original ask fulfilled: "if i ask for Fractal Raccoon it should show
+those mashups on the fractal page and raccoon page." Only links to labels that actually have their
+own page (a related label with <2 subject nodes has none yet, so it's skipped rather than linked
+dead). Mashup-ness stays derived metadata, never stored as a flag on the subject itself — exactly
+as the founder framed it ("a subject being a mashup is basically just metadata").
+
+Live-verified against real Vertex AI: 25 real production subjects judged correctly — branded/IP
+characters (John Wick, Master Chief) came back `referent_stability: "specific_time_bound"`, a place
+(Monaco) came back `"fixed"`, atomic subjects (Fractal, Raccoon) were correctly judged non-mashups.
+The Claude provider was verified live against the real Anthropic API too, correctly surfacing the
+real "credit balance too low" error rather than crashing — proof the parity implementation is wired
+right even though it can't be exercised further without credits. No real compositional mashups
+exist in the current registry yet, so the rendered feature currently shows nothing live — expected,
+and it needs no further deploy once real hybrid subjects appear.
+
+**Ontology note, still true of the shipped design.** Subject-identity judgment is genuinely
 context-dependent, not a fixed lexical property of a string — the same surface phrase ("the
-president") can refer to a specific real-world entity or a generic role depending on what state
-(prior conversation, prior generations, an established taxonomy context) is available when it's
-interpreted. A **stateless** judgment call (one subject label in, one verdict out, no memory of
-what else has been generated) will get this wrong in exactly the ways a **stateful** one (aware of
-the rest of the current registry, and ideally of what a given subject was intended to mean when it
-was created) would not. Any future design should decide explicitly which of these two modes it's
-building, rather than defaulting to stateless because it's simpler — see `emily.cli/README.md`'s
-"Ontology" section for the fuller discussion.
+president") can refer to a specific real-world entity or a generic role depending on what state is
+available when it's interpreted. The shipped judgment call is **stateless per call** (one subject
+label + the current registry in, one verdict out) but is re-run **hourly against the live
+registry**, which is a middle ground, not the fully stateful design (aware of what a subject was
+*intended* to mean when it was created, or of prior judgments) the founder's "zero points/fixed
+points" framing pointed at — see `emily.cli/README.md`'s "Ontology" section for the fuller
+discussion. Left as a known gap, not silently resolved.
 
-Scoped via AskUserQuestion (options offered: LLM judgment call / manual-tagging-only / defer
-entirely) — founder chose **defer entirely**, given how much real ambiguity the examples above
-surfaced in a single exchange. Tracked as `EMILY/BACKLOG.md` S176-29. No code was written for
-either the lexical version or a replacement semantic version; nothing here is a live behavior yet.
+Tracked as `EMILY/BACKLOG.md` S176-29. `emily.cli` `b31d8a6`, IDUNA `6f0ef19`, Apple #14134.
+
+**Not built in this pass, explicitly out of scope:** the founder also asked for the identical
+system to cover **styles as hybrids too** ("also we are going to need the exact same everything
+for hybrid styles") — `--target styles` exists and was live-verified once, but styles haven't had a
+real judgment sweep the way subjects have. Also raised, not built: feeding the judgment call a
+sample of the real taxonomy graph (not just a flat label list) as the registry grows, occasional
+full-corpus context (possibly Chinese-compressed, per this monorepo's existing multilingual
+token-compression pattern), and using the still-deferred Reddit-style voting system (S176-27) as a
+correction mechanism for wrong judgments.
