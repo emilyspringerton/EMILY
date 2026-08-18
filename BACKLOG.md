@@ -15708,6 +15708,15 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   (S176-27, still separately deferred). emily.cli `b31d8a6`, IDUNA `6f0ef19`, Apple #14134.
   (sess-20260813-2154-dda37e8b)
 
+- [ ] **S176-30 (deferred, ordered after S176-27): Regenerate-with-variation.** Founder: "for
+  example each of the tree speaking untanslated french gens could be regenned same prompt with a
+  different french dialog for the tree for example" — concrete example of "infinite potential for
+  variation": reroll one specific detail (e.g. the French dialogue text) within an already-
+  generated (subject, style) pair, rather than only ever picking a new subject/style combination.
+  Founder, immediately: "defer that but make sure that it is marked for later enhancement after
+  initial social fatures are built out" — explicitly deferred, explicitly ordered to come after
+  S176-27 (Reddit-style voting/social features), not scoped further. (sess-20260813-2154-dda37e8b)
+
 ---
 
 ## SECTION 177: FATBABY BACKUP TOOLING — GOOGLE CLOUD, S3-PARITY DESIGN (2026-08-18)
