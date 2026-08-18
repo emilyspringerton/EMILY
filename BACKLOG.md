@@ -16170,6 +16170,19 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   a real hang. Bumped to 90s. Live-verified with the founder's exact command: created the "emo ×
   FFXI" hybrid style and published okemily.com/prompt-o-verse/fox-emo-ffxi/. Apple #14337, emily.cli
   4536e9e. (sess-20260813-2154-dda37e8b)
+- [x] **S180-08: Style-anchored subject discovery.** Founder: "can we do subject discovery in the
+  same way we do style discovery? ... choose a style and ask vertex what is the archetypal subject
+  for this?" / "and then we choose another style if vertex says no for the first one" / "until we
+  discover a subject." Replaced `pickSubject`'s vacuum-based spontaneous subject discovery
+  (`maybeDiscoverSubject`, deleted, no longer called anywhere) with `discoverSubjectAnchoredToStyle`:
+  picks one style via the exact same weighted marble-bag scheme (`selectStylesForSubject`) normal
+  style selection uses, asks Vertex for that style's archetypal subject (the inverse of
+  `maybeDiscoverStyle`'s existing "does this subject have an iconic style" reasoning), and retries
+  with a different weighted-picked style if declined — until a subject is discovered or every style
+  in the registry has been tried once. Live-verified via a direct call (the pity RNG gate races with
+  concurrent automated promptoverse activity on this box, so bypassed it for a deterministic test):
+  discovered "Niobe" as a genuinely new, non-duplicate subject from a real Vertex AI call. Apple
+  #14340, emily.cli c8e995a. (sess-20260813-2154-dda37e8b)
 
 ---
 
