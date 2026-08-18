@@ -16124,6 +16124,17 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   with spaces on both sides left a bare double hyphen behind ("medusa-kawaii--ffxi"), which IDUNA's
   slug regex 400s on — now collapses repeated hyphens and trims leading/trailing ones. Apple
   #14317, emily.cli 8e5e6d7. (sess-20260813-2154-dda37e8b)
+- [x] **S180-04: Full `emily promptoverse` command documentation.** Founder: "add instructions for
+  all functionality to emily cli including how you made the hybrid style - two tag flags?" New
+  `docs/COMMANDS.md` section for every subcommand (add, work, queue, requeue, styles, brainstorm,
+  promote/promote-subject, mashups, regenerate, annotations, backfill-annotation) — previously
+  undocumented there entirely despite being the most actively developed part of the CLI. Explains
+  style hybrids (repeated `--tag`) and subject annotations in detail, including the
+  mashup(subjects)/hybrid(styles) vocabulary split from S180-03. In-code `--help` text brought back
+  in sync (had gone stale). Also fixed a real `scripts/build.sh` ETXTBSY bug hit live while
+  rebuilding for this pass: `promptoverse-mashups.timer` had `emily` running at install time, and
+  `cp` can't overwrite an executing binary — switched to build-to-temp+`mv` (atomic rename).
+  Apple #14320, emily.cli 0572ae5. (sess-20260813-2154-dda37e8b)
 
 ---
 
