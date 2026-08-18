@@ -1221,6 +1221,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (continued burst): (1) requeue command to re-pick queued styles with fixed selection logic, confirmed…** — obs `2026-08-17T23:44:08Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: tool broken, 'bad key error' then 'no image data in response' -- diagnosed live as NOT an auth/key p…** — obs `2026-08-17T23:48:53Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: need a cron/background process that generates thumbnail + optimized JPEG versions of Prompt-o-verse …** — obs `2026-08-18T00:22:03Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, continuing the governance/access-control thread for future account-gated features: 'iduna gated' (no…** — obs `2026-08-18T00:42:52Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, policy decision for the future account-gated proposal/voting system: 'all promotion approvals run th…** — obs `2026-08-18T00:42:16Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, further clarifying the account-gated features cluster (voting): topic proposal and tag proposal shou…** — obs `2026-08-18T00:41:47Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, further clarifying the (not-yet-built) subject voting feature: gate voting behind Google OAuth IDUNA…** — obs `2026-08-18T00:40:18Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
