@@ -1241,6 +1241,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, musing/uncertain, not a concrete request: 'i dunno where on the ontology taxonomy stack that data li…** — obs `2026-08-18T01:29:34Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, another tentative big-bang domain candidate: 'i guess just landscapes is an example maybe' -- landsc…** — obs `2026-08-18T01:28:49Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, big-bang topic discovery thread: 'maybe we can use gpt2 in a novel chaos laiden capacity' -- propose…** — obs `2026-08-18T01:28:43Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'livereload seems broken - prioritize that fix' -- upgrades the earlier uncertain report to a priori…** — obs `2026-08-18T01:44:37Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, session-limit closing instruction: 'we are near our session limit do a full product launch press rel…** — obs `2026-08-18T01:36:01Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, possible live bug report (uncertain): 'live reload seems broken not sure fi it is' -- concerning the…** — obs `2026-08-18T01:35:32Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, another big-bang seed-domain candidate (tentative): 'like for example propaganda might be a good one…** — obs `2026-08-18T01:28:04Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, continuing the big-bang seed-domain thread: 'like we cant do it for licensing but big banging Mario …** — obs `2026-08-18T01:27:32Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
