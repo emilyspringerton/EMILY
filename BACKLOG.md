@@ -15575,6 +15575,42 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   fire correctly picked up only the 2 nodes published since, confirming idempotency. 4 new tests.
   IDUNA `a2692e4`. (sess-20260813-2154-dda37e8b)
 
+- [x] **S176-25: Topic/subject discovery, mirroring the style system.** Founder: "and then we need
+  to copy all those same patterns for topic discovery." Mirrors the entire style-discovery system
+  (marble-bag weighted selection, rare tier, pity, Vertex AI discovery, GPT-2 brainstorm, promote)
+  for SUBJECTS instead of styles. Real structural difference: a subject is just a string with no
+  Kind/Template to author, so unlike styles it needs no hardcoded starter registry — the pool is
+  derived from real usage data already in IDUNA (every published node's Subject field) plus a new
+  discovered-subjects file. New `emily.cli/cmd/promptoverse_subjects.go`: `subjectPool`,
+  `selectSubject` (same weighted-without-replacement marble bag), `maybeDiscoverSubject` (Vertex
+  AI, same decline-path contract), `promote-subject`. `emily promptoverse add <count>` (subject
+  omitted) auto-picks one via `pickSubject`: rare discovered subjects excluded by default with a
+  pity-adjusted group roll, a pity-adjusted chance to propose a brand new subject via Vertex AI
+  even when the pool isn't empty (mirrors spontaneous style discovery), otherwise picks from the
+  pool. `pityState` gained 2 more counters, independent of the style ones. `candidateTag` gained a
+  `Kind` field so `brainstorm --target subjects` shares the same candidates file/dedup machinery
+  without colliding with style candidates of the same literal name. Live-verified: the spontaneous
+  subject-discovery path fired for real, called Vertex AI, and persisted a genuinely novel subject
+  ("A sentient, Victorian-era teapot") to the pool. 22 new tests. emily.cli `2fb229e`.
+  (sess-20260813-2154-dda37e8b)
+
+- [x] **S176-26: Fixed gallery-index page flicker.** Founder, real-time: "ok there is a page
+  flicker now it randomly flickers the first image in each tag on the home page." Root cause: the
+  live-update poll (S176-14) rebuilt the entire `#gallery-root` innerHTML every 10s tick regardless
+  of whether the underlying node list had actually changed — with heavy concurrent publish activity
+  this session, most ticks had no real change, but the full replacement still tore down and
+  recreated every `<img>`, forcing a re-decode/repaint. Added a cheap slug-order signature, skips
+  the render entirely when it matches the last one — order matters (not just membership), since a
+  category's first-card position can shift even when the node set is identical. IDUNA `e158f00`.
+  (sess-20260813-2154-dda37e8b)
+
+- [ ] **S176-27 (not yet built): Reddit-style voting for candidates.** Founder: "add a subject
+  voting section like reddit." Real open design questions before implementation: a public voting
+  endpoint needs abuse/rate-limit protection and some one-vote-per-visitor tracking (cookie? IP?),
+  and where vote counts get persisted/who can write them crosses the Discovery page's current
+  read-only boundary (IDUNA currently only *reads* emily.cli's candidate files, never writes to
+  them). Logged, not scoped or started.
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
