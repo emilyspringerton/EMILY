@@ -15638,7 +15638,7 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   read-only boundary (IDUNA currently only *reads* emily.cli's candidate files, never writes to
   them). Logged, not scoped or started.
 
-- [ ] **S176-29 (deferred, not started): Native mashup discovery.** Founder, real-time: "ok then
+- [x] **S176-29: Native mashup discovery.** Founder, real-time: "ok then
   we need a way to natively discover mashups - like if i ask for Fractal Raccoon it should show
   those mashups on the fractal page and raccoon page." Followups established the shape: "subjects
   that may start as non mashups can become mashups if their components are later added as
@@ -15683,6 +15683,30 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   prioritized"): "Tuxedo Duck Is Not Duck Tuxedo" — https://okemily.com/blog/tuxedo-duck-is-not-duck-tuxedo/
   — narrative writeup of the same counterexample chain, live-verified through the real
   nginx/Host-header path. Apple #14113. (sess-20260813-2154-dda37e8b)
+
+  **Built 2026-08-18**, same session, reopened by the founder after the deferral: "i think the
+  ontology problem could be solved with a very clever query... llm query... lean on claude or
+  gemini api for now... build claude gemini parity for that so we can switch to claude or we can
+  even run them in paralell for AB testing in the future." New `emily.cli/internal/mashupjudge`
+  (`Provider` interface, `GeminiProvider` active default, `ClaudeProvider` built for parity —
+  "as we dont have any free claude credits to use" — exercised only by mock-server tests, but
+  verified live against the real Anthropic API too, correctly surfacing the real low-credit error
+  rather than crashing). `emily promptoverse mashups [--target subjects|styles] [--provider
+  gemini|claude|all] [--subject <label>]` judges the live registry, upserts to
+  `EMILY/var/promptoverse-mashup-judgments.json` / `promptoverse-style-mashup-judgments.json`.
+  Hourly systemd timer per founder direction ("it should run once an hour to detect hybrids"),
+  installed and enabled live. IDUNA `internal/promptoverse/mashups.go` reads the cache and renders
+  a "Mashups" section on subject/style pages, fulfilling the original ask ("can you imagine
+  displaying the mashups at the buttom of the space page showing space candy all the hybrids?" /
+  "so cool") — only links to labels that actually have their own page, mashup-ness stays derived
+  metadata, never a stored flag. Live-verified: 25 real production subjects judged correctly
+  against Vertex AI (John Wick/Master Chief flagged `specific_time_bound`, Monaco flagged `fixed`,
+  Fractal/Raccoon correctly non-mashup); all 131 production pages re-rendered with zero regressions
+  through the live HTTPS path. 22 new tests. `EMILY/docs/NORTHSTAR_PROMPT_O_VERSE.md` §9 updated to
+  match. **Not built in this pass**: a real judgment sweep for styles (`--target styles` exists,
+  live-verified once, not run at scale), graph-sampled context, the voting-system correction loop
+  (S176-27, still separately deferred). emily.cli `b31d8a6`, IDUNA `6f0ef19`, Apple #14134.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
