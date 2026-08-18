@@ -16144,6 +16144,17 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   section was also stale (missing regenerate/annotations/backfill-annotation/hybrids, same gap
   S180-04's in-code `--help` fix had already found and fixed there). Corrected a stale test count
   (109 → 236, 5 packages unchanged). Apple #14327, emily.cli 5f5f74d. (sess-20260813-2154-dda37e8b)
+- [x] **S180-06: Style sweeps — `add <count> --tag X` with no subject.** Founder: "i need a way to
+  force generations of a style like game sprite or pixel art if i dont specify a subject but do
+  specify count and do set a tag all of the styles should lock to that style tag of the count
+  specified." Flips `<count>`'s meaning when `<subject>` is omitted and `--tag` is given: instead
+  of "X as one of `<count>` styles for one auto-picked subject" (the old, wrong-for-this-case
+  meaning), it's now "`<count>` DIFFERENT auto-picked subjects, all locked to style X." Resolves/
+  creates the style once up front, not per subject; never repeats a subject within the sweep or one
+  that already has that exact style published/queued. `pickSubject` gained an `extraExclude` param
+  to support this. Live-verified: `add 3 --tag "game sprite"` queued Raccoon/Aphrodite/Mr. T, first
+  published at okemily.com/prompt-o-verse/raccoon-game-sprite/. Documented in `--help`,
+  docs/COMMANDS.md, and README.md. Apple #14330, emily.cli 88da91c/9949557. (sess-20260813-2154-dda37e8b)
 
 ---
 
