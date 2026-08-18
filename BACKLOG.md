@@ -1269,6 +1269,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, backup tooling scoping answered via AskUserQuestion: (1) new GCS bucket in the existing project-d24a…** — obs `2026-08-18T00:37:39Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: (1) copy the whole style-discovery pattern (marble bag, rare tier, pity, GPT-2 brainstorm, promote) …** — obs `2026-08-18T00:36:00Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: (1) 'ok we built a sick gallery plugin can we backlog extracting it from promptoverse?' -- wants the…** — obs `2026-08-18T03:17:49Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time direction 'you should be able to get iduna gcloud logins working' -- checked: GOOGLE_CLIENT_ID is not…** — obs `2026-08-18T03:30:22Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, new but separate feature request: 'ok there are like these meta tags like SURREAL that are not yet c…** — obs `2026-08-18T03:28:18Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, narration/color, not a new instruction: 'i started making a supercar mashup in that prompt but it wa…** — obs `2026-08-18T03:26:56Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, clarifying the mashup nomination widget example: 'i mean on the iduna page you can create the john w…** — obs `2026-08-18T03:26:26Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, UI detail for mashup nomination widget: 'on the supercar page you can pull up a search tag auto comp…** — obs `2026-08-18T03:25:54Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
