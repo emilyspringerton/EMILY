@@ -15674,6 +15674,11 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   started — this is documentation of requirements, not an implementation. EMILY `8bbae85`,
   emily.cli `c9cf55f`+`1460cee`. Apple #14110. (sess-20260813-2154-dda37e8b)
 
+  **Blog post published 2026-08-18** per founder direction ("ensure our semantics blog post is
+  prioritized"): "Tuxedo Duck Is Not Duck Tuxedo" — https://okemily.com/blog/tuxedo-duck-is-not-duck-tuxedo/
+  — narrative writeup of the same counterexample chain, live-verified through the real
+  nginx/Host-header path. Apple #14113. (sess-20260813-2154-dda37e8b)
+
 ---
 
 ## SECTION 177: FATBABY BACKUP TOOLING — GOOGLE CLOUD, S3-PARITY DESIGN (2026-08-18)
