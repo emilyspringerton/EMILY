@@ -16095,6 +16095,36 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   contention) with a real statistical accounting of everything Prompt-o-verse has generated to
   date. (sess-20260813-2154-dda37e8b)
 
+## SECTION 180: PROMPT-O-VERSE ANNOTATIONS + STYLE HYBRIDS (2026-08-18)
+
+- [x] **S180-01: Subject-level prompt annotations.** Founder, real-time: gens of "Paimon" kept
+  meaning the Genshin Impact character instead of TYLER's own "Paimon, the Court Voice" (Goetia
+  king, multiverse_heroes.md #20), risking erroneous IP-related content blocks — "we dont also want
+  to fragment our ez prompts" ruled out renaming the subject itself. New annotation system: text
+  sticks to the subject (not any one add/generation) and is appended to the real generation prompt
+  only, never the EZ prompt/subject/taxonomy. `emily promptoverse annotations set/clear`,
+  `add --annotation "..." | --annotation-from-lore` (auto-derived from TYLER's hero compendium +
+  Goetia frequency table), multiple named aliases per subject (Paimon carries both "tyler-lore"
+  (default, curated per founder: "great president... 200 legions not as much") and
+  "genshin-impact", selectable via `--annotation-alias` without ever forking the subject).
+  `backfill-annotation` marked the 8 pre-existing Paimon nodes as pre-annotation via IDUNA's new
+  `PATCH .../nodes/{slug}/tags` (S180-02). Apple #14315, emily.cli fdf1e39. (sess-20260813-2154-dda37e8b)
+- [x] **S180-02: IDUNA `Store.MergeTags` + `PATCH /api/v1/promptoverse/nodes/{slug}/tags`.** Backing
+  endpoint for S180-01's backfill — overlays extra tag key/values onto an already-published node
+  without touching image/prompt data, reusing the existing generic Tags table already rendered
+  per-node rather than new schema. Apple #14316, IDUNA 123cdab. (sess-20260813-2154-dda37e8b)
+- [x] **S180-03: Style hybrids via repeated `--tag`; slugifyPO double-hyphen fix.** Founder,
+  real-time: "add Medusa --tag kawaii --tag FFXI" / "it can be created and then when we double tag
+  it in our system we know its a hybrid" / "i mean its a style mashup" → vocabulary settled as
+  mashup=subjects (existing `mashup_nominations`), hybrid=styles (this one), to avoid colliding
+  with the existing term. Two+ `--tag` flags now combine into one new blended style label instead
+  of forcing N separate generations; `discoveredStyle.ComponentStyles` records what it was built
+  from; drainQueue stamps `style_hybrid_of` on the published node (same generic-Tags-reuse pattern
+  as S180-02). Surfaced and fixed a real `slugifyPO` bug live: a dropped punctuation rune ("×")
+  with spaces on both sides left a bare double hyphen behind ("medusa-kawaii--ffxi"), which IDUNA's
+  slug regex 400s on — now collapses repeated hyphens and trims leading/trailing ones. Apple
+  #14317, emily.cli 8e5e6d7. (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
