@@ -1323,6 +1323,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'can we add pixel art to the brawlpit engine? use the 5 pixel art generated (or skip baseball man if…** — obs `2026-08-18T04:55:47Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, fragment (logged, unclear scope): 'updating the vs0 description at the top' -- possibly the index pa…** — obs `2026-08-18T04:38:26Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'ok where is my social funnel? at least a login button at the top?' -- this was already built (site-…** — obs `2026-08-18T04:38:08Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, fragment (unclear, logged not acted on, staying on live-reload verification): 'ok we need a forced f…** — obs `2026-08-18T04:22:08Z`. CURATED: 2026-08-18.
+- [ ] **MAJOR FINDING, real root cause of the recurring live-reload complaints: setInterval/insertNewCards/GALLERY_POLL_MS exis…** — obs `2026-08-18T04:18:05Z`. CURATED: 2026-08-18.
+- [ ] **MTG crossover result: 'Pinup Power' did NOT carry over -- the generated card got an unrelated fictional name ('Kirads F…** — obs `2026-08-18T04:17:10Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, rapid burst: 'but we need the context to shmerar over from the Tops cards how do we do that?' -- rea…** — obs `2026-08-18T04:16:40Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, reframing 'Pinup Power' from bug to feature: 'how can we generate more pinup power content?' -- two …** — obs `2026-08-18T04:13:48Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
