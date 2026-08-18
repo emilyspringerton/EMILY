@@ -15937,6 +15937,89 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
 
 ---
 
+## SECTION 178: BRAWLPIT PIXEL-ART CHARACTERS + PROMPT-O-VERSE UX FIXES (2026-08-18)
+
+- [x] **S178-01: 4 pixel-art BRAWLPIT fighters from real Prompt-o-verse generations.** Founder:
+  "can we add pixel art to the brawlpit engine? use the 5 pixel art generated (or skip baseball man
+  if hes too small)... add at least 4 characters to brawlpit via the promtoverse pixel art gens."
+  Sequenced per explicit founder direction ("write them as heroes into the TYLER hero bible first,
+  then add lore"): `TYLER/multiverse_heroes.md` #116-119 written first (The Arabesque Understudy,
+  Rosie of the Unclaimed Arcade Cabinet, The Sunlit Draw, The Tuxedo Duck Second Casting — TYLER
+  `44f8f72`), BRAWLPIT stats/kit argued from that lore rather than invented separately. Real
+  architecture discovery mid-build: BRAWLPIT has two parallel character systems, only one actually
+  live (`packages/common/characters.h`'s `FighterDef`, not the unwired `core/character.h` vtable
+  scaffold with Nintendo-named placeholders) — targeted the real one. New `vendor/stb_image.h` +
+  `apps/lobby/src/sprites.h`: this engine had zero image-loading capability before (pure flat-color
+  legacy OpenGL immediate mode) — texture cache, lazy GL upload, textured quad, falls back to the
+  existing colored-rect rendering if a texture fails to load. 4 new `CharacterId`/`FighterDef`
+  entries; character-select already cycles by `CHARACTER_COUNT`, no extra wiring needed. Baseball
+  card art (`07-pixel-art`, "Blitz Bomber") skipped as planned — real character reads small inside
+  the trading-card composition, flagged for a future larger regeneration. Real headless smoke test:
+  clean gcc build, launched under Xvfb, screenshot confirms the actual menu renders with no crash.
+  BRAWLPIT `084032a`, Apple #14240. **Not built this pass**: a special-move framework (the live
+  FighterDef system has no `on_special`-style hook at all, would be net-new engine work, not just
+  wiring into an existing one), GLSL pixelation shader, particle effects, and full in-game visual
+  confirmation of the sprites actually rendering on a character (no `xdotool` in this environment to
+  drive that headlessly — needs either that tool or manual founder verification). Also offered by
+  the founder and explicitly deferred: a real Prompt-o-verse sprite-generation subsystem
+  (background-removed/matted game-ready portraits, vs. the honest V1 limitation of reusing full-
+  scene generated images as-is). (sess-20260813-2154-dda37e8b)
+
+- [ ] **S178-02 (partial, blocked on queue contention): FFXI-style "garage gang" generation batch.**
+  Founder: "do a run of all the heroes from the gang in the garage as FFXI style rendered" — the
+  `just_a_duck.md` cast (Faction 10 #103-108: duck, unicorn, ghost, frog, tree, pizza) rendered in
+  FFXI (Final Fantasy XI) style, deliberately un-crafted ("FFXI i guess is the style... dont help it
+  lets see"). 1 of 6 done (`--tag "FFXI"` created the style, duck generated:
+  `okemily.com/prompt-o-verse/a-duck-reportedly-telekinetic-ffxi/`). Remaining 5 (unicorn, ghost,
+  frog, tree, pizza) deliberately NOT queued yet — the triggering `add` call's own drain was
+  actively working through 60+ already-pending items when this was scoped, and `drainQueue` holds
+  its item list in memory across a whole run rather than re-reading the queue file after each
+  success, so prepending more items directly while it's running risked them being silently
+  clobbered; firing competing `add` calls would also spawn parallel drains competing for the same
+  Vertex AI rate limit. Pick up once the large drain settles. (sess-20260813-2154-dda37e8b)
+
+- [x] **S178-03: Prompt-o-verse UX fixes bundle.** Three real, live-verified fixes found and shipped
+  while working the above: (1) new cards/category-sections were inserting synchronously with zero
+  transition ("snaps in" — founder: "can we animate them in... on a jitter?" / "section by section
+  not snapping all 3 sections in at once") — this is what the earlier-reported "flicker" actually
+  was (a real MutationObserver investigation had already confirmed the DOM patch itself was clean,
+  single ADDED LI events, no removals/attribute changes — the arrival just had no transition). New
+  shared `cardEntranceCSS` fade-in keyframe + staggered, jittered (1.5-5s) per-section/per-card
+  insertion. IDUNA `8973376`, Apple #14233. (2) The Google-sign-in auth widget never called IDUNA's
+  existing `POST /api/v1/auth/refresh` (S126-08) — founder: "we are still failing to refresh our
+  token." Added a proactive 20-min refresh interval plus a reactive retry-once-on-401 for the
+  nomination submit call. Confirmed, per founder's second question ("are all of our token calls
+  going through iduna?"): yes, `/auth/google`, `/auth/refresh`, and agent auth are the only token
+  issuers in what this session built, all IDUNA. IDUNA `eb8ce76`, Apple #14237.
+  (sess-20260813-2154-dda37e8b)
+
+- [ ] **S178-04 (not started, logged per explicit founder instruction): Standing meta-instructions
+  + CLAUDE.md token compression.** Three founder asks, real-time, not yet actioned: "translate the
+  largest claudemd files to traditional chinese to compress tokens" (largest by line count:
+  `OKEMILY/CLAUDE.md` 202, root `/home/fatbaby/CLAUDE.md` 191, `PRRJECT_FATBABY/CLAUDE.md` 152,
+  `TYLER/CLAUDE.md` 150 — extends the already-established commit-message/BACKLOG-prose Traditional
+  Chinese convention to CLAUDE.md files themselves, a new extension of that pattern, not yet applied
+  anywhere); "ensure claire.md metainstructions are added to all claude md files" (propagate
+  whatever convention gets established here consistently, not just to one repo); "add that as an
+  emily os metainstruction to her claude and claire files" (specifically into `EmilyOS/CLAUDE.md`).
+  "figure it out" (explicit permission to proceed on judgment) received but not yet acted on before
+  this session's work wound down. (sess-20260813-2154-dda37e8b)
+
+- [ ] **S178-05 (not started): Systemd install-command audit.** Founder: "ensure our new cron jobs
+  like the thumbnail job are installable to systemd via cli and are actually installed" then
+  generalized: "ensure all our systemd jobs for mission critical proceesxses (all of them
+  basically) make sure we actually have emily cli installs for thos esystemds so its ez to
+  reinstall" / "document any deemed non mission critical in claire md". Needs: (1) confirm
+  `promptoverse-thumbnails.timer` and `promptoverse-mashups.timer` (both installed live this
+  session) are actually enabled+running right now; (2) audit whether they (and every other mission-
+  critical systemd unit across the monorepo) have a real `emily install --*` subcommand, matching
+  the existing documented pattern (`emily install --system`, `--iduna-systemd`, `--edis`), rather
+  than being manually `cp`'d into `~/.config/systemd/user/` once with no scripted reinstall path;
+  (3) for anything judged not mission-critical, document that judgment in the relevant repo's
+  CLAUDE.md rather than silently skipping it. (sess-20260813-2154-dda37e8b)
+
+---
+
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
