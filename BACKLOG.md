@@ -1220,6 +1220,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (promptoverse taxonomy expansion, extended burst): (1) styles judged 'too subject-specific' (like 202…** — obs `2026-08-17T23:25:25Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time (continued burst): (1) requeue command to re-pick queued styles with fixed selection logic, confirmed…** — obs `2026-08-17T23:44:08Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: tool broken, 'bad key error' then 'no image data in response' -- diagnosed live as NOT an auth/key p…** — obs `2026-08-17T23:48:53Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: need a cron/background process that generates thumbnail + optimized JPEG versions of Prompt-o-verse …** — obs `2026-08-18T00:22:03Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
