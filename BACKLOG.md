@@ -15725,7 +15725,13 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   human-only blocker as the Steam Direct account (S19-03) and the Cloudflare DNS token (S151-01).
   Once created: set `GOOGLE_CLIENT_ID` in `IDUNA/var/agent-secrets.env` (or the environment
   `iduna.service` reads), restart `iduna.service`, re-render — the widget already reads this at
-  render time and needs no code change to activate. (sess-20260813-2154-dda37e8b)
+  render time and needs no code change to activate.
+
+  **UX follow-up, same session**: founder found the strip invisible ("ok where is my social funnel?
+  at least a login button at the top?") — the JS did `if (!clientId) return;` with no fallback, so
+  the container rendered completely empty. Now shows a visible disabled "Sign in (coming soon)"
+  pill instead. Live-verified with a real Playwright/Chromium browser (pill text confirmed,
+  `visible=true`, zero page errors). IDUNA `eba56df`, Apple #14203. (sess-20260813-2154-dda37e8b)
 
 - [x] **S176-29: Native mashup discovery.** Founder, real-time: "ok then
   we need a way to natively discover mashups - like if i ask for Fractal Raccoon it should show
