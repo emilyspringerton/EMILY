@@ -1313,6 +1313,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, generalizing the CLAUDE.md documentation instruction: 'ensure claire.md metainstructions are added t…** — obs `2026-08-18T05:08:59Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, clarifying the FFXI batch: 'FFXI i guess is the style im not sure how nano banana is gonna handle it…** — obs `2026-08-18T05:02:31Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, new independent request: 'do a run of all the heroes from the gang in the garage as FFXI style rende…** — obs `2026-08-18T05:02:08Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'topic pages should also live reload' -- likely referring to subject pages (topic/subject used inter…** — obs `2026-08-18T05:01:18Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: 'then do the rest in mixed LIFO FIFO depending on build order ask emily prime to prioritize as a rol…** — obs `2026-08-18T04:57:57Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, sequencing correction: 'write them as heroes into the TYLER hero bible first' / 'then add lore' -- b…** — obs `2026-08-18T04:57:43Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, gameplay requirement: 'give them uinque b abilities like up b and b (whatever our b is for parisol u…** — obs `2026-08-18T04:57:29Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, further hint: 'and particle effects' -- wants particle effects too as part of the pixel art characte…** — obs `2026-08-18T04:56:08Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
