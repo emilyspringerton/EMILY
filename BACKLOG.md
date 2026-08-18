@@ -1333,6 +1333,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, more GFD worldbuilding fragments arriving mid live-reload-emergency, still not acted on per the expl…** — obs `2026-08-18T04:08:52Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, unrelated GFD worldbuilding request arriving during the live-reload emergency: 'Add Waynizm as a rel…** — obs `2026-08-18T04:08:47Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, ALL CAPS, third report: 'LIVE RELOAD IS STILL BROKEN PRIORITIZE THAT ABOVE ALL ELSE' -- previous fix…** — obs `2026-08-18T04:07:14Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time: after a long stretch of garbled/bell-character input (stuck key or input device issue, not deliberat…** — obs `2026-08-18T19:51:09Z`. CURATED: 2026-08-18.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
