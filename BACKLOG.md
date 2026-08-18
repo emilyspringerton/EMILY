@@ -15647,7 +15647,17 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   likely an LLM call shaped like the existing `maybeDiscoverStyle`/`maybeDiscoverSubject` Vertex
   AI judgment calls, with results cached/persisted so it's not re-judged on every page render.
   Scoped via AskUserQuestion (options: LLM judgment call / manual-tagging-only / defer entirely) —
-  founder chose **defer entirely** given the real ambiguity surfaced. Logged, not started.
+  founder chose **defer entirely** given the real ambiguity surfaced.
+
+  Near-miss follow-up: founder then separately flagged "duck wearing a tuxedo is the same subject
+  as a duck wearing a tuxedo" as a narrower, seemingly-safe leading-article-normalization case
+  ("a X" == "X") distinct from the deferred semantic work, and approved building that piece now
+  via AskUserQuestion. Immediately retracted by the founder's own next two messages before any
+  code was written: "president wearing a tuxedo may or may not be different from the president
+  wearing a tuxedo" and "a president wearing a tuxedo may or may not be different from president
+  wearing a tuxedo" — "the president" can carry a specific/definite referent distinct from generic
+  "president," so blind article-stripping isn't actually judgment-free either; it collapses back
+  into the same semantic-judgment bucket as the rest of S176-29. Not built. Logged, not started.
   (sess-20260813-2154-dda37e8b)
 
 ---
