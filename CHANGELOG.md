@@ -1,4 +1,5 @@
 ## 2026-08-18
+- Published blog post 'Tuxedo Duck Is Not Duck Tuxedo' on the semantics/ontology thread, live at okemily.com/blog/tuxedo-duck-is-not-duck-tuxedo/ (sess-20260813-2154-dda37e8b)
 
 - NORTHSTAR_PROMPT_O_VERSE.md §9: mashup/hybrid discovery requirements, deferred pending semantic-judgment mechanism (sess-20260813-2154-dda37e8b)
 
