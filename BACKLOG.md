@@ -15628,15 +15628,27 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   read-only boundary (IDUNA currently only *reads* emily.cli's candidate files, never writes to
   them). Logged, not scoped or started.
 
-- [ ] **S176-29 (not yet built): Native mashup discovery.** Founder, real-time: "ok then we need a
-  way to natively discover mashups - like if i ask for Fractal Raccoon it should show those
-  mashups on the fractal page and raccoon page." Follow-up clarifications: "subjects that may
-  start as non mashups can become mashups if their components are later added as individual
-  subjects" and "so a subject being a mashup is basically just metadata" — mashup-ness is derived
-  at query/render time by decomposing a subject label against the CURRENT subject registry, not a
-  flag stored at generation time, so a subject like "Fractal Raccoon" retroactively picks up
-  cross-links the moment "Fractal" and/or "Raccoon" independently exist as their own subjects.
-  Not yet scoped in detail or started — next up.
+- [ ] **S176-29 (deferred, not started): Native mashup discovery.** Founder, real-time: "ok then
+  we need a way to natively discover mashups - like if i ask for Fractal Raccoon it should show
+  those mashups on the fractal page and raccoon page." Followups established the shape: "subjects
+  that may start as non mashups can become mashups if their components are later added as
+  individual subjects" and "so a subject being a mashup is basically just metadata" — mashup-ness
+  must be derived at query/render time against the CURRENT subject registry, never a flag stored
+  at generation time. First implementation attempt (pure lexical word-bag/word-order matching)
+  was caught and abandoned mid-build once the founder's own examples proved it wrong: "tuxedo
+  duck and tuxedo might not be the same hybrid" (tuxedo duck is plausibly just a real duck
+  breed/color-morph name — a single concept, not a clothing+animal mashup at all — so naive
+  substring/subset containment gives false positives), and "tuxedo duck is the same hybrid as a
+  duck wearing a tuxedo but neither of them is the same as duck tuxedo" (same concept via totally
+  different wording; identical word-set via reordering is explicitly NOT the same concept) — this
+  rules out BOTH substring/subset containment (the "is X a component of Y" test) AND word-order-
+  independent word-bag equality (the "are X and Y the same hybrid" test) as viable mechanisms.
+  Real mashup/hybrid-equivalence detection needs semantic judgment, not string manipulation —
+  likely an LLM call shaped like the existing `maybeDiscoverStyle`/`maybeDiscoverSubject` Vertex
+  AI judgment calls, with results cached/persisted so it's not re-judged on every page render.
+  Scoped via AskUserQuestion (options: LLM judgment call / manual-tagging-only / defer entirely) —
+  founder chose **defer entirely** given the real ambiguity surfaced. Logged, not started.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
