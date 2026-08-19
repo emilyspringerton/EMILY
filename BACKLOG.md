@@ -1338,6 +1338,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok have tyler and the gang in a podcast as a blog post do a deep dive on promptoverse stats - subje…** — obs `2026-08-18T22:14:34Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, refining the cross-client-login ask from the previous observation: specifically 'unify' SHANKPIT's o…** — obs `2026-08-19T00:24:56Z`. CURATED: 2026-08-19.
 - [ ] **Founder real-time, DragonsNShit graphics quality thread: (1) core ask -- iterate DragonsNShit's interface/graphics qual…** — obs `2026-08-19T00:24:16Z`. CURATED: 2026-08-19.
+- [ ] **Founder real-time, rapid burst -- three more concrete asks arrived while investigating SHANKPIT story mode abilities: (…** — obs `2026-08-19T01:50:49Z`. CURATED: 2026-08-19.
+- [ ] **Founder real-time, SHANKPIT story mode spec consolidated: advance the entities fought in story mode using REDGARDEN's s…** — obs `2026-08-19T01:46:21Z`. CURATED: 2026-08-19.
+- [ ] **Founder real-time: 'continue on shankpit story mode' / 'advance the entities fought in story mode' -- new direction, se…** — obs `2026-08-19T01:45:39Z`. CURATED: 2026-08-19.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
