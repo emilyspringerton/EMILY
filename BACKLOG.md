@@ -16229,6 +16229,14 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   protocol-level unification on the first pass. Not scoped into a full northstar or implemented
   this session; logged and deferred to keep this session's actual deliverable (S181-01/02) focused.
   (sess-20260813-2154-dda37e8b)
+- [x] **S181-04: Procedural minimap for apps/arena.** Founder: "iterate" (continuing the graphics
+  quality thread) → picked up `RENDERING_QUALITY_NORTHSTAR.md`'s own #1-priority item. Top-right
+  circular radar (terrain-colored disc + border ring), dots for every alive hero (relationship-
+  colored, matching the existing floating health bars) and every `ArenaNode` (owner-colored),
+  projected via `ARENA_HALF_EXTENT` and clamped to the circle radius. Immediate-mode GL, same
+  convention the existing ability-pie-timer/ring HUD elements already use. Live-verified via Xvfb +
+  `--observe` replay screenshot — clean circle, correct dot colors/positions, zero regressions.
+  Apple #14362, REDGARDEN fabd4e3/bb78336. (sess-20260813-2154-dda37e8b)
 
 ---
 
