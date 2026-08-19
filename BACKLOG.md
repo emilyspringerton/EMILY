@@ -16240,6 +16240,26 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   convention the existing ability-pie-timer/ring HUD elements already use. Live-verified via Xvfb +
   `--observe` replay screenshot — clean circle, correct dot colors/positions, zero regressions.
   Apple #14362, REDGARDEN fabd4e3/bb78336. (sess-20260813-2154-dda37e8b)
+- [x] **S181-05: Real abilities for SHANKPIT story-mode enemies + 2 new threat roles.** Founder:
+  "continue on shankpit story mode" → "advance the entities fought in story mode" → "use redgarden
+  squad ai and realistic abilities and powerups" → "the graphics can be stubs for now but the
+  abilities can not" → "sport redgarden abilities" → "it should be challenging" → "many enemies
+  with different threats." Story-mode enemies previously had zero abilities (stat-tuned
+  basic-attack loops only). Gave each a real, distinct special built on SHANKPIT's own existing
+  combat mechanics (never invented from scratch): Rift Hound gets the real katana dash
+  (`katana_try_start_dash`, unmodified, just AI-triggered now); Shambler Trooper gets a new "Frag
+  Toss" (real splash-damage projectile via the same `spawn_projectile`/`explode_splash` pipeline
+  the missile launcher already uses); Gore Brute gets a new "Ground Slam" (same real pipeline,
+  tuned close-range/high-damage). Added two new roles for real roster variety: Storm Caller
+  (WPN_SNIPER) — the existing 5-round storm-charge burst was reachable by ANY non-katana weapon's
+  `ability_press` but only ever consumed by WPN_SNIPER, wasting the cooldown for every other
+  weapon (a real latent gap, fixed by making the dispatch weapon-specific) — and Bombardier
+  (WPN_MISSILE as base weapon), a heavy real splash-AOE spammer needing no special ability at all.
+  Live-verified via a standalone headless test harness (no SDL/graphics) exercising the real
+  public `story_ai_tick` loop over simulated combat — all 5 roles spawn with the correct weapon
+  and each ability genuinely fires within a real engagement window (15/15 checks passed). Full
+  lobby+server build and all 4 existing SHANKPIT test binaries still pass. Apple #14366, SHANKPIT
+  656106b/c38ced2. (sess-20260813-2154-dda37e8b)
 
 ---
 
