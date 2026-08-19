@@ -1336,6 +1336,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: after a long stretch of garbled/bell-character input (stuck key or input device issue, not deliberat…** — obs `2026-08-18T19:51:09Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'ensure all emily cli functionality is documented in the readme' -- follow-up to the just-shipped do…** — obs `2026-08-18T21:27:45Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'ok have tyler and the gang in a podcast as a blog post do a deep dive on promptoverse stats - subje…** — obs `2026-08-18T22:14:34Z`. CURATED: 2026-08-18.
+- [ ] **Founder real-time, refining the cross-client-login ask from the previous observation: specifically 'unify' SHANKPIT's o…** — obs `2026-08-19T00:24:56Z`. CURATED: 2026-08-19.
+- [ ] **Founder real-time, DragonsNShit graphics quality thread: (1) core ask -- iterate DragonsNShit's interface/graphics qual…** — obs `2026-08-19T00:24:16Z`. CURATED: 2026-08-19.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
