@@ -16260,6 +16260,24 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   and each ability genuinely fires within a real engagement window (15/15 checks passed). Full
   lobby+server build and all 4 existing SHANKPIT test binaries still pass. Apple #14366, SHANKPIT
   656106b/c38ced2. (sess-20260813-2154-dda37e8b)
+- [x] **S181-06: 4 new BRAWLPIT fighters (Medusa/Raccoon/Second Tree/Uncrowned) with real unique
+  specials.** Founder: "add more brawlpit characters via the 8 bit promptoverse characters" →
+  "especially the sprite generated chromakeyed ones" → "lore first into tyler lore bible" → "then
+  into brawlpit as selectable characters with unique abilities." Lore written first into
+  TYLER/multiverse_heroes.md #120-123 (Apple/commit under TYLER, ba5a727). Unlike the earlier
+  #116-119 batch (sprite+stats only), these four also got real, distinct neutral-special moves —
+  found that `BTN_SPECIAL` already had a full working per-character-branchable framework (up-B
+  recovery, side-special wavedash, neutral-special turnip toss, already branched once for
+  CHARACTER_VEXAR), so this was new branches on real infrastructure, not a system built from
+  scratch. Medusa: Petrifying Gaze, a real directional stun (`hitstun_frames`+`STATE_STUNNED`) on
+  anyone in front of her — grounded in the real fact she's Prompt-o-verse's most-generated subject
+  (26 gens). Raccoon: Scavenger's Dash, pure mobility, no damage/CC. Second Tree: real AOE
+  ground-slam knockback via the existing `apply_knockback`, hitting every nearby opponent at once.
+  Uncrowned: a defensive `shield_health` buff, no offense at all. Live-verified via a headless test
+  harness calling the real functions directly (13/13 checks passed — including catching and fixing
+  a real `SHIELD_MAX` scale bug, the constant is 60 not a normalized 0–1 range). Full build +
+  existing physics smoke test pass clean. Apple #14368, BRAWLPIT 8bb2119/3c7933b.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
