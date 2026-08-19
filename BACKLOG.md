@@ -16186,6 +16186,50 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   discovered "Niobe" as a genuinely new, non-duplicate subject from a real Vertex AI call. Apple
   #14340, emily.cli c8e995a. (sess-20260813-2154-dda37e8b)
 
+## SECTION 181: DRAGONSNSHIT GRAPHICS QUALITY ITERATION (2026-08-19)
+
+- [x] **S181-01: Cel-shading pass for apps/arena (DragonsNShit Battlegrounds client).** Founder,
+  real-time: "we have the duck reportedly telekinetic output from promptoverse we need to iterate
+  dragonsnshit interface and graphics to that in terms of quality" → "i know you need models but
+  lets lay the groundwork" → "do as much as you can programmatically and procedurally" → named a
+  second Prompt-o-verse gen, "Abraxas" (FFXI style), "the gold standard for what we can achieve
+  before going more realistic" → explicit tier roadmap: "like cell shading engine then source
+  engine quality before unreal engine quality." Shipped Tier 1: outline pass (inverted-hull
+  technique, back faces expanded along normal, GL_FRONT culled, solid near-black) + diffuse
+  quantized into 3 discrete bands, replacing the smooth-gradient shading `apps/arena` had before.
+  Zero new geometry/art needed — works on the existing flat-colored hero boxes. Live-verified via
+  Xvfb + `--observe` replay mode (real screenshot of a hero mid-match, confirmed visible
+  outline+banding, zero regressions); full `scripts/build.sh` + `scripts/test_arena.sh` both pass
+  clean. Known limitation documented, not hidden: outline is per-box, so a multi-box hero shows
+  seam outlines between its own pieces — real fix is a screen-space edge-detection post-process,
+  scoped but not built (no FBO pipeline exists yet). Apple #14351, REDGARDEN 38d8c60/219be71.
+  (sess-20260813-2154-dda37e8b)
+- [x] **S181-02: Rendering quality northstar.** `GoblinFoxDragon/docs2/RENDERING_QUALITY_NORTHSTAR.md`
+  — the 3-tier roadmap (cel-shading now → Source-engine quality → Unreal-engine quality,
+  aspirational/last), the two reference images, what's shipped (S181-01), prioritized remaining
+  programmatic groundwork (procedural minimap is the single biggest visual gap vs. the Duck
+  reference — no minimap exists at all today — followed by the post-process edge-detection pass,
+  procedural UI chrome, atmospheric polish, and a procedural ability-icon fallback), and what's
+  genuinely blocked on real 3D art/models (matching the reference images' actual character
+  geometry; real ability icon art) rather than pretended-away. Explicitly distinct from the
+  existing `docs2/art_direction_tiers.md` (armor mesh/palette progression, locked, pending an
+  artist) — this doc covers the rendering technique, that one covers geometry/textures; found and
+  cross-referenced rather than duplicated. Registered in golden-docs-index (GFD-RENDER-NORTH).
+  Apple #14352, GoblinFoxDragon 01a4a17/0b618cc. (sess-20260813-2154-dda37e8b)
+- [ ] **S181-03 (not started): Unify SHANKPIT `apps/lobby` + GoblinFoxDragon MUD login.** Founder,
+  same real-time thread, a genuinely separate cross-repo ask: "also make it so i can log into gfd
+  on the fps client side and enter the world that way" → longer-term vision: "we will make it so i
+  can drop from the more moba rts old school runescape into fps" → near-term scope: "but for now
+  make it so both clients can log into the same world" → "unify" SHANKPIT's own `apps/lobby` with
+  GFD's MUD. Checked SHANKPIT's source for any existing IDUNA integration before logging this —
+  found none; SHANKPIT's lobby currently has no IDUNA-backed login at all, unlike GFD's
+  REDGARDEN-derived `apps/arena` client, which already does real IDUNA email+password login (per
+  `REDGARDEN/docs2/REDGARDEN_GUI_NORTHSTAR.md`). Real first step for whoever picks this up: give
+  SHANKPIT's `apps/lobby` the same IDUNA auth flow `apps/arena` already has — not a deeper
+  protocol-level unification on the first pass. Not scoped into a full northstar or implemented
+  this session; logged and deferred to keep this session's actual deliverable (S181-01/02) focused.
+  (sess-20260813-2154-dda37e8b)
+
 ---
 
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
