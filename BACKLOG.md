@@ -16278,6 +16278,17 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   a real `SHIELD_MAX` scale bug, the constant is 60 not a normalized 0–1 range). Full build +
   existing physics smoke test pass clean. Apple #14368, BRAWLPIT 8bb2119/3c7933b.
   (sess-20260813-2154-dda37e8b)
+- [x] **S181-07: Queue MnM + Medusa as concrete GOLDENBAND rig targets.** Founder: "i need a crab
+  rig for mnm" / "i need a rig for medusa" / "use the ffxi medusa render as an example." Scoped
+  honestly rather than fake-delivered: the real Blender pipeline (`GOLDENBAND_INTEGRATION_
+  NORTHSTAR.md` §4, already generic to any character) is real and working for BVH action export,
+  but the actual mesh/rig modeling is real Blender work only the founder can do — same blocker
+  every other Phase 2 GOLDENBAND asset already has. Added §4a naming both as concrete next targets
+  with real visual briefs: MnM (existing TYLER lore #114, already founder-picked as the Tank
+  archetype for RED GARDEN, S170-134) and Medusa (the real `medusa-ffxi` Prompt-o-verse generation
+  as the explicit visual reference). Not started — named and grounded so a future Blender session
+  doesn't have to re-derive target selection. Apple #14371, GoblinFoxDragon aa581aa/e350790.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
