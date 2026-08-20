@@ -1687,6 +1687,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,大量新指示: 「add bazel and makefile primatives incliding tries and merkel tries all of it to make buioildi…** — obs `2026-08-20T20:48:07Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,澄清: 「imean parena」+「expand hthe standard libs to make it possible」——確認 SKULDMARK 相關功能要做成 PARENA stdli…** — obs `2026-08-20T20:42:30Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「using skuldmark」——確定性建置構想再補充,可能是用 SKULDMARK(25 字元金融工具識別碼格式,含 checksum)風格的識別碼方案做建置產物的版本/指紋標記。具體結合方式待…** — obs `2026-08-20T20:42:06Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time:「gontinue building SAND editor」→「deps first」→「cli first」→「tests」→「first」→「ladybug first」——確認優先序:SAND …** — obs `2026-08-20T21:38:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「check the linux build for pitviper for an example」——確定性建置的參考範例是 PITVIPER 現有的 Linux build 設定。記錄併入前一則…** — obs `2026-08-20T20:41:56Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新需求: 「ensure PARENA has a separate deterministic construct build」——要求 PARENA 要有一個獨立、確定性(reproducible)…** — obs `2026-08-20T20:41:49Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「stdlibs missing first into stdlibs」+「obviously parena clis is a prereq for all continued work」+「con…** — obs `2026-08-20T20:39:27Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,重要修正: 「but implemented pure PARENA」——澄清 CSV/LONGMA 功能不是 FFI 綁定既有 Go 二進位檔(不是 pentest/gfd 那種『呼叫外部真實工具』模…** — obs `2026-08-20T20:33:03Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
