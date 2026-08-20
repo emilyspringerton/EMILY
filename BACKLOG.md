@@ -17107,10 +17107,15 @@ it, captured here before context-switching to PARENA. None of these are started.
   sequencing ("build it pure before we have to think about how it plays with EDU script"),
   mod-surface/EduScript integration is deliberately deferred, not decided in this pass. Apple
   #14729, commit `30b1691`. (sess-20260820-0649-a3f19d93)
-- [ ] **S189-13: PARENA VS0 implementation — the `parena-c` compiler.** Real next step per
-  founder's "build it pure." `NORTHSTAR.md`'s own Definition of Done is the acceptance bar: (1)
-  lexer/parser reading `.prn` S-expressions into an AST with no heap allocation outside a bump
-  compiler arena, verified via unit tests on balanced/imbalanced expressions; (2) a single-pass
+- [~] **S189-13: PARENA VS0 implementation — the `parena-c` compiler. Domain 1 of 5 done.** Real
+  next step per founder's "build it pure." `NORTHSTAR.md`'s own Definition of Done is the
+  acceptance bar. **Domain 1 (lexer/parser) done**: reads `.prn` S-expressions into an AST with
+  no heap allocation outside a bump compiler arena, 32 unit tests covering balanced (real
+  `test.prn` example, maps/vectors, linear/borrow symbol forms, comments, negative numbers,
+  string escapes) and imbalanced expressions (unterminated forms/strings, mismatched brackets,
+  stray closes — each with a line-numbered error message), `gcc -Wall -Wextra -pedantic -std=c99`
+  zero warnings, AddressSanitizer+UBSan zero errors/leaks, CI green. Apple #14732, commit
+  `3bace34`. **Domains 2-5 not started**: (2) a single-pass
   region analyzer enforcing `Region(Source) ⪰ Region(Destination)`, verified via a positive test
   (`test.prn`'s valid promotion pattern compiles clean) and a negative test (the invalid escape
   produces the exact `Compile Error: Escaping region pointer from :region/scratch to
