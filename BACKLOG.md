@@ -17166,3 +17166,26 @@ it, captured here before context-switching to PARENA. None of these are started.
   memory verification of the *emitted* C output under Valgrind and AddressSanitizer, zero leaks;
   (5) a CLI runner (`./parena build input.prn -o output.c`, correct exit codes). Not started.
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-14: PARENA build system migrated to Bazel + stdlib design extended (dataframe,
+  nn/tokenizer/sort). DONE.** Founder: "continue PARENA build it with BAZEL" → "build system" →
+  "ensure bazel is in the ci github workflows." Installed `bazelisk` (`go install`, no sudo).
+  `MODULE.bazel` (bzlmod, `rules_cc` dep) + `.bazelversion` (pins 9.2.0) + `.bazelrc` (global
+  `-std=c99 -Wall -Wextra -pedantic` + a real `--config=asan` replacing the old raw gcc ASan
+  invocation) + `src/BUILD.bazel`/`tests/BUILD.bazel`. Verified locally (`bazel build //...`,
+  `bazel test`, `bazel test --config=asan`, `bazel run //src:parena`) — same 32/32 result the
+  Makefile build already had. CI migrated to run entirely through Bazel, **confirmed green on
+  GitHub**. Makefile kept for fast local iteration, not removed.
+  Also, two more real stdlib packages added to `STDLIB.md`: **`dataframe`** (founder: "and pandas
+  build pandas into the standard library" — a `Column` tagged union wrapping `array`'s `NDArray`
+  or a `Vec String`, `DataFrame` + `read-csv`/`column`/`select`/`filter`/`group-by`; merge/join/
+  pivot/time-series explicitly deferred as genuinely bigger design questions). **`nn`/
+  `tokenizer`/`sort` + `io/read-floats`** (founder: "add any more stdlib you can think of that
+  would be needed to port gpt2alpinec" — grounded in the real `/home/fatbaby/gpt2-alpine-c/src/`
+  source, not guessed: `nn` has exactly the 3 primitives `gpt2.c` calls by name
+  (`layernorm`/`gelu`/`softmax`, deliberately not a fused `attention` call — the program composes
+  it, same as the real C); `tokenizer` matches `tokenizer_load`/`gpt2_encode`/`gpt2_decode`'s own
+  shape but as a real region-owned value instead of the source's hidden global singleton; `sort`
+  is generic (not `array`-specific) matching `archetype.c`'s real `qsort`-on-a-struct usage;
+  `io/read-floats` matches `gpt2.c`'s own `fread_or_fail` raw-float weight loading, returning
+  `array`'s own `NDArray` directly). Apple #14757, commits `ed8b011`, `4d6ac03`, `59f08b5`.
+  (sess-20260820-0649-a3f19d93)
