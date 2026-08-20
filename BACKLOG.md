@@ -16894,21 +16894,40 @@ a Google-account-login clarification chain) resolved into the account-login thre
   scope for the time available) — confidence rests on build+test-green plus exact
   pattern-matching against proven identical serialization idioms for a structurally identical
   entity type, not an observed King. (sess-20260820-0649-a3f19d93)
-- [~] **S188-02: GFD web exposed on okemily.com.** Founder, real-time: "top priority right now
-  is to... get GFD web exposed on okemily.com" → "right into the footer" → "use the regular iduna
-  styleguide" → "and then check all the recent builds." Researched (Explore agent) before
-  building: a real, working Emscripten WASM build of the actual GFD GUI client already exists
-  (`GoblinFoxDragon/apps2/battlegrounds_gui/wasm/`, built same session, compiles clean) but has
-  never been served publicly and has a real, founder-confirmed-firm-dependency gap: the client's
-  arena/matchmaker protocol uses raw UDP sockets, which don't exist in browsers — nothing bridges
-  WebSocket↔UDP yet. Footer location confirmed: `/var/www/okemily/index.html:241-357` (static
-  link list ~248-255, same pattern as `redgarden.html`/`games.html`). Styleguide confirmed:
-  `IDUNA/styles.css` (cream/gold palette, Cormorant Garamond), reused per-product via each
-  product's own self-contained render.go template — no shared partial system. nginx serves
-  `/var/www/okemily/` static content automatically (no config change needed for the static WASM
-  files) but has no GFD location block and would need a new proxy block for a real WebSocket
-  relay. Not started — real remaining work: build the WebSocket↔UDP bridge (the firm dependency),
-  wire the footer link, verify against IDUNA's styleguide. (sess-20260820-0649-a3f19d93)
+- [~] **S188-02: GFD web exposed on okemily.com. Mostly done — one founder-sudo step left.**
+  Founder, real-time: "top priority right now is to... get GFD web exposed on okemily.com" →
+  "right into the footer" → "use the regular iduna styleguide" → "and then check all the recent
+  builds" → (revised) "ensure GFD web is live on okemily - link it from WOTAN" → "there is a
+  wotan site on okemily its like an esports hype page" → "stats" → "live demos that are more than
+  just demos." WOTAN confirmed as `/var/www/okemily/tournaments.html` (REDGARDEN bot leaderboard +
+  hero-strength stats page), not the generic footer — supersedes the earlier footer-link plan.
+  **Real gap closed, not stubbed**: the WASM client's own README named it — Emscripten's socket
+  emulation links successfully but provides no real transport (browsers have no UDP API). Built
+  `GoblinFoxDragon/apps2/wsudprelay` (new Go binary): one WebSocket listener per real UDP port the
+  backend uses (matchmaker 8778 + game ports 8300-8399, matching `redgarden-stable`'s range),
+  1:1 frame forwarding, listening on the exact same port numbers so Emscripten's default
+  `ws://{host}:{port}` template needs no client-side port config. Verified the relay logic with a
+  real UDP-echo + WebSocket-client round trip before wiring to the real backend. Added
+  `websocket_proxy_pre.js` (`emcc --pre-js`) routing through a new nginx `wss://` proxy — okemily.com
+  is HTTPS-only, so insecure `ws://` gets blocked as mixed content by every modern browser; this
+  was a real correctness bug caught before shipping, not assumed away. **Deployed and verified
+  live**: `gfd-wsudprelay.service` fronting `redgarden-stable` (the actual live GFD Battlegrounds
+  backend), confirmed active/stable, real WebSocket handshake verified against the running
+  `:8778` matchmaker. WASM build redeployed to `/var/www/okemily/battlegrounds/`, confirmed
+  public 200s with correct content-types. New "Play GFD Battlegrounds" section added to WOTAN
+  (`tournaments.html`), confirmed live. `okemily-deploy.sh` updated to exclude `battlegrounds/`
+  (same pattern as blog/tyler/prompt-o-verse, avoiding a repeat of the 2026-07-19 blog-wipe
+  incident) — a real drift between the live nginx config and its git-tracked copy was also found
+  and folded in while doing this (the prompt-o-verse no-cache block had been applied live but
+  never synced back), per `OKEMILY/CLAUDE.md`'s own documented protocol for this exact situation.
+  GoblinFoxDragon CI green on the relay commit. Apples #14694 (GoblinFoxDragon), #14695 (OKEMILY).
+  **One real step left, genuinely blocked on founder sudo**: the nginx `wss://` proxy config
+  itself is written and queued (`sudo-queue/18-gfd-web-websocket-proxy.sh`) but not applied — no
+  real browser can complete a `wss://` handshake until that runs. Also honestly flagged, not
+  glossed over: no headless browser exists in this environment, so the actual in-browser play
+  experience (WebGL context, SDL2 input, full match flow) is unverified beyond each individual
+  layer (relay logic, WASM serving, nginx syntax) independently confirmed working.
+  (sess-20260820-0649-a3f19d93)
 - [ ] **S188-03: CI sweep — 3 real build failures found, not yet fixed.** Founder, real-time,
   following up on "check all the recent builds": "the build is failing for brawlpit" / "the build
   is failing for shankpit 460" / "the build is failing for mainline shankpit?" / "not sure what
