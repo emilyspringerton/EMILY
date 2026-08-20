@@ -1407,6 +1407,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (newssite freshness continued) unsure whether published/ingested dates actually match the real PR da…** — obs `2026-08-20T04:02:11Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (newssite vision continued) build interactivity and widgets into the main site to expand functionali…** — obs `2026-08-20T04:01:02Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (newssite freshness complaint continued) product framing — newssite should be a hybrid of a Bloomber…** — obs `2026-08-20T04:00:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (FatBaby freshness check continued) expecting to see fresh data on some newssite pages specifically …** — obs `2026-08-20T03:59:13Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (freshness check context) we are mid market week — relevant baseline for what 'fresh' should look li…** — obs `2026-08-20T03:58:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: check all of FatBaby's (PRRJECT_FATBABY) data for freshness — full message, completing the earlier c…** — obs `2026-08-20T03:58:55Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'and check all' — message appears cut off/incomplete, not enough context to act on yet** — obs `2026-08-20T03:58:50Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (HUD config interface continued) founder thinks the underlying plumbing for a GUI-configurable HUD/l…** — obs `2026-08-20T03:57:29Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
