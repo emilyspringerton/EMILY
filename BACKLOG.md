@@ -1637,6 +1637,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新指示: 「we need to build todo affordances into GFD nmnud gui」(推測 nmnud = mud 打字錯誤)——要求在 GoblinFoxDragon…** — obs `2026-08-20T16:44:30Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,新指示: 「then do a FATBABY NEWSWIRRE press release to the blog about PARENA」——要求在 #target/mod-surface 這波…** — obs `2026-08-20T16:43:34Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補完流程最後一步: 「and then main line the mod on by default once we know it works」——確認完整流程:先做成可關閉的 mod → 驗證確實…** — obs `2026-08-20T16:43:00Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充架構方向: 「make it a mod」+「we can turn on」+「to fix it first」——連起來讀是:vterm/tmux/ncurses 渲染修復不要直接寫死進 PITV…** — obs `2026-08-20T16:42:56Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,叮嚀: 「dont broke what currently works doing weird shit」——提醒現在做的 #target/inline-c 新功能不能破壞既有已經在跑的東西,呼應本 …** — obs `2026-08-20T16:42:47Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,再次重申優先權: 「again mod surface」+「parena」——確認現在正在做的 PARENA emit.c #target/inline-c FFI 機制(mod-surface API…** — obs `2026-08-20T16:42:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,重要澄清,可能降低整批 bug 回報的可信度: 「im on an old version maybe we fixed it」——創辦人意識到自己本地跑的 PITVIPER 可能是舊版本,稍早這一整串…** — obs `2026-08-20T16:42:34Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,再補充: 「yea vim in tmux no worky good in pitviper」——vim 在 tmux 裡於 PITVIPER 中運作不良,持續同一條 tmux/ncurses 渲染問…** — obs `2026-08-20T16:42:28Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
