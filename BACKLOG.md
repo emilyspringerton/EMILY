@@ -1367,6 +1367,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
+- [ ] **Founder real-time: (GFD HUD continued) buffs need to be positioned above the combat log, not just 'right side tiles' — …** — obs `2026-08-20T03:57:13Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (GFD graphics continued, important correction) use the ORIGINAL 'Duck, Reportedly Telekinetic' FFXI-…** — obs `2026-08-20T03:56:42Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (GFD graphics continued) scope also includes spell visual styles / overall game artistry, not just e…** — obs `2026-08-20T03:55:51Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: continue expanding GFD's MUD_GUI client graphics too — same FFXI 'Duck, Reportedly Telekinetic' refe…** — obs `2026-08-20T03:55:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: validate the CarePyre mesh-network research (CarePyre's real source material so far is a single ReLU…** — obs `2026-08-20T03:44:50Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
