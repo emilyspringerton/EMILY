@@ -1345,6 +1345,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: third piece queued -- 'claude as a blog post what do you think about promptoverse as a art generatio…** — obs `2026-08-20T03:10:41Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, big new ask arriving mid-Ada-module-work: 'as TYLER do a product update in the voice of a legendary …** — obs `2026-08-20T03:09:42Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'do a module of emily os in ravenscar32 ada' -- new, distinct ask from the fallthrough bugfix work j…** — obs `2026-08-20T03:07:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: pull the skate culture northstar from SKATEBOARD repo and build it into the GFD FPS client's vast ci…** — obs `2026-08-20T03:27:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: fifth blog post queued -- 'a report as a discussion between emily prime and claude about expanding t…** — obs `2026-08-20T03:16:17Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, consolidating remaining fragments on the GFD-port/mod-surface thread (item 5) and a graphics follow-…** — obs `2026-08-20T03:14:46Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: fifth item queued -- 'port the tyler story mode stuff to the gui client of GFD with the virtual mach…** — obs `2026-08-20T03:12:38Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
