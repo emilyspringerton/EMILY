@@ -16514,3 +16514,37 @@ own scoped items instead of staying buried in the intake queue.*
   real search pass before this gets scoped further). Also references "the osaka garage," logged
   verbatim, not yet understood well enough to act on. Needs its own real scoping pass, likely its
   own northstar, before any of it gets built — not started here.
+
+## SECTION 186: TWO PIPELINE FIXES — REAL WORK, NOT SCOPING (2026-08-20)
+
+- [x] **S186-01: Fixed a real cross-process eventstore staleness bug — root cause of the newssite
+  homepage freshness complaint.** Founder: "check all of the FATBABY data for freshness" →
+  "the homepage of news site is totally useless... not just the same effing BAC AMZN BA BEN
+  governance articles." Found and fixed: `eventstore.FileStore.ReadFrom`'s closed-file skip-cache
+  incorrectly froze the actively-growing journal file when read by a SEPARATE reader-only
+  `FileStore` handle (`cmd/prwatch-body` reading `cmd/prwatch`'s own store, and structurally any
+  other cross-process reader in the pipeline) — the "never cache the active journal" check relied
+  on `s.current`, only non-nil for a handle that itself Appends; a reader-only handle's is always
+  nil, so today's file got wrongly cached-closed after its first read, silently swallowing
+  everything the writer appended for the rest of the day. Confirmed live via
+  `var/logs/prwatch-body.log`: 4 body fetches in ~28h despite `prwatch` discovering roughly one
+  new press release every few minutes throughout. Fixed by identifying the active journal as the
+  newest-dated file in the sorted path list (process-independent). New regression test. All 21
+  affected binaries rebuilt and their systemd services restarted so the fix is actually live, not
+  just committed. `go test ./...` passes clean, including a separately-found unrelated stale test
+  fixture in `internal/newssite` (hardcoded dates had aged past the real 90-day historical
+  cutoff). Apple #14557, PRRJECT_FATBABY 7a254d9. (sess-20260813-2154-dda37e8b)
+- [~] **S186-02: Real, working WASM build of the GFD GUI login client — partial, honestly.**
+  Founder, urgent: "we need a web client for that product yesterday." Installed Emscripten
+  (emsdk, no sudo needed) and got a clean compile+link of the real `apps2/battlegrounds_gui`
+  source with zero changes to any real game code — modern-GL 3D world rendering ports as-is;
+  the legacy immediate-mode 2D HUD pass is covered by Emscripten's own `LEGACY_GL_EMULATION=1`
+  except `glRectf`, patched via an 8-line WASM-build-only shim. Real build script + doc at
+  `GoblinFoxDragon/apps2/battlegrounds_gui/wasm/`. Verified: clean compile, all 3 artifacts serve
+  correctly over HTTP. NOT verified: real browser rendering (no headless browser in this
+  environment). NOT solved, the real hard part: confirmed via direct grep that the client uses
+  raw UDP sockets for arena/matchmaker networking, which don't exist in a browser at all —
+  Emscripten's socket emulation let this link but doesn't make it work; a real WebSocket-to-UDP
+  relay or a native WebSocket listener on `apps2/server-go` is genuine, unstarted follow-on work.
+  Marked partial (`[~]`), not done — the rendering port was the easy half. Apple #14565,
+  GoblinFoxDragon a2afcff. (sess-20260813-2154-dda37e8b)
