@@ -1617,6 +1617,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,加強前一則: 「i use that shit in my main workflow now」——確認 PITVIPER 已經是創辦人日常主要工作流程的一部分,提高『不能弄壞』的重要性。持續遵守,現有…** — obs `2026-08-20T17:09:54Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,務實提醒: 「i still need pitviper to work」——提醒 PARENA 重寫的長期願景不能犧牲 PITVIPER 現有的真實可用性,呼應稍早『dont broke what c…** — obs `2026-08-20T17:09:48Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充範圍: 「before rewriting」+「if we have crazy deps for pitviper」——確認『wrap all the deps in parena modules…** — obs `2026-08-20T17:09:41Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新要求: 「wrap all the deps in parena modules」——要求把相依套件包裝成真正的 PARENA module。先確認現況:VS0 目前是否真的處理 (module ..…** — obs `2026-08-20T17:09:30Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,重大新指示(規模疑似很大): 「rewrite pitviper in pure parena」——要求把 PITVIPER 整個(目前是約 690 行的 Go SDL2 終端機模擬器)改寫成純 PAR…** — obs `2026-08-20T17:07:50Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,確認方向: 「continue with the mod surface into pitviper」——確認繼續 mod-surface API 的下一個真正阻礙:函式型別參數(handler : (…** — obs `2026-08-20T17:06:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充: 「just make up the color scheme whatever is standard for that style syntaxes」——語法高亮的配色不用特別設計,採用該語系…** — obs `2026-08-20T16:59:19Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新功能需求: 「make sure we are set up to do full syntax highlighting in pitviper start with PARENA syntax」—…** — obs `2026-08-20T16:59:13Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
