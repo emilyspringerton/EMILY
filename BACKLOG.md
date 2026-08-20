@@ -16654,3 +16654,13 @@ own scoped items instead of staying buried in the intake queue.*
   noted so it isn't confused with this doc.) Relevant to S185-02's ecowar-pack-pricing thread as
   real prior art for Fibonacci-scaled monetization in this monorepo, not just the pity-pull
   mechanic already cited there. (sess-20260813-2154-dda37e8b)
+- [x] **S186-11: Confirmed GFD's Flow economy is real, not a bug (resolves part of S185-02).**
+  Founder reported a possible bug — some accounts appear to already have Flow, recalls buying a
+  potion. Checked `apps2/mud/main.go` directly: Flow is a real, fully-working persistent currency
+  — earned from mob kills (`op.flow += 100`), spent via the real shop (`cmdShopBuy`, confirmed
+  earlier in S184-01's own research), bankable, tradeable on a real auction house, and synced
+  both ways with a persisted character record (`p.flow = ch.GoldBalance`). Not test/seed data —
+  genuine gameplay economy already working. No fix needed; confirms the founder's memory was
+  accurate. Real remaining value flagged for later: this is exactly the kind of real player
+  economic data the earlier-floated "GFD economy tools into IDUNA Back Office" idea (S185-02)
+  would have something substantial to surface. (sess-20260813-2154-dda37e8b)
