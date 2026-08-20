@@ -1571,6 +1571,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人:「where we at with that google terminal based ide? i literally need you to do it」→ AskUserQuestion 確認為 Google Cloud …** — obs `2026-08-20T14:53:25Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, scoping the AI cross-pollination experiment: 'mainline shankpit is ok to experiment on, we have 460 …** — obs `2026-08-20T09:53:42Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, two new threads: (1) bug report -- 'the shankpit bots are really twitchy and weird.' (2) exploratory…** — obs `2026-08-20T09:53:13Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, alternative hypothesis for the Four Kings discrepancy: 'maybe its an issue of documentation' -- i.e.…** — obs `2026-08-20T09:52:08Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, additional investigation lead for the Four Kings discrepancy: 'be sure to reference the possibly kin…** — obs `2026-08-20T09:52:00Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, new bug report: 'where are the 4 kings anywhere? i played redgarden and i played gfd battlegrounds i…** — obs `2026-08-20T09:51:49Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, completing the slurp-button workflow spec: 'enqueues it in the background' / 'regular resiliency pat…** — obs `2026-08-20T09:51:22Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, CORRECTING my prior 'per agent directories = stick with service account' reading: 'the back office s…** — obs `2026-08-20T09:50:53Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
