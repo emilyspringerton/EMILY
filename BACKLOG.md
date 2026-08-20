@@ -1506,6 +1506,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'add any more stdlib you can think of that would be needed to port gpt2alpinec' -- wants STDLIB.md e…** — obs `2026-08-20T11:50:37Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, further stdlib extension: 'and pandas build pandas into the standard library' -- wants a pandas-equi…** — obs `2026-08-20T11:47:22Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'build system' -- confirms Bazel as PARENA's build system specifically. Logged per Principle 18. No …** — obs `2026-08-20T11:46:25Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: resolved codec-scope AskUserQuestion with 'FFI-bind real libs' (matches linalg's own BLAS/LAPACK pre…** — obs `2026-08-20T12:10:41Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, same PARENA thread, new direction: "and full audio apis" -> "we are going to build djsoftware in PAR…** — obs `2026-08-20T12:10:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: PARENA stdlib planning wraps up with the previously-flagged 'net -- not designed' gap now resolved f…** — obs `2026-08-20T12:06:12Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, same PARENA thread: "SDL2 is built in" (sdl2 ships as a built-in/core-tier stdlib package, no import…** — obs `2026-08-20T12:05:54Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: PARENA stdlib expansion continues -- "also the stdlibs we need for the editor" (parena/plugin, paren…** — obs `2026-08-20T12:05:07Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
