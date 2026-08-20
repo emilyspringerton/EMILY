@@ -16529,10 +16529,11 @@ own scoped items instead of staying buried in the intake queue.*
   SHANKPIT/REDGARDEN/GFD/BRAWLPIT, including queueing into different REDGARDEN lobby types (OG
   Battlegrounds vs. the R&D AI-squad-model deployment) and a real human-only lobby queue type
   (non-native bots in a human-only lobby treated as a licensing question, same framing as the
-  multi-seat Fibonacci pricing concept the founder recalls being planned somewhere in GFD's docs
-  but couldn't place — "some wiki somewhere... or in any of the layers of golden docs," worth a
-  real search pass before this gets scoped further). Also references "the osaka garage," logged
-  verbatim, not yet understood well enough to act on. Needs its own real scoping pass, likely its
+  multi-seat Fibonacci pricing concept — **found, S186-10**: `GoblinFoxDragon/README2.md:220-236`,
+  1/1/2/3/5/8/13/21 then a $34/seat cap). "The osaka garage" reference resolved by connection, not
+  guessed: real prior history in this monorepo (`SCENE_GARAGE_OSAKA`, `apps/lobby/src/main.c` —
+  a real scene constant behind a previously-debugged spawn-stuck bug), independently also renamed
+  by the founder to "the construct" in the same real-time stretch this was raised. Needs its own
   own northstar, before any of it gets built — not started here.
 
 ## SECTION 186: TWO PIPELINE FIXES — REAL WORK, NOT SCOPING (2026-08-20)
