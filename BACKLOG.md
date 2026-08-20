@@ -16418,3 +16418,37 @@ GPT-2 checkpoint. All three logged via `emily observe` before drafting, per Prin
   changes, but S183-01 above is exactly the kind of drift the runbook warns about (a unit marked
   supervised that had actually been dead 3 days) — no runbook edit made since the fix was
   operational (restart the real service), not a documentation gap. (sess-20260813-2154-dda37e8b)
+
+## SECTION 184: GFD MOD SURFACE + CAREPYRE MESH RESEARCH (2026-08-20)
+
+- [x] **S184-01: GFD mod-surface northstar, EduScript VM identified as the real incumbent.**
+  Founder set a new standing MO for GFD: "game expansions need to be mod api first then add the
+  feature." Real prior art found via a doc/code survey rather than assumed: the EduScript VM
+  (`packages/education/`) already exists and is live in `apps/lobby`'s Architect's Orb terminal,
+  but has zero reach into `apps2/battlegrounds_gui` (the FPS "edu edition" client the founder
+  specifically prioritized) — that's the real gap this doc scopes closing, not building a VM from
+  scratch. Referenced Vintage Story and WC3's World Editor honestly rather than as name-drops:
+  EduScript's binding pattern already structurally resembles WC3 triggers (world objects exposed
+  as callable builtins); Vintage Story's systemic block/entity-behavior hooks are the real depth
+  target for solidity/destructibility/skate-surface properties as mod-surface data, not hardcoded
+  engine branches. Recommended sharing one destructible-geometry system between GFD and the real,
+  separate `/home/fatbaby/skateboard/NORTHSTAR.md` (R6 Siege-style non-voxel destructibility spec
+  already written there) rather than building two. Scripting language (EduScript-extended vs. Lua
+  vs. a founder-invented language not yet located) left explicitly open. A bigger, separate idea —
+  unifying both GFD clients under PITVIPER as a cross-repo "multiverse portal" — flagged, not
+  scoped here. Apple #14526, GoblinFoxDragon 2a8eef3. Registered as golden doc GFD-MOD-SURFACE.
+  (sess-20260813-2154-dda37e8b)
+- [x] **S184-02: CarePyre mesh network research.** Founder: "we need to validate the carepyre
+  mesh network research... especially how do participants interact with traditional SMS and voice
+  networks" off-mesh. Honest scoping first: the specific Gemini Flash-authored plan referenced
+  isn't in this repo (only `source/gemini-transcript-2026-08-09.md` exists, an unrelated ReLU
+  transcript) — flagged plainly rather than claiming to validate a document not available here.
+  Did real independent research instead: distinguished WiFi community-mesh (data/VoIP,
+  neighborhood-scale, real precedent in Detroit Community Technology Project's Equitable Internet
+  Initiative ~30mi from Pontiac) from LoRa/Meshtastic-style long-range mesh (text/location only,
+  no cellular infra); recommended gateway nodes with real cellular/internet uplinks bridging
+  mesh-native messages to SMS/voice; answered the core question plainly — a fully off-mesh
+  participant falls back to their own existing phone service, which is the intended design, not a
+  gap, since CarePyre's mesh is resilience underneath a phone plan, not a replacement for one.
+  Also refreshed a stale `CLAUDE.md` (still said "stub only" despite a real shipped landing page).
+  Apple #14529, CarePyre fd98f5e. (sess-20260813-2154-dda37e8b)
