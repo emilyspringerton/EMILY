@@ -1422,6 +1422,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (ecowar cards continued) confirms 'Rare' as the obvious/base tier name** — obs `2026-08-20T03:35:36Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (ecowar cards continued) Prompt-o-verse-style selection algo for card pack pulls — marble-bag weight…** — obs `2026-08-20T03:35:30Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (ecowar design continued) card packs purchasable with Flow (the in-universe currency)** — obs `2026-08-20T03:33:41Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar design continued) deckbuilding — some of the 22 cards are hero-specific, others are generic/…** — obs `2026-08-20T03:33:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar design continued) full feature set — MOBA-style choose-your-skills-to-upgrade for expressive…** — obs `2026-08-20T03:33:21Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar continued) ecowar will have hero mechanics** — obs `2026-08-20T03:31:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: build ecowar as its own separate binary, same model as the other REDGARDEN-family games (online matc…** — obs `2026-08-20T03:31:52Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: comb TRAPX/EMILY/REDGARDEN wikis and docs to develop a comprehensive 'ecowar' RTS model as a new nor…** — obs `2026-08-20T03:30:39Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
