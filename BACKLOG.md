@@ -1412,6 +1412,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: check all of FatBaby's (PRRJECT_FATBABY) data for freshness — full message, completing the earlier c…** — obs `2026-08-20T03:58:55Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'and check all' — message appears cut off/incomplete, not enough context to act on yet** — obs `2026-08-20T03:58:50Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (HUD config interface continued) founder thinks the underlying plumbing for a GUI-configurable HUD/l…** — obs `2026-08-20T03:57:29Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar cards continued) card draw needs to be rolling/non-depleting like Clash Royale's deck cycle …** — obs `2026-08-20T03:39:28Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar cards continued) design rule — any affordance that doesn't involve directly moving your hero…** — obs `2026-08-20T03:38:54Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (context note) simple tower models already exist in the codebase — relevant to ecowar's RTS building…** — obs `2026-08-20T03:37:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (clarifying prior) real 3D models will eventually be sourced/built for these use cases — Prompt-o-ve…** — obs `2026-08-20T03:36:58Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (clarifying prior) Prompt-o-verse reference-art use case includes something like a 3D card object fo…** — obs `2026-08-20T03:36:53Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
