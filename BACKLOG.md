@@ -16392,3 +16392,29 @@ GPT-2 checkpoint. All three logged via `emily observe` before drafting, per Prin
 *EMILY PRIME BACKLOG | Cross-repo | Git-authoritative*
 *The backlog is what outlasts everything.*
 *Clean builds first. Then custody. Then everything else.*
+
+## SECTION 183: OPS AUDIT — GPT2-SERVE + REBOOT RUNBOOK (2026-08-20)
+
+- [x] **S183-01: Diagnose gpt2-serve FT-model generate timeouts.** Investigated as part of a
+  requested general operations check (start.sh/run.sh). Root cause was already known, not new:
+  `REBOOT_RUNBOOK.md` (Apple #13254) documents `serve.py`'s stdlib single-threaded `http.server`
+  taking up to ~8 minutes on a cold `/generate` call — tonight's 3 real attempts (up to 200s) just
+  weren't patient enough, not a hang. Separately found `gpt2-serve.service` (a real systemd unit,
+  added 2026-08-13) had been cleanly stopped and sitting dead since 2026-08-17 — 3 days
+  unsupervised — and that an earlier manual `kill` + raw `python3 serve.py &` in this same session
+  had created an orphan process outside systemd's management. Fixed: killed the orphan, restarted
+  the real unit via `systemctl --user start gpt2-serve.service` (needed
+  `XDG_RUNTIME_DIR=/run/user/$(id -u)` set explicitly — not present by default in a Claude Code
+  Bash call, worth remembering next time). Confirmed healthy, FT checkpoint loaded. Not fixed:
+  the underlying single-threaded server and the broker's mismatched 30s timeout — a real code
+  change, deliberately not rushed without first verifying the generation code's thread-safety.
+  Apple #14519. (sess-20260813-2154-dda37e8b)
+- [x] **S183-02: start.sh/run.sh operations check.** Founder: "take a look at all of our
+  operations and see if start.sh or run.sh need to be updated." Both scripts are thin,
+  intentionally generic orchestration wrappers (read CLAUDE.md + BACKLOG.md fresh each run, tag a
+  session, curate the observation queue) — they don't need edits just because new repos/features
+  shipped, that's the point of reading the live docs instead of hardcoding state. The one real,
+  live-verified finding: `REBOOT_RUNBOOK.md`'s own "What's now systemd-supervised" table needed no
+  changes, but S183-01 above is exactly the kind of drift the runbook warns about (a unit marked
+  supervised that had actually been dead 3 days) — no runbook edit made since the fix was
+  operational (restart the real service), not a documentation gap. (sess-20260813-2154-dda37e8b)
