@@ -17447,3 +17447,21 @@ it, captured here before context-switching to PARENA. None of these are started.
   的真實 .prn 原始碼(目前只有設計)、Fira Mono + 完整 UTF-8 渲染(Geometric Shapes 區塊等)、
   自架 Rails Git GUI、custom PITVIPER server daemon 實作。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-20: PARENA stdlib 再新增六個套件設計(media/tts、pitviper/quicklook、
+  net/vpn+packetradio+mesh、cli+config)。DONE(僅設計,無新 .prn 原始碼)。** `media/tts`:
+  創辦人「we need to build a FIRE TTS model into pitviper」經 AskUserQuestion 確認為真實、具
+  體的 F5-TTS,再經第二次 AskUserQuestion 確認以本機 sidecar 架構解決「its gotta be tiny and
+  local」跟 F5-TTS 真實體積(幾百 MB、需要 PyTorch/ONNX)之間的張力——local 條件真的滿足,
+  tiny 不是,誠實記錄不假裝。`pitviper/quicklook`:創辦人具體、非探索性描述真實 macOS Quick
+  Look 互動模型(j/k 選取、double-click 進 vim-like editor 編輯、space 預覽,依序
+  markdown→image→video→audio)。`net/vpn`+`net/packetradio`+`net/mesh`:創辦人真實揭露
+  「our domains are mesh networks and packet radios」——EINHORN_INDUSTRIAL 網路業務範圍的
+  真實新資訊,FFI 綁定 WireGuard/AX.25+APRS/Meshtastic-or-B.A.T.M.A.N.-adv(mesh 後端選擇誠
+  實標註為真實、未決的硬體/部署問題)。`cli`+`config`:創辦人「we need to build parena cli to
+  start systamatizing it」→「viper and cobra equivalents」→「we will build the parena cli in
+  PARENA of course」——真實連結到 main.c 自己未來自我託管重寫的第一個具體目標。Apple #14819、
+  #14820、#14822,commits `676830d`→`1a9913a`。**真實狀態落差,誠實標註**:STDLIB.md 現在有
+  51 個套件設計,但真實 `.prn` 原始碼只涵蓋約 30 個檔案,而 VS0 domain 3-4(唯二能真的編譯/
+  跑東西的階段)目前只驗證過 `examples/valid_only.prn` 這一個特定形狀——設計廣度已經明顯超
+  前於「真的能跑」的深度,誠實記錄這個落差而非含糊帶過。
+  (sess-20260820-0649-a3f19d93)
