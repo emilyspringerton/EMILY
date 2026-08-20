@@ -1722,6 +1722,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,加強: 「and lets put some wood behind the arrow of REDGARDEN」——重申要真的投入資源在 REDGARDEN mod-api 這件事上,確認 defs…** — obs `2026-08-20T20:15:32Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,澄清: 「pivot but not really」+「enqueue all the requests」——澄清剛才的 REDGARDEN mod-api 急迫性不是要求立刻放下手上的事,而是要確保所…** — obs `2026-08-20T20:15:26Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,標記急迫: 「lets get the modapi into REDGARDEN rightaway」——要求把 mod-surface API 接進 REDGARDEN(MOBA 遊戲),語氣帶「r…** — obs `2026-08-20T20:15:17Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,放寬 TS compiler 範圍: 「or at least in examples」+「and the dep stdlibs in stdlibs」——如果完整 TS compiler 太大,至少…** — obs `2026-08-20T20:14:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新構想: 「WE NEED A TS COMPILER in the stdlib」——要求把一個真正的 TypeScript 編譯器做成 PARENA stdlib 模組(不只是 PARENA 輸出 …** — obs `2026-08-20T20:14:28Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,JS/V16 願景細節補充: 「WHEN WE NEED WTO WRITE JS WRITE BOTH VCVANILLA AND TS」——要求未來 JS 目標輸出要同時支援純 JS 和 TypeS…** — obs `2026-08-20T20:14:17Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「PARENA SYNTAX」——延伸 JS/V16 願景,強調要用 PARENA 自己的語法(S-expression),不是 JS 語法。併入既有記錄,回到 defstruct 驗證。** — obs `2026-08-20T20:14:04Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,持續補充 JS engine(V16)願景細節: 「or whatever the fuck 46 does we will do it better」+「js can run on parena at…** — obs `2026-08-20T20:13:48Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
