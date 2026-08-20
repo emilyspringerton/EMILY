@@ -1612,6 +1612,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,提高 vim copy-paste bug 重要性: 「if we have to drop into a bare metal copy paste must work this tool unstu…** — obs `2026-08-20T17:11:04Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,精確化: 「its kind of pointless except it does work not in vim」——澄清 copy-paste 其實在 PITVIPER 一般情況下有效,問題精確侷…** — obs `2026-08-20T17:10:36Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,新回報,解釋剛才的『~』(其實是在測試 copy-paste): 「oh wait copy paste doesnt work in vim」——複製貼上在 PITVIPER 裡的 vim 中不能用。…** — obs `2026-08-20T17:10:28Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,標記為 critical bug,明確要求立即中斷手上工作切換過去: 「there is a copy paste bug - like i can copy the text out but when…** — obs `2026-08-20T18:00:33Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充使用情境: 「instead of git bash for if i have to copy paste」——說明 PITVIPER 在其工作流程裡取代 Git Bash 的角色,特別是需要複製…** — obs `2026-08-20T17:10:08Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,加強前一則: 「i use that shit in my main workflow now」——確認 PITVIPER 已經是創辦人日常主要工作流程的一部分,提高『不能弄壞』的重要性。持續遵守,現有…** — obs `2026-08-20T17:09:54Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,務實提醒: 「i still need pitviper to work」——提醒 PARENA 重寫的長期願景不能犧牲 PITVIPER 現有的真實可用性,呼應稍早『dont broke what c…** — obs `2026-08-20T17:09:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充範圍: 「before rewriting」+「if we have crazy deps for pitviper」——確認『wrap all the deps in parena modules…** — obs `2026-08-20T17:09:41Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
