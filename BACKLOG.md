@@ -16664,3 +16664,14 @@ own scoped items instead of staying buried in the intake queue.*
   accurate. Real remaining value flagged for later: this is exactly the kind of real player
   economic data the earlier-floated "GFD economy tools into IDUNA Back Office" idea (S185-02)
   would have something substantial to surface. (sess-20260813-2154-dda37e8b)
+- [x] **S186-12: Located the poker tournament platform doc — real conflict found, flagged not
+  glossed over (resolves the rest of S185-02).** Founder floated Flow as the currency for IDUNA's
+  legacy poker-tournament-platform phase-2 concept. Found it:
+  `IDUNA/docs/kikoryu/VS2_TOURNAMENTS.md`, explicitly marked "THE PRIMARY PRODUCT DIRECTION,"
+  fully specced (lifecycle state machine, event-sourced core, VS9/VS10 integration, done
+  definition). **Real conflict, not silently resolved:** VS2 has a hard, non-negotiable
+  constraint — "Closed, non-redeemable economy... chips have zero cash value... tournament-
+  isolated chips (Model A)... no persistent bankroll, no farming, no inflation." Flow (both
+  REDGARDEN's and GFD's versions) is the opposite: persistent, kill-farmable, bankable, tradeable
+  across sessions. Reusing Flow as VS2's currency would break VS2's own already-reasoned design —
+  flagged for the founder's own call, not assumed compatible. (sess-20260813-2154-dda37e8b)
