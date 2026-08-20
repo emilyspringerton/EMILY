@@ -17084,18 +17084,33 @@ it, captured here before context-switching to PARENA. None of these are started.
   on due to the session's own pace (PITVIPER/Four-Kings/GFD-web work intervened). ECOWAR/README.md's
   own open questions (fork scope, sync model with REDGARDEN, matchmaking-port model, source
   vendoring) remain unresolved. Real follow-up: actually ask these next time ECOWAR work resumes.
-- [ ] **S189-12: PARENA — genuinely blocked, real ambiguity not resolved.** Founder, real-time,
-  rapid and partly self-contradictory: "LANGUAGE SPEC FOUND" → "PARENA UPSTREAM" → "ITS AN EDITOR
-  AND A LANGUAGE" → "its like EDU scripts scary older sister" → "parena is the native API does
-  that make sense" → "PARENA needs a standard library like the golang one" → "just build it right
-  in yolo like php" → "but using PARENA to do it" → "then northstar that bitch and build it pure
-  before we have to think about how it plays with EDU script." Two readings that don't fully
-  reconcile: (a) PARENA is an existing found project ("upstream," "spec found") to adopt/depend
-  on, positioned as more powerful/lower-level than EduScript (the prior mod-surface-scripting-
-  language incumbent, `GoblinFoxDragon/docs2/MOD_SURFACE_NORTHSTAR.md`) — a native API for
-  scripting the arena engine directly; or (b) PARENA is a new language+editor+stdlib to be
-  designed and built from scratch, fast and pragmatically ("yolo like php," not over-engineered).
-  Genuinely blocking: cannot write a real NORTHSTAR or start building without knowing which, and
-  if (a), the actual repo/URL/spec-file location is still unknown. Not started — real founder
-  clarification needed before any work here, asked directly this session rather than guessed at.
+- [x] **S189-12: PARENA — resolved, NORTHSTAR written. DONE (VS0 implementation is the real next
+  step, separately tracked as S189-13).** Founder, real-time thread, resolved via AskUserQuestion
+  ("New — build it from scratch") plus a real uploaded artifact: `emilyspringerton/PARENA`
+  (GitHub, founder-created) contains `Building Your Own Integrated Development Environment.docx`
+  — a Gemini research transcript that starts as generic IDE-architecture Q&A and converges into a
+  genuinely concrete, well-specified language design. Not a vague idea: S-expression syntax,
+  compile-time region-based memory safety (`Region(Source) ⪰ Region(Destination)` escape
+  checking, no GC/manual free), linear ownership for native resources (`!var`/`(move var)`),
+  multi-target compilation (C/JVM-Panama/TypeScript/WebAssembly), and an editor/plugin API
+  namespace (`parena/plugin`/`buffer`/`events`/`ui`) — the real "editor and a language" both
+  halves. VS0's own scope (`parena-c`: S-expr parser → region analyzer → C99 emitter) and a full
+  Definition of Done table (5 verification domains, including exact compile-error message format
+  and Valgrind/AddressSanitizer/gcc-pedantic bars) were already written out in the source
+  document — copied directly into `PARENA/NORTHSTAR.md`, not invented. Registered: root
+  CLAUDE.md's repo table, `EMILY` golden-docs-index (`PARENA-NORTH`). Per the founder's own
+  sequencing ("build it pure before we have to think about how it plays with EDU script"),
+  mod-surface/EduScript integration is deliberately deferred, not decided in this pass. Apple
+  #14729, commit `30b1691`. (sess-20260820-0649-a3f19d93)
+- [ ] **S189-13: PARENA VS0 implementation — the `parena-c` compiler.** Real next step per
+  founder's "build it pure." `NORTHSTAR.md`'s own Definition of Done is the acceptance bar: (1)
+  lexer/parser reading `.prn` S-expressions into an AST with no heap allocation outside a bump
+  compiler arena, verified via unit tests on balanced/imbalanced expressions; (2) a single-pass
+  region analyzer enforcing `Region(Source) ⪰ Region(Destination)`, verified via a positive test
+  (`test.prn`'s valid promotion pattern compiles clean) and a negative test (the invalid escape
+  produces the exact `Compile Error: Escaping region pointer from :region/scratch to
+  :region/buffer at line X` message); (3) a C99 emitter using `__attribute__((cleanup))` for
+  `with-arena` forms, verified via `gcc -Wall -Wextra -pedantic -std=c99` zero warnings; (4)
+  memory verification of the *emitted* C output under Valgrind and AddressSanitizer, zero leaks;
+  (5) a CLI runner (`./parena build input.prn -o output.c`, correct exit codes). Not started.
   (sess-20260820-0649-a3f19d93)
