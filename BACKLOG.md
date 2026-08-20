@@ -17409,3 +17409,41 @@ it, captured here before context-switching to PARENA. None of these are started.
   **尚未開始**:VS0 domain 4-5(記憶體驗證、CLI runner 打磨)、firefly/scarab 真實 .prn 以外
   的其餘 stdlib 測試覆蓋、BRAWLPIT mod surface 設計、emoji 渲染實際編譯驗證(等 sudo)。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-19: PARENA VS0 domain 4 完成(記憶體驗證,含真實 CI 自我修復)、五個新 stdlib
+  套件(pitviper/protocol+compress/lz4、profile、staticanalysis、git);PITVIPER 三個真實 bug
+  修復(alt-screen scroll-region 洩漏、GPU 字形圖集效能、panic recover)+ 願景文件。DONE。**
+  **Domain 4**:`tests/integration/`(driver_valid_only.c 真實連結+執行 emitted 程式、
+  deliberately_broken.c 真實反例 fixture、run_domain4_check.sh 兩層自動化檢查)。**真實抓到
+  並修好自己的 CI 壞掉**:創辦人回報「PARENA ci build is failing」,查證發現 check 3(
+  Valgrind)重用了 check 1 用 `-fsanitize=address,undefined` 編譯的物件檔,連結時沒加
+  `-fsanitize=address`——本地重現得到跟 CI 一樣的 `undefined reference to __asan_init` 錯誤,
+  確認根因後修好(Valgrind 檢查改用另外編譯的乾淨物件檔),CI 用 GitHub Actions API 直接確
+  認轉綠,不是假設。**五個新套件**(創辦人揭示 PITVIPER 完整願景:「basically i am extending
+  my IDE which is actually this VPS」→「but if i can just pop open a gui nerd tree style thing
+  for the current directory」→「and then it opens pitviper native vim on the local windows
+  computer」→「and then it uses git to push the changes up to the server」→「lz4ify the fuck out
+  of everything」→「PARENA should help address mempry issues」→「gnarly c and cpp style
+  profiling」→「all of the state of the art static analysis tools」→「we need to start building
+  our own GIT gui...write it in rails before we PARENA it」→「as a parena stdlib」):
+  `pitviper/protocol`+`compress/lz4`(真實遠端-IDE 協定,GUI popout 瀏覽目錄→ssh 抓檔案→本地
+  PARENA vim 編輯→git push 回去,LZ4 是刻意選的,因為訴求是互動速度不是壓縮率)、`profile`
+  (FFI 綁定真實 perf_event_open/callgrind,heap-snapshot 是原生的——region/arena 模型本來就
+  在追蹤用量)、`staticanalysis`(FFI 綁定 clang-tidy/cppcheck,誠實聲明只對 emitted C 有效,
+  不跟 region_analyze 自己已經更強的編譯期分析競爭)、`git`(包裝真實 git CLI,不重新實作物
+  件模型;GitHub 替代網站本身明確排定先用 Rails,不在此設計範圍)。Apple #14810-14817,
+  commits `4efcf91`→`542f79d`(PARENA)。**PITVIPER 三個真實修復**:(1)創辦人真實回報「if i
+  quit a full screen terminal app and i type clear it like doesnt clear」——查到真實根因:離開
+  alternate screen(?1049l)時 DECSTBM scroll region 沒有跟游標/顏色一樣被存/還原,全螢幕程式
+  (vim/htop/less)殘留的窄範圍卡在主畫面上;新增真實回歸測試,用 `git stash` 驗證修復前測試
+  真的會失敗、修復後通過。(2)創辦人:「can we do more to unload rendering for pitviper onto
+  the gpu?」——GPU 字形圖集(`font.KnownGlyphs()` 一次性畫進共用材質,每格從最多 104 次
+  `DrawPoint` 變成一次 `ren.Copy`),用暫時 stub emoji.go 隔離已知 SDL2_ttf 阻塞完整編譯驗
+  證,Xvfb 下真實跑 4 秒無 crash。(3)創辦人真實回報「the connection in pitviper isnt cleaned
+  up right the program crashes when you try to open it with tmux open with the crystal
+  running」——PTY/連線讀取迴圈加上 `recover()`(單一連線的問題不該弄垮整個 process,Go 的
+  規則是未接住的 panic 會弄垮整個程式)。CLAUDE.md 記錄整合後的完整願景陳述,逐字保留創辦
+  人自己的話。Apple #14818,commits `9739e91`→`eda9335`(PITVIPER)。**尚未開始**:VS0 domain
+  5(CLI runner 打磨)、`pitviper/protocol`/`compress/lz4`/`profile`/`staticanalysis`/`git`
+  的真實 .prn 原始碼(目前只有設計)、Fira Mono + 完整 UTF-8 渲染(Geometric Shapes 區塊等)、
+  自架 Rails Git GUI、custom PITVIPER server daemon 實作。
+  (sess-20260820-0649-a3f19d93)
