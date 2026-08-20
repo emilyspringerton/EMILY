@@ -17189,22 +17189,37 @@ it, captured here before context-switching to PARENA. None of these are started.
   sequencing ("build it pure before we have to think about how it plays with EDU script"),
   mod-surface/EduScript integration is deliberately deferred, not decided in this pass. Apple
   #14729, commit `30b1691`. (sess-20260820-0649-a3f19d93)
-- [~] **S189-13: PARENA VS0 implementation — the `parena-c` compiler. Domain 1 of 5 done.** Real
-  next step per founder's "build it pure." `NORTHSTAR.md`'s own Definition of Done is the
-  acceptance bar. **Domain 1 (lexer/parser) done**: reads `.prn` S-expressions into an AST with
-  no heap allocation outside a bump compiler arena, 32 unit tests covering balanced (real
-  `test.prn` example, maps/vectors, linear/borrow symbol forms, comments, negative numbers,
-  string escapes) and imbalanced expressions (unterminated forms/strings, mismatched brackets,
-  stray closes — each with a line-numbered error message), `gcc -Wall -Wextra -pedantic -std=c99`
-  zero warnings, AddressSanitizer+UBSan zero errors/leaks, CI green. Apple #14732, commit
-  `3bace34`. **Domains 2-5 not started**: (2) a single-pass
-  region analyzer enforcing `Region(Source) ⪰ Region(Destination)`, verified via a positive test
-  (`test.prn`'s valid promotion pattern compiles clean) and a negative test (the invalid escape
-  produces the exact `Compile Error: Escaping region pointer from :region/scratch to
-  :region/buffer at line X` message); (3) a C99 emitter using `__attribute__((cleanup))` for
-  `with-arena` forms, verified via `gcc -Wall -Wextra -pedantic -std=c99` zero warnings; (4)
-  memory verification of the *emitted* C output under Valgrind and AddressSanitizer, zero leaks;
-  (5) a CLI runner (`./parena build input.prn -o output.c`, correct exit codes). Not started.
+- [~] **S189-13: PARENA VS0 implementation — the `parena-c` compiler. Domains 1-2 of 5 done.**
+  Real next step per founder's "build it pure," then later "we need to get PITVIPER out of go" →
+  "so we need to build the actual compiler for parena" → "we need the compiler compiling."
+  `NORTHSTAR.md`'s own Definition of Done is the acceptance bar. **Domain 1 (lexer/parser)
+  done**: reads `.prn` S-expressions into an AST with no heap allocation outside a bump compiler
+  arena, 32 unit tests covering balanced (real `test.prn` example, maps/vectors, linear/borrow
+  symbol forms, comments, negative numbers, string escapes) and imbalanced expressions
+  (unterminated forms/strings, mismatched brackets, stray closes — each with a line-numbered
+  error message), `gcc -Wall -Wextra -pedantic -std=c99` zero warnings, AddressSanitizer+UBSan
+  zero errors/leaks, CI green. Apple #14732, commit `3bace34`. **Domain 2 (region analyzer)
+  done**: `src/region.c/h`, a real single-pass symbol-table walk enforcing the assignment
+  invariant (`Region(Source) ⪰ Region(Destination)`) — tracks `with-arena`/`let` bindings by
+  region rank (`:region/scratch`=0, `:region/buffer`=2, exactly NORTHSTAR's own two given
+  numbers, nothing guessed beyond them), flags escapes at call sites shaped `(dest-expr
+  src-expr...)`. `parena analyze examples/test.prn` produces NORTHSTAR's own DoD-table error
+  message **verbatim**: `Compile Error: Escaping region pointer from :region/scratch to
+  :region/buffer at line 16`. 8 unit tests — the DoD's own required positive+negative case, plus
+  real edge cases (same-rank assignment not a false positive, promoting a longer-lived value into
+  a shorter-lived slot not a false positive, an unconstrained non-`alloc` `let` binding not
+  falsely flagged, a nested `with-arena` escape still caught) — all passing, ASan/UBSan clean via
+  both `Makefile` and `bazel test --config=asan`, existing 32 lexer/parser tests zero regression,
+  **CI confirmed green via the GitHub Actions API directly** (run `32375755240`, not assumed).
+  Real, honest scope stated in `region.h`'s own header: only the assignment invariant — not the
+  Return invariant, not the Move/ownership invariant, not full bidirectional type inference;
+  `check_call_escape` only recognizes "first argument is the destination" (matches every
+  `set-data`/`write-string`-shaped STDLIB.md signature), not a general call-graph analysis. Apple
+  #14801, commits `b6d1e43`, `45abf1b`. **Domains 3-5 not started**: (3) a C99 emitter using
+  `__attribute__((cleanup))` for `with-arena` forms, verified via `gcc -Wall -Wextra -pedantic
+  -std=c99` zero warnings; (4) memory verification of the *emitted* C output under Valgrind and
+  AddressSanitizer, zero leaks; (5) a CLI runner (`./parena build input.prn -o output.c`, correct
+  exit codes).
   (sess-20260820-0649-a3f19d93)
 - [x] **S189-14: PARENA build system migrated to Bazel + stdlib design extended (dataframe,
   nn/tokenizer/sort). DONE.** Founder: "continue PARENA build it with BAZEL" → "build system" →
