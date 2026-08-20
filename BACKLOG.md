@@ -1582,6 +1582,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: PITVIPER 仍然看不到 compacting 對話的顏色閃爍動畫和 loading bar（可能是另一種自訂 glyph 動畫，跟先前修好的 Braille spinner bug 是同類但不同…** — obs `2026-08-20T16:21:05Z`. CURATED: 2026-08-20.
 - [ ] **創辦人補充:「i think tmux with claude code is causing some of the display weirdness idunno the colors dump out sometimes」——PI…** — obs `2026-08-20T16:14:37Z`. CURATED: 2026-08-20.
 - [ ] **創辦人補充精確診斷:「all the claude little star animations are ?」「in PITVIPER」——確認先前回報的「Claude Code 動畫渲染異常」根因跟稍早修好的 box-drawing 問…** — obs `2026-08-20T16:11:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time回報真實 bug: 「htop doesnt animate at all on pitviper」——htop 在 PITVIPER 裡完全不會動畫更新,比之前「text is kind of craz…** — obs `2026-08-20T16:37:37Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,收斂優先權: 「keep crunching on PARENA」+「especially the PITVIPER integration」——在剛才一連串快速發散的指示(crystal glyph …** — obs `2026-08-20T16:36:12Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新指示: 「add imagemagic all those apis to PARENA stdlib」——要求把類似 ImageMagick 的影像處理 API(resize/crop/conver…** — obs `2026-08-20T16:36:01Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充縮圖處理細節: 「you can just slam the images down to tiny」+「crop them if you can」——針對剛才的 promptoverse thum…** — obs `2026-08-20T16:35:51Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time回報真實 bug: 「you can prompt it for new shit but it wasnt working earlier」——回報 promptoverse 的 prompt/生成新內…** — obs `2026-08-20T16:35:43Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
