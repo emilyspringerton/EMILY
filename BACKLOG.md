@@ -17572,3 +17572,66 @@ it, captured here before context-switching to PARENA. None of these are started.
   動畫渲染異常,真實可能根因(待實際重現排查):cursor save/restore 未正確實作、`\r` 覆寫沒
   有先清到行尾殘留舊文字、或重繪速率超過既有 60Hz ticker。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-25: PARENA C emitter 加入 match(Result/Option 上的模式匹配)。DONE。** 延續
+  「continue crunching on PARENA」。`runtime/parena_runtime.h` 新增 Result/Option 真實
+  C 執行期表示(`{int tag; void *value;}`,tag: 1=Ok/Some、0=Err/None)+
+  `result_ok`/`result_err`/`option_some`/`option_none` 建構輔助函式,誠實標註共用單一
+  `void *value` 欄位帶來的型別安全損失(對應本 emitter 目前尚無函式簽名表的既有限制)。
+  `emit_expr()` 新增裸 `None` 與 `(Ok x)`/`(Err x)`/`(Some x)` 建構呼叫支援,並加入真實
+  檢查:payload 推導型別必須是指標型別,否則立即以明確訊息中止(避免把非指標值塞進
+  `void*`,在下游 C 編譯階段才爆炸這種難懂的失敗模式)。`emit_match()`:要求 scrutinee
+  推導型別恰為 `Result` 或 `Option`,每個 clause 支援 `(CtorName binding)` 或裸符號
+  (`None`/`_`)樣式,編譯為對 `.tag` 的 `if`/`else if` 鏈,符合的 clause 內以
+  `__attribute__((unused))` 綁定 payload;誠實限縮:每個 clause body 僅支援單一運算式,
+  與 `emit_if()` 既有先例一致。開發過程中自行發現並改掉一段脆弱的 buffer 手動回退 hack
+  (原本用 `snprintf(NULL,0,...)` 算長度去「復原」已 append 的內容),改寫成乾淨的
+  `if/else` 分支。真實驗證:手寫 `describe` 函式(`(match (Ok val) ((Ok v) v) ((Err e) x))`)
+  emit 出零警告 C,真正的 driver 連結 runtime 在 `-fsanitize=address,undefined` 下執行,
+  回傳值正確對應 `(Ok val)` 分支。`tests/test_emit.c` 從 24 個測試變成 30 個(match 升級
+  為正向案例,驗證 `result_ok(val)`/`.tag == 1`/`.tag == 0`/`else if` 鏈都真的出現在輸出
+  裡;原本「match 尚未支援」的負向案例改為誠實反映新現況——非 Result/Option scrutinee
+  仍如實報錯)。Makefile+Bazel+ASan/UBSan+完整 domain 4 檢查全數通過,CI 用 GitHub
+  Actions API 確認綠燈(run `32391550879`)。**仍未做**:`cond`、collection 操作、
+  `defstruct`/`defenum`、macro、真實函式簽章表。Apple #14855,commit `64f5527`。
+  (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-26: PITVIPER — Claude Code spinner 動畫顯示為 '?' 的 bug,補記文件。DONE
+  (code 早於本項目已 commit,本項目補齊 CHANGELOG/Apple)。** 創辦人即時回報:「all the
+  claude little star animations are ?」→「in PITVIPER」。根因:舊字型 Atlas 僅涵蓋
+  ASCII(0x20-0x7e)+先前已加的 box-drawing 區塊,Claude Code(Node.js CLI)的 spinner
+  用標準 cli-spinners 慣例透過 Unicode Braille Pattern 區塊(U+2800-U+28FF)字元循環,
+  整段落在舊 Atlas 涵蓋範圍外,全部 fallback 顯示成 '?'。修復:`internal/font/font.go`
+  新增 `drawBrailleChar()`,依真實 Unicode Braille 8-dot 編碼(bit N-1 對應第 N 個點,
+  標準 2 欄 x 4 列排列)程序化繪製,`init()` 對整個 256 字元區塊完整建表(非僅 spinner
+  用到的少數字元)。`KnownGlyphs()` 本來就泛用迭代 `extended` map,GPU glyph atlas 自動
+  撿到新字元範圍無需額外接線。新增 `TestGlyphBitsBraillePatterns`:驗證全部 256 個字元
+  不再 fallback 成 '?'、U+2800(無點)真的渲染成全空白、U+28FF(8 點全亮)真的有非零
+  像素。Apple #14857,commit `7d4ae3f`。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-27: PITVIPER — 全 Unicode 字型涵蓋(CJK/梵文/阿拉伯文/西里爾字母)+
+  compacting 對話指示動畫仍顯示異常,待查。** 創辦人即時回報,三則連續訊息:(1)「i cant
+  see the compacting conversation color flashing or the loading bar on pitviper its using
+  custom glyphs or something」——與剛修好的 Braille spinner bug 同類但範圍不同的疑似
+  glyph 缺漏,尚未實際重現排查出是哪個字元範圍;(2)「we need to translate all utf
+  characters into our fonts」;(3)「we need to be able to display chinese and sanskrit
+  and arabic and japanese and korean and all the different russian letters」——明確要求
+  中文、梵文(Devanagari)、阿拉伯文、日文(假名+漢字)、韓文(諺文)、俄文西里爾字母
+  全字母表的真實顯示支援。**誠實範圍評估,尚未動工**:目前 `internal/font/font.go` 的
+  box-drawing 與 Braille 兩個擴充都是「程序化繪製幾何形狀」這條路——這條路對西里爾/CJK/
+  阿拉伯文/梵文完全不適用,這些文字系統的字符本身沒有可歸納的幾何規則(CJK 是數千個獨立
+  表意符號,阿拉伯文+梵文需要真實的 shaping/連字引擎,不是單純逐字元查表)。真正可行路線
+  是換掉目前 `basicfont.Face7x13`(純 Go、僅 ASCII)這條字型後端,改用真實字型檔
+  (例如 Noto Sans CJK、Noto Sans Devanagari、Noto Sans Arabic、Noto Sans)透過 FreeType2
+  渲染——這正好就是 `sudo-queue/19-pitviper-freetype-emoji-fonts.sh` 這支待執行 sudo
+  腳本本來要解決的同一個真實前置依賴(目前本環境沒有 sudo 可直接裝 `SDL2_ttf`/字型套件,
+  需要創辦人自行執行該腳本)。阿拉伯文/梵文另外需要真實的文字 shaping(絕不只是「查表
+  找 glyph」,而是上下文相關的連字合併),這是比 CJK/Cyrillic 單字元查表大得多的真實
+  範圍,需要另外評估是否透過 HarfBuzz 之類的 shaping 函式庫。**待辦,尚未排入實作**:
+  (a) 先執行 `sudo-queue/19-pitviper-freetype-emoji-fonts.sh` 解除字型套件前置依賴,
+  (b) 換字型後端為真實 FreeType2 渲染(CJK/Cyrillic 可望較快達成,純查表渲染),
+  (c) 阿拉伯文/梵文 shaping 需求另立子項評估。compacting 動畫的具體字元範圍尚未實際
+  重現排查,需要先確認 loading bar 用的是哪個 Unicode 區塊。優先權依創辦人既有排序
+  (「finish any parena prereqs first for that vs」)排在 PARENA 收尾之後。
+  (sess-20260820-0649-a3f19d93)
