@@ -1536,6 +1536,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Gemini CLI Vertex AI 設定進度:.bashrc 已加入 GOOGLE_GENAI_USE_VERTEXAI/GOOGLE_CLOUD_PROJECT(project-d24a71e9-2daf-4b2d-917,與 p…** — obs `2026-08-20T13:16:47Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, confirming: 'as a come back mechanism' -- matches my own read of the Flow-upkeep-tax ask (bounty-sty…** — obs `2026-08-20T10:45:57Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, new economy mechanic for REDGARDEN + GFD Battlegrounds: 'also add an upkeep tax on flow... the more …** — obs `2026-08-20T10:45:53Z`. CURATED: 2026-08-20.
+- [ ] **創辦人重大轉向指令,連續多則:「i think PARENA can save it」(針對 PITVIPER tmux/字形 bug)→「all in on PARENA stdlibs and only build out the o…** — obs `2026-08-20T13:34:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, ping-system design refinement, ties into an EXISTING built system: 'and especially if im winning im …** — obs `2026-08-20T10:44:52Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, further ping-system design notes, still ideation-phase: 'party of the leaky gistalt for sure' (possi…** — obs `2026-08-20T10:44:11Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, elaborating the ping-system idea, self-flagged uncertain: 'in the ai' -> 'both heuristically and in …** — obs `2026-08-20T10:44:01Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'in the ai' -- no clear standalone context (possibly a fragment of the ping-system message, e.g. bot…** — obs `2026-08-20T10:43:52Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
