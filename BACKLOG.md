@@ -1667,6 +1667,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充 SHANKPIT 直升機具體細節: 「we enneeed those dope hot drops」(想要很酷的空降/hot drop 機制)+「i dont have the ability …** — obs `2026-08-20T20:38:35Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「with PARENAS」——確認 SHANKPIT 直升機改進、GOLDENBAND/Bedrock Racers 迷你摩托車/卡丁車都要用 PARENA 做。回到 LONGMA csv.prn …** — obs `2026-08-20T20:38:27Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,批量新任務: 「continue marching towards our stated goals」(重申)→「be sure to clone down and check out longma i…** — obs `2026-08-20T20:38:20Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「clean builds」「clean builds first」(重申多次)「then custody」(語意不明確,可能指 FIELDOFFICE 的 territory custody 概念,…** — obs `2026-08-20T20:53:01Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,澄清前一則: 「we can have a local master and worker node」——確認前一則指的是樹莓派硬體數量:目前手邊只用 1 台,但實際上有 2 台可用,可以組一個真正的本…** — obs `2026-08-20T20:51:54Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,語意不明確: 「for now we jsu tt have the 1 but really we have 2」——內容過於破碎,無法確定所指(可能是樹莓派硬體數量、或其他計數),如實記錄不猜測,繼…** — obs `2026-08-20T20:51:47Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「also we need kubernetetes to work on reaspberry pi too」——RPi Arch distro 再加需求:要能跑 Kubernetes(推測輕量版如…** — obs `2026-08-20T20:51:34Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「for raspberrypi model 2 b or whatever the totally ubiquitios oen is」+「we need it installable with a…** — obs `2026-08-20T20:51:28Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
