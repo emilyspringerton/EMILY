@@ -1652,6 +1652,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,連結既有概念: 「this ties intop our norn zero opoints meta loop」——把 PHP/PARENA 內嵌構想連結到既有的 NORN(HQ-SPEC 系列 re…** — obs `2026-08-20T19:46:45Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充: 「like php is the ultimate template langiageuage」——延伸剛才的玩笑構想,PHP 本身作為『終極樣板語言』的角度來看待 PARENA-in-PHP …** — obs `2026-08-20T19:46:37Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,PHP 構想繼續發散(玩笑性質): 「like maklike make themn m write parena inline in the php files」+「thats hilarious」—…** — obs `2026-08-20T19:46:32Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「continue marching towards our stated goals」——確認繼續往 mod-surface API 完整可編譯的方向推進,下一個目標是 defstruct(稍早已確…** — obs `2026-08-20T20:09:38Z`. CURATED: 2026-08-20.
+- [ ] **Founder確認優先權: pentest stdlib 優先於 linked list 和 blog renderer 升級。開始建置 stdlib/pentest/*。** — obs `2026-08-20T20:00:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,根因確認完畢(讀完 IDUNA/internal/blog/render.go 全文): toParagraphs() 是刻意設計的『窮人版 markdown』——依空行分段包 <p>,並對每段內容整段…** — obs `2026-08-20T19:58:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,確認真實根因 + 修復方向: 「fix it on the render side somehow」+「do an initial templating passs or something」+「usi…** — obs `2026-08-20T19:57:35Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,回報真實 render bug: 「you have been writing a lot of blog posts with html tags raw in the render somehow」…** — obs `2026-08-20T19:57:10Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
