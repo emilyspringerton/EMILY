@@ -17746,6 +17746,22 @@ it, captured here before context-switching to PARENA. None of these are started.
   on」「to fix it first」「and then main line the mod on by default once we know it
   works」):mod-surface/plugin API 先做完 → 用 PARENA 寫成一個可關閉的渲染修復 mod →
   驗證確實有效 → 之後預設開啟變成標準行為。不要現在就去改 Go 版 `internal/vterm`。
+
+  **(7) 更新 2026-08-20:創辦人補充更具體的重現條件並已找到真實根因。**「yea when you
+  scale pitviper window vertical it breaks it」——確認垂直縮放視窗會壞掉,不是創辦人操作
+  失誤。唯讀診斷(未 patch,遵守『make all improvements as api mod plugin surface
+  improvements』政策,創辦人明確選擇不開特例,即使這是真實的越界存取風險)已找到具體根因:
+  `PITVIPER/internal/vterm/vterm.go` 的 `Screen.Resize()`(第 95-128 行)重新配置
+  `s.cells` 並更新 `s.cols`/`s.rows`,也有 clamp `curCol`/`curRow`,但**完全沒有更新
+  `scrollRegTop`/`scrollRegBot`**(DECSTBM 捲動區域邊界,第 41-42、76-77 行只在
+  `New()` 裡設過一次)。這兩個欄位被第 181、261、276-277、325-326、383、603、621 行的
+  捲動/換行邏輯拿來直接索引 `s.cells`——垂直縮小視窗時,若程式(如 vim/tmux)先前設過
+  自訂捲動區域,`scrollRegBot` 可能停留在比新配置後的 `rows-1` 還大的舊值,導致真實的
+  slice 越界存取(Go runtime panic,不只是畫面難看);垂直放大視窗時,捲動區域同樣不會
+  跟著擴大,新增的列不會被納入正常捲動範圍。**修復方向已確定,待 mod-surface API 做完
+  後直接照此實作**:`Resize()` 裡应該把 `scrollRegTop`/`scrollRegBot` 一併 clamp 到新的
+  `[0, rows-1]` 範圍(或直接重設成 `0, rows-1`,取決於是否要保留使用者自訂的捲動區域
+  比例——由屆時實作者判斷)。
   (sess-20260820-0649-a3f19d93)
 
 - [ ] **S189-33: 其餘今日發散、已記錄待排入的項目(不阻斷 mod-surface 主線)。** (a)
