@@ -16620,3 +16620,16 @@ own scoped items instead of staying buried in the intake queue.*
   EduScript Architect's Orb terminal and the engine's own 2D HUD pass are the real closer analogs.
   Scoping only, correctly blocked on the same mod-surface scripting-language decision as the rest
   of the doc — not implemented. Apple #14587, GoblinFoxDragon 9416f2a. (sess-20260813-2154-dda37e8b)
+- [~] **S186-08: cmd/kgraph-server — closes the real S138-06 gap.** Founder: "developing any data
+  science infrastructure you need as iduna apis... we can back it with python or whatever best
+  suits our needs." Investigated first (Explore agent) rather than guessed: found IDUNA already
+  has a real `KGraphHandler` proxying `GET /api/v1/kgraph/query` to `KGRAPH_URL` since S138-06,
+  and `internal/kgraph` already has a real, working Haiku-driven entity-extraction + MongoDB-
+  backed `Store.Query` — but zero non-test Go code anywhere called it as a running service. Built
+  the real missing piece: an HTTP server matching IDUNA's exact proxy contract, reusing the
+  existing `internal/mongowriter.Connect` pattern. `go build`/`go test ./...` clean. Marked
+  partial: fails loudly (by design) when `MONGO_URI` is unset, which it is on this box — no local
+  mongod, no MongoDB Atlas connection string provisioned. Real remaining work, flagged not
+  glossed over: provision a real Mongo connection, `emily key set MONGO_URI`/`KGRAPH_URL`, enable
+  `ops/systemd/fatbaby-kgraph-server.service`. Chose Go over Python — the real capability already
+  existed there, working. Apple #14588, PRRJECT_FATBABY 3c4297d. (sess-20260813-2154-dda37e8b)
