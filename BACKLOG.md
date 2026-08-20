@@ -1662,6 +1662,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補完日夜循環功能細節: 「different shit happens day vs knighht night like wc3」+「shankpit has it visually but the …** — obs `2026-08-20T20:22:46Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「implemented into PARENAS as a plugin first redgarden feature」——確認地圖編輯器/mod-api 應該是 REDGARDEN 的第一個真正…** — obs `2026-08-20T20:22:09Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充: 「use it as a reference」——SHANKPIT 既有的日夜循環實作(如果有)要當作參考範本,用在其他地方(推測含 REDGARDEN)建置類似系統時參考。併入前一則記錄,現在…** — obs `2026-08-20T20:21:55Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「the rotation i still weird with the gbuggy」——旋轉問題不只直升機,buggy(沙灘車/越野車)也有同樣的旋轉異常。併入同一個 SHANKPIT 載具旋轉 …** — obs `2026-08-20T20:38:47Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「also the rotation is sweird」——直升機旋轉行為也有問題,併入同一個 SHANKPIT 直升機改進待辦。現在批次更新 BACKLOG.md。** — obs `2026-08-20T20:38:42Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充 SHANKPIT 直升機具體細節: 「we enneeed those dope hot drops」(想要很酷的空降/hot drop 機制)+「i dont have the ability …** — obs `2026-08-20T20:38:35Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「with PARENAS」——確認 SHANKPIT 直升機改進、GOLDENBAND/Bedrock Racers 迷你摩托車/卡丁車都要用 PARENA 做。回到 LONGMA csv.prn …** — obs `2026-08-20T20:38:27Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,批量新任務: 「continue marching towards our stated goals」(重申)→「be sure to clone down and check out longma i…** — obs `2026-08-20T20:38:20Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
