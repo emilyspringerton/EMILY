@@ -17665,3 +17665,95 @@ it, captured here before context-switching to PARENA. None of these are started.
   VS0 收尾 → PARENA mod-surface/plugin API(全用 PARENA)→ 才輪到套用本項配色規格的
   NERDTree/editor/markdown 檢視器等個別功能。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-29: PARENA C emitter 加入 #target/inline-c FFI 逃逸機制 + 明確回傳型別
+  標註。DONE。** 延續「again mod surface」+「parena」+「build the mod surfaces first in
+  parena」。新增 `resolve_declared_type()`:defn 參數向量後可選的明確 `: <Type>` 回傳型別
+  標註,理解 Unit/I32/String 三個符號型別,以及 `(Result ..)`/`(Option ..)` 兩種形式
+  (對應既有 emit_match 已用的同一個 Result/Option 執行期型別,不檢查內層型別參數,誠實
+  標註 VS0 尚無真正泛型)。新增 `emit_target_defn()`:解讀 `#target {:c (inline-c
+  "...")}` 這個 FFI 逃逸出口——這正是 stdlib/editor 的 plugin/buffer/events/ui 這些
+  mod-surface API 介面檔案(NORTHSTAR.md 定義的 parena/plugin 等命名空間)本來就需要的
+  『真正實作在 host 端』宣告語法。回傳型別是 Unit 時原樣輸出成陳述式(信任字串自帶結尾
+  分號),其餘型別包成真正的 `return (...);`。目前只理解 `:c` 這個 target key,`:js`/
+  `:wasm` 留待未來。`tests/test_emit.c` 新增 11 個測試(30→41 全綠):#target 搭配
+  Unit 回傳、#target 搭配明確 (Option ..) 回傳、以及一則新的誠實負面測試(不支援的回傳
+  型別寫法如實報錯)。用既有真實的 `stdlib/editor/*.prn` + `stdlib/pitviper/protocol.prn`
+  驗證:`#target` 語法本身現在確實能被辨識,卡在下一個已知、獨立的限制(非 Arena 型別
+  參數,例如 `handler : (Fn [] Unit)`),誠實記錄為待辦,不是這次改動造成的新問題。
+  Makefile+Bazel+ASan/UBSan+完整 domain 4 檢查全數通過。**仍未做**:非 Arena 型別參數
+  支援(mod-surface API 要完整可編譯的下一個真正阻礙)、`cond`、collection 操作、
+  `defstruct`/`defenum`、macro。Apple 待補、commit `aa25d6b`。
+  (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-30: FATBABY_NEWSWIRE 新聞稿「PARENA Eats the Codebase From the Outside
+  In」發布到 OKEMILY blog。DONE。** 創辦人明確指示:「prioritize the press release about
+  PARENA and the stdlib and the philosophy and BAZEL and the currently planned work
+  upcoming」+「to thje blog」。發布網址:https://okemily.com/blog/parena-eats-the-codebase-
+  from-the-outside-in/(已驗證 200、標題/作者正確)。內容涵蓋創辦人指定的完整範圍:PARENA
+  compiler 現況(VS0 domain 1-4)、九個 stdlib 套件、設計哲學(直接引用創辦人原話「PARENA
+  is a language to make your software more programmable via fluid and composible plugin
+  APIS」+「slowly eats the codebase from the outside in」)、Bazel 建置系統遷移、以及
+  規劃中後續工作,誠實列出真實未完成項目(型別檢查/函式簽章表缺口、cond/defstruct/macro
+  未做),沒有誇大現況。透過 IDUNA blog API(EMILY-PRIME agent,blog.write scope)直接
+  發布。footer 用 `sync-blog-footer.py` 同步(順便補齊大量先前已發布但未同步的舊文章),
+  commit `5812368`(OKEMILY repo),已用 `~/okemily-deploy.sh` 部署並驗證首頁 footer 真的
+  出現新連結。Apple #14898。
+  (sess-20260820-0649-a3f19d93)
+
+- [~] **S189-31: MJOLNIR Firebase/FCM provisioning——卡在真實外部阻礙(疑似 Firebase
+  服務條款同意閘門),尚未完成。** 創辦人詢問「are you able to use your magic gcloud
+  context to provision the firebbase stuff we need for mjolnir?」,確認可用已登入帳號
+  garybifrost@gmail.com 動工。已完成:建立 GCP 專案 `einhorn-mjolnir`、連結既有帳單帳戶
+  (`My Billing Account`)、啟用 `firebase.googleapis.com`+`fcm.googleapis.com`。卡關:
+  呼叫 Firebase Management API 的 `projects:addFirebase` 持續回傳
+  `403 PERMISSION_DENIED`(泛用訊息,無 reason 細節),即使 `garybifrost@gmail.com` 對該
+  專案確認是 `roles/owner` 且 access token 帶有完整 `cloud-platform` scope——不是權限
+  設定問題。真實診斷推測(未證實):Google 帳號第一次建立 Firebase 專案,通常需要先透過
+  瀏覽器登入 Firebase Console 一次、手動同意 Firebase 服務條款,之後 API 呼叫才會放行——
+  這是本環境(無瀏覽器互動)無法從命令列繞過的真實外部阻礙,不是可以重試解決的暫時性
+  錯誤,已停止繼續嘗試盲打 API。**待辦**:創辦人(或該 Google 帳號的實際擁有者)需要
+  用瀏覽器登入 https://console.firebase.google.com/ 一次、對 `garybifrost@gmail.com`
+  帳號完成 Firebase 服務條款同意,之後回來繼續(addFirebase → 註冊 Android app
+  `industrial.einhorn.mjolnir` → 下載 `google-services.json` 放進
+  `MJOLNIR/app/` → 建立 server 端 FCM 傳送用的 service account key → 設定
+  `FCM_PROJECT_ID`/`FCM_SERVICE_ACCOUNT_JSON`)。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-32: PITVIPER 渲染/redraw 問題彙整回報(mod-surface API 完成後,以「mod」
+  形式修復,先驗證再 mainline)。** 創辦人一連串即時回報,自己多次澄清「非阻斷性,可以先
+  出貨」(「like it kinda works dont get me wrong」「we can ship it like this」「copy
+  past works i think」),但完整記錄以下真實症狀供之後排查:(1) crystal/main.go(GFD
+  boid/goblin/fox 經濟模擬)大量 dingbat/emoji 符號(⚙⚔🔧🏁😈🐉■◆⚡✹▣═⬣✺●◉❖≈✦)只有
+  ASCII 的 $ 和 f 正常顯示,已規劃改用 promptoverse 產生真實 image asset/texture 取代
+  純文字 glyph(見 S189-27 字型涵蓋缺口,近程目標「至少不要是問號」,先做粗略佔位圖再做
+  精緻美術)。(2) htop 完全不動畫更新。(3) 「ncurses stuff doesnt work good in
+  pitviper」+ vim 在 tmux 裡運作不良——創辦人自己推測跟同一批字型 glyph 缺口是同一根因
+  (「i think its cause we dont have those glypgs」),而非另外的 vterm escape sequence
+  問題,但也承認「i dunno」不確定。(4) 放大視窗後畫面完全停止重繪(「i tried to expand
+  the screen and now nothing is redrawing」),創辦人自己也不確定是否是自己操作造成
+  (「im not sure if its cause i am messing with the size of the window」),當下確認
+  本機沒有 PITVIPER process 在跑,無法即時排查。(5) tmux 使用時感覺閃爍/flashy,詢問能
+  否用 GPU shader 改善,創辦人同樣傾向歸因於字型 glyph 缺口而非重繪管線問題。(6) 創辦人
+  提醒可能本地跑的是舊版本二進位檔,建議重新編譯後再驗證,部分症狀可能已經在較新的
+  commit(如 `7d4ae3f` Braille glyph fix)裡解決。**明確排序**(創辦人:「fix it with
+  parena」「mod surface first then the improvements」「make it a mod」「we can turn
+  on」「to fix it first」「and then main line the mod on by default once we know it
+  works」):mod-surface/plugin API 先做完 → 用 PARENA 寫成一個可關閉的渲染修復 mod →
+  驗證確實有效 → 之後預設開啟變成標準行為。不要現在就去改 Go 版 `internal/vterm`。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-33: 其餘今日發散、已記錄待排入的項目(不阻斷 mod-surface 主線)。** (a)
+  promptoverse 縮圖 pipeline:「use the thumbnail creation pipeline to create like a
+  fibonacci scale of little compressed versions of shit on promptoverse」+「you can just
+  slam the images down to tiny」+「crop them if you can」——用既有 promptoverse-thumbnails
+  pipeline 產生費波那契數列尺度的縮圖,可以粗暴縮小+裁切。(b) promptoverse 本身回報:
+  「you can prompt it for new shit but it wasnt working earlier」——prompt/生成新內容
+  功能稍早故障過,尚無診斷,需要實際重現。(c)「add imagemagic all those apis to PARENA
+  stdlib」——把類似 ImageMagick 的影像處理 API(resize/crop/convert)加進 PARENA stdlib,
+  呼應 (a) 的縮圖處理需求。(d)「we need to build todo affordances into GFD nmnud gui」
+  (推測 mud 打字錯誤)——在 GoblinFoxDragon 的 WASM MUD GUI 裡加入 todo 待辦事項
+  affordance,但該 GUI 本身還有既有未解決的『blank screen』bug(見更早的
+  S189-24 附記),此新功能建立在未修好的東西之上,待標註依賴關係。(e)「PARENA POWERED」
+  ——疑似想要一個品牌標語/徽章,用途待確認。
+  (sess-20260820-0649-a3f19d93)
