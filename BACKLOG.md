@@ -1526,6 +1526,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, PARENA now sounds like build-from-scratch, not an existing found project -- contradicts earlier 'LAN…** — obs `2026-08-20T11:00:51Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'parena is the native API does that make sense' -- clarifies PARENA is a native (C-level?) scripting…** — obs `2026-08-20T11:00:36Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, PARENA characterization: 'its like EDU scripts scary older sister' -- colorful description suggestin…** — obs `2026-08-20T10:59:41Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令,兩則:(1)「we can do some fancy stuff like v8 with our compiler i bet to make it groovy」——V8 風格 JIT 編譯的構想,套用在 PAREN…** — obs `2026-08-20T13:03:06Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, more PARENA direction: 'then northstar that bitch and build it pure before we have to think about ho…** — obs `2026-08-20T10:59:34Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, clear sequencing directive: 'backlog doump sprint plan everything' -> 'then crunch on only PARENA' -…** — obs `2026-08-20T10:58:55Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'the 4 kings need health bars and name tags' -- direct, scoped follow-up to the Four Kings rendering…** — obs `2026-08-20T10:46:17Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, final elaboration on the Flow upkeep-tax bounty: 'so if the winning team gets careless there can be …** — obs `2026-08-20T10:46:02Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
