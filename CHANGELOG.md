@@ -1,4 +1,5 @@
 ## 2026-08-20
+- 發布反思文章「Nine Hours In, The Emily Way」——PARENA 從 VS0 domain 1 落地(11:13 UTC)到現在約 9 小時的真實建置歷程,透過 The Emily Way 操作哲學(backlog-first、Apple-before-done、誠實缺口清單)檢視,提及 public domain(Unlicense)授權 (sess-20260820-0649-a3f19d93)
 - 發布 Tyler 更正文章「Correction: It's SAND」——PARENA 原生 IDE 最終命名確定為 SAND(S-expression And Not Dumbshit),取代發布不到一小時前的 JEWEL;誠實記錄命名演變過程(IRONCLAD→GPT-2 嘗試→JEWEL→SAND) (sess-20260820-0649-a3f19d93)
 - 發布 Tyler 命名儀式部落格文章「Naming JEWEL」——PARENA 原生 IDE 正式命名為 JEWEL(jewel beetle,呼應 PITVIPER 既有的 F11 shiny font 玩笑),誠實記錄 IRONCLAD 被否決 + GPT-2 推論真實結果(4 次生成都是不相關的技術雜訊,含一次把 PITVIPER 誤植成 POTVIPER-INCLUDE) (sess-20260820-0649-a3f19d93)
 - 發布 Tyler 視角部落格文章「What a Legendary Product Designer Sees in PARENA」,同系列 keynote-followup 格式,聚焦 PARENA 對整個生態系的產品價值(mod-surface API 哲學、今天的真實技術進展、誠實缺口清單) (sess-20260820-0649-a3f19d93)
