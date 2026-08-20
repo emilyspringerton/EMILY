@@ -18147,3 +18147,41 @@ it, captured here before context-switching to PARENA. None of these are started.
   真正的 host-side glue code(nmap XML 輸出解析等,`STDLIB.md` 自己也標註是獨立、
   真實的後續實作工作)。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-47: REDGARDEN 地圖編輯器 VS0 缺口盤點(規劃文件,非實作)。DONE。** 創辦人
+  一連串快速指示,最終收斂:「ship redgarden map editor」→「allowing building custom
+  modes」→「implemented into PARENAS as a plugin first redgarden feature」→「plan any
+  missing stdlibs first」。REDGARDEN 地圖編輯器排定為 REDGARDEN 第一個真正的 PARENA
+  plugin 功能,mod-surface-first。實際跑 `parena build` 對 `stdlib/mapbuilder/tools.prn`
+  (真實、完整寫好的 `.prn` 原始碼)找出真正卡住的 8 個 VS0 編譯器缺口,寫進
+  `STDLIB.md` 新章節,依實際遇到順序:(1) 多欄位 `defenum` payload variant、(2) map
+  字面量當 struct 建構語法、(3) 命名空間化的 variant 建構
+  (`EnumName/VariantName`)、(4) 真正的 `Vec` collection 操作、(5) 參考型別
+  (`&`/`&mut`)、(6) tuple 型別、(7) `set!` 賦值語法、(8) `F64` 基本型別(最小、最
+  機械式的一項)。誠實排序附註:條列順序是實際踩到的順序,不是實作難度順序;#1-#3
+  都是延伸本 session 已經做出來的 `defenum`/`defstruct`;#4-#7 每一項都是真正全新的
+  語言功能;#5(參考型別)對 domain 2 region analyzer 也有真實影響,這份文件沒有假裝
+  解決。Apple #15048(audit),commit `1665110`。**下一步待創辦人排序**:從上述 8 項
+  中挑選實作順序(`F64` 是最小、最快能交付的一項,也是 `gfd.prn`/METALVERSE 面板
+  同時需要的)。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-48: SHANKPIT/GFD 日夜循環真正的功能性差異(mod,非僅視覺)。** 創辦人:
+  「build day night cycle into a mod」→「shankpit day night cycle」→「use it as a
+  reference」→「different shit happens day vs knighht night like wc3」→「shankpit has
+  it visually but the mod api will berring functionality in day vs night」→「shankpit
+  and GFGD」→「GFD」→「GFD first the fps liobby」。SHANKPIT 已有日夜視覺效果,但缺乏
+  真正的『白天/夜晚有不同遊戲機制』(呼應 WC3 的日夜機制差異慣例);要透過 mod API 把
+  這種真正的功能性日夜差異加進去。明確排序:GFD 的 FPS lobby 先做,SHANKPIT 之後,
+  SHANKPIT 既有實作當參考範本。尚未開始,待排入實作。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-49: METALVERSE 終端面板(spawn-panel,接進 GFD FPS lobby『Architect's
+  Orb』)。** 創辦人一度選定 METALVERSE 為優先方向(隨後又改成 REDGARDEN map editor
+  優先),完整記錄不遺漏:`stdlib/gfd.prn` 已有完整設計(`PanelKind` defenum +
+  `spawn-panel`),對應 FatBaby 真實、已在跑的 `signalapi`(:9091,S189-41 健康檢查
+  已確認健康),要接進 `apps/lobby` 的『Architect's Orb』終端機(`STDLIB.md` 標註的
+  真實既有先例,`edu_bindings.c` 已經在跑)。目前卡在 `gfd.prn` 的 `set-switch` 等函式
+  用到 `Bool` 型別(`resolve_declared_type` 還不認得),以及 `F64`(S189-47 缺口清單
+  #8,同一個缺口)。待排入實作,順序在 REDGARDEN map editor 之後(創辦人最新排序)。
+  (sess-20260820-0649-a3f19d93)
