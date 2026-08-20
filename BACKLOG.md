@@ -17494,3 +17494,26 @@ it, captured here before context-switching to PARENA. None of these are started.
   docs/NORTHSTAR.md 既有的「Design Constraints (Never Compromise)」章節,§7(創辦人指定用
   § 符號),已註冊的 golden doc 無需新增條目。Apple #14830,commit `6336426`。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-22: PITVIPER F11 shiny font toggle(JetBrains Mono)、PARENA pitviper/tiling
+  stdlib、Google Cloud Shell 啟用、Stalwart 研究、CarePyre email 現況記錄。DONE。**
+  **F11 shiny font**:創辦人「can you please find the nicest monospace public domain font you
+  can and add it on a toggle like f11 or f12」→「keep the og font for now」→「and the toggle
+  switches to the new shiny font」——`internal/font/shiny.go`(JetBrains Mono,SIL OFL 1.1,
+  誠實聲明不是字面 public domain,選它是因為 CLAUDE.md 自己早已寫明的既有意圖),F11 切換,
+  疊在既有點陣圖路徑之前,同一套「不可用就優雅降級」處理。sudo-queue/19 加裝
+  fonts-jetbrains-mono。Apple #14837,commit `c8e20ea`。**pitviper/tiling**:創辦人「add i3
+  window management affordances to the stdlib」——真實 i3wm 互動模型(split 樹、鍵盤驅動
+  focus 移動、workspace),刻意淺層。**Google Cloud Shell**:創辦人「where we at with that
+  google terminal based ide? i literally need you to do it」經 AskUserQuestion 確認為 Cloud
+  Shell/Cloud Workstations,已用 `gcloud services enable cloudshell.googleapis.com` 在
+  project-d24a71e9-2daf-4b2d-917 上啟用並確認成功。**Linode 替代方案**(創辦人:「if its like
+  less than 4gb ram to run an equivalent dedicated box」→「oon linode」→「that may be the
+  play」→「and then we can use secure vpn?」,查證確認這台 VPS 本身就是 Linode)經
+  AskUserQuestion 確認**暫緩**,因為這個環境無法即時查 Linode 定價。**Stalwart + CarePyre
+  email**:創辦人「start doing the research into STALWART email servers」+「we need to set up
+  carepyre emails」→「google cloud to start is fine as a proof of concept」→「we will move
+  them to on prem or some kind of soc2 data center or hipa something」→「for now its just admin
+  emails no hippa stuff yet」——記錄 Stalwart(真實、開源、Rust 寫的 all-in-one 郵件伺服器)
+  研究摘要,CarePyre email 現況為簡單 Google Cloud proof of concept,尚無 HIPAA 需求。Apple
+  #14832-14834、#14838,commit `eafc331`(PARENA)。
+  (sess-20260820-0649-a3f19d93)
