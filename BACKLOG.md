@@ -407,6 +407,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   FAIL/修復後 PASS)。emily-agent daemon 已重啟生效。Apple #13707,commit `1a00e2e`。
   session: sess-20260813-2154-dda37e8b
 - [ ] **創辦人即時指示:while true do continue——重申標準'持續運作'模式,不停下等許可,繼續backlog隊列(10v10訓練背景跑著,同時處…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-15T18:56:49Z.
+- [ ] **Founder real-time: continue (standard reaffirmation, keep working the backlog q…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T00:05:26Z.
+- [ ] **Founder real-time: 'and another blog as the duck' -- wants another hero-persona…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T10:01:13Z.
+- [ ] **Founder real-time: ok continue (standard reaffirmation, keep working the backlo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T09:59:35Z.
+- [ ] **Founder real-time: 'and a blog pody pld' / 'pls' (garbled, read as 'and a blog …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T09:55:48Z.
+- [ ] **Founder real-time: continue (standard reaffirmation, keep working the backlog q…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T09:55:25Z.
+- [ ] **Founder real-time: 'CMTIMIE' (garbled all-caps voice-to-text artifact, consiste…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T10:11:27Z.
+- [ ] **Founder real-time: 'CPMGIUNE' (garbled all-caps voice-to-text artifact, same pa…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T10:22:26Z.
+- [ ] **Founder real-time: CONTINUEQ (garbled continue — standing 'keep working the bac…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-16T10:40:50Z.
+- [ ] **Founder real-time: exotic training refers to autocurriculum (clarifying the 'en…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T10:47:34Z.
+- [ ] **Founder real-time: ensure ops for our exotic training (verify REDGARDEN's exoti…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T10:46:41Z.
+- [ ] **Founder real-time: continue (standing 'keep working the backlog autonomously' r…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T10:46:17Z.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T11:17:50Z.
+- [ ] **Founder real-time: con (garbled 'continue' — standing 'keep working the backlog…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T11:17:34Z.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T11:38:51Z.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T12:34:42Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1147,21 +1162,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously)** — obs `2026-08-15T22:10:37Z`. CURATED: 2026-08-15. Work continued; this is the directive that led into the frog-blog-post ask handled next. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
-- [ ] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training thread…** — obs `2026-08-16T00:05:26Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: 'and another blog as the duck' -- wants another hero-persona blog post, this time as Duck (a REDGARD…** — obs `2026-08-16T10:01:13Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: ok continue (standard reaffirmation, keep working the backlog queue autonomously; Gunnr hero-stats b…** — obs `2026-08-16T09:59:35Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: 'and a blog pody pld' / 'pls' (garbled, read as 'and a blog post please') -- wants another blog post…** — obs `2026-08-16T09:55:48Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously)** — obs `2026-08-16T09:55:25Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: 'CMTIMIE' (garbled all-caps voice-to-text artifact, consistent with this session's pattern of mangle…** — obs `2026-08-16T10:11:27Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: 'CPMGIUNE' (garbled all-caps voice-to-text artifact, same pattern as 'CMTIMIE' -- read as mangled 'C…** — obs `2026-08-16T10:22:26Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: CONTINUEQ (garbled continue — standing 'keep working the backlog autonomously' reaffirmation, no new…** — obs `2026-08-16T10:40:50Z`. CURATED: 2026-08-16.
-- [ ] **Founder real-time: exotic training refers to autocurriculum (clarifying the 'ensure ops for our exotic training' ask --…** — obs `2026-08-17T10:47:34Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: ensure ops for our exotic training (verify REDGARDEN's exotic/novel RL training processes -- autocur…** — obs `2026-08-17T10:46:41Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: continue (standing 'keep working the backlog autonomously' reaffirmation, no new substantive content)** — obs `2026-08-17T10:46:17Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T11:17:50Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: con (garbled 'continue' — standing 'keep working the backlog autonomously' reaffirmation, no new sub…** — obs `2026-08-17T11:17:34Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T11:38:51Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:34:42Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:25:26Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time, confirming the collapse: 'so any top level prompt can probably be expressed via a third level featur…** — obs `2026-08-17T20:32:08Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: concrete example of gap detection -- 'we identify the third level labeled gen output and we identify…** — obs `2026-08-17T20:31:56Z`. CURATED: 2026-08-17.
