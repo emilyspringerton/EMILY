@@ -16599,3 +16599,15 @@ own scoped items instead of staying buried in the intake queue.*
   coincidence, not model insight). Published
   https://okemily.com/blog/followup-what-the-fine-tuned-checkpoint-actually-said/ (200 OK). Apple
   #14584. (sess-20260813-2154-dda37e8b)
+- [x] **S186-06: Emiree gear-status analysis, 16-day git+Apples timeseries.** Founder: analyze
+  git and Apples as a timeseries. Reported the real, live persisted `WitchState` first
+  (`h=1.0, p=1.0`, both at ceiling, `gear=GearOverload`, 11,485 RSI cycles) — flagged as a real,
+  notable finding rather than assumed benign (above the engine's own `h_target`/`p_target`,
+  ceiling-sticking behavior not explained here). Built a correctly-scoped proxy timeseries from
+  real per-day git commit counts (11 key repos) and Apple counts (`APPLES` git backup) over the
+  full 16 days, explicitly labeled as a descriptive analogy onto Emiree's gear vocabulary, not a
+  claim about literal historical `WitchState` output. Real findings: 08-18 is a genuine 3× Apple-
+  volume outlier without a proportional commit spike; 08-08 and 08-12 are real zero-commit days
+  with nonzero Apple activity. Full report:
+  `EMILY/continuity/2026-08-20-emiree-gear-status-16day.md`. Apple #14586.
+  (sess-20260813-2154-dda37e8b)
