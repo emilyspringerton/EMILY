@@ -1377,6 +1377,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (GFD web client repo continued) floats EmilyOS as a possible alternate home for the web client, but …** — obs `2026-08-20T04:09:04Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (GFD web client continued) delegates exact repo placement to Claude's judgment — 'build that into wh…** — obs `2026-08-20T04:08:44Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, urgent ('we need it yesterday'): GFD GUI client (with login) needs a web build — WASM or similar, fo…** — obs `2026-08-20T04:08:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (email integration continued) weighing the real tradeoff — either build real privacy guards around a…** — obs `2026-08-20T04:21:18Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (privacy/scope continued) email integration should be treated as a queryable source for now (on-dema…** — obs `2026-08-20T04:21:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: explicit privacy boundary — do NOT automatically log email contents into Apples or anywhere else. Ap…** — obs `2026-08-20T04:20:50Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: emailed the invented-language spec to emilyspringerton@gmail.com — once email read access works (app…** — obs `2026-08-20T04:20:04Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (email integration continued) wants a real 'emily key gmail-smtp' (or similar) CLI command to secure…** — obs `2026-08-20T04:19:39Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
