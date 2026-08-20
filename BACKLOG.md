@@ -1466,6 +1466,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'right into the footer' -- continuing the GFD-web-exposure ask, sounds like a link/embed for GFD's w…** — obs `2026-08-20T09:55:54Z`. CURATED: 2026-08-20.
 - [ ] **Four Kings investigation complete (Explore agent, thorough, file:line-verified). VERDICT: real bug, not deploy-lag or d…** — obs `2026-08-20T09:55:52Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, TOP PRIORITY override: 'top priority right now is to figure out the 4 kings situation and get GFD we…** — obs `2026-08-20T09:55:29Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, S187-03 concrete steps: 'ok i need an agent with the slurp permission' -> 'name the agent frog' -> '…** — obs `2026-08-20T10:02:13Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'github upstream ECOWAR created' -- new empty repo, same pattern as EXODUS's creation earlier this s…** — obs `2026-08-20T10:00:07Z`. CURATED: 2026-08-20.
+- [ ] **GFD-web research complete (Explore agent). Key findings: a real Emscripten WASM build of the actual GFD GUI client alre…** — obs `2026-08-20T09:58:37Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, priority clarification: 'so to be clear get the 4 kings working in whatever version you fork first.'…** — obs `2026-08-20T09:58:23Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, further ECOWAR/hard-fork clarification: 'we want to hard fork the GFD version interface wise and we …** — obs `2026-08-20T09:57:44Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
