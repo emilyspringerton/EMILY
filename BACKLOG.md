@@ -1481,6 +1481,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, new thread while GFD-web relay work is in progress: 'can we quickly generate some terrain and npcs u…** — obs `2026-08-20T10:19:06Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, emphasis: 'live demos that are more than just demos.' Reinforces 'ensure GFD web is live' -- wants a…** — obs `2026-08-20T10:17:58Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, confirming WOTAN's identity: 'there is a wotan site on okemily its like an esports hype page' -> 'st…** — obs `2026-08-20T10:17:52Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, new thread, excited/all-caps: 'LANGUAGE SPEC FOUND' -> 'PARENA UPSTREAM' -> 'ITS AN EDITOR AND A LAN…** — obs `2026-08-20T10:55:19Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: sudo-queue/18 has been run ('good call just ran it assume its fixed until you hear otherwise'). Logg…** — obs `2026-08-20T10:55:19Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, real bug report on the just-shipped GFD web work: 'web GFD is a blank screen.' Confirms the honest l…** — obs `2026-08-20T10:47:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, camp/minion balance tuning ask: 'more minions spawned early game and after they spawn' -- likely wan…** — obs `2026-08-20T10:46:37Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, more King visual elaboration: 'and spells or something' / 'more threatening' -- Kings should have vi…** — obs `2026-08-20T10:46:28Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
