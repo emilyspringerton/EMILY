@@ -1516,6 +1516,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: Erlang-scope AskUserQuestion resolved 'OTP ergonomics only' -- gen-server/supervisor/ETS-style stdli…** — obs `2026-08-20T12:15:16Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: PARENA STDLIB — "do any remaining dependency planning." Concrete gap: expr's bindings:&Map and awk's…** — obs `2026-08-20T12:03:19Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: PARENA regex should span multiple engine packages (regex/nfa linear-guarantee, regex/pcre full Perl-…** — obs `2026-08-20T12:00:59Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令:「can we build map builder affordances into the stdlib if thats a thing?」經 AskUserQuestion 確認為關卡/世界地圖編輯器(terrain…** — obs `2026-08-20T12:40:23Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令(延續同一 PARENA thread):「and matplotlib」——比照先前 numpy/scipy/pandas 對應套件(array/linalg/stats/dataframe)的模式,新增 matplotl…** — obs `2026-08-20T12:34:41Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, dense burst, same PARENA/PITVIPER thread: "we need the building blocks for the sql drivers" -> "we c…** — obs `2026-08-20T12:29:10Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: PARENA stdlib should include elite-level regex support -- "also ensure we have like elite elite elit…** — obs `2026-08-20T11:59:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'continue PARENA build it with BAZEL' -- wants PARENA development to continue, with Bazel as the bui…** — obs `2026-08-20T11:46:18Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
