@@ -1461,6 +1461,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, clarifying the PITVIPER SSH ask: have it use the regular/default ssh key location (~/.ssh, standard …** — obs `2026-08-20T06:52:48Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, priority override ('above all else'): get PITVIPER SSH working. Prior BACKLOG entry (S127 area, SECT…** — obs `2026-08-20T06:52:44Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: flagged that the other Claude session (PID 2584, reboot-recovery session running in tmux pts/1, star…** — obs `2026-08-20T06:52:35Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, two build failures surfacing from the 'check all the recent builds' instruction: 'the build is faili…** — obs `2026-08-20T09:56:25Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, two more details on GFD web exposure: 'use the regular iduna styleguide' (visual design should match…** — obs `2026-08-20T09:56:03Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'right into the footer' -- continuing the GFD-web-exposure ask, sounds like a link/embed for GFD's w…** — obs `2026-08-20T09:55:54Z`. CURATED: 2026-08-20.
+- [ ] **Four Kings investigation complete (Explore agent, thorough, file:line-verified). VERDICT: real bug, not deploy-lag or d…** — obs `2026-08-20T09:55:52Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, TOP PRIORITY override: 'top priority right now is to figure out the 4 kings situation and get GFD we…** — obs `2026-08-20T09:55:29Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
