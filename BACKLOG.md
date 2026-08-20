@@ -1402,6 +1402,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: build out tournaments into the GFD MUD GUI client** — obs `2026-08-20T04:04:13Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (Prompt-o-verse into newssite continued) specifically article thumbnails — AI-generated images with …** — obs `2026-08-20T04:03:22Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: bring in the tech from Prompt-o-verse into newssite somehow (unspecified which part — image generati…** — obs `2026-08-20T04:03:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (newssite sort continued) quick UI toggle to flip between different sort orderings** — obs `2026-08-20T04:03:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (newssite sort ordering continued) should have a settings option to configure sort ordering — defaul…** — obs `2026-08-20T04:02:38Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (newssite freshness continued) unsure whether published/ingested dates actually match the real PR da…** — obs `2026-08-20T04:02:11Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (newssite vision continued) build interactivity and widgets into the main site to expand functionali…** — obs `2026-08-20T04:01:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (newssite freshness complaint continued) product framing — newssite should be a hybrid of a Bloomber…** — obs `2026-08-20T04:00:45Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
