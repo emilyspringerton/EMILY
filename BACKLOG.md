@@ -18190,3 +18190,31 @@ it, captured here before context-switching to PARENA. None of these are started.
   用到 `Bool` 型別(`resolve_declared_type` 還不認得),以及 `F64`(S189-47 缺口清單
   #8,同一個缺口)。待排入實作,順序在 REDGARDEN map editor 之後(創辦人最新排序)。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-50: VS0 全部 5 個 DoD domain 收尾(domain 5:CLI Runner)。DONE,里程碑。**
+  創辦人:「PARENA cli first」→「all the wood behind PARENAS cli arrow」。查證發現
+  domain 5 的字面 DoD(`./parena build input.prn -o output.c`,exit 0 成功/1 錯誤)
+  其實早就滿足(`main.c` 的 `cmd_build()` 本來就是這樣寫的),只是從來沒有自動化測試
+  證明過。新增 `tests/integration/run_domain5_check.sh`,比照既有 `run_domain4_check.sh`
+  的「prove the check has teeth」紀律:(1) 真實有效檔案回傳 0 且寫出真實非空輸出、
+  (2) 真實違反 region 安全規則的檔案(DoD 自己文件裡的字面範例)回傳 1 且不留殘留輸出
+  檔(直接讀 `cmd_build()` 原始碼確認,不是假設)。接進 `Makefile` 的 `test-domain5` +
+  CI。更新 `NORTHSTAR.md` 過時狀態行(原本還寫『domains 4-5 not yet built』),誠實宣告
+  全部 5 個 domain 完成,同時明確重申 mod-surface stdlib 是分開、持續進行的獨立工作,
+  不因為 VS0 完成就混為一談。**過程中的真實插曲**:commit 時不小心在新的 CI step name
+  裡留了一個冒號(`bar: exit 0...`),YAML 解析器誤判成新的 mapping key,導致整個
+  workflow 檔案語法錯誤、CI run(32414168502)completed failure 且 0 個 job 被排程。
+  用 `python3 -c "import yaml; yaml.safe_load(...)"` 本地驗證直接定位到根因(line 71
+  column 63),立即修好並重新確認 CI 綠燈(run `32414264580`),沒有假裝沒發生過。
+  Apple #15058,commit `54d1ae7`(修復 `c308f20`)。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-51: 其餘今日發散、已記錄待排入的項目。** (a)「bring BAZEL as the build
+  system for all projects that PARENAS tocuches」——Bazel 成為所有跟 PARENA 有接觸的
+  專案(PITVIPER、GoblinFoxDragon、REDGARDEN 等)的建置系統,不只 PARENA 自己,真實、
+  大範圍的基礎設施統一工作。(b)「add json and yml and csv to the stdlib」→「i knnow
+  csv is already in dataframe」→「do we need nativecsv?」→「i think we do」→「we can
+  do really special stiuff with csvs」——PARENA stdlib 新增 JSON/YAML 解析,以及一個
+  獨立於 dataframe.prn 之外的原生輕量 CSV 套件(dataframe.prn 已有 CSV 支援,但創辦人
+  認為還需要不綁 DataFrame 型別的版本,提到可以做『特別的功能』,具體內容待補)。
+  (sess-20260820-0649-a3f19d93)
