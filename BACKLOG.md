@@ -1387,6 +1387,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (email integration continued) make it work for the GCP account we have attached; use Gary's email sp…** — obs `2026-08-20T04:18:28Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: we need to get the email integration fixed** — obs `2026-08-20T04:18:09Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: use Prompt-o-verse to generate textures for the destructible city being built in GFD's FPS 'lobby ed…** — obs `2026-08-20T04:17:56Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: wants any data-science infrastructure needed exposed as real IDUNA APIs, backed by Python or whateve…** — obs `2026-08-20T04:46:25Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: wants an Emiree gear-status analysis over the last 16 days, analyzing git commits and Apples as a ti…** — obs `2026-08-20T04:45:10Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: naming resolved — METALVERSE is now what the founder is calling the GFD FPS lobby client (apps2/batt…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: suggests trying the broker proxy (fatbaby-broker.service, :8679) instead of hitting gpt2-serve direc…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: noting they need to go find/locate the invented-language spec themselves (action item for founder, n…** — obs `2026-08-20T04:07:19Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
