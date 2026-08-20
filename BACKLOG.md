@@ -17683,7 +17683,7 @@ it, captured here before context-switching to PARENA. None of these are started.
   參數,例如 `handler : (Fn [] Unit)`),誠實記錄為待辦,不是這次改動造成的新問題。
   Makefile+Bazel+ASan/UBSan+完整 domain 4 檢查全數通過。**仍未做**:非 Arena 型別參數
   支援(mod-surface API 要完整可編譯的下一個真正阻礙)、`cond`、collection 操作、
-  `defstruct`/`defenum`、macro。Apple 待補、commit `aa25d6b`。
+  `defstruct`/`defenum`、macro。Apple #14900,commit `aa25d6b`,CI 綠燈(run 32393761859)。
   (sess-20260820-0649-a3f19d93)
 
 - [x] **S189-30: FATBABY_NEWSWIRE 新聞稿「PARENA Eats the Codebase From the Outside
