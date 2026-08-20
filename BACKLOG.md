@@ -1632,6 +1632,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,更多細節: 「also when i am typing commands the pane doesnt scroll」+「we are in tmux」——確認情境是 tmux 裡面用 vim,底部…** — obs `2026-08-20T16:55:35Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充更精確的症狀描述: 「i cant see the command si type they are like below the window」——確認不是『看不到』而是『渲染位置跑到視窗可視範圍…** — obs `2026-08-20T16:55:20Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,新的具體 vim 渲染回報: 「vim works except i cant see the part where its telling me quit without saving or what…** — obs `2026-08-20T16:55:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder確認: 對剛才發現的 vterm.Screen.Resize() 真實 out-of-bounds crash 風險(scrollRegTop/scrollRegBot 在 resize 後沒有跟著更新,垂直縮小視窗時可能索…** — obs `2026-08-20T16:54:31Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,肯定目前運作模式: 「like when i chat right now i can take notes」+「thats cool」+「pave the cow pats」(=pave the co…** — obs `2026-08-20T16:44:38Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新指示: 「we need to build todo affordances into GFD nmnud gui」(推測 nmnud = mud 打字錯誤)——要求在 GoblinFoxDragon…** — obs `2026-08-20T16:44:30Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新指示: 「then do a FATBABY NEWSWIRRE press release to the blog about PARENA」——要求在 #target/mod-surface 這波…** — obs `2026-08-20T16:43:34Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補完流程最後一步: 「and then main line the mod on by default once we know it works」——確認完整流程:先做成可關閉的 mod → 驗證確實…** — obs `2026-08-20T16:43:00Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
