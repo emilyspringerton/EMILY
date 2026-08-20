@@ -1551,6 +1551,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, refining GFD web exposure: 'ensure GFD web is live on okemily - link it from WOTAN' -- not the gener…** — obs `2026-08-20T10:16:54Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, via a different channel -- the actual GFD Battlegrounds in-game chat, relayed through IDUNA's chat_m…** — obs `2026-08-20T10:12:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, rationale for the ECOWAR HARD FORK: 'in order to maintain easy hackability' -- forking into a fully …** — obs `2026-08-20T09:57:06Z`. CURATED: 2026-08-20.
+- [ ] **創辦人揭示 PITVIPER 真正的整體願景:「basically i am extending my IDE which is actually this VPS」——PITVIPER 不只是終端機模擬器,而是把這台 VPS 本身當成「…** — obs `2026-08-20T14:19:15Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令,連續多則,PITVIPER 字形渲染主題延續:「ensure pitviper can render all utf8 characters」+「import a nice font like fira pro」+「i t…** — obs `2026-08-20T14:17:34Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, escalating the ECOWAR scoping (SECTION 176, NORTHSTAR.md §29): 'build ECOWAR' / 'separate lobby' / '…** — obs `2026-08-20T09:56:59Z`. CURATED: 2026-08-20.
+- [ ] **CI sweep complete across all 12 repos with GitHub Actions: 3 real failures found -- BRAWLPIT (f27f221a), SHANKPIT mainl…** — obs `2026-08-20T09:56:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, more build-failure reports, less certain: 'the build is failing for mainline shankpit?' (uncertain) …** — obs `2026-08-20T09:56:37Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
