@@ -16575,3 +16575,12 @@ own scoped items instead of staying buried in the intake queue.*
   decision, S184-01) to emilyspringerton@gmail.com — reading it needs Path 1 (OAuth2) specifically,
   or a follow-up IMAP read path, neither built here (SMTP is send-only). Apple #14575, EMILY
   c85ee76. (sess-20260813-2154-dda37e8b)
+- [~] **S186-04: On-demand Gmail IMAP read tool.** Founder confirmed real-time: the same app
+  password used for SMTP send also works for IMAP read, and wants it specifically to fetch the
+  language-spec email sent to emilyspringerton@gmail.com ("that's important to ingest before we
+  go much further"). Added `scripts/gmail_imap_fetch.py` — plain on-demand script, not a service,
+  per the founder's own scope ("queryable source... not totally chunking through yet"); honors
+  the explicit no-auto-logging-email-content boundary. Marked partial: syntax-verified, not yet
+  run against a real mailbox — still waiting on the founder to run `emily key set
+  GMAIL_SMTP_ADDRESS`/`GMAIL_SMTP_PASSWORD` (same two commands as S186-03). Apple #14583, EMILY
+  e35f6e9. (sess-20260813-2154-dda37e8b)
