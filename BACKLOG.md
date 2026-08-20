@@ -17635,3 +17635,28 @@ it, captured here before context-switching to PARENA. None of these are started.
   重現排查,需要先確認 loading bar 用的是哪個 Unicode 區塊。優先權依創辦人既有排序
   (「finish any parena prereqs first for that vs」)排在 PARENA 收尾之後。
   (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-28: PITVIPER affordances — 底定 EmilyOS styleguide + 配色規格,列為未來
+  PARENA 版 mod-surface API 的設計目標(本項本身不寫 Go 實作)。** 創辦人一連串即時指示,
+  快速反覆確認到最終定案:「use emily os styleguide for pitviper affordances」→
+  「use that popular sepia ish theme for colors of the gui ide bits」→
+  「the terminal bits pure black is goood」→「solarized?」→「solarized light??」→
+  「and the markdown viewer use solarized darks」→「all api mod surface first」→
+  「PARENA all of it」。**底定規格**:(1) 結構規則沿用 `EmilyOS/README.md` 既有的
+  「EmilyOS 2 GUI v0.1 — Game-UI Filesystem」styleguide(容器類 tile 用 EGSHELL 白灰、
+  按鈕類 tile 需比 EGSHELL 暗、無單擊觸發、快速雙擊=ACTIVATE、慢速雙擊=EDIT LABEL、
+  tmux×i3 式 tiling pane、無循環動畫只准單次 flash、鍵盤優先導覽);(2) 配色三分:
+  PITVIPER 終端機本體(raw VT100 顯示)維持純黑不動(創辦人確認「good」,不受本項影響);
+  GUI IDE 元件(NERDTree 檔案樹、editor chrome、popout 面板等)套用 **Solarized Light**
+  (Ethan Schoonover 公開規格,背景 base3 #fdf6e3 是創辦人一開始描述的「sepia ish」暖色
+  紙感由來);markdown 檢視器單獨套用 **Solarized Dark**(base03 #002b36 起)。EmilyOS
+  styleguide 原本的「hard-coded palette」(navy 背景 + HTML 色系 button)由創辦人此處
+  即時針對 PITVIPER 這個套用場景明確覆寫為 Solarized 系列,不是誤讀衝突。**刻意不在
+  本項動工寫 Go 顏色常數檔**——創辦人隨即重申並加強稍早已有的「plugin system first」
+  「mod surface first」「use parena」指示為「all api mod surface first」+「PARENA all
+  of it」:整個 mod-surface/plugin API(含這裡定案的視覺語言要如何暴露給 affordance 定義)
+  要用 PARENA 寫,不是先在 Go 端刻一版之後再重寫。本項的產出是「設計規格底定」,不是
+  程式碼;待 PARENA mod-surface API 開始動工時,以此項記錄的規格為準。優先權:PARENA
+  VS0 收尾 → PARENA mod-surface/plugin API(全用 PARENA)→ 才輪到套用本項配色規格的
+  NERDTree/editor/markdown 檢視器等個別功能。
+  (sess-20260820-0649-a3f19d93)
