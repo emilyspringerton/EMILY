@@ -16853,3 +16853,84 @@ a Google-account-login clarification chain) resolved into the account-login thre
   risks a duplicate/orphaned project alongside whatever the founder already started manually
   elsewhere — reported back for a founder call rather than guessed. Apple #14630.
   (sess-20260820-0649-a3f19d93)
+
+## SECTION 188: TOP PRIORITY — FOUR KINGS FIX + GFD WEB EXPOSURE (2026-08-20)
+
+- [x] **S188-01: Four Kings/jungle-camp invisibility — real bug, found and fixed. DONE.**
+  Founder, real-time, declared top priority: "where are the 4 kings anywhere? i played redgarden
+  and i played gfd battlegrounds i dont see them in either... the server protocol doesnt speak 4
+  kings yet?" Investigated first (Explore agent, file:line evidence, not guessed): King/camp-minion
+  simulation runs unconditionally every match on REDGARDEN main, GFD's `battlegrounds_gui` fork,
+  AND the live `redgarden-stable` deployment (backing GFD Battlegrounds' `:8778`) — all three
+  confirmed to genuinely contain the simulation code, ruling out stale-deploy. The actual bug:
+  `packages/common/protocol.h`'s `ArenaSnapshotMsg` (the struct broadcast every network tick) had
+  zero fields for camp minions or Kings, and `arena_server`'s snapshot-fill function never
+  populated them — fully simulated, fully invisible, a pure wire-protocol gap. Also ruled out:
+  mode/lobby gating (Kings tick unconditionally) and a floated prompt-o-verse connection (zero
+  relation found — promptoverse is exclusively a trading-card-portrait taxonomy system). Fixed:
+  added `ArenaCampMinionSnapshot`/`ArenaKingSnapshot` to the wire protocol matching the exact
+  existing conventions for lane creeps/node towers, populated server-side, parsed + rendered
+  client-side (camp minions: neutral olive; Kings: boss-scaled, per-camp thematic colors —
+  gold/green/magenta/cyan for Wealth/Growth/Music/All-Seeing). Build clean, full existing test
+  suite green. **Deployed to all three real targets**: REDGARDEN main (commit `9cdbb09`, Apple
+  #14674), GFD's `battlegrounds_gui` fork (commit `81d8076`→`f0eb9b6`, matching the established
+  Milestone 5 porting precedent, Apple #14676), and `redgarden-stable` — the actual live backend
+  GFD Battlegrounds connects to — via the documented promotion procedure (`git pull` + rebuild +
+  `systemctl --user restart redgarden-stable-matchmaker-bots.service
+  redgarden-stable-bot-pool.service`), both services confirmed active/stable post-restart, not
+  crash-looping. **Honest limitation, not glossed over**: a literal live King sighting 60+ seconds
+  into a real match wasn't captured this session (Kings have a 60s spawn delay; match/corpus logs
+  don't carry raw snapshot content; standing up a raw UDP protocol-inspection client was out of
+  scope for the time available) — confidence rests on build+test-green plus exact
+  pattern-matching against proven identical serialization idioms for a structurally identical
+  entity type, not an observed King. (sess-20260820-0649-a3f19d93)
+- [~] **S188-02: GFD web exposed on okemily.com.** Founder, real-time: "top priority right now
+  is to... get GFD web exposed on okemily.com" → "right into the footer" → "use the regular iduna
+  styleguide" → "and then check all the recent builds." Researched (Explore agent) before
+  building: a real, working Emscripten WASM build of the actual GFD GUI client already exists
+  (`GoblinFoxDragon/apps2/battlegrounds_gui/wasm/`, built same session, compiles clean) but has
+  never been served publicly and has a real, founder-confirmed-firm-dependency gap: the client's
+  arena/matchmaker protocol uses raw UDP sockets, which don't exist in browsers — nothing bridges
+  WebSocket↔UDP yet. Footer location confirmed: `/var/www/okemily/index.html:241-357` (static
+  link list ~248-255, same pattern as `redgarden.html`/`games.html`). Styleguide confirmed:
+  `IDUNA/styles.css` (cream/gold palette, Cormorant Garamond), reused per-product via each
+  product's own self-contained render.go template — no shared partial system. nginx serves
+  `/var/www/okemily/` static content automatically (no config change needed for the static WASM
+  files) but has no GFD location block and would need a new proxy block for a real WebSocket
+  relay. Not started — real remaining work: build the WebSocket↔UDP bridge (the firm dependency),
+  wire the footer link, verify against IDUNA's styleguide. (sess-20260820-0649-a3f19d93)
+- [ ] **S188-03: CI sweep — 3 real build failures found, not yet fixed.** Founder, real-time,
+  following up on "check all the recent builds": "the build is failing for brawlpit" / "the build
+  is failing for shankpit 460" / "the build is failing for mainline shankpit?" / "not sure what
+  else." Systematic sweep across all 12 repos with GitHub Actions confirmed 3 real failures:
+  **BRAWLPIT** (`f27f221a`), **SHANKPIT mainline** (`c38ced26`), and **MJOLNIR** (`6c68e3dc` —
+  not previously flagged by the founder, found via the sweep, answers "not sure what else").
+  Everything else green: REDGARDEN, GoblinFoxDragon, PITVIPER, SKULDMARK, EmilyOS, IDUNA, EMILY,
+  emily.cli, GTA7. Not investigated/fixed yet — queued behind S188-01/02 per founder's declared
+  top-priority ordering. Note: "shankpit-460" (the separate variant/build, distinct from mainline
+  SHANKPIT) was asked about but not confirmed as a distinct CI target — GitHub Actions sweep only
+  covers repos with their own Actions workflows; shankpit-460 may need a separate local build
+  check if it doesn't have its own CI. (sess-20260820-0649-a3f19d93)
+- [ ] **S188-04: ECOWAR — hard fork, not just "separate everything" within REDGARDEN.** Founder,
+  real-time, escalating the SECTION 176/NORTHSTAR §29 scoping: "build ECOWAR" → "separate lobby"
+  → "separate source" → "HARD FORK" → "in order to maintain easy hackability" → "we want to hard
+  fork the GFD version interface wise and we want the features of the new mainline REDGARDEN like
+  improved ai and items and wasd movement etc." A genuinely separate, independently-forked
+  codebase (not just separate matchmaking/client systems inside one REDGARDEN repo, which was the
+  prior S170-era scoping) — fork GFD's client/interface specifically, but pull in mainline
+  REDGARDEN's newer features (improved bot AI, item catalog, WASD movement) into that fork.
+  Rationale: keeps both REDGARDEN and the new fork simpler/more hackable than one shared codebase
+  accumulating both games' complexity. GitHub upstream `emilyspringerton/ECOWAR` confirmed created
+  (empty, `main` branch) — needs the same clone + stub README.md + CLAUDE.md scaffolding as
+  EXODUS got, then registration in root CLAUDE.md's Non-Workspace Repos table. Not started.
+  (sess-20260820-0649-a3f19d93)
+- [ ] **S188-05: IDUNA Back Office Drive slurp — agent "frog," slurp permission, secret in
+  EMILY/var.** Founder, real-time, concrete next steps on S187-03: "ok i need an agent with the
+  slurp permission" → "name the agent frog" → "put the secret in EMILY/var." New IDUNA agent
+  identity `frog` needs a new `slurp` permission scope (Drive-ingest specific, doesn't exist yet
+  in `config/agents.json`) and its credential secret goes in `EMILY/var` — a different directory
+  than the `IDUNA/var` assumed earlier in S187-03's scoping (matches EMILY's own session/state
+  file convention instead of IDUNA's `agent-secrets.env` one). Not started — real remaining work:
+  register the `frog` agent + `slurp` permission via `cmd/bootstrap`, wire the OAuth
+  credential storage into `EMILY/var`, then continue S187-03's Back Office page build.
+  (sess-20260820-0649-a3f19d93)
