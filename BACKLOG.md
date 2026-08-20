@@ -17209,8 +17209,11 @@ it, captured here before context-switching to PARENA. None of these are started.
   tested the compiler every run but never uploaded it, unlike every other repo's CI. Fixed
   (`dist/` staging step since `bazel-bin` is a symlink `upload-artifact` doesn't follow reliably +
   `actions/upload-artifact@v4`), verified locally (`file` confirms a real ELF executable that runs
-  standalone against `examples/test.prn`) — **not yet CI-confirmed on GitHub Actions**, that's the
-  real next check. Then founder: "also ensure we have like elite elite elite level regex in the
+  standalone against `examples/test.prn`) — **CI-confirmed on GitHub Actions**: run 32366236386
+  (commit `7888827`) completed green and its `parena-10-7888827...` artifact (8331 bytes, not
+  expired) is real and downloadable, checked directly via the GitHub Actions API, not assumed.
+  That's the literal answer to "wheres my compiler." Then founder: "also ensure we have like elite
+  elite elite level regex in the
   stdlib" → "maybe we implement all the different regex types" → "as different packages" → "like
   perl should be jealous" → "sed awk grep" → "in the stdlib" → "and beyond" → "and add
   dependencies you need for all these asks as std libs themselves" — designed `regex/syntax`
