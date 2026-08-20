@@ -1597,6 +1597,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,澄清規模,大幅縮小: 「right into effing PARENA in examples」+「built with bazel」+「of course」——確認『port it』其實是指:把剛才…** — obs `2026-08-20T17:08:31Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,推進指令: 「you have a working implementation port it」——要求把現有『可運作的實作』(推測指 PITVIPER 現有的 Go/SDL2/vterm 實作)真的…** — obs `2026-08-20T17:08:20Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,澄清規模,解除疑慮: 「with the mod surface as the first feature」——確認『rewrite pitviper in pure parena』是長期願景的具體化,…** — obs `2026-08-20T17:07:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,結構安排: 「into a followup naming blog post if the other one is already done」+「not sure if the tone mixes…** — obs `2026-08-20T17:17:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充生成鏈細節: 「chain the feedback on the 4 seeds on the fib up to whatever is roughly 250」——確認生成長度沿費波那契數列遞…** — obs `2026-08-20T17:15:26Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充 GPT-2 生成參數: 「pon a fib for characters returned」(推測=put on a fibonacci for characters returned)+「4 …** — obs `2026-08-20T17:15:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,推翻先前命名: 「IRONCLAD sucks have tyler name it」——否決 IRONCLAD 這個名字,明確要求由 TYLER(角色/劇本引擎)來命名,不是我直接選。「call ou…** — obs `2026-08-20T17:15:06Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「have tyler name it in the blog post if its not named already」——若 IRONCLAD 這個 fork 還沒命名,要讓 TYLER 角色在…** — obs `2026-08-20T17:14:19Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
