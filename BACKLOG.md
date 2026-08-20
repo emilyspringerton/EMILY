@@ -17522,3 +17522,20 @@ it, captured here before context-switching to PARENA. None of these are started.
   研究摘要,CarePyre email 現況為簡單 Google Cloud proof of concept,尚無 HIPAA 需求。Apple
   #14832-14834、#14838,commit `eafc331`(PARENA)。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-23: PARENA C emitter 加入算術/比較/if/一般函式呼叫,朝自我託管邁進真實一步。
+  DONE(自我託管本身仍未開始)。** 創辦人直接問:「can we build PARENA in PARENA yet?」——誠
+  實答案:還不行。domain 3 的 emitter 先前只認得 `examples/valid_only.prn` 那一個特定形狀
+  (S189-13/18/19 已記錄的 domain 1-4 完成狀態,指的是那個窄形狀的 parse→analyze→emit→
+  memory-verify 全鏈路,不是通用編譯器)。這次真的擴大 emitter 的真實能力:數字字面值、
+  真實 2-元運算子對照(`+`/`-`/`*`/`/`/`<`/`>`/`<=`/`>=`/`=`→C 的 `==`/`and`/`or`)、`if` 發
+  出真正的 C 三元運算子、`alloc` 以外的一般函式呼叫(誠實標註跨函式回傳型別推論目前預設
+  `void*` 的真實缺口,C 的隱含指標轉換讓這在語法上仍正確但不精確)。真實驗證:寫了真的用
+  到算術/比較/if 的程式,`parena build` 產出的 C 用 `gcc -Wall -Wextra -pedantic -std=c99`
+  零警告編譯;一般函式呼叫(一個函式呼叫另一個)同樣零警告。`tests/test_emit.c` 從 13 個
+  測試變成 18 個(算術/if 從「預期失敗」的負向案例升級為正向案例,新增 `loop`/`recur` 仍然
+  誠實失敗的負向案例,確保還沒支援的東西沒被誤判成支援)。Makefile+Bazel+ASan/UBSan+完整
+  domain 4 檢查全數維持通過,CI 用 GitHub Actions API 直接確認綠燈(run 32384381363)。
+  **仍未做**:`loop`/`recur`、`match`、collection 操作、`defstruct`/`defenum`、macro、真實函式
+  簽章表——這些才是真正擋在「能自我託管」前面的缺口,誠實記錄,不誇大這次的進度。Apple
+  #14841,commit `bb87411`。
+  (sess-20260820-0649-a3f19d93)
