@@ -422,6 +422,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: con (garbled 'continue' — standing 'keep working the backlog…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T11:17:34Z.
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T11:38:51Z.
 - [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T12:34:42Z.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T12:25:26Z.
+- [ ] **Founder real-time, confirming the collapse: 'so any top level prompt can probab…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:32:08Z.
+- [ ] **Founder real-time: concrete example of gap detection -- 'we identify the third …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:31:56Z.
+- [ ] **Founder real-time, resolving the tension just raised: 'or its a way to fill in …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:31:22Z.
+- [ ] **Founder real-time, self-questioning mid-thought: 'all the photos in the unreal …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:31:10Z.
+- [ ] **Founder real-time: Prompt-o-verse data-model refinement -- the expanded/tier-2 …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:30:03Z.
+- [ ] **Founder real-time: 'prompt-o-verse will be the upstream git repo i cant create …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:45:24Z.
+- [ ] **Founder real-time: 'focusing on fun ideas for new ai users' -- recalibrates the…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:44:29Z.
+- [ ] **Founder real-time: 'hallucinate 20 top level prompts and build it out' -- scali…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:44:04Z.
+- [ ] **Founder real-time: 'ok vs0 mvp it i want to see the output' -- greenlighting Pr…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:43:33Z.
+- [ ] **Founder real-time context led to a major empirical success: tested Vertex AI's …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:40:48Z.
+- [ ] **Founder real-time: 'ensure there is a link to the new tool from the okemily foo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:01:49Z.
+- [ ] **Founder real-time: 'if you got some data but are now rate limited just proceed …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:53:38Z.
+- [ ] **Founder real-time, four-part direction, same burst: (1) 'give me an emily cli k…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:50:07Z.
+- [ ] **Founder real-time: 'i think we can get a god API key for google cloud to let us…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:38:53Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1162,21 +1177,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously)** — obs `2026-08-15T22:10:37Z`. CURATED: 2026-08-15. Work continued; this is the directive that led into the frog-blog-post ask handled next. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
-- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:25:26Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, confirming the collapse: 'so any top level prompt can probably be expressed via a third level featur…** — obs `2026-08-17T20:32:08Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: concrete example of gap detection -- 'we identify the third level labeled gen output and we identify…** — obs `2026-08-17T20:31:56Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, resolving the tension just raised: 'or its a way to fill in data that the gen data does not randomly…** — obs `2026-08-17T20:31:22Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, self-questioning mid-thought: 'all the photos in the unreal [engine] style, those top level prompts …** — obs `2026-08-17T20:31:10Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: Prompt-o-verse data-model refinement -- the expanded/tier-2 description shouldn't be stored as one l…** — obs `2026-08-17T20:30:03Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'prompt-o-verse will be the upstream git repo i cant create it we need to get you a git service acco…** — obs `2026-08-17T20:45:24Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'focusing on fun ideas for new ai users' -- recalibrates the 20-prompt list away from a dry historic…** — obs `2026-08-17T20:44:29Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'hallucinate 20 top level prompts and build it out' -- scaling VS0 MVP up from 6 to 20 real top-leve…** — obs `2026-08-17T20:44:04Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'ok vs0 mvp it i want to see the output' -- greenlighting Prompt-o-verse VS0 for real: run the disco…** — obs `2026-08-17T20:43:33Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time context led to a major empirical success: tested Vertex AI's Gemini image generation endpoint (aiplat…** — obs `2026-08-17T20:40:48Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'ensure there is a link to the new tool from the okemily footer like we have wotan login etc' -- add…** — obs `2026-08-17T21:01:49Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'if you got some data but are now rate limited just proceed with what you have and circle back for t…** — obs `2026-08-17T20:53:38Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, four-part direction, same burst: (1) 'give me an emily cli key command to set my github key into the…** — obs `2026-08-17T20:50:07Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'i think we can get a god API key for google cloud to let us provision users or service accounts to …** — obs `2026-08-17T20:38:53Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'need to circle back to see if the google cloud has sorted itself out or what -- one of the main way…** — obs `2026-08-17T20:37:47Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'including the 1920 tobacco card' -- adds the historical tobacco-card style (node 01, labeled '1910s…** — obs `2026-08-17T21:13:28Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'have master chief be the next category after baseball cards' + 'do a limited run 5-10 styles.' Conc…** — obs `2026-08-17T21:13:19Z`. CURATED: 2026-08-17.
