@@ -16371,6 +16371,21 @@ GPT-2 checkpoint. All three logged via `emily observe` before drafting, per Prin
   each) and a new CRAZY_KRANKENVAGEN how-to-play section (driven boat/hospital mission + the
   self-service llama-mount rescue + low-health auto-dispatch) that previously only existed in
   `CLAUDE.md`'s dev-facing status notes. Apple #14509, GTA7 cf8eb46. (sess-20260813-2154-dda37e8b)
+- [x] **S182-05: ECOWAR northstar addendum (REDGARDEN/NORTHSTAR.md §29).** Founder: "comb the
+  TRAPX EMILY REDGARDEN wikis and docs to develop a comprehensive model of ecowar in terms of a
+  RTS - do that as a northstar - redgarden engine," followed by ~20 real-time design fragments
+  (1v1 separate binary, hero mechanics + card-commanded everything-else, MOBA skill upgrades, RTS
+  building/troops, diplomacy/media/street cred, 22-card deck, rarity tiers, marble-bag+Fibonacci
+  pity, non-depleting draw, Flow-purchased packs, Prompt-o-verse-farmed card art). Real doc survey
+  first (Explore agent across NORTHSTAR.md, TRAPX_NORTHSTAR.md, REDGARDEN-wiki SPEC-4/5,
+  HEROES_VS0.md) found §29 already existed (2026-08-13) with 4 open architecture questions —
+  extended it rather than duplicating it. Resolved question 1 (hero directly piloted, cards cover
+  everything else) and gave a grounded recommendation on question 4 (arena_game.c as base sim
+  loop). Added the full card/economy design as net-new (confirmed zero prior art for rarity/pack/
+  pity anywhere in the repo before writing it). Flagged, not silently resolved: a real Flow-naming
+  collision between REDGARDEN's kill-fed Flow and TRAPX/SHANKPIT's territory Flow. Spec only, no
+  code — matches this doc's own established discipline. Apple #14515, REDGARDEN 62a72be.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
