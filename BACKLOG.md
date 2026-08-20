@@ -1587,6 +1587,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新指示: 「add imagemagic all those apis to PARENA stdlib」——要求把類似 ImageMagick 的影像處理 API(resize/crop/conver…** — obs `2026-08-20T16:36:01Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充縮圖處理細節: 「you can just slam the images down to tiny」+「crop them if you can」——針對剛才的 promptoverse thum…** — obs `2026-08-20T16:35:51Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time回報真實 bug: 「you can prompt it for new shit but it wasnt working earlier」——回報 promptoverse 的 prompt/生成新內…** — obs `2026-08-20T16:35:43Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,把先前針對 vterm/ncurses 修復的『make it a mod』指示,擴大成一條通用政策: 「make all improvements as api mod plugin surface …** — obs `2026-08-20T16:52:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充更具體的重現條件: 「yea when you scale pitviper window vertical it breaks it」——確認稍早 S189-32 記錄的『放大視窗後畫面不重繪』真…** — obs `2026-08-20T16:52:31Z`. CURATED: 2026-08-20.
+- [ ] **已完成: FATBABY_NEWSWIRE 新聞稿「PARENA Eats the Codebase From the Outside In」發布到 OKEMILY blog(https://okemily.com/blog/parena…** — obs `2026-08-20T16:47:43Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,提高優先權: 「prioritize the press release about PARENA and the stdlib and the philosophy and BAZEL and the…** — obs `2026-08-20T16:46:06Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,延伸 todo affordance 想法: 「havhave like y pull tup the special slash command that chats into your own pe…** — obs `2026-08-20T16:45:20Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
