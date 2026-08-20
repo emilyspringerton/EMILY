@@ -1541,6 +1541,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, further ping-system design notes, still ideation-phase: 'party of the leaky gistalt for sure' (possi…** — obs `2026-08-20T10:44:11Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, elaborating the ping-system idea, self-flagged uncertain: 'in the ai' -> 'both heuristically and in …** — obs `2026-08-20T10:44:01Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'in the ai' -- no clear standalone context (possibly a fragment of the ping-system message, e.g. bot…** — obs `2026-08-20T10:43:52Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, two more real feature asks queued behind the in-progress buff-HUD fix: 'also my team is unaware of t…** — obs `2026-08-20T10:43:43Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'so you can have the ui match for both GFD and REDGARDEN' -- confirms the buff-HUD fix (and by exten…** — obs `2026-08-20T10:43:34Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, new feature ask: 'go ahead and add the damage log to REDGARDEN' -- a real combat/damage log feed (wh…** — obs `2026-08-20T10:43:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, style direction for the buff-HUD fix: 'remember the duck possibly telekenetic interface for the buff…** — obs `2026-08-20T10:43:05Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, new bug report from live play: 'i killed the purple king and couldnt even tell if i got a buff.' Pur…** — obs `2026-08-20T10:42:43Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
