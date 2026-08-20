@@ -16926,9 +16926,12 @@ a Google-account-login clarification chain) resolved into the account-login thre
   REDGARDEN's newer features (improved bot AI, item catalog, WASD movement) into that fork.
   Rationale: keeps both REDGARDEN and the new fork simpler/more hackable than one shared codebase
   accumulating both games' complexity. GitHub upstream `emilyspringerton/ECOWAR` confirmed created
-  (empty, `main` branch) — needs the same clone + stub README.md + CLAUDE.md scaffolding as
-  EXODUS got, then registration in root CLAUDE.md's Non-Workspace Repos table. Not started.
-  (sess-20260820-0649-a3f19d93)
+  (empty, `main` branch). **Scaffolding done** (matching the EXODUS precedent): cloned, README.md
+  (full provenance + the earlier-superseded NORTHSTAR §29 mode scoping + real open design
+  questions listed honestly, not resolved) + CLAUDE.md written, registered in root CLAUDE.md's
+  Non-Workspace Repos table. Apple #14677, commits `e58c600` (ECOWAR), `fa1e17c` (root MONOREPO).
+  **Real remaining work, not started**: the actual fork/extraction itself — nothing has been
+  forked from `battlegrounds_gui` or ported from REDGARDEN yet. (sess-20260820-0649-a3f19d93)
 - [ ] **S188-05: IDUNA Back Office Drive slurp — agent "frog," slurp permission, secret in
   EMILY/var.** Founder, real-time, concrete next steps on S187-03: "ok i need an agent with the
   slurp permission" → "name the agent frog" → "put the secret in EMILY/var." New IDUNA agent
