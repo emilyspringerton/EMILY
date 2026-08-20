@@ -16976,3 +16976,126 @@ a Google-account-login clarification chain) resolved into the account-login thre
   register the `frog` agent + `slurp` permission via `cmd/bootstrap`, wire the OAuth
   credential storage into `EMILY/var`, then continue S187-03's Back Office page build.
   (sess-20260820-0649-a3f19d93)
+- [x] **S188-06: King buff status HUD — deployed live. DONE.** Founder, real-time from live
+  play: "i killed the purple king and couldnt even tell if i got a buff." Same class of bug as
+  S188-01 — buff state (`king_music_carrier`/`king_growth_ms`/`king_wealth_ms`/
+  `king_allseeing_team_ms`) fully real server-side, zero wire representation. Added
+  `king_buff_flags` to `ArenaHeroSnapshot`, populated server-side, rendered as a bottom-right
+  buff-icon HUD (per founder's "remember the duck possibly telekenetic interface for the buff
+  frames in the bottom right") — per-King thematic colors matching S188-01's boss models,
+  Bloodroar's real stack count shown. Ported to GFD's `battlegrounds_gui` fork, deployed live to
+  `redgarden-stable`. `go test`/build clean. Apple #14723, REDGARDEN `3c2f131`, GoblinFoxDragon
+  `72b6615`. (sess-20260820-0649-a3f19d93)
+- [x] **S188-07: King health bars + name tags — deployed live. DONE.** Founder: "the 4 kings
+  need health bars and name tags." Reused heroes' own HP-bar idiom (scaled up, boss-tier read),
+  name in each King's own thematic color. Ported to GFD fork, deployed live to `redgarden-stable`.
+  Apple #14723, REDGARDEN `546a4ca`, GoblinFoxDragon `2a1ccfb`. (sess-20260820-0649-a3f19d93)
+
+## SECTION 189: FULL SPRINT-PLAN DUMP — REDGARDEN LIVE-PLAY FEEDBACK + CROSS-CUTTING ASKS (2026-08-20)
+
+*Founder, real-time: "backlog doump sprint plan everything" — every item queued during this
+session's Four-Kings/buff-HUD live-playtest thread and the parallel asks that came in alongside
+it, captured here before context-switching to PARENA. None of these are started.*
+
+- [ ] **S189-01: Damage log for REDGARDEN + GFD Battlegrounds.** Founder: "go ahead and add the
+  damage log to REDGARDEN" → "so you can have the ui match for both GFD and REDGARDEN." A real
+  combat-log text feed (who hit whom, how much) — no existing combat-log-like system found this
+  session. Not scoped past the basic ask; needs a design pass (persistent list vs. rolling feed,
+  which events qualify — damage only, or kills/buffs/objectives too) before building. Port to GFD
+  fork per the "ui match for both" instruction, same pattern as every other S188 fix.
+- [ ] **S189-02: Ping system.** Founder, real-time thread: "we need a way to ping eachother" →
+  "in the ai" → "both heuristically and in the vector brain" → "i dunno" → "party of the leaky
+  gistalt for sure" → "if i ping the whole team shouldnt come over" → "and especially if im
+  wiwinning im assuming my cohesion goes down only 1 or 2 teamers come to a ping instead of more
+  considering it when we are behind as a comeback mechanism." Real design, genuinely well-
+  developed despite the fragmented delivery: a click-to-ping map-location system (standard MOBA
+  convention) whose team response should reuse the ALREADY-BUILT synergy-decay cohesion tier
+  (NORTHSTAR §25.3, Apple #12844) — winning/high-decay teams get fewer (1-2) responders per ping,
+  losing/low-decay teams get more, making ping-responsiveness itself part of the existing
+  comeback-mechanic design rather than a new parallel system. Bot/AI awareness of pings ("both
+  heuristically and in the vector brain") explicitly flagged by the founder as uncertain ("i
+  dunno") — real open question, not a firm spec, don't build blind. Not started.
+- [ ] **S189-03: Team awareness of Kings.** Founder: "also my team is unaware of the 4 kings" —
+  teammates not looking at that part of the map have no way to know a King exists/is up, even
+  after S188-01's rendering fix made Kings visible to whoever IS looking. Real gap, not scoped
+  past the ask — candidate mechanisms (minimap ping/icon when a King is up, an alert on
+  spawn/engage, a chat-log line) not decided. May overlap with S189-02's ping system once that's
+  built (a King-spawn auto-ping is one plausible answer) but not assumed to be subsumed by it
+  without a founder call.
+- [ ] **S189-04: Flow upkeep tax — bounty-style comeback mechanic.** Founder: "also add an
+  upkeep tax on flow in REDGARDEN and GFD battlegrounds the more resources you have collected the
+  more flow you are worth to the other team" → "as a come back mechanism" → "so if the winning
+  team gets careless there can be a big economy shift." Fully specified: a LoL-style kill-bounty
+  mechanic — the more Flow a hero has accumulated, the more Flow their death pays out to the
+  killing team, disincentivizing pure hoarding and creating real comeback swings when a Flow-rich
+  winning-team hero dies carelessly. Thematically consistent with the existing synergy-decay
+  comeback mechanic (Apple #12844) but a distinct system. Not started — real design questions:
+  bounty formula (flat % of accumulated Flow? scaling curve?), whether it applies only to the
+  killing blow or splits among assist credit, whether it stacks with existing kill-Flow rewards
+  or replaces them.
+- [ ] **S189-05: Camp minion spawn tuning — more minions early game.** Founder: "more minions
+  spawned early game and after they spawn" — message trails off, likely incomplete. Reads as
+  wanting increased camp-minion wave size/frequency in the early match window. Not scoped further
+  — the trailing clause needs a founder follow-up before this is buildable as stated.
+- [ ] **S189-06: Kings need spell effects + should read as more threatening.** Founder: "and
+  spells or something" / "more threatening" — Kings currently render as a plain colored box (per
+  S188-01) with a name tag/HP bar (S188-07) but no visible ability-cast effects, and should
+  generally look more imposing/dangerous. Not scoped past the ask — no specific King ability kit
+  designed (the underlying buffs — Catchy Song/Bloodroar/Bulwark/Farsight — are passive auras, not
+  active-cast abilities today, so "spells" would be new King behavior, not just new VFX on
+  existing mechanics).
+- [ ] **S189-07: Crystal-generated terrain/NPCs seeding the DragonsNShit world.** Founder,
+  real-time thread: "can we quickly generate some terrain and npcs using GFD apps2 crystal main
+  go?" → "somehow seed the FGD world" → "start at the meadow" → "and somehow use the crystal to
+  seed it" → "like let the crystal run for like 100 generations and then drop us in that world" →
+  "you will have to add systems and entities to the underlying mud game engine and game server for
+  the entities in the crystal" → "but the crystal output can be used to provide a map to the mud."
+  `GoblinFoxDragon/apps2/crystal/main.go` confirmed real — a boids/ecosystem agent simulation (44x44
+  grid, boids+goblins+foxes+periodic dragon events, `DECAY`-based aging), not literally a genetic-
+  algorithm "generations" system in the ML sense, though it does tick forward in simulated time.
+  Real scope, per the founder's own back-and-forth: run crystal for ~100 ticks, use its output as
+  map/entity-placement data feeding into `apps2/mud`'s world (starting at "the meadow," a real
+  existing MUD location — see the `MeadowTest` chat-log entry found earlier this session), with at
+  least some new MUD entity/system support needed for whatever the crystal's NPCs are (not purely
+  a data-only bridge, per the founder's own correction). Not started — real open questions: exact
+  crystal→MUD data format, which crystal entity types (boids/goblins/foxes/dragon) get real MUD
+  representations vs. stay background flavor, how "100 generations" maps to crystal's actual tick
+  model.
+- [ ] **S189-08: 3 real broken CI builds — only BRAWLPIT explicitly actioned so far.** Systematic
+  sweep (this session) found BRAWLPIT (`f27f221a`), SHANKPIT mainline (`c38ced26`), and MJOLNIR
+  (`6c68e3dc`) all genuinely failing. Founder: "fix the brawlpit build" — explicit instruction for
+  BRAWLPIT specifically; SHANKPIT and MJOLNIR not yet explicitly actioned (founder asked "the
+  build is failing for mainline shankpit?" uncertainly, and "not sure what else" before the sweep
+  surfaced MJOLNIR). None of the three fixed yet — queued behind PARENA per this session's own
+  sequencing.
+- [ ] **S189-09: SHANKPIT bot reward-window fix.** From the earlier "twitchy and weird" /
+  "flawless ctf sometimes" investigation this session: `BotGenome` evolution selection uses
+  `accumulated_reward` reset every respawn (a very short, luck-prone evaluation window), plausibly
+  explaining the inconsistent movement-execution quality reported. Offered to the founder as a
+  concrete fix (longer evaluation window before selection, or reward averaging across N lives) —
+  not yet confirmed or built, queued behind the current sequencing.
+- [ ] **S189-10: IDUNA Back Office Drive slurp — frog agent still not built.** S187-03/S188-05's
+  real remaining work (OAuth scope extension, `frog` agent + `slurp` permission registration,
+  `EMILY/var` credential storage, Drive-listing adaptation, job queue, idempotency, SSE, new UI
+  page) — fully scoped across two backlog entries already, still zero code written. Restated here
+  only to keep it visible in the full dump, not re-scoped.
+- [ ] **S189-11: ECOWAR economy questions — founder offered, not yet asked.** Founder: "im ready
+  to answer some of your questions about the ecowar econemy etc" — offer made, never followed up
+  on due to the session's own pace (PITVIPER/Four-Kings/GFD-web work intervened). ECOWAR/README.md's
+  own open questions (fork scope, sync model with REDGARDEN, matchmaking-port model, source
+  vendoring) remain unresolved. Real follow-up: actually ask these next time ECOWAR work resumes.
+- [ ] **S189-12: PARENA — genuinely blocked, real ambiguity not resolved.** Founder, real-time,
+  rapid and partly self-contradictory: "LANGUAGE SPEC FOUND" → "PARENA UPSTREAM" → "ITS AN EDITOR
+  AND A LANGUAGE" → "its like EDU scripts scary older sister" → "parena is the native API does
+  that make sense" → "PARENA needs a standard library like the golang one" → "just build it right
+  in yolo like php" → "but using PARENA to do it" → "then northstar that bitch and build it pure
+  before we have to think about how it plays with EDU script." Two readings that don't fully
+  reconcile: (a) PARENA is an existing found project ("upstream," "spec found") to adopt/depend
+  on, positioned as more powerful/lower-level than EduScript (the prior mod-surface-scripting-
+  language incumbent, `GoblinFoxDragon/docs2/MOD_SURFACE_NORTHSTAR.md`) — a native API for
+  scripting the arena engine directly; or (b) PARENA is a new language+editor+stdlib to be
+  designed and built from scratch, fast and pragmatically ("yolo like php," not over-engineered).
+  Genuinely blocking: cannot write a real NORTHSTAR or start building without knowing which, and
+  if (a), the actual repo/URL/spec-file location is still unknown. Not started — real founder
+  clarification needed before any work here, asked directly this session rather than guessed at.
+  (sess-20260820-0649-a3f19d93)
