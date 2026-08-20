@@ -17884,3 +17884,36 @@ it, captured here before context-switching to PARENA. None of these are started.
   套件)。CI 用 GitHub Actions API 確認綠燈(run `32401074345`)。Apple #14952,
   commit `254fb39`。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-37: Tyler 視角部落格文章「What a Legendary Product Designer Sees in
+  PARENA」發布到 OKEMILY blog。DONE。** 創辦人:「and then do another tyler followup
+  blog spotlight on PARENA and what it brings to the ecosystem from a product
+  perspective」+「prioritizing that blog post first」。發布網址:
+  https://okemily.com/blog/what-a-legendary-product-designer-sees-in-parena/(已驗證
+  200、標題/作者正確)。延續既有『Keynote Follow-Up: What a Legendary Product Designer
+  Sees in Sixteen Real Days』系列格式(Tyler 借用 product-designer 身分、Ghost of
+  Abraham Lincoln LEGO 客串吐槽、verified vs unverified 的誠實框架)。內容呼應同日稍早
+  發布的 FATBABY_NEWSWIRE PARENA 新聞稿(S189-30),聚焦 #target/inline-c FFI 機制讓
+  `editor_plugin.prn` 首次完整編譯成功這件事的產品意義、mod-surface API 哲學、以及
+  創辦人在同一個 session 明確打破『everything as a mod』政策去立即修 S189-36 clipboard
+  critical bug 這個決定本身的產品意義。誠實列出真實未完成項目。刻意不揭曉新 IDE fork
+  的名字(命名儀式依創辦人指示留給獨立的下一篇 followup,避免語氣衝突)。透過 IDUNA
+  blog API 發布,footer 同步,commit `6268fd8`(OKEMILY repo),已部署並驗證。
+  Apple #14955。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-38: IDE fork 命名儀式(獨立 followup blog 文章)+ IRONCLAD 被否決。**
+  創辦人一連串命名討論:「choose a beetle name for the fork」→ 我選了 IRONCLAD →
+  「IRONCLAD sucks have tyler name it」(否決,要求改由 TYLER 角色命名,不是我直接選)→
+  「call out to GPT2 for help」(要求呼叫 gpt2-alpine-c 的真實 fine-tune 推論管線
+  `scripts/serve.py`:8088 協助生成候選名字)→「pon a fib for characters returned」+
+  「4 seeds」+「chain the feedback on the 4 seeds on the fib up to whatever is
+  roughly 250」(生成參數:4 個 random seed,長度沿費波那契數列遞增到約 250 字元,
+  鏈式回饋)。GPT-2 推論伺服器 health check 當下卡住(背景執行逾時,原因待查——可能是
+  模型未預載入/loading 中,或本環境本來就沒有實際跑著這個 server,需要先確認能不能在
+  本 VPS 啟動)。**待辦**:(a) 確認 gpt2-alpine-c 推論伺服器能否在本環境啟動、(b) 依
+  上述參數跑 4 個 seed 的費波那契鏈式生成、(c) 讓 TYLER 從候選中挑一個(或用候選啟發
+  TYLER 自己創作)、(d) 寫一篇獨立的命名儀式 followup blog 文章正式命名這個 IDE fork、
+  (e) 命名確定後在 CLAUDE.md monorepo 表格新增一筆新 stub repo 條目(比照 TTT/CarePyre/
+  EXODUS 既有 stub 模式)。
+  (sess-20260820-0649-a3f19d93)
