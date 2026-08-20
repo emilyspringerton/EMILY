@@ -1692,6 +1692,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新需求: 「ensure PARENA has a separate deterministic construct build」——要求 PARENA 要有一個獨立、確定性(reproducible)…** — obs `2026-08-20T20:41:49Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「stdlibs missing first into stdlibs」+「obviously parena clis is a prereq for all continued work」+「con…** — obs `2026-08-20T20:39:27Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,重要修正: 「but implemented pure PARENA」——澄清 CSV/LONGMA 功能不是 FFI 綁定既有 Go 二進位檔(不是 pentest/gfd 那種『呼叫外部真實工具』模…** — obs `2026-08-20T20:33:03Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time:「instead of calling out to c for all of the pentest tools」+「can we enqueueu the dep stdlibs」——目標是讓 pe…** — obs `2026-08-20T21:54:03Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「same clie api」(=same cli api)——資料科學工具的 CLI 介面形狀要跟 LONGMA 一樣(Cobra 風格子指令)。回到 Bool/F64 參數判定分支實作。** — obs `2026-08-20T20:32:39Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充方法論: 「like longma」——資料科學工具要比照 LONGMA 的模式(fork 真實既有工具,再把功能綁進 PARENA stdlib/CLI),不是憑空發明。併入前一則記錄。** — obs `2026-08-20T20:32:33Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新需求: 「build data science utilks into PARENA cli」——要求把資料科學相關工具加進 PARENA CLI(呼應既有 STDLIB.md 的 array/lin…** — obs `2026-08-20T20:32:27Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,查證完成: 「build the longma functionality into the PARENA stdlibs」+「you are gonna need to clone it down」—…** — obs `2026-08-20T20:31:32Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
