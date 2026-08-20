@@ -18009,3 +18009,41 @@ it, captured here before context-switching to PARENA. None of these are started.
   條目(比照 TTT/CarePyre/EXODUS 既有 stub 模式),尚未建立實際 repo/程式碼,只有命名+
   使命宣言。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-41: PRRJECT_FATBABY 資料管線全面健康檢查。DONE(audit,無需修復核心
+  管線)。** 創辦人:「check all the fatbaby data pipelines」+「make sure they are
+  healthy and collecting press releases and sec stuff and earnings and guidance and all
+  of it」。**結果:創辦人具體點名的收集項目全數健康**——`secwatch`(SEC EDGAR)、
+  `prwatch`/`prwatch-body`(PR Newswire)、`guidance-watcher`(財測)、
+  `eps-processor`/`eps-reconciler`(財報)全部即時運作中,近期日誌零錯誤,`var/` 資料
+  在檢查當下幾分鐘內持續更新。連帶確認 `entity-graph`/`form4-watcher`/`nt-watcher`/
+  `schd13-watcher`/`pr-indexer`/`pr-reaction-watcher`/`market-data-watcher`/
+  `earnings-calendar`/`dividend-watcher`/`buyback-watcher`/`broker`(:8679)/
+  `signalapi`(:9091)也全部健康。**真實發現、待修的問題**(下游展示層,非核心收集):
+  (1) `dashboard` 自 2026-05-30 起沒成功啟動過,原因是 port :8080 跟 IDUNA 衝突
+  (`bind: address already in use`)。(2) `feedserver`、`jon-agent` 自 2026-06-17 起
+  沒再啟動過,`jon-agent` 設定裡的 model 字串是舊的 `claude-sonnet-4-6`,重啟前需要先
+  更新。(3) `newssite` 當天稍早(19:46)有嘗試啟動但索引建置被取消(`context
+  canceled`),疑似手動啟動後被中斷,不是真正 crash。(4) `movers-watcher`/
+  `bond-watcher` 確認是排程式一次性任務(非持續進程),最近一次執行都成功,健康。
+  (5) `bin/` 目錄裡有比 `PRRJECT_FATBABY/CLAUDE.md` 既有 process 表格更多的二進位檔
+  (`kgraph-server`/`projector` 等),該文件的 process 表格本身已過時,未反映這些真實
+  存在的處理程序,待補充更新(獨立小任務)。Apple #14986(audit)。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-42: TINA desk engine——用 PARENA + Go plugin 架構自動發布 TINA 系列文章
+  (guidance raise 觸發)。** 創辦人:「and start publishing TINA stories based on press
+  releases that come through on the same day as guidance increases」+「full
+  disclousures as usual」+「a true TINA desk engine」+「in PARENA」+「build the go
+  parena plugins」。確認架構:不是要 PARENA 本身憑空長出 HTTP/JSON/collection 能力去
+  撐起整個引擎,而是採用跟 `stdlib/editor/plugin.prn` 完全同一個模式——PRRJECT_FATBABY
+  (Go)這邊做出真正的 host-side plugin 函式(讀 `var/guidance`/`var/prwatch-body` 找
+  同一天的新聞稿+guidance raise、發布 TINA 文章到 blog),PARENA 這邊用 `#target/
+  inline-c` FFI 宣告介面呼叫進去。**待辦**:(a) 了解 TINA 現有的內容產生機制實際長
+  什麼樣子(現有貼文如「TINA: CAMELS — What We Won't Claim to Know」是怎麼寫/發的,
+  disclosure 慣例是什麼)、(b) 設計 `stdlib/fatbaby.prn` 風格的 plugin 介面檔案、
+  (c) PRRJECT_FATBABY 對應的真實 Go host 函式(guidance-raise-and-same-day-pr 偵測、
+  TINA 文章草稿產生、含完整揭露的發布)、(d) 串接觸發時機(guidance-watcher 本身
+  publish 時,還是另一個獨立的 poller)。S189-41 的健康檢查已確認 `guidance-watcher`/
+  `prwatch-body` 資料源本身健康,這條路徑是真實可行的。
+  (sess-20260820-0649-a3f19d93)
