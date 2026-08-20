@@ -18576,3 +18576,21 @@ it, captured here before context-switching to PARENA. None of these are started.
   `scarab.prn` 仍卡在既有的多欄位 `defenum` payload 缺口,這兩者這次都沒動。
   Apple #15129。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-65: 重大里程碑——多欄位 defenum payload 落地 + parena build 真正支援
+  多檔案編譯,解掉整個 session 一直撞到的模組連結缺口。DONE。** commit `0a51bab`
+  (多欄位 defenum,scarab.prn 的 SuiteNode 真的過關,推進到跟另外兩個 ladybug 檔案
+  完全同一個既有模組連結缺口)+ commit `bfef2b5`(重大架構級突破)。`parena build`
+  現在可以吃多個 `.prn` 檔案,把各自頂層形式合併成同一個編譯單元(`parena build
+  firefly.prn firefly/ladybug.prn -o out.c`),真正解掉這整個 session 反覆撞到的
+  「T 在 firefly.prn 定義、單獨編譯時看不到」那道牆。誠實範圍:不是真正的 linker,
+  沒有分開的編譯單元、沒有真正模組命名空間,就是把每個檔案自己的頂層形式串起來,檔案
+  順序仍要人工排對,`(module ...)`/`(import ...)` 依然是既有的 no-op。真實驗證分兩步
+  (新增 `examples/multifile_a.prn`+`multifile_b.prn` + `run_multifile_check.sh`
+  整合測試,接進 Makefile `test-multifile` 跟 CI):兩檔一起編譯出真正 gcc 乾淨的 C;
+  單一檔案(用到另一檔定義的型別)單獨編譯依然誠實失敗,證明成功是真的跨檔案解析不是
+  巧合。用這個新機制實測 firefly.prn+ladybug.prn,確認真的推進過模組連結牆,落在
+  全新、獨立缺口——匿名函式/closure(`(fn [args] body)`,ladybug.prn 自己的 `equal`
+  函式捕捉外層 `expected` 參數),VS0 目前每個 Fn 值都只是裸 C 函式指標,沒有真正
+  closure 表示法,這次沒動。`tests/test_emit.c` 163→173。Apple #15131、#15134。
+  (sess-20260820-0649-a3f19d93)
