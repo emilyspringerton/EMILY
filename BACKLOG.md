@@ -1607,6 +1607,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 「read the keynoat state of the ecosystem blog」(keynoat=keynote 打字錯誤)——要求閱讀『State of the Ecosystem』(以…** — obs `2026-08-20T17:13:03Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「continue hammering on PARENA」(重申優先權,持續進行)+「then do a followup to the product update with tyler」——PA…** — obs `2026-08-20T17:12:55Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,連續訊息: (1)「but the native PARENA implementation of an ide we can use to work with our vps with」——重申 IR…** — obs `2026-08-20T17:12:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,澄清 IRONCLAD 的定位: 「for the ide」+「same stated goals as pitviper exactly」——確認 IRONCLAD 是專門給『用 PARENA 寫的 …** — obs `2026-08-20T17:12:11Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新命名決定: 「choose a beetle name for the fork」+「instead of pitviper (ANAGRAM OF SHANKPIT)」——確認『rewrite pi…** — obs `2026-08-20T17:12:02Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,提高 vim copy-paste bug 重要性: 「if we have to drop into a bare metal copy paste must work this tool unstu…** — obs `2026-08-20T17:11:04Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,精確化: 「its kind of pointless except it does work not in vim」——澄清 copy-paste 其實在 PITVIPER 一般情況下有效,問題精確侷…** — obs `2026-08-20T17:10:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新回報,解釋剛才的『~』(其實是在測試 copy-paste): 「oh wait copy paste doesnt work in vim」——複製貼上在 PITVIPER 裡的 vim 中不能用。…** — obs `2026-08-20T17:10:28Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
