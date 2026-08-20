@@ -17762,6 +17762,24 @@ it, captured here before context-switching to PARENA. None of these are started.
   後直接照此實作**:`Resize()` 裡应該把 `scrollRegTop`/`scrollRegBot` 一併 clamp 到新的
   `[0, rows-1]` 範圍(或直接重設成 `0, rows-1`,取決於是否要保留使用者自訂的捲動區域
   比例——由屆時實作者判斷)。
+
+  **(8) 更新 2026-08-20,續:同一輪 tmux+vim 診斷延伸出的三個具體症狀,強化同一根因假設。**
+  「vim works except i cant see the part where its telling me quit without saving or
+  whateve」→「i cant see the command si type they are like below the window」(vim 底部
+  command-line 那一列被畫到視窗可視範圍之外,不是單純看不到)→「also when i am typing
+  commands the pane doesnt scroll」+「we are in tmux」→「usually when the screen is full
+  it scrolls not in pitviper」+「in ssh」(確認是純 SSH PTY session,排除 gfdMode 額外
+  status bar 高度計算這個假設)。唯讀確認 `Screen.scrollUp()`(vterm.go 第 274 行起)
+  本身邏輯是對的:`top==0 && bot==s.rows-1` 時走完整畫面捲動(存 scrollback、整體上移、
+  底部清空),邏輯正確,不是缺少捲動實作。這強化了 (7) 的根因假設:一旦 `Resize()` 後
+  `scrollRegBot` 沒跟著更新而停留在舊值,`top==0 && bot==s.rows-1` 這個完整捲動判斷式
+  就會失真(bot 不等於新的 s.rows-1),導致改走『限制區域捲動』分支(不存 scrollback、
+  範圍計算依賴同樣過期的 top/bot),這樣就會同時解釋:vim 狀態列/command-line 消失或跑到
+  畫面外、tmux pane 打字時不捲動、SSH 一般終端機填滿畫面不捲動——都是同一個
+  `scrollRegTop`/`scrollRegBot` 未隨 `Resize()` 更新的根因,不是三個獨立 bug。優先權
+  收斂(創辦人:「but fix the glyph issues first」「with PARENA」「so do that mod
+  work」):字型 glyph 問題(S189-27)優先於這批 vterm/捲動問題,兩者都要用 PARENA 做成
+  mod,前提都是先把 mod-surface API 的『非 Arena 型別參數』缺口(S189-29 記錄)解決掉。
   (sess-20260820-0649-a3f19d93)
 
 - [ ] **S189-33: 其餘今日發散、已記錄待排入的項目(不阻斷 mod-surface 主線)。** (a)
