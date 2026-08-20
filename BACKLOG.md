@@ -1357,6 +1357,16 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: data point / possible bug — some GFD accounts appear to already have Flow currency; founder recalls …** — obs `2026-08-20T03:41:14Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (ecowar cards continued, clarifying) the weighted marble-bag + Fibonacci-pity mechanic applies to BO…** — obs `2026-08-20T03:40:48Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (ecowar continued) resource speed-up mechanic — after ~2 minutes, a catch-up/acceleration effect kic…** — obs `2026-08-20T03:39:44Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (multi-seat Fibonacci pricing continued) unsure exactly where that doc lives — 'it's in some wiki so…** — obs `2026-08-20T03:54:25Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (PITVIPER/lobbies continued) human-only lobbies should exist as their own queue type; non-native bot…** — obs `2026-08-20T03:54:04Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (PITVIPER multiverse portal continued) the portal should let players queue up for different REDGARDE…** — obs `2026-08-20T03:53:21Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (PITVIPER continued) proposing PITVIPER as THE multiverse portal — a unified hub/launcher tying toge…** — obs `2026-08-20T03:52:27Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (mod surface continued) new architectural idea — both GFD clients (lobby + battlegrounds_gui/FPS) mi…** — obs `2026-08-20T03:52:21Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (mod surface continued) especially prioritize the FPS 'edu edition' client (apps2/battlegrounds_gui)…** — obs `2026-08-20T03:52:13Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: standing MO for GFD — all game expansions/features must be built as mod-API-first (mod surface exist…** — obs `2026-08-20T03:51:37Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
