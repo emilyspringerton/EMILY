@@ -1452,6 +1452,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, restating/confirming the Drive-ingest ask concretely: ensure a page exists in IDUNA's admin Back Off…** — obs `2026-08-20T06:57:49Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, NEW STANDING ORDER: all Apples must be signed with an anchor emoji (⚓) and a UTF-8 snowman (☃) going…** — obs `2026-08-20T06:57:09Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, stream-of-consciousness: 'i could just upload it but i need to find the mouse' / 'hmm' -- reads as f…** — obs `2026-08-20T06:56:24Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, major new feature ask: chess. 'also chess' / 'metalverse vs0 bots from osaka garage in FGD into 1v1 …** — obs `2026-08-20T08:01:23Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, pushing back on S187-04 being marked too-vague-to-scope: 'but i had also specified idempotent and lo…** — obs `2026-08-20T08:01:18Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, resolving the Google-login-vs-service-account fork from my last question: 'i guess we need per agent…** — obs `2026-08-20T08:01:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'double click enforced check emily os' -- read as: the Ingest action should require a double-click (…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, scoping the Drive-ingest ask further: UI affordances needed are (1) list the files (from IDUNA's exi…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
