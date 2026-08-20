@@ -16289,6 +16289,19 @@ humans an interface." Logged before writing per Principle 1; spec-only, same pos
   as the explicit visual reference). Not started — named and grounded so a future Blender session
   doesn't have to re-derive target selection. Apple #14371, GoblinFoxDragon aa581aa/e350790.
   (sess-20260813-2154-dda37e8b)
+- [x] **S181-08: Fix Raccoon special-move fallthrough bug.** Founder: "fallthrough" / "the state
+  machine all the super sensitive stuggs." Real bug in S181-06's dispatch chain: Raccoon's dash
+  gates on `dodge_cooldown`; the generic turnip fallback right after it gates on
+  `turnip_cooldown` — a different field Raccoon never touches (always 0 for that character). Dash
+  on cooldown fell through the character-mismatched branches and hit the generic fallback on its
+  own terms, incorrectly spawning a turnip and breaking Raccoon's "pure mobility, no offense"
+  identity. Fixed by excluding all 4 custom-special characters explicitly from the fallback rather
+  than relying on them coincidentally sharing its gating field (the other 3 happened to already
+  share `turnip_cooldown` so could never have hit this exact case, but the fix makes the
+  fallback's contract true by construction, not accident). Regression test reproduces the exact
+  scenario and confirms the fix (5/5 checks: no fallthrough, Raccoon's real dash still fires once
+  ready, generic characters still get their turnip). Apple #14472, BRAWLPIT 5db7468/f27f221.
+  (sess-20260813-2154-dda37e8b)
 
 ---
 
