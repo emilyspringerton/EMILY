@@ -17085,11 +17085,26 @@ it, captured here before context-switching to PARENA. None of these are started.
   `.github/workflows/build.yml` actually runs, in order: physics test, Windows client
   cross-compile (the fix), Linux server build, full `scripts/build.sh`. Also added a `.gitignore`
   (repo had none). Apple #14744, commit `223dea7`.
-- [ ] **S189-08b: SHANKPIT mainline + MJOLNIR CI builds — still broken, not yet actioned.**
-  Systematic sweep (this session) found SHANKPIT mainline (`c38ced26`) and MJOLNIR (`6c68e3dc`)
-  both genuinely failing, alongside BRAWLPIT (now fixed, S189-08a above). Founder asked "the
-  build is failing for mainline shankpit?" uncertainly, and "not sure what else" before the sweep
-  itself surfaced MJOLNIR — neither has been explicitly actioned since. Not started.
+- [x] **S189-08b: SHANKPIT mainline CI build — fixed. DONE.** Founder: "the build is failing for
+  mainline shankpit?" Reproduced CI's exact mingw cross-compile locally (mingw-w64 already
+  installed for BRAWLPIT's own fix, reused here). Root cause: commit `f31cfcd` ("GOLDENBAND真人
+  骨骼蒙皮網格取代Tyler方塊body", S144-02 Stage B) added real `gband_mesh_rig_init`/
+  `gband_mesh_rig_draw` calls to `apps/lobby/src/main.c`, but `.github/workflows/tests.yml`'s
+  Windows Client build command was never updated to compile+link `packages/goldenband/*.c` —
+  undefined reference at link time, invisible without actually running the mingw linker (`go
+  test ./...` and plain Linux gcc compiles of the same source were both clean the whole time).
+  Fixed: added the 4 real goldenband source files + include path. Verified clean against the
+  real mingw-w64 cross-compiler, CI confirmed green. Linux Server build confirmed unaffected
+  (zero goldenband references in `server/main.c`). Apple #14748, commit `e807597`.
+- [x] **S189-08c: MJOLNIR CI "failure" — confirmed to be the existing Firebase blocker, not a
+  new bug. DONE (investigation, not a fix — none is possible without founder action).** Checked
+  rather than assumed: CI's own workflow comment already documents the real cause — fails at
+  "Build staging APK" because the `GOOGLE_SERVICES_JSON` repo secret was never set (no Firebase
+  project exists in the one GCP account this session has access to, confirmed earlier — see the
+  Firebase thread near S188). No `google-services.json` exists locally either, and no `gradlew`
+  wrapper is present to even attempt a local build. Not a second, independent bug hiding
+  underneath — the exact same, already-known, founder-console-only blocker. Not faking a dummy
+  credential to make CI pass; that would produce a broken APK, not a fixed build.
 - [ ] **S189-09: SHANKPIT bot reward-window fix.** From the earlier "twitchy and weird" /
   "flawless ctf sometimes" investigation this session: `BotGenome` evolution selection uses
   `accumulated_reward` reset every respawn (a very short, luck-prone evaluation window), plausibly
