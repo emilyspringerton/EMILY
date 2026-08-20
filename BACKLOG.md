@@ -17470,3 +17470,22 @@ it, captured here before context-switching to PARENA. None of these are started.
   跑東西的階段)目前只驗證過 `examples/valid_only.prn` 這一個特定形狀——設計廣度已經明顯超
   前於「真的能跑」的深度,誠實記錄這個落差而非含糊帶過。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-21: PARENA pentest/* 工具集 + idvault/pitviper/expand + 依賴關係圖完整重整
+  (57 個套件);PITVIPER §7「wandering oracle」核心原則。DONE。** **pentest**:創辦人「std libs
+  for full pen test tools」→「backtrack」→「or whatever the newest swiss army knife bootable
+  linux」(Kali Linux)→「all the most popular tools」→「wireshark」→「rainbow tables」——
+  pentest/scan(nmap)、pentest/pcap(Wireshark/tshark)、pentest/webapp(sqlmap+Nikto)、
+  pentest/wireless(Aircrack-ng)、pentest/crack(John+Hashcat+rainbow table)、pentest/exploit
+  (Metasploit,明確聲明授權測試專用),標準備註:不代表策略轉向資安公司。**idvault +
+  pitviper/expand**:創辦人「and vault integration for password management」→「its built into
+  iduna already」(查證確認真實既有 API)→「but dont focus on that for now keep it an agnostic
+  tool until we really need to tighten all of those feedback loops」——刻意淺層設計。
+  **依賴關係圖完整重整**:創辦人「again we need the cli to systematize i say over and over plan
+  those deps」重複多次要求,從 38 項擴充到 57 項(補齊漏掉的 world/mapbuilder/*),修正兩處
+  過時內容(優先順序反映真實現況、VS0 進度說明從「domain 2-5 沒開始」改為誠實反映 domain 1-4
+  已完成)。Apple #14824-14828,commits `aea8358`→`0b790c8`。**PITVIPER §7**:創辦人真實陳述、
+  明確要求成為核心原則:「tightening a middle feedback too quickly is like a wandering
+  oracle」→「it can be catastrophic」→「make that a core pillar of the system」——加進
+  docs/NORTHSTAR.md 既有的「Design Constraints (Never Compromise)」章節,§7(創辦人指定用
+  § 符號),已註冊的 golden doc 無需新增條目。Apple #14830,commit `6336426`。
+  (sess-20260820-0649-a3f19d93)
