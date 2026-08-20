@@ -1,4 +1,5 @@
 ## 2026-08-20
+- 發布 Tyler 命名儀式部落格文章「Naming JEWEL」——PARENA 原生 IDE 正式命名為 JEWEL(jewel beetle,呼應 PITVIPER 既有的 F11 shiny font 玩笑),誠實記錄 IRONCLAD 被否決 + GPT-2 推論真實結果(4 次生成都是不相關的技術雜訊,含一次把 PITVIPER 誤植成 POTVIPER-INCLUDE) (sess-20260820-0649-a3f19d93)
 - 發布 Tyler 視角部落格文章「What a Legendary Product Designer Sees in PARENA」,同系列 keynote-followup 格式,聚焦 PARENA 對整個生態系的產品價值(mod-surface API 哲學、今天的真實技術進展、誠實缺口清單) (sess-20260820-0649-a3f19d93)
 - 發布 FATBABY_NEWSWIRE 新聞稿「PARENA Eats the Codebase From the Outside In」到 OKEMILY blog,涵蓋 PARENA compiler/stdlib/哲學/Bazel/後續規劃 (sess-20260820-0649-a3f19d93)
 - Added `scripts/gmail_imap_fetch.py` — on-demand IMAP read tool using the SAME
