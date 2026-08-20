@@ -17989,3 +17989,18 @@ it, captured here before context-switching to PARENA. None of these are started.
   target)、`bazel test` 三個測試套件,全部通過。CI 綠燈(run `32402871822`)。Apple
   #14960,commit `90a8cfa`。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-38(收尾): IDE fork 最終命名確定為 SAND。DONE。** GPT-2 推論 4 次生成全數
+  跑完(結果誠實、不相關的技術雜訊,例如把 PITVIPER 誤植成 POTVIPER-INCLUDE),TYLER
+  先挑了 JEWEL(jewel beetle,呼應 PITVIPER 既有 F11 shiny font 玩笑),發布
+  https://okemily.com/blog/naming-jewel/(Apple #14976)。發布不到一小時,創辦人推翻:
+  「just call it the SAND editor」→「S EXPRESSION AND NOT DUMBSHIT」→「fix the
+  acronyum」+「make it self referential if you can」。最終定案:**SAND = S-expression
+  And Not Dumbshit**(創辦人原話直接採用為正式展開),自我指涉層面:SAND 是用
+  S-expression 語言(PARENA)寫成、用來編輯 S-expression 原始碼的工具,呼應 GNU=
+  "GNU's Not Unix" 的經典命名傳統。blog API 沒有 PUT/PATCH,改用另發更正文章誠實處理
+  (https://okemily.com/blog/correction-its-sand/,Apple #14981),不悄悄修改或忽略
+  已發布的錯誤命名。已在 `/home/fatbaby/CLAUDE.md` monorepo 表格新增 SAND 的 stub repo
+  條目(比照 TTT/CarePyre/EXODUS 既有 stub 模式),尚未建立實際 repo/程式碼,只有命名+
+  使命宣言。
+  (sess-20260820-0649-a3f19d93)
