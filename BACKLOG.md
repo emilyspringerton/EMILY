@@ -1707,6 +1707,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新任務: 「build day night cycle into a mod」+「shankpit day night cycle」——要求把日夜循環系統做成一個 mod(對應 SHANKPIT)。真實…** — obs `2026-08-20T20:21:48Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,改變順序: 「except probbably mostly the same」(軟化剛才的 WC3-反向比喻)+「except PARENA」(強調要用 PARENA)+「plan any missi…** — obs `2026-08-20T20:21:40Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,設計色彩: 「like the reverse of warcraft 3」——形容『自訂模式』構想:WC3 的世界編輯器讓一個 RTS 引擎孕育出 DOTA(MOBA);REDGARDEN 反過來,本…** — obs `2026-08-20T20:21:28Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充: 「ship redgarden map editor」+「allowing building custom modes」——確認要出貨 REDGARDEN 的地圖編輯器,且要能讓玩家/建置者自訂…** — obs `2026-08-20T20:20:53Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,再次改變優先順序: 「redgardenn first tho」——推翻剛才選定的 METALVERSE,改成 REDGARDEN 優先。這是連續第三次改變方向(REDGARDEN map editor…** — obs `2026-08-20T20:20:13Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,持續重申: 「PARENA」「API ffirst」「mod api first」「PARENA」——維持既有排序不變。gfd.prn 已經存在完整設計,含 Bool 跟 F64 兩個目前 resolv…** — obs `2026-08-20T20:19:58Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充部署目標: 「built into GFD fps lobby」——確認 METALVERSE 面板要接進 apps/lobby 的『Architect's Orb』終端機(STDLIB.md 自己…** — obs `2026-08-20T20:19:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,回答優先權問題: 選擇『on METALVERSE』——不是 REDGARDEN mapeditor 也不是 PARENA CLI,而是 METALVERSE(STDLIB.md 的 gfd.prn 章…** — obs `2026-08-20T20:19:36Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
