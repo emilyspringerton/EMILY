@@ -16548,3 +16548,20 @@ own scoped items instead of staying buried in the intake queue.*
   relay or a native WebSocket listener on `apps2/server-go` is genuine, unstarted follow-on work.
   Marked partial (`[~]`), not done — the rendering port was the easy half. Apple #14565,
   GoblinFoxDragon a2afcff. (sess-20260813-2154-dda37e8b)
+- [~] **S186-03: Gmail integration — SMTP App Password fallback path added, waiting on the
+  founder's own credential.** Founder: "we need to get the email integration fixed" → offered a
+  Google Account App Password + SMTP over the existing OAuth2 refresh-token flow, which needs a
+  one-time interactive browser consent flow only the founder can complete. Added the real code
+  (`emily-agent/gmail.go`): `GMAIL_SMTP_ADDRESS`/`GMAIL_SMTP_PASSWORD`, `net/smtp` + STARTTLS to
+  `smtp.gmail.com:587`, no new dependency; `buildGmailClient()` prefers the real API when
+  configured (read+send), falls back to SMTP (send-only) otherwise. The founder's own ask for a
+  fast-tracked `emily key` command was already satisfied by existing infrastructure
+  (`emily.cli/cmd/key.go`'s generic `emily key set <NAME> <VALUE>` form) — no new CLI subcommand
+  needed. Explicit privacy boundary honored: no code path logs email content anywhere persistent.
+  Marked partial: the code is real and tested (`go test ./...` clean) but not yet exercised with
+  a real credential — waiting on the founder to run `emily key set GMAIL_SMTP_ADDRESS <address>`
+  and `emily key set GMAIL_SMTP_PASSWORD <app password>`, then restart `emily-agent` to pick it
+  up. Also noted: founder emailed their invented-language spec (for the GFD mod-surface scripting
+  decision, S184-01) to emilyspringerton@gmail.com — reading it needs Path 1 (OAuth2) specifically,
+  or a follow-up IMAP read path, neither built here (SMTP is send-only). Apple #14575, EMILY
+  c85ee76. (sess-20260813-2154-dda37e8b)
