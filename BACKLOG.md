@@ -1592,6 +1592,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **已完成: FATBABY_NEWSWIRE 新聞稿「PARENA Eats the Codebase From the Outside In」發布到 OKEMILY blog(https://okemily.com/blog/parena…** — obs `2026-08-20T16:47:43Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,提高優先權: 「prioritize the press release about PARENA and the stdlib and the philosophy and BAZEL and the…** — obs `2026-08-20T16:46:06Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,延伸 todo affordance 想法: 「havhave like y pull tup the special slash command that chats into your own pe…** — obs `2026-08-20T16:45:20Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,節奏/魄力提醒: 「1 step forward 2 steps back」+「consider 2 steps forward」+「2 steps frward」——鼓勵不要只走保守的一小步又退回去,…** — obs `2026-08-20T17:09:05Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,授權範圍擴大: 「fill in any parena implementation gaps as needed as you work iteratively minding deps」+「itic…** — obs `2026-08-20T17:08:51Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,澄清規模,大幅縮小: 「right into effing PARENA in examples」+「built with bazel」+「of course」——確認『port it』其實是指:把剛才…** — obs `2026-08-20T17:08:31Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,推進指令: 「you have a working implementation port it」——要求把現有『可運作的實作』(推測指 PITVIPER 現有的 Go/SDL2/vterm 實作)真的…** — obs `2026-08-20T17:08:20Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,澄清規模,解除疑慮: 「with the mod surface as the first feature」——確認『rewrite pitviper in pure parena』是長期願景的具體化,…** — obs `2026-08-20T17:07:59Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
