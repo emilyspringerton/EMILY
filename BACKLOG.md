@@ -17779,7 +17779,12 @@ it, captured here before context-switching to PARENA. None of these are started.
   `scrollRegTop`/`scrollRegBot` 未隨 `Resize()` 更新的根因,不是三個獨立 bug。優先權
   收斂(創辦人:「but fix the glyph issues first」「with PARENA」「so do that mod
   work」):字型 glyph 問題(S189-27)優先於這批 vterm/捲動問題,兩者都要用 PARENA 做成
-  mod,前提都是先把 mod-surface API 的『非 Arena 型別參數』缺口(S189-29 記錄)解決掉。
+  mod,前提都是先把 mod-surface API 的『非 Arena 型別參數』缺口(S189-29/S189-34 記錄,
+  I32/String 已解決,函式型別參數/defenum/泛型 region 仍待做)解決掉。
+
+  **(9) 更新 2026-08-20,續:「also the color changing in claude is only sometimes
+  firing」**——Claude Code 在 PITVIPER 裡的 ANSI 顏色變化只有間歇性生效,併入同一批
+  vterm 渲染問題,尚無診斷,同樣排在 mod-surface API 完成之後處理。
   (sess-20260820-0649-a3f19d93)
 
 - [ ] **S189-33: 其餘今日發散、已記錄待排入的項目(不阻斷 mod-surface 主線)。** (a)
@@ -17794,5 +17799,42 @@ it, captured here before context-switching to PARENA. None of these are started.
   (推測 mud 打字錯誤)——在 GoblinFoxDragon 的 WASM MUD GUI 裡加入 todo 待辦事項
   affordance,但該 GUI 本身還有既有未解決的『blank screen』bug(見更早的
   S189-24 附記),此新功能建立在未修好的東西之上,待標註依賴關係。(e)「PARENA POWERED」
-  ——疑似想要一個品牌標語/徽章,用途待確認。
+  ——疑似想要一個品牌標語/徽章,用途待確認。(f)「use shaders to add crisp white and dark
+  grey shgadows to the tops and bottoms of the letters」+「like its an old web dev
+  trick」+「or even in photoshop」+「you put like a white shadow to make it pop」+「in
+  contrast with the dark sghadow」+「possibly even 2 levels of it」——PITVIPER 文字渲染
+  加上經典 CSS text-shadow 雙層陰影/Photoshop bevel-emboss 圖層樣式效果(上緣淺色、下緣
+  深色,提升可讀性與立體感,可能要兩層),不是即時光照 shader。也是渲染打磨項目,排在
+  mod-surface API 完成之後。
+  (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-34: PARENA C emitter 支援不帶 region 標註的純 I32/String 參數。DONE。**
+  延續「fix the glyph issues first」「with PARENA」「so do that mod work」——mod-surface
+  API 完整可編譯的下一個真正阻礙是非 Arena 型別參數,這是第一步。`emit_defn()` 參數迴圈:
+  找不到 region keyword 時,先檢查是否是 `(name : I32)`/`(name : String)` 這種恰好三個
+  children、沒有 `@ region` 標註的純值型別參數——`stdlib/editor/ui.prn` 的
+  `set-gutter-marker`(行號)、`show-popup`(x/y 像素座標)真實會用到的形狀。符合則綁定
+  成真正的 C 值(`int`/`char *`)而非 `Arena *`。其餘情況(自訂具名型別如
+  `DiagnosticSeverity`、或 `Arena @ Region` 這種裸符號、非 keyword 的泛型 region 變數)
+  維持誠實失敗。`tests/test_emit.c` 新增 6 個測試(41→47 全綠)。真實驗證:
+  `stdlib/editor/ui.prn` 的 `set-gutter-marker` 現在完整編譯成功;
+  `stdlib/pitviper/protocol.prn` 的 `serve` 參數(I32 port + String root)也編譯成功,
+  卡在函式主體內一個完全獨立、已知的既有限制(對一般函式呼叫的推論型別 `void *` 做
+  match,不是這次改動造成的新問題)。Makefile+Bazel+ASan/UBSan+domain4 全數通過,CI 用
+  GitHub Actions API 確認綠燈(run `32395113988`)。**仍未做(mod-surface API 完整可編譯
+  前還缺)**:函式型別參數(`handler : (Fn [] Unit)`,`editor/plugin.prn`/
+  `editor/events.prn` 需要)、`defenum`(`editor/events.prn` 的 `EditorEvent` 需要)、
+  泛型 region 型別變數(`Arena @ Region` 這種裸符號用法,多個檔案都有用到)、自訂具名型別
+  (`DiagnosticSeverity` 等)、一般函式呼叫的真實回傳型別推論(不再預設 `void *`,
+  `protocol.prn` 的 `serve` 卡在這個)。Apple #14918,commit `cf14d96`。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-35: PITVIPER 完整語法高亮,第一個語言用 PARENA 自己的語法。** 創辦人:
+  「make sure we are set up to do full syntax highlighting in pitviper start with PARENA
+  syntax」+「just make up the color scheme whatever is standard for that style syntaxes」
+  ——要求 PITVIPER 支援完整語法高亮,第一個支援的語言是 PARENA 自己(呼應「PARENA
+  POWERED」自我實踐的精神,用 PARENA 語法高亮 PARENA 原始碼)。配色不用特別設計,採用
+  S-expression/Lisp 家族(Clojure/Scheme 等)業界標準慣例即可,已授權自行套用標準,不用
+  再次確認。屬於 vim-like editor mod-surface 工作的一部分,依「mod surface first」排序
+  在 mod-surface/plugin API 完成之後處理。
   (sess-20260820-0649-a3f19d93)
