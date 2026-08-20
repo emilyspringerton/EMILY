@@ -17932,3 +17932,40 @@ it, captured here before context-switching to PARENA. None of these are started.
   結果會寫進 `/tmp/gpt2_beetle_results.txt`。命名儀式部落格文章待這批生成完成、
   交給 TYLER 之後才能寫。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-39: PARENA C emitter (Fn [] ..) callback 泛化支援任意回傳型別 + 新增
+  cache stdlib(Russian doll nested caching)。DONE。** 創辦人:「add russian doll
+  nested cashing to the stdlib」。`emit_defn()` 的 `(Fn [] Unit)` callback 參數泛化成
+  `(Fn [] <ReturnType>)`,接受 `resolve_declared_type()` 理解的任何回傳型別
+  (Unit/I32/String/(Result ..)/(Option ..)),不再只限 Unit——真實動機是新
+  `stdlib/cache.prn` 的 `fetch()` 需要回傳 String 的 compute thunk(`Rails.cache.fetch
+  (key) { compute }` 這種經典 idiom)。新增 `STDLIB.md` 的 `cache` 章節 +
+  `stdlib/cache.prn`:Rails 的 Russian doll nested caching 真實先例——fragment 的
+  cache key 由自己的 name/version 加上每個 child fragment 目前的 key 組成,child 版本
+  變動時 parent 組出來的 key 跟著變,parent 下次 fetch 就是真正的 cache miss,cascading
+  invalidation 完全從 key 組合本身自然發生,不需要額外的往上走訪機制。5 個函式(open/
+  key/fetch/invalidate!/touch!),誠實標註:實際儲存後端是真實、host-side、尚未決定的
+  工作,key composition 是真實字串組合而非加密雜湊。用真實檔案驗證:`cache.prn` 卡在
+  已知、獨立的 `Arena @ Region` 泛型 region 標註缺口(`open` 的 `dest` 參數),不是這次
+  改動造成的新問題;用簡化測試確認 `(Fn [] String)` 本身確實正確 emit 成
+  `char * (*compute)(void)`。`tests/test_emit.c` 新增 3 個測試,47→50 全綠。
+  Makefile+Bazel+ASan/UBSan+domain4 全數通過,CI 綠燈(run `32402829215`)。Apple
+  #14959,commit `24f82b3`。
+  (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-40: editor_plugin.prn 進 PARENA examples/,新增真正的 Bazel target
+  建置+編譯驗證。DONE。** 創辦人:「right into effing PARENA in examples」+「built
+  with bazel」+「of course」。把 S189-29 完整驗證過可編譯的 `stdlib/editor/plugin.prn`
+  複製進 `examples/`,新增 `examples/BUILD.bazel`:每個範例一個 genrule(跑真正的
+  `parena` binary 產生真正的 C99)+一個 `cc_library`(用 DoD 同一套 `-std=c99 -Wall
+  -Wextra -pedantic -Werror` 旗標真的編譯那份產生出來的 C,不只是產生文字)。
+  `editor_plugin.prn` 的 `#target/inline-c` body 呼叫真實 host-side 符號目前都還不
+  存在(真實、尚未開始的工作,不是 bug)——新增 `editor_plugin_host_stubs.h` 提供誠實
+  的 extern 宣告,`editor_plugin_check.c` 把它跟產生出來的 C 一起 `#include` 編譯,
+  讓這個 `cc_library` 仍然守住 DoD 的『零警告編譯』真實驗收標準,而不是悄悄放寬
+  `-Werror=implicit-function-declaration` 讓它蒙混過去。`runtime/BUILD.bazel` 補上
+  `includes=["."]`,讓其他 package 的 `cc_library` 可以正確解析 VS0 產生出來的 C 檔案
+  裡那個裸的 `#include "parena_runtime.h"`。驗證:`bazel build //...`(全部 15 個
+  target)、`bazel test` 三個測試套件,全部通過。CI 綠燈(run `32402871822`)。Apple
+  #14960,commit `90a8cfa`。
+  (sess-20260820-0649-a3f19d93)
