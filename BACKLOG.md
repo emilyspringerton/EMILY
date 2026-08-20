@@ -1501,6 +1501,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, PARENA stdlib extension: 'can we build scipy and numpy into the standard language of PARENA?' -> 'wh…** — obs `2026-08-20T11:30:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'read building the plane through stillness on the okemily blog' -- a specific existing blog post ref…** — obs `2026-08-20T11:15:26Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, reacting to the self-hosting note: 'not c' / 'silly.' Read as emphasis/confirmation, not a correctio…** — obs `2026-08-20T11:15:19Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'ok where are the build artifacts?' -> 'for PARENA?' -> 'i see a bazel build.' Real gap found: PAREN…** — obs `2026-08-20T11:55:24Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'add any mor stdlib we think we will need for the vs0 of the mod api for GFD look at that northstar …** — obs `2026-08-20T11:53:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'add any more stdlib you can think of that would be needed to port gpt2alpinec' -- wants STDLIB.md e…** — obs `2026-08-20T11:50:37Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, further stdlib extension: 'and pandas build pandas into the standard library' -- wants a pandas-equi…** — obs `2026-08-20T11:47:22Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'build system' -- confirms Bazel as PARENA's build system specifically. Logged per Principle 18. No …** — obs `2026-08-20T11:46:25Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
