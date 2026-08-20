@@ -1712,6 +1712,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,持續重申: 「PARENA」「API ffirst」「mod api first」「PARENA」——維持既有排序不變。gfd.prn 已經存在完整設計,含 Bool 跟 F64 兩個目前 resolv…** — obs `2026-08-20T20:19:58Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充部署目標: 「built into GFD fps lobby」——確認 METALVERSE 面板要接進 apps/lobby 的『Architect's Orb』終端機(STDLIB.md 自己…** — obs `2026-08-20T20:19:48Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,回答優先權問題: 選擇『on METALVERSE』——不是 REDGARDEN mapeditor 也不是 PARENA CLI,而是 METALVERSE(STDLIB.md 的 gfd.prn 章…** — obs `2026-08-20T20:19:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新指示: 「sstart working on PARENA cli」——要求開始做 PARENA 自己的 CLI(NORTHSTAR.md/VS0 DoD 定義的 domain 5『CLI runne…** — obs `2026-08-20T20:18:50Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「make sure we are using our BDD library for test」——重申測試要用既有的 BDD 風格函式庫(firefly/gomega/scarab),目前 PAR…** — obs `2026-08-20T20:18:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,收斂順序: 「any ymissing ststdlibdeps sure」(=any missing stdlib deps sure)→「fillemin」(=fill em in)→「check …** — obs `2026-08-20T20:18:29Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,大量新構想(明確要求 log all of it): 「and then we need an installable raspberrypi distro」→「debian if your a noo…** — obs `2026-08-20T20:18:20Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充+明確排序: 「add medusa as a playable hero to redgarden」+「MOD API FIRST」——要求把 Medusa 加進 REDGARDEN 當可玩英雄(…** — obs `2026-08-20T20:15:40Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
