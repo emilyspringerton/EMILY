@@ -1471,6 +1471,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **GFD-web research complete (Explore agent). Key findings: a real Emscripten WASM build of the actual GFD GUI client alre…** — obs `2026-08-20T09:58:37Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, priority clarification: 'so to be clear get the 4 kings working in whatever version you fork first.'…** — obs `2026-08-20T09:58:23Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, further ECOWAR/hard-fork clarification: 'we want to hard fork the GFD version interface wise and we …** — obs `2026-08-20T09:57:44Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'fix the brawlpit build' -- concrete instruction on S188-03's queued BRAWLPIT CI failure. Logged per…** — obs `2026-08-20T10:26:00Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'im ready to answer some of your questions about the ecowar econemy etc' -- explicit invitation to a…** — obs `2026-08-20T10:21:29Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: '15 and 15' -- no clear context, logging verbatim per Principle 18 rather than guessing at meaning. …** — obs `2026-08-20T10:21:00Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, status check questions: 'is slurp done?' -> answer: no, S187-03/S188-05 (Drive slurp feature, frog a…** — obs `2026-08-20T10:20:53Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, softening/refining the crystal-integration scope: 'but the crystal output can be used to provide a m…** — obs `2026-08-20T10:19:36Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
