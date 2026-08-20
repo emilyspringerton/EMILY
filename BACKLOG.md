@@ -17858,3 +17858,24 @@ it, captured here before context-switching to PARENA. None of these are started.
   再次確認。屬於 vim-like editor mod-surface 工作的一部分,依「mod surface first」排序
   在 mod-surface/plugin API 完成之後處理。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-36: PITVIPER — 中鍵貼上讀取過期剪貼簿內容的 critical bug。DONE(創辦人
+  明確例外處理,打破「everything as a mod」政策直接修 Go)。** 創辦人即時回報,標記
+  critical、要求立即切換處理:「there is a copy paste bug - like i can copy the text
+  out but when i paste the code in notebapd first when i like middle click or whatever
+  in pitviper it effing pastes the url the like previous clipboard i dunno why windows
+  is clipboard madness that is why we developed pitviper for copy and paste」。根因:
+  中鍵貼上(middle-click paste)只讀 PITVIPER 自己內部的 `lastSelected` 變數,這個變數
+  只有在 PITVIPER 自己完成一次 drag-select 之後才會更新;任何透過其他途徑寫進真正 OS
+  剪貼簿的內容都不會同步進 `lastSelected`,導致中鍵貼上可能貼出過期的內部選取內容,
+  即使真正的 OS 剪貼簿(連帶 Ctrl+Shift+V、貼到 Notepad 等其他程式)早就是最新、正確的
+  內容。修復:`cmd/pitviper/main.go` 的中鍵貼上處理改成優先讀真正的 OS 剪貼簿
+  (`sdl.GetClipboardText`),只有讀取失敗或剪貼簿是空的時候才退回讀 `lastSelected`
+  (保留原本『真的完全沒有剪貼簿內容』時仍能貼出內部選取內容的行為)。驗證:SDL2_ttf
+  本環境未安裝,用既有暫時 stub 手法(暫時替換 `internal/font/shiny.go`/`emoji.go` 為
+  no-op,跑完後照原樣還原,`git diff` 確認除了 `main.go` 沒有其他變動)確認
+  `go build ./...` 全乾淨、`go vet ./...` 只剩一個既有、跟這次改動無關的既有警告
+  (`renderDistrictPane` lock-by-value,不同函式)、`go test ./...` 全過(font/vterm
+  套件)。CI 用 GitHub Actions API 確認綠燈(run `32401074345`)。Apple #14952,
+  commit `254fb39`。
+  (sess-20260820-0649-a3f19d93)
