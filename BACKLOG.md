@@ -16733,19 +16733,33 @@ a Google-account-login clarification chain) resolved into the account-login thre
   ./...` green. Deployed live (`iduna.service` rebuilt+restarted, health 200) and verified via a
   real `emily observe` smoke test (Apple #14614's body ends in the signature). Apple #14616,
   IDUNA commit `2d1b4b0`. (sess-20260820-0649-a3f19d93)
-- [ ] **S187-02: PITVIPER — real Windows PTY backend + clipboard support.** Founder, real-time:
-  "above all else we need to get pitviper ssh working" → "have it use the regular ssh key
-  location" → "the catch is it has to work on windows" → "git bash figures it out" → "and the
-  copy paste has to work on windows." Investigated, not assumed: `internal/pty/pty_linux.go` is
-  the *only* file in that package and is `//go:build linux`-gated; `cmd/pitviper/main.go` imports
-  `internal/pty` unconditionally, so a Windows build currently has zero PTY implementation to
-  compile against for that package. CI's `build_windows` job (MSYS2/MinGW64 Go, `runs-on:
-  windows-latest`) was not verified green or red this session — real open question whether it's
-  silently broken already. Founder's own "git bash figures it out" resolves the ssh-binary/
-  `~/.ssh` path-resolution half of the ask (Git Bash's own MSYS2 HOME resolution handles that,
-  no PITVIPER-side special-casing needed there) — the real remaining gap is a Windows PTY backend
-  (ConPTY, e.g. via `github.com/UserExistsError/conpty` or raw `windows` syscalls) plus a
-  clipboard library (zero clipboard code exists anywhere in the repo currently). Not started.
+- [x] **S187-02: PITVIPER — real Windows PTY backend + clipboard support. DONE.** Founder,
+  real-time: "above all else we need to get pitviper ssh working" → "have it use the regular ssh
+  key location" → "the catch is it has to work on windows" → "git bash figures it out" → "and the
+  copy paste has to work on windows" → "but it better not be the only way to paste" → "middle
+  mouse paste" → "FIGURE IT OUT" → "then write a blog post about it as raccoon [from BRAWLPIT]."
+  Confirmed via GitHub API before fixing: CI's `build_windows` job was genuinely red (commit
+  a4d9e4b, failing at "Build pitviper.exe"). Two real gaps, both closed: (1)
+  `cmd/pitviper/main.go` itself was gated `//go:build linux && cgo` despite having zero
+  Linux-specific code in the file body — widened to `(linux || windows) && cgo`. (2)
+  `internal/pty` had no Windows file at all — new `internal/pty/pty_windows.go` wraps ConPTY
+  (`CreatePseudoConsole`, via the already-vendored `golang.org/x/sys/windows` — no new dependency)
+  behind the same `PTY.Master`/`.Resize()`/`.Close()` shape `pty_linux.go` exposes. Shell
+  resolution on Windows: `$SHELL` → Git Bash's `bash.exe` on PATH (founder's "git bash figures it
+  out" — its own HOME/`~/.ssh` resolution needs no PITVIPER-side special-casing) → `cmd.exe`
+  fallback. New mouse-drag text selection (live highlight, copy-on-release), `Ctrl+Shift+C/V`
+  (not plain `Ctrl+C/V` — those are real shell control chars already), and middle-click paste
+  (PITVIPER's own last-selection buffer, not real OS primary-selection — documented honestly in
+  the README as a real limitation, and explicitly additive per "it better not be the only way").
+  Verified live via Xvfb + XTest (real mouse drag + key injection, not just compile): selection
+  highlight renders, `Ctrl+Shift+V` pastes the real copied text, `Ctrl+C` still interrupts with no
+  collision, middle-click paste works. Verified via real CI, not just local compile: both jobs
+  green on commit a8d5014 (run 32343167493) — Windows job confirmed newly passing. README fully
+  rewritten (Windows build mechanics, full keybinding reference, brief NORTHSTAR-grounded
+  philosophy section). `go test ./...` green. Apple #14632, commit a8d5014.
+  **Real remaining gap, honestly not attempted**: a single static-linked binary (no DLLs/RUN.bat)
+  — flagged as a future option in the README, not built, per "dont go too crazy." Blog post in
+  the Raccoon (BRAWLPIT) persona still queued as a real follow-up, not done yet.
   (sess-20260820-0649-a3f19d93)
 - [ ] **S187-03: IDUNA Drive service account + Back Office ingest page.** Founder, real-time
   thread: "that account needs to login with google" → "i guess it will be tied to an agent for
@@ -16787,3 +16801,20 @@ a Google-account-login clarification chain) resolved into the account-login thre
   PID 2584. The Google-account-login sub-thread that followed resolved into S187-03 above rather
   than being a fix for this specific stuck session. Left as-is per founder's own instruction — not
   a bug to chase further unless founder revisits it. (sess-20260820-0649-a3f19d93)
+- [x] **S187-06: two quick founder real-time questions, answered with real findings. DONE.**
+  (1) "does mjolnir have ssh capabilities?" — No. Confirmed via a full grep across all 44 Kotlin
+  files in `MJOLNIR/app/src` — zero SSH-related code anywhere. (2) "the human blocked firebase
+  stuff - dont you have extended gcloud capabilities now that you can handle the blockers?" —
+  checked rather than assumed: the only GCP project this session's `gcloud` auth
+  (`garybifrost@gmail.com`) can see is `project-d24a71e9-2daf-4b2d-917` ("My First Project"), and
+  it has zero Firebase APIs enabled (confirmed via a direct Firebase Management API call — 403
+  `SERVICE_DISABLED`). Matches the founder's own follow-up ("oh that was on a different gcp i
+  think" / "for the record i started setting it up on the console but i dont know if i made it to
+  the end or what") — the manual Firebase console setup is very likely under a different Google
+  account/project this session can't see. Real prior context found, not re-derived: S170-238
+  already wrote the full MJOLNIR README Firebase walkthrough; the actual blocker has always been
+  "only a founder console visit can produce `google-services.json`." Could technically create a
+  fresh Firebase project in the one accessible GCP project via `gcloud`/`firebase` CLI, but that
+  risks a duplicate/orphaned project alongside whatever the founder already started manually
+  elsewhere — reported back for a founder call rather than guessed. Apple #14630.
+  (sess-20260820-0649-a3f19d93)
