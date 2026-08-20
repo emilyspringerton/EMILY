@@ -1491,6 +1491,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'clone me down skootz' -- confirmed PARENA repo exists (emilyspringerton/PARENA). Checking if 'skoot…** — obs `2026-08-20T11:03:50Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'PARENA' -> 'upstream in github.' Clarifies (doesn't contradict) the AskUserQuestion answer: build P…** — obs `2026-08-20T11:03:42Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, PARENA resolved: 'New -- build it from scratch' (AskUserQuestion). PARENA is a new language+native-A…** — obs `2026-08-20T11:03:29Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, emphatic repeat: 'FIX THE BRAWLPIT BUILD TOO' (all caps) -- second time asking (first was 'fix the b…** — obs `2026-08-20T11:21:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'design the standard librry' -- concrete PARENA stdlib design task, NORTHSTAR.md already flagged thi…** — obs `2026-08-20T11:19:55Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'iterate' -- wants a new installment in the 'Building at Infinity' series after I read the existing …** — obs `2026-08-20T11:19:39Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, correcting the earlier title: 'building at infinity rather' -- means the real existing post 'Buildin…** — obs `2026-08-20T11:19:29Z`. CURATED: 2026-08-20.
+- [ ] **Checked for 'Building the Plane Through Stillness' -- not found. Searched all 175 blog posts (title/slug/full record) a…** — obs `2026-08-20T11:15:52Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
