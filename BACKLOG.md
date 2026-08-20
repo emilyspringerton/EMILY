@@ -1417,6 +1417,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (context note) simple tower models already exist in the codebase — relevant to ecowar's RTS building…** — obs `2026-08-20T03:37:02Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (clarifying prior) real 3D models will eventually be sourced/built for these use cases — Prompt-o-ve…** — obs `2026-08-20T03:36:58Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (clarifying prior) Prompt-o-verse reference-art use case includes something like a 3D card object fo…** — obs `2026-08-20T03:36:53Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: use the Prompt-o-verse pipeline to generate reference art wherever needed for upcoming implementatio…** — obs `2026-08-20T03:36:46Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar cards continued) base tier name is 'Normal', not 'Common'; ecowar card concepts/art can be f…** — obs `2026-08-20T03:36:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar cards continued) confirms 'Rare' as the obvious/base tier name** — obs `2026-08-20T03:35:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar cards continued) Prompt-o-verse-style selection algo for card pack pulls — marble-bag weight…** — obs `2026-08-20T03:35:30Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar design continued) card packs purchasable with Flow (the in-universe currency)** — obs `2026-08-20T03:33:41Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
