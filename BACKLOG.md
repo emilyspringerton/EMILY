@@ -1496,6 +1496,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'iterate' -- wants a new installment in the 'Building at Infinity' series after I read the existing …** — obs `2026-08-20T11:19:39Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, correcting the earlier title: 'building at infinity rather' -- means the real existing post 'Buildin…** — obs `2026-08-20T11:19:29Z`. CURATED: 2026-08-20.
 - [ ] **Checked for 'Building the Plane Through Stillness' -- not found. Searched all 175 blog posts (title/slug/full record) a…** — obs `2026-08-20T11:15:52Z`. CURATED: 2026-08-20.
+- [ ] **SHANKPIT CI STILL shows failure on the fix commit (3506e55) at the same 'Build Windows Client' step, despite the fix be…** — obs `2026-08-20T11:42:13Z`. CURATED: 2026-08-20.
+- [ ] **MJOLNIR CI investigation: confirmed this is NOT an independent code bug -- it's the exact same, already-known Firebase …** — obs `2026-08-20T11:34:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, PARENA stdlib extension: 'can we build scipy and numpy into the standard language of PARENA?' -> 'wh…** — obs `2026-08-20T11:30:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'read building the plane through stillness on the okemily blog' -- a specific existing blog post ref…** — obs `2026-08-20T11:15:26Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, reacting to the self-hosting note: 'not c' / 'silly.' Read as emphasis/confirmation, not a correctio…** — obs `2026-08-20T11:15:19Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
