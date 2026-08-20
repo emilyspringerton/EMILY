@@ -1727,6 +1727,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,JS/V16 願景細節補充: 「WHEN WE NEED WTO WRITE JS WRITE BOTH VCVANILLA AND TS」——要求未來 JS 目標輸出要同時支援純 JS 和 TypeS…** — obs `2026-08-20T20:14:17Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「PARENA SYNTAX」——延伸 JS/V16 願景,強調要用 PARENA 自己的語法(S-expression),不是 JS 語法。併入既有記錄,回到 defstruct 驗證。** — obs `2026-08-20T20:14:04Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,持續補充 JS engine(V16)願景細節: 「or whatever the fuck 46 does we will do it better」+「js can run on parena at…** — obs `2026-08-20T20:13:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,玩笑命名: 「ours is v16」——如果之後真的做 JS 引擎,命名玩笑性地叫 V16(V8 的雙倍)。純命名色彩,不影響工作,回到 defstruct。** — obs `2026-08-20T20:13:10Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,持續擴大願景: 「lets do all the BS optimizations that v8 does」——延伸剛才的 JS engine 構想,希望做到 V8 等級的最佳化(JIT、inline…** — obs `2026-08-20T20:13:03Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,兩個新的大範圍構想: 「make sure we do tree shaking and all that bullshit」——要求 PARENA 的建置要有真正的 tree shaking(死碼消除…** — obs `2026-08-20T20:12:56Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,連結既有設計: 「reinfoorce our mesh network packet radio goals」+「so it synergizes」+「continue as such」——要求新的藍…** — obs `2026-08-20T20:11:24Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,再補充: 「but the top level deps」——進一步釐清:一般性的剪貼簿/藍牙/WiFi 基礎 API(primitive bindings)應該放在 stdlib 頂層(供其他套件依賴…** — obs `2026-08-20T20:11:16Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
