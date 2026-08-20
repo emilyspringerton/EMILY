@@ -1717,6 +1717,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,收斂順序: 「any ymissing ststdlibdeps sure」(=any missing stdlib deps sure)→「fillemin」(=fill em in)→「check …** — obs `2026-08-20T20:18:29Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,大量新構想(明確要求 log all of it): 「and then we need an installable raspberrypi distro」→「debian if your a noo…** — obs `2026-08-20T20:18:20Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充+明確排序: 「add medusa as a playable hero to redgarden」+「MOD API FIRST」——要求把 Medusa 加進 REDGARDEN 當可玩英雄(…** — obs `2026-08-20T20:15:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time:「dont just add node...unless thats exactly what you should do」/「node needs to be written in prn」——語意不…** — obs `2026-08-20T23:13:20Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time:「ghost of lincol,n」→「great president」→「and all the rest」——連結到既有、尚未開始的 S179-04(LEGO minifigure → 真實 Br…** — obs `2026-08-20T23:11:39Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,加強: 「and lets put some wood behind the arrow of REDGARDEN」——重申要真的投入資源在 REDGARDEN mod-api 這件事上,確認 defs…** — obs `2026-08-20T20:15:32Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,澄清: 「pivot but not really」+「enqueue all the requests」——澄清剛才的 REDGARDEN mod-api 急迫性不是要求立刻放下手上的事,而是要確保所…** — obs `2026-08-20T20:15:26Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,標記急迫: 「lets get the modapi into REDGARDEN rightaway」——要求把 mod-surface API 接進 REDGARDEN(MOBA 遊戲),語氣帶「r…** — obs `2026-08-20T20:15:17Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
