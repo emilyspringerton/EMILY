@@ -1341,32 +1341,32 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, rapid burst -- three more concrete asks arrived while investigating SHANKPIT story mode abilities: (…** — obs `2026-08-19T01:50:49Z`. CURATED: 2026-08-19.
 - [ ] **Founder real-time, SHANKPIT story mode spec consolidated: advance the entities fought in story mode using REDGARDEN's s…** — obs `2026-08-19T01:46:21Z`. CURATED: 2026-08-19.
 - [ ] **Founder real-time: 'continue on shankpit story mode' / 'advance the entities fought in story mode' -- new direction, se…** — obs `2026-08-19T01:45:39Z`. CURATED: 2026-08-19.
-- [ ] **Founder real-time: fourth piece queued -- 'emily do a blog post on system status i know i just spiked it but give a tru…** — obs `2026-08-20T03:11:20Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: third piece queued -- 'claude as a blog post what do you think about promptoverse as a art generatio…** — obs `2026-08-20T03:10:41Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, big new ask arriving mid-Ada-module-work: 'as TYLER do a product update in the voice of a legendary …** — obs `2026-08-20T03:09:42Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: 'do a module of emily os in ravenscar32 ada' -- new, distinct ask from the fallthrough bugfix work j…** — obs `2026-08-20T03:07:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: pull the skate culture northstar from SKATEBOARD repo and build it into the GFD FPS client's vast ci…** — obs `2026-08-20T03:27:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: fifth blog post queued -- 'a report as a discussion between emily prime and claude about expanding t…** — obs `2026-08-20T03:16:17Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, consolidating remaining fragments on the GFD-port/mod-surface thread (item 5) and a graphics follow-…** — obs `2026-08-20T03:14:46Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: fifth item queued -- 'port the tyler story mode stuff to the gui client of GFD with the virtual mach…** — obs `2026-08-20T03:12:38Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: enqueue all pending real-time direction into BACKLOG.md as real sprint items, then check whether sta…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: finish the EmilyOS Ravenscar Ada module** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: GFD FPS world-building batch — ~80% of buildings should be solid/collidable like GTA3, start a destr…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: Flow currency could double as the currency for a poker tournament platform — founder recalls this wa…** — obs `2026-08-20T03:42:05Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: consider building GFD economy management tools into IDUNA Back Office (same pattern as the Prompt-o-…** — obs `2026-08-20T03:41:45Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: data point / possible bug — some GFD accounts appear to already have Flow currency; founder recalls …** — obs `2026-08-20T03:41:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar cards continued, clarifying) the weighted marble-bag + Fibonacci-pity mechanic applies to BO…** — obs `2026-08-20T03:40:48Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar continued) resource speed-up mechanic — after ~2 minutes, a catch-up/acceleration effect kic…** — obs `2026-08-20T03:39:44Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (multi-seat Fibonacci pricing continued) unsure exactly where that doc lives — 'it's in some wiki so…** — obs `2026-08-20T03:54:25Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (PITVIPER/lobbies continued) human-only lobbies should exist as their own queue type; non-native bot…** — obs `2026-08-20T03:54:04Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (PITVIPER multiverse portal continued) the portal should let players queue up for different REDGARDE…** — obs `2026-08-20T03:53:21Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (PITVIPER continued) proposing PITVIPER as THE multiverse portal — a unified hub/launcher tying toge…** — obs `2026-08-20T03:52:27Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (mod surface continued) new architectural idea — both GFD clients (lobby + battlegrounds_gui/FPS) mi…** — obs `2026-08-20T03:52:21Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (mod surface continued) especially prioritize the FPS 'edu edition' client (apps2/battlegrounds_gui)…** — obs `2026-08-20T03:52:13Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: standing MO for GFD — all game expansions/features must be built as mod-API-first (mod surface exist…** — obs `2026-08-20T03:51:37Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20.
+- [x] **Founder real-time: fourth piece queued -- 'emily do a blog post on system status i know i just spiked it but give a tru…** — obs `2026-08-20T03:11:20Z`. CURATED: 2026-08-20. → S182-02 (Emily Prime system-status blog).
+- [x] **Founder real-time: third piece queued -- 'claude as a blog post what do you think about promptoverse as a art generatio…** — obs `2026-08-20T03:10:41Z`. CURATED: 2026-08-20. → published earlier this session as the Claude/Prompt-o-verse opinion blog post (pre-S182, prior segment).
+- [x] **Founder real-time, big new ask arriving mid-Ada-module-work: 'as TYLER do a product update in the voice of a legendary …** — obs `2026-08-20T03:09:42Z`. CURATED: 2026-08-20. → S182-01 (TYLER keynote-followup blog).
+- [x] **Founder real-time: 'do a module of emily os in ravenscar32 ada' -- new, distinct ask from the fallthrough bugfix work j…** — obs `2026-08-20T03:07:14Z`. CURATED: 2026-08-20. → EmilyOS Ravenscar Ada module committed earlier this session (posture.ads/posture-machine.ad[sb]); "finish" re-raised at 03:29:45Z remains blocked on no GNAT toolchain in this environment (sudo-queue/17-install-gnat.sh queued, not yet run).
+- [x] **Founder real-time: pull the skate culture northstar from SKATEBOARD repo and build it into the GFD FPS client's vast ci…** — obs `2026-08-20T03:27:14Z`. CURATED: 2026-08-20. → S184-01 (GFD mod-surface northstar) recommends sharing one destructible-geometry system with /home/fatbaby/skateboard/NORTHSTAR.md; actual GFD implementation not yet built, tracked as an open thread below (S185-01).
+- [x] **Founder real-time: fifth blog post queued -- 'a report as a discussion between emily prime and claude about expanding t…** — obs `2026-08-20T03:16:17Z`. CURATED: 2026-08-20. → S182-03 (Emily Prime + Claude Prompt-o-verse dialogue blog).
+- [x] **Founder real-time, consolidating remaining fragments on the GFD-port/mod-surface thread (item 5) and a graphics follow-…** — obs `2026-08-20T03:14:46Z`. CURATED: 2026-08-20. → S184-01 (GFD mod-surface northstar).
+- [x] **Founder real-time: fifth item queued -- 'port the tyler story mode stuff to the gui client of GFD with the virtual mach…** — obs `2026-08-20T03:12:38Z`. CURATED: 2026-08-20. → S184-01 (GFD mod-surface northstar) — identifies the real VM (EduScript) and the real gap (apps2/battlegrounds_gui has none of it yet).
+- [x] **Founder real-time: enqueue all pending real-time direction into BACKLOG.md as real sprint items, then check whether sta…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20. → S183-02 (start.sh/run.sh check) + this SECTION 185 (intake queue promotion).
+- [x] **Founder real-time: finish the EmilyOS Ravenscar Ada module** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20. → still blocked on no GNAT toolchain in this environment (sudo-queue/17-install-gnat.sh queued, not yet run) — not resolved.
+- [x] **Founder real-time: GFD FPS world-building batch — ~80% of buildings should be solid/collidable like GTA3, start a destr…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20. → S184-01 (GFD mod-surface northstar) scopes this as a mod-surface consumer; actual implementation not yet built, tracked as an open thread below (S185-01).
+- [x] **Founder real-time: Flow currency could double as the currency for a poker tournament platform — founder recalls this wa…** — obs `2026-08-20T03:42:05Z`. CURATED: 2026-08-20. → tracked as an open thread below (S185-02) — not yet incorporated into the ECOWAR northstar.
+- [x] **Founder real-time: consider building GFD economy management tools into IDUNA Back Office (same pattern as the Prompt-o-…** — obs `2026-08-20T03:41:45Z`. CURATED: 2026-08-20. → tracked as an open thread below (S185-02) — not yet scoped.
+- [x] **Founder real-time: data point / possible bug — some GFD accounts appear to already have Flow currency; founder recalls …** — obs `2026-08-20T03:41:14Z`. CURATED: 2026-08-20. → tracked as an open thread below (S185-02) — informational data point, not yet investigated as a possible bug.
+- [x] **Founder real-time: (ecowar cards continued, clarifying) the weighted marble-bag + Fibonacci-pity mechanic applies to BO…** — obs `2026-08-20T03:40:48Z`. CURATED: 2026-08-20. → S182-05 (ECOWAR northstar addendum, REDGARDEN NORTHSTAR.md §29).
+- [x] **Founder real-time: (ecowar continued) resource speed-up mechanic — after ~2 minutes, a catch-up/acceleration effect kic…** — obs `2026-08-20T03:39:44Z`. CURATED: 2026-08-20. → S182-05 (ECOWAR northstar addendum, REDGARDEN NORTHSTAR.md §29).
+- [x] **Founder real-time: (multi-seat Fibonacci pricing continued) unsure exactly where that doc lives — 'it's in some wiki so…** — obs `2026-08-20T03:54:25Z`. CURATED: 2026-08-20. → tracked as an open thread below (S185-03) — needs a real search pass, not yet done.
+- [x] **Founder real-time: (PITVIPER/lobbies continued) human-only lobbies should exist as their own queue type; non-native bot…** — obs `2026-08-20T03:54:04Z`. CURATED: 2026-08-20. → tracked as an open thread below (S185-03) — not yet scoped.
+- [x] **Founder real-time: (PITVIPER multiverse portal continued) the portal should let players queue up for different REDGARDE…** — obs `2026-08-20T03:53:21Z`. CURATED: 2026-08-20. → tracked as an open thread below (S185-03) — not yet scoped.
+- [x] **Founder real-time: (PITVIPER continued) proposing PITVIPER as THE multiverse portal — a unified hub/launcher tying toge…** — obs `2026-08-20T03:52:27Z`. CURATED: 2026-08-20. → tracked as an open thread below (S185-03) — flagged in S184-01 §5, not yet scoped further.
+- [x] **Founder real-time: (mod surface continued) new architectural idea — both GFD clients (lobby + battlegrounds_gui/FPS) mi…** — obs `2026-08-20T03:52:21Z`. CURATED: 2026-08-20. → flagged in S184-01 §5 (GFD mod-surface northstar) — not decided.
+- [x] **Founder real-time: (mod surface continued) especially prioritize the FPS 'edu edition' client (apps2/battlegrounds_gui)…** — obs `2026-08-20T03:52:13Z`. CURATED: 2026-08-20. → incorporated into S184-01 (GFD mod-surface northstar).
+- [x] **Founder real-time: standing MO for GFD — all game expansions/features must be built as mod-API-first (mod surface exist…** — obs `2026-08-20T03:51:37Z`. CURATED: 2026-08-20. → incorporated into S184-01 (GFD mod-surface northstar) + saved as a standing feedback memory.
+- [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
+- [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
+- [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -16462,3 +16462,45 @@ GPT-2 checkpoint. All three logged via `emily observe` before drafting, per Prin
   gap, since CarePyre's mesh is resilience underneath a phone plan, not a replacement for one.
   Also refreshed a stale `CLAUDE.md` (still said "stub only" despite a real shipped landing page).
   Apple #14529, CarePyre fd98f5e. (sess-20260813-2154-dda37e8b)
+
+## SECTION 185: INTAKE QUEUE PROMOTION — REMAINING OPEN THREADS (2026-08-20)
+
+*Founder: "enqe all into backlogs and then sprints." The 26 raw `emily observe` fragments logged
+this session between ~03:07Z and ~03:47Z are now cross-referenced in the INTAKE QUEUE (marked
+`[x]` with a pointer to whichever real SECTION resolved them) rather than sitting as flat,
+unlinked one-liners. Several were genuinely resolved by S182-S184 above. The ones that weren't —
+real design/implementation threads still needing work, not yet built — are promoted here as their
+own scoped items instead of staying buried in the intake queue.*
+
+- [ ] **S185-01: Build GFD's FPS world-building batch (solid buildings, destructible
+  environments, skate tech).** Scoped, not built. Per S184-01's own mod-API-first MO, this is
+  correctly blocked on the still-open scripting-language decision (EduScript-extended vs. Lua vs.
+  a founder-invented language not yet located) — starting the actual feature before that lands
+  would violate the very MO the founder just set. Also includes, raised later the same session:
+  expanding GFD's MUD_GUI client's own graphics/interface/shader quality to the *original*
+  "Duck, Reportedly Telekinetic" FFXI-style Prompt-o-verse reference specifically (founder,
+  real-time correction: not the more recent FFXI/WoW hybrid generation, which isn't human-
+  validated yet — the original duck reference is confirmed "chefs kiss"), covering spell visual
+  styles and overall game artistry, not just environment rendering; a UI note was given alongside
+  it — buff icons belong in tiles on the right side of the HUD, same affordance framing as
+  `apps/arena`'s own HUD work this session.
+- [ ] **S185-02: ECOWAR economy follow-ups not yet written into the northstar.** Three real ideas
+  from this session's ECOWAR design stretch that landed *after* S182-05 was written and aren't
+  yet folded into `REDGARDEN/NORTHSTAR.md` §29: (1) Flow could double as the currency for IDUNA's
+  legacy-documented poker-tournament-platform phase-2 concept — founder recalls this being
+  planned somewhere in old docs, not yet located; (2) GFD economy-management tools built into
+  IDUNA Back Office, same pattern as the real Prompt-o-verse queue Back Office page; (3) a real
+  data point/possible bug — some GFD accounts appear to already hold Flow currency (founder
+  recalls actually buying a potion), worth checking against `apps2/mud/main.go`'s real shop
+  system (`cmdShopBuy`) rather than assuming it's just IDUNA test data.
+- [ ] **S185-03: PITVIPER as a cross-repo "multiverse portal" — new architecture idea, unscoped.**
+  Bigger than the GFD mod-surface doc it was first flagged in (S184-01 §5): PITVIPER
+  (`/home/fatbaby/PITVIPER`) potentially becoming a unified launcher/hub across
+  SHANKPIT/REDGARDEN/GFD/BRAWLPIT, including queueing into different REDGARDEN lobby types (OG
+  Battlegrounds vs. the R&D AI-squad-model deployment) and a real human-only lobby queue type
+  (non-native bots in a human-only lobby treated as a licensing question, same framing as the
+  multi-seat Fibonacci pricing concept the founder recalls being planned somewhere in GFD's docs
+  but couldn't place — "some wiki somewhere... or in any of the layers of golden docs," worth a
+  real search pass before this gets scoped further). Also references "the osaka garage," logged
+  verbatim, not yet understood well enough to act on. Needs its own real scoping pass, likely its
+  own northstar, before any of it gets built — not started here.
