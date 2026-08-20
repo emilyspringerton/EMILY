@@ -1697,6 +1697,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充方法論: 「like longma」——資料科學工具要比照 LONGMA 的模式(fork 真實既有工具,再把功能綁進 PARENA stdlib/CLI),不是憑空發明。併入前一則記錄。** — obs `2026-08-20T20:32:33Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,新需求: 「build data science utilks into PARENA cli」——要求把資料科學相關工具加進 PARENA CLI(呼應既有 STDLIB.md 的 array/lin…** — obs `2026-08-20T20:32:27Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,查證完成: 「build the longma functionality into the PARENA stdlibs」+「you are gonna need to clone it down」—…** — obs `2026-08-20T20:31:32Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「check out LONGMA just forked」——提到一個叫 LONGMA 的新 repo/fork,本 session 目前為止完全沒出現過這個名字。開始查證 LONGMA 是否已經存…** — obs `2026-08-20T20:31:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「we can do really special stiuff with csvs」——延伸 native csv 構想,認為可以做出特別的功能(具體內容待補)。記錄併入前一則。現在輪詢 CI 確認…** — obs `2026-08-20T20:28:27Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新 stdlib 需求: 「add json and yml and csv to the stdlib」→「i knnow csv is already in dataframe」→「do we ne…** — obs `2026-08-20T20:28:19Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新基礎設施需求: 「bring BAZEL as the build system for all projects that PARENAS tocuches」——要求 Bazel 成為所有跟 PAR…** — obs `2026-08-20T20:27:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,重申: 「all the wood behind PARENAS cli arrow」——全力投入 PARENA CLI(domain 5)。真實查證發現:domain 5『CLI Runner』的字面…** — obs `2026-08-20T20:25:26Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
