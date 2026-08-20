@@ -1352,6 +1352,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: enqueue all pending real-time direction into BACKLOG.md as real sprint items, then check whether sta…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: finish the EmilyOS Ravenscar Ada module** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: GFD FPS world-building batch — ~80% of buildings should be solid/collidable like GTA3, start a destr…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: Flow currency could double as the currency for a poker tournament platform — founder recalls this wa…** — obs `2026-08-20T03:42:05Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: consider building GFD economy management tools into IDUNA Back Office (same pattern as the Prompt-o-…** — obs `2026-08-20T03:41:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: data point / possible bug — some GFD accounts appear to already have Flow currency; founder recalls …** — obs `2026-08-20T03:41:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar cards continued, clarifying) the weighted marble-bag + Fibonacci-pity mechanic applies to BO…** — obs `2026-08-20T03:40:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (ecowar continued) resource speed-up mechanic — after ~2 minutes, a catch-up/acceleration effect kic…** — obs `2026-08-20T03:39:44Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
