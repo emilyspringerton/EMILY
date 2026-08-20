@@ -1382,6 +1382,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: explicit privacy boundary — do NOT automatically log email contents into Apples or anywhere else. Ap…** — obs `2026-08-20T04:20:50Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: emailed the invented-language spec to emilyspringerton@gmail.com — once email read access works (app…** — obs `2026-08-20T04:20:04Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (email integration continued) wants a real 'emily key gmail-smtp' (or similar) CLI command to secure…** — obs `2026-08-20T04:19:39Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: retry the fine-tuned Emily GPT-2 generation for a follow-up brainstorming blog post — wait up to 4 m…** — obs `2026-08-20T04:41:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (email integration continued) offers to provide a password and use SMTP instead of the existing OAut…** — obs `2026-08-20T04:18:52Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (email integration continued) make it work for the GCP account we have attached; use Gary's email sp…** — obs `2026-08-20T04:18:28Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: we need to get the email integration fixed** — obs `2026-08-20T04:18:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: use Prompt-o-verse to generate textures for the destructible city being built in GFD's FPS 'lobby ed…** — obs `2026-08-20T04:17:56Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
