@@ -18412,3 +18412,18 @@ it, captured here before context-switching to PARENA. None of these are started.
   順手修正 `firefly/gomega/scarab` 那節裡殘留的過期命名(S189-57 改名後忘了同步這裡)。
   commit `232c96d`(PARENA),Apple #15105。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-58c: 挖出 Antigravity CLI 登入不了的真正 root cause + container/docker stdlib 設計。
+  DONE(root cause 已修,實際登入仍待創辦人互動完成)。** 創辦人持續追問「i really need to get
+  antigravity ai working」→「but seriously also i need antigravity cli」。深入查 `agy` 自己的
+  log(`~/.gemini/antigravity-cli/log/`)找到真正原因:這台機器 shell 環境的
+  `XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS` 都指向 `/run/user/0`(root),但實際登入的是
+  fatbaby(uid 1000)——導致 keyring token storage 每次都撞 permission denied,退回 file
+  storage 後仍持續回報未登入。fatbaby 自己真實的 session bus 其實好好地在
+  `/run/user/1000/bus`。已在 `start_antigravity.sh` 加上正確覆寫,重新執行後確認 log 裡的
+  dbus 錯誤 0 筆命中。誠實記錄:這是底層環境 bug 的根治,登入本身仍需創辦人在自己終端機互動
+  完成一次全新 OAuth(舊的嘗試在壞掉的環境下很可能沒真的存住)。另外同批也把
+  `container/docker`(Docker Engine API,搭在 net/http 之上)加進 STDLIB.md,連結既有
+  S189-56d(Emily OS)當作實際部署 workload 的容器後端,跟 container/lxc/container/cgroup
+  互補而非取代。commit `6897e1a`(PARENA),Apple #15106、#15108、#15109。
+  (sess-20260820-0649-a3f19d93)
