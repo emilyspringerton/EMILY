@@ -1372,6 +1372,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (GFD graphics continued) scope also includes spell visual styles / overall game artistry, not just e…** — obs `2026-08-20T03:55:51Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: continue expanding GFD's MUD_GUI client graphics too — same FFXI 'Duck, Reportedly Telekinetic' refe…** — obs `2026-08-20T03:55:48Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: validate the CarePyre mesh-network research (CarePyre's real source material so far is a single ReLU…** — obs `2026-08-20T03:44:50Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (accounts/funnel continued) build toward a feedback loop — get logins working on Prompt-o-verse firs…** — obs `2026-08-20T04:12:08Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (EmilyOS continued) exploring whether EmilyOS is 'the bare metal of our stack' — same framing patter…** — obs `2026-08-20T04:09:33Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (GFD web client repo continued) floats EmilyOS as a possible alternate home for the web client, but …** — obs `2026-08-20T04:09:04Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (GFD web client continued) delegates exact repo placement to Claude's judgment — 'build that into wh…** — obs `2026-08-20T04:08:44Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, urgent ('we need it yesterday'): GFD GUI client (with login) needs a web build — WASM or similar, fo…** — obs `2026-08-20T04:08:02Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
