@@ -18080,3 +18080,37 @@ it, captured here before context-switching to PARENA. None of these are started.
   參數(`Arena @ Region` 裸符號)、自訂具名型別以外的其他型別、一般函式呼叫的真實
   回傳型別推論。Apple #15001,commit `4830d02`。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-44: OKEMILY blog render bug 根因確認 + 立即止血。DONE(根因已查明並記錄,
+  真正的渲染器升級是獨立後續項目,見 S189-45)。** 創辦人:「you have been writing a lot
+  of blog posts with html tags raw in the render somehow」——本 session 用真正 HTML
+  (`<p>`/`<h3>`/`<strong>` 等)發布的每一篇文章(PARENA 新聞稿、Tyler 系列全部、Nine
+  Hours In)在畫面上都把標籤逐字顯示出來,不是渲染成格式。**真實根因**(讀完
+  `IDUNA/internal/blog/render.go` 全文查明):`toParagraphs()` 是刻意設計的『窮人版
+  markdown』——依空行分段包 `<p>`,並對每段內容整段呼叫 `html.EscapeString()`,原始碼
+  自己的註解就寫明『a real markdown renderer is a reasonable future upgrade if posts
+  need more than paragraphs/links』。**不是 regression**,是本 session 一直提交真正
+  的 HTML 給一個從設計上就只接受純文字/空行分段格式的 renderer。創辦人明確指示:
+  「dont update the posts for now they are artifacts」+「receipts」——已發布的文章
+  保留原樣不動,當作既定歷史記錄,不修改不重發。**立即止血**:之後如果還要發文章,
+  改用純文字/空行分段格式提交,不要再塞 HTML 進 `body` 欄位。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-45: OKEMILY blog 真正的 markdown/templating renderer,用 PARENA 做。**
+  創辦人:「fix it on the render side somehow」+「do an initial templating passs or
+  something」+「using parena」。S189-44 確認的根因(`toParagraphs()` 只是空行分段+
+  逐字轉義,不是真正的 markdown)本來就是原始碼自己標注的已知、預期中的未來升級點。
+  創辦人要求真正做這個升級,而且用 PARENA 做(呼應整個 session『everything as a
+  PARENA plugin』的方向,這次延伸到 IDUNA 的 blog render 管線)。**誠實範圍評估,
+  尚未動工**:這不是能在同一個回合裡安全交付、又不冒然動到正式站台 render 程式碼的
+  小工程——PARENA 目前連字串處理/regex(`stdlib/regex/*` 雖然已設計但沒驗證過真的能
+  編譯跑)都還沒證實堪用,真正的 markdown 解析(標題、粗體、斜體、連結、清單、
+  blockquote 等)需要相當程度的字串掃描/pattern matching 能力。**待辦**:(a) 先確認
+  `stdlib/regex/*`(nfa.prn/posix.prn/syntax.prn/pcre.prn)目前真實可編譯到什麼程度、
+  (b) 設計一個 markdown-to-HTML 的 PARENA 模組(可以先從純文字/空行分段的現有行為
+  等價開始,再逐步加標題/粗體/斜體/連結),用跟 mod-surface 相同的 `#target` FFI 模式
+  讓 IDUNA(Go)的 blog handler 呼叫進去、(c) 在不影響正式站台既有文章渲染的前提下
+  (`toParagraphs()` 目前的行為要保留當作 fallback,或至少不能讓已發布文章重新渲染
+  跑掉)接上這個新 renderer、(d) 真實測試(至少要能正確渲染這個 session 已經寫過的
+  幾篇 HTML 格式文章當作驗收案例,即使那些文章本身依 S189-44 指示不重新發布)。
+  (sess-20260820-0649-a3f19d93)
