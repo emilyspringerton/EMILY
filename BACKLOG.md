@@ -1576,6 +1576,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, new bug report: 'where are the 4 kings anywhere? i played redgarden and i played gfd battlegrounds i…** — obs `2026-08-20T09:51:49Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, completing the slurp-button workflow spec: 'enqueues it in the background' / 'regular resiliency pat…** — obs `2026-08-20T09:51:22Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, CORRECTING my prior 'per agent directories = stick with service account' reading: 'the back office s…** — obs `2026-08-20T09:50:53Z`. CURATED: 2026-08-20.
+- [ ] **Research complete on the chess/Osaka-Garage/METALVERSE ask (Explore agent, read-only, no code changed). Key findings: (…** — obs `2026-08-20T09:50:24Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
