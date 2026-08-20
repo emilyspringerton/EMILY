@@ -1647,6 +1647,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,推翻剛發布的命名: 「just call it the SAND editor」——在 Tyler 的『Naming JEWEL』文章才剛發布上線幾分鐘後,創辦人再次改名,這次不再強調甲蟲主題,直接要求…** — obs `2026-08-20T19:37:09Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,關鍵澄清,大幅提高可行性: 「build the go parena plugins」——確認架構跟 editor/plugin.prn 完全一樣的模式:不是要 PARENA 本身憑空長出 HTTP/J…** — obs `2026-08-20T19:36:24Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,擴大範圍: 「a true TINA desk engine」+「in PARENA」——要求把 TINA 自動發布規則做成一個真正的『TINA desk engine』(類似交易桌分析引擎的概念),而…** — obs `2026-08-20T19:36:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,持續連結: 「this has to do with templates and the meta norn loop and tehe zero points theorems」——把 PHP 樣板語…** — obs `2026-08-20T19:49:52Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,PHP 構想再延伸: 「our in house PHP implementation that includes PARENA can be written in PARENA」——構想自建的 in-…** — obs `2026-08-20T19:49:20Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,連結既有概念: 「this ties intop our norn zero opoints meta loop」——把 PHP/PARENA 內嵌構想連結到既有的 NORN(HQ-SPEC 系列 re…** — obs `2026-08-20T19:46:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充: 「like php is the ultimate template langiageuage」——延伸剛才的玩笑構想,PHP 本身作為『終極樣板語言』的角度來看待 PARENA-in-PHP …** — obs `2026-08-20T19:46:37Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,PHP 構想繼續發散(玩笑性質): 「like maklike make themn m write parena inline in the php files」+「thats hilarious」—…** — obs `2026-08-20T19:46:32Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -18046,4 +18051,32 @@ it, captured here before context-switching to PARENA. None of these are started.
   TINA 文章草稿產生、含完整揭露的發布)、(d) 串接觸發時機(guidance-watcher 本身
   publish 時,還是另一個獨立的 poller)。S189-41 的健康檢查已確認 `guidance-watcher`/
   `prwatch-body` 資料源本身健康,這條路徑是真實可行的。
+  (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-43: PARENA C emitter 支援 defenum,真正的使用者自訂 tagged union。
+  DONE。** 創辦人:「keep pushing on defenum」。`process_defenum()` 處理頂層
+  `(defenum Name (Variant1) (Variant2 (field : Type)) ...)`,前置 pass 註冊進
+  `g_enums`(檔案層級連結串列)+ emit 真正的 C 型別定義,不管 defenum 宣告在檔案裡的
+  哪個位置,defn 都能引用到。誠實限縮範圍:每個 variant 最多一個 payload 欄位(stdlib
+  裡每一個真實的 defenum 都符合這個形狀,兩個以上欄位的 variant 是另外、獨立、尚未
+  開始的工作)。emit 出來的 C 型別重用 Result/Option 既有的 `{tag; void *value;}` 形狀
+  (泛化,不重新設計)。**真實踩過的坑**:enum tag 常數一開始跟建構函式撞名
+  (`EnumName_VariantName` 兩邊都用),C 是單一命名空間,直接編譯報
+  `redeclared as different kind of symbol`——不是憑空猜到,是真的拿 gcc 編譯一次
+  emit_c() 產生出來的 C 才抓到,修成 `EnumName_TAG_VariantName`(tag)vs
+  `EnumName_VariantName`(建構函式)。`emit_expr()` 新增裸 variant(零 payload)與
+  `(VariantName arg)` 呼叫(一個 payload)辨識,跟既有 Ok/Err/Some/None 同一套「檢查
+  在通用符號查找/一般函式呼叫之前」手法。`emit_defn()` 新增第四種參數型別分支:型別
+  若是已註冊的 defenum 名稱,綁定成該型別真正的 C 值。`emit_match()` 泛化:scrutinee
+  型別若對應到已註冊 defenum,改用該 enum 自己真正的 variant→tag 對照表而非寫死的
+  Ok/Err/Some/None;pattern 指名一個不屬於這個 scrutinee 自己 enum 的 variant 誠實
+  報錯。`tests/test_emit.c` 新增 8 個測試,55→63 全綠。真實驗證:
+  `stdlib/editor/events.prn`(這整個增量的真正目標,`EditorEvent`)現在**完整編譯
+  成功**,手動插入 host stub 宣告後拿真正 gcc(`-std=c99 -Wall -Wextra -pedantic`)
+  確認零警告編譯;另外寫了一個真實 driver 在 `-fsanitize=address,undefined` 下執行,
+  確認 `Signal_Ping()`/`Signal_Data()` 建構 + match 分派在執行期真的正確(Ping→
+  fallback、Data→payload 都對)。Makefile+Bazel+ASan/UBSan+domain4 全數通過,CI 綠燈
+  (run `32410780181`)。**仍未做**:兩個以上 payload 欄位的 variant、泛型 region
+  參數(`Arena @ Region` 裸符號)、自訂具名型別以外的其他型別、一般函式呼叫的真實
+  回傳型別推論。Apple #15001,commit `4830d02`。
   (sess-20260820-0649-a3f19d93)
