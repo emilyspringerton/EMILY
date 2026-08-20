@@ -17916,4 +17916,14 @@ it, captured here before context-switching to PARENA. None of these are started.
   TYLER 自己創作)、(d) 寫一篇獨立的命名儀式 followup blog 文章正式命名這個 IDE fork、
   (e) 命名確定後在 CLAUDE.md monorepo 表格新增一筆新 stub repo 條目(比照 TTT/CarePyre/
   EXODUS 既有 stub 模式)。
+
+  **更新:GPT-2 推論伺服器成功啟動確認(`scripts/serve.py --model ft --port 8088`,
+  health check 回報真實 fine-tune checkpoint `emily-ft`),但發現真實基礎設施限制**:
+  本 VPS 沒有 GPU,CPU-only 推論極慢——單次 5 token 生成實測耗時 3 分 13 秒(約
+  38 秒/token)。原計畫的『4 個 seed × 費波那契長度鏈到約 250 字元』完整版本以此速度
+  計算會需要數小時,不現實。改為務實版本:4 次獨立生成(無 seed 控制,serve.py API
+  本身不支援明確 seed 參數,誠實記錄這個限制,只能靠取樣隨機性做出 4 個不同結果)、
+  每次 21 token(真實費波那契數,不是 250,但避免不合理的等待時間)、背景執行中,
+  結果會寫進 `/tmp/gpt2_beetle_results.txt`。命名儀式部落格文章待這批生成完成、
+  交給 TYLER 之後才能寫。
   (sess-20260820-0649-a3f19d93)
