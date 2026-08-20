@@ -1521,6 +1521,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, dense burst, same PARENA/PITVIPER thread: "we need the building blocks for the sql drivers" -> "we c…** — obs `2026-08-20T12:29:10Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: PARENA stdlib should include elite-level regex support -- "also ensure we have like elite elite elit…** — obs `2026-08-20T11:59:09Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'continue PARENA build it with BAZEL' -- wants PARENA development to continue, with Bazel as the bui…** — obs `2026-08-20T11:46:18Z`. CURATED: 2026-08-20.
+- [ ] **創辦人持續澄清「map builder affordances」的真正需求:「like the actual affordances of how the actual editor interface gets build and th…** — obs `2026-08-20T12:41:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'ok but after we have a compiler we also need to write parena in parena' -- a real, well-understood …** — obs `2026-08-20T11:15:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, PARENA now sounds like build-from-scratch, not an existing found project -- contradicts earlier 'LAN…** — obs `2026-08-20T11:00:51Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'parena is the native API does that make sense' -- clarifies PARENA is a native (C-level?) scripting…** — obs `2026-08-20T11:00:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, PARENA characterization: 'its like EDU scripts scary older sister' -- colorful description suggestin…** — obs `2026-08-20T10:59:41Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
