@@ -18519,3 +18519,19 @@ it, captured here before context-switching to PARENA. None of these are started.
   (root)、`a6176ec`(PITVIPER)。
   tests/test_emit.c 一路從 121 → 135。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-62: map-literal struct construction(STDLIB.md 缺口 #2)+ loop tail position
+  裡的 let/do 結構性 bug 修復。DONE。** 繼續「ladybug first」,commit `d33f308`(PARENA)。
+  (1) map-literal struct construction(`{:key val ...}`)——沒有型別上下文可用,改用結構性
+  比對:掃過所有已註冊的 defstruct,找欄位名稱集合完全吻合的那一個構造它。(2) `let`/`do`
+  出現在 loop 自己的 tail position(例如 `if` 某個分支是 `let` 區塊)時,原本
+  `emit_loop_tail()` 的『純值』fallback 會直接對整個 `let`/`do` 節點呼叫
+  `emit_expr()`,但那從來沒認得這兩種形式(只在 body 陳述句層級被特殊處理過)——修法比照
+  `if` 本身已有的遞迴組合方式。**誠實現況**:firefly.prn 的 `run-tests` 又往前推進,現在
+  卡在一個更深、不同的缺口——`(Vec T)` 的型別抹除設計沒辦法回推『這個 Vec 實例裝的是哪個
+  T』,導致 `(deref (vec/get cases i))` 解析出來的型別只剩沒用的 `void`,不是
+  `TestCase`。這是真實、獨立、結構性的下一塊工作,這次沒動,列為下一個明確待辦。
+  tests/test_emit.c 135→144,全部用真正 gcc + `bazel build` + `bazel test --config=asan`
+  + domain4/5 驗證過。Apple #15126(內容因訊息裡的反引號被 shell 誤解析而部分損毀,審計
+  ID 本身仍有效)。
+  (sess-20260820-0649-a3f19d93)
