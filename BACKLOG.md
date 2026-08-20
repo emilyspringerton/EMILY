@@ -1437,6 +1437,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'from BRAWLPIT' -- clarifies Raccoon is an existing character from the BRAWLPIT repo, not a persona …** — obs `2026-08-20T07:05:05Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, four in a row: (1) 'make sure i have a play bat and an sdl i think i already said that but i dunno h…** — obs `2026-08-20T07:05:00Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'but it better not be the only way to paste something in pitviper' -- confirms middle-mouse-paste is…** — obs `2026-08-20T07:03:35Z`. CURATED: 2026-08-20.
+- [ ] **Answering two founder real-time questions with real findings, not guesses: (1) MJOLNIR SSH capability -- confirmed zero…** — obs `2026-08-20T07:16:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, confirming (not changing) existing behavior: 'to be clear pitviper needs to launch its own window no…** — obs `2026-08-20T07:12:07Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'oh that was on a different gcp i think' -- the Firebase console setup may be under a different GCP …** — obs `2026-08-20T07:10:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, Firebase thread continued: 'for the record i started setting it up on the console' / 'but i dont kno…** — obs `2026-08-20T07:09:55Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, further clipboard requirement: middle-mouse paste (X11-primary-selection-style: select text with the…** — obs `2026-08-20T07:02:59Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
