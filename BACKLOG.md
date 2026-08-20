@@ -1602,6 +1602,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充 GPT-2 生成參數: 「pon a fib for characters returned」(推測=put on a fibonacci for characters returned)+「4 …** — obs `2026-08-20T17:15:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,推翻先前命名: 「IRONCLAD sucks have tyler name it」——否決 IRONCLAD 這個名字,明確要求由 TYLER(角色/劇本引擎)來命名,不是我直接選。「call ou…** — obs `2026-08-20T17:15:06Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「have tyler name it in the blog post if its not named already」——若 IRONCLAD 這個 fork 還沒命名,要讓 TYLER 角色在…** — obs `2026-08-20T17:14:19Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,佇列處理順序指示: 「then all the rest in reverse ofrder lifo more or less」+「deps order」+「name that bitch first…** — obs `2026-08-20T17:14:04Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補完+重新排序: 「and then do another tyler followup blog spotlight on PARENA and what it brings to the ecosy…** — obs `2026-08-20T17:13:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「read the keynoat state of the ecosystem blog」(keynoat=keynote 打字錯誤)——要求閱讀『State of the Ecosystem』(以…** — obs `2026-08-20T17:13:03Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「continue hammering on PARENA」(重申優先權,持續進行)+「then do a followup to the product update with tyler」——PA…** — obs `2026-08-20T17:12:55Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,連續訊息: (1)「but the native PARENA implementation of an ide we can use to work with our vps with」——重申 IR…** — obs `2026-08-20T17:12:45Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
