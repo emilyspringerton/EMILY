@@ -1349,6 +1349,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: fifth blog post queued -- 'a report as a discussion between emily prime and claude about expanding t…** — obs `2026-08-20T03:16:17Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, consolidating remaining fragments on the GFD-port/mod-surface thread (item 5) and a graphics follow-…** — obs `2026-08-20T03:14:46Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: fifth item queued -- 'port the tyler story mode stuff to the gui client of GFD with the virtual mach…** — obs `2026-08-20T03:12:38Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: enqueue all pending real-time direction into BACKLOG.md as real sprint items, then check whether sta…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: finish the EmilyOS Ravenscar Ada module** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: GFD FPS world-building batch — ~80% of buildings should be solid/collidable like GTA3, start a destr…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
