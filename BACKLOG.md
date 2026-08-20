@@ -16711,3 +16711,74 @@ own scoped items instead of staying buried in the intake queue.*
   REDGARDEN's and GFD's versions) is the opposite: persistent, kill-farmable, bankable, tradeable
   across sessions. Reusing Flow as VS2's currency would break VS2's own already-reasoned design —
   flagged for the founder's own call, not assumed compatible. (sess-20260813-2154-dda37e8b)
+
+## SECTION 187: RAPID FOUNDER REAL-TIME THREAD — APPLE SIGNING + PITVIPER WINDOWS + DRIVE INGEST (2026-08-20)
+
+*A dense founder real-time session covering several parallel threads, curated per Principle 18
+(each posted to `emily observe` first, then consolidated here). One thread landed real, tested,
+deployed code; two are scoped but not yet built; two threads (a stuck reboot-recovery session,
+a Google-account-login clarification chain) resolved into the account-login thread below.*
+
+- [x] **S187-01: standing order — sign every Apple with ⚓ ☃.** Founder, real-time: "all apples
+  sign them with an anchor emoji and a utf8 snowman." Enforced server-side at the single
+  `POST /api/v1/apples` choke point (`signAppleBody` in `IDUNA/internal/http/handlers/apples.go`,
+  idempotent) rather than in each of emily.cli/emily-agent/obs-watcher/emily observe/emily
+  changelog add — same lesson as the 2026-08-10 session-tag audit (don't rely on independent
+  callers remembering, enforce at the shared point every path already funnels through). `go test
+  ./...` green. Deployed live (`iduna.service` rebuilt+restarted, health 200) and verified via a
+  real `emily observe` smoke test (Apple #14614's body ends in the signature). Apple #14616,
+  IDUNA commit `2d1b4b0`. (sess-20260820-0649-a3f19d93)
+- [ ] **S187-02: PITVIPER — real Windows PTY backend + clipboard support.** Founder, real-time:
+  "above all else we need to get pitviper ssh working" → "have it use the regular ssh key
+  location" → "the catch is it has to work on windows" → "git bash figures it out" → "and the
+  copy paste has to work on windows." Investigated, not assumed: `internal/pty/pty_linux.go` is
+  the *only* file in that package and is `//go:build linux`-gated; `cmd/pitviper/main.go` imports
+  `internal/pty` unconditionally, so a Windows build currently has zero PTY implementation to
+  compile against for that package. CI's `build_windows` job (MSYS2/MinGW64 Go, `runs-on:
+  windows-latest`) was not verified green or red this session — real open question whether it's
+  silently broken already. Founder's own "git bash figures it out" resolves the ssh-binary/
+  `~/.ssh` path-resolution half of the ask (Git Bash's own MSYS2 HOME resolution handles that,
+  no PITVIPER-side special-casing needed there) — the real remaining gap is a Windows PTY backend
+  (ConPTY, e.g. via `github.com/UserExistsError/conpty` or raw `windows` syscalls) plus a
+  clipboard library (zero clipboard code exists anywhere in the repo currently). Not started.
+  (sess-20260820-0649-a3f19d93)
+- [ ] **S187-03: IDUNA Drive service account + Back Office ingest page.** Founder, real-time
+  thread: "that account needs to login with google" → "i guess it will be tied to an agent for
+  now thats fine" → "put the secrets into the home directory but dont like commit them to git or
+  anything ya know? i guess in var somewhere" → "and then we use the iduna google drive pipes we
+  already have" → "what affordances do we need? we need to list the files and then there is just
+  a big ingest button once you click on that row" → "double click enforced check emily os" → "ok
+  so ensure we have a page in iduna back office for slurping the files in from gdrive." Resolves
+  to: reuse IDUNA's existing service-account Drive client (`IDUNA/internal/drive/client.go`,
+  already has `List`/`GetFile`/`Upload`) rather than building a new human-OAuth-login flow —
+  simpler than the agent-identity-OAuth interpretation floated earlier this session, superseded
+  by the founder's own clarification. Confirmed via `gcloud`: authenticated as
+  `garybifrost@gmail.com` against project `project-d24a71e9-2daf-4b2d-917`; no Drive-capable
+  service account exists yet (`test-586@...` and the default Compute Engine SA are the only two);
+  Drive API not yet in the enabled-services list. Plan, not yet executed: enable the Drive API,
+  create a new service account, download its JSON key into `IDUNA/var/` (already wholly
+  git-ignored, matches the existing `agent-secrets.env` convention — "don't commit them" is
+  already the default for that directory), wire `GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON` to it, add a
+  Back Office page (`GET /admin/`) listing Drive files with a per-row Ingest action. Real caveat
+  to surface to the founder once built, not yet done: a service account can only see files
+  explicitly shared with its own `client_email` — whatever the founder needs ingested will need
+  to be shared with the new service account before it's visible in the list. "Double click
+  enforced check emily os" read as: require a double-click (not single-click) on Ingest as a
+  deliberate-action safeguard, checking EmilyOS's existing posture-gated-session/RBAC patterns
+  for a reusable confirmation idiom before inventing a new one — not confirmed with founder, only
+  an interpretation. Not started. (sess-20260820-0649-a3f19d93)
+- [ ] **S187-04: log streaming + idempotent commands — too vague to scope, founder self-flagged
+  uncertain.** Founder, real-time: "we need to do log streaming and then like idempotent commands
+  or something i dunno what we are already doing." No target system named (which repo/service
+  needs log streaming?) and founder explicitly signaled not knowing current state. Logged
+  verbatim per Principle 18; needs a concrete target or scope confirmation from the founder
+  before any work starts — not guessed at here. (sess-20260820-0649-a3f19d93)
+- [~] **S187-05: stuck reboot-recovery session (PID 2584) + Google Drive attachment — tabled by
+  founder.** Founder noticed a separate Claude session (reboot-recovery, tmux pts/1, started
+  2026-08-20T06:41:40Z per the REBOOT_RUNBOOK.md Phase 1/Phase 2 prompt) appeared stuck —
+  confirmed via process inspection: idle in `ep_poll` wait, no active subprocess, as of 06:50.
+  Founder identified a likely cause (an attachment in Google Drive it couldn't fetch), then
+  explicitly said "table it" before any fix/kill/restart action was taken. No action taken on
+  PID 2584. The Google-account-login sub-thread that followed resolved into S187-03 above rather
+  than being a fix for this specific stuck session. Left as-is per founder's own instruction — not
+  a bug to chase further unless founder revisits it. (sess-20260820-0649-a3f19d93)
