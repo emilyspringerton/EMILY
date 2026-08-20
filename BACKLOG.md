@@ -1546,6 +1546,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, new feature ask: 'go ahead and add the damage log to REDGARDEN' -- a real combat/damage log feed (wh…** — obs `2026-08-20T10:43:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, style direction for the buff-HUD fix: 'remember the duck possibly telekenetic interface for the buff…** — obs `2026-08-20T10:43:05Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, new bug report from live play: 'i killed the purple king and couldnt even tell if i got a buff.' Pur…** — obs `2026-08-20T10:42:43Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令:「build all emojis into pitviper」——延續剛才的 box-drawing 字形修復。真實架構限制:PITVIPER 目前的字形系統是單色、程式化畫線的點陣圖(8x13,box-drawing …** — obs `2026-08-20T14:01:34Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令:「add testing to the stdlib」——PARENA 自己的測試框架(比照 Go testing 套件的極簡精神),讓 PARENA 程式(含未來的 stdlib 套件本身)可以寫真正的單元測試。緊接在 …** — obs `2026-08-20T13:56:22Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, refining GFD web exposure: 'ensure GFD web is live on okemily - link it from WOTAN' -- not the gener…** — obs `2026-08-20T10:16:54Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, via a different channel -- the actual GFD Battlegrounds in-game chat, relayed through IDUNA's chat_m…** — obs `2026-08-20T10:12:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, rationale for the ECOWAR HARD FORK: 'in order to maintain easy hackability' -- forking into a fully …** — obs `2026-08-20T09:57:06Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
