@@ -16584,3 +16584,13 @@ own scoped items instead of staying buried in the intake queue.*
   run against a real mailbox — still waiting on the founder to run `emily key set
   GMAIL_SMTP_ADDRESS`/`GMAIL_SMTP_PASSWORD` (same two commands as S186-03). Apple #14583, EMILY
   e35f6e9. (sess-20260813-2154-dda37e8b)
+- [x] **S186-05: Follow-up blog post with real fine-tuned GPT-2 output.** Founder: retry the
+  earlier generation attempt with real patience (up to 4 minutes). Found `gpt2-serve.service`
+  genuinely stuck (500%+ CPU, 60+ min accumulated compute, even `/health` blocked behind it) —
+  well past its normal range, not just "slow." Restarted clean; retried; real 200 response in 56s.
+  Published the actual verbatim output with an honest evaluation (incoherent/off-topic as
+  expected from a small fine-tune asked to reason about a specific technical roadmap; one
+  accidental phrase happened to describe real cross-repo unification work in progress, flagged as
+  coincidence, not model insight). Published
+  https://okemily.com/blog/followup-what-the-fine-tuned-checkpoint-actually-said/ (200 OK). Apple
+  #14584. (sess-20260813-2154-dda37e8b)
