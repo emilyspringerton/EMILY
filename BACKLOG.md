@@ -1397,6 +1397,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (Construct/multiverse portal continued) arcade cabinets as the in-world affordance to jump between d…** — obs `2026-08-20T04:06:01Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (naming continued) acknowledges 'the construct' will collide with existing stack vocabulary but want…** — obs `2026-08-20T04:05:35Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: naming resolved — 'osaka garage' (mentioned earlier re: PITVIPER/multiverse portal) is being renamed…** — obs `2026-08-20T04:05:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (poker tournaments continued) poker tournaments can be built into the GFD MUD GUI client, same as th…** — obs `2026-08-20T04:04:45Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: recalls a card game inside an old Square Enix game (unsure which one, maybe FFIX) as a possible refe…** — obs `2026-08-20T04:04:39Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: build out tournaments into the GFD MUD GUI client** — obs `2026-08-20T04:04:13Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: (Prompt-o-verse into newssite continued) specifically article thumbnails — AI-generated images with …** — obs `2026-08-20T04:03:22Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: bring in the tech from Prompt-o-verse into newssite somehow (unspecified which part — image generati…** — obs `2026-08-20T04:03:02Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
