@@ -18223,3 +18223,47 @@ it, captured here before context-switching to PARENA. None of these are started.
   獨立於 dataframe.prn 之外的原生輕量 CSV 套件(dataframe.prn 已有 CSV 支援,但創辦人
   認為還需要不綁 DataFrame 型別的版本,提到可以做『特別的功能』,具體內容待補)。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-52: Bool/F64 基本型別 + 修好 runtime OK/ERR 巨集缺口。DONE。** S189-47 缺口
+  清單第 8 項(最小、最機械式)。`resolve_declared_type()` 新增 Bool(→int)/F64
+  (→double)。真實驗證時拿真正 gcc 編譯 `gfd.prn`(METALVERSE 面板綁定)產生的 C,
+  發現 6 個 stdlib 檔案(`gfd`/`thread`/`io`/`sdl2`/`editor/buffer`/`pentest/pcap`,
+  18 個真實呼叫點)的 `#target inline-c` 內容都假設有裸的 `OK`/`ERR` 巨集,但
+  `parena_runtime.h` 從沒定義過——`parena build` 自己不驗證 inline-c 內容,不會抓到
+  這個。修法:`parena_runtime.h` 補上 `#define OK (result_ok(NULL))` /
+  `#define ERR (result_err(NULL))`。`tests/test_emit.c` 新增 8 個測試,81→89 全綠。
+  `stdlib/gfd.prn`(含 METALVERSE 的 `spawn-panel`)整個檔案現在完整編譯成功並拿真正
+  gcc 確認零警告。Makefile+Bazel+ASan/UBSan+domain4/5 全數通過,CI 綠燈
+  (run `32414976078`)。Apple #15066,commit `c9fc3b5`。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-53: LONGMA(github.com/emilyspringerton/longma,fork 自
+  mailtruck/longma)功能移植進 PARENA stdlib,純 PARENA 實作。** 創辦人:「check out
+  LONGMA just forked」→「build the longma functionality into the PARENA stdlibs」→
+  「you are gonna need to clone it down」→「longma」→「but implemented pure
+  PARENA」→「into the stdlib」。已 clone 到 `/home/fatbaby/longma` 並讀完真實原始碼:
+  一個用 Go 寫的 streaming CSV 檔案分割/分塊工具(`split` 指令,標頭複製到每個分塊、
+  支援 `.csv.gz`、`-r` 指定每檔行數;`generateSample` 產生測試資料)。**明確要求**:
+  不是像 pentest/gfd 那樣 FFI 綁定既有 Go 二進位檔,而是要用真正的 PARENA 原生語法
+  重寫演算法本身。**誠實現況**:VS0 目前完全沒有檔案 I/O 原語(`io/*` 只在
+  STDLIB.md 有設計,emitter 沒實作)、沒有真正的字串掃描/切分操作——代表『純
+  PARENA』目前實際上還是需要 `#target` 宣告不可避免的檔案/gzip C 呼叫,不能假裝現在
+  就能完全不靠 `#target`。待辦:新增 `stdlib/csv.prn`,宣告 LONGMA 真實的 API 形狀
+  (`split`/`generate-sample`),邏輯結構盡量用已支援的 PARENA 語言功能表達,檔案 I/O
+  誠實用 `#target`,檔頭誠實註明『真正的純 PARENA 檔案 I/O 待 VS0 補上 `io/*` 原語
+  才可能』。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-54: 其餘今日發散、已記錄待排入的項目(不阻斷主線)。** (a)「build data
+  science utilks into PARENA cli」→「like longma」→「same clie api」——資料科學工具
+  比照 LONGMA 模式(fork 真實既有工具,綁進 PARENA stdlib/CLI,同樣的 CLI 介面形狀,
+  Cobra 風格子指令)。(b)「golden baand physical implementationm icluding mini bikes
+  and go carts in bedrock racers」+「with PARENAS」——GOLDENBAND 的 `.gband` 動畫資產
+  格式做出『physical implementation』,在 WEAKNIGHT_BEDROCK_RACERS 賽車遊戲裡加迷你
+  摩托車跟卡丁車,用 PARENA 做。(c)「improve mainline sghankpit helicopter
+  implemnenetation」→「we enneeed those dope hot drops」→「i dont have the ability
+  to flip the copter over」→「also the rotation is sweird」→「the rotation i still
+  weird with the gbuggy」→「fix it with parenas」——SHANKPIT 主線直升機改進,用
+  PARENA 做:(1) 想要更酷的空降/hot drop 機制、(2) 真實回報無法讓直升機翻滾/翻轉、
+  (3) 直升機旋轉行為異常,且 buggy(沙灘車)也有同樣的旋轉問題,不只直升機。
+  (sess-20260820-0649-a3f19d93)
