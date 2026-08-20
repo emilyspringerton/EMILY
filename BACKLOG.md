@@ -17194,3 +17194,44 @@ it, captured here before context-switching to PARENA. None of these are started.
   `io/read-floats` matches `gpt2.c`'s own `fread_or_fail` raw-float weight loading, returning
   `array`'s own `NDArray` directly). Apple #14757, commits `ed8b011`, `4d6ac03`, `59f08b5`.
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-15: PARENA — GFD mod-surface stdlib (`gfd` package) planning pass, CI build-artifact
+  upload fixed, elite multi-engine `regex` family + `grep`/`sed`/`awk` designed, batteries-included
+  scope confirmed. DONE.** Founder: "add any mor stdlib we think we will need for the vs0 of the
+  mod api for GFD look at that northstar do any planning necessary and add some docs" → **`gfd`**:
+  read `GoblinFoxDragon/docs2/MOD_SURFACE_NORTHSTAR.md` in full (only skimmed earlier this
+  session) plus the real, already-shipped `packages/education/edu_bindings.c` builtin table (runs
+  today in `apps/lobby`'s Architect's Orb terminal) as direct precedent, GTA7's real
+  `FactionManager.java`, and `skateboard/NORTHSTAR.md`'s destructibility spec — world-object/
+  solidity-destructibility/skate-surface/faction/METALVERSE-panel signatures added; real open
+  blocker stated plainly: `apps2/battlegrounds_gui` has zero plugin-loading mechanism today, this
+  only designs the PARENA-side function signatures. Then founder: "where are the build artifacts?
+  for PARENA? i see a bazel build... wheres my compiler i guess" — real gap found: CI built and
+  tested the compiler every run but never uploaded it, unlike every other repo's CI. Fixed
+  (`dist/` staging step since `bazel-bin` is a symlink `upload-artifact` doesn't follow reliably +
+  `actions/upload-artifact@v4`), verified locally (`file` confirms a real ELF executable that runs
+  standalone against `examples/test.prn`) — **not yet CI-confirmed on GitHub Actions**, that's the
+  real next check. Then founder: "also ensure we have like elite elite elite level regex in the
+  stdlib" → "maybe we implement all the different regex types" → "as different packages" → "like
+  perl should be jealous" → "sed awk grep" → "in the stdlib" → "and beyond" → "and add
+  dependencies you need for all these asks as std libs themselves" — designed `regex/syntax`
+  (shared pattern-AST parser, precedent: Rust's own regex crate splits the same way),
+  `regex/nfa` (Thompson/Pike's-VM, guaranteed-linear per Russ Cox's classic article + RE2/Go
+  regexp precedent, no backrefs/lookaround by construction — stated as the real trade-off),
+  `regex/pcre` (full backtracking: named captures, backreferences, lookahead/lookbehind, atomic
+  groups, possessive quantifiers — the literal "perl jealous" ask; ships a `MatchBudget` the way
+  PCRE2's own match/depth limits do since backtracking is honestly worst-case exponential/ReDoS-
+  prone), `regex/posix` (BRE/ERE, kept separate because POSIX leftmost-longest vs Perl
+  leftmost-first is a real semantic difference not a flag), `regex/glob` (shell glob, not routed
+  through `regex/syntax` since the grammars don't overlap) — then `grep`/`sed`/`awk` built thin on
+  top; `sed` needed a new `io/read-line` (io only had whole-file reads); `awk` needed a new `expr`
+  package (typed arithmetic/string evaluator with awk's coercion rules) — both new-dependency-as-
+  own-package per the founder's explicit instruction, not buried as tool-internal code. No
+  internal repo call site to ground this section against (first stdlib section without one) —
+  grounded instead in real external engine architecture, stated as a different kind of grounding.
+  Founder confirmed the resulting scope shift live: "like this is going to be pretty heavy
+  batteries included" — documented explicitly as a real, acknowledged move past this doc's own
+  opening Go-stdlib reference point toward Python's batteries-included end; package *count* is now
+  allowed to grow large, individual-package smallness/composability is the discipline that holds.
+  Apple #14764, commits `7888827` (gfd + CI artifact fix), `f1112bf`/`59c5b50` (regex family +
+  grep/sed/awk + batteries-included note).
+  (sess-20260820-0649-a3f19d93)
