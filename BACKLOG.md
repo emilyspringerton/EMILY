@@ -1577,6 +1577,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, completing the slurp-button workflow spec: 'enqueues it in the background' / 'regular resiliency pat…** — obs `2026-08-20T09:51:22Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, CORRECTING my prior 'per agent directories = stick with service account' reading: 'the back office s…** — obs `2026-08-20T09:50:53Z`. CURATED: 2026-08-20.
 - [ ] **Research complete on the chess/Osaka-Garage/METALVERSE ask (Explore agent, read-only, no code changed). Key findings: (…** — obs `2026-08-20T09:50:24Z`. CURATED: 2026-08-20.
+- [ ] **創辦人真實回報,連續多則:「somehow claud code renders weird in pitviper」→「like the text is kind of crazy randomly updating」→「i think…** — obs `2026-08-20T15:57:53Z`. CURATED: 2026-08-20.
+- [ ] **創辦人真實回報:「the wasm mud gui is still a blank screen」——本 session 稍早完成的 GFD web(WASM)client 工作(WebSocket relay + nginx wss …** — obs `2026-08-20T15:55:55Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
