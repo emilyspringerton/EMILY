@@ -1677,6 +1677,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **GitHub API 恢復正常,補上剛才因 rate limit 延遲的 CI 確認: PARENA commit 1b2805c(csv.prn/defstruct mangle 修復)CI completed success;long…** — obs `2026-08-20T20:59:09Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,新需求: 「add fuzz testing primatives to the stdlib」——要求把 fuzz testing 原語加進 PARENA stdlib。記錄待評估規劃。GitHub …** — obs `2026-08-20T20:57:38Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「we ineed the installable arch」+「built on PARENA」——重申 Arch-based 可安裝發行版構想,且要求整個發行版建置在 PARENA 之上。真實、大…** — obs `2026-08-20T20:51:05Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time(批次): antigravity/gemini CLI 相關——「please help me getting antigravity cli working」/「adapt start and run…** — obs `2026-08-20T21:15:58Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「continue marching towards our goals with all 200 legions」+「please help me getting antigravity cli w…** — obs `2026-08-20T21:14:24Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time (batch): 完成 beetle 改名後,founder 追加要求把 PARENA 的 BDD 測試框架(firefly/firefly-ladybug/firefly-gomega alias/s…** — obs `2026-08-20T21:09:21Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「we need the installable arch emily os」——把先前的樹莓派/Arch Linux 發行版構想重新框成『可安裝的 Arch-based Emily OS』。記錄併入…** — obs `2026-08-20T20:50:54Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充+簡化: 「feel free to ship a parena fversion of longma to our repo」→「to our forked repo」→「with bazel」→…** — obs `2026-08-20T20:50:22Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
