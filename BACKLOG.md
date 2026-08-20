@@ -452,6 +452,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: 'cancel previous requests for a run of swimsuit models and d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:34:35Z.
 - [ ] **Founder real-time: 'if taxonomies have at least 2 leaf nodes make the taxonomy …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:33:47Z.
 - [ ] **Founder real-time, converges the plan: 'what we have is good for baseball cards…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:09:46Z.
+- [ ] **Founder real-time: 'now we need to add a level -- stained glass is top level --…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:09:22Z.
+- [ ] **Founder real-time: (1) queue has duplicates not getting deduped, new promptover…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:56:15Z.
+- [ ] **Founder real-time: (1) emily promptoverse add should dedupe -- not re-prompt fo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:50:45Z.
+- [ ] **Founder real-time (result of empirical test): tested the existing OAuth-persona…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:37:38Z.
+- [ ] **Founder real-time: 'gemini api key is so hard to get i tried for like 2 hours t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:37:12Z.
+- [ ] **Founder real-time: 'lets see if we can use nano banana api to go from top level…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:35:06Z.
+- [ ] **Founder real-time: promptoverse should keep a local variable estimating retry b…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T22:11:27Z.
+- [ ] **Founder real-time: when draining the promptoverse queue we need a longer wait b…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T22:05:27Z.
+- [ ] **Founder real-time: 'ensure all is ingested and planned and then iterate' -- clo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:33:55Z.
+- [ ] **Founder real-time, refining the graph-via-shared-tags idea: 'there are third le…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:32:41Z.
+- [ ] **Founder real-time: Prompt-o-verse extension -- run GPT-2 (the existing gpt2-alp…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:27:38Z.
+- [ ] **Founder real-time: subject pages work but the images are broken links** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T22:22:56Z.
+- [ ] **Founder real-time: 'there is a great deal of variation -- we can generate multi…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:25:53Z.
+- [ ] **Founder real-time: pipeline clarification -- 'we have the label (top level prom…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:25:32Z.
+- [ ] **Founder real-time: 'its a multi layered dataset' -- reinforces the taxonomy's h…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:25:01Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1192,21 +1207,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously)** — obs `2026-08-15T22:10:37Z`. CURATED: 2026-08-15. Work continued; this is the directive that led into the frog-blog-post ask handled next. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
-- [ ] **Founder real-time: 'now we need to add a level -- stained glass is top level -- right now its all baseball cards but it…** — obs `2026-08-17T21:09:22Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: (1) queue has duplicates not getting deduped, new promptoverse add inputs always fail because drainQ…** — obs `2026-08-17T21:56:15Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: (1) emily promptoverse add should dedupe -- not re-prompt for a style already generated for a subjec…** — obs `2026-08-17T21:50:45Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time (result of empirical test): tested the existing OAuth-personal Gemini CLI credential directly -- conf…** — obs `2026-08-17T20:37:38Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'gemini api key is so hard to get i tried for like 2 hours the other day' -- real, demonstrated fric…** — obs `2026-08-17T20:37:12Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'lets see if we can use nano banana api to go from top level to the gen data' -- proposing a concret…** — obs `2026-08-17T20:35:06Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: promptoverse should keep a local variable estimating retry backoff across invocations -- if 2-3 runs…** — obs `2026-08-17T22:11:27Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: when draining the promptoverse queue we need a longer wait between requests** — obs `2026-08-17T22:05:27Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'ensure all is ingested and planned and then iterate' -- closing signal on the Prompt-o-verse real-t…** — obs `2026-08-17T20:33:55Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, refining the graph-via-shared-tags idea: 'there are third level prompts that are going to more natur…** — obs `2026-08-17T20:32:41Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: Prompt-o-verse extension -- run GPT-2 (the existing gpt2-alpine-c infra in this monorepo) on differe…** — obs `2026-08-17T20:27:38Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: subject pages work but the images are broken links** — obs `2026-08-17T22:22:56Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'there is a great deal of variation -- we can generate multiple gens from a top level prompt with va…** — obs `2026-08-17T20:25:53Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: pipeline clarification -- 'we have the label (top level prompt), then the gen data, then we can labe…** — obs `2026-08-17T20:25:32Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'its a multi layered dataset' -- reinforces the taxonomy's hierarchical depth (top-level category ->…** — obs `2026-08-17T20:25:01Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: sharpened the core data-model insight for Prompt-o-verse across 3 fragments -- 'it's like a reverse …** — obs `2026-08-17T20:24:28Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: add Whiteboard, Paper-craft, Anime, Kawaii as top-level hardcoded promptoverse styles to potentially…** — obs `2026-08-17T22:48:05Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: (1) make the promptoverse gallery home page live-update when new nodes are published, same as live-m…** — obs `2026-08-17T22:37:50Z`. CURATED: 2026-08-17.
