@@ -1566,6 +1566,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指令:「std libs for full pen test tools」——PARENA stdlib 新增滲透測試工具套件。比照本 session 已建立的判斷,FFI 綁定真實、標準、合法的既有工具(nmap 掃描、真實 …** — obs `2026-08-20T14:38:24Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, refining the SHANKPIT bot hypothesis: 'but maybe there is some level of understanding i dont know wh…** — obs `2026-08-20T09:54:45Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, more detail on the SHANKPIT bot issue, converging on a real hypothesis: 'they need to get a bit more…** — obs `2026-08-20T09:54:13Z`. CURATED: 2026-08-20.
+- [ ] **Stalwart Mail Server 研究(創辦人:「start doing the research into STALWART email servers」,無法即時上網查證,依既有知識提供基於訓練資料的真實摘要,標註可能過時):…** — obs `2026-08-20T15:00:45Z`. CURATED: 2026-08-20.
+- [ ] **Google Cloud Shell API 已在 project-d24a71e9-2daf-4b2d-917 上啟用(gcloud services enable cloudshell.googleapis.com,確認成功)。創辦人…** — obs `2026-08-20T14:54:54Z`. CURATED: 2026-08-20.
+- [ ] **創辦人:「where we at with that google terminal based ide? i literally need you to do it」→ AskUserQuestion 確認為 Google Cloud …** — obs `2026-08-20T14:53:25Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, scoping the AI cross-pollination experiment: 'mainline shankpit is ok to experiment on, we have 460 …** — obs `2026-08-20T09:53:42Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, two new threads: (1) bug report -- 'the shankpit bots are really twitchy and weird.' (2) exploratory…** — obs `2026-08-20T09:53:13Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
