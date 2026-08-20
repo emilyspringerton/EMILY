@@ -18549,3 +18549,25 @@ it, captured here before context-switching to PARENA. None of these are started.
   一次 pass 能實作,應該先當 NORTHSTAR-only 範疇規劃(比照 container/lxc、Moltbook 等
   同類巨大構想的處理方式),尚未動筆,列為明確待辦而非默默略過。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-64: 里程碑——firefly.prn 真正通過 gcc 編譯,ladybug BDD 框架第一個真正可編譯
+  的檔案。DONE。** 繼續「ladybug first」,commit 96e232e(PARENA)。firefly.prn(整個
+  ladybug/Ginkgo-Gomega 風格測試框架的地基)第一次真的通過真正
+  `gcc -Wall -Wextra -pedantic -Werror` 編譯,不只 `parena build` 自己回報成功。
+  這一輪額外抓到五個真實 bug,每一個都只有實際拿 gcc 編譯出來的 C 才抓得到:
+  (1) 呼叫一等函式值(struct 欄位型別是 Fn 的那種,例如 `((get-field tc :run) &mut t)`)
+  從來沒支援過。(2) `defstruct` 的函式指標欄位語法接錯位置,跟參數列表早先修過的同一種
+  bug,這次抽成共用的 `sb_append_decl()` 一次修好。(3) `emit_call` 對已知使用者自訂函式
+  的回傳型別用了太籠統的猜測,蓋掉了正確答案,導致早先修過的 void 回傳陳述句 bug 又
+  復發——新增 `g_defn_return_types` 真實(雖小)函式簽章表解決。(4) `deref` 對
+  `vec_get` 回傳值少轉型就直接解參考,是另一種真正的 ISO C 錯誤,已補上轉型。
+  (5) `sb_appendf` 內部固定 1024 位元組緩衝區,函式本體一長就默默截斷——真實症狀是
+  `run-tests` 的輸出檔案卡在 `continue;` 陳述句中間被砍斷,兩個組裝完整函式的呼叫點
+  改用不設上限的 `sb_append()`。同一輪也補上 `g_vec_elem_hints`(讓
+  `(deref (vec/get cases i))` 真的能解析出 `TestCase` 而不是沒用的 `void`)跟真正可用的
+  `string_concat` runtime 實作。`tests/test_emit.c` 144→163,全部經過真正 gcc、
+  `bazel build`、`bazel test --config=asan`、domain4(Valgrind)、domain5 驗證過。
+  **誠實現況**:`firefly/ladybug.prn` 跟 `firefly/gomega.prn` 仍卡在既有的模組連結缺口,
+  `scarab.prn` 仍卡在既有的多欄位 `defenum` payload 缺口,這兩者這次都沒動。
+  Apple #15129。
+  (sess-20260820-0649-a3f19d93)
