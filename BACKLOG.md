@@ -16644,3 +16644,13 @@ own scoped items instead of staying buried in the intake queue.*
   `emily key` section — no new subcommand, the generic form already covers it — pointing at both
   the SMTP send path (S186-03) and the IMAP read script (S186-04), with an explicit note against
   pasting the password into chat. Apple #14590, emily.cli 1892d1c. (sess-20260813-2154-dda37e8b)
+- [x] **S186-10: Located the multi-seat Fibonacci pricing doc (resolves part of S185-03).**
+  Founder recalled it existed but couldn't place it — found at `GoblinFoxDragon/README2.md:220-236`
+  ("Monetization: Single-Box Free + Multibox License"). Real, already fully specified, nothing
+  invented: seat pricing is **1, 1, 2, 3, 5, 8, 13, 21/month per additional seat, then a flat
+  $34/seat cap** beyond that, with a real "power is a liability, not just an advantage" not-pay-
+  to-win rationale already written out. (A separate, unrelated Fibonacci sequence already exists
+  in `arena_game.c`'s `arena_multikill_fib` — a multi-kill combat damage multiplier, not pricing —
+  noted so it isn't confused with this doc.) Relevant to S185-02's ecowar-pack-pricing thread as
+  real prior art for Fibonacci-scaled monetization in this monorepo, not just the pity-pull
+  mechanic already cited there. (sess-20260813-2154-dda37e8b)
