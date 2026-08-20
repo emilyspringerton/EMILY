@@ -1457,6 +1457,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, resolving the Google-login-vs-service-account fork from my last question: 'i guess we need per agent…** — obs `2026-08-20T08:01:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'double click enforced check emily os' -- read as: the Ingest action should require a double-click (…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, scoping the Drive-ingest ask further: UI affordances needed are (1) list the files (from IDUNA's exi…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, further constraint on the PITVIPER SSH ask: it has to work on Windows too, not just Linux. Combined …** — obs `2026-08-20T06:52:55Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, clarifying the PITVIPER SSH ask: have it use the regular/default ssh key location (~/.ssh, standard …** — obs `2026-08-20T06:52:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, priority override ('above all else'): get PITVIPER SSH working. Prior BACKLOG entry (S127 area, SECT…** — obs `2026-08-20T06:52:44Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: flagged that the other Claude session (PID 2584, reboot-recovery session running in tmux pts/1, star…** — obs `2026-08-20T06:52:35Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
