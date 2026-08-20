@@ -1476,6 +1476,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: '15 and 15' -- no clear context, logging verbatim per Principle 18 rather than guessing at meaning. …** — obs `2026-08-20T10:21:00Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, status check questions: 'is slurp done?' -> answer: no, S187-03/S188-05 (Drive slurp feature, frog a…** — obs `2026-08-20T10:20:53Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, softening/refining the crystal-integration scope: 'but the crystal output can be used to provide a m…** — obs `2026-08-20T10:19:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, scope-defining detail on the crystal/terrain-seeding ask: 'you will have to add systems and entities…** — obs `2026-08-20T10:19:25Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, more detail on the crystal/terrain-seeding ask: 'like let the crystal run for like 100 generations a…** — obs `2026-08-20T10:19:15Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, new thread while GFD-web relay work is in progress: 'can we quickly generate some terrain and npcs u…** — obs `2026-08-20T10:19:06Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, emphasis: 'live demos that are more than just demos.' Reinforces 'ensure GFD web is live' -- wants a…** — obs `2026-08-20T10:17:58Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, confirming WOTAN's identity: 'there is a wotan site on okemily its like an esports hype page' -> 'st…** — obs `2026-08-20T10:17:52Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
