@@ -18388,3 +18388,27 @@ it, captured here before context-switching to PARENA. None of these are started.
   登入後遇到的 Gemini/Vertex 區域可用性問題,不是我能從這邊修的東西,腳本內留了
   真實、誠實的下一步指引(登入後跑 `agy models`)而非編造型號字串。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-58b: gcloud 排查 antigravity「model not available in us-central1」根因。DONE。**
+  創辦人:「i really need to get antigravity ai working」→「also mjolnir」→「can you use your
+  gcloud prowess」。真實查證(`gcloud projects describe` / `gcloud services list`):
+  `einhorn-mjolnir` 這個 GCP 專案是**今天(2026-08-20)才剛建立**的全新專案,billing 帳戶已
+  正確掛上,但 `aiplatform.googleapis.com`(Vertex AI)跟 `generativelanguage.googleapis.com`
+  (Gemini API)兩個 API 完全沒啟用過——這才是「model not available in us-central1」錯誤
+  最可能的真正根因(不是區域問題,是 API 根本沒開),已用 `gcloud services enable` 把兩個都
+  開起來並確認生效。
+  (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-59: container/lxc + container/cgroup stdlib 設計 pass。DONE(設計完成,實作卡在
+  既有 io 缺口,誠實記錄非新缺口)。** 承接 Moltbook northstar §4 的部署隔離要求,創辦人:
+  「we probably need to bring in a round of hardening first」→「LXC primatives」→「container
+  primatives」→「chgroups」→「built into the standard library」→「cli first」→「plan the
+  stdlib deps」→「then march onward」。STDLIB.md 新增兩個真實、可分層的套件設計:
+  `container/lxc`(FFI 綁定真正的 `liblxc`,比照既有 sdl2/pentest/git 的 FFI 綁定慣例——
+  create/start/stop/destroy/set-config/running?)、`container/cgroup`(cgroups v2 真實檔案系統
+  介面,搭在既有 `io` 套件的 open/read/write 之上——set-memory-max/set-pids-max/
+  add-process/current-memory)。誠實記錄:兩者都卡在文件別處已經記錄過的既有缺口——VS0 目前
+  沒有真正可用的檔案 I/O 原語,這不是新缺口,是設計完成、等 `io` 套件本身落地的狀態。
+  順手修正 `firefly/gomega/scarab` 那節裡殘留的過期命名(S189-57 改名後忘了同步這裡)。
+  commit `232c96d`(PARENA),Apple #15105。
+  (sess-20260820-0649-a3f19d93)
