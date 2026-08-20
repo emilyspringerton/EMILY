@@ -17545,3 +17545,25 @@ it, captured here before context-switching to PARENA. None of these are started.
   簽章表——這些才是真正擋在「能自我託管」前面的缺口,誠實記錄,不誇大這次的進度。Apple
   #14841,commit `bb87411`。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-24: PARENA C emitter 加入 loop/recur(真正的迴圈)。DONE。** 延續「continue
+  crunching on PARENA」。`emit_loop`/`emit_loop_tail`:真正的 C `while (1)`,迴圈變數是真實
+  可變 C 區域變數,結果變數型別跟 `emit_defn` 自己的回傳型別推論用同一招(先 emit 進暫存
+  buffer,回頭用推導出的型別宣告)。tail position 真實支援 `if`(遞迴處理兩分支)+`recur`
+  (真正的同時賦值——每個新值先算進暫存變數,全部算完才賦值回迴圈變數,`recur` 用來 swap 兩
+  個變數的案例才會正確,不是依序覆寫這種錯誤寫法),誠實聲明:裸 `recur`(無 `if`)或
+  `cond`/`match` 在 tail position 還不支援。順手修掉函式參數的 unused-parameter 警告。真實
+  驗證:寫了一個真的算 0 加到 9 的累加函式,`gcc -Wall -Wextra -pedantic -std=c99` 零警告,
+  真正的 driver 執行下 ASan/UBSan 全程乾淨、回傳值正確是 45。`tests/test_emit.c` 從 18 個
+  測試變成 24 個(loop/recur 升級為正向案例,含驗證 `while(1)`/`break`/`continue`/真實暫存
+  變數都真的出現在輸出裡;新增 `match` 仍誠實失敗的負向案例)。Makefile+Bazel+ASan/UBSan+
+  完整 domain 4 檢查全數通過,CI 用 GitHub Actions API 確認綠燈(run `32389216575`,曾因
+  API rate limit 短暫延遲確認,不是跳過)。**仍未做**:`match`、collection 操作、
+  `defstruct`/`defenum`、macro、真實函式簽章表。Apple #14848,commit `c84624e`。**另記錄兩個
+  PITVIPER 真實回報,待查(創辦人:「log it and keep crunching on PARENA」,優先權維持在
+  PARENA)**:(1)「the wasm mud gui is still a blank screen」——本 session 稍早的 GFD web
+  WASM client 工作看起來仍有問題。(2)「somehow claud code renders weird in pitviper」→
+  「like the text is kind of crazy randomly updating」→「i think the claude code animations
+  are screwing stuff up or something」——founder 在 PITVIPER 裡跑 Claude Code 本身,其 TUI
+  動畫渲染異常,真實可能根因(待實際重現排查):cursor save/restore 未正確實作、`\r` 覆寫沒
+  有先清到行尾殘留舊文字、或重繪速率超過既有 60Hz ticker。
+  (sess-20260820-0649-a3f19d93)
