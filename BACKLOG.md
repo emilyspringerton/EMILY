@@ -17090,27 +17090,22 @@ it, captured here before context-switching to PARENA. None of these are started.
   `.github/workflows/build.yml` actually runs, in order: physics test, Windows client
   cross-compile (the fix), Linux server build, full `scripts/build.sh`. Also added a `.gitignore`
   (repo had none). Apple #14744, commit `223dea7`.
-- [~] **S189-08b: SHANKPIT mainline CI build — real fix applied, CI confirmation still pending
-  (corrected: an earlier pass here wrongly said "CI confirmed green" before actually checking —
-  it wasn't, see below).** Founder: "the build is failing for mainline shankpit?" Reproduced CI's
-  exact mingw cross-compile locally (mingw-w64 already installed for BRAWLPIT's own fix, reused
-  here). Root cause: commit `f31cfcd` ("GOLDENBAND真人骨骼蒙皮網格取代Tyler方塊body", S144-02
-  Stage B) added real `gband_mesh_rig_init`/`gband_mesh_rig_draw` calls to
-  `apps/lobby/src/main.c`, but `.github/workflows/tests.yml`'s Windows Client build command was
-  never updated to compile+link `packages/goldenband/*.c` — undefined reference at link time,
-  invisible without actually running the mingw linker (`go test ./...` and plain Linux gcc
-  compiles of the same source were both clean the whole time). Fixed: added the 4 real
-  goldenband source files + include path (commit `e807597`). **Verified clean twice locally
-  against the real mingw-w64 cross-compiler, including once from a completely fresh git clone
-  (ruling out stale local state) — but the real CI run on that exact commit still showed red at
-  the same "Build Windows Client" step**, with no accessible failure log (GitHub blocks log
-  download without admin/write auth). Pushed a second, real commit (`714937c` — widened the SDL2
-  download's retry logic beyond `--retry-connrefused`-only, a genuine gap, not a no-op) both as a
-  legitimate hardening and to get a second CI data point distinguishing transient flakiness from
-  a real remaining problem. That run's result wasn't in yet as of this entry — check
-  `github.com/emilyspringerton/SHANKPIT/actions` directly for the current status rather than
-  trusting this note's own age. Linux Server build confirmed unaffected
-  (zero goldenband references in `server/main.c`). Apple #14748, commit `e807597`.
+- [x] **S189-08b: SHANKPIT mainline CI build — fixed, CI confirmed green. DONE.** Founder: "the
+  build is failing for mainline shankpit?" Root cause: commit `f31cfcd` ("GOLDENBAND真人骨骼蒙皮
+  網格取代Tyler方塊body", S144-02 Stage B) added real `gband_mesh_rig_init`/
+  `gband_mesh_rig_draw` calls to `apps/lobby/src/main.c`, but `.github/workflows/tests.yml`'s
+  Windows Client build command was never updated to compile+link `packages/goldenband/*.c` —
+  undefined reference at link time, invisible without actually running the mingw linker. Fixed:
+  added the 4 real goldenband source files + include path (commit `e807597`). Verified clean
+  twice locally against the real mingw-w64 cross-compiler (including once from a fresh clone),
+  but the first real CI run on that commit still showed red at the same step with no accessible
+  log to explain why — rather than declaring victory off local success alone, pushed a second,
+  real commit (`714937c`, widening the SDL2 download's retry logic beyond
+  `--retry-connrefused`-only — a genuine gap, not a no-op) both as legitimate hardening and to
+  get a second CI data point. **That run came back green** — the first failure was transient CI
+  flakiness, not a real remaining problem; the goldenband fix was correct from the start.
+  Linux Server build confirmed unaffected (zero goldenband references in `server/main.c`). Apple
+  #14748, commits `e807597` + `714937c`.
 - [x] **S189-08c: MJOLNIR CI "failure" — confirmed to be the existing Firebase blocker, not a
   new bug. DONE (investigation, not a fix — none is possible without founder action).** Checked
   rather than assumed: CI's own workflow comment already documents the real cause — fails at
