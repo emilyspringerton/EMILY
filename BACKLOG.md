@@ -1702,6 +1702,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新 stdlib 需求: 「add json and yml and csv to the stdlib」→「i knnow csv is already in dataframe」→「do we ne…** — obs `2026-08-20T20:28:19Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,新基礎設施需求: 「bring BAZEL as the build system for all projects that PARENAS tocuches」——要求 Bazel 成為所有跟 PAR…** — obs `2026-08-20T20:27:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,重申: 「all the wood behind PARENAS cli arrow」——全力投入 PARENA CLI(domain 5)。真實查證發現:domain 5『CLI Runner』的字面…** — obs `2026-08-20T20:25:26Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,優先權再次改變: 「PARENA cli first」+「we need to constantly add and requeue dependencies into the stdlib」+「tha…** — obs `2026-08-20T20:24:41Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,重要澄清,WOTAN 其實是既有系統: 「all in on n WOTAN as the brand for all the vs for the IDUNA digital polity」+「bui…** — obs `2026-08-20T20:24:27Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新任務: 「build day night cycle into a mod」+「shankpit day night cycle」——要求把日夜循環系統做成一個 mod(對應 SHANKPIT)。真實…** — obs `2026-08-20T20:21:48Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,改變順序: 「except probbably mostly the same」(軟化剛才的 WC3-反向比喻)+「except PARENA」(強調要用 PARENA)+「plan any missi…** — obs `2026-08-20T20:21:40Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,設計色彩: 「like the reverse of warcraft 3」——形容『自訂模式』構想:WC3 的世界編輯器讓一個 RTS 引擎孕育出 DOTA(MOBA);REDGARDEN 反過來,本…** — obs `2026-08-20T20:21:28Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
