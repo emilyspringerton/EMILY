@@ -1556,6 +1556,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, escalating the ECOWAR scoping (SECTION 176, NORTHSTAR.md §29): 'build ECOWAR' / 'separate lobby' / '…** — obs `2026-08-20T09:56:59Z`. CURATED: 2026-08-20.
 - [ ] **CI sweep complete across all 12 repos with GitHub Actions: 3 real failures found -- BRAWLPIT (f27f221a), SHANKPIT mainl…** — obs `2026-08-20T09:56:59Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, more build-failure reports, less certain: 'the build is failing for mainline shankpit?' (uncertain) …** — obs `2026-08-20T09:56:37Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令,PARENA networking stdlib 延續:「also we need any networking primatives for a vpn and beyond」+「also our domains are…** — obs `2026-08-20T14:35:09Z`. CURATED: 2026-08-20.
+- [ ] **創辦人:「we need to build a FIRE TTS model into pitviper」→ AskUserQuestion 確認是真實、具體的 F5-TTS(SWivid/F5-TTS,2024 真實開源 flow-ma…** — obs `2026-08-20T14:32:43Z`. CURATED: 2026-08-20.
+- [ ] **創辦人真實新方向,大規模、獨立於目前 PARENA/PITVIPER 工作:「and then also github is a single point of failure」→「we need to start building ou…** — obs `2026-08-20T14:29:30Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令,PARENA stdlib 延續:「PARENA should help address mempry issues」(呼應 region 型別系統本身就是記憶體安全的核心賣點,已經是 PARENA 的既有定位,非新套件)…** — obs `2026-08-20T14:23:48Z`. CURATED: 2026-08-20.
+- [ ] **SHANKPIT bot investigation, final synthesis (grounded in real code, not speculation): found select_ctf_bot_intent() (pa…** — obs `2026-08-20T09:55:13Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
