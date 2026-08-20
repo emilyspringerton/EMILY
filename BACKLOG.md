@@ -17248,3 +17248,29 @@ it, captured here before context-switching to PARENA. None of these are started.
   Apple #14764, commits `7888827` (gfd + CI artifact fix), `f1112bf`/`59c5b50` (regex family +
   grep/sed/awk + batteries-included note).
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-16: PARENA 標準函式庫大量真實 .prn 原始碼建置 + PITVIPER WSL bug 修復。DONE。**
+  創辦人連續指令(「do any remaining dependency planning」→「planning any more stdlibs」→
+  「then sort them in dep order」→「and start crunching」→ 多次追加 sdl2/net/otp/media/sql/
+  editor)。**設計面(STDLIB.md)**:vec/map(依賴補完)、net/tcp+udp+http、內建 sdl2(真實
+  SDL2 API,函式名稱一一對應,依 BRAWLPIT/SHANKPIT/REDGARDEN/PITVIPER/GoblinFoxDragon 實際
+  呼叫紀錄)、editor/plugin+buffer+events+ui、otp/gen-server+supervisor+ets+scheduler(Erlang
+  ergonomics,經 AskUserQuestion 確認不做完整 BEAM 排程器,後追加 cooperative work-stealing
+  scheduler 作為折衷)、media/audio+codec+stream(經 AskUserQuestion 確認 FFI 綁定真實函式庫,
+  非從零實作;media/stream 的「雙路串流」動機:創辦人明確表示是為了避免第三方轉播服務的
+  overhead 與憑證外洩風險)、sql/ast+planner+driver(建構區塊,實作延後)。MIXFORGE(DJ
+  軟體)命名確認為全新項目——已搜尋整個 monorepo 確認無既存文件。**原始碼面(stdlib/)**:32
+  個 .prn 檔案,全數通過 `parena parse` 驗證(VS0 domain 1),包含 regex/pcre 真實可運作的
+  回溯比對引擎(continuation-passing,含 MatchBudget 防止 ReDoS)、awk 完整實作(AwkProgram/
+  Record/bindings-for)、nn 六個真實公式(layernorm/gelu/softmax/relu/sigmoid/tanh/
+  leaky-relu)。VS0 domain 2-5(region analyzer、C emitter)尚未存在,故無法編譯執行——已在
+  README.md/STDLIB.md 明確聲明「真實可解析原始碼」≠「可執行標準函式庫」。**NORTHSTAR.md**
+  新增創辦人使命宣言(「PARENA is a language to make your software more programmable via
+  fluid and composible plugin APIS」)與 strangler-fig 式採用機制。**編輯器殼層已定案**:
+  SDL2-based、vim-like,由 PITVIPER 短期承載(AskUserQuestion 確認),PITVIPER 自身的 plugin
+  API 尚未開始,列為下一步。**PITVIPER 真實 bug 修復**:`internal/pty/pty_windows.go` 的
+  shell 解析會誤觸 `System32\bash.exe`(舊版 WSL launcher stub,即使未啟用 WSL 也存在),
+  導致「嘗試啟動 WSL 但沒開那些功能」——加入 `isWslStub()` 排除,已用 gofmt/go
+  vet/i686-mingw 交叉編譯驗證(真實 PE32 執行檔)。Apple #14765-14780,commits `352aa01`→
+  `c8d2acd`(PARENA)、`908ac6a`(PITVIPER)。**尚未開始**:otp/*、media/*、sql/* 的 .prn 原始碼;
+  PITVIPER plugin API 本體;vim editor 實際功能;SDL2 原生重寫(創辦人已明確列為長期項目)。
+  (sess-20260820-0649-a3f19d93)
