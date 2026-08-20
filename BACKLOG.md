@@ -18114,3 +18114,31 @@ it, captured here before context-switching to PARENA. None of these are started.
   跑掉)接上這個新 renderer、(d) 真實測試(至少要能正確渲染這個 session 已經寫過的
   幾篇 HTML 格式文章當作驗收案例,即使那些文章本身依 S189-44 指示不重新發布)。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-46: PARENA C emitter 泛用 `Arena @ Region` 支援(參數+回傳型別)+ 新增
+  pentest stdlib。DONE。** 創辦人選定優先權:pentest stdlib 優先於 linked list 和
+  blog renderer 升級。實作過程中發現 `pentest/scan.prn`(以及先前已卡住的
+  `cache.prn`)都卡在同一個真實、重複出現的缺口:`Arena @ Region`(裸符號泛型 region
+  變數,不是字面 `:region/x` keyword)不被參數判定邏輯接受。新增 `has_region_marker()`
+  取代舊的 `find_keyword_child()`,把判斷擴大成也接受泛型裸符號;同步擴充回傳型別
+  標註解析,支援 `Type @ Region` 這種尾巴(之前這個尾巴會被誤判成多餘的 body 內容,
+  報出很難懂的 `unsupported expression form` 錯誤)。誠實範圍:跟既有判斷一樣只認
+  『標記存在』,不對特定 region 名稱做任何語意處理(真正的 region 多型分析是完全
+  獨立、更大的 domain 2 範疇)。`tests/test_emit.c` 新增 4 個測試,63→69 全綠。
+
+  新增 `stdlib/pentest/`(`scan.prn`/`pcap.prn`/`webapp.prn`/`wireless.prn`/
+  `crack.prn`/`exploit.prn`),對應 `STDLIB.md` 既有的 `pentest/*` 設計:FFI 綁定
+  nmap(port scan)、Wireshark/tshark(封包擷取)、sqlmap+Nikto(web 弱點掃描)、
+  Aircrack-ng(無線)、John the Ripper+Hashcat+rainbow table(雜湊破解)、Metasploit
+  (滲透測試框架)——均為 EINHORN_INDUSTRIAL 自家基礎設施(IDUNA、EINHORN_SURVIVAL、
+  各 nginx 站台)的已授權測試工具,標準工具真實命名,不是策略轉向(`STDLIB.md` 自己的
+  standing note 已經寫明)。**真實驗證**:`scan.prn`/`webapp.prn`/`wireless.prn`/
+  `crack.prn`/`exploit.prn` 五個檔案完整編譯成功,拿真正 gcc(手動插入 host stub)
+  確認零警告;只有 `pcap.prn` 卡住,原因誠實、獨立、已知(`&mut Capture` 這種參考
+  型別參數,VS0 還沒有泛型/參考型別)。Makefile+Bazel+ASan/UBSan+domain4 全數通過,
+  CI 綠燈(run `32412142784`)。Apple #15012,commit `d5456d1`。**仍未做**:參考型別
+  參數(`&mut T`/`&T`)、`(Vec T)` 這類 collection 型別本身作為回傳型別的真實編譯
+  (目前只是文字上通過,`Vec` 本身不是已知型別,是靠 `Result`/`Option` 的外層先擋住)、
+  真正的 host-side glue code(nmap XML 輸出解析等,`STDLIB.md` 自己也標註是獨立、
+  真實的後續實作工作)。
+  (sess-20260820-0649-a3f19d93)
