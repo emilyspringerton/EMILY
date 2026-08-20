@@ -17366,3 +17366,36 @@ it, captured here before context-switching to PARENA. None of these are started.
   `gemini-3.1`/`3.5` 系列模型(此專案沒有),導致 CLI 本身仍失敗——這是 CLI 版本與此
   Vertex 專案的真實不相容,不是設定問題,**未解決**,創辦人已把優先權轉回 PARENA/PITVIPER。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-18: PARENA VS0 domain 2+3 完成(region analyzer + C emitter,端到端跑通)、
+  firefly/scarab/gomega 測試框架 + stdlib 自身的真實測試、PITVIPER 彩色 emoji 渲染(阻塞在
+  sudo)。DONE。** 創辦人重大轉向:「we need to get PITVIPER out of go」→「so we need to build
+  the actual compiler for parena」→「we need the compiler compiling」,AskUserQuestion 確認
+  domain 3 優先於 BRAWLPIT mod surface。**Domain 2(region analyzer)**:`src/region.c/h`,單
+  一遍歷 scope 追蹤器,真正實作 Region(Source)⪰Region(Destination),`parena analyze
+  examples/test.prn` 輸出跟 NORTHSTAR DoD 表格逐字相同的錯誤訊息(含正確行號 16)。8 個測試
+  (DoD 正例/反例 + same-rank/方向相反/non-alloc-let/巢狀 with-arena 等真實邊界案例)全數通
+  過,ASan/UBSan 乾淨。**Domain 3(C emitter)**:`src/emit.c/h` + `runtime/parena_runtime.c/h`
+  (刻意跟編譯器自己的 AST arena 分開,尊重 arena.h 自己文件裡的既有邊界)。`parena build
+  examples/valid_only.prn -o out.c` 產生的 C 用 `gcc -Wall -Wextra -pedantic -std=c99` 編譯零
+  警告——逐字符合 DoD 驗收標準。**比 DoD 本身要求還多驗證一步**:寫了真正的 driver.c,連結
+  emitted code + runtime,實際呼叫 load_config(),斷言回傳值正確,ASan/UBSan 全程乾淨——證
+  明不只「編譯過」,是「真的能跑」。13 個測試全數通過。兩個 domain 皆 Makefile + Bazel(含
+  --config=asan)雙路徑驗證,既有 40 個測試零回歸,**CI 兩次都用 GitHub Actions API 直接確
+  認綠燈**(run 32375755240、32376802478),不是假設。main.c 新增 `parena analyze` +
+  `parena build <file> -o <output.c>` 子指令。NORTHSTAR.md 更新自我託管里程碑真實進度 + 記
+  錄創辦人「when we write PARENA in PARENA we want it to all be BAZEL powered」的決定。
+  **firefly/scarab/gomega**(創辦人:「add testing to the stdlib」→「like the go testing
+  module」→「and then build bdd ginkgo style affordances on top」→「whatever the BEETLE cute
+  name equivalents」):firefly(Go testing.T 形狀)、firefly/gomega(matcher chain)、scarab
+  (Ginkgo 形狀,含真實、有標註例外的 suite-tree 全域註冊狀態)。**開始 dogfood**:
+  `stdlib/tests/vec_test.prn`(5 案例)、`map_test.prn`(5 案例)、`world_test.prn`(3 案例,
+  含 out-of-bounds 安全性測試)。全部 .prn 檔案皆通過 `parena parse` 驗證。Apple #14801、
+  #14803-14807,commits `b6d1e43`→`fbe4fdd`(PARENA)。**PITVIPER 彩色 emoji**(創辦人:
+  「build all emojis into pitviper」,AskUserQuestion 確認載入真實彩色字型而非小範圍手畫子
+  集):`internal/font/emoji.go`(SDL2_ttf + Noto Color Emoji,真實、誠實的失敗處理)+
+  main.go 真實接上 renderFrame。gofmt 乾淨,`go build` 在預期位置失敗(SDL2_ttf pkg-config
+  找不到)——`sudo-queue/19-pitviper-freetype-emoji-fonts.sh` 已寫好,**尚未執行,尚未編譯驗
+  證**,誠實標註。Apple #14808,commits `ab47d65`(PITVIPER)、`53274d5`(root monorepo)。
+  **尚未開始**:VS0 domain 4-5(記憶體驗證、CLI runner 打磨)、firefly/scarab 真實 .prn 以外
+  的其餘 stdlib 測試覆蓋、BRAWLPIT mod surface 設計、emoji 渲染實際編譯驗證(等 sudo)。
+  (sess-20260820-0649-a3f19d93)
