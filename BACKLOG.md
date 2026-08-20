@@ -16358,6 +16358,14 @@ GPT-2 checkpoint. All three logged via `emily observe` before drafting, per Prin
   fairness floor). Published
   https://okemily.com/blog/brainstorm-expanding-the-promptoverse-sprite-engine/ (200 OK).
   Apple #14501. (sess-20260813-2154-dda37e8b)
+- [x] **S182-04: Full GTA7 README rewrite, especially commands.** Founder: "and then please can
+  you write the full gta7 readme especially the commands?" Real gap: `/gta7jail`, `/gta7hospital`,
+  and `/sudoku` were registered commands (real entries in `plugin.yml` and `GTA7Plugin.java`'s
+  `setExecutor` calls) that had never made it into player-facing docs — only `/flow`, `/faction`,
+  and `/gta7tv` were documented. Added a full command reference table (all 7 commands, who can run
+  each) and a new CRAZY_KRANKENVAGEN how-to-play section (driven boat/hospital mission + the
+  self-service llama-mount rescue + low-health auto-dispatch) that previously only existed in
+  `CLAUDE.md`'s dev-facing status notes. Apple #14509, GTA7 cf8eb46. (sess-20260813-2154-dda37e8b)
 
 ---
 
