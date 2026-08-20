@@ -1,3 +1,17 @@
+## 2026-08-20
+- feat(emily-agent): added an SMTP App Password fallback path to the Gmail integration
+  (`emily-agent/gmail.go`). Founder: "we need to get the email integration fixed" — the existing
+  OAuth2 refresh-token flow (Path 1) needs a one-time interactive browser consent flow only the
+  founder can do; the founder offered a Google Account App Password instead. New send-only Path 2
+  (`GMAIL_SMTP_ADDRESS`/`GMAIL_SMTP_PASSWORD`, real `net/smtp` + STARTTLS to `smtp.gmail.com:587`,
+  no third-party dependency) — `buildGmailClient()` tries Path 1 first, falls back to Path 2.
+  Credentials go through the *existing* generic `emily key set <NAME> <VALUE>` command (no new
+  CLI subcommand needed — the founder's own ask for a fast-tracked key command was already
+  satisfied by prior infrastructure). `ReadInbox` still requires Path 1 (real Gmail API) and now
+  fails with a clear error instead of a confusing one if only Path 2 is configured. Explicit
+  founder privacy boundary honored: no code path here logs email content into Apples/CHANGELOG/
+  BACKLOG. `go test ./...` (emily-agent module) passes clean. (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-18
 - Published blog post 'Tuxedo Duck Is Not Duck Tuxedo' on the semantics/ontology thread, live at okemily.com/blog/tuxedo-duck-is-not-duck-tuxedo/ (sess-20260813-2154-dda37e8b)
 

@@ -4,30 +4,49 @@
 // Emily Prime monitors the CEO inbox, classifies by urgency and strategic relevance,
 // surfaces what needs a decision. Outbound: formatted signal alerts and weekly pulse.
 //
-// Auth: OAuth2 refresh token flow (no browser required after initial setup).
-// Credentials are loaded from environment variables — no files on disk.
+// Two independent auth paths, either one is enough to enable SendAlert (inbox
+// reading needs the OAuth2 path specifically — see below):
 //
-// Required env vars:
+// Path 1 — OAuth2 refresh token flow (no browser required after initial setup,
+// but the initial setup itself DOES need an interactive browser consent flow
+// no automated agent can complete). Required env vars:
 //   GMAIL_CLIENT_ID       — Google OAuth2 client ID
 //   GMAIL_CLIENT_SECRET   — Google OAuth2 client secret
 //   GMAIL_REFRESH_TOKEN   — OAuth2 refresh token (from one-time browser auth)
 //   GMAIL_CEO_ADDRESS     — CEO email address to monitor and send to
+// Optional: GMAIL_SEND_FROM (defaults to CEO address), GMAIL_MAX_TRIAGE (default 20).
 //
-// Optional:
-//   GMAIL_SEND_FROM       — address Emily sends from (defaults to CEO address)
-//   GMAIL_MAX_TRIAGE      — max emails to triage per cycle (default 20)
+// Path 2 — SMTP with a Gmail App Password (2026-08-20, founder real-time: "we
+// need to get the email integration fixed" -> "i could put the password and
+// you could use smtp i guess" -> "fast track an emily key command"). Much
+// lower setup friction than Path 1 — a Google Account App Password (Google
+// Account -> Security -> 2-Step Verification -> App Passwords, needs 2FA
+// enabled) is a real secret the founder can generate and hand over via the
+// EXISTING generic `emily key set <NAME> <VALUE>` command (no new CLI
+// subcommand needed, per emily.cli/cmd/key.go's own general form), never
+// pasted in chat:
+//   emily key set GMAIL_SMTP_ADDRESS  <the gmail address>
+//   emily key set GMAIL_SMTP_PASSWORD <the 16-char app password>
+// Send-only -- this path does NOT enable gmail_read_inbox (that needs the
+// real Gmail API, Path 1 only). If both paths are configured, Path 1 (the
+// real API) is preferred for sending too, since it's already authenticated
+// for reading and keeps everything on one code path.
+//
+// Credentials are loaded from environment variables — no files on disk.
 
 package main
 
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"net/smtp"
 	"net/url"
 	"os"
 	"strings"
@@ -69,19 +88,99 @@ func loadGmailCredentials() (GmailCredentials, bool) {
 }
 
 // ---------------------------------------------------------------------------
+// SMTP (App Password) credentials — Path 2, see this file's header comment.
+// ---------------------------------------------------------------------------
+
+type SMTPCredentials struct {
+	Address  string // the Gmail address itself (also the "from" and default "to")
+	Password string // 16-char Google Account App Password, NOT the account password
+}
+
+func loadSMTPCredentials() (SMTPCredentials, bool) {
+	creds := SMTPCredentials{
+		Address:  os.Getenv("GMAIL_SMTP_ADDRESS"),
+		Password: os.Getenv("GMAIL_SMTP_PASSWORD"),
+	}
+	if creds.Address == "" || creds.Password == "" {
+		return creds, false
+	}
+	return creds, true
+}
+
+const (
+	gmailSMTPHost = "smtp.gmail.com"
+	gmailSMTPPort = "587" // STARTTLS, not the 465 implicit-TLS port
+)
+
+// sendViaSMTP sends one plain-text email through Gmail's real SMTP submission
+// endpoint using STARTTLS + AUTH PLAIN. No third-party dependency -- net/smtp
+// plus crypto/tls covers this completely.
+func sendViaSMTP(creds SMTPCredentials, alert AlertEmail) error {
+	auth := smtp.PlainAuth("", creds.Address, creds.Password, gmailSMTPHost)
+	raw := fmt.Sprintf("From: %s\r\nTo: %s\r\nSubject: %s\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n%s",
+		creds.Address, alert.To, alert.Subject, alert.Body)
+
+	client, err := smtp.Dial(gmailSMTPHost + ":" + gmailSMTPPort)
+	if err != nil {
+		return fmt.Errorf("smtp dial: %w", err)
+	}
+	defer client.Close()
+
+	if err := client.StartTLS(&tls.Config{ServerName: gmailSMTPHost}); err != nil {
+		return fmt.Errorf("smtp starttls: %w", err)
+	}
+	if err := client.Auth(auth); err != nil {
+		return fmt.Errorf("smtp auth: %w", err)
+	}
+	if err := client.Mail(creds.Address); err != nil {
+		return fmt.Errorf("smtp mail from: %w", err)
+	}
+	if err := client.Rcpt(alert.To); err != nil {
+		return fmt.Errorf("smtp rcpt to: %w", err)
+	}
+	w, err := client.Data()
+	if err != nil {
+		return fmt.Errorf("smtp data: %w", err)
+	}
+	if _, err := w.Write([]byte(raw)); err != nil {
+		return fmt.Errorf("smtp write body: %w", err)
+	}
+	if err := w.Close(); err != nil {
+		return fmt.Errorf("smtp close body: %w", err)
+	}
+	return client.Quit()
+}
+
+// ---------------------------------------------------------------------------
 // GmailClient
 // ---------------------------------------------------------------------------
 
 type GmailClient struct {
-	creds  GmailCredentials
-	client *http.Client
-	token  *oauth2Token
+	creds     GmailCredentials
+	smtpCreds SMTPCredentials // set only when Path 2 is configured; may coexist with creds
+	hasOAuth  bool            // true when the real Gmail API (Path 1) is usable
+	hasSMTP   bool            // true when SMTP send (Path 2) is usable
+	client    *http.Client
+	token     *oauth2Token
 }
 
 func NewGmailClient(creds GmailCredentials) *GmailClient {
 	return &GmailClient{
-		creds:  creds,
-		client: &http.Client{Timeout: 30 * time.Second},
+		creds:    creds,
+		hasOAuth: true,
+		client:   &http.Client{Timeout: 30 * time.Second},
+	}
+}
+
+// NewSMTPGmailClient builds a send-only GmailClient from App Password
+// credentials (Path 2). ReadInbox is unavailable on a client built this way
+// -- that needs the real Gmail API (Path 1).
+func NewSMTPGmailClient(smtpCreds SMTPCredentials) *GmailClient {
+	return &GmailClient{
+		creds:     GmailCredentials{CEOAddress: smtpCreds.Address, SendFrom: smtpCreds.Address},
+		smtpCreds: smtpCreds,
+		hasSMTP:   true,
+		client:    &http.Client{Timeout: 30 * time.Second},
 	}
 }
 
@@ -205,6 +304,9 @@ type TriagedMessage struct {
 // ---------------------------------------------------------------------------
 
 func (g *GmailClient) ReadInbox(ctx context.Context, maxResults int) ([]InboxMessage, error) {
+	if !g.hasOAuth {
+		return nil, fmt.Errorf("reading the inbox needs the real Gmail API (GMAIL_CLIENT_ID/GMAIL_CLIENT_SECRET/GMAIL_REFRESH_TOKEN) -- SMTP App Password credentials only enable sending, see gmail.go's own header comment")
+	}
 	if maxResults <= 0 {
 		maxResults = 20
 	}
@@ -292,11 +394,19 @@ type AlertEmail struct {
 }
 
 func (g *GmailClient) SendAlert(ctx context.Context, alert AlertEmail) error {
-	raw := fmt.Sprintf("From: %s\r\nTo: %s\r\nSubject: %s\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n%s",
-		g.creds.SendFrom, alert.To, alert.Subject, alert.Body)
-	encoded := base64.URLEncoding.EncodeToString([]byte(raw))
-	_, err := g.gmailPOST(ctx, "/users/me/messages/send", map[string]string{"raw": encoded})
-	return err
+	// Path 1 (real Gmail API) is preferred when both are configured -- see
+	// this file's header comment for why.
+	if g.hasOAuth {
+		raw := fmt.Sprintf("From: %s\r\nTo: %s\r\nSubject: %s\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n%s",
+			g.creds.SendFrom, alert.To, alert.Subject, alert.Body)
+		encoded := base64.URLEncoding.EncodeToString([]byte(raw))
+		_, err := g.gmailPOST(ctx, "/users/me/messages/send", map[string]string{"raw": encoded})
+		return err
+	}
+	if g.hasSMTP {
+		return sendViaSMTP(g.smtpCreds, alert)
+	}
+	return fmt.Errorf("no email credentials configured -- set either GMAIL_CLIENT_ID/GMAIL_CLIENT_SECRET/GMAIL_REFRESH_TOKEN/GMAIL_CEO_ADDRESS or GMAIL_SMTP_ADDRESS/GMAIL_SMTP_PASSWORD (see gmail.go's own header comment)")
 }
 
 // ---------------------------------------------------------------------------
@@ -494,9 +604,14 @@ func registerGmailTools(d *ToolDispatcher, gmail *GmailClient) {
 
 // buildGmailClient returns a configured GmailClient or nil if credentials aren't set.
 func buildGmailClient() *GmailClient {
-	creds, ok := loadGmailCredentials()
-	if !ok {
-		return nil
+	// Path 1 preferred (see this file's header comment): real API, enables
+	// both read and send.
+	if creds, ok := loadGmailCredentials(); ok {
+		return NewGmailClient(creds)
 	}
-	return NewGmailClient(creds)
+	// Path 2 fallback: SMTP App Password, send-only.
+	if smtpCreds, ok := loadSMTPCredentials(); ok {
+		return NewSMTPGmailClient(smtpCreds)
+	}
+	return nil
 }
