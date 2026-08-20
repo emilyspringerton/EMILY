@@ -16611,3 +16611,12 @@ own scoped items instead of staying buried in the intake queue.*
   with nonzero Apple activity. Full report:
   `EMILY/continuity/2026-08-20-emiree-gear-status-16day.md`. Apple #14586.
   (sess-20260813-2154-dda37e8b)
+- [x] **S186-07: Scope METALVERSE terminal ticker/news mode.** Founder: a mode with heavy
+  terminal integration to spawn ticker charts + news feeds in METALVERSE, "similar to how
+  /gta7tv spawns screens in gta7." Added `GoblinFoxDragon/docs2/MOD_SURFACE_NORTHSTAR.md` §4a.
+  Real data source grounded (not invented): FatBaby's `signalapi` already exposes
+  `/v1/movers-history/{ticker}`, `/v1/press-releases/`, `/v1/entities/{ticker}` live on `:9091`.
+  Real rendering precedent grounded: GTA7's `/gta7tv` is Minecraft-specific and doesn't port; the
+  EduScript Architect's Orb terminal and the engine's own 2D HUD pass are the real closer analogs.
+  Scoping only, correctly blocked on the same mod-surface scripting-language decision as the rest
+  of the doc — not implemented. Apple #14587, GoblinFoxDragon 9416f2a. (sess-20260813-2154-dda37e8b)
