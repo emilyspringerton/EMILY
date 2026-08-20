@@ -1672,6 +1672,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,語意不明確: 「for now we jsu tt have the 1 but really we have 2」——內容過於破碎,無法確定所指(可能是樹莓派硬體數量、或其他計數),如實記錄不猜測,繼…** — obs `2026-08-20T20:51:47Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「also we need kubernetetes to work on reaspberry pi too」——RPi Arch distro 再加需求:要能跑 Kubernetes(推測輕量版如…** — obs `2026-08-20T20:51:34Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「for raspberrypi model 2 b or whatever the totally ubiquitios oen is」+「we need it installable with a…** — obs `2026-08-20T20:51:28Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time (batch): 「how can we start posting to moltbook safely?」/「do we need a relay server for openclaw or so…** — obs `2026-08-20T21:06:36Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「make sure we are writing new PARENA tests in ginkgo and gomega」——要求新的 PARENA 測試要用 Ginkgo/Gomega 風格(…** — obs `2026-08-20T21:00:19Z`. CURATED: 2026-08-20.
+- [ ] **GitHub API 恢復正常,補上剛才因 rate limit 延遲的 CI 確認: PARENA commit 1b2805c(csv.prn/defstruct mangle 修復)CI completed success;long…** — obs `2026-08-20T20:59:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,新需求: 「add fuzz testing primatives to the stdlib」——要求把 fuzz testing 原語加進 PARENA stdlib。記錄待評估規劃。GitHub …** — obs `2026-08-20T20:57:38Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「we ineed the installable arch」+「built on PARENA」——重申 Arch-based 可安裝發行版構想,且要求整個發行版建置在 PARENA 之上。真實、大…** — obs `2026-08-20T20:51:05Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
