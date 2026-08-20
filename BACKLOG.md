@@ -1657,6 +1657,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,根因確認完畢(讀完 IDUNA/internal/blog/render.go 全文): toParagraphs() 是刻意設計的『窮人版 markdown』——依空行分段包 <p>,並對每段內容整段…** — obs `2026-08-20T19:58:14Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,確認真實根因 + 修復方向: 「fix it on the render side somehow」+「do an initial templating passs or something」+「usi…** — obs `2026-08-20T19:57:35Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,回報真實 render bug: 「you have been writing a lot of blog posts with html tags raw in the render somehow」…** — obs `2026-08-20T19:57:10Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,確認方向+新概念: 「continue marching towards our stated goals (shipping custom game map modes to REDGARDEN)」—…** — obs `2026-08-20T20:23:57Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,排序: 「GFD first the fps liobby」——日夜機制功能性差異工作,GFD 的 FPS lobby 先做,SHANKPIT 之後。記錄排序,commit 規劃文件。** — obs `2026-08-20T20:22:51Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補完日夜循環功能細節: 「different shit happens day vs knighht night like wc3」+「shankpit has it visually but the …** — obs `2026-08-20T20:22:46Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「implemented into PARENAS as a plugin first redgarden feature」——確認地圖編輯器/mod-api 應該是 REDGARDEN 的第一個真正…** — obs `2026-08-20T20:22:09Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充: 「use it as a reference」——SHANKPIT 既有的日夜循環實作(如果有)要當作參考範本,用在其他地方(推測含 REDGARDEN)建置類似系統時參考。併入前一則記錄,現在…** — obs `2026-08-20T20:21:55Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
