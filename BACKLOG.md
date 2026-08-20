@@ -437,6 +437,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: 'if you got some data but are now rate limited just proceed …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:53:38Z.
 - [ ] **Founder real-time, four-part direction, same burst: (1) 'give me an emily cli k…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:50:07Z.
 - [ ] **Founder real-time: 'i think we can get a god API key for google cloud to let us…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:38:53Z.
+- [ ] **Founder real-time: 'need to circle back to see if the google cloud has sorted i…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:37:47Z.
+- [ ] **Founder real-time: 'including the 1920 tobacco card' -- adds the historical tob…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:13:28Z.
+- [ ] **Founder real-time: 'have master chief be the next category after baseball cards…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:13:19Z.
+- [ ] **Founder real-time, thought-out-loud through an alternative and rejected it, con…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:12:01Z.
+- [ ] **Founder real-time, confirms the plan (no change): 'for SEO taxonomy pages we wa…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:11:03Z.
+- [ ] **Founder real-time: 'we dont necessarily need separate pages for the 2 different…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:10:18Z.
+- [ ] **Founder real-time: 'run gen requestws fifo so duck is after the previous reques…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:29:44Z.
+- [ ] **Founder real-time: 'then do a run of a duck wearing a tuxedo' -- new Subject, s…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:27:06Z.
+- [ ] **Founder real-time: 'then do a run of swimsuit models' -- declining to generate …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:25:23Z.
+- [ ] **Founder real-time: 'give me an emily cli promptoverse add command - like emily …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:20:53Z.
+- [ ] **Founder real-time: 'then do a smaller of ducks' -- a third Subject variant, duc…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:19:12Z.
+- [ ] **Founder real-time: (1) update emily.cli README with all commands including prom…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:42:18Z.
+- [ ] **Founder real-time: 'cancel previous requests for a run of swimsuit models and d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:34:35Z.
+- [ ] **Founder real-time: 'if taxonomies have at least 2 leaf nodes make the taxonomy …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:33:47Z.
+- [ ] **Founder real-time, converges the plan: 'what we have is good for baseball cards…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T21:09:46Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1177,21 +1192,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously)** — obs `2026-08-15T22:10:37Z`. CURATED: 2026-08-15. Work continued; this is the directive that led into the frog-blog-post ask handled next. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
-- [ ] **Founder real-time: 'need to circle back to see if the google cloud has sorted itself out or what -- one of the main way…** — obs `2026-08-17T20:37:47Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'including the 1920 tobacco card' -- adds the historical tobacco-card style (node 01, labeled '1910s…** — obs `2026-08-17T21:13:28Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'have master chief be the next category after baseball cards' + 'do a limited run 5-10 styles.' Conc…** — obs `2026-08-17T21:13:19Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, thought-out-loud through an alternative and rejected it, confirming current approach: considered 'co…** — obs `2026-08-17T21:12:01Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, confirms the plan (no change): 'for SEO taxonomy pages we want the leaf nodes like we have now' + 't…** — obs `2026-08-17T21:11:03Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'we dont necessarily need separate pages for the 2 different mediums -- like renaissance oil paintin…** — obs `2026-08-17T21:10:18Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'run gen requestws fifo so duck is after the previous request' -- real infrastructure gap: emily pro…** — obs `2026-08-17T21:29:44Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'then do a run of a duck wearing a tuxedo' -- new Subject, same benign whimsical register as prior d…** — obs `2026-08-17T21:27:06Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'then do a run of swimsuit models' -- declining to generate this subject for the public Prompt-o-ver…** — obs `2026-08-17T21:25:23Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'give me an emily cli promptoverse add command - like emily promptoverse add ducks 6' -- wants a rea…** — obs `2026-08-17T21:20:53Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'then do a smaller of ducks' -- a third Subject variant, ducks (likely a callback to REDGARDEN's Duc…** — obs `2026-08-17T21:19:12Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: (1) update emily.cli README with all commands including promptoverse; (2) 'added' timestamps showing…** — obs `2026-08-17T21:42:18Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'cancel previous requests for a run of swimsuit models and do a run of racially ambiguous swimsuit m…** — obs `2026-08-17T21:34:35Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: 'if taxonomies have at least 2 leaf nodes make the taxonomy tag like a duck wearing a tuxedo clickab…** — obs `2026-08-17T21:33:47Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time, converges the plan: 'what we have is good for baseball cards but we need a second category, vastly d…** — obs `2026-08-17T21:09:46Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: 'now we need to add a level -- stained glass is top level -- right now its all baseball cards but it…** — obs `2026-08-17T21:09:22Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: (1) queue has duplicates not getting deduped, new promptoverse add inputs always fail because drainQ…** — obs `2026-08-17T21:56:15Z`. CURATED: 2026-08-17.
 - [ ] **Founder real-time: (1) emily promptoverse add should dedupe -- not re-prompt for a style already generated for a subjec…** — obs `2026-08-17T21:50:45Z`. CURATED: 2026-08-17.
