@@ -18272,3 +18272,55 @@ it, captured here before context-switching to PARENA. None of these are started.
   PARENA 做:(1) 想要更酷的空降/hot drop 機制、(2) 真實回報無法讓直升機翻滾/翻轉、
   (3) 直升機旋轉行為異常,且 buggy(沙灘車)也有同樣的旋轉問題,不只直升機。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-55: defstruct 欄位名稱 mangle bug 修復 + LONGMA 真正移植進 PARENA +
+  longma repo 完整 Bazel/PARENA 交叉 repo 整合。DONE(本地完整驗證,遠端 CI 待確認,
+  見下)。** 創辦人一連串指示:「check out LONGMA just forked」→ clone 下來研究(真實
+  streaming CSV 檔案分割/分塊 Go 工具)→「but implemented pure PARENA」→「feel free
+  to ship a parena version of longma to our repo」→「to our forked repo」→「with
+  bazel」→「with bazel for the ci」。**過程中真實抓到的 bug**:拿真正 gcc 編譯
+  `stdlib/csv.prn` 產生的 C 才發現 `process_defstruct()` 從來沒有把欄位名稱送進
+  `mangle()`(函式名稱、參數名稱都有,唯獨欄位名稱漏了),導致 kebab-case 欄位
+  (`rows-per-file`)emit 出不合法的 C(`int rows-per-file;`,gcc 會把連字號解析成
+  減法)。`StructField` 新增 `c_name`(mangle 過)欄位,原本的 `name` 保留原始拼法只用
+  於 `get-field` 自己的 `:keyword` 查找比對,兩者分開處理。`tests/test_emit.c` 新增
+  6 個測試(89→95 全綠),含針對這個 bug 的正面測試。新增 `stdlib/csv.prn`:LONGMA
+  自己真實的 `split`/`generate` 指令的 PARENA 原生移植(不是 FFI 綁定既有二進位檔),
+  `SplitOptions` 對應 `split` 真實的 `--lazy-quotes`/`--compressed`/`-r` 旗標。誠實
+  限縮:VS0 目前沒有檔案 I/O 原語,file I/O 部分用 `#target` 宣告,檔頭明確註明這是
+  待 VS0 補上 `io/*` 原語才可能真正變成『純』PARENA 的暫時狀態。在 `longma` fork 本身
+  (`/home/fatbaby/longma`)建立完整跨 repo Bazel 整合:`MODULE.bazel` 用
+  `git_override` 釘死 PARENA 的真實 commit(呼應創辦人另一個真實需求「ensure PARENA
+  has a separate deterministic construct build」),`BUILD.bazel` 的 genrule 呼叫真正
+  的 `parena` binary 產生 C、用 sed 插入誠實的 host 函式宣告,`cc_library` 用 DoD 同
+  一套旗標編譯。真實驗證:`bazel clean` 後重新從零建置,零警告全過。CI workflow 已
+  新增並推送,YAML 用 `python3 yaml.safe_load` 本地驗證過語法(吸取本 session 稍早
+  PARENA 自己 CI 被冒號弄壞的教訓,S189-50 附記)。**誠實記錄**:GitHub API 這個
+  session 大量呼叫後持續被 rate limit,遠端 CI 綠燈待後續確認,不假裝已經看到。
+  Apple #15090(PARENA repo),commit `1b2805c`(PARENA,csv.prn 來源)、`5aeba35`
+  (longma repo)。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-56: 今日最後一批發散項目,已記錄待排入。** (a)「add bazel and makefile
+  primatives incliding tries and merkel tries all of it to make buioilding bukild
+  tools in parena possible」——trie/merkle trie 資料結構原語 + 類 Bazel/Makefile 建置
+  工具原語加進 PARENA,讓『用 PARENA 寫建置工具本身』變得可能。(b)「add digging holes
+  and hgiding things inside them to REDGARDEN and ecowar」——REDGARDEN 和 ECOWAR 都
+  加『挖洞+把東西藏在洞裡』遊戲機制,用 PARENA。(c)「ensure PARENA has a separate
+  deterministic construct build」→「check the linux build for pitviper for an
+  example」→「using skuldmark」→「imean parena」→「expand hthe standard libs to make
+  it possible」——PARENA 需要獨立、確定性(reproducible)建置模式,參考 PITVIPER 既有
+  Linux build 設定,可能結合 SKULDMARK 風格識別碼做建置產物指紋,需要先擴充 stdlib
+  才可能實現(longma 整合裡的 git_override 釘死 commit 已經是這個方向的第一步)。
+  (d)「we need the installable arch emily os」→「we ineed the installable arch」→
+  「built on PARENA」→「for raspberrypi model 2 b or whatever the totally ubiquitios
+  oen is」→「we need it installable with a cli like hypriot os」→「also we need
+  kubernetetes to work on reaspberry pi too」→「for now we jsu tt have the 1 but
+  really we have 2」→「we can have a local master and worker node」——可安裝的
+  Arch-based『Emily OS』發行版,建置在 PARENA 之上,目標樹莓派 2B(最普及舊型號),
+  要有 HypriotOS 等級的安裝用 CLI 體驗,支援 Kubernetes(推測 k3s),創辦人手邊有 2 台
+  樹莓派可組本地 master+worker 雙節點叢集。(e)「add fuzz testing primatives to the
+  stdlib」——PARENA stdlib 新增 fuzz testing 原語。(f) WiFi 網路名稱/密碼(創辦人有
+  提及,基於安全考量刻意不寫進這份 git 版控的公開文件——見稍早 session 內即時處理,
+  未存入任何永久記錄)。
+  (sess-20260820-0649-a3f19d93)
