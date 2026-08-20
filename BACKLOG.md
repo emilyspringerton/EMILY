@@ -1442,6 +1442,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'oh that was on a different gcp i think' -- the Firebase console setup may be under a different GCP …** — obs `2026-08-20T07:10:09Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, Firebase thread continued: 'for the record i started setting it up on the console' / 'but i dont kno…** — obs `2026-08-20T07:09:55Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, further clipboard requirement: middle-mouse paste (X11-primary-selection-style: select text with the…** — obs `2026-08-20T07:02:59Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, copy-paste caveat: 'if copy paste has any quirks because of how terminal interrupts work etc' -- fla…** — obs `2026-08-20T07:02:51Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, refining the PITVIPER README scope: 'do go crazy detail on how to drive the terminal in the readme' …** — obs `2026-08-20T07:02:28Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'ensure we are ready to go build passing installable client just like we have for all our games pitv…** — obs `2026-08-20T07:02:14Z`. CURATED: 2026-08-20.
+- [ ] **Smoke-testing the new apple signature after deploying signAppleBody -- this observation's own auto-filed apple should c…** — obs `2026-08-20T06:59:32Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, general guidance for this session's rapid-fire work: 'lets not bike shed too much but do try to make…** — obs `2026-08-20T06:58:24Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
