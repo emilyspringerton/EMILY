@@ -18535,3 +18535,12 @@ it, captured here before context-switching to PARENA. None of these are started.
   + domain4/5 驗證過。Apple #15126(內容因訊息裡的反引號被 shell 誤解析而部分損毀,審計
   ID 本身仍有效)。
   (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-63: 「V16」JS engine,原生 PARENA 實作,尚未開始,NORTHSTAR-level 才對。**
+  創辦人:「so our v16 reengine is tablestakes」→「v16 engine」→「native prn」→
+  「pure prn」——延續 session 更早提過的既有構想(TS compiler in PARENA stdlib、vanilla+TS
+  output)。創辦人明確把這定位成『table stakes』(基本門檻,不是加分項)。真實規模評估:
+  這等同重建 V8/Node.js 等級的 JS 引擎,是這整個 session 裡規模最大的單一構想,遠超過
+  一次 pass 能實作,應該先當 NORTHSTAR-only 範疇規劃(比照 container/lxc、Moltbook 等
+  同類巨大構想的處理方式),尚未動筆,列為明確待辦而非默默略過。
+  (sess-20260820-0649-a3f19d93)
