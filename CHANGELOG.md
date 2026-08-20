@@ -1,4 +1,16 @@
 ## 2026-08-20
+- Added `scripts/gmail_imap_fetch.py` — on-demand IMAP read tool using the SAME
+  `GMAIL_SMTP_ADDRESS`/`GMAIL_SMTP_PASSWORD` app-password credential as the SMTP send path (app
+  passwords aren't scoped per-protocol). Founder, real-time: confirmed they want to use their app
+  password to get email read access specifically to retrieve the language-spec email they sent to
+  emilyspringerton@gmail.com. Deliberately a plain script, not a service — matches the founder's
+  own stated scope: "for now it needs to be treated as a queryable source not something you are
+  totally chunking through yet." Honors the explicit no-auto-logging-email-content boundary from
+  the same conversation: prints to stdout for the operator, writes nothing to Apples/BACKLOG/
+  CHANGELOG. Stdlib only (`imaplib`/`email`), no dependencies. Syntax-verified
+  (`python3 -m py_compile`) but NOT yet run against a real mailbox — the founder hadn't set the
+  credential yet as of this commit (`emily key set GMAIL_SMTP_ADDRESS`/`GMAIL_SMTP_PASSWORD`).
+  (sess-20260813-2154-dda37e8b)
 - feat(emily-agent): added an SMTP App Password fallback path to the Gmail integration
   (`emily-agent/gmail.go`). Founder: "we need to get the email integration fixed" — the existing
   OAuth2 refresh-token flow (Path 1) needs a one-time interactive browser consent flow only the
