@@ -17071,13 +17071,25 @@ it, captured here before context-switching to PARENA. None of these are started.
   crystal→MUD data format, which crystal entity types (boids/goblins/foxes/dragon) get real MUD
   representations vs. stay background flavor, how "100 generations" maps to crystal's actual tick
   model.
-- [ ] **S189-08: 3 real broken CI builds — only BRAWLPIT explicitly actioned so far.** Systematic
-  sweep (this session) found BRAWLPIT (`f27f221a`), SHANKPIT mainline (`c38ced26`), and MJOLNIR
-  (`6c68e3dc`) all genuinely failing. Founder: "fix the brawlpit build" — explicit instruction for
-  BRAWLPIT specifically; SHANKPIT and MJOLNIR not yet explicitly actioned (founder asked "the
+- [x] **S189-08a: BRAWLPIT Windows build — fixed. DONE.** Founder, twice: "fix the brawlpit
+  build" → "FIX THE BRAWLPIT BUILD TOO." Genuinely blocked without the real mingw-w64
+  cross-compiler (not installed) or GitHub API access (rate-limited from this session's own
+  heavy use) — asked the founder directly rather than guess further; they ran
+  `sudo-queue/09-mingw-w64.sh`. Root cause, found immediately once the real cross-compiler was
+  available: `packages/simulation/tipjar.h:256` declared `int near = ...` — `near` is a reserved
+  macro in Windows/MinGW headers (a legacy 16-bit-memory-model keyword still `#define`d for
+  backward compat), breaking the instant any Windows-related header got pulled in transitively.
+  Compiled clean on Linux the entire time (confirmed both before and after the fix), which is
+  exactly why nothing this session could locally run without the actual cross-compiler ever
+  caught it. Renamed to `is_close`, zero behavior change. Re-verified every step
+  `.github/workflows/build.yml` actually runs, in order: physics test, Windows client
+  cross-compile (the fix), Linux server build, full `scripts/build.sh`. Also added a `.gitignore`
+  (repo had none). Apple #14744, commit `223dea7`.
+- [ ] **S189-08b: SHANKPIT mainline + MJOLNIR CI builds — still broken, not yet actioned.**
+  Systematic sweep (this session) found SHANKPIT mainline (`c38ced26`) and MJOLNIR (`6c68e3dc`)
+  both genuinely failing, alongside BRAWLPIT (now fixed, S189-08a above). Founder asked "the
   build is failing for mainline shankpit?" uncertainly, and "not sure what else" before the sweep
-  surfaced MJOLNIR). None of the three fixed yet — queued behind PARENA per this session's own
-  sequencing.
+  itself surfaced MJOLNIR — neither has been explicitly actioned since. Not started.
 - [ ] **S189-09: SHANKPIT bot reward-window fix.** From the earlier "twitchy and weird" /
   "flawless ctf sometimes" investigation this session: `BotGenome` evolution selection uses
   `accumulated_reward` reset every respawn (a very short, luck-prone evaluation window), plausibly
