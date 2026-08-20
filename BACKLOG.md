@@ -1531,6 +1531,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, clear sequencing directive: 'backlog doump sprint plan everything' -> 'then crunch on only PARENA' -…** — obs `2026-08-20T10:58:55Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'the 4 kings need health bars and name tags' -- direct, scoped follow-up to the Four Kings rendering…** — obs `2026-08-20T10:46:17Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, final elaboration on the Flow upkeep-tax bounty: 'so if the winning team gets careless there can be …** — obs `2026-08-20T10:46:02Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令:「give pitviper quality of life improvements inspired by photoshop keybindings」→「like for zoom and stuff」→「anyth…** — obs `2026-08-20T13:18:39Z`. CURATED: 2026-08-20.
+- [ ] **創辦人即時指令,延續同一 thread:「then crunch on PARENA until we can dog food it into pitviper to fix our issue」+「SSH is going to be…** — obs `2026-08-20T13:17:59Z`. CURATED: 2026-08-20.
+- [ ] **Gemini CLI Vertex AI 設定進度:.bashrc 已加入 GOOGLE_GENAI_USE_VERTEXAI/GOOGLE_CLOUD_PROJECT(project-d24a71e9-2daf-4b2d-917,與 p…** — obs `2026-08-20T13:16:47Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, confirming: 'as a come back mechanism' -- matches my own read of the Flow-upkeep-tax ask (bounty-sty…** — obs `2026-08-20T10:45:57Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, new economy mechanic for REDGARDEN + GFD Battlegrounds: 'also add an upkeep tax on flow... the more …** — obs `2026-08-20T10:45:53Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
