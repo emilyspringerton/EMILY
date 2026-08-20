@@ -1682,6 +1682,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (batch): 完成 beetle 改名後,founder 追加要求把 PARENA 的 BDD 測試框架(firefly/firefly-ladybug/firefly-gomega alias/s…** — obs `2026-08-20T21:09:21Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 「we need the installable arch emily os」——把先前的樹莓派/Arch Linux 發行版構想重新框成『可安裝的 Arch-based Emily OS』。記錄併入…** — obs `2026-08-20T20:50:54Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,補充+簡化: 「feel free to ship a parena fversion of longma to our repo」→「to our forked repo」→「with bazel」→…** — obs `2026-08-20T20:50:22Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time(批次):「docker APIS」/「parena underneath」/「into EMILY os」/「PARENA」/「mod plugin surface first」/「then the i…** — obs `2026-08-20T21:33:29Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「sudo scripts 19 and 20 ran」——已驗證兩者真的成功(dpkg 確認 libsdl2-ttf-dev/fonts-noto-color-emoji/fonts-jetbrai…** — obs `2026-08-20T21:30:46Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,大量新指示: 「add bazel and makefile primatives incliding tries and merkel tries all of it to make buioildi…** — obs `2026-08-20T20:48:07Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,澄清: 「imean parena」+「expand hthe standard libs to make it possible」——確認 SKULDMARK 相關功能要做成 PARENA stdli…** — obs `2026-08-20T20:42:30Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 「using skuldmark」——確定性建置構想再補充,可能是用 SKULDMARK(25 字元金融工具識別碼格式,含 checksum)風格的識別碼方案做建置產物的版本/指紋標記。具體結合方式待…** — obs `2026-08-20T20:42:06Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
