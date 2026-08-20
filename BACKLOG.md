@@ -16638,3 +16638,9 @@ own scoped items instead of staying buried in the intake queue.*
   glossed over: provision a real Mongo connection, `emily key set MONGO_URI`/`KGRAPH_URL`, enable
   `ops/systemd/fatbaby-kgraph-server.service`. Chose Go over Python — the real capability already
   existed there, working. Apple #14588, PRRJECT_FATBABY 3c4297d. (sess-20260813-2154-dda37e8b)
+- [x] **S186-09: Document Gmail app-password setup in emily.cli's README.** Founder: "make sure i
+  have instructions in emily cli readme for adding my gmail password to the environment." Added a
+  concrete `emily key set GMAIL_SMTP_ADDRESS`/`GMAIL_SMTP_PASSWORD` example under the existing
+  `emily key` section — no new subcommand, the generic form already covers it — pointing at both
+  the SMTP send path (S186-03) and the IMAP read script (S186-04), with an explicit note against
+  pasting the password into chat. Apple #14590, emily.cli 1892d1c. (sess-20260813-2154-dda37e8b)
