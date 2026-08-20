@@ -1427,6 +1427,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (ecowar continued) ecowar will have hero mechanics** — obs `2026-08-20T03:31:59Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: build ecowar as its own separate binary, same model as the other REDGARDEN-family games (online matc…** — obs `2026-08-20T03:31:52Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: comb TRAPX/EMILY/REDGARDEN wikis and docs to develop a comprehensive 'ecowar' RTS model as a new nor…** — obs `2026-08-20T03:30:39Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: 'make her fran' -- unclear referent, logging verbatim per Principle 18 rather than guessing. Possibl…** — obs `2026-08-20T06:54:33Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, resolving the Google Doc/Drive access ask: the account needs to log in with Google (OAuth), and foun…** — obs `2026-08-20T06:54:22Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time: for the Google Doc/Drive attachment (mentioned earlier, then explicitly tabled) -- founder now says …** — obs `2026-08-20T06:53:47Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, additional requirement on the PITVIPER-on-Windows ask: copy/paste has to work on Windows too (separa…** — obs `2026-08-20T06:53:11Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time, resolving the Windows-path worry from the prior clarification: 'git bash figures it out' -- founder'…** — obs `2026-08-20T06:53:05Z`. CURATED: 2026-08-20.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
