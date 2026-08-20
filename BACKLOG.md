@@ -18329,3 +18329,57 @@ it, captured here before context-switching to PARENA. None of these are started.
   提及,基於安全考量刻意不寫進這份 git 版控的公開文件——見稍早 session 內即時處理,
   未存入任何永久記錄)。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-57: BDD 測試框架 beetle 改名(gomega→ladybug)+ 獨立發布成
+  github.com/emilyspringerton/ladybug repo,並登記為官方 golden doc。DONE。**
+  創辦人多次重申「make sure we are writing new PARENA tests in ginkgo and
+  gomega」促使查證 firefly/firefly-gomega/scarab 三個 BDD stdlib 檔案目前真實編譯
+  狀態——三個各自都卡在既有已知 gap(`&Any` 參考型別、firefly 自己欄位用到
+  `(Vec String)` 泛型集合型別未支援、scarab 的 multi-field defenum payload),額外
+  發現 VS0 emitter 目前完全沒有 module/import/export 真實連結機制(全 repo `src/*.c`
+  搜尋零命中)。接著創辦人:「can we pleasae give a beetel name to our bdd framework
+  not gomega」→「as an alias i guess」→「dont delete the existing api」→「the new
+  version will move under the new name in the stdlib」——`gomega` 破壞了
+  firefly/scarab 建立的甲蟲命名慣例(gomega 是 Go 自己函式庫的名字,不是甲蟲)。改法:
+  新檔案 `stdlib/firefly/ladybug.prn` 是新的真實實作,`stdlib/firefly/gomega.prn`
+  保留為 back-compat alias(委派呼叫 ladybug 版本,exported API 完全不變),
+  `scarab.prn` 的 import 已同步改用新名。改名本身沒有引入新錯誤(三檔仍卡在同一組
+  舊 gap,已用 `parena build` 逐一驗證)。commit `ef8a302`(PARENA)。接著創辦人:
+  「ladyladybug upstream repo created」→「publish only PARENA to it besides md or
+  whatever and build files」→「bazebazel if it makes sense?」→「yea i guests for
+  the tests for te testing rramework」→「PARENA onry」→「it will baffle github」——
+  獨立發布成新 repo(founder 已建空 repo,confirmed via `git ls-remote` 真的是空的,
+  沒有東西可能被覆蓋掉)。內容:四個 .prn 檔案原樣拷貝、LICENSE(比照 PARENA 自己的
+  Unlicense/公版)、README.md 誠實列出目前狀態與四個真實 gap、MODULE.bazel(比照
+  longma 已驗證過的 `git_override` 釘住 PARENA commit 模式)、BUILD.bazel(四個
+  genrule 各自跑 `parena parse` + `parena analyze`——VS0 domain 1+2 目前全數真的會
+  過,是真實會失敗的 gate,不是假的;domain 3 `parena build` 誠實地還沒接進去,因為
+  現在接了一定紅)、CI(YAML 已用 `python3 yaml.safe_load` 本地驗證過語法)。
+  commit `0313498`(ladybug repo),**首次 CI run 已確認 `completed success`**。
+  接著創辦人:「golden docks ladybug as the official einhorn industrial bdd
+  framework」——`EMILY/context/golden-docs-index.md` 新增 `LADYBUG-NORTH` 條目
+  (指向 `ladybug/README.md`,tier 2,budget 1500),commit `5c368d8`(EMILY)。
+  Apple #15097。
+  (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-58: 根目錄新增 Antigravity CLI / Gemini CLI 啟動腳本。DONE(腳本已就緒;
+  Antigravity 登入本身卡在互動式 OAuth,誠實記錄,非我這邊能無頭完成)。** 創辦人:
+  「please help me getting antigravity cli working」→「adapt start and run sh in
+  the top level fatbaby home for that program」→「and for gemini cli」→「please
+  help me get that working」→「i logged in but the model isnt available in us
+  central 1」→「obviously it still needs to work with claude」→「but we need
+  redundency」→「either separate files or dynamic files」。查證(真實,非猜測):
+  Antigravity CLI 真實二進位是 `agy`(不是 `antigravity`),已裝在
+  `~/.local/bin/agy`(`.bash_history` 顯示創辦人先前跑過官方
+  `curl -fsSL https://antigravity.google/cli/install.sh | bash`);Gemini CLI 已裝好
+  可直接用(`/usr/bin/gemini`,`@google/gemini-cli@0.54.4`)。比照既有根目錄慣例
+  (`launch_okemily.sh` 等各自獨立檔案、且都是未加入 git 版控的本地操作腳本,這兩個
+  新腳本比照同樣不加入 git,維持既有慣例一致)寫了 `start_antigravity.sh` /
+  `start_gemini.sh`(語法已用 `bash -n` 驗證過)。**誠實記錄未完成的部分**:`agy
+  models`(查真實可用模型清單,含是否真的支援 Claude 當 backend——回應「obviously
+  it still needs to work with claude」/「but we need redundency」的關鍵)目前回報
+  「Please sign in」,需要互動式瀏覽器 OAuth,這個無頭 shell 環境完成不了;創辦人說的
+  「i logged in but model not available in us-central1」應該是他自己另外用互動模式
+  登入後遇到的 Gemini/Vertex 區域可用性問題,不是我能從這邊修的東西,腳本內留了
+  真實、誠實的下一步指引(登入後跑 `agy models`)而非編造型號字串。
+  (sess-20260820-0649-a3f19d93)
