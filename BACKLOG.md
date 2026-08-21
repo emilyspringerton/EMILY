@@ -1762,6 +1762,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,提出根因假設: 「when the stuff animates it flashes around the screen i think its cause we dont have those gl…** — obs `2026-08-20T16:39:52Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,補充: 「the tmux integration is a bit like flashy」——進一步描述 tmux 相關的閃爍/flashy 視覺問題,持續同一條線索。** — obs `2026-08-20T16:39:33Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,補充: 「its tmux is part of it」——確認稍早的 GPU shader/閃爍問題跟 tmux 有關,呼應更早已回報的「tmux with claude code is causin…** — obs `2026-08-20T16:39:22Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新問題: 「can we use shaders on the gpu to reduce the flickering」——詢問能否用 GPU shader 降低 PITVIPER 畫面閃爍,呼應稍早…** — obs `2026-08-20T16:39:17Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,降低急迫性: 「like it kinda works dont get me wrong」+「we can ship it like this」+「copy past works i think」——…** — obs `2026-08-20T16:38:13Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,確認排序: 「fix it with parena」+「mod surface first then the improvements」——確認 vterm/ncurses 相關修復最終要用 PAREN…** — obs `2026-08-20T16:38:05Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,擴大回報範圍(同一串 htop 討論延伸): 「i think we are missing some interprative interpolation tech or something」+「i …** — obs `2026-08-20T16:37:53Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新指示: 「use the thumbnail creation pipeline to create like a fibonacci scale of little compressed versi…** — obs `2026-08-20T16:35:43Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
