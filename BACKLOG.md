@@ -19034,3 +19034,30 @@ it, captured here before context-switching to PARENA. None of these are started.
   make test 全部通過(269 passed),既有已驗證檔案(world.prn、array.prn 系列)重新確認
   無迴歸。Apple #15211。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-83: 里程碑——PARENA + PITVIPER 新增 CI 自動 minor version bump + GitHub
+  Release 機制,兩邊都已驗證產出真實 release。DONE.**
+  PARENA commit be7a964/ff4f251,PITVIPER commit 983315b。Founder real-time 指示:
+  「whenever a build passes release it as a minor version」→「like a . bump」→「i will
+  handle big bumpos to signify hguman verify releases」→「start pushing the artifacts to
+  releases in github」→「for parena」→「anand pitviper」(and pitviper)。兩個 repo 的 CI
+  都新增步驟:只在 push 到 main 分支(不是 PR、不是其他分支)、上面每一項真正的檢查都先
+  通過之後才會跑——讀現有的 git tag(vX.Y.Z 形狀,`--sort=-v:refname` 找最新的一個,完全
+  沒有 tag 就當作 v0.0.0),minor version(Y)自動 +1,patch 重設成 0——這是唯一自動 bump
+  的部分。major version(X)刻意完全不動,留給 founder 自己手動決定什麼時候要 bump,
+  標記成真正「人工驗證過」的正式 release。建立並推上新的 git tag,用 `gh release create`
+  建立真正的 GitHub Release,把已經編譯好的 binary 當作 release asset 附上去。PARENA 標記
+  `--prerelease`(founder:「PARENA is pre release for now」——VS0 還在早期、pre-1.0 的
+  compiler 開發階段);PITVIPER 不標記(founder:「pitviper is not pre release」/「pitviper
+  is release release」——PITVIPER 是真正的 release track)。checkout 步驟都補上
+  `fetch-depth: 0`(release 步驟需要看到完整的 tag 列表才能算出下一個版本),release 步驟
+  自己額外宣告 `permissions: contents: write`。PITVIPER 額外新增第三個 job(release),
+  needs 現有兩個 job(Linux + Windows build)都先成功才跑,分別打包兩個平台的 artifact 當
+  release asset。推送前都先用 `python3 -c "import yaml; yaml.safe_load(...)"` 驗證過 YAML
+  語法。已驗證兩邊都真的建出 `v0.1.0` 這個真實 GitHub Release:PARENA 附上 `dist/parena`
+  binary,PITVIPER 附上 `pitviper-linux-x86_64.tar.gz`(4.6MB)跟
+  `pitviper-windows-x86_64.zip`(11.3MB)兩個平台的打包檔,PITVIPER 的 prerelease 正確是
+  False。PARENA 既有的 v0.1.0 因為我自己的 GitHub PAT 沒有修改既有 release 的權限
+  ("Resource not accessible by personal access token"),沒辦法用 API 追溯性地把它標記成
+  prerelease,已請 founder 手動在 GitHub UI 上處理;之後每一個由 CI 自動建立的 PARENA
+  release 都會正確帶上 prerelease 旗標。
+  (sess-20260820-0649-a3f19d93)
