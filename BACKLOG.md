@@ -18643,3 +18643,15 @@ it, captured here before context-switching to PARENA. None of these are started.
   函式捕捉外層 `expected` 參數),VS0 目前每個 Fn 值都只是裸 C 函式指標,沒有真正
   closure 表示法,這次沒動。`tests/test_emit.c` 163→173。Apple #15131、#15134。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-66: 真實修好 defenum/defstruct 前處理順序 bug——用新的多檔案編譯實測真正的
+  ladybug/scarab 組合檔案時發現。DONE。** commit `41a14c5`(PARENA)。`emit_c` 原本兩個
+  分開的 pre-pass 迴圈——整個程式所有 `defenum` 先處理完,才輪到所有 `defstruct`,完全
+  不管每個形式實際在檔案裡的位置。scarab.prn 真實的 `SuiteNode`(`Spec` 變體的兩個真正
+  欄位之一 `body`,型別涉及 firefly.prn 定義的 `T`)就撞上這個——兩檔案合併編譯時 `T`
+  明明排在前面,卻因為舊邏輯找不到。修法:合併成一個 pass,照合併後的真實檔案順序一起
+  處理,既有『被參照型別要排在前面』的限制沒變寬,只是現在真的照實際順序算。驗證:
+  最小重現案例過了;真正的四檔案 ladybug/scarab 組合現在推進過這一關,落回到早就找到、
+  獨立的 closure 缺口上,不是新問題。bazel build、bazel test asan、domain4、domain5、
+  多檔案檢查全過。`tests/test_emit.c` 173→175。Apple #15146。
+  (sess-20260820-0649-a3f19d93)
