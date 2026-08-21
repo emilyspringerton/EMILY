@@ -18655,3 +18655,17 @@ it, captured here before context-switching to PARENA. None of these are started.
   獨立的 closure 缺口上,不是新問題。bazel build、bazel test asan、domain4、domain5、
   多檔案檢查全過。`tests/test_emit.c` 173→175。Apple #15146。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-67: 修好 mangle() 開頭驚嘆號 bug + pcap.prn 補齊缺失型別定義,pentest/* 六個
+  檔案全部真正能編譯。DONE。** commit `89202aa`(PARENA)。清查先前卡住的真實 stdlib
+  檔案時發現:`mangle()` 這個 session 稍早把開頭驚嘆號(`!m`/`!cap` 這種 linear/mutable
+  binding sigil)轉成底線是錯的——thread.prn 的 `lock`、pcap.prn 的
+  `read-packet`/`filter` 自己手寫的 `#target` inline-C body 都是用去掉驚嘆號後的裸名稱
+  (`m`、`cap`)直接引用參數,不是加底線版本。真正修法:開頭驚嘆號整個去掉,不轉底線;
+  中間/結尾驚嘆號(`vec/push!`、`set!`)維持原本轉底線不變(那是編譯器自己兩端都控制的
+  命名選擇,改掉反而有撞名風險)。同一批補上 pcap.prn 自己真正缺的
+  `Capture`/`Packet`/`PcapError` 型別定義(它的函式簽章一直在用,卻從來沒真的定義過,
+  是檔案本身的缺口不是編譯器的)。**pentest/\* 六個檔案現在全部真正通過 gcc 編譯**。
+  修正 5 個寫死舊、錯 mangled 形式的既有測試斷言。`tests/test_emit.c` 175→181。
+  Apple #15151。
+  (sess-20260820-0649-a3f19d93)
