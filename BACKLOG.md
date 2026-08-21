@@ -18669,3 +18669,20 @@ it, captured here before context-switching to PARENA. None of these are started.
   修正 5 個寫死舊、錯 mangled 形式的既有測試斷言。`tests/test_emit.c` 175→181。
   Apple #15151。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-68: io.prn 補齊缺失的 FileHandle/IoError 型別定義 + 全 stdlib 編譯狀態掃描。
+  DONE(io.prn 修完;全掃描結果記錄下來,大量剩餘檔案的個別缺口這次沒有逐一修)。**
+  commit `91cdfec`(PARENA)。跟 pcap.prn 同一類缺口:io.prn 自己六個函式簽章一直在用
+  `FileHandle`/`IoError`,卻從來沒真的定義過。已補上真實、最小的定義,型別現在能在
+  `parena build` 層級正確解析。誠實現況:它自己的 `#target` body 有獨立、早就存在的
+  host glue 缺口(缺 `#include <stdio.h>`,`FileHandle` 當真正 struct 跟 body 本身假設
+  直接拿到 `FILE*` 之間有語意落差),這次沒動,跟這個 stdlib 其他 FFI 綁定檔案的誠實
+  邊界一樣。順手對整個 `stdlib/` 做了一次完整掃描(逐一 `parena build` 每個 `.prn`
+  檔案):真正能編譯的有 firefly.prn、csv.prn、gfd.prn、crypto/*、editor/*(除
+  ui.prn)、compress/lz4.prn、yoko.prn、pentest/* 六個檔案全過、examples/valid_only
+  跟 editor_plugin。其餘大量檔案(array/awk/buffer/cache/dataframe/expr/gfd browser/
+  grep/linalg/log/mapbuilder tools/map/net http tcp udp/nn/pitviper protocol/pty/
+  regex 系列/ringo/scarab/sdl2/sed/shell/sort/ssh/stats/string/thread/tokenizer/vec/
+  world 等)各自卡在獨立、未修的缺口(多半是引用了從沒定義過的型別,少數是其他真實、
+  獨立的 compiler/語法問題),列為真實待辦,這次沒有逐一深入。
+  (sess-20260820-0649-a3f19d93)
