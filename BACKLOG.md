@@ -19115,3 +19115,22 @@ it, captured here before context-switching to PARENA. None of these are started.
   ——founder 明確要求以新聞稿等級記錄此里程碑(「file a press release」、「parena tool
   in production toolchain」)。Founder 另有一句願景性觀察一併記錄,不需另外行動:
   「parena has sre in the dna」。Apple #15225。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-86: 補齊 STDLIB.md 記錄的兩個 STILL-not-fixed 缺口——parse-i32 +
+  array/get/set! 缺少 dest Arena 參數。DONE.**
+  commit 33da3e1(PARENA)。承接 [[S189-84]]/[[S189-85]] 結束後的例行 "continue PARENA"
+  掃描:`string.prn` 的 `parse-i32`(`(Ok (raw-parse-i32 s))`)與 `array.prn` 的
+  `get`/`set!`(`(Err (IndexError "out of bounds"))`)都需要 box 非指標 payload,但簽名
+  裡完全沒有 Arena 參數可用——STDLIB.md 自己記錄了兩次、指名是同一個真實、開放的 stdlib
+  設計問題。比照這個 session 稍早 `reshape`/`net/http.prn` 的 `serve` 已經確立的解法:
+  加上明確的 `dest : Arena @ Region` 參數,不是隱藏/環境式的——這語言每一次配置都要能
+  追到一個明確的 Arena 參數,這是刻意的設計(見 `current-arena` 本身被拒絕的理由)。真實
+  代價老實記錄在 STDLIB.md:一個唯讀的 accessor(`get`)現在需要一個 Arena,純粹只是為了
+  能回報「out of bounds」——不是引入一個 static/singleton 錯誤值慣例,那會是另一個真正
+  分開、還沒被嘗試過的設計方向。三個函式都在獨立測試檔以 `gcc -Wall -Wextra -pedantic
+  -Werror` 驗證乾淨編譯(`array.prn` 整檔仍會在 `elementwise`/`add`/`mul-elementwise` 的
+  `fn` lambda 字面值撞到另一個無關、既有、尚未設計的缺口——"unsupported expression form"
+  ——與這次修改無關,沒有一併處理)。新增 `tests/test_emit.c` 迴歸測試,涵蓋「唯讀
+  accessor 只因自己的 Err 路徑需要 box 才加 Arena 參數」這個形狀(272 passed)。
+  `make test`/`test-domain4`/`test-domain5`/`test-multifile`/`bazel build //...`/
+  `bazel test --config=asan` 全數通過。Apple #15228。(sess-20260820-0649-a3f19d93)
