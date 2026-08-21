@@ -1747,6 +1747,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充: 「or at least use the bdd framework」——放寬/概括前一則指示,重點是 BDD(行為驅動開發)風格測試,firefly/gomega 只是實現方式之一。沒有新範圍。** — obs `2026-08-20T19:41:41Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,SAND 補充細節(尚未動工,記錄供未來實作參考): 「building the SAND editor」+「use ginkgo and gomega」——要求 SAND 的測試套件使用 Ginkgo…** — obs `2026-08-20T19:41:35Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time: 「continuing hammering on PARENA」——確認要求回到 PARENA defenum 實作,fatbaby 管線健康檢查做完最後一步(確認 dashboard/newssit…** — obs `2026-08-20T19:41:13Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,補充: 「full disclousures as usual」——要求新的 TINA 自動發布規則沿用既有的完整揭露/免責聲明慣例(呼應既有的『TINA: CAMELS — What We Won't…** — obs `2026-08-20T19:35:53Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新自動化需求: 「and start publishing TINA stories based on press releases that come through on the same day …** — obs `2026-08-20T19:35:47Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新任務: 「check all the fatbaby data pipelines」+「make sure they are healthy and collecting press releases…** — obs `2026-08-20T19:35:29Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,再次確認: IRONCLAD 維持被否決,不會使用。已經改用 GPT-2 生成 + TYLER 實際命名的方案,不受影響,繼續照計畫寫部落格文章。** — obs `2026-08-20T19:34:31Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time: 「do the blog post on the new editor name」+「make it good」——確認 GPT-2 生成的 4 個結果已經全部跑完(不是真正的甲蟲名候選,而是這個 f…** — obs `2026-08-20T19:34:23Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
