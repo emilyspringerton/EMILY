@@ -18776,3 +18776,26 @@ it, captured here before context-switching to PARENA. None of these are started.
   make test-domain5、make test-multifile)全過,既有已驗證檔案(array.prn 系列、
   world.prn)重新確認無迴歸。Apple #15166。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-73: 里程碑——defn 前向宣告 pre-pass,修好函式間跨行前向參照。DONE。**
+  commit 7036ce1(PARENA)。正面解決 S189-72 誠實記錄、當時沒追下去的缺口:string.prn 的
+  `parse-i32` 呼叫定義在檔案後面的 `is-valid-i32-text?`,regex/glob.prn 的 `matches` 呼叫
+  定義在後面的 `glob-match`——VS0 之前只有 `defenum`/`defstruct` 有前置宣告 pass,`defn`
+  完全沒有,一律照原始檔案順序直接輸出函式本體,任何函式呼叫另一個定義在後面的函式就會
+  撞上真正的 gcc "implicit declaration of function" 錯誤,`parena build` 自己的 exit code
+  完全抓不到。修正:在 `emit_c()` 的 struct/enum 前置處理之後、defn 本體輸出之前,新增
+  一個真正的前向宣告 pass——對每個有明確 `: ReturnType` 標註的 defn,輸出一行 `ReturnType
+  mangled_name();`(舊式、不指定參數的 C 宣告)。刻意選擇這個形狀而非完整、參數精確匹配
+  的 prototype:先寫了一個獨立、真實的 gcc 測試確認舊式空括號宣告在本專案自己的
+  `-std=c99 -Wall -Wextra -pedantic -Werror` 下完全乾淨,所以刻意不用去複製 `emit_defn`
+  自己那一大段參數型別解析邏輯——沒有任何真實呼叫點需要一個精確比對的完整 prototype。
+  順手把每個解析出的回傳型別也註冊進既有的 `g_defn_return_types`,讓 `emit_call` 自己的
+  「沒有函式簽章表」後備機制對前向參照的函式也能拿到正確回傳型別。誠實、刻意縮小的範圍:
+  沒有明確 `:` 回傳型別標註(靠本體推論回傳型別)的 defn 目前還是不會被前置宣告——目前
+  找到的每一個真實前向參照案例都有明確回傳型別,這個較窄的範圍已經涵蓋所有已知案例。
+  驗證:獨立隔離的雙向互相前向參照測試(is-even?/is-odd?)真正 gcc-clean。重新驗證
+  string.prn/regex/glob.prn——先前的前向參照錯誤消失,兩個檔案各自剩下的、先前就已經
+  誠實記錄的獨立缺口(未定義的型別/runtime 函式)維持不變,不是新問題,也沒有在這輪
+  追下去。既有 array.prn/world.prn/multifile 系列檔案重新確認無迴歸。`tests/test_emit.c`
+  227→231。全套驗證(make test、bazel build //...、bazel test --config=asan、
+  make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。Apple #15169。
+  (sess-20260820-0649-a3f19d93)
