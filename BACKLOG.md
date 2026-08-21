@@ -19452,3 +19452,38 @@ it, captured here before context-switching to PARENA. None of these are started.
   落地位置:「it can be in the stdlib」——真的要做的話,目標是 PARENA stdlib
   裡的一個真實模組(呼應 [[feedback-pure-parena-only]] 的既有方針:純 PARENA
   邏輯,不需要 FFI)。細節/可行性仍未定,維持先記錄不開工。
+
+- [x] **S189-98: 新增真正、純 PARENA 的 LZ4 壓縮實作(里程碑)。DONE.**
+  commit 923a24c(PARENA)。承接 [[feedback-pure-parena-only]] 的方針,回頭把
+  `compress/lz4.prn` 從原本的 FFI-bound 設計(呼叫 host 端 liblz4)改成真正、
+  純 PARENA 的 LZ4-style 壓縮器——founder 這個 module 自己一開始就明確要求過
+  「but it needs to be a pure parena implementation」。原本擋住它的真實架構
+  限制(`Vec` 存 `void *`、`I32` 純量沒有真正的 box/unbox 路徑)已經被
+  [[S189-96]] 解除,先用一個獨立的執行期 harness 驗證過(`Vec I32` 的建構/
+  讀取/求和全部算對)才動手寫真正的實作。新增真正的 literal-run + back-
+  reference-match 壓縮器,跟 LZ4 自己格式背後的真實想法一樣(不是逐位元組
+  重現 liblz4 自己的 wire format)。match-finding 是真正、正確但簡單的暴力
+  搜尋(O(n^2)),跟這整個 stdlib 一貫的「先求對再求快」判斷一致。已用真正的
+  round-trip harness 驗證:重複片語、run-length/重疊複製(offset < match-len,
+  LZ4 最刁鑽的真實情境——確認算對)、幾乎無重複的文字、邊界情況(空輸入、
+  單一位元組)全部位元組級精確還原;100 bytes 高重複輸入壓成 3 個 token,
+  確認真的有壓縮效果。過程中抓到並修好兩個真實、通用的編譯器缺口:
+  (1) `&mut (ComplexType)`(如 `copy-match` 自己的 `&mut (Vec I32)`)完全
+  沒有對應的參數形狀可以編譯。(2) 一個自己抓到的 bug:當 `loop` 被當成函式
+  自己的 tail、但整個 loop body 在任何路徑上都沒有真正產生過結果值時
+  (`when`-only tail,每條路徑不是 `recur` 就是停止),過去還是會無條件
+  emit 一個 `return` 陳述式,從一個宣告成 void 的函式回傳一個根本沒被
+  賦值過的變數——`emit_loop`/`emit_match` 都修好了。新增 325→331 個迴歸
+  測試。`make test`/`test-domain4`/`test-domain5`/`test-multifile`/
+  `bazel build //...`/`bazel test --config=asan` 全數通過。Apple #15268。
+  (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-99: founder real-time 語言設計構想(「maybe operator」+ monad),先
+  記錄,非本 session 優先項。**
+  「a maybe operator? +@ or -@ or they can mean 2 things」→「i dont know
+  anyhing about monads」→「oh put monad in the stdlib」→「unless we already
+  have something better」——構想一個「maybe」運算子,可能用 `+@`/`-@` 這類
+  sigil,或是同一個符號依情境有兩種意義;founder 自己承認不懂 monad 理論,
+  但直覺提出「把 monad 放進 stdlib」,並補充但書:如果已經有更好的機制就不用。
+  細節/語法/語意完全未定,單純記錄構想,不是本 session 要處理的項目。
+  (sess-20260820-0649-a3f19d93)
