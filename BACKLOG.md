@@ -19292,4 +19292,9 @@ it, captured here before context-switching to PARENA. None of these are started.
   STDLIB.md 既有「mapbuilder/tools / mapbuilder/layout / mapbuilder/template / world
   — visual builder affordances」那個章節,以及 PITVIPER 自己 NORTHSTAR 裡「vim-like
   editor、NERDTree 檔案樹」的方向,可能是同一條產品線的匯流,細節未定,先記錄。
-  (sess-20260820-0649-a3f19d93)
+  (5)「dig is also a counter to mnm w」→「like if u time it right」——另一個真實設計
+  細節:挖洞動作本身也是對某個機制(原文縮寫「mnm w」,語意不完全清楚,逐字記錄,不
+  過度詮釋)的一個 timing-based counter(抓對時機可以反制)。逐字保留,細節/確切
+  對象待 founder 之後澄清。以上五點都只是設計輸入,S189-56(b) 本身狀態不變:確認
+  維持 queued(AskUserQuestion 已詢問並確認,不是現在開工;不轉向 PARENA mod-surface
+  優先開發,也不轉向先在 GFD 側用非-PARENA 機制打樣)。(sess-20260820-0649-a3f19d93)
