@@ -19333,3 +19333,28 @@ it, captured here before context-switching to PARENA. None of these are started.
   STDLIB.md,沒有勉強做。新增 301→311 個迴歸測試。`make test`/`test-domain4`/
   `test-domain5`/`test-multifile`/`bazel build //...`/`bazel test --config=asan`
   全數通過。Apple #15245。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-94: nn.prn 全檔編譯過關並用真實數值驗證正確。DONE.**
+  commit 7f4e9a5(PARENA)。承接 [[S189-93]] 之後例行掃描:`nn.prn`(`layernorm`/
+  `gelu`/`softmax`/`relu`/`leaky-relu`/`sigmoid`/`tanh-activation`)現在
+  `gcc -Wall -Wextra -pedantic -Werror` 全檔零例外乾淨編譯,並用獨立執行期
+  harness 對照真實參考值驗證每一個函式都算對(`relu`/`leaky-relu` 對照手算輸入、
+  `sigmoid`/`tanh-activation`/`gelu` 對照 libm 自己的 `exp`/`tanh`、`softmax` 對照它
+  自己真實的不變量——輸出總和必為 1.0、`layernorm` 對照手算的 mean/variance)。補齊
+  兩個新缺口,都不是這個檔案自己特有的:(1) `exp`/`tanh` 需要真正的定義——新增
+  `exp-of`/`tanh-of`,真正、刻意的 `#target` FFI 包 libm(founder 這個 session 明確
+  說過「use your escape hatch when u need to」)——之所以不叫裸的 `exp`/`tanh`,是
+  因為兩者都是真正的 gcc builtin,跟 `sqrt-of` 今天稍早撞名的原因一樣。`generated`
+  C 現在無條件 `#include <math.h>`。(2) `leaky-relu` 原本的 `alpha` 被一個 inline
+  `fn` 字面值直接 capture——今天新增的 `fn` 字面值刻意不支援 capture,跟
+  `firefly/ladybug.prn` 的 `equal`/`be-close-to` 今天稍早需要重新設計是同一個
+  原因——改成獨立、具名的 `leaky-relu-fn` helper,`alpha` 變成明確參數。`softmax`
+  自己原本把 `loop` 直接巢在 `let` binding 裡(跟 `stats/std` 今天稍早遇到的同一個
+  「`loop` 不支援當任意 sub-expression」缺口),用 `sum-vec`/`divide-vec-by` 兩個
+  獨立 helper 繞開,順便也繞開了另一個既有、仍未修的缺口(對沒有 element-type
+  hint 的 `let`-bound 區域 Vec 呼叫 `vec/get` 會產生無效 C)。過程中自己抓到一個
+  真實 bug:今天稍早新增的 `vec_push_` struct-boxing 邏輯,把「void」型別
+  (hint-less Vec 的副作用)誤判成可以 box 的 struct,產生無效的 `void_box`
+  函式——已排除。新增 311→316 個迴歸測試。`make test`/`test-domain4`/
+  `test-domain5`/`test-multifile`/`bazel build //...`/`bazel test --config=asan`
+  全數通過。Apple #15247。(sess-20260820-0649-a3f19d93)
