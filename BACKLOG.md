@@ -1772,6 +1772,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新問題(能力詢問): 「are you able to use your magic gcloud context to provision the firebbase stuff we need fo…** — obs `2026-08-20T16:32:38Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,語意不明確待澄清: 「use annotations and promptoverse」——出現在剛才 crystal/main.go 字型渲染 bug 討論串中,但 promptoverse(IDUN…** — obs `2026-08-20T16:32:28Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time回報真實 bug: 「ok none of my stuff for crystal/main.go is working except like」+「moneysign」+「and f」——在 PITV…** — obs `2026-08-20T16:32:28Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,重申排序: 「all api mod surface first」+「PARENA all of it」——重申並加強稍早已有的「plugin system first」「mod surface fir…** — obs `2026-08-20T16:28:18Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,再次澄清: 剛才「sepia ish theme」其實指的是 Solarized(創辦人自己確認:「solarized?」「solarized light??」),並補充第三個規格點:「and the …** — obs `2026-08-20T16:28:03Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,補充規格細節: PITVIPER GUI IDE 元件用「sepia 色調」調色盤,終端機本體維持純黑不動(創辦人:「use that popular sepia ish theme for color…** — obs `2026-08-20T16:27:44Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time: 要求 PITVIPER 的 affordances(GUI popout 面板/widget)要套用 EmilyOS 的 styleguide** — obs `2026-08-20T16:26:58Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
