@@ -1767,6 +1767,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,確認排序: 「fix it with parena」+「mod surface first then the improvements」——確認 vterm/ncurses 相關修復最終要用 PAREN…** — obs `2026-08-20T16:38:05Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,擴大回報範圍(同一串 htop 討論延伸): 「i think we are missing some interprative interpolation tech or something」+「i …** — obs `2026-08-20T16:37:53Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,新指示: 「use the thumbnail creation pipeline to create like a fibonacci scale of little compressed versi…** — obs `2026-08-20T16:35:43Z`. CURATED: 2026-08-21.
+- [ ] **Founder補充澄清 crystal/main.go 符號渲染的分階段目標: 「yes once we get the symbols working with image assets like textures we can the…** — obs `2026-08-20T16:35:04Z`. CURATED: 2026-08-21.
+- [ ] **Founder澄清回覆兩點: (1)「use annotations and promptoverse」= 針對 crystal/main.go 的符號渲染,改用 promptoverse(既有 AI 圖片生成/discovery pip…** — obs `2026-08-20T16:34:13Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新問題(能力詢問): 「are you able to use your magic gcloud context to provision the firebbase stuff we need fo…** — obs `2026-08-20T16:32:38Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,語意不明確待澄清: 「use annotations and promptoverse」——出現在剛才 crystal/main.go 字型渲染 bug 討論串中,但 promptoverse(IDUN…** — obs `2026-08-20T16:32:28Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time回報真實 bug: 「ok none of my stuff for crystal/main.go is working except like」+「moneysign」+「and f」——在 PITV…** — obs `2026-08-20T16:32:28Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
