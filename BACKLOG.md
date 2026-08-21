@@ -18720,3 +18720,31 @@ it, captured here before context-switching to PARENA. None of these are started.
   --config=asan、make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。
   Apple #15160。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-71: 里程碑——Ok/Err/Some 非指標 payload 裝箱機制 + when-in-loop-tail +
+  通用純量裝箱判斷,連續三個真實 gcc-verified 缺口。DONE。**
+  commit 3735d28(PARENA)。S189-70 之後繼續推進 array.prn,連續抓到並修好三個真實、
+  獨立的缺口,全部是靠實際 gcc 編譯抓到的,不是靠 `parena build` 的 exit code:
+  (1) `Ok`/`Err`/`Some`(還有單欄位 defenum variant)先前只接受指標型別 payload,直接
+  失敗——`from-vec` 的 `(Ok {:data data ...})` 是 map-literal struct 建構出來的值,不是
+  指標。現在會生成一個真正的、每個 payload 型別各一份的 `static inline TypeName
+  *TypeName_box(Arena *dest, TypeName v)` 輔助函式——暫存變數+取址這段邏輯活在這個真正、
+  可定址的 C 函式本體裡面,繞開 GNU statement-expression(被本專案自己的
+  `-pedantic -Werror` 擋掉)跟把暫存宣告提升到 `emit_expr` 純運算式呼叫鏈裡(架構上目前
+  不支援)這兩條路。要裝箱的 arena 用真實、誠實、範圍限定的搜尋找(先找名字剛好叫 `dest`
+  的綁定,找不到才退而求其次抓 scope 裡第一個 arena 型別的 local)。(2) `when` 在
+  loop 尾端位置完全沒有處理——`strides-for` 整個 loop body 就是 `(when (>= i 0)
+  (vec/push! &s running) (recur ...))`,原本會被當成一般函式呼叫,產生一個根本沒定義過
+  的 `when(...)` C 函式呼叫,`parena build` 完全沒抓到。修正:`emit_loop_tail` 新增
+  `when` 分支,支援多個 body form,條件為假時真正 break 掉迴圈。(3) 純量裝箱判斷從只看
+  `g_vec_elem_hints`(只有 `&(Vec T)` 參數跟 `(Vec T)` 結構欄位才會登記)改成直接看被
+  推入的「值」本身的已知型別——`strides-for`/`zeros` 都是完全沒有型別註記的 let 綁定局部
+  變數,先前的 hint-only 判斷完全不會命中。順手補齊 array.prn 自己缺少的
+  `ShapeError`/`IndexError` 型別定義(跟 pcap.prn/io.prn 之前補的同一類真實缺口)。驗證後
+  `product`/`strides-for`/`zeros`/`flat-index`/`from-vec` 五個函式完全乾淨通過真正的 gcc
+  編譯。`get`/`set!` 撞到下一道更深、性質不同的牆,誠實記錄在 STDLIB.md:不再是編譯器架構
+  缺口,而是真正、獨立、未解的 stdlib 設計問題——`get` 這種唯讀存取器的簽名裡完全沒有
+  Arena 參數可以裝箱 `IndexError`。用多檔案編譯確認 linalg.prn/nn.prn/stats.prn 三個下游
+  檔案目前都卡在同一個、已知、誠實標記的缺口上,不是新問題。`tests/test_emit.c`
+  198→209。全套驗證(make test、bazel build //...、bazel test --config=asan、
+  make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。Apple #15163。
+  (sess-20260820-0649-a3f19d93)
