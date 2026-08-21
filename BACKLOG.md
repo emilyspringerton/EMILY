@@ -18913,3 +18913,27 @@ it, captured here before context-switching to PARENA. None of these are started.
   (make test、bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
   make test-domain5、make test-multifile)全過。Apple #15199。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-78: net/http.prn — (Map K V) 型別擦除 + Fn 型別參數列表支援裸 Arena。DONE.**
+  commit 8325a08(PARENA)。做完整重新掃描找下一個能推進的檔案,轉往 net/http.prn。修好兩個
+  真實、獨立的缺口:(1) `(Map K V)` 當結構欄位/回傳型別——`resolve_declared_type()` 原本有
+  處理 `(Result ..)`/`(Option ..)`/`(Vec ..)` 這些複合型別,但完全沒有 `Map`。net/http.prn
+  真實的 `HttpRequest`/`HttpResponse` 兩個 defstruct 都有 `headers : (Map String String) @
+  Region` 這個欄位。修正:擦除成單純的 `void *`,不是具名的 struct——刻意比 `Vec` 自己的
+  處理窄:`Vec` 有 parena_runtime.h 真正的 runtime struct 撐著,`Map` 目前完全沒有對應的
+  真實 runtime 實作(map.prn 自己真正想要的雜湊表實作本身卡在真正的泛型支援,是另一個
+  更大的功能),所以這只是讓 `Map` 型別的欄位/回傳值可以被「命名」,不是可以被建構或操作。
+  (2) `Fn` 型別參數列表裡的裸 `Arena`(沒有 `@ region`)——net/http.prn 真實的 `serve`
+  函式,`handler` 參數型別是 `(Fn [&HttpRequest Arena] HttpResponse)`。`(Fn [...] ...)` 的
+  每個參數型別槽位遞迴呼叫 `resolve_base_type_name()`,但這個函式的裸符號表裡從來沒有
+  "Arena"——每個其他真實的 Arena 用法都是走另一條路(`Type @ Region` / 
+  `has_region_marker()`),`Fn` 型別自己的參數列表不會走那條路。修正:裸 `Arena` 現在解析成
+  真正的 `Arena *`,跟這個 emitter 裡每個其他真實 Arena 值的 C 表示法一致。驗證後
+  net/http.prn 的錯誤前緣從「unsupported return type symbol Arena」(第 44 行)一路推進到
+  一道正當的多檔案依賴牆(第 47 行,`serve` 呼叫 `net/tcp/listen`,但 net/tcp.prn 自己也有
+  獨立、誠實記錄的缺口——`TcpListener`/`TcpStream`/`UdpSocket` 從未在
+  net/tcp.prn/net/udp.prn 任一檔案裡定義過,跟 pcap.prn/io.prn/array.prn/string.prn 之前
+  補的同一類缺口,這輪沒有追下去)。`tests/test_emit.c` 251→257,新增回歸測試涵蓋 Map
+  擦除跟 Fn 型別裡的裸 Arena。全套驗證(make test、bazel build //...、
+  bazel test --config=asan、make test-domain4 Valgrind、make test-domain5、
+  make test-multifile)全過。Apple #15201。
+  (sess-20260820-0649-a3f19d93)
