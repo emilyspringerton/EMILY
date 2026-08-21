@@ -18686,3 +18686,18 @@ it, captured here before context-switching to PARENA. None of these are started.
   world 等)各自卡在獨立、未修的缺口(多半是引用了從沒定義過的型別,少數是其他真實、
   獨立的 compiler/語法問題),列為真實待辦,這次沒有逐一深入。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-69: 里程碑——world.prn 真正通過 gcc 編譯,四個獨立真實缺口一次修好。DONE。**
+  commit 66a8e3b(PARENA)。清查全 stdlib 編譯狀態、持續推進時發現:world.prn(terrain/
+  heightfield 真實資料結構)撞到四個獨立、真實的缺口:(1) N-ary `and`/`or`——只針對
+  `&&`/`||` 左結合折疊,刻意不擴大到比較/算術運算子。(2) `when` 特殊形式——真正陳述式
+  層級的 `if`,不是三元運算子,因為 `when` 沒有真正的 else 值。(3) `mangle()` 補上問號
+  結尾的 predicate 命名慣例(`in-bounds?` 這種)。(4,這批最深的修法) Vec 純量裝箱——
+  `Terrain.heights : (Vec F64)`,新增 `vec_box_i32`/`vec_box_f64` 真正配置 arena cell,
+  不是 bit-boxing,因為既有 `deref` 慣例對純量跟 struct 元素要一致對待。過程中抓到自己
+  一開始寫錯的 bug(boxing 誤用累積中的 args.data,world.prn 自己真實的
+  `index-for(t, x, z)` 這種多參數索引值會產生錯誤 C),已修正成獨立捕捉目標文字。順手
+  補上 `vec-set-at!` 這個 STDLIB.md 本來就漏掉的操作定義。`tests/test_emit.c`
+  181→195,全部經過真正 gcc + bazel build + bazel test asan + domain4/5 + 多檔案檢查
+  驗證過。Apple #15157。
+  (sess-20260820-0649-a3f19d93)
