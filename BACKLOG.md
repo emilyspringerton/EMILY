@@ -19265,3 +19265,31 @@ it, captured here before context-switching to PARENA. None of these are started.
   296→301 的迴歸測試。`make test`/`test-domain4`/`test-domain5`/`test-multifile`/
   `bazel build //...`/`bazel test --config=asan` 全數通過。Apple #15240。
   (sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-56(b) 補充設計細節,仍為 queued、尚未開工。** Apple #15242(observe)。
+  founder real-time 回頭問「where we at with digging holes and hiding things inside
+  them in redgarden」→「via mods」→「via parena」→「buying a shovel lets you dig
+  things up」→「and hid things in them」。狀態回報:S189-56(b) 本身還是 queued,尚未
+  開工過,今天沒有任何設計/實作進度。新增的真實補充:(1) 明確要求走 mod 路線,用
+  PARENA 寫,不是直接寫進 REDGARDEN 核心 C 引擎——呼應 PARENA 自己「GoblinFoxDragon
+  mod-surface 候選語言」的既有定位(`GoblinFoxDragon/docs2/MOD_SURFACE_NORTHSTAR.md`)。
+  但誠實的阻塞點:PARENA 自己的 mod-surface/plugin API 現在也還沒真的做完——今天稍早
+  發布的 okemily blog 文章(`parena-eats-the-codebase-from-the-outside-in`)自己說的
+  下一步就是「finish the mod-surface/plugin API... so PITVIPER can host real
+  PARENA-authored plugins」,還沒到那一步,GFD/REDGARDEN 這邊要接 PARENA mod 目前沒有
+  真正的介面可以掛。(2) 新的遊戲設計細節:要先買鏟子(shovel)道具才能挖洞——一個真實
+  的經濟/道具前提,不是免費機制;挖出來的洞可以把東西藏進去(埋藏/私藏機制,可能是
+  PvP 或個人倉儲玩法,細節未定)。這些是新的設計輸入,已記錄,尚未排入實際開工——
+  維持 queued,等 PARENA mod-surface 真的落地,或 founder 明確要求先在 GFD 側用既有
+  (非 PARENA)機制打樣再說。(3)「the mod has to be at the server level obviously」→
+  「the wholes server wil lbe modded」——明確是伺服器端(server-authoritative)的 mod,
+  不是純視覺/客戶端效果;而且不只這一個功能——founder 的願景是整個 REDGARDEN 伺服器
+  未來會是「被 mod 出來的」,也就是伺服器本身的核心邏輯要能透過 PARENA mod-surface
+  組裝/擴充,這比單一挖洞機制大得多,是對 REDGARDEN 伺服器架構方向的真實表態,先記錄,
+  不在這個 session 展開設計。(4)「via a proto map editor」→「via parena」——mod/伺服器
+  內容(包含挖洞藏東西這類地形/世界狀態變更)要透過一個用 PARENA 寫的「proto map
+  editor」(雛形地圖編輯器)這個工具鏈來產生/管理,不是直接改程式碼——呼應
+  STDLIB.md 既有「mapbuilder/tools / mapbuilder/layout / mapbuilder/template / world
+  — visual builder affordances」那個章節,以及 PITVIPER 自己 NORTHSTAR 裡「vim-like
+  editor、NERDTree 檔案樹」的方向,可能是同一條產品線的匯流,細節未定,先記錄。
+  (sess-20260820-0649-a3f19d93)
