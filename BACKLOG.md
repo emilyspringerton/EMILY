@@ -19439,3 +19439,16 @@ it, captured here before context-switching to PARENA. None of these are started.
   的節奏。但 founder 自己明確說現在(當時我正在修 vec_get/dataframe 那批 bug)不需要
   現在就開工。以上四點都只是設計輸入,先記錄,等真正要排入工作時再各自拆成獨立
   section。(sess-20260820-0649-a3f19d93)
+  補充(同一構想,同一天):founder 事後追問是否有漏記,經過幾輪來回(先說
+  「.2 跟 .69」,又說維持 .96/2.0,又說「dno .68 and .2」)後,AskUserQuestion
+  正式確認:候選數值是 **.68 跟 .2**(取代原本記錄的 .96/2.0)。同時補充真正
+  的技術念頭:「known irrational numbers in memory assignments」——用已知
+  無理數本身的位元樣式當 memory/register assignment 裡的值,取其真實、可重現、
+  統計上分佈良好的位元特性當隨機性/雜湊來源,不是每次真的呼叫 sqrt 運算。最後
+  給了明確的技術類比:「like doom has totally deterministic rng」→「we can too
+  for somethings」——呼應 DOOM 引擎自己真實、知名的技巧(一份預先算好、256-byte
+  的查表,完全確定性、可重現,不需要真正的熵來源)——PARENA 對某些場合也可以走
+  同樣「確定性、可重現的偽隨機」路線,不是加密等級的隨機性。founder 也明確補充
+  落地位置:「it can be in the stdlib」——真的要做的話,目標是 PARENA stdlib
+  裡的一個真實模組(呼應 [[feedback-pure-parena-only]] 的既有方針:純 PARENA
+  邏輯,不需要 FFI)。細節/可行性仍未定,維持先記錄不開工。
