@@ -18857,3 +18857,29 @@ it, captured here before context-switching to PARENA. None of these are started.
   (make test、bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
   make test-domain5、make test-multifile)全過。Apple #15193。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-76: 修好 vec/get 誤解析真實 regression(自己抓到)+ 補上 unit 字面值。DONE。**
+  commit bea812f(PARENA)。繼續處理 sweep 剩下的檔案(dataframe.prn/buffer.prn)時,自己抓到
+  並立刻修好一個真實 regression:S189-74 的 `mangle_call_name` 跨模組呼叫解析在 array.prn
+  真實的 `product` 函式上出錯了——它呼叫 `(vec/get shape i)`,但 array.prn 自己在同一個
+  檔案後面也定義了一個完全不相關、真實的 `get` 函式(回傳 `(Result F64 IndexError)`)。原本
+  只看「這個裸名字有沒有真實 defn 存在」的判斷不夠精確,`vec/get` 的裸名字 "get" 真的撞上
+  了這個不相關的同名 defn,錯誤地解析成呼叫使用者自己的 `get`,不是 runtime 真正的
+  `vec_get`——`parena build` 自己的輸出就已經是錯的,連 gcc 都不用跑就能看出來。修正:
+  `vec` 前綴現在明確排除在裸名字解析之外——它是確認過的、寫死的 runtime pseudo-module
+  (parena_runtime.h 自己的函式名本來就是刻意取成跟完整 mangle 結果一樣),根本沒有真實的
+  `vec.prn` 檔案能合法地跟它撞名,所以直接排除完全不會漏掉任何真實案例。同時補上 `unit`
+  字面值——`Unit` 型別自己的單例值,buffer.prn 真實的 `set-data`(還有 array.prn 的
+  `set!`)結尾都是 `(Ok unit)`,之前完全沒有任何處理,裸的 `unit` symbol 會落到一般
+  scope_lookup 路徑,報「未知識別碼」。修正:當成保留字面值,直接輸出 `NULL`,回報型別為
+  `void *`——已經是指標型別,`Ok`/`Err`/`Some` 既有的 payload 檢查直接接受,完全不需要
+  裝箱。驗證:array.prn 重新確認回到修正前那道已知、誠實的牆(`get` 沒有 Arena 可以裝箱),
+  不再誤判成呼叫自己的 `get`。`math/inc` 跨模組解析、string.prn+glob.prn 組合編譯都重新
+  驗證行為不變。buffer.prn 過了 `unit` 這一關,卡在下一道、獨立、誠實記錄的牆
+  (`raw-buffer-write!`/`raw-buffer-read` 從沒被定義過,也沒有走 `#target` FFI 宣告)。
+  `tests/test_emit.c` 238→245,新增回歸測試涵蓋 vec/get 撞名保護 + unit 字面值。同時
+  investigated dataframe.prn:發現它有至少兩個獨立、更大的缺口(跟 array.prn get/set! 同一類
+  的「沒有 Arena 可以裝箱」牆,再加上完全未實作的 `return` 特殊形式,用於從 match/loop 中間
+  提早返回)——誠實標記為分開、較大的後續工作,這輪沒有追下去。全套驗證(make test、
+  bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
+  make test-domain5、make test-multifile)全過。Apple #15196。
+  (sess-20260820-0649-a3f19d93)
