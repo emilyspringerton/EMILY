@@ -19487,3 +19487,29 @@ it, captured here before context-switching to PARENA. None of these are started.
   但直覺提出「把 monad 放進 stdlib」,並補充但書:如果已經有更好的機制就不用。
   細節/語法/語意完全未定,單純記錄構想,不是本 session 要處理的項目。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-100: dataframe.prn 全檔完工——select 也真的能跑了。DONE.**
+  commit 4dbd60f + ed97d9c(PARENA),Apple #15271。承接 [[S189-XX column-only
+  fix]] 之後,把 `select` 也真的修到 gcc-clean 且執行期驗證通過。過程中抓到
+  並修好三個真實、通用的編譯器缺口:(1) `resolve_declared_type()` 不認得
+  一個括號包起來的單一 token `(&Type)` 參照,嵌在 `Result`/`Option` 自己的
+  payload-type 欄位裡時會解析失敗——`select` 自己真正的回傳型別依賴
+  `column` 的 `(Result (&Column) ColumnNotFoundError)`,需要這個解析才能
+  推導出 `scrut_payload_type`。(2) `emit_match_clause_body` 自己的
+  plain-value fallback 過去無條件把 clause 的值賦值進 `result_var`,但當
+  該值是 void 型別時(例如 `select` 自己 `Ok` clause 的 tail 是一個
+  `vec_push_` 呼叫)這樣賦值在 C 裡不合法——改成 emit 一個 `(void)(...)`
+  陳述式。(3) 跟 (2) 同一組:`result_var` 自己的宣告過去在 `result_type`
+  是字面 `"void"` 時,還是無條件用這個字面字串當 C 型別宣告,但 C 沒有合法
+  的 `void x;` 宣告——改成用 `int` 當一個真實、可宣告的 placeholder,
+  `emit_match_core`/`emit_match` 的 `return_mode` 邏輯也同步修正。新增
+  334→336 個迴歸測試。全面重新驗證本 session 先前所有已確認乾淨的檔案
+  (array/stats/nn/regex-glob/world/linalg/firefly+ladybug/BDD example/
+  compress-lz4/vec_test/world_test)全部維持 gcc-clean,零迴歸。新增真正的
+  執行期 harness(`select_test_main.c`)驗證 `select` 自己真實的多欄位選取
+  行為(選到的欄位順序/值正確)以及未知欄位名稱的 `Err` 路徑都正確。
+  `make test`/`test-domain4`/`test-domain5`/`test-multifile`/
+  `bazel build //...`/`bazel test --config=asan` 全數通過。`read-csv`/
+  `filter`/`group-by` 維持原樣、明確延後(真正的 CSV quoting/escaping 與
+  真正的欄式掃描是各自獨立的工作)。
+  (sess-20260820-0649-a3f19d93)
