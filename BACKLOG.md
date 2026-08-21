@@ -19134,3 +19134,19 @@ it, captured here before context-switching to PARENA. None of these are started.
   accessor 只因自己的 Err 路徑需要 box 才加 Arena 參數」這個形狀(272 passed)。
   `make test`/`test-domain4`/`test-domain5`/`test-multifile`/`bazel build //...`/
   `bazel test --config=asan` 全數通過。Apple #15228。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-87: 把 [[S189-85]] 的里程碑寫成 okemily blog 文章、真的發布上線。DONE.**
+  Founder real-time 指示(依 Principle 18 先過 `emily observe`,Apple #15230):「write the
+  fatbaby newswire pr」→「as a blog post」→「okemily blog」→「check okemily blog」。發布前
+  先讀了現有 `FATBABY_NEWSWIRE` byline 的唯一一篇既有文章(`parena-eats-the-codebase-from-
+  the-outside-in`)校準語氣/格式,不是憑空發明新聲音——OKEMILY/CLAUDE.md 自己「Blog posts」
+  一節也明確要求這麼做。走的是文件記錄的「Publish it yourself, right now」路徑(適合「就是
+  要現在上線」的短篇技術公告,不是需要 Fable 編輯過一輪的長篇/文學性文章):用 EMILY-PRIME
+  的 M2M agent 憑證(唯一有 `blog.write` 權限的 agent)換一個短期 bearer token,直接
+  `POST /api/v1/blog/posts`。文章內容:PARENA 的 ci-status 工具正式進入生產工具鏈
+  ([[S189-85]] 的完整故事)——founder 這個 session 真實、逐字的指示串(「you are always
+  checking that shit in python」→「module first」→「api first」→「and then add it to the
+  cli」)、兩階段 bootstrap 為什麼真的需要、host 端對真實 GitHub API 測試時抓到的兩個真實
+  bug、以及 founder 自己那句「parena has sre in the dna」——全部逐字引用,沒有捏造任何
+  高層/人物的假引言。已驗證真的上線:`https://okemily.com/blog/parena-first-tool-in-
+  production/` 回傳 200。Apple #15230(observe)。(sess-20260820-0649-a3f19d93)
