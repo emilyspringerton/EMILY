@@ -19299,3 +19299,37 @@ it, captured here before context-switching to PARENA. None of these are started.
   對象待 founder 之後澄清。以上五點都只是設計輸入,S189-56(b) 本身狀態不變:確認
   維持 queued(AskUserQuestion 已詢問並確認,不是現在開工;不轉向 PARENA mod-surface
   優先開發,也不轉向先在 GFD 側用非-PARENA 機制打樣)。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-93: firefly/ladybug 真的能跑了,新增真實 BDD 範例測試(4/4 通過)。
+  DONE.**
+  commit f1e84eb(PARENA)。Founder real-time 明確要求:「can i please start to see some
+  ladybug scarab tests too please?」→「and ladybug too」→「only bdd when it makes
+  sense i guess」→「like you can bdd it first if you need to think it through」→
+  「otherwise the crisp tests are good」→「any tests in parena are awesome tho」→
+  「firefly」→「mod api surfaces in ladybuug seems to make esense to me」→「scarab
+  too」→「i guess examples is fine」→「go nuts」→「continuing to hammer on parena as
+  you see fit」。`firefly/ladybug.prn` 原本的 `&Any` 設計從沒真的編譯過(`deep-eq?`/
+  `is-none?` 從未定義,VS0 沒有泛型)——改成 F64 特化(這個 session 已驗證過的數值
+  stdlib 剛好都是 F64),`equal`/`be-close-to` 原本回傳一個 closure(抓 enclosing
+  scope 的 `expected`,跟今天新增的 `fn` 字面值刻意不支援 capture 直接衝突)——改成
+  回傳真正的資料(`Matcher` tagged union),`to` 用 `match` 分派,呼叫語法不變。過程中
+  補齊四個真實、通用的編譯器缺口,不是這個測試檔案自己的問題:(1) `match` 對多欄位
+  defenum pattern 的解構——之前只綁定第一個名字,第二個(如 `CloseTo` 的 `tolerance`)
+  完全沒綁,直接「unknown identifier」。(2) 單欄位 defenum pattern 綁定值現在會記錄
+  真實的欄位型別(已知的話),讓 `deref` 在使用端能正確 cast,不再永遠是 `void *`
+  (跟 `double` 比較會編譯錯誤)。(3) 一個裸的 symbol,指向已知、已註冊的頂層
+  `defn`,當值使用(不是呼叫)——例如把一個具名測試函式指派給 `TestCase.run`——之前
+  完全沒有處理,`scope_lookup` 只找得到參數/區域變數,找不到頂層函式。(4)
+  `vec/push!` 推入真正的 struct VALUE(不是純量)之前完全沒有 box,現在用既有的
+  `ensure_box_helper` 機制通用化,跟 Ok/Err/Some 共用同一套。新增
+  `examples/stats_ladybug_test.prn`:真正、完整、可執行的 PARENA BDD 測試——firefly
+  的 T/TestCase/run-tests + ladybug 的 Expect/To/Equal/BeCloseTo,對 `stats.prn` 的
+  `mean`/`std`/`min`/`max`/`sqrt-of` 寫了 4 個真實 case。已驗證:`gcc -Wall -Wextra
+  -pedantic -Werror` 乾淨編譯,執行期真的跑過 `firefly/run-tests`,結果
+  `passed=4 failed=0 skipped=0`;另外用獨立 harness 驗證 matcher chain 真的有咬合力
+  (故意餵會失敗的值,兩種 matcher 都正確抓到,不是永遠回報通過)。`scarab` 自己的
+  Describe/It 巢狀機制沒有動:它需要頂層 `(def suite-tree ...)` 這種 ambient
+  mutable state,VS0 完全沒有頂層 `def` 的支援,是更大、更獨立的缺口,誠實記錄在
+  STDLIB.md,沒有勉強做。新增 301→311 個迴歸測試。`make test`/`test-domain4`/
+  `test-domain5`/`test-multifile`/`bazel build //...`/`bazel test --config=asan`
+  全數通過。Apple #15245。(sess-20260820-0649-a3f19d93)
