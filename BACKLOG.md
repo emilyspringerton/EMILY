@@ -18803,3 +18803,29 @@ it, captured here before context-switching to PARENA. None of these are started.
   227→231。全套驗證(make test、bazel build //...、bazel test --config=asan、
   make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。Apple #15169。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-74: 里程碑——跨模組 module/function 呼叫解析,修正整個 stdlib 大範圍誤
+  mangle 問題。DONE。**
+  commit b139bd9(PARENA)。string.prn + regex/glob.prn 組合編譯後,`glob-match` 的
+  `(string/length pattern)` 撞上新錯誤 `implicit declaration of function 'string_length'`。
+  真實根因:`mangle()` 只是單純把每個 "/" 換成 "_",所以呼叫端的 "string/length" 這段文字
+  被轉成 "string_length"——但這從來就不是任何真實 defn 實際編譯出來的名字(一個 defn 自己
+  的名字,即使定義在 `(module string)` 裡面,編譯出來也還是裸名字 `length`,從來不會被自己
+  的 module 名稱加前綴)。這個 compiler 的多檔案編譯完全沒有真正的 per-module C symbol
+  table——每個合併進來的檔案,所有頂層表單都活在同一個扁平 C namespace 裡——所以一個
+  qualified call 唯一可能正確解析的方式就是退回裸的、不加前綴的函式名。用真實使用次數確認
+  這個問題遠比 glob.prn 一個檔案大得多:`map/*`、`array/*`、`io/*`、`stats/*`、`sdl2/*`、
+  `pty/*` 這些跨模組 qualified call 在整個 stdlib 裡到處都是,先前全部都用同一種方式誤
+  mangle。修正:新增 `mangle_call_name()`——先試著把最後一段 "/" 後面的裸名字 mangle
+  出來,但只有在 `g_defn_return_types`(S189-73 前向宣告 pre-pass 已經提早填好)真的認得
+  這個裸名字是某個真實 defn 時才採用;否則退回舊有、完整文字的 mangle,完全不變。這個保守
+  的判斷順序刻意設計成不會弄壞任何原本就正確的呼叫點:`vec/push!` 這類 runtime
+  pseudo-module 找不到裸名字的真實 defn,正確地退回原本的 `vec_push_`;`string/concat` 在
+  單檔案編譯、沒有把 string.prn 一起合併進來時,一樣找不到真實的裸 concat defn,正確地退回
+  本 session 稍早新增的 runtime `string_concat` 輔助函式,行為完全不變。驗證:獨立雙模組
+  跨檔呼叫測試 gcc-clean,順手證實一個額外的正確性紅利——被呼叫函式的回傳型別現在也能
+  正確解析(不再退回泛用 void *)。既有 vec/push!、單檔案 string/concat 案例重新驗證行為
+  不變。string.prn + regex/glob.prn 組合編譯:string_length 錯誤消失,兩檔案各自剩下的、
+  先前已誠實記錄的缺口不受影響。`tests/test_emit.c` 231→235。全套驗證(make test、
+  bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
+  make test-domain5、make test-multifile)全過。Apple #15188。
+  (sess-20260820-0649-a3f19d93)
