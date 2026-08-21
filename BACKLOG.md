@@ -18937,3 +18937,30 @@ it, captured here before context-switching to PARENA. None of these are started.
   bazel test --config=asan、make test-domain4 Valgrind、make test-domain5、
   make test-multifile)全過。Apple #15201。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-79: 補齊 net/tcp.prn / net/udp.prn 缺少的型別定義,net/http.prn 錯誤前緣推進到
+  第三道獨立缺口。DONE.**
+  commit b194864(PARENA)。收尾 S189-78 誠實記錄的多檔案依賴牆——net/tcp.prn/net/udp.prn
+  自己的 `TcpListener`/`TcpStream`/`UdpSocket`/`NetError` 從來沒有被定義過,跟 pcap.prn/
+  io.prn/array.prn/string.prn 之前補的同一類真實缺口。新增:net/tcp.prn 的
+  `TcpListener`/`TcpStream`(單一 `fd : I32` 欄位的最小、不透明 handle,跟 io.prn 既有的
+  `FileHandle` 同一種形狀)+ `NetError`(ConnectionRefused/Timeout/AddressInUse/Other);
+  net/udp.prn 的 `UdpSocket`(同樣的 fd handle 形狀)+ `SocketAddr`(`host : String`,
+  `port : I32` 的最小 host+port pair,老實承認跟 `send-to` 自己 `#target` inline-C 裡轉型
+  成的真正 POSIX `struct sockaddr*` 之間有真實的 FFI 表示法落差)+ 自己另一份 `NetError`。
+  刻意的範圍決定:`NetError` 在兩個檔案裡各自獨立定義,不共用同一份 import——這個
+  compiler 的多檔案編譯沒有真正的 per-module C namespace,把 net/tcp.prn/net/udp.prn/
+  net/http.prn 三個檔案全部一起編譯會撞上真正的重複定義錯誤;但對每一種真實、有意義的
+  組合方式都是安全的(net/http.prn 自己的設計只會匯入 net/tcp,從來不會同時匯入
+  net/udp)。驗證:net/tcp.prn/net/udp.prn 各自單獨編譯,都通過了型別定義這一關,剩下的
+  錯誤是真實、預期中、還沒實作的 host FFI 原語。net/http.prn 的 `get`/`post`(跟
+  net/tcp.prn 組合編譯)現在一路推進到第三道、不同的真實缺口:兩者都呼叫
+  `connect-from-url`/`build-get-request`/`parse-http-response`/`build-post-request`——真正
+  從未設計過的輔助函式(URL 解析、HTTP request 序列化、HTTP response 解析),等於要從零
+  設計一個 HTTP client,明顯是這輪範圍以外的、更大的獨立工作,沒有在這輪嘗試。`serve` 自己
+  另外還卡著至少兩個獨立缺口(呼叫已經記錄過、從未設計的 `current-arena` builtin;還有
+  自己的 accept 迴圈本體 `(loop [] ...)` 直接當成 match clause 自己的 body——
+  `emit_match_clause_body` 目前處理 if/let/do/match 但還沒處理 loop,一個較窄的獨立
+  缺口),這輪都沒有追下去。這輪純粹是 .prn 原始碼層級的修正,沒有動到 compiler 本身,
+  `make test` 全部通過(257 passed),既有已驗證檔案(world.prn/regex/glob.prn)重新確認
+  無迴歸。Apple #15204。
+  (sess-20260820-0649-a3f19d93)
