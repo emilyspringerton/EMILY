@@ -19413,3 +19413,28 @@ it, captured here before context-switching to PARENA. None of these are started.
   新增 319→325 個迴歸測試。`make test`/`test-domain4`/`test-domain5`/
   `test-multifile`/`bazel build //...`/`bazel test --config=asan` 全數通過。
   Apple #15263。(sess-20260820-0649-a3f19d93)
+
+- [ ] **S189-97: 一批 founder real-time 構想,先記錄,非本 session 優先項。**
+  Apple #15265(observe)。(a)「can we evolve redgarden into a basic geometry editor?」→
+  「like to replace blender for basic low poly editing」→「maybe not copy the auto
+  rigging at first but hey why not that too」——REDGARDEN 演化成基本幾何編輯器的構想,
+  目標是取代 Blender 做低多邊形(low-poly)編輯,自動綁骨(auto-rigging)先不做但
+  也不排除。(b)「can we offload the decimal math onto the gpu?」→「and somehow detect
+  errors like parena quantum computing for the decimal math」——把小數(浮點)運算
+  卸載到 GPU 上,並且要有類似「量子計算」的誤差偵測機制,細節/可行性完全未定。
+  (c)「use the square root of .96 as a randomness hack」→「or the square root of
+  2.0」→「to save operations in our assembly code from our compuiler」→「once it can
+  compile stuff into static binaries」——構想用 sqrt(0.96)/sqrt(2.0) 這類無理數的
+  位元樣式當一種「隨機性小技巧」,在 PARENA 編譯器未來能產生靜態執行檔之後,用來
+  在組合語言層省運算——等 PARENA 有靜態二進位輸出能力才有意義,目前還沒有。
+  (d)「can we build out parena sed awk grep and call out to our tools instead of the
+  system tools - it seems like the system tools are really slow」→「pure parena except
+  for when it cant」→「dog food it as a module」→「as aapi」→「then introduce the
+  improvement, if that makes sense, maybe do it in bdd」→ 最後明確收斂:「we dont
+  needs full sed awk grep to start for what you are doing」——真正想法是用 PARENA
+  原生重寫 sed/awk/grep,取代目前 sed.prn/awk.prn/grep.prn 設計文件裡「shell 出去呼叫
+  系統工具」的路線(呼應 [[feedback-pure-parena-only]] 的既有方針);走「module 優先
+  → API 優先 → 需要時才用 BDD 幫助設計 → 最後接進 CLI」的順序,跟 ci-status 那次一樣
+  的節奏。但 founder 自己明確說現在(當時我正在修 vec_get/dataframe 那批 bug)不需要
+  現在就開工。以上四點都只是設計輸入,先記錄,等真正要排入工作時再各自拆成獨立
+  section。(sess-20260820-0649-a3f19d93)
