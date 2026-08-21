@@ -19016,3 +19016,19 @@ it, captured here before context-switching to PARENA. None of these are started.
   264→269。全套驗證(make test、bazel build //...、bazel test --config=asan、
   make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。Apple #15209。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-82: 補齊 pty.prn 缺少的 Pty/PtyError + 修好 shell.prn 的 getenv 撞名 bug.
+  DONE.**
+  commit 96aabe6(PARENA)。補齊 `Pty`/`PtyError`——每個 pty.prn 裡的函式都在自己的簽章裡
+  用到,但這個檔案自己從來沒有定義過,跟 pcap.prn/io.prn/net/tcp.prn 之前補的同一類真實
+  缺口。`Pty` 是單一 `fd : I32` 欄位的最小、不透明 handle,跟其他檔案既有的 handle 同一種
+  形狀。同時修好 shell.prn 自己原始碼裡的一個真實 bug:有一個函式直接叫 `getenv`,跟 libc
+  真正的 `getenv`(來自現在每個產生的檔案都無條件引入的 `<stdlib.h>`)真實撞名,會產生
+  真正的 gcc "conflicting types" 錯誤——不是 compiler 缺口,是這個檔案自己的原始碼問題。
+  改名成 `env-lookup`,跟同一個檔案裡 `lookup-path` 自己的命名風格一致。驗證:pty.prn
+  單獨編譯,通過了型別定義這一關,剩下的錯誤是真實、預期中、還沒實作的 host FFI 原語
+  (`pty_open`/`pty_read` 等)。pty.prn + shell.prn 組合編譯,`getenv` 撞名的 conflicting
+  types 錯誤消失,剩下的也全部是已經記錄過的、真實的 FFI/輔助函式缺口——完全沒有新的
+  結構性/compiler 錯誤。這輪純粹是 .prn 原始碼層級的修正,沒有動到 compiler 本身,
+  make test 全部通過(269 passed),既有已驗證檔案(world.prn、array.prn 系列)重新確認
+  無迴歸。Apple #15211。
+  (sess-20260820-0649-a3f19d93)
