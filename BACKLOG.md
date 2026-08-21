@@ -19382,3 +19382,34 @@ it, captured here before context-switching to PARENA. None of these are started.
   317→319 個迴歸測試。`make test`/`test-domain4`/`test-domain5`/`test-multifile`/
   `bazel build //...`/`bazel test --config=asan` 全數通過。Apple #15249。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-96: 修好 vec_get 對指標型別元素的雙重間接參照 + 單一 token &name 的
+  hint 查找。DONE.**
+  commit 741ce36(PARENA)。承接 [[S189-95]] 之後補齊 `dataframe.prn` 的 `column`
+  時,抓到兩個真實、通用、影響範圍很廣的編譯器 bug,都是這個 session 第一次真的踩到
+  (之前所有 gcc 驗證過的 call site 剛好都沒踩中):(1) 單一 token 的 `&name` 形式
+  (不含空白,如 `&names`/`&v`/`&exps`——比 `& (expr)` 兩個 sibling node 的形式常見
+  得多)的 hint 查找從來沒有正確 unwrap 過——`vec_call_target_hint` 自己的 `&` 拆解
+  只處理兩個 sibling node 的形式,單一 token 的 `&name` 會落到 `emit_expr` 自己
+  另一套、無關的單一 token `&` 處理邏輯,回傳 `"&(names)"` 這種被包過的文字當查找
+  key,但 hint 註冊時用的 key 是裸的 `"names"`——兩者對不上,查找永遠落空,不是因為
+  沒有 hint,是問錯了 key。(2) `vec_get` 自己的 hint-informed cast 過去一律多加
+  一層指標間接參照(`"ElemType *"`),對已經被 box 過的純量(I32/F64)元素是對的,
+  但對指標representable 的元素(String -> `char *`,從來沒被 box 過——Vec 存的
+  本來就是那個指標本身)是錯的,會產生真正無效的雙重指標 cast(`"char * *"`)。
+  修好後:已經是指標的 hint 型別直接回報,不加多餘的 `"*"`。真實、刻意的後果:對
+  這種值再用 `deref` 現在會誠實地失敗(真正、正確的型別不符),不會再靜默產生
+  無效 C。`column` 已重新驗證 `gcc -Wall -Wextra -pedantic -Werror` 乾淨編譯 +
+  執行期正確(用真實 `DataFrame` 測找到/找不到兩種情況)。`vec_test.prn`/
+  `world_test.prn` 兩個既有測試檔案順便修好(原本用了已經被拿掉的 `current-arena`
+  builtin,改用真正的 `with-arena`),現在都 `gcc` 乾淨編譯,而且真的透過
+  `firefly/run-tests` 跑過,3/3 通過。`select` 本身還是卡住,這次撞到第三個、真正
+  獨立的缺口:`resolve_declared_type` 不認得 `Result`/`Option` 的 payload 型別
+  位置裡包一層括號的 `(&Type)` 參照(`column` 自己的真實回傳型別是
+  `(Result (&Column) ColumnNotFoundError)`)。這次也新增了一個真實、可泛化的擴充
+  (比照 `unwrap` 已有的 payload-type 查找機制,讓 `match` 對「直接呼叫一個已知
+  函式」的 scrutinee 也能正確標型別),但因為 `resolve_declared_type` 這個更底層
+  的缺口擋著,對 `column` 這個案例還是沒用——誠實記錄在 STDLIB.md,沒有勉強修。
+  新增 319→325 個迴歸測試。`make test`/`test-domain4`/`test-domain5`/
+  `test-multifile`/`bazel build //...`/`bazel test --config=asan` 全數通過。
+  Apple #15263。(sess-20260820-0649-a3f19d93)
