@@ -18964,3 +18964,28 @@ it, captured here before context-switching to PARENA. None of these are started.
   `make test` 全部通過(257 passed),既有已驗證檔案(world.prn/regex/glob.prn)重新確認
   無迴歸。Apple #15204。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-80: 里程碑——loop 支援當 match clause body + 修好丟棄陳述式的 -Wunused-value
+  通用缺口。DONE.**
+  commit 2932a95(PARENA)。收尾 S189-79 誠實記錄的 net/http.prn `serve` 缺口:accept 迴圈
+  本體 `(loop [] ...)` 直接當成 match clause 自己的 body,`emit_match_clause_body` 原本
+  處理 if/let/do/match 但沒處理 loop。修正:把 `emit_loop_core` 從 `emit_loop` 自己拆出來
+  (跟稍早 `emit_match_core` 從 `emit_match` 拆出來的手法一模一樣),讓
+  `emit_match_clause_body` 的新 loop 分支可以直接遞迴呼叫,寫入外層已經擁有的同一個
+  result_var——loop 自己最終的值變成真正的賦值,不是 return。驗證這個修正的過程中,自己
+  抓到並修好一個真實、更深、更一般的獨立 bug:`emit_match_clause_body` 自己的 let/do
+  處理,非最後一個 body form 原本也是直接呼叫 `emit_expr()`——跟之前修好的好幾個「該用
+  陳述式分派卻直接呼叫純運算式 emit_expr」缺口是同一類,改成委派給 `emit_body()` 本身
+  處理。修好這個之後,又浮現出下一層、真正獨立的 bug:一個被丟棄的陳述式,如果它自己
+  解析出來的值剛好是一個裸的、已經綁定的變數(或任何沒有副作用的運算式),會產生真正的
+  gcc `-Wunused-value`("statement with no effect")錯誤——用一個完全不涉及 match/loop、
+  純粹的一般函式本體就能重現,證實這是一個真實、通用、早就存在的缺口,不是這次巢狀結構
+  才引出來的。修正:把這個 emitter 會產生的每一個被丟棄的陳述式都包上 `(void)(...)`——
+  標準、慣用的 C 寫法。驗證:獨立隔離測試(loop 當 match clause body、do 裡非最後一個
+  form 是 let 結尾是裸變數)全部真正 gcc-clean。既有已驗證乾淨的檔案(world.prn、
+  array.prn 系列)重新用 gcc 驗證,確認完全無迴歸;其他本來就卡在真實、已知 FFI 缺口的
+  檔案(glob.prn/buffer.prn/net/tcp.prn/net/udp.prn)行為不變,不是新問題。`serve` 自己
+  現在只剩下一個獨立缺口(呼叫已記錄、從未設計的 `current-arena` builtin)。
+  `tests/test_emit.c` 257→264,新增兩組回歸測試。全套驗證(make test、bazel build //...、
+  bazel test --config=asan、make test-domain4 Valgrind、make test-domain5、
+  make test-multifile)全過。Apple #15206。
+  (sess-20260820-0649-a3f19d93)
