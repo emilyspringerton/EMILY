@@ -1757,6 +1757,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,確認方向: 「keep pushing on defenum」——確認繼續 PARENA mod-surface API 下一個真正阻礙:defenum(讓 editor/events.prn 的 Ed…** — obs `2026-08-20T19:32:00Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,補充: 「im not sure if its cause i am messing with the size of the window」——對剛才的『放大視窗後畫面不重繪』回報自己也不確定是否是自…** — obs `2026-08-20T16:41:51Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time回報,可能是即時阻斷性問題: 「i tried to expand the screen and now nothing is redrawing」——創辦人剛才嘗試放大/調整 PITVIPER 視窗大小…** — obs `2026-08-20T16:41:44Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,再次確認: 「yea tmux with the ncurses stuff or something is rough」——維持同一條線索(tmux/ncurses 在 PITVIPER 裡體驗不佳)…** — obs `2026-08-20T16:41:22Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,語氣轉為非阻斷性反思: 「but if a frame is so flashy we dont... right now its an affordance for me」+「ideally it w…** — obs `2026-08-20T16:40:38Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,提出根因假設: 「when the stuff animates it flashes around the screen i think its cause we dont have those gl…** — obs `2026-08-20T16:39:52Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,補充: 「the tmux integration is a bit like flashy」——進一步描述 tmux 相關的閃爍/flashy 視覺問題,持續同一條線索。** — obs `2026-08-20T16:39:33Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,補充: 「its tmux is part of it」——確認稍早的 GPU shader/閃爍問題跟 tmux 有關,呼應更早已回報的「tmux with claude code is causin…** — obs `2026-08-20T16:39:22Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
