@@ -1742,6 +1742,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,開放式架構思考: 「maybe parena compiles into go modules? or go calles into parena mayybe both」——思考 fatbaby 修復…** — obs `2026-08-20T19:44:43Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time: 「yes fatbaby is mission critical」+「but fix it with parena if possible」——確認 S189-41 發現的 fatbaby 下游問題(…** — obs `2026-08-20T19:44:25Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time,補完自我更新機制細節: 「it receives and validates an updated as a mod plugin」+「and it compiles it and swaps it i…** — obs `2026-08-20T19:43:24Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,補充自我更新構想: 「like it has parena compiler built in」——具體化剛才的自動更新問題:PITVIPER 內建 PARENA 編譯器本身,讓它能自己拉新的 PARE…** — obs `2026-08-20T19:43:02Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新問題: 「can we make the pitviper client self updating with parena?」——詢問能否讓 PITVIPER client 自動更新,而且用 PAR…** — obs `2026-08-20T19:42:56Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,補充: 「or at least use the bdd framework」——放寬/概括前一則指示,重點是 BDD(行為驅動開發)風格測試,firefly/gomega 只是實現方式之一。沒有新範圍。** — obs `2026-08-20T19:41:41Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,SAND 補充細節(尚未動工,記錄供未來實作參考): 「building the SAND editor」+「use ginkgo and gomega」——要求 SAND 的測試套件使用 Ginkgo…** — obs `2026-08-20T19:41:35Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time: 「continuing hammering on PARENA」——確認要求回到 PARENA defenum 實作,fatbaby 管線健康檢查做完最後一步(確認 dashboard/newssit…** — obs `2026-08-20T19:41:13Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
