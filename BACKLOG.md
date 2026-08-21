@@ -18883,3 +18883,33 @@ it, captured here before context-switching to PARENA. None of these are started.
   bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
   make test-domain5、make test-multifile)全過。Apple #15196。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-77: 里程碑——match 支援巢狀 + when-loop-tail 非尾端陳述式支援,修好同一類
+  缺口的三個真實出現位置。DONE。**
+  commit 49c2f59(PARENA)。從 dataframe.prn/buffer.prn 轉往 shell.prn 撞到的巢狀 match
+  缺口。真實根因:`emit_match` 原本的 clause body 處理直接呼叫純運算式的 `emit_expr()`——
+  對 `match`/`if`/`let`/`do` 這類陳述式形狀的值完全沒有處理(這些只在 `emit_body` 自己的
+  陳述式/尾端分派才有特殊處理)。shell.prn 真實的 `resolve` 函式,整個政策鏈就是巢狀
+  match 串接:`(match explicit (... s) (None (match (getenv "SHELL") (... s) (None
+  ...))))`——一種真實、慣用的「Option 檢查鏈,None 就往下一個試」寫法。巢狀的 match 落到
+  一般函式呼叫分派,被誤判成呼叫第一個 clause 自己的 `(Some s)` pattern list,當成第一級
+  函式值來呼叫,`s` 在完全錯誤的 scope 裡查找——報出來的錯誤是「unknown identifier s」,
+  離真正的根因很遠。修正:把 `emit_match` 拆成兩層——`emit_match`(公開入口,擁有唯一一次
+  result_var 宣告 + return_mode 的 return 包裝)+ `emit_match_core`(真正的 tmp_var +
+  if/else-if tag 檢查鏈,可以被遞迴呼叫,寫入外層已經擁有的同一個 result_var,不會重新
+  宣告)。新增 `emit_match_clause_body` 負責 clause body 本身的組合:if/let/do 遞迴組合
+  (跟 if-in-tail-position 既有的手法一樣),match 直接遞迴呼叫 `emit_match_core` 共用同一個
+  result_var,其餘情況才落到純值 `emit_expr()`。過程中發現並修好同一類缺口的第三個真實
+  出現位置:`emit_loop_tail` 自己的 `when` 處理,非最後一個 body form 那段迴圈原本也是
+  直接呼叫 `emit_expr()`,對 match 這種陳述式形狀一樣沒有處理——用一個忠實重現
+  dataframe.prn 真實巢狀結構(loop -> when -> match(do-bodied clause)-> recur)的隔離
+  測試抓到的。修正:那些非最後的 body form 改成委派給 `emit_body()` 本身處理
+  (return_mode=0,捨棄任何值),不再手刻第二套、較窄的陳述式分派器。順手補上 match 自己的
+  result_var 也要有 `__attribute__((unused))`(跟 loop 自己的 result_var 早就有的處理
+  一樣)。驗證:獨立隔離測試(巢狀 match、loop-tail when 裡的非尾端 match)全部真正
+  gcc-clean。既有 array.prn/world.prn/glob.prn/buffer.prn 重新確認無迴歸。shell.prn 過了
+  nested match 這一關,卡在下一批、獨立、誠實記錄的缺口(自己的原始碼有一個真實 bug——
+  函式名字直接叫 `getenv`,跟現在無條件引入的 `<stdlib.h>` 真正的 `getenv` 撞名;還有多個
+  從未定義過的 FFI 原語)。`tests/test_emit.c` 245→251,新增三組回歸測試。全套驗證
+  (make test、bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
+  make test-domain5、make test-multifile)全過。Apple #15199。
+  (sess-20260820-0649-a3f19d93)
