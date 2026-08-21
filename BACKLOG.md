@@ -1732,6 +1732,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,兩個新的大範圍構想: 「make sure we do tree shaking and all that bullshit」——要求 PARENA 的建置要有真正的 tree shaking(死碼消除…** — obs `2026-08-20T20:12:56Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,連結既有設計: 「reinfoorce our mesh network packet radio goals」+「so it synergizes」+「continue as such」——要求新的藍…** — obs `2026-08-20T20:11:24Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time,再補充: 「but the top level deps」——進一步釐清:一般性的剪貼簿/藍牙/WiFi 基礎 API(primitive bindings)應該放在 stdlib 頂層(供其他套件依賴…** — obs `2026-08-20T20:11:16Z`. CURATED: 2026-08-20.
+- [ ] **Founder real-time,補充範圍: 「under pentest where it makes sense」——確認藍牙/WiFi API 應該放在 stdlib/pentest/ 底下(呼應既有 wireless.prn =…** — obs `2026-08-20T20:11:07Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新 stdlib 需求(文字有點破碎): 「build alkl of the clipper apis into the stdlib btlte wifi all of it」+「into the …** — obs `2026-08-20T20:10:58Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,新 stdlib 需求: 「add linked list to te stdlib」——要求把 linked list 加進 PARENA stdlib(vec/map 已有,linked list …** — obs `2026-08-20T19:56:17Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,語言設計問題: 「fo we need structs to help us with composable tests and fakes?」——問 PARENA 是否需要 defstruct(一般記…** — obs `2026-08-20T19:55:34Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time,PHP 構想延伸(仍在探索階段): 「the parena compiler and also we can make some bullshit so parena runs on php but h…** — obs `2026-08-20T19:46:15Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
