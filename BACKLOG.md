@@ -19358,3 +19358,27 @@ it, captured here before context-switching to PARENA. None of these are started.
   函式——已排除。新增 311→316 個迴歸測試。`make test`/`test-domain4`/
   `test-domain5`/`test-multifile`/`bazel build //...`/`bazel test --config=asan`
   全數通過。Apple #15247。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-95: 新增 return 非局部控制流,dataframe.prn 的 column 缺口補齊,
+  select 卡在新缺口誠實記錄。DONE.**
+  commit 4df1176(PARENA)。承接 [[S189-94]] 之後例行掃描:新增 `(return expr)`,
+  真正的非局部控制流——`firefly.prn` 自己的 header 註解早就點名這是缺的原語
+  (「VS0 has no non-local control-flow primitive yet」),`dataframe.prn` 的
+  `select` 需要在 `loop` 內的 `match` clause 裡提早結束整個函式(找到第一個錯誤
+  就整個 bail,不是只結束這一次迭代)。實作比想像中簡單:一個真正的 C `return`
+  陳述式本來就會直接跳出整個函式,不管巢了幾層 `loop`/block,不需要額外的傳遞
+  邏輯——跟 `recur` 不一樣,`recur` 真的需要傳遞邏輯,因為 PARENA 的 `loop` 本身
+  就是一個真正的 C `while(1)`,不是原生的提早跳出目標。兩個真正的進入點都補了:
+  `emit_body` 自己的頂層陳述式 dispatch、`emit_match_clause_body`(`match` clause
+  body 內)。已用獨立 harness 驗證執行期真的對:提早 `return` 的路徑正確跳出,
+  fall-through 的路徑正確跑完整個 `loop`。`column` 補上缺少的 `dest` 參數(跟
+  `array.prn` 的 `get`/`set!` 同一類缺口)+ 定義缺少的 `ColumnNotFoundError`,
+  現在 `gcc -Wall -Wextra -pedantic -Werror` 乾淨編譯。`select` 本身卡在一個新的、
+  更深的缺口,誠實記錄不強修:`names` 的元素是 `String`(指標representable,不是
+  純量),`(deref (vec/get &names i))` 在 gcc 階段無效——就算 `names` 是有明確
+  型別、有記錄 element-type hint 的參數,`vec_get` 的 hint 機制對指標型別元素
+  目前沒有正確 round-trip,跟純量(I32/F64)情況不一樣。這是真正、獨立、這次
+  沒有處理的缺口,已在 STDLIB.md 跟 `dataframe.prn` 自己的檔頭誠實記錄。新增
+  317→319 個迴歸測試。`make test`/`test-domain4`/`test-domain5`/`test-multifile`/
+  `bazel build //...`/`bazel test --config=asan` 全數通過。Apple #15249。
+  (sess-20260820-0649-a3f19d93)
