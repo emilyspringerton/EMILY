@@ -19177,3 +19177,30 @@ it, captured here before context-switching to PARENA. None of these are started.
   呼叫的回傳值不會被 `vec/push!` 自動 box),已在 STDLIB.md 誠實記錄,沒有一併處理。
   `make test`/`test-domain4`/`test-domain5`/`test-multifile`/`bazel build //...`/
   `bazel test --config=asan` 全數通過。Apple #15231。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-89: array.prn 全檔編譯過關並驗證數值正確(補齊 not/vec-eq?/間接呼叫
+  boxing + 修好 strides-for 真實 bug)。DONE.**
+  commit 55d13d6(PARENA)。承接 [[S189-88]] 自己 STDLIB.md 留下的三個「NOT-yet-fixed」缺口
+  ——一次性全部補齊,`array.prn` 現在 `gcc -Wall -Wextra -pedantic -Werror` 全檔零例外
+  乾淨編譯。(1) `(not x)` 一元運算子:比照 `fn` 字面值的做法,在通用 symbol-headed-call
+  dispatch 之前攔截,產生真正的 C `(!(...))`,不再誤 mangle 成從未定義過的 `not(...)`
+  呼叫。(2) `vec-eq?`:新增 `g_veceq_helpers` 機制(比照 `g_box_helpers`),針對每個實際
+  出現的純量元素型別產生一個真正、去重的比較函式,透過既有 `g_vec_elem_hints` 找出元素
+  型別;非純量(指標representable)元素型別誠實回報編譯錯誤,不猜測。(3) 間接呼叫(透過
+  `(Fn ..)` 型別參數)的回傳值 boxing:`emit_call` 過去對任何非已知頂層 defn 的呼叫一律
+  回報 `"void *"`,導致 `vec_push_` 的純量 boxing 判斷失效——修好後會先檢查呼叫對象是不是
+  一個型別為函式指標的 scope 內區域變數,是的話回報其真正的回傳型別。
+  更重要的是:編譯乾淨不等於算得對——用真正的執行期 harness(不是只看編譯通過)呼叫
+  `zeros`/`set!`/`get`/`add`/`mul-elementwise`/`reshape`/`same-shape?`,發現加總結果全部
+  落在同一格,而不是每格自己的真實值。追出來是 `strides-for` 自己源碼的真實 bug,跟編譯器
+  完全無關:stride 的計算方向本身要從右往左走(數學上必須如此),但舊寫法把算出來的
+  stride 依同樣的右到左順序直接推進結果 Vec——Vec 只有 append,沒有 insert-at-front,
+  導致結果順序整個反過來,`flat-index` 因此讀到錯的維度 stride。改用單次正向公式重新
+  推導(`stride[i-1] = shape[i] * stride[i]`,不需要二次讀取)修好,同時老實記錄:第一次
+  嘗試用「先算出反向結果再倒著讀」的做法時,額外撞到兩個真實、獨立、目前仍未解決的編譯器
+  缺口(同一函式內兩個非巢狀 `loop` 共用同一個 C 變數名稱會撞名;對沒有 element-type hint
+  的 `let`-bound 區域 Vec 呼叫 `vec/get` 會退回 `void *`,`deref` 對它解參考是無效 C)——
+  這次靠改用單次正向公式繞開,沒有修那兩個缺口本身,已在 STDLIB.md 誠實記錄。新增
+  272→290 的 `tests/test_emit.c` 迴歸測試。`make test`/`test-domain4`/`test-domain5`/
+  `test-multifile`/`bazel build //...`/`bazel test --config=asan` 全數通過。Apple
+  #15234。(sess-20260820-0649-a3f19d93)
