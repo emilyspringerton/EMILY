@@ -18989,3 +18989,30 @@ it, captured here before context-switching to PARENA. None of these are started.
   bazel test --config=asan、make test-domain4 Valgrind、make test-domain5、
   make test-multifile)全過。Apple #15206。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-81: 里程碑——修好 current-arena(改用明確 dest 參數)+ match 支援當 loop 尾端 +
+  recur 貫穿,net/http.prn serve 只剩已知 FFI 缺口。DONE.**
+  commit 9fd6510(PARENA)。收尾 net/http.prn 的 `serve` 跟 array.prn 的 `reshape`,兩者都
+  呼叫 `(current-arena)`——firefly.prn 自己的註解早就把這個記錄成一個真實、刻意的設計決定,
+  不是疏漏:VS0 完全沒有隱含/環境式的 arena,每一次配置都要追溯到一個明確的
+  `Arena @ Region` 參數。修正方式沿用 firefly.prn 自己的 `skip` 早就用過的做法:`reshape`
+  現在跟 array.prn 裡每個其他配置函式一樣多一個 `dest` 參數;`serve` 也多一個 `dest`
+  參數,由啟動 server 的呼叫端自己決定要用哪個真正長壽命的 region。修好 current-arena
+  之後,`serve` 自己的 accept 迴圈本體 `(loop [] (match (net/tcp/accept ...) ((Ok !conn)
+  (do ... (recur))) ((Err e) (Err e))))` 撞上同一類缺口再往上一層:`match` 直接當成
+  `loop` 自己的尾端,而且其中一個 clause body 裡有 `recur`——`emit_loop_tail` 原本認得
+  `if`/`cond` 在尾端位置,但完全沒有處理 `match`。修正:`emit_loop_tail` 新增 `match`
+  分支,直接遞迴呼叫 `emit_match_core`,把這個 loop 真正的 `loop_locals`/`loop_var_count`
+  貫穿進去。`emit_match_clause_body`/`emit_match_core` 的簽章都加上這兩個參數(頂層、非
+  巢狀在 loop 裡的 match 呼叫傳 NULL/0),`emit_match_clause_body` 新增 `recur` 分支——
+  `loop_locals` 非 NULL 時複用 `emit_loop_tail` 自己那套真正的同步賦值邏輯,是 NULL 時
+  report 一個誠實的錯誤。過程中自己抓到並修好一個真實 bug:一個 clause 解析成純值(不是
+  recur)時,原本只會賦值進 `result_var`,從來不會 `break`——match 單獨使用時這樣是對的,
+  但巢狀在 loop 尾端時,少了這個 break 會讓執行流程繞回 `while(1)` 的最上面,靜靜地無限
+  重跑 scrutinee 檢查。修正:`loop_locals` 非 NULL 時,純值 clause 的賦值後面補上
+  `break`。驗證:獨立隔離測試真正 gcc-clean,產生的 C 碼結構完全正確。net/http.prn 的
+  `serve` 跟 net/tcp.prn 組合編譯,現在通過 `parena build`,gcc 剩下的錯誤全部是已經記錄
+  過的 FFI/輔助函式缺口,完全沒有新的結構性/compiler 錯誤。既有已驗證乾淨的檔案
+  (world.prn、array.prn 系列)重新用 gcc 驗證,確認無迴歸。`tests/test_emit.c`
+  264→269。全套驗證(make test、bazel build //...、bazel test --config=asan、
+  make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。Apple #15209。
+  (sess-20260820-0649-a3f19d93)
