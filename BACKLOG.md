@@ -19225,3 +19225,43 @@ it, captured here before context-switching to PARENA. None of these are started.
   接近「crisp」的候選(純字串/陣列處理,完全不需要 FFI),但本身是好幾百行的真實演算法
   工程,不是這輪可以草率動工的範圍——先記錄方針、留著,等真正要做的時候再做,不要現在
   半吊子開工。跟 [[feedback-pure-parena-only]] 這條記憶一起用。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-91: 補齊 glob.prn 缺少的 char-eq?/char-at-eq?/match-bracket-class,17
+  組真實 case 驗證正確。DONE.**
+  commit be56d5b(PARENA)。承接 [[feedback-pure-parena-only]] 剛定下的方針,回頭補齊
+  `regex/glob.prn` 自己記錄的最後一個缺口——`glob-match` 呼叫的三個函式從未真的定義過,
+  跟 pcap.prn/io.prn/array.prn/string.prn 之前補過的同一類「缺定義」缺口一樣。
+  `char-eq?`/`char-at-eq?` 是 `string/char-at` 的薄 wrapper(這語言沒有獨立的 Char
+  型別)。`match-bracket-class` 是真正、誠實範圍內的 bracket class matcher:支援字面
+  字元集合(`[abc]`)跟單一連續範圍(`[a-z]`,可跟字面字元混用如 `[a-cx-z]`),以及開頭
+  否定(`[!abc]`/`[^abc]`)。新增兩個內部 helper:`find-close-bracket`、
+  `bracket-class-matches?`。已用 gcc 驗證乾淨編譯,並用 17 組真實 case(`*`/`?`/字面
+  class/range/否定/空字串/精確比對)的執行期 harness 驗證全部算對,不只是編譯乾淨。純
+  stdlib 原始碼修復,`emit.c` 沒有變動,`make test` 仍是 290 passed 無迴歸。Apple
+  #15236。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-92: 新增 Vec 字面值 + unwrap;用執行期 harness 抓到 loop 變數 int/double
+  混淆的真實、重大缺口(誠實記錄,這次沒有修)。DONE.**
+  commit 3d49190(PARENA)。繼續照 [[feedback-pure-parena-only]] 的方針補齊
+  `linalg.prn` 的 `matmul`/`transpose`/`dot`,補齊兩個真實編譯器缺口(比照
+  `g_box_helpers` 已建立的做法):(1) `[e1 e2 ...]` Vec 字面值當值使用(`matmul` 自己
+  的 `(array/zeros [a-rows b-cols] dest)`)——新增 `g_veclit_helpers`,每個字面值產生
+  一個真正、可定址的 static C 函式,配置 Vec 並依序推入每個元素,I32/F64 純量比照
+  `vec/push!` 既有做法 box。(2) `unwrap`(`linalg.prn`/`ringo.prn`/`nn.prn` 都有真實
+  呼叫點但從未定義)——Rust 式 `.unwrap()` 語意,Err/None 時真的 abort(帶 stderr
+  訊息),否則拆出 payload;VS0 沒有泛型,`Result`/`Option` 的 payload 型別在別處都是
+  被抹除的,只有在「已知、已註冊的頂層 defn」這個點還留著,所以 `unwrap` 刻意限定只能
+  用在直接呼叫一個已知函式,不能用在任意表達式上——`g_defn_return_types` 新增
+  `payload_type` 欄位支援這件事。過程中用真正的執行期 harness(不只是編譯乾淨)驗證
+  `matmul` 對已知矩陣算出正確結果時,抓到一個真實、重大、這次沒有修的缺口:loop
+  變數用整數字面值起始(如 `(loop [i 0] ...)`)在 C 層被宣告成 `double`(VS0 自己
+  「還沒有 int/float 區分」這個全語言層級的既有簡化),一旦被 box 進 I32 型別的 Vec
+  (例如當陣列索引使用)就會靜默壞掉——box 成 8-byte double,之後被別處用 4-byte int
+  的方式 cast 讀回,是真正的記憶體層級型別混淆,不只是數值錯誤。這次刻意沒有修:真正
+  的修法會動到整個 emitter 的 loop 變數/數字字面值型別推導,牽連這個 session 已經驗證
+  過的全部約 51 個真實 loop 呼叫點,風險跟範圍都跟這次其他每一個缺口不一樣,誠實記錄在
+  STDLIB.md 跟 `linalg.prn` 自己的檔頭。`matmul`/`transpose` 現在編譯乾淨但不算驗證過
+  ——`dot`(不牽涉索引 Vec 建構)已用真實數值驗證正確(`1,2,3 · 4,5,6 = 32`)。新增
+  296→301 的迴歸測試。`make test`/`test-domain4`/`test-domain5`/`test-multifile`/
+  `bazel build //...`/`bazel test --config=asan` 全數通過。Apple #15240。
+  (sess-20260820-0649-a3f19d93)
