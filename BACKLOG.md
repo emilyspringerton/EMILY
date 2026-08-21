@@ -18829,3 +18829,30 @@ it, captured here before context-switching to PARENA. None of these are started.
   bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
   make test-domain5、make test-multifile)全過。Apple #15188。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-75: string.prn 補齊 char-at/str-eq?/is-digit?/substring/ParseError + 修好三個
+  原始碼 bug,10/11 函式真正 gcc-clean。DONE。**
+  commit e36ed21(PARENA)。收尾 S189-71/72 誠實記錄、沒追下去的缺口:`ParseError`/
+  `substring`/`str-eq?`/`is-digit?`/`char-at`/`raw-parse-i32` 全部被真實呼叫端引用,但這個
+  檔案自己從來沒有定義過任何一個——跟 pcap.prn/io.prn/array.prn 之前補的同一類真實缺口。
+  STDLIB.md 自己的 string 章節設計也沒有涵蓋這些(只有 `parse-i32`/`length`/`concat`/
+  `split` 四個),這輪是真正的原始設計工作。新增:`char-at [s i] : I32`(回傳原始 byte
+  值,這個語言還沒有獨立的 Char 型別,`#target` FFI)、`str-eq? [a b] : Bool`(`#target`
+  strcmp)、`is-digit? [c] : Bool`(純 ASCII 範圍檢查,不需要新的 libc 依賴)、
+  `substring [s start end dest] : String @ Region`(alloc + `#target` memcpy,跟 concat
+  既有的形狀一樣)、`ParseError`(單一 message 欄位的 defstruct)、`raw-parse-i32`(不
+  匯出,parse-i32 內部用的 atoi 包裝)。補上每個生成 C 檔案前導區塊無條件加
+  `#include <stdlib.h>`(raw-parse-i32 需要 atoi),跟先前 `<stdint.h>` 同一種誠實取捨。
+  過程中在這個檔案自己的原始碼裡找到並修好三個真實 bug(不是編譯器 bug):
+  `starts-with-sign?`/`is-valid-i32-text?` 原本呼叫 `(substring s 0 1 s)`,把 `s` 自己
+  傳進 substring 的 `dest : Arena` 參數位置——這兩個函式的簽章裡根本沒有 Arena 參數,
+  改用 `char-at`(不需要配置記憶體)取代。`split` 的分隔符檢查原本呼叫
+  `(char-at s i (char-at sep 0))`——`char-at` 是真正的兩參數函式,第三個參數從來就不合法,
+  改成明確的相等比較 `(= (char-at s i) (char-at sep 0))`。驗證後 `length`/`char-at`/
+  `str-eq?`/`is-digit?`/`substring`/`raw-parse-i32`/`starts-with-sign?`/`is-valid-i32-text?`/
+  `concat`/`split` 十個函式全部真正 gcc-clean。`parse-i32` 自己還卡在下一道、已經在
+  array.prn 那輪誠實記錄過的同一類牆:`(Ok (raw-parse-i32 s))` 要裝箱純量 I32 payload,
+  但簽章完全沒有 Arena 參數可以裝箱進去——真正、獨立、未解的 stdlib 設計問題,不是這輪要
+  解決的。`tests/test_emit.c` 235→238,新增 `<stdlib.h>` 前導區塊回歸測試。全套驗證
+  (make test、bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
+  make test-domain5、make test-multifile)全過。Apple #15193。
+  (sess-20260820-0649-a3f19d93)
