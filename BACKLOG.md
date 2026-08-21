@@ -19204,3 +19204,23 @@ it, captured here before context-switching to PARENA. None of these are started.
   272→290 的 `tests/test_emit.c` 迴歸測試。`make test`/`test-domain4`/`test-domain5`/
   `test-multifile`/`bazel build //...`/`bazel test --config=asan` 全數通過。Apple
   #15234。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-90: Founder real-time 指示——POSIX 風格 stdlib 擴充的長期方針。已 curate,
+  非立即動工項目。DONE(curation).**
+  Apple #15238(observe)。Founder real-time 逐字串:「continue adding all the posix stuff
+  that is reasonable into stdlib」→「but real parena backed」→「im on windows」→「im on
+  git bash」→「no use on assuming we are on linux and calling out to those tools」→「so i
+  have those tools somehow a lot of them」→「but dont add them if its not going o be pure
+  parena」→「its just bloat right now」→「we will add when its crisp to do so」。
+  完整解讀:founder 本人是在 Windows/git bash 上使用,git bash 雖然自帶不少 GNU 工具,但
+  founder 明確不要我們假設 Linux 存在、shell 出去呼叫外部工具(這正是 `pty.prn`/
+  `shell.prn` 現有「呼叫子行程」路線的反例)。POSIX 風格功能(檔案 I/O、路徑處理、環境變數
+  等)只有在能真正用「純 PARENA 邏輯」實作時才值得加——單純包一層 #target FFI、host 端
+  實作還沒寫的那種(`io.prn` 現有的 open/close/write-string 就是這類,見該檔案自己的
+  header 註解:「host implementation not written yet」)算「bloat」,現在不要多加。最後一句
+  「we will add when its crisp to do so」是收斂結論:等到有真正乾淨、可以純 PARENA
+  實作的機會才動工,不是現在就強行開一個大工程——`regex/syntax.prn`/`regex/nfa.prn`
+  (Thompson NFA + Pike's VM,STDLIB.md 自己「elite elite elite level regex」那段)是最
+  接近「crisp」的候選(純字串/陣列處理,完全不需要 FFI),但本身是好幾百行的真實演算法
+  工程,不是這輪可以草率動工的範圍——先記錄方針、留著,等真正要做的時候再做,不要現在
+  半吊子開工。跟 [[feedback-pure-parena-only]] 這條記憶一起用。(sess-20260820-0649-a3f19d93)
