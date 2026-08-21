@@ -1785,6 +1785,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time:「whenever a build passes release it as a minor version」→「like a . bump」→「i will handle big bumpos to …** — obs `2026-08-21T09:37:00Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time(針對 ci-status 工具的里程碑意義):「file a press release」→「parena tool in production toolchain」——這是 PARENA 第一個真正進…** — obs `2026-08-21T10:02:42Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time: 'write the fatbaby newswire pr' / 'as a blog post' / 'okemily blog' / 'check okemily blog' -- 發布 PAR…** — obs `2026-08-21T10:17:05Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time: 'continue adding all the posix stuff that is reasonable into stdlib' → 'but real parena backed' → 'n…** — obs `2026-08-21T10:34:57Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
