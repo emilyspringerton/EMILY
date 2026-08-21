@@ -19067,7 +19067,9 @@ it, captured here before context-switching to PARENA. None of these are started.
   commit 269e090(PARENA)。Founder real-time 指示:「you are always checking that shit in
   python」→「can you build a small parena tool to check it」→「it will save a little time
   over and over」→「instead of using python」→「use native parena」→「module first」→
-  「api first」→「and then add it to the cli」→「to the parena cli」。先做真正的 module
+  「api first」→「and then add it to the cli」→「to the parena cli」→「dogfooding starts
+  nao」→「or it continues」→「200 legions」→「continue mr president」。後續「接入 CLI 本體」
+  這一步已在 [[S189-85]] 完成。先做真正的 module
   (`stdlib/ci/status.prn`):export 一個真正、可重用的 `check [repo sha token] : I32` 函式,
   回傳真實、有意義的 exit-code convention(0=全綠、1=還在跑、2=有真的失敗、3=沒找到
   check-run 或 request 本身失敗)——之前這個 session 一直用 python3 one-liner 查 GitHub
@@ -19088,3 +19090,28 @@ it, captured here before context-switching to PARENA. None of these are started.
   既有測試無迴歸。下一步(還沒做):把這個真正 wire 進 `parena` CLI 自己的 subcommand
   分派(founder 明確要求),目前還只是一個獨立編譯出來的 binary。Apple #15221。
   (sess-20260820-0649-a3f19d93)
+
+- [x] **S189-85: 里程碑(新聞稿等級)——PARENA 第一個工具正式進入生產工具鏈:parena
+  ci-status 接入 parena CLI 本體。DONE.**
+  commit ff93388(PARENA)。承接 [[S189-84]]:新增兩階段 bootstrap 編譯流程——Stage 1
+  (`.parena-bootstrap`,編譯時不定義 `PARENA_HAS_CI_STATUS`)只用來把
+  `stdlib/ci/status.prn` 這個真正的 PARENA module 編譯成 `tools/ci_status_gen.c`;
+  Stage 2(真正發行的 `parena` binary)以該巨集重新編譯 `main.c`,把剛產生的 module C
+  跟 host 端真正實作(`tools/ci_status_host.c`)一起連結進去,讓 `parena ci-status
+  <owner/repo> <sha>` 成為 `parena` 自己真正的、由 PARENA 編譯出來的 CLI 子指令——不再是
+  獨立編出來的 binary。移除已被取代的 `tools/ci_status_main.c` 與其編譯產物
+  `tools/ci-status`。過程中抓到一個真實 bug:新 Makefile 的 `parena:` target 一開始漏了
+  `-I runtime`,導致 Stage 2 連結失敗(`tools/ci_status_gen.c` 自己的
+  `#include "parena_runtime.h"` 找不到檔案)——比對先前手動測試過、確認可行的完整
+  gcc 指令組合後補上,問題解除。全數驗證通過:`make test`(269 passed)、
+  `make test-domain4`、`make test-domain5`、`make test-multifile`、
+  `bazel build //...`(main.c 在未定義該巨集時 `#ifdef` 正確跳過,行為與 Stage 1 一致,
+  不需修改 `src/BUILD.bazel`)、`bazel test --config=asan`;並用完成後的
+  `parena ci-status` 自己去查詢本 repo 最新一次 commit(e2190f5)的真實 GitHub CI 狀態,
+  回傳 exit 0(全綠)——這是這個 session 前面手動用來查 CI 狀態的同一件事,現在完全
+  由 `parena` 自己內建完成,徹底取代了原本的 python one-liner。這是 PARENA 第一個真正
+  進入日常生產工具鏈的產物:不是 demo、不是 stub,而是這個 monorepo 每次推 PARENA 分支
+  之後實際會拿來查 CI 有沒有過的工具,而且是用 PARENA 自己的語言、自己的編譯器產生的
+  ——founder 明確要求以新聞稿等級記錄此里程碑(「file a press release」、「parena tool
+  in production toolchain」)。Founder 另有一句願景性觀察一併記錄,不需另外行動:
+  「parena has sre in the dna」。Apple #15225。(sess-20260820-0649-a3f19d93)
