@@ -1783,6 +1783,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time:提供了 GitHub PAT,已透過 emily key set GITHUB_TOKEN 存進 EMILY/var/emily-secrets.env(gitignored、0600、export 格…** — obs `2026-08-21T08:33:29Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time(緊接著上一則版本號政策的具體化):「start pushing the artifacts to releases in github」→「for parena」→「anand pitviper」(an…** — obs `2026-08-21T09:37:14Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time:「whenever a build passes release it as a minor version」→「like a . bump」→「i will handle big bumpos to …** — obs `2026-08-21T09:37:00Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time(針對 ci-status 工具的里程碑意義):「file a press release」→「parena tool in production toolchain」——這是 PARENA 第一個真正進…** — obs `2026-08-21T10:02:42Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
