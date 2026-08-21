@@ -18748,3 +18748,31 @@ it, captured here before context-switching to PARENA. None of these are started.
   198→209。全套驗證(make test、bazel build //...、bazel test --config=asan、
   make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。Apple #15163。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-72: 里程碑——cond 特殊形式 + if-in-tail 陳述式化 + alloc 尺寸運算式 +
+  mid-body #target,連續五個真實 gcc-verified 缺口。DONE。**
+  commit 03a6c56(PARENA)。從 S189-71 的 array.prn 轉往 regex/glob.prn 撞到的 `cond` 缺口,
+  連續抓到並修好五個真實、獨立的缺口,全部靠實際 gcc 編譯抓到,不是靠 `parena build` 的
+  exit code:(1) `cond` 特殊形式——Lisp 經典多分支條件,四個真實已寫好的 stdlib 檔案都在用
+  (regex/glob.prn 的 `glob-match`、string.prn 的 `split`、map.prn 的 `find-slot`、
+  expr.prn 的 `apply-binop`),先前完全沒有任何處理,會被靜靜當成一般函式呼叫,產生一個
+  根本沒定義過的 `cond(...)` C 函式呼叫。實作兩種真實形狀:純值運算式版本(從右往左折疊
+  成巢狀 C 三元運算子)+ `loop` 尾端位置的陳述式遞迴組合版本(`recur` 會產生真正的
+  `continue;` 陳述式,不可能塞進三元運算子裡)。過程中自己抓到並修好一個真實 bug:
+  loop-tail cond 的結果型別原本只看最後一個 clause,當最後一個 clause 剛好是 recur(沒有
+  回傳型別)而前面某個 clause 才是真正的終止值時就會出錯——改成跟 `if` 既有的 loop-tail
+  處理一樣,哪個分支先解析出型別就用哪個。(2) `if` 在函式本體尾端位置的陳述式化組合——
+  string.prn 真實的 `is-valid-i32-text?` 撞到的:`(if (= n 0) false (loop ...))`,
+  `emit_if` 是純三元運算子,對 `loop` 這種陳述式形狀的分支值完全沒有處理。修正:讓 `if`
+  在尾端位置也享有 `when`/`let`/`loop`/`match`/`do` 既有的真實陳述式層級組合。(3) `alloc`
+  支援真正的尺寸運算式,不再只認字串字面值——string.prn 真實的 `concat`:`(alloc dest
+  String (+ (length a) (length b)))`,後面接著用 `#target` inline-C 填內容。(4) `#target
+  {:c (inline-c "...")}` 支援當成函式本體「中段」的陳述式,不再只能整個取代函式本體。
+  (5) 每個產生的 C 檔案前導區塊補上 `#include <stdint.h>`。驗證後獨立隔離測試全部真正
+  gcc-clean。`string.prn`/`regex/glob.prn` 本身還撞到下一層、獨立、誠實記錄在 STDLIB.md
+  的缺口(函式間前向參照排序問題——VS0 目前只有 defenum/defstruct 有前置宣告 pass,defn
+  沒有;還有多個真的沒在檔案裡定義過的型別/函式),這一輪沒有追下去,誠實標記為獨立的
+  後續工作。`tests/test_emit.c` 209→227,新增五組回歸測試。全套驗證(make test、
+  bazel build //...、bazel test --config=asan、make test-domain4 Valgrind、
+  make test-domain5、make test-multifile)全過,既有已驗證檔案(array.prn 系列、
+  world.prn)重新確認無迴歸。Apple #15166。
+  (sess-20260820-0649-a3f19d93)
