@@ -1781,6 +1781,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time(緊接著上一則 MJOLNIR build 訊息):「provision our firebase shit pls via cli」——要求透過 CLI(gcloud/firebase CLI)佈建 F…** — obs `2026-08-21T07:50:33Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time: 「can you use your gcloud cloud cli prouess to get mjolnir building」——要求用 gcloud CLI 讓 MJOLNIR (Andro…** — obs `2026-08-21T07:50:25Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time:提供了 GitHub PAT,已透過 emily key set GITHUB_TOKEN 存進 EMILY/var/emily-secrets.env(gitignored、0600、export 格…** — obs `2026-08-21T08:33:29Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time(緊接著上一則版本號政策的具體化):「start pushing the artifacts to releases in github」→「for parena」→「anand pitviper」(an…** — obs `2026-08-21T09:37:14Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time:「whenever a build passes release it as a minor version」→「like a . bump」→「i will handle big bumpos to …** — obs `2026-08-21T09:37:00Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
