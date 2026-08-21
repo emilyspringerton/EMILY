@@ -1787,6 +1787,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'write the fatbaby newswire pr' / 'as a blog post' / 'okemily blog' / 'check okemily blog' -- 發布 PAR…** — obs `2026-08-21T10:17:05Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time: 'continue adding all the posix stuff that is reasonable into stdlib' → 'but real parena backed' → 'n…** — obs `2026-08-21T10:34:57Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time: 詢問 REDGARDEN 挖洞藏東西機制(S189-56b,尚未開工)進度 → 'via mods' → 'via parena' → 'buying a shovel lets you dig th…** — obs `2026-08-21T10:49:17Z`. CURATED: 2026-08-21.
+- [ ] **Founder real-time(一批,累積記錄):(1) 問能否把 REDGARDEN 演化成基本的幾何編輯器,取代 Blender 做低多邊形編輯,甚至含自動綁骨;能否把小數運算卸載到 GPU,並用類似量子計算的方式偵測誤差;提到用…** — obs `2026-08-21T14:07:57Z`. CURATED: 2026-08-21.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
