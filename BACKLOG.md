@@ -19150,3 +19150,29 @@ it, captured here before context-switching to PARENA. None of these are started.
   bug、以及 founder 自己那句「parena has sre in the dna」——全部逐字引用,沒有捏造任何
   高層/人物的假引言。已驗證真的上線:`https://okemily.com/blog/parena-first-tool-in-
   production/` 回傳 200。Apple #15230(observe)。(sess-20260820-0649-a3f19d93)
+
+- [x] **S189-88: 新增 fn lambda 字面值支援,修好 array.prn 的 add/mul-elementwise
+  缺口。DONE.**
+  commit 5312f6e(PARENA)。承接例行 "continue PARENA" 掃描:`(fn [x y] (+ x y))` 這種
+  lambda 字面值過去在 `emit_expr` 完全沒有處理,直接落到「unsupported expression form」
+  ——array.prn 自己的 `add`/`mul-elementwise`(`(elementwise a b (fn [x y] (+ x y))
+  dest)`)是真實卡住的呼叫點。新增 `g_lambda_helpers` 機制,比照既有 `g_box_helpers` 的
+  真實做法:每個 lambda 字面值產生一個真正、可定址、file-scope 的 `static` C 函式,呼叫點
+  本身只是參照該函式名稱——一個真正的 C 函式名稱本身就已經是合法的函式指標值。刻意的窄
+  範圍,跟這語言「沒有隱藏/環境式的東西,一切都要明確」一致:每個參數都要明確
+  `(name : Type)` 標注(VS0 還沒有型別推論,這個 emitter 也沒有把「預期型別」的上下文
+  往下傳進 `emit_expr`);也不支援真正的 closure——產生的 helper 是一般 top-level
+  `static` 函式,跟任何手寫 C 函式一樣看不到外層 PARENA 函式自己的區域變數,真的嘗試
+  capture 會在 gcc 階段誠實失敗(「use of undeclared identifier」),不會被靜默誤編。
+  過程中自己抓到一個真實 bug:新程式碼一開始放在通用 symbol-headed-call dispatch
+  之後——那段會攔截任何 symbol 開頭的 list(`fn` 也不例外),把它誤 mangle 成一個從未
+  定義過的 `fn(...)` C 函式呼叫——新程式碼因此完全不可達,直到移到那段 catch-all 之前
+  才真正生效。已用獨立測試檔驗證 `gcc -Wall -Wextra -pedantic -Werror` 乾淨編譯,並用一個
+  獨立的執行期 harness 驗證真的算對(`3+4=7`、`3*4=12`,不只是編譯乾淨)。`array.prn` 的
+  `add`/`mul-elementwise` 已改用明確型別的 lambda 參數。新增 272→278 的
+  `tests/test_emit.c` 迴歸測試,涵蓋正向(真的產生 static function + 呼叫點正確參照)與
+  負向(缺型別標注要誠實失敗,不是靜默猜測或當掉)。`array.prn` 整檔仍卡在這次修改之後、
+  三個獨立、無關、既有的缺口(`vec-eq?` 沒有 runtime 實作、`not` 一元運算子不存在、間接
+  呼叫的回傳值不會被 `vec/push!` 自動 box),已在 STDLIB.md 誠實記錄,沒有一併處理。
+  `make test`/`test-domain4`/`test-domain5`/`test-multifile`/`bazel build //...`/
+  `bazel test --config=asan` 全數通過。Apple #15231。(sess-20260820-0649-a3f19d93)
