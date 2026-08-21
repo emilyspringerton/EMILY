@@ -19061,3 +19061,29 @@ it, captured here before context-switching to PARENA. None of these are started.
   prerelease,已請 founder 手動在 GitHub UI 上處理;之後每一個由 CI 自動建立的 PARENA
   release 都會正確帶上 prerelease 旗標。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-84: 里程碑——新增 native PARENA ci-status 工具(stdlib/ci/status.prn),真正
+  dogfood PARENA 本身,已用它自己輪詢真實 CI 到通過。DONE.**
+  commit 269e090(PARENA)。Founder real-time 指示:「you are always checking that shit in
+  python」→「can you build a small parena tool to check it」→「it will save a little time
+  over and over」→「instead of using python」→「use native parena」→「module first」→
+  「api first」→「and then add it to the cli」→「to the parena cli」。先做真正的 module
+  (`stdlib/ci/status.prn`):export 一個真正、可重用的 `check [repo sha token] : I32` 函式,
+  回傳真實、有意義的 exit-code convention(0=全綠、1=還在跑、2=有真的失敗、3=沒找到
+  check-run 或 request 本身失敗)——之前這個 session 一直用 python3 one-liner 查 GitHub
+  Actions 的 check-run 狀態,現在改用這個真正的 PARENA 模組。老實的範圍:這不是一個真正的
+  JSON library(PARENA 自己的 stdlib 還沒有),也不是真正的 HTTPS client(net/http.prn
+  自己還沒有 TLS 實作)。`#target` 那個唯一的 FFI 函式,走的是跟 io.prn/net/tcp.prn/
+  pty.prn 完全一樣的既有慣例:host 端真正的工作(透過 popen 呼叫已經裝好的 curl,再用
+  strstr 做粗略的欄位擷取)交給一個真正、手寫的 C 檔案(`tools/ci_status_host.c`),不是
+  留成一個延後的缺口——這次真的寫出來了,因為這個工具本來就是要能真的跑。過程中對真實的
+  GitHub API 測試,自己抓到並修好兩個真實 bug:(1) GitHub 真實回應的 JSON 在冒號後面有
+  空格(`"status": "completed"`),原本假設沒有空格,strstr 完全找不到——寫了
+  `next_field_value` 這個小 helper,正確跳過空白字元。(2) GitHub 的錯誤回應本身也有一個
+  "status" 欄位(HTTP 狀態碼字串,例如打錯 SHA 時),粗略的欄位掃描沒辦法把它跟真正
+  check-run 自己的 status 分開,誤判成 "still pending"——改成先確認回應裡真的有
+  "check_runs" 這個陣列才開始掃欄位。新增 Makefile 的 `tools` target(兩階段:先用已經
+  編譯好的 parena 把 module 編成 C,再跟 host 實作連結)。已經真的用這個工具自己輪詢這次
+  commit 的 CI 到通過(pending→success 全部正確)。`make test` 全部通過(269 passed),
+  既有測試無迴歸。下一步(還沒做):把這個真正 wire 進 `parena` CLI 自己的 subcommand
+  分派(founder 明確要求),目前還只是一個獨立編譯出來的 binary。Apple #15221。
+  (sess-20260820-0649-a3f19d93)
