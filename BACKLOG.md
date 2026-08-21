@@ -18701,3 +18701,22 @@ it, captured here before context-switching to PARENA. None of these are started.
   181→195,全部經過真正 gcc + bazel build + bazel test asan + domain4/5 + 多檔案檢查
   驗證過。Apple #15157。
   (sess-20260820-0649-a3f19d93)
+- [x] **S189-70: array.prn 參數形狀缺口修正——非引用型 `(Vec T) @ Region`;順手抓到並誠實
+  記錄下一個更深的獨立缺口(Ok/Err/Some 指標型別 payload 限制)。DONE。**
+  commit 899bef0(PARENA)。array.prn 的 `zeros`/`from-vec`/`reshape` 用的是
+  `(shape : (Vec I32) @ :region/scratch)`——沒有 `&` 前綴的複合型別加尾隨區域註記,跟
+  `product`/`strides-for` 已經能動的 `&(Vec I32)` 引用形狀不一樣。原本 emit.c 的
+  "Type @ Region on non-Arena type" 分支只接受裸符號型別(`children[2]->type ==
+  NODE_SYMBOL`),遇到 `(Vec I32)` 這種 NODE_LIST 複合型別就直接落到失敗訊息。修正:放寬
+  到同時接受 NODE_LIST,沿用 `resolve_declared_type()` 既有的複合型別解析路徑,並比照
+  `&(Vec T)` 參數的做法註冊 `g_vec_elem_hints`。驗證後 `product`/`strides-for`/`zeros`
+  三個函式完全乾淨編譯過關。`from-vec` 揭露了下一個獨立、更深的缺口:`Ok`/`Err`/`Some`
+  目前只接受指標型別 payload(runtime 的 `Result`/`Option` 存 `void *value`),但
+  map-literal 結構建構值跟 `deref` 後的純量都是值不是指標——裝箱進 arena cell 需要 GNU
+  statement-expression(被本專案自己的 `-pedantic -Werror` 擋掉)或把暫存變數宣告提升到
+  外層陳述式(`emit_expr` 目前純運算式回傳的架構還沒支援這個)。誠實記錄在 STDLIB.md
+  的 array 章節,`get`/`reshape` 撞到同一道牆,這一輪不追下去,留做真實、有範圍的後續
+  工作。`tests/test_emit.c` 195→198,全套驗證(make test、bazel build //...、bazel test
+  --config=asan、make test-domain4 Valgrind、make test-domain5、make test-multifile)全過。
+  Apple #15160。
+  (sess-20260820-0649-a3f19d93)
