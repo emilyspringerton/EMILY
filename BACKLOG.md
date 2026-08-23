@@ -19559,11 +19559,32 @@ it, captured here before context-switching to PARENA. None of these are started.
   unresolved residual: 2 harmless `-Wreturn-type` warnings, flagged not fixed. `make test`
   336/336. Real C harness verified 35/35 (pattern,text,expected) cases incl. real unanchored
   mid-string search, zero ASan findings. PARENA `55c9107`. Apple #15490.
+  **2026-08-23 (5): founder direction ("build it in") — one of the 5 nesting gaps fixed at
+  the real root cause, not worked around.** `emit_let()`'s own binding-value handling now
+  recognizes `match`/`loop` as special forms (real cause: it called bare `emit_expr()`,
+  which has no case for any statement-shaped form — only `emit_body`/
+  `emit_match_clause_body`'s own dispatch tables do). `make test` 336/336 +
+  `test-multifile` + `test-domain4` (gcc/ASan/UBSan/Valgrind) all clean, zero regressions;
+  regex/nfa.prn rebuilds byte-identical in its own remaining warning count, confirming
+  purely additive. PARENA `94feafa`. Apple #15495. Remaining 3 of the 5 instances (`cond`-
+  test/`when`-body/non-tail-`do`-statement) still open, tracked in claire-log.md.
   **Real remaining scope, smaller again**: `find`/`find-all` (need match start/end position
   tracking, not just Bool) still unimplemented. `regex/pcre.prn`/`posix.prn` and
   `grep.prn`/`sed.prn`/`awk.prn` themselves (the actual CLI tools) untouched —
   regex/nfa.prn itself, the shared matching engine those tools would call, is now real and
   working end to end. Staying open.
+
+- [ ] **S190-06: PARENA multi-backend arenas — GPU/TPU-backed memory behind the region
+  interface.** Founder real-time (2026-08-23), across several fragments: "we need to start
+  building memory hacking primitives in parena" → "you must specify arena and if you do you
+  use certain interfaces" → "shit can be backed on the gpu or the tpu" → "the compiler will
+  need to optimize for tpu/gpu/cpu" → new term "DPU" introduced as "einhorn proprietary
+  tech" (undefined further). Real idea: a PARENA `Arena` could be backed by GPU/TPU memory
+  instead of just host RAM, behind the same region-typed interface, with target-aware
+  codegen. A real, substantial systems-language feature (multi-backend allocators +
+  compiler targeting) — needs a real NORTHSTAR/design pass (what "DPU" means concretely,
+  which backend is first, how `@ Region` annotations would carry backend info) before any
+  implementation. Not started.
 
 - [x] **S190-02: vim syntax highlighting for PARENA (.prn).** Founder real-time: "also we need
   syntax highlighting for vim parnea ty." `tools/vim/{ftdetect,syntax}/parena.vim` +
