@@ -19533,7 +19533,26 @@ it, captured here before context-switching to PARENA. None of these are started.
   parser body (`parse-alt`/`parse-concat`/`parse-atom`) is stub signatures only, no body, no
   `ParseState` type defined — a real, substantial, from-scratch recursive-descent parser +
   Thompson-construction NFA + PCRE backtracking engine is genuinely unbuilt work, not a quick
-  fix. Staying open until that's built. Apple #15479.
+  fix. Apple #15479.
+  **2026-08-23 (2): regex/syntax.prn's real parser landed** — literals, alternation,
+  quantifiers, capture groups (correctly numbered by opening-paren order), char classes
+  (ranges+negation), anchors, escapes. Two more real compiler bugs found/fixed along the way
+  (match-bound Ok/Some payload needs `(deref x)` at the use site, not bare `get-field`; a
+  `&local` passed into a defenum constructor is a genuine dangling-pointer bug once the
+  function returns — VS0's region analyzer does NOT catch this class of escape yet, flagged
+  in claire-log.md). gcc-clean, ASan-clean, 13/13 well-formed + 4/4 malformed test cases
+  correct. PARENA `4b1e7fc`, `49902dc`. Apple #15483.
+  **2026-08-23 (3): regex/nfa.prn's real Thompson-construction compiler landed too** —
+  `compile()` (AST → NfaInstr bytecode): literals, concat, alternation, quantifiers, groups,
+  char classes, anchors. Found/fixed one more real ordering bug in syntax.prn (AnchorKind/
+  CharRange declared after PatternNode despite being referenced by it). 31/31 runtime test
+  cases pass (real C harness, Pike's-VM-style simulator exercising the compiled bytecode),
+  zero ASan findings. PARENA `62a520a`. Apple #15487.
+  **Real remaining scope, unchanged in kind, smaller in size**: `is-match`/`find`/`find-all`
+  (the actual Pike's VM RUNNER — live thread-set stepping, epsilon-closure, PC dedup) are
+  still signature-only, deliberately not rushed as a backtracking walker (would violate this
+  engine's own "no backtracking, ever" design contract). `regex/pcre.prn`/`posix.prn` and
+  `grep.prn`/`sed.prn`/`awk.prn` themselves (the actual CLI tools) untouched. Staying open.
 
 - [x] **S190-02: vim syntax highlighting for PARENA (.prn).** Founder real-time: "also we need
   syntax highlighting for vim parnea ty." `tools/vim/{ftdetect,syntax}/parena.vim` +
