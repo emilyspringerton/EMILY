@@ -19548,11 +19548,22 @@ it, captured here before context-switching to PARENA. None of these are started.
   CharRange declared after PatternNode despite being referenced by it). 31/31 runtime test
   cases pass (real C harness, Pike's-VM-style simulator exercising the compiled bytecode),
   zero ASan findings. PARENA `62a520a`. Apple #15487.
-  **Real remaining scope, unchanged in kind, smaller in size**: `is-match`/`find`/`find-all`
-  (the actual Pike's VM RUNNER — live thread-set stepping, epsilon-closure, PC dedup) are
-  still signature-only, deliberately not rushed as a backtracking walker (would violate this
-  engine's own "no backtracking, ever" design contract). `regex/pcre.prn`/`posix.prn` and
-  `grep.prn`/`sed.prn`/`awk.prn` themselves (the actual CLI tools) untouched. Staying open.
+  **2026-08-23 (4): `is-match` — the real Pike's VM runner — landed too, no backtracking
+  anywhere in the run loop.** Real, unanchored, breadth-first thread-stepping search
+  (epsilon-closure over Split/Jmp/AnchorI, PC dedup per position). Found/worked around 5
+  more real compiler bugs live (all documented in-place in regex/nfa.prn and summarized in
+  claire-log.md): `match` not recognized as a special form in 4 distinct nested VALUE
+  positions (`when`-body, `let`-value, `cond`-test, non-tail `do`-statement — only
+  function-body/`if`-branch-tail/`do`-last-statement are safe), plus a 5th, separate
+  nesting-depth bug corrupting a result-variable several match/if levels down. One honest
+  unresolved residual: 2 harmless `-Wreturn-type` warnings, flagged not fixed. `make test`
+  336/336. Real C harness verified 35/35 (pattern,text,expected) cases incl. real unanchored
+  mid-string search, zero ASan findings. PARENA `55c9107`. Apple #15490.
+  **Real remaining scope, smaller again**: `find`/`find-all` (need match start/end position
+  tracking, not just Bool) still unimplemented. `regex/pcre.prn`/`posix.prn` and
+  `grep.prn`/`sed.prn`/`awk.prn` themselves (the actual CLI tools) untouched —
+  regex/nfa.prn itself, the shared matching engine those tools would call, is now real and
+  working end to end. Staying open.
 
 - [x] **S190-02: vim syntax highlighting for PARENA (.prn).** Founder real-time: "also we need
   syntax highlighting for vim parnea ty." `tools/vim/{ftdetect,syntax}/parena.vim` +
