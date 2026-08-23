@@ -1790,6 +1790,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time(一批,累積記錄):(1) 問能否把 REDGARDEN 演化成基本的幾何編輯器,取代 Blender 做低多邊形編輯,甚至含自動綁骨;能否把小數運算卸載到 GPU,並用類似量子計算的方式偵測誤差;提到用…** — obs `2026-08-21T14:07:57Z`. CURATED: 2026-08-21.
 - [ ] **Founder real-time: wants vim syntax highlighting for PARENA (.prn files) -- 'also we need syntax highlighting for vim p…** — obs `2026-08-23T16:06:25Z`. CURATED: 2026-08-23.
 - [ ] **Founder real-time: wants grep/sed/awk (and the Bash tool's use of them in this session) replaced with PARENA-native 'tu…** — obs `2026-08-23T16:02:47Z`. CURATED: 2026-08-23.
+- [ ] **Founder real-time, continuing the REDGARDEN mapeditor burst (2026-08-23 ~16:18Z): 'parena mods' / 'wc3' / 'its really h…** — obs `2026-08-23T16:16:47Z`. CURATED: 2026-08-23.
+- [ ] **Founder real-time, rapid burst during the PARENA/observation-watcher incident response (2026-08-23 16:06-16:18Z, many f…** — obs `2026-08-23T16:16:33Z`. CURATED: 2026-08-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
