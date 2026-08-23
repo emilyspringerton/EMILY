@@ -19515,3 +19515,54 @@ it, captured here before context-switching to PARENA. None of these are started.
   `filter`/`group-by` 維持原樣、明確延後(真正的 CSV quoting/escaping 與
   真正的欄式掃描是各自獨立的工作)。
   (sess-20260820-0649-a3f19d93)
+
+## SECTION 190: PARENA GREP/SED/AWK + VIM SYNTAX + OBS-WATCHER RESPAWN-LOOP FIX (2026-08-23)
+
+- [~] **S190-01: PARENA-native grep/sed/awk to replace shell grep/sed/awk.** Founder real-time:
+  "can we please replace our path sed awk and grep with turbo charged parena smart versions?"
+  Investigated live: `stdlib/grep.prn`/`sed.prn`/`awk.prn` + `regex/*` already have real,
+  `parena parse`-verified source (STDLIB.md tiers 16-18), but `parena build` failed immediately
+  on the first dependency with a real compiler gap. Fixed: `process_defenum`/`process_defstruct`
+  now register a type's own name before resolving its own field types, not after — unblocks any
+  self-referencing struct/enum anywhere in the stdlib (found via `regex/syntax.prn`'s own
+  recursive `PatternNode` AST type), not just this one call site. Also fixed a related
+  box-helper C-declaration spacing bug found along the way. PARENA `63c71e2`. `make test`
+  336/336. **Real remaining gap, confirmed live, NOT fixed here**: `regex/syntax.prn`'s actual
+  parser body (`parse-alt`/`parse-concat`/`parse-atom`) is stub signatures only, no body, no
+  `ParseState` type defined — a real, substantial, from-scratch recursive-descent parser +
+  Thompson-construction NFA + PCRE backtracking engine is genuinely unbuilt work, not a quick
+  fix. Staying open until that's built. Apple #15479.
+
+- [x] **S190-02: vim syntax highlighting for PARENA (.prn).** Founder real-time: "also we need
+  syntax highlighting for vim parnea ty." `tools/vim/{ftdetect,syntax}/parena.vim` +
+  `tools/vim/README.md`, standard vim runtime layout. Keyword/type/builtin lists grounded in
+  `src/lexer.c`/`src/emit.c`'s own real special-cased vocabulary. PARENA `6627c39`. Apple #15479.
+
+- [x] **S190-03: fix obs-watcher infinite respawn loop on AGI `--continue` session overflow.**
+  Found live while working S190-01: the AGI `--continue` session had silently grown to 463.7MB,
+  past the API's 32MB request cap. Existing context-overflow recovery (`isContextTooLongOutput`)
+  only matched token/context-window error phrasing, not this request-size phrasing, so it never
+  fired — the outer poll loop kept retrying the same poisoned session forever, spawning a new
+  `claude` child every ~15-30s, undetected, for an unknown period. Fixed the string match;
+  verified live post-fix (recovery now fires on first occurrence, landed cleanly on the separate,
+  already-tracked HITL-11 credit-balance cooldown instead of respawning again). Two Claude Code
+  sessions (this one + the stuck AGI loop) had uncommitted, unreconciled edits in the same
+  PARENA file at once as a side effect — reconciled without data loss, logged as a real incident
+  in `EMILY/claire-log.md` (not repeated here per Claire's own scope — parallel-workspace debris
+  belongs there, not in this structured sprint log). PRRJECT_FATBABY `40ec4c6`. Apple #15475.
+
+- [ ] **S190-04: skate-culture research → "xgolf" adaptation.** Founder real-time, unscoped:
+  "all in on the skate culture research" / "its in SKATEBOARD REPO" / "we need to adapt that
+  work for xgolf." Existing research lives in `/home/fatbaby/skateboard/`; "xgolf" has no
+  existing repo anywhere in this monorepo — net-new, needs a real scoping pass (what xgolf even
+  is) before implementation. Not started.
+
+- [ ] **S190-05: REDGARDEN map editor / mod environment launch, PARENA as the mod language.**
+  Founder real-time, unscoped, excited/vision-register rather than a spec: "redgarden mapeditor
+  mod environment launch" / "24 hour goal" / "parena mods" / "wc3" / "make it so." Ties to the
+  already-open [[S190-01]] (PARENA's own stdlib/compiler still can't run most packages) and to
+  GoblinFoxDragon/PARENA NORTHSTAR's existing "mod-surface candidate" framing plus the
+  2026-07-31 "REDGARDEN full unit control, Warcraft 3-shaped" direction. Real scoping needed
+  (mod API surface, which PARENA stdlib pieces it needs, whether it's gated on VS0 progressing
+  past today's "stdlib source exists but mostly doesn't compile yet" state) before building —
+  not attempted blind. Not started.
