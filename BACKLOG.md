@@ -1808,6 +1808,16 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, elaborating the Erlang-scheduler northstar just logged (obs 2026-08-24T23:13:18Z): 'our game will ha…** — obs `2026-08-24T23:14:10Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time, clarifying the federated-process-operation architecture just decided (obs 2026-08-24T23:13:12Z): 'no…** — obs `2026-08-24T23:13:18Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time, architecture decision (resolves the deferred EduScript/PARENA question from earlier this session): t…** — obs `2026-08-24T23:13:12Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, clarifying obs 23:34:xxZ: 'it parses our backlog to show the sprints and sub items' -- confirms the …** — obs `2026-08-24T23:33:47Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'can we make a parena backed tool to view the graph of our sprints?' -- wants a PARENA-built visuali…** — obs `2026-08-24T23:33:42Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, SARENA_NOTEBOOK: 'same functionality as jupyter but its going to have a compiler you know?' -- empha…** — obs `2026-08-24T23:31:08Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, clarifying obs 23:29:xxZ ('build the parena apis as that'): 'but they will apply to SARENA_NOTEBOOK'…** — obs `2026-08-24T23:30:37Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'so build the parena apis as that' -- build PARENA's own APIs (editor/plugin surface?) using the sam…** — obs `2026-08-24T23:30:24Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, SARENA_NOTEBOOK: 'that is the same affordance' -- confirming TYLER title cards and the notebook's ti…** — obs `2026-08-24T23:30:15Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, SARENA_NOTEBOOK UI inspiration: 'look at the tyler episodes' + 'they have all these weird title card…** — obs `2026-08-24T23:30:13Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, SARENA_NOTEBOOK UI framing: 'whatever parena native title card ui you want' -- gives creative latitu…** — obs `2026-08-24T23:30:09Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, SARENA_NOTEBOOK note-rendering mechanism: 'if you want to do a note you put some parena code to rend…** — obs `2026-08-24T23:29:58Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, SARENA_NOTEBOOK: 'there should be note rendering built in' -- markdown/text-note rendering alongside…** — obs `2026-08-24T23:29:50Z`. CURATED: 2026-08-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
