@@ -15133,6 +15133,33 @@ first, open design questions last.
   run-to-run variance at matched config, not a new finding to chase further. Final policy +
   exported weights explicitly not wired into any live consumer, same discipline as every prior
   run. REDGARDEN `0a0df1b`, Apple #13945. (sess-20260813-2154-dda37e8b)
+
+- [~] **S170-295: turbo-sed/turbo-grep/turbo-awk — PARENA-native replacements for system sed/
+  grep/awk, milestone = Claude Code itself running the turbo variants, then a FatBaby PR/blog
+  post.** Consolidates obs `2026-08-24T22:54:28Z`/`22:54:33Z`/`22:54:45Z`/`22:55:07Z`/`22:57:04Z`/
+  `22:57:27Z`/`22:58:00Z` (founder real-time burst) — declared "prime directive of this thread."
+  Two-VM interop question this thread also raised (does EduScript become the PARENA VM?) resolved
+  separately, see `GoblinFoxDragon/docs2/MOD_SURFACE_NORTHSTAR.md` §3/§3a (federated process
+  operation, Erlang/BEAM north star) — not this item's own scope.
+  **Real progress 2026-08-24**: `PARENA/stdlib/grep.prn`/`sed.prn`/`awk.prn` already existed as
+  design-only source (never compiled). Found the actual blocker running `parena build` directly:
+  VS0's `fn` literals are non-capturing (compile to file-scope C functions, no closures) — the
+  regex engine `grep.prn` depends on (`regex/pcre.prn`) used continuation-passing style that
+  captured its own enclosing scope at every step, couldn't compile at all. Rewrote it closures-
+  free (candidate-list backtracking instead of continuations) — `compile`/`is-match`/matcher
+  internals now gcc-clean (`-Wall -Wextra -pedantic -std=c99`, zero warnings), all 336 PARENA
+  compiler tests still pass. Found and fixed 2 real, separate `src/emit.c` compiler bugs along
+  the way (`set!` on a plain `&mut`-typed local, not just struct fields; a generic-pointer-to-
+  by-value-struct-field cast in struct-literal construction). PARENA commit `c3b4c7b`, Apple
+  #15648. **Real remaining blocker, separately scoped**: `grep.prn`'s own regex logic is now
+  correct and verified, but end-to-end `grep` is blocked by `io.prn`'s own pre-existing,
+  already-flagged-in-its-own-header gap — `read-line`'s `#target` body calls host functions
+  (`mode_to_c_str`, `read_one_line`, etc.) that were never actually implemented. That's the real
+  next step before turbo-grep runs on real files; `sed.prn`/`awk.prn` haven't been attempted yet
+  (same io.prn dependency, likely same blocker plus their own untested gaps). PATH-symlink
+  replacement of system sed/grep/awk (the founder's own stated milestone) is downstream of both
+  and not attempted here — flagged, per S23-01b/S31-03's own precedent, as needing explicit
+  founder go-ahead before touching this box's actual PATH/toolchain, not a unilateral call.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
