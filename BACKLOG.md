@@ -1823,6 +1823,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: naming the formatter 'prnfmt' (twice, with 'comeon bro' impatience) rather than just 'parena fmt' --…** — obs `2026-08-24T23:37:36Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time burst: 'actually you can write php as a template in parena' -> 'it wont all compile' -> 'if those fea…** — obs `2026-08-24T23:36:02Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time: 'but build it out iteratively' + 'parenaphp' -- confirms plan (VS0 = PHP subset, grow iteratively) a…** — obs `2026-08-24T23:35:41Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'you can have the unicorn explain things in the blog post using pure parena to explain technical con…** — obs `2026-08-24T23:54:55Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'you can use the math and stats in parena to help you if that helps' -- suggests using PARENA's own …** — obs `2026-08-24T23:54:22Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'ok keep crunching on that - once we have a good candidate run that report i asked for so you can ve…** — obs `2026-08-24T23:54:18Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'and it should be a smoke test on some of our corporate communications' -- extends unagent-lint scop…** — obs `2026-08-24T23:49:27Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, clarifying unagent-lint use case: 'we also want to translate it with unagent lint all of the things …** — obs `2026-08-24T23:49:18Z`. CURATED: 2026-08-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
