@@ -1818,6 +1818,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, SARENA_NOTEBOOK UI framing: 'whatever parena native title card ui you want' -- gives creative latitu…** — obs `2026-08-24T23:30:09Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time, SARENA_NOTEBOOK note-rendering mechanism: 'if you want to do a note you put some parena code to rend…** — obs `2026-08-24T23:29:58Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time, SARENA_NOTEBOOK: 'there should be note rendering built in' -- markdown/text-note rendering alongside…** — obs `2026-08-24T23:29:50Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time, full plan: 'do some tests against the corpus of our full mono repo... system tools and then with our…** — obs `2026-08-24T23:40:31Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'ensure we are on turbo sed awk and grep on our path' -- direct instruction to PATH-swap system sed/…** — obs `2026-08-24T23:40:24Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: naming the formatter 'prnfmt' (twice, with 'comeon bro' impatience) rather than just 'parena fmt' --…** — obs `2026-08-24T23:37:36Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time burst: 'actually you can write php as a template in parena' -> 'it wont all compile' -> 'if those fea…** — obs `2026-08-24T23:36:02Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: 'but build it out iteratively' + 'parenaphp' -- confirms plan (VS0 = PHP subset, grow iteratively) a…** — obs `2026-08-24T23:35:41Z`. CURATED: 2026-08-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
