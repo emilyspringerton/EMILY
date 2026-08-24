@@ -1800,6 +1800,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: wants turbo-sed/turbo-grep/turbo-awk to be actual tool names (likely PARENA stdlib/tooling, continui…** — obs `2026-08-24T22:54:45Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time: turbo-sed turbo-grep turbo-awk** — obs `2026-08-24T22:54:33Z`. CURATED: 2026-08-24.
 - [ ] **Founder real-time: continuing to hammer on parena** — obs `2026-08-24T22:54:28Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: prioritization -- 'turbo tools first tho' -- turbo-sed/turbo-grep/turbo-awk (PARENA-native, PATH-rep…** — obs `2026-08-24T22:57:27Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: sequencing clarification on the SAND-plugin/vim-highlighting ask (obs 2026-08-24T22:56:57Z) -- 'mod …** — obs `2026-08-24T22:57:04Z`. CURATED: 2026-08-24.
+- [ ] **Founder real-time: wants a SAND editor plugin that ports PARENA's vim syntax highlighting (existing, from 2026-08-23 as…** — obs `2026-08-24T22:56:57Z`. CURATED: 2026-08-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
