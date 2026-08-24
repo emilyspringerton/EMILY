@@ -467,6 +467,56 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: 'there is a great deal of variation -- we can generate multi…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:25:53Z.
 - [ ] **Founder real-time: pipeline clarification -- 'we have the label (top level prom…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:25:32Z.
 - [ ] **Founder real-time: 'its a multi layered dataset' -- reinforces the taxonomy's h…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:25:01Z.
+- [ ] **Founder real-time: sharpened the core data-model insight for Prompt-o-verse acr…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:24:28Z.
+- [ ] **Founder real-time: add Whiteboard, Paper-craft, Anime, Kawaii as top-level hard…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T22:48:05Z.
+- [ ] **Founder real-time: (1) make the promptoverse gallery home page live-update when…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T22:37:50Z.
+- [ ] **Founder real-time: asked me to interpolate between the two stated Prompt-o-vers…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:24:10Z.
+- [ ] **Founder real-time: Prompt-o-verse refinement — a single EZ-level category like …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:23:06Z.
+- [ ] **Founder real-time: Prompt-o-verse — 'the affordance is the gallery/playground t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:21:50Z.
+- [ ] **Founder real-time: Prompt-o-verse mission stated most plainly yet — 'the main m…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:21:32Z.
+- [ ] **Founder real-time: Prompt-o-verse addition — a 'weird/meta' category of surreal…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:20:57Z.
+- [ ] **Founder real-time: new northstar concept 'Prompt-o-verse' — reframe of Google's…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T20:19:47Z.
+- [ ] **Founder real-time: (1) develop a new tool to expand styles by prompting GPT-2 w…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T23:17:17Z.
+- [ ] **Founder real-time (promptoverse taxonomy expansion, extended burst): (1) styles…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T23:25:25Z.
+- [ ] **Founder real-time (continued burst): (1) requeue command to re-pick queued styl…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T23:44:08Z.
+- [ ] **Founder real-time: tool broken, 'bad key error' then 'no image data in response…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-17T23:48:53Z.
+- [ ] **Founder real-time: need a cron/background process that generates thumbnail + op…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:22:03Z.
+- [ ] **Founder real-time, continuing the governance/access-control thread for future a…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:42:52Z.
+- [ ] **Founder real-time, policy decision for the future account-gated proposal/voting…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:42:16Z.
+- [ ] **Founder real-time, further clarifying the account-gated features cluster (votin…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:41:47Z.
+- [ ] **Founder real-time, further clarifying the (not-yet-built) subject voting featur…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:40:18Z.
+- [ ] **Founder real-time, ontology thread, final confirming example: 'disney owning ra…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:03:13Z.
+- [ ] **Founder real-time, ontology thread, closing the Rapunzel content-warning exampl…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:02:59Z.
+- [ ] **Founder real-time, ontology thread, concrete supporting example: 'the rapunzel …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:02:41Z.
+- [ ] **Founder real-time, ontology thread continued (now written up, not just logged):…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:02:20Z.
+- [ ] **Founder real-time: 'and then also blog posted about' -- fragment, appears cut o…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:00:16Z.
+- [ ] **Founder real-time, excited about the render-side payoff: 'can you imagine displ…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:17:43Z.
+- [ ] **Founder real-time: 'also we are going to need the exact same everything for hyb…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:17:29Z.
+- [ ] **Founder real-time, design note tying two deferred/in-progress threads together:…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:16:00Z.
+- [ ] **Founder real-time: 'it should run once an hour to detect hybrids' -- concrete s…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:15:54Z.
+- [ ] **Founder real-time, further extending the graph-context idea (exploratory, not b…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:15:33Z.
+- [ ] **Founder real-time, new feature idea then explicit deferral: 'for example each o…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:31:39Z.
+- [ ] **Founder real-time, continuing the big-bang/ontology musing thread (not a task s…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:30:32Z.
+- [ ] **Founder real-time, musing/uncertain, not a concrete request: 'i dunno where on …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:29:34Z.
+- [ ] **Founder real-time, another tentative big-bang domain candidate: 'i guess just l…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:28:49Z.
+- [ ] **Founder real-time, big-bang topic discovery thread: 'maybe we can use gpt2 in a…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:28:43Z.
+- [ ] **Founder real-time: 'livereload seems broken - prioritize that fix' -- upgrades …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:44:37Z.
+- [ ] **Founder real-time, session-limit closing instruction: 'we are near our session …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:36:01Z.
+- [ ] **Founder real-time, possible live bug report (uncertain): 'live reload seems bro…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:35:32Z.
+- [ ] **Founder real-time, another big-bang seed-domain candidate (tentative): 'like fo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:28:04Z.
+- [ ] **Founder real-time, continuing the big-bang seed-domain thread: 'like we cant do…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:27:32Z.
+- [ ] **Founder real-time, new direction (separate thread, after the mashup engine buil…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:26:52Z.
+- [ ] **Founder real-time, walking back the marble-bag concern: 'maybe i just need to b…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:24:47Z.
+- [ ] **Founder real-time, real concern about the marble-bag weighted-random selection:…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:24:42Z.
+- [ ] **Founder real-time, NEW feature request (separate from the in-progress mashup wo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:23:39Z.
+- [ ] **Founder real-time, closing remark on the graph-context idea: 'it can probably d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:14:47Z.
+- [ ] **Founder real-time, refining the LLM-judgment mashup query design: 'especially i…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:14:39Z.
+- [ ] **Founder real-time, two terse fragments during the LLM-judgment mashup build, me…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:13:40Z.
+- [ ] **Founder real-time, finalizing scope for LLM-judgment mashup detection: 'as we d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:13:28Z.
+- [ ] **Founder real-time, continuing the ontology-solved-by-LLM-query thread: 'lean on…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:13:09Z.
+- [ ] **Founder real-time, reopening the deferred mashup/ontology work (S176-29): 'i th…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:12:45Z.
+- [ ] **Founder real-time: 'ensure our semantics blog post is prioritized' -- resolves …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:04:43Z.
+- [ ] **Founder real-time, mashup/article-dedup thread, further confirming nuance (no d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:59:42Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1207,57 +1257,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously)** — obs `2026-08-15T22:10:37Z`. CURATED: 2026-08-15. Work continued; this is the directive that led into the frog-blog-post ask handled next. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
-- [ ] **Founder real-time: sharpened the core data-model insight for Prompt-o-verse across 3 fragments -- 'it's like a reverse …** — obs `2026-08-17T20:24:28Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: add Whiteboard, Paper-craft, Anime, Kawaii as top-level hardcoded promptoverse styles to potentially…** — obs `2026-08-17T22:48:05Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: (1) make the promptoverse gallery home page live-update when new nodes are published, same as live-m…** — obs `2026-08-17T22:37:50Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: asked me to interpolate between the two stated Prompt-o-verse framings (categorize-all-information m…** — obs `2026-08-17T20:24:10Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: Prompt-o-verse refinement — a single EZ-level category like '80s mall portrait' isn't one fixed expa…** — obs `2026-08-17T20:23:06Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: Prompt-o-verse — 'the affordance is the gallery/playground to give humans an interface.' Clarifies t…** — obs `2026-08-17T20:21:50Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: Prompt-o-verse mission stated most plainly yet — 'the main mission is to categorize all information.…** — obs `2026-08-17T20:21:32Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: Prompt-o-verse addition — a 'weird/meta' category of surreal transformation prompts (example given: …** — obs `2026-08-17T20:20:57Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: new northstar concept 'Prompt-o-verse' — reframe of Google's 'organize the world's information' miss…** — obs `2026-08-17T20:19:47Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: (1) develop a new tool to expand styles by prompting GPT-2 with a comma-separated style list like 'p…** — obs `2026-08-17T23:17:17Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time (promptoverse taxonomy expansion, extended burst): (1) styles judged 'too subject-specific' (like 202…** — obs `2026-08-17T23:25:25Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time (continued burst): (1) requeue command to re-pick queued styles with fixed selection logic, confirmed…** — obs `2026-08-17T23:44:08Z`. CURATED: 2026-08-17.
-- [ ] **Founder real-time: tool broken, 'bad key error' then 'no image data in response' -- diagnosed live as NOT an auth/key p…** — obs `2026-08-17T23:48:53Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: need a cron/background process that generates thumbnail + optimized JPEG versions of Prompt-o-verse …** — obs `2026-08-18T00:22:03Z`. CURATED: 2026-08-18.
 - [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
-- [ ] **Founder real-time, continuing the governance/access-control thread for future account-gated features: 'iduna gated' (no…** — obs `2026-08-18T00:42:52Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, policy decision for the future account-gated proposal/voting system: 'all promotion approvals run th…** — obs `2026-08-18T00:42:16Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, further clarifying the account-gated features cluster (voting): topic proposal and tag proposal shou…** — obs `2026-08-18T00:41:47Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, further clarifying the (not-yet-built) subject voting feature: gate voting behind Google OAuth IDUNA…** — obs `2026-08-18T00:40:18Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, ontology thread, final confirming example: 'disney owning rapunzel icecream in 2026 may not at all b…** — obs `2026-08-18T01:03:13Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, ontology thread, closing the Rapunzel content-warning example: 'thats a highly time context sensitiv…** — obs `2026-08-18T01:02:59Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, ontology thread, concrete supporting example: 'the rapunzel icecream query triggered a content warni…** — obs `2026-08-18T01:02:41Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, ontology thread continued (now written up, not just logged): 'identifying zero points in terms of wh…** — obs `2026-08-18T01:02:20Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'and then also blog posted about' -- fragment, appears cut off mid-thought. Likely continuing the pa…** — obs `2026-08-18T01:00:16Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, excited about the render-side payoff: 'can you imagine displaying the mashups at the buttom of the s…** — obs `2026-08-18T01:17:43Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'also we are going to need the exact same everything for hybrid styles' -- mirror the LLM-judgment m…** — obs `2026-08-18T01:17:29Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, design note tying two deferred/in-progress threads together: 'social features will give us an escape…** — obs `2026-08-18T01:16:00Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'it should run once an hour to detect hybrids' -- concrete scheduling requirement for the LLM-judgme…** — obs `2026-08-18T01:15:54Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, further extending the graph-context idea (exploratory, not blocking current build): 'especially as t…** — obs `2026-08-18T01:15:33Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, new feature idea then explicit deferral: 'for example each of the tree speaking untanslated french g…** — obs `2026-08-18T01:31:39Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, continuing the big-bang/ontology musing thread (not a task selection): 'and then there is infinite p…** — obs `2026-08-18T01:30:32Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, musing/uncertain, not a concrete request: 'i dunno where on the ontology taxonomy stack that data li…** — obs `2026-08-18T01:29:34Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, another tentative big-bang domain candidate: 'i guess just landscapes is an example maybe' -- landsc…** — obs `2026-08-18T01:28:49Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, big-bang topic discovery thread: 'maybe we can use gpt2 in a novel chaos laiden capacity' -- propose…** — obs `2026-08-18T01:28:43Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'livereload seems broken - prioritize that fix' -- upgrades the earlier uncertain report to a priori…** — obs `2026-08-18T01:44:37Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, session-limit closing instruction: 'we are near our session limit do a full product launch press rel…** — obs `2026-08-18T01:36:01Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, possible live bug report (uncertain): 'live reload seems broken not sure fi it is' -- concerning the…** — obs `2026-08-18T01:35:32Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, another big-bang seed-domain candidate (tentative): 'like for example propaganda might be a good one…** — obs `2026-08-18T01:28:04Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, continuing the big-bang seed-domain thread: 'like we cant do it for licensing but big banging Mario …** — obs `2026-08-18T01:27:32Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, new direction (separate thread, after the mashup engine build): 'ok when we started you big banged a…** — obs `2026-08-18T01:26:52Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, walking back the marble-bag concern: 'maybe i just need to be patient' -- lowers urgency on the Rena…** — obs `2026-08-18T01:24:47Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, real concern about the marble-bag weighted-random selection: 'i dont understand why our marble bag i…** — obs `2026-08-18T01:24:42Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, NEW feature request (separate from the in-progress mashup work, queued for after): 'emily promptover…** — obs `2026-08-18T01:23:39Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, closing remark on the graph-context idea: 'it can probably detect consistency or context issues' -- …** — obs `2026-08-18T01:14:47Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, refining the LLM-judgment mashup query design: 'especially if we ocasionally feed in the full graph …** — obs `2026-08-18T01:14:39Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, two terse fragments during the LLM-judgment mashup build, meaning not fully certain: 'fractal datase…** — obs `2026-08-18T01:13:40Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, finalizing scope for LLM-judgment mashup detection: 'as we dont have any free claude credits to use'…** — obs `2026-08-18T01:13:28Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, continuing the ontology-solved-by-LLM-query thread: 'lean on claude' / 'or gemini api for now' -- sp…** — obs `2026-08-18T01:13:09Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, reopening the deferred mashup/ontology work (S176-29): 'i think the ontology problem could be solved…** — obs `2026-08-18T01:12:45Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'ensure our semantics blog post is prioritized' -- resolves the earlier ambiguous fragment ('and the…** — obs `2026-08-18T01:04:43Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, mashup/article-dedup thread, further confirming nuance (no design change, S176-29 stays deferred): '…** — obs `2026-08-18T00:59:42Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, immediately following approval to build article-normalization dedup: 'president wearing a tuxedo may…** — obs `2026-08-18T00:59:25Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, mashup discovery thread: 'duck wearing a tuxedo is the same subject as a duck wearing a tuxedo' -- t…** — obs `2026-08-18T00:58:46Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, mashup discovery — further confirming example (feature already deferred, S176-29): 'duck tuxedo' !==…** — obs `2026-08-18T00:58:21Z`. CURATED: 2026-08-18.
