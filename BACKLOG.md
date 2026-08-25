@@ -20037,3 +20037,85 @@ per Principle 18.*
   how does it interact with `sudo-queue`'s own existing "human runs a script" pattern for anything
   requiring root. Needs a real NORTHSTAR/design pass before implementation, per Emily Way "spec
   before implementation."
+
+## SECTION 192: PITVIPER MOD-SURFACE V0 — PARENA-AUTHORED WHEEL-SCROLL FIX (2026-08-25)
+
+*Continuation of S189-19 through S189-40 (2026-08-20, session sess-20260820-0649-a3f19d93) — the
+mod-surface/plugin-API thread — not a new design. Founder real-time this session: "can we get
+pitviper to work with tmux pane scrolling? doesnt work when i try to scroll back up in tmux over
+ssh in claude code tui" → offered a quick direct Go fix or the PARENA mod-surface route →
+"Build PARENA mod-surface first, then fix through it" (explicit choice) → reinforced with "using
+parena" / "mod surface first" / "api first" / "fix with parena."*
+
+- [x] **S192-01: wheel-scroll fix delivered as PITVIPER's first real PARENA mod.** Root cause:
+  `cmd/pitviper/main.go`'s `sdl.MouseWheelEvent` case had plain (non-Ctrl) wheel scroll as a
+  documented, intentional no-op — the comment claiming "PITVIPER has no scrollback buffer at all
+  yet" was stale; `internal/vterm/scrollback.go` and Page Up/Down's `handleScrollKey` already have
+  a real mechanism (`screen.ScrollBy`/`ScrollLines`/`ScrollReset`). Built PITVIPER's first real
+  Go-to-PARENA cgo bridge (`internal/scrollmod/`), deliberately minimal — one function, no dispatch
+  table, no plugin discovery: `stdlib/pitviper/vterm_mod.prn` (`on-wheel-scroll`, I32 param,
+  `#target/inline-c` FFI, same pattern as `editor/plugin.prn`'s S189-29/34) compiles via
+  `parena build` to `vterm_mod.c`, linked into `internal/scrollmod` via
+  `#cgo CFLAGS: -include scrollmod_host.h` (same "-include host declarations" pattern
+  `PARENA/examples/BUILD.bazel` already established for `editor_plugin_host_stubs.h`). Go's SDL
+  wheel handler calls `scrollmod.TriggerWheelScroll`, which calls into the compiled PARENA C's
+  `on_wheel_scroll`, which calls the cgo-exported `pitviper_host_scroll`, which calls the
+  registered `ScrollCallback`, which calls `screen.ScrollBy` — matching Page Up/Down's sign
+  convention. Gated behind `-mod-scroll` / `PITVIPER_MOD_SCROLL=1`, off by default until the
+  founder verifies live, per S189-32(6)'s own rollout plan (verify → mainline). **Live round-trip
+  tested**, not just compile-checked: `TestTriggerWheelScrollRoundTrip` actually executes the full
+  Go-cgo-PARENA-compiled-C-cgo-export-Go-callback path and asserts the delta survives intact.
+  `go build`/`vet`/`test ./...` all clean (one pre-existing, unrelated `renderDistrictPane`
+  lock-by-value vet warning, already documented in commit `254fb39`). `gofmt` clean on every file
+  touched. PITVIPER commit `20844b2`, built on worktree branch `worktree-agent-a2c89663aaa00716f`.
+  Apple #15789.
+  **Built in an isolated git worktree** (real S190-03-class collision risk from earlier today was
+  the reason isolation was chosen) — this hit a hard sandboxing wall, not a policy choice: the
+  worker agent could not write to, or run any git command against, PARENA's or EMILY's shared
+  checkouts at all, so it left the merge/copy/backlog-write as explicit handoff steps.
+  **Integration completed by the parent session, same day**: PITVIPER's
+  `worktree-agent-a2c89663aaa00716f` fast-forward-merged into `main` after a clean
+  `go build`/`vet`/`test ./internal/scrollmod/...` re-verification (`GOWORK=off`, since PITVIPER is
+  a non-workspace repo), pushed as `20844b2` on main. `stdlib/pitviper/vterm_mod.prn` copied from
+  the worktree's `internal/scrollmod/parena-src/vterm_mod.prn` into its real destination in the
+  PARENA checkout and committed there alone (`f05ae35`) — a separate, concurrent session had
+  uncommitted in-progress changes to `stdlib/sed.prn`/`regex/pcre.prn`/`tools/turbosed_host.c` in
+  that same checkout at the time; only this one file was staged, those were left untouched. Not
+  re-verified against the local `parena` binary at commit time (that binary was mid-rebuild by the
+  concurrent session) — provenance instead rests on the PITVIPER-side build already having
+  compiled this exact source successfully. Worktree cleaned up after integration.
+
+- [ ] **S192-02: `Screen.Resize()` scroll-region staleness — already diagnosed (S189-32(7)/(8)),
+  deliberately not fixed here.** `internal/vterm/vterm.go`'s `Resize()` (~lines 95-128) reallocates
+  `s.cells` and updates `s.cols`/`s.rows` but never updates `scrollRegTop`/`scrollRegBot` (DECSTBM
+  bounds). If vim/tmux previously set a custom scroll region, resizing the window leaves stale
+  bounds — `scrollUp()`'s `top==0 && bot==s.rows-1` fast-path (full-screen scroll, saves to real
+  scrollback) then silently fails, falling into the "limited-region scroll" branch instead (no
+  scrollback save) — S189-32(8)'s own diagnosis for "tmux pane doesn't scroll when typing fills the
+  screen," "vim command line invisible." Note: a *different*, already-fixed bug (alt-screen
+  enter/exit not resetting scroll region — "clear doesn't fully clear") landed separately in
+  commit `9739e91` on 2026-08-20 — don't conflate the two. **Deliberately not built as a mod**:
+  this is an internal invariant fix inside `Resize()` itself, not a response to an input event, so
+  it has no natural "mod" shape — forcing it through the same cgo-bridge pattern S192-01 uses would
+  be a worse fit than either a direct Go fix (matching S189-36's own precedent for well-understood,
+  narrowly-scoped bugs) or leaving it for a dedicated pass. Real next step: clamp/reset
+  `scrollRegTop`/`scrollRegBot` to `[0, rows-1]` inside `Resize()` — a founder call on whether that
+  warrants the same "fix directly in Go" exception S189-36 used, or should go through
+  `internal/scrollmod`'s pattern once it has more than one hook. Not attempted here.
+
+- [ ] **S192-03: glyph bug — "claude star" still shows as `?`, exact codepoint not pinned down.**
+  Founder real-time, same session: "we are still also missing a few glyphs for claude animations" /
+  "we always get a ? instead of the claude star" / "claude star must be special." The Braille block
+  (U+2800-28FF, what Node's `cli-spinners` "dots" style uses) already has real procedural monochrome
+  coverage, fixed 2026-08-20 (S189-26, commit `7d4ae3f`) — if still showing `?`, either (a) the
+  running binary predates that fix and needs a rebuild+relaunch (cheapest thing to try first), or
+  (b) the actual glyph is outside the Braille block, most plausibly in the dingbat range
+  (U+2600-27BF per `internal/font/emoji.go`'s own color-emoji range comment), which only has
+  coverage via the still-`sudo`-blocked `sudo-queue/19-pitviper-freetype-emoji-fonts.sh` path — not
+  the monochrome `extended` atlas. Could not pin the exact codepoint from the installed `claude`
+  binary (packed/compressed, not `strings`-greppable). Real next step: find which frame/character
+  renders as `?` (ask the founder directly, or reproduce live), then either run the sudo-queue
+  script (unblocks the whole dingbat range) or add the specific codepoint to the monochrome
+  `extended` map directly (same pattern as box-drawing/Braille, no `sudo` dependency) if it's a
+  single fixed glyph rather than a whole animated range. Not attempted here — this fork's scope was
+  S192-01/S192-02 (both scroll-related); this item is logged so it isn't lost, not investigated.
