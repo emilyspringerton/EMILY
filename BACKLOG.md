@@ -1896,6 +1896,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'do more work on the EmilyOS GRANT-FS REVOKE-FS with parena mods for arch linux.' Continues the earl…** — obs `2026-08-25T09:44:12Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, expands the MAC-address task into real tooling: 'build tools for generating realistic manufacturer s…** — obs `2026-08-25T09:41:22Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'change my mac address.' Real sysadmin request, needs sudo (queued like other privileged ops). Flagg…** — obs `2026-08-25T09:40:31Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time reinforcement: 'SYNACK' -- TCP three-way handshake reference, confirms wanting genuinely real, workin…** — obs `2026-08-25T09:40:15Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'build stdlibs into parena for low level networking.' New PARENA stdlib task -- sockets/TCP/UDP-leve…** — obs `2026-08-25T09:39:53Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, adds concrete detail to the already-logged day/night-cycle-from-SHANKPIT thread: 'but have the moon …** — obs `2026-08-25T09:30:27Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, new parallel thread while GFD/EduScript investigation is mid-flight: 'bring in the day night cycle f…** — obs `2026-08-25T09:29:56Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'continue with the GFD PARENA mod surface and api for edu script vm and parenifiying it.' New pivot …** — obs `2026-08-25T09:29:39Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
