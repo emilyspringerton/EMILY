@@ -1918,6 +1918,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **CONFIRMED via direct investigation, severe finding: the NVIDIA-8K press-release bug is a symptom of a real, currently-o…** — obs `2026-08-25T15:34:34Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, additional related request: 'also add a parena ticker plugin that ensures that the press release con…** — obs `2026-08-25T15:31:09Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, clarifying the press-release bug location: 'on the news site on the press releasses page' -- confirm…** — obs `2026-08-25T15:29:54Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: continued backlog-first session (chmod workaround for IDUNA agent secrets applied, Apples now filing…** — obs `2026-08-25T17:18:19Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
