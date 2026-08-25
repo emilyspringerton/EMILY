@@ -1881,6 +1881,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, escalating the treeiii account scope: 'and treeiii needs to ber able to mess with fatbabys files' --…** — obs `2026-08-25T09:02:38Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'add a new scoped user account to this unix system treeiii it needs a home directory and permissions…** — obs `2026-08-25T09:01:06Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'continue working on PARENA.' Already have one fork running in an isolated worktree building the PIT…** — obs `2026-08-25T08:58:43Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, reverses build-order priority immediately after the GFD mod-surface fork launched: 'it should be pre…** — obs `2026-08-25T09:32:34Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, architectural framing for the GFD PARENA mod-surface work: 'but it should all be events with parena …** — obs `2026-08-25T09:31:32Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, unifies the two parallel threads: 'but bring it into GFD totally as parena' / 'parena mods.' The day…** — obs `2026-08-25T09:31:18Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, final detail on day/night thread: 'including the lighting' -- the SHANKPIT day/night port should car…** — obs `2026-08-25T09:31:07Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, further detail on the day/night/bloodflower thread: 'the bloodflower triggers when the moon is at it…** — obs `2026-08-25T09:30:34Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
