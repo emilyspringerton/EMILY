@@ -21181,3 +21181,31 @@ routed through `emily observe` before being acted on, per Principle 18.*
   Construct` step (`find` over source/doc roots, concatenate matching files into one `*_CONSTRUCT.txt`,
   upload as a CI artifact) — see `shankpit-460/.github/workflows/tests.yml` for the canonical
   shape to copy. Not started.
+
+- [x] **S202-20: auto-release CI rolled out to 9 core repos, matching PITVIPER's own
+  non-prerelease pattern.** Founder real-time: "set up redgarden autoreleases non preproduction
+  just like pitviper and the rest" → "ensure all our core repos have auto release non pre
+  release" → "check pitviper" → "shankpit all the rest" → (after an AskUserQuestion checkpoint)
+  "finish the 4 remaining candidates now." Same job shape everywhere, copied from PITVIPER's own
+  `ci.yml`: gated on push to the real default branch only (never PRs, never the tag-push the job's
+  own release step triggers), auto-bumps the MINOR version only (major stays a human call, same
+  PITVIPER convention), creates a REAL GitHub release (no `--prerelease` flag) attaching whatever
+  the existing build job already produces. **Shipped: SHANKPIT (`b8d260d`), shankpit-460
+  (`7cae919`, verified live with 2 real releases v0.1.0/v0.2.0), REDGARDEN (`e8bb820`),
+  GoblinFoxDragon (`85ae472`), emily.cli (`bc0e508`, first-ever distributable release — cross-
+  compiled linux/amd64+darwin/arm64+darwin/amd64, Windows dropped: real Unix-only syscalls with no
+  build guard in cmd/chat.go/gpt2.go/start.go, confirmed via a real local cross-compile attempt),
+  WEAKNIGHT_BEDROCK_RACERS (`711b511`), GTA7 (`7a01b53`, plugin jar), gpt2-alpine-c (`36f7050`,
+  Linux+Windows binaries), MJOLNIR (`7b1305f`, wired up but genuinely blocked — see below).**
+  **Real bug found and fixed along the way**: SHANKPIT/shankpit-460's `tests.yml` and
+  `release.yml` shared the literal same `concurrency:` group, so every push raced the two
+  workflows against each other and whichever lost the lock got cancelled outright — `release.yml`
+  (the only workflow carrying the new release job) had gone a real stretch of pushes without ever
+  completing as a result, independent of a separate known-flaky mingw/SDL2 download step. Scoped
+  each file to its own group in both repos. **Genuine, honest gaps, not attempted**: EMILY/IDUNA/
+  PRRJECT_FATBABY don't build a compiled binary in CI at all (services deployed by direct `go
+  build` + restart on this box, not downloaded software — a GitHub Release wouldn't correspond to
+  anything real); MJOLNIR's release job is wired up correctly (`needs: [build]`) but has never
+  actually fired because "Build staging APK" has never once succeeded in real CI (2026-06-17/
+  2026-07-23), most likely the `GOOGLE_SERVICES_JSON` repo secret was never set — human-only,
+  same class of blocker as IDUNA's own `GOOGLE_CLIENT_ID` gap found earlier this session.
