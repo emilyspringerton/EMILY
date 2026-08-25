@@ -1,3 +1,7 @@
+## 2026-08-25
+
+- Wrote up a research note on an external AI's hallucinated 'EmilyOS'/'Smilium' architecture claims, tracing what's real (public repo names, a real Erlang idea) vs fabricated. docs/EXTERNAL_AI_HALLUCINATION_CASE_STUDY_EMILYOS.md, commit 166f8a5. (sess-20260824-2252-ce890e4f)
+
 ## 2026-08-20
 - golden-docs-index 新增 LADYBUG-NORTH(ladybug/README.md)——PARENA 的官方 BDD 測試框架獨立發布為新 repo (sess-20260820-0649-a3f19d93)
 - 發布反思文章「Nine Hours In, The Emily Way」——PARENA 從 VS0 domain 1 落地(11:13 UTC)到現在約 9 小時的真實建置歷程,透過 The Emily Way 操作哲學(backlog-first、Apple-before-done、誠實缺口清單)檢視,提及 public domain(Unlicense)授權 (sess-20260820-0649-a3f19d93)
