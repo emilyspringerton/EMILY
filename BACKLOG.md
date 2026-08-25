@@ -20851,6 +20851,13 @@ sudo-queue/26-install-jupyter-libzmq.sh (needs founder to run it, apt-get sudo r
   wont work figure it out." The portal is functionally inaccessible to everyone, including the
   founder's own human account, until granted via the existing `/admin/users` role-assignment UI
   (`admin.go`'s real RBAC grant flow, not a new mechanism). IDUNA commit `73a5095` (Apple #15924).
+  **Restyled `2026-08-25`** (founder: "make it look nice with the iduna style guide use a image
+  from promptoverse the same way you did for wotan") — swapped the initial ad-hoc dark-tech look
+  for the real IDUNA cream/gold ceremony style guide (`IDUNA/index.html`/`styles.css`: Cormorant
+  Garamond + Spectral, gold-bordered panels) and added real Prompt-o-verse art (fenrir-robot on
+  login, fox-robot on the portal home), served as real static files under `/portal/images/`.
+  Designed via `/design` first (canvas "notebook-portal"), then ported into the live templates so
+  the shipped page matches. Also added `/portal/logout`. IDUNA commit `8489324` (Apple #15927).
 
 - [ ] **S201-04: founder must grant `devportal` role to their own IDUNA human account** via
   `/admin/users` (sign in with Google at `/portal/login` once first so the user row exists, then
