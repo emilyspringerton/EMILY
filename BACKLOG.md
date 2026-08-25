@@ -1853,6 +1853,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'and allow for different levels of memory and compiler and instruction hacks' + 'like we want to use…** — obs `2026-08-24T23:44:19Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, narrowing 'all of GNAT': 'the ones that serve our mission of memory management' -- scopes to GNAT/Ad…** — obs `2026-08-24T23:43:56Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, scoping DOWN the templating burst: 'we start as a subset of php' -- VS0 target clarified: a PHP-subs…** — obs `2026-08-24T23:35:00Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'keep crunching on the turbogrep stuff are we faster yet' -- confirmed still ~8x slower than real gr…** — obs `2026-08-25T01:27:36Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: log EMEB/EARL/ECCR/ECGL/AOPO (acronyms from an unrelated third-party LinkedIn post about a different…** — obs `2026-08-25T01:26:32Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'and then the giga bowser of templating languages' + 'php' -- PHP itself named as the final-boss-tie…** — obs `2026-08-24T23:34:54Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'all the templating languages into the stdlibs' -- concrete ask: stdlib/template/ (or similar) shoul…** — obs `2026-08-24T23:34:50Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'and everything in between' -- closes the templating-survey burst (obs 23:37-23:39Z: handlebars, leg…** — obs `2026-08-24T23:34:44Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
