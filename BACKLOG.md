@@ -1867,6 +1867,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, SARENA_NOTEBOOK render targets sequencing: HTML first, 'SDL native second' -- SDL2-based native rend…** — obs `2026-08-24T23:29:13Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, elaborating SARENA_NOTEBOOK (obs 23:28:29Z): 'build our libplot shit into it' + 'html first' -- plot…** — obs `2026-08-24T23:29:10Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, new project idea: 'super bare bones jupyter replacement gui parena compile and run whatever the back…** — obs `2026-08-24T23:28:29Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, rapid burst during the security scoping session: (1) 'i want you to do intrusion detection on this s…** — obs `2026-08-25T08:35:23Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: reports unexpected logouts — 'some weird stuff has been happening where i get logged out when i shou…** — obs `2026-08-25T08:34:16Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: wants assurance the system is secure — scope unspecified (which repo/service, and what kind of secur…** — obs `2026-08-25T08:32:41Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
