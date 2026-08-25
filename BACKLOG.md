@@ -20593,3 +20593,32 @@ restarting.*
   project `GOOGLE_CLIENT_ID` belongs to (Google otherwise rejects the callback with
   `redirect_uri_mismatch`), (2) a human completes the Connect flow once to confirm the live round
   trip. Apple #15855 (fork) + this session's own independent re-verification.
+
+## SECTION 198: DAMAGE LOG — REDGARDEN + GFD, S189-01 CLOSED (2026-08-25)
+
+- [x] **S189-01: real combat damage log, REDGARDEN + GFD Battlegrounds.** Founder: "go ahead and
+  add the damage log to REDGARDEN" -> "so you can have the ui match for both GFD and REDGARDEN."
+  Rolling last-12 damage-event feed (standard real-MOBA combat-log UX), damage events only for
+  v0 (not kills/buffs/objectives). `apply_damage` (REDGARDEN's/GFD's shared single choke point
+  for hero damage, ~50 call sites in each) refactored into `apply_damage_ex(target, amount,
+  source_hero_id)` + a thin 2-arg wrapper -- all ~48 existing call sites in each repo keep
+  calling the unchanged wrapper (zero risk), logging unattributed (`ARENA_HERO_COUNT` sentinel).
+  The one path upgraded to real attacker attribution is the direct hero-vs-hero duel resolver
+  (both hero pointers already in scope, zero risk) -- full reasoning for not threading attacker
+  through all ~50 sites documented in `ArenaDamageLogEntry`'s own doc comment in each repo's
+  `arena_game.h`. UI: real HUD panel (right side), using each client's existing `draw_string`
+  primitive.
+  **REDGARDEN**: fully built, tested, committed, pushed, **CI-verified green live** (commit
+  `6292c9e`). New `tests/test_damage_log.c`, 10/10 real checks (log starts empty, direct duel
+  produces genuine attribution, ring buffer caps/wraps correctly) -- found and fixed a real test
+  bug along the way (bot AI ability casts via `tick_hero_kit` run *after* `resolve_combat` in the
+  same `arena_update` tick, polluting "most recent entry" checks; fixed by disabling
+  `arena_bot_enabled` for the isolated test, same pattern an existing test already used for an
+  unrelated reason). Full existing suite still green (9/9 `ALL PASS`).
+  **GFD** (`apps2/battlegrounds_gui`): same port, verified via a full clean compile (exit 0, zero
+  errors) of the real file set, independently re-run by the parent session before committing --
+  no headless test suite exists for this client (confirmed, not assumed), so this side is
+  compile-verified only, flagged honestly rather than glossed over. Built from an isolated
+  REDGARDEN-only worktree that could write plain files to the GFD checkout but had every `git`
+  operation against it refused (real sandbox constraint) -- integrated and independently
+  re-verified by the parent session. GFD commit `04f825a`. Apple #15857 (REDGARDEN) + #15858 (GFD).
