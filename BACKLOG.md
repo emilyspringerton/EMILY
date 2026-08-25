@@ -20918,3 +20918,77 @@ sudo-queue/26-install-jupyter-libzmq.sh (needs founder to run it, apt-get sudo r
   `eye-of-providence-robot` (Prompt-o-verse art) as hero art; cross-linked with `/portal/login` now
   that both exist. Designed via `/design` canvas "IDUNA Back Office Login" (clean + error states)
   first, then ported into the live template. IDUNA commit `f394094` (Apple #15933).
+
+---
+
+## SECTION 202: POST-REBOOT RECOVERY SESSION — REAL FIXES (2026-08-25)
+
+*Session picked up right after a full box reboot/upgrade. Phase 1 (service recovery per
+`EMILY/docs/REBOOT_RUNBOOK.md`) came back clean — all 52 enabled systemd units auto-started with
+zero failures, no manual restarts needed. Real finding along the way: IDUNA's running binary was
+1.5h stale relative to HEAD, explaining a "stale binary still" restart loop the founder was
+hitting live — rebuilt + restarted, verified. Founder then drove a burst of real-time direction
+(fragmented, matching the session's own established style) covering several repos at once; each
+routed through `emily observe` before being acted on, per Principle 18.*
+
+- [x] **S202-01: DragonsNShit (GoblinFoxDragon) WASM web player — fixed the black screen.**
+  Founder real-time: "dragonsnshit web player is still a black screen mscrimpten isnt quite
+  working." Reproduced live via a headless Chromium (Playwright, already cached from a prior
+  session) pointed at `https://okemily.com/battlegrounds/battlegrounds.html` — confirmed the exact
+  same black canvas. Two real, distinct bugs found from the actual console error text, not
+  guessed: (1) `apps2/battlegrounds_gui/src/main.c` unconditionally requested a desktop OpenGL 3.2
+  Compatibility-profile SDL GL context — Emscripten's WebGL/EGL emulation has no such concept,
+  so `SDL_GL_CreateContext` failed outright ("Could not create EGL context (context attributes are
+  not supported)"), fatal before the first frame. (2) Once that was fixed, `VS_SRC`/`FS_SRC` (the
+  3D shaders) turned out to be desktop GLSL 150 (`in`/`out` qualifiers) — WebGL1's GLSL ES 1.00
+  compiler rejects that syntax outright, failing every draw call. The WASM build's own README had
+  flagged both classes of risk as real, stated, *unverified* gaps ("has not actually been loaded
+  and exercised in a real browser") — this is that verification, and both gaps turned out to be
+  real bugs, not false alarms. Fixed both behind `#ifdef __EMSCRIPTEN__` (matching the existing
+  `_WIN32` guard pattern already in the same function) with WebGL1-equivalent shader source;
+  native/Windows desktop path is byte-identical to before and confirmed still compiling clean
+  (`gcc -std=c99`, exit 0). Post-fix headless re-verification: `SDL_GL_CreateContext` succeeds,
+  zero WebGL/shader errors (vs. multiple fatal errors pre-fix), arena match log written normally —
+  strong evidence the game now actually runs. (Playwright's own screenshot/canvas-readback hung
+  under this headless swiftshader software-GL setup even post-fix — a test-tooling limitation,
+  not a game-code signal; the console-log evidence stands on its own.) Rebuilt and deployed
+  `battlegrounds.html`/`.js`/`.wasm` to the live `/var/www/okemily/battlegrounds/` webroot (no
+  deploy automation existed for this path — plain `cp`, matching how the files got there
+  originally on 2026-08-20). GoblinFoxDragon commit `d57ac6c`, Apple #15947.
+
+- [ ] **S202-02: GoblinFoxDragon (DragonsNShit) needs automated pre-release CI releases**,
+  matching the existing pattern already used by BRAWLPIT and PARENA. Founder real-time,
+  2026-08-25. Not started — logged for the next pass.
+
+- [ ] **S202-03: GoblinFoxDragon (GFD) needs copy/paste bindings**, matching the pattern already
+  implemented in PITVIPER. Founder real-time, 2026-08-25. Not started — logged for the next pass.
+
+- [ ] **S202-04 (blocked, human action): Google OAuth Client ID for the developer/notebook
+  portal (S176-34/S201-03's own dependency).** Founder real-time, 2026-08-25, asked to "use gcloud
+  to do it yourself." Investigated directly rather than assumed: confirmed `gcloud` genuinely
+  cannot create a general "Sign in with Google" Web OAuth 2.0 Client ID — the only gcloud surface
+  touching OAuth clients (`gcloud alpha iap oauth-brands`/`oauth-clients`) is a separate, deprecated
+  (shutting down March 2026) IAP-internal-only mechanism, and it isn't even enabled on
+  `einhorn-mjolnir`. A stray `clientg_id.tct` file in the home directory held a client ID, but its
+  project number (278374120873) doesn't match `einhorn-mjolnir` (883580703271) or any other project
+  visible to the active gcloud login — founder confirmed to not use it. No existing reusable web
+  client ID found anywhere on this box (no real `google-services.json`, no `FCM_SERVICE_ACCOUNT_JSON`
+  configured — that config lives on whatever machine actually builds MJOLNIR). Genuine human-only
+  blocker, same class as S19-03 (Steam Direct) and S151-01 (Cloudflare DNS token): create an OAuth
+  consent screen + Web application Client ID for `einhorn-mjolnir` via
+  console.cloud.google.com/apis/credentials, authorized origin `https://okemily.com`. Once created,
+  wiring it into `/home/fatbaby/.config/iduna/env` as `GOOGLE_CLIENT_ID` + restarting
+  `iduna.service` is immediate, no further blocker.
+
+- [x] **S202-05: rebuilt + restarted IDUNA to close a binary/HEAD drift found during Phase 1
+  reboot recovery.** `~/.local/bin/iduna` was still running a build from 17:47:57 UTC while HEAD
+  (`227f491`, the `/admin/login` cream/gold restyle) had landed at 19:22:36 UTC — explains the
+  founder's live "stale binary still" result from re-running `sudo-queue/25-restart-iduna-for-
+  session-fix.sh` (a restart can't pick up code that was never compiled in). `go build -o
+  ~/.local/bin/iduna .` + `systemctl --user restart iduna.service`, live-verified (new PID, health
+  check green, `/admin/login` now serves "Cormorant Garamond").
+
+- [x] **S202-06: bookkeeping — closed two stale intake-queue duplicates.** `S170-262` ("update
+  run.sh") and its cross-reference were already done (Apple #12666) but the intake-queue copy of
+  the item was still unchecked — fixed. No code change, just backlog hygiene found while picking
+  the next item to work.
