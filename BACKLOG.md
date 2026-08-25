@@ -21100,3 +21100,33 @@ routed through `emily observe` before being acted on, per Principle 18.*
   the tree-passive CI break earlier this same session (S202-08's own follow-up fix, `da1a4ca`) was
   the lesson that made this deliberate rather than assumed. Full 11-binary suite green. Apple
   #15973.
+
+- [x] **S202-15: shankpit-460 — fixed the real cause of "bot matches still not working, stuck in
+  Osaka garage."** Founder real-time, live, urgent: "lets get shankpit 460 bot matches working stil
+  not working im stuck in osaka garage check everything" -> "you should be able tell the client im
+  using by the ci." Chased it to the actual root cause rather than the game logic itself: CI's
+  Windows client cross-compile (`tests.yml` + `release.yml`) has been failing on every single push
+  since S169-09 (`4ba4e94`, 2026-08-16, spatial audio backport) — `packages/audio/{audio,
+  audio_synth}.c` were added to the local `Makefile`'s own source list but never to the two CI
+  workflow files' separate, redundant mingw invocations (same "one build path updated, others
+  missed" gap class REDGARDEN hit twice this same session, S202-08/S202-14's own follow-up fixes).
+  Result: no successful downloadable Windows client has existed since 2026-08-16 — every download
+  since has been 9+ days stale, missing every fix landed after that point, including the real
+  2026-08-04 Osaka-garage movement-deadlock retry fix (a lost UDP priming packet with no retry,
+  already fixed in source, just never reaching a real download). Reproduced locally via a real
+  mingw cross-compile against the exact SDL2-devel-2.30.10-mingw package CI downloads (not
+  assumed), verified the fix builds clean. shankpit-460 `509b4d8`, Apple #15980. CI re-verification
+  in progress as of this writing.
+
+- [ ] **S202-16: shankpit-460 — link client+server+bot into a single binary.** Founder real-time:
+  "lets get shankpit linked in as a single binary" -> "can you do that" -> "via parena or
+  otherwise?" -> "can you link sdl2 right in or no for licensing?" -> "if thats too much
+  complexity and finish previous tasks first once its in the backlog." Explicitly deferred by the
+  founder's own instruction — logged, not started. Quick answers to the two open questions for
+  whoever picks this up: SDL2 is zlib-licensed, static linking is explicitly permitted (no
+  licensing obstacle) and the Windows client build already statically links SDL2/mingw32/
+  SDL2main today (`-static-libgcc -lmingw32 -lSDL2main -lSDL2`) — nothing new needed there. This
+  is a build/link-topology change (client, server, and bot currently three separate `apps/*/src/
+  main.c` entry points/binaries), not gameplay logic, so it doesn't obviously need a PARENA mod
+  the way REDGARDEN's recent Bloodflower/Tree-passive/build-template features did — but worth
+  confirming that read with the founder before assuming, since they asked explicitly.
