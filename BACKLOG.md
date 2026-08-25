@@ -21227,3 +21227,28 @@ routed through `emily observe` before being acted on, per Principle 18.*
   an initial top-to-bottom gradient version failed this check (tagline 3.42:1) and was replaced
   before shipping. Deployed live to `/var/www/carepyre/`, confirmed 200 over HTTPS. CarePyre
   `22389a4`/`45599c3`, Apple #16015.
+
+- [x] **S202-22: REDGARDEN item curriculum — PARENA-mod-driven generation primitive for
+  NORTHSTAR.md §26.3.2's "tuning the game via items" v0.** Founder real-time: "continue the
+  exotic auto curriculum redgarden work" → "training" (continue REDGARDEN's own §25.4/§26.3.2
+  autocurriculum training pipeline, not the EXODUS extraction) → "parena mod driven first"
+  (build the §26.3.2 scope-expansion PARENA-mod-first, matching the established Bloodflower/
+  Tree-passive/Build-template trigger+host-mutation split). §26.3.2 itself was a real, explicit
+  founder-driven scope expansion past §25.4's own opponent-only autocurriculum boundary ("i want
+  v0 autocurriculum to be tuning the game via the items" → "like it introduces new items to meta
+  break the top teams") that NORTHSTAR.md had left honestly unscoped — "these are real
+  founder-facing decisions, not implementation details to guess through." Landed the generation
+  half only, per the founder's own sequencing: `stdlib/redgarden/item_curriculum_mod.prn`
+  (PARENA) → `on-generate-counter-item` → `redgarden_host_item_curriculum_generate_counter_item`
+  (`arena_game.c`), blending two `ARENA_ITEMS` catalog entries' stats (deterministic average +
+  small per-field jitter, reproducible) into one of 4 runtime-mutable curriculum slots kept
+  SEPARATE from the fixed const `ARENA_ITEMS[]` catalog (every raw-int-id call site — shop UI,
+  inventory, network snapshot ids — would need auditing before a generated item could safely
+  enter live gameplay; not attempted here). 15 new tests, live round-trip through the real
+  compiled mod, full `test_arena.sh` green, verified via a real mingw cross-compile, all 4 build
+  paths wired up front. **Genuinely still open, not resolved by this pass**: which two items to
+  blend from (reading the currently-dominant team composition isn't even observable to the
+  Python training loop today — `sim_get_obs_team_any` carries no item-purchase state) and the
+  evaluation objective (did a generated item measurably counter the meta) — both real,
+  unresolved training-loop questions, same honesty convention NORTHSTAR §26.3.2 already used.
+  REDGARDEN `6d0443d`/`76fccc3`, PARENA `d63590a`, Apple #16017.
