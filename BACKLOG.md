@@ -1953,6 +1953,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: GTA7 -- add real wired networking via redstone ('redvine'?), deliberately very slow (dial-up or slow…** — obs `2026-08-25T21:36:45Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: GTA7 railroad tech tree -- use Minecraft's native rail system (rails/carts/etc) for the actual railr…** — obs `2026-08-25T21:36:11Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: GTA7 -- teach the history of railroads through a tech-tree unlock system (build out tech trees, unlo…** — obs `2026-08-25T21:35:41Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'continue the exotic auto curriculum redgarden work' -> 'training' (continue REDGARDEN's own §25.4/§…** — obs `2026-08-25T22:00:45Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
