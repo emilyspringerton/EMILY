@@ -1,4 +1,5 @@
 ## 2026-08-25
+- reboot-recovery session: confirmed S176-34's Google OAuth client-ID blocker is a genuine gcloud-CLI limitation (IAP oauth-brands API deprecated/wrong-tool, never enabled on einhorn-mjolnir); clientg_id.tct's client ID traced to an unrelated GCP project (278374120873, not einhorn-mjolnir) and not used (sess-20260825-1938-f6bd411e)
 - SECTION 191: security audit + IDUNA admin session logout fix — read-only sweep found no signs of intrusion (permission-limited on auth.log/fail2ban, consistent with existing no-sudo constraint), root-caused and fixed the admin session's silent 8h hard-cutoff logout (S191-02, IDUNA Apple #15775), PARENA intrusion-detection tooling deferred to S190-01's already-tracked gap (S191-03). (sess-20260825-0828-cc32a704)
 - S139-02: toothbrush manufacturing vendor research (STINKIES COMMISSAIRE + ULTRA) — Tier 1 well-served by existing OEM/ODM toothbrush makers, Tier 2 (brass ULTRA) found to be a real 3-vendor/3-step supply chain (handle CNC/PVD shop + head-mold OEM + assembly), not a single vendor pick. Apple #15767. (sess-20260825-0828-cc32a704)
 
