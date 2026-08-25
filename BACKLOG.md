@@ -21209,3 +21209,21 @@ routed through `emily observe` before being acted on, per Principle 18.*
   actually fired because "Build staging APK" has never once succeeded in real CI (2026-06-17/
   2026-07-23), most likely the `GOOGLE_SERVICES_JSON` repo secret was never set — human-only,
   same class of blocker as IDUNA's own `GOOGLE_CLIENT_ID` gap found earlier this session.
+
+- [x] **S202-21: CarePyre — applied Prompt-o-verse-derived art direction to the header
+  (abstracted, WCAG-verified).** Founder real-time: "update the site with promptoverse art
+  tasteful" (`/design update care pyree design with the same art direction choose some
+  prromptoverse art to use`). Real content mismatch found and resolved rather than glossed
+  over: the Prompt-o-verse gallery (`/var/www/okemily/prompt-o-verse/`, 427 entries) is entirely
+  franchise-character mashup art with no true negative space — nothing in it literally fits
+  CarePyre's deliberately non-EINHORN_INDUSTRIAL, calm healthcare-nonprofit brand. Put the
+  mismatch to the founder directly (AskUserQuestion, rejected twice mid-unrelated-work, accepted
+  once circled back to): resolved as "use it abstractly/subtly" rather than skip it or force a
+  literal character image. Derived a soft blue glow texture from `15-underwater.png` (heavy
+  Gaussian blur + `-modulate` color shift toward CarePyre's own sky-blue palette), applied as a
+  uniform 90%-white-washed `<header>` background on `index.html` and `change.html`. **Verified
+  WCAG AA computationally, not eyeballed**: h1 4.3:1 (>=3:1 for large text), tagline 5.17:1
+  (>=4.5:1 for body text), both against the darkest sampled region of the actual source image —
+  an initial top-to-bottom gradient version failed this check (tagline 3.42:1) and was replaced
+  before shipping. Deployed live to `/var/www/carepyre/`, confirmed 200 over HTTPS. CarePyre
+  `22389a4`/`45599c3`, Apple #16015.
