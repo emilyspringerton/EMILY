@@ -15193,10 +15193,20 @@ first, open design questions last.
   verification run**: `turbogrep` vs. real GNU grep across 949 files / 213,709 lines (every
   `.go`/`.md`/`.prn` under PRRJECT_FATBABY/IDUNA/EMILY/PARENA) — 7 patterns, 12,521 matched
   lines, byte-identical output on every one. PARENA commit `94c48ac`, Apple #15693, full report
-  at `PARENA/docs/TURBOGREP_VERIFICATION_REPORT.md`. Honestly flagged in that same report:
-  ~430x slower than real grep (root-caused: byte-at-a-time reads, unoptimized backtracking
-  regex), and `Plus`/`Optional`/`CharClass`/`Anchor` are still unimplemented — every tested
-  pattern was literal/alternation only, not full regex coverage.
+  at `PARENA/docs/TURBOGREP_VERIFICATION_REPORT.md`.
+
+  **Real perf fix 2026-08-25**: root-caused the ~430-660x slowdown with `strace`, not guesswork
+  — 2,699,542 real `read()` syscalls on just a 50-file subset (98.87% of runtime), one syscall
+  per BYTE in `read-line`. Fixed with a real per-fd buffered-read layer in
+  `runtime/parena_runtime.h` (4096-byte refills instead of 1-byte reads, transparent to `io.prn`'s
+  own public API). `raw-close` now releases the buffer via a real `raw_close_impl`, closing a
+  real correctness hazard (OS fd reuse inheriting a stale buffer). Re-measured: `read()` syscalls
+  on the same 50-file test dropped to 713 (3,786x fewer); full-corpus wall time 12.6s → 0.69s
+  (~18x faster) — turbogrep is now **~23x slower than system grep, not ~430-660x**. All 7
+  correctness patterns re-verified byte-identical after the fix. PARENA commit `e706737`, Apple
+  #15699. `Plus`/`Optional`/`CharClass`/`Anchor` are still unimplemented — every tested pattern
+  was literal/alternation only, not full regex coverage; the remaining ~23x gap is the
+  unoptimized backtracking regex engine itself, not chased further this session.
 
   **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all. PATH-symlink
   replacement of system sed/grep/awk (the founder's own stated milestone) is downstream of both
