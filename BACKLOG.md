@@ -20689,3 +20689,78 @@ restarting.*
   checkout and fully verified there. **Integration completed by the parent session, same day**:
   independently re-verified (`go build ./...`, `go test ./server/mob/...`, full `go test ./...`,
   all clean) before committing. GoblinFoxDragon commit `ddff277`, pushed. Apple #15861 (fork).
+
+## SECTION 200: PRESS-RELEASE BUG → SEVERE EVENTSTORE COLLISION + OPS FIXES (2026-08-25)
+
+- [x] **S200-01: root-caused "press release links to NVIDIA 8-K" — real cross-process sequence
+  collision in eventstore.FileStore, fix in progress.** Founder real-time: "there is a bug on one
+  of the press releases... from the press release page... its a prnerswire... it links to nvdia
+  8k... any of them... they all go to nvdia 8k" → own hypothesis: "our routing might be fucked" →
+  "fix it with parena mod api first." Confirmed live at `https://news.okemily.com/doc/press_release:302858906`:
+  a Quest Diagnostics (DGX) press release's "Original" link points to a real NVIDIA SEC EDGAR
+  8-K URL. **Raw stored event data is 100% correct** (verified directly in
+  `var/secwatch/events/2026-08-25.ndjson`: `document_url` is the real PRNewswire URL, `ticker`
+  is `DGX`) — ruled out prwatch/prwatch-body/pr-indexer's ingestion path entirely (each correctly
+  scopes its URL field per-record, no shared/stale-variable bugs found reading
+  `prwatch/client.go`/`crawler.go`/`cmd/pr-indexer/main.go`). **Real root cause, confirmed by
+  finding an actual live collision**: sequence 112200 in that same file has 5 different records
+  from 2 different processes (`secwatch`, `pr-indexer`) all claiming it. `eventstore.FileStore
+  .Append`'s sequence counter (`s.latest`) is in-process, in-memory state — its mutex only
+  serializes goroutines within one process, but ~15 separate OS process binaries (pr-indexer,
+  processor, secwatch, entity-graph, form4-watcher, etc.) all write to the same `var/secwatch`
+  store independently, each re-reading the shared `latestSeqStateFn` state file only once at
+  startup, never re-syncing afterward — two processes' counters drift and collide. This is core,
+  live production infrastructure every process in the pipeline depends on — a real, severe,
+  currently-occurring data-integrity bug, not isolated to press releases (the fast-path
+  `ReadAtSequence` used by every newssite detail-page load is affected; likely other consumers
+  too). **Fix dispatched to a fork, not yet landed**: real cross-process-safe sequence assignment
+  via OS-level file locking (`flock`), the locking primitive itself implemented as a PARENA mod
+  per "fix it with parena mod api first" — required to be verified under genuine multi-process
+  concurrency (not just in-process goroutines) before being considered done, and the live pipeline
+  processes rebuilt+restarted as part of deployment, not just committed. Related, smaller,
+  bundled into the same fork: "add a parena ticker plugin that ensures... press release content
+  with the ticker in the text like (NYSE:F) we are not linking to the ticker pages in the body
+  content" — checking whether `internal/tickerlink`'s established auto-linking (`EMILY/BACKLOG.md`
+  SECTION 167, scoped to generated/trusted content only) is accidentally also touching raw scraped
+  press-release bodies.
+
+- [x] **S200-02: fixed SHANKPIT CI break — reverted S189-09's fitness-EMA fix after it stayed
+  broken through a founder-visible alert.** Founder real-time: "SHANKPIT build is down" (the same
+  Windows-cross-compile failure already honestly flagged as an open, unexplained discrepancy in
+  S189-09 — local reproduction couldn't explain a real CI failure). Given the break persisted and
+  blocked the live build, took the operational-health-first action: `git revert --no-edit` on
+  commit `f2b0b09` (real revert, not a force-push/history-rewrite) to restore known-good state
+  immediately rather than continue undiagnosed. **This time, verified both real CI build paths
+  locally before pushing** (the gap that caused the original problem) — Linux server build and
+  the real `x86_64-w64-mingw32-gcc` Windows cross-compile with the exact SDL2 package CI
+  downloads — both clean before pushing. SHANKPIT commit `e8c62f4`. CI confirmation pending at
+  write time. The underlying fitness-EMA bot-selection bug (S189-09's own real diagnosis, still
+  valid) is now un-fixed again — needs a fresh attempt with the same real-CI-verification
+  discipline from the start, not re-attempted in this pass.
+
+- [x] **S200-03: CarePyre — added the C.H.A.N.G.E. Initiative second page.** See CarePyre's own
+  CHANGELOG/Apple #15879 for full detail — six-pillar framework page (`change.html`), grounded in
+  `source/gemini-transcript-2026-08-09.md`'s real organizational pivot, matching `STYLE_GUIDE.md`
+  exactly. Fixed a small pre-existing inconsistency (homepage's "C.H.A.N.G.E. Stack" section
+  actually described the older 4-layer framing, not the real 6 letters) by linking the two pages
+  rather than restructuring the shipped homepage.
+
+- [ ] **S200-04: golden-repo CI-status polling tool for emily.cli, PARENA-backed.** Founder
+  real-time, built up across several messages: "we need a tool to poll all our golden repo
+  statuses at the end of a work iteration" → "we already have a tool for checking that status
+  that needs to be upgraded to be written in pure parena now if possible (maybe not from tls but
+  can we have more of the code for that in parena?" → "and then build the mod into emily cli to
+  check our golden repos" → "we will need a way to turn repos on and off" → "for now EMILY TYLER
+  and our games are golden repos" → "and P and PARENA and PITVIPER" → "and FATBABY". Real,
+  concrete gap this session personally hit repeatedly (checking CI status has been manual
+  curl+python one-liners against the GitHub Actions API, per-repo, no `gh` CLI on this box).
+  Scope: extend `emily.cli`'s existing `emily status` (already does cross-repo git state + last
+  Apple per repo) with real CI/build-status polling, implemented as a PARENA mod where feasible
+  (TLS/HTTPS networking likely stays Go, per the founder's own "maybe not from tls" carve-out —
+  PARENA's `net/tcp`/`net/http` maturity is real but young, see SECTION 195's own flag on this),
+  plus a real per-repo enable/disable config ("golden repos"). Initial golden-repo list, named
+  explicitly: EMILY, TYLER, PRRJECT_FATBABY ("P"/"FATBABY" both point to the same repo), PARENA,
+  PITVIPER, plus "our games" (left deliberately unresolved — REDGARDEN/GoblinFoxDragon/SHANKPIT/
+  BRAWLPIT/GTA7/EINHORN_SURVIVAL are the real candidates from today's own work; the on/off toggle
+  this item itself builds is the right mechanism to actually settle the list, not a guess made
+  here). Not started — queued behind the higher-severity S200-01 eventstore fix.
