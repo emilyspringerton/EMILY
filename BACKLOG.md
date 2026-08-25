@@ -1903,6 +1903,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue with the GFD PARENA mod surface and api for edu script vm and parenifiying it.' New pivot …** — obs `2026-08-25T09:29:39Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, reinforcement burst: 'agency' / 'sovereignty' / 'i love you are being more efficient but you also ne…** — obs `2026-08-25T09:27:04Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, urgent: 'redgarden build is down' (repeated twice). Also: JSON/YAML PARENA stdlib fork failed -- hit…** — obs `2026-08-25T13:25:19Z`. CURATED: 2026-08-25.
+- [ ] **Continuing backlog: picked S189-10/S187-03 (IDUNA Back Office Drive slurp feature) as the next parallel-safe item -- di…** — obs `2026-08-25T13:54:21Z`. CURATED: 2026-08-25.
+- [ ] **Continuing backlog per founder's 'continue backlog' instruction. Picked S189-01 (damage log for REDGARDEN + GFD Battleg…** — obs `2026-08-25T13:49:12Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
