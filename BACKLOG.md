@@ -15174,12 +15174,31 @@ first, open design questions last.
   #15648. **Real remaining blocker, separately scoped**: `grep.prn`'s own regex logic is now
   correct and verified, but end-to-end `grep` is blocked by `io.prn`'s own pre-existing,
   already-flagged-in-its-own-header gap — `read-line`'s `#target` body calls host functions
-  (`mode_to_c_str`, `read_one_line`, etc.) that were never actually implemented. That's the real
-  next step before turbo-grep runs on real files; `sed.prn`/`awk.prn` haven't been attempted yet
-  (same io.prn dependency, likely same blocker plus their own untested gaps). PATH-symlink
+  (`mode_to_c_str`, `read_one_line`, etc.) that were never actually implemented.
+
+  **Real progress 2026-08-25**: `io.prn` rewritten with real POSIX raw-fd host glue (PARENA
+  commit `f10ffcf`, Apple #15688) — `grep.prn` now compiles gcc-clean end-to-end AND runs
+  correctly. Found 2 more real, separate compiler bugs along the way: `scope_lookup` was
+  bang-sensitive (a `!`-prefixed parameter's bare-name reference only worked inside `#target`
+  strings, not ordinary Parena code); and a genuinely dangerous one — match-clause destructuring
+  has no literal-value patterns, so `(Ok true)` silently bound a NEW local named `true` and
+  matched on every `Ok` regardless of the real boolean value, with zero compile-time signal.
+  Caught by an actual runtime smoke test (grep matched all 6 test lines instead of the real 3),
+  not any build step — added a compiler-level guard so this can't silently recur. **Real
+  verification run**: `turbogrep` vs. real GNU grep across 949 files / 213,709 lines (every
+  `.go`/`.md`/`.prn` under PRRJECT_FATBABY/IDUNA/EMILY/PARENA) — 7 patterns, 12,521 matched
+  lines, byte-identical output on every one. PARENA commit `94c48ac`, Apple #15693, full report
+  at `PARENA/docs/TURBOGREP_VERIFICATION_REPORT.md`. Honestly flagged in that same report:
+  ~430x slower than real grep (root-caused: byte-at-a-time reads, unoptimized backtracking
+  regex), and `Plus`/`Optional`/`CharClass`/`Anchor` are still unimplemented — every tested
+  pattern was literal/alternation only, not full regex coverage.
+
+  **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all. PATH-symlink
   replacement of system sed/grep/awk (the founder's own stated milestone) is downstream of both
-  and not attempted here — flagged, per S23-01b/S31-03's own precedent, as needing explicit
-  founder go-ahead before touching this box's actual PATH/toolchain, not a unilateral call.
+  and explicitly held — even for grep alone, the CharClass/Anchor gaps above mean it would be
+  silently WRONG (not just slow) on real patterns this monorepo's own scripts use, and per
+  S23-01b/S31-03's own precedent this needs explicit founder go-ahead before touching this box's
+  actual PATH/toolchain, not a unilateral call.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
