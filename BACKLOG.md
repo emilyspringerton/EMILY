@@ -21011,8 +21011,7 @@ routed through `emily observe` before being acted on, per Principle 18.*
   per-glyph hit-testing anywhere, a much bigger separate feature) — instead Ctrl+C (only reachable
   when chat isn't focused) copies the whole visible chat scrollback to the OS clipboard. Both
   native and WASM builds verified clean; WASM rebuilt and redeployed to
-  `/var/www/okemily/battlegrounds/`. GoblinFoxDragon (commit pending this session's own git
-  history — see repo log).
+  `/var/www/okemily/battlegrounds/`. GoblinFoxDragon `6e58e18`, Apple #15960.
 
 - [x] **S202-08: Tree hero passive — auto-attacks nearby jungle trees for self-heal, built as a
   PARENA mod.** Founder real-time: "can you add a passive to tree that when he is close enough to
