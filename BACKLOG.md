@@ -1955,6 +1955,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: GTA7 -- teach the history of railroads through a tech-tree unlock system (build out tech trees, unlo…** — obs `2026-08-25T21:35:41Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'continue the exotic auto curriculum redgarden work' -> 'training' (continue REDGARDEN's own §25.4/§…** — obs `2026-08-25T22:00:45Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'keep working on the self bootstrap compiler for parena' -- continue PARENA's self-hosting compiler …** — obs `2026-08-25T22:12:22Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time (live, urgent): 'im playing redgarden on latest and the tree is not generating health from auto attac…** — obs `2026-08-25T22:31:18Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
