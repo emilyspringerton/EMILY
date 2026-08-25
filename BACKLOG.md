@@ -20898,3 +20898,12 @@ sudo-queue/26-install-jupyter-libzmq.sh (needs founder to run it, apt-get sudo r
   `nginx -t` + reload, queued as `sudo-queue/27-okemily-portal-nginx-proxy.sh`. The portal itself
   stays gated behind `devportal.access` (granted to nobody by default) regardless — this only
   makes the URL reachable, not the tool. OKEMILY commit `557e70d` (Apple #15929).
+
+- [x] **S201-09: restyled IDUNA Back Office login (`/admin/login`) to match the portal's cream/
+  gold style guide + Prompt-o-verse art.** Founder, via `/design`: "update iduna back office login
+  page similar to your last login page redesign use promptoverse assets make it look nice do it
+  while i run the sudo script." Replaced the old plain Georgia/cream ledger look with the same
+  cream/gold ceremony aesthetic (Cormorant Garamond + Spectral) as the notebook portal login, using
+  `eye-of-providence-robot` (Prompt-o-verse art) as hero art; cross-linked with `/portal/login` now
+  that both exist. Designed via `/design` canvas "IDUNA Back Office Login" (clean + error states)
+  first, then ported into the live template. IDUNA commit `f394094` (Apple #15933).
