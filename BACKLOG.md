@@ -20884,3 +20884,17 @@ sudo-queue/26-install-jupyter-libzmq.sh (needs founder to run it, apt-get sudo r
 - [ ] **S201-07: SARENA_NOTEBOOK's own custom GUI** (HTML-first, SDL2-native second, `libplot`
   integration, TYLER-style title cards, built-in note rendering) — explicit, later phase per
   founder ("html first", "SDL native second"). Not started, not the current focus.
+
+- [x] **S201-08: new IDUNA admin agent BOOTS3 + portal login linked from OKEMILY footer.**
+  Founder real-time: "give me a new agent admin login for okemily this time i need it put into a
+  file in the treeiii home directory as a file and do not print it to the terminal as you create
+  it" — created via `cmd/create-admin-agent` (`iduna.admin`), stdout redirected straight to
+  `/home/treeiii/iduna-admin-boots3-credentials.txt` (chmod 600), never surfaced in any tool-call
+  transcript. Immediately followed by "put a link to the login in okemily footer" — `/admin/login`
+  already had a footer link; `/portal/login` (S201-03) didn't, so added it, plus a matching nginx
+  `/portal` same-origin proxy block (both okemily.com server stanzas, mirroring `/admin/`'s own
+  reasoning) since the link would otherwise 404 — diffed against the live nginx file first per
+  OKEMILY's own CLAUDE.md rule, no drift found. **Not yet applied live** — needs `sudo cp` +
+  `nginx -t` + reload, queued as `sudo-queue/27-okemily-portal-nginx-proxy.sh`. The portal itself
+  stays gated behind `devportal.access` (granted to nobody by default) regardless — this only
+  makes the URL reachable, not the tool. OKEMILY commit `557e70d` (Apple #15929).
