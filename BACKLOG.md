@@ -1838,6 +1838,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'dont put that down in a suspicious way' + 'doublespeek corporaatify it' + 'say we have a foothold i…** — obs `2026-08-24T23:48:22Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, confirms French is real: 'just in french' + 'the biggest ada firm is in france' (AdaCore, GNAT's own…** — obs `2026-08-24T23:46:47Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: confirmed casio-calculator-watch as a real goal (';p'). Then: 'be sure to include the full ADA GNAT …** — obs `2026-08-24T23:46:39Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'so we can study how claude code works so we can make it faster' -- confirms the real goal: log real…** — obs `2026-08-25T00:44:34Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'and then as a way to figure out how to make faster for claude' + 'we need to start logging grep inv…** — obs `2026-08-25T00:44:26Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'ok we need to make a grep router that can route between regular grep and turbo grep depending on if…** — obs `2026-08-25T00:44:15Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'find all of the technical bottlenecks before we move to hacks' -- stop doing ad-hoc point fixes, pr…** — obs `2026-08-25T00:40:41Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: '.69 to .66 improvement is something' -- correcting: that tiny delta was noise, the fast path wasn't…** — obs `2026-08-25T00:35:46Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
