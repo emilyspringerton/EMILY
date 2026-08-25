@@ -1935,6 +1935,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: no ambient/global fog of war -- just give Duck a 'smoke bomb' ability (localized vision-blocking eff…** — obs `2026-08-25T20:19:09Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: fog-of-war ability should be added to REDGARDEN hero 'Duck' (clarifies the fog-of-war-as-an-ability …** — obs `2026-08-25T20:19:05Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: REDGARDEN -- add fog of war as a hero ability (relates to the existing King All-Seeing buff's own 'n…** — obs `2026-08-25T20:18:56Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: REDGARDEN build-templates feature -- UI affordances undecided, chat/command-based selection is fine …** — obs `2026-08-25T20:37:11Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: REDGARDEN -- choosing a build (tech-tree/item-template) could let you auto-buy at the shop** — obs `2026-08-25T20:30:04Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: REDGARDEN -- experiment with tech trees as item templates** — obs `2026-08-25T20:30:04Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: start tracking GFD Battlegrounds player stats, surfaced on WOTAN** — obs `2026-08-25T20:30:04Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: REDGARDEN hero 'Cart' -- add AOE circle indicators, make his abilities more impactful/powered-up ver…** — obs `2026-08-25T20:16:32Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
