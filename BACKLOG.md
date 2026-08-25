@@ -1833,6 +1833,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok once the report is ready do a blog post going over it as tyler and the unicorn' -- confirms next…** — obs `2026-08-25T00:09:56Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'but what about LZ8 where its not actually errorless and we build in quantum error correction' -- co…** — obs `2026-08-25T00:09:35Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, exploratory: 'is there a way we can physically build memory to expect lz4 compression? compression a…** — obs `2026-08-25T00:08:10Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'do any fixes from the report' -- applying the smallest, bounded, safe fix (the one cosmetic gcc war…** — obs `2026-08-25T00:15:37Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, meta-comment: 'its nice that you are logging my profanity into apples as context' -- confirms verbat…** — obs `2026-08-24T23:48:58Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'dont put that down in a suspicious way' + 'doublespeek corporaatify it' + 'say we have a foothold i…** — obs `2026-08-24T23:48:22Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, confirms French is real: 'just in french' + 'the biggest ada firm is in france' (AdaCore, GNAT's own…** — obs `2026-08-24T23:46:47Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: confirmed casio-calculator-watch as a real goal (';p'). Then: 'be sure to include the full ADA GNAT …** — obs `2026-08-24T23:46:39Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
