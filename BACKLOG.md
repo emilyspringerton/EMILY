@@ -20983,12 +20983,15 @@ routed through `emily observe` before being acted on, per Principle 18.*
   deploy automation existed for this path — plain `cp`, matching how the files got there
   originally on 2026-08-20). GoblinFoxDragon commit `d57ac6c`, Apple #15947.
 
-- [ ] **S202-02: GoblinFoxDragon (DragonsNShit) needs automated pre-release CI releases**,
+- [x] **S202-02: GoblinFoxDragon (DragonsNShit) needs automated pre-release CI releases**,
   matching the existing pattern already used by BRAWLPIT and PARENA. Founder real-time,
-  2026-08-25. Not started — logged for the next pass.
+  2026-08-25. — Stale duplicate, bookkeeping only: already shipped as part of S202-20 below
+  (GoblinFoxDragon `85ae472`, non-prerelease auto-release CI, same session).
 
-- [ ] **S202-03: GoblinFoxDragon (GFD) needs copy/paste bindings**, matching the pattern already
-  implemented in PITVIPER. Founder real-time, 2026-08-25. Not started — logged for the next pass.
+- [x] **S202-03: GoblinFoxDragon (GFD) needs copy/paste bindings**, matching the pattern already
+  implemented in PITVIPER. Founder real-time, 2026-08-25. — Stale duplicate, bookkeeping only:
+  already shipped as S202-07 below (GoblinFoxDragon `6e58e18`, chat clipboard support, Apple
+  #15960, same session).
 
 - [ ] **S202-04 (blocked, human action): Google OAuth Client ID for the developer/notebook
   portal (S176-34/S201-03's own dependency).** Founder real-time, 2026-08-25, asked to "use gcloud
@@ -21080,7 +21083,7 @@ routed through `emily observe` before being acted on, per Principle 18.*
   light/dark media query) in favor of the fixed cream/gold system. Deployed and verified live.
   OKEMILY `5db272a`, Apple #15968.
 
-- [ ] **S202-12: REDGARDEN — tech trees as item templates, chosen builds can auto-buy at the
+- [x] **S202-12: REDGARDEN — tech trees as item templates, chosen builds can auto-buy at the
   shop.** Founder real-time, fragmented: "ok in redgarden lets experiment with the idea that tech
   trees are just item templates" → "choosing a build can let you auto buy at the shop" → "or you
   can make your own build obviously" → "or do a custom build" → "to buy your items" → "or some
@@ -21090,7 +21093,9 @@ routed through `emily observe` before being acted on, per Principle 18.*
   template (doesn't have to define every slot) with real purchase-ordering rules; picking one
   auto-buys from the existing 27-item shop as gold allows; a player can also freehand a custom
   build; PARENA-mod-driven per the same S202-08 pattern; selection UI undecided, chat/command-
-  based is fine for a first pass. Not started.
+  based is fine for a first pass. — Stale duplicate, bookkeeping only: already shipped as S202-14
+  below (`ArenaBuildTemplate` + `arena_hero_apply_build_template`, PARENA mod
+  `build_template_mod.prn`, REDGARDEN `0da4ba3`, Apple #15973, same session).
 
 - [ ] **S202-13: GFD Battlegrounds player stats tracking, surfaced on WOTAN.** Founder real-time:
   "can we start keeping track of stats for GFD players in battlegrounds on wotan?" Not scoped
