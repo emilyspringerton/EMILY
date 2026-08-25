@@ -1848,6 +1848,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'THEN FIGURE OUT HOW TO MAKE IT FASTER' -- wants the remaining ~23x perf gap (regex engine itself, r…** — obs `2026-08-25T00:31:44Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'allowing us to run shankpit on a casio calculator watch?' -- extreme-embedded-target framing for 'd…** — obs `2026-08-24T23:45:38Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'wouldnt that speed up a lot of things like games that might not always need real rng?' -- answered …** — obs `2026-08-24T23:45:28Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'like we can turn rng off at compile time if you think about it' -- extends the compile-time-flag id…** — obs `2026-08-24T23:45:19Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'and on some level the compiler should have a flag to to turn that off' (region/ownership checks -- …** — obs `2026-08-24T23:45:13Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'and allow for different levels of memory and compiler and instruction hacks' + 'like we want to use…** — obs `2026-08-24T23:44:19Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, narrowing 'all of GNAT': 'the ones that serve our mission of memory management' -- scopes to GNAT/Ad…** — obs `2026-08-24T23:43:56Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, scoping DOWN the templating burst: 'we start as a subset of php' -- VS0 target clarified: a PHP-subs…** — obs `2026-08-24T23:35:00Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
