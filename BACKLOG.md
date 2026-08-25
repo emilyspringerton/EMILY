@@ -20459,3 +20459,56 @@ by default — confirms the founder's own stated concern was correct, not overca
   `RedGarden.exe` produced. REDGARDEN commit `e3b359c`. **CI-verified for real this time**: the
   actual GitHub Actions run on `e3b359c` completed with `conclusion: success` (confirmed via the
   public API after the run finished, not inferred from the push alone).
+
+## SECTION 196: PARENA JSON + YAML STDLIB PARSERS (2026-08-25)
+
+*Founder real-time: "ensure we have stdlibs for json parsing and yaml parsing." First attempt hit
+an API session limit partway through (after grounding itself in real compiler capabilities and
+drafting most of json.prn); retried after the limit reset, continuing from that draft rather than
+restarting.*
+
+- [x] **S196-01: json.prn — real recursive-descent JSON parser, 24/24 live-verified.** Self-
+  referential `JsonValue` enum (`JNull`/`JBool`/`JNumber`/`JString`/`JArray`/`JObject`), `JObject`
+  as parallel key/value `Vec`s rather than a map — `stdlib/map.prn` uses bare `K`/`V` generic
+  symbols, confirmed live via `parena build` to fail with "unsupported return type symbol 'K'"
+  (VS0 has no generics yet). **Two real compiler bugs found and fixed while verifying, not just
+  written and assumed correct**: (1) a `#target inline-c` call named the same as its wrapping
+  PARENA function (`json-unescape` calling `"json_unescape(...)"`) is genuine infinite self-
+  recursion — the compiler emits the inline-c string as the function's own literal C body, not an
+  extern forward declaration (confirmed against `pentest/pcap.prn`'s own correctly-distinct-named
+  `start_capture` → `pentest_pcap_start_capture` pattern); renamed to `host_json_unescape`. (2) a
+  variant with 2+ `@ Region`-tagged fields (`JObject`) needs the destination arena passed
+  explicitly as its first constructor argument (`(JObject dest keys values)`); a variant with
+  exactly 1 such field (`JArray`) does not — found live via a real "expects a destination arena
+  plus N field value(s), got N" compiler error. Niladic variant (`JNull`) declared with parens,
+  constructed bare — confirmed against `regex/syntax.prn`'s own `AnyChar`/`Start`/`End` precedent.
+  `tests/test_json.c`: 24 real checks against the actual compiled+linked binary (nested
+  objects/arrays, string escapes `\n`/`\"`, malformed-input error paths — empty input, truncated
+  literals, unterminated strings/structures, trailing garbage) — not just "does it compile." `make
+  test-json` wired into the Makefile. `make test`: 336/336, no regressions. PARENA commit `c6d309a`.
+
+- [x] **S196-02: yaml.prn — real YAML parser, honestly scoped to this monorepo's actual real
+  usage, 28/28 live-verified.** Full YAML 1.2 (flow style, anchors/aliases, multi-document
+  streams, folded/literal block scalars, tag resolution) is a much bigger undertaking than JSON —
+  **surveyed every real `.yaml`/`.yml` file actually in this monorepo before scoping** (`IDUNA/
+  openapi.yaml`, `EINHORN_SURVIVAL/server/*.yml`, `docker-compose.yml`, `saga.manifest.yaml`,
+  etc.): every one uses only block mappings, block sequences, plain/quoted scalars, and comments —
+  none use flow style/anchors/multi-doc/block-scalars. Built exactly that real subset, matching
+  `turboawk`'s own same-session precedent for honest scope-narrowing over forcing full coverage.
+  Line-indexed recursive parser (`parse-block`/`parse-sequence`/`parse-mapping`, the same explicit-
+  position-threading style `json.prn`'s char-indexed parser already established). **One more real
+  compiler bug found and worked around**: a single-variable `(loop [i 0] ...)` used as a direct
+  argument to `and`/`or` misparses as `vec literal at line N needs an Arena in scope` — the exact
+  same loop shape compiles fine as an `if` branch or `let` binding value (both already proven in
+  `json.prn`'s own `skip-ws`); `looks-numeric?` routes around it by restructuring into an `if`
+  rather than fixing the compiler itself, flagged in the file's own header for whoever picks up
+  VS0's emitter work next. **Also found**: a `(Vec T) @ Region` function PARAMETER (as opposed to
+  a same-function local) needs `&(Vec T)` reference syntax to emit a correct pointer type —
+  confirmed against `array.prn`'s own `product`/`flat-index`/`strides-for` precedent, which all
+  take `&(Vec I32)`. `tests/test_yaml.c`: 28 real checks (bare top-level scalars, nested mappings
+  matching real `bukkit.yml`'s own shape, block sequences nested under mapping keys, comments/
+  blank-line handling, quoted-string unescaping, all three null spellings, and two genuine error
+  cases) — **also live-verified against the actual, real `EINHORN_SURVIVAL/server/bukkit.yml`
+  file**, correctly extracting all 5 real top-level keys (`settings`/`spawn-limits`/`chunk-gc`/
+  `ticks-per`/`aliases`). `make test-yaml` wired into the Makefile. `make test`: 336/336, no
+  regressions. PARENA commit `c6d309a`, CHANGELOG updated. Apple #15847.
