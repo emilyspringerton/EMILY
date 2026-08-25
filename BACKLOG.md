@@ -19986,8 +19986,9 @@ per Principle 18.*
   `sudo-queue/21-lock-secondtree-account.sh` (this session's own no-sudo constraint means it can't
   run directly): `usermod -L -e 1 -s /usr/sbin/nologin` + `passwd -d`, three independent layers
   (no password hash, expired account, no-login shell) so no auth path survives. Not yet executed —
-  queued for the founder to run with real sudo. No Apple filed (no code/config actually changed
-  yet); will Apple on execution confirmation.
+  queued for the founder to run with real sudo. **Execution confirmed live, same day**: founder
+  ran the script. Verified directly: `secondtree`'s shell is `/usr/sbin/nologin`. Apple #15796
+  (covers both S191-04 and S191-06 execution confirmation).
 
 - [x] **S191-05: EDDY admin credential migrated into IDUNA Vault.** Founder real-time: "migrate the
   eddy credential into the vault." The plaintext `~/.ssh/iduna-admin-eddy.txt` (IDUNA Back Office
@@ -20019,8 +20020,11 @@ per Principle 18.*
   `IDUNA/var/agent-secrets.env`, both 600) and the SSH private key (`~/.ssh/id_ed25519`) from the
   ACL grant — "mess with fatbaby's files" wasn't confirmed to mean the crown-jewel credentials
   specifically; a single `setfacl` call adds them back if the founder says otherwise. Not yet
-  executed — queued for the founder to run with real sudo. No Apple filed yet (no actual
-  system change made by this session); will Apple on execution confirmation, same as S191-04.
+  executed — queued for the founder to run with real sudo. **Execution confirmed live, same day**:
+  founder ran the script. Verified directly: account exists (uid 1002), `fatbaby`-group member,
+  home dir correct, default ACL on `/home/fatbaby` has both `user:fatbaby:rwx` and
+  `user:treeiii:rwx`, and both exclusion files confirmed still owner-only with no `treeiii` ACL
+  entry. Apple #15796 (covers both S191-04 and S191-06 execution confirmation).
 
 - [ ] **S191-07: EmilyOS — real multi-identity file-permission coordination, not ad-hoc setfacl.**
   Founder real-time, immediately after S191-06's ACL workaround: "we may need to develop our own
