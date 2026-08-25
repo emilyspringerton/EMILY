@@ -20192,12 +20192,61 @@ parena" / "mod surface first" / "api first" / "fix with parena."*
   string-formatting PARENA doesn't have primitives for yet — verified `parena parse` clean.
   PARENA commit `bda8378`. Not deployed/applied anywhere; explicitly deferred to real hardware.
 
-- [ ] **S193-02: EmilyOS GRANT-FS/REVOKE-FS as PARENA mods, Arch Linux target.** Founder
-  real-time: "do more work on the EmilyOS GRANT-FS REVOKE-FS with parena mods for arch linux."
-  Continues S191-07's design pass (`EmilyOS/docs/FS_ACL_COORDINATION.md`, `cap.fs.grant`/
-  `cap.fs.revoke` fitting EmilyOS's already-reserved per-identity capability-override extension
-  point) but changes the implementation target from Go-native to PARENA-mod-based, matching this
-  session's wider "parenify everything" pattern (PITVIPER S192-01, REDGARDEN in progress,
-  turbosed/macspoof), and names Arch Linux specifically as the target distro — not yet clarified
-  whether that's the same future ThinkPad mentioned alongside the MAC tooling, or a distinct
-  portability requirement. Not started — queued behind the in-flight REDGARDEN mod-surface fork.
+- [x] **S193-02: EmilyOS GRANT-FS/REVOKE-FS built as a real PARENA mod, live round-trip
+  verified.** Founder real-time: "do more work on the EmilyOS GRANT-FS REVOKE-FS with parena mods
+  for arch linux." Continues S191-07's design pass (`EmilyOS/docs/FS_ACL_COORDINATION.md`), fills
+  in the reserved per-identity capability-override extension point `internal/policy/rbac.go`'s own
+  header comment already named, and follows the exact PITVIPER-scrollmod shape (S192-01): the
+  PARENA mod is a real round trip (Go dispatcher → compiled PARENA C → cgo-exported host function),
+  not a no-op passthrough, with the actual `setfacl`/`getfacl` logic living in Go
+  (`internal/fsacl`), same as scrollmod's real scrollback mechanism living in Go, not PARENA.
+  **What landed**: `internal/policy/rbac.go` — `cap.fs.grant`/`cap.fs.revoke`, `RoleAdmin` only
+  (matches `cap.policy.write`'s existing scoping). `internal/fsacl/fsacl.go` — `Grant`/`Revoke`,
+  each running both the existing-file `setfacl -R -m` and the default-ACL `setfacl -R -d -m` grant
+  (the two-call shape `sudo-queue/22` already hand-verified is required — default alone misses
+  existing files, existing-only misses files created later), gated by a **standing,
+  EmilyOS-wide denylist** (regex on `*-secrets.env$`, `/agent-secrets\.env$`,
+  `/\.ssh/id_[^/]*$`) that refuses regardless of caller/role — the safer of
+  `FS_ACL_COORDINATION.md`'s two open options, since a mistake in one call can't leak the crown
+  jewels. `internal/fsaclmod/` — the actual cgo↔PARENA bridge (`fsaclmod.go`,
+  `fsaclmod_host.h`, generated `fsacl_mod.c`), `TriggerGrant`/`TriggerRevoke` entry points.
+  `stdlib/emilyos/fsacl.prn` — the PARENA mod itself, `grant-fs`/`revoke-fs`, returns `I32` status
+  (0/nonzero) rather than a PARENA-side `Result` — no working precedent yet for marshaling
+  `Result`/`Option` across the cgo boundary, same honest "narrow, verified scope over reaching for
+  something unverified" call S192-01 made for its own `I32 delta` parameter. `cmd/emilyos/main.go`
+  — `emilyos fs grant/revoke <identity> <path>`, dispatched through the existing capability-checked
+  `verb.Dispatch` path, writes a policy snapshot on success (same pattern as `POLICY_ROLLBACK`).
+  **Live-verified, not just compile-checked**: 6 new Go tests (`fsacl_test.go`,
+  `fsaclmod_test.go`) — grant→revoke round trip, default-ACL coverage for files created *after*
+  the grant, denylist refusal for both a secrets-file and an SSH-key path, and the same denylist
+  refusal proven to survive the actual cgo→PARENA→cgo round trip (not bypassed by going through
+  the mod boundary) — all passing against a real numeric-UID ACL entry (`u:9999`, confirmed
+  `setfacl` accepts a UID with no matching username, so no real second Linux account was needed to
+  test this). Beyond the Go tests, ran the actual compiled `emilyos` CLI binary end-to-end against
+  a throwaway directory: Operator role correctly denied (`rbac.cap.fs.grant.missing`), Admin role
+  granted successfully, `getfacl` confirmed the real ACL entry, the hash-chained audit log recorded
+  both the deny and the allow, revoke confirmed the entry gone afterward. `go build`/`vet`/`test
+  ./...` all clean across all of EmilyOS, `gofmt` clean.
+  **"For Arch Linux" — honestly scoped, not fully resolved**: `setfacl`/`getfacl` are the same
+  POSIX ACL tooling on Arch as this box's Debian/Ubuntu (the `acl` package, not Debian-specific),
+  so the core grant/revoke logic needs no distro-specific branching — but nothing here was
+  actually run against a real Arch box (none exists in this environment), same honest deferral the
+  MAC-address tooling thread (S193-01) already established for its own future-ThinkPad target;
+  not yet confirmed whether that's the same machine.
+  **Real hand-off gap, not a choice — same wall the PITVIPER (S192-01) and REDGARDEN forks hit**:
+  built from a git-worktree-isolated agent whose isolation boundary covers only the EMILY repo —
+  plain filesystem writes to `/home/fatbaby/EmilyOS` and `/home/fatbaby/PARENA` succeeded (used to
+  write every file above directly into their real destination paths, and to build/test/verify
+  live against the real checkouts), but every `git` operation against those two repos was refused
+  by the sandbox. **Concretely**: all the EmilyOS files listed above already sit at their real,
+  correct destination paths in the live `/home/fatbaby/EmilyOS` checkout, verified building and
+  passing tests there — they just need `git add`/`commit`/`push` run by whoever has that access.
+  Same for `stdlib/emilyos/fsacl.prn`, currently staged at
+  `EmilyOS/internal/fsaclmod/parena-src/fsacl_mod.prn` (its real destination is
+  `PARENA/stdlib/emilyos/fsacl.prn`, a new `emilyos/` stdlib directory matching `pitviper/`'s own
+  per-target-system convention) — copy, don't move, since `internal/fsaclmod/parena-src/` is
+  where a future `parena build` regeneration step should keep reading from, matching
+  `internal/scrollmod/parena-src/`'s own precedent. This BACKLOG.md entry itself was written and
+  committed from this same isolated worktree (a real git worktree of the EMILY repo specifically,
+  unlike PARENA/EmilyOS) — this worktree's branch needs merging into EMILY's `main`, same
+  fast-forward-merge step the PITVIPER fork's integration used.
