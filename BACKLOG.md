@@ -20445,6 +20445,17 @@ by default — confirms the founder's own stated concern was correct, not overca
   403 without an auth token — no `gh` CLI installed on this box; diagnosed by finding and running
   the actual failing script directly instead). Fix: same `-include`/file-list addition
   `build.sh` already had. Verified: `build_arena.sh` now builds clean, full `test_arena.sh` suite
-  still green (8 binaries, 100+ checks). REDGARDEN commit `d5b1dd5`, pushed. Real CI run in
-  progress on this exact commit at write time — will confirm green once it lands rather than
-  assuming.
+  still green (8 binaries, 100+ checks). REDGARDEN commit `d5b1dd5`, pushed. **First fix was
+  incomplete — real CI still failed, honestly caught rather than declared done on local
+  verification alone**: the exact same real CI run on `d5b1dd5` failed on a *different* step,
+  "Cross-compile Windows arena client" (checked via the Actions API, not assumed) — a third,
+  separate build path (inline in `.github/workflows/ci.yml`, not a shell script) that links
+  `apps/arena`'s objects directly and was also missed. Grepped every build path that compiles
+  `apps/arena/src/main.c` across the repo to make sure no fourth one existed (found only stale,
+  unrelated agent worktrees under `.claude/worktrees/`, not part of `main` or CI). Fixed the same
+  way, but verified properly this time *before* pushing: downloaded the real
+  `SDL2-devel-2.30.10-mingw` package this CI step uses and ran the actual
+  `x86_64-w64-mingw32-gcc` cross-compile locally with the fix applied — clean build,
+  `RedGarden.exe` produced. REDGARDEN commit `e3b359c`. **CI-verified for real this time**: the
+  actual GitHub Actions run on `e3b359c` completed with `conclusion: success` (confirmed via the
+  public API after the run finished, not inferred from the push alone).
