@@ -1922,6 +1922,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: IDUNA Back Office session-revocation vulnerability — a suspended agent's already-logged-in session s…** — obs `2026-08-25T17:38:53Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: pivot to SARENA_NOTEBOOK work -- 'cook on SARENA notebook - build a PARENA kernel for JUPYTER first'…** — obs `2026-08-25T18:52:56Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, SARENA_NOTEBOOK/Jupyter access decision thread (after the 'build a PARENA kernel for JUPYTER first' …** — obs `2026-08-25T19:02:37Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'give me a new agent admin login for okemily this time i need it put into a file in the treeiii home…** — obs `2026-08-25T19:18:34Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
