@@ -21329,3 +21329,28 @@ routed through `emily observe` before being acted on, per Principle 18.*
   output/side-effect primitive for `expr.prn`) stays open, not silently declared done. Full core
   suite (`make test`, 336 tests) and turbogrep/turbosed both reverified clean — no regressions.
   PARENA commits `8a5fcdd` + `a8ab931`, Apple #16027.
+
+- [x] **S202-25: golden doc index rewritten pure-CLI — no more LLM/ANTHROPIC_API_KEY dependency.**
+  Founder real-time: "the golden doc index shgold not be llm powered we can do that pure cli."
+  Both compilers rewritten: emily.cli's `emily context build` (`cmd/context.go`, commit `79bc797`)
+  and emily-agent's `GoldenDocCompiler` (`goldenbuild.go`, called every RSI cron cycle, commit
+  `1822e22`). New `pureCompress()`: deterministic extractive summary — every markdown header line
+  plus its first non-blank body line, capped to a char budget (~900 chars/source, matching the old
+  haiku ~180-token target); plain-truncation fallback for headerless docs. Zero network calls,
+  zero API key, ever. This was the live half of S170-265/HITL-11 (`ANTHROPIC_API_KEY` credit
+  balance dead since 2026-07-19, still dead today) — the whole golden-doc-index pipeline had been
+  non-functional or degraded for over five weeks as a result (32/45 sources found stuck on a stale
+  truncated fallback on 2026-08-14). Also structurally closes the HITL-11 "stale-cache mtime"
+  side-finding above: the removed `IsFallback` bookkeeping existed only to catch a degraded haiku
+  result being cached as if real — with `compress` always producing the real deterministic thing,
+  that whole bug class is gone, not just patched again. **Live-verified**: `emily context build`
+  with `ANTHROPIC_API_KEY` unset now compiles all 47/47 golden sources for real (previously: raw
+  uncompressed dump only). Content-hash caching (`golden-cache.json`) kept for incremental
+  cron-cycle rebuilds. `go test ./...` green in both `emily.cli` and `emily-agent`, tests rewritten
+  to match the new deterministic behavior. **Genuine open half**: the always-running emily-agent
+  daemon is a detached `go run` child process (not a systemd unit) that only picks up new source
+  on relaunch — this session (running as `treeiii`, not `fatbaby`) cannot signal fatbaby's PID to
+  restart it (`kill` returned "Operation not permitted", confirmed live), queued as
+  `sudo-queue/28-restart-emily-agent-for-pure-cli-goldenbuild.sh` for the founder/fatbaby to run;
+  the one-shot CLI path is already confirmed live, the cron-cycle path needs that restart to pick
+  up the fix. Apple #16031.
