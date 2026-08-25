@@ -1,23 +1,31 @@
 // emily-agent/goldenbuild.go
 // GoldenDocCompiler reads Tier 1 golden docs from all repos and compresses
-// them into EMILY/context/full-system-context.md via claude-haiku bilingual
-// Chinese/English compression (~150 tokens per source).
+// them into EMILY/context/full-system-context.md via a pure-CLI extractive
+// summary — no LLM call, no ANTHROPIC_API_KEY.
 //
 // Called each cron cycle via MaybeRebuild (only rebuilds if a source changed).
 // The compiled context is prepended to emilyStaticPrompt and fed into MIMIR.
+//
+// Founder real-time, 2026-08-25: "the golden doc index should not be LLM
+// powered we can do that pure cli" — this previously called claude-haiku per
+// source, which meant the whole compiler sat degraded behind HITL-11
+// (ANTHROPIC_API_KEY credit balance dead since 2026-07-19, still dead as of
+// this rewrite) — 32/45 sources were found stuck on the old truncated
+// fallback back on 2026-08-14, and the index never actually recovered since.
+// Deterministic string processing removes that dependency entirely: there is
+// no more "real vs. degraded" distinction (see the removed IsFallback field
+// this file used to carry), so that whole bug class is now structurally
+// impossible, not just patched again.
 
 package main
 
 import (
-	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -27,22 +35,12 @@ import (
 // goldenCacheEntry caches one compressed section keyed by source content hash.
 type goldenCacheEntry struct {
 	Hash       string `json:"hash"`       // sha256 of source content at last compress
-	Compressed string `json:"compressed"` // haiku-compressed section
+	Compressed string `json:"compressed"` // pure-CLI compressed section
 	UpdatedAt  string `json:"updated_at"` // RFC3339
-	// IsFallback marks an entry produced by the 500-char truncated fallback
-	// (haiku compression failed, e.g. HITL-11's credit balance) rather than a
-	// real haiku compression. Without this, a fallback entry with a hash that
-	// still matches the source would be reused forever, even after haiku
-	// starts working again -- found live 2026-08-14: 32/45 sources (71%) were
-	// stuck on this exact bug, degrading Emily Prime's own system prompt
-	// silently. A fallback entry is always retried on the next Build(),
-	// hash match or not.
-	IsFallback bool `json:"is_fallback,omitempty"`
 }
 
 // goldenCache persists per-source compressed sections so unchanged sources
-// skip the haiku call on the next rebuild. Saves ~13 haiku calls per rebuild
-// when only 1-2 sources change.
+// skip recompilation on the next rebuild.
 type goldenCache struct {
 	Entries map[string]goldenCacheEntry `json:"entries"` // source path → entry
 }
@@ -56,7 +54,6 @@ type GoldenSource struct {
 
 // GoldenDocCompiler builds EMILY/context/full-system-context.md from Tier 1 golden docs.
 type GoldenDocCompiler struct {
-	apiKey    string
 	outPath   string
 	cachePath string // context/golden-cache.json
 	sources   []GoldenSource
@@ -66,12 +63,11 @@ type GoldenDocCompiler struct {
 // EMILY/context/golden-docs-index.md. If that file is absent, falls back to
 // the hardcoded Tier 1 list so the compiler always has something to work with.
 // emilyRoot should be the absolute path to the EMILY repo root.
-func NewGoldenDocCompiler(emilyRoot, apiKey string) *GoldenDocCompiler {
+func NewGoldenDocCompiler(emilyRoot string) *GoldenDocCompiler {
 	base := filepath.Dir(emilyRoot)
 	contextDir := filepath.Join(emilyRoot, "context")
 	sources := loadGoldenIndex(filepath.Join(contextDir, "golden-docs-index.md"), base)
 	return &GoldenDocCompiler{
-		apiKey:    apiKey,
 		outPath:   filepath.Join(contextDir, "full-system-context.md"),
 		cachePath: filepath.Join(contextDir, "golden-cache.json"),
 		sources:   sources,
@@ -148,8 +144,7 @@ func hardcodedSources(base string) []GoldenSource {
 
 // MaybeRebuild rebuilds the full context if any source content changed since the last
 // compile. Uses per-source SHA-256 hashes stored in golden-cache.json so that only
-// changed sources are recompressed — unchanged sources reuse their cached section,
-// avoiding ~13 haiku calls per rebuild when only 1-2 sources change.
+// changed sources are recompressed on the next rebuild.
 func (g *GoldenDocCompiler) MaybeRebuild(ctx context.Context) error {
 	cache := g.loadCache()
 	anyChanged := false
@@ -160,11 +155,7 @@ func (g *GoldenDocCompiler) MaybeRebuild(ctx context.Context) error {
 		}
 		h := contentHash(raw, src.Budget)
 		entry, ok := cache.Entries[src.Path]
-		// A fallback-flagged entry must also trigger a rebuild attempt even
-		// when its hash still matches -- otherwise this same hash-only check
-		// is exactly what let 32/45 sources stay silently stuck on the
-		// 500-char truncated fallback indefinitely (found live 2026-08-14).
-		if !ok || entry.Hash != h || entry.IsFallback {
+		if !ok || entry.Hash != h {
 			anyChanged = true
 			break
 		}
@@ -175,9 +166,12 @@ func (g *GoldenDocCompiler) MaybeRebuild(ctx context.Context) error {
 	return g.Build(ctx)
 }
 
-// Build reads all sources, compresses changed ones via haiku (reusing cached sections
-// for unchanged sources), and writes full-system-context.md + golden-cache.json.
+// Build reads all sources, compresses changed ones via pureCompress (reusing cached
+// sections for unchanged sources), and writes full-system-context.md + golden-cache.json.
+// ctx is accepted for call-site compatibility (cron.go/tests) though pure string
+// processing never actually blocks on it.
 func (g *GoldenDocCompiler) Build(ctx context.Context) error {
+	_ = ctx
 	cache := g.loadCache()
 	var sections []string
 	built, reused := 0, 0
@@ -188,7 +182,7 @@ func (g *GoldenDocCompiler) Build(ctx context.Context) error {
 			continue
 		}
 		h := contentHash(raw, src.Budget)
-		if entry, ok := cache.Entries[src.Path]; ok && entry.Hash == h && entry.Compressed != "" && !entry.IsFallback {
+		if entry, ok := cache.Entries[src.Path]; ok && entry.Hash == h && entry.Compressed != "" {
 			sections = append(sections, entry.Compressed)
 			reused++
 			built++
@@ -199,41 +193,20 @@ func (g *GoldenDocCompiler) Build(ctx context.Context) error {
 		if src.Budget > 0 && len(text) > src.Budget {
 			text = text[:src.Budget]
 		}
-		compressed, err := g.compress(ctx, src.Name, text)
-		isFallback := false
-		if err != nil {
-			log.Printf("goldenbuild: compress %s failed (%v), using truncated fallback", src.Name, err)
-			if len(text) > 500 {
-				text = text[:500]
-			}
-			compressed = fmt.Sprintf("## %s\n%s\n", src.Name, text)
-			isFallback = true
-		} else if g.apiKey == "" {
-			// compress's own "no ANTHROPIC_API_KEY" stub returns err == nil, but it's
-			// just as degraded as the truncated fallback above -- also worth retrying
-			// once a key is actually configured, not cached as if it were real.
-			isFallback = true
-		}
+		compressed := pureCompress(src.Name, text, 900)
 		cache.Entries[src.Path] = goldenCacheEntry{
 			Hash:       h,
 			Compressed: compressed,
 			UpdatedAt:  time.Now().UTC().Format(time.RFC3339),
-			IsFallback: isFallback,
 		}
 		sections = append(sections, compressed)
 		built++
 	}
-	fallback := 0
-	for _, e := range cache.Entries {
-		if e.IsFallback {
-			fallback++
-		}
-	}
-	log.Printf("goldenbuild: %d sources built (%d reused from cache, %d new haiku calls, %d degraded on truncated fallback)", built, reused, built-reused, fallback)
+	log.Printf("goldenbuild: %d sources built (%d reused from cache, %d newly compiled)", built, reused, built-reused)
 
 	var b strings.Builder
 	b.WriteString(fmt.Sprintf("# 全系統上下文 FULL SYSTEM CONTEXT — %s\n", time.Now().UTC().Format("2006-01-02")))
-	b.WriteString("*Auto-generated by GoldenDocCompiler. Dense bilingual context for Emily Prime.*\n")
+	b.WriteString("*Auto-generated by GoldenDocCompiler. Pure-CLI extractive summary (no LLM, no ANTHROPIC_API_KEY).*\n")
 	b.WriteString(fmt.Sprintf("*Sources compiled: %d/%d.*\n\n", built, len(g.sources)))
 	for _, s := range sections {
 		b.WriteString(s)
@@ -286,63 +259,66 @@ func contentHash(raw []byte, budget int) string {
 	return hex.EncodeToString(sum[:])
 }
 
-// compress calls claude-haiku to compress doc into a dense bilingual ≤180 token section.
-func (g *GoldenDocCompiler) compress(ctx context.Context, name, text string) (string, error) {
-	if g.apiKey == "" {
-		return fmt.Sprintf("## %s\n(no ANTHROPIC_API_KEY — raw context unavailable)\n", name), nil
+// pureCompress produces a dense, deterministic (non-LLM) extractive summary
+// of a golden doc: every markdown header line, plus its first non-blank body
+// line (the real signal-carrying "lead line" an extractive summarizer keeps),
+// capped to maxChars. No network call, no API key, ever — same shape/intent
+// as the old haiku-compressed section (a "## NAME" header followed by dense
+// structure), just built with string processing instead of an LLM call.
+func pureCompress(name, text string, maxChars int) string {
+	if maxChars <= 0 {
+		maxChars = 900 // ~180-220 tokens at ~4-5 chars/token, matching the old haiku target
 	}
+	var b strings.Builder
+	b.WriteString("## " + name + "\n")
 
-	system := `You are Emily Prime's context compressor for EINHORN_INDUSTRIAL.
-Compress documentation into a dense ≤180 token bilingual section.
-Rules:
-- Chinese for concepts/state (系統/北極星/完成/待辦/架構/待實現), English for technical names/APIs/file paths
-- Every token carries signal — no filler, no repetition, no preamble
-- Preserve: purpose, current status, open blockers, key interfaces/endpoints/paths
-- Start with ## NAME (use the exact label provided)
-- Output ONLY the compressed section`
-
-	user := fmt.Sprintf("Label: %s\n\nDoc:\n%s", name, text)
-
-	body := map[string]any{
-		"model":      "claude-haiku-4-5-20251001",
-		"max_tokens": 400,
-		"system":     system,
-		"messages":   []map[string]any{{"role": "user", "content": user}},
-	}
-	payload, _ := json.Marshal(body)
-
-	req, err := http.NewRequestWithContext(ctx, "POST",
-		"https://api.anthropic.com/v1/messages", bytes.NewReader(payload))
-	if err != nil {
-		return "", err
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("x-api-key", g.apiKey)
-	req.Header.Set("anthropic-version", "2023-06-01")
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-	raw, _ := io.ReadAll(resp.Body)
-	if resp.StatusCode != 200 {
-		return "", fmt.Errorf("api %d: %s", resp.StatusCode, raw)
-	}
-
-	var result struct {
-		Content []struct {
-			Type string `json:"type"`
-			Text string `json:"text"`
-		} `json:"content"`
-	}
-	if err := json.Unmarshal(raw, &result); err != nil {
-		return "", fmt.Errorf("parse response: %w", err)
-	}
-	for _, block := range result.Content {
-		if block.Type == "text" {
-			return strings.TrimSpace(block.Text) + "\n", nil
+	lines := strings.Split(text, "\n")
+	sawHeader := false
+	pendingHeader := false
+	for _, raw := range lines {
+		trimmed := strings.TrimSpace(raw)
+		if trimmed == "" {
+			continue
+		}
+		if strings.HasPrefix(trimmed, "#") {
+			sawHeader = true
+			pendingHeader = true
+			// Downshift one level so it nests under this section's own "## NAME".
+			b.WriteString("#" + trimmed + "\n")
+			if b.Len() >= maxChars {
+				break
+			}
+			continue
+		}
+		if pendingHeader {
+			b.WriteString("- " + trimmed + "\n")
+			pendingHeader = false
+			if b.Len() >= maxChars {
+				break
+			}
 		}
 	}
-	return "", fmt.Errorf("no text block in haiku response")
+
+	if !sawHeader {
+		// No markdown structure to extract from (a plain-text/data doc) —
+		// fall back to the first maxChars of real content, collapsing blank lines.
+		b.Reset()
+		b.WriteString("## " + name + "\n")
+		for _, raw := range lines {
+			trimmed := strings.TrimSpace(raw)
+			if trimmed == "" {
+				continue
+			}
+			b.WriteString(trimmed + "\n")
+			if b.Len() >= maxChars {
+				break
+			}
+		}
+	}
+
+	out := b.String()
+	if len(out) > maxChars {
+		out = out[:maxChars] + "…\n"
+	}
+	return out
 }

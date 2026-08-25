@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -95,10 +96,10 @@ func TestLoadGoldenIndex_EmptyTier1FallsBack(t *testing.T) {
 	}
 }
 
-// buildTestCompiler sets up a GoldenDocCompiler with one real source file and
-// no API key, so compress() takes its "no ANTHROPIC_API_KEY" stub path
-// (err == nil, degraded content) -- exercises the same IsFallback marking as
-// a real haiku failure without needing to mock the Anthropic API.
+// buildTestCompiler sets up a GoldenDocCompiler with one real source file.
+// pureCompress is deterministic and needs no network/API key, so Build()
+// always produces the real thing here — there is no more "degraded" path
+// to simulate.
 func buildTestCompiler(t *testing.T, sourceContent string) (*GoldenDocCompiler, string) {
 	t.Helper()
 	dir := t.TempDir()
@@ -108,7 +109,6 @@ func buildTestCompiler(t *testing.T, sourceContent string) (*GoldenDocCompiler, 
 	}
 	cachePath := filepath.Join(dir, "golden-cache.json")
 	g := &GoldenDocCompiler{
-		apiKey:    "", // forces compress()'s degraded no-key stub path
 		outPath:   filepath.Join(dir, "full-system-context.md"),
 		cachePath: cachePath,
 		sources:   []GoldenSource{{Name: "TESTDOC", Path: srcPath, Budget: 0}},
@@ -116,8 +116,8 @@ func buildTestCompiler(t *testing.T, sourceContent string) (*GoldenDocCompiler, 
 	return g, cachePath
 }
 
-func TestBuild_MarksDegradedNoAPIKeyResultAsFallback(t *testing.T) {
-	g, cachePath := buildTestCompiler(t, "some real content for the test doc")
+func TestBuild_ProducesRealCompressedContentNoNetworkNeeded(t *testing.T) {
+	g, _ := buildTestCompiler(t, "# Heading\nSome real body text.\n")
 	if err := g.Build(context.Background()); err != nil {
 		t.Fatalf("Build: %v", err)
 	}
@@ -126,49 +126,20 @@ func TestBuild_MarksDegradedNoAPIKeyResultAsFallback(t *testing.T) {
 	if !ok {
 		t.Fatal("expected a cache entry after Build")
 	}
-	if !entry.IsFallback {
-		t.Error("expected IsFallback=true for the no-API-key degraded result, got false")
+	if !strings.Contains(entry.Compressed, "## TESTDOC") {
+		t.Errorf("expected compressed section to carry the source label, got %q", entry.Compressed)
 	}
-	_ = cachePath
-}
-
-func TestBuild_RetriesFallbackEntryOnNextBuildEvenWithMatchingHash(t *testing.T) {
-	g, _ := buildTestCompiler(t, "unchanged content across both builds")
-
-	if err := g.Build(context.Background()); err != nil {
-		t.Fatalf("first Build: %v", err)
-	}
-	cache1 := g.loadCache()
-	entry1 := cache1.Entries[g.sources[0].Path]
-	if !entry1.IsFallback {
-		t.Fatal("setup invariant broken: first build should have produced a fallback entry")
-	}
-	firstUpdatedAt := entry1.UpdatedAt
-
-	// Second Build with byte-identical source content -- the pre-fix bug would
-	// reuse the cached fallback forever (hash matches, Compressed is non-empty).
-	// The fix must retry regardless, since the cached entry is IsFallback.
-	if err := g.Build(context.Background()); err != nil {
-		t.Fatalf("second Build: %v", err)
-	}
-	cache2 := g.loadCache()
-	entry2 := cache2.Entries[g.sources[0].Path]
-	if !entry2.IsFallback {
-		t.Error("expected the retried entry to still be marked IsFallback (no API key still set)")
-	}
-	if entry2.UpdatedAt == "" || entry2.UpdatedAt < firstUpdatedAt {
-		t.Errorf("expected UpdatedAt to advance on retry (proves compress() was actually called again), got %q (was %q)", entry2.UpdatedAt, firstUpdatedAt)
+	if !strings.Contains(entry.Compressed, "Heading") || !strings.Contains(entry.Compressed, "Some real body text.") {
+		t.Errorf("expected the real header+lead-line extracted content, got %q", entry.Compressed)
 	}
 }
 
-func TestBuild_RealCompressionIsNotMarkedFallbackAndIsReused(t *testing.T) {
+func TestBuild_CachedEntryIsReusedWhenContentUnchanged(t *testing.T) {
 	g, cachePath := buildTestCompiler(t, "content")
-	// Simulate a prior real (non-fallback) compression already in the cache,
-	// as if haiku had succeeded on an earlier run.
 	raw, _ := os.ReadFile(g.sources[0].Path)
 	h := contentHash(raw, g.sources[0].Budget)
 	seed := goldenCache{Entries: map[string]goldenCacheEntry{
-		g.sources[0].Path: {Hash: h, Compressed: "## TESTDOC\nreal haiku output\n", UpdatedAt: "2020-01-01T00:00:00Z", IsFallback: false},
+		g.sources[0].Path: {Hash: h, Compressed: "## TESTDOC\nseeded content\n", UpdatedAt: "2020-01-01T00:00:00Z"},
 	}}
 	b, _ := json.Marshal(seed)
 	if err := os.WriteFile(cachePath, b, 0o644); err != nil {
@@ -181,52 +152,19 @@ func TestBuild_RealCompressionIsNotMarkedFallbackAndIsReused(t *testing.T) {
 	cache := g.loadCache()
 	entry := cache.Entries[g.sources[0].Path]
 	if entry.UpdatedAt != "2020-01-01T00:00:00Z" {
-		t.Errorf("expected a real (non-fallback) cache entry to be reused untouched, got UpdatedAt=%q", entry.UpdatedAt)
+		t.Errorf("expected the cache entry to be reused untouched (hash matched), got UpdatedAt=%q", entry.UpdatedAt)
 	}
-	if entry.Compressed != "## TESTDOC\nreal haiku output\n" {
-		t.Errorf("expected the real compressed content to be preserved, got %q", entry.Compressed)
-	}
-}
-
-func TestMaybeRebuild_TriggersOnFallbackEntryEvenWithMatchingHash(t *testing.T) {
-	g, cachePath := buildTestCompiler(t, "unchanged content")
-	raw, _ := os.ReadFile(g.sources[0].Path)
-	h := contentHash(raw, g.sources[0].Budget)
-	// Seed a cache entry whose hash matches the current source exactly, but
-	// which is flagged as a fallback -- the pre-fix bug's own hash-only check
-	// would see "hash matches" and skip Build() entirely, leaving this source
-	// stuck on its degraded content forever regardless of Build()'s own fix.
-	seed := goldenCache{Entries: map[string]goldenCacheEntry{
-		g.sources[0].Path: {Hash: h, Compressed: "## TESTDOC\nold degraded stub\n", UpdatedAt: "2020-01-01T00:00:00Z", IsFallback: true},
-	}}
-	b, _ := json.Marshal(seed)
-	if err := os.WriteFile(cachePath, b, 0o644); err != nil {
-		t.Fatalf("seed cache: %v", err)
-	}
-
-	if err := g.MaybeRebuild(context.Background()); err != nil {
-		t.Fatalf("MaybeRebuild: %v", err)
-	}
-
-	out, err := os.ReadFile(g.outPath)
-	if err != nil {
-		t.Fatalf("MaybeRebuild should have written full-system-context.md (proving Build() ran), but: %v", err)
-	}
-	if len(out) == 0 {
-		t.Error("expected non-empty full-system-context.md after a triggered rebuild")
-	}
-	cache := g.loadCache()
-	if cache.Entries[g.sources[0].Path].UpdatedAt == "2020-01-01T00:00:00Z" {
-		t.Error("expected the fallback entry's UpdatedAt to advance (proves Build() actually retried it, not just a no-op skip)")
+	if entry.Compressed != "## TESTDOC\nseeded content\n" {
+		t.Errorf("expected the seeded compressed content to be preserved, got %q", entry.Compressed)
 	}
 }
 
-func TestMaybeRebuild_SkipsWhenNoChangeAndNoFallback(t *testing.T) {
+func TestMaybeRebuild_SkipsWhenNoChange(t *testing.T) {
 	g, cachePath := buildTestCompiler(t, "unchanged content")
 	raw, _ := os.ReadFile(g.sources[0].Path)
 	h := contentHash(raw, g.sources[0].Budget)
 	seed := goldenCache{Entries: map[string]goldenCacheEntry{
-		g.sources[0].Path: {Hash: h, Compressed: "## TESTDOC\nreal output\n", UpdatedAt: "2020-01-01T00:00:00Z", IsFallback: false},
+		g.sources[0].Path: {Hash: h, Compressed: "## TESTDOC\nreal output\n", UpdatedAt: "2020-01-01T00:00:00Z"},
 	}}
 	b, _ := json.Marshal(seed)
 	if err := os.WriteFile(cachePath, b, 0o644); err != nil {
@@ -237,6 +175,69 @@ func TestMaybeRebuild_SkipsWhenNoChangeAndNoFallback(t *testing.T) {
 		t.Fatalf("MaybeRebuild: %v", err)
 	}
 	if _, err := os.Stat(g.outPath); !os.IsNotExist(err) {
-		t.Error("expected MaybeRebuild to skip Build() entirely (no output file written) when nothing changed and nothing is fallback-flagged")
+		t.Error("expected MaybeRebuild to skip Build() entirely (no output file written) when nothing changed")
+	}
+}
+
+func TestMaybeRebuild_TriggersWhenContentChanges(t *testing.T) {
+	g, cachePath := buildTestCompiler(t, "new content, differs from the seeded hash below")
+	seed := goldenCache{Entries: map[string]goldenCacheEntry{
+		g.sources[0].Path: {Hash: "stale-hash-that-wont-match", Compressed: "## TESTDOC\nold\n", UpdatedAt: "2020-01-01T00:00:00Z"},
+	}}
+	b, _ := json.Marshal(seed)
+	if err := os.WriteFile(cachePath, b, 0o644); err != nil {
+		t.Fatalf("seed cache: %v", err)
+	}
+
+	if err := g.MaybeRebuild(context.Background()); err != nil {
+		t.Fatalf("MaybeRebuild: %v", err)
+	}
+	out, err := os.ReadFile(g.outPath)
+	if err != nil {
+		t.Fatalf("MaybeRebuild should have written full-system-context.md (proving Build() ran), but: %v", err)
+	}
+	if len(out) == 0 {
+		t.Error("expected non-empty full-system-context.md after a triggered rebuild")
+	}
+}
+
+func TestPureCompress_ExtractsHeadersAndLeadLines(t *testing.T) {
+	text := "# Title\nFirst line under title.\nIgnored second line.\n\n## Sub\nLead line under sub.\n"
+	out := pureCompress("DOC", text, 900)
+	for _, want := range []string{"## DOC", "Title", "First line under title.", "Sub", "Lead line under sub."} {
+		if !strings.Contains(out, want) {
+			t.Errorf("pureCompress output missing %q; got %q", want, out)
+		}
+	}
+	if strings.Contains(out, "Ignored second line.") {
+		t.Errorf("pureCompress should only keep the FIRST body line after a header, got %q", out)
+	}
+}
+
+func TestPureCompress_FallsBackToPlainTruncationWithNoHeaders(t *testing.T) {
+	text := "just plain lines\nno markdown structure at all\nthird line\n"
+	out := pureCompress("PLAIN", text, 900)
+	if !strings.Contains(out, "## PLAIN") {
+		t.Errorf("expected the section label, got %q", out)
+	}
+	if !strings.Contains(out, "just plain lines") || !strings.Contains(out, "third line") {
+		t.Errorf("expected plain-text fallback to keep real content, got %q", out)
+	}
+}
+
+func TestPureCompress_RespectsMaxChars(t *testing.T) {
+	text := strings.Repeat("# H\nbody line\n", 200)
+	out := pureCompress("BIG", text, 200)
+	if len(out) > 210 { // small slack for the "…\n" suffix
+		t.Errorf("expected output capped near maxChars=200, got %d chars", len(out))
+	}
+}
+
+func TestPureCompress_Deterministic(t *testing.T) {
+	text := "# H\nsome body\n"
+	a := pureCompress("D", text, 900)
+	b := pureCompress("D", text, 900)
+	if a != b {
+		t.Error("pureCompress should be deterministic for identical input")
 	}
 }

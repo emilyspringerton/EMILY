@@ -192,7 +192,7 @@ func (ac *AutonomousCycle) RunOnce() error {
 
 	// Refresh full-system-context.md if any golden source doc changed.
 	if ac.cfg.EmilyRoot != "" {
-		compiler := NewGoldenDocCompiler(ac.cfg.EmilyRoot, os.Getenv("ANTHROPIC_API_KEY"))
+		compiler := NewGoldenDocCompiler(ac.cfg.EmilyRoot)
 		if err := compiler.MaybeRebuild(ctx); err != nil {
 			log.Printf("[cycle] goldenbuild: %v", err)
 		}
