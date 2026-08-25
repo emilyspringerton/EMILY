@@ -17555,18 +17555,29 @@ a Google-account-login clarification chain) resolved into the account-login thre
   experience (WebGL context, SDL2 input, full match flow) is unverified beyond each individual
   layer (relay logic, WASM serving, nginx syntax) independently confirmed working.
   (sess-20260820-0649-a3f19d93)
-- [ ] **S188-03: CI sweep — 3 real build failures found, not yet fixed.** Founder, real-time,
-  following up on "check all the recent builds": "the build is failing for brawlpit" / "the build
-  is failing for shankpit 460" / "the build is failing for mainline shankpit?" / "not sure what
-  else." Systematic sweep across all 12 repos with GitHub Actions confirmed 3 real failures:
-  **BRAWLPIT** (`f27f221a`), **SHANKPIT mainline** (`c38ced26`), and **MJOLNIR** (`6c68e3dc` —
-  not previously flagged by the founder, found via the sweep, answers "not sure what else").
-  Everything else green: REDGARDEN, GoblinFoxDragon, PITVIPER, SKULDMARK, EmilyOS, IDUNA, EMILY,
-  emily.cli, GTA7. Not investigated/fixed yet — queued behind S188-01/02 per founder's declared
-  top-priority ordering. Note: "shankpit-460" (the separate variant/build, distinct from mainline
+- [x] **S188-03: CI sweep — 3 real build failures found, now resolved or explained.** Founder,
+  real-time, following up on "check all the recent builds": "the build is failing for brawlpit" /
+  "the build is failing for shankpit 460" / "the build is failing for mainline shankpit?" / "not
+  sure what else." Systematic sweep across all 12 repos with GitHub Actions confirmed 3 real
+  failures: **BRAWLPIT** (`f27f221a`), **SHANKPIT mainline** (`c38ced26`), and **MJOLNIR**
+  (`6c68e3dc` — not previously flagged by the founder, found via the sweep, answers "not sure what
+  else"). Everything else green: REDGARDEN, GoblinFoxDragon, PITVIPER, SKULDMARK, EmilyOS, IDUNA,
+  EMILY, emily.cli, GTA7. Note: "shankpit-460" (the separate variant/build, distinct from mainline
   SHANKPIT) was asked about but not confirmed as a distinct CI target — GitHub Actions sweep only
   covers repos with their own Actions workflows; shankpit-460 may need a separate local build
-  check if it doesn't have its own CI. (sess-20260820-0649-a3f19d93)
+  check if it doesn't have its own CI, still not resolved here.
+  **2026-08-25, real status checked, not assumed**: **BRAWLPIT** — fixed as a side effect of
+  S195-02's unrelated release work (new Linux client build + release job); confirmed green live
+  (`8f36fce`, `conclusion: success`). **SHANKPIT mainline** — already fixed by a separate session
+  in the interim (commit `714937c`, "fix(ci): widen SDL2 download retry beyond connectio…",
+  confirmed green live on `master`, not `main` — this repo's default branch). **MJOLNIR** — still
+  failing on the exact same commit (`6c68e3d`) 5 days later, but confirmed this is *correct,
+  intentional* fail-fast behavior, not a bug: the "Validate google-services.json" step exists
+  specifically to catch a missing `GOOGLE_SERVICES_JSON` repo secret with a clear error instead of
+  a deep Gradle stack trace. Traces directly to the already-tracked, still-open S189-31 blocker
+  (Firebase Console's real browser-based ToS consent gate, not bypassable from the command line) —
+  not a new or different problem, nothing to fix in code until that real external step happens.
+  (sess-20260820-0649-a3f19d93; 2026-08-25 follow-up sess-20260825-0828-cc32a704)
 - [ ] **S188-04: ECOWAR — hard fork, not just "separate everything" within REDGARDEN.** Founder,
   real-time, escalating the SECTION 176/NORTHSTAR §29 scoping: "build ECOWAR" → "separate lobby"
   → "separate source" → "HARD FORK" → "in order to maintain easy hackability" → "we want to hard
