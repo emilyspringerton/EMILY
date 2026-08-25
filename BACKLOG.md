@@ -1858,6 +1858,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'and then the giga bowser of templating languages' + 'php' -- PHP itself named as the final-boss-tie…** — obs `2026-08-24T23:34:54Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'all the templating languages into the stdlibs' -- concrete ask: stdlib/template/ (or similar) shoul…** — obs `2026-08-24T23:34:50Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'and everything in between' -- closes the templating-survey burst (obs 23:37-23:39Z: handlebars, leg…** — obs `2026-08-24T23:34:44Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: investigate the external-AI hallucination artifact (Martin Robson LinkedIn post name-collision + Goo…** — obs `2026-08-25T01:32:46Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'and whatever people use now' -- rounds out the templating survey to include modern engines too (JSX…** — obs `2026-08-24T23:34:41Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'whatever the fuck people used to use' -- broadening the templating reference list beyond Handlebars…** — obs `2026-08-24T23:34:32Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'handlebars' -- naming Handlebars.js as a specific template-engine reference/inspiration for PARENA'…** — obs `2026-08-24T23:34:29Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, PARENA-web vision: 'like make php jealous' (echoes NORTHSTAR's own earlier 'just build it right in y…** — obs `2026-08-24T23:34:27Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
