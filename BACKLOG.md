@@ -1920,6 +1920,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, clarifying the press-release bug location: 'on the news site on the press releasses page' -- confirm…** — obs `2026-08-25T15:29:54Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: continued backlog-first session (chmod workaround for IDUNA agent secrets applied, Apples now filing…** — obs `2026-08-25T17:18:19Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: IDUNA Back Office session-revocation vulnerability — a suspended agent's already-logged-in session s…** — obs `2026-08-25T17:38:53Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: pivot to SARENA_NOTEBOOK work -- 'cook on SARENA notebook - build a PARENA kernel for JUPYTER first'…** — obs `2026-08-25T18:52:56Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
