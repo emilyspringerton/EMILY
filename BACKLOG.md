@@ -1907,6 +1907,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Continuing backlog per founder's 'continue backlog' instruction. Picked S189-01 (damage log for REDGARDEN + GFD Battleg…** — obs `2026-08-25T13:49:12Z`. CURATED: 2026-08-25.
 - [ ] **Continuing backlog: dispatched S189-07 (crystal-simulation-seeds-GFD-MUD-world) to a fork -- different GFD subsystem (a…** — obs `2026-08-25T14:10:22Z`. CURATED: 2026-08-25.
 - [ ] **test check from worktree fork** — obs `2026-08-25T14:00:55Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, confirms mod-surface-first pattern applies to this fix too: 'mod api first then fix'. Same establish…** — obs `2026-08-25T15:26:04Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, concrete bug details: 'from the press release page' / 'its a prnerswire' (PRNewswire source) / 'it l…** — obs `2026-08-25T15:25:54Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time bug report: 'there is a bug on one of the press releases.' No specifics given yet (which release, wha…** — obs `2026-08-25T15:25:40Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
