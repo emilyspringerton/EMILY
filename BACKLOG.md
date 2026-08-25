@@ -1863,6 +1863,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'whatever the fuck people used to use' -- broadening the templating reference list beyond Handlebars…** — obs `2026-08-24T23:34:32Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'handlebars' -- naming Handlebars.js as a specific template-engine reference/inspiration for PARENA'…** — obs `2026-08-24T23:34:29Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, PARENA-web vision: 'like make php jealous' (echoes NORTHSTAR's own earlier 'just build it right in y…** — obs `2026-08-24T23:34:27Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, scope escalation: 'so i guess we are going to parenaify ok emily' + 'build in the templating stuff' …** — obs `2026-08-24T23:34:20Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK render targets sequencing: HTML first, 'SDL native second' -- SDL2-based native rend…** — obs `2026-08-24T23:29:13Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, elaborating SARENA_NOTEBOOK (obs 23:28:29Z): 'build our libplot shit into it' + 'html first' -- plot…** — obs `2026-08-24T23:29:10Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, new project idea: 'super bare bones jupyter replacement gui parena compile and run whatever the back…** — obs `2026-08-24T23:28:29Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
