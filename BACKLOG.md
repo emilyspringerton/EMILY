@@ -20431,3 +20431,20 @@ by default — confirms the founder's own stated concern was correct, not overca
   currently wouldn't satisfy `bin` either. Not touched — PARENA's `--prerelease` flag was a
   deliberate, recorded prior decision ("VS0 is still early, pre-1.0 compiler development, not a
   stable release track yet") and reversing it isn't this item's call to make unilaterally.
+
+- [x] **S194-04: fixed REDGARDEN CI build break — build_arena.sh missing bloodflower_mod.c.**
+  Founder real-time alert: "redgarden build is down" (repeated, urgent). Real gap: S194-01's
+  day/night+Bloodflower work correctly updated `scripts/build.sh`'s own `apps/arena` target
+  (`-include bloodflower_mod_host.h` + `bloodflower_mod.c`) but never touched
+  `scripts/build_arena.sh` — a separate, redundant build path CI runs as its own "sanity check"
+  step, confirmed via `.github/workflows/*.yml`. Local verification at S194-01's own integration
+  time (`bash scripts/build.sh` + `scripts/test_arena.sh`) passed clean because it never exercised
+  the broken script — CI's real run failed with `undefined reference to on_moon_zenith` at link
+  time, confirmed by reproducing the exact failure locally (`bash scripts/build_arena.sh`) before
+  fixing, not guessed at from the CI job name alone (GitHub's raw log-download endpoint returned
+  403 without an auth token — no `gh` CLI installed on this box; diagnosed by finding and running
+  the actual failing script directly instead). Fix: same `-include`/file-list addition
+  `build.sh` already had. Verified: `build_arena.sh` now builds clean, full `test_arena.sh` suite
+  still green (8 binaries, 100+ checks). REDGARDEN commit `d5b1dd5`, pushed. Real CI run in
+  progress on this exact commit at write time — will confirm green once it lands rather than
+  assuming.
