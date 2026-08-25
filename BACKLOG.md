@@ -1872,6 +1872,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: wants assurance the system is secure — scope unspecified (which repo/service, and what kind of secur…** — obs `2026-08-25T08:32:41Z`. CURATED: 2026-08-25. — addressed as S191-01 (SECTION 191) read-only security sweep, no signs of intrusion found within checkable permissions.
 - [ ] **Founder real-time: confirmed 'secondtree' Linux account (uid 1001, created 2026-08-22 during boot/maintenance, never lo…** — obs `2026-08-25T08:38:01Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, fragments during the live intrusion-detection pass: 'start building ptraece in parena' / 'ptrace' / …** — obs `2026-08-25T08:36:37Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, third concrete PITVIPER bug report in the same burst: 'we are still also missing a few glyphs for cl…** — obs `2026-08-25T08:51:43Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, continuing the PITVIPER-tmux-scroll pivot: 'api first' / 'fix with parena.' Reinforces wanting the f…** — obs `2026-08-25T08:51:25Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, immediately after the PITVIPER tmux-scrolling bug report: 'using parena' / 'mod surface first.' Ambi…** — obs `2026-08-25T08:50:54Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time pivot: 'can we get pitviper to work with tmux pane scrolling? doesnt work when i try to scroll back u…** — obs `2026-08-25T08:50:29Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
