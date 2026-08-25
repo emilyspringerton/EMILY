@@ -14738,6 +14738,11 @@ first, open design questions last.
   2026-07-19, re-confirmed dead today) — see the HITL-11 side-finding entry above for the likely
   stale-cache mechanism. Nothing to build here beyond what already exists; genuinely blocked on
   the founder topping up credits, not an engineering gap.
+  — **Re-confirmed still dead 2026-08-25** (post-reboot session): `emily context build --dry-run`
+  hit the identical `credit balance too low` 400 on every one of 47/47 sources (SAGA-SCHEMA,
+  PARENA-NORTH, etc.). 16 days since the original 2026-08-09 finding — still no top-up. Same
+  `ANTHROPIC_API_KEY`, same failure. No further engineering possible here; this is now the
+  longest-standing HITL-11-class blocker in the backlog.
 - [x] **S170-266: read all okemily.com blog posts for session context.** Found the source: IDUNA's
   `GET /api/v1/blog/posts` (list) / `GET /api/v1/blog/posts/{slug}` (body field, not `content`) —
   `blog.db`-backed, 105 posts total spanning 2026-07-18 through 2026-08-06 (~3 weeks). Read the
