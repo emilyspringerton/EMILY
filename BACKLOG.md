@@ -21285,7 +21285,7 @@ routed through `emily observe` before being acted on, per Principle 18.*
   history, not omitted). REDGARDEN `0d6aa6d` (fix), `e5fc500` (docs), `18c3f39` (changelog),
   Apple #16023.
 
-- [~] **S202-24: PARENA self-hosting/dogfooding — turboawk, the third of the turbo-sed/
+- [x] **S202-24: PARENA self-hosting/dogfooding — turboawk, the third of the turbo-sed/
   turbo-grep/turbo-awk trio, paused mid-flight for S202-23's own live-bug interrupt above.**
   Founder real-time: "keep working on the self bootstrap compiler for parena" — continuing
   S170-295's own thread (turbogrep and turbosed are both real, working, PARENA-compiled tools;
@@ -21318,3 +21318,15 @@ routed through `emily observe` before being acted on, per Principle 18.*
   tree has the real, gcc-verified changes; resume by finishing `tests/test_awk.c`'s own
   compile+run, then commit PARENA (`stdlib/expr.prn`, `stdlib/awk.prn`) and wire a `turboawk`
   Makefile target matching `turbogrep`/`turbosed`'s own pattern.
+  — **Finished, next session (2026-08-25).** Regenerated `tests/test_awk_gen.c` fresh
+  (`./parena build` over string/array/io/regex-syntax/regex-pcre/expr/awk.prn — `vec.prn`
+  deliberately excluded from the build list, matching turbogrep/turbosed's own precedent: it's a
+  generic-typed VS0-domain-1-only stub, not yet compilable standalone), compiled `tests/test_awk.c`
+  gcc-clean, ran it: **10/10 PASS** (expr/eval arithmetic/concat/coercion/variable-binding, plus
+  awk/run's real read-split-match-evaluate pipeline over a 2-line file). Added `make test-awk`
+  (matching `test-json`/`test-yaml`'s own discipline) rather than a `turboawk` CLI target — the
+  no-print-primitive gap this item's own note flagged is still real and unresolved, so a literal
+  `turboawk` binary would have nothing honest to do yet; that follow-up (designing an
+  output/side-effect primitive for `expr.prn`) stays open, not silently declared done. Full core
+  suite (`make test`, 336 tests) and turbogrep/turbosed both reverified clean — no regressions.
+  PARENA commits `8a5fcdd` + `a8ab931`, Apple #16027.
