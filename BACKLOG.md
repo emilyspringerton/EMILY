@@ -15318,11 +15318,26 @@ first, open design questions last.
   since it wasn't itself the requested task — surfacing for founder prioritization rather than
   started unilaterally.
 
+  **G4 (forward-declaration typing gap) fixed, same day**: founder — "fix the forward-declaration
+  typing gap." `src/emit.c`'s `defn` forward-declaration pre-pass emitted deliberately
+  empty-parens/K&R-style prototypes (`RetType name();`) — the real root cause that let the Star
+  segfault ship undetected (gcc can't type-check call-site args against an empty-parens
+  prototype). New `resolve_param_prototype_type()`/`build_defn_prototype()` mirror
+  `emit_defn`'s own parameter-shape matching (region markers, I32/Bool/F64/String, Fn callbacks,
+  registered struct/enum, `&Type`/`&mut Type`, `&(ComplexType)`, `Type @ Region`) to emit a
+  fully-typed prototype whenever every parameter resolves, falling back to empty-parens only for
+  shapes it doesn't recognize (no regression). Verified with a standalone repro that this turns
+  the exact Star bug class into a hard gcc compile ERROR, not just a missed warning. All 336
+  compiler tests pass (2 updated for the new typed-prototype format); turbogrep rebuilt and
+  re-verified byte-identical against real grep across the 951-file corpus. PARENA commit
+  `99ef91a`, Apple #15728. Audit doc updated: G4 now marked fixed, all four correctness gaps
+  (C1-C4) and the one flagged compiler hazard from this session are resolved.
+
   **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all — real, distinct,
   previously-untested compile failures found in the same-day bottleneck audit
-  (`PARENA/docs/TURBOGREP_BOTTLENECK_AUDIT.md`, C12/C13), not chased further this session. G4
-  (empty-parens forward decls) is now the single highest-flagged compiler-level risk in the
-  audit doc's own priority ranking, unfixed.
+  (`PARENA/docs/TURBOGREP_BOTTLENECK_AUDIT.md`, C12/C13), not chased further this session. G1/G2
+  (flat struct/enum registry; Vec-of-struct elem-hint gap for plain locals) remain open,
+  compiler-level, unfixed.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
