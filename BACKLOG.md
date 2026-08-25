@@ -19955,3 +19955,24 @@ per Principle 18.*
   instead, flagged rather than silently substituted. Not duplicating S190-01's tracked scope
   here — this item exists only to note the tradeoff was made deliberately; building
   grep.prn/sed.prn/awk.prn itself stays S190-01's scope, not a new item.
+
+- [x] **S191-04: secondtree account lockdown queued.** The read-only sweep in S191-01 surfaced an
+  unrecognized second Linux account (`secondtree`, uid 1001, `/etc/passwd` mtime 2026-08-22 04:37 —
+  coincides with that day's reboot, never logged in per `last`). Founder confirmed real-time: "i
+  made it but lock it down" / "make it so it doesnt even have a password / no ability to login."
+  Not an intrusion — founder-created, precautionary hardening only. Wrote
+  `sudo-queue/21-lock-secondtree-account.sh` (this session's own no-sudo constraint means it can't
+  run directly): `usermod -L -e 1 -s /usr/sbin/nologin` + `passwd -d`, three independent layers
+  (no password hash, expired account, no-login shell) so no auth path survives. Not yet executed —
+  queued for the founder to run with real sudo. No Apple filed (no code/config actually changed
+  yet); will Apple on execution confirmation.
+
+- [x] **S191-05: EDDY admin credential migrated into IDUNA Vault.** Founder real-time: "migrate the
+  eddy credential into the vault." The plaintext `~/.ssh/iduna-admin-eddy.txt` (IDUNA Back Office
+  admin secret, agent EDDY, `iduna.admin` grant) predates the Vault (S170-03b) and was never
+  migrated. Vault was deliberately left uninitialized per that item's own decision (passphrase
+  must be human-memorized, never agent-chosen) — founder ran `emily vault init`/`unlock`
+  themselves in their own terminal; this session then added it as vault item #1 (`api_key` type,
+  fields: url/url_local/agent/secret/notes) via `emily vault add -field k=v` (no passphrase
+  exposure needed for `add` itself), verified round-trip via `emily vault get 1`, then deleted the
+  plaintext file. Apple #15779, IDUNA CHANGELOG updated + committed.
