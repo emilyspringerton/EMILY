@@ -5881,6 +5881,16 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   (emily-agent/SHANKPIT still blocked on the same prerequisites as before), public postmortem log
   tied to escalation Apples (real design work, not mechanical). (sess-20260813-2154-dda37e8b)
 
+  **Latency-chart candidate DONE 2026-08-25.** Backend already exposed `latency_ms` on every
+  history check (checker.go's `Check` doc comment named this exact follow-up) — pure frontend
+  addition, no IDUNA change. Bar chart under each service's existing incident timeline on
+  `status.html`, reusing the already-fetched history response (no second request): bar height
+  scaled relative to the min/max latency in the visible window, red for down checks, caption
+  shows min/avg/max ms. Verified the scaling math against real production data (500 live iduna
+  checks, all bars in valid range). OKEMILY `29d6d09`. Apple #15887. **Still `[ ]`, not closing
+  out**: more checked targets and the public postmortem log (above) remain genuinely open.
+  session: sess-20260825-0828-cc32a704
+
 - [x] **S153-16: REDGARDEN services on the status page.** Founder, real-time: "redgarden services
   need okemily status page." Added the three live systemd `--user` units
   (`redgarden-matchmaker-bots` 10v10, `redgarden-matchmaker-players` 1v1, `redgarden-bot-pool`
@@ -5907,7 +5917,7 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   301-redirects with the correct target (verified no double-prefix bug). HTTPS+HSTS live on the
   new subdomain. Apple #9967.
 
-- [ ] **S153-14: entity-graph/signalapi/newssite full-in-memory-replay fragility** — three
+- [x] **S153-14: entity-graph/signalapi/newssite full-in-memory-replay fragility** — three
   processes rebuild their entire working state by replaying the full event-store history into
   memory on every process start; none persist/cache the built index. This is a real architectural
   fragility, found live twice the same night: migrating `signalapi` to systemd triggered a rebuild
@@ -5923,6 +5933,16 @@ deliberately kept unnamed on the page per explicit direction. New repo: `OKEMILY
   disabled. Real fix needs design (bounded replay window? persisted/cached index — the founder's
   own "cache into mongo or something" instinct from earlier the same night, applied to the right
   targets this time), not something to improvise live. Apple #9968.
+
+  **Stale-checkbox correction, 2026-08-25**, found while working the backlog top-down (lowest-
+  numbered open section first): this is the exact same fragility SECTION 1's top-priority item
+  already fully resolved via Phases 0-3 — streaming `eventstore.Scan` API (Apple #9989); SQLite
+  checkpoints for signalapi (Apple #10207) and newssite (Apple #10209); entity-graph checkpoint
+  enabling the previously-disabled service (Apple #10503). Same symptom (AMZN "we don't cover"
+  during rebuild), same three processes, same root cause — this entry was simply never marked
+  done because the fix landed under an earlier section rather than being cross-referenced back.
+  No new code, documentation correction only (same pattern as this file's own S23-01/S154-01
+  stale-checkbox corrections). Apple #15888. session: sess-20260825-0828-cc32a704
 
 - [x] **S153-15: fixed serveDoc's per-request full-history scan** — found while debugging
   user-reported broken article deep links (60s+ requests hitting nginx's `proxy_read_timeout`,
@@ -7040,6 +7060,24 @@ marked.*
 canonical, fix `libglu1-mesa-dev` so builds can be verified at all) — everything else in this
 section either depends on it (S169-02) or is independent enough to sequence separately
 (S169-03 through S169-06 can each be its own focused session).
+
+- [x] **S169-11: WOTAN page — Prompt-o-verse art.** Founder, via `/design`: "update wotan with
+  some of the art from promptoverse." Drafted as a design canvas first (published Artifact for
+  review), then shipped for real per founder follow-up ("finish the wotan stuff first i want to
+  see that online first"). Picked two Norse-themed real Prompt-o-verse generations matching
+  WOTAN's own branding (WOTAN = Odin/Wotan) rather than the first thing that fit the "Norse"
+  keyword: "viking warrior" (Unreal Engine style) as a hero banner under the header, and "Fenrir"
+  (chained rune-wolf, Unreal Engine style) paired beside the "How it's built" principles — a
+  bound, disciplined beast next to principles about closed economies and server authority, a
+  deliberate pairing, not arbitrary. Downsampled from the live 1024x1024 Prompt-o-verse originals
+  to 900px/700px JPEGs (176K/92K) via imagemagick, stored as real files at `OKEMILY/images/` —
+  first image assets ever checked into that repo (previously text/HTML only). Same card visual
+  language as the existing `.game-card` system (`var(--bg-card)`, `var(--border)` hairline, 10px
+  radius) so the art reads as part of the design system, not pasted in. Deployed via
+  `~/okemily-deploy.sh`; live-verified: `https://okemily.com/tournaments.html` returns 200 with
+  both new markup blocks present, both images return 200. Design canvas preview kept for
+  reference: `https://claude.ai/code/artifact/07ce4bbc-40a3-4bb8-ab5e-802c82c73b81`. OKEMILY
+  `e02f353`. Apple #15890. session: sess-20260825-0828-cc32a704
 
 ---
 
