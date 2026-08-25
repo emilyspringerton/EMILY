@@ -21255,3 +21255,65 @@ routed through `emily observe` before being acted on, per Principle 18.*
   evaluation objective (did a generated item measurably counter the meta) — both real,
   unresolved training-loop questions, same honesty convention NORTHSTAR §26.3.2 already used.
   REDGARDEN `6d0443d`/`76fccc3`, PARENA `d63590a`, Apple #16017.
+
+- [x] **S202-23: REDGARDEN — fixed a live bug where Tree's passive (and day/night/Bloodflower)
+  never fired in 1v1 matches, plus fully documented the passive in README.** Founder real-time,
+  live and urgent, interrupting S202-24's own PARENA turboawk work: "im playing redgarden on
+  latest and the tree is not generating health from auto attacking the other trees ensure the
+  server knows about that and its all wired up to work" → "fully explain the hero passive in the
+  redgarden readme." Root cause: `arena_tick_daynight`/`arena_tick_obstacles`/
+  `arena_hero_tree_passive` were wired into `arena_update_teams` (team-mode tick) when
+  Bloodflower/Tree passive landed earlier this session (S202-08), but never into `arena_update`
+  (the 1v1 tick, `apps/arena_server/src/main.c`'s own `if (lobby_size == 2) arena_update() else
+  arena_update_teams()` branch) — the founder's own 1v1 matchmaker (`:7779`, lobby-size 2, per
+  this repo's own `CLAUDE.md` deployment table) runs exclusively through `arena_update`, so the
+  passive silently never fired there at all; team-mode/bot-pool matches (`:7778`) were
+  unaffected. Same class of gap NORTHSTAR.md §25.4's own "`arena_update` hardcodes heroes[0]/
+  heroes[1]" bug already flagged this session: two parallel simulation-tick functions, one gets a
+  new mechanic wired in, the other doesn't. First edit attempt actually landed in the WRONG
+  function (a team-mode resource-tick helper sitting between `arena_update`'s real closing brace
+  and `arena_update_teams`'s own start — verified broken via a standalone repro, caught before
+  shipping, moved to `arena_update`'s own real end). Verified fixed the same way: repro showed
+  obstacle hp -10 / hero hp +4 per strike through the real `arena_update()` call, matching
+  `arena_hero_tree_passive`'s own direct-call behavior exactly. New regression test
+  (`test_tree_passive_fires_through_the_real_1v1_arena_update`) exercises the real top-level tick
+  function — every prior Tree-passive test called the mechanic directly, which is exactly why
+  this slipped through undetected. All 4 build paths reverified green. Also added a full "Hero
+  passives" README section (mechanic, all 5 real numbers cross-checked against `arena_game.h`'s
+  own `#define`s, the server-authoritative + PARENA-mod-driven split, and this bug as real
+  history, not omitted). REDGARDEN `0d6aa6d` (fix), `e5fc500` (docs), `18c3f39` (changelog),
+  Apple #16023.
+
+- [~] **S202-24: PARENA self-hosting/dogfooding — turboawk, the third of the turbo-sed/
+  turbo-grep/turbo-awk trio, paused mid-flight for S202-23's own live-bug interrupt above.**
+  Founder real-time: "keep working on the self bootstrap compiler for parena" — continuing
+  S170-295's own thread (turbogrep and turbosed are both real, working, PARENA-compiled tools;
+  turboawk was the missing third). Found the real blocker was much deeper than the bottleneck
+  audit's own C13 entry ("`awk.prn`: unknown identifier 'line' at line 30") suggested — fixed
+  that shallow bug first, then found `stdlib/expr.prn`'s own `parse-expr`/`EvalError`/
+  `coerce-num`/`coerce-str` were called but never actually defined anywhere in the file (a real,
+  previously-undiscovered gap, only reachable once C13 itself stopped blocking compilation).
+  Built a real, minimal recursive-descent expression parser (arithmetic/string/variable-binding,
+  single precedence level, honestly flagged as no `*`/`/` precedence climbing yet) plus a real
+  `Bindings` parallel-vector type standing in for `(Map String ExprValue)` — `map.prn`'s own
+  hash-map source has no runtime backing at all, blocked on real generics (a separate, much
+  larger, unstarted VS0 feature). Also fixed `ExprNode`'s own `BinOp` variant, which declared
+  `&ExprNode` reference fields VS0 has no way to actually construct from `.prn` source (changed
+  to by-value `ExprNode @ Region`, the same convention `regex/syntax.prn`'s own `PatternNode`
+  already proves works), plus several more real, previously-uncompiled bugs in `awk.prn`'s own
+  pre-existing skeleton (a missing `&` on `run-rules`' own Vec argument, taking `&` of a
+  temporary function-call result, `is-match`'s real call arity, `join-fields`/`concat-field-name`
+  called but never defined). Found and documented — but did not fix at the compiler level — a
+  real, narrow scope-chaining bug: a `let` nested two levels inside `when`-inside-`let`-inside-
+  `when` failed to resolve its own binding; worked around by flattening. Compiles gcc-clean
+  (`-Wall -Wextra -pedantic`, zero warnings) as of the pause point; a `tests/test_awk.c`
+  verification harness (matching `test_json.c`/`test_yaml.c`'s own real end-to-end discipline)
+  was drafted but not yet compiled/run when the live bug interrupt landed. **Honest scope note
+  carried into the eventual finish**: `awk.prn`'s own `run-rules` evaluates each matching rule's
+  action via `expr/eval` and discards the result — there is no `print` statement or any other
+  side-effecting output primitive anywhere in `expr.prn`'s own expression language yet, so a
+  genuinely useful `turboawk` CLI needs that designed and added as real, separate follow-up work,
+  not assumed solved by finishing the parser alone. Not yet committed to either repo — working
+  tree has the real, gcc-verified changes; resume by finishing `tests/test_awk.c`'s own
+  compile+run, then commit PARENA (`stdlib/expr.prn`, `stdlib/awk.prn`) and wire a `turboawk`
+  Makefile target matching `turbogrep`/`turbosed`'s own pattern.
