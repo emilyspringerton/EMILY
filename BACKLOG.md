@@ -15276,8 +15276,20 @@ first, open design questions last.
   and isn't something living in a dotfile to safely redefine. The install affects this account's
   other shells/scripts, not this specific session's own tool calls.
 
-  **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all — real, distinct,
-  previously-untested compile failures found in the same-day bottleneck audit
+  **Anchor (`^`/`$`) fixed, same day**: founder — "implement anchor next." Zero-width
+  assertions (`Start`=`pos==0`, `End`=`pos==string-length`, real grep's own per-line default
+  semantics) — the existing candidate-list matcher design already handled zero-width matches
+  correctly with no special-casing needed. `WordBoundary` (`\b`) stays honestly flagged
+  unsupported (a real `AnchorKind` variant the parser never actually produces). Same
+  single-field-defenum-bind `void*` gap hit again (`unbox-anchor-kind`, same fix shape as
+  `unbox-bool`). Verified against real grep: `^hello`, `hello$`, `^hello$` all byte-identical.
+  Full 10-pattern regression (adds `^func`/`[0-9]` to the earlier 8) all match. PARENA commit
+  `83bb915`, Apple #15722. Audit doc updated: C1 (CharClass) and C2 (Anchor) both now marked
+  fixed.
+
+  **Still real, not done**: `Plus`/`Optional` (C3/C4) still unimplemented (safely routed around
+  by the router, not silently wrong). `sed.prn`/`awk.prn` haven't been attempted at all — real,
+  distinct, previously-untested compile failures found in the same-day bottleneck audit
   (`PARENA/docs/TURBOGREP_BOTTLENECK_AUDIT.md`, C12/C13), not chased further this session.
 ---
 
