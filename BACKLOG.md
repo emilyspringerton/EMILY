@@ -1946,6 +1946,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ensure all core repos have a separate 'construct'-only build -- a concatenated plain-text dump artif…** — obs `2026-08-25T21:06:26Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: SHANKPIT-460 -- link/bundle as a single binary instead of separate client/server/bot executables** — obs `2026-08-25T21:02:43Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, live/urgent: SHANKPIT-460 bot matches still not working, founder is currently stuck in the Osaka gar…** — obs `2026-08-25T21:01:09Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: reconnect -- 'GFD first then if so' (ambiguous -- possibly: build/verify in GFD battlegrounds_gui fi…** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: reconnect feature may need real IDUNA logins (not just self-minted connect tickets) to identify who …** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: add a reconnect feature to REDGARDEN (rejoin an in-progress match after disconnect)** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
