@@ -15292,10 +15292,32 @@ first, open design questions last.
   `83bb915`, Apple #15722. Audit doc updated: C1 (CharClass) and C2 (Anchor) both now marked
   fixed.
 
-  **Still real, not done**: `Plus`/`Optional` (C3/C4) still unimplemented (safely routed around
-  by the router, not silently wrong). `sed.prn`/`awk.prn` haven't been attempted at all — real,
-  distinct, previously-untested compile failures found in the same-day bottleneck audit
-  (`PARENA/docs/TURBOGREP_BOTTLENECK_AUDIT.md`, C12/C13), not chased further this session.
+  **Plus/Optional fixed, same day, plus a critical segfault found+fixed**: founder — "implement
+  plus and optional next." `match-plus`/`match-optional` added to `stdlib/regex/pcre.prn`,
+  verified byte-identical to real grep (`a+b`, `colou?r`) across the 949-file corpus. Along the
+  way, found a genuinely dangerous, previously-undetected bug: `match-node`'s `Star` dispatch
+  call passed `inner` **by value** where `match_star`'s real C signature expects
+  `PatternNode *` — silently broken the ENTIRE session (no prior pattern had exercised `*` at
+  all), never caught by gcc because `src/emit.c`'s forward declarations are deliberately
+  empty-parens/K&R-style (`ReturnType name();`, ~line 5394-5414 — a documented tradeoff to avoid
+  duplicating `emit_defn`'s param-type-resolution logic), which means gcc cannot type-check
+  call-site arguments against forward-declared functions at all. Confirmed a real, live
+  segfault: `./turbogrep 'a*b' /tmp/star_test.txt` → exit 139, core dumped — on what was already
+  installed as this account's system `grep` at the time of discovery. Fixed with `&inner` at the
+  Star/Plus/Optional dispatch call sites; `node-supported?` was also missing explicit
+  Plus/Optional cases (fell to its `_ → false` catch-all), added. PARENA commit `9a622f5`, Apple
+  #15726. Audit doc updated: C3 (Plus) and C4 (Optional) now marked fixed; new item **G4** added
+  documenting the empty-parens-forward-decl hazard as a standing, unfixed compiler-level risk —
+  a bounded fix (typed prototypes via `resolve_declared_type()` for common param shapes, falling
+  back to empty-parens for shapes it can't resolve) was investigated but **not implemented**,
+  since it wasn't itself the requested task — surfacing for founder prioritization rather than
+  started unilaterally.
+
+  **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all — real, distinct,
+  previously-untested compile failures found in the same-day bottleneck audit
+  (`PARENA/docs/TURBOGREP_BOTTLENECK_AUDIT.md`, C12/C13), not chased further this session. G4
+  (empty-parens forward decls) is now the single highest-flagged compiler-level risk in the
+  audit doc's own priority ranking, unfixed.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
