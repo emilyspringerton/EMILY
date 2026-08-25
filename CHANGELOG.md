@@ -1,4 +1,5 @@
 ## 2026-08-25
+- S139-02: toothbrush manufacturing vendor research (STINKIES COMMISSAIRE + ULTRA) — Tier 1 well-served by existing OEM/ODM toothbrush makers, Tier 2 (brass ULTRA) found to be a real 3-vendor/3-step supply chain (handle CNC/PVD shop + head-mold OEM + assembly), not a single vendor pick. Apple #15767. (sess-20260825-0828-cc32a704)
 
 - Wrote up a research note on an external AI's hallucinated 'EmilyOS'/'Smilium' architecture claims, tracing what's real (public repo names, a real Erlang idea) vs fabricated. docs/EXTERNAL_AI_HALLUCINATION_CASE_STUDY_EMILYOS.md, commit 166f8a5. (sess-20260824-2252-ce890e4f)
 
