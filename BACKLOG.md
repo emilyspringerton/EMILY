@@ -1870,6 +1870,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [~] **Founder real-time, rapid burst during the security scoping session: (1) 'i want you to do intrusion detection on this s…** — obs `2026-08-25T08:35:23Z`. CURATED: 2026-08-25. — scoped as S191-03 (SECTION 191): deferred, real blocker (PARENA grep/sed/awk unbuilt) already tracked in S190-01.
 - [x] **Founder real-time: reports unexpected logouts — 'some weird stuff has been happening where i get logged out when i shou…** — obs `2026-08-25T08:34:16Z`. CURATED: 2026-08-25. — root-caused + fixed as S191-02 (SECTION 191), Apple #15775.
 - [x] **Founder real-time: wants assurance the system is secure — scope unspecified (which repo/service, and what kind of secur…** — obs `2026-08-25T08:32:41Z`. CURATED: 2026-08-25. — addressed as S191-01 (SECTION 191) read-only security sweep, no signs of intrusion found within checkable permissions.
+- [ ] **Founder real-time: confirmed 'secondtree' Linux account (uid 1001, created 2026-08-22 during boot/maintenance, never lo…** — obs `2026-08-25T08:38:01Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, fragments during the live intrusion-detection pass: 'start building ptraece in parena' / 'ptrace' / …** — obs `2026-08-25T08:36:37Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
