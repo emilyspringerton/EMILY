@@ -20367,3 +20367,55 @@ as parena" -> "parena mods" -> "but it should all be events with parena mods ya 
   in-progress changes to `stdlib/sed.prn`/`regex/pcre.prn`/`tools/turbosed_host.c` in this same
   checkout (same situation S192-01's integration hit) — only stage the one file listed above,
   not those.
+
+## SECTION 195: BIN-INSTALLABLE RELEASES — PITVIPER + BRAWLPIT (2026-08-25)
+
+*Founder real-time: "there is a popular tool on github to install software called bin" -> "make
+sure our games can be installed on linux or whatever with bin command" -> "we are gonna need to
+link sdl2 in or whatever? i dunno how that works" -> "make sure we are publishing releasese the
+way we need to for that" -> "bring the auto release from parena and pitvbiper to brawlpit" ->
+"and not as a pre release if that will break bin" -> "go ahead and start to release brawlpit non
+pre release on all passing builds like we do for parena" -> "i mean for pitviper." Verified via
+WebFetch: `bin` (marcosnils/bin, real popular GitHub-release binary installer) skips prereleases
+by default — confirms the founder's own stated concern was correct, not overcautious.*
+
+- [x] **S195-01: PITVIPER — bundled SDL2 runtime libs + RPATH for standalone Linux distribution.**
+  Real gap found by direct investigation, not assumed: `ldd` on a plain `CGO_ENABLED=1` build
+  shows a direct dynamic dependency on `libSDL2-2.0.so.0` and `libSDL2_ttf-2.0.so.0`, neither
+  present on a typical fresh Linux machine — a `bin`-installed binary with no dependency
+  resolution would fail to launch there. Full transitive closure is 50+ libraries once
+  X11/Wayland/ALSA/PulseAudio/DBus/systemd/FreeType/HarfBuzz and their own deps are counted —
+  deliberately NOT bundling all of those (base desktop-Linux libraries every graphical app already
+  assumes present, same assumption virtually every SDL2 Linux game makes; full static SDL2+X11
+  linking is a real, much bigger undertaking, not attempted). Bundled just the two SDL2-family
+  libraries + `patchelf --set-rpath '$ORIGIN/lib'`, matching the same fix Windows already gets via
+  DLL bundling. Verified locally via `LD_LIBRARY_PATH` resolution (patchelf itself needs `sudo`,
+  unavailable in this session's sandbox — the real step runs in CI, which already has `sudo` for
+  the sibling SDL2-dev install). PITVIPER commit `c907d21`. **CI-verified after the fact**: real
+  GitHub Actions run confirmed green on this exact commit (checked via public API, no `gh` CLI
+  installed on this box).
+
+- [x] **S195-02: BRAWLPIT — real native Linux client build + auto-release, non-prerelease.** Two
+  real gaps: (1) BRAWLPIT's CI never built a native Linux client at all — only a Windows
+  cross-compile and a headless Linux server; `scripts/build.sh` already had a working native-Linux
+  `gcc` invocation, just never run in CI — reused it verbatim, verified locally (compiles clean,
+  physics smoke test still passes). Same SDL2-bundling fix as S195-01 applied (BRAWLPIT only links
+  `-lSDL2`, not `SDL2_ttf`, confirmed via `ldd`). (2) No real GitHub Release existed at all — only
+  CI-run-scoped Artifacts (not discoverable by `bin`, which reads public Release assets). Added a
+  real `release` job: auto-tag + minor-version-bump on every green push to `main`, matching
+  PARENA's own cadence exactly, but **explicitly not `--prerelease`** — a deliberate departure
+  from PARENA specifically. **Real discrepancy found and flagged, not silently resolved**:
+  PARENA's own releases ARE marked `--prerelease` ("PARENA is pre release for now", its own
+  ci.yml) — which would not satisfy `bin`'s skip-prereleases-by-default behavior, the exact thing
+  this whole thread exists to fix. Reconciled "like we do for parena" as the auto-tag *mechanism*
+  and "non pre release" as PITVIPER's flag usage instead of PARENA's, for BRAWLPIT specifically.
+  BRAWLPIT commit `8f36fce`. **CI-verified live**: real run completed successfully, real release
+  `v0.1.0` created (confirmed via API: `prerelease: false`, `draft: false`, assets include
+  `Brawlpit_Linux_x86_64.tar.gz`).
+
+- [ ] **S195-03: PARENA's own releases are still `--prerelease` — not changed here, flagging for a
+  founder call.** Surfaced investigating S195-01/02: if PARENA's own compiler binary is meant to
+  be `bin`-installable too (the wider "PARENA native" distro thread, SECTION 193), its releases
+  currently wouldn't satisfy `bin` either. Not touched — PARENA's `--prerelease` flag was a
+  deliberate, recorded prior decision ("VS0 is still early, pre-1.0 compiler development, not a
+  stable release track yet") and reversing it isn't this item's call to make unilaterally.
