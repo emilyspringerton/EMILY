@@ -1,0 +1,16 @@
+{
+  "_comment": "S200-04: the toggleable golden-repo list for `emily golden`. Founder real-time: 'for now EMILY TYLER and our games are golden repos' -> 'and P and PARENA and PITVIPER' -> 'and FATBABY'. The explicitly named repos are enabled below. 'our games' was deliberately left unresolved by that same thread ('the on/off toggle this item itself builds is the right mechanism to actually settle the list, not a guess made here') -- the real game-repo candidates from the same session's own work are listed with enabled:false so the mechanism has something real to toggle, not asserted as decided. Edit with `emily golden enable/disable <name>`, not by hand.",
+  "repos": [
+    { "name": "EMILY", "github": "emilyspringerton/EMILY", "enabled": true },
+    { "name": "TYLER", "github": "emilyspringerton/TYLER", "enabled": true },
+    { "name": "PRRJECT_FATBABY", "github": "emilyspringerton/PRRJECT_FATBABY", "enabled": true },
+    { "name": "PARENA", "github": "emilyspringerton/PARENA", "enabled": true },
+    { "name": "PITVIPER", "github": "emilyspringerton/PITVIPER", "enabled": true },
+    { "name": "REDGARDEN", "github": "emilyspringerton/REDGARDEN", "enabled": false },
+    { "name": "GoblinFoxDragon", "github": "emilyspringerton/GoblinFoxDragon", "enabled": false },
+    { "name": "SHANKPIT", "github": "emilyspringerton/SHANKPIT", "enabled": false },
+    { "name": "shankpit-460", "github": "emilyspringerton/shankpit-460", "enabled": false },
+    { "name": "BRAWLPIT", "github": "emilyspringerton/BRAWLPIT", "enabled": false },
+    { "name": "GTA7", "github": "emilyspringerton/GTA7", "enabled": false }
+  ]
+}
