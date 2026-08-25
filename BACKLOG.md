@@ -21184,12 +21184,27 @@ routed through `emily observe` before being acted on, per Principle 18.*
   across ~30 repos was explicitly declined earlier as impractically large). Founder confirmed:
   fill all 9 gaps now — tracked as S202-19.
 
-- [ ] **S202-19: add a construct CI step to the 9 real gap repos found by S202-18** — EDIS,
+- [x] **S202-19: add a construct CI step to the 9 real gap repos found by S202-18** — EDIS,
   MJOLNIR, gpt2-alpine-c, GOLDENBAND, SKULDMARK, GTA7, PARENA, REDGARDEN,
   WEAKNIGHT_BEDROCK_RACERS. Pattern to match: SHANKPIT/shankpit-460's own `Generate Source
   Construct` step (`find` over source/doc roots, concatenate matching files into one `*_CONSTRUCT.txt`,
   upload as a CI artifact) — see `shankpit-460/.github/workflows/tests.yml` for the canonical
-  shape to copy. Not started.
+  shape to copy. — Closed same session (2026-08-25): copied emily.cli's own inline "Generate
+  Construct Bundle" step (simpler, no external script, matches this canonical shape) into all 9
+  repos' existing CI workflows, one new step + one new `Upload Construct Artifact` step each, with
+  a per-repo language-appropriate file-extension list. GOLDENBAND got a new standalone
+  `construct.yml` instead of a step inside `blender-tools.yml` — that file only triggers on
+  `workflow_dispatch` or a push touching `incoming/`, never an ordinary source push, so a step
+  living there would almost never actually regenerate (flagged, not silently folded in). Every
+  `find` pattern verified locally first (non-empty match count, catching a `test -s $OUT` CI
+  failure before pushing) — 62/62/37/29/6/39/142/72/12 files respectively. **Live-verified in real
+  CI, all 9/9 green** on the pushed commit: EDIS `338fea0`, MJOLNIR `6ec15ee` (construct job itself
+  green; its separate `build` job fails on a pre-existing, unrelated gap — missing
+  `GOOGLE_SERVICES_JSON` secret, confirmed already failing before this change too), gpt2-alpine-c
+  `d8dd7b1` (construct lives in the Linux job, which passed; Windows job's pre-existing failure is
+  the same, unrelated), GOLDENBAND `7abe36c`, SKULDMARK `69793e9`, GTA7 `4b62e81`, PARENA
+  `3c8844c`, REDGARDEN `511c4ee` (full pipeline green including auto-release), WEAKNIGHT_BEDROCK_RACERS
+  `874ec6c`. Apple #16033.
 
 - [x] **S202-20: auto-release CI rolled out to 9 core repos, matching PITVIPER's own
   non-prerelease pattern.** Founder real-time: "set up redgarden autoreleases non preproduction
