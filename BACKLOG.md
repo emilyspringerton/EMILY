@@ -1867,9 +1867,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, SARENA_NOTEBOOK render targets sequencing: HTML first, 'SDL native second' -- SDL2-based native rend…** — obs `2026-08-24T23:29:13Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, elaborating SARENA_NOTEBOOK (obs 23:28:29Z): 'build our libplot shit into it' + 'html first' -- plot…** — obs `2026-08-24T23:29:10Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, new project idea: 'super bare bones jupyter replacement gui parena compile and run whatever the back…** — obs `2026-08-24T23:28:29Z`. CURATED: 2026-08-25.
-- [ ] **Founder real-time, rapid burst during the security scoping session: (1) 'i want you to do intrusion detection on this s…** — obs `2026-08-25T08:35:23Z`. CURATED: 2026-08-25.
-- [ ] **Founder real-time: reports unexpected logouts — 'some weird stuff has been happening where i get logged out when i shou…** — obs `2026-08-25T08:34:16Z`. CURATED: 2026-08-25.
-- [ ] **Founder real-time: wants assurance the system is secure — scope unspecified (which repo/service, and what kind of secur…** — obs `2026-08-25T08:32:41Z`. CURATED: 2026-08-25.
+- [~] **Founder real-time, rapid burst during the security scoping session: (1) 'i want you to do intrusion detection on this s…** — obs `2026-08-25T08:35:23Z`. CURATED: 2026-08-25. — scoped as S191-03 (SECTION 191): deferred, real blocker (PARENA grep/sed/awk unbuilt) already tracked in S190-01.
+- [x] **Founder real-time: reports unexpected logouts — 'some weird stuff has been happening where i get logged out when i shou…** — obs `2026-08-25T08:34:16Z`. CURATED: 2026-08-25. — root-caused + fixed as S191-02 (SECTION 191), Apple #15775.
+- [x] **Founder real-time: wants assurance the system is secure — scope unspecified (which repo/service, and what kind of secur…** — obs `2026-08-25T08:32:41Z`. CURATED: 2026-08-25. — addressed as S191-01 (SECTION 191) read-only security sweep, no signs of intrusion found within checkable permissions.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -19897,3 +19897,59 @@ it, captured here before context-switching to PARENA. None of these are started.
   (mod API surface, which PARENA stdlib pieces it needs, whether it's gated on VS0 progressing
   past today's "stdlib source exists but mostly doesn't compile yet" state) before building —
   not attempted blind. Not started.
+
+---
+
+## SECTION 191: SECURITY AUDIT + IDUNA ADMIN SESSION LOGOUT FIX (2026-08-25)
+
+*Founder real-time, three fragments during one live burst: "wants assurance the system is
+secure" (scope unspecified) → "reports unexpected logouts... some weird stuff has been
+happening where i get logged out when i shouldnt be" → "i want you to do intrusion detection
+on this system, using parena tools, build the tools in parena." Posted via `emily observe`
+(already auto-filed as it arrived) and curated into the INTAKE QUEUE above before work started,
+per Principle 18.*
+
+- [x] **S191-01: read-only security sweep — no signs of external intrusion found.** `last -n 20`:
+  every `root` login in the visible window comes from a consistent 174.210.22x.x/24-ish address
+  range (same-ISP dynamic-IP pattern), no unrecognized foreign IPs. No crontab entries for
+  `fatbaby`. `free -h`: 9.3GB available, swap barely used (41MB/495MB), no `dmesg` OOM entries —
+  rules out OOM-killed-sshd as an explanation for "unexpected logouts." `ss -tlnp`: all listening
+  ports match known services (IDUNA :8080, newssite :8082, signalapi :9091, MUD :2323/:7171,
+  EINHORN_SURVIVAL :25565, wsudprelay's game-relay port range, etc.) — nothing unrecognized.
+  **Real permission ceiling, not a false negative**: could not read `/var/log/auth.log` (Permission
+  denied) or query `fail2ban-client status` (requires root socket access) — same no-passwordless-
+  sudo constraint already documented elsewhere (S30-02, S23-01, S31-01). fail2ban service itself
+  is confirmed `active`. A genuine ssh brute-force or fail2ban ban-list review needs sudo this box
+  doesn't have — flagging rather than claiming a clean bill of health beyond what's actually
+  checkable. Apple #15767 is unrelated (S139-02); this sweep's findings are folded into S191-02's
+  completion Apple #15775 rather than filed separately.
+
+- [x] **S191-02: IDUNA admin session sliding-expiration fix — root-caused the concrete half of
+  the "unexpected logout" complaint.** `IDUNA/internal/http/middleware/auth.go`'s
+  `RequireCookieAuth` gated `/admin` with a fixed 8h JWT/cookie and no refresh-on-activity: a
+  still-active admin session hit a silent hard cutoff at exactly 8h post-login, bouncing to
+  `/admin/login` with zero explanation — a real match for "logged out when i shouldnt be,"
+  especially plausible given this box's own history of long overnight working sessions. Fixed:
+  `RequireCookieAuth` now takes a `sessionTTL` and transparently reissues the cookie with a fresh
+  full-TTL expiry once less than half the TTL remains, so continuous activity never hits the
+  wall. New shared `handlers.AdminSessionTTL` (8h) constant keeps initial issuance and the
+  refresh window from drifting apart. Verified via grep that `/admin` is `RequireCookieAuth`'s
+  only consumer — `web_ceremony.go`/`shankpit_auth.go` use separate, intentionally short-lived
+  (5min) one-shot exchange cookies through a different code path, unaffected. 4 new tests (fresh
+  = no refresh, stale = refreshed with later exp + claims preserved, TTL=0 = refresh disabled,
+  expired = redirects). `go test ./...` green across IDUNA. IDUNA `65fb9a0`. Apple #15775.
+  **Honest gap, not resolved**: the founder's complaint didn't name which login (admin back
+  office vs. WordPress/EDIS vs. SSH vs. something else) — this is a real, verified bug in the
+  session mechanism most likely to match the complaint pattern, not a confirmed root cause. If
+  the founder confirms this wasn't it, the next candidate to check is WordPress/EDIS session
+  cookie config (`wp_set_auth_cookie` — not yet investigated here).
+
+- [ ] **S191-03: "intrusion detection using PARENA tools" — deferred, root gap already tracked.**
+  Founder explicitly asked for the security investigation to use PARENA-native tooling
+  ("using parena tools" / "build the tools in parena"). Real, already-flagged blocker:
+  `regex/nfa.prn`'s matching engine now works end-to-end (S190-01), but `grep.prn`/`sed.prn`/
+  `awk.prn` — the actual CLI tools that would call it — are confirmed still unbuilt, same gap
+  S190-01 already tracks as open. Used standard shell tools for S191-01's time-sensitive pass
+  instead, flagged rather than silently substituted. Not duplicating S190-01's tracked scope
+  here — this item exists only to note the tradeoff was made deliberately; building
+  grep.prn/sed.prn/awk.prn itself stays S190-01's scope, not a new item.
