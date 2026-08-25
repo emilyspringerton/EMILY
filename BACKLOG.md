@@ -2626,6 +2626,7 @@ world bridge (NORTHSTAR Milestone 4).*
 | S142-01 | Legal-entity decision (which entity holds the QBO file) + QBO OAuth credentials into IDUNA (FIN-098 §7) | KAREN Phase 0 (S142-01..04) |
 | S144-03 | Pick the two candidate physics backbones (Isaac Lab / MJX / Genesis) for the adapter bake-off (SIM-100 §9) | Reward compiler v0 (S144-03..05) |
 | S135-02 | Vendor comparison research done (see S135-02 entry) — pick the VS0 sticker vendor. The brief's own production schedule names this decision "Emily (human)," not Emily Prime, so it's not being auto-selected. | S135-03/04/05 (WooCommerce listing, first batch order, drop) |
+| S139-02 | Vendor comparison research done (see S139-02 entry, Apple #15767) — pick STINKIES COMMISSAIRE's toothbrush OEM and confirm/approve ULTRA's 3-step handle+head+assembly supply chain (or reject it and rescope). Same "Emily (human)" decision class as S135-02. | S139-03/04/05 (WooCommerce listing, first batch orders, drop) |
 | S151-01 | Create a scoped Cloudflare API token (`Zone.DNS:Edit`, zone `farthq.com` only) in the Cloudflare dashboard and drop it into `EMILY/var/emily-secrets.env` as `CLOUDFLARE_DNS_TOKEN`; while in there, run the registrar custody audit (who can log into the registrar account, is 2FA on, where do recovery codes live) per HQ-SPEC-INFRA-105 §9.1 | Zone-as-code export (S151-01), `dns-apply` (S151-02), wildcard cert (S151-03), all of SECTION 151 |
 
 ---
@@ -4603,7 +4604,28 @@ is real scoped work, blocked on the same HITL-11 credit top-up to even test agai
 
 - [x] **S139-01: Design brief — STINKIES COMMISSAIRE + ULTRA** — Apple #4665 · EMILY c1e3582 — STINKIES COMMISSAIRE ($9, polypropylene, kraft, 80%+ margin, $48/yr sub) + ULTRA ($68, solid brass PVD black, DuPont Tynex, 73%+ margin, $88/yr sub). EMILY/docs/merch/toothbrush_vs1_brief.md.
 
-- [ ] **S139-02: Vendor research — toothbrush manufacturing** — Source vendors for both tiers: (1) polypropylene injection-mold + nylon bristle for STINKIES COMMISSAIRE, (2) brass cold-forge + PVD coating + DuPont Tynex for ULTRA. MOQ, unit cost, lead time, DuPont bristle certification. Use supply_chain_research tool. Output: vendor comparison Apple (research_log). Select one vendor per tier.
+- [x] **S139-02: Vendor research — toothbrush manufacturing.** Web research via WebSearch (no
+  `supply_chain_research` tool available to Claude Code — did the equivalent research directly,
+  same substitution S135-02 made). Apple #15767 (research_log).
+  **Tier 1 (STINKIES COMMISSAIRE, $9, polypropylene+nylon, 500-unit MOQ target)**: well-served —
+  Changzhou Freshday Household Products (OEM/ODM, explicit DuPont Tynex bristle option), Relish
+  Tech (BSCI/ISO certified, MOQ as low as 50 on premium stock designs), puretoothbrushes.com
+  (DuPont-bristle OEM-logo line). Same class of gap as S135-02: exact 500-unit landed cost isn't
+  extractable via static search, all gate real pricing behind a direct RFQ.
+  **Tier 2 (ULTRA, $68, brass cold-forge+PVD black+knurl, DuPont Tynex head, 250-unit MOQ target)**:
+  real finding, more consequential than the brief assumed — no vendor sells an integrated "brass
+  toothbrush" as a catalog product. This tier is a 3-vendor/3-step supply chain, not a single pick:
+  (a) **handle** — brass CNC-turning/knurl/PVD-black shops drawn from the EDC-pen/knife industry
+  fit the spec well and beat the brief's assumed MOQ floor: `edcpart.com` (brass+titanium, PVD
+  black, MOQ from 1 piece up through 500-unit runs) and `3qmachining.com` (brass EDC gear, PVD
+  black/gold/rainbow, stated no MOQ); (b) **head** — no off-the-shelf press-fit 15mm-OD
+  replaceable head exists anywhere found; a Tynex-capable toothbrush-head OEM (Tier 1's own
+  candidate pool) would need to mold one to spec — a real, unquantified tooling fee applies;
+  (c) **assembly** — no vendor does both halves; mating head to handle needs a third step
+  (in-house fit-check/QC or a 3PL pass) before it's sellable. Flagging to the founder as part of
+  vendor selection: confirm the 3-step handle/head/assembly shape itself, not just "which vendor."
+  **Not decided here, same as S135-02**: final vendor selection for either tier is a founder
+  call — added to HUMAN UNBLOCK QUEUE below.
 
 - [ ] **S139-03: EDIS product listings** — Add both SKUs to WooCommerce: STINKIES COMMISSAIRE ($9) + ULTRA ($68) + replacement head subscriptions for each. Blocked on S23-01 (live WordPress deploy).
 
