@@ -1958,6 +1958,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (live, urgent): 'im playing redgarden on latest and the tree is not generating health from auto attac…** — obs `2026-08-25T22:31:18Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'ensure we have some redgarden bot training running' -- checking current RL training process state.** — obs `2026-08-25T22:42:13Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: the golden doc index compilation should NOT be LLM-powered -- build it pure CLI instead. Removes the…** — obs `2026-08-25T22:58:56Z`. CURATED: 2026-08-25.
+- [ ] **PRRJECT_FATBABY's latest GitHub Actions CI run (commit 40ec4c6, 2026-08-23, 2 days stale) is failing at 'Run tests (if …** — obs `2026-08-25T23:25:05Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -20830,7 +20831,7 @@ restarting.*
   actually described the older 4-layer framing, not the real 6 letters) by linking the two pages
   rather than restructuring the shipped homepage.
 
-- [ ] **S200-04: golden-repo CI-status polling tool for emily.cli, PARENA-backed.** Founder
+- [x] **S200-04: golden-repo CI-status polling tool for emily.cli, PARENA-backed.** Founder
   real-time, built up across several messages: "we need a tool to poll all our golden repo
   statuses at the end of a work iteration" → "we already have a tool for checking that status
   that needs to be upgraded to be written in pure parena now if possible (maybe not from tls but
@@ -20848,7 +20849,51 @@ restarting.*
   PITVIPER, plus "our games" (left deliberately unresolved — REDGARDEN/GoblinFoxDragon/SHANKPIT/
   BRAWLPIT/GTA7/EINHORN_SURVIVAL are the real candidates from today's own work; the on/off toggle
   this item itself builds is the right mechanism to actually settle the list, not a guess made
-  here). Not started — queued behind the higher-severity S200-01 eventstore fix.
+  here). — **Built, next session (2026-08-25).** New `emily golden {list,enable,disable,status}`
+  (`emily.cli/cmd/golden.go`). `list`/`enable`/`disable` read+write a real toggle config
+  (`EMILY/context/golden-repos.json`, sibling of `golden-docs-index.md`) — EMILY/TYLER/
+  PRRJECT_FATBABY/PARENA/PITVIPER enabled by default; the "games" candidates (REDGARDEN,
+  GoblinFoxDragon, SHANKPIT, shankpit-460, BRAWLPIT, GTA7) are listed but disabled, not asserted
+  as decided. `status` polls the GitHub Actions API for each enabled repo's latest workflow run,
+  replacing this session's own manual curl+python one-liners; uses `GITHUB_TOKEN` if set, falls
+  back to the unauthenticated public API otherwise. **Deliberately pure Go, not a PARENA mod** —
+  flagged, not silently decided: every existing PARENA-mod integration in this monorepo (EmilyOS's
+  fsaclmod, PITVIPER's scrollmod) links compiled PARENA C in via cgo, and this repo's own CI just
+  started shipping pure-Go cross-compiled releases for linux/darwin/windows (S202-20, same
+  session) specifically because it has no cgo dependency — adding one here for a single
+  JSON-parsing helper would regress that, same class of "not this item's call to reverse
+  unilaterally" decision S195-03 already flagged. 10 new tests (config round-trip, toggle by name,
+  `fetchLatestRun` against a real httptest server), `go test ./...` green. **Live-verified against
+  the real GitHub API and immediately earned its keep**: `emily golden status`'s very first real
+  run correctly reported EMILY/TYLER/PARENA/PITVIPER green and surfaced a real, currently-broken
+  PRRJECT_FATBABY CI run (2 days stale) — see the follow-up item below for that fix. emily.cli
+  commit `8427414`, Apple #16037 (combined with the PRRJECT_FATBABY fix below).
+
+- [x] **S200-04 follow-up: PRRJECT_FATBABY's CI had been broken for 2 days — missing go.mod
+  `replace` + no sibling checkout.** Root cause, reproduced locally in a real isolated
+  single-repo checkout (not guessed from the CI job name — the raw log endpoint needs admin
+  rights this session doesn't have): `go.mod` has local-path `replace` directives (`skuldmark =>
+  ../SKULDMARK`, and `norn` — previously had **no** require/replace entry at all, relying
+  entirely on `go.work`'s implicit linkage) pointing at sibling monorepo directories that only
+  exist on the real box's own checkout. `construct-bundle.yml`'s own `actions/checkout` only ever
+  fetches this one repo — neither sibling exists in that tree, so `go build`/`go test` fail at
+  module resolution before a single line of this repo's own code runs. `skuldmark`'s own replace
+  has silently had this exact same gap the whole time; `norn` (landed via S141-03's NORN-kernel
+  migration) was just the first to actually get caught, by this session's brand-new polling tool.
+  Fix: (1) added the missing `require`/`replace norn => ../NORN` entry, matching `skuldmark`'s own
+  pattern. (2) Two new `actions/checkout` steps fetch `emilyspringerton/NORN` and
+  `emilyspringerton/SKULDMARK`. **First attempt used `path: ../NORN` directly on the checkout step
+  itself — tried live, failed live** (run `32911332688`: the checkout step itself errored,
+  `actions/checkout`'s own `path` input can't escape `$GITHUB_WORKSPACE`, not assumed from docs).
+  **Fixed for real**: checkout into a workspace-relative subdirectory, then a plain `mv` step
+  relocates both to true OS-level siblings (`../NORN`, `../SKULDMARK`) — a shell command doesn't
+  have the action's own path restriction. Verified in the same isolated single-repo simulation
+  before each push (not just locally-in-the-monorepo, where the sibling paths happen to already
+  exist and would have masked the bug). Grepped every `go.mod` in the monorepo for the same
+  local-replace-with-no-sibling-checkout pattern — PRRJECT_FATBABY is the only one. **Live-verified
+  in real CI, fully green**: run `32911493075` (`b4dfd6c`) — both sibling checkouts, the `mv`, and
+  the full `go test ./...` (71 packages, 0 failures) all passed. PRRJECT_FATBABY commits
+  `d203e0f` (go.mod) + `b4dfd6c` (workflow fix), Apple #16037.
 
 ## SECTION 201: NOTEBOOK PORTAL AUTH FOUNDATION — IDUNA SSO + GATED /portal SHIPPED (2026-08-25)
 
