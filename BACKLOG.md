@@ -20201,3 +20201,24 @@ parena" / "mod surface first" / "api first" / "fix with parena."*
   turbosed/macspoof), and names Arch Linux specifically as the target distro — not yet clarified
   whether that's the same future ThinkPad mentioned alongside the MAC tooling, or a distinct
   portability requirement. Not started — queued behind the in-flight REDGARDEN mod-surface fork.
+
+- [x] **S193-03: EmilyOS installable-distro north star — scoping only, real reversal of existing
+  architecture flagged and reconciled.** Founder real-time, rapid burst immediately after S193-02
+  was dispatched: "oh yea cool lets build our own installable distro" → "EmilyOS for real as arch
+  linux" → "PARENA native as much as possible" → "we use gnu tools for the load bearing walls like
+  grep" → "but the stuff we dont need leave it out" → "make it super small to start whatever can be
+  left out leave it out" → "build parena in" / "and vim" / "and emily cli" → "build in ada and
+  gnat" → "build in gcc" → "and ssh" → "systemd." This directly contradicts EmilyOS's own existing
+  `NORTHSTAR.md` framing ("not a bare-metal OS") — not silently smoothed over: wrote
+  `EmilyOS/docs/NORTHSTAR_DISTRO.md` (golden-indexed EMILYOS-DISTRO-NORTH, tier 1) reconciling the
+  two ("policy kernel becomes the installable OS's own security layer" rather than a contradiction
+  of the SOC2 mission) per Emily Way Principle 2 — not handed to a fork blind given the real scale
+  (bootloader/ISO/installer is categorically bigger than any mod-surface feature built this
+  session). Concrete included-by-default set grounded in real, already-existing needs, not
+  guessed: PARENA, vim, emily CLI, SSH (matches PITVIPER's own established "always in ssh"
+  philosophy), systemd (already EmilyOS's stated stack), GCC + GNAT (grounded in
+  `EmilyOS/ada/posture/`'s own already-existing real Ada implementation of the posture state
+  machine — not arbitrary). Real open question flagged as the one blocking everything else:
+  from-scratch ISO build vs. an installer/package-list layer on real upstream Arch (closer to how
+  EndeavourOS/Artix actually work) — not resolved here. Scoping only, no implementation, no
+  milestone plan.
