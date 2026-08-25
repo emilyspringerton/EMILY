@@ -15251,12 +15251,34 @@ first, open design questions last.
   wrong); a DFA/Boyer-Moore-class rewrite of the general matcher is the real remaining perf gap
   for `Alt`/`Star`/`Group` patterns, not chased further this session.
 
-  **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all. PATH-symlink
-  replacement of system sed/grep/awk (the founder's own stated milestone) is downstream of both
-  and explicitly held — even for grep alone, the CharClass/Anchor gaps above mean it would be
-  silently WRONG (not just slow) on real patterns this monorepo's own scripts use, and per
-  S23-01b/S31-03's own precedent this needs explicit founder go-ahead before touching this box's
-  actual PATH/toolchain, not a unilateral call.
+  **PATH install, same day, founder go-ahead given explicitly** ("wire it into claude code's
+  bash tool"): `~/.local/bin/grep` now symlinks to `tools/turbogrep-router.sh` (earlier in PATH
+  than `/usr/bin/grep`). Router rewritten flag-safe first — any flag/stdin usage delegates
+  straight to real grep untouched (turbogrep implements none of grep's real flag surface),
+  verified against real `-n` output format. Real bug caught on the first actual symlinked
+  invocation (exit 127 — `dirname "$BASH_SOURCE"` doesn't resolve symlinks, `SCRIPT_DIR` pointed
+  at the wrong directory) and fixed with `readlink -f`. PARENA commit `188db5f`, Apple #15720.
+
+  **Real, honest tradeoff, explicitly acknowledged before installing**: turbogrep is still
+  ~8x *slower* than real grep in absolute terms (this session's own perf work closed a
+  ~430-660x gap down to ~8x, never crossed over to actually beating grep) — the router's own
+  wrapper overhead means flag-based calls (the common case) are now marginally slower than a
+  bare `grep` call for zero routing benefit. Founder's own call, made with that tradeoff stated
+  plainly first: "its ok that its slower if its logging the data that will make turbogrep
+  faster" — every invocation (turbogrep-routed, grep-fallback-on-unsupported-pattern, or
+  flag-delegated) logs one real NDJSON line to `PARENA/var/grep-invocations.ndjson`
+  (timestamp/pattern/engine/duration_ms/exit_code/match_count/reason) as real usage data to
+  prioritize turbogrep's next real work against, not synthetic benchmarks.
+
+  **Real, separate finding**: this install does NOT reach Claude Code's own Bash-tool `grep`
+  calls specifically — the harness injects its own `grep` shell FUNCTION (routes to `ugrep` via
+  the `claude` binary, git-aware exclusions) which bash resolves before any PATH-based override,
+  and isn't something living in a dotfile to safely redefine. The install affects this account's
+  other shells/scripts, not this specific session's own tool calls.
+
+  **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all — real, distinct,
+  previously-untested compile failures found in the same-day bottleneck audit
+  (`PARENA/docs/TURBOGREP_BOTTLENECK_AUDIT.md`, C12/C13), not chased further this session.
 ---
 
 ## SECTION 171: EINHORN_SURVIVAL — REAL COMMUNITY MINECRAFT SERVER (2026-08-05)
