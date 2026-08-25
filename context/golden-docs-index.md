@@ -55,6 +55,7 @@
 | EMILYOS-ARCH | EmilyOS/docs/ARCHITECTURE.md | 2 | 2000 | EmilyOS exokernel architecture; process model, policy layers |
 | EMILYOS-MEMO | EmilyOS/docs/EMILY_PRIME_MEMO.md | 2 | 2000 | Emily Prime memo on EmilyOS from 2026-06-09; translates legacy specs |
 | EMILYOS-POSTURE | EmilyOS/docs/POSTURE.md | 2 | 2000 | EmilyOS security posture spec; threat model, SOC 2 framing |
+| EMILYOS-FS-ACL | EmilyOS/docs/FS_ACL_COORDINATION.md | 2 | 2000 | Design pass (not yet implemented): multi-identity filesystem ACL coordination as real RBAC (cap.fs.grant/revoke), replacing ad-hoc setfacl scripts as scoped accounts (secondtree, treeiii) multiply |
 | GPT2-NORTH | gpt2-alpine-c/NORTHSTAR.md | 2 | 1500 | GPT-2 fine-tuning pipeline for Emily Prime; corpus builder, Drive sync, Colab notebook, C binary conversion |
 | TYLER-BIBLE | TYLER/README.md | 2 | 4000 | TYLER series bible; four-layer architecture (EmilyOS/Tyler/Tides/Custody), Television as Code concept |
 | TYLER-ENGINE | TYLER/universe_engine.md | 2 | 3000 | TYLER universe engine; AI-assisted world-building protocol, content generation rules |
