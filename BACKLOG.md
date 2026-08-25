@@ -20167,3 +20167,37 @@ parena" / "mod surface first" / "api first" / "fix with parena."*
   `BEGIN`/`END`/arithmetic/patterns) — awk is a real small language, disproportionate to that
   narrow real need and to time already spent getting turbosed correct; scoping note left in the
   same report for whenever it's picked up. PARENA commit `fb81481`, Apple #15794.
+
+## SECTION 193: MAC ADDRESS TOOLING + EMILYOS GRANT-FS PIVOT (2026-08-25)
+
+- [x] **S193-01: vendor-realistic MAC address generation — Python reference + PARENA stdlib
+  stub.** Founder real-time: "change my mac address" (flagged a real risk before scripting it —
+  this box is a KVM guest on `virtio_net`, some hypervisor bridge configs filter by the guest's
+  assigned MAC, so a blind change could kill connectivity including the SSH session applying it;
+  wrote `sudo-queue/23-change-mac-address.sh` with a genuine safety net — a scheduled unconditional
+  `at`-job revert to the original MAC in 5 minutes unless cancelled) → "build tools for generating
+  realistic manufacturer specific mac addresses for SAMSUNG MICROSOFT APPLE BROADCOM" / "for our
+  own network security" → "ARGUS security we dont have docs in here for that yet its in claude
+  somewhere" (searched this box and all local Claude session logs — no ARGUS security
+  documentation exists anywhere; only unrelated hits were PromptOverse AI-art subjects using
+  "Argus" as a mythological character theme, reported honestly rather than guessed at) → "im not
+  going to actually use the mac address change code on this box" / "it will be untested" →
+  delivered `vendor_mac_gen.py` (sent to founder directly) with curated real OUI prefixes for all
+  four vendors, clearly flagged as a representative sample (not exhaustive/current — real work
+  should refresh from IEEE's own public oui.csv) → "yolo it into the repo so when we get a
+  thinkpad we can test it" / "you can put it with the pentest stdlibs" → `PARENA/stdlib/pentest/
+  macspoof.prn` committed, matching that directory's own established convention exactly (thin
+  `#target` FFI wrapper, real OUI-table/random-generation logic deferred to host implementation,
+  same "declared, not yet glued" posture as pcap.prn/wireless.prn/etc.) rather than hand-rolling
+  string-formatting PARENA doesn't have primitives for yet — verified `parena parse` clean.
+  PARENA commit `bda8378`. Not deployed/applied anywhere; explicitly deferred to real hardware.
+
+- [ ] **S193-02: EmilyOS GRANT-FS/REVOKE-FS as PARENA mods, Arch Linux target.** Founder
+  real-time: "do more work on the EmilyOS GRANT-FS REVOKE-FS with parena mods for arch linux."
+  Continues S191-07's design pass (`EmilyOS/docs/FS_ACL_COORDINATION.md`, `cap.fs.grant`/
+  `cap.fs.revoke` fitting EmilyOS's already-reserved per-identity capability-override extension
+  point) but changes the implementation target from Go-native to PARENA-mod-based, matching this
+  session's wider "parenify everything" pattern (PITVIPER S192-01, REDGARDEN in progress,
+  turbosed/macspoof), and names Arch Linux specifically as the target distro — not yet clarified
+  whether that's the same future ThinkPad mentioned alongside the MAC tooling, or a distinct
+  portability requirement. Not started — queued behind the in-flight REDGARDEN mod-surface fork.
