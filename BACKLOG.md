@@ -1930,6 +1930,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: GoblinFoxDragon (DragonsNShit) needs automated pre-release releases in CI, matching the existing pat…** — obs `2026-08-25T19:48:16Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: developer/notebook portal 404 traced to missing Google OAuth client ID -- founder asked to set it up…** — obs `2026-08-25T19:42:40Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: add a passive to 'tree' -- when close enough to auto-attack a tree, auto-attacks it and slowly regen…** — obs `2026-08-25T20:08:04Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: Duck's smoke bomb ability should be built as a PARENA mod, same pattern as Bloodflower/Tree passive** — obs `2026-08-25T20:19:17Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: Duck's smoke bomb vision-blocking should be server-authoritative, matching this codebase's existing …** — obs `2026-08-25T20:19:13Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: no ambient/global fog of war -- just give Duck a 'smoke bomb' ability (localized vision-blocking eff…** — obs `2026-08-25T20:19:09Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: fog-of-war ability should be added to REDGARDEN hero 'Duck' (clarifies the fog-of-war-as-an-ability …** — obs `2026-08-25T20:19:05Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: REDGARDEN -- add fog of war as a hero ability (relates to the existing King All-Seeing buff's own 'n…** — obs `2026-08-25T20:18:56Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
