@@ -1929,6 +1929,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: DragonsNShit (GFD) web player still shows a black screen -- emscripten build/integration isn't worki…** — obs `2026-08-25T19:49:55Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: GoblinFoxDragon (DragonsNShit) needs automated pre-release releases in CI, matching the existing pat…** — obs `2026-08-25T19:48:16Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: developer/notebook portal 404 traced to missing Google OAuth client ID -- founder asked to set it up…** — obs `2026-08-25T19:42:40Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: add a passive to 'tree' -- when close enough to auto-attack a tree, auto-attacks it and slowly regen…** — obs `2026-08-25T20:08:04Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
