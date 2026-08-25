@@ -1925,6 +1925,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'give me a new agent admin login for okemily this time i need it put into a file in the treeiii home…** — obs `2026-08-25T19:18:34Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: use PARENA whenever possible going forward** — obs `2026-08-25T19:39:51Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: do all commits in Traditional Chinese this session, to save tokens** — obs `2026-08-25T19:39:32Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: GoblinFoxDragon (GFD) needs copy/paste bindings, matching the same pattern already implemented in PI…** — obs `2026-08-25T19:51:00Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: DragonsNShit (GFD) web player still shows a black screen -- emscripten build/integration isn't worki…** — obs `2026-08-25T19:49:55Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: GoblinFoxDragon (DragonsNShit) needs automated pre-release releases in CI, matching the existing pat…** — obs `2026-08-25T19:48:16Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: developer/notebook portal 404 traced to missing Google OAuth client ID -- founder asked to set it up…** — obs `2026-08-25T19:42:40Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
