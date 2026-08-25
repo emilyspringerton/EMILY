@@ -1089,7 +1089,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: read all blog posts (okemily.com) to build context** — done as S170-266 (SECTION 170). obs `2026-08-09T14:25:43Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: verify SHANKPIT CI/CD is passing on the recent build** — done as S170-264 (SECTION 170). obs `2026-08-09T14:25:36Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS needs build artifacts matching SHANKPIT/REDGARDEN pattern** — done as S170-263 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
-- [ ] **Founder real-time: update run.sh** — scoped as S170-262 (SECTION 170). obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
+- [x] **Founder real-time: update run.sh** — done as S170-262 (SECTION 170), Apple #12666. obs `2026-08-09T14:25:35Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: ensure full state hydration via 'emily cli context' to compile the golden doc index** — scoped as S170-265 (SECTION 170). obs `2026-08-09T14:25:14Z`. CURATED: 2026-08-09.
 - [x] **Founder real-time: add a GTA7 slash command /sudoku that self-smites the player (KO -> respawn) as a stuck-in-a-hole re…** — done as S170-267 (SECTION 170), deployed live. obs `2026-08-09T14:37:52Z`. CURATED: 2026-08-09.
 - [ ] **Founder real-time: SHANKPIT needs Android build artifacts (a real Android client build, distinct from MJOLNIR)** — scoped as S170-268 (SECTION 170). obs `2026-08-09T15:09:50Z`. CURATED: 2026-08-09.
