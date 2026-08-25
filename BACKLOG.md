@@ -15207,11 +15207,25 @@ first, open design questions last.
   own public API). `raw-close` now releases the buffer via a real `raw_close_impl`, closing a
   real correctness hazard (OS fd reuse inheriting a stale buffer). Re-measured: `read()` syscalls
   on the same 50-file test dropped to 713 (3,786x fewer); full-corpus wall time 12.6s → 0.69s
-  (~18x faster) — turbogrep is now **~23x slower than system grep, not ~430-660x**. All 7
-  correctness patterns re-verified byte-identical after the fix. PARENA commit `e706737`, Apple
-  #15699. `Plus`/`Optional`/`CharClass`/`Anchor` are still unimplemented — every tested pattern
-  was literal/alternation only, not full regex coverage; the remaining ~23x gap is the
-  unoptimized backtracking regex engine itself, not chased further this session.
+  (~18x faster). PARENA commit `e706737`, Apple #15699.
+
+  **Real perf fix #2, same day**: founder — "figure out how to make it faster." Added a literal-
+  substring fast path to `is-match` (bypasses the general backtracking matcher entirely for a
+  plain-literal pattern). First attempt showed zero improvement in an isolated benchmark —
+  investigated rather than assumed working: `regex/syntax.prn`'s own parser always wraps the
+  whole pattern in an `Alt` node, even with no real `|`, and the literal-detector only matched
+  `Literal`/`Concat`, so it silently never fired. Fixed by unwrapping a single-branch `Alt` (a
+  real multi-branch alternation still correctly falls through to the general matcher). Re-
+  measured: full-corpus wall time 0.69s → **0.168s** (~4x more). **~75x faster than the original
+  12.6s baseline — turbogrep is now ~8x slower than system grep, not ~430-660x.** All 7
+  correctness patterns re-verified byte-identical after both fixes. PARENA commit `15dc92c`,
+  Apple #15705. Blog post covering both fixes, Tyler/Unicorn voice, published:
+  https://okemily.com/blog/the-unicorn-counts-the-syscalls/ (Apple #15703).
+
+  `Plus`/`Optional`/`CharClass`/`Anchor` are still unimplemented — every tested pattern was
+  literal/alternation only, not full regex coverage; a DFA/Boyer-Moore-class rewrite of the
+  general matcher (for real Alt/Star/Group patterns) is the real remaining gap, not chased
+  further this session.
 
   **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all. PATH-symlink
   replacement of system sed/grep/awk (the founder's own stated milestone) is downstream of both
