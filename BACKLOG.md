@@ -1876,6 +1876,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continuing the PITVIPER-tmux-scroll pivot: 'api first' / 'fix with parena.' Reinforces wanting the f…** — obs `2026-08-25T08:51:25Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, immediately after the PITVIPER tmux-scrolling bug report: 'using parena' / 'mod surface first.' Ambi…** — obs `2026-08-25T08:50:54Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time pivot: 'can we get pitviper to work with tmux pane scrolling? doesnt work when i try to scroll back u…** — obs `2026-08-25T08:50:29Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, brief reinforcement while the PITVIPER mod-surface fork's results are being integrated: 'in apparena…** — obs `2026-08-25T09:05:57Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, immediate follow-up clarifying the treeiii write-access design: 'its fine hes a baby' (comfortable w…** — obs `2026-08-25T09:03:11Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, escalating the treeiii account scope: 'and treeiii needs to ber able to mess with fatbabys files' --…** — obs `2026-08-25T09:02:38Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'add a new scoped user account to this unix system treeiii it needs a home directory and permissions…** — obs `2026-08-25T09:01:06Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'continue working on PARENA.' Already have one fork running in an isolated worktree building the PIT…** — obs `2026-08-25T08:58:43Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
