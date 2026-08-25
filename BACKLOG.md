@@ -1959,6 +1959,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ensure we have some redgarden bot training running' -- checking current RL training process state.** — obs `2026-08-25T22:42:13Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: the golden doc index compilation should NOT be LLM-powered -- build it pure CLI instead. Removes the…** — obs `2026-08-25T22:58:56Z`. CURATED: 2026-08-25.
 - [ ] **PRRJECT_FATBABY's latest GitHub Actions CI run (commit 40ec4c6, 2026-08-23, 2 days stale) is failing at 'Run tests (if …** — obs `2026-08-25T23:25:05Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'add a rig for an ant hero' -- landed mid-session while finishing Duck's Smoke Bomb (S202-10). Read …** — obs `2026-08-25T23:53:22Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'we need to add body blocking' -- landed mid-session while finishing Duck's Smoke Bomb (S202-10) in …** — obs `2026-08-25T23:52:33Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
