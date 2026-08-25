@@ -19993,3 +19993,42 @@ per Principle 18.*
   fields: url/url_local/agent/secret/notes) via `emily vault add -field k=v` (no passphrase
   exposure needed for `add` itself), verified round-trip via `emily vault get 1`, then deleted the
   plaintext file. Apple #15779, IDUNA CHANGELOG updated + committed.
+
+- [x] **S191-06: new 'treeiii' user account queued — separate identity, shared write access to
+  fatbaby's tree.** Founder real-time, escalating across several messages: "add a new scoped user
+  account to this unix system treeiii it needs a home directory and permissions to run all the
+  same files as fatbaby user has" → "like i want access to the fatabby tooling path" → "under a
+  new home directory" / "and a new user i can drop down into" → "and treeiii needs to ber able to
+  mess with fatbabys files" → "its fine hes a baby" → "but when fatbaby comes back the permissions
+  cant be all fucked up." Wrote `sudo-queue/22-create-treeiii-user.sh` (this session has no sudo,
+  can't run directly): own home dir, own shell, `fatbaby` group membership (not sudo — not asked
+  for), no password set (matches how fatbaby itself is actually used — root SSHes in, then `su`,
+  which needs no target password), `.bashrc` mirrors fatbaby's own PATH additions. Write access
+  via POSIX ACLs (`setfacl`), not `chmod g+w` — more surgical/reversible, doesn't touch file group
+  ownership. Includes a **default ACL granting both fatbaby and treeiii rwx on every directory**,
+  not just treeiii — this is the actual fix for "permissions cant be fucked up when fatbaby comes
+  back": without fatbaby's own entry in the default ACL too, a file treeiii creates (or an
+  editor's save-via-rename, which allocates a fresh inode) would only be writable by its creator,
+  silently locking fatbaby out later. **Deliberate scope decision, flagged not silently made**:
+  still excludes the two live secrets files (`EMILY/var/emily-secrets.env`,
+  `IDUNA/var/agent-secrets.env`, both 600) and the SSH private key (`~/.ssh/id_ed25519`) from the
+  ACL grant — "mess with fatbaby's files" wasn't confirmed to mean the crown-jewel credentials
+  specifically; a single `setfacl` call adds them back if the founder says otherwise. Not yet
+  executed — queued for the founder to run with real sudo. No Apple filed yet (no actual
+  system change made by this session); will Apple on execution confirmation, same as S191-04.
+
+- [ ] **S191-07: EmilyOS — real multi-identity file-permission coordination, not ad-hoc setfacl.**
+  Founder real-time, immediately after S191-06's ACL workaround: "we may need to develop our own
+  software to handle this" → "put that woork into EmilyOs repo." The ACL approach in S191-06 is a
+  real, working fix for one account pair (fatbaby/treeiii) set up once by hand — not a durable,
+  general solution as more scoped accounts get created (secondtree, treeiii, whatever comes next).
+  EmilyOS is already described as the policy kernel (posture-gated sessions, RBAC, SOC 2 audit
+  log per root CLAUDE.md's own repo table) — real, natural fit: this would be RBAC extended to
+  actual filesystem-level multi-identity coordination (who can read/write what, audited, without
+  hand-run `setfacl` invocations that are easy to get subtly wrong or drift out of sync as new
+  directories/accounts appear). Not scoped or started here — real design questions open: does this
+  wrap/generate ACL rules from a declarative policy, watch for new files/dirs and apply policy
+  automatically (a daemon?), integrate with EmilyOS's existing posture/audit-log machinery, and
+  how does it interact with `sudo-queue`'s own existing "human runs a script" pattern for anything
+  requiring root. Needs a real NORTHSTAR/design pass before implementation, per Emily Way "spec
+  before implementation."
