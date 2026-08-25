@@ -20998,3 +20998,48 @@ routed through `emily observe` before being acted on, per Principle 18.*
   run.sh") and its cross-reference were already done (Apple #12666) but the intake-queue copy of
   the item was still unchecked — fixed. No code change, just backlog hygiene found while picking
   the next item to work.
+
+- [x] **S202-07: GFD copy/paste bindings for chat.** Founder real-time: "we need copy and paste
+  to work for GFD same bindings as the other repos we put copy paste into pitviper." Both of
+  `apps2/battlegrounds_gui`'s chat input boxes (Town + Battlegrounds/in-match) had zero clipboard
+  support, same original gap the 2026-08-05 login-field fix already closed for email/password —
+  applied that exact pattern (`SDL_GetClipboardText`, bounds-checked `strncat`, `SDL_free`) rather
+  than PITVIPER's Ctrl+Shift+V (PITVIPER reserves plain Ctrl+C/V for terminal SIGINT; that reason
+  doesn't apply to a chat box, so this follows this file's own already-established plain-Ctrl+V
+  precedent instead — documented rather than silently diverging from the literal ask). "Copy" has
+  no PITVIPER-style mouse-drag text selection (this is an immediate-mode-GL 3D client with no
+  per-glyph hit-testing anywhere, a much bigger separate feature) — instead Ctrl+C (only reachable
+  when chat isn't focused) copies the whole visible chat scrollback to the OS clipboard. Both
+  native and WASM builds verified clean; WASM rebuilt and redeployed to
+  `/var/www/okemily/battlegrounds/`. GoblinFoxDragon (commit pending this session's own git
+  history — see repo log).
+
+- [x] **S202-08: Tree hero passive — auto-attacks nearby jungle trees for self-heal, built as a
+  PARENA mod.** Founder real-time: "can you add a passive to tree that when he is close enough to
+  a tree to auto attack it he auto attacks it and slowly regenerates health?" → "the tree he
+  attacks never does or anything have it jiggle animate extra squishy" → "as a parena first mod
+  led dev cycle." "tree" = `ARENA_HERO_TREE`; "a tree" = the existing decorative
+  `ARENA_OBSTACLE_TREE` jungle pieces, which had zero interaction before this. Full details in
+  REDGARDEN's own commit message (`c0e3ee6`) — sim logic, PARENA mod
+  (`stdlib/redgarden/tree_passive_mod.prn`, PARENA `36920c1`), wire sync so it's visible in real
+  networked matches, client-side squish/jiggle hit-reaction reusing the existing hero-squish
+  decaying-cosine bounce, 6 new tests (live round-trip through the real compiled mod), full
+  10-binary suite green. Apple #15956.
+
+- [ ] **S202-09: REDGARDEN hero "Cart" — AOE circle indicators, more impactful/powered-up
+  abilities, and a general random-buff system** (e.g. a random hero occasionally gets a King buff),
+  driven by a weighted "marble bag" + Fibonacci-pity RNG (NORTHSTAR's own card-pull design,
+  `console.cloud.google` — correction, `REDGARDEN/NORTHSTAR.md` §pull-algorithm section —
+  documented but **not yet implemented as code anywhere in this repo**, would need to be built from
+  scratch, not just reused). Founder real-time, fragmented across several messages same session:
+  the AOE/impact/random-buff ask, then "use marble bag rng look up that shit in the redgarden
+  docs," "pity weighted," server-authoritative, "as a parena mod," "mod first dev." Not started —
+  explicitly deferred behind S202-08 per founder's own sequencing choice this session (AskUserQuestion:
+  "Finish Tree passive fully first, then start Cart").
+
+- [ ] **S202-10: REDGARDEN hero "Duck" — smoke bomb ability (localized vision-blocking), not a
+  map-wide fog-of-war system.** Founder real-time: "ok do fog of war as an ability" → "add to the
+  duck" → "there is no natural fog of war just duck smoke bomb" → "server authorittive" → "as a
+  parena mod" → "mod first dev." Relates to the existing King All-Seeing buff's own "no fog-of-war
+  system exists yet" scoped-out gap (SECTION 198-ish Jungle Camps Milestone 2 area). Server-
+  authoritative, PARENA-mod-driven, matching S202-08's own established pattern. Not started.
