@@ -20119,3 +20119,42 @@ parena" / "mod surface first" / "api first" / "fix with parena."*
   `extended` map directly (same pattern as box-drawing/Braille, no `sudo` dependency) if it's a
   single fixed glyph rather than a whole animated range. Not attempted here — this fork's scope was
   S192-01/S192-02 (both scroll-related); this item is logged so it isn't lost, not investigated.
+
+- [x] **S190-07: turbosed built — real regex/pcre.prn `replace`, two real bugs found+fixed via
+  full-corpus diff.** Founder real-time: "continue working on PARENA" → "tubo sed and awk."
+  Continuing S190-01's own explicitly-tracked remaining scope (grep.prn done/routed live,
+  sed.prn/awk.prn "themselves untouched"). `regex/pcre.prn`'s `replace` was a real, honest stub
+  (returned input unchanged, blocked on a `Vec Match` elem-type-hint gap) — closed via the same
+  `#target` escape-hatch pattern `vec-i32-at`/`vec-string-at`/`match-end-i32` already establish
+  in that file (`vec-match-start-at`/`vec-match-end-at`/`match-start-i32`/`offset-match`).
+  `sed.prn`'s `substitute`/`stream-substitute` had a stale `read-line` arity and the same
+  nested-`(Ok (Some line))`-match compiler-gap `grep.prn`'s own header comment already
+  documents — fixed the same way (two sequential single-level matches). **Two real bugs found
+  live, not assumed correct from the first pass** — full-corpus diff against real GNU sed
+  across all 68 `.prn` files in this repo: (1) `find-all` had never actually been exercised
+  before (turbogrep's own milestone only ever called `compile`/`is-match`) — its `Match`
+  start/end were relative to whatever substring `find` was re-scanning from, not the original
+  text, causing wrong absolute positions and, on some inputs, an effective hang/OOM once
+  `replace` started calling it for real; fixed by offsetting both the stored `Match` and the
+  scan-resume position by the running absolute `start`. (2) The first version of that fix added
+  an extra `+1` past every match's own `end` (only correct for a genuinely zero-width match) —
+  silently skipped every second adjacent match (`s/e/E/g` failed 43/68 real files before this,
+  0/68 after). Also added an explicit `global?` param (`replace`/`substitute` all threaded) —
+  the original had no way to express real sed's own `s///` (first-match-per-line default) vs
+  `s///g` (every match) distinction and always replaced globally, a real, dangerous silent
+  divergence for a text-mutating tool flagged as higher-risk than grep in the founder's own
+  original scoping. `tools/turbosed_host.c` + `tools/turbosed-router.sh` mirror turbogrep's own
+  layered-safety shape exactly (exit-3 unsupported-pattern sentinel via `pattern_supported_()`,
+  NDJSON invocation logging). **Deliberately NOT symlinked into `~/.local/bin/sed`** the way
+  grep is — sed mutates real build/deploy/CI pipelines across this monorepo, a real higher
+  correctness bar than grep's read-only searches; the 68-file/2-pattern verification here is
+  real but narrower than turbogrep's own 949-file run before *it* got wired in. Full report:
+  `PARENA/docs/TURBOSED_VERIFICATION_REPORT.md`. `make test` 336/336 green, `bazel build //...`
+  clean. One pre-existing, not-introduced-here oddity flagged not fixed: a literal `+` in a
+  pattern doesn't trigger the exit-3 unsupported-feature path (shared `pattern_supported_`
+  gap with turbogrep). `turboawk`: **not attempted** — real usage survey done first rather than
+  guessing scope (`grep -rhn "awk " *.sh sudo-queue/*.sh */scripts/*.sh` across this monorepo
+  finds exactly one real pattern in use, bare `awk '{print $1}'` field extraction, no
+  `BEGIN`/`END`/arithmetic/patterns) — awk is a real small language, disproportionate to that
+  narrow real need and to time already spent getting turbosed correct; scoping note left in the
+  same report for whenever it's picked up. PARENA commit `fb81481`, Apple #15794.
