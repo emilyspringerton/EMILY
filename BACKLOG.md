@@ -21042,3 +21042,36 @@ routed through `emily observe` before being acted on, per Principle 18.*
   parena mod" → "mod first dev." Relates to the existing King All-Seeing buff's own "no fog-of-war
   system exists yet" scoped-out gap (SECTION 198-ish Jungle Camps Milestone 2 area). Server-
   authoritative, PARENA-mod-driven, matching S202-08's own established pattern. Not started.
+
+- [x] **S202-11: restyled the REDGARDEN landing page (okemily.com/redgarden.html) to IDUNA's
+  cream/gold ceremony design system.** Founder real-time: "update redgarden landing page on
+  okemily take design notes from the login and developer portal login pages recently added use
+  promptoverse art." Designed via `/design` canvas first ("Knights of the Void Landing Page"),
+  then ported into the live page — same "design first, then port" precedent S201-03/S201-09
+  already established for the login pages this page now matches. Tokens/fonts (Cormorant Garamond
+  + Spectral, cream/gold CSS vars) lifted directly from IDUNA's `admin_login.go`/`portal.go`
+  templates, not reinvented. Real Prompt-o-verse art already in this repo's own `images/`
+  (previously only used for the wotan page): `wotan-viking-warrior.jpg` as the hero band,
+  `wotan-fenrir.jpg` as a lore accent near the jungle-creeps copy. Roadmap list restyled into the
+  developer portal's own tool-row/status-pill pattern (VS0–VS2 "Live", Next "Planned"). All real
+  functionality preserved unchanged — the signup form's `fetch()` to IDUNA's mailing-list
+  endpoint, CI download instructions, every link — dropped only the old dark-tech theme (and its
+  light/dark media query) in favor of the fixed cream/gold system. Deployed and verified live.
+  OKEMILY `5db272a`, Apple #15968.
+
+- [ ] **S202-12: REDGARDEN — tech trees as item templates, chosen builds can auto-buy at the
+  shop.** Founder real-time, fragmented: "ok in redgarden lets experiment with the idea that tech
+  trees are just item templates" → "choosing a build can let you auto buy at the shop" → "or you
+  can make your own build obviously" → "or do a custom build" → "to buy your items" → "or some
+  combination a build doesn't have to define all items" → "and there can be complex ordering
+  rules" → "all powered by parena scripting and parena mods" → "not sure on the affordances
+  command based via the chat for now is fine." So: a build is a named, possibly-partial item
+  template (doesn't have to define every slot) with real purchase-ordering rules; picking one
+  auto-buys from the existing 27-item shop as gold allows; a player can also freehand a custom
+  build; PARENA-mod-driven per the same S202-08 pattern; selection UI undecided, chat/command-
+  based is fine for a first pass. Not started.
+
+- [ ] **S202-13: GFD Battlegrounds player stats tracking, surfaced on WOTAN.** Founder real-time:
+  "can we start keeping track of stats for GFD players in battlegrounds on wotan?" Not scoped
+  beyond that — which stats, storage (IDUNA? a new store?), and where exactly on the WOTAN page
+  are all open. Not started.
