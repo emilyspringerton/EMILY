@@ -20809,3 +20809,70 @@ restarting.*
   BRAWLPIT/GTA7/EINHORN_SURVIVAL are the real candidates from today's own work; the on/off toggle
   this item itself builds is the right mechanism to actually settle the list, not a guess made
   here). Not started — queued behind the higher-severity S200-01 eventstore fix.
+
+## SECTION 201: NOTEBOOK PORTAL AUTH FOUNDATION — IDUNA SSO + GATED /portal SHIPPED (2026-08-25)
+
+*Continues the SARENA_NOTEBOOK/Jupyter thread (founder real-time: "cook on SARENA notebook -
+build a PARENA kernel for JUPYTER first") down its own real-time-settled access-control branch.
+See obs `2026-08-25T19:02:37Z` for the full decision-thread summary. Kernel-protocol work itself
+(stdlib/net/zmq.prn, PARENA Jupyter kernel) is separate, not started, still blocked on
+sudo-queue/26-install-jupyter-libzmq.sh (needs founder to run it, apt-get sudo required).*
+
+- [x] **S201-01: IDUNA cookie-capable Google SSO + refresh sync.** `GoogleAuthHandler`
+  (`POST /api/v1/auth/google`) now also sets a real HttpOnly `iduna_session` cookie alongside its
+  existing bearer-JWT JSON response, mirroring `admin_login.go`'s own agent-flow cookie shape so
+  `RequireCookieAuth` works identically for a human session as an agent one. `RefreshHandler`
+  (`POST /api/v1/auth/refresh`) now accepts the cookie as a fallback credential and keeps it in
+  sync on its 8h renewal. Concrete need: gating a whole reverse-proxied multi-page app (the
+  portal) behind login has to survive a plain browser navigation / nginx `auth_request`
+  subrequest, which only a cookie does — a bearer token in localStorage is invisible to both.
+  IDUNA commits `a02bb87`, `0d714ad` (Apple #15918).
+
+- [x] **S201-02: fixed a real bug in the suspended-agent live-recheck (SECTION 200's own earlier
+  security fix) that would have broken every human cookie session.** `RequireCookieAuth`'s
+  `iamStore.GetAgentByID` live-status recheck only ever looks in the agents table — a human
+  Google-login session's `sub` is a user ID, never an agent ID, so it always missed and would
+  have incorrectly bounced every human portal session back to login on every single request,
+  indistinguishable from a suspended agent. Found live wiring up S201-03 below, not a
+  hypothetical. Fixed by gating the recheck on absence of the `email` claim (only
+  `GoogleAuthHandler`'s claims ever carry it; no agent-issued token does). New regression test
+  `TestRequireCookieAuth_HumanGoogleSessionNotTreatedAsAgent`, verified red against the pre-fix
+  code, green against the fix. IDUNA commit `b1fd92f` (Apple #15922).
+
+- [x] **S201-03: developer notebook portal shipped — `GET /portal/login` + `GET /portal`.**
+  Linode-Cloud-Manager-style list view (currently: Jupyter, SARENA_NOTEBOOK, both marked
+  "not yet available" — neither tool exists yet, this is the access-control shell they'll land
+  behind). Login page renders a real Sign-in-with-Google button (Google Identity Services, same
+  pattern as `internal/promptoverse/render.go`'s own widget) POSTing to `/api/v1/auth/google`.
+  `/portal` itself requires `RequireCookieAuth` + a brand-new `devportal.access` permission
+  (migration `202608250001_devportal_permissions.sql`) granted to **no role by default, including
+  super_admin** — deliberate, per founder's explicit, repeated hard constraint: "it can be public
+  at first but not for very long" / "if you dont [figure out] the security on the python notbook
+  wont work figure it out." The portal is functionally inaccessible to everyone, including the
+  founder's own human account, until granted via the existing `/admin/users` role-assignment UI
+  (`admin.go`'s real RBAC grant flow, not a new mechanism). IDUNA commit `73a5095` (Apple #15924).
+
+- [ ] **S201-04: founder must grant `devportal` role to their own IDUNA human account** via
+  `/admin/users` (sign in with Google at `/portal/login` once first so the user row exists, then
+  an admin-role holder assigns the `devportal` role from the Users page) — the portal is
+  intentionally inert until this happens. Not something Claude Code can do unattended: real,
+  singular admin judgment call — who gets this permission — the whole point of shipping it
+  ungated-by-default.
+
+- [ ] **S201-05: PARENA Jupyter kernel itself** — `stdlib/net/zmq.prn` (raw ZeroMQ FFI bindings,
+  mirroring `net/tcp.prn`'s real-host-glue pattern) + host C glue in `parena_runtime.h` calling
+  `libzmq`; `stdlib/jupyter/kernel.prn` implementing the real wire protocol (HMAC-SHA256 message
+  signing, JSON header/parent_header/metadata/content multipart messages, `kernel_info_request`/
+  `execute_request`/heartbeat at minimum); a kernelspec.json; execute-request handling that
+  compiles+runs PARENA code per cell. Blocked on `sudo-queue/26-install-jupyter-libzmq.sh`
+  (apt-get sudo required — not yet run). Not started.
+
+- [ ] **S201-06: nginx `auth_request` wiring** to gate the actual Jupyter reverse-proxy path
+  (planned `okemily.com/py`) behind a lightweight IDUNA auth-check endpoint, once S201-05 lands a
+  real Jupyter process to proxy to. Should be queued/documented, not live-applied without
+  disclosure, matching this session's own security-change discipline (SECTION 200's disclosure-
+  before-fix precedent). Not started.
+
+- [ ] **S201-07: SARENA_NOTEBOOK's own custom GUI** (HTML-first, SDL2-native second, `libplot`
+  integration, TYLER-style title cards, built-in note rendering) — explicit, later phase per
+  founder ("html first", "SDL native second"). Not started, not the current focus.
