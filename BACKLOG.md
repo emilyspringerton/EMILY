@@ -20048,7 +20048,7 @@ per Principle 18.*
   `user:treeiii:rwx`, and both exclusion files confirmed still owner-only with no `treeiii` ACL
   entry. Apple #15796 (covers both S191-04 and S191-06 execution confirmation).
 
-- [ ] **S191-07: EmilyOS — real multi-identity file-permission coordination, not ad-hoc setfacl.**
+- [x] **S191-07: EmilyOS — real multi-identity file-permission coordination, not ad-hoc setfacl.**
   Founder real-time, immediately after S191-06's ACL workaround: "we may need to develop our own
   software to handle this" → "put that woork into EmilyOs repo." The ACL approach in S191-06 is a
   real, working fix for one account pair (fatbaby/treeiii) set up once by hand — not a durable,
@@ -20057,12 +20057,14 @@ per Principle 18.*
   log per root CLAUDE.md's own repo table) — real, natural fit: this would be RBAC extended to
   actual filesystem-level multi-identity coordination (who can read/write what, audited, without
   hand-run `setfacl` invocations that are easy to get subtly wrong or drift out of sync as new
-  directories/accounts appear). Not scoped or started here — real design questions open: does this
-  wrap/generate ACL rules from a declarative policy, watch for new files/dirs and apply policy
-  automatically (a daemon?), integrate with EmilyOS's existing posture/audit-log machinery, and
-  how does it interact with `sudo-queue`'s own existing "human runs a script" pattern for anything
-  requiring root. Needs a real NORTHSTAR/design pass before implementation, per Emily Way "spec
-  before implementation."
+  directories/accounts appear). Design pass written (`EmilyOS/docs/FS_ACL_COORDINATION.md`,
+  golden-indexed EMILYOS-FS-ACL). **Implemented and live-verified as S193-02**
+  (`cap.fs.grant`/`cap.fs.revoke`, `internal/fsacl`, `internal/fsaclmod`'s cgo↔PARENA bridge,
+  `emilyos fs grant/revoke` CLI verb, audit-logged and policy-snapshotted) — this item's own
+  stated need is fulfilled there; cross-referencing rather than leaving as a dangling duplicate
+  open item. Remaining open questions from this item's own design pass (declarative-policy vs.
+  imperative CLI, a filesystem-watching daemon for auto-reconciliation) are real Milestone-5+
+  scope, not blocking S193-02's own real, working v0.
 
 ## SECTION 192: PITVIPER MOD-SURFACE V0 — PARENA-AUTHORED WHEEL-SCROLL FIX (2026-08-25)
 
