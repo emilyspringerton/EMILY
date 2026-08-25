@@ -21135,3 +21135,42 @@ routed through `emily observe` before being acted on, per Principle 18.*
   main.c` entry points/binaries), not gameplay logic, so it doesn't obviously need a PARENA mod
   the way REDGARDEN's recent Bloodflower/Tree-passive/build-template features did — but worth
   confirming that read with the founder before assuming, since they asked explicitly.
+
+- [x] **S202-17: SHANKPIT — CTF-with-bots now randomly picks Voxworld or Oil Tanker, not just Oil
+  Tanker.** Founder real-time: "can you update shankpit so CTF with bots" → "that mode should
+  pick voxworld or the oil tanker not just the oil tanker figure it out." `local_init_match`'s
+  `MODE_CTFB` branch hardcoded `SCENE_OIL_TANKER` unconditionally — TDM-with-bots (`MODE_TDMB`)
+  right above it already randomizes via `scene_random_tdmb_map()`, CTFB never got the same
+  treatment. New `scene_random_ctfb_map()` scoped to exactly Voxworld + Oil Tanker (not the full
+  5-map TDMB rotation) — confirmed via `get_ctf_flag_home`/`get_ctf_pedestal_anchor`
+  (`packages/common/physics.h`) that only these two scenes have real, purpose-built CTF flag/
+  pedestal placement; every other map falls back to a generic team-base marker never designed as
+  a CTF flag home. `apps/server/src/main.c` (the real production build target) compiles clean.
+  SHANKPIT `1bdd26f`, Apple #15986.
+
+- [x] **S202-18: "The Construct" — audited every core repo for a full-text-dump CI/build
+  artifact, closed the real gaps.** Founder real-time: "find the construct link for the okemily
+  blog..." → "link from the footer of the all posts of okemily blog" → "ensure all our core repos
+  have a separate construct only build" → "check shankpit GFD tyler for construct vbuilds for
+  construct builds in ci" → "it concatenates all the files" → "all our core repos should have
+  it." Two distinct things share the name: (1) OKEMILY's `blog-manifest.txt` — all blog POSTS
+  concatenated to plain text, robots.txt-excluded — existed since 2026-08-14 but had no on-site
+  link; added one to the `/blog/` index footer (IDUNA `da14e5b`, `internal/blog/render.go`,
+  rebuilt+restarted `iduna.service`, re-rendered all 184 posts). (2) The CI-generated
+  `*_CONSTRUCT.txt` pattern (all SOURCE files concatenated, uploaded as a build artifact) —
+  already real and working in PRRJECT_FATBABY, SHANKPIT, EMILY, GoblinFoxDragon (via shankpit-460's
+  own Dragonfly job), APPLES, BRAWLPIT, emily.cli, EmilyOS, skateboard, shankpit-460, IDUNA,
+  PITVIPER, and TYLER — confirmed via a full grep audit, not assumed. Real gaps found in 9 active
+  repos with real CI but no construct step: **EDIS, MJOLNIR, gpt2-alpine-c, GOLDENBAND, SKULDMARK,
+  GTA7, PARENA, REDGARDEN, WEAKNIGHT_BEDROCK_RACERS.** (CarePyre/EXODUS/TTT/ECOWAR/SAND have no CI
+  at all yet — stubs, nothing to construct.) OKEMILY's own `repo-manifest.yml` is a deliberately
+  different, smaller thing (a cross-repo file-path INDEX, not full content — full concatenation
+  across ~30 repos was explicitly declined earlier as impractically large). Founder confirmed:
+  fill all 9 gaps now — tracked as S202-19.
+
+- [ ] **S202-19: add a construct CI step to the 9 real gap repos found by S202-18** — EDIS,
+  MJOLNIR, gpt2-alpine-c, GOLDENBAND, SKULDMARK, GTA7, PARENA, REDGARDEN,
+  WEAKNIGHT_BEDROCK_RACERS. Pattern to match: SHANKPIT/shankpit-460's own `Generate Source
+  Construct` step (`find` over source/doc roots, concatenate matching files into one `*_CONSTRUCT.txt`,
+  upload as a CI artifact) — see `shankpit-460/.github/workflows/tests.yml` for the canonical
+  shape to copy. Not started.
