@@ -20551,3 +20551,45 @@ restarting.*
   file**, correctly extracting all 5 real top-level keys (`settings`/`spawn-limits`/`chunk-gc`/
   `ticks-per`/`aliases`). `make test-yaml` wired into the Makefile. `make test`: 336/336, no
   regressions. PARENA commit `c6d309a`, CHANGELOG updated. Apple #15847.
+
+## SECTION 197: IDUNA DRIVE SLURP — S187-03/S188-05/S189-10 BUILT (2026-08-25)
+
+- [x] **S197-01: IDUNA Back Office Drive slurp — built, independently re-verified, committed.**
+  Fulfills S187-03/S188-05/S189-10's own "final scope, fully specified, nothing left ambiguous."
+  **What landed, all real (not stubs)**:
+  - `IDUNA/internal/drive/oauth.go` (new) — OAuth2 authorization-code flow alongside `client.go`'s
+    existing service-account flow: `ExchangeCode`/`Refresh` (`access_type=offline` +
+    `prompt=consent` for a real refresh token), `ListWithToken`/`DownloadWithToken` (bearer-token
+    Drive API calls, sharing `FileInfo`/`listURL`/`fileFields` with the existing client).
+  - `IDUNA/internal/http/handlers/admin_drive_slurp.go` (new) — `DriveSlurpHandler`: OAuth start/
+    callback/disconnect (gated behind the *existing* `/admin/*` `RequireCookieAuth`+
+    `RequirePermission("iduna.admin")` wrapper — deliberately not an extension of
+    `web_ceremony.go`'s end-user identity ceremony, a different OAuth purpose/audience), a serial
+    background worker with bounded exponential-backoff retry (3 attempts, 2s/4s/8s — standard
+    values, not cross-referenced against PRRJECT_FATBABY's own watcher retry conventions),
+    idempotency via a `driveFileID:modifiedTime` key surviving process restarts (replayed from a
+    JSONL job-history log, same append-log convention `admin_promptoverse_queue.go` already
+    established), an SSE broadcaster for live job-progress lines, and a double-click-confirm UI
+    (adapts `EmilyOS/README.md` §3.2-3.3's own timed-confirmation *concept* to a plain form button
+    — a 3s-armed "Confirm Slurp?" state — rather than porting its tile-canvas mechanics literally).
+  - `IDUNA/internal/http/handlers/admin.go` — `DriveSlurp *DriveSlurpHandler` field on
+    `AdminHandler`, 6 new routes, nav link.
+  - `IDUNA/main.go` — constructs `DriveSlurpHandler` reusing the existing `GOOGLE_CLIENT_ID`/
+    `GOOGLE_CLIENT_SECRET` env vars (same Google Cloud OAuth app, different scope+redirect), new
+    `DRIVE_SLURP_OAUTH_REDIRECT_URI` env var (defaults to `{BASE_URL}/admin/drive-slurp/oauth/callback`).
+  - "Slurp" scope deliberately narrow: raw bytes to `IDUNA_ROOT/var/drive-slurp/<job-id>-<name>`
+    — no downstream consumer was named in the original spec, none invented.
+  - A real data race (`page()` reading job fields outside the mutex the worker writes under) was
+    found and fixed mid-build — deep-copy each job struct while still holding the lock.
+  **Independently re-verified by the parent session before committing, not just taken on trust**:
+  `go build ./...`, `go vet ./...`, and `go test -race -count=1 ./...` all re-run clean across the
+  entire IDUNA repo — every package, zero regressions, zero races. IDUNA commit `a12d493`, pushed.
+  **Real, unavoidable limitation, not worked around and not faked**: completing Google's actual
+  OAuth consent screen needs a human in a real browser — cannot be done headless, same category as
+  the already-known MJOLNIR Firebase Console blocker (S189-31). Code correctness is verified to
+  the build/vet/test/race level; the live end-to-end OAuth round-trip is not. **Two real steps
+  remain before this is usable, both external/human**: (1) register
+  `DRIVE_SLURP_OAUTH_REDIRECT_URI` as an authorized redirect URI in the Google Cloud Console
+  project `GOOGLE_CLIENT_ID` belongs to (Google otherwise rejects the callback with
+  `redirect_uri_mismatch`), (2) a human completes the Connect flow once to confirm the live round
+  trip. Apple #15855 (fork) + this session's own independent re-verification.
