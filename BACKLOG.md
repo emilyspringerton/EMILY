@@ -17741,8 +17741,25 @@ it, captured here before context-switching to PARENA. None of these are started.
   compares `fitness_ema` instead. Verified: clean rebuild of both `bin/shank_server` and
   `apps/bot_client` (the latter's own separate, unrelated `accumulated_reward` usage confirmed
   unaffected — just a struct field addition). No automated test harness exists for this logic in
-  this repo — not claiming coverage that doesn't exist. SHANKPIT commit `f2b0b09`, pushed. Real CI
-  run in progress on this commit at write time — will confirm green once it lands.
+  this repo — not claiming coverage that doesn't exist. SHANKPIT commit `f2b0b09`, pushed.
+  **Real CI status, honestly reported, not resolved**: the actual GitHub Actions run on this
+  commit failed at "Build Windows Client" (`apps/lobby` cross-compile) — but reproducing that
+  *exact* command locally (same source tree at this commit, same flags, same
+  `SDL2-devel-2.30.10-mingw` package, mingw-w64 installed the same way CI installs it,
+  `sudo-queue/09-mingw-w64.sh`'s plain `apt-get install mingw-w64`) compiled clean, zero errors,
+  one unrelated pre-existing warning. Could not pull the actual compiler error text — GitHub's
+  log-download endpoint returns 403 without an auth token, no `gh` CLI on this box, and the
+  check-runs annotations API only surfaces "Process completed with exit code 1," no detail.
+  Considered and set aside a concurrency-race theory (two runs on this commit, one `failure` one
+  `cancelled`) — the failed run's own step timeline shows normal, uninterrupted sequential
+  progress, so the cancelled run looks like an unrelated superseded run, not evidence this one was
+  corrupted. Real remaining possibility, not confirmed: package-version drift between this box's
+  (already-installed, undated) `mingw-w64` and whatever CI's fresh `apt-get install` pulls today —
+  Ubuntu's own package repos could have moved since this box's install. The actual code change
+  (one `float` struct field + arithmetic, no platform-specific code) has no plausible causal link
+  to a Windows-cross-compile-specific failure, so not reverting it on this evidence — flagging
+  honestly as an open CI discrepancy needing either real log access or a clean re-run to resolve,
+  not claiming false confidence either direction.
 - [ ] **S189-10: IDUNA Back Office Drive slurp — frog agent still not built.** S187-03/S188-05's
   real remaining work (OAuth scope extension, `frog` agent + `slurp` permission registration,
   `EMILY/var` credential storage, Drive-listing adaptation, job queue, idempotency, SSE, new UI
