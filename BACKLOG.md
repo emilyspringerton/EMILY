@@ -1941,6 +1941,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: start tracking GFD Battlegrounds player stats, surfaced on WOTAN** — obs `2026-08-25T20:30:04Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: REDGARDEN hero 'Cart' -- add AOE circle indicators, make his abilities more impactful/powered-up ver…** — obs `2026-08-25T20:16:32Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: set up REDGARDEN auto-releases (non-pre-production/real releases), matching the pattern already used…** — obs `2026-08-25T20:52:40Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: update SHANKPIT (or SHANKPIT-460, unclear which) to add Capture The Flag game mode with bot support** — obs `2026-08-25T21:08:28Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: check SHANKPIT/GFD/TYLER specifically for existing construct (full-text manifest) builds, and constr…** — obs `2026-08-25T21:06:42Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: ensure all core repos have a separate 'construct'-only build -- a concatenated plain-text dump artif…** — obs `2026-08-25T21:06:26Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: SHANKPIT-460 -- link/bundle as a single binary instead of separate client/server/bot executables** — obs `2026-08-25T21:02:43Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, live/urgent: SHANKPIT-460 bot matches still not working, founder is currently stuck in the Osaka gar…** — obs `2026-08-25T21:01:09Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
