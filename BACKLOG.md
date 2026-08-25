@@ -1949,6 +1949,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: reconnect -- 'GFD first then if so' (ambiguous -- possibly: build/verify in GFD battlegrounds_gui fi…** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: reconnect feature may need real IDUNA logins (not just self-minted connect tickets) to identify who …** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: add a reconnect feature to REDGARDEN (rejoin an in-progress match after disconnect)** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: GTA7 redvine networking -- consider building a VM into GTA7 if that helps, PARENA-powered** — obs `2026-08-25T21:37:04Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: GTA7 -- add real wired networking via redstone ('redvine'?), deliberately very slow (dial-up or slow…** — obs `2026-08-25T21:36:45Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: GTA7 railroad tech tree -- use Minecraft's native rail system (rails/carts/etc) for the actual railr…** — obs `2026-08-25T21:36:11Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: GTA7 -- teach the history of railroads through a tech-tree unlock system (build out tech trees, unlo…** — obs `2026-08-25T21:35:41Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
