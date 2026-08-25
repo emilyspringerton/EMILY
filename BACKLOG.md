@@ -15227,10 +15227,29 @@ first, open design questions last.
   Apple #15705. Blog post covering both fixes, Tyler/Unicorn voice, published:
   https://okemily.com/blog/the-unicorn-counts-the-syscalls/ (Apple #15703).
 
-  `Plus`/`Optional`/`CharClass`/`Anchor` are still unimplemented — every tested pattern was
-  literal/alternation only, not full regex coverage; a DFA/Boyer-Moore-class rewrite of the
-  general matcher (for real Alt/Star/Group patterns) is the real remaining gap, not chased
-  further this session.
+  **Full bottleneck audit, same day** (founder: "find all of the technical bottlenecks before we
+  move to hacks"): `PARENA/docs/TURBOGREP_BOTTLENECK_AUDIT.md`, Apple #15708 — 7 perf items + 13
+  correctness gaps + 3 compiler hazards, each verified live or explicitly flagged unverified
+  (not guessed at). Two confirmed dangerous: `CharClass` (`[0-9]`) silently matched **zero**
+  lines against a real digit-containing test file (real grep found it, no error at all) — and
+  `sed.prn`/`awk.prn` both have real, distinct, previously-untested compile failures.
+
+  **CharClass fixed same day**, Apple #15713, PARENA commit `3de6384` — verified against real
+  grep on `[0-9]`, `[a-m]` (range), and negated `[^0-9]`, all byte-identical.
+
+  **Router + NDJSON logging, same day** (founder: "make a grep router that can route between
+  regular grep and turbo grep depending on if the feature is implemented" + "log grep
+  invocations to ndjson... so we can study how claude code works so we can make it faster"):
+  `tools/turbogrep-router.sh` — real AST-based capability check (`pattern-supported?` in
+  `regex/pcre.prn`, not a text heuristic), falls back to real GNU grep via a new, distinct exit
+  code (3) whenever a pattern uses `Plus`/`Optional`/`Anchor`. Verified across 6 patterns
+  spanning both paths, all correct. Every invocation logs one NDJSON line to
+  `PARENA/var/grep-invocations.ndjson` for future usage-driven prioritization. PARENA commit
+  `75d8fc4`, Apple #15716.
+
+  `Plus`/`Optional`/`Anchor` are still unimplemented (now safely routed around, not silently
+  wrong); a DFA/Boyer-Moore-class rewrite of the general matcher is the real remaining perf gap
+  for `Alt`/`Star`/`Group` patterns, not chased further this session.
 
   **Still real, not done**: `sed.prn`/`awk.prn` haven't been attempted at all. PATH-symlink
   replacement of system sed/grep/awk (the founder's own stated milestone) is downstream of both
