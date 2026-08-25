@@ -1910,6 +1910,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, confirms mod-surface-first pattern applies to this fix too: 'mod api first then fix'. Same establish…** — obs `2026-08-25T15:26:04Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time, concrete bug details: 'from the press release page' / 'its a prnerswire' (PRNewswire source) / 'it l…** — obs `2026-08-25T15:25:54Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time bug report: 'there is a bug on one of the press releases.' No specifics given yet (which release, wha…** — obs `2026-08-25T15:25:40Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, building out the golden-repo-status tool spec: 'we already have a tool for checking that status that…** — obs `2026-08-25T15:41:58Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, valuable tooling request: 'we need a tool to poll all our golden repo statuses at the end of a work …** — obs `2026-08-25T15:40:18Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, additional request: 'can we build paruna mod apis into emily cxcli?' (PARENA mod APIs into emily.cli…** — obs `2026-08-25T15:40:12Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, urgent: 'SHANKPIT build is down.' Likely connects to the earlier flagged discrepancy (S189-09's fitn…** — obs `2026-08-25T15:39:56Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time, extends the just-shipped S189-01 damage log: 'add kills and item purchases and node captures and unc…** — obs `2026-08-25T15:35:52Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
