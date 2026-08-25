@@ -19946,7 +19946,7 @@ per Principle 18.*
   the founder confirms this wasn't it, the next candidate to check is WordPress/EDIS session
   cookie config (`wp_set_auth_cookie` — not yet investigated here).
 
-- [ ] **S191-03: "intrusion detection using PARENA tools" — deferred, root gap already tracked.**
+- [~] **S191-03: "intrusion detection using PARENA tools" — deferred, root gap already tracked.**
   Founder explicitly asked for the security investigation to use PARENA-native tooling
   ("using parena tools" / "build the tools in parena"). Real, already-flagged blocker:
   `regex/nfa.prn`'s matching engine now works end-to-end (S190-01), but `grep.prn`/`sed.prn`/
@@ -19955,6 +19955,19 @@ per Principle 18.*
   instead, flagged rather than silently substituted. Not duplicating S190-01's tracked scope
   here — this item exists only to note the tradeoff was made deliberately; building
   grep.prn/sed.prn/awk.prn itself stays S190-01's scope, not a new item.
+  **Correction, 2026-08-25**: the "grep unbuilt" half of this was wrong — checked live and
+  `grep` in this session's own `$PATH` already resolves to `~/.local/bin/grep ->
+  PARENA/tools/turbogrep-router.sh`, a real, separately-tracked PARENA tool (AST-based
+  capability check, falls back to real grep on unsupported patterns, logs every invocation to
+  `var/grep-invocations.ndjson` to guide its own next work; currently ~8x slower than system
+  grep per `docs/TURBOGREP_VERIFICATION_REPORT.md`, down from an initial ~430x). That thread
+  lives deep in SECTION 170's sprawl and was missed when S190-01/this item were scoped — two
+  separate "grep in PARENA" efforts existed without cross-referencing each other. Net effect:
+  S191-01's shell-tool sweep earlier today was, transparently, already PARENA-routed for every
+  `grep` call. `sed`/`awk` are genuinely still unrouted — `stdlib/sed.prn`/`awk.prn` exist as
+  source only, nothing in `$PATH` calls them yet — so S190-01's remaining scope narrows to
+  those two, not grep. Not re-closing S190-01 itself here (not this item's scope); flagging
+  the correction so it isn't repeated.
 
 - [x] **S191-04: secondtree account lockdown queued.** The read-only sweep in S191-01 surfaced an
   unrecognized second Linux account (`secondtree`, uid 1001, `/etc/passwd` mtime 2026-08-22 04:37 —
