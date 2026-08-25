@@ -1843,6 +1843,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok we need to make a grep router that can route between regular grep and turbo grep depending on if…** — obs `2026-08-25T00:44:15Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: 'find all of the technical bottlenecks before we move to hacks' -- stop doing ad-hoc point fixes, pr…** — obs `2026-08-25T00:40:41Z`. CURATED: 2026-08-25.
 - [ ] **Founder real-time: '.69 to .66 improvement is something' -- correcting: that tiny delta was noise, the fast path wasn't…** — obs `2026-08-25T00:35:46Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'we also need to be logging the speeds of the grep invocations so we can do stats on improvements or…** — obs `2026-08-25T00:51:58Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'so we need to all in on making that guy faster' + 'its ok that its slower if its logging the data t…** — obs `2026-08-25T00:51:21Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'THEN FIGURE OUT HOW TO MAKE IT FASTER' -- wants the remaining ~23x perf gap (regex engine itself, r…** — obs `2026-08-25T00:31:44Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'allowing us to run shankpit on a casio calculator watch?' -- extreme-embedded-target framing for 'd…** — obs `2026-08-24T23:45:38Z`. CURATED: 2026-08-25.
+- [ ] **Founder real-time: 'wouldnt that speed up a lot of things like games that might not always need real rng?' -- answered …** — obs `2026-08-24T23:45:28Z`. CURATED: 2026-08-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
