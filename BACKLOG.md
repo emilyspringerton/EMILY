@@ -21081,3 +21081,22 @@ routed through `emily observe` before being acted on, per Principle 18.*
   "can we start keeping track of stats for GFD players in battlegrounds on wotan?" Not scoped
   beyond that — which stats, storage (IDUNA? a new store?), and where exactly on the WOTAN page
   are all open. Not started.
+
+- [x] **S202-14: REDGARDEN build templates — tech trees as item templates, shop auto-buy via a
+  real PARENA mod.** Full founder-quote chain and design reasoning in `arena_game.h`'s own "Build
+  templates" section and the REDGARDEN commit message (`0da4ba3`). Summary: `ArenaBuildTemplate`
+  (named, ordered, possibly-partial item lists — Bruiser/Assassin/Caster, a generic any-hero first
+  pass) + `arena_hero_apply_build_template` (auto-buys as many as Flow affords, in order —
+  cheapest-first is the "complex ordering rules" — stopping rather than failing at the first
+  unaffordable item, idempotent on re-click). Routes through a real compiled PARENA mod
+  (`stdlib/redgarden/build_template_mod.prn`, PARENA `5db109f`), same trigger/host-mutation split
+  Bloodflower/Tree passive already established. Manual item-by-item purchase stays completely
+  unchanged — "make your own build obviously" reads as that, not a new build-editor UI.
+  Affordance: apps/arena has no chat/command box (GFD-specific), so this extends the shop's
+  existing click-based page UI with one more page instead of inventing a new input surface. Wire-
+  synced (new `PACKET_ARENA_APPLY_BUILD_TEMPLATE`). 7 new tests, live round-trip through the
+  compiled mod, including a real catalog-shape check. **Wired into all four build paths up front
+  this time** (`build.sh`, `build_arena.sh`, `test_arena.sh`, `ci.yml`'s Windows cross-compile) —
+  the tree-passive CI break earlier this same session (S202-08's own follow-up fix, `da1a4ca`) was
+  the lesson that made this deliberate rather than assumed. Full 11-binary suite green. Apple
+  #15973.
