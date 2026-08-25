@@ -17728,12 +17728,19 @@ it, captured here before context-switching to PARENA. None of these are started.
   wrapper is present to even attempt a local build. Not a second, independent bug hiding
   underneath — the exact same, already-known, founder-console-only blocker. Not faking a dummy
   credential to make CI pass; that would produce a broken APK, not a fixed build.
-- [ ] **S189-09: SHANKPIT bot reward-window fix.** From the earlier "twitchy and weird" /
-  "flawless ctf sometimes" investigation this session: `BotGenome` evolution selection uses
-  `accumulated_reward` reset every respawn (a very short, luck-prone evaluation window), plausibly
-  explaining the inconsistent movement-execution quality reported. Offered to the founder as a
-  concrete fix (longer evaluation window before selection, or reward averaging across N lives) —
-  not yet confirmed or built, queued behind the current sequencing.
+- [x] **S189-09: SHANKPIT bot reward-window fix — built.** From the earlier "twitchy and weird" /
+  "flawless ctf sometimes" investigation: `BotGenome` evolution selection (`get_best_bot()` /
+  `evolve_bot()`, driven from `phys_respawn()`) compared `accumulated_reward` — a live counter
+  reset to 0 on every respawn — across all active bots at once, unfairly comparing bots at
+  different points in their own life-cycle (one that just respawned sits at 0, one mid-fight might
+  have a lucky short burst). Built the offered fix (reward averaging across lives, not just a
+  longer window): new `PlayerState.fitness_ema`, a slow-moving average (0.8 old / 0.2 newest life)
+  folded in by `phys_respawn()` right before `accumulated_reward` resets; `get_best_bot()` now
+  compares `fitness_ema` instead. Verified: clean rebuild of both `bin/shank_server` and
+  `apps/bot_client` (the latter's own separate, unrelated `accumulated_reward` usage confirmed
+  unaffected — just a struct field addition). No automated test harness exists for this logic in
+  this repo — not claiming coverage that doesn't exist. SHANKPIT commit `f2b0b09`, pushed. Real CI
+  run in progress on this commit at write time — will confirm green once it lands.
 - [ ] **S189-10: IDUNA Back Office Drive slurp — frog agent still not built.** S187-03/S188-05's
   real remaining work (OAuth scope extension, `frog` agent + `slurp` permission registration,
   `EMILY/var` credential storage, Drive-listing adaptation, job queue, idempotency, SSE, new UI
