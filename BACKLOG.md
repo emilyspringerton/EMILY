@@ -1969,6 +1969,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'can we build out the gta7 historical based railroad tech tree powered by real minecraft rails' -- a…** — obs `2026-08-26T00:17:15Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'ensure our iduna swagger spec is fully updated wherever it lives' -- arrived mid-README-refresh-pas…** — obs `2026-08-26T01:22:48Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'update all our readmes with the newest everything significant not the cross repo updates unless the…** — obs `2026-08-26T01:16:58Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: reiterating a real, already-documented REDGARDEN gap -- the RL inference engine (autocurriculum trai…** — obs `2026-08-26T01:38:04Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: REDGARDEN hero He Xiangu (Wotan hero stats page, 'xehingu') is hard to get value out of -- founder's…** — obs `2026-08-26T01:37:54Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -21552,3 +21554,28 @@ routed through `emily observe` before being acted on, per Principle 18.*
   actual in-game behavior isn't live-verified — this session has no way to connect a real client,
   the same stated limitation every prior GTA7 milestone (VS0-VS5) already carries; founder should
   playtest and report back. GTA7 commits `7468990` + `830fe58` + `466c3e4`, Apple #16062.
+
+- [ ] **S202-30: REDGARDEN — He Xiangu hero rework/buff (hover casting + supporting items).**
+  Founder real-time, 2026-08-25: "hero stats on wotan for example xehingu is not an easy hero to
+  get value out of in my opinion - we need to buff or rework add hover casting and supporting
+  items for him to thrive." Confirmed the real, current kit
+  (`packages/simulation/arena_game.c`/`.h`, `ARENA_HERO_HE_XIANGU`): Q is a 6.0-unit melee-range
+  damage+self-heal poke (4.2s CD), W is a self-regen toggle, R is a 4.5-radius ally-heal zone with
+  no damage — a pure sustain/support kit with zero mobility or engage/disengage tool, which is the
+  concrete, findable reason the founder's read ("hard to get value out of") holds up against the
+  actual numbers, not just a vibe. Scope not yet decided: real buff numbers, a rework of one of
+  Q/W/R, a new "hover casting" mechanic (cast Q/W/R while airborne/hovering — mechanic itself not
+  yet designed), and 1+ new supporting items in the item shop tuned for a melee-range sustain
+  support. Queued via `emily observe` (Apple #16073) — not yet implemented, tracked on the kanban
+  board (`emily kanban`, cruise queue) for pickup.
+
+- [ ] **S202-31: REDGARDEN — wire the trained RL inference engine into the LIVE bot AI decision
+  loop.** Founder real-time, 2026-08-25/26, re-flagging a gap REDGARDEN's own README already
+  states plainly: the autocurriculum training pipeline (currently running, ~44% through its
+  500k-timestep run as of this note) trains, exports, and syncs weights — but nothing in a real
+  match calls them yet. Real integration point already named, not guessed:
+  `arena_game.c`'s `bot_cast_kit_if_ready` (or a generalization of it) is where a trained policy's
+  inference call would need to slot in, replacing or augmenting the current heuristic bot AI.
+  Queued via `emily observe` (Apple #16074) — genuinely not started, blocked in practice on the
+  training run finishing and its exported-weights format being real/loadable from C, not just
+  logged. Tracked on the kanban board (`emily kanban`, cruise queue) for pickup.
