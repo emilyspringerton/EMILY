@@ -21456,3 +21456,58 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `sudo-queue/28-restart-emily-agent-for-pure-cli-goldenbuild.sh` for the founder/fatbaby to run;
   the one-shot CLI path is already confirmed live, the cron-cycle path needs that restart to pick
   up the fix. Apple #16031.
+
+- [x] **S202-26: Kanban prioritization layer — 3-column GUI + agent API, over EMILY/BACKLOG.md
+  itself.** Founder real-time, built up across several messages: "ok lets build a kanban layer
+  on top of our sprints that lets us assign priority for the next open dev to picj up - for now
+  it can be simple 2 tiers of special next queues priority and cruise" → "it allows us to drag
+  from backlog into 1 of the 2 priority queues backlog numbers stay the same it gets a kanban
+  tracking something" → "gui kanban interface 3 columns in iduna" → "i can ask the ai agent to
+  work from the priority or cruise backlog" → "theoretically 2 agents could work in paralell
+  without as much risk of colliding priorities." New `kanban_cards` table (`backlog_item_id` +
+  `queue` ['backlog' default | 'priority' | 'cruise'] + `position`) is a real overlay, not a
+  replacement — BACKLOG.md stays the one authoritative source of an item's actual content/status,
+  this table only tracks which column a card sits in. `KanbanHandler`
+  (`GET/POST/PATCH/DELETE /api/v1/kanban/cards[/:id]`) mounted twice with the SAME instance:
+  cookie-gated under `/admin/kanban/api/` (`iduna.admin`, same as every other Back Office page)
+  for the browser board's own same-origin fetch calls, bearer-gated under `/api/v1/` with a new,
+  narrower `kanban.access` permission for CLI/agent access — principle of least privilege, an
+  automated agent reading/writing the queue has no business also holding full Back Office admin
+  rights. Granted to EMILY-PRIME. `KanbanPageHandler` is the real 3-column drag-and-drop GUI
+  (Backlog | Priority | Cruise), cream/gold IDUNA style (Cormorant Garamond + Spectral,
+  gold-bordered panels, tokens copied from `portal.go`). `emily kanban {list,add,move,rm}`
+  (emily.cli) is the agent-facing half. 9 new IDUNA tests + 8 new emily.cli tests, all passing.
+  **Live-verified**: the new table and permission grant are both already applied to the real
+  production `var/iduna.db` (a one-shot local run + a direct additive `agent_permissions` grant,
+  the same migration file the next real IDUNA startup applies cleanly either way) — only the
+  running binary needs swapping, queued as `sudo-queue/29-restart-iduna-for-kanban-layer.sh` for
+  fatbaby (same constraint as every other systemd restart this session: runs as `treeiii`, can't
+  reach fatbaby's own session bus). IDUNA commits `88825a3` + `550b4c9`, emily.cli commits
+  `324ad53` + `459314c`, Apple #16053.
+
+- [ ] **S202-27: REDGARDEN — body blocking (real hero-hero collision).** Founder real-time: "we
+  need to add body blocking" → "currently players can ghost through eachother." `apps/arena`
+  heroes currently have zero unit-collision with each other — nothing stops one hero walking
+  straight through another. Real MOBA mechanic: a hero's own hitbox physically blocks other
+  heroes' movement (allies shielding a retreat, enemies denying one). Not started — needs a real
+  design pass first (collision radius, whether it applies to both teams or only same-team/only
+  enemy-team, how it interacts with existing knockback/pull abilities like Duck's own Q/R and
+  Morrigan's W, server-authoritative per this session's own established convention).
+
+- [ ] **S202-28: GOLDENBAND — rig for an Ant hero.** Founder real-time: "dd a rig for an ant
+  hero" (add a rig for an ant hero). GOLDENBAND's Blender rig pipeline
+  (`tools/blender_export/create_tyler_armature.py` builds `TylerRig.blend`) needs a new armature
+  for an "Ant" hero/character, following the same TylerRig precedent. Not started — real open
+  questions: is "Ant" a new REDGARDEN roster hero (needing a matching `docs/HEROES_VS0.md` kit
+  entry and arena_game.c wiring) or purely an animation-pipeline exercise (a rig with no game
+  hero attached yet)? Not assumed here, needs founder confirmation before scoping further.
+
+- [ ] **S202-29: GTA7 — historical railroad tech tree, powered by real Minecraft rails.** Founder
+  real-time: "can we build out the gta7 historical based railroad tech tree powered by real
+  minecraft rails." A progression/tech-tree system themed around historical railroad development
+  (real-world rail eras/technology as the theming), implemented using vanilla Minecraft rail
+  blocks/minecart mechanics as the actual gameplay substrate. Not started — real open questions:
+  what does "historical" progression actually gate (unlockable rail types/speeds, powered-rail
+  costs, new destinations/routes?), how it ties into GTA7's existing Field Office/Custody Lock
+  systems, and whether it's server-wide or per-player/per-faction progression. Not scoped further
+  here, needs a real design pass.
