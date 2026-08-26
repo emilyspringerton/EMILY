@@ -21527,12 +21527,26 @@ routed through `emily observe` before being acted on, per Principle 18.*
   bone names) instead; queued for the founder to trigger via the Actions tab. GOLDENBAND commits
   `c8e1481` + `e8409ef`, Apple #16059.
 
-- [ ] **S202-29: GTA7 — historical railroad tech tree, powered by real Minecraft rails.** Founder
+- [x] **S202-29: GTA7 — historical railroad tech tree, powered by real Minecraft rails.** Founder
   real-time: "can we build out the gta7 historical based railroad tech tree powered by real
   minecraft rails." A progression/tech-tree system themed around historical railroad development
   (real-world rail eras/technology as the theming), implemented using vanilla Minecraft rail
-  blocks/minecart mechanics as the actual gameplay substrate. Not started — real open questions:
-  what does "historical" progression actually gate (unlockable rail types/speeds, powered-rail
-  costs, new destinations/routes?), how it ties into GTA7's existing Field Office/Custody Lock
-  systems, and whether it's server-wide or per-player/per-faction progression. Not scoped further
-  here, needs a real design pass.
+  blocks/minecart mechanics as the actual gameplay substrate. — **Shipped same session
+  (2026-08-26), as VS6.** Real open questions answered, not left dangling: progression currency
+  is real rails placed (not Flow — GTA7's existing currency is Field-Office-owned/ambient with no
+  spend mechanism yet; "powered by real minecraft rails" already names the honest metric
+  directly, so no new economy was invented) and progression is per-player. 5 real historical eras
+  (Wooden Tramway → Iron Rail → Signal Era → Industrial Rail → High-Speed Rail, thresholds
+  0/50/150/400/1000 rails placed — a real, honest guess, flagged not asked for specifically).
+  `RailroadManager` persists per-player progress (flat YAML, same pattern as
+  `FieldOfficeManager`). `RailroadListener` is the real gate, not a decorative counter:
+  `BlockPlaceEvent` cancels powered/detector/activator rail placement below the required era;
+  `VehicleCreateEvent` (the real Bukkit/Paper event for any minecart entering the world) cancels
+  chest/furnace/hopper/TNT minecarts below theirs, using nearest-player-within-5-blocks as the
+  plausible placer. `/railroad` shows era + progress. `mvn package` **BUILD SUCCESS** (no test
+  suite exists in this repo yet — its own stated "build gate only" bar). Deployed: jar copied to
+  `server/plugins/`, restart queued (`sudo-queue/30`, same fatbaby-session-bus constraint as
+  every other restart this session). README/CLAUDE.md updated. **Honest gap, not glossed over**:
+  actual in-game behavior isn't live-verified — this session has no way to connect a real client,
+  the same stated limitation every prior GTA7 milestone (VS0-VS5) already carries; founder should
+  playtest and report back. GTA7 commits `7468990` + `830fe58` + `466c3e4`, Apple #16062.
