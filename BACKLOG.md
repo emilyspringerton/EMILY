@@ -1974,6 +1974,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: REDGARDEN hero Abraham -- give him a real targetable, slow-moving projectile fireball that travels a…** — obs `2026-08-26T01:51:53Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: worried they don't remember the password/key used to encrypt existing IDUNA GCS backups, floated re-…** — obs `2026-08-26T01:41:27Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: upload the WHOLE /home/fatbaby home directory to Google Cloud Storage, double-encrypted like the exi…** — obs `2026-08-26T01:40:27Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: REDGARDEN -- build WoW-style raid frames for hover-casting (Doc Wheel and other hover-aware abilitie…** — obs `2026-08-26T02:10:48Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
