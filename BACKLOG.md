@@ -21505,13 +21505,27 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `build_training.sh` all link clean. No PARENA mod — pure engine mechanic, not requested as a
   mod the way Duck's Smoke Bomb was. REDGARDEN commits `ce3176a` + `ce6c79a`, Apple #16057.
 
-- [ ] **S202-28: GOLDENBAND — rig for an Ant hero.** Founder real-time: "dd a rig for an ant
+- [x] **S202-28: GOLDENBAND — rig for an Ant hero.** Founder real-time: "dd a rig for an ant
   hero" (add a rig for an ant hero). GOLDENBAND's Blender rig pipeline
   (`tools/blender_export/create_tyler_armature.py` builds `TylerRig.blend`) needs a new armature
-  for an "Ant" hero/character, following the same TylerRig precedent. Not started — real open
-  questions: is "Ant" a new REDGARDEN roster hero (needing a matching `docs/HEROES_VS0.md` kit
-  entry and arena_game.c wiring) or purely an animation-pipeline exercise (a rig with no game
-  hero attached yet)? Not assumed here, needs founder confirmation before scoping further.
+  for an "Ant" hero/character, following the same TylerRig precedent. — **Armature shipped same
+  session (2026-08-26).** New `tools/blender_export/create_ant_armature.py`, same JOINTS-table
+  pattern as `create_tyler_armature.py` — a real, distinct 11-bone body plan (not the humanoid
+  layout reused): `Abdomen`(root)→`Thorax`→`Head` laid out horizontally/low to the ground (an
+  ant's real posture), 6 single-bone legs off the Thorax in front/mid/rear pairs (splayed
+  outward and down, the real ant leg-fan shape), 2 antennae off the Head. `gskel.h`'s own format
+  needed nothing new (`GSKEL_MAX_JOINTS`=64, hierarchy read from the file, never hardcoded to
+  Tyler's own 5-bone shape). New `build-ant-armature` CI job, same shape as the existing
+  `build-armature` job. **Real open question answered, not guessed**: this is the armature only
+  — GOLDENBAND's own stated scope (SHANKPIT/REDGARDEN integration is separate, larger,
+  not-yet-started work per this repo's own CLAUDE.md) — whether "Ant" becomes a real REDGARDEN
+  roster hero (a `docs/HEROES_VS0.md` kit entry + `arena_game.c` wiring) is left as a genuinely
+  separate, later decision. **Honest gap, not glossed over**: the actual Blender build isn't
+  live-verified (`bpy` only runs inside a real Blender process, and `workflow_dispatch` needs an
+  authenticated trigger this session has no `GITHUB_TOKEN` for) — verified Python syntax plus a
+  static structural check of the `JOINTS` table (every parent defined before use, no duplicate
+  bone names) instead; queued for the founder to trigger via the Actions tab. GOLDENBAND commits
+  `c8e1481` + `e8409ef`, Apple #16059.
 
 - [ ] **S202-29: GTA7 — historical railroad tech tree, powered by real Minecraft rails.** Founder
   real-time: "can we build out the gta7 historical based railroad tech tree powered by real
