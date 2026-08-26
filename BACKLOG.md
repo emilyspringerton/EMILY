@@ -21644,3 +21644,56 @@ routed through `emily observe` before being acted on, per Principle 18.*
   stash unaffected by this diff); `scripts/test_10_bots.sh` (5 live matches, 10 bots) also
   verified passing. REDGARDEN commits `961d500` + `eed81ac`, GOLDENBAND commits `865556b` +
   `f44a222`, PARENA commit `45dbe91`, Apple #16084.
+
+- [x] **S202-35: REDGARDEN — fixed a live bug where Abraham never auto-attacked at all (and
+  bot Abrahams never cast their new fireball), plus finished Kite String (S202-34's own
+  uncommitted leftover).** Founder real-time, live and urgent, immediately following up on
+  S202-34's own W rework: "theres some issue with fireball its not casting" → "like i get the
+  cast target thingy but i click and nothing" → "and it doesnt go on cooldown" → "also his auto
+  attack is broken" → "abraham". Root cause 1 (the real, load-bearing one): `arena_tick_attack_
+  targets`' own windup-START trigger (team-mode only — confirmed the founder's own live match
+  via a real process check, port 7303 off the `:7778` bot-pool matchmaker) stayed hardcoded to
+  `if (h->hero_id == ARENA_HERO_GARY)`. S202-34 excluded Abraham from the old flat melee loop at
+  6 separate call sites (each already carrying its own "same as Gary" comment) but never added
+  him to THIS one — he fell into neither the melee loop nor the new ranged-windup path and
+  simply never began an auto-attack, full stop. Very likely why the fireball itself also looked
+  broken: nothing about Abraham's kit visibly worked. Root cause 2: `bot_cast_kit_if_ready`'s own
+  `ARENA_HERO_ABRAHAM` case still executed the pre-rework kit verbatim ("toggle W on early for
+  the channeled Q damage") — called `arena_toggle_w` unconditionally without ever setting
+  `arena_state.has_ground_target` first, so the new W's own real guard silently no-op'd it every
+  time; bot-controlled Abrahams have never cast a fireball since `961d500` landed. Both fixed,
+  each verified via a real, direct headless repro (not assumed) — confirmed broken before,
+  confirmed a real homing shot fires and lands damage after (foe hp 100→92). The fireball CAST
+  logic itself (windup → completion → projectile spawn) was independently verified correct in
+  both 1v1 and team-mode ticks before either fix — the actual defect was narrower than "fireball
+  casting is broken" first suggested. Separately, found a real, uncommitted, half-finished
+  feature while checking for in-flight REDGARDEN state (founder: "there may be more redgarden in
+  flight work uncomitted") — Kite String (S202-34's own trinket ask, "add an item that increases
+  auto attack range by 4% 3333 flow"): header fields existed with no catalog entry and no
+  stat-aggregation wiring. Finished it — `arena_hero_attack_range` now takes the whole
+  `ArenaHero` (not just `hero_id`) to read `item_bonus_attack_range_pct`, same shape
+  `apply_cdr`'s own `item_bonus_cdr_pct` already uses; `ARENA_ITEM_COUNT` 33→34, catalog entry
+  appended. Also found and fixed a real, separate CI break the same session (`abraham_fireball_
+  mod` missing from `ci.yml`'s own Windows cross-compile step — CI red for 3 straight commits)
+  before this fix, and confirmed a `bazel` build-system migration was raised but deliberately
+  deferred to a real, separately-scoped follow-up rather than started mid-incident (founder,
+  asked directly: "scope the bazel migration for real" once CI was already green again). All 4
+  build paths verified green, full 1099-check `test_arena.sh` suite, 0 failures, a real mingw
+  cross-compile. REDGARDEN `ea0787a` (CI fix) + `d4fd6c7` (bug fixes + Kite String) + `c3ef4ea`
+  (changelog), Apple #16090.
+
+- [ ] **S202-36: REDGARDEN build-system migration to Bazel — real, scoped follow-up, not
+  started.** Founder real-time, mid-incident on S202-35 above: "switch the redgarden build to
+  bazel while we fix it" → asked directly whether this was specifically to unblock that one
+  incident (already resolved by then) or a real, separate ask → founder chose "scope the bazel
+  migration for real." PARENA already runs Bazel as its own primary build system
+  (`.bazelrc`/`MODULE.bazel`/per-directory `BUILD.bazel`) — the real precedent to follow, not a
+  new pattern to invent. Would replace `scripts/build.sh`/`build_arena.sh`/`test_arena.sh`/
+  `build_training.sh` and `.github/workflows/ci.yml`'s own `build` job. Real scope not yet
+  worked out: `apps/arena`'s SDL2/OpenGL/GOLDENBAND dependency graph, the 6 PARENA-mod `.c`/
+  `.h` pairs (`bloodflower`/`tree_passive`/`build_template`/`item_curriculum`/`duck_smoke_bomb`/
+  `abraham_fireball`, plus whichever land after this note) each needing a real Bazel target, the
+  Windows mingw cross-compile's own toolchain story under Bazel, and whether the fast local
+  edit-compile-test loop the plain scripts give up (no Bazel analysis overhead) is worth trading
+  away for a real second build system's own maintenance cost. Not started — a real scoping pass
+  is the next step, not diving into a rewrite.
