@@ -1988,8 +1988,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'make it so that the fireball ignites the enemies it touches making them have burning too' -- add a …** — obs `2026-08-26T03:56:29Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'when you hit w on abraham and you are moving dont have it blow the cooldown and do nothing have it …** — obs `2026-08-26T04:09:48Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'make bacon buck w instead of a toggle have it turn into sghadow step use the targeting system you h…** — obs `2026-08-26T04:30:04Z`. CURATED: 2026-08-26.
-- [ ] **Founder real-time: 'work on our parena JUPYTER backend just use basic auth to protect it for now until we get google oa…** — obs `2026-08-26T05:08:13Z`. CURATED: 2026-08-26.
-- [ ] **Founder real-time: 'call it JEWEL' -- renaming the PARENA Jupyter notebook portal item (currently 'SARENA_NOTEBOOK' in …** — obs `2026-08-26T05:09:48Z`. CURATED: 2026-08-26.
+- [x] **Founder real-time: 'work on our parena JUPYTER backend just use basic auth to protect it for now until we get google oa…** — obs `2026-08-26T05:08:13Z`. CURATED: 2026-08-26. DONE: real Jupyter kernel (JEWEL/jewel_kernel.py) shipped, live via persistent user systemd (jewel-jupyter.service, 127.0.0.1:8890); nginx Basic Auth wired in OKEMILY/ops/nginx-okemily.conf but deploy is sudo-gated (sudo-queue/31-jewel-nginx-basic-auth.sh, not yet run). Apple #16118. session: sess-20260825-1938-f6bd411e
+- [x] **Founder real-time: 'call it JEWEL' -- renaming the PARENA Jupyter notebook portal item (currently 'SARENA_NOTEBOOK' in …** — obs `2026-08-26T05:09:48Z`. CURATED: 2026-08-26. DONE: pushed to the founder-created `emilyspringerton/JEWEL` repo, registered in root CLAUDE.md, IDUNA portal.go's Jupyter row now links to the real URL. Apple #16118. session: sess-20260825-1938-f6bd411e
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
