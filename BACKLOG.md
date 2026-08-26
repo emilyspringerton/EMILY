@@ -1987,6 +1987,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'via parena mods' (confirming the ignite effect should route through the PARENA mod layer -- it alre…** — obs `2026-08-26T03:59:33Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'make it so that the fireball ignites the enemies it touches making them have burning too' -- add a …** — obs `2026-08-26T03:56:29Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'when you hit w on abraham and you are moving dont have it blow the cooldown and do nothing have it …** — obs `2026-08-26T04:09:48Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: 'make bacon buck w instead of a toggle have it turn into sghadow step use the targeting system you h…** — obs `2026-08-26T04:30:04Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
