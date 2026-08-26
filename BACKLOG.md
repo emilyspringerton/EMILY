@@ -21689,18 +21689,72 @@ routed through `emily observe` before being acted on, per Principle 18.*
   cross-compile. REDGARDEN `ea0787a` (CI fix) + `d4fd6c7` (bug fixes + Kite String) + `c3ef4ea`
   (changelog), Apple #16090.
 
-- [ ] **S202-36: REDGARDEN build-system migration to Bazel — real, scoped follow-up, not
-  started.** Founder real-time, mid-incident on S202-35 above: "switch the redgarden build to
-  bazel while we fix it" → asked directly whether this was specifically to unblock that one
-  incident (already resolved by then) or a real, separate ask → founder chose "scope the bazel
-  migration for real." PARENA already runs Bazel as its own primary build system
-  (`.bazelrc`/`MODULE.bazel`/per-directory `BUILD.bazel`) — the real precedent to follow, not a
-  new pattern to invent. Would replace `scripts/build.sh`/`build_arena.sh`/`test_arena.sh`/
-  `build_training.sh` and `.github/workflows/ci.yml`'s own `build` job. Real scope not yet
-  worked out: `apps/arena`'s SDL2/OpenGL/GOLDENBAND dependency graph, the 6 PARENA-mod `.c`/
-  `.h` pairs (`bloodflower`/`tree_passive`/`build_template`/`item_curriculum`/`duck_smoke_bomb`/
-  `abraham_fireball`, plus whichever land after this note) each needing a real Bazel target, the
-  Windows mingw cross-compile's own toolchain story under Bazel, and whether the fast local
-  edit-compile-test loop the plain scripts give up (no Bazel analysis overhead) is worth trading
-  away for a real second build system's own maintenance cost. Not started — a real scoping pass
-  is the next step, not diving into a rewrite.
+- [x] **S202-36: REDGARDEN build-system migration to Bazel — done.** Founder real-time,
+  mid-incident on S202-35 above: "switch the redgarden build to bazel while we fix it" → asked
+  directly whether this was specifically to unblock that one incident (already resolved by
+  then) or a real, separate ask → founder chose "scope the bazel migration for real" → shortly
+  after, "i want the bazel migration done now." Followed PARENA's own existing Bazel setup as
+  the real precedent (`.bazelrc`/`MODULE.bazel`/per-directory `BUILD.bazel`), not a new pattern.
+  Real motivation beyond the ask itself: this exact session hit the "a new PARENA mod lands,
+  gets wired into most build paths, gets missed in one" bug class at least 3 separate times
+  (bloodflower_mod/tree_passive_mod/abraham_fireball_mod each missing from a shell script or
+  `ci.yml`'s own Windows step at some point, each found via a real CI failure) — a real
+  dependency graph makes that whole class structurally impossible, not just less likely.
+  **Shipped**: all 7 real binaries (`red_garden_server`/`bot`/`lobby`/`matchmaker`,
+  `red_garden_arena_server`/`arena_bot`/`arena`) and all 14 real test targets build and pass
+  under `bazel build //...` / `bazel test //tests/...`. `arena_game.c` now `#include`s
+  `abraham_fireball_mod_host.h` directly (the one mod host header still relying on a shell
+  script's own `-include` flag) — closes that gap for real, not just for Bazel.
+  `packages/simulation:arena_game` bundles `arena_game.c` with all 6 of its real
+  PARENA-compiled mods in ONE `cc_library`, not six with a `deps=[]` edge between them — a
+  genuine circular reference exists at the source level (arena_game.c calls into each mod's own
+  entry point, each mod calls back into a host function arena_game.c defines), which C handles
+  fine within one linked unit but Bazel can't express as a real dependency cycle. **Genuinely
+  not done, scoped honestly**: the Windows mingw cross-compile (`ci.yml`'s own separate step)
+  and `scripts/build_training.sh`'s `libarena_training.so` still use the old plain-gcc
+  invocations — real, separate follow-up work. The existing shell scripts are kept alongside,
+  not deleted, until Bazel has been the real build path for a while and CI itself switches
+  over. REDGARDEN `1158929`, Apple #16101.
+
+- [x] **S202-37: REDGARDEN — Abraham's W redesigned to auto-target (no manual click); He
+  Xiangu's Q replaced with Moira Orb + a real Light/Dark stance toggle.** Founder real-time,
+  live, after extensive investigation of S202-35's own manual ground-click fireball flow
+  couldn't be conclusively root-caused from the client side alone (a temporary stderr-trace
+  diagnostic build was shipped but the founder couldn't relay terminal text back — "i cant read
+  shit off a screen to you"): "why does gary work but abraham doesnt" → "at least on the auto
+  attack side" → "fuck it have the fireball go infinitely across the map" → "have it fire at
+  the nearest enemy no matter how far away." Abraham's W no longer requires
+  `arena_state.has_ground_target` at all — auto-targets the nearest living enemy
+  (`arena_nearest_enemy`, no range cap) and fires the same real piercing shot as before; the
+  client's own W keypress now casts immediately like every other hero, no separate "green
+  reticle, click to confirm" aiming mode. Added real server-side diagnostic logging to
+  `arena_server` (the child process inherits the matchmaker's own stdout/stderr, redirected to
+  `var/logs/matchmaker-bots.log` — readable directly, no relay needed) per the founder's own
+  "set up server side logging from the client or someghing."
+
+  Second, separate feature request arriving in the same real-time thread: "switch the targeted
+  ability to another hero who has a trash w and give them moira orb from overwatch" → "give
+  them moira orb on their q" → "give it to xehinhshu" (He Xiangu, "Xiangu" read as the "X" name
+  meant — she's Support/Sustain, her old W was already a plain free toggle, matching "trash w")
+  → "someone that has a toggle have their toggle switch between light and dark" → "keep the
+  code paths for the original fireball ability... move it to that hero and it doesnt have to
+  fully work for now." Her old instant-hitscan Q (range-limited, heal-on-hit) is replaced with
+  Moira Orb: a real, slower homing projectile (`arena_spawn_projectile` + `homing_target`, the
+  same mechanic Gary/Abraham's own ranged auto-attacks already use) that auto-targets the
+  nearest enemy with no range limit — literally the same auto-target code path Abraham's own W
+  redesign just established, per the founder's own "keep the code paths" instruction. Real,
+  deliberate simplification per the founder's own "doesn't have to fully work" allowance: the
+  self-heal fires at cast time, not on-hit — no new on-hit-effect plumbing added to
+  `ArenaProjectile` for a case nothing else in this catalog needs yet. Her W toggle is reframed
+  from a plain on/off regen buff into a real Light/Dark stance: Light (on) keeps the original
+  regen, Dark (off) is now a genuine second stance granting flat armor (same shape Ada's own W
+  plating already established), not just "the buff turned off."
+
+  Verified via direct headless repros for both redesigns before touching any tests (homing
+  projectile spawns/lands real damage, self-heal fires immediately, Dark-stance armor
+  applies/clears on toggle). Updated `test_abraham_fireball.c` (the old "requires a ground
+  target" test replaced with "requires a living enemy," directional assertions updated for
+  auto-targeting) and `test_arena_game.c` (He Xiangu's own Q tests updated for
+  homing-projectile-not-instant-hitscan timing; "out of range whiffs" replaced with "no range
+  limit"). Full 1099-check `test_arena.sh` suite green, 0 failures, real mingw cross-compile
+  verified. REDGARDEN `6a27f00`, Apple #16101.
