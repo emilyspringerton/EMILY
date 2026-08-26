@@ -1966,6 +1966,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, kanban layer clarification (continuing the ask logged moments ago): 'it allows us to drag from backl…** — obs `2026-08-26T00:03:43Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'ok lets build a kanban layer on top of our sprints that lets us assign priority for the next open d…** — obs `2026-08-26T00:03:09Z`. CURATED: 2026-08-26.
 - [ ] **REDGARDEN: tests/test_arena_replay segfaults (core dumped), confirmed PRE-EXISTING via a real git-stash bisect (crashes…** — obs `2026-08-26T00:02:14Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: 'can we build out the gta7 historical based railroad tech tree powered by real minecraft rails' -- a…** — obs `2026-08-26T00:17:15Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
