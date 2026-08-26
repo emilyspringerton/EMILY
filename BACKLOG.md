@@ -21486,14 +21486,24 @@ routed through `emily observe` before being acted on, per Principle 18.*
   reach fatbaby's own session bus). IDUNA commits `88825a3` + `550b4c9`, emily.cli commits
   `324ad53` + `459314c`, Apple #16053.
 
-- [ ] **S202-27: REDGARDEN — body blocking (real hero-hero collision).** Founder real-time: "we
+- [x] **S202-27: REDGARDEN — body blocking (real hero-hero collision).** Founder real-time: "we
   need to add body blocking" → "currently players can ghost through eachother." `apps/arena`
   heroes currently have zero unit-collision with each other — nothing stops one hero walking
   straight through another. Real MOBA mechanic: a hero's own hitbox physically blocks other
-  heroes' movement (allies shielding a retreat, enemies denying one). Not started — needs a real
-  design pass first (collision radius, whether it applies to both teams or only same-team/only
-  enemy-team, how it interacts with existing knockback/pull abilities like Duck's own Q/R and
-  Morrigan's W, server-authoritative per this session's own established convention).
+  heroes' movement (allies shielding a retreat, enemies denying one). — **Shipped same session
+  (2026-08-26).** New `resolve_hero_hero_collision`, same shape as the existing
+  `resolve_hero_obstacle_collision` right above it in `arena_game.c` — a hero is now also a
+  circle (`ARENA_HERO_COLLISION_RADIUS`, the same constant obstacle collision already uses)
+  every other hero pushes itself back out of. Called from `update_hero_motion`'s own organic
+  movement step, same `donkey_airborne_ms` skip as obstacle collision (Paper Glide flies over
+  heroes too). Applies regardless of team (real MOBA convention — allies block each other too)
+  and across the full clone range. Deliberately NOT applied to forced displacement (Duck's Q/R
+  pulls, Morrigan's W gap-close) — those bypass `update_hero_motion` entirely, next tick's own
+  normal movement resolution self-corrects, same reasoning the airborne carve-out already uses.
+  `update_hero_motion` gained a `self_index` param (all 3 real call sites updated). 4 new tests,
+  full `test_arena_game.c` suite (857 checks) green, `build.sh`/`build_arena.sh`/
+  `build_training.sh` all link clean. No PARENA mod — pure engine mechanic, not requested as a
+  mod the way Duck's Smoke Bomb was. REDGARDEN commits `ce3176a` + `ce6c79a`, Apple #16057.
 
 - [ ] **S202-28: GOLDENBAND — rig for an Ant hero.** Founder real-time: "dd a rig for an ant
   hero" (add a rig for an ant hero). GOLDENBAND's Blender rig pipeline
