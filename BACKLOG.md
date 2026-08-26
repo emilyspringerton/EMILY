@@ -2003,6 +2003,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue working on parena editor' -- direct continuation of the earlier 'pur[e] parena editor port…** — obs `2026-08-26T15:53:38Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'continue working on parena editor' (third occurrence, direct continuation) -- real keyboard-driven …** — obs `2026-08-26T16:18:57Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'continue working on parena editor' (second occurrence, direct continuation) -- real SDL2_ttf text r…** — obs `2026-08-26T16:09:32Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time, real CI break follow-up + new large direction: 'also the build is still fail' (my earlier CI fix, cc…** — obs `2026-08-26T16:30:44Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
