@@ -1977,6 +1977,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: REDGARDEN -- build WoW-style raid frames for hover-casting (Doc Wheel and other hover-aware abilitie…** — obs `2026-08-26T02:10:48Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time (live, urgent): 'theres some issue with fireball its not casting' -> 'like i get the cast target thin…** — obs `2026-08-26T02:51:44Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time (live, urgent, multi-message burst): 'continue' -> 'redgarden build is down' -> 'there may be more re…** — obs `2026-08-26T02:43:19Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: 'set up server side logging from the client or someghing' -> 'i cant read shit off a screen to you' …** — obs `2026-08-26T03:22:19Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time (live, still urgent): 'also he still cant auto attack something is seriously fucked up' -- reported A…** — obs `2026-08-26T03:21:04Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time (live, still urgent, after the auto-attack windup fix): 'i still catnt ccast fireball with my mouse' …** — obs `2026-08-26T03:17:03Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: 'i want the bazel migration done now' -- starting the REDGARDEN build-system migration to Bazel (S20…** — obs `2026-08-26T03:11:05Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
