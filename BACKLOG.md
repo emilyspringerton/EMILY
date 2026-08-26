@@ -21590,14 +21590,22 @@ routed through `emily observe` before being acted on, per Principle 18.*
 
 - [ ] **S202-31: REDGARDEN — wire the trained RL inference engine into the LIVE bot AI decision
   loop.** Founder real-time, 2026-08-25/26, re-flagging a gap REDGARDEN's own README already
-  states plainly: the autocurriculum training pipeline (currently running, ~44% through its
-  500k-timestep run as of this note) trains, exports, and syncs weights — but nothing in a real
-  match calls them yet. Real integration point already named, not guessed:
+  states plainly: the autocurriculum training pipeline trains, exports, and syncs weights — but
+  nothing in a real match calls them yet. Real integration point already named, not guessed:
   `arena_game.c`'s `bot_cast_kit_if_ready` (or a generalization of it) is where a trained policy's
   inference call would need to slot in, replacing or augmenting the current heuristic bot AI.
-  Queued via `emily observe` (Apple #16074) — genuinely not started, blocked in practice on the
-  training run finishing and its exported-weights format being real/loadable from C, not just
-  logged. Tracked on the kanban board (`emily kanban`, cruise queue) for pickup.
+  Queued via `emily observe` (Apple #16074) — tracked on the kanban board (`emily kanban`, cruise
+  queue) for pickup.
+  **Update 2026-08-26: the training run this item's own blocker named has now finished** —
+  503808/500000 timesteps, `rl_team_checkpoints_autocurriculum_20260825/ppo_arena_team_final.zip`,
+  weights exported to `rl_policy_weights_team.h` (real, loadable C header, 3 layers). Apple
+  #16125. **Genuinely still not started, and a real open question surfaced by the result itself**:
+  eval was 7W/13L over 20 episodes — 35% win rate vs. the existing heuristic bot AI, WORSE than a
+  coin flip, reported honestly rather than glossed over. Wiring a policy that currently loses to
+  the heuristic it would replace needs a founder call first (more training / different reward
+  shape / wire it in anyway as a baseline to iterate on live) — not a silent implementation
+  decision to make alone. Still on the kanban cruise queue, now genuinely unblocked to actually
+  scope once that call is made.
 
 - [ ] **S202-32: Whole-`/home/fatbaby`-directory encrypted backup to GCS.** Founder real-time,
   2026-08-26: "we need to upload the whole fatbaby home directory up to google drive double
