@@ -21579,3 +21579,24 @@ routed through `emily observe` before being acted on, per Principle 18.*
   Queued via `emily observe` (Apple #16074) — genuinely not started, blocked in practice on the
   training run finishing and its exported-weights format being real/loadable from C, not just
   logged. Tracked on the kanban board (`emily kanban`, cruise queue) for pickup.
+
+- [ ] **S202-32: Whole-`/home/fatbaby`-directory encrypted backup to GCS.** Founder real-time,
+  2026-08-26: "we need to upload the whole fatbaby home directory up to google drive double
+  encrypted like our other google drive uploads are" → clarified to reuse "the gdrive gcloud cli
+  whatever project we already use for our google file storage stuff." Confirmed the real existing
+  pattern this extends: `emily backup` (emily.cli `cmd/backup.go`) already uploads to a GCS
+  bucket (not literally Drive — founder's own "google drive" here means the existing GCS backup
+  pipeline) in the existing Vertex AI project, with the `iduna` target AES-256-GCM-encrypting
+  client-side on top of GCS's own at-rest encryption (the real "double encrypted"). The existing
+  `fatbaby` target is much narrower than this ask — a curated `var/` subset (BACKLOG.md, EMILY/var,
+  PRRJECT_FATBABY/var), and explicitly *not* encrypted yet. This item is bigger: the entire home
+  directory, encrypted. Real open questions, not yet decided: (1) exclusions — `.ssh`/`.gnupg`
+  private key material, `secret.txt`/`secret2.txt`/`clientg_id.tct`, and every repo's `.git`
+  objects/`node_modules`/Go module caches would bloat an uncritical full-tree tar hugely and some
+  of it (private keys) arguably shouldn't leave the box even encrypted — needs a real founder
+  decision on scope, not a silent guess; (2) whether this becomes a new `emily backup` target
+  (e.g. `home`) or a rework of the existing `fatbaby` target; (3) size/cadence (one-shot vs.
+  recurring, matching the existing 30-day-retention bucket lifecycle). Queued via `emily observe`
+  (Apple #16076) — not yet implemented, deliberately not attempted inline given the scope and the
+  presence of real credential material in the tree; tracked on the kanban board (`emily kanban`,
+  **priority** queue) for pickup.
