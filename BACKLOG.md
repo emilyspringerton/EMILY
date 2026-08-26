@@ -21777,3 +21777,22 @@ routed through `emily observe` before being acted on, per Principle 18.*
   over the real 3000ms window). New test added to `test_abraham_fireball.c`. Full 1101-check
   `test_arena.sh` suite green, 0 failures, real mingw cross-compile verified. REDGARDEN
   `43a286d`, Apple #16105.
+
+- [x] **S202-39: REDGARDEN — Abraham's W now freezes him in place for the windup instead of
+  wasting the cast on movement.** Founder real-time: "when you hit w on abraham and you are
+  moving dont have it blow the cooldown and do nothing have it freeze the player for the
+  length of the cast for that ability." Root cause: `tick_hero_kit`'s own generic cast-
+  interrupt rule (S170-203, Gary's own established "movement interrupts cast, damage does not,
+  silence does" mechanic) compares live position against the cast-start anchor every tick and
+  silently cancels the cast on any drift — mana/cooldown already spent at cast start, no
+  refund. Real and correct for Gary; for Abraham it meant pressing W while already walking (or
+  just continuing to hold a move command through the 400ms windup) wasted the fireball's
+  cooldown on nothing, every time. Fixed scoped to Abraham only, not the shared mechanism:
+  `update_hero_motion` now freezes him (no position advance) for as long as `casting_slot != 0`,
+  and the movement-interrupt check in `tick_hero_kit` is skipped for him specifically — Gary's
+  own established feel untouched. Verified via a direct headless repro before touching tests:
+  start moving, press W mid-walk, position stays frozen every tick until the windup completes,
+  then the fireball actually fires and movement resumes. New test
+  (`test_abraham_w_freezes_movement_and_still_fires_while_moving`) checks per-tick, not just
+  before/after. Full 1105-check `test_arena.sh` suite green, 0 failures, real mingw
+  cross-compile verified. REDGARDEN `7671b2a`, Apple #16108.
