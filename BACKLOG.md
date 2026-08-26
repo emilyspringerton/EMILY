@@ -21600,3 +21600,17 @@ routed through `emily observe` before being acted on, per Principle 18.*
   (Apple #16076) — not yet implemented, deliberately not attempted inline given the scope and the
   presence of real credential material in the tree; tracked on the kanban board (`emily kanban`,
   **priority** queue) for pickup.
+
+- [x] **S202-33: Backup encryption key scare — confirmed intact, not actually lost.** Founder
+  real-time, worried they didn't remember "the password" used to encrypt existing GCS backups,
+  floated re-backing-up everything under a new key. Investigated before acting: the `emily backup`
+  encryption key was never a memorized password — it's a generated 32-byte AES-256 key file at
+  `IDUNA/var/backup-encryption.key` (created 2026-08-18), and it's still present and intact.
+  Nothing was lost; rotating would have made every existing encrypted backup permanently
+  unrecoverable for no real reason, so didn't do that. Asked the founder directly (a real
+  security-sensitive call, not mine to guess) — chose "keep current key." Made a redundant local
+  copy at `IDUNA/var/key-backups/backup-encryption.key.20260826` (0600, ACL-readable by fatbaby)
+  so an accidental deletion of the primary doesn't strand it. **Honest gap, not glossed over**:
+  true off-box durability (a copy on different physical storage, or in a password manager) still
+  needs the founder to personally move a copy off this box — picking an external destination for
+  a raw crypto key isn't something to do silently on their behalf. Apple #16078.
