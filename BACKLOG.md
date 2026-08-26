@@ -21798,3 +21798,32 @@ routed through `emily observe` before being acted on, per Principle 18.*
   (`test_abraham_w_freezes_movement_and_still_fires_while_moving`) checks per-tick, not just
   before/after. Full 1105-check `test_arena.sh` suite green, 0 failures, real mingw
   cross-compile verified. REDGARDEN `7671b2a`, Apple #16108.
+
+- [x] **S202-40: REDGARDEN — Bacon+Puck's W replaced with Shadow Step (blink behind a
+  targeted enemy, real server-tracked facing).** Founder real-time: "make bacon buck w instead
+  of a toggle have it turn into sghadow step use the targeting system you had for abraham
+  fireball before we changed it" → "but have it click on a hero to teleport roughly behind
+  them" → "add a sense of hero direction i guess so we can actually teleport behind them" →
+  "hive it a generous range but not crazy like give it the same range as the ranged auto
+  attacks." Added a real, new server-side concept: `ArenaHero.facing_rad`, updated in
+  `update_hero_motion` from live movement direction — the first time hero facing exists as
+  genuine simulation state, not just the client's own movement-derived visual interpolation.
+  Shadow Step reads the TARGET's own `facing_rad` (verified via a real test flipping it and
+  confirming the blink direction flips too), not the caster's approach angle. Revived the
+  ground-targeting reticle/aiming-mode machinery (`g_ground_target_pending_slot` et al.) left in
+  place, not ripped out, when Abraham's own W moved off it — but the confirm click now reads
+  `g_hover_target` (a hero under the cursor, the same per-frame hit-test the plain
+  click-to-attack flow already computes) instead of calling `screen_to_ground` for a ground
+  point. Range = `ARENA_GARY_ATTACK_RANGE` exactly, an instant blink (no windup, same shape
+  Blink Dagger's own `arena_use_blink` already established), real cooldown/mana cost. A miss
+  (no hero hovered, an ally hovered, out of range) is a real no-op — no cooldown/mana wasted,
+  matching the same "dont blow the cooldown and do nothing" fix already applied to Abraham's
+  own cast. `bacon_puck_cast_q`'s own `w_active`-gated "watching" bonus duration is dead now
+  that W no longer toggles `w_active` at all — simplified to always use the base intangible
+  duration, a real, accepted, honest power change, not silently compensated elsewhere. Also
+  removed the temporary `[fireball-debug]` stderr traces from the earlier Abraham
+  click-registration investigation (resolved by that ability's own auto-target redesign) while
+  touching this same code region. New `tests/test_shadow_step.c` (7 tests) wired into both
+  `scripts/test_arena.sh` and `tests/BUILD.bazel`. Full 1119-check `test_arena.sh` suite green,
+  0 failures, `bazel test //tests:test_shadow_step` passes, real mingw cross-compile verified.
+  REDGARDEN `14e37e1`, Apple #16113.
