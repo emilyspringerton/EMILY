@@ -21618,3 +21618,27 @@ routed through `emily observe` before being acted on, per Principle 18.*
   true off-box durability (a copy on different physical storage, or in a password manager) still
   needs the founder to personally move a copy off this box — picking an external destination for
   a raw crypto key isn't something to do silently on their behalf. Apple #16078.
+
+- [x] **S202-34: REDGARDEN — Abraham W rework: A Line of Fire, ground-targeted piercing
+  fireball.** Founder real-time, full quote chain: "give abraham a real targetable slow moving
+  projectile fireball that moves a long distance and damages enemies it passes through, replace
+  his dumbest ability" → "usually w" → "there is no real range limit just have it go whatever
+  direction is the click and also rotate the hero that way pre cast" → "give a micro rotation
+  animation first" → "quick and smooth ease in and out use golden band as a parena mod" → "the
+  targeter is green when you are ready to cast" → "does not target a person you target it on the
+  ground" → "squish way down using golden ratio to about 20 percent... windup animation go medium
+  fast and then snap up quite quick as a flick... take .4 seconds" → "make his auto attack ranged
+  like garys with a different color projectile." Implemented directly (a concrete, scoped ask,
+  unlike S202-30/31/32 above which were explicitly queued). Replaced W (the weaker toggle-only
+  half of the kit), not Q — Q now always deals its old boosted damage, a deliberate net-buff.
+  Real new mechanics: a generic ground-targeted-cast wire/protocol path (first user, built for
+  reuse), a real piercing `ArenaProjectile` (hits every enemy in its path, not just the first),
+  a GOLDENBAND-baked (`tools/gbtool bake-ease`, new subcommand) 400ms ease-in/out rotation +
+  golden-ratio squish/flick windup animation (client-visual, real cast stays server-authoritative),
+  and a homing/ranged basic auto-attack reusing Gary's own mechanic. `abraham_fireball_mod.prn`
+  is REDGARDEN's 6th real PARENA mod, real `parena build` output. 7 new tests
+  (`tests/test_abraham_fireball.c`), all real assertions in `scripts/test_arena.sh` pass (only
+  failure is the already-documented `test_arena_replay` sandbox-only segfault, re-confirmed via
+  stash unaffected by this diff); `scripts/test_10_bots.sh` (5 live matches, 10 bots) also
+  verified passing. REDGARDEN commits `961d500` + `eed81ac`, GOLDENBAND commits `865556b` +
+  `f44a222`, PARENA commit `45dbe91`, Apple #16084.
