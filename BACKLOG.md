@@ -21758,3 +21758,20 @@ routed through `emily observe` before being acted on, per Principle 18.*
   homing-projectile-not-instant-hitscan timing; "out of range whiffs" replaced with "no range
   limit"). Full 1099-check `test_arena.sh` suite green, 0 failures, real mingw cross-compile
   verified. REDGARDEN `6a27f00`, Apple #16101.
+
+- [x] **S202-38: REDGARDEN — Abraham's fireball ignites enemies it touches (burn DoT) + a
+  small speed bump.** Founder real-time: "make it so that the fireball ignites the enemies it
+  touches making them have burning too" → "via parena mods" → "make the fireball move just a
+  bit faster." Reused the existing generic `on_hit_burn_ms`/`on_hit_burn_dps` `ArenaProjectile`
+  mechanic (Pizza/Flute Debt/Tyler's own Q abilities already apply burn the same way) — the
+  per-hit resolution code already runs once per enemy a piercing shot passes through, so
+  setting two fields at spawn (`redgarden_host_abraham_fireball_cast`) was the whole change, no
+  new plumbing. Burn duration/DPS (3000ms/5dps) match Pizza's own Q burn, a real established
+  baseline in this catalog, not invented fresh. Confirmed "via parena mods" already holds — the
+  burn fields are set in the same host function `on_abraham_fireball_cast` (the real compiled
+  PARENA mod) already calls into, no bypass. `ARENA_ABRAHAM_FIREBALL_SPEED` bumped 3.0 → 4.0
+  (now matches `ARENA_HERO_SPEED` exactly). Verified via a direct headless repro before
+  touching tests: burn applies at impact and ticks correctly to expiry (86→81→79→74→72→67 hp
+  over the real 3000ms window). New test added to `test_abraham_fireball.c`. Full 1101-check
+  `test_arena.sh` suite green, 0 failures, real mingw cross-compile verified. REDGARDEN
+  `43a286d`, Apple #16105.
