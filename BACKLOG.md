@@ -1971,6 +1971,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'update all our readmes with the newest everything significant not the cross repo updates unless the…** — obs `2026-08-26T01:16:58Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: reiterating a real, already-documented REDGARDEN gap -- the RL inference engine (autocurriculum trai…** — obs `2026-08-26T01:38:04Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: REDGARDEN hero He Xiangu (Wotan hero stats page, 'xehingu') is hard to get value out of -- founder's…** — obs `2026-08-26T01:37:54Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: REDGARDEN hero Abraham -- give him a real targetable, slow-moving projectile fireball that travels a…** — obs `2026-08-26T01:51:53Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: worried they don't remember the password/key used to encrypt existing IDUNA GCS backups, floated re-…** — obs `2026-08-26T01:41:27Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: upload the WHOLE /home/fatbaby home directory to Google Cloud Storage, double-encrypted like the exi…** — obs `2026-08-26T01:40:27Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
