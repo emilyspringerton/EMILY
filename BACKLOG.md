@@ -1986,6 +1986,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'why does gary work but abraham doesnt' -> 'at least on the auto attack side' -> 'fuck it have the f…** — obs `2026-08-26T03:23:56Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'via parena mods' (confirming the ignite effect should route through the PARENA mod layer -- it alre…** — obs `2026-08-26T03:59:33Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'make it so that the fireball ignites the enemies it touches making them have burning too' -- add a …** — obs `2026-08-26T03:56:29Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: 'when you hit w on abraham and you are moving dont have it blow the cooldown and do nothing have it …** — obs `2026-08-26T04:09:48Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
