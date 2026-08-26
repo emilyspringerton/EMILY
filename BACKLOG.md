@@ -1989,6 +1989,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'when you hit w on abraham and you are moving dont have it blow the cooldown and do nothing have it …** — obs `2026-08-26T04:09:48Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'make bacon buck w instead of a toggle have it turn into sghadow step use the targeting system you h…** — obs `2026-08-26T04:30:04Z`. CURATED: 2026-08-26.
 - [ ] **Founder real-time: 'work on our parena JUPYTER backend just use basic auth to protect it for now until we get google oa…** — obs `2026-08-26T05:08:13Z`. CURATED: 2026-08-26.
+- [ ] **Founder real-time: 'call it JEWEL' -- renaming the PARENA Jupyter notebook portal item (currently 'SARENA_NOTEBOOK' in …** — obs `2026-08-26T05:09:48Z`. CURATED: 2026-08-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
