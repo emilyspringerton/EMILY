@@ -21108,12 +21108,41 @@ routed through `emily observe` before being acted on, per Principle 18.*
   explicitly deferred behind S202-08 per founder's own sequencing choice this session (AskUserQuestion:
   "Finish Tree passive fully first, then start Cart").
 
-- [ ] **S202-10: REDGARDEN hero "Duck" — smoke bomb ability (localized vision-blocking), not a
+- [x] **S202-10: REDGARDEN hero "Duck" — smoke bomb ability (localized vision-blocking), not a
   map-wide fog-of-war system.** Founder real-time: "ok do fog of war as an ability" → "add to the
   duck" → "there is no natural fog of war just duck smoke bomb" → "server authorittive" → "as a
   parena mod" → "mod first dev." Relates to the existing King All-Seeing buff's own "no fog-of-war
   system exists yet" scoped-out gap (SECTION 198-ish Jungle Camps Milestone 2 area). Server-
-  authoritative, PARENA-mod-driven, matching S202-08's own established pattern. Not started.
+  authoritative, PARENA-mod-driven, matching S202-08's own established pattern. — **Shipped
+  same session (2026-08-26).** This engine has no vision/LOS system anywhere (the King
+  All-Seeing gap above is the same honest limitation) — Smoke Bomb doesn't invent one, it
+  implements the one concrete analog actually buildable on the real targeting primitive: new
+  `hero_obscured_from` blocks `arena_nearest_enemy` from selecting a hero standing inside an
+  active smoke cloud when the caster is outside it (symmetric per-cloud — two heroes both
+  inside can still target each other). New `duck_smoke_ms/x/z` fields on `ArenaHero` (a new
+  W-slot zone — Duck's own R, Total Telekinesis, has no zone of its own to reuse). Cast via
+  `arena_toggle_w`'s new `ARENA_HERO_DUCK` case (always-lands, self-centered AoE on cooldown,
+  same shape as Flamel/Dagda's own W), routed through the PARENA-compiled
+  `on_duck_smoke_bomb_cast` (PARENA commit `191c342`) — the mod call IS the trigger, per the
+  founder's explicit "as a parena mod." Decremented inside the shared `tick_hero_kit` rather
+  than duplicated into `arena_update`/`arena_update_teams` separately — deliberately avoiding
+  the exact S202-23 Tree-passive bug class, verified through both real top-level tick
+  functions, not assumed. Wire-synced (`ArenaHeroSnapshot`'s new fields) + client-rendered
+  (real cloud footprint + cast-radius preview ring, same `S170-200` zone-circle convention).
+  `docs/HEROES_VS0.md`'s real lore W (Government Clearance) is left as-is, flagged rather than
+  retconned — Smoke Bomb is arena-specific, filling an empty code slot, not a reinterpretation.
+  13 new tests (`tests/test_duck_smoke_bomb.c`), all passing; all 4 build paths wired up front
+  (the S202-14 lesson). **Correction to a finding made and already committed/Appled during this
+  same item's own work**: `test_arena_replay` was seen to segfault locally, confirmed via a real
+  `git stash` bisect to predate this change — but real CI (run `32913376214`, commit `7d55fe0`)
+  shows the exact "Headless tests" step that runs it completing green, so the crash is real only
+  in this session's own sandboxed local environment (most likely a stack-size/ulimit/ASLR
+  difference from GitHub's runner), not a genuine bug affecting the environment that actually
+  matters — CI is NOT silently skipping test binaries. Correcting the overstated claim rather
+  than leaving it standing. **Live-verified in real CI, fully green**: run `32913376214`
+  (`7d55fe0`) — Linux build, Windows cross-compile, and the full headless test suite (including
+  `test_arena_replay`) all passed. REDGARDEN commits `18ef461` + `7d55fe0`, PARENA `191c342`,
+  Apple #16044.
 
 - [x] **S202-11: restyled the REDGARDEN landing page (okemily.com/redgarden.html) to IDUNA's
   cream/gold ceremony design system.** Founder real-time: "update redgarden landing page on
