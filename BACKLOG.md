@@ -2109,6 +2109,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'can we update longma so its written in pure parena? (our fork)' -- rewrite the longma repo (a fork) in pure PARENA.** — obs `2026-08-27T20:50:12Z`. CURATED: 2026-08-27. Not started -- queued after finishing the pty terminal-panel backend checkpoint (Apple #16430). Next real step: survey /home/fatbaby/longma's own current state (what it's forked from, current language/stack, real scope) before committing to an implementation plan, same discipline every other "port to pure PARENA" ask this session has followed (STDLIB.md's own dependency-order build-out, the FFI-consolidation audit).
   session: sess-20260825-1938-f6bd411e
 
+- [ ] **Founder real-time: 'ok i dropped a large file onto parena editor and it crashed ensure we are doing streaming and windo…** — obs `2026-08-27T20:56:27Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'can we update longma so its written in pure parena? (our fork)' -- new request to rewrite the longm…** — obs `2026-08-27T20:50:12Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
