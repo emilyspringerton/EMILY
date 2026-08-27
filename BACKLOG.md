@@ -2049,6 +2049,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: real directory listing (NERDTree-style f…** — obs `2026-08-27T08:50:36Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'then keep working on self hosted parena editor' -- sequencing direction ('then') received mid-imple…** — obs `2026-08-27T09:14:47Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: real directory navigation for the file-t…** — obs `2026-08-27T09:11:40Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time, immediately following and correcting the 'defer entire feature' message above: 'keep working on self…** — obs `2026-08-27T10:36:29Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'defer entire feature' -- explicit, direct decision (rejected the AskUserQuestion scoping prompt on …** — obs `2026-08-27T10:36:08Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
