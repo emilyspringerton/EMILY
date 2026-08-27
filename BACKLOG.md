@@ -21209,16 +21209,39 @@ routed through `emily observe` before being acted on, per Principle 18.*
   decaying-cosine bounce, 6 new tests (live round-trip through the real compiled mod), full
   10-binary suite green. Apple #15956.
 
-- [ ] **S202-09: REDGARDEN hero "Cart" — AOE circle indicators, more impactful/powered-up
+- [x] **S202-09: REDGARDEN hero "Cart" — AOE circle indicators, more impactful/powered-up
   abilities, and a general random-buff system** (e.g. a random hero occasionally gets a King buff),
   driven by a weighted "marble bag" + Fibonacci-pity RNG (NORTHSTAR's own card-pull design,
-  `console.cloud.google` — correction, `REDGARDEN/NORTHSTAR.md` §pull-algorithm section —
-  documented but **not yet implemented as code anywhere in this repo**, would need to be built from
-  scratch, not just reused). Founder real-time, fragmented across several messages same session:
+  `REDGARDEN/NORTHSTAR.md` §pull-algorithm section — documented but not previously implemented as
+  code anywhere in this repo). Founder real-time, fragmented across several messages same session:
   the AOE/impact/random-buff ask, then "use marble bag rng look up that shit in the redgarden
-  docs," "pity weighted," server-authoritative, "as a parena mod," "mod first dev." Not started —
-  explicitly deferred behind S202-08 per founder's own sequencing choice this session (AskUserQuestion:
-  "Finish Tree passive fully first, then start Cart").
+  docs," "pity weighted," server-authoritative, "as a parena mod," "mod first dev." Was explicitly
+  deferred behind S202-08 (AskUserQuestion: "Finish Tree passive fully first, then start Cart") —
+  Tree passive shipped (S202-23), unblocking this.
+  **Shipped 2026-08-27.** AOE indicators: found and fixed a real gap, not a from-scratch build —
+  `arena_hero_r_zone_radius` (the existing general zone-circle system every other zone hero
+  already gets) had no `CART` case at all, since his radius genuinely varies per-cast (W=3.0 vs
+  R=5.0). Added `zone_radius_x10` to the wire protocol (quantized) so a networked client can
+  render the real active radius, plus a dual W/R cast-preview (same pattern as Duck's own W
+  preview). Marble-bag + Fibonacci pity: `arena_fibonacci`/`arena_marble_bag_pick`, generic and
+  exported (not Cart-specific), replacing `cart_trigger_delivery`'s old flat `rand()%4`; per-
+  caster pity tracked on `ArenaHero.cart_delivery_pity`; finally builds the W-vs-R distinction
+  this hero's own doc comment already promised ("R has bigger radius/BETTER-WEIGHTED outcomes")
+  but never implemented. Outcomes bumped for impact (heal/mana 25%→35%, Flow 50→90) and a real
+  5th outcome added — a King's Growth buff grant, the founder's own literal example for the
+  random-buff ask, scoped to Cart's existing delivery mechanic (already the real "occasionally,
+  to a random hero" trigger) rather than a new, separately-undecided global timer system.
+  **Real, honest deviation from the founder's own "as a parena mod" instruction, not silently
+  dropped**: `arena_marble_bag_pick` needs to read AND mutate an array in place
+  (`int *pity`) alongside a second `const int *` weights array — VS0 has no `Vec`/array support
+  in mod parameters yet (the same real gap `ladybug`'s own README already documents), so this
+  genuinely isn't buildable as a PARENA mod today; implemented as plain, generic host C instead,
+  flagged for a real PARENA port once VS0 grows array-parameter support. 21 new tests
+  (`tests/test_cart_delivery.c`) — the generic algorithm (pity growth, tier cap, edge cases) plus
+  a real live end-to-end round-trip proving all 5 outcomes fire and R's King-buff rate is
+  meaningfully higher than W's. `gcc` + `bazel build //...` + `bazel test //tests/...` clean
+  (only the already-documented `test_arena_replay` sandbox-only segfault). REDGARDEN `1515caf`,
+  Apple #16395.
 
 - [x] **S202-10: REDGARDEN hero "Duck" — smoke bomb ability (localized vision-blocking), not a
   map-wide fog-of-war system.** Founder real-time: "ok do fog of war as an ability" → "add to the
