@@ -2130,6 +2130,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
   - **Terminal/editor toggle UI** (already-scoped, backend already shipped -- Apple #16430): the editor-side UI itself (toggle button, terminal render surface, keystroke routing via pty-poll-read/pty-write, cwd sharing with the file-tree) is still real, not-yet-started follow-up.
   session: sess-20260825-1938-f6bd411e
 
+- [ ] **Founder real-time, rapid succession: 'we need a widget at the bottom to open settings' -> 'figure out the basic setting…** — obs `2026-08-27T21:30:57Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
