@@ -2150,6 +2150,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'wttf is with this looks like a binary file parena editor does not open binary files/' -> 'why not?'…** — obs `2026-08-27T22:18:47Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: opening a large file in PARENA editor still crashes -- 'we need to open a pointer and read some into…** — obs `2026-08-27T22:14:04Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time, same large-file-crash thread: 'tryna open a md file with nerd tree it opened the window3 and just be…** — obs `2026-08-27T22:48:09Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'continue whatever you think figure it out' -- explicit delegation of judgment on both open threads …** — obs `2026-08-27T23:09:24Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time, continued licensing/strategy thread: 'i dunno' -> 'i dunno if we can bundle gcc for licensing' -> 's…** — obs `2026-08-27T23:08:42Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time, reconsidering priority mid-implementation: 'i think we need to finsh th parena self hosted compiler …** — obs `2026-08-27T23:08:02Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time, rapid-fire UI spec for the PARENA editor (converged after several revisions in the same burst): 'a s…** — obs `2026-08-27T23:04:53Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time, third strategic/exploratory question in the same batch: 'where are we with shipping the full parena …** — obs `2026-08-27T23:00:44Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
