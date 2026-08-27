@@ -21990,3 +21990,57 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `hero_facing_rad` back to a known value and logs the real before/after — a real data-gathering
   tool for the next occurrence, not a fix (root cause not yet found, honestly not claimed to be).
   REDGARDEN `1bb0369`/`f34e1c1`.
+
+- [x] **S202-42: ECOWAR — real hard fork from REDGARDEN + own 1v1 matchmaking/bot-pool + a real
+  16-card system.** Founder real-time, full quote chain: "ok start working on ecowar in the
+  redgarden repo we need separate bot pool 1v1 separate matchmaking separate client and server
+  separate artifacts everything we need 16 hallucinated cards from tyler hero bible with
+  promptoverse art" → "more specific mechanic direction to follow for now build what is obvious"
+  → "the framework should deeply embed parena and the ideas from the redgarden map editor" →
+  "mod api first parena mod dev" → "do the whole game in pure parena as much as you can" →
+  "actually lets do a hard fork from redgarden repo wise" → "ECOWAR repo" → "either its there or
+  use your token to create it" → "finish what ur working on then iterate."
+  **A real, honest pivot from ECOWAR's own 2026-08-20 scoping (SECTION 188, S188-04), not
+  silently overwritten**: the original plan named `GoblinFoxDragon/apps2/battlegrounds_gui` as
+  the interface fork source. This session's real-time direction explicitly redirected the fork
+  base to REDGARDEN itself — merged REDGARDEN's full git history (446+ commits, `--allow-
+  unrelated-histories`) into the pre-existing ECOWAR stub repo, preserving both histories (same
+  real precedent `shankpit-460` already established for `SHANKPIT`). Build + test verified in
+  the new checkout (`gcc` + `bazel build //...`/`bazel test //tests/...`, same clean result
+  REDGARDEN itself gets — only the already-documented sandbox-only `test_arena_replay` segfault).
+  README/CLAUDE.md rewritten for ECOWAR's own identity, preserving the real founder-quote
+  provenance from both scoping passes.
+  **Separate 1v1 matchmaking + bot pool**: `ops/systemd/ecowar-matchmaker.service`/`ecowar-bot-
+  pool.service`, port `:9779` (distinct from REDGARDEN's own live `777x`/`877x` range), reusing
+  the existing, already-generic matchmaker/bot binaries (no new matchmaker code needed). Verified
+  live end-to-end locally, not just plausible config: a real matchmaker + 2 real bots on `:9779`
+  spawned a real match server, both connected, drafted heroes, and played. Not yet deployed as a
+  running service.
+  **Real 16-card system, ECOWAR's first actual gameplay mechanic since the fork**:
+  `ECOWAR_CARDS` catalog + `ecowar_resolve_card_effect` (`packages/simulation/arena_game.c`) —
+  16 cards, each grounded in a real `TYLER/multiverse_heroes.md` entry's own stated flavor
+  (Senior Archivist "Seven Votes," ARCHIVIST-7, The Stillness Council Clerk, Attempt Two's
+  Doctrine "He Sees You," The Deep Archive Cataloguer, MOOR-8, Wren-3, Stolas, Amon, Andrealphus,
+  Bael, Furfur, Astaroth, Agares, Marchosias, Nidhogg), each mapped to ONE of 5 already-proven
+  engine mechanics (damage/heal/slow/silence/Flow) rather than 16 bespoke new systems — "build
+  what is obvious," not a guess at the still-unscoped deck-building/RTS-troop layer.
+  **"Mod api first... pure parena as much as you can"**: `PARENA/stdlib/ecowar/
+  card_effect_mod.prn` (ECOWAR's own new mod namespace) does REAL I32 decision logic in PARENA
+  itself — a genuine branch over all 16 card ids computing each one's real MYTHIC/MUNDANE
+  tier-scaled magnitude (Goetia-tier entities +50% over mundane bureaucrats) — the first mod in
+  this fork's history (and arguably in the whole REDGARDEN/ECOWAR mod lineage) to do real
+  decision logic rather than just trigger a host call. The actual stat mutation stays in C
+  (float math and struct state VS0 genuinely can't touch yet — no F32/Vec mod parameters), same
+  honest split every prior mod already uses, just pushed further because I32-only logic really
+  does fit VS0 today. 9 new tests (`tests/test_ecowar_cards.c`), including a real live
+  end-to-end proof the mod's own tier-scaling logic actually executes (a MYTHIC card with a
+  LOWER base magnitude deals MORE real damage than a MUNDANE card with a higher one).
+  **Real, honest gap, not glossed over**: not yet wired into a real in-match input — no deck/hand
+  UI exists, since "more specific mechanic direction to follow" per the founder's own words.
+  **Card art queued, not generated**: all 16 real Prompt-o-verse generation requests (one per
+  card) are queued in the real, durable shared queue — draining blocked on this session's own
+  user (`treeiii`) having no gcloud/Vertex AI credentials (`gcloud auth list` → "No credentialed
+  accounts"), a real environmental gap, not a code bug — whoever runs `emily promptoverse work`
+  next with real credentials drains these 16 already-queued requests.
+  REDGARDEN commit `1515caf` (fork point); ECOWAR commits `eddde42`/`2233d08`/`a508a08`/
+  `fc257c4`/`1d96086`; PARENA commit `dc7a2ae`; root `CLAUDE.md` commit `1f2191b`. Apple #16402.
