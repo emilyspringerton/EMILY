@@ -2088,6 +2088,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, rapid clarification of the quick-open ask: 'thats going to be a magic spotlight feature' -> 'so make…** — obs `2026-08-27T19:56:23Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'can we start building out the textmate features? like quick open via ctrl+t windows/linux or cmd+t …** — obs `2026-08-27T19:55:52Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'can we add a new button to the bottom of the parena editor to toggle between terminal and editor? u…** — obs `2026-08-27T19:55:26Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'continue ensuring ecowar build is passing' -- switching focus to ECOWAR repo CI/build status** — obs `2026-08-27T19:49:48Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
