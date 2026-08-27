@@ -2146,6 +2146,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, same binary-file thread: 'for context this is a bat file it fosho i could edit with parena editor' -…** — obs `2026-08-27T22:23:20Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'wttf is with this looks like a binary file parena editor does not open binary files/' -> 'why not?'…** — obs `2026-08-27T22:18:47Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: opening a large file in PARENA editor still crashes -- 'we need to open a pointer and read some into…** — obs `2026-08-27T22:14:04Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time, same large-file-crash thread: 'tryna open a md file with nerd tree it opened the window3 and just be…** — obs `2026-08-27T22:48:09Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
