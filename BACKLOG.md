@@ -21354,14 +21354,36 @@ routed through `emily observe` before being acted on, per Principle 18.*
   "lets get shankpit linked in as a single binary" -> "can you do that" -> "via parena or
   otherwise?" -> "can you link sdl2 right in or no for licensing?" -> "if thats too much
   complexity and finish previous tasks first once its in the backlog." Explicitly deferred by the
-  founder's own instruction — logged, not started. Quick answers to the two open questions for
-  whoever picks this up: SDL2 is zlib-licensed, static linking is explicitly permitted (no
-  licensing obstacle) and the Windows client build already statically links SDL2/mingw32/
-  SDL2main today (`-static-libgcc -lmingw32 -lSDL2main -lSDL2`) — nothing new needed there. This
-  is a build/link-topology change (client, server, and bot currently three separate `apps/*/src/
-  main.c` entry points/binaries), not gameplay logic, so it doesn't obviously need a PARENA mod
-  the way REDGARDEN's recent Bloodflower/Tree-passive/build-template features did — but worth
-  confirming that read with the founder before assuming, since they asked explicitly.
+  founder's own instruction — logged, not started. SDL2 licensing is a non-issue (zlib-licensed,
+  static linking already used for the Windows client) — not the real blocker.
+  **2026-08-27 investigation (real complexity found, not attempted blind given a live game
+  server is involved): this is genuinely more than a link-topology change.** First, "bot" is
+  ambiguous in a way the original ask didn't know: `apps/bot_client` (C, `main.c`) looks like
+  the obvious third leg, but it's dead — last touched pre-460-fork, not what's live. The REAL,
+  live bot is `apps2/emily-bot`, a separate Go program (systemd-deployed,
+  `ops/systemd/shankpit460-emily-bot.service`) — a cross-language merge into one native binary
+  is a materially bigger, separate design question (CGO bridging or a full port) than "link two
+  C programs," and isn't attempted here. Second, and more load-bearing: `apps/lobby/src/main.c`
+  (client) and `apps/server/src/main.c` (dedicated server) — verified via a real `nm` symbol
+  check on their independently-compiled `.o` files, not assumed — share **25 real, colliding,
+  non-`static` top-level symbols** (`local_state`, `sock`, `main`, plus ~20 physics/bot-AI
+  functions like `accelerate`/`bot_think`/`phys_respawn`), because both `#include` the same
+  shared headers (`packages/common/physics.h`, `packages/common/net_sim.h`,
+  `packages/simulation/local_game.h`, `packages/simulation/bot_ai.h`) that define plain
+  (non-`static`, non-`extern`) globals/functions directly in the header — safe today only
+  because client and server have never actually been linked into the same program. Making all
+  25 `static` is the correct fix in principle (client and server SHOULD have independently-
+  scoped simulation state, not a shared global — this isn't a design flaw to preserve, it's the
+  right outcome), but touches four shared, physics-critical headers consumed by a live,
+  currently-stable game server — real risk of a subtle breakage if rushed, not the kind of
+  change to make speculatively without deliberately verifying every call site. **Scope for
+  whoever picks this up next**: (1) confirm with the founder whether "bot" means the live Go
+  emily-bot (bigger, cross-language) or is fine scoped to client+server only (the C-only,
+  bounded version); (2) if client+server only, `static`-qualify the 25 real colliding symbols
+  across the four shared headers, verify via the same `nm` diff showing zero collisions, then
+  build the actual dispatcher `main()` and a new Makefile target — additively, alongside the
+  existing three separate binaries/build paths (not replacing them), so nothing currently
+  live/deployed is put at risk by an unproven consolidation.
 
 - [x] **S202-17: SHANKPIT — CTF-with-bots now randomly picks Voxworld or Oil Tanker, not just Oil
   Tanker.** Founder real-time: "can you update shankpit so CTF with bots" → "that mode should
