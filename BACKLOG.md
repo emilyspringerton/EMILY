@@ -2131,6 +2131,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
   session: sess-20260825-1938-f6bd411e
 
 - [ ] **Founder real-time, rapid succession: 'we need a widget at the bottom to open settings' -> 'figure out the basic setting…** — obs `2026-08-27T21:30:57Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'continue' -- resuming the PARENA editor queue, next item: the 'Linnen' settings widget (zoom + othe…** — obs `2026-08-27T21:58:43Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'continue' -- picking the next real increment from the queued PARENA editor bug list: mouse-wheel sc…** — obs `2026-08-27T21:48:48Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
