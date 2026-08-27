@@ -2030,6 +2030,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: real Ctrl+Z undo. VS0's own 'every buffe…** — obs `2026-08-27T03:14:18Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: real mouse-driven selection (click-to-po…** — obs `2026-08-27T04:03:58Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'continue' -- next real increment: real Ctrl+Y redo, the direct complement to the just-shipped Ctrl+…** — obs `2026-08-27T03:57:21Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'make sure we support .md syntax highlighting' -- building a real Markdown TextMate grammar (stdlib/…** — obs `2026-08-27T04:24:21Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
