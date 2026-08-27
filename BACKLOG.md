@@ -2075,6 +2075,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [ ] **Founder real-time: 'start working on ecowar in the redgarden repo -- we need separate bot pool, 1v1 separate matchmakin…** — obs `2026-08-27T19:21:05Z`. CURATED: 2026-08-27.
 - [ ] **REDGARDEN backlog work: investigated S202-16 (shankpit-460 single-binary ask) -- found the live bot is actually a separ…** — obs `2026-08-27T19:19:52Z`. CURATED: 2026-08-27.
+- [ ] **ECOWAR card art: queued all 16 real Prompt-o-verse generations (one per card, matching each card's real TYLER hero sour…** — obs `2026-08-27T19:37:16Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
