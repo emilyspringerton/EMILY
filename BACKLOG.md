@@ -2036,6 +2036,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: macOS dylib bundling for the release edi…** — obs `2026-08-27T04:39:21Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time, actively using the editor: 'ctrl a to select all backspace does not work' (Ctrl+A select-all was nev…** — obs `2026-08-27T04:55:22Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: raised 3 real Windows platform-integration concerns (taskbar pin+relaunch after close, drag-file-ont…** — obs `2026-08-27T04:47:36Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time, actively testing the editor on real Windows: 'drag to select doesnt work' + 'click to insert cursor …** — obs `2026-08-27T05:09:42Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
