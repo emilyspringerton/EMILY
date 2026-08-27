@@ -2041,6 +2041,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, actively using the editor: 'ctrl a to select all backspace does not work' (Ctrl+A select-all was nev…** — obs `2026-08-27T04:55:22Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: raised 3 real Windows platform-integration concerns (taskbar pin+relaunch after close, drag-file-ont…** — obs `2026-08-27T04:47:36Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time, actively testing the editor on real Windows: 'drag to select doesnt work' + 'click to insert cursor …** — obs `2026-08-27T05:09:42Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: after v0.77.0-v0.80.0 close-out, asked (via AskUserQuestion) which deferred PARENA editor architecture thread to scope next -- chose 'UI widget system' over file-tree+tabs and the self-hosted live-recompile bundle. Scope: a reusable widget abstraction (buttons/toggles/etc.) for examples/editor_main.c -- currently only one hand-rolled status-bar click-to-toggle exists (auto-indent on/off), no shared widget primitive. Real design questions not yet resolved: where widget state/hit-testing lives (buffer-adjacent .prn module vs host-side C), how it composes with the existing hover-reveal status bar, and whether it's scoped now purely for the status bar or sized for the eventual file-tree/tabs UI too.** — obs `2026-08-27T05:54:49Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
