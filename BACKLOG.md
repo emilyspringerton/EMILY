@@ -2167,6 +2167,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'go' -- starting Phase 1 of the ECOWAR Map Editor epic (ECOWAR-MAPEDIT-NORTH): Arena API v0, documen…** — obs `2026-08-27T23:25:37Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time, major new epic (long, rapid-fire burst, ECOWAR + PARENA cross-repo): 'ok all in on the ecowar map ed…** — obs `2026-08-27T23:18:50Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time, strategic/exploratory questions (not action requests): 'where are we at with shipping a single stati…** — obs `2026-08-27T23:00:27Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'continue' -- proceeding to Phase 2 of the ECOWAR Map Editor epic (ECOWAR-MAPEDIT-NORTH): ECOWAR car…** — obs `2026-08-27T23:48:20Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
