@@ -21671,24 +21671,27 @@ routed through `emily observe` before being acted on, per Principle 18.*
   support. Queued via `emily observe` (Apple #16073) — not yet implemented, tracked on the kanban
   board (`emily kanban`, cruise queue) for pickup.
 
-- [ ] **S202-31: REDGARDEN — wire the trained RL inference engine into the LIVE bot AI decision
+- [x] **S202-31: REDGARDEN — wire the trained RL inference engine into the LIVE bot AI decision
   loop.** Founder real-time, 2026-08-25/26, re-flagging a gap REDGARDEN's own README already
   states plainly: the autocurriculum training pipeline trains, exports, and syncs weights — but
-  nothing in a real match calls them yet. Real integration point already named, not guessed:
-  `arena_game.c`'s `bot_cast_kit_if_ready` (or a generalization of it) is where a trained policy's
-  inference call would need to slot in, replacing or augmenting the current heuristic bot AI.
-  Queued via `emily observe` (Apple #16074) — tracked on the kanban board (`emily kanban`, cruise
-  queue) for pickup.
-  **Update 2026-08-26: the training run this item's own blocker named has now finished** —
-  503808/500000 timesteps, `rl_team_checkpoints_autocurriculum_20260825/ppo_arena_team_final.zip`,
-  weights exported to `rl_policy_weights_team.h` (real, loadable C header, 3 layers). Apple
-  #16125. **Genuinely still not started, and a real open question surfaced by the result itself**:
-  eval was 7W/13L over 20 episodes — 35% win rate vs. the existing heuristic bot AI, WORSE than a
-  coin flip, reported honestly rather than glossed over. Wiring a policy that currently loses to
-  the heuristic it would replace needs a founder call first (more training / different reward
-  shape / wire it in anyway as a baseline to iterate on live) — not a silent implementation
-  decision to make alone. Still on the kanban cruise queue, now genuinely unblocked to actually
-  scope once that call is made.
+  nothing in a real match calls them yet. Queued via `emily observe` (Apple #16074), tracked on
+  the kanban board (cruise queue, card #2).
+  **Update 2026-08-26 (training complete)**: 503808/500000 timesteps,
+  `rl_team_checkpoints_autocurriculum_20260825/ppo_arena_team_final.zip`, weights exported to
+  `rl_policy_weights_team.h`. Apple #16125. Eval was 7W/13L (35%) vs. the heuristic bot AI, worse
+  than a coin flip, reported honestly — flagged as needing a founder call before deploying,
+  rather than a silent implementation decision.
+  **Shipped 2026-08-26, founder real-time: "deploy it into our weights and continue"** — a
+  direct, explicit override of that caution, not a default judgment call made here. Deployed as
+  the live 3v3 R&D weights (replacing the 2026-08-11 noisy-gestalt-only checkpoint), rebuilt and
+  restarted `redgarden-matchmaker-bots-3v3.service`/`redgarden-bot-pool-3v3.service` so the new
+  weights are actually serving. Honest context preserved in the commit, not silently swapped: the
+  35% figure is against ONE fixed heuristic opponent, and the plausible read (also on record) is
+  that a lower score there isn't necessarily a worse policy when training budget went into a
+  growing self-play pool instead of specializing against that one opponent — the real
+  eval-against-a-shared-varied-pool that would distinguish "more general" from "genuinely weaker"
+  still doesn't exist, flagged as a real, unresolved gap, not resolved by this deploy. REDGARDEN
+  `f5e43db`/`7e4e726`. Kanban card #2 removed (shipped, off the board).
 
 - [ ] **S202-32: Whole-`/home/fatbaby`-directory encrypted backup to GCS.** Founder real-time,
   2026-08-26: "we need to upload the whole fatbaby home directory up to google drive double
@@ -21920,3 +21923,23 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `scripts/test_arena.sh` and `tests/BUILD.bazel`. Full 1119-check `test_arena.sh` suite green,
   0 failures, `bazel test //tests:test_shadow_step` passes, real mingw cross-compile verified.
   REDGARDEN `14e37e1`, Apple #16113.
+
+- [x] **S202-41: REDGARDEN — move-command diagnostics + F10 reset-rotation debug tool.**
+  Founder real-time, live gameplay QA, intermittent bug with no hard repro: "at one point I got
+  stuck sideways and he was like trying to rotate to run where I wanted but couldn't, it was
+  weird" → "it happened after a while of playing" → "can we add logs to help debug it?" →
+  "I'm not totally sure, log it and keep moving" → "I think a death fixes it so it's not the
+  end of the world" → "maybe we make a reset character button that resets the rotation and if
+  you press it it logs if it actually did anything or not" → "so if we feel like it's working
+  it can be investigated with the data." Logging/tooling requested rather than a deep
+  investigation right now, since there's no reliable repro yet. Server-side: every real
+  `PACKET_ARENA_MOVE` now logs `[move-debug]` with the new target, current position, facing,
+  and every real state that could silently block `update_hero_motion` from advancing
+  (`rooted_ms`/`stunned_ms`/`attack_windup_ms_remaining`/`casting_slot`) — readable from
+  `var/logs/matchmaker-bots.log` without screen-sharing, same discipline the earlier
+  `[abraham-debug]`/`[fireball-debug]` traces this session already used (and already removed
+  once their own investigations resolved, S202-37/S202-40). Client-side: F10 is a new debug key
+  (same "works in any mode" precedent as F9/F11/C/H/B) that forces the local player's own
+  `hero_facing_rad` back to a known value and logs the real before/after — a real data-gathering
+  tool for the next occurrence, not a fix (root cause not yet found, honestly not claimed to be).
+  REDGARDEN `1bb0369`/`f34e1c1`.
