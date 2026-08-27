@@ -2111,6 +2111,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 
 - [ ] **Founder real-time: 'ok i dropped a large file onto parena editor and it crashed ensure we are doing streaming and windo…** — obs `2026-08-27T20:56:27Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'can we update longma so its written in pure parena? (our fork)' -- new request to rewrite the longm…** — obs `2026-08-27T20:50:12Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time correction: 'no double click on nerd tree should open a new window it just doesnt actually open the r…** — obs `2026-08-27T21:13:48Z`. CURATED: 2026-08-27.
+- [ ] **Founder real-time: 'it seems like double clicking a file in the nerd tree in parena editor does not work' + 'it just sa…** — obs `2026-08-27T21:05:28Z`. CURATED: 2026-08-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
