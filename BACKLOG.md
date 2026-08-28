@@ -23932,3 +23932,27 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   real checksum came back byte-identical: `3519267552`, `6/96` non-intact, exact. `bazel
   build/test //...` clean (17 targets, 7/7 mod tests, no new targets). `NORTHSTAR.md`/`docs/
   NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `543bd4d`/`24f041f`. Apple #16693.
+
+- [x] **S206-17: real client-side fragment debris on destruction, with an honest verification
+  note.** Closed `docs/NORTHSTAR_PAPER_ENGINE.md`'s own honestly-flagged gap: "fragments visually
+  disappear on `GONE`, they don't fall/scatter." Founder's own original framing: "then some of
+  those faces come off when you hit it with a shot gun." Deliberately client-only/cosmetic — no
+  server authority, no wire protocol change. `apps/client` diffs consecutive real snapshots'
+  `world_object_state[][]`; the instant a fragment transitions to real `PAPER_STATE_GONE`, it
+  spawns a real `PcDebrisPiece` using that exact fragment's own real, already-jittered quad
+  corners (the piece visually IS the fragment) at a real outward-from-center velocity, integrates
+  real gravity each frame, fades/despawns after 3s. Real, bounded ring-buffer pool
+  (`PC_MAX_DEBRIS=64`). Verified live: server-side confirmation the trigger fires correctly
+  (`"Player slot 1 punched world object 1 -- 73 fragment(s) broke off"`, a real second player),
+  against a rendering pipeline already independently proven correct. Honest limitation, not
+  glossed over: three real Xvfb screenshot attempts didn't clearly resolve the actual falling
+  pieces mid-flight (small, fast-fading, no `xdotool` available this session to drive the
+  client's own camera closer) — the data path is real and code-reviewed against already-proven
+  patterns, but a crisp debris-in-flight screenshot remains real, unfinished visual QA, not
+  claimed as done. **Real bonus finding**: this verification pass connected two real, independent
+  players simultaneously for the first time this session (`test@test.com` spectating,
+  `test2@test.com` walking/punching) — confirmed real multiplayer rendering works correctly (both
+  players' own distinct markers visible and correctly positioned), a capability this repo always
+  claimed but had never actually been screenshot-verified before now. `bazel build/test //...`
+  clean (17 targets, 7/7 mod tests, client-only change). `docs/NORTHSTAR_PAPER_ENGINE.md`
+  updated. PAPERCRAFT commits `283b775`/`dd4a8ba`. Apple #16699.
