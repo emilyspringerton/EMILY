@@ -2169,6 +2169,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, strategic/exploratory questions (not action requests): 'where are we at with shipping a single stati…** — obs `2026-08-27T23:00:27Z`. CURATED: 2026-08-27.
 - [ ] **Founder real-time: 'continue' -- proceeding to Phase 2 of the ECOWAR Map Editor epic (ECOWAR-MAPEDIT-NORTH): ECOWAR car…** — obs `2026-08-27T23:48:20Z`. CURATED: 2026-08-27.
 - [ ] **GFD Battlegrounds (apps2/battlegrounds_gui) sync check: the 3-repo 'bacon puck intangible movement speed' ask (2026-08-…** — obs `2026-08-28T00:03:19Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: continue working on PARENA self-hosted (VS0 compiler bootstrap) -- removing C FFI when possible, i.e…** — obs `2026-08-28T00:40:37Z`. CURATED: 2026-08-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
