@@ -22620,3 +22620,49 @@ routed through `emily observe` before being acted on, per Principle 18.*
   while investigating but not the founder's own stated complaint (which was specifically about
   *opening*), not touched here.
   PARENA commit `4ccd949`. Apple #16537.
+- [x] **S202-54: PARENA — construct-split Spotlight mod: real PARENA plugin, `/construct-split N`**
+  Founder real-time, exact words: "ok this is a weird ask i want this as a parena mod - have it
+  hook into the ctrl t quick open pane when i have that open if i type /construct-split 10 if it
+  is a construct file it should use file start and file end to open up new panes with the chunks
+  of the file broken into roughly equal 10 sizes its not gonna be totally equal".
+  New `stdlib/editor/construct_split.prn` — a real PARENA mod (not hand-written C): recognizes the
+  `/construct-split N` command inside the existing Ctrl+T Spotlight overlay, detects whether the
+  currently open buffer is a real construct bundle (the shared `--- FILE START: ---`/`--- FILE
+  END: ---` format `.github/workflows/ci.yml`'s own "Generate Construct Bundle" step already
+  produces monorepo-wide), and computes a real, byte-accurate greedy split across file boundaries
+  only into N chunks — splits never happen mid-file, matching the founder's own explicit "roughly
+  equal... not gonna be totally equal" framing directly (a real bin-pack, not an attempt at exact
+  equality).
+  Wired into `stdlib/editor/spotlight.prn` as a new `SKConstructSplit` provider (new
+  `construct-split-provider`, gated on `construct-file?` against the live buffer text,
+  `run-providers` widened to thread the current buffer's text through to every provider). Real
+  activation (`examples/editor_main.c`) writes each chunk to a temp file and opens it in a real new
+  pane via the existing `spawn_new_instance` mechanism — this editor's only real multi-window
+  primitive (fork+execl/CreateProcessA; there is no in-process split-view/pane concept). This
+  mirrors the pre-existing `SKFile` architectural split exactly: the PARENA mod owns 100% of the
+  real algorithmic work (command parsing, construct-file detection, the actual split), the C
+  driver owns only the unavoidable host I/O (temp file write, process spawn) it has no other way
+  to do.
+  New dedicated test (`tests/test_construct_split.c`, `make test-construct-split`, wired into
+  `ci.yml` as its own job alongside `test-editor-spotlight`): a real 400-synthetic-file fixture
+  confirms every file appears in EXACTLY one of the resulting chunks (none silently duplicated or
+  dropped across the split), chunk-count-never-exceeds-request bounds, rough size balance (no
+  chunk more than 3x the real average — guards against a real regression like all content
+  collapsing into one chunk, while still allowing genuine unevenness), command-parsing edge cases
+  (valid/non-numeric/non-positive/non-command), and the honest non-construct-file fallback
+  (returns the whole text as ONE chunk rather than crashing or silently no-op'ing). Also extended
+  `tests/test_editor_spotlight.c`'s own `run-providers` coverage for the new current-buffer-text
+  parameter. 13/13 checks pass.
+  Zero regressions: full local suite (336 tests) + `test-editor-spotlight` (13/13) +
+  `test-construct-split` (13/13, new) + full `editor-demo` rebuild (clean, zero warnings under
+  `-Wall -Wextra -pedantic -Werror`) + Xvfb smoke run (clean `timeout`-triggered exit, no crash,
+  no stderr) + `bazel build //...`/`bazel test //...` all clean.
+  **Real, honest, still-open scope, not attempted here**: temp chunk files
+  (`/tmp/parena_construct_split_<pid>_<NN>.txt`) are deliberately never cleaned up by the parent —
+  a real cleanup would race the spawned child process's own read schedule, which the parent has no
+  visibility into. No `xdotool` in this sandbox, so real keyboard-driven "Ctrl+T, type
+  `/construct-split 10`, hit Enter" interaction through the actual SDL2 event loop could not be
+  simulated end-to-end; verification instead called `run_providers`/`split_construct` directly at
+  the function level with real, representative construct-formatted text, plus confirmed the full
+  `editor-demo` binary builds clean and runs without crashing.
+  PARENA commit `8b7334a`. Apple #16540.
