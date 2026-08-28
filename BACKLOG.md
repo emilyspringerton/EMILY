@@ -2183,6 +2183,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: pivot off PARENA self-hosted compiler work to SARENA/JEWEL dev-portal infrastructure. Continue worki…** — obs `2026-08-28T16:32:52Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: GTA7 (TRAPX doctrine Paper plugin) needs jail tracking -- 'make sure that gta7 we are tracking when …** — obs `2026-08-28T17:11:30Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS NORTHSTAR pivot to racer-first, built on the pre-EINHORN-pivot ('pure fartc…** — obs `2026-08-28T16:58:57Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: decided to spin up PAPERCRAFT as a real NEW repo right away, grounded in the same SHANKPIT_CONSTRUCT…** — obs `2026-08-28T17:46:43Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: named the skateboard repo's own pre-existing NORTHSTAR.md project 'Papercraft' -- 'papercraft' -> 't…** — obs `2026-08-28T17:45:19Z`. CURATED: 2026-08-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -23563,3 +23565,31 @@ not-urgent framing; not worked this session.*
   way to view it (in-game command? IDUNA-backed lookup, matching this repo's own Apples-as-
   audit-trail pattern?). GTA7 itself is VS0-not-yet-built (root `CLAUDE.md`'s own GTA7 row) — this
   becomes real scope once VS0 actually starts, not a standalone task now.
+
+## SECTION 206: PAPERCRAFT NAMED — GTA3 × SKATE 2 NON-VOXEL DESTRUCTIBLE CITY (2026-08-28)
+
+*Founder real-time, verbatim, in order (obs `2026-08-28T17-45-19Z`/`2026-08-28T17-46-43Z`, Apples
+#16630/#16631): "papercraft" -> "thats the name of the thing we are building on SKATE skate
+culture northstar" -> "instead of minecraft we iterate shankpit into papercraft" -> "not voxels"
+-> "bedrock racers can evolve into papercraft" -> "maybe we will see if a new game needs to be
+brought out right away with the same construct yea lets make a new one PAPERCRAFT" -> **"ill
+handle it"** (founder taking the actual new-repo creation on themselves — stop here).*
+
+- [x] **S206-01: named + registered the pre-existing `skateboard/NORTHSTAR.md` scoping doc
+  "Papercraft."** That doc (GTA3 × Skate 2 × R6-Siege-style non-voxel destructible city, TRAPX
+  universe, built on SHANKPIT's own `apps/shank-fps` lineage, explicitly not GFD's voxel engine)
+  existed since 2026-07-24 under "[Working Title TBD]" and was never registered anywhere — fixed
+  both gaps in the same pass: title/status updated in `skateboard/NORTHSTAR.md`, new row added to
+  root `CLAUDE.md`, new `PAPERCRAFT-NORTH` row added to `EMILY/context/golden-docs-index.md`.
+  Also added a real Section 6 to that doc and a reciprocal note to
+  `WEAKNIGHT_BEDROCK_RACERS/docs/NORTHSTAR.md` flagging the "bedrock racers can evolve into
+  papercraft" relationship — real, named, not merged/dependent either direction. `skateboard`
+  commit `c981d64`. Root CLAUDE.md commit `f3e9bac`. EMILY commit `b83a8ed8`.
+  WEAKNIGHT_BEDROCK_RACERS commit `4d1e527`.
+
+- [ ] **S206-02 (founder handling this one personally, not a Claude Code task): stand up a real,
+  separate new `PAPERCRAFT` repo**, grounded in the same `SHANKPIT_CONSTRUCT.txt` reference
+  snapshot that grounded `WEAKNIGHT_BEDROCK_RACERS`' own pivot. Founder's own explicit "ill
+  handle it" — logged here for traceability per Principle 18, not acted on. If it later needs
+  Claude Code's help (scaffold, CI, first real commit), that's real, separate, future work once
+  the founder says so.
