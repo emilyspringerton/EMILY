@@ -23725,3 +23725,21 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   correctly advancing. `bazel build/test //...` clean (4/4 mod tests pass, both real binaries
   build and link — server now correctly deps on `//packages/simulation:level`). PAPERCRAFT
   commits `1551365`/`fce865d`. Apple #16659.
+
+- [x] **S206-08: real talent spending wired into the live game loop.** Founder real-time: "make
+  sure to tie parena mods deep in as we go" — closes the same real gap S206-07 just closed for
+  `level_mod.c`, now for `talent_mod.c` (compiled and tested since S206-04, never actually called
+  by the running game). New `PC_PACKET_ALLOCATE_TALENT` packet — client sends one real request
+  per keypress (keys 1–5, matching `PC_ABILITY_MOVE`/`VITALITY`/`HANDLING`/`SHIELD`/`STORM`'s own
+  real construct order); server calls the real PARENA-compiled
+  `on_papercraft_can_allocate_talent` to decide whether the spend is legal (real point available,
+  target ability not already at its own real cap of 5) before applying the real consequence —
+  same "mod decides, host applies" split every real mod call site in this monorepo uses.
+  `PcPlayerState` gained a real `ability[5]` array, broadcast every snapshot; `apps/client` shows
+  a real allocation HUD whenever there's a point to spend. Verified live end-to-end with a real
+  UDP probe: waited for a real level-up to grant a point, sent a real allocation request,
+  confirmed the server applied it (`ability[MOVE]` 0→1, `unspent_points` 1→0). `bazel build/test
+  //...` clean (4/4 mod tests pass, both real binaries build and link). Real per-stat gameplay
+  *effects* (`progression_apply_bonuses`'s own move-speed boost, passive regen, cooldown
+  reduction) still real, later work — this wires the real spending decision only. PAPERCRAFT
+  commits `d130846`/`3c9acce`. Apple #16662.
