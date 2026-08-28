@@ -1,3 +1,7 @@
+## 2026-08-28
+
+- BACKLOG.md: logged S202-54 (PARENA construct-split Spotlight mod), Apple #16540 (sess-20260825-1938-f6bd411e)
+
 ## 2026-08-25
 - S202-19: construct CI step added to all 9 gap repos (EDIS, MJOLNIR, gpt2-alpine-c, GOLDENBAND, SKULDMARK, GTA7, PARENA, REDGARDEN, WEAKNIGHT_BEDROCK_RACERS), all live-verified green in real GitHub Actions CI. Apple #16033. (sess-20260825-1938-f6bd411e)
 - GoldenDocCompiler rewritten pure-CLI (no LLM, no ANTHROPIC_API_KEY): deterministic header+lead-line extractive summary replaces claude-haiku compression, closing the HITL-11 stale-cache side-finding structurally (no more real-vs-degraded distinction to lose track of). emily context build's one-shot path live-verified: 47/47 sources compile with the key unset. Daemon-side restart queued (sudo-queue/28, needs fatbaby -- treeiii can't signal fatbaby's PID). Commits EMILY 1822e22, emily.cli 79bc797+b60ca6e. (sess-20260825-1938-f6bd411e)
