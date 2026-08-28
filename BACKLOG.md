@@ -23852,3 +23852,31 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   trick -- 1.06x speed for 800ms"`, matching `slide_jump_mod_test.c`'s own independently computed
   expected value exactly. `bazel build/test //...` clean (14 targets, 6/6 mod tests). PARENA
   commit `cc20940`. PAPERCRAFT commits `8865298`/`4ec343e`. Apple #16682.
+
+- [x] **S206-14: real map editor, first pass — offline CLI, persisted world objects.** Founder:
+  "build the map editor in from day 0... parena powered..." — first real pass. New
+  `apps/mapeditor`, a real, minimal, offline CLI tool (`add`/`list`/`remove`) that places real
+  Paper Engine destructible props into a real, persisted world-objects file `apps/server` loads
+  at startup. New `packages/common/papercraft_worldobjects.h`: `PcWorldObjectFile`, a real, small,
+  fixed-capacity (`PC_WO_MAX_OBJECTS=4`) list of props — the same real object type the original
+  hardcoded `PC_TEST_CUBE_*` constants already used; the editor's own real job is graduating that
+  into real, persisted, editor-authored data, not a new object type. Real ground-snap on `add`
+  via a live `worldapi` lookup, fails closed on unreachable/missing terrain. Real scope note:
+  VS0 is I32-scalar-only (no file I/O, no structs/arrays crossing its own boundary), so the
+  editor's own host logic stays real C like every other tool in this repo — "PARENA powered"
+  means what actually decides an object's own behavior stays PARENA
+  (`packages/simulation/paper_fragment_mod.c`, unchanged); the editor's real contribution is
+  placement. `packages/common/papercraft_protocol.h`'s `PcSnapshotPacket` grew a real, bounded
+  multi-object broadcast (position/material/seed + per-fragment state per object), replacing the
+  old single hardcoded test-cube field — `sizeof(PcSnapshotPacket)` = 1344 bytes, still under a
+  real 1472-byte unfragmented-UDP budget. `apps/server` auto-seeds a real default world-objects
+  file (matching the original test cube) the first time it finds none, and does real per-object
+  interact targeting (nearest active object within reach takes the hit). Verified live
+  end-to-end: editor placed 3 real objects (CONCRETE/WOOD/METAL, one in the real neighbor chunk)
+  — removed one, confirmed the file updated — started the real server against the 2-object file,
+  confirmed both broadcast correctly — walked a real player to the METAL object and punched it,
+  confirmed real per-object targeting: only that object took damage, CONCRETE stayed fully
+  intact. Client launched under Xvfb, rendered without crash. `bazel build/test //...` clean (15
+  targets, 6/6 mod tests). Honest scope note: offline CLI only, not yet graphical/live-server;
+  the much bigger embedded in-game PARENA editor + compile-and-connect vision remains real, later
+  work. PAPERCRAFT commits `14d7e82`/`094204d`. Apple #16686.
