@@ -22668,3 +22668,49 @@ routed through `emily observe` before being acted on, per Principle 18.*
   the function level with real, representative construct-formatted text, plus confirmed the full
   `editor-demo` binary builds clean and runs without crashing.
   PARENA commit `8b7334a`. Apple #16540.
+
+- [x] **S202-55: PARENA — real, narrow, tail-position-only Result/Option `match` support,
+  closing the first (dominant) half of the `match` gap every prior S202-4x/5x selfhost entry has
+  flagged as open since S202-48.** Direct continuation of "continue workiing on parina self hosted
+  compiiler" (2026-08-28) — read `src/emit.c`'s own real `emit_match_core`/`emit_match_clause_body`
+  reference implementation first (recur/return/if-inside-clause handling, shared `result_var`
+  composition for non-tail contexts), then deliberately did NOT port that full generality: this
+  file's own header comment already named the real reason (`match` needs "a real tag registry
+  this emitter doesn't have yet") when scoping S202-48's `cond` v0. Building a general
+  user-defenum tag registry (constructor -> tag-number mapping across a whole build, arbitrary
+  payload arity) is real, separate, harder work, still not started. Instead hardcoded the ONE
+  real tag mapping essentially every real `match` in this whole stdlib already relies on without
+  ever declaring it itself — Result's `Ok`/`Err` and Option's `Some`/`None`, VS0's own two BUILTIN
+  two-variant enums (confirmed live: `runtime/parena_runtime.h`'s own `result_ok`/`result_err`/
+  `option_some`/`option_none`, tag 1 = Ok/Some, tag 0 = Err/None) — covering the overwhelmingly
+  dominant real match usage across this whole stdlib (`json.prn`, `io.prn`, `shell.prn`,
+  `textmate_loader.prn`, ... every one Result/Option, never a user defenum, this whole session).
+  Same real "no shared `result_var`, each clause directly `return`s" simplification `cond`'s own
+  v0 already uses — but `match` adds one real new wrinkle `cond` never had: the scrutinee's own
+  value needs evaluating exactly once into a real C local (`.tag` tested, `.value` read for the
+  bound payload), so the whole `match` always wraps itself in a fresh `{ ... }` C block, making a
+  single fixed local name (`__match_scrutinee`) safe even when matches nest — no gensym/counter
+  infrastructure needed. Scrutinee: a bare symbol or a real `plain-call-shaped?` call. Exactly 2
+  clauses (bare `None`, or `(Ok x)`/`(Err e)`/`(Some s)`), payload bound to a real, block-scoped
+  `void *` local. Also added `Result`/`Option` as real, recognized `param-c-type` cases (by
+  value, same convention a registered `defstruct` param already uses) — needed to make a match's
+  own scrutinee reachable via a real function signature at all.
+  9 new tests (`tests/test_selfhost_emit.c`, 44 total for domain 4): structural assertions on the
+  generated `Result __match_scrutinee = r;`/`Option __match_scrutinee = o;` locals (proving the
+  correct builtin C type is picked per scrutinee, not always `Result`), the real `if
+  (__match_scrutinee.tag == 1)` dispatch, and both payload bindings, plus a real
+  compile+run+assert check (`tests/integration/driver_match.c`) constructing real Result/Option
+  values in C and calling the real compiled `describe-result`/`describe-option` across every real
+  tag. Zero regressions: full local suite (336 tests) + all selfhost domains clean. `bazel build
+  //...` itself could not be re-checked this round (the same real, pre-existing
+  `/home/treeiii/.cache` permission collision from a separate, concurrent session on this same
+  machine already documented in this file's own earlier entries — not a regression) — the
+  Makefile-based suite above is the real, working verification path used instead.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry (any `match`
+  over something other than Result/Option); `match` as a non-tail value; a clause body that needs
+  the payload beyond a bare-symbol tail (needs real `deref`-form emission this file doesn't have
+  yet); constructing an `Ok`/`Err`/`Some`/`None` value from PARENA itself. `cond` as a non-tail
+  value; nested calls as call arguments generally outside the boolean/test context; `defstruct`
+  fields typed as another struct/`Vec`/enum; struct-literal construction remain open too,
+  unchanged by this increment.
+  PARENA commit `f4d3eb3`. Apple #16550.
