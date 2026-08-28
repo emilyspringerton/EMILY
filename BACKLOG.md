@@ -23956,3 +23956,23 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   claimed but had never actually been screenshot-verified before now. `bazel build/test //...`
   clean (17 targets, 7/7 mod tests, client-only change). `docs/NORTHSTAR_PAPER_ENGINE.md`
   updated. PAPERCRAFT commits `283b775`/`dd4a8ba`. Apple #16699.
+
+- [x] **S206-18: real non-cube base shapes, `paper_generate_box`.** Closed `docs/
+  NORTHSTAR_PAPER_ENGINE.md`'s own honestly-flagged gap: "a wall segment is not literally a cube
+  in a real city." `packages/common/paper_mesh.h` grew `paper_generate_box(mesh, half_x, half_y,
+  half_z, subdiv, material, seed)` — the exact same real subdivide-then-jitter technique,
+  generalized to real, independent per-axis half-extents instead of one uniform `half_extent`;
+  `paper_generate_cube` is now a thin wrapper, verified byte-identical to the pre-refactor
+  behavior by a new real back-compat assertion in `paper_mesh_test.c`. `PcWorldObjectDef` carries
+  `half_x`/`half_y`/`half_z` now; the interact max-reach check uses the largest of the three;
+  `apps/mapeditor` grew `--half-x`/`--half-y`/`--half-z` (on top of the existing `--half-extent`,
+  still sets all three at once), so a modder can place a real wide/tall, thin wall-shaped slab,
+  not just a scaled cube. Real, honest limitation kept: `subdiv` is still one scalar spanning all
+  6 faces uniformly, so a strongly non-uniform box gets uneven real fragment density across its
+  own faces — not needed to prove independent per-axis *sizing*, this pass's own real point.
+  Verified live: placed a real wall (`half=(3.0,1.5,0.15)`) via the editor, confirmed the server
+  broadcast the exact same real asymmetric shape over the wire, confirmed real interact/damage
+  targeting still correctly reaches a non-cube object, and captured a real screenshot showing a
+  genuinely wide, short slab — not a cube — with visible real damage tinting where it was
+  punched. `bazel build/test //...` clean (17 targets, 7/7 mod tests). `docs/
+  NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `b5cb431`/`8161241`. Apple #16702.
