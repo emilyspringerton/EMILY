@@ -23909,3 +23909,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `EMILY/context/golden-docs-index.md`, PAPERCRAFT-PAPERENGINE's own row refreshed to reflect the
   paper engine being live-wired now. PARENA commit `b5f93ad`. PAPERCRAFT commits
   `66bf592`/`104950c`. Apple #16689.
+
+- [x] **S206-16: real world-object damage persists across a restart.** Closed
+  `docs/NORTHSTAR_PAPER_ENGINE.md`'s own honestly-named gap: "no persistence of a damaged
+  building's own state across a server restart." `apps/mapeditor`'s `PcWorldObjectFile` already
+  persisted real PLACEMENT (position/material/seed); this adds the real, live GAMEPLAY STATE
+  counterpart. Founder: asked via `AskUserQuestion` whether to keep building PAPERCRAFT after
+  Section 206 closed — answer: yes, same self-scoping pattern as the rest of this session. New
+  `PcWorldDamageFile` (`packages/common/papercraft_worldobjects.h`) persists every active
+  object's own real per-fragment `hp` (the real source of truth `PaperFragment.state` is always
+  re-derived FROM, never a separately-persisted field) — restored on startup via the exact same
+  real PARENA-compiled `on_paper_fragment_state_for_hp` a fresh hit always uses, not a separate
+  ad-hoc restore path. A fully-destroyed object also re-latches `g_wo_destroyed_awarded` so a
+  restart can't let a player re-earn `xp_award_mod`'s own real reward twice. `apps/server` saves
+  it on the same real periodic-autosave (10s) + `SIGTERM`-graceful-shutdown cadence player saves
+  already use; new `--damage-file` CLI flag. Verified live end-to-end: punched a real object
+  twice (6/96 fragments damaged, real checksum `3519267552` over the broadcast state array),
+  sent a real `SIGTERM`, confirmed the server logged the save, restarted it against the same
+  files, confirmed its own startup log ("Real per-fragment damage restored"), reconnected — the
+  real checksum came back byte-identical: `3519267552`, `6/96` non-intact, exact. `bazel
+  build/test //...` clean (17 targets, 7/7 mod tests, no new targets). `NORTHSTAR.md`/`docs/
+  NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `543bd4d`/`24f041f`. Apple #16693.
