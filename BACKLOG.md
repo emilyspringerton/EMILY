@@ -23662,3 +23662,15 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   representations, PARENA-driven wherever VS0 allows" design lens. No renderer, no physics/
   collision, no hit-detection wiring into an actual game loop yet — proves the technique only.
   PAPERCRAFT commits `7bab30a`/`f6397c7`. PARENA commits `66ebb6c`/`9a427f6`. Apple #16639.
+
+- [x] **S206-04: real talent-point allocation gate, ported from the construct.** Continues
+  S206-02's own flagged "real bones" note — `PARENA/stdlib/papercraft/talent_mod.prn`
+  (`on-papercraft-can-allocate-talent`) is a direct port of `SHANKPIT_CONSTRUCT.txt`'s own real
+  `progression_try_allocate` gate (idx valid, has an unspent point, ability not already at its
+  own real cap of 5), compiled via the real `parena build` CLI into
+  `packages/simulation/talent_mod.c`, verified via `talent_mod_test.c` against the exact real
+  construct behavior. `bazel test //...` now 4/4 (level, paper_fragment, paper_mesh, talent).
+  Still open: the real per-stat gameplay hooks (`progression_apply_bonuses`'s own five real
+  stats — move/vitality/handling/shield/storm), a real UI, and host game-loop wiring — this repo
+  still has no server/client code at all. PAPERCRAFT commits `e9ba296`/`f057902`. PARENA commits
+  `2e7cf7d`/`b489c0a`. Apple #16649.
