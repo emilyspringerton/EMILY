@@ -23674,3 +23674,20 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   stats — move/vitality/handling/shield/storm), a real UI, and host game-loop wiring — this repo
   still has no server/client code at all. PAPERCRAFT commits `e9ba296`/`f057902`. PARENA commits
   `2e7cf7d`/`b489c0a`. Apple #16649.
+
+- [x] **S206-05: real Phase 0 server — login, real city spawn, basic movement.** The actual
+  implementation of NORTHSTAR.md's own "Real Phase 0" plan (written same session): `apps/server`
+  is a real, single-node, always-running UDP server that fetches the real, live GoblinFoxDragon
+  `worldapi` urban chunk (`GET /chunks?scene=200&cx=0&cz=0`, confirmed live: 1054 real
+  `VoxelBlock`s), verifies real IDUNA-minted connect tickets (`PapercraftTicketHandler`, IDUNA
+  commit `0b99a32`, `POST /api/v1/papercraft/ticket` — ticket-only, no queue, since this is a
+  real single-node persistent world, not match-based), spawns a player on the real ground height
+  derived from the actual block data, and ticks real server-authoritative on-foot movement with
+  real basic ground collision. Real bug found and fixed live: the shared `http_client.h`'s own
+  8KB response buffer silently truncated the real ~35KB/1054-block chunk response to 241 blocks
+  with zero error signal — bumped this repo's own copy to 128KB. Verified live end-to-end with a
+  real UDP probe: real login → real ticket mint → real WELCOME → real movement (exactly 2.0 world
+  units per 0.5s at the real 4.0 units/sec walk speed) → real Y locked to the real ground height
+  throughout. No client yet — server-side only; rendering a real voxel city is real, separate,
+  next work. `bazel build/test //...` clean (4/4 mod tests still pass, real server binary
+  builds). PAPERCRAFT commits `1d940a4`/`7148e03`. IDUNA commit `0b99a32`. Apple #16654.
