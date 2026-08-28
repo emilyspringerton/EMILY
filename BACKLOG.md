@@ -23417,3 +23417,66 @@ by `fatbaby`).*
   eventually mean routing JEWEL access through the portal's own real login instead of a separate
   Basic Auth prompt, but this was not explicitly confirmed as in-scope for this pass. Flagged
   here, not started.
+
+## SECTION 204: WEAKNIGHT_BEDROCK_RACERS — RACER-FIRST PIVOT, PARENA CORE (2026-08-28)
+
+*Founder real-time direction, verbatim, in order (obs `2026-08-28T16-58-57Z`, Apple #16616):
+"do a rebase git pull on bedrock racers for a new northstar direction for that project" -> "i
+found an old shankpit experience with a city and 2 diferent cars on fg its like 2 different gears
+in a car almost and the driving is crisp i want to build on top of this experience the third
+person combat wasnt working good but we can figure that out later bedrock racers is a racer
+first" -> "we want to use that construct to build out the backend systems the same as we have it
+for the more mature games ... networking wise" -> "i want the experience to be like that this is
+like the 460 fork but even earlier and we found like an arena league of legends mode already
+built in" -> "we will unify or borrow from redgarden for game systems to make it more real if
+they help i dunno" -> "i want the thing to embed parena into it deep into the core of it
+BEDROCKRACERS" -> "that is the current pivot i want that game to be like an 8 player network
+game" -> "have it do whatever it is doing in the new construct file we will build on top of it"
+-> "that was pre einhorn pivot pure fartco bliss" -> "you will want to have a separate whole
+build for the new one" -> "start from scratch build parena in i will tell you if the vibes are
+good the map and the phyysics and the game type are mostly good some fo the power ups need
+tweaking". Full detail, real line citations into the found reference file, and the complete
+phased plan live in `WEAKNIGHT_BEDROCK_RACERS/docs/NORTHSTAR.md`'s own new PIVOT section — not
+duplicated here in full.*
+
+- [x] **S204-01: rebase `git pull` on WEAKNIGHT_BEDROCK_RACERS** — pulled in
+  `SHANKPIT_CONSTRUCT.txt` (a real, pre-EINHORN-rebrand SHANKPIT source snapshot, produced by that
+  repo's own CI "source construct step," commit `874ec6c`) via fast-forward. This IS the "old
+  shankpit experience" the founder found — not a separate discovery, the pull and the find are the
+  same event.
+
+- [x] **S204-02: racer-first NORTHSTAR pivot written and shipped.** New PIVOT section in
+  `docs/NORTHSTAR.md` (original Phase 0-3 scoping kept below it, superseded not deleted) +
+  matching `CLAUDE.md` updates (Mission/Status/Reused/Related Repos). Real citations into
+  `SHANKPIT_CONSTRUCT.txt`: `VEH_BUGGY`/`VEH_BIKE` two-vehicle gear-shift physics table (lines
+  4696-4718, 6124-6193, 5651-5717, 9161-9175), `SCENE_CITY`, the third-person combat layer
+  (dropped per founder), `packages/rts/card_system.h`'s real Clash-Royale-shaped card/arena mode
+  (the "arena league of legends mode already built in"), `apps/lobby`'s mode-select menu, and
+  `services/master-server/main.go`'s real Go TCP matchmaker. Phased plan: **A** from-scratch
+  city+2-vehicle core with PARENA embedded from day one (explicitly NOT a C-code port — founder:
+  "start from scratch build parena in"), its own separate whole build; **B** netcode grown toward
+  `shankpit-460`'s own *current*, more hardened server-authoritative shape (HMAC ticket auth,
+  snapshot broadcast, prediction/reconciliation) + a real lobby/matchmaker, targeting a real real
+  **8-player** networked match (`RC_MAX_VEHICLES=8` already sized right, no protocol resize
+  needed); **C** power-ups, tuned against real founder playtest feedback (the one piece the
+  founder flagged as already known to need tweaking); **D** the arena/card mode as a later,
+  real, optional, PARENA-driven mode (`ECOWAR`'s own precedent: "first mod to do real PARENA
+  decision logic, not just a trigger"); **E** `REDGARDEN` cross-pollination, explicitly tentative
+  ("if they help i dunno"). WEAKNIGHT_BEDROCK_RACERS commits `692c73e` (NORTHSTAR/CLAUDE.md),
+  `ff93529` (changelog). Apple #16618.
+
+- [ ] **S204-03: Phase A itself — from-scratch city + two-vehicle driving core, PARENA embedded
+  from day one.** Not started; this section is the spec, not the implementation. Next real
+  milestone once picked up.
+
+- [ ] **S204-04: Phase B — netcode/lobby/matchmaker growth toward the 8-player real-match target.**
+  Blocked on S204-03 landing a real gameplay core to network in the first place.
+
+- [ ] **S204-05: Phase C — power-up tuning against real founder playtest feedback.** Blocked on
+  S204-03.
+
+- [ ] **S204-06: Phase D — arena/card mode as a later optional PARENA-driven mode.** Blocked on
+  S204-03/S204-04.
+
+- [ ] **S204-07 (tentative, explicitly low-confidence per founder): Phase E — REDGARDEN
+  cross-pollination.** Not scoped, not committed — revisit only if/when it comes up again.
