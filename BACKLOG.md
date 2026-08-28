@@ -23069,3 +23069,39 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `Vec`/enum-typed `defstruct` fields; general struct-literal construction for a user-defined
   `defstruct`.
   PARENA commit `7c93f70`. Apple #16596.
+- [x] **S202-65: PARENA — real struct-typed-field-as-a-tail-position-return support.** Direct
+  continuation of "continue working on parena self hosted compiler" (2026-08-28) — closes the ONE
+  gap S202-64's own struct-return-type support explicitly left open the same day: `emit-form`'s
+  own `get-field-shaped?` dispatch ALWAYS boxes its result via `emit-i32-boxed`, correct ONLY for
+  a scalar (I32/Bool) field — boxing a real STRUCT VALUE the same way isn't even valid C (a struct
+  isn't a scalar/pointer type, can't be cast through `intptr_t`).
+  Real, honest, narrow fix: rather than threading struct-type-awareness through `emit-form`'s own
+  general recursion (used from many contexts — `let`/`with-arena` bodies, `match`/`cond` clauses —
+  a genuinely bigger, riskier undertaking), new `struct-returning-get-field-body?` checks ONLY the
+  one case where the needed information is already naturally at hand: a defn whose OWN declared
+  return type is an already-registered struct (`defn-c-return-type`'s own real output already
+  answers this) AND whose ENTIRE body is exactly one `get-field-shaped?` form. In that one case,
+  `emit-defn` bypasses the general `emit-body-forms`/`emit-form` path entirely, emitting a real,
+  unboxed `return (target).field;` directly via `emit-get-field` — correct because the field's own
+  real value, by construction, has the exact same real C type the function's own return type
+  already promises. Every other case (a struct-typed field nested inside a `let`/`with-arena`/
+  `cond`/`match` body, a SCALAR-field get-field tail, or a non-get-field body) keeps this file's
+  own pre-existing behavior completely unchanged.
+  7 new tests (`tests/test_selfhost_emit.c`): structural checks confirming the real, unboxed
+  `return (l).start;` (and confirming the OLD, wrong boxed form is genuinely absent, not just that
+  the right one happens to also be present), plus a real compile+run+assert check (`tests/
+  integration/driver_struct_field_tail.c`) proving the real struct value returned this way carries
+  BOTH real fields correctly on multiple real inputs including negative values — PLUS a direct
+  regression guard proving the pre-existing SCALAR-field case (`point-x`) still emits the exact
+  same boxed `(char *)(intptr_t)(p).x` as before, confirming `struct-returning-get-field-body?`'s
+  own new special case never fires for a non-struct-returning function.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; a match clause body that needs the payload beyond a bare-symbol
+  tail; an I32 (or any other non-pointer-shaped) `Ok`/`Err`/`Some` payload; `cond`/`match` as a
+  call argument (by design, not attempted); a struct-typed field nested inside a `let`/
+  `with-arena`/`cond`/`match` body (this round's own fix only covers a defn's ENTIRE body being
+  one bare get-field); `Vec`/enum-typed `defstruct` fields; general struct-literal construction
+  for a user-defined `defstruct`.
+  PARENA commit `4fe81e0`. Apple #16598.
