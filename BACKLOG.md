@@ -22284,3 +22284,45 @@ routed through `emily observe` before being acted on, per Principle 18.*
   (336 tests) + all 6 selfhost test binaries (the 5 from S202-45 plus
   `test-selfhost-main-multifile`) + `bazel build //...` all clean.
   PARENA commit `893ff69`. Apple #16500.
+
+- [x] **S202-47: PARENA — closed the "no literals" half of the plain-call gap (real binary-op
+  support) + 2 more real gaps found and fixed along the way.** Direct continuation of "continue
+  working on parena self hosted" / "removing c ffi when possible" — picked the other real, named
+  half of S202-45's own third gap (`emit-let-bindings`' narrow dispatch: "no nested calls, no
+  literals" — the bare-symbol-args restriction was already closed for calls, this closes it for
+  the literal/operator side).
+  `every-call-arg-symbol?` (renamed `every-call-arg-symbol-or-number?`) now accepts a real number
+  literal, not just a bare symbol — `emit-call-arg` already produced correct C text for either
+  case, only the SHAPE GUARD was too narrow. New `binary-op-symbol?`/`emit-binary-op`/`binary-op-
+  call-shaped?` recognize `+`/`-`/`*`/`/`/`=`/`>=`/`<=`/`>`/`<` as real C infix operators (not
+  `mangled_name(args)` call syntax) — `(+ n 10)`, the exact motivating case S202-45's own entry
+  named, now works. Wired into both `emit-let-value` and `emit-form`'s tail-position dispatch;
+  `plain-call-shaped?` now explicitly excludes operator symbols.
+  **Two more real, separate gaps found and fixed while verifying, not part of the original ask**:
+  (1) an arithmetic result is a real, unboxed C `int`, but this emitter's own uniform convention
+  declares EVERY function and EVERY let-binding `char *` — assigning/returning a raw `int` into
+  either is a real, confirmed `-Wint-conversion` (a hard `-Werror` failure under this repo's own
+  DoD bar). New `emit-i32-boxed` reinterprets via a real `(char *)(intptr_t)` cast (not a heap
+  allocation — the C reference's own per-file box-helper generation, `src/emit.c`'s
+  `g_box_helpers`, is a separate, larger undertaking). Verified as a GENUINE round-trip, not just
+  "compiles clean": a new driver (`tests/integration/driver_arith.c`) actually calls the compiled
+  `add-ten(5)` and asserts the real returned value is 15 — the same discipline this session has
+  held to throughout (never claim "works" on compile-cleanliness alone). (2) `emit-body-forms`
+  always started its own body walk at a hard-coded index 3 — so a defn with an EXPLICIT `:
+  ReturnType` annotation (the exact `] : I32` shape `kind-code`/`is-close-token?`/etc, this very
+  codebase's own real source, already uses — or the even more common `] : String @ Region`) had
+  its own colon/type(/at/region) children wrongly walked as 2-4 extra, BOGUS body statements, each
+  emitting its own spurious `return ...;` before the real one. New `body-start-index` detects and
+  skips the annotation, fixing both shapes, verified separately for each.
+  4 new tests (`tests/test_selfhost_emit.c`, 19 total for domain 4). Zero regressions: full local
+  suite (336 tests) + all 6 selfhost test binaries + `bazel build //...` all clean.
+  **Real, honest, still-open scope**: nested calls as call arguments (`(f (g x))`); `binary-op-
+  call-shaped?` is exactly 2-argument, no unary `-`, no `(+ a b c)` chains; `match`/`cond` still
+  have no dispatch anywhere in `emit-form` at all — flagged as the single largest remaining gap,
+  and (per `region.prn`'s own `handle-symbol-headed-call` header comment) architecturally harder
+  than the other three: a real tail-position `if`/`else`-chain is tractable, but `match`/`cond`
+  used as a NON-tail value would need something like GCC's own statement-expression extension,
+  genuinely incompatible with this repo's `-std=c99 -pedantic` discipline; `defstruct` is still
+  not walked at the top level at all (no `typedef struct` emission, no `get-field`/struct-literal
+  support for code the selfhost emitter is ASKED to compile).
+  PARENA commit `7254e74`. Apple #16502.
