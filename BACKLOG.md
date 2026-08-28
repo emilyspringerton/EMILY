@@ -22769,3 +22769,47 @@ routed through `emily observe` before being acted on, per Principle 18.*
   user-defined `defstruct` (Result/Option's own construction above is a narrower, hardcoded
   special case, not general struct-literal support).
   PARENA commit `70f05c4`. Apple #16561.
+- [x] **S202-57: PARENA — real nested-call-as-a-call-argument support (`(f (g x))`).** Direct
+  continuation of "continue self hosted parena" (2026-08-28) — closes the "nested calls as call
+  arguments" gap this file's own header comments named but didn't fix since the very first
+  binary-op/plain-call work (S202-46).
+  `every-call-arg-symbol-or-number?` (the one, shared shape-guard `binary-op-call-shaped?`/
+  `plain-call-shaped?` both already delegate their own argument checking to) now also accepts a
+  nested argument that's itself `plain-call-shaped?` or `binary-op-call-shaped?`, emitted through
+  the SAME real `emit-plain-call`/`emit-binary-op` this file already trusts for a whole function
+  body — no new expression-emitting machinery needed, only wiring the existing ones into a new
+  position. This makes `every-call-arg-symbol-or-number?`/`plain-call-shaped?`/
+  `binary-op-call-shaped?` real, mutual recursion (a nested call's own arguments get the identical
+  real check, all the way down) — safe and terminating since a real, parsed `Node` tree is always
+  finite. `emit-call-arg` gained the matching dispatch (get-field, then plain-call, then
+  binary-op, then the bare-symbol/number fallback).
+  Found and confirmed live (direct compile+run, not guessed) while verifying: testing with two
+  `I32`-typed functions (an inner one, boxed via `emit-i32-boxed` the same way every I32-returning
+  function already is, called as one operand of an outer real `+`) surfaced that the resulting C
+  is genuine POINTER arithmetic (`char* + int`, since the inner call's own real declared C return
+  type is `char *`, not `int`) — confirmed it still produces the numerically correct result on
+  every real input including a negative operand, because `char` has size 1: advancing a `char *`
+  by N bytes is bit-for-bit identical to plain integer addition once round-tripped back through
+  `(int)(intptr_t)result`, the same real technique this whole file's `emit-i32-boxed` convention
+  already relies on everywhere else — not a new risk this feature introduces, just a new position
+  where the pre-existing convention gets exercised. (Also hit and fixed a trivial test-authoring
+  mistake along the way, unrelated to the real feature: an early test snippet named its own
+  function `double`, colliding with the C reserved keyword — renamed to `twice`.)
+  4 new tests (`tests/test_selfhost_emit.c`): the pre-existing crash-regression fixture (this
+  file's own very first plain-call-support test, S202-46) had its own negative case moved from "a
+  nested call as an argument" — no longer unsupported — to "a nested `alloc` call as an argument"
+  (still genuinely unsupported: `alloc` needs its own real, distinguished Arena-destination
+  argument, not composable as an ordinary call argument the way a plain-call/binary-op result
+  already safely is), preserving the original crash-safety guard honestly. New positive coverage
+  (structural + a real compile+run+assert check, `tests/integration/driver_nested_call.c`) proves
+  a real 2-function program — the second calling the first with a nested call as one operand of a
+  real binary-op — emits no `#error`, nests the call INLINE in the generated C (not hoisted into a
+  separate statement), compiles clean, and computes the correct value on every real input tested.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; a match clause body that needs the payload beyond a bare-symbol
+  tail; an I32 (or any other non-pointer-shaped) `Ok`/`Err`/`Some` payload; a nested `alloc` call
+  as a call argument; `defstruct` fields typed as another struct/`Vec`/enum; general struct-literal
+  construction for a user-defined `defstruct`.
+  PARENA commit `d162f2c`. Apple #16565.
