@@ -23471,8 +23471,25 @@ duplicated here in full.*
   from day one.** Not started; this section is the spec, not the implementation. Next real
   milestone once picked up.
 
-- [ ] **S204-04: Phase B — netcode/lobby/matchmaker growth toward the 8-player real-match target.**
-  Blocked on S204-03 landing a real gameplay core to network in the first place.
+- [x] **S204-04 (first real slice): real IDUNA login → matchmaking queue → HMAC connect-ticket
+  → verified UDP connect, replacing Phase 0's anonymous connect.** Founder real-time: "build
+  login from the beginning take it from GFD make sure my GFD test@test.com login works" / "after
+  you login it drops you into matchmaking queiueueue". Direct port of GoblinFoxDragon/apps2/
+  battlegrounds_gui's own real login-screen pattern; IDUNA gained `RacerTicketHandler`
+  (`POST /api/v1/racer/ticket`, a straight port of `ShankpitTicketHandler`) and a second
+  `ShankpitQueue` instance at `/api/v1/racer/queue/*` (`MinPlayers=1` — a race already auto-fills
+  every other slot with bots, so one real human queuing is a real match on its own). Verified
+  live end-to-end this session (throwaway local IDUNA+server pair, real
+  `test@test.com`/`testtest`): login → queue matched instantly → ticket minted → real
+  HMAC-verified UDP CONNECT → real WELCOME → real server-authoritative vehicle sim ticking. Found
+  and fixed a real bug live: the matchmaking poll loop only ever noticed a queuing→matched
+  TRANSITION, so an instantly-matched join left the player stuck on the queue screen forever —
+  fixed by checking the join response's own state directly. Server now fails closed on ticket
+  verification (previously accepted anonymous connects). IDUNA commits `4b93e6e`/`85f7b3d`.
+  WEAKNIGHT_BEDROCK_RACERS commits `956743c`/`0ed2244`/`a530c2f`. Apple #16623. **Rest of Phase B
+  (the fuller netcode-maturity target — snapshot/prediction/reconciliation hardening, a real
+  lobby UI beyond the plain queue screen) still open, not this item's own scope.** Live deploy
+  queued: `sudo-queue/33-restart-iduna-and-racer-server-for-login.sh`.
 
 - [ ] **S204-05: Phase C — power-up tuning against real founder playtest feedback.** Blocked on
   S204-03.
@@ -23482,3 +23499,47 @@ duplicated here in full.*
 
 - [ ] **S204-07 (tentative, explicitly low-confidence per founder): Phase E — REDGARDEN
   cross-pollination.** Not scoped, not committed — revisit only if/when it comes up again.
+
+- [ ] **S204-08: a real map editor, built in from day 1** ("with a map editor from day 1") — not
+  yet scoped past this note. See `docs/NORTHSTAR.md`'s own "further founder direction" list.
+
+- [ ] **S204-09: GOLDENBAND built in from day 1** ("build in goldenband from day 1") — this
+  repo's own animation pipeline becomes GOLDENBAND's `.gband` format from the start, not
+  retrofitted. Not yet scoped past this note.
+
+- [ ] **S204-10: real fonts + shared PARENA/LINNEN UI code, replacing `hud_text.h`'s own
+  documented stroke-font placeholder.** "We are gonna want nice fonts" / "bring in the nice font
+  from parena editor" / "all of the text fields should be using parena editor code or we should
+  be sharing that code for building user interface elements." Real target: PARENA's own `LINNEN`
+  widget framework (`PARENA/docs/NORTHSTAR_LINNEN.md`), once Phase A/C's own PARENA embedding is
+  real enough to host it.
+
+- [ ] **S204-11: PARENA stdlib — real car-tuning/ECU interfaces** ("can we build car tuning
+  interfaces into parena stdlib? like loading tune maps fuel maps whatever we want to mirror the
+  apis of link ecus as much as possible") — a new PARENA stdlib module proposal (tune-map/
+  fuel-map data structures + load/apply APIs, modeled on real Link ECU programming paradigms).
+  Scope belongs partly in `PARENA/STDLIB.md` too, not only here. Not started.
+
+- [ ] **S204-12: an AI follow-drone camera mode** ("northstar an ai follow drone to take awesome
+  footage as you are driving") — founder's own explicit ask to NORTHSTAR this, not build it yet.
+  Real open questions logged in `docs/NORTHSTAR.md`'s own note (server- vs. client-side framing
+  logic, interaction with Phase A's PARENA architecture, capture/export scope).
+
+- [ ] **S204-13: Osaka-styled highway-heavy city map** ("have the map be the city map we will
+  build out the highway more we want to make it like osaka") — real Phase A content direction:
+  more highway than the construct's own base `SCENE_CITY`, aesthetic direction toward
+  `shankpit-460`'s own already-established `SCENE_GARAGE_OSAKA` naming. Not started.
+
+## SECTION 205: GTA7 — JAIL/RAP-SHEET TRACKING (2026-08-28, logged not started)
+
+*Founder real-time, mid-BEDROCK_RACERS session (obs `2026-08-28T17-11-30Z`, Apple #16619):
+"make sure that gta7 we are tracking when people get sent to jail so we can see their rap sheet"
+-> "just note that at some point and keep crunching on bedrock racers" — explicit log-only,
+not-urgent framing; not worked this session.*
+
+- [ ] **S205-01: real jail/arrest event log per player, queryable as a "rap sheet."** Needs: a
+  real per-player arrest/jail record (timestamp, reason, sentencing officer/Watcher — TRAPX
+  doctrine's own role, per GTA7's `docs/NORTHSTAR.md`) persisted somewhere queryable, plus a real
+  way to view it (in-game command? IDUNA-backed lookup, matching this repo's own Apples-as-
+  audit-trail pattern?). GTA7 itself is VS0-not-yet-built (root `CLAUDE.md`'s own GTA7 row) — this
+  becomes real scope once VS0 actually starts, not a standalone task now.
