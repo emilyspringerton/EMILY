@@ -23322,3 +23322,31 @@ routed through `emily observe` before being acted on, per Principle 18.*
   Result/Option value; an I32-typed bare-symbol `Ok`/`Err`/`Some` payload referencing a
   `let`-bound local rather than a defn's own PARAM.
   PARENA commit `40c212e`. Apple #16607.
+- [x] **S202-71: PARENA — struct-literal field holding a freshly-constructed Result/Option value,
+  PLUS a real, pre-existing region-annotated-field bug fix.** Direct continuation of "continue"
+  (2026-08-28) — closes the gap S202-70 named as still open. `struct-literal-field-value-
+  supported?` widened to accept `result-option-ctor-shaped?`/`none-shaped?` — a genuinely FREE
+  widening, since `emit-call-arg` (already used to emit every struct-literal field's own value)
+  already dispatched both correctly. **Found and fixed a real, live, pre-existing bug while
+  verifying** (confirmed via a direct probe): a defstruct field WITH an explicit `@ Region` suffix
+  (`(label : String @ Region)`, the exact real shape String fields typically use throughout this
+  codebase) has 5 real children, not 3 — `struct-field-shaped?`'s own OLD exact-3-children check
+  silently rejected it, an honest "skipped, not registered" failure never exercised by any prior
+  struct-field test in this file (every one used a scalar field with no region annotation).
+  Widened to at-least-3 (type is always at index 2 regardless of a region suffix, matching
+  `param-type-name`'s own convention). Also widened `struct-field-c-type` to recognize
+  `Result`/`Option` as real, by-value struct field types. 7 new tests including a real
+  compile+run+assert check (`tests/integration/driver_struct_literal_option_field.c`) proving a
+  struct literal constructs a struct whose String field AND whose freshly-constructed Option
+  field both hold the correct values. Zero regressions: full local suite (336 tests) + all 6
+  selfhost domain test binaries + `bazel build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; `cond`/`match` as a call argument (by design); a struct-typed field
+  used as a let-value or nested inside `with-arena`/`cond`/`match`; `Vec`/enum-typed `defstruct`
+  fields; a struct literal in any position other than a defn's entire body; an I32-typed
+  bare-symbol payload referencing a `let`-bound local.
+  PARENA commit `e4e4afd`. Apple #16609.
+
+**Session pivot, same turn**: founder real-time direction (2026-08-28, after S202-71) — pivoting
+off self-hosted PARENA compiler work to SARENA/JEWEL dev-portal infrastructure work. See the new
+section logged below for the full real direction and scope.
