@@ -22514,3 +22514,30 @@ routed through `emily observe` before being acted on, per Principle 18.*
   loading the whole file in memory i think" — a real, concrete PARENA editor performance report,
   distinct from this whole session's own self-hosting/compiler-emitter arc. Routed through
   `emily observe` per Principle 18 before investigating/acting.
+
+- [x] **CI health sweep across the monorepo (interactive session, 2026-08-28) — 2 real fixes.**
+  With both autonomous sessions (this file's own recent entries above) actively covering ECOWAR
+  Phase 2+/self-hosting/the editor-perf report, checked GitHub Actions status across
+  MJOLNIR/IDUNA/emily.cli/PRRJECT_FATBABY/EmilyOS/PITVIPER/SKULDMARK for anything broken that
+  wasn't already being worked. Two real, distinct issues found and closed, one confirmed
+  already-known and left alone:
+  - **ECOWAR Windows CI: combat_log_mod missing from ci.yml's own hardcoded Windows cross-compile
+    mod list (4th recurrence of this exact gap class).** Fixed the immediate break, then closed
+    the whole bug class for good: replaced the hand-maintained `-include`/`.c` list with a real
+    glob over `packages/simulation/*_mod_host.h`/`*_mod.c`, verified with a real local
+    `x86_64-w64-mingw32-gcc` compile+link against the exact SDL2-devel-2.30.10-mingw package CI
+    downloads (real 684KB `ECOWAR.exe` produced). ECOWAR commits `5252a6e`/`0bc8fd7`, Apples
+    #16514/#16516.
+  - **EmilyOS: `CGO_ENABLED=0` build step broken since 2026-08-26.** Root cause: `internal/
+    fsaclmod` (EmilyOS's own real cgo-based PARENA mod, GRANT_FS/REVOKE_FS, commit `eb6b867`)
+    needs cgo — under `CGO_ENABLED=0` its build constraints excluded the whole package outright.
+    `go test ./...` never caught it (cgo enabled by default there). Fixed by enabling cgo for the
+    build step too, same real precedent PITVIPER's own CI already sets for its own cgo+PARENA-mod
+    integration (dynamic libc linking accepted, not chased into a genuinely static binary) —
+    EmilyOS's own CLAUDE.md already scopes it as "the policy kernel that runs ON Linux," not a
+    from-scratch bootable image, so a libc dependency is a real, accepted tradeoff. Renamed the
+    step to drop the now-inaccurate "(static)" claim. Verified locally: `go test` clean, real
+    build succeeds, binary runs. CI green. EmilyOS commit `2147f89`, Apple #16521.
+  - **MJOLNIR CI failure checked and left alone**: real, already-known, pre-existing blocker
+    (missing `google-services.json`, the repo's own README already documents "still blocked
+    on...") — not a fresh regression, not touched.
