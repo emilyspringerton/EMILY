@@ -22400,3 +22400,33 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `cond` test (e.g. `(is-symbol? node "defn")` — needs Bool-return boxing/unboxing, not attempted);
   nested calls as call arguments generally; `defstruct` still not walked at the top level at all.
   PARENA commit `3ab6f8f`. Apple #16506.
+
+- [x] **S202-50: PARENA — plain-call-shaped predicate function calls as a `cond` test, closing
+  the second and last named exclusion.** Direct continuation of "continue working on parena self
+  hosted" / "removing c ffi when possible" — picked the second (and last) real exclusion S202-49's
+  own entry explicitly flagged as still open: `(is-symbol? node "defn")`-style predicate calls as
+  a `cond` test.
+  Turned out to need NO new boxing/unboxing machinery at all — a real, pleasant surprise this
+  self-hosting arc hadn't guaranteed in advance: a Bool-returning function's own body already goes
+  through this file's real, EXISTING convention on the CALLEE side (a comparison body boxes via
+  `emit-i32-boxed`, S202-47's own work, in `emit-form`'s `binary-op-call-shaped?` branch — `0`/`1`
+  becomes a real `NULL`/non-`NULL` `char *`), and a real C `if (some_char_star_expr)` already
+  treats a non-`NULL` pointer as truthy. Zero extra casting needed at the CALL site.
+  `bool-expr-supported?`/`emit-bool-expr` (S202-49's own recursive boolean sub-language) each
+  gained exactly one more `cond` clause (`plain-call-shaped?` → `emit-plain-call`, both reused
+  unchanged) — and the existing `or-and-shaped?`/`not-shaped?` recursion means a predicate call
+  ALSO composes for free inside `(and (is-foo? x) (is-bar? y))`-shaped compound tests, no extra
+  work needed for that.
+  2 new tests (`tests/test_selfhost_emit.c`, 27 total for domain 4): a structural assertion on the
+  generated `if (is_zero(n))` text, plus a real compile+run+assert check
+  (`tests/integration/driver_predicate_cond.c`) against a genuine TWO-FUNCTION program (a real
+  predicate defn plus a real `cond` dispatching to it), both a zero and a non-zero input. Zero
+  regressions: full local suite (336 tests) + all 6 selfhost test binaries + `bazel build //...`
+  all clean.
+  **Real, honest, still-open scope**: `match` itself (defenum tag dispatch); `cond` as a non-tail
+  value (the genuinely hard architectural case); nested calls as call arguments generally — the
+  one remaining real gap this whole cond-test arc (S202-48/49/50) never actually needed, since
+  every real test shape covered so far (comparisons, `or`/`and`/`not`, predicate calls) stayed
+  within a boolean/test context that never crosses this emitter's own `char*`-boxing boundary at
+  all; `defstruct` still not walked at the top level at all.
+  PARENA commit `7d62cc4`. Apple #16507.
