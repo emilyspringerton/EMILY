@@ -23636,3 +23636,29 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
     Apple #16636. No server/client host code yet — NORTHSTAR + one real verified mod only,
     matching this monorepo's own "docs before software" discipline. A real Phase 0 (the actual
     build plan) is the next real pass, not written yet.
+
+- [x] **S206-03: the Paper Engine — real destructible-geometry proof of concept.** Founder
+  real-time: "iterate" → "build the paper engine for destructable geometries" → "a simple cube
+  needs to get subdivided then like the vertexes randomiuzed" → "then some of those faces come
+  off when you hit it with a shot gun." Real technique, built and verified, not just designed:
+  `packages/common/paper_mesh.h` subdivides a cube into an N×N fragment grid per face, jitters
+  each vertex a real bounded amount along its own face normal, deterministic per seed (server/
+  client agree, no drift) — the real "papercraft" low-poly faceted look. Mods-first split: real
+  PARENA decision logic (`PARENA/stdlib/papercraft/paper_fragment_mod.prn` →
+  `packages/simulation/paper_fragment_mod.c` — material-aware damage resistance
+  PAPER/WOOD/CONCRETE/METAL + threshold-based damage-tier lookup, the same real ABI
+  `card_effect_mod.prn`/`bike-gear-mod.prn` already proved) with the actual F32/struct mesh math
+  staying in host C — VS0's own real current ceiling, not a shortcut ("make it all mods driven").
+  Verified: 96 fragments from a 4×4 cube, real seed-determinism, a real local "shotgun blast
+  opens a hole, not the whole cube" scenario (4/96 fragments detached from one hit).
+  `bazel test //...` 3/3 green. `docs/NORTHSTAR_PAPER_ENGINE.md` carries the full design plus a
+  real, honest list of flagged-not-built future mechanics: full granular ("sand-level")
+  simulation named as the true northstar but explicitly "thats going to get weird"; real-time
+  concrete-style fracture named as the actually-tractable middle ground ("so note that and find
+  some kind of realistic tradeoff... we can realistically simulate concrete to a good extent");
+  a real in-world "workers building shit" repair/rebuild event; wet-material drying stages with
+  a real two-way transfer mechanic (concrete tracked from a surface onto the player's shoes,
+  then onto whatever they walk on next); a standing "favor fractal/math-heavy procedural
+  representations, PARENA-driven wherever VS0 allows" design lens. No renderer, no physics/
+  collision, no hit-detection wiring into an actual game loop yet — proves the technique only.
+  PAPERCRAFT commits `7bab30a`/`f6397c7`. PARENA commits `66ebb6c`/`9a427f6`. Apple #16639.
