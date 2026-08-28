@@ -2181,6 +2181,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue workiing on parina self hosted compiiler' -- pivoting from the just-shipped TextMate/.tmLa…** — obs `2026-08-28T05:43:07Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: continue working on PARENA self hosted compiler** — obs `2026-08-28T07:42:44Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: pivot off PARENA self-hosted compiler work to SARENA/JEWEL dev-portal infrastructure. Continue worki…** — obs `2026-08-28T16:32:52Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: GTA7 (TRAPX doctrine Paper plugin) needs jail tracking -- 'make sure that gta7 we are tracking when …** — obs `2026-08-28T17:11:30Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS NORTHSTAR pivot to racer-first, built on the pre-EINHORN-pivot ('pure fartc…** — obs `2026-08-28T16:58:57Z`. CURATED: 2026-08-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
