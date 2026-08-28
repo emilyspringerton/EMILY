@@ -2173,6 +2173,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue working on PARENA self-hosted (VS0 compiler bootstrap) -- removing C FFI when possible, i.e…** — obs `2026-08-28T00:40:37Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: PARENA editor is slow opening large files -- 'we dont want to load the whole thing into memory... ho…** — obs `2026-08-28T02:29:27Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: 'continue' (third time in a row after I asked for direction) -- proceeding on my own judgment per th…** — obs `2026-08-28T03:13:45Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time, continued: 'the notebook like jupyter but for parena' -> 'docs are somewhere' -> 'in backlog maybe'.…** — obs `2026-08-28T03:36:45Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: 'continue working on SARENA notebook' -- SARENA_NOTEBOOK is referenced in root CLAUDE.md's own JEWEL…** — obs `2026-08-28T03:33:21Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: 'continue' -- proceeding on own judgment again, doing another pass to find safe, valuable, non-colli…** — obs `2026-08-28T03:32:55Z`. CURATED: 2026-08-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
