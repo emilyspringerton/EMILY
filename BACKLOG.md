@@ -23587,9 +23587,52 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   commit `c981d64`. Root CLAUDE.md commit `f3e9bac`. EMILY commit `b83a8ed8`.
   WEAKNIGHT_BEDROCK_RACERS commit `4d1e527`.
 
-- [ ] **S206-02 (founder handling this one personally, not a Claude Code task): stand up a real,
-  separate new `PAPERCRAFT` repo**, grounded in the same `SHANKPIT_CONSTRUCT.txt` reference
-  snapshot that grounded `WEAKNIGHT_BEDROCK_RACERS`' own pivot. Founder's own explicit "ill
-  handle it" — logged here for traceability per Principle 18, not acted on. If it later needs
-  Claude Code's help (scaffold, CI, first real commit), that's real, separate, future work once
-  the founder says so.
+- [x] **S206-02: real, separate new `PAPERCRAFT` repo stood up.** Founder created the GitHub
+  remote + `LICENSE` + `SHANKPIT_CONSTRUCT.txt` upload themselves ("ill handle it"), then handed
+  the rest back: "ok so you have the same assignment" → "do it again but this time from scratch
+  scratch" → "you have a construct file build the world from nothing parena native as much as
+  possible" → "mods first everything" → "just like you did for the gear shift" → "start out with
+  the same city make that the default spawn we are going to make this the RPG" (plus an extensive
+  positioning/architecture thread — "BEDROCK RACERS is like the esports... league of legends
+  meets rocket league" / "PAPERCRAFT is like minecraft meets gta3... plus SKATE2" / "gfd is
+  designed to be the long running rpg papercraft is a sandbox with mmo dna" / shared "Flow"
+  currency naming, separate economies for now / "build it as a single node persistent rpg" /
+  "there should only be online no local mode to start" / "so we are going to have multi tennant
+  mmorpgs we need to plan accoringly... and a traditional high fantacy grind focused mmo" /
+  "papercraft shouldnt have matches and the matches shouldnt end... we may have a battlegrounds
+  where it launches bedrock racers like [G]FD launches redgarden but we dont know for sure yet" /
+  "lets get the game systems foundations set up before we work on bridges too much" / "keep the
+  experience gain from the construct i like the idea of papercraft having a leveling system" /
+  "and a tech tree makes sense... we have the bones of one in a construct" / "all of it parena
+  mod powered" / "build the map editor in from day 0 parena powered" / "build the parena editor
+  in and the whole parena language so someone could mod it and then compile and start a server on
+  their local and connect to it"). Full detail lives in `PAPERCRAFT/NORTHSTAR.md` itself — not
+  duplicated here.
+  - Wrote a fresh `NORTHSTAR.md` (not ported from `skateboard`'s own doc): "Minecraft meets GTA3
+    plus Skate2" / "Skyrim meets Cyberpunk," non-voxel (SHANKPIT lineage, not GFD's voxel
+    engine), single-node persistent + online-only, sandbox-first (not RPG-first — that's GFD's
+    own identity), `SCENE_CITY` as the real default spawn, no quests/no hard combat requirement
+    to start, mods-first PARENA as the standing default for any new mechanic. Real, flagged (not
+    built) notes: multi-tenant MMORPG portfolio planning (3 real products named: GFD, Papercraft,
+    an unnamed "traditional high fantasy grind focused" MMO), shared-currency-naming/separate-
+    economies, a real talent/tech-tree system already present in the construct
+    (`MatchProgression`'s own `unspent_points`/`ability[5]`), a PARENA-powered map editor from
+    day 0, and the real longer-arc vision of embedding the full PARENA editor/language so players
+    can mod, compile, and self-host a connectable server.
+  - Shipped this repo's own first real "mods first everything" proof:
+    `PARENA/stdlib/papercraft/level_mod.prn` → `packages/simulation/level_mod.c` — real
+    recursive I32 RPG level-for-XP decision logic, compiled via the real `parena build` CLI,
+    verified via a real `level_mod_test.c` (`bazel test //...` green). Corrected mid-flight to
+    use the real construct XP curve (`80 + (level-1)*35`, `SHANKPIT_CONSTRUCT.txt`'s own
+    `MatchProgression`) once the founder said "keep the experience gain from the construct" —
+    not the first, invented triangular curve.
+  - Real Bazel build from day one (`MODULE.bazel`/`.bazelrc`/`.bazelversion`), same precedent
+    `WEAKNIGHT_BEDROCK_RACERS` established the same session.
+  - Cross-referenced both directions with `WEAKNIGHT_BEDROCK_RACERS`
+    ("bedrock racers can evolve into papercraft") and registered in root `CLAUDE.md` +
+    `EMILY/context/golden-docs-index.md` (`PAPERCRAFT-NORTH`, superseding the old
+    `skateboard`-pointed row — that repo's own doc stays as the real historical audit trail).
+  - PAPERCRAFT commits `bff4238`/`5175170`/`4dc179b`. PARENA commits `791f61a`/`f6b071b`.
+    Apple #16636. No server/client host code yet — NORTHSTAR + one real verified mod only,
+    matching this monorepo's own "docs before software" discipline. A real Phase 0 (the actual
+    build plan) is the next real pass, not written yet.
