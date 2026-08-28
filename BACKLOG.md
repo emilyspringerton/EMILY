@@ -22483,3 +22483,31 @@ routed through `emily observe` before being acted on, per Principle 18.*
   entire tail-position body via the shared general expression path; struct fields typed as
   another struct/`Vec`/enum; struct-literal construction.
   PARENA commit `078a2f1`. Apple #16509.
+
+- [x] **S202-52: PARENA — top-level `or`/`and`/`not` support (tail position + let-value), closing
+  the found-but-not-fixed gap S202-51's own entry flagged.** Direct continuation of "continue
+  working on parena self hosted" / "removing c ffi when possible" — closing the loop on S202-51's
+  own explicit "found but NOT fixed, flagged honestly" callout: `and`/`or`/`not` at the top level
+  wasn't handled by `emit-form` at all, only reachable from `cond`'s own test dispatch.
+  Two new `emit-form` clauses (`or-and-shaped?`/`not-shaped?`, boxed via `emit-i32-boxed` — S202-49's
+  own recursive boolean sub-language reused unchanged) close the tail-position half; a new shared
+  `let-value-is-bool-expr?` (used by both `emit-let-value` and `let-value-error-prefix`, so they
+  can never drift out of sync) closes the symmetric let-binding-value half.
+  2 new tests (`tests/test_selfhost_emit.c`, 35 total for domain 4): structural assertions for
+  BOTH positions, plus a real compile+run+assert check (`tests/integration/driver_bool_body.c`)
+  combining both in ONE program — `is-origin?`'s own real top-level `and` body (itself composing
+  `get-field` inside a comparison, proving the whole S202-51 chain fits together end to end) and
+  `is-boring`'s own `or` used as a LET-BINDING value specifically, verified across every real
+  branch. Zero regressions: full local suite (336 tests) + all 6 selfhost test binaries +
+  `bazel build //...` all clean.
+  **Real, honest, still-open scope**: `match` itself; `cond` as a non-tail value (the genuinely
+  hard architectural case); nested calls as call arguments generally outside the boolean/test
+  context; struct fields typed as another struct/`Vec`/enum; struct-literal construction.
+  PARENA commit `ada2c6a`. Apple #16510.
+
+  **Session pivot, same turn**: founder real-time interjection mid-turn — "parena editor when i
+  open a large file its dog shit slow we dont want to load the whole thing into memory - like how
+  does vim work it opens a file if its large it might like pause for a second but we are still
+  loading the whole file in memory i think" — a real, concrete PARENA editor performance report,
+  distinct from this whole session's own self-hosting/compiler-emitter arc. Routed through
+  `emily observe` per Principle 18 before investigating/acting.
