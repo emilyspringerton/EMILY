@@ -22210,3 +22210,48 @@ routed through `emily observe` before being acted on, per Principle 18.*
   **Still genuinely open**, same honest scope this whole session has held to: the RTS half of
   "cards and all that" (deck building, mana/Flow economy, card-summoned troops), and Phases 3-6
   of `docs/NORTHSTAR_MAP_EDITOR.md` — real, unscoped design decisions, not guessed at here.
+
+- [x] **S202-45: PARENA — build-files (real multi-file selfhost support) + 3 real emit.prn gaps
+  found and documented.** Founder real-time, mid-turn redirect from ECOWAR mechanics: "continue
+  working on parena self hosted" → "removing c ffi when possible" — routed through `emily observe`
+  first (Apple #16495) per Principle 18, then worked.
+  `selfhost/main.prn` gained `build-files`, a real, faithful PARENA-language port of `src/main.c`'s
+  own `cmd_build` MULTI-FILE loop — `build-file` (the prior, only entry point) is deliberately
+  single-file; this parses EACH input path into its own Node, merges every file's top-level
+  children into ONE combined `NList`, then runs region-analyze/emit/write exactly once, matching
+  `parena build a.prn b.prn -o out.c`'s own real "multiple files combined into one compilation
+  unit" contract. The real per-index loop hit the same documented "match nested as a non-tail
+  value inside an if/cond branch" VS0 gap `handle-symbol-headed-call` (region.prn) already names —
+  split into two small functions (`build-files-step`/`build-files-parse-and-continue`) rather than
+  inlining, the same proven workaround.
+  Verified in two real stages: (1) direct C-level instrumentation proved the MERGE itself correct
+  in isolation (two real files' children genuinely combined into one 2-element Vec, independent of
+  anything downstream); (2) a real, dedicated end-to-end fixture (`examples/
+  selfhost_multifile_a.prn`/`_b.prn`) + new test (`tests/test_selfhost_main_multifile.c`, `make
+  test-selfhost-main-multifile`) proved both files built together via `build-files` produce real,
+  gcc-clean C with a genuinely resolved cross-file function call, while the callee alone still
+  honestly fails to compile (undeclared function) — the same real positive/negative pair
+  `tests/integration/run_multifile_check.sh` already proves for the reference compiler.
+  **Real, separate documentation-staleness fix found and corrected along the way**: NORTHSTAR.md's
+  own "selfhost/lexer.prn still doesn't compile, 46 errors" claim turned out to be measuring
+  `lexer.prn` WITHOUT its own real `stdlib/string.prn` dependency in the same invocation — every
+  one of those 46 errors was an artifact of that missing dependency. Confirmed directly: it
+  compiles with ZERO errors/warnings once included, and the FULL 5-domain selfhost pipeline (lexer
+  + parser + region + emit + main) plus its 3 real stdlib deps (string/array/io) already compiles
+  cleanly (2545 lines, zero warnings) AND already self-hosts `examples/valid_only.prn` end to end
+  via `build-file` (`make test-selfhost-main`: ALL PASS) — an existing, working, already-committed
+  Makefile target this doc's own prose simply never caught up to reflecting. NORTHSTAR.md's own
+  Self-hosting section rewritten with the full, accurate, current picture.
+  **Real, separate `selfhost/emit.prn` gaps found and documented, NOT fixed this pass** (the
+  reference C emitter, `src/emit.c`, already handles all three correctly — these are gaps in the
+  PARENA-language port specifically, real, honest, flagged next steps for whoever continues this):
+  top-level `defstruct` is silently skipped entirely by `emit-program`/`region-analyze` (only
+  `defn` forms are walked); a bare `alloc`/arithmetic/`match`/`cond` as a defn's ENTIRE body falls
+  through to a broken naive `emit-tail-symbol` fallback (only a bare symbol tail works correctly);
+  `emit-let-bindings`' own plain-call dispatch requires every call argument to be a bare symbol (no
+  nested calls, no literals). Discovering these is why the multi-file fixture above is a dedicated
+  new one (plain `with-arena`+`let`+`alloc`, `valid_only.prn`'s own already-proven shape) rather
+  than the reference compiler's own `examples/multifile_a.prn`/`_b.prn` (top-level `defstruct`,
+  hits the first gap immediately).
+  Zero regressions: full local suite (336 tests) + all 5 pre-existing selfhost domain test binaries
+  + `bazel build //...` all clean. PARENA commit `cd7e0e7`. Apple #16498.
