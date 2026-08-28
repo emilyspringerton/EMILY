@@ -22430,3 +22430,56 @@ routed through `emily observe` before being acted on, per Principle 18.*
   within a boolean/test context that never crosses this emitter's own `char*`-boxing boundary at
   all; `defstruct` still not walked at the top level at all.
   PARENA commit `7d62cc4`. Apple #16507.
+
+- [x] **S202-51: PARENA — top-level `defstruct` support (+ get-field + a real, pre-existing
+  `mangle()` bug found and fixed), closing the other large standalone self-hosting gap.** Direct
+  continuation of "continue working on parena self hosted" / "removing c ffi when possible" —
+  with the `cond`-test arc (S202-48/49/50) closed out, picked `defstruct` — the OTHER large
+  standalone gap flagged alongside `match`/`cond` since S202-45's own entry.
+  Real, honest, narrow v0 scope, decided up front given `process_defstruct`'s own much larger real
+  scope in `src/emit.c` (Vec elem-hints, `&mut` refs, self-reference): only SCALAR field types
+  (I32, Bool, F64, String, Arena) — a field typed as ANOTHER registered struct, a `Vec`, or an
+  enum is a real, separate, larger undertaking, not attempted; falls back to the pre-existing
+  honest "skipped" behavior, never a wrong guess. No struct-literal construction (`{:field val}`)
+  either — this pass only lets an ALREADY-CONSTRUCTED struct value (a real param) be READ via
+  `get-field`, not built.
+  New `struct-prepass` walks every top-level form once, emitting each real `defstruct-shaped?`
+  form's own typedef and registering its name, BEFORE `emit-program`'s existing defn pass —
+  matching the reference compiler's own real "every defstruct before any defn, in source order"
+  behavior. `param-c-type` (threaded a new `known-structs` registry through `emit-params`/
+  `emit-defn`) now passes a registered struct type BY VALUE (`Point p`, not `Point *p`) — CONFIRMED
+  directly against the reference compiler's own real generated output for the identical source
+  BEFORE implementing, matching this whole session's own "don't guess the convention, check it"
+  discipline throughout.
+  New `get-field-shaped?`/`emit-get-field` (`(get-field p :x)` → real `(p).x`) wired into TWO real
+  positions: `emit-call-arg` (so `get-field` composes inside a comparison or plain-call argument,
+  e.g. `(= (get-field p :x) 0)` — call-arg position never needs boxing regardless of field type,
+  since a param already carries its own correctly-inferred C type) and `emit-form`'s tail-position
+  dispatch (a real struct accessor's own natural shape, boxed via `emit-i32-boxed` — a real,
+  narrower, honestly-flagged sub-scope: this assumes an I32/Bool-shaped field, correct for this
+  pass's own only supported field types in practice, but a String/F64/Arena field read this way
+  would be wrongly boxed — not attempted).
+  **A real, separate, pre-existing bug found and fixed while verifying, not part of the original
+  ask**: `mangle()` only ever converted a hyphen — a real `?`-suffixed predicate name
+  (`is-zero-x?`, this codebase's own extremely common Bool-naming convention) emitted as the
+  literal, INVALID C identifier `is_zero_x?`. Widened to match the reference compiler's own real
+  `mangle()` exactly (also converts `/` and `!`, and STRIPS a leading `!` entirely — the
+  mutation-marker param sigil, `(!f : FileHandle @ :region/task)`) — confirmed directly against
+  `src/emit.c` before implementing.
+  5 new tests (`tests/test_selfhost_emit.c`, 33 total for domain 4): structural assertions on the
+  generated typedef/param/get-field/mangled-name text, plus a real compile+run+assert check
+  (`tests/integration/driver_defstruct.c`) against real, CONSTRUCTED `Point` values calling both a
+  real accessor and a real `?`-suffixed predicate using `get-field` inside a comparison. Zero
+  regressions: full local suite (336 tests) + all 6 selfhost test binaries + `bazel build //...`
+  all clean.
+  **Found but deliberately NOT fixed, flagged honestly**: `and`/`or`/`not` at the TOP LEVEL / tail
+  position (a defn whose entire body is `(and ...)`, not inside a `cond`'s own test position)
+  still isn't handled by `emit-form` at all — S202-49's own `bool-expr-supported?`/`emit-bool-expr`
+  only ever get reached from `cond`'s own test dispatch. A real, separate, tractable follow-up
+  (mirroring `emit-i32-boxed`'s own "box a raw expression for a `char*`-declared slot" pattern,
+  just for boolean expressions), not attempted here.
+  **Real, honest, still-open scope**: `match` itself; `cond` as a non-tail value; nested calls as
+  call arguments generally outside the boolean/test context; `and`/`or`/`not`/`get-field` as an
+  entire tail-position body via the shared general expression path; struct fields typed as
+  another struct/`Vec`/enum; struct-literal construction.
+  PARENA commit `078a2f1`. Apple #16509.
