@@ -22255,3 +22255,32 @@ routed through `emily observe` before being acted on, per Principle 18.*
   hits the first gap immediately).
   Zero regressions: full local suite (336 tests) + all 5 pre-existing selfhost domain test binaries
   + `bazel build //...` all clean. PARENA commit `cd7e0e7`. Apple #16498.
+
+- [x] **S202-46: PARENA — closed 1 of the 3 `selfhost/emit.prn` gaps S202-45 found (bare
+  alloc/plain-call defn bodies).** Direct continuation of "continue working on parena self hosted"
+  / "removing c ffi when possible" — picked the highest-leverage of the 3 real gaps S202-45's own
+  entry documented (top-level `defstruct` not walked; bare alloc/arithmetic/match/cond body broken;
+  narrow plain-call let-value dispatch), since it unblocks the single most common real defn shape
+  (a function whose entire body is one call, no with-arena/let wrapper).
+  `emit-form`'s own top-level dispatch (`selfhost/emit.prn`) only ever recognized `with-arena` and
+  `let` as real defn-body shapes — everything else fell through to `emit-tail-symbol`, which ONLY
+  correctly handles a bare symbol tail, silently emitting an empty `return ;` for a bare `alloc`
+  call or a bare plain function call as the entire body (confirmed via direct instrumentation
+  while chasing why S202-45's own first two multi-file fixture drafts kept failing). Fixed with a
+  new shared `emit-tail-expr` (wraps an already-emitted C expression into a real `return`
+  statement) plus two new `emit-form` dispatch clauses reusing `emit-alloc-call`/`emit-plain-call`
+  — both ALREADY-PROVEN-CORRECT expression emitters `emit-let-value` already used for the identical
+  shapes in a let-binding's own value position, just never reachable from tail position before.
+  Real, honest, still-open scope: bare arithmetic (any call with a non-symbol/literal argument) and
+  bare `match`/`cond` as an entire defn body are NOT fixed by this — `plain-call-shaped?`'s own
+  "every argument a bare symbol" requirement still excludes arithmetic with literal operands, and
+  `match`/`cond` have no dispatch anywhere in `emit-form` at all, a real, separate, larger
+  undertaking not attempted here.
+  2 new tests (`tests/test_selfhost_emit.c`, 15 total for domain 4), verified two ways: direct
+  emitted-C-text assertions, AND a real, live `build_files` round-trip (two fresh, minimal .prn
+  files — one with a bare `alloc` body, one with a bare cross-file plain-call body — compiled
+  together through the actual selfhost pipeline, producing real gcc-`-Werror`-clean C matching the
+  reference compiler's own output for the identical source). Zero regressions: full local suite
+  (336 tests) + all 6 selfhost test binaries (the 5 from S202-45 plus
+  `test-selfhost-main-multifile`) + `bazel build //...` all clean.
+  PARENA commit `893ff69`. Apple #16500.
