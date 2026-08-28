@@ -23398,14 +23398,14 @@ by `fatbaby`).*
   New credential reported to the founder directly in this session's own final reply — never
   committed, never written into this file or any Apple/CHANGELOG entry.
 
-- [ ] **S203-03: deploy — queued, needs founder to run as `fatbaby`.** Binary already rebuilt at
-  `~/.local/bin/iduna` (group-writable, `treeiii` can build it in place) but the restart itself is
-  a `systemctl --user` unit tied to `fatbaby`'s own session bus — not reachable from `treeiii` or
-  via `sudo` (same real constraint S201-era `sudo-queue/25-restart-iduna-for-session-fix.sh`
-  already documented). Queued at `sudo-queue/32-restart-iduna-for-portal-local-login.sh` — restarts
-  `iduna.service`, verifies the new form is live, and prints the exact `curl` smoke-test commands
-  to confirm end-to-end login (`Set-Cookie: iduna_session=...` on POST, a real tool-list page on
-  the follow-up GET). Not something Claude Code can run unattended — needs a real `fatbaby` shell.
+- [x] **S203-03: deployed and verified live (2026-08-28).** Founder ran
+  `sudo-queue/32-restart-iduna-for-portal-local-login.sh` as `fatbaby`; `iduna.service` restarted
+  onto the rebuilt binary (new PID 911811, `/health` OK). Confirmed the real end-to-end flow
+  myself post-restart: `POST /portal/login` with the webmaster credential returns
+  `303 -> /portal` with a real `Set-Cookie: iduna_session=...` (JWT carries
+  `devportal.access` among its permissions), and the follow-up `GET /portal` with that cookie
+  renders the actual tool-list page (Jupyter/JEWEL + SARENA_NOTEBOOK), not a login bounce. The
+  portal is no longer functionally dead — S201-03's original gate is now actually passable.
 
 - [ ] **S203-04 (deferred, explicit): fix Google OAuth for the portal.** Founder, same breath as
   approving this whole pivot: "we will fix oauth once we get some inertia on the portal with a
