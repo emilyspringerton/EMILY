@@ -23760,3 +23760,27 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   such in `NORTHSTAR.md` rather than silently skipped or fabricated. `bazel build/test //...`
   clean (5/5 mod tests pass, both real binaries build and link). PAPERCRAFT commits
   `a1178a1`/`e8bc3e2`. PARENA commit `5487eb3`. Apple #16667.
+
+- [x] **S206-10: Paper Engine wired into the live game loop, verified end-to-end.** Closes the
+  last built-but-unwired mod gap from "make sure to tie parena mods deep in as we go" —
+  `paper_fragment_mod` was built and tested (Apple #16639) but never called by the running game,
+  same gap `level_mod`/`talent_mod`/`stat_effects_mod` all had until S206-07 through S206-09
+  wired them in. New `PC_PACKET_INTERACT` (bare punch keypress, server derives hit point from
+  player position+yaw, no aim data) and `PC_TEST_CUBE_*` — one real, world-positioned
+  96-fragment `PAPER_MATERIAL_CONCRETE` prop spawned server-side at chunk-local `(12,8)`,
+  ground-anchored the same way player spawn is. `PcSnapshotPacket` broadcasts only per-fragment
+  STATE (not geometry) since both client and server independently regenerate the identical
+  deterministic mesh from a shared seed — the exact "seed + per-fragment deltas" wire shape
+  `docs/NORTHSTAR_PAPER_ENGINE.md` named as the target. `apps/server` calls the real, already-
+  tested `paper_mesh_damage_radius`, so the real PARENA-compiled
+  `on_paper_fragment_damage`/`on_paper_fragment_state_for_hp` decide outcomes, not host C.
+  `apps/client` renders it live (`E` to punch). Verified live end-to-end with a real UDP probe
+  (login as `test@test.com` → real IDUNA ticket → CONNECT → walk to the cube's real world
+  position → send real `PC_PACKET_INTERACT` once in reach): server log confirmed real spawn
+  (`Real Paper Engine test cube spawned at (12.0,66.5,8.0) -- 96 fragments`, Y correctly
+  ground-derived), probe's own snapshot readback showed 5 real fragments transition
+  `INTACT`→`CRACKED`→`GONE` within about a second of real punching. `bazel build/test //...`
+  clean: 12 targets, all 5 mod tests passing (added the missing
+  `//packages/simulation:paper_fragment` dep to both `apps/server`/`apps/client` BUILD.bazel).
+  `NORTHSTAR.md`/`docs/NORTHSTAR_PAPER_ENGINE.md` updated to document this as shipped, not just
+  designed. PAPERCRAFT commits `0fc1021`/`285af56`. Apple #16670.
