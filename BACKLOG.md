@@ -23806,3 +23806,25 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `65.00` the entire way (old code would have frozen `y` once `x` left `[0,16)`). Client launched under
   Xvfb, confirmed no crash/regression. `bazel build/test //...` clean (12 targets, 5/5 mod tests,
   no BUILD.bazel changes needed). PAPERCRAFT commits `4e77fbd`/`5f6b513`. Apple #16674.
+
+- [x] **S206-12: real player persistence across a server restart.** Closed the next real gap
+  down `NORTHSTAR.md`'s own "Explicitly not Phase 0" list — player progression (level/xp/unspent
+  points/talent ranks) and position lived in memory only, reset every server restart. New
+  `packages/common/papercraft_persist.h`: one real, fixed-size flat-binary `PcSaveRecord` per
+  player, keyed by the real 16-byte `player_id` IDUNA's own connect ticket already carries,
+  hex-encoded into a filename under a real, configurable `--save-dir` (default `var/players`,
+  already `.gitignore`d). Deliberately not SQLite — no `libsqlite3` dep wired into this repo's
+  own Bazel build yet, one small struct per player is the real smallest proof of
+  restart-survival. `apps/server`'s `spawn_player` tries a real load before falling back to a
+  fresh level-1 spawn (reordered the CONNECT handler so `player_id` lands on the slot first); a
+  real periodic autosave (every 10s per active player) plus a real `SIGINT`/`SIGTERM` handler
+  flush every active player immediately on a deliberate restart. Verified live end to end:
+  connected a real player, waited for a real level-up (construct XP curve), spent the point on
+  MOVE, confirmed pre-restart state (`level=2 xp=85 unspent=0 ability_move=1 pos=(8,65,8)`) — sent
+  a real `SIGTERM`, confirmed `"saved 1 active player(s)"` and a real 52-byte `.pcsave` file on
+  disk keyed by the real player UUID — restarted the server against the same save dir, confirmed
+  its own startup log restoring level 2/0 unspent/position `(8,65,8)` — reconnected with a fresh
+  probe, read back the same real state from a live snapshot, XP still ticking upward exactly as
+  expected for a live player. `bazel build/test //...` clean (12 targets, 5/5 mod tests). No
+  world/test-cube-damage persistence yet — real, later work. PAPERCRAFT commits
+  `4e05936`/`621544e`. Apple #16678.
