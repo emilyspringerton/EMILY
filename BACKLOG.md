@@ -23277,3 +23277,48 @@ routed through `emily observe` before being acted on, per Principle 18.*
   let-value, a call argument, nested inside `with-arena`/`cond`/`match`); a struct-literal field
   itself holding a freshly-constructed Result/Option value.
   PARENA commit `7d1ba5e`. Apple #16605.
+- [x] **S202-70: PARENA — real I32-typed BARE-SYMBOL `Ok`/`Err`/`Some` payload support.** Direct
+  continuation of "continue" (2026-08-28, following "continue working on parena self hosted
+  compiler") — closes the gap `result-option-payload-is-i32?`'s own header comment (S202-68)
+  named explicitly as not-yet-attempted: `(defn wrap [(n : I32) (dest : Arena @ Region)] : Option
+  (Some n))`.
+  Real, confirmed-live problem found via a direct probe (not guessed): a bare symbol payload
+  ALREADY satisfied `result-option-payload-supported?`'s own existing "pointer-shaped" branch
+  unconditionally (kind `NSymbol`, 3) — correct for the dominant real case (a String/struct value
+  already char*-shaped) but WRONG for an I32-typed one, silently emitting `option_some(n)` with
+  `n` a raw C `int` passed where the runtime's own real `void *value` is expected — a genuine
+  `-Werror=int-conversion` compile failure (an HONEST failure, not a silent miscompile, but a
+  real, fixable gap all the same).
+  Real, narrow fix, the SAME "special-case only where the needed information is already naturally
+  at hand" strategy struct-return-type/struct-literal support already established (S202-64/
+  S202-69): rather than threading real per-symbol type tracking through this whole file's own
+  general `emit-form`/`emit-call-arg`/`emit-let-value` recursive machinery, this checks ONLY the
+  one case where a bare symbol's own real type IS already knowable without any new tracking: it
+  names one of the ENCLOSING DEFN's OWN real, declared params, and that param's own declared type
+  is I32. `emit-defn-body` special-cases this the SAME way it already special-cases
+  `struct-returning-get-field-body?`/struct-literal construction — checked and dispatched BEFORE
+  the general path (which would otherwise still hit the exact same real bug this closes). New
+  `emit-defn-i32-param-ctor` boxes the real, MANGLED param reference (via `resolve-arena-ref`,
+  correct for a bare symbol — deliberately NOT `emit-int-box-call`'s own bare `:text` fallback,
+  which is only ever correct for a number literal) into the SAME real `int_box` helper every other
+  I32 payload construction already uses.
+  6 new tests (`tests/test_selfhost_emit.c`): structural checks confirming no `#error` and the
+  real, correctly composed `option_some(int_box(dest, n))`/`result_err(int_box(dest, n))` (proving
+  this closes the gap for `Err`/`Result` too, not just `Some`/`Option`), plus a real
+  compile+run+assert check (`tests/integration/driver_i32_param_ctor.c`) proving the real I32
+  param genuinely round-trips through a real heap box, a real bare-symbol Option construction, and
+  a real match+deref consumption on multiple real inputs including a negative one — PLUS a direct
+  regression guard proving a String-typed bare-symbol payload (the dominant real case the
+  pre-existing pointer-shaped branch already exists for) still emits the exact same unboxed
+  `option_some(s)` as before, confirming this new I32-specific special case never misfires for a
+  non-I32 payload.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; `cond`/`match` as a call argument (by design, not attempted); a
+  STRUCT-typed field used as a let-value; a struct-typed field nested inside a `with-arena`/
+  `cond`/`match` body; `Vec`/enum-typed `defstruct` fields; a struct literal in ANY position other
+  than a defn's own entire body; a struct-literal field itself holding a freshly-constructed
+  Result/Option value; an I32-typed bare-symbol `Ok`/`Err`/`Some` payload referencing a
+  `let`-bound local rather than a defn's own PARAM.
+  PARENA commit `40c212e`. Apple #16607.
