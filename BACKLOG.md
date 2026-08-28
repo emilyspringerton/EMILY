@@ -23830,3 +23830,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   expected for a live player. `bazel build/test //...` clean (12 targets, 5/5 mod tests). No
   world/test-cube-damage persistence yet — real, later work. PAPERCRAFT commits
   `4e05936`/`621544e`. Apple #16678.
+
+- [x] **S206-13: real jump physics + the first real trick input, slide-jump.** Closed the last
+  small item down `NORTHSTAR.md`'s own "Explicitly not Phase 0" list before the much bigger
+  map-editor/PARENA-editor scope — founder's own "plus SKATE2" pitch had zero real movement-trick
+  mechanics until now. Real vertical physics are new (position was always ground-snapped every
+  tick before this) — new `PC_GRAVITY=12`/`PC_JUMP_VELOCITY=5`, tuned for this game's own real
+  world scale (~1-unit-high jump, ~0.83s hangtime at the real 4u/s walking pace), not a blind
+  unit-for-unit copy of `SHANKPIT_CONSTRUCT.txt`'s own `GRAVITY_DROP`/`JUMP_FORCE` (per-tick
+  deltas at an unstated real tick rate). What IS a real, faithful port: the construct's own
+  "PHASE 485: TUNED SLIDE JUMP" — a crouch+jump combo granting a real, temporary speed boost,
+  `boost_mult = clamp(1.0 + 0.25/speed, 1.02, 1.4)` (new `PARENA/stdlib/papercraft/
+  slide_jump_mod.prn`, I32 fixed-point, VS0 has no F32 params). PAPERCRAFT has no
+  persistent-momentum movement model — the real, honest equivalent is a timed multiplier window
+  (800ms) rather than folding into a velocity vector that doesn't exist. New `PC_BTN_CROUCH`
+  client input (Space=jump, LCtrl/LShift=crouch). Verified live: jumped a real player, confirmed
+  real airborne motion (`y` peaked at `65.92` against a `65.0` ground) — then, at real cruise
+  speed with crouch held and a fresh jump press, the server's own log confirmed the real trick
+  fired with the exact real PARENA-decided magnitude: `"Player slot 0 landed a real slide-jump
+  trick -- 1.06x speed for 800ms"`, matching `slide_jump_mod_test.c`'s own independently computed
+  expected value exactly. `bazel build/test //...` clean (14 targets, 6/6 mod tests). PARENA
+  commit `cc20940`. PAPERCRAFT commits `8865298`/`4ec343e`. Apple #16682.
