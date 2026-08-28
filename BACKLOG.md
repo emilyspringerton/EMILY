@@ -21171,7 +21171,11 @@ sudo-queue/26-install-jupyter-libzmq.sh (needs founder to run it, apt-get sudo r
   an admin-role holder assigns the `devportal` role from the Users page) — the portal is
   intentionally inert until this happens. Not something Claude Code can do unattended: real,
   singular admin judgment call — who gets this permission — the whole point of shipping it
-  ungated-by-default.
+  ungated-by-default. **Superseded as the near-term path by S203-01** (2026-08-28, founder
+  real-time: "we will fix oauth once we get some inertia on the portal with a regular iduna
+  login") — this Google/RBAC grant path stays real and still works exactly as described here, but
+  is no longer the blocking dependency for actually using the portal; still open/deferred, not
+  abandoned.
 
 - [ ] **S201-05: PARENA Jupyter kernel itself** — `stdlib/net/zmq.prn` (raw ZeroMQ FFI bindings,
   mirroring `net/tcp.prn`'s real-host-glue pattern) + host C glue in `parena_runtime.h` calling
@@ -23349,5 +23353,67 @@ routed through `emily observe` before being acted on, per Principle 18.*
   PARENA commit `e4e4afd`. Apple #16609.
 
 **Session pivot, same turn**: founder real-time direction (2026-08-28, after S202-71) — pivoting
-off self-hosted PARENA compiler work to SARENA/JEWEL dev-portal infrastructure work. See the new
-section logged below for the full real direction and scope.
+off self-hosted PARENA compiler work to SARENA/JEWEL dev-portal infrastructure work. See
+SECTION 203 below for the full real direction and scope.
+
+## SECTION 203: REAL IDUNA LOGIN FOR THE DEVELOPER PORTAL (2026-08-28)
+
+*Founder real-time direction, verbatim, in order, mid-PARENA-session (obs
+`2026-08-28T16-32-52Z`, Apple #16610): "continue working on SARENA and project JEWEL use the
+fatbaby proxy broker infrastructure to stand up the basic auth to work on it on the live server"
+-> "after this parena iteration" -> "get the developer portal working with iduna login instead
+of just the google oauth and iterate behind the notebook portal" -> "make it real" -> "make the
+whole thing real we will fix oauth once we get some inertia on the portal with a regular iduna
+login". Consolidated intent (later messages refine earlier framing): SECTION 201 shipped the
+portal's Google-only auth shell, but `devportal.access` was granted to nobody and Google sign-in
+itself is blocked on a human-only GCP Console step (see S201-04) — so the portal was
+functionally dead. This section makes it real via the OTHER, already-working auth system
+(`local_users` + bcrypt, S126-adjacent) instead of waiting on OAuth. "Fatbaby proxy broker
+infrastructure" maps onto the already-live nginx reverse proxy at
+`/etc/nginx/sites-available/okemily` (`/portal` -> `127.0.0.1:8080` already wired in both HTTP
+and HTTPS blocks) — no separate ProxyBroker component exists or was needed. "The live server" is
+this machine — IDUNA already runs here as a supervised `iduna.service` (systemd `--user`, owned
+by `fatbaby`).*
+
+- [x] **S203-01: `POST /portal/login` — real email+password sign-in against `local_users`.**
+  `PortalHandler` gained `Proj`/`Keys`/`Issuer` fields and a new `LocalLogin` method: parses an
+  HTML form, verifies via the same bcrypt-against-`local_users` check `LocalAuthHandler`
+  (`POST /api/v1/auth/local`) already used, then sets a real `HttpOnly` `iduna_session` cookie +
+  redirects — matching `AdminLoginHandler`'s own cookie-setting pattern (this is a browser form
+  post, not an API call, so a JSON token response would have been the wrong shape).
+  `portalLoginTmpl` now renders a real email/password form above the existing Google button —
+  "instead of just the google oauth" means Google stays present, it's just no longer the only
+  option; `main.go` wires the new route + handler fields once `userProj` exists. `local_auth.go`'s
+  `localUserPermissions()` now grants `devportal.access` to both real `local_users` accounts
+  (uid=0 webmaster, uid=1 eli) — the only functional grant path for local users, since their
+  permissions are hardcoded in Go rather than DB-driven (the Google/RBAC grant path from S201-04
+  stays real but wasn't touched — deliberately not in scope this pass). `go build`/`vet`/`test
+  ./...` all clean. IDUNA commits `d562551` (feature), `ee1ac7c` (changelog). Apple #16613.
+
+- [x] **S203-02: webmaster's `local_users` password reset — the old bcrypt hash was
+  unrecoverable.** Nobody had a real plaintext password for `webmaster@okemily.com` (uid=0)
+  before this; there was no working credential to actually exercise S203-01 with. Backed up
+  `var/iduna.db` first (`var/iduna.db.bak-20260828164118`), generated a new random 20-char
+  password + its bcrypt hash, wrote it directly into the live DB's `local_users.password_hash`.
+  New credential reported to the founder directly in this session's own final reply — never
+  committed, never written into this file or any Apple/CHANGELOG entry.
+
+- [ ] **S203-03: deploy — queued, needs founder to run as `fatbaby`.** Binary already rebuilt at
+  `~/.local/bin/iduna` (group-writable, `treeiii` can build it in place) but the restart itself is
+  a `systemctl --user` unit tied to `fatbaby`'s own session bus — not reachable from `treeiii` or
+  via `sudo` (same real constraint S201-era `sudo-queue/25-restart-iduna-for-session-fix.sh`
+  already documented). Queued at `sudo-queue/32-restart-iduna-for-portal-local-login.sh` — restarts
+  `iduna.service`, verifies the new form is live, and prints the exact `curl` smoke-test commands
+  to confirm end-to-end login (`Set-Cookie: iduna_session=...` on POST, a real tool-list page on
+  the follow-up GET). Not something Claude Code can run unattended — needs a real `fatbaby` shell.
+
+- [ ] **S203-04 (deferred, explicit): fix Google OAuth for the portal.** Founder, same breath as
+  approving this whole pivot: "we will fix oauth once we get some inertia on the portal with a
+  regular iduna login" — NOT in scope now. Revisit once S203-03 confirms the local-login path is
+  actually being used.
+
+- [ ] **S203-05 (possible follow-up, not yet confirmed in scope): JEWEL's own nginx Basic Auth
+  gate** (`sudo-queue/31-jewel-nginx-basic-auth.sh`) — "iterate behind the notebook portal" may
+  eventually mean routing JEWEL access through the portal's own real login instead of a separate
+  Basic Auth prompt, but this was not explicitly confirmed as in-scope for this pass. Flagged
+  here, not started.
