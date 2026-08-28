@@ -22171,3 +22171,41 @@ routed through `emily observe` before being acted on, per Principle 18.*
   the RTS half of "cards and all that" (deck building, mana/Flow economy, card-summoned troops),
   and Phases 3-6 of `docs/NORTHSTAR_MAP_EDITOR.md` (map data format, Map Editor tool, ECOWAR CLI
   on PARENA, mod-scaffolding workflow) — real content/design decisions, not guessed at here.
+
+- [x] **S202-44: ECOWAR — combat_log_mod wired end-to-end; real 1v1 kill-attribution bugfix.**
+  Continued founder real-time: "continue iterating on ecowar mechanics." `docs/ARENA_API.md`'s
+  own mod inventory table named a second real, confirmed gap alongside the card system: `PARENA/
+  stdlib/redgarden/combat_log_mod.prn` (real, complete PARENA source, recovered/committed a prior
+  session) had zero host-side C companions and nothing called it. Closed it the same "trigger
+  layer calls back into host C" shape every REDGARDEN mod already established: new
+  `ArenaCombatLogEntry` ring buffer (`arena_game.h`) + five `redgarden_host_log_*` functions
+  (`arena_game.c`), wired at their five real, existing call sites — `apply_damage_ex`'s kill
+  branch (hero-kill), `arena_shop_buy` (item-purchase), `arena_tick_nodes` twice (node-capture on
+  channel completion, node-uncapture on a rival channel starting over an owned node), and
+  `arena_tick_kings` (King spawn/respawn). `combat_log_mod.c` generated via the real `parena
+  build` CLI (not hand-written) and committed; added to every real build path this repo has
+  learned the hard way to check — `scripts/build.sh`, `build_arena.sh`, `build_training.sh`,
+  `test_arena.sh`, `packages/simulation/BUILD.bazel` (both `srcs` and the new `-include
+  combat_log_mod_host.h` line each script needed).
+  **Real bugfix found while verifying, not part of the original ask**: `resolve_combat` — the
+  actual 1v1 duel resolver `arena_update` (the primary game mode) calls every tick — passed a
+  real attacker to `apply_damage_ex`'s own `source_hero_id` PARAMETER (correctly used by the
+  existing damage log) but never set the SEPARATE `last_attacked_by_owner` STRUCT FIELD the
+  kill-bounty (Flow/XP/multikill) and now combat-log-kill logic actually reads, unlike every
+  other real melee/homing-shot site in this file. Meant every 1v1 kill — the most common way a
+  1v1 match actually ends — silently got neither Flow/XP kill-bounty nor (now) a HERO_KILL log
+  event, despite a real, known killer sitting right there in scope the whole time. Found by
+  writing a real live-kill test and getting a false negative; traced via direct instrumentation,
+  not guessed at. Fixed both directions (both hero-vs-hero attack branches now set the owner-slot
+  index, 0/1, before applying damage — no `arena_reward_owner()` clone resolution needed, 1v1 has
+  no puppet clones).
+  5 new real, live end-to-end tests (`tests/test_combat_log.c`, each driving its event through
+  the real call site, not a synthetic direct log push), registered in `test_arena.sh` and `tests/
+  BUILD.bazel`. `bazel build //...` clean; `bazel test //tests/...`: 17/18 (the 1 failure is the
+  pre-existing, unrelated `test_arena_replay` segfault this session's own earlier entries already
+  flagged). `docs/ARENA_API.md`'s mod inventory table updated — every real mod in this repo's
+  inventory is now **LIVE**, no more NOT-YET-WIRED/DEFINED-NOT-YET-CALLED rows.
+  ECOWAR commits `ec3951c`/`84d0f10`. Apple #16494.
+  **Still genuinely open**, same honest scope this whole session has held to: the RTS half of
+  "cards and all that" (deck building, mana/Flow economy, card-summoned troops), and Phases 3-6
+  of `docs/NORTHSTAR_MAP_EDITOR.md` — real, unscoped design decisions, not guessed at here.
