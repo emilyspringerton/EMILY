@@ -23221,3 +23221,59 @@ routed through `emily observe` before being acted on, per Principle 18.*
   struct-typed field nested inside a `with-arena`/`cond`/`match` body; `Vec`/enum-typed
   `defstruct` fields; general struct-literal construction for a user-defined `defstruct`.
   PARENA commit `a68e05c`. Apple #16603.
+- [x] **S202-69: PARENA — real struct-LITERAL construction support, closing the defstruct gap
+  pair.** Direct continuation of "continue" (2026-08-28, following "continue working on parena
+  self hosted compiler") — closes "general struct-literal construction for a user-defined
+  defstruct" — the OTHER of the two real gaps the defstruct section's own header comment named
+  since defstruct support first landed (S202-51) — struct-typed struct FIELDS (S202-62) was the
+  first, closed earlier the same day.
+  Mirrors `src/emit.c`'s own real map-literal handling (structural field-NAME-SET matching against
+  every registered defstruct, no real type-context threading) but scoped MUCH narrower: rather
+  than supporting a struct literal in ANY expression position (which would need
+  `known-struct-nodes` threaded through this whole file's own general `emit-form`/`emit-call-arg`/
+  `emit-let-value` recursive machinery — a genuinely much bigger undertaking, the same class of
+  "invasive general threading" already declined for struct-typed tail-position/let-value support),
+  this checks ONLY the one case where the needed registry is already naturally at hand without
+  threading it anywhere new: a defn whose OWN declared return type is an already-registered struct
+  AND whose ENTIRE body is exactly one map-literal matching that struct's own real field set
+  exactly — `emit-defn` special-cases this the SAME way it already special-cases
+  `struct-returning-get-field-body?` (S202-65).
+  Real, deliberate emission choice: a C99 compound literal (`(Point){x, y}`, positional, matching
+  the struct's own DECLARED field order) rather than the reference compiler's own real
+  `Point_new(x, y)` positional-constructor-FUNCTION convention — a real, valid, standard C99
+  construct (not a GNU extension), avoiding the need to ALSO generate a whole new constructor
+  function per struct. `struct-prepass` widened to build a SECOND, parallel registry
+  (`known-struct-nodes : Vec Node`) holding each registered struct's own RAW defstruct AST node,
+  threaded through `emit-program`/`emit-defn` — a small, 3-function-touching change, NOT the
+  whole-file threading declined above.
+  **Found and fixed a real, live type-mismatch, confirmed via a direct probe, while building
+  this**: `Option Node`/deref-based lookups repeatedly failed real gcc compiles — the reference
+  compiler's own real `deref` needs a concrete, DECLARED variable type to hook its own type
+  inference into, which a bare `Option Node` match clause's own value position doesn't reliably
+  provide (defaulted to a bogus generic `void *` in one spot). Redesigned around plain I32 INDEXES
+  (-1 for "not found") into the parallel registries instead — every real caller looks the actual
+  node up directly via `vec/get`, never needing `Option`-of-struct boxing/deref at all. A second
+  real, confirmed-live gap found the same way: a struct literal that DOESN'T match any registered
+  struct used to fall through `emit-form`'s own final catch-all into a genuine `return ;` on a
+  non-void function — still an honest COMPILE FAILURE, but with a generic gcc message rather than
+  this file's own established, real `#error`-PREPROCESSOR-directive convention every other
+  unsupported shape already gets — fixed with a new, dedicated `map-literal-shaped?` clause in
+  `emit-form` emitting a real, named `#error` instead.
+  7 new tests (`tests/test_selfhost_emit.c`): structural checks confirming no `#error` for the
+  real case and the correct, REORDERED `(Point){x, y}` compound literal (the source map literal's
+  own keys deliberately written `{:y y :x x}`, y first — proving real field-order resolution, not
+  a lucky positional match), plus a real compile+run+assert check (`tests/integration/
+  driver_struct_literal.c`) proving the real construction produces the correct struct value on
+  multiple real inputs including negative ones, PLUS a direct negative test proving a field-
+  mismatched literal now gets the real, honest, NAMED `#error` instead of the old generic
+  empty-return fallback.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; an I32-typed BARE-SYMBOL `Ok`/`Err`/`Some` payload; `cond`/`match`
+  as a call argument (by design, not attempted); a STRUCT-typed field used as a let-value; a
+  struct-typed field nested inside a `with-arena`/`cond`/`match` body; `Vec`/enum-typed
+  `defstruct` fields; a struct literal in ANY position other than a defn's own entire body (a
+  let-value, a call argument, nested inside `with-arena`/`cond`/`match`); a struct-literal field
+  itself holding a freshly-constructed Result/Option value.
+  PARENA commit `7d1ba5e`. Apple #16605.
