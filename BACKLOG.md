@@ -22929,3 +22929,35 @@ routed through `emily observe` before being acted on, per Principle 18.*
   emitted; `defstruct` fields typed as another struct/`Vec`/enum; general struct-literal
   construction for a user-defined `defstruct`.
   PARENA commit `8b6b776`. Apple #16577.
+- [x] **S202-61: PARENA — real forward-prototype support, closing the "callee must textually
+  precede its own caller" gap named repeatedly the same day.** Direct continuation of "continue
+  working on parena self hosted compiler" (2026-08-28) — several of this same day's own earlier
+  test fixtures (S202-58's own nested-alloc test, S202-59's own string-literal test) had to
+  reorder their own functions (callee before caller) specifically to work around this, since
+  `emit-program` used to emit NO prototypes at all.
+  New `emit-defn-prototype` reuses the EXACT SAME real signature-building pieces `emit-defn`'s own
+  body already does (`mangle`/`emit-params`/`defn-c-return-type`) — a prototype is just that same
+  signature text followed by `;` instead of a real `{ body }` block, no new type-resolution logic
+  needed. `emit-program` now runs a real prototype pre-pass (`emit-prototypes`) over every
+  top-level defn BEFORE any function bodies, matching the C reference emitter's own real,
+  established convention (`build_defn_prototype`) of emitting one unconditionally for EVERY defn
+  — not just the ones a real dependency analysis would say actually need one, the same "simpler
+  and safer than tracking real call-graph order" tradeoff this whole codebase already embraces
+  elsewhere.
+  5 new tests (`tests/test_selfhost_emit.c`): structural checks confirming both a caller's own
+  real prototype AND its callee's own prototype are both emitted, PLUS a real
+  compile+run+assert check (`tests/integration/driver_forward_ref.c`) proving a real 2-function
+  program written in CALLER-BEFORE-CALLEE order (`make-buf`, which calls `wrap-buf`, defined
+  FIRST — the EXACT ordering that used to trigger a real gcc "implicit declaration of function"
+  error) now compiles clean and computes the correct value.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean (including the multi-file `build-files` domain's own real
+  negative case — `b.prn` alone still genuinely fails without `a.prn`, since `emit-prototypes`
+  only emits prototypes for defns that actually exist in the given program, confirming this
+  change doesn't accidentally paper over real cross-file resolution gaps).
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; a match clause body that needs the payload beyond a bare-symbol
+  tail; an I32 (or any other non-pointer-shaped) `Ok`/`Err`/`Some` payload; `cond`/`match` as a
+  call argument (by design, not attempted); `defstruct` fields typed as another struct/`Vec`/enum;
+  general struct-literal construction for a user-defined `defstruct`.
+  PARENA commit `3707199`. Apple #16583.
