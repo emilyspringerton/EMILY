@@ -23033,3 +23033,39 @@ routed through `emily observe` before being acted on, per Principle 18.*
   non-get-field nested call as a get-field target; `Vec`/enum-typed `defstruct` fields; general
   struct-literal construction for a user-defined `defstruct`.
   PARENA commit `e940abd`. Apple #16591.
+- [x] **S202-64: PARENA — real struct-return-type support PLUS a non-get-field nested call as a
+  get-field target, closed together.** Direct continuation of "continue working on parena self
+  hosted compiler" (2026-08-28) — closes two of S202-63's own still-open gaps at once, since they
+  turned out to be naturally paired: a function returning a registered struct BY VALUE is the
+  real, motivating reason a get-field target ever needs to accept a plain function call in the
+  first place.
+  `defn-c-return-type` widened (now taking `known-structs`/`dest`, both already available at its
+  own 2 real call sites, `emit-defn`/`emit-defn-prototype`) to recognize a declared return type
+  naming an ALREADY-REGISTERED struct, the same by-value convention `param-c-type`/
+  `struct-field-c-type` already established for these two positions — needed for the same real
+  reason `Result`/`Option` needed it (S202-56): a function whose whole body is a bare struct-typed
+  param passed straight through (`(defn identity-point [(p : Point)] : Point p)`) produces a real
+  `Point` C struct value via `emit-tail-symbol`'s own unboxed `return p;`, correct ONLY when the
+  function's own declared C return type is ALSO `Point`, not the pre-existing `char *` default.
+  `get-field-shaped?`/`emit-get-field` widened again (this function's own THIRD real widening the
+  same day, after S202-51's bare-symbol original and S202-63's nested-get-field) to accept a
+  `plain-call-shaped?` target too — emits via the SAME real `emit-plain-call` this file already
+  trusts everywhere else, composing `(identity_point(p)).x`. Makes `get-field-shaped?` real,
+  terminating mutual recursion with `plain-call-shaped?`/`every-call-arg-symbol-or-number?` (which
+  itself already calls `get-field-shaped?` on its own call arguments) — safe since every recursive
+  call here strictly descends into a smaller child subtree of a real, finite parsed `Node` tree.
+  7 new tests (`tests/test_selfhost_emit.c`): structural checks confirming the real, concrete
+  `Point` return type, the correct unboxed `return p;`, and the real `(identity_point(p)).x`
+  composition, plus a real compile+run+assert check (`tests/integration/
+  driver_struct_return_type.c`) proving a real struct value genuinely round-trips through a real
+  by-value function return and a real get-field read on multiple real inputs including a negative
+  value, not just that gcc accepts the generated text.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; a match clause body that needs the payload beyond a bare-symbol
+  tail; an I32 (or any other non-pointer-shaped) `Ok`/`Err`/`Some` payload; `cond`/`match` as a
+  call argument (by design, not attempted); a struct-typed field used as a tail-position return;
+  `Vec`/enum-typed `defstruct` fields; general struct-literal construction for a user-defined
+  `defstruct`.
+  PARENA commit `7c93f70`. Apple #16596.
