@@ -2185,6 +2185,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS NORTHSTAR pivot to racer-first, built on the pre-EINHORN-pivot ('pure fartc…** — obs `2026-08-28T16:58:57Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: decided to spin up PAPERCRAFT as a real NEW repo right away, grounded in the same SHANKPIT_CONSTRUCT…** — obs `2026-08-28T17:46:43Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: named the skateboard repo's own pre-existing NORTHSTAR.md project 'Papercraft' -- 'papercraft' -> 't…** — obs `2026-08-28T17:45:19Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: 'make sure to tie parena mods deep in as we go' -- reinforces the standing 'mods first everything' p…** — obs `2026-08-28T20:50:43Z`. CURATED: 2026-08-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
