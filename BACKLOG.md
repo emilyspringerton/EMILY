@@ -22371,3 +22371,32 @@ routed through `emily observe` before being acted on, per Principle 18.*
   call arguments generally (shared with S202-47's own still-open item); `defstruct` still not
   walked at the top level at all.
   PARENA commit `1d71d0a`. Apple #16504.
+
+- [x] **S202-49: PARENA — real `or`/`and`/`not` compound `cond` test support.** Direct
+  continuation of "continue working on parena self hosted" / "removing c ffi when possible" —
+  picked the first of the two real exclusions S202-48's own entry explicitly named as still open
+  (`or`/`and`/`not` compound tests; plain-call-shaped predicate calls remain the other, still open).
+  New, real, RECURSIVE boolean-expression sub-language — `bool-expr-supported?`/`emit-bool-expr`,
+  replacing the narrower `cond-test-supported?`/`emit-cond-test` those functions' own names no
+  longer honestly described once this landed. `or`/`and` (binary — this codebase's own real "nest
+  pairs, not N-ary" convention, confirmed via `is-close-token?`'s own real body) and `not` (unary),
+  each recursively composing further real comparisons or bool-expr sub-expressions —
+  `(or (= n 1) (= n 3))` now emits real `((n == 1) || (n == 3))`.
+  Deliberately does NOT generalize to arbitrary nested calls as call arguments (S202-47's own
+  still-open, genuinely harder gap) — a boolean/test-context expression sidesteps that entirely: it
+  never crosses this emitter's own `char*`-boxing boundary at all, a real C `if`/`||`/`&&`/`!` just
+  wants a raw `int`, the same as every comparison test already did before this change. This is the
+  real reason `or`/`and`/`not` were tractable as a same-day, narrow-scope follow-up rather than
+  needing the full nested-call-argument machinery first.
+  2 new tests (`tests/test_selfhost_emit.c`, 25 total for domain 4), same discipline this whole arc
+  has held to throughout: structural assertions on the generated `||`/`&&`/`!` text, AND a real
+  compile+run+assert-across-7-real-branches check (`tests/integration/driver_bool_expr.c` — both
+  sides of the `or`, both sides of the `and`, the `not`, and the final `true` fallback) — since
+  generated C that merely compiles is not proof the real boolean logic branches correctly. Zero
+  regressions: full local suite (336 tests) + all 6 selfhost test binaries + `bazel build //...`
+  all clean.
+  **Real, honest, still-open scope**: `match` itself (defenum tag dispatch); `cond` as a non-tail
+  value (the genuinely hard architectural case); a plain-call-shaped predicate function call as a
+  `cond` test (e.g. `(is-symbol? node "defn")` — needs Bool-return boxing/unboxing, not attempted);
+  nested calls as call arguments generally; `defstruct` still not walked at the top level at all.
+  PARENA commit `3ab6f8f`. Apple #16506.
