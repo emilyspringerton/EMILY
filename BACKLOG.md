@@ -22326,3 +22326,48 @@ routed through `emily observe` before being acted on, per Principle 18.*
   not walked at the top level at all (no `typedef struct` emission, no `get-field`/struct-literal
   support for code the selfhost emitter is ASKED to compile).
   PARENA commit `7254e74`. Apple #16502.
+
+- [x] **S202-48: PARENA — real tail-position `cond` support, closing the single largest remaining
+  self-hosting gap.** Direct continuation of "continue working on parena self hosted" / "removing
+  c ffi when possible" — picked the gap S202-47's own entry itself flagged as "the single largest
+  remaining gap": `match`/`cond` had no dispatch anywhere in `emit-form` at all.
+  `region.prn`'s own `handle-symbol-headed-call` header comment already named the real,
+  architectural reason a NON-tail `match`/`cond` (a let-binding's own value, a plain sub-
+  expression) is genuinely hard: real value production is fundamentally STATEMENT-shaped (real
+  if/else blocks), which can't embed inside a single C expression/ternary without something like
+  GCC's own statement-expression extension — genuinely incompatible with this repo's `-std=c99
+  -pedantic` discipline. But in TAIL position — exactly where `emit-form` itself dispatches from
+  — a real if/else-if/else chain is genuinely tractable: every clause's own result is already a
+  complete STATEMENT (a `return`, via `emit-form` itself, recursively) once wrapped, no
+  expression-position value needed at all. This is the real insight that made the "single largest
+  remaining gap" tractable within one real, honest, narrow-v0 increment rather than the multi-
+  session undertaking it first looked like.
+  New `cond-call-shaped?`/`emit-cond`/`emit-cond-clauses`/`emit-cond-test`, wired into `emit-form`
+  ONLY — deliberately never `emit-let-value`, since a `cond` as a let-binding value IS the hard,
+  non-tail case above, not attempted. Real, honest, narrow v0 scope: `match` itself (defenum tag
+  dispatch, needs a real tag registry this emitter doesn't have) is NOT attempted, `cond` only. A
+  test is a real `binary-op-call-shaped?` comparison, a bare symbol (referenced truthily), or the
+  literal `true` — `or`/`and`/`not` compound tests and plain-call-shaped predicate calls are real,
+  separate, not attempted (falls back honestly to the pre-existing fallback, never a wrong guess).
+  The LAST clause MUST be `(true ...)` — this codebase's own real, universal `cond` convention
+  already, and the only way this narrow v0 can guarantee the emitted chain is provably exhaustive
+  (a real, separate "control reaches end of non-void function" problem otherwise) — a `cond`
+  missing it is deliberately NOT treated as `cond-call-shaped?` at all, verified via a real
+  negative-case test.
+  **A fifth gap found and fixed while verifying, not part of the original ask**: a bare NUMBER
+  LITERAL as a tail-position result (any `cond` clause's own `10`, or any defn whose whole body
+  is just a literal) hit the exact same unboxed-`int`-into-`char*` problem `emit-i32-boxed`
+  already exists to fix for binary-op results — S202-47's own fix, reached via a different,
+  previously-unexercised path (a bare number literal falling through `emit-tail-symbol`). Same
+  fix, one new `emit-form` dispatch clause.
+  4 new tests (`tests/test_selfhost_emit.c`, 23 total for domain 4), same discipline this whole
+  arc has held to: structural assertions on the generated if/else-if/else text, AND a real
+  compile+run+assert-on-ALL-THREE-BRANCHES check (`tests/integration/driver_cond.c`) — since a
+  `cond` that merely compiles is not proof the real branches are correct — plus a real negative
+  case confirming the no-trailing-`true` guard actually works. Zero regressions: full local suite
+  (336 tests) + all 6 selfhost test binaries + `bazel build //...` all clean.
+  **Real, honest, still-open scope**: `match` itself; `cond` as a non-tail value (the genuinely
+  hard architectural case); `or`/`and`/`not` and predicate calls as a `cond` test; nested calls as
+  call arguments generally (shared with S202-47's own still-open item); `defstruct` still not
+  walked at the top level at all.
+  PARENA commit `1d71d0a`. Apple #16504.
