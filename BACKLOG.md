@@ -2187,6 +2187,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: named the skateboard repo's own pre-existing NORTHSTAR.md project 'Papercraft' -- 'papercraft' -> 't…** — obs `2026-08-28T17:45:19Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: 'make sure to tie parena mods deep in as we go' -- reinforces the standing 'mods first everything' p…** — obs `2026-08-28T20:50:43Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment (Phase 2, following…** — obs `2026-08-28T21:54:50Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: trick/skate input …** — obs `2026-08-28T22:20:06Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: "c" (continue) -- keep building PAPERCRAFT. Next real, appropriately-sized increment: persistence ac…** — obs `2026-08-28T22:13:36Z`. CURATED: 2026-08-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
