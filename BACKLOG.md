@@ -23744,3 +23744,19 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   *effects* (`progression_apply_bonuses`'s own move-speed boost, passive regen, cooldown
   reduction) still real, later work — this wires the real spending decision only. PAPERCRAFT
   commits `d130846`/`3c9acce`. Apple #16662.
+
+- [x] **S206-09: real MOVE-stat gameplay effect, measured live at exactly 1.035x.** Closes the
+  last real gap S206-08 flagged — a talent point changed a number, not gameplay, until now. New
+  `PARENA/stdlib/papercraft/stat_effects_mod.prn` → `on-papercraft-move-speed-boost-permille`
+  ports the real construct formula (`progression_apply_bonuses`: `boost = 1.0 + 0.035 *
+  move_rank`) as I32 fixed-point permille (VS0 has no F32 params yet, same real ceiling every
+  other mod in this monorepo respects); `apps/server`'s real movement tick now scales
+  `PC_MOVE_SPEED` by the real mod's own result every tick instead of a flat constant. Verified
+  live with a real UDP probe measuring actual distance covered per real second: baseline
+  movement, then a real level-up + real MOVE allocation, then boosted movement — the measured
+  speed ratio came back **1.0350**, exactly matching the real construct formula, not
+  approximately. The other four construct stats (vitality/handling/shield/storm) stay real,
+  honest, deferred — no health/shield/cooldown systems exist yet to attach them to; documented as
+  such in `NORTHSTAR.md` rather than silently skipped or fabricated. `bazel build/test //...`
+  clean (5/5 mod tests pass, both real binaries build and link). PAPERCRAFT commits
+  `a1178a1`/`e8bc3e2`. PARENA commit `5487eb3`. Apple #16667.
