@@ -22813,3 +22813,36 @@ routed through `emily observe` before being acted on, per Principle 18.*
   as a call argument; `defstruct` fields typed as another struct/`Vec`/enum; general struct-literal
   construction for a user-defined `defstruct`.
   PARENA commit `d162f2c`. Apple #16565.
+- [x] **S202-58: PARENA — real nested-`alloc`-call-as-a-call-argument support (`(f (alloc dest
+  String "lit"))`).** Direct continuation of "continue working on parena self hosted compiler"
+  (2026-08-28) — closes the ONE real exclusion S202-57's own still-open list explicitly named.
+  Turned out not to be a real obstacle: `alloc-call-shaped?`/`emit-alloc-call` already take the
+  exact same `scope`/`dest` every other expression emitter in this file does, and the target
+  Arena is always named EXPLICITLY in `alloc`'s own syntax — nothing about being called from a
+  call-argument position instead of a let-value/tail position changes what Arena it targets.
+  `emit-alloc-call`'s own real return (`arena_strdup(...)`) is always pointer-shaped (`char *`),
+  so — like get-field/plain-call, unlike binary-op — there's no boxing ambiguity at this position
+  either. `every-call-arg-symbol-or-number?` gained a 4th accepted shape; `emit-call-arg` gained
+  the matching `alloc-call-shaped?` -> `emit-alloc-call` dispatch clause.
+  The crash-regression fixture that had already moved once this same day (S202-57: from "nested
+  call" to "nested alloc call" as its own negative case) moved a SECOND time, to a genuinely
+  different still-unsupported shape: a raw STRING LITERAL as a call argument (`(f "lit")`) — no
+  shape guard in this file accepts kind `NString` at all yet, a real, separate, not-yet-attempted
+  gap. New positive coverage (structural + a real compile+run+assert check, `tests/integration/
+  driver_nested_alloc.c`) proves a real 2-function program — the second passing a nested `alloc`
+  call as its one argument to the first — emits no `#error`, nests the call INLINE in the
+  generated C, compiles clean, and genuinely allocates the correct real string into the correct
+  Arena at runtime, not just compiles.
+  Also confirmed, in passing (not fixed): a real, separate, pre-existing limitation the test's own
+  fixture had to work around — `emit-program` emits no forward prototypes at all, so a callee must
+  textually precede its own caller for generated multi-function C to compile. Unrelated to this
+  feature, flagged honestly rather than silently worked around without mention.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; a match clause body that needs the payload beyond a bare-symbol
+  tail; an I32 (or any other non-pointer-shaped) `Ok`/`Err`/`Some` payload; a raw string literal
+  as a call argument; no forward prototypes emitted (a callee must textually precede its caller);
+  `defstruct` fields typed as another struct/`Vec`/enum; general struct-literal construction for a
+  user-defined `defstruct`.
+  PARENA commit `5d3fa47`. Apple #16569.
