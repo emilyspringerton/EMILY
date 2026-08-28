@@ -23691,3 +23691,19 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   throughout. No client yet — server-side only; rendering a real voxel city is real, separate,
   next work. `bazel build/test //...` clean (4/4 mod tests still pass, real server binary
   builds). PAPERCRAFT commits `1d940a4`/`7148e03`. IDUNA commit `0b99a32`. Apple #16654.
+
+- [x] **S206-06: real Phase 0 client — login, real city rendering, verified visually.** Closes
+  the "No client yet" gap S206-05 left open, completing Phase 0's own full real loop the same
+  session. `apps/client`: real login screen (ported from `WEAKNIGHT_BEDROCK_RACERS`' own
+  GFD-sourced pattern) → real ticket mint (`POST /api/v1/papercraft/ticket`, no queue step at
+  all — straight from mint to CONNECT) → real UDP CONNECT → fetches the same real, live
+  `worldapi` city chunk the server itself spawns players onto and renders every real block as a
+  real cube → real chase camera following the server's own real snapshot position. Verified live
+  end-to-end under Xvfb with real screenshots, not just log lines: real sky, real grey concrete
+  ground extending to a real horizon, the player's own marker standing on it. Found and fixed a
+  real visual bug from the first screenshot: the player marker only drew 3 of 6 box faces (no
+  backface culling enabled, wrong face showed through from behind) — fixed to a real, complete
+  6-face box, same quality bar `WEAKNIGHT_BEDROCK_RACERS`' own vehicle box already holds.
+  `bazel build/test //...` clean (4/4 mod tests still pass, both real binaries build). Phase 0's
+  full bar — login, spawn, movement, real rendering — is now genuinely, visibly real end to end.
+  PAPERCRAFT commits `18257b5`/`494a856`. Apple #16657.
