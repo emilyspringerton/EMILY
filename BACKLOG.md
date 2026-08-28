@@ -23467,9 +23467,29 @@ duplicated here in full.*
   ("if they help i dunno"). WEAKNIGHT_BEDROCK_RACERS commits `692c73e` (NORTHSTAR/CLAUDE.md),
   `ff93529` (changelog). Apple #16618.
 
-- [ ] **S204-03: Phase A itself — from-scratch city + two-vehicle driving core, PARENA embedded
-  from day one.** Not started; this section is the spec, not the implementation. Next real
-  milestone once picked up.
+- [x] **S204-03 (first real slice): real BIKE vehicle archetype, gear selection decided by a real
+  PARENA-compiled function.** The actual "PARENA embedded from day one" proof point: a new
+  `racer/bike-gear-mod` PARENA module (`PARENA/stdlib/racer/bike_gear_mod.prn`, real I32-only
+  `on-racer-bike-gear-shift` decision logic, following ECOWAR's own established scalar-in/
+  scalar-out mod ABI — `ECOWAR/docs/ARENA_API.md`) compiled via the real `parena build` CLI into
+  `packages/simulation/bike_gear_mod.c` (generated, committed). New `racer_bike_tick`
+  (`packages/common/racer_vehicle.h`): a real 5-speed BIKE archetype — faster overall than the
+  existing flat-rate BUGGY model but gear-limited off the line, gear picked by the compiled
+  PARENA function every tick — the real "2 different gears in a car almost" feel the pivot is
+  grounded in, freshly authored for this repo's own world scale (not ported numbers, per
+  NORTHSTAR's own "start from scratch" call). Server's slot 0 (human) now spawns on BIKE; bots
+  stay on the unchanged BUGGY model. Wire protocol gained `vehicle_type`/`gear` fields. Verified
+  live end-to-end with a standalone UDP probe: real 1→2→3→4→5 upshifts under sustained full
+  throttle, topping out exactly at the tuned top speed, fully server-authoritative. Also landed
+  this same session: a real Bazel build (`bazel build //...`, founder: "make sure the whole
+  thing is built with bazel") — `MODULE.bazel`/`BUILD.bazel` for every real package/app, same
+  precedent PARENA/ECOWAR already established, verified building and running identically to the
+  gcc path. PARENA commit `65612b0`. WEAKNIGHT_BEDROCK_RACERS commits
+  `9e3ceca`/`4d4cfcd`/`f576ce7`/`2f5e277`. Apples #16626/#16628. Deploy queued:
+  `sudo-queue/34-restart-racer-server-for-bike-gear.sh`. **Still open, Phase A's own real
+  remaining scope**: the from-scratch city map itself (still Phase 0's single worldapi Meadow
+  chunk); the BUGGY archetype getting its own real from-scratch tuning pass (currently unchanged
+  Phase 0 numbers); PARENA reaching beyond this one gear-shift decision into more of the core.
 
 - [x] **S204-04 (first real slice): real IDUNA login → matchmaking queue → HMAC connect-ticket
   → verified UDP connect, replacing Phase 0's anonymous connect.** Founder real-time: "build
