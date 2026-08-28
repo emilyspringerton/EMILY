@@ -23905,7 +23905,7 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `NORTHSTAR.md`'s own "longer-arc modding vision" section updated to link `MODDING.md` and
   honestly separate what's real today (the pipeline) from what's still real, later work (dynamic
   loading, an embedded in-game PARENA editor, live-server reload) — closes out the last real item
-  on `NORTHSTAR.md`'s own scope list for this session. PARENA-MODDING... PAPERCRAFT-MODDING
-  golden-doc row added to `EMILY/context/golden-docs-index.md`, PAPERCRAFT-PAPERENGINE's own row
-  refreshed to reflect the paper engine being live-wired now. PARENA commit `b5f93ad`. PAPERCRAFT
-  commits `66bf592`/`104950c`. Apple #16689.
+  on `NORTHSTAR.md`'s own scope list for this session. PAPERCRAFT-MODDING golden-doc row added to
+  `EMILY/context/golden-docs-index.md`, PAPERCRAFT-PAPERENGINE's own row refreshed to reflect the
+  paper engine being live-wired now. PARENA commit `b5f93ad`. PAPERCRAFT commits
+  `66bf592`/`104950c`. Apple #16689.
