@@ -21182,9 +21182,38 @@ sudo-queue/26-install-jupyter-libzmq.sh (needs founder to run it, apt-get sudo r
   disclosure, matching this session's own security-change discipline (SECTION 200's disclosure-
   before-fix precedent). Not started.
 
-- [ ] **S201-07: SARENA_NOTEBOOK's own custom GUI** (HTML-first, SDL2-native second, `libplot`
-  integration, TYLER-style title cards, built-in note rendering) — explicit, later phase per
-  founder ("html first", "SDL native second"). Not started, not the current focus.
+- [x] **S201-07: SARENA_NOTEBOOK's own custom GUI — real v0 shipped (2026-08-28).** Founder
+  real-time: "continue working on SARENA notebook" -> "the notebook like jupyter but for parena"
+  -> "docs are somewhere" -> "in backlog maybe". Wrote `JEWEL/docs/NORTHSTAR_SARENA_NOTEBOOK.md`
+  (registered as SARENA-NORTH) and shipped the real HTML-first v0 it scopes: a single, self-
+  contained static frontend (`JEWEL/notebook/index.html`) implementing the real Jupyter Server
+  REST+WebSocket protocol against JEWEL's own already-live kernel — real kernel session creation,
+  real `execute_request` per Run click, real `stream`/`error`/`execute_reply` messages routed by
+  `msg_id`. TYLER-style title-card styling grounded in the actual episode scripts (grepped for
+  real occurrences of `TITLE CARD (white text, black field)`, not invented). Code cells + real
+  markdown NOTE cells (hand-rolled minimal renderer, no CDN dependency) per the founder's own
+  explicit "note rendering built in" ask. `localStorage` persistence for v0.
+  **Verified end-to-end against the real, live kernel, not a mock**: wrote a Python client
+  replicating the exact same message shapes the browser JS constructs, including the real Jupyter
+  Server XSRF cookie/header handshake (found live: a bare POST 403s without it — the cookie is
+  only set by an actual HTML-rendering response, not the bare JSON `/api` endpoint). This caught
+  and fixed two real bugs in the frontend before they'd have been silent failures in a real
+  browser: missing XSRF handling, and the placeholder example cell using a `main` entry point
+  instead of the real `cell-main` convention `jewel_kernel.py` actually expects. Confirmed: real
+  PARENA source compiled+ran, real stdout round-tripped back correctly.
+  **Deployed**: new `sarena-notebook.service` (127.0.0.1:8891, same real "broker is the auth gate"
+  shape `jewel-jupyter.service` already establishes) + a new `/sarena/` route in
+  `gpt2-alpine-c/config/broker-routes.json` (reuses JEWEL's own Basic Auth credentials) + a
+  matching nginx location in `OKEMILY/ops/nginx-okemily.conf` (queued, rides the same pending
+  `/jewel/` deploy — `sudo-queue/31-jewel-nginx-basic-auth.sh` already deploys this exact file) +
+  IDUNA's own portal row updated from "Not yet built" to a real, live link. `go build`/`go test`
+  clean (IDUNA), CI green (IDUNA run `33139775294`).
+  JEWEL commit `f697c89`, gpt2-alpine-c commit `b5658b7`, OKEMILY commit `94855dd`, IDUNA commit
+  `216914b`. Apple #16528.
+  **Explicitly deferred, not guessed at**: `libplot` integration (a real rich-display MIME-type
+  `execute_result`), SDL-native rendering (founder's own explicit "html first... SDL native
+  second" sequencing), server-side notebook persistence (a real save-to-disk format beyond v0's
+  `localStorage`).
 
 - [x] **S201-08: new IDUNA admin agent BOOTS3 + portal login linked from OKEMILY footer.**
   Founder real-time: "give me a new agent admin login for okemily this time i need it put into a
