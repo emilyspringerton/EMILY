@@ -22846,3 +22846,43 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `defstruct` fields typed as another struct/`Vec`/enum; general struct-literal construction for a
   user-defined `defstruct`.
   PARENA commit `5d3fa47`. Apple #16569.
+- [x] **S202-59: PARENA — real string-literal-as-a-call-argument support (`(f "lit")`) + found
+  and fixed a real, live, silently-wrong-C bug in `and`/`or`/`not` argument handling.** Direct
+  continuation of "continue working on parena self hosted compiler" (2026-08-28) — closes the "no
+  literals" half of a gap named since the very first binary-op/plain-call work (number literals
+  were closed same-day back then; strings stayed open until now). New `emit-string-literal`
+  re-wraps the literal's own real, already-DECODED `:text` in C double-quotes — the SAME real,
+  honest, no-re-escaping convention `emit-alloc-call`'s own literal argument already relies on
+  (this file's own lexer decodes escapes at LEX time, so a literal with a real embedded quote/
+  backslash/newline byte isn't round-tripped correctly here either — not a new limitation).
+  **Found and fixed a real, live, silently-wrong-C bug while verifying** (confirmed via a direct
+  probe, not guessed): `(f (and b b))` — a real boolean expression used as a call argument — was
+  silently emitting `f(and(b, b))`, a genuine call to a NEVER-DEFINED C function named `and`,
+  instead of the correct real boolean logic or an honest `#error`. Root cause: `plain-call-shaped?`
+  never excluded `or`/`and`/`not` from its own name checks the way `alloc` and every
+  `binary-op-symbol?` name already are — harmless as long as `plain-call-shaped?` was only ever
+  reachable from the WHOLE-body/let-value dispatch (where `or-and-shaped?`/`not-shaped?` are always
+  checked FIRST), but S202-57's own nested-call-as-a-call-argument widening made `plain-call-
+  shaped?` itself decide whether a NESTED argument is supported too — a position `or-and-shaped?`/
+  `not-shaped?` were never wired into at all, so this exact collision could only fire from THERE,
+  and only started being reachable once that widening landed. Fixed with a new `bool-op-symbol?`
+  exclusion, the same shape `alloc`'s own exclusion already established — `(and b b)` as a call
+  argument now correctly falls through to a clean `#error` (bool-expr composition still isn't
+  wired into `emit-call-arg` at all, a real, separate, not-yet-attempted gap) instead of silently
+  wrong C.
+  6 new tests (`tests/test_selfhost_emit.c`): the crash-regression fixture moved a THIRD time
+  (string literal — no longer unsupported — to a real `or`/`and` boolean expression, the fix
+  above's own negative-test proof), plus new positive coverage (structural + a real
+  compile+run+assert check, `tests/integration/driver_string_literal_arg.c`) proving a real
+  2-function program — the second passing a raw string literal as an argument to the first — emits
+  no `#error`, re-quotes the literal correctly, compiles clean, and genuinely returns the correct
+  string at runtime.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; a match clause body that needs the payload beyond a bare-symbol
+  tail; an I32 (or any other non-pointer-shaped) `Ok`/`Err`/`Some` payload; `or`/`and`/`not` as a
+  call argument; no forward prototypes emitted (a callee must textually precede its caller);
+  `defstruct` fields typed as another struct/`Vec`/enum; general struct-literal construction for a
+  user-defined `defstruct`.
+  PARENA commit `f5c2c3b`. Apple #16571.
