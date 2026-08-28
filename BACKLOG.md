@@ -2190,6 +2190,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: trick/skate input …** — obs `2026-08-28T22:20:06Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: "c" (continue) -- keep building PAPERCRAFT. Next real, appropriately-sized increment: persistence ac…** — obs `2026-08-28T22:13:36Z`. CURATED: 2026-08-28.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: a real, minimal ma…** — obs `2026-08-28T22:30:31Z`. CURATED: 2026-08-28.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Last real item on NORTHSTAR.md's scope list: the embedded PA…** — obs `2026-08-28T22:46:19Z`. CURATED: 2026-08-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -23880,3 +23881,31 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   targets, 6/6 mod tests). Honest scope note: offline CLI only, not yet graphical/live-server;
   the much bigger embedded in-game PARENA editor + compile-and-connect vision remains real, later
   work. PAPERCRAFT commits `14d7e82`/`094204d`. Apple #16686.
+
+- [x] **S206-15: real MODDING.md, verified end-to-end with a brand-new mod.** Founder: "build the
+  parena editor in and the whole parena language so someone could mod it and then compile and
+  start a server on their local and connect to it." Real finding: the underlying source-level
+  pipeline this describes already existed (proven 5x this session writing real mods) — what was
+  actually missing was a real, verified, step-by-step guide, not new functionality. New
+  `PAPERCRAFT/MODDING.md` walks: build the real `parena` compiler (`PARENA`'s own `make`) → write
+  a real `.prn` mod → `parena build` it → wire it into `apps/server` (three real, small edits,
+  shown verbatim) → `bazel build`/raw `gcc` → run the server locally → connect a real client.
+  Written and verified using a brand-new mod (`xp_award_mod`) built specifically to prove the
+  doc, not reusing an existing one — real bonus XP for fully destroying a real Paper Engine world
+  object, ported from `SHANKPIT_CONSTRUCT.txt`'s own real per-kill XP value
+  (`progression_tick`'s own `delta * 60`). `apps/server/src/main.c` factored the existing
+  passive-XP-tick level-up logic into a shared `award_xp()` helper (was duplicated inline, now
+  one real path for every XP source); real "object fully destroyed" event detection, latched
+  per-object so re-punching an already-destroyed object doesn't re-award XP. Verified live
+  end-to-end — exactly the scenario `MODDING.md` itself documents: a real player punched a real
+  small editor-placed `PAPER` object once (destroying all 96 fragments in one hit), and the
+  server's own log confirmed `"Player slot 0 destroyed world object 0 -- +60 real xp_award_mod
+  XP"` — `xp_before=0 xp_after=60 delta=60`, exactly matching `xp_award_mod_test.c`'s own
+  independently asserted value. `bazel build/test //...` clean (17 targets, 7/7 mod tests).
+  `NORTHSTAR.md`'s own "longer-arc modding vision" section updated to link `MODDING.md` and
+  honestly separate what's real today (the pipeline) from what's still real, later work (dynamic
+  loading, an embedded in-game PARENA editor, live-server reload) — closes out the last real item
+  on `NORTHSTAR.md`'s own scope list for this session. PARENA-MODDING... PAPERCRAFT-MODDING
+  golden-doc row added to `EMILY/context/golden-docs-index.md`, PAPERCRAFT-PAPERENGINE's own row
+  refreshed to reflect the paper engine being live-wired now. PARENA commit `b5f93ad`. PAPERCRAFT
+  commits `66bf592`/`104950c`. Apple #16689.
