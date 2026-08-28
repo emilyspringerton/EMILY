@@ -22573,3 +22573,49 @@ routed through `emily observe` before being acted on, per Principle 18.*
   - **MJOLNIR CI failure checked and left alone**: real, already-known, pre-existing blocker
     (missing `google-services.json`, the repo's own README already documents "still blocked
     on...") — not a fresh regression, not touched.
+
+- [x] **S202-53: PARENA — fixed real large-file editor-open perf bug (needless full-file double
+  copy), the founder real-time editor-perf report S202-52 flagged.** Founder real-time interjection
+  mid-turn (routed through `emily observe` first, Apple #16511, per Principle 18): "parena editor
+  when i open a large file its dog shit slow we dont want to load the whole thing into memory -
+  like how does vim work it opens a file if its large it might like pause for a second but we are
+  still loading the whole file in memory i think."
+  Investigated with real, empirical measurement first, not guesswork: built `editor-demo` under
+  Xvfb, generated real synthetic test files at 5.9MB/23.7MB/119MB, and measured real open-to-
+  "loaded" wall-clock time and real RSS via `/proc/<pid>/status`. Confirmed the render path
+  (already windowed by an earlier session's own fix) and memory growth (already bounded) held up
+  fine — but found a real, separate, still-live bug in `raw_read_all_impl`
+  (`runtime/parena_runtime.h`, `read-string`'s own host primitive): the fstat fast path (sizing the
+  buffer to the real file size up front) was STILL silently paying for a full SECOND copy of the
+  whole file. Root cause, confirmed via direct instrumentation: real EOF can only be detected by
+  making one more nonzero-sized `read()` call and getting 0 back — the old exact `st_size+1`
+  buffer sizing left no room for that one confirming call once every real content byte had been
+  read, so the growth check fired one needless doubling right at the very end (a real 119MB test
+  file's own `cap` ended up EXACTLY 2x the real file size, not the "zero grow steps" the fast path
+  was supposed to guarantee).
+  Fixed by sizing the buffer with real headroom (one full extra 4096-byte read-chunk) so the loop
+  can always make one more real read attempt right at the true end without ever needing to grow
+  first — a negligible ~4KB of slack next to any file large enough for this to matter. A real
+  `grew` flag (not an exact size comparison, which the added headroom would always fail even in
+  the genuinely no-growth case) tracks whether a real overshoot doubling ever actually happened —
+  only then does the old trim-copy still do real, needed work.
+  **Confirmed live, before/after, same real 119MB test file**: editor-open RSS dropped from
+  ~479MB to ~247MB (halved); open time 0.66s → 0.48s. Verified byte-for-byte content correctness
+  separately for large/small/empty files (a real diff-against-a-fresh-read check, not just a
+  length match).
+  New real regression test (`tests/test_editor_io.c`) walks the Arena's own real block chain after
+  reading a real ~4MB file into a fresh, dedicated arena and asserts total capacity stays well
+  under 1.5x the file's own real size — a direct guard against this exact class of regression, not
+  just a wall-clock timing proxy for it. Zero regressions: full local suite (336 tests) +
+  `test-editor-io` + `test-json` + `test-yaml` + `bazel build`/`bazel test` all clean.
+  **Real, honest, still-open scope, not attempted here**: this closes the "needless double memory"
+  half of the founder's own report — the file is still fully loaded into memory at open time
+  (matching every mainstream editor's own real default behavior for a file this size; true
+  windowed/paged disk I/O, avoiding holding the whole file in RAM at all, is a genuinely separate,
+  much larger architectural undertaking — a rope/piece-table buffer representation, not attempted
+  here). The per-frame `window_start`/`window_end` scroll-position scan (`examples/
+  editor_main.c`) also still scans from byte 0 every frame to find the current scroll offset — a
+  real, separate, O(scroll-position) per-frame cost for deep scrolling into a huge file, found
+  while investigating but not the founder's own stated complaint (which was specifically about
+  *opening*), not touched here.
+  PARENA commit `4ccd949`. Apple #16537.
