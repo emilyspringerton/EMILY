@@ -22137,3 +22137,36 @@ routed through `emily observe` before being acted on, per Principle 18.*
   next with real credentials drains these 16 already-queued requests.
   REDGARDEN commit `1515caf` (fork point); ECOWAR commits `eddde42`/`2233d08`/`a508a08`/
   `fc257c4`/`1d96086`; PARENA commit `dc7a2ae`; root `CLAUDE.md` commit `1f2191b`. Apple #16402.
+
+- [x] **S202-43: ECOWAR — Phase 2 completed (real in-match card input + cooldown + HUD tile).**
+  Founder real-time: "continue iterating on ecowar mechanics." Closed the real, confirmed gap
+  `docs/ARENA_API.md`'s own mod inventory named (`ecowar_resolve_card_effect` existed, zero real
+  callers): new `PACKET_ARENA_CARD_PLAY` wire path (distinct from `apps/server`'s own older
+  `PACKET_CARD_PLAY`, a different game) — server dispatch → `arena_ecowar_play_card` →
+  `ecowar_resolve_card_effect` via the real hover-target path, no invented self-target fallback.
+  Client: **V** cycles the armed card (logged with its real name/source hero), **G** casts it at
+  the hovered target. Then iterated further, closing the obvious gap left once the input path
+  worked: a real shared cooldown (`ECOWAR_CARD_COOLDOWN_MS`=4000ms across all 16 cards — a
+  per-card table or mana economy is real deck-building territory the founder hasn't scoped yet,
+  not guessed at here) gating `arena_ecowar_play_card` the same way every Q/W/R already gates
+  itself, decremented in the one shared `tick_hero_kit` (same placement Duck's Smoke Bomb already
+  established, avoiding the S202-23 bug class). Then a real HUD tile (networked
+  `ecowar_card_cooldown_ms`, same `blink_cooldown_ms` wire pattern) showing the armed card's real
+  name + cooldown countdown — same "the affordance you're looking at is the one the key acts on"
+  precedent every other ability tile already holds itself to.
+  Also fixed a real, separate gap found while verifying: `packages/simulation/BUILD.bazel` was
+  missing `bacon_puck_intangible_speed_mod.c/_host.h` entirely (on disk, wired into every bash/CI
+  path, never added to Bazel) — `bazel build //...` now succeeds.
+  15 total card tests (`tests/test_ecowar_cards.c`), gcc + `bazel build/test` both clean, real
+  live matchmaker+bot verification re-run against the updated wire protocol. ECOWAR commits
+  `882ad47`/`be5d617`/`d470555`/`e044f80`. Apples #16489/#16491.
+  **Separately investigated, deferred, not attempted blind**: the same 3-repo "Bacon Puck
+  intangible speed" ask also named GoblinFoxDragon's `battlegrounds_gui` — its vendored
+  `arena_game.c` predates even the earlier Shadow Step rework entirely (no `bacon_puck_cast_w`/
+  `ARENA_BACON_PUCK_W_RANGE` at all, still the old toggle W), so porting just the speed mod isn't
+  a quick addition there — it needs the whole Shadow Step rework ported first, a real, separate
+  sync task. Queued on kanban (cruise, card #6, "GFD-SYNC") rather than rushed. Apple #16490.
+  **Still genuinely open, per the founder's own "more specific mechanic direction to follow"**:
+  the RTS half of "cards and all that" (deck building, mana/Flow economy, card-summoned troops),
+  and Phases 3-6 of `docs/NORTHSTAR_MAP_EDITOR.md` (map data format, Map Editor tool, ECOWAR CLI
+  on PARENA, mod-scaffolding workflow) — real content/design decisions, not guessed at here.
