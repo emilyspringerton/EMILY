@@ -23784,3 +23784,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `//packages/simulation:paper_fragment` dep to both `apps/server`/`apps/client` BUILD.bazel).
   `NORTHSTAR.md`/`docs/NORTHSTAR_PAPER_ENGINE.md` updated to document this as shipped, not just
   designed. PAPERCRAFT commits `0fc1021`/`285af56`. Apple #16670.
+
+- [x] **S206-11: real multi-chunk city traversal, a fixed 3x3 grid.** Closed the real ceiling
+  against the "GTA3-style open city" pitch — players were hard-locked to one worldapi chunk
+  `(cx=0,cz=0)` since Phase 0. Founder: "continue" — picked as the next appropriately-sized real
+  increment following this session's own Phase 0/1 sequencing discipline. New `PwWorld`
+  (`packages/common/papercraft_world.h`) — a fixed, non-streaming 3×3 grid (`PW_GRID_RADIUS=1`,
+  9 chunks) loaded once at startup around spawn, plus `pw_world_ground_height_at` (resolves a
+  real world-space `(x,z)` to the right chunk, floor-division-correct for negative coords).
+  Dynamic load/unload as the player roams stays real, later work — this proves the real
+  fetch/store/lookup/render plumbing first. `apps/server`'s `fetch_city_world` replaces
+  `fetch_city_chunk` (9 real HTTP calls, same fail-closed discipline); `apps/client`'s
+  `draw_city_world` replaces `draw_city_chunk`, offsetting each chunk by its own real origin.
+  Real, honest infrastructure finding surfaced live (not a Papercraft bug): `GET
+  /chunks?scene=200&cx=0&cz=0` vs `cx=1&cz=0` diffed to zero lines — GFD's own `worldapi`
+  urban-chunk generator doesn't vary content by `(cx,cz)` yet, so the grid renders as a real
+  repeating tile today; real content variety is GFD's own future work. Verified live with a real
+  UDP probe: walked a player from spawn (`x=8`) through the old single-chunk boundary at `x=16`
+  out to `x=30` (real neighbor chunk `cx=1`) — server-reported `y` stayed correctly resolved at
+  `65.00` the entire way (old code would have frozen `y` once `x` left `[0,16)`). Client launched under
+  Xvfb, confirmed no crash/regression. `bazel build/test //...` clean (12 targets, 5/5 mod tests,
+  no BUILD.bazel changes needed). PAPERCRAFT commits `4e77fbd`/`5f6b513`. Apple #16674.
