@@ -23134,3 +23134,41 @@ routed through `emily observe` before being acted on, per Principle 18.*
   `match` body; `Vec`/enum-typed `defstruct` fields; general struct-literal construction for a
   user-defined `defstruct`.
   PARENA commit `67e55d3`. Apple #16600.
+- [x] **S202-67: PARENA — real `deref` support + found and fixed a 6th real, live,
+  silently-wrong-C bug of the same class.** Direct continuation of "continue working on parena
+  self hosted compiler" (2026-08-28) — closes the "a clause body that needs the payload beyond a
+  bare-symbol tail" half of the match gap this file's own match-support section (S202-55)
+  explicitly named as still open.
+  `(deref x)` reads back a real, boxed I32 value out of a match-bound `void *` payload local,
+  emitting `*((int *)(x))`, boxed via `emit-i32-boxed` when crossing this file's own uniform char*
+  boundary. Real, honest, narrow v0: the target must be a bare symbol (the ONLY real shape a
+  match-bound payload name ever is); constructing a REAL boxed I32 payload (`(Some 42)`, boxed via
+  a real per-type heap-box helper) is the natural complement but a real, separate, harder gap this
+  increment does NOT attempt (needs new box-helper-generation infrastructure this file doesn't
+  have yet) — verified here against a value boxed directly in real C by the test driver instead,
+  the same real technique `driver_match.c`'s own original (pre-real-construction) version already
+  used.
+  **Found and fixed a real, live, silently-wrong-C bug while verifying** (confirmed via a direct
+  probe, not guessed — the SAME class of bug caught FIVE times already this same day, S202-59/
+  S202-60): `deref` was ALSO never excluded from `plain-call-shaped?`'s own name checks —
+  `(defn f [(x : I32)] (deref x))` was silently emitting `deref(x)`, a call to a NEVER-DEFINED C
+  function, before `deref-shaped?` existed to intercept it in `emit-form`'s own dispatch (checked
+  BEFORE `plain-call-shaped?`). Fixed by adding `deref` to `other-special-form-symbol?`'s own
+  exclusion list too, the same real defense-in-depth already covering `cond`/`match`/`with-arena`/
+  `let`/`get-field` — a call-argument/let-value position (where deref support is NOT attempted
+  this round) would otherwise still be able to hit this exact bug.
+  6 new tests (`tests/test_selfhost_emit.c`): structural checks confirming no `#error` and the
+  real, correctly boxed `*((int *)(x))` dereference inside a real match clause, plus a real
+  compile+run+assert check (`tests/integration/driver_deref.c`) proving the real dereference
+  genuinely reads back the correct value from a real, boxed I32 payload (constructed directly in
+  C) on multiple real inputs including a negative one, not just that gcc accepts the generated
+  text.
+  Zero regressions: full local suite (336 tests) + all 6 selfhost domain test binaries + `bazel
+  build`/`bazel test //...` all clean.
+  **Real, honest, still-open scope after this**: a general user-defenum tag registry; `match`/
+  `cond` as a non-tail value; a real, non-pointer-shaped (I32) `Ok`/`Err`/`Some` payload
+  CONSTRUCTED by this emitter itself (needs a real per-type heap-box helper); `cond`/`match` as a
+  call argument (by design, not attempted); a STRUCT-typed field used as a let-value; a
+  struct-typed field nested inside a `with-arena`/`cond`/`match` body; `Vec`/enum-typed
+  `defstruct` fields; general struct-literal construction for a user-defined `defstruct`.
+  PARENA commit `0a07831`. Apple #16601.
