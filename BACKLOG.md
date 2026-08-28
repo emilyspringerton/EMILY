@@ -23707,3 +23707,21 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `bazel build/test //...` clean (4/4 mod tests still pass, both real binaries build). Phase 0's
   full bar — login, spawn, movement, real rendering — is now genuinely, visibly real end to end.
   PAPERCRAFT commits `18257b5`/`494a856`. Apple #16657.
+
+- [x] **S206-07: real leveling wired into the live game loop, real HUD, real buffer-overflow bug
+  found and fixed.** Closes the real gap S206-04's own `level_mod.c` left open (compiled and
+  tested, never actually called by the running game). `apps/server` gained a real per-second XP
+  tick (mirrors the construct's own `progression_tick` cadence: +5 XP/sec passive, no combat/
+  quests to source it from in this sandbox), calling the real PARENA-compiled
+  `on_papercraft_level_for_xp` every tick to decide level-ups and grant real unspent points.
+  `PcPlayerState` gained real `level`/`xp`/`xp_to_next`/`unspent_points` fields, broadcast every
+  snapshot; `apps/client` renders the exact real `"LVL %d  XP %d/%d  PTS %d"` HUD line the
+  construct itself used, now driven by real server-authoritative state. Real bug found and fixed
+  live: growing `PcPlayerState` grew `PcSnapshotPacket` to 540 bytes, past both client's and
+  server's own hardcoded 512-byte recv buffers — caught by the compiler's own `-Warray-bounds`
+  before it shipped; both buffers now size themselves off `sizeof(PcSnapshotPacket)` directly so
+  this can't silently recur. Verified live with a real UDP probe run long enough to watch a real
+  level-up: level 1→2 at exactly 80 cumulative XP, +1 real unspent point granted, `xp_to_next`
+  correctly advancing. `bazel build/test //...` clean (4/4 mod tests pass, both real binaries
+  build and link — server now correctly deps on `//packages/simulation:level`). PAPERCRAFT
+  commits `1551365`/`fce865d`. Apple #16659.
