@@ -24438,3 +24438,17 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   real, still-open scope named precisely (a hand-edited file, or any real future tool outside
   `apps/mapeditor`, isn't protected by this). PAPERCRAFT commits `4308ef1`/`2281d87`.
   Apple #16779.
+- [x] **S206-42: `mapeditor` rejects zero/negative half-extents on `add` and `edit`.** Real,
+  small, bounded input-validation fix. A zero or negative real half-extent was silently accepted
+  by both `add` and `edit`, producing a degenerate, zero-volume real object — not a crash
+  (`paper_mesh.h`'s own `paper_face_grid` already guards its own real division against a zero
+  axis length), but a confusing, silently broken (invisible) placement with no real feedback that
+  anything went wrong. New `parse_positive_half` helper, same real validate-and-report pattern
+  `--material` already uses. Wired into `--half-extent`/`--half-x`/`--half-y`/`--half-z` on both
+  `add` and `edit` — a real, specific error naming which flag and value were rejected, object left
+  completely unchanged on `edit`'s own rejection path. Verified live against the actual
+  Bazel-built binary, fully clean (`bazel clean`, then a plain `bazel build`/`bazel test`, no
+  special flags): 26 targets, 11/11 tests pass. Real scenarios confirmed: a valid half-extent
+  still places correctly; a zero half-extent on `add` rejected; a negative half-x on `add`
+  rejected; a negative half-y on `edit` rejected with the target object confirmed byte-unchanged
+  afterward. Usage text updated. PAPERCRAFT commits `b235b6a`/`69f5757`. Apple #16838.
