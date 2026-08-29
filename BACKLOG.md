@@ -24373,3 +24373,23 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   build`/`bazel test`, no special flags): 26 targets, 11/11 tests pass, confirmed under Bazel's
   own hermetic sandbox too. `papercraft_persist.h`/`papercraft_worldobjects.h` updated to point at
   the new coverage. PAPERCRAFT commits `86b5fd5`/`1ff4cc2`. Apple #16768.
+- [x] **S206-39: give Wall A a real, precise two-box L-shape.** Real, bounded fix for
+  `docs/NORTHSTAR_PAPER_ENGINE.md`'s own honestly-named gap: "a real L-shaped/multi-part object
+  matching a carved wall's own exact real footprint (rather than its bounding-box approximation)".
+  Re-confirmed live against the actual worldapi, not assumed: Wall A's real 15 blocks split
+  exactly into column (12,0)+(12,1) (a real 1x2x5 slab) and column (13,0) alone (a real 1x1x5
+  slab) — the old single bounding box spanned both real columns plus the genuinely-empty (13,1)
+  column, claiming 5 blocks' worth of phantom space. `packages/common/papercraft_protocol.h`:
+  `PC_CITY_WALL_A_*` replaced with `PC_CITY_WALL_A1_*`/`PC_CITY_WALL_A2_*`, one real carve box per
+  real column group, zero overhang. Wall B stays a real, honest single-box approximation this
+  pass — using two slots for Wall A fills `PC_WO_MAX_OBJECTS=4` completely, a real, explicit
+  tradeoff. `apps/server/src/main.c`: default-seeding path now seeds 4 real objects instead of 3,
+  only affecting a fresh server with no existing world-objects file. Verified live, fully clean
+  (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 26 targets, 11/11
+  tests pass. Real throwaway server instance: fresh startup logs "seeded 4 real default objects",
+  and the real carve-out removes exactly 10 + 5 = 15 real blocks matching the live-confirmed
+  footprint exactly, plus 15 for Wall B (unchanged) — 30 total, same as before (confirming a real
+  precision improvement to shape, not a change in which blocks get removed). `PcSnapshotPacket`'s
+  own wire size is unaffected. `docs/NORTHSTAR_PAPER_ENGINE.md` updated honestly: Wall A precise,
+  Wall B still an approximation, zero free object slots left. PAPERCRAFT commits
+  `a809acd`/`c861902`. Apple #16771.
