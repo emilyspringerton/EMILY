@@ -2246,6 +2246,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder: "ok what do i need to do to get redgarden back?" -- proceeding to investigate directly myself rather than wait…** — obs `2026-08-29T21:42:29Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "ok do an updated state of the ecosystem blog podcast" -- checking for existing precedent/format for…** — obs `2026-08-29T22:10:45Z`. CURATED: 2026-08-29.
 - [ ] **Founder confirmed: "ok redgarden is fixed" -- the comprehensive firewall restoration script (39-restore-all-game-ports-…** — obs `2026-08-29T22:07:06Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "be sure to note that wotan still shows duck in last" -- specific content detail to include in the r…** — obs `2026-08-29T22:11:34Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
