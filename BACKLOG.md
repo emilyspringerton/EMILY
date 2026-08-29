@@ -24113,3 +24113,27 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   (`6/96` fragments damaged from 6 real hits, matching pre-change behavior). `bazel build/test
   //...` clean (19 targets, 8/8 mod tests, no wire-format change). `docs/
   NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `27b67ba`/`42b00d6`. Apple #16732.
+
+- [x] **S206-25: real proof-of-concept for dlopen-based mod loading.** Real, bounded first step
+  toward the founder's own biggest remaining ask — `MODDING.md`'s own honestly-named "no dynamic
+  loading" gap. Answers the real, core technical question: are PARENA-compiled mod functions
+  (real I32-scalar-only C, VS0's own real ABI) dlopen-compatible at all, with zero changes to the
+  `.prn` source? Yes. New `apps/dynmod_poc` — a real, standalone, checked-in tool, deliberately
+  NOT wired into `apps/server` (a real, low-risk proof of the mechanism, not a production
+  integration) — `dlopen`s a real shared library built from the EXACT same, unmodified
+  `packages/simulation/xp_award_mod.c` already statically linked into the game, `dlsym`s the real
+  exported function by name, calls it, and gets the real expected result. Real Bazel gotcha found
+  and fixed live: Bazel's default `cc_binary` link step wraps its own object-file inputs in
+  `-Wl,--start-lib`/`--end-lib` (gold linker archive-style resolution), which silently drops an
+  otherwise-unreferenced object file's own symbols from a `linkshared` output —
+  `alwayslink = True` on the underlying `:xp_award` cc_library is the real, standard Bazel fix
+  (confirmed a real no-op for `apps/server`'s own existing static link — regression-checked live,
+  the server's own real XP-award flow still works exactly as before). An earlier, wrong
+  hypothesis (that Bazel's default symbol stripping was the blocker) was tested live and
+  disproven — corrected in the `BUILD.bazel` comments rather than left in. Verified live, fully
+  clean (a real `bazel clean` first, then a plain build/test with no special flags): 21 targets,
+  8/8 mod tests pass, the real `dlopen`/`dlsym` proof succeeds, the real `apps/server` regression
+  check passes. `MODDING.md`/`NORTHSTAR.md` updated with the real, honest remaining scope: no
+  manifest format, no multiple mods loaded together, no real error handling for a bad mod, no
+  actual `apps/server` call site using a dynamically-loaded function yet. PAPERCRAFT commits
+  `5bb7696`/`ca145a4`. Apple #16736.
