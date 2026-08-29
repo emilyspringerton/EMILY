@@ -24638,3 +24638,36 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   zero-init at declaration. Verified live, fully clean (`bazel clean`, then a plain `bazel build`/
   `bazel test`, no special flags): 27 targets, 12/12 tests pass. `NORTHSTAR.md` gained a new
   "Phase 1c-client" section. PAPERCRAFT commits `21786f1`/`dbcc9d3`. Apple #16869.
+- [x] **S206-52: real cross-platform CI — `apps/client` + `apps/mapeditor`, Linux/Windows/macOS.**
+  Founder real-time: "make sure we have the proper clients uploading as artifacts" → "mac linux
+  windows" → "include the map editor". New `.github/workflows/ci.yml`: a real `bazel test //...`
+  gate (never run in CI before this), then three real platform build jobs — Linux (native `gcc`),
+  Windows (mingw-w64 cross-compile, same real pattern SHANKPIT's own `release.yml` already
+  proved), macOS (native `clang` on `macos-latest`, Homebrew SDL2) — each building `apps/client`
+  and `apps/mapeditor`, uploaded via `actions/upload-artifact`. `apps/server` deliberately
+  excluded — Linux-only by design, runs on this monorepo's own host, not a player's machine, same
+  server/client CI split SHANKPIT already draws. Real portability bugs found and fixed along the
+  way (first time `apps/client` was ever compiled for anything but native Linux gcc): (1) a real
+  Windows include-order bug — mingw's `<GL/gl.h>` drags in `<windows.h>` internally, and the
+  file's own `_WIN32` winsock2 block came after the GL/SDL includes, so `windows.h` always won
+  first and broke every winsock2-only symbol (plus a compiler `#warning` every build) — fixed by
+  moving the `_WIN32` socket block before any GL/SDL include; (2) a real Windows compile error —
+  `packages/common/papercraft_worldobjects.h`'s `pc_worldobjects_ensure_dir` called POSIX
+  two-argument `mkdir(path, mode)`, but Windows' CRT `mkdir` takes only a path — new `PC_MKDIR`
+  macro fixes it behind one call site (this header is pulled in transitively by `apps/client`, so
+  it has to compile on Windows even though the client never calls the function itself;
+  `papercraft_persist.h`, server-only, deliberately not touched); (3) a real macOS header-path gap
+  — `<GL/gl.h>`/`<GL/glu.h>` don't exist on macOS, real path is `<OpenGL/gl.h>`/`<OpenGL/glu.h>`
+  (deprecated, still present, `-framework OpenGL`) — fixed with a real `#if defined(__APPLE__)`
+  guard; (4) 5 real `sendto()` pointer-type warnings on Windows (winsock's own `sendto` takes
+  `const char *`, not POSIX's `const void *`) — fixed with explicit casts at all 5 call sites for
+  a fully warning-clean Windows build. Verified: real local raw-`gcc`/raw-`x86_64-w64-mingw32-gcc`
+  dry-runs of the exact commands the workflow runs, for both `apps/client` and `apps/mapeditor` —
+  both link clean, zero warnings, zero errors, real working `ELF`/`PE32+` binaries (confirmed via
+  `file`). `bazel clean && bazel build //... && bazel test //...`: 27 targets, 12/12 tests pass,
+  unaffected. macOS job itself NOT locally verifiable — no macOS host in this environment, same
+  honest verification-tier limit Phase 1b/1c-client already carried; its first real GitHub Actions
+  run is the actual proof. Deliberately not attempted: release automation (auto-tag + GitHub
+  Releases, matching SHANKPIT's/PITVIPER's own "auto release non pre release" precedent) — the
+  real ask was "uploading as artifacts," not "cut a release." `NORTHSTAR.md`/`README.md` updated.
+  PAPERCRAFT commits `c813f7a`/`ec0d11f`. Apple #16874.
