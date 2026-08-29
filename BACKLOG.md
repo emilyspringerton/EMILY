@@ -24511,3 +24511,23 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   precise multi-box L-shapes, wire budget measurably roomier after S206-43/44). Verified: `bazel
   test //...` re-run before committing, confirmed 11/11 tests pass, exactly matching the corrected
   text. PAPERCRAFT commits `3f37caa`/`fad30a2`. Apple #16849.
+- [x] **S206-46: real Phase 1 scoping — fragment physics, a real Definition of Done.** Real,
+  bounded, docs-only increment — "docs before software," applied to this doc itself: `NORTHSTAR.md`
+  has referenced "a Phase 1" implicitly without ever formally scoping what it actually is. Closed
+  here. 21 consecutive verified increments this session (S206-25 through S206-45) closed every
+  honestly-named small-to-medium gap findable in this repo — confirmed via a final comprehensive
+  sweep (`TODO`/`FIXME` grep across the whole repo, PARENA's own `papercraft` stdlib mods,
+  `MODDING.md`'s full gap list, client login robustness) turning up nothing new. Real, honest
+  retrospective added: Phase 0's own stated bar was exceeded long ago by real shipped work, named
+  explicitly rather than left implicit. Real Phase 1 target chosen deliberately: server-
+  authoritative fragment physics — picked over the embedded PARENA editor / real weapon-combat /
+  full-city conversion because it needs neither founder-level product direction nor a
+  wire-streaming redesign before a real slice can be scoped, just real engineering, the kind
+  already proven for jump physics and the Paper Engine. Real, narrow Definition of Done for Phase
+  1a added, matching PARENA VS0's own DoD precedent: a real bounded set of falling fragments, real
+  server-side Y-only integration reusing the existing real `PC_GRAVITY` and
+  `pw_world_ground_height_at`, a real landed-detection stop condition, explicit non-goals named
+  honestly (no rotation, no fragment-fragment/player collision, no client prediction), and a real
+  wire-budget accounting requirement pointing at the headroom S206-43/44 created. Verified: `bazel
+  test //...` re-run, 11/11 tests pass, unchanged. PAPERCRAFT commits `55ffe70`/`d196a0d`.
+  Apple #16852.
