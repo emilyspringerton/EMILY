@@ -24156,3 +24156,22 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   no multiple mods loaded together, no real error handling for a bad mod, no non-I32 (`Bool`)
   shape, no actual `apps/server` call site using a dynamically-loaded function yet. PAPERCRAFT
   commits `7e3ff53`/`f291d7f`. Apple #16739.
+- [x] **S206-27: real multi-mod manifest mode, proving mods load together.** Closed S206-26's own
+  remaining "multiple mods loaded together" gap. `apps/dynmod_poc` gets a second real mode:
+  invoked with a single manifest-file argument, it reads a real minimal pipe-delimited manifest
+  (`so_path|function|expected[|arg1[|arg2]]`), `dlopen`s every distinct `.so` the manifest names
+  exactly once (cached by resolved path — two lines pointing at the same `.so` share one loaded
+  instance), then `dlsym`s and calls every listed function, keeping every handle open
+  simultaneously until the whole manifest has run. New `apps/dynmod_poc/testdata/manifest.txt`, a
+  real checked-in example spanning both `libxp_award_mod.so` and `liblevel_mod.so` and all three
+  real I32 shapes. Shared `dlsym`+dispatch logic refactored into `call_i32_fn` so both modes share
+  one code path. Verified live, fully clean (`bazel clean`, then a plain `bazel build`/`bazel
+  test`, no special flags): 22 targets, 8/8 mod tests pass; all three original single-call
+  invocations regression-checked unchanged. New manifest mode verified two ways: a real 4-line
+  manifest (`2 distinct .so file(s) loaded together in one process, 4 call(s) checked, 4 passed,
+  0 failed`, exit 0), and a real deliberately-broken manifest (a missing `.so`, a missing
+  function, a wrong expected value) reporting each real failure per line, continuing, exit 1.
+  `MODDING.md`/`NORTHSTAR.md` updated with the real, honest remaining scope: no manifest format
+  `apps/server` itself understands, no designed error-handling *policy* at real server startup, no
+  non-I32 (`Bool`) shape, no actual `apps/server` call site using a dynamically-loaded function
+  yet. PAPERCRAFT commits `6f78aa4`/`3f43030`. Apple #16742.
