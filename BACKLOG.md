@@ -2212,6 +2212,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 46 shipped items. Implementing the real Phase…** — obs `2026-08-29T18:49:05Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 45 shipped items. Doing a final comprehensive…** — obs `2026-08-29T18:44:29Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 44 shipped items. Most recent: PC_WO_MAX_OBJE…** — obs `2026-08-29T18:41:05Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 47 shipped items. Implementing Phase 1b: wiri…** — obs `2026-08-29T19:02:39Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
