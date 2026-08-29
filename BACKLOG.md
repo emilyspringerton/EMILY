@@ -24729,3 +24729,63 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   as real, downloadable assets — confirmed live via the GitHub API. `NORTHSTAR.md` gained the full
   real postmortem plus this confirmed-success update. PAPERCRAFT commits
   `1df7b85`/`77c30f6`/`0784c14`/`a885458`/`d63917e`/`0de8563`/`0fe6d51`/`7abf416`. Apple #16887.
+- [x] **S206-54: PAPERCRAFT's first real live player, end to end.** Founder: "make sure the
+  server is ready for me" → "black screen flash for a moment" → "ok i need a PlayOnline bat" →
+  "ok that doesnt work either" → "ok well can we double check the firewall?" → "maybe add more
+  verbose logging?" → "ok it works kinda this is huge we got past the login screen we are in the
+  world" → "the first issue is constant flickering... connection lost reconnecting" → "this
+  version i cant do anything its just flickering screen but i can see the environment" / "this
+  version is non interactive the previous version i could move forward". Real chain of distinct
+  bugs, several unfindable without a real human playing over a real internet connection: (1) no
+  `papercraft_server` was ever running — new `ops/systemd/papercraft-server.service` (real
+  supervised unit, same pattern `weaknight-racers-server.service` already established) +
+  `PAPERCRAFT_TICKET_SECRET` added to IDUNA's env (every sibling game already had one, PAPERCRAFT's
+  own never did); (2) the deployed IDUNA binary predated the papercraft ticket handler's own commit
+  entirely (404, not "not configured") — found by comparing build timestamp to commit date, fixed
+  by rebuilding `~/.local/bin/iduna` from `HEAD` in place, confirmed via a real login→ticket→UDP
+  CONNECT→WELCOME round trip against the real `test@test.com` account; (3) the firewall — new
+  `37-papercraft-server-firewall.sh` (`7799/udp`/`7070/tcp`/`8080/tcp`), verified externally via
+  `check-host.net` from multiple diverse regions per port, since `localhost` traffic never touches
+  `ufw` and can't detect a real gap; (4) `PLAY_ONLINE.bat`/`.sh` — real public host flags baked in
+  via `okemily.com` (a real, existing plain A record, chosen over a raw IP so a released binary
+  doesn't go stale); (5) `papercraft_client.log` — stdout/stderr redirected to a real file, since
+  `PLAY_ONLINE.bat`'s own `start` closes its console the instant the process exits; (6) verbose
+  `[http]` diagnostic logging added to `packages/common/http_client.h` (both Windows/Winsock and
+  POSIX); (7) the real root cause that logging finally surfaced: a genuine Windows `WSAStartup`
+  ordering bug (real WSA error `10093`, `WSANOTINITIALISED`) — `WSAStartup()` ran later in `main()`
+  than the real, mandatory worldapi fetch that needed it first; this was **never** actually a
+  firewall/DNS/network problem despite the entire real, genuinely-necessary step-3 investigation
+  chasing it as one — fixed by moving one `#ifdef _WIN32` block earlier in the file; (8) a real
+  design flaw found from live play on the founder's own 5G/limited-bandwidth connection: movement
+  input was gated on the same live `welcomed` flag that flips false during any connection hiccup,
+  so brief stalls silenced input entirely, not just the display — redesigned to a real three-tier
+  model (a sticky `ever_welcomed` flag now gates input, sending continuously through any stall; a
+  short `PC_CLIENT_WEAK_MS` drives a small non-disruptive on-screen indicator instead of a flashing
+  full-screen takeover; `PC_CLIENT_STALE_MS` raised to 20000ms, a genuine last resort). `v0.1.0`
+  through `v0.8.0` shipped across this arc, each verified as thoroughly as this Linux-only,
+  no-live-Xvfb, no-live-Windows-host environment allows — the founder's own real Windows machine
+  over their own real 5G connection was the one verification tier this environment could never
+  substitute for, and every real bug in this list is one that tier alone actually surfaced.
+  `NORTHSTAR.md` carries the full real writeup. PAPERCRAFT commits
+  `38f00b0`/`fb52d22`/`d059893`/`cda6c2a`/`638d5ad`/`4449647`/`c668e9b` + changelog. Apple #16914.
+- [x] **S206-55: real, monorepo-wide side effect — S206-54's firewall work broke REDGARDEN
+  matchmaking.** Founder: "ok somewhere along the way we broke redgarden matchmaking" → "probably
+  restart the box? did anything weird happen when we did the networking for papercraft and bedrock
+  racers?" → "do we have separate ports or whatever we need for all of these servicese" → (after
+  the fix) "ok redgarden is fixed". Real, confirmed root cause: `37-papercraft-server-firewall.sh`
+  was this session's own first real `sudo ufw allow` call on this box — `ufw` had evidently been
+  inactive or non-enforcing before that, and that first real rule (or an `ufw enable` run alongside
+  it while troubleshooting) flipped it into active enforcement for the first time, silently
+  blocking every OTHER real game's port that had never been given its own explicit rule —
+  REDGARDEN's own matchmaker/arena ports included, even though none of REDGARDEN's own processes
+  ever restarted or changed. A reboot would NOT have fixed this — `ufw`'s own enabled-state and
+  rule set both persist across reboots. Real fix:
+  `39-restore-all-game-ports-after-papercraft-firewall-work.sh`, a comprehensive re-assertion of
+  every real, currently-listening service port on the box (read live from `ss -tulnp`, not guessed
+  from stale docs) as an explicit `ufw allow` rule — REDGARDEN (both lobbies + arena ports),
+  redgarden-stable, ECOWAR, SHANKPIT, WEAKNIGHT_BEDROCK_RACERS, EINHORN_SURVIVAL, worldapi/IDUNA,
+  plus several observed-but-undocumented ports allowed defensively. Confirmed fixed by the founder.
+  General, real lesson for this whole monorepo, not just PAPERCRAFT: the first `ufw allow` on a
+  box that's never enforced before is a monorepo-wide-blast-radius action, not a scoped one — every
+  other live game's own port needs its own explicit rule the moment enforcement turns on.
+  `NORTHSTAR.md` updated. PAPERCRAFT commit `771c3a1` + changelog. Apple #16915.
