@@ -2226,6 +2226,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "ok it released it flashes some text on the screen failure something make sure the server is ready f…** — obs `2026-08-29T20:22:01Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "ok i removed mac we cant fix it on our local we dont even know if that client works its not worth b…** — obs `2026-08-29T20:15:53Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "mac build still fail" -- confirmed run 33272605879 (commit a885458, the set -u removal + same-step …** — obs `2026-08-29T20:10:52Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "ok i need a PlayOnline bat on windows or something to connect to the upstream server im not gonna t…** — obs `2026-08-29T20:36:24Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "black screen flash for a moment" -- after starting the real papercraft_server directly (bound UDP :…** — obs `2026-08-29T20:32:04Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "ok so i still cant connect with the release client" -- checking current live state: whether papercr…** — obs `2026-08-29T20:31:24Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
