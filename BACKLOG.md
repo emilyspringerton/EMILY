@@ -24273,3 +24273,22 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   real `SIGHUP` with stale entries correctly dropped; a server started with no `--mods-manifest`
   logs a clean, real no-op on `SIGHUP` instead of crashing. All test processes/files cleaned up.
   `MODDING.md`/`NORTHSTAR.md` updated. PAPERCRAFT commits `77c6389`/`2a715d3`. Apple #16754.
+- [x] **S206-33: add a real `mapeditor edit` command for in-place object field edits.** Real,
+  bounded, deliberately a different area from the dlopen thread. Closes a real, honestly-missing
+  capability: previously the only way to change an already-placed object's own
+  position/material/seed/extents was `remove` + `add`, which reassigns it a NEW index at the end
+  of the list, silently breaking any real per-object damage state already saved for the OLD index
+  in the damage file `apps/server` writes (`PcWorldDamageFile`, indexed by object slot). New
+  `mapeditor edit <index> [--x/--y/--z <f>] [--material ...] [--seed <n>]
+  [--half-extent/-x/-y/-z <f>] [--file <path>]`: changes only the real fields a flag was actually
+  given for, in place, at the same real index — everything else, including any real carve bounds,
+  stays byte-identical. Deliberately simple, not a smart re-placement: no ground re-snap, no
+  carve-box re-validation, unlike `add`. A bare `edit` with no flags prints the object's current
+  fields and changes nothing. Same real AABB overlap warning `add` already does. Verified live
+  against the actual Bazel-built binary, fully clean (`bazel clean`, then a plain `bazel
+  build`/`bazel test`, no special flags): 23 targets, 8/8 mod tests pass. Real scenarios all
+  confirmed: bare no-op edit; a real field edit preserving the index; an edit that creates a real
+  bounding-box overlap (warns, saves anyway, same policy as `add`); an out-of-range index (fails);
+  a nonexistent file (fails); and a real `--carve` object edited with its carve bounds confirmed
+  byte-identical afterward. `README.md`/`NORTHSTAR.md` updated. PAPERCRAFT commits
+  `536bce4`/`1a8f1b2`. Apple #16757.
