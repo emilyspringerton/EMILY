@@ -24342,3 +24342,20 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   confirmed it's actually called in the real render loop, not just defined and unused. Verified
   via `bazel build`/`bazel test` (docs-only change, no source touched, all 8 mod tests still
   cached-pass). PAPERCRAFT commits `efbe20f`/`3925674`. Apple #16763.
+- [x] **S206-37: real RFC 4231 test-vector coverage for `hmac_sha256.h`.** Real, bounded, low-risk
+  fix for a genuine, previously-invisible gap: `hmac_sha256.h`'s own header comment claims
+  "RFC-4231-verified", but that verification made the trip through `shankpit-460` →
+  `WEAKNIGHT_BEDROCK_RACERS` → `PAPERCRAFT` as a claim only, never as an actual test wired into a
+  build in any of the three repos — `shankpit-460` has a real `hmac_sha256_test.c` but its own
+  comment says it was never wired into a build, run manually only; neither downstream repo even
+  ported that manual copy. Security-critical primitive: `apps/server`'s own
+  `verify_connect_ticket` is the entire real trust boundary for who's allowed to connect and play
+  as whom. New `packages/common/hmac_sha256_test.c`: ported the real RFC 4231 test cases 1 and 2
+  from `shankpit-460`'s own test, plus real new coverage for `hmac_sha256_verify` (the actual
+  constant-time comparison `apps/server` calls, not `hmac_sha256` directly) checked against an
+  equal pair and a pair differing in only the last byte. New `packages/common/BUILD.bazel`
+  `cc_test` target, actually wired into `bazel test //...` this time. Verified live, fully clean
+  (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 24 targets, 9/9
+  tests pass. Raw-gcc run before the Bazel pass confirmed all four real assertions pass.
+  `hmac_sha256.h`'s own header comment updated to note the real test now exists. PAPERCRAFT
+  commits `3bd2638`/`ae2e665`. Apple #16766.
