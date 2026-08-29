@@ -24599,3 +24599,22 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   detach events, not just the single-fragment case. No code changed — verification only, using
   the exact same server binary S206-47/48 already shipped. PAPERCRAFT commits `183c695`/`9b5c724`.
   Apple #16863.
+- [x] **S206-50: real Phase 1c — server-side falling-fragment rotation.** Closes the first of
+  Phase 1a's own explicitly-named non-goals (lateral scatter/tumbling) — server-side half only,
+  honest about the rest, matching the exact same prove-the-mechanism-defer-integration sequencing
+  already proven for Phase 1a → 1b. `packages/common/papercraft_protocol.h`: `PcFallingFragment`
+  gains a real `rotation_deg` field. Real, measured wire cost: `sizeof(PcSnapshotPacket)` grows
+  from 1416 to 1432 bytes, still 40 bytes under the 1472-byte budget, real margin left on purpose.
+  `apps/server`: each real falling fragment gets a real, deterministic, constant-rate
+  `angular_velocity_deg_s` (90–270 deg/s derived from `fragment_idx`, no `rand()`, same convention
+  `apps/client`'s own debris "kick" jitter already used), assigned once at spawn and integrated
+  every tick the same way `y` already is. Verified live, fully clean (`bazel clean`, then a plain
+  `bazel build`/`bazel test`, no special flags): 27 targets, 12/12 tests pass. Real, live,
+  end-to-end UDP verification: a real probe hand-computed the expected rate for `fragment_idx=24`
+  (`167.1429` deg/s) and measured the real observed rate from four real wire samples — landed at
+  `167.1428` deg/s, ratio `1.000`, confirming the integration is exact. Pre-existing destroy/XP/
+  level-up flow fired exactly as before, unaffected. `apps/client` deliberately not updated to
+  render this rotation — getting a real 3D rotation transform visually correct benefits from
+  actually seeing it, which this environment's own honest client-verification limit (no known
+  real test IDUNA user) doesn't allow yet, same scope limit Phase 1b already carried.
+  `NORTHSTAR.md` updated. PAPERCRAFT commits `7d0d6a3`/`0567e31`. Apple #16866.
