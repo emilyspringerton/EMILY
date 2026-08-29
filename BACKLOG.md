@@ -24082,3 +24082,31 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   architecture overview. "Not yet real" section named explicitly, not glossed over: embedded
   in-game PARENA editor, graphical/live-server map editor, server-authoritative fragment physics,
   full-city destructibility. PAPERCRAFT commits `92fa6aa`/`5f00090`. Apple #16726.
+
+- [x] **S206-23b: verified README.md's Quick Start literally + resolved the real open
+  WEAKNIGHT_BEDROCK_RACERS map-editor question.** Ran every documented command (`bazel
+  build/test`, the real server/client launch commands, both real `mapeditor` commands) verbatim
+  against a real `bazel build` — zero discrepancies found, real `bazel-bin` paths confirmed to
+  exist exactly as documented. Also checked `EMILY/BACKLOG.md` S204-08 directly (the real, open
+  question `NORTHSTAR.md` itself had named but never checked): `WEAKNIGHT_BEDROCK_RACERS`' own
+  "map editor from day 1" note is still entirely unscoped/un-built there — no existing tool to
+  reconcile with, `apps/mapeditor` is the only real map editor either repo has. `NORTHSTAR.md`
+  updated with the real, checked answer. PAPERCRAFT commits `5cd7451`/`6c9c63b`.
+
+- [x] **S206-24: real per-face subdiv scaling for non-uniform Paper Engine boxes.** Closed "the
+  same subdiv count spans a very different real world length" on a strongly non-uniform box —
+  `paper_generate_box`'s own honestly-flagged gap since the non-cube-shapes pass shipped. New
+  `paper_face_grid(u_len, v_len, subdiv, &gu, &gv)` picks the `(gu,gv)` factorization of
+  `subdiv*subdiv` (the real, unchanged total fragment count per face — `PC_WO_FRAGMENTS`/the wire
+  format never move) whose own real grid aspect ratio is closest, in log-space, to that face's
+  own real world-space UV aspect ratio — a long, thin wall face gets a real 8×2 grid instead of a
+  fixed 4×4 regardless of shape. A perfectly square face still gets the real, unchanged square
+  grid — exact back-compat with every already-shipped object. `paper_mesh_test.c`: confirmed the
+  existing byte-identical cube-vs-box assertion still passes, and added new, direct assertions on
+  `paper_face_grid` itself — a real 3:1 aspect correctly resolves to `(8,2)`, provably closer in
+  log-space than the naive `(4,4)` (`|ln(4)-ln(3)| ≈ 0.29` vs `|ln(1)-ln(3)| ≈ 1.10`), plus its
+  real 1:3 mirror and the real 1:1 square case. Verified live: regression-checked real
+  interact/damage still works correctly on an actual carved city wall after the geometry change
+  (`6/96` fragments damaged from 6 real hits, matching pre-change behavior). `bazel build/test
+  //...` clean (19 targets, 8/8 mod tests, no wire-format change). `docs/
+  NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `27b67ba`/`42b00d6`. Apple #16732.
