@@ -24310,3 +24310,20 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   real damage file and a non-last index; no warning for a last-index removal; no crash/false
   warning with the flag omitted. `packages/common/papercraft_worldobjects.h`/`NORTHSTAR.md`
   updated. PAPERCRAFT commits `e94027e`/`6f442c1`. Apple #16759.
+- [x] **S206-35: fix three stale top-of-file comments that no longer match shipped code.** Real,
+  bounded, zero-behavior-change documentation accuracy pass, found by grepping this repo's own
+  honest "not yet"/"real, later work" markers and cross-checking each against the actual current
+  implementation. `apps/server/src/main.c`: top comment still said "no jump/fall physics yet, no
+  destruction wiring, no talent spending" — all three have been real and shipped for a while, plus
+  leveling/XP, restart-persistence, and the dynamically-loaded mod registry didn't exist when that
+  line was written. Rewritten to describe the file's current real scope without re-enumerating
+  every feature in a way that will itself go stale. `packages/common/papercraft_world.h`: top
+  comment still said "One real chunk only, multi-chunk streaming is real later work," but
+  `PwWorld` (a real, static 3x3-chunk grid) is defined later in the SAME file and has shipped for
+  a while; corrected to describe both real layers and keep only the part still true (dynamic
+  streaming remains later work, the static grid does not). `packages/common/papercraft_persist.h`:
+  top comment still said "no world/test-cube-damage persistence yet" — `PcWorldDamageFile` has
+  shipped that separately; corrected to point at the real file that owns it. Verified via a full,
+  fully clean rebuild (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags):
+  23 targets, 8/8 mod tests pass, identical to before this change. PAPERCRAFT commits
+  `6f6b815`/`1b60e15`. Apple #16761.
