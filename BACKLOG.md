@@ -23977,3 +23977,22 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   genuinely wide, short slab — not a cube — with visible real damage tinting where it was
   punched. `bazel build/test //...` clean (17 targets, 7/7 mod tests). `docs/
   NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `b5cb431`/`8161241`. Apple #16702.
+
+- [x] **S206-19: real interact damage falloff by distance.** Closed `packages/common/
+  paper_mesh.h`'s own honestly-deferred gap: "uniform per-fragment for this first real pass;
+  falloff by distance is real, later tuning." New `PARENA/stdlib/papercraft/
+  interact_falloff_mod.prn` → `on-papercraft-interact-damage-falloff` — a real, simple linear
+  falloff (full damage at the real hit center, scaling to zero at the real radius edge) in I32
+  fixed-point. Deliberately composed with, not merged into, the existing real material-resistance
+  decision (`on-paper-fragment-damage`) — `paper_mesh_damage_radius` now computes each fragment's
+  own real distance-derived ratio, asks the falloff mod for an effective base damage, then hands
+  that to the unchanged existing damage path. Two real, separately-testable decisions, matching
+  this repo's own "mod decides, host composes" split. Also fixed a small, pre-existing dead-code
+  redundancy in the same function while touching it. Verified live with a real, falsifiable,
+  quantified prediction: the exact same real single-hit, one-shot-a-96-fragment-PAPER-object
+  scenario this session already measured before falloff existed (`73/96` fragments `GONE` in one
+  hit) was re-run after — real result: `52 intact, 23 cracked, 11 torn, 10 gone` (out of 96),
+  server log confirming `"10 fragment(s) broke off"` exactly. A real, meaningful gradient instead
+  of the old uniform full-radius destruction. `bazel build/test //...` clean (19 targets, 8/8 mod
+  tests). `docs/NORTHSTAR_PAPER_ENGINE.md` updated. PARENA commit `6350fc1`. PAPERCRAFT commits
+  `ab65d43`/`e1cbc21`. Apple #16707.
