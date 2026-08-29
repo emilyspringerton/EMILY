@@ -24452,3 +24452,23 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   still places correctly; a zero half-extent on `add` rejected; a negative half-x on `add`
   rejected; a negative half-y on `edit` rejected with the target object confirmed byte-unchanged
   afterward. Usage text updated. PAPERCRAFT commits `b235b6a`/`69f5757`. Apple #16838.
+- [x] **S206-43: bit-pack `world_object_state`, real 288-byte wire win.** Real, narrow, mechanical
+  first slice of the full-city-conversion wire-budget limit — confirmed by actually measuring
+  `sizeof(PcSnapshotPacket)` (1408 bytes) against the real 1472-byte unfragmented-UDP budget: only
+  64 real bytes of headroom, not even room for one more object before this change. Real
+  `PAPER_STATE_*` is only ever 0-3 — the original wire shape spent 8 real bits to carry 2 real
+  bits of information. New `PC_WO_STATE_BYTES` (`packages/common/papercraft_worldobjects.h`) packs
+  4 fragments per byte, cutting `world_object_state` from 96 bytes per object to 24. `PcSnapshotPacket`
+  updated; `apps/server`'s one real write site now uses `pc_wo_state_pack`; `apps/client` unpacks
+  into a local, per-frame scratch buffer once, leaving every existing consumer (the debris-diff
+  logic, `draw_test_cube`) completely unchanged. Real, narrow optimization only — does NOT raise
+  `PC_WO_MAX_OBJECTS` or attempt full-city conversion itself, both real, separate, later decisions.
+  Verified live, fully clean (`bazel clean`, then a plain `bazel build`/`bazel test`, no special
+  flags): 26 targets, 11/11 tests pass. Measured `sizeof(PcSnapshotPacket)` directly: 1120 bytes
+  (was 1408), exactly the predicted 288-byte saving. Real, live, end-to-end UDP verification with a
+  fresh probe using the new `pc_wo_state_unpack` accessor: a real crafted damage file, walked to
+  fragment 24, punched it, confirmed via the real wire data it transitioned TORN → GONE, 96/96
+  fragments gone, `+60` real XP awarded exactly as before — proving the packed format round-trips
+  correctly through an actual UDP connection, not just isolated unit math. `docs/
+  NORTHSTAR_PAPER_ENGINE.md`/`NORTHSTAR.md` updated with the real measured numbers. PAPERCRAFT
+  commits `7d05a41`/`998cf0f`. Apple #16841.
