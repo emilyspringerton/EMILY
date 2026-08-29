@@ -2203,6 +2203,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Every individually-scoped small Paper Engine gap is now clos…** — obs `2026-08-29T02:07:09Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: real per-face subd…** — obs `2026-08-29T02:01:13Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next: verify the just-shipped README.md's own Quick Start se…** — obs `2026-08-29T01:58:26Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: generalize apps/dy…** — obs `2026-08-29T02:18:13Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -24137,3 +24138,21 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   manifest format, no multiple mods loaded together, no real error handling for a bad mod, no
   actual `apps/server` call site using a dynamically-loaded function yet. PAPERCRAFT commits
   `5bb7696`/`ca145a4`. Apple #16736.
+- [x] **S206-26: generalize the dlopen mod-loading proof to real 0/1/2-arg I32 shapes.** Closed
+  S206-25's own remaining generality gap. `apps/dynmod_poc` rewritten to dispatch across three
+  real I32-returning function-pointer shapes (`I32Fn0`/`I32Fn1`/`I32Fn2`), inferring argument
+  count from how many trailing integer arguments are given on the command line rather than a
+  separate flag — proven against all three real shapes this repo's own mods actually use, not
+  just `xp_award_mod`'s trivial zero-arg case. New `packages/simulation/liblevel_mod.so` Bazel
+  target (`linkshared = True`), mirroring the already-proven `libxp_award_mod.so` pattern, plus
+  the same real `alwayslink = True` fix on the `level` cc_library. Verified live, fully clean
+  (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 22 targets, 8/8 mod
+  tests pass. All three real proof invocations run against the actual Bazel-built binaries and
+  match hand-traced expected values: `on_papercraft_xp_for_object_destroyed() = 60` (0-arg),
+  `xp_required_for_level(3) = 195` (1-arg), `on_papercraft_level_for_xp(1, 100) = 2` (2-arg,
+  exercises real recursion *inside* the dynamically-loaded `.so` — the function calls itself and
+  calls `xp_required_for_level`, both resolving correctly at runtime with zero host rebuild).
+  `MODDING.md`/`NORTHSTAR.md` updated with the real, honest remaining scope: no manifest format,
+  no multiple mods loaded together, no real error handling for a bad mod, no non-I32 (`Bool`)
+  shape, no actual `apps/server` call site using a dynamically-loaded function yet. PAPERCRAFT
+  commits `7e3ff53`/`f291d7f`. Apple #16739.
