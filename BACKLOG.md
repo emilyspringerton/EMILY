@@ -24558,3 +24558,25 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   server-authoritative fall is Phase 1b, the natural next slice, matching the
   `dynmod_poc`-then-integration sequencing precedent. `NORTHSTAR.md`/`README.md` updated.
   PAPERCRAFT commits `843eb3a`/`bb69bbc`. Apple #16856.
+- [x] **S206-48: real Phase 1b — client renders the server-authoritative fall.** Implements the
+  deliberate next slice named in S206-47's own docs: `apps/client` now renders the real
+  server-authoritative fragment fall from Phase 1a's own `falling_active[]`/`falling[]` wire data
+  instead of only its own older, purely client-side cosmetic debris simulation. Real, deliberate
+  design choice, not a full 1:1 replacement: Phase 1a's own server-side physics is vertical-only
+  while the client's own existing "shotgun blast" outward horizontal kick already looked good —
+  fully replacing it would have been a real visual regression for the sake of authority. Real,
+  honest split: for a real debris piece whose own `(object_idx, fragment_idx)` matches an active
+  real `falling[]` entry, real server `y` replaces local vertical simulation for that frame;
+  horizontal `x`/`z` stays exactly as it always was. A piece with no current real match falls back
+  to the exact same local simulation unchanged. New `pc_falling_lookup_y` in
+  `papercraft_protocol.h`, a real, pure, header-level function (no OpenGL/SDL dependency) so it's
+  independently testable without a live graphical client or IDUNA login (no known real test user
+  available in this environment). `apps/client`'s `PcDebrisPiece` gains
+  `object_idx`/`fragment_idx`/`center_y` correlation keys. New `packages/common/
+  papercraft_falling_test.c`: 8 real assertions, all pass. Verified live, fully clean (`bazel
+  clean`, then a plain `bazel build`/`bazel test`, no special flags): 27 targets, 12/12 tests pass.
+  Hand-verified the real coordinate math: rendered vertex Y = `real_y + (corner.y - center_y)`,
+  confirming a piece's own centroid tracks the real server `y` exactly while its own jittered
+  vertex shape stays intact. Rendering integration verified by clean compilation + manual math
+  trace, not a live graphical Xvfb session — same honest scope limit as S206-40's own client-side
+  half. `NORTHSTAR.md`/`README.md` updated. PAPERCRAFT commits `1027f2b`/`11319f3`. Apple #16859.
