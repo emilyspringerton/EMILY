@@ -24581,3 +24581,19 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   vertex shape stays intact. Rendering integration verified by clean compilation + manual math
   trace, not a live graphical Xvfb session — same honest scope limit as S206-40's own client-side
   half. `NORTHSTAR.md`/`README.md` updated. PAPERCRAFT commits `1027f2b`/`11319f3`. Apple #16859.
+- [x] **S206-49: close out the Phase 1a multi-fragment verification gap.** Real, bounded,
+  docs-only follow-up to S206-47's own explicitly-named loose end: the first live smoke test at
+  two simultaneous falling fragments came back inconclusive, not a confirmed defect, but also not
+  properly closed out. Traced to a real root cause on retry, not left as a shrug. Root cause 1:
+  the throwaway probe's own "facing pulse" used a full `mx=1.0` held long enough to actually walk
+  the player a real unit sideways, overshooting the target — fixed using a small `mx` value
+  instead (same real yaw, smaller positional side effect). Root cause 2: the first fragment pair
+  tried (24+25) differed in real local Y by 0.75 units — not simultaneously reachable from a
+  single grounded hit point at all, hand-traced and confirmed as a real geometric fact about that
+  pair, not a probe bug. Retried with fragments 20+24 (same local Y, 0.75 units apart along Z,
+  both reachable): a single punch broke both at once, and the real `falling[]` broadcast correctly
+  showed both as separate, simultaneously active entries, while the destroy/XP-award latch fired
+  exactly once. Confirms the bounded slot-allocation logic correctly tracks multiple concurrent
+  detach events, not just the single-fragment case. No code changed — verification only, using
+  the exact same server binary S206-47/48 already shipped. PAPERCRAFT commits `183c695`/`9b5c724`.
+  Apple #16863.
