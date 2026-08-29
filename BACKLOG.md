@@ -2220,6 +2220,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- resuming PAPERCRAFT self-scoped increments after S206-52 (real cross-platform CI: clie…** — obs `2026-08-29T19:50:53Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "make sure we have the proper clients uploading as artifacts" -- received mid-turn during autonomous…** — obs `2026-08-29T19:41:34Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- resuming PAPERCRAFT self-scoped increments after S206-51 (Phase 1c-client) closed out …** — obs `2026-08-29T19:40:50Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "on the client build" -- confirming failure is specifically at the 'Build papercraft_client (macOS)'…** — obs `2026-08-29T20:05:24Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "the mac build is failing" -- confirming run 33272366889 (commit 0784c14, the ::error:: diagnostic w…** — obs `2026-08-29T20:04:30Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "build is still failing" -- confirming run 33272230926 (commit 77c30f6, the sdl2-config -> brew --pr…** — obs `2026-08-29T20:00:07Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
