@@ -24393,3 +24393,25 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   own wire size is unaffected. `docs/NORTHSTAR_PAPER_ENGINE.md` updated honestly: Wall A precise,
   Wall B still an approximation, zero free object slots left. PAPERCRAFT commits
   `a809acd`/`c861902`. Apple #16771.
+- [x] **S206-40: real abandoned-connection handling, server and client both.** Closes a real gap
+  this always-running, never-ending persistent server had no defense against at all: UDP carries
+  no real disconnect packet, so a crashed/closed client left its claimed slot `active()==1`
+  forever — a real, slow leak toward `PC_MAX_PLAYERS`(16). `apps/server`: new
+  `PC_PLAYER_TIMEOUT_MS` (30s) — a slot with no real packet from its own client in that window
+  gets a real final autosave and is freed. Fixed a real, adjacent bug found while wiring this in:
+  `last_usercmd_ms` was only ever set on a `USERCMD` packet, so a freshly-claimed slot that hadn't
+  sent one yet would look already-timed-out on the very next tick — now set at CONNECT time too.
+  `apps/client`: new `PC_CLIENT_STALE_MS` (5s, deliberately shorter than the server's own 30s so a
+  genuine reconnect always wins the race) — no real `SNAPSHOT` traffic for that long drops the
+  client back into its own existing connect-retry loop and shows a real "CONNECTION LOST —
+  RECONNECTING..." screen instead of freezing on the last stale frame forever. Verified live,
+  fully clean (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 26
+  targets, 11/11 tests pass. Real, live, real-time server-side verification: a real UDP probe
+  connected then went silent for a real 31 seconds against a real throwaway server — the real
+  timeout log line fired exactly once, the server stayed up throughout, and a second real probe
+  using the same `player_id` immediately reclaimed the freed slot with correctly-restored
+  progression. Client-side half verified by clean compilation and careful tracing against the
+  same, already-proven reconnect-by-`player_id` mechanism, not a live graphical Xvfb session (no
+  known real test IDUNA user available without creating one in the shared, currently-in-use
+  production instance) — an honest scope note. `NORTHSTAR.md` updated. PAPERCRAFT commits
+  `cb7d1d6`/`078cab6`. Apple #16775.
