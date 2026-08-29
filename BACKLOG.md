@@ -24618,3 +24618,22 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   actually seeing it, which this environment's own honest client-verification limit (no known
   real test IDUNA user) doesn't allow yet, same scope limit Phase 1b already carried.
   `NORTHSTAR.md` updated. PAPERCRAFT commits `7d0d6a3`/`0567e31`. Apple #16866.
+- [x] **S206-51: Phase 1c-client — render the real server rotation on `apps/client`.** Closes the
+  exact gap S206-50 named as deferred. Shared lookup `pc_falling_lookup_y` (returned only `*out_y`)
+  renamed and re-signatured to `pc_falling_lookup`, writing the whole matching `PcFallingFragment`
+  (both `y` and `rotation_deg`) to one out-pointer instead of a second near-duplicate scan.
+  `apps/client`'s `update_and_draw_debris`: a matched debris piece's 4 `local_corners` are rotated
+  by hand (not a GL matrix stack, which would force one draw call per piece instead of the existing
+  single `glBegin`/`glEnd` batch) in the XZ plane around their own real local centroid (average of
+  the 4 corners, correct regardless of pre-existing jitter) by the real matched `rotation_deg`,
+  `y` untouched; an unmatched piece keeps unrotated corners, same zero-behavior-change fallback
+  Phase 1b's own Y-override established. `packages/common/papercraft_falling_test.c` updated to
+  the new signature, all 8 original assertions preserved, 3 new added for `rotation_deg` (11
+  total, all pass). Verified by hand-tracing a concrete numeric example (a unit-ish quad centered
+  at local (1.25, 1.25) rotated 90° around its own centroid maps each corner exactly onto its
+  neighboring corner's original position, confirmed by direct computation) — not a live Xvfb
+  session, same honest client-verification scope limit Phase 1b's own rendering integration
+  carried. Fixed a real `-Wmaybe-uninitialized` compiler warning on `real_match.rotation_deg` via
+  zero-init at declaration. Verified live, fully clean (`bazel clean`, then a plain `bazel build`/
+  `bazel test`, no special flags): 27 targets, 12/12 tests pass. `NORTHSTAR.md` gained a new
+  "Phase 1c-client" section. PAPERCRAFT commits `21786f1`/`dbcc9d3`. Apple #16869.
