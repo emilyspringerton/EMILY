@@ -24327,3 +24327,18 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   fully clean rebuild (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags):
   23 targets, 8/8 mod tests pass, identical to before this change. PAPERCRAFT commits
   `6f6b815`/`1b60e15`. Apple #16761.
+- [x] **S206-36: fix stale talent/UI claims in `NORTHSTAR.md`, verified against live code.** Real,
+  bounded, zero-behavior-change doc fix. The "Real bones already in the construct" talent bullet
+  had three stale claims, corrected against the actual current code, not assumed: (1) "how this
+  ties into the real host game loop this repo still doesn't have" — stale, `apps/server` has been
+  real and live since 2026-08-28, `PC_PACKET_ALLOCATE_TALENT` already applies the real gate's
+  decision; (2) "still not built: the actual five stat effects" — partially stale, the real MOVE
+  stat effect is live in the per-tick movement-speed calculation; corrected to name exactly what's
+  shipped (MOVE) vs still genuinely blocked (vitality/handling/shield/storm, whose own real
+  systems don't exist yet); (3) "Also still not built: a real UI" — wrong, not just stale. Caught
+  this one before committing by actually reading `apps/client/src/main.c` rather than trusting the
+  doc's own prior claim: `draw_progression_hud` renders a real `LVL`/`XP`/`PTS` readout every
+  frame via `packages/common/hud_text.h`'s own stroke font, plus a real per-ability-rank line —
+  confirmed it's actually called in the real render loop, not just defined and unused. Verified
+  via `bazel build`/`bazel test` (docs-only change, no source touched, all 8 mod tests still
+  cached-pass). PAPERCRAFT commits `efbe20f`/`3925674`. Apple #16763.
