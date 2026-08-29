@@ -24496,3 +24496,18 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   of the real 8 object slots stay free. `docs/NORTHSTAR_PAPER_ENGINE.md`/`NORTHSTAR.md` updated
   with the real measured before/after numbers throughout. PAPERCRAFT commits `7d22d63`/`1ef50e2`.
   Apple #16845.
+- [x] **S206-45: refresh `README.md` Quick Start and feature list for real, current state.** Real,
+  bounded, zero-code-change documentation accuracy pass. Fixed a real, verifiable factual error:
+  `bazel test //...`'s own comment claimed 8 total tests, real current count is 11 (three new
+  `packages/common` tests shipped since then, S206-37/38) — confirmed by actually running `bazel
+  test //...` again before committing, not assumed. Quick Start: `scripts/build-parena.sh`
+  (S206-31) now the recommended one-liner, manual path kept as fallback. Added the real `mapeditor
+  remove` example alongside `list`/`add`/`edit`. Feature list: added real abandoned-connection
+  handling (S206-40) and the real, live-updating progression HUD (already shipped, never mentioned
+  in this doc) as their own bullets; mentioned `apps/server`'s own optional `--mods-manifest`
+  dynamic mod loading (S206-29/30), pointing at `MODDING.md` for full detail. "Not yet real"
+  section: corrected the embedded-PARENA-editor bullet (one real call site can now swap mods
+  without a host rebuild) and the full-city-destructibility bullet (both real walls are now
+  precise multi-box L-shapes, wire budget measurably roomier after S206-43/44). Verified: `bazel
+  test //...` re-run before committing, confirmed 11/11 tests pass, exactly matching the corrected
+  text. PAPERCRAFT commits `3f37caa`/`fad30a2`. Apple #16849.
