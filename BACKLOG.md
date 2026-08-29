@@ -24417,3 +24417,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   known real test IDUNA user available without creating one in the shared, currently-in-use
   production instance) — an honest scope note. `NORTHSTAR.md` updated. PAPERCRAFT commits
   `cb7d1d6`/`078cab6`. Apple #16775.
+- [x] **S206-41: `mapeditor remove` now re-syncs the damage file, not just warns.** Closes the
+  rest of S206-34's own warning-only pass — and, for everything `apps/mapeditor` can do, actually
+  closes `papercraft_worldobjects.h`'s own longer-standing named gap without needing the real,
+  full, separate fix (a stable per-object ID, a cross-cutting wire-format change) at all. Key real
+  insight: `remove` is the ONLY real operation this entire toolset ever performs that reindexes
+  objects — `add` only ever appends, `edit` never reindexes anything — so keeping the real damage
+  file's own rows in sync inside `remove` itself (the same real shift already applied to the
+  objects array, applied to `damage.hp[][]` too) closes this gap completely for the whole tool,
+  not partially. No mesh regeneration or `max_hp` knowledge needed — `apps/server`'s own
+  damage-restore loop only ever iterates up to the real, new count, so the now-vacated trailing
+  row is simply never read by anything real. Verified live against the actual Bazel-built binary,
+  fully clean (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 26
+  targets, 11/11 tests pass. Real scenario: a 3-object file with distinct, identifiable per-object
+  damage markers (10/20/30 per fragment) — removing object 0 correctly moves object 1's own real
+  damage (20) to slot 0 and object 2's own real damage (30) to slot 1, confirmed by reading the
+  real saved damage file back afterward. Also confirmed: a last-index removal (no shift needed)
+  reports the plain message, not a spurious re-sync note; and removing with no damage file present
+  at all works cleanly. `packages/common/papercraft_worldobjects.h`/`NORTHSTAR.md` updated — the
+  real, still-open scope named precisely (a hand-edited file, or any real future tool outside
+  `apps/mapeditor`, isn't protected by this). PAPERCRAFT commits `4308ef1`/`2281d87`.
+  Apple #16779.
