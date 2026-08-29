@@ -24239,3 +24239,17 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   named remaining scope: only this one call site is wired this way — the rest of this repo's
   statically-linked mod calls could follow the same now-proven pattern, real, separate, mechanical
   follow-up work, not attempted here. PAPERCRAFT commits `77e2524`/`193d292`. Apple #16749.
+- [x] **S206-31: add `scripts/build-parena.sh`, closing the friction in "Two repos, not one".**
+  Real, small, bounded fix, deliberately outside the dlopen thread. A modder still needs both
+  `PAPERCRAFT` and `PARENA` checked out — not a vendored binary, a deliberate choice (a committed,
+  platform-specific compiler binary is real, ongoing maintenance debt this monorepo's own
+  "generated code committed" precedent, source not binaries, doesn't extend to). New
+  `scripts/build-parena.sh`: finds a sibling `../PARENA` checkout (or `PARENA_DIR` if cloned
+  elsewhere), runs the real `make build`, and prints the resolved `./parena` binary path on
+  stdout — one real command instead of a modder needing to know to `cd` into a second repo by
+  hand. Verified live, all three real paths: a real sibling checkout builds and prints a working
+  `./parena` binary (confirmed executable, usage output runs correctly); a missing `PARENA_DIR`
+  fails with a real, actionable clone instruction; a `PARENA_DIR` that exists but has no
+  `Makefile` fails with its own distinct real error rather than a confusing `make` failure deeper
+  in. `MODDING.md` Step 1 and the "Two repos, not one" gap entry updated. PAPERCRAFT commits
+  `66c6ddc`/`3c3e44b`. Apple #16752.
