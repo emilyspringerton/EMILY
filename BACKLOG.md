@@ -24534,3 +24534,27 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   wire-budget accounting requirement pointing at the headroom S206-43/44 created. Verified: `bazel
   test //...` re-run, 11/11 tests pass, unchanged. PAPERCRAFT commits `55ffe70`/`d196a0d`.
   Apple #16852.
+- [x] **S206-47: real Phase 1a — server-authoritative fragment physics.** Implements the real
+  Definition of Done just scoped in S206-46: the smallest real first slice of server-authoritative
+  fragment physics. `packages/common/papercraft_protocol.h`: new `PcFallingFragment` struct +
+  `PC_FALLING_FRAGMENTS_MAX` (4, deliberately small, real wire-budget margin left on purpose).
+  Deliberately minimal wire shape: only `y` crosses the wire — `object_idx`/`fragment_idx` let the
+  client derive the real, fixed `x`/`z` itself, since lateral scatter is an explicit non-goal. New
+  `falling_active[]`/`falling[]` fields on `PcSnapshotPacket`. `apps/server`: new server-internal
+  falling-fragment state and `spawn_falling_fragment`, triggered by a real before/after
+  fragment-state diff at the existing `PC_PACKET_INTERACT` call site (same technique
+  `apps/client`'s own debris-spawn logic already uses). Real bounded slot allocation, first free
+  else round-robin oldest. Real per-tick integration reuses the exact same `PC_GRAVITY` and
+  `pw_world_ground_height_at` player physics already uses — no new constants invented. Once
+  landed, the slot frees immediately, no permanent rubble-pile system. Verified live, fully clean
+  (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 26 targets, 11/11
+  tests pass. Real, live, end-to-end UDP verification: a real crafted damage file left one
+  fragment standing; a real probe reading the new wire fields directly punched it and watched real
+  `y` decrease under real gravity (`65.285 → 65.195 → 65.075` across three polls), then land
+  (vanish, slot freed) at a real, sane height — while the pre-existing destroy/XP-award flow fired
+  exactly as before, unaffected. A secondary two-fragment smoke test was inconclusive due to real
+  probe-positioning timing, noted honestly rather than glossed over. `apps/client` deliberately
+  not touched — still renders its own cosmetic debris; wiring it to draw the real
+  server-authoritative fall is Phase 1b, the natural next slice, matching the
+  `dynmod_poc`-then-integration sequencing precedent. `NORTHSTAR.md`/`README.md` updated.
+  PAPERCRAFT commits `843eb3a`/`bb69bbc`. Apple #16856.
