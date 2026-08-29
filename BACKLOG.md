@@ -24292,3 +24292,21 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   a nonexistent file (fails); and a real `--carve` object edited with its carve bounds confirmed
   byte-identical afterward. `README.md`/`NORTHSTAR.md` updated. PAPERCRAFT commits
   `536bce4`/`1a8f1b2`. Apple #16757.
+- [x] **S206-34: `mapeditor remove` warns when it would desync existing damage state.** Closes
+  the silent half of `papercraft_worldobjects.h`'s own already-named gap: a real, later
+  improvement would key `PcWorldDamageFile` by something stable across a real map edit that
+  reorders/removes objects. Removing anything but the LAST real object shifts every object after
+  it down one index — `apps/server`'s own damage restore is purely positional (`hp[o][f]` keyed
+  by slot `o`), so if a real damage file already exists, every shifted object would silently
+  inherit a DIFFERENT object's own damage state on the server's next start. Not fixed here (the
+  real fix is a stable per-object ID, a real, separate, cross-cutting wire-format change) — but
+  the previously silent footgun is now a real, visible warning, same "warn, don't block" policy
+  `add`'s own AABB overlap check already established. New `--damage-file` flag on `mapeditor
+  remove` (default `var/world/damage.dat`). Warns, names the exact shift, suggests deleting the
+  damage file or using the new (S206-33) `edit` command instead where it fits. Verified live
+  against the actual Bazel-built binary, fully clean (`bazel clean`, then a plain `bazel
+  build`/`bazel test`, no special flags): 23 targets, 8/8 mod tests pass. Real scenarios
+  confirmed: no warning with no damage file; a real warning + correct removal (exit 0) with a
+  real damage file and a non-last index; no warning for a last-index removal; no crash/false
+  warning with the flag omitted. `packages/common/papercraft_worldobjects.h`/`NORTHSTAR.md`
+  updated. PAPERCRAFT commits `e94027e`/`6f442c1`. Apple #16759.
