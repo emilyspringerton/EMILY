@@ -24681,3 +24681,33 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   Releases, matching SHANKPIT's/PITVIPER's own "auto release non pre release" precedent) — the
   real ask was "uploading as artifacts," not "cut a release." `NORTHSTAR.md`/`README.md` updated.
   PAPERCRAFT commits `c813f7a`/`ec0d11f`. Apple #16874.
+- [x] **S206-53: cross-platform CI actually succeeds end to end, real v0.1.0 GitHub Release cut.**
+  S206-52's own first real GitHub Actions run failed — founder: "still i dont have any papercraft
+  releases" → "and ci is failing". Real root cause #1: a bare `bazel test //...` matches EVERY
+  target under `//...`, not just test rules — it also tries to build `apps/client`/`apps/server`/
+  `apps/mapeditor`/`apps/dynmod_poc`, which the bare CI runner has no SDL2/GL dev headers for
+  (this dev machine already had them installed, hiding the bug locally). Fixed with
+  `--build_tests_only` — verified: 106 real actions vs. 152 before, all 12 tests still pass. Real
+  root cause #2 (release automation): founder made the call real-time — "still i dont have any
+  papercraft releases" — new `release` job (needs the platform builds, real push to `main` only,
+  auto-bumps MINOR only, no `--prerelease`, matching SHANKPIT's/PITVIPER's own precedent). The
+  macOS job then failed five straight times, never past the client compile step, each fix
+  attempt surfacing a real, distinct GitHub Actions gotcha without ever seeing the actual compiler
+  error: `sdl2-config` PATH assumptions (switched to `brew --prefix sdl2`); `set -u` silently
+  killing a diagnostic wrapper's own error-reporting code when a prior step's `$GITHUB_ENV`
+  cross-step propagation didn't work as expected; and finally, found only after the founder
+  pasted the actual raw step log, GitHub Actions' own implicit `bash --noprofile --norc -e -o
+  pipefail {0}` on every `shell: bash` step — that externally-imposed `-e` killed the whole script
+  the instant `clang` failed inside a `{ ... } > build.log 2>&1` capture block, before `cat
+  build.log` or the `::error::` reporting loop ever ran; `set +e` was the real fix, but before its
+  own next run completed, founder made the real call: "ok i removed mac we cant fix it on our
+  local we dont even know if that client works its not worth butning cycles on" — and pushed the
+  `build_macos` job's removal directly (commit `91f5b8d`). That push left dangling references
+  (`release` job's own `needs:` list, an orphaned "Download macOS artifact" step, a `chmod` on
+  files no longer produced) — repaired, plus stale "three platform"/macOS comments and
+  `README.md`/`NORTHSTAR.md` updated to Linux+Windows only. Final run (`0de8563`) passed all four
+  real jobs — `test`, `build_linux`, `build_windows`, `release` — and cut a real first GitHub
+  Release: `v0.1.0`, carrying `papercraft-linux-x86_64.tar.gz` and `papercraft-windows-x86_64.zip`
+  as real, downloadable assets — confirmed live via the GitHub API. `NORTHSTAR.md` gained the full
+  real postmortem plus this confirmed-success update. PAPERCRAFT commits
+  `1df7b85`/`77c30f6`/`0784c14`/`a885458`/`d63917e`/`0de8563`/`0fe6d51`/`7abf416`. Apple #16887.
