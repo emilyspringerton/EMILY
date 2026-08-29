@@ -24052,3 +24052,16 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   works through the actual public map editor interface, not just internal seeding. `bazel
   build/test //...` clean (19 targets, 8/8 mod tests, no new mod). `NORTHSTAR.md`/`docs/
   NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `0e90a8c`/`bf8205c`. Apple #16718.
+
+- [x] **S206-22: real AABB overlap detection in the map editor.** Real, minimal editor safety —
+  `apps/mapeditor`'s own `add` command was purely additive with no check at all for whether a new
+  object's real bounding box overlaps an already-placed one's. New `aabb_overlap()` tests all
+  three real axes; `add` now loops every existing real object in the loaded file and prints a
+  real `WARNING` (doesn't block — a real, later use case might genuinely want deliberate overlap)
+  naming which existing object it collides with. Verified live with three precise cases: two
+  non-overlapping placements produced no warning; a third object placed at the exact same real
+  position/extent as the first correctly triggered `"WARNING: new object's real bounding box
+  overlaps existing object 0"`; a fourth object placed just outside the real boundary (0.01 units
+  past the sum of both half-extents) correctly produced no false-positive warning. `bazel
+  build/test //...` clean (19 targets, 8/8 mod tests, mapeditor-only change, no wire-format
+  change). `NORTHSTAR.md` updated. PAPERCRAFT commits `ef38512`/`5373261`. Apple #16722.
