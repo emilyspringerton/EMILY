@@ -24253,3 +24253,23 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `Makefile` fails with its own distinct real error rather than a confusing `make` failure deeper
   in. `MODDING.md` Step 1 and the "Two repos, not one" gap entry updated. PAPERCRAFT commits
   `66c6ddc`/`3c3e44b`. Apple #16752.
+- [x] **S206-32: real `SIGHUP` live-reload for the dynamically-loaded mods manifest.** Closes the
+  safe half of `MODDING.md`'s own "No live-server reload" gap. World-object edits
+  (`apps/mapeditor`) still need a real restart — every real object is referenced by array index
+  everywhere, and a map edit that changes the real object count/ordering would silently desync
+  that; stays real, separate, harder work. The dynamically-loaded mods manifest has no such
+  problem — keyed by function NAME, not slot index — so it's now real, safely live-reloadable. New
+  `SIGHUP` handler (`g_mods_reload_requested`, same signal-safe pattern as the existing
+  `SIGINT`/`SIGTERM` shutdown handler) triggers `reload_mods_manifest()`: `dlclose`s every
+  currently-loaded `.so` (not just re-`dlsym`-ing into the same cached handles — `dlopen` on an
+  already-open path returns the SAME mapping, so a modder who rebuilt a `.so` in place would
+  otherwise silently keep running the old code), resets the registry, and calls the exact same
+  `load_mods_manifest` startup path fresh. Safe because this server is single-threaded with no
+  reentrancy — the reload only ever runs between ticks. Verified live, fully clean (`bazel clean`,
+  then a plain `bazel build`/`bazel test`, no special flags): 23 targets, 8/8 mod tests pass. Real
+  throwaway server instance testing (manifest edited on disk between real `SIGHUP`s, server never
+  restarted): starts 1 mod/1 `.so`, grows live to 4 mods/3 `.so` files on a real `SIGHUP` with all
+  four re-registered and the server serving throughout; shrinks back to 1 mod/1 `.so` on a second
+  real `SIGHUP` with stale entries correctly dropped; a server started with no `--mods-manifest`
+  logs a clean, real no-op on `SIGHUP` instead of crashing. All test processes/files cleaned up.
+  `MODDING.md`/`NORTHSTAR.md` updated. PAPERCRAFT commits `77c6389`/`2a715d3`. Apple #16754.
