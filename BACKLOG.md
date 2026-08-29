@@ -23998,3 +23998,31 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   of the old uniform full-radius destruction. `bazel build/test //...` clean (19 targets, 8/8 mod
   tests). `docs/NORTHSTAR_PAPER_ENGINE.md` updated. PARENA commit `6350fc1`. PAPERCRAFT commits
   `ab65d43`/`e1cbc21`. Apple #16707.
+
+- [x] **S206-20: real first case of `VoxelBlock` city-wall integration.** Closed the first real
+  slice of `NORTHSTAR.md`'s own "real integration into the city's own actual `VoxelBlock`
+  geometry (so real building walls, not just standalone props, are destructible)" gap. Not
+  full-city conversion — deliberately one real, bounded case: converting every `VoxelBlock` in
+  the real city into individually destructible Paper Engine objects would blow the real
+  wire-size budget completely (`PC_WO_MAX_OBJECTS` stays a real, bounded 4). Real,
+  confirmed-live geometry, not invented: `GET /chunks?scene=200&cx=0&cz=0` carries two real
+  ~15-block wall structures near the chunk's own corners; new `PC_CITY_WALL_A_*`
+  (`packages/common/papercraft_protocol.h`) names the real one at `X∈{12,13}, Z∈{0,1},
+  Y∈65..69` — a real, genuinely L-shaped 3-column cluster (`(13,1)` confirmed live as genuinely
+  absent, not a solid 2×2). New `pw_chunk_remove_box` (`packages/common/papercraft_world.h`)
+  removes those exact real 15 blocks from chunk `(0,0)`'s own normal solid render/ground-
+  collision path — both `apps/server` and `apps/client` call it independently at startup with
+  the same real bounds. A real Paper Engine object (using the non-cube `paper_generate_box`
+  shipped earlier this session) then stands in the carved-out space, sized to the real block
+  bounding box (`half=(1.0,2.5,1.0)`, centered at `(13,67.5,1)`) — a real, honest approximation
+  of the L-shaped footprint. Auto-seeded as the second real default world object alongside the
+  original test prop. Verified live end to end: fresh server confirmed `"Real city-wall
+  carve-out: removed 15 real block(s) from chunk (0,0)"` — the exact real count — and seeded `2
+  real default objects`; a real UDP probe confirmed the object broadcasts the exact derived
+  shape/position, walked a real player to it, and punched it repeatedly, confirming real damage
+  registers on a genuinely carved-out-from-the-city object (`6/96` fragments damaged from 6 real
+  hits). A real screenshot showed the object rendering correctly alongside the rest of the real
+  city geometry. `bazel build/test //...` clean (19 targets, 8/8 mod tests, no new mod). Honest
+  remaining scope: a general data-driven carve-out system and full-city conversion stay real,
+  later work. `NORTHSTAR.md`/`docs/NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits
+  `12aaa56`/`9eb398b`. Apple #16712.
