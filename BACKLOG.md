@@ -24359,3 +24359,17 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   tests pass. Raw-gcc run before the Bazel pass confirmed all four real assertions pass.
   `hmac_sha256.h`'s own header comment updated to note the real test now exists. PAPERCRAFT
   commits `3bd2638`/`ae2e665`. Apple #16766.
+- [x] **S206-38: real round-trip test coverage for both real save-file formats.** Continues
+  S206-37's own thread of closing real, previously-invisible test-coverage gaps for pure,
+  deterministic host C. New `packages/common/papercraft_persist_test.c`: real round-trip coverage
+  for `PcSaveRecord` — every field byte-identical after save+load, a real overwrite replaces
+  rather than appends, and two real failure modes (no save file for a new `player_id`, wrong
+  magic) both correctly fail closed. New `packages/common/papercraft_worldobjects_test.c`: same
+  coverage for `PcWorldObjectFile` (`apps/mapeditor`'s own real map data including carve bounds)
+  and `PcWorldDamageFile` (`apps/server`'s own real per-fragment damage persistence, including the
+  specific fragment slot `hp[0][24]` this session's own live UDP probes relied on). New
+  `BUILD.bazel` `cc_test` targets depending on `:common_headers`. Verified twice: raw gcc (18 real
+  PASS assertions, zero failures) and a fully clean Bazel pass (`bazel clean`, then a plain `bazel
+  build`/`bazel test`, no special flags): 26 targets, 11/11 tests pass, confirmed under Bazel's
+  own hermetic sandbox too. `papercraft_persist.h`/`papercraft_worldobjects.h` updated to point at
+  the new coverage. PAPERCRAFT commits `86b5fd5`/`1ff4cc2`. Apple #16768.
