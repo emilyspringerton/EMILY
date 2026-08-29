@@ -24195,3 +24195,26 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   designed error-handling policy for a bad/missing mod at real server startup, and an actual
   `apps/server` call site using a dynamically-loaded function instead of a statically-linked one.
   PAPERCRAFT commits `934f0d3`/`361df9b`. Apple #16744.
+- [x] **S206-29: wire the dlopen mod-loading mechanism into `apps/server`.** Closed two of
+  S206-28's own three remaining gaps. New optional `--mods-manifest <path>` flag, default unset
+  (zero behavior change unless given). When given, `apps/server` reads a real manifest at startup
+  — a simpler real format than `apps/dynmod_poc`'s own test-oriented one, `so_path|function-name`
+  per line, no expected value or call arguments (a running server has nothing to self-check a
+  mod's result against) — `dlopen`s every distinct `.so` exactly once and `dlsym`s every listed
+  function into a small, real in-memory registry (`g_mod_registry`). Real, considered
+  error-handling policy, decided here for the first time: a mod that fails to load (missing `.so`,
+  missing symbol, malformed manifest line) is logged as a `WARNING` and skipped — never fatal to
+  the server, never affects any other mod in the manifest. New
+  `apps/server/testdata/mods_manifest.example.txt`. `apps/server/BUILD.bazel` gets `-ldl`.
+  Verified live, fully clean (`bazel clean`, then a plain `bazel build`/`bazel test`, no special
+  flags): 23 targets, 8/8 mod tests pass. Real throwaway server instance testing (real
+  GoblinFoxDragon worldapi on `:7070`, isolated `--save-dir`/`--world-file`/`--damage-file`,
+  cleaned up after): a real 4-line manifest registers all 4 real functions across 3 distinct `.so`
+  files and the server serves normally afterward; a real deliberately-broken manifest (missing
+  `.so`, missing symbol, malformed line) logs 3 real `WARNING`s, still registers the 2 good mods,
+  and the server process is confirmed still alive and serving; running with no `--mods-manifest`
+  flag at all produces byte-for-byte the same startup log as before this change. `MODDING.md`/
+  `NORTHSTAR.md` updated. One real remaining gap, named honestly: an actual `apps/server` call
+  site that uses a dynamically-loaded function instead of a statically-linked one — a real,
+  separate design question (fallback behavior if a mod fails to load), not attempted here.
+  PAPERCRAFT commits `3645287`/`5d4354b`. Apple #16746.
