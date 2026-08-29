@@ -24068,3 +24068,17 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   past the sum of both half-extents) correctly produced no false-positive warning. `bazel
   build/test //...` clean (19 targets, 8/8 mod tests, mapeditor-only change, no wire-format
   change). `NORTHSTAR.md` updated. PAPERCRAFT commits `ef38512`/`5373261`. Apple #16722.
+
+- [x] **S206-23: real top-level README.md.** Genuine, real discoverability gap, not a new
+  feature — this repo had zero top-level `README.md` despite 22 real shipped Section-206
+  features, a real Bazel build, three real binaries (server/client/mapeditor), and three real
+  docs (`NORTHSTAR.md`, `docs/NORTHSTAR_PAPER_ENGINE.md`, `MODDING.md`) with no single landing
+  page tying them together. New `README.md`: real pitch, a concise "what's real today" summary
+  cross-checked against the actual shipped code, not written from memory — caught and corrected
+  an initial "8 mod tests + geometry test" miscount to the real "7 mod tests + geometry test = 8
+  total" after checking real `bazel test` output; real quick-start build/run commands (reused
+  `MODDING.md`'s own already-verified steps); real, verified controls (checked against
+  `apps/client/src/main.c`'s own actual keybindings, not assumed); a docs index; and an honest
+  architecture overview. "Not yet real" section named explicitly, not glossed over: embedded
+  in-game PARENA editor, graphical/live-server map editor, server-authoritative fragment physics,
+  full-city destructibility. PAPERCRAFT commits `92fa6aa`/`5f00090`. Apple #16726.
