@@ -2229,6 +2229,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "ok i need a PlayOnline bat on windows or something to connect to the upstream server im not gonna t…** — obs `2026-08-29T20:36:24Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "black screen flash for a moment" -- after starting the real papercraft_server directly (bound UDP :…** — obs `2026-08-29T20:32:04Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "ok so i still cant connect with the release client" -- checking current live state: whether papercr…** — obs `2026-08-29T20:31:24Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "ok im on windows and i dont have eaasy access to command line can you add some logging into the cli…** — obs `2026-08-29T20:49:08Z`. CURATED: 2026-08-29.
+- [ ] **Found the real root cause of the continued connection failure: the deployed IDUNA binary (~/.local/bin/iduna, built 202…** — obs `2026-08-29T20:44:34Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "ok that doesnt work either" -- PLAY_ONLINE.bat (v0.3.0) still fails to connect. Investigating wheth…** — obs `2026-08-29T20:41:42Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
