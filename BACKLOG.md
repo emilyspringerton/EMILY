@@ -2206,6 +2206,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: generalize apps/dy…** — obs `2026-08-29T02:18:13Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 now at 40 shipped items (S206-01 through S206-40…** — obs `2026-08-29T04:03:24Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 now at 39 shipped items (S206-01 through S206-39…** — obs `2026-08-29T03:54:12Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 42 shipped items. Prior turn flagged the smal…** — obs `2026-08-29T18:14:26Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 now at 41 shipped items. Most recent: mapeditor …** — obs `2026-08-29T18:10:10Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
