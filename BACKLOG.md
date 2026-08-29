@@ -24027,3 +24027,28 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   remaining scope: a general data-driven carve-out system and full-city conversion stay real,
   later work. `NORTHSTAR.md`/`docs/NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits
   `12aaa56`/`9eb398b`. Apple #16712.
+
+- [x] **S206-21: real, general, data-driven carve-out system.** Closed "a general data-driven
+  carve-out system... stays real, later work." Generalizes S206-20's one hardcoded
+  `PC_CITY_WALL_A_*` case into real, reusable `PcWorldObjectDef::has_carve`/
+  `carve_x0..carve_z1` fields ANY world object can carry — both `apps/server` and `apps/client`
+  now carve via a single, general loop over every real object with `has_carve` set, not a one-off
+  call. `apps/mapeditor` grew a real `--carve` flag (`--carve-x0/x1/y0/y1/z0/z1`) — Y
+  auto-derives from the real carve box's own center height instead of ground-snapping. Proved
+  with a real second wall: `PC_CITY_WALL_B_*` (the OTHER real ~15-block structure this session
+  already confirmed live, `X∈{0,1}, Z∈{0,1}`) is now auto-seeded alongside the first — two real
+  carved walls, not one, both through the same real path. Real, honest wire-budget accounting,
+  not glossed over: adding `carve_*` as plain `int` fields would have pushed
+  `sizeof(PcSnapshotPacket)` to 1488 bytes, past the real 1472-byte unfragmented-UDP budget this
+  repo has tracked all session — caught by literally compiling and checking `sizeof`, fixed by
+  packing them as `unsigned char` (chunk-local block coordinates are always genuinely small),
+  landing at a real, safe 1408 bytes. Also fixed two real `*/` comment-terminator bugs found live
+  during compilation (a literal `*/` inside doc-comment prose closed the comment early). Verified
+  live end to end: fresh server confirmed both real walls carved (30 total blocks removed);
+  removed wall A via `mapeditor remove` and re-added it via the real `mapeditor add --carve` CLI
+  path (not internal seeding code) — confirmed byte-identical results, restarted the server,
+  confirmed it carved correctly from the new object order; a real UDP probe walked to wall B
+  specifically and confirmed real damage registers on it (`5/96` damaged). The general mechanism
+  works through the actual public map editor interface, not just internal seeding. `bazel
+  build/test //...` clean (19 targets, 8/8 mod tests, no new mod). `NORTHSTAR.md`/`docs/
+  NORTHSTAR_PAPER_ENGINE.md` updated. PAPERCRAFT commits `0e90a8c`/`bf8205c`. Apple #16718.
