@@ -24175,3 +24175,23 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `apps/server` itself understands, no designed error-handling *policy* at real server startup, no
   non-I32 (`Bool`) shape, no actual `apps/server` call site using a dynamically-loaded function
   yet. PAPERCRAFT commits `6f78aa4`/`3f43030`. Apple #16742.
+- [x] **S206-28: real proof of the Bool mod-return shape via libtalent_mod.so.** Closed S206-27's
+  own remaining "non-I32 shape" gap. `talent_mod.prn`
+  (`PARENA/stdlib/papercraft/talent_mod.prn`) declares its own `on-papercraft-can-allocate-talent`
+  with a real `Bool` return type — the first `Bool`-shaped mod in this repo. Confirmed by reading
+  the generated `talent_mod.c` directly: VS0 compiles `Bool` to the exact same plain C `int` ABI
+  as `I32`, so `apps/dynmod_poc` needed zero new dispatch code — the existing 2-arg `I32Fn2` shape
+  already calls it correctly. New `packages/simulation/libtalent_mod.so` cc_binary target
+  (`linkshared = True`), same `alwayslink = True` fix already proven on `xp_award`/`level`, applied
+  to the `talent` cc_library. Three new real hand-traced Bool-shape entries folded into
+  `apps/dynmod_poc/testdata/manifest.txt`. Verified live, fully clean (`bazel clean`, then a plain
+  `bazel build`/`bazel test`, no special flags): 23 targets, 8/8 mod tests pass. Real single-call
+  Bool proofs against the actual Bazel-built binary, all hand-traced and matching:
+  `on_papercraft_can_allocate_talent(0,1) = 1`, `(5,1) = 0`, `(3,0) = 0`. Real manifest run: 3
+  distinct `.so` files loaded together in one process, 7 calls checked, 7 passed, 0 failed. All
+  three real production binaries (`papercraft_server`, `papercraft_client`, `mapeditor`) confirmed
+  still build correctly after `talent`'s new `alwayslink = True`. `MODDING.md`/`NORTHSTAR.md`
+  updated. Only real remaining gaps: a manifest format `apps/server` itself understands, a
+  designed error-handling policy for a bad/missing mod at real server startup, and an actual
+  `apps/server` call site using a dynamically-loaded function instead of a statically-linked one.
+  PAPERCRAFT commits `934f0d3`/`361df9b`. Apple #16744.
