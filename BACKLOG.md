@@ -2216,6 +2216,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 49 shipped items, 25 consecutive increments t…** — obs `2026-08-29T19:21:06Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 48 shipped items. Real Phase 1a/1b (server-au…** — obs `2026-08-29T19:13:50Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Section 206 at 50 shipped items, 26 consecutive increments t…** — obs `2026-08-29T19:27:09Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "still i dont have any papercraft releases" -- after S206-52 shipped a CI workflow that uploads Linu…** — obs `2026-08-29T19:52:04Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "continue" -- resuming PAPERCRAFT self-scoped increments after S206-52 (real cross-platform CI: clie…** — obs `2026-08-29T19:50:53Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "make sure we have the proper clients uploading as artifacts" -- received mid-turn during autonomous…** — obs `2026-08-29T19:41:34Z`. CURATED: 2026-08-29.
+- [ ] **Founder real-time: "continue" -- resuming PAPERCRAFT self-scoped increments after S206-51 (Phase 1c-client) closed out …** — obs `2026-08-29T19:40:50Z`. CURATED: 2026-08-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
