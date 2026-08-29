@@ -24218,3 +24218,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   site that uses a dynamically-loaded function instead of a statically-linked one — a real,
   separate design question (fallback behavior if a mod fails to load), not attempted here.
   PAPERCRAFT commits `3645287`/`5d4354b`. Apple #16746.
+- [x] **S206-30: wire the real xp_award call site to prefer a dynamically-loaded mod.** Closed
+  S206-29's own last remaining gap: an actual `apps/server` call site using a dynamically-loaded
+  function instead of a statically-linked one. The `on_papercraft_xp_for_object_destroyed` call
+  site (the "destroyed a world object" event) now looks the function up in `g_mod_registry` by
+  name via a new `mod_registry_lookup` helper, calls it if a real mod registered under that exact
+  name, and falls back to the exact same statically-linked call otherwise — the real, designed
+  answer to "what should gameplay do if the mod never loaded." New `I32Fn0` typedef for the
+  dynamic dispatch call; the server log now names which real path ran. Verified live, fully clean
+  (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 23 targets, 8/8 mod
+  tests pass. Real, end-to-end live verification via two throwaway server instances and a real UDP
+  probe (real HMAC connect ticket minted locally, real CONNECT/USERCMD/INTERACT packets, real
+  GoblinFoxDragon worldapi on `:7070`): a real crafted damage-file left exactly one fragment of the
+  default test prop standing, so a single real `INTERACT` triggers the real object-destroyed event
+  deterministically. No `--mods-manifest`: log reads `+60 real xp_award_mod XP
+  (statically-linked)`, `96/96` fragments gone, `xp=60`. `--mods-manifest` registering
+  `libxp_award_mod.so`: log reads `+60 real xp_award_mod XP (dynamically-loaded)`, same `96/96`
+  fragments gone, same `xp=60` — identical real reward through both real code paths. All test
+  processes and throwaway files cleaned up after. `MODDING.md`/`NORTHSTAR.md` updated. Honestly
+  named remaining scope: only this one call site is wired this way — the rest of this repo's
+  statically-linked mod calls could follow the same now-proven pattern, real, separate, mechanical
+  follow-up work, not attempted here. PAPERCRAFT commits `77e2524`/`193d292`. Apple #16749.
