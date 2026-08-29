@@ -24474,3 +24474,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   correctly through an actual UDP connection, not just isolated unit math. `docs/
   NORTHSTAR_PAPER_ENGINE.md`/`NORTHSTAR.md` updated with the real measured numbers. PAPERCRAFT
   commits `7d05a41`/`998cf0f`. Apple #16841.
+- [x] **S206-44: double `PC_WO_MAX_OBJECTS` to 8, give Wall B its own precise L-shape.** Real,
+  direct follow-up to S206-43's own `world_object_state` bit-packing win. Each additional real
+  object now costs 65 bytes (down from 137), real, measured headroom that safely supports
+  doubling `PC_WO_MAX_OBJECTS` from 4 to 8, landing `sizeof(PcSnapshotPacket)` at a real, measured
+  1380 bytes, still 92 bytes under the real 1472-byte budget. That headroom directly closes the
+  "Wall B stays a real, honest single-box bounding approximation" gap S206-39 explicitly named as
+  blocked by zero free object slots: Wall B now gets the exact same real, precise two-box L-shape
+  treatment Wall A already proved. Re-confirmed live against the actual worldapi, not assumed:
+  Wall B's real 15 blocks are byte-for-byte the same L-shape as Wall A's own, just at a different
+  chunk-local position. `packages/common/papercraft_worldobjects.h`: `PC_WO_MAX_OBJECTS` 4 → 8.
+  `packages/common/papercraft_protocol.h`: `PC_CITY_WALL_B_*` replaced with
+  `PC_CITY_WALL_B1_*`/`PC_CITY_WALL_B2_*`, mirroring Wall A1/A2's own real pattern exactly.
+  `apps/server/src/main.c`: default-seeding path now seeds 5 real objects instead of 4, only
+  affecting a fresh server with no existing world-objects file. Verified live, fully clean
+  (`bazel clean`, then a plain `bazel build`/`bazel test`, no special flags): 26 targets, 11/11
+  tests pass. Real throwaway server instance: fresh startup logs "seeded 5 real default objects",
+  and the real carve-out removes exactly 10+5 (Wall A) and 10+5 (Wall B) = 30 real blocks total,
+  matching real, live-confirmed worldapi data for BOTH walls now. Even with both walls precise, 3
+  of the real 8 object slots stay free. `docs/NORTHSTAR_PAPER_ENGINE.md`/`NORTHSTAR.md` updated
+  with the real measured before/after numbers throughout. PAPERCRAFT commits `7d22d63`/`1ef50e2`.
+  Apple #16845.
