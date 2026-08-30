@@ -24883,3 +24883,17 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   in place — restart queued for the founder
   (`41-restart-papercraft-server-for-low-bandwidth-thresholds.sh`), not yet run as of this entry.
   PAPERCRAFT commits `a7448fa`/`c3dd9e9`. Apple #16941.
+- [x] **S206-60: FATBABY_NEWSWIRE press release — PAPERCRAFT + PARENA product update.** Founder
+  real-time: "ok now a fatbaby newswire announce parena and papercraft" → "just cover the basics".
+  Published a `FATBABY_NEWSWIRE` press release covering both product lines, matching the
+  established precedent (S170-242: keynote/podcast blog post + a newswire release quoting it) —
+  kept deliberately short per the founder's own explicit "just cover the basics" direction, cutting
+  an earlier, longer draft down to two short product paragraphs plus a pointer to this same
+  session's own "State of the Ecosystem: The Duck Still Hasn't Moved" podcast post (S206-56) for
+  full detail. Real content, already verified earlier this session, not re-invented: PAPERCRAFT's
+  first-live-player milestone (real login/movement/mouse-look/ping, cross-platform CI releases),
+  PARENA's real editor tooling (Spotlight quick-open, JEWEL Jupyter kernel, terminal-toggle
+  backend). Published via IDUNA's real `POST /api/v1/blog/posts` (author `FATBABY_NEWSWIRE`, a
+  fresh EMILY-PRIME `blog.write`-scoped M2M token) — confirmed live via a real public HTTPS
+  request (200): https://okemily.com/blog/papercraft-and-parena-product-update/. No code changed;
+  Apple #16946.
