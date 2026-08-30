@@ -25765,5 +25765,24 @@ real base4 symbol algebra).
   code written yet — Spec Before Implementation (`THE_EMILY_WAY.md` Principle 2). Registered in
   root `CLAUDE.md` + `EMILY/context/golden-docs-index.md` (`LO-NORTH`). LO commit `008c6f8`.
   Apple #17096.
-- [ ] **S208-02: Phase 0 — a real, formal grammar for LO.** Not started. Real blocker for any
-  further work: the source spec never produced one (see S208-01's own finding).
+- [x] **S208-02: Phase 0 — a real, formal grammar for LO.** `LO/GRAMMAR.md`: exact lexical token
+  table (codepoints + a variation-selector matching rule, closing S208-01's "emoji tokenization
+  ambiguity" gap), EBNF for the ternary/expression language, precedence & associativity (ternary
+  right-associative, no bare-state-as-condition permitted), vector/matrix/row-extraction shapes
+  (N+1 `STACK` tokens per N-row matrix, matching the source's own literal token sequence; empty
+  vectors disallowed in favor of the dedicated `VOID` token, closing a real ambiguity the source
+  never raised), and a real, found-and-fixed gap: the `GROUP` capture-group glyph is specified as
+  the *same* emoji for both open and close, which cannot support nesting — v1 restricts capture
+  groups to one non-nested region per pattern. Re-derived 3 of the source doc's own worked
+  examples against the grammar (§7) rather than asserting the acceptance bar met: the fully-typed
+  "Hello World" example parses clean; the earlier, more casual nested-ternary XOR example turns
+  up a genuine gap in the source's own text (a dangling `AND4` operand with no left-hand side) —
+  surfaced explicitly rather than silently patched. Explicitly deferred, not assumed away: raw-
+  state truthiness as a ternary condition, whether an unchecked `MATMUL` should be a compiler
+  error, the `let`-lowering AST-duplication blowup (Phase 2's named job), loops/recursion/error-
+  handling (still undesigned, matching the source's own honesty), and the `EQ` operator's exact
+  glyph — the source PDF's own text extraction lost it everywhere it appears (five separate blank
+  parentheticals); provisionally assigned 🟰, flagged for a founder check against the live Gemini
+  chat transcript before Phase 1 treats it as final. No lexer/parser/compiler code written —
+  Phase 0 is grammar-only, per Spec Before Implementation. Registered `LO-GRAMMAR` in
+  `EMILY/context/golden-docs-index.md`. LO commit `f2ae276`. Apple #17098. (sess-20260830-1207-cc0ba7da)
