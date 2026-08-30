@@ -26284,3 +26284,26 @@ word processing + spell-check + autocomplete, built on real document management 
   compile + AST-view + simple edit), reachable natively in PAPERCRAFT, bootstrapped into EmilyOS,
   plus a web variant. Real, large, multi-repo NORTHSTAR-worthy scope on its own — not written
   further this session; named here so it isn't lost. Not started.
+
+## SECTION 218: PAPERCRAFT NATIVE EDITOR WIRING — REAL BOUNDARY FOUND (2026-08-30)
+
+- [x] **S218-01: real capability check before wiring `editor/document.prn`/`registry.prn` into
+  PAPERCRAFT.** Real, valuable finding, no code shipped: `PAPERCRAFT/CLAUDE.md`'s own "Mods
+  first, everything" section establishes a real, deliberate architectural rule — PAPERCRAFT mods
+  are I32-scalar-only AT THE HOST BOUNDARY ("Host C owns only what VS0 genuinely can't do yet
+  (float physics, structs/arrays crossing the mod boundary)"). Confirmed directly against every
+  existing compiled mod in `packages/simulation/` (`level_mod.c`, `notes_mod.c`, etc.) and their
+  own deliberately-minimal 17-line vendored `parena_runtime.h` stub (its own header comment: "no
+  Arena, no String, no Vec... grow this file the moment a future mod genuinely needs it"). Tried
+  growing that stub to the full runtime to link S217-02/03's own `document.prn`/`registry.prn`
+  (String/Vec/struct-heavy) as a real PAPERCRAFT mod — **reverted**, not committed, once the
+  real conflict with the established scalar-only mod-boundary convention was recognized, rather
+  than setting a wrong precedent for the live game codebase. `note_version_mod.prn` (already
+  pure I32 scalar) remains the real, already-compatible piece — no change needed there. Real,
+  honest next step, not resolved here: either PAPERCRAFT's own host C implements its native text
+  buffer directly (calling only into `note_version_mod.prn`'s scalar decisions), or the
+  mod-boundary convention itself needs a real, separate, considered evolution (struct/String
+  marshaling across the FFI boundary) before `document.prn`/`registry.prn` can cross it — a real
+  founder call, not decided unilaterally here. (sess-20260830-1207-cc0ba7da)
+- [ ] **S218-02: decide + build the real PAPERCRAFT native-editor path** (host-C buffer vs. a
+  real mod-boundary evolution), per S218-01's own named fork. Not started.
