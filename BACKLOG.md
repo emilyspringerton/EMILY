@@ -25815,6 +25815,40 @@ real base4 symbol algebra).
   chat transcript before Phase 1 treats it as final. No lexer/parser/compiler code written —
   Phase 0 is grammar-only, per Spec Before Implementation. Registered `LO-GRAMMAR` in
   `EMILY/context/golden-docs-index.md`. LO commit `f2ae276`. Apple #17098. (sess-20260830-1207-cc0ba7da)
+- [x] **S208-05: PARENA stdlib groundwork for LO — `stdlib/base4/vector.prn`.** Founder real-time:
+  "continue working on lo adding to the stdlib libs necessary to make the language actually
+  function... theoretically ffi into parena is acceptable if it satisfies the design." Built the
+  real PARENA-side primitives Phase 1's future LO compiler will emit calls into rather than
+  hand-generating base4 bit logic inline: elementwise `vec-xor`/`vec-and`/`vec-or`/`vec-add`/
+  `vec-subtract` (dimension-gated, `None` on length mismatch), `vec-eq` (structural equality),
+  `dimlen`, and `dot` (a real design decision this file makes on the source material's behalf —
+  AND-then-ADD accumulation, since `LoLanguageSpec.pdf` names the dot-product operator but never
+  defines real multiplication over the base4 state space). **Real, genuine compiler gap CONFIRMED
+  while building this, same class already documented in PARENA's own `linalg.prn` (not a new bug,
+  a new confirmed instance)**: `dot`'s loop accumulator, seeded from an integer literal, gets
+  C-typed `double` by VS0's emitter, so its `Option I32` boxing silently goes through a double-box
+  instead — verified directly (`tests/test_base4_vector.c`: a hand-traced dot product of `2` reads
+  back as `0` via the only correct-per-signature `int*` cast). **Not fixed here**, honestly — same
+  cross-cutting loop-variable/number-literal type-inference change `linalg.prn`'s own header
+  already scoped as out of a single-file pass; the test asserts the current, confirmed-buggy
+  behavior as a real regression gate rather than silently passing or hiding it. The other seven
+  functions don't hit this and are real, verified: 24 assertions, `make test-base4-vector`
+  (new Makefile target, mirroring `test-base4`'s convention), `-Werror` clean. Cross-module
+  higher-order function references (`base4/algebra/base4-xor` passed as a value) were also found
+  not to work yet — worked around with five near-identical direct-call loops rather than one
+  shared helper, flagged in `vector.prn`'s own header rather than silently avoided. Deliberately
+  deferred, named as new backlog items rather than attempted: **S208-06** (`STACK`/`MATMUL` matrix
+  construction — needs a real shape-representation decision first) and **S208-07** (the PCRE-lite
+  pattern matcher over base4 vectors, GRAMMAR.md §5.4 — a real, separate backtracking-matcher-
+  sized piece of work). `STDLIB.md`'s own new "base4/vector" section documents all of the above.
+  PARENA commit `f0048e8`. LO commits `844769d` (CHANGELOG), `535f5e7` (NORTHSTAR, names S208-06/
+  S208-07 there too). Apple #17105. (sess-20260830-1207-cc0ba7da)
+- [ ] **S208-06: `STACK`/`MATMUL` matrix construction for LO's PARENA stdlib target.** Needs a
+  real shape-representation decision (flat array-with-strides matching `array.prn`'s own
+  `NDArray`, vs. a real `Vec`-of-`Vec`) before any code. Not started.
+- [ ] **S208-07: PCRE-lite pattern matcher over base4 vectors for LO's PARENA stdlib target**
+  (GRAMMAR.md §5.4's wildcard/star/anchor/alternation/non-nested-group token set). A real,
+  separate backtracking-matcher-sized piece of work, not an elementwise op. Not started.
 
 ## SECTION 209: EDITOR KEYBINDING REPORT — CTRL+A (2026-08-30, logged not started)
 
