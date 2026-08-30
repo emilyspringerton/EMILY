@@ -26042,11 +26042,52 @@ acting (Principle 18). Real, multi-part scope, not yet touched this session:
    one? Real credit to prior art, explicitly named by the founder: this builds on Hypriot's own
    real, existing `image-builder-rpi` project, not built from scratch.
 
-- [ ] **S213-01: clone the fork, audit `image-builder-rpi`'s current real state, confirm Pi
-  hardware access, get it building/running unmodified per the founder's own explicit "no changes
-  needed yet" framing.** Not started.
-
-Naming clarification, founder real-time: only the founder's own top-level fork is renamed
-("FLASH," not `image-builder-rpi`) — every OTHER forked dependency kept its proper upstream name,
-not renamed. Real note for S213-01: don't assume every repo in this dependency set needs a
-FLASH-branded rename; only the one entry point does.
+- [x] **S213-01: clone the fork, audit real repo identities, confirm hardware/environment
+  constraints.** Real, honest finding, not glossed over: the founder's own "FLASH" name refers to
+  a SEPARATE real repo (`github.com/emilyspringerton/FLASH`, forked from `hypriot/flash` — the
+  SD-card WRITER) from `image-builder-rpi` (forked from `hypriot/image-builder-rpi` — the OS
+  IMAGE BUILDER); cloned the wrong one first, corrected, both now cloned locally with SSH
+  remotes fixed (both had come down over plain HTTPS, no push credential). **Real hardware
+  constraint confirmed directly, not assumed**: this session's own box is a headless KVM VM
+  (`systemd-detect-virt` → `kvm`) with zero USB/removable storage (`lsusb`/`lsblk` both empty,
+  no `/dev/mmcblk*`) — there is no physical path to flash an SD card from here, ever; the actual
+  write step must happen on the founder's own local machine. **Real environment constraint
+  confirmed directly**: `flash` (the script) explicitly refuses to run on WSL1/WSL2
+  ("This script does not work in WSL2") and has no `msys`/`mingw`/Git-Bash case in its own OS
+  case statement at all — falls through to "Unknown OS" and exits — and the founder is on
+  Windows. Real Windows/Git-Bash support is genuinely unbuilt, named as **S213-03**, not silently
+  assumed solvable by just running it.
+  Naming clarification, founder real-time: only the founder's own top-level fork is renamed
+  ("FLASH," not `image-builder-rpi`) — every OTHER forked dependency kept its proper upstream
+  name, not renamed.
+- [x] **S213-02: real Bazel build for FLASH** (founder real-time sequencing: "bazel it first the
+  flash guy"). `rules_shell`-based `MODULE.bazel`/`BUILD.bazel`. Real, hermetic `bazel test
+  //:syntax-check` (`bash -n` — shellcheck isn't installed in this sandbox, confirmed directly,
+  so this is real but narrower than CI's own Docker-based shellcheck check, not a silent
+  substitute for it). `bazel run //:run-flash`/`//:test` wrap the real script itself / the
+  existing privileged-Docker Bats suite as non-hermetic convenience targets, same real split
+  MISHRI's own `scripts/bazel_*.sh` wrappers already established. **Two real, found-live Bazel
+  gotchas, not style choices**: naming an `sh_binary` target `flash` collides with the real
+  sibling source file of the same name — a genuine Bazel self-edge dependency-cycle error, fixed
+  by renaming the target to `:run-flash`; a naive `dirname "$0"/../flash` assumes the runfiles
+  tree preserves a script's own subdirectory next to sibling files, which it doesn't for the
+  primary executable — fixed via `$RUNFILES_DIR` + the real, fixed `_main/flash` workspace-
+  relative path. `bazel build //...` clean, `bazel test //:syntax-check` passes, `bazel run
+  //:run-flash -- --version` correctly prints `dirty`. Registered `FLASH`/`image-builder-rpi` in
+  root `CLAUDE.md`. FLASH commit `d2613da`. MONOREPO commit `d3c99e9`. Apple #17128.
+  (sess-20260830-1207-cc0ba7da)
+- [ ] **S213-03: real Windows/Git-Bash (MSYS) support for FLASH's `flash` script**, per founder
+  real-time: "we are going to try to run it from git bash in pitviper use parena make it fucking
+  work we forked it." Real work needed, not yet started: add an `msys*|mingw*|cygwin*` case to
+  the OS case statement, and a real Windows-native disk-enumeration/raw-write path (Windows has
+  no `/dev/sdX`/`diskutil` equivalent reachable from plain Git Bash — needs either a bundled
+  `dd`-for-Windows binary or shelling out to PowerShell's own `Get-Disk`/raw `FileStream` write).
+  Real, honest limitation named up front: this session cannot test any of it end-to-end (no
+  Windows machine, no physical SD card/Pi, confirmed above) — whatever gets written here needs
+  the founder's own live test-and-report before it's trusted.
+- [ ] **S213-04: USB primitives for PARENA stdlib**, founder real-time: "write usb shit into the
+  stdlibs" → "make it work in either parena or burrow." Real scope split, not yet built: a
+  Linux-only device-enumeration path (String/Vec-heavy, `parena`/C-only, most plausibly real
+  sysfs reads under `/sys/bus/usb/devices/`) plus scalar-only decision logic (e.g. a real
+  USB-mass-storage-class check) that could reach `burrow`'s own Go target too, matching the
+  established `stdlib/k8s/k8s.prn` vs. `stdlib/k8s/scaling.prn` precedent. Not started.
