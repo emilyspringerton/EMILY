@@ -24835,3 +24835,27 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   live graphical session from this environment — the founder's own next real play session is the
   actual proof. `NORTHSTAR.md` updated. `v0.10.0` released (test/build/build/release all green).
   PAPERCRAFT commits `52a114f`/`731efb8`. Apple #16931.
+- [x] **S206-58: real ping/RTT counter, closing "show the ping at the top of the screen" in
+  full.** S206-54's own weak-connection indicator only ever partially covered this (a staleness
+  readout, not a literal round-trip time). Real, small protocol addition:
+  `PcSnapshotPacket` gains one `echo_cmd_time_ms` field — a single real field, not a real
+  per-player array (which would have cost `PC_MAX_PLAYERS * 4` wire bytes for something no client
+  ever needs to know about any player but itself) — that `apps/server` overwrites with each real
+  recipient's own most-recently-received `PcUserCmdPacket::cmd_time_ms` right before that
+  recipient's own per-player `sendto()`. The client that sent that real timestamp computes
+  `now_ms() - echo_cmd_time_ms` for a real, honest round-trip time with zero clock-synchronization
+  assumption at all — both the original send and the later compare happen on that same client's
+  own local clock, the server never touches or interprets the value, just reflects it straight
+  back. Displayed top-right (`draw_ping_indicator`, green/yellow/red banding at 100ms/300ms), a
+  real third independent corner readout alongside `draw_progression_hud` (top-left) and
+  `draw_weak_connection_indicator` (top-center). Real wire cost: `sizeof(PcSnapshotPacket)` grows
+  from 1432 to 1436 bytes, still 36 bytes under the 1472-byte budget. Verified live, end to end,
+  not just compiled: a real throwaway server + a real UDP probe sent an actual `PcUserCmdPacket`
+  with a known `cmd_time_ms`, then read snapshots until a nonzero `echo_cmd_time_ms` arrived — the
+  echoed value matched the sent value exactly, real measured round trip 8ms on localhost.
+  `bazel clean && bazel build //... && bazel test //...`: 27 targets, 12/12 tests pass, unaffected.
+  raw-`gcc` (Linux) and raw-`mingw-gcc` (Windows) both compile clean. `v0.12.0` released
+  (test/build/build/release all green). Live production `papercraft-server.service` also rebuilt
+  in place (binary predates this new wire field) — restart queued for the founder
+  (`40-restart-papercraft-server-for-ping-feature.sh`), not yet run as of this entry. `NORTHSTAR.md`
+  updated. PAPERCRAFT commits `0f47feb`/`d10d23d`. Apple #16935.
