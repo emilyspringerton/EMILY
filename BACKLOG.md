@@ -25717,3 +25717,43 @@ uploads curated `var/` state to a real, live GCS bucket.
   own `src/emit.c` already documented fixing on 2026-08-21; burrow just hadn't hit a real file
   using it yet. `go test`: 52/52 (50 prior + 2 new). PARENA commit `28db76a`, BURROW commit
   `bf09498`. Apples #17093 (PARENA), #17094 (BURROW).
+
+## SECTION 208: LO — ESOLANG, REAL CRITICAL SCOPING REVIEW (2026-08-30)
+
+Founder real-time: "LO upstream and design doc added - check it over it needs to compile into
+java ts c and go via parena cli and burrow cli." New repo (`github.com/emilyspringerton/LO`),
+upstream pre-created ahead of the ask, containing `LICENSE` (Unlicense) + `LoLanguageSpec.pdf` (a
+captured Gemini chat transcript designing a hyper-minimalist esolang — emojis + colons + one
+literal vector-constructor string as the entire alphabet, nested ternaries over a 4-symbol base4
+state space, a real Lisp-like `qi` frontend lowering to it, all sitting on top of PARENA's own
+real base4 symbol algebra).
+
+- [x] **S208-01: real critical review + NORTHSTAR scoping pass.** Read `LoLanguageSpec.pdf` in
+  full (9 pages, a real multi-turn design conversation). **Real, critical findings, not
+  rubber-stamped**: no formal grammar exists yet (every example in the source is
+  prose-plus-illustration); emoji-as-token-alphabet tokenization ambiguity never addressed
+  (Unicode grapheme clusters, variation selectors, skin-tone modifiers — a real, load-bearing gap
+  for whether the same-looking emoji is guaranteed to be the same token); loops/recursion and
+  error handling explicitly named as unfinished in the source material's own final message; a
+  real code-size/compile-time blowup risk in the spec's own `let`-as-AST-duplication lowering
+  scheme (the source doc's own honesty about this — "explodes into a massive... chain" — treated
+  here as a real engineering flag, not a style note). **Real, necessary architectural
+  correction**: LO/`qi` should emit real `.prn` source text only, not its own C/TS/Java/Go
+  backends — the existing `parena`/`burrow` CLIs do 100% of the real backend emission, unchanged,
+  reusing everything this monorepo already built rather than duplicating it. **Real, current
+  backend capability audit, checked directly against both compilers' own real state**: `parena`
+  (real, mature `defstruct`/`defenum`/`match`/`loop`/`recur`/`Result`/`Vec`/FFI support) can
+  plausibly reach most of LO's own real feature surface once a grammar/lowering pass exists;
+  `burrow` (scalar params/`if`/binops/`not`/flat `defstruct`+`get-field` only — no `let`,
+  construction, `defenum`, `match`, `loop`, `Vec`) can only reach LO programs limited to scalars
+  and flat structs — the exact same real boundary `PARENA/stdlib/k8s/k8s.prn` vs. `stdlib/k8s/
+  scaling.prn` already drew this same session, applied here rather than re-derived. Real, phased
+  plan written: Phase 0 (a real, formal grammar) → Phase 1 (LO-to-`.prn` text, scalars/flat-
+  structs only, proven compiling through BOTH `parena build` and `burrow build`) → Phase 2 (`qi`'s
+  own real frontend, same scope, the `let`-lowering risk answered for real) → Phase 3+ (vectors/
+  matrices/patterns/unions, gated on `burrow`'s own real feature growth, design only). No compiler
+  code written yet — Spec Before Implementation (`THE_EMILY_WAY.md` Principle 2). Registered in
+  root `CLAUDE.md` + `EMILY/context/golden-docs-index.md` (`LO-NORTH`). LO commit `008c6f8`.
+  Apple #17096.
+- [ ] **S208-02: Phase 0 — a real, formal grammar for LO.** Not started. Real blocker for any
+  further work: the source spec never produced one (see S208-01's own finding).
