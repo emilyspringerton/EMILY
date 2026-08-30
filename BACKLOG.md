@@ -24931,3 +24931,23 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `_.md`/`__.md` (unrelated agent-spec/system-prompt docs, dated Jun 7) deliberately left
   untouched — the founder only asked about the manuscript. TYLER commits `7e0b056`/`b91ea00`.
   Apple #16957.
+- [x] **S206-63: TYLER BOOK 1, "The Voice Message" — ties the 1978 migration event into the real
+  architecture doc.** Founder real-time: "do the next book into manuscripts tie in the 1978 trump
+  content already in manuscripts" → "use the 1978 architecture doc in engine". Before writing,
+  flagged a real concern with the founder: `trump_migration_1978.md` puts invented dialogue
+  directly in a real, named, currently-prominent public figure's mouth, going further than this
+  same show's own established x06 precedent (never put invented words in a real named figure's
+  mouth). Founder reviewed the concern and explicitly confirmed wanting to continue in the
+  existing style — proceeded on that basis, treating this as clearly-framed absurdist political
+  satire (chrono-glitches, Jiangshi witches, Emily OS system logs), not disguised as real
+  reporting. New `manuscripts/tyler_book1.md`: direct continuation of Book 0's own cliffhanger
+  (CALL MISSED → VOICE MESSAGE (1)) — the Osaka Garage crew investigates the archived 1978
+  Convergence Event using the real, load-bearing mechanics `engine/1978_architecture.md` already
+  establishes (Vassago #42, 11.11 Hz, Soft Precognition; Jiangshi custody-chain doctrine;
+  narrative mass) rather than inventing new lore mechanics for the tie-in. Every other real 1978
+  event referenced (Camp David, the Three Popes, the Intel 8086) is handled the same way the
+  architecture doc itself handles them: real historical fact plus in-universe interpretation, no
+  invented dialogue for any of those other real figures. `engine/1978_architecture.md` updated:
+  added the event to the real "1978 SUMMARY" table plus a new section X, making the tie-in
+  bidirectional (Book 1 cites the architecture doc; the architecture doc now cites Book 1 back).
+  TYLER commits `8b51ae0`/`a8b8abe`. Apple #16962.
