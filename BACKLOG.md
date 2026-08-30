@@ -2302,6 +2302,16 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'we may need to start building the v16 rednderer' -- connects to the real, already-recorded S189-63 …** — obs `2026-08-30T06:26:17Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time, ambiguous but real design signal: 'and whatever the browser is doing to make this file viewable is l…** — obs `2026-08-30T06:25:37Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time, real-time design burst: 'okok so lets start building emily os into papercraft i want the DUNG native…** — obs `2026-08-30T06:25:10Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: LO upstream repo (github.com/emilyspringerton/LO) and a design doc (LoLanguageSpec.pdf) added -- che…** — obs `2026-08-30T11:58:27Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: build in the k8s operator pattern primitives** — obs `2026-08-30T11:28:41Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: need to start the kubernetes migration, look up the plan in fatbaby, all logstreaming data is going …** — obs `2026-08-30T10:39:52Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: continue adding to DUNG's parena work, we want to emit Go with burrow** — obs `2026-08-30T10:27:15Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: finishing up the OKEMILY redesign when convenient** — obs `2026-08-30T10:00:53Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: finishing up the OKEMILY redesign when convenient (noted, lower priority, will return after DUNG PAR…** — obs `2026-08-30T10:00:53Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: continue DUNG, ensure we have artifacts and bazel builds once we have an entrypoint** — obs `2026-08-30T09:59:18Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: not in tmux right now, write a new claude startup script that runs emily session new > sess then lau…** — obs `2026-08-30T09:14:22Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: write a blog post about all 18+ principles of The Emily Way, read existing blog posts first for voic…** — obs `2026-08-30T09:12:56Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: continue work on DUNG** — obs `2026-08-30T09:10:54Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
