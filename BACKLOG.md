@@ -24956,3 +24956,17 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   added the event to the real "1978 SUMMARY" table plus a new section X, making the tie-in
   bidirectional (Book 1 cites the architecture doc; the architecture doc now cites Book 1 back).
   TYLER commits `8b51ae0`/`a8b8abe`. Apple #16962.
+- [x] **S206-64: TYLER BOOK 2, "The Ignition Order" — continues the real og S01E02 cliffhanger.**
+  Founder real-time: "continue the next book based on the real og main SHANKPIT storyline." Found
+  real, concrete og content: `SHANKPIT/docs2/specs/TYLER_EPISODE_2_CONTINUED.md` (Build 0001), a
+  real, dangling continuation of the school/Custody Office scene never incorporated into the
+  compiled, canonical `TYLER/episodes/s01e02_school.md` — confirmed via a direct check (grep for
+  "flip phone"/"SUIT"/"ignition order"/"gymnasium" against the compiled episode: zero matches).
+  New `manuscripts/tyler_book2.md` picks up that real cliffhanger exactly where the og draft
+  leaves it: Tyler answers the flip phone, the "SUIT" caller reveals himself as "the part of you
+  that remembers the ignition order," and Hana (the show's own og Custody Officer, an authority
+  figure) explains the real five-stage sequence (Black/Green/Red/Yellow/White) the call itself
+  only named. Distinct continuity note, stated in the manuscript's own doc comment: this Hana is
+  a different character role from the garage-crew Hana in Books 0–1 (Tides of Paradox side
+  continuity) — both stay as written, not forced into one character. TYLER commits
+  `cda4da6`/`35a60db`. Apple #16968.
