@@ -2273,6 +2273,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (new, separate repo): MISHRI (forked from an unknown author, unclear/ambiguous licensing) needs: (1) …** — obs `2026-08-30T03:21:50Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: go ahead with PAPERCRAFT entity + inventory system now -- 'simple but trackable', GTA3-style (destro…** — obs `2026-08-30T03:14:39Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: upgrade MISHRI entirely to TypeScript (all src/tests files converted from CommonJS JS to TS, real ts…** — obs `2026-08-30T03:50:28Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: rewrite MISHRI in PARENA, incrementally. Plan: (1) check repo XCVBNM-OR for a dependency/building-bl…** — obs `2026-08-30T04:08:56Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
