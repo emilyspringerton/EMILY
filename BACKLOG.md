@@ -25895,10 +25895,18 @@ real base4 symbol algebra).
   `Bool` check). `make test-base4-pattern` green, `-Werror` clean. `STDLIB.md`'s own new
   "base4/pattern" section documents all of the above. PARENA commit `4fde48d`. LO commit
   `5735bfb`. Apple #17121. (sess-20260830-1207-cc0ba7da)
-- [ ] **S208-09: `ALT`/`GROUP` support for LO's PCRE-lite stdlib target** (`base4/pattern.prn`).
-  `ALT` needs real multi-branch backtracking across whole sub-patterns (not per-element retry);
-  `GROUP` needs a real capture-boundary concept the current flat element-sequence design doesn't
-  have. Not started.
+- [x] **S208-09: `ALT`/`GROUP` support for LO's PCRE-lite stdlib target** (`base4/pattern.prn`).
+  `elem-group`: a real, zero-width GROUP (🗜) boundary marker (matches without consuming a target
+  state, checked before quantifier dispatch since it needs different position arithmetic than a
+  normal `One` element). Real, honest scope: no capture-VALUE extraction — nothing downstream
+  needs a captured substring yet, so this only guarantees a boundary doesn't break matching
+  around it. `is-match-alt`: real but deliberately narrower than GRAMMAR.md's own flat single-Vec-
+  with-embedded-ALT-token shape — binary alternation over two SEPARATE pattern `Vec`s, matching
+  `regex/pcre.prn`'s own `match-alt` leftmost-first order; N-way alternation and a true flat-
+  embedded-ALT-token form named as real follow-ups, not built here. New GROUP/ALT `self-test`
+  cases (split into a separate `self-test-group-alt` to avoid deepening the already-deep
+  let-nesting). `make test-base4-pattern` green, `-Werror` clean. PARENA commit `74104d3`. LO
+  commit `ba8b946`. Apple #17131. (sess-20260830-1207-cc0ba7da)
 - [x] **S208-08: LO README art from prompt-o-verse.** Founder real-time: "OK ->
   https://okemily.com/prompt-o-verse/emily-emoji/ make that the readme art for LO use proper
   imagemagic." Fetched the real gendata image from that taxonomy node (`emily-emoji-optimized.jpg`,
