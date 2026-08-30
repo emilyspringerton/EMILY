@@ -25056,17 +25056,28 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   commit `6dea971`. `bin/papercraft_server` rebuilt in place; `sudo-queue/43` queued for the
   founder's own restart. Apple #16985. The graphical `parena/ui`-based inventory/crafting
   interface itself remains real, separate, deliberately deferred future work, not scoped here.
-- [ ] **S206-68: MISHRI — Bazel build, construct-file artifact, README author/license
+- [x] **S206-68: MISHRI — Bazel build, construct-file artifact, README author/license
   acknowledgment.** Founder real-time: "MISHRI forked from an unknown author please update it to
   build with bazel and also the artifacts to include a construct file the concatination check
   parena editor out for an example" → "update readme to aknowledge the author and the ambiguous
-  licensing situation." Real, not-yet-scoped work in `/home/fatbaby/MISHRI` (confirmed to exist
-  locally, not yet in `CLAUDE.md`'s own repo table — register it there once scoped): (1) add a
-  real Bazel build, matching this monorepo's own convention; (2) build artifacts should include a
-  real "construct file" — founder pointed at PARENA's own editor tooling's concatenation-check
-  approach as the real example to follow for how that gets produced, needs investigating before
-  implementing; (3) update MISHRI's own README to honestly acknowledge the real, unknown original
-  author and the real, ambiguous licensing situation — do not fabricate an author name or invent
-  a license the fork doesn't actually carry. Not started yet — next real step is reading whatever
-  is actually in `/home/fatbaby/MISHRI` today (what it forked from, what build system if any it
-  already has, what license file if any exists) before scoping the real Bazel/construct-file work.
+  licensing situation" → (after being shown MISHRI's own README frames it as an explicit
+  "anti-detection"/deception tool, an `AskUserQuestion` flag) "Own server only + add a README
+  disclaimer" → "the author isnt unknown there is a github they are just outside the
+  organization" → "use at own risk all that." Real, investigated first (a Node.js/mineflayer
+  Minecraft bot, forked from `github.com/arpitrajjj/Mishri` — a real, known GitHub identity,
+  external to this org, not actually unknown). Shipped: real Bazel build (`MODULE.bazel`/
+  `BUILD.bazel`, `.bazelversion` pinned 9.2.0 matching PARENA's own precedent, `rules_shell`
+  dep) — `bazel test //:test` is a real, hermetic, sandboxed test of the humanness layer + skin
+  manager (both plain Node.js built-ins, no `npm install`/network needed at all, 84 assertions,
+  all passing); `bazel run //:install`/`//:mishri` are real, deliberately non-hermetic
+  `BUILD_WORKSPACE_DIRECTORY`-based wrappers around the real `npm ci`/`npm start` workflow,
+  documented as such. New `.github/workflows/ci.yml`: a real Bazel test gate + a "Generate
+  Construct Bundle" step matching PARENA's own exact, real, named-example convention (literal
+  `--- FILE START/END: <relpath> ---` markers, 3 uploaded artifacts — txt/tar.gz/zip), verified
+  locally outside CI (a real, well-formed 24-file bundle). README: real "Author & License"
+  section crediting the real original author (external, not affiliated with this org), noting
+  `package.json` declares ISC but no `LICENSE` file is present in this fork (ambiguous, not
+  fabricated), and a real "use at your own risk" note (the founder's own simplified final
+  phrasing, replacing an earlier heavier "own-server-only" disclaimer draft). Own `CLAUDE.md`
+  added; registered in the top-level `CLAUDE.md`'s own repo table (MONOREPO commit `bb77f2e`).
+  MISHRI commits `66825b5`/`810bb9a`/`19fb2a4`. Apple #16988.
