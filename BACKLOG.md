@@ -26371,3 +26371,28 @@ use ✨ for LET" → "use it for equalityu" → "in LO." Posted via `emily obser
   new/updated parser tests, 1 new live emitter test (refactored the existing one's subprocess
   plumbing into a shared `compileRunAndGetExitCode` helper). 18 tests total, `GOWORK=off go
   build/vet/test ./...` clean. LO commit `f7e11a5`. Apple #17167. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 221: LO — LETREF REACHES OUTER BINDINGS + SWITCH/CASE EXPLORATION (2026-08-30)
+
+- [x] **S221-01: `LetRef` reaches outer `Let` bindings via a depth index.** Continuing to
+  iterate on LO. Closed the real limitation `S220-01`'s own test comment named: nested `Let`s
+  could previously only ever reach the innermost binding. A bare `MAGNET` is still Depth 0
+  (backward compatible); `VectorLit MAGNET` (a single-state vector immediately before `MAGNET`)
+  sets `Depth` to that state's own value, counting outward — a real, deliberate reuse of
+  `MagnetExpr`'s own already-specified token shape (index-vector before `MAGNET`), simplified to
+  a small depth index rather than a full row-extraction target. Emitter now names bindings by
+  nesting depth (`x0`, `x1`, ...) instead of one always-shadowing `x`, with a real, honest
+  bounds check (referencing a depth with no enclosing `Let` is a real emit-time error). **Verified
+  end-to-end**: outer `S2`, inner `S1`, XOR the outer binding (reached via depth 1) against the
+  inner one (depth 0) — compiles, links, runs, exit code 3 (`2^1`), confirming the outer binding
+  is genuinely still reachable. 2 new parser tests, 1 new live emitter test. 20 tests total,
+  `GOWORK=off go build/vet/test ./...` clean. LO commit `993b0c2`. Apple #17168.
+  (sess-20260830-1207-cc0ba7da)
+- [ ] **S221-02: SWITCH/CASE emoji candidates, exploration only, not decided.** Founder real-time,
+  self-flagged as not-ideal candidates: SWITCH=🎛️ (U+1F39B+VS16), CASE=🎚️ (also VS16-based) —
+  both real, valid glyphs per `GRAMMAR.md` §1.2's own variation-selector matching rule, but the
+  founder's own hesitation is worth taking seriously before locking in a new token: a real
+  `SWITCH`/`CASE` construct's own grammar shape (single-value dispatch over multiple literal
+  cases — genuinely new territory, LO's `Ternary` already covers binary branching) hasn't been
+  scoped at all yet either. Not started — needs both a real glyph decision and a real grammar
+  design pass, not just a token pick.
