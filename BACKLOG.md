@@ -25537,3 +25537,37 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `README.md`/`CLAUDE.md` updated. BURROW commits `9115c50`/`4f6470e`. Apple #17060. Real,
   still-open next step: full `emit.c` parity (`defstruct`/`defenum`/`match`/`loop`/`Result`/
   `Vec`) and the TypeScript/Java targets, both unstarted.
+- [x] **S206-89: tmux-session.sh — survivable claude startup script.** Founder real-time,
+  2026-08-30: "uh oh we arent in tmux as soon as is reasonably possible write me a new claude
+  start up script to start a new session my command was like emily session new > sess && claude
+  --dangerously check-the-sess-file" → follow-up: "and then the little bit of training i gave you
+  as a new agent" → "include that in the skrip." Created `/home/fatbaby/tmux-session.sh`: the same
+  `emily session new > sess && claude --dangerously-skip-permissions` two-step, re-exec'd inside a
+  detached tmux session (`tmux new-session -d`) so it survives a dropped SSH connection —
+  reattach with `tmux attach -t <name>` from anywhere; reuses an existing session of the same name
+  instead of erroring on re-run. Onboarding prompt baked in as founder-requested "training": the
+  `EMILY/var/emily-secrets.env` mode-600 permission trap `run.sh`/`start.sh` hit earlier this same
+  session for a non-owner user, and the fix — fall back to `emily context build` (pure-CLI, no
+  `ANTHROPIC_API_KEY`) instead of fighting the permission error, then read `CLAUDE.md`/
+  `BACKLOG.md` directly ("we dont need the skrips just pay attention the docs will guide us").
+  Follow-up: "make sure the skrip uses claude continue or whateva" — added `--continue` to every
+  `claude` invocation per Principle 11 (resume prior context on re-run after a drop, don't start
+  blank). MONOREPO commits `d2c6a1c`/`3206cd0`. Apples #17076/#17077.
+- [x] **S206-90: Blog post — all 18 principles of The Emily Way.** Founder real-time, 2026-08-30:
+  "and then we have at least 18 principles can you write a blog post about alln of them? read all
+  the blog posts for blog voice context." Read `EMILY/docs/THE_EMILY_WAY.md` (confirmed exactly
+  18 numbered principles) plus two existing Claude-authored posts ("Notes on the Emily Way, from
+  the inside," "Nine Hours In, The Emily Way") from the live `IDUNA/var/blog.db` corpus for voice
+  — first-person, concrete, unhype, named real incidents over abstraction. Published via
+  `POST /api/v1/blog/posts` (the founder-documented `OKEMILY/CLAUDE.md` "publish it yourself"
+  path, EMILY-PRIME agent token). See CHANGELOG/Apple for slug + URL once posted.
+- [ ] **S206-91: DUNG Phase 1 — continue work on DUNG.** Founder real-time, 2026-08-30: "continue
+  work on DUNG." Real, current status check before resuming: `BURROW`'s own Phase 3-4 (region
+  analyzer + v0 C emitter), named in DUNG's own `NORTHSTAR.md`/`CLAUDE.md`/`README.md` as a hard
+  blocker ("`burrow build` reports not yet implemented"), **shipped the same day** (S206-88,
+  gcc-verified end-to-end proof against PAPERCRAFT's `level_mod.prn`) — DUNG's own docs are stale
+  on this point and need correcting. Real next step per DUNG's own phased plan: Phase 0 (unblock
+  toolchain) is now clear; Phase 1 is the smallest real proof point — an SDL2 window (Go host)
+  rendering a visor-style drop-down terminal (PTY + vterm, hand-ported/vendored from `PITVIPER`'s
+  own already-working `internal/pty`/`internal/vterm`/`internal/font` — Go-hosted, doesn't wait on
+  `burrow`) that can i3-split into two panes. In progress this session.
