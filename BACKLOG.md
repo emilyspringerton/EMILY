@@ -26228,3 +26228,52 @@ Founder real-time: "also require semicolons in LO." Posted via `emily observe` b
   succeeds), 2 emitter tests updated. Verified live via `lo build`: a missing `;` produces a
   real, clear parse error; a present one compiles correctly. `GOWORK=off go build/vet/test ./...`
   clean. LO commit `f93cdd0`. Apple #17148. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 217: JEWEL/SARENA WORD-PROCESSOR PIVOT + DOCUMENT MANAGEMENT (2026-08-30)
+
+Founder real-time, large rapid-fire burst: "build word processor into JEWEL i want to parlay the
+infrastructure of SARENA notebook to power a gui word processor including spell check and auto
+complete" → "power it via LO" → "dogfood the variables and shit yoou need" → "basically build
+PARENA editor into SARENA" → "like start porting us to webgl my bro" → "we can render the parena
+editor native in papercraft and bootstrap that into emily os" → "vs0 in papercraft" → "we need
+document management asap" → "like the web emily os" → "i mean we need the equivalent of vs code
+but ours is a little spicier" → "parena powered parena built in BLUEj affordances from the java
+world" → "make it so it can compile and to a lesser extent view the ast of thee code and then
+also edit it super simpler" → "build that first witgh word processing and spell check and auto
+complete as noted vs1-2 phase goals". All posted via `emily observe` before acting (Principle
+18). Real, honest synthesis of a fast-moving, wide-ranging vision, not each piece separately
+built: the destination named across these messages is a real PARENA-powered code editor/IDE
+("VS Code but spicier," BlueJ-style affordances, compile + AST-view + edit), reachable natively
+in PAPERCRAFT and bootstrapped into EmilyOS, with a web variant too — VS1-2 phase goals named as
+word processing + spell-check + autocomplete, built on real document management first.
+
+- [x] **S217-01: real capability check + phased plan** — `JEWEL/docs/NORTHSTAR_SARENA_NOTEBOOK.md`
+  new "Word processor pivot" section. Checked LO's own real, current state directly (no
+  variables/records/strings) rather than assumed capable. **Real, significant finding**: LO's own
+  future `let` doesn't need the source spec's own De Bruijn/Magnet environment-matrix scheme at
+  all, since LO's real target (PARENA) already has real `let` — can emit it directly, sidestepping
+  the spec's own named AST-blowup risk entirely. Real sequencing committed to: PARENA editor
+  integration first (buildable today), LO `let` second (a separate language-design step), spell-
+  check/autocomplete + WebGL/PAPERCRAFT/EmilyOS rendering layered on top, all real, separate,
+  named follow-ups. JEWEL commit `b88b99e`.
+- [x] **S217-02: `PARENA/stdlib/editor/document.prn` — real document management, built now.**
+  Founder real-time: "we need document management asap." Ties `editor/buffer.prn` (text/cursor,
+  already real) and `papercraft/note_version_mod.prn` (coalesce/version decisions, S215-02,
+  already real) together — no new buffer or versioning logic invented. Verified: edits within
+  the 30s coalesce window overwrite in place; a gap past it forks a real new version. Single-
+  document only (a multi-document registry is a real, separate follow-up); version-history bytes
+  not stored here (real host/IDUNA concern, per S217-01's own doc). `make test-editor-document`
+  green, `-Werror` clean. PARENA commit `61b72cf`. Apple #17161. (sess-20260830-1207-cc0ba7da)
+- [ ] **S217-03: multi-document registry** (open/switch/list documents) on top of S217-02. Not
+  started.
+- [ ] **S217-04: real PARENA editor (`stdlib/editor/*.prn`) wired into SARENA_NOTEBOOK's own
+  frontend**, replacing its current plain `<textarea>` NOTE cells. Not started — the real next
+  step once S217-03 exists.
+- [ ] **S217-05: LO `let`** — a real `GRAMMAR.md` amendment (new token/production) emitting a
+  real PARENA `(let [x v] body)` directly, per S217-01's own finding. Not started.
+- [ ] **S217-06: spell-check + autocomplete** on top of S217-04's real buffer/cursor model. Not
+  started.
+- [ ] **S217-07: PARENA-powered editor/IDE** ("VS Code but spicier" — BlueJ-style affordances,
+  compile + AST-view + simple edit), reachable natively in PAPERCRAFT, bootstrapped into EmilyOS,
+  plus a web variant. Real, large, multi-repo NORTHSTAR-worthy scope on its own — not written
+  further this session; named here so it isn't lost. Not started.
