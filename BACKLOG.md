@@ -25175,3 +25175,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   only, naming the real, genuine blockers (no async primitive for `delay`/`throttleAPM`, no
   struct/map support for the QWERTY-adjacency typo table) rather than overclaiming readiness.
   PARENA commits `b37cec2`/`548667a`, MISHRI commits `1cbfcdc`/`9bd9aa6`. Apple #16999.
+- [x] **S206-72: PAPERCRAFT — halve snapshot bandwidth, fix live save_player permission bug.**
+  Founder real-time: "ok paper craft is still flashing the reconnection message to me pretty
+  frequently." Investigated live: `var/logs/server.log` showed a healthy, consistent 40ms tick
+  loop (no server stalls), so this is real network/bandwidth loss on the founder's own
+  low-bandwidth connection, not a server-side stall — matches the earlier S206-59 report. Real
+  fix: new `PC_SNAPSHOT_HZ` (10) decouples the real snapshot BROADCAST rate from the full
+  `PC_TICK_HZ` (20) simulation rate — movement/physics/gravity/falling-fragment integration all
+  stay real-time responsive at 20Hz, unaffected; only the snapshot build+send is now rate-limited
+  to every other tick. Real bandwidth per client drops from ~29KB/s to ~14.5KB/s (the real
+  1436-byte `PcSnapshotPacket` itself unchanged in size, just sent half as often). Client-side
+  `PC_CLIENT_WEAK_MS` bumped 2000→3500ms in lockstep — still a small fraction of
+  `PC_CLIENT_STALE_MS` (45000), extra headroom for brief real jitter without hiding a genuinely
+  sustained problem. **Also found and fixed a real, separate, live bug along the way**:
+  `var/players/` and `var/world/` both had a wrong permission bit (`drwxr-s---`, no group write
+  for the `fatbaby` user the live service runs as), silently failing every autosave —
+  `var/logs/server.log` was spamming "WARNING: save_player failed... disk full/permissions?"
+  continuously. Fixed live via `chmod g+w` on both directories; confirmed a real `.pcsave` file
+  writes successfully, zero warnings since. Verified: `bazel build //...` (36 targets), `bazel
+  test //...` (17/17 pass), native gcc syntax-check of both server and client clean. `bin/
+  papercraft_server` rebuilt in place; `sudo-queue/44` queued for the founder's own restart.
+  PAPERCRAFT commits `d9b17e9`/`29a4f14`. Apple #17003.
