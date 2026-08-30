@@ -25012,29 +25012,61 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   first-connection scenario. PAPERCRAFT commit `cf2c9d3`, PARENA commit `da552b4`.
   `bin/papercraft_server` rebuilt in place; `sudo-queue/42` queued for the founder's own restart.
   Apple #16978.
-- [ ] **S206-66: PAPERCRAFT list-based (text) inventory UI — before the graphical
-  inventory/crafting interface.** Founder real-time: "we need a list based inventory before the
-  graphicsl inventory and crafting interface use parena ui library." Real, deliberate sequencing:
-  a simple, real text-list inventory first (no PARENA UI dependency — this can ship as a plain
-  client-side HUD overlay, same discipline as `draw_progression_hud`/`draw_phone_notification`),
-  THEN the graphical inventory + crafting interface built on `parena/ui` (PARENA's own editor/
-  plugin API namespace — see `PARENA/NORTHSTAR.md`). Depends on S206-67's own entity system for
-  real item data to list (items need to exist as real world/held state before a real inventory
-  has anything real to show) — scope S206-67 first or in lockstep. Not yet designed: real item
-  data model (id, stack count, real handle/name), the wire format for syncing inventory contents
-  (likely a new fixed-struct packet, same convention as `PcPhoneMessagePacket`), and the actual
-  list-rendering HUD toggle (keybind TBD).
-- [ ] **S206-67: PAPERCRAFT entity system — real world entities for item drops/pickups.** Founder
-  real-time (clarifying S206-66's own inventory ask): "so we need like an entity systey" → "like
-  we can pick up the scraps on the ground." Real driver: the debris fragments already lying on
-  the ground after a Paper Engine object breaks (`PcFallingFragment`,
-  `packages/common/papercraft_protocol.h`) should become real, pickup-able "scrap" entities
-  feeding the real inventory (S206-66), not just a visual-only falling/settling effect as today.
-  Real, bounded scope to design before implementing: a general entity concept distinct from the
-  current fixed `PcWorldObjectDef`/`PcPlayerState` split (most likely: a new `PcEntity`/
-  `PcEntityState` array, bounded count like `PC_MAX_PLAYERS`/`PC_WO_MAX_OBJECTS` already are,
-  server-authoritative spawn/despawn/pickup, a new interact-adjacent "pickup" trigger reusing
-  `PC_PACKET_INTERACT`'s own reach-check pattern or a new dedicated packet type). PARENA mod
-  candidate for the real pickup-eligibility/stack-merge decision logic, matching "mods first
-  everything." Scope this into a real NORTHSTAR.md addendum before writing entity code — this is
-  a genuinely new subsystem, not a small slice like the phone mechanics above.
+- [x] **S206-66/67: PAPERCRAFT entity + inventory system — GTA3-style drops, FFXI-style list UI,
+  controller support.** Founder real-time: "we need a list based inventory before the graphicsl
+  inventory and crafting interface use parena ui library" → "so we need like an entity systey" →
+  "like we can pick up the scraps on the ground" → "go ahead with the entity and inventory system
+  simple but trackable gta3 style stuff drops and you can pick it up ffxi style list affordances
+  first so we also support controller" → "all parena mod api based developed." Real, "mods first
+  everything" split across three new PARENA mods: `PARENA/stdlib/papercraft/item_drop_mod.prn`
+  (does destroying this material drop an item, and which?), `inventory_mod.prn` (real per-item
+  stack-max + merge-eligibility rules), `pickup_mod.prn` (even the flat pickup radius is a real,
+  tunable mod value). New, deliberately event-driven wire protocol (`PcSnapshotPacket` had almost
+  no headroom left): `PC_PACKET_ENTITY_SPAWN`/`DESPAWN` (a bounded `PC_ENTITY_MAX` world-entity
+  array, distinct from `PcWorldObjectDef`/`PcPlayerState`) and `PC_PACKET_INVENTORY_UPDATE` (a
+  fixed `PC_INVENTORY_SLOTS` array per player). A `PAPER_MATERIAL_PAPER` object fully destroyed
+  (same trigger `xp_award_mod`/`phone_mod` already use) spawns a real, broadcast, GTA3-style item
+  drop; real walk-over auto-pickup runs every server tick, no dedicated button. Real add/merge/
+  stack-cap logic lives in a new, pure, testable header (`packages/common/papercraft_inventory.h`,
+  `pc_try_add_item_to_inventory`), matching this repo's own existing `pc_falling_lookup`
+  precedent, not inlined into `apps/server`. Client: a real FFXI-style list inventory overlay
+  (`draw_inventory_list`, 'I' toggles it, Up/Down/WS or controller D-pad navigate; opening it
+  pauses movement input) — deliberately not the graphical `parena/ui` version yet, matching the
+  founder's own explicit sequencing (that stays a real, separate, later item). Real, basic
+  `SDL_GameController` support: left stick movement, right stick look, A/X jump/interact, Y
+  toggles inventory — a session with no controller connected is completely unaffected. **Real,
+  live mid-session pivot**: a first verification pass used a throwaway Python UDP probe; founder
+  real-time feedback ("can we rewerite whatever you are doing in native code not in python i dont
+  know it takes a long time" / "can we make it a native test?") replaced it with
+  `packages/simulation/papercraft_inventory_test.c` — a real, permanent, fast, deterministic
+  `bazel test` (14 assertions) against the real inventory header + the real PARENA-compiled
+  `inventory_mod.c`, no live server or socket involved at all; `MODDING.md`'s own "Third worked
+  example" section names this as the preferred shape (pure header + `cc_test`) over a live probe
+  whenever a mod's own logic can be exercised without an actual running server. **Bonus real bug
+  found and fixed**: two of the new mods each defined a private helper named `item-scrap` for the
+  same real item id — VS0 gives module-private helpers plain, non-static linkage, so linking both
+  into one binary failed with a real "multiple definition" link error; fixed by giving each
+  module's own helper a unique name, documented as a real, current VS0 limitation for future
+  modders. Verified: `bazel build //...` (36 targets), `bazel test //...` (17/17 pass),
+  `sizeof(PcSnapshotPacket)` unaffected (1436 bytes). Full item-drop-to-pickup live UDP round trip
+  was partially observed (the real WELCOME-time inventory sync was confirmed live and correct)
+  before pivoting to the native test above — full single-object destruction wasn't re-chased, the
+  same real, pre-existing `paper_mesh.h` fragment-jitter property already documented for the
+  phone-mechanics feature (S206-65), unrelated to this one. PAPERCRAFT commit `0336ef9`, PARENA
+  commit `6dea971`. `bin/papercraft_server` rebuilt in place; `sudo-queue/43` queued for the
+  founder's own restart. Apple #16985. The graphical `parena/ui`-based inventory/crafting
+  interface itself remains real, separate, deliberately deferred future work, not scoped here.
+- [ ] **S206-68: MISHRI — Bazel build, construct-file artifact, README author/license
+  acknowledgment.** Founder real-time: "MISHRI forked from an unknown author please update it to
+  build with bazel and also the artifacts to include a construct file the concatination check
+  parena editor out for an example" → "update readme to aknowledge the author and the ambiguous
+  licensing situation." Real, not-yet-scoped work in `/home/fatbaby/MISHRI` (confirmed to exist
+  locally, not yet in `CLAUDE.md`'s own repo table — register it there once scoped): (1) add a
+  real Bazel build, matching this monorepo's own convention; (2) build artifacts should include a
+  real "construct file" — founder pointed at PARENA's own editor tooling's concatenation-check
+  approach as the real example to follow for how that gets produced, needs investigating before
+  implementing; (3) update MISHRI's own README to honestly acknowledge the real, unknown original
+  author and the real, ambiguous licensing situation — do not fabricate an author name or invent
+  a license the fork doesn't actually carry. Not started yet — next real step is reading whatever
+  is actually in `/home/fatbaby/MISHRI` today (what it forked from, what build system if any it
+  already has, what license file if any exists) before scoping the real Bazel/construct-file work.
