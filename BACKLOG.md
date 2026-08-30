@@ -26185,8 +26185,29 @@ the same magic string as golang" → "use burrow." All posted via `emily observe
   `b27c697`. Apple #17136.
 - [ ] **S215-04: FLASH USB primitives for PARENA stdlib** (S213-04, same real scope named there —
   Linux sysfs enumeration, C-only; scalar decision logic dual-target). Not started.
-- [ ] **S215-05: LO "batteries included" — Rails-like framework stdlib in LO+PARENA, as a
-  dogfooding NORTHSTAR.** Founder real-time, explicitly sequenced AFTER the real LO emitter
-  lands (S214-03) — design/NORTHSTAR work only until then, no implementation. Also named: use
-  monochrome emoji glyphs for LO stdlib naming (a real, open styling question, not yet resolved
-  against GRAMMAR.md's own token table). Not started.
+- [x] **S215-05a: `LO/FRAMEWORK_NORTHSTAR.md` — real NORTHSTAR for the "batteries included"
+  Rails-like framework.** Real capability check done first, not assumed: LO currently has no
+  variables/`let`, no multi-arg functions, no records, no strings — a framework needs Phase 2
+  (`qi`) at minimum, some of Phase 3+ (`String`/`Pattern`) too. Real component mapping: router
+  reuses `base4/pattern.prn`'s architecture in spirit (a real, separate byte-to-base4 encoding
+  question flagged, not resolved); models via `qi`'s future `defstruct` + **IDUNA** persistence
+  (founder-corrected: "imean iduna," not PARENA); migrations reuse `note_version_mod.prn`'s own
+  coalesce/eviction/conflict primitives (S215-02) directly. Real, named dogfooding targets:
+  **SHITHUB** (self-hosted GitHub, IDUNA-powered IAM, PARENA "too i guess" for the app layer) and
+  **SHITLAB** (founder-clarified: "for our ci work copying the gitlab apis," not a second git
+  host). "Mono emoji" naming (likely monochrome/outline emoji variants) named as a real, open,
+  unresolved question requiring founder confirmation before any `GRAMMAR.md` amendment. Real
+  phased plan: Phase A (blocked on LO Phase 2) → Phase B (router-only proof point) → Phase C
+  (design only). Registered `LO-FRAMEWORK-NORTH` in `EMILY/context/golden-docs-index.md`. LO
+  commit `0e72ba3`. (sess-20260830-1207-cc0ba7da)
+- [x] **S215-05b: `PARENA/stdlib/http/router.prn` — Phase B's own real proof point, built now.**
+  Founder real-time: "ok well write the deps in parena." Real, minimal Sinatra/Express-style
+  router (literal `/`-segments + a single `:name` capture), deliberately NOT reusing
+  `base4/pattern.prn` (base4 vectors, not characters — the encoding question S215-05a flagged is
+  answered here by not waiting on it). **Real, genuine, previously-latent bug found and fixed via
+  a real segfault**: `vec-string-at`'s cast was a double dereference — a `String` is already a
+  `char *`, `string/split` pushes it directly with no extra boxing step (unlike
+  `vec_box_i32`/`vec_box_f64` for scalars). The identical bug existed in `regex/pcre.prn`'s own
+  copy of the same function, never caught there (its only caller, `join-strings`, has no real
+  caller anywhere in this stdlib) — fixed in both files. `make test-http-router` green, `-Werror`
+  clean. PARENA commit `ff92d61`. LO commit `ed2480f`. Apple #17146. (sess-20260830-1207-cc0ba7da)
