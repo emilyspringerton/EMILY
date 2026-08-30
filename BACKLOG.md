@@ -2260,6 +2260,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "do the next book into manuscripts tie in the 1978 trump content already in manuscripts" -- wants a …** — obs `2026-08-30T02:07:46Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: "TYLER BOOK 0 pls into manuscripts" -- read the full content of ___.md: a real, complete manuscript …** — obs `2026-08-30T02:04:51Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: "we need it to go in manuscripts" -> "TYLER BOOK 0 pls into manuscripts" -- found three real, litera…** — obs `2026-08-30T02:04:12Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: "can we build the tyler phone mechanics into papercraft as PARENA mod api first development using th…** — obs `2026-08-30T02:25:55Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: "can we build the tyler phone mechanics into papercraft as PARENA mod api first development using th…** — obs `2026-08-30T02:23:37Z`. CURATED: 2026-08-30.
+- [ ] **Found real, concrete 'og main SHANKPIT storyline' content: SHANKPIT/docs2/specs/TYLER_PILOT_COLD_OPEN.md (the very firs…** — obs `2026-08-30T02:22:47Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: "continue the next book based on the real og main SHANKPIT storyline" -- wants TYLER BOOK 2 grounded…** — obs `2026-08-30T02:21:22Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: "continue tyler series x check for ___.md in tyler repo" -- the '___.md' filename appears to be a li…** — obs `2026-08-30T02:03:49Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
