@@ -25867,9 +25867,33 @@ real base4 symbol algebra).
   `cols` don't hit this and are real, verified: `make test-base4-matrix`, `-Werror` clean.
   `STDLIB.md`'s own new "base4/matrix" section documents all of the above. PARENA commit
   `8f56f97`. LO commit `e0aa901`. Apple #17107. (sess-20260830-1207-cc0ba7da)
-- [ ] **S208-07: PCRE-lite pattern matcher over base4 vectors for LO's PARENA stdlib target**
-  (GRAMMAR.md §5.4's wildcard/star/anchor/alternation/non-nested-group token set). A real,
-  separate backtracking-matcher-sized piece of work, not an elementwise op. Not started.
+- [x] **S208-07: PCRE-lite pattern matcher over base4 vectors for LO's PARENA stdlib target.**
+  `PARENA/stdlib/base4/pattern.prn`: real backtracking matcher, architecture directly reused from
+  `regex/pcre.prn`'s own already-proven design (candidate end-positions as `Vec I32`, longest-
+  first, explicit loop/recur, no closures). Covers `LoLanguageSpec.pdf`'s own one fully-worked
+  pattern example (start/end anchors, literal, wildcard, all four quantifiers). Deliberately
+  deferred: `ALT`/`GROUP` — **S208-09**, needs real multi-branch backtracking + a capture-boundary
+  concept this flat element-sequence design doesn't have. **Two new, confirmed instances of the
+  I32-boxing compiler gap class** already documented on S208-05/S208-06: `match`-destructuring a
+  boxed I32 defenum payload doesn't type-infer correctly (worked around with plain `PatternElem`
+  fields instead of an `Atom` defenum, and a raw `-1`-sentinel `I32` instead of `Option I32`); and
+  a genuinely new second gap — building `(Vec I32)` test data from *within* `.prn` source (not an
+  external C harness) silently boxes literals as `double`, fixed with a new `push-i32!` (same
+  `#target`-signature-resolves-types fix shape as the pre-existing `vec-i32-at`). **Real, live
+  `OneOrMore` off-by-one bug found and fixed**, caught because `self-test`'s own hand-traced
+  expected result didn't match — not asserted correct without checking. **Real "write the main in
+  pure PARENA" milestone** (founder real-time: "write the MAIN in pure parena, at least like the
+  ffi for it"): `parena-c` has no real `(defn main ...)` → C `int main` emission convention yet
+  (confirmed directly against `src/emit.c`, per `selfhost/main.prn`'s own already-documented
+  header comment) — `self-test` is the real test orchestration, written entirely in `.prn` source;
+  `tests/test_base4_pattern.c` is reduced to the thinnest possible external shim (one call, one
+  `Bool` check). `make test-base4-pattern` green, `-Werror` clean. `STDLIB.md`'s own new
+  "base4/pattern" section documents all of the above. PARENA commit `4fde48d`. LO commit
+  `5735bfb`. Apple #17121. (sess-20260830-1207-cc0ba7da)
+- [ ] **S208-09: `ALT`/`GROUP` support for LO's PCRE-lite stdlib target** (`base4/pattern.prn`).
+  `ALT` needs real multi-branch backtracking across whole sub-patterns (not per-element retry);
+  `GROUP` needs a real capture-boundary concept the current flat element-sequence design doesn't
+  have. Not started.
 - [x] **S208-08: LO README art from prompt-o-verse.** Founder real-time: "OK ->
   https://okemily.com/prompt-o-verse/emily-emoji/ make that the readme art for LO use proper
   imagemagic." Fetched the real gendata image from that taxonomy node (`emily-emoji-optimized.jpg`,
