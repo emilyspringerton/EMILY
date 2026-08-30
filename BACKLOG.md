@@ -24862,3 +24862,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   in place (binary predates this new wire field) — restart queued for the founder
   (`40-restart-papercraft-server-for-ping-feature.sh`), not yet run as of this entry. `NORTHSTAR.md`
   updated. PAPERCRAFT commits `0f47feb`/`d10d23d`. Apple #16935.
+- [x] **S206-59: more forgiving connection-loss thresholds for low bandwidth.** Founder confirmed
+  the full `v0.12.0` pipeline (login/movement/mouse-look/ping) works over their real 5G connection
+  (ping verified live against the LIVE production server too — a real UDP probe after the founder
+  ran S206-58's own queued restart, exact echoed value match, 23ms measured RTT) — then: "we are
+  getting a lot of connection lost can we get it to be more forgiving for low bandwidth?" Real,
+  coupled fix — both thresholds bumped together, kept proportional: `apps/server`'s own
+  `PC_PLAYER_TIMEOUT_MS` 30000 → 60000ms (the server's own patience before evicting an abandoned
+  slot); `apps/client`'s own `PC_CLIENT_STALE_MS` (the real, disruptive full-screen "CONNECTION
+  LOST" takeover) 20000 → 45000ms — still a real 15s safety margin under the server's own new
+  eviction window, the same proportional gap as before, so a legitimate reconnect attempt still
+  always wins the race. `PC_CLIENT_WEAK_MS` (the small, non-disruptive corner indicator, 2000ms)
+  unchanged — the complaint was specifically about the disruptive takeover, not the small
+  indicator. `README.md`/`NORTHSTAR.md` updated (the abandoned-connection feature's own documented
+  numbers were stale). Verified: raw-`gcc` (Linux) and raw-`mingw-gcc` (Windows) both compile
+  clean. `bazel clean && bazel build //... && bazel test //...`: 27 targets, 12/12 tests pass,
+  unaffected. Not independently verifiable against the founder's own real 5G connection from this
+  environment — their next real play session is the actual proof. `v0.14.0` released
+  (test/build/build/release all green). Live production `papercraft-server.service` also rebuilt
+  in place — restart queued for the founder
+  (`41-restart-papercraft-server-for-low-bandwidth-thresholds.sh`), not yet run as of this entry.
+  PAPERCRAFT commits `a7448fa`/`c3dd9e9`. Apple #16941.
