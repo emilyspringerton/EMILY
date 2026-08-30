@@ -2281,6 +2281,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'building the tyler cutscene system into parena check the tyler engine docs' -- new ask: integrate/b…** — obs `2026-08-30T04:58:36Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: (1) scope-and-continue directive covering three threads at once -- 'scope it' (re: the in-flight PAR…** — obs `2026-08-30T04:55:03Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: 'ok lets do it as a java applet then' -- flagged and corrected (Java applets have been dead/non-func…** — obs `2026-08-30T04:47:14Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'ok get iduna stable' -- IDUNA has hit real, repeated 'connection refused' errors this session (4+ t…** — obs `2026-08-30T05:14:40Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, standing instruction: 'when you add new tests use the ladybug bdd framework' -- applies going forwar…** — obs `2026-08-30T05:10:52Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'so write the burrow cli in parena and go it should have the same api as parena like yarn is the sam…** — obs `2026-08-30T05:09:54Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, two rapid follow-ups on BURROW's corrected scope: (1) 'dog food it like write the golang in a way th…** — obs `2026-08-30T05:07:20Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time correction: 'project burrow is a feature for feature rewrite of the parena compiler in golang and par…** — obs `2026-08-30T05:05:23Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
