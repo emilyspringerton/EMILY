@@ -25081,3 +25081,19 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   phrasing, replacing an earlier heavier "own-server-only" disclaimer draft). Own `CLAUDE.md`
   added; registered in the top-level `CLAUDE.md`'s own repo table (MONOREPO commit `bb77f2e`).
   MISHRI commits `66825b5`/`810bb9a`/`19fb2a4`. Apple #16988.
+- [x] **S206-69: MISHRI auto-release job — full construct bundle as the release asset.** Founder
+  real-time: "ensure MISHRI has auto release set up with full construct uploads to artifacts in
+  a separate job check parena for the idea of what is a construct in terms of github workflows."
+  New `release` job in `.github/workflows/ci.yml`, matching PARENA's own real, named-example
+  release job structure exactly: `fetch-depth: 0` for real tag history, a real compute-next-
+  minor-version script, `gh release create`, regular/non-prerelease (this monorepo's own
+  standing "auto release non pre release" convention — SHANKPIT/PITVIPER/PARENA/PAPERCRAFT all
+  follow it). Gated to push-to-`main` only, `needs: [test, construct_bundle]`. MISHRI has no
+  compiled binary to ship (a plain Node.js/mineflayer project), so unlike PARENA's own release
+  job (which bundles the raw construct `.txt` alongside a real compiled binary), the full real
+  construct bundle — all three forms (`.txt`/`.tar.gz`/`.zip`), already produced by the separate
+  `construct_bundle` job per S206-68 above — IS the real release asset here: a real, versioned,
+  downloadable source snapshot for every release. Top-level `permissions: contents: write` added
+  (needed for the tag push + release creation), with every other job explicitly scoped back down
+  to `contents: read`, same real split PARENA's own workflow uses. MISHRI commit `75b3d6b`.
+  Apple #16990.
