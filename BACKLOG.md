@@ -25663,8 +25663,8 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   are holding as designed; the remaining single timeout is consistent with a real, external
   connection/sleep event on the founder's own machine, not a server regression. Not closing the
   thread by assumption, though: no diagnostics exist yet to *tell* the difference next time this
-  is reported, which is the real gap. Follow-up not yet started, named explicitly rather than
-  silently dropped: **S206-95 — add a client-side "time since last snapshot" value to the existing
+  is reported, which is the real gap. Apple #17104. Follow-up not yet started, named explicitly
+  rather than silently dropped: **S206-95 — add a client-side "time since last snapshot" value to the existing
   weak-connection overlay** (`draw_weak_connection_indicator` already receives `now -
   last_snapshot_ms` as an argument per `apps/client/src/main.c:1471`, so surfacing it as visible
   text is a small, additive change) so a future report carries a number instead of a guess.
