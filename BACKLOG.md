@@ -2265,6 +2265,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Found real, concrete 'og main SHANKPIT storyline' content: SHANKPIT/docs2/specs/TYLER_PILOT_COLD_OPEN.md (the very firs…** — obs `2026-08-30T02:22:47Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: "continue the next book based on the real og main SHANKPIT storyline" -- wants TYLER BOOK 2 grounded…** — obs `2026-08-30T02:21:22Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: "continue tyler series x check for ___.md in tyler repo" -- the '___.md' filename appears to be a li…** — obs `2026-08-30T02:03:49Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: "ok continue" -- resuming after the hold. Finishing the TYLER Series X x07 episode draft: committing…** — obs `2026-08-30T02:00:19Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: "hold" -- session-boundary/stop directive, received mid-task (drafting TYLER Series X episode x07). …** — obs `2026-08-30T02:00:02Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
