@@ -2278,6 +2278,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'yes start the northstar scoping pass' -- confirming go-ahead for the PAPERCRAFT native TS+WebGL bro…** — obs `2026-08-30T04:42:35Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time (two related messages): (1) 'how do we translate sdl2 to ts opengl? can we publish papercraft as a na…** — obs `2026-08-30T04:40:29Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: continue rewriting MISHRI using PARENA, using PARENA mods. Plan: extend the v0 TS emitter's recogniz…** — obs `2026-08-30T04:33:32Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'building the tyler cutscene system into parena check the tyler engine docs' -- new ask: integrate/b…** — obs `2026-08-30T04:58:36Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: (1) scope-and-continue directive covering three threads at once -- 'scope it' (re: the in-flight PAR…** — obs `2026-08-30T04:55:03Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'ok lets do it as a java applet then' -- flagged and corrected (Java applets have been dead/non-func…** — obs `2026-08-30T04:47:14Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
