@@ -26264,8 +26264,15 @@ word processing + spell-check + autocomplete, built on real document management 
   document only (a multi-document registry is a real, separate follow-up); version-history bytes
   not stored here (real host/IDUNA concern, per S217-01's own doc). `make test-editor-document`
   green, `-Werror` clean. PARENA commit `61b72cf`. Apple #17161. (sess-20260830-1207-cc0ba7da)
-- [ ] **S217-03: multi-document registry** (open/switch/list documents) on top of S217-02. Not
-  started.
+- [x] **S217-03: multi-document registry** — `PARENA/stdlib/editor/registry.prn`: real
+  `open-document`/`switch-document`/`current-document`/`document-count` on top of S217-02's own
+  `Document`. Same functional-update shape `document.prn`'s own `apply-edit` already uses — each
+  operation returns a NEW `Registry`. `switch-document` leaves the registry unchanged on an
+  out-of-range index — verified. Reused the same `vec-T-at` `#target` escape hatch this stdlib's
+  elem-type-hint gap already needed elsewhere (this time for a struct `Document` element).
+  Closing a document, renaming, and real persistence remain named, separate follow-ups. `make
+  test-editor-registry` green, `-Werror` clean. PARENA commit `8825b6e`. Apple #17162.
+  (sess-20260830-1207-cc0ba7da)
 - [ ] **S217-04: real PARENA editor (`stdlib/editor/*.prn`) wired into SARENA_NOTEBOOK's own
   frontend**, replacing its current plain `<textarea>` NOTE cells. Not started — the real next
   step once S217-03 exists.
