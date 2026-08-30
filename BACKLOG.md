@@ -26211,3 +26211,20 @@ the same magic string as golang" → "use burrow." All posted via `emily observe
   copy of the same function, never caught there (its only caller, `join-strings`, has no real
   caller anywhere in this stdlib) — fixed in both files. `make test-http-router` green, `-Werror`
   clean. PARENA commit `ff92d61`. LO commit `ed2480f`. Apple #17146. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 216: LO — REQUIRE A TRAILING SEMICOLON (2026-08-30)
+
+Founder real-time: "also require semicolons in LO." Posted via `emily observe` before acting
+(Principle 18).
+
+- [x] **S216-01: `GRAMMAR.md`/lexer/parser — `Program ::= TypedExpr SEMI`.** New `SEMI` (`;`)
+  token added to `GRAMMAR.md` §1's lexical grammar (a 4th token shape); §2's `Program` rule
+  changed from bare `TypedExpr` (end-of-input implied the program was complete) to
+  `TypedExpr SEMI`, a real, explicit required terminator. Lexer recognizes `;`; parser errors
+  honestly ("expected a trailing SEMI") on a program missing one, rather than silently accepting
+  it. `GRAMMAR.md` §7's three pre-existing worked examples (which predate this change) are
+  annotated rather than silently left inconsistent — each now needs a trailing `;` appended to
+  parse under the current grammar. 4 parser tests (2 new: missing-semi errors, present-semi
+  succeeds), 2 emitter tests updated. Verified live via `lo build`: a missing `;` produces a
+  real, clear parse error; a present one compiles correctly. `GOWORK=off go build/vet/test ./...`
+  clean. LO commit `f93cdd0`. Apple #17148. (sess-20260830-1207-cc0ba7da)
