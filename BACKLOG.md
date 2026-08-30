@@ -26045,3 +26045,8 @@ acting (Principle 18). Real, multi-part scope, not yet touched this session:
 - [ ] **S213-01: clone the fork, audit `image-builder-rpi`'s current real state, confirm Pi
   hardware access, get it building/running unmodified per the founder's own explicit "no changes
   needed yet" framing.** Not started.
+
+Naming clarification, founder real-time: only the founder's own top-level fork is renamed
+("FLASH," not `image-builder-rpi`) — every OTHER forked dependency kept its proper upstream name,
+not renamed. Real note for S213-01: don't assume every repo in this dependency set needs a
+FLASH-branded rename; only the one entry point does.
