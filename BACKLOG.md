@@ -25631,3 +25631,45 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   plain `go build` and the real Bazel artifact. The "mods first everything" loop closes for DUNG:
   PARENA is the real source of truth for this decision logic now, not a parallel proof sitting
   next to hand-written Go. BURROW commit `1f037cc`, DUNG commit `7a24dcf`. Apple #17086.
+
+## SECTION 207: KUBERNETES MIGRATION — PRRJECT_FATBABY PHASE 5 (2026-08-30)
+
+Founder real-time: "need to start the kubernetes migration im not even kidding look up the plan
+in fatbaby all our logstreaming data is going to get projected into google cloud storage" → "the
+data is already there." Real plan: `PRRJECT_FATBABY/docs/northstar/KUBERNETES_MIGRATION.md`
+(registered as `KUBERNETES-MIGRATION-NORTH`), making concrete `docs/
+architecture-distributed-event-intelligence.md`'s own existing Phase 5. GKE-specific (GCP-based
+org). Confirmed "the data is already there" is real: `emily backup run --target fatbaby` already
+uploads curated `var/` state to a real, live GCS bucket.
+
+- [x] **S207-01: find the existing plan, write it up concrete for GKE, first Dockerfile +
+  manifest.** Real, honest finding made first, not glossed over: the parent doc's own Phase 2
+  (dual-sink fanout, `internal/eventsink/`) is real scaffolding — interfaces, a real
+  GCS-compatible `S3Uploader`, real tests — but wired into NO running `cmd/` process; every
+  pipeline process today still depends on local `./var/` disk state, which matters for whether it
+  survives a k8s Pod restart. Flagged as a real, undecided branch (a `PersistentVolumeClaim` per
+  process vs. finishing Phase 2's own GCS fanout first) for the founder, not resolved
+  unilaterally — this doc defaults PVC-first. `docker/dashboard.Dockerfile` (real, first
+  representative service — `dashboard`, needs no external API keys/network to start) and
+  `k8s/dashboard.yaml` (real Deployment+PVC+Service, YAML-syntax-validated) written as real,
+  reviewable IaC. **Real, honest, both unverified**: no `docker` binary and no `gcloud`
+  authentication in the authoring session — neither built/run nor cluster-applied. PRRJECT_FATBABY
+  commit `3617c40`. Apple #17087.
+- [ ] **S207-02: real `gcloud auth` + a real GKE Autopilot cluster (Phase 5.1).** Needs the
+  founder to run `gcloud auth login` interactively (can't be done non-interactively from a Claude
+  Code session) or a provisioned service-account credential on a box that has one. Not started.
+- [ ] **S207-03: build + run `docker/dashboard.Dockerfile` for real (Phase 5.0 verification).**
+  On a box with Docker — confirm identical behavior to `go run ./cmd/dashboard` before trusting it
+  further. Not started.
+- [ ] **S207-04: decide the PVC-vs-Phase-2 branch** (KUBERNETES_MIGRATION.md's own named open
+  question) — founder call, not Claude Code's to make unilaterally. Not started.
+- [ ] **S207-05: apply `k8s/dashboard.yaml` to a real cluster, verify, then repeat the
+  Dockerfile+manifest pattern for the remaining ~15 processes** in `PRRJECT_FATBABY/CLAUDE.md`'s
+  own process table, one at a time. Blocked on S207-02/03.
+- [ ] **S207-06: real Kubernetes `Secret` (or GCP Secret Manager) migration** for
+  `ANTHROPIC_API_KEY`/IDUNA agent secrets/etc., currently plain env files — real, separate
+  pre-cutover work named in KUBERNETES_MIGRATION.md's own risk list. Not started.
+- [ ] **S207-07: cutover, one process at a time, old and new running in parallel first** —
+  stateless/lower-stakes processes first (`dashboard`/`newssite`), data-critical ones last
+  (`secwatch`/`eps-reconciler`) per `THE_EMILY_WAY.md` Principle 15 (Operational Health Is Not
+  Optional). Blocked on everything above.
