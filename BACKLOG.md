@@ -25585,3 +25585,28 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   functional proof. Honest, named simplifications: F12 only fires with window focus (no X11
   global hotkey yet); `nextFocus` is visit-order, not geometric nearest-neighbor. DUNG commits
   `a88308e`/`9dae963`. Apple #17079.
+- [x] **S206-92: DUNG — real `bazel build //...` succeeds; first real PARENA entry attempt.**
+  Founder real-time, 2026-08-30: "continue DUNG ensure we have artifacts and bazel builds once we
+  have an entrypoint" → "try to write the entry in parena." Root-caused the real, precise blocker
+  S206-91 left open: gazelle's `#cgo` comment scanner never invokes `pkg-config` when generating a
+  `go_repository`'s BUILD file, and — confirmed empirically, twice, after a first attempt at
+  patching literal `CFLAGS`/`LDFLAGS` `#cgo` lines into `go-sdl2`'s own `sdl_cgo.go` still didn't
+  produce a linux `copts`/`clinkopts` branch — doesn't reliably translate them into build
+  attributes for this package at all. Fixed by hand-authoring `sdl/BUILD.bazel` directly (real
+  `pkg-config --cflags/--libs sdl2` values on linux inlined) with gazelle generation turned off
+  for that module (`go_deps.gazelle_override`), applied via a diff-generated patch (hand-counting
+  hunk line numbers failed twice before switching to `diff -u` against a real materialized file —
+  worth remembering). `bazel build //...` now completes successfully (54 actions); ran the real
+  `bazel-bin/cmd/dung/dung_/dung` binary under Xvfb — real bash via real PTY, real colored SGR
+  prompt through vterm→font→SDL2, screenshot verified, identical to the plain-`go build` proof.
+  **Separately, "try to write the entry in parena"**: checked `BURROW`'s own actual v0 emitter
+  scope first (read `emit_c.go`/`emit_c_test.go` directly, not assumed from memory of `parena-c`'s
+  own further-along feature set), then ported the two genuinely scalar-only decision-logic pieces
+  already in `main.go` — `split-size`, `next-focus-index` — to real PARENA source
+  (`parena/entry.prn`). `burrow parse`/`analyze`/`build` all clean; emitted C `gcc`-compiled and
+  run against real assertions matching `main.go`'s own behavior, all pass. **Real, precise next
+  boundary found via a deliberate probe** (`parena/rect_probe.prn`, not wired into `entry.prn`'s
+  exports): a `defstruct` parses and region-analyzes fine, but `burrow build` fails exactly at
+  `emit_c: unsupported top-level form (v0 only understands defn, module, export, import)` — fed
+  back into `BURROW/NORTHSTAR.md`'s own open-items list as real scoping data for whichever burrow
+  phase comes next. DUNG commit `e1dea0b`, BURROW commit `fc706c4`. Apple #17083.
