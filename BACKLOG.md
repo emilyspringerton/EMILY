@@ -2249,6 +2249,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "be sure to note that wotan still shows duck in last" -- specific content detail to include in the r…** — obs `2026-08-29T22:11:34Z`. CURATED: 2026-08-29.
 - [ ] **Founder real-time: "continue" -- resuming Emily Way work per Backlog First protocol after S206-56 (ecosystem podcast) c…** — obs `2026-08-30T00:01:12Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time (after being asked a SHANKPIT scoping question): "work on papercraft we can log in but there is no in…** — obs `2026-08-30T00:29:40Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: "continue" -- no new PAPERCRAFT feedback yet on v0.10.0. Implementing the real RTT/ping counter foll…** — obs `2026-08-30T00:43:22Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
