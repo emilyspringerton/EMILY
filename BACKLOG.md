@@ -25510,3 +25510,25 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   removed and cross-references updated, commits `14c8c26`/`03eb4db`. Apples #17056/#17057. No
   code yet — real, still-open next step is DUNG Phase 0/1, itself blocked on BURROW's own Phase
   3-4.
+- [x] **S206-88: BURROW — Phase 3 (region analyzer) + Phase 4 (v0 C emitter) shipped, real
+  end-to-end gcc-verified proof.** Founder real-time: "continue DUNG i guess you are gonna need
+  burrow on the path if its not already." Same real architecture call Phases 1-2 already made:
+  neither `selfhost/region.prn` nor a general PARENA-Go emitter exist, so hand-ported
+  `PARENA/src/region.c` directly (`region.go`, verified against all 7 real `test_region.c`
+  scenarios including the exact literal DoD error-message text) and built a new, real, narrow v0
+  C emitter (`emit_c.go`, the same scope `emit_ts.c`/`emit_java.c` already proved — confirmed by
+  reading `emit.c` directly for the real type/binop tables, not guessed). **Real, genuine bug
+  found and fixed while testing for real** against `stdlib/mishri/humanness.prn`: an early
+  version silently emitted `math/pi`/`math/random` as broken C syntax (a literal `/` in an
+  identifier) — cross-checked directly against the real `parena-c` (identical input → real
+  "unknown identifier 'math/pi'" error), confirming this needed a real local-param-or-known-defn
+  validation; fixed, with 2 new regression tests. `go test`: 38/38 (9 lexer + 14 parser + 7
+  region + 8 emit_c). Stress-tested: all 111 real `.prn` files parse+region-analyze clean. **Real,
+  full end-to-end proof, not just written**: `burrow build` on PAPERCRAFT's own real
+  `stdlib/papercraft/level_mod.prn`, actually compiled with a real `gcc`, actually run against
+  `level_mod_test.c`'s own real assertions — all pass. `main.go`'s `parse`/`analyze`/`build`
+  subcommands now do real work (`parse` output verified byte-identical to `parena parse` on the
+  same real file). `burrow` installed on `PATH` (`~/.local/bin/burrow`). `NORTHSTAR.md`/
+  `README.md`/`CLAUDE.md` updated. BURROW commits `9115c50`/`4f6470e`. Apple #17060. Real,
+  still-open next step: full `emit.c` parity (`defstruct`/`defenum`/`match`/`loop`/`Result`/
+  `Vec`) and the TypeScript/Java targets, both unstarted.
