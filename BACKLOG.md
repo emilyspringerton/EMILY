@@ -2292,6 +2292,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continued DUNG design detail: 'terminal emulator comes down as a visor' -- DUNG's own terminal emula…** — obs `2026-08-30T06:00:23Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time naming, three rapid messages: 'call it DUNG' -> 'aka the burrow editor' -> 'and terminal emulator' --…** — obs `2026-08-30T06:00:16Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: 'ok and rewrite pitviper and the parena editor into burrow' -- new, substantial scope addition to pr…** — obs `2026-08-30T06:00:02Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'use the real burrow cli to build the product' -- DUNG's own real Bazel build process should literal…** — obs `2026-08-30T06:06:43Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued: 'that uses burrow' -- DUNG (its own new repo) depends on BURROW as its own real compiler …** — obs `2026-08-30T06:06:29Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'release DUNG as its own repo bazel built parena from the ground up port of parena editor' -- correc…** — obs `2026-08-30T06:06:08Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'EMILY os design primatives ux and affordances' -- found a direct, real match: EmilyOS/docs/legacy-a…** — obs `2026-08-30T06:03:03Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued DUNG design (two more messages): (1) 'like the editor and the terminal in the same window …** — obs `2026-08-30T06:02:42Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
