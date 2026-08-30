@@ -2275,6 +2275,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: upgrade MISHRI entirely to TypeScript (all src/tests files converted from CommonJS JS to TS, real ts…** — obs `2026-08-30T03:50:28Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: rewrite MISHRI in PARENA, incrementally. Plan: (1) check repo XCVBNM-OR for a dependency/building-bl…** — obs `2026-08-30T04:08:56Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: PAPERCRAFT client is still flashing the reconnection/weak-connection message pretty frequently, even…** — obs `2026-08-30T04:28:54Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'yes start the northstar scoping pass' -- confirming go-ahead for the PAPERCRAFT native TS+WebGL bro…** — obs `2026-08-30T04:42:35Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time (two related messages): (1) 'how do we translate sdl2 to ts opengl? can we publish papercraft as a na…** — obs `2026-08-30T04:40:29Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: continue rewriting MISHRI using PARENA, using PARENA mods. Plan: extend the v0 TS emitter's recogniz…** — obs `2026-08-30T04:33:32Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -25218,10 +25221,11 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   unresolved blockers explicitly (no async primitive for `delay`/`throttleAPM`, no struct/map
   support for `maybeTypo`'s own QWERTY-adjacency table) rather than overclaiming. PARENA commits
   `768e1f6`/`ee575d5`, MISHRI commits `97d4de1`/`1b0de2d`. Apple #17007.
-- [ ] **S206-74: PAPERCRAFT — real, native TypeScript+WebGL browser client (no Emscripten),
+- [x] **S206-74: PAPERCRAFT — real, native TypeScript+WebGL browser client (no Emscripten),
   scoping only.** Founder real-time: "how do we translate sdl2 to ts opengl? can we publish
   papercraft as a native js client no weird mscrimpten?" → "if we route more of papercraft
-  through parena plugins we can start to eat at the interface boundaries." Real, direct answer
+  through parena plugins we can start to eat at the interface boundaries" → "yes start the
+  northstar scoping pass." Real, direct answer
   given in-session, not yet built: there is no mechanical "translation" from SDL2 C code to
   TypeScript+WebGL — SDL2 and WebGL are different APIs in different languages. Two real real
   paths exist: (a) Emscripten compiles the EXISTING C/SDL2/OpenGL client to WASM via a real,
@@ -25242,8 +25246,21 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   too — S206-65 through S206-73), a real native-JS client could share the SAME PARENA-compiled
   decision logic (compiled to TS) the server's own C host already uses (compiled to C) — reducing
   the C/TS interface boundary since more of the actual logic lives in one real, shared PARENA
-  source rather than being independently hand-duplicated per language. Not started: real scope is
-  a genuinely new, multi-week-sized initiative (a full parallel client codebase + a new
-  server-side networking bridge), deliberately not attempted inside this same already-long
-  session — real next step is a dedicated NORTHSTAR-style scoping pass (matching every other real
-  new initiative in this monorepo's own convention) before writing any client/bridge code.
+  source rather than being independently hand-duplicated per language. **Real scoping pass now
+  written and shipped**: `PAPERCRAFT/docs/NORTHSTAR_WEB_CLIENT.md` — real architecture diagram,
+  the real repo-placement call (`apps/web-client`/`apps/web-bridge` inside this repo, not a new
+  top-level one, matching `apps/client`/`apps/mapeditor`'s own existing multi-client-one-repo
+  precedent), a real named Phase 0 ("a browser tab renders a triangle and echoes one real UDP
+  round trip through the bridge, nothing else"), and real risks named honestly (NAT traversal,
+  WebGL2-vs-desktop-GL parity, browser tab backgrounding). Registered in
+  `EMILY/context/golden-docs-index.md`. PAPERCRAFT commits `b85e1fc`/`7e2e2c7`, EMILY commit
+  `bd8c49bb`. Apple #17011. **No client/bridge code written yet** — see S206-75 below for the
+  real Phase 0 implementation, still open.
+- [ ] **S206-75: PAPERCRAFT web client — real Phase 0 implementation.** Not started. Real next
+  step per `docs/NORTHSTAR_WEB_CLIENT.md`'s own Phase 0 scope (S206-74 above): a minimal
+  `apps/web-bridge` (real candidate: Go + `pion/webrtc`) relaying raw bytes between one real
+  `RTCDataChannel` and `papercraft_server`'s own existing UDP socket, and a minimal
+  `apps/web-client` (real WebGL2 context, a real `RTCPeerConnection` sending a real
+  `PC_PACKET_CONNECT` and rendering something different once a real `PC_PACKET_WELCOME` comes
+  back) — no real 3D rendering yet, proving the real network path end to end first, matching
+  `apps/client`'s own real Phase 0 precedent.
