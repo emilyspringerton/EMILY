@@ -25610,3 +25610,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `emit_c: unsupported top-level form (v0 only understands defn, module, export, import)` — fed
   back into `BURROW/NORTHSTAR.md`'s own open-items list as real scoping data for whichever burrow
   phase comes next. DUNG commit `e1dea0b`, BURROW commit `fc706c4`. Apple #17083.
+- [x] **S206-93: BURROW Phase 6 — real, native Go emission target; wired into DUNG for real.**
+  Founder real-time, 2026-08-30: "continue adding to DUNG's parena work, we want to emit go with
+  burrow" → "once we get burrow basic stuff working of course" → "wtart rewriting it with more
+  parena and mods." `emit_go.go`: the same narrow v0 scope `emit_c.go`'s own Phase 4 already
+  proved (scalar `I32`/`F64`/`Bool`/`String` params, one-expression bodies, the real binop set,
+  sibling defn calls), GC-off-safe by construction, `-o *.go` on `burrow build`. **Two real,
+  genuine bugs found and fixed live** testing a real nested-if probe (`clamp01`, two levels deep)
+  before trusting this: a bare `I32` literal boxed through the `if`-case's own `any`-typed
+  func-literal return defaults to Go's `int`, not `int32` (fixed: every branch value gets an
+  explicit `RetType(...)` conversion before boxing); a nested `if`'s own result is itself
+  `any`-typed, so wrapping it with the same conversion is a compile error needing a type assertion
+  instead (fixed: the `if` case self-asserts its own result before returning it up). A final
+  `go/format.Source` pass guarantees gofmt-clean output at any nesting depth. `go test`: 48/48 (38
+  prior + 10 new). **Real, full end-to-end proof, then real integration, not just a demo**: DUNG's
+  own `parena/entry.prn` compiled to `internal/burrowgen/entry_gen.go` and wired directly into
+  `cmd/dung/main.go`'s `layout()`/`nextFocus()` — a real Go import, no cgo/FFI boundary at all.
+  `go build`/`go vet`/`go test` and a real `bazel build //...` both clean; the real SDL2 visor
+  binary run under Xvfb, identical correct rendering to before the mod was wired in, both via
+  plain `go build` and the real Bazel artifact. The "mods first everything" loop closes for DUNG:
+  PARENA is the real source of truth for this decision logic now, not a parallel proof sitting
+  next to hand-written Go. BURROW commit `1f037cc`, DUNG commit `7a24dcf`. Apple #17086.
