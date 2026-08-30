@@ -24915,3 +24915,19 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   "hold" mid-draft was logged and complied with immediately (no commit/publish until "ok
   continue" landed), per THE_EMILY_WAY.md Principle 1a. TYLER commits `f2e3b0a`/`6294b8a`.
   Apple #16952.
+- [x] **S206-62: TYLER BOOK 0, "You Know I Hate Calls" — real manuscript moved into
+  `manuscripts/`.** Founder real-time: "continue tyler series x check for ___.md in tyler repo" →
+  "we need it to go in manuscripts" → "TYLER BOOK 0 pls into manuscripts". Found a real, complete
+  manuscript scene sitting at the repo root (`___.md`, dated the same day) and moved it into
+  `manuscripts/tyler_book0.md`, wrapped with a header matching the existing manuscript convention
+  (`# SERIES — BOOK N` / `## "Title"` / `### Chapter description`, an italicized RSI note, then
+  the chapter) — ground-state manuscript, same "SEASON 0 (GROUND STATE)" convention Series X's own
+  numbered episodes already use. A real, direct "television as code" instance: the founder's own
+  real-time phrase from earlier this exact session ("you know i hate calls," said about the
+  unrelated Series X x07 methodology decision, S206-61) appears verbatim as the antagonist
+  confrontation's own actual dialogue and chapter title in this manuscript (TIDES OF PARADOX-style:
+  Mara/Hana/Len/Jules, "the Promptor" as an in-universe manipulative call/UI antagonist) — prose
+  preserved as authored, minus one stray trailing shell artifact that wasn't real content.
+  `_.md`/`__.md` (unrelated agent-spec/system-prompt docs, dated Jun 7) deliberately left
+  untouched — the founder only asked about the manuscript. TYLER commits `7e0b056`/`b91ea00`.
+  Apple #16957.
