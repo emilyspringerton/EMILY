@@ -2288,6 +2288,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time correction: 'project burrow is a feature for feature rewrite of the parena compiler in golang and par…** — obs `2026-08-30T05:05:23Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: 'ok use mishri and parena mods to write an auto generated mod for gta7 like have it use some logging…** — obs `2026-08-30T05:20:50Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: 'i think iduna runs off of sqlite? maybe we need to switch to mysql' -- confirmed via the real iduna…** — obs `2026-08-30T05:16:07Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued DUNG design: 'and there is also split pane use i3 primatives' -- DUNG's own pane-managemen…** — obs `2026-08-30T06:00:52Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued DUNG design detail: 'terminal emulator comes down as a visor' -- DUNG's own terminal emula…** — obs `2026-08-30T06:00:23Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time naming, three rapid messages: 'call it DUNG' -> 'aka the burrow editor' -> 'and terminal emulator' --…** — obs `2026-08-30T06:00:16Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'ok and rewrite pitviper and the parena editor into burrow' -- new, substantial scope addition to pr…** — obs `2026-08-30T06:00:02Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
