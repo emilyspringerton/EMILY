@@ -25451,3 +25451,57 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   silently dropped): the base-4-number/binary-stream generation, frequency counting, and substring
   pattern search — real, separate, string/Vec-heavy exploratory display code, not stdlib-primitive
   shaped. `STDLIB.md` documented. PARENA commits `ea014e4`/`97a774a`/`ae92dc7`. Apple #17045.
+- [x] **S206-86: BURROW — Phase 2 real parser parity shipped.** Founder real-time: "continue
+  project BURROW" (Phase 1's own real, still-open next step). Same real architecture call Phase 1
+  already made, inherited directly: `selfhost/parser.prn` doesn't exist yet, so hand-ported
+  `PARENA/src/parser.c`+`ast.h` directly instead of waiting on a PARENA-Go emitter that also
+  doesn't exist. `BURROW/parser.go`: real, faithful Go port (Go multi-return `(*Node, error)`
+  replacing the C reference's own `setjmp`/`longjmp` unwind — idiomatic, not mechanical
+  transliteration). `BURROW/parser_test.go`: all 14 real test scenarios from `PARENA/tests/
+  test_lexer_parser.c` ported verbatim (balanced forms + all 5 DoD-required malformed cases). `go
+  build`/`go vet`/`go test` clean, 23/23 total (9 lexer + 14 parser). **Stress-tested against the
+  ENTIRE real PARENA corpus**: all 111 `.prn` files across `stdlib/`+`selfhost/` parse with zero
+  failures; cross-checked structurally against the real C reference's own `parena parse` dump on
+  `stdlib/base4/algebra.prn` — exact match (246 total nodes, 13 top-level forms, both sides
+  identical). `NORTHSTAR.md`/`README.md`/`CLAUDE.md` updated, phase numbering fixed. BURROW
+  commits `f1a0812`/`a25712d`. Apple #17052.
+- [x] **S206-87: DUNG — new repo, "the BURROW editor," real NORTHSTAR scoping pass (corrected
+  twice in real time).** Founder real-time: "ok and rewrite pitviper and the parena editor into
+  burrow" → "call it DUNG" → "aka the burrow editor" → "and terminal emulator" → "terminal
+  emulator comes down as a visor" → "and there is also split pane use i3 primatives" → "like the
+  editor and the terminal in the same window and then we like slurp in another file via drag
+  another file onto it or load it from internet it opens up a new chat window inside the shared
+  window" → "EMILY os design primatives ux and affordances" — **first scoped inside BURROW**
+  (`BURROW/DUNG.md`), then **corrected**: "release DUNG as its own repo bazel built parena from
+  the ground up port of parena editor" → "that uses burrow" → "use the real burrow cli to build
+  the product." Real, final, corrected scope, documented in the doc's own "Where this came from"
+  section (both real corrections kept, not silently rewritten away): DUNG is its own standalone,
+  Bazel-built repo (upstream pre-created by the founder before the ask, same real pattern
+  `BURROW`'s own repo followed); a unified terminal emulator + editor rewriting `PITVIPER` (4066+
+  real lines of already-working Go, untouched, stays as-is — same real "new fork, not
+  rewrite-in-place" precedent `SAND` already set relative to `PITVIPER`) and PARENA's own real,
+  existing `stdlib/editor/*.prn` (13 real files + a real, already-built `editor-demo` binary) —
+  the editor domain is a **ground-up port of that logic written as fresh PARENA source**, compiled
+  via the real **`burrow` CLI** (not `parena-c` directly), making DUNG BURROW's own real, live,
+  flagship dogfooding consumer. **Real, honest current blocker named directly, not glossed over**:
+  `burrow build` reports "not yet implemented" today — DUNG's own real build is gated on
+  `BURROW`'s own Phase 3-4 (region analyzer + emitter parity, not started) landing first. Real UX
+  foundation **adopted directly, not invented**: `EmilyOS/docs/legacy-archive/
+  gui-v0.1-design-capture.md` — found before writing anything new — already specifies a real
+  "tmux × i3 hybrid" layout model, a real no-single-click double-click-speed interaction contract
+  (fast ≤220ms = activate, slow 350-800ms = edit-label, exact thresholds already specified), and
+  real posture-aware non-modal denial feedback (`NORMAL`/`SIEGE`/`MERCY`/`INCIDENT`/`GAME`) — a
+  direct match for "use i3 primitives"/"EMILY os design primatives," not a coincidence. Real,
+  checked-not-assumed architectural coherence: `PITVIPER` and PARENA's own editor already share
+  the identical real SDL2 foundation (`stdlib/editor/ui.prn`'s own header comment cites
+  `PITVIPER`'s own precedent directly). New real chat-pane feature named: drag-and-drop or
+  load-from-URL file ingestion opens a scoped Emily Prime chat pane in the same shared window,
+  matching `PITVIPER`'s own already-planned Milestone 4, reconciled as a deliberate exception to
+  the EmilyOS spec's own "no freeform dragging by default" rule. Real, phased plan: DUNG Phase 0
+  (unblock the real toolchain, depends on BURROW) → Phase 1 (a visor-style drop-down terminal that
+  can i3-split, Go-hosted, doesn't wait on BURROW) → Phase 2 (first ground-up PARENA editor slice,
+  `buffer.prn`, gated on Phase 0). Registered in monorepo `CLAUDE.md` + `EMILY/context/
+  golden-docs-index.md` (DUNG-NORTH). DUNG commits `2f82493`/`cdfb283`; BURROW's own `DUNG.md`
+  removed and cross-references updated, commits `14c8c26`/`03eb4db`. Apples #17056/#17057. No
+  code yet — real, still-open next step is DUNG Phase 0/1, itself blocked on BURROW's own Phase
+  3-4.
