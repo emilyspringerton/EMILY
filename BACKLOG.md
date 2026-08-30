@@ -2321,6 +2321,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **  OK -> https://okemily.com/prompt-o-verse/emily-emoji/ make that the readme art for LO use proper imagemagic like u do…** — obs `2026-08-30T14:05:43Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time, continued: build the bare-bones Emily chat (Qwen fallback) into IDUNA's back office / dev portal** — obs `2026-08-30T14:26:06Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: use Qwen for some of the Anthropic API issues affecting core Emily Prime/FatBaby Emily bots -- explo…** — obs `2026-08-30T14:25:52Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued FLASH/HypriotOS/EmilyOS-Pi thread: build PARENA into the distro** — obs `2026-08-30T14:55:32Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued FLASH/HypriotOS thread: EmilyOS for the Raspberry Pi, Bazel-powered** — obs `2026-08-30T14:55:21Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued FLASH/HypriotOS: real upstream repo is https://github.com/emilyspringerton/image-builder-r…** — obs `2026-08-30T14:55:04Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: forked HypriotOS's Docker Raspberry Pi write tool as 'FLASH' -- get it working with our own Raspberr…** — obs `2026-08-30T14:51:03Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: get a Gemini key out of Vertex AI somehow, put it somewhere accessible** — obs `2026-08-30T14:27:26Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
