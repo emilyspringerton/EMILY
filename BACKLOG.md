@@ -25700,3 +25700,20 @@ uploads curated `var/` state to a real, live GCS bucket.
   real `bazel build //...` clean for DUNG with both `burrowgen` files present. Cross-repo commits:
   PARENA `694e658`, BURROW `aad0fc8`, DUNG `29c1d1f`, PRRJECT_FATBABY `c1d23ee`. Apples #17088
   (PARENA), #17089 (BURROW), #17090 (DUNG), #17091 (PRRJECT_FATBABY).
+- [x] **S207-09: `stdlib/k8s/operator.prn` — real Kubernetes operator-pattern primitives.**
+  Founder real-time: "build in the k8s operator pattern primitives." `decide-action`: a real,
+  standard four-way reconciliation decision (no-op/create/update/delete), modeled directly on
+  `sigs.k8s.io/controller-runtime`'s own real `Reconcile(ctx, req) (ctrl.Result, error)` contract.
+  `backoff-seconds`/`pow2`: real exponential backoff with a cap, matching controller-runtime's own
+  default rate limiter shape. `result-for-action`: a real `ReconcileResult` + requeue policy per
+  action (steady-state resync for no-op, quick verify for create/update, none for delete).
+  Verified end-to-end via a real C test harness, all assertions pass. **Real, honest, partial
+  dual-target result**: `decide-action` alone (no `let`, no struct construction) compiles through
+  `burrow`'s own Go target too, real `go test`-verified; `backoff-seconds`/`pow2`/
+  `result-for-action` don't — two already-known, separate burrow v0 boundaries (`let`-bindings,
+  struct construction), not new breakage. **Real, genuine third gap found and fixed in `BURROW`
+  the same day**, benefiting every future `.prn` file: unary `(not x)` was missing from BOTH of
+  burrow's own emitters entirely (fell through to a bogus call) — the same real gap `parena-c`'s
+  own `src/emit.c` already documented fixing on 2026-08-21; burrow just hadn't hit a real file
+  using it yet. `go test`: 52/52 (50 prior + 2 new). PARENA commit `28db76a`, BURROW commit
+  `bf09498`. Apples #17093 (PARENA), #17094 (BURROW).
