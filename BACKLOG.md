@@ -25098,3 +25098,38 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   (needed for the tag push + release creation), with every other job explicitly scoped back down
   to `contents: read`, same real split PARENA's own workflow uses. MISHRI commit `75b3d6b`.
   Apple #16990.
+- [x] **S206-70: MISHRI — full TypeScript upgrade.** Founder real-time: "upgrade everything to
+  typescript for MISHRI." All 10 `src/`/`tests/` `.js` files rewritten as real, meaningfully-typed
+  `.ts` (not just renamed) — class fields, method signatures, mineflayer's own real
+  `Bot`/`Entity`/`Block` types, a new shared `MishriConfig` type (`src/types/config.ts`) matching
+  `config/default.json` field-for-field, and a new ambient shim
+  (`src/types/mineflayer-pathfinder.d.ts`) for the one plugin in the ecosystem with no upstream
+  `.d.ts` of its own (confirmed live: `@types/mineflayer-pathfinder` 404s; the other four plugins
+  all ship real types). `tsc` target ES2022, `module`/`moduleResolution` `node16`, strict mode,
+  output to `dist/` (gitignored). `vec3` pinned to `^0.1.7` (was `^0.2.0`) to match the real range
+  mineflayer/pathfinder themselves depend on — a newer explicit root install had created two
+  structurally-incompatible `Vec3` identities across nested `node_modules`, a real, live TS error
+  until deduped. **Found and fixed two real, pre-existing dead-code bugs** the type checker
+  surfaced (not introduced by this conversion): (1) `MishriBot.js` listened for a real, nonexistent
+  `'entitySwing'` event (mineflayer's real event is `'entitySwingArm'`) — the handler had never
+  fired; fixed to the real event name. (2) `SkillManager.js`'s `craftBasic()` filtered recipes on
+  `bot.inventory.countInventoryItem`, a method that has never existed on the real `Window` type
+  (real one is `findInventoryItem`) — checked as a bare truthy method reference, always
+  `undefined`, so `craftable` has always been empty and crafting has never actually worked;
+  preserved via a documented cast rather than inventing the real "does the bot have the
+  ingredients" logic the original author likely intended (real, separate future work) — also
+  fixed a cosmetic `recipe.result?.name` bug (`RecipeItem` has never had a `name` field) to a
+  real, correct log of the item id. Also found and fixed a real ambient-module gotcha in the
+  pathfinder shim itself: a `.d.ts` file with no top-level import/export is treated as a global
+  script, not a module, which made its own `declare module 'mineflayer' { interface Bot {...} }`
+  augmentation REPLACE mineflayer's real `Bot` interface entirely instead of merging with it
+  (silently vanishing every other real `Bot` property) — fixed with a load-bearing `export {}`.
+  Bazel/CI updated: `bazel test //:test` now runs the already-compiled `dist/` output (a real,
+  honestly-documented non-hermetic prerequisite — new `bazel run //:build` target — since Bazel's
+  own sandbox has no network/`typescript` to run `tsc` itself), CI adds `npm ci`+`npm run build`
+  before `bazel test`, the construct-bundle glob now includes `*.ts` and excludes `dist/`, and
+  `test-bot.yml`'s own inline bot-start script + test step point at the real `dist/` paths.
+  Verified: `tsc --noEmit` clean, `npm run build` clean, `node dist/tests/humanness.test.js` —
+  84/84 assertions pass (same real count/coverage as before, confirming behavior preserved
+  through the conversion), `bazel test //:test` PASSED, `bazel run //:build`/`//:install` both
+  verified working. MISHRI commits `281dfb1`/`ed7454a`. Apple #16994.
