@@ -26076,15 +26076,19 @@ acting (Principle 18). Real, multi-part scope, not yet touched this session:
   //:run-flash -- --version` correctly prints `dirty`. Registered `FLASH`/`image-builder-rpi` in
   root `CLAUDE.md`. FLASH commit `d2613da`. MONOREPO commit `d3c99e9`. Apple #17128.
   (sess-20260830-1207-cc0ba7da)
-- [ ] **S213-03: real Windows/Git-Bash (MSYS) support for FLASH's `flash` script**, per founder
-  real-time: "we are going to try to run it from git bash in pitviper use parena make it fucking
-  work we forked it." Real work needed, not yet started: add an `msys*|mingw*|cygwin*` case to
-  the OS case statement, and a real Windows-native disk-enumeration/raw-write path (Windows has
-  no `/dev/sdX`/`diskutil` equivalent reachable from plain Git Bash — needs either a bundled
-  `dd`-for-Windows binary or shelling out to PowerShell's own `Get-Disk`/raw `FileStream` write).
-  Real, honest limitation named up front: this session cannot test any of it end-to-end (no
-  Windows machine, no physical SD card/Pi, confirmed above) — whatever gets written here needs
-  the founder's own live test-and-report before it's trusted.
+- [x] **S213-03: real Windows/Git-Bash (MSYS) support for FLASH's `flash` script**, per founder
+  real-time ("we are going to try to run it from git bash in pitviper... make it fucking work")
+  and "yolo it out." Added a real `msys*|mingw*|cygwin*` case to the OS dispatch (previously fell
+  through to "Unknown OS: msys" and exited — Git Bash was never going to run this at all before).
+  Real device enumeration/mount/write functions shelling out to `powershell.exe`
+  (`Get-Disk`/`Get-Partition`/`Set-Disk` — Windows has no `/dev/sdX`); the actual raw write is a
+  new `write_raw_image` streaming the image via a .NET `FileStream` to `\\.\PhysicalDriveN`
+  (Windows has no native `dd`), wired into the main flash-writing branch via an OS-conditional.
+  **Real, honest limitation, stated plainly, not glossed over**: never run against real hardware
+  this session — no Windows machine, physical SD card, or Raspberry Pi exists here (confirmed
+  headless KVM VM, S213-01). `bash -n` and `bazel test //:syntax-check` both pass; this needs the
+  founder's own live test-and-report on their actual machine before it's trusted as working, not
+  just compiling. FLASH commit `262a7b8`. Apple #17130. (sess-20260830-1207-cc0ba7da)
 - [ ] **S213-04: USB primitives for PARENA stdlib**, founder real-time: "write usb shit into the
   stdlibs" → "make it work in either parena or burrow." Real scope split, not yet built: a
   Linux-only device-enumeration path (String/Vec-heavy, `parena`/C-only, most plausibly real
