@@ -2314,6 +2314,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue work on DUNG** — obs `2026-08-30T09:10:54Z`. CURATED: 2026-08-30.
 - [ ] **still getting the reconnection issue ** — obs `2026-08-30T08:42:56Z`. CURATED: 2026-08-30.
 - [ ] **testing** — obs `2026-08-30T07:04:39Z`. CURATED: 2026-08-30.
+- [ ] **continue working on lo adding to the stdlib libs necessary to make the language actually function remember parena is th…** — obs `2026-08-30T13:54:52Z`. CURATED: 2026-08-30.
+- [ ] **ctrl a left does not do what you would expect in a text editor** — obs `2026-08-30T13:13:35Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
