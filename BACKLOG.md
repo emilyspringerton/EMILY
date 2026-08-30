@@ -25196,3 +25196,25 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   test //...` (17/17 pass), native gcc syntax-check of both server and client clean. `bin/
   papercraft_server` rebuilt in place; `sudo-queue/44` queued for the founder's own restart.
   PAPERCRAFT commits `d9b17e9`/`29a4f14`. Apple #17003.
+- [x] **S206-73: PARENA — grow math primitives, port MISHRI's chance/randInt/addNoise.** Founder
+  real-time: "continue rewriting MISHRI using parena using parena mods." Extended
+  `src/emit_ts.c`'s recognized external-primitive support from a single hardcoded `math/random`
+  special case to a real, table-driven `MATH_PRIM_TABLE` (`random`/`floor`/`sqrt`/`log`/`cos`,
+  each lowering to the matching real `Math.*` call) plus a real `math/pi` constant (a bare symbol
+  reference, not a call). Renamed/grew `stdlib/math/random.prn` → `stdlib/math/math.prn` (one
+  file per package, matching `string.prn`/`io.prn`'s own established convention). New
+  `stdlib/mishri/humanness.prn`: real, faithful ports of MISHRI's own `chance`/`randInt`/
+  `addNoise` (Box-Muller gaussian noise) — `addNoise`'s own original `u1`/`u2` `const` bindings
+  each appear in exactly one place in the rest of the body, so they collapse into two inline
+  `(math/random)` calls with zero `let` needed, same technique `bezier_interp.prn` already used.
+  7 new `tests/test_emit_ts.c` assertions (21 total now) covering the grown primitive table plus
+  a real, honest wrong-arity failure case. **Real, verified proof**: compiled to
+  `MISHRI/src/generated/humanness.ts`, wired into MISHRI's live `HumannessLayer.ts`
+  (`addNoise`/`chance`/`randInt` all now call the generated functions). Verified bit-for-bit
+  identical against the originals across ~390 real test cases with `Math.random()` mocked
+  deterministically (including `addNoise`'s own real two-sequential-random-call shape) — zero
+  mismatches; MISHRI's own full 84-assertion test suite still passes unchanged. `STDLIB.md`'s own
+  `mishri/humanness` entry updated to "real, partially built," naming the real, still-genuinely-
+  unresolved blockers explicitly (no async primitive for `delay`/`throttleAPM`, no struct/map
+  support for `maybeTypo`'s own QWERTY-adjacency table) rather than overclaiming. PARENA commits
+  `768e1f6`/`ee575d5`, MISHRI commits `97d4de1`/`1b0de2d`. Apple #17007.
