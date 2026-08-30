@@ -26137,3 +26137,42 @@ already support today") is the real next unstarted item.
   acceptance bar: compile the spec's `on-thing`-shaped example (scoped to its scalar `I32` path)
   to real `.prn` text, verify it compiles cleanly through BOTH `parena build` and `burrow build`.
   Not started, blocked on S214-02.
+
+## SECTION 215: PARENA PLAYGROUND SPRINT — MAG BOOK, NOTES, DATETIME (2026-08-30)
+
+Real, rapid-fire founder real-time burst: "can we turn the mag book into parena playground?" →
+"we can translate some of those pythons ckrips to LO" (deferred: "once we get the emitter
+working") → "add parena primitives for managing versions of notes have it plug into papercraft -
+like the backend of icloud" → "iduna as the backend obviously" → "add stdlibs for date time use
+the same magic string as golang" → "use burrow." All posted via `emily observe` before acting
+(Principle 18).
+
+- [x] **S215-01: `PARENA/stdlib/mag/gematria.prn`** — real port of
+  `QUEENSALLYONLINEBOOKOFMAGIFICATIONANDUNICOR`'s squish/gematria pipeline, re-derived from the
+  already-verified Go port (`gpt2-alpine-c/pkg/towerprint`). `fingerprint-az`/`-za` bounded to
+  `I32` (overflows for long words, honest vs. Go's `big.Int`). `self-test` pinned against
+  `towerprint_test.go`'s own real "SALLY" vector (AZ `20330`, ZA `71661`) — exact match.
+  Tower/row-chunking not ported (real, separate follow-up). `make test-mag-gematria` green.
+  PARENA commit `ce4bfa7`. Apple #17135.
+- [x] **S215-02: `PARENA/stdlib/papercraft/note_version_mod.prn`** — iCloud-style version-
+  management DECISION logic (no text/version storage — real, separate host concern; founder
+  real-time clarified IDUNA is the intended eventual storage backend). Coalesce-within-30s,
+  oldest-first eviction at a 50-version cap, real optimistic-concurrency conflict detection.
+  8 hand-traced assertions, `make test-papercraft-note-version` green. PARENA commit `311d3f6`.
+  Apple #17137.
+- [x] **S215-03: `PARENA/stdlib/datetime.prn`** — Go-style reference-time layout formatting
+  (`2006-01-02 15:04:05`-shaped tokens only, real narrower scope named). Found and worked around
+  a real `emit.c` bug (fixed 1024-char buffers silently truncate long `inline-c` bodies).
+  **Found and fixed two real BURROW gaps** (bare `true`/`false` literals unhandled; a trailing
+  `?`/`!` in a defn name produced an illegal Go identifier) so `is-leap-year?`/`days-in-month`
+  genuinely reach `burrow` now — verified by actually building and running the generated Go, not
+  just unit-testing the emitter. `day-of-year`/`format-go-layout` stay C-only (real, separate,
+  already-known boundaries). `make test-datetime` green. PARENA commit `baa454c`, BURROW commit
+  `b27c697`. Apple #17136.
+- [ ] **S215-04: FLASH USB primitives for PARENA stdlib** (S213-04, same real scope named there —
+  Linux sysfs enumeration, C-only; scalar decision logic dual-target). Not started.
+- [ ] **S215-05: LO "batteries included" — Rails-like framework stdlib in LO+PARENA, as a
+  dogfooding NORTHSTAR.** Founder real-time, explicitly sequenced AFTER the real LO emitter
+  lands (S214-03) — design/NORTHSTAR work only until then, no implementation. Also named: use
+  monochrome emoji glyphs for LO stdlib naming (a real, open styling question, not yet resolved
+  against GRAMMAR.md's own token table). Not started.
