@@ -25924,3 +25924,20 @@ founder, or a first real DUNG editor pane to exist to test against.
 - [ ] **S209-01: reproduce and fix the Ctrl+A-behaves-wrong-in-a-text-editor report.** Blocked on
   identifying which real app/buffer this was reported against (`buffer.prn` directly? A live DUNG
   build? Something else editable in this monorepo?). Not started.
+
+## SECTION 212: QWEN FALLBACK + BARE-BONES EMILY CHAT IN IDUNA BACK OFFICE (2026-08-30)
+
+Founder real-time: "Qwen us this for some of the ANTHROPIC API issues with the core emily prime
+fatbaby emily bots lets see if we can build a super bare bones emily chat" → "build it into IDUNA
+back office." Posted via `emily observe` before acting (Principle 18). Real, two-part ask:
+(1) Qwen as a fallback/alternative model path for whatever "Anthropic API issues" have been
+hitting Emily Prime/FatBaby's bots (rate limits? outages? cost? — not specified, needs a real
+look at recent failure logs before assuming which); (2) a genuinely new, minimal chat UI surfaced
+inside IDUNA's existing dev portal (`IDUNA/internal/http/handlers/portal.go`), not a new service.
+No existing NORTHSTAR covers either half — real research needed before implementation: what
+Anthropic API issues have actually been observed (check EMILY's own Apple/observation history
+for rate-limit/error patterns), what Qwen access this box actually has (API key? self-hosted?),
+and portal.go's current real structure before adding a chat panel to it.
+
+- [ ] **S212-01: audit recent Anthropic API failures against Emily Prime/FatBaby bots, confirm
+  what Qwen access exists, scope a real northstar.** Not started.
