@@ -2326,6 +2326,16 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continued FLASH/HypriotOS: real upstream repo is https://github.com/emilyspringerton/image-builder-r…** — obs `2026-08-30T14:55:04Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: forked HypriotOS's Docker Raspberry Pi write tool as 'FLASH' -- get it working with our own Raspberr…** — obs `2026-08-30T14:51:03Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: get a Gemini key out of Vertex AI somehow, put it somewhere accessible** — obs `2026-08-30T14:27:26Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: make LO batteries-included -- write a Rails-like framework stdlib in LO+PARENA as a dogfooding NORTH…** — obs `2026-08-30T15:57:35Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, clarifying earlier note-versioning ask: IDUNA is the intended storage backend for note version histo…** — obs `2026-08-30T15:44:08Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: add PARENA stdlib for date/time formatting, using the same 'magic reference time' layout string conv…** — obs `2026-08-30T15:41:57Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: add PARENA primitives for managing versions of notes, plug into PAPERCRAFT -- like an iCloud-style b…** — obs `2026-08-30T15:40:28Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: turn 'the mag book' into a PARENA playground** — obs `2026-08-30T15:36:04Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: proceed autonomously (yolo) on S213-03, conserve tokens; new standing instruction -- write all CHANG…** — obs `2026-08-30T15:15:32Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, sequencing: Bazel-ize FLASH first, before other FLASH work** — obs `2026-08-30T15:07:39Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued: make the USB/FLASH work in either parena or burrow** — obs `2026-08-30T15:07:28Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued FLASH/parenify thread: write USB primitives into PARENA stdlib** — obs `2026-08-30T15:06:54Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: run FLASH from Git Bash inside PITVIPER on Windows, use PARENA, get it working -- 'we forked it'** — obs `2026-08-30T15:06:01Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
