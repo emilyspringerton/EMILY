@@ -26103,3 +26103,27 @@ acting (Principle 18). Real, multi-part scope, not yet touched this session:
   sysfs reads under `/sys/bus/usb/devices/`) plus scalar-only decision logic (e.g. a real
   USB-mass-storage-class check) that could reach `burrow`'s own Go target too, matching the
   established `stdlib/k8s/k8s.prn` vs. `stdlib/k8s/scaling.prn` precedent. Not started.
+
+## SECTION 214: LO PHASE 1 — REAL COMPILER FRONTEND BEGINS (2026-08-30)
+
+Real, direct continuation of `LO/NORTHSTAR.md`'s phased plan, per "continue iterating on LO."
+Phase 0 (grammar, S208-02) and the PARENA stdlib groundwork (S208-05/06/07/09) are done; Phase 1
+("a real LO compiler... emits real `.prn` text for exactly the subset burrow's own two emitters
+already support today") is the real next unstarted item.
+
+- [x] **S214-01: real LO lexer** (`LO/internal/lexer`, Go). Implements `GRAMMAR.md` §1's full
+  lexical grammar: the exact codepoint table (§1.1), the variation-selector matching rule (§1.2 —
+  strip one trailing VS15/VS16 before lookup, reject a ZWJ immediately after a token as a fatal
+  error rather than silently absorbing it), `VECLIT` matched as one exact literal, never split
+  into word tokens. 5 real tests, all passing: `GRAMMAR.md` §7.1's own hand-worked example, the
+  repo's own existing `examples/xor_check.llll` sample (committed alongside, since a test now
+  depends on it), bare-vs-VS16 equivalence, ZWJ rejection, `VECLIT`/unrecognized-character
+  handling. `GOWORK=off go build/test/vet ./...` clean. LO commit `5f74f69`. Apple #17132.
+  (sess-20260830-1207-cc0ba7da)
+- [ ] **S214-02: real LO parser** — tokens → an AST matching `GRAMMAR.md` §2's EBNF (`Ternary`,
+  `Cond`, `Value`, `Arith`, `LinAlg`, `VectorLit`, `MagnetExpr`, `Pattern`), honoring §3's
+  precedence/associativity rules. Not started.
+- [ ] **S214-03: real `.prn` emitter for the scalar/flat-struct subset** — Phase 1's own actual
+  acceptance bar: compile the spec's `on-thing`-shaped example (scoped to its scalar `I32` path)
+  to real `.prn` text, verify it compiles cleanly through BOTH `parena build` and `burrow build`.
+  Not started, blocked on S214-02.
