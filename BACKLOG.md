@@ -24980,3 +24980,59 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   a different character role from the garage-crew Hana in Books 0–1 (Tides of Paradox side
   continuity) — both stay as written, not forced into one character. TYLER commits
   `cda4da6`/`35a60db`. Apple #16968.
+- [x] **S206-65: TYLER phone mechanics Phase 1 — PARENA mod + PC_PACKET_PHONE_MESSAGE, plus a
+  real spawn_player bug found and fixed.** Founder real-time: "can we build the tyler phone
+  mechanics into papercraft as PARENA mod api first development using the document in
+  TYLER/engine/tyler_phone_mechanics.md." Real, bounded Phase 1 slice (Messages app +
+  notification banner only, per the spec's own phased design): `PARENA/stdlib/papercraft/
+  phone_mod.prn` exports `on-papercraft-phone-message-for-event(event-type) -> message-id`,
+  compiled via `parena build` into `packages/simulation/phone_mod.c`, wired into
+  `apps/server/src/main.c` at the exact same trigger `xp_award_mod` already uses (a world object
+  fully destroyed). Deliberate wire-format departure from the source spec's own JSON payload —
+  this repo's own convention is fixed-size binary structs, not JSON-over-UDP, and VS0 is
+  I32-scalar-only regardless — new `PC_PACKET_PHONE_MESSAGE=7` / `PcPhoneMessagePacket`
+  (`packages/common/papercraft_protocol.h`), 12 bytes, `PcSnapshotPacket` unaffected (still 1436
+  bytes). Client renders a real, timed bottom-center notification banner
+  (`draw_phone_notification`/`PC_PHONE_MESSAGE_TABLE`), matching the existing top-corner ping/
+  weak-connection HUD discipline. Verified: `bazel build //...` (29 targets), `bazel test //...`
+  (13/13 pass, incl. new `phone_mod_test`), native gcc syntax-check clean. Live-verified against
+  an isolated scratch-port server instance with a real UDP probe (own HMAC-ticket minting, never
+  touching the live production instance) — real dispatch confirmed firing correctly; full
+  single-object destruction wasn't reached in-session due to a real, pre-existing
+  `paper_mesh.h` fragment-jitter coverage property unrelated to this feature (honest partial live
+  proof: 82/96 fragments destroyed across a real multi-point sweep; full writeup in `MODDING.md`'s
+  "Second worked example" and `NORTHSTAR.md`). **Bonus real bug found and fixed along the way**:
+  `spawn_player()` never reset a reused slot's own transient per-connection fields (most
+  importantly `latest_cmd_seq`), so a genuinely new player landing on a freed slot could have
+  every one of their real movement packets silently dropped as "stale" against a previous
+  occupant's higher leftover sequence number — matching the founder's own earlier-reported "this
+  version i cant do anything... just flickering" symptom from exactly this kind of
+  first-connection scenario. PAPERCRAFT commit `cf2c9d3`, PARENA commit `da552b4`.
+  `bin/papercraft_server` rebuilt in place; `sudo-queue/42` queued for the founder's own restart.
+  Apple #16978.
+- [ ] **S206-66: PAPERCRAFT list-based (text) inventory UI — before the graphical
+  inventory/crafting interface.** Founder real-time: "we need a list based inventory before the
+  graphicsl inventory and crafting interface use parena ui library." Real, deliberate sequencing:
+  a simple, real text-list inventory first (no PARENA UI dependency — this can ship as a plain
+  client-side HUD overlay, same discipline as `draw_progression_hud`/`draw_phone_notification`),
+  THEN the graphical inventory + crafting interface built on `parena/ui` (PARENA's own editor/
+  plugin API namespace — see `PARENA/NORTHSTAR.md`). Depends on S206-67's own entity system for
+  real item data to list (items need to exist as real world/held state before a real inventory
+  has anything real to show) — scope S206-67 first or in lockstep. Not yet designed: real item
+  data model (id, stack count, real handle/name), the wire format for syncing inventory contents
+  (likely a new fixed-struct packet, same convention as `PcPhoneMessagePacket`), and the actual
+  list-rendering HUD toggle (keybind TBD).
+- [ ] **S206-67: PAPERCRAFT entity system — real world entities for item drops/pickups.** Founder
+  real-time (clarifying S206-66's own inventory ask): "so we need like an entity systey" → "like
+  we can pick up the scraps on the ground." Real driver: the debris fragments already lying on
+  the ground after a Paper Engine object breaks (`PcFallingFragment`,
+  `packages/common/papercraft_protocol.h`) should become real, pickup-able "scrap" entities
+  feeding the real inventory (S206-66), not just a visual-only falling/settling effect as today.
+  Real, bounded scope to design before implementing: a general entity concept distinct from the
+  current fixed `PcWorldObjectDef`/`PcPlayerState` split (most likely: a new `PcEntity`/
+  `PcEntityState` array, bounded count like `PC_MAX_PLAYERS`/`PC_WO_MAX_OBJECTS` already are,
+  server-authoritative spawn/despawn/pickup, a new interact-adjacent "pickup" trigger reusing
+  `PC_PACKET_INTERACT`'s own reach-check pattern or a new dedicated packet type). PARENA mod
+  candidate for the real pickup-eligibility/stack-merge decision logic, matching "mods first
+  everything." Scope this into a real NORTHSTAR.md addendum before writing entity code — this is
+  a genuinely new subsystem, not a small slice like the phone mechanics above.
