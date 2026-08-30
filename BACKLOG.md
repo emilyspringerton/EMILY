@@ -25425,3 +25425,25 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `NORTHSTAR.md`/`README.md`/`CLAUDE.md` all updated to reflect real status. BURROW commits
   `144d8a8`/`056d71e`. Apple #17042. Real, still-open next step: Phase 2 (parser + region-analyzer
   parity) — not started, no `selfhost/parser.prn`/`selfhost/region.prn` exist yet either.
+- [x] **S206-85: PARENA — new `stdlib/base4` package, real port of the founder-uploaded
+  `examples/engine.py.txt`.** Founder uploaded a complete "CUSTOM BASE-4 / BINARY ALGEBRA LAB"
+  Python script directly to the PARENA repo (a 4-symbol alphabet `0`/`1`/`-`/`+` mapped to 2-bit
+  values, explored as a base-4 number system, symbolic algebra, and state machine), then: "add to
+  parena stdlibs." New `stdlib/base4/algebra.prn`: real, narrow v0 port of the algebra core the
+  Python original's own closing message names as the actually interesting question — `symbol-
+  zero`/`one`/`minus`/`plus` (named I32 codes, a symbol IS its own real 2-bit value), `base4-xor`/
+  `and`/`or` (direct reuse of PARENA's own existing `bit-xor`/`bit-and`/`bit-or` primitives, no
+  reimplementation needed), `base4-add`/`subtract` (mod-4, with a real, deliberate, documented AND
+  tested correctness fix: `(mod (+ (- a b) 4) 4)`, not a naive `(mod (- a b) 4)` — C's `%` returns
+  a result with the dividend's own sign, unlike Python's always-non-negative `%`, so a literal
+  transliteration would silently diverge for `a<b`). `base4-iterate`/`base4-cycle-length` use
+  VS0's real typed `Fn`-callback-parameter support (`(Fn [I32 I32] I32)`) to take an operation as a
+  real first-class argument, matching the Python original's own `operation` parameter design
+  directly — `base4-cycle-length` surfaces a real, provable pigeonhole property the Python
+  original only ever discovers empirically (every orbit over the 4-element state space cycles
+  within 4 steps), verified via 24 hand-traced assertions (`tests/test_base4.c`, `make test-base4`
+  green, `-Werror` clean, zero regressions elsewhere) — AND/OR give cycle length 1 for every start
+  (both idempotent), XOR gives 1 or 2, ADD gives 1/2/4. Deliberately NOT ported (real, honest, not
+  silently dropped): the base-4-number/binary-stream generation, frequency counting, and substring
+  pattern search — real, separate, string/Vec-heavy exploratory display code, not stdlib-primitive
+  shaped. `STDLIB.md` documented. PARENA commits `ea014e4`/`97a774a`/`ae92dc7`. Apple #17045.
