@@ -26016,3 +26016,32 @@ and portal.go's current real structure before adding a chat panel to it.
   that key"): real K8s Secret storage (`S207-06`) deliberately deferred — no live cluster exists
   yet (`S207-02`/`S207-03` not started), so there's nowhere to put a K8s Secret today; noted as
   the real long-term home once that infra exists. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 213: FLASH — HYPRIOT RASPBERRY PI WRITE TOOL FORK (2026-08-30)
+
+Founder real-time, four-message burst: (1) "we need a tool like hypriot docker rapberry pi write
+tool i forked it from the upstream its called FLASH -- we want to get it working with our own
+raspberry pi first and i guess we dont even need to do anything to it to get that working first
+can we have it be configuration based and build it into parena and emily os i dunno parinafy it
+but really we want to aknowledge the prior art and then also we plan to build off of hypriot os";
+(2) real upstream repo named: `https://github.com/emilyspringerton/image-builder-rpi` (a fork of
+Hypriot's own real `hypriot/image-builder-rpi`), all its deps also forked; (3) "EmilyOS for the Pi
+please BAZEL powered"; (4) "build parena into the distro." All posted via `emily observe` before
+acting (Principle 18). Real, multi-part scope, not yet touched this session:
+1. Get the forked `image-builder-rpi` working against a real, owned Raspberry Pi first, with NO
+   changes to the tool itself yet (founder's own words: "i guess we dont even need to do anything
+   to it to get that working first").
+2. Once working, make it configuration-based (real config file replacing whatever hardcoded
+   assumptions exist in the fork).
+3. Real, separate, larger northstar-shaped asks layered on top, not yet scoped: "parenify it"
+   (rewrite/wrap in PARENA?), build EmilyOS for Raspberry Pi (Bazel-powered), build PARENA into
+   the resulting distro image. Real open questions, not resolved here: does "EmilyOS for the Pi"
+   mean the existing `EmilyOS` repo's own policy kernel ported to ARM/Pi, or a new distro image
+   built via the forked `image-builder-rpi` with EmilyOS baked in? Does a real, physical
+   Raspberry Pi already exist on this network, or does S1 need to start with acquiring/locating
+   one? Real credit to prior art, explicitly named by the founder: this builds on Hypriot's own
+   real, existing `image-builder-rpi` project, not built from scratch.
+
+- [ ] **S213-01: clone the fork, audit `image-builder-rpi`'s current real state, confirm Pi
+  hardware access, get it building/running unmodified per the founder's own explicit "no changes
+  needed yet" framing.** Not started.
