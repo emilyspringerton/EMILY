@@ -2270,6 +2270,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (further clarifying the entity-system ask): the real driver is being able to pick up the scrap/debris…** — obs `2026-08-30T02:53:56Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time (follow-up to the list-inventory/PARENA-UI ask): PAPERCRAFT needs an entity system -- a general conce…** — obs `2026-08-30T02:53:12Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: PAPERCRAFT needs a list-based (text) inventory UI first, before the graphical inventory+crafting int…** — obs `2026-08-30T02:52:53Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time (new, separate repo): MISHRI (forked from an unknown author, unclear/ambiguous licensing) needs: (1) …** — obs `2026-08-30T03:21:50Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: go ahead with PAPERCRAFT entity + inventory system now -- 'simple but trackable', GTA3-style (destro…** — obs `2026-08-30T03:14:39Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
