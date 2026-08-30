@@ -2316,6 +2316,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **testing** — obs `2026-08-30T07:04:39Z`. CURATED: 2026-08-30.
 - [ ] **continue working on lo adding to the stdlib libs necessary to make the language actually function remember parena is th…** — obs `2026-08-30T13:54:52Z`. CURATED: 2026-08-30.
 - [ ] **ctrl a left does not do what you would expect in a text editor** — obs `2026-08-30T13:13:35Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: we have Slack now (founder has a Slack account) -- after this iteration, add OpenClaw and Slack inte…** — obs `2026-08-30T14:22:25Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: add DCGAN primitives to PARENA** — obs `2026-08-30T14:20:36Z`. CURATED: 2026-08-30.
+- [ ] **  OK -> https://okemily.com/prompt-o-verse/emily-emoji/ make that the readme art for LO use proper imagemagic like u do…** — obs `2026-08-30T14:05:43Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -25843,9 +25846,25 @@ real base4 symbol algebra).
   sized piece of work). `STDLIB.md`'s own new "base4/vector" section documents all of the above.
   PARENA commit `f0048e8`. LO commits `844769d` (CHANGELOG), `535f5e7` (NORTHSTAR, names S208-06/
   S208-07 there too). Apple #17105. (sess-20260830-1207-cc0ba7da)
-- [ ] **S208-06: `STACK`/`MATMUL` matrix construction for LO's PARENA stdlib target.** Needs a
-  real shape-representation decision (flat array-with-strides matching `array.prn`'s own
-  `NDArray`, vs. a real `Vec`-of-`Vec`) before any code. Not started.
+- [x] **S208-06: `STACK`/`MATMUL` matrix construction for LO's PARENA stdlib target.** Real shape
+  decision made (was left open): flat, row-major `(Vec I32)` + `rows`/`cols`, matching
+  `array.prn`'s own already-proven `NDArray` convention rather than an unproven `Vec`-of-`Vec`.
+  `PARENA/stdlib/base4/matrix.prn`: `rows`/`cols`/`dims-eq`/`stack2` (2-row only — every real
+  matrix example in `LoLanguageSpec.pdf` is 2 rows, N-row stacking deferred, needs variadic
+  `defn` params or the `Vec`-of-`Vec` question this avoids)/`matrix-eq`/`matmul`. **Two real,
+  genuine compiler gaps found and flagged, neither silently patched over**: (1) two sibling
+  `loop` forms in one function reusing the same binding name collide at C emission (`gcc`:
+  redefinition of a `double`-typed variable) — worked around with distinct names, a real, live
+  VS0 loop-emission boundary, not a logic bug in this file; (2) `matmul`'s per-cell accumulator
+  hits the exact same double-boxing class already confirmed on S208-05's `dot` — verified
+  directly (`tests/test_base4_matrix.c`: a hand-traced `[[2,3],[0,1]]` product reads back wrong
+  via the only correct-per-signature `int*` cast, correct only via the wrong `double*` cast).
+  **Not fixed here** — same cross-cutting loop-variable/number-literal type-inference issue
+  `linalg.prn`/S208-05 already scoped out of a single-file pass; the test asserts the current,
+  confirmed-buggy behavior as a real regression gate. `stack2`/`matrix-eq`/`dims-eq`/`rows`/
+  `cols` don't hit this and are real, verified: `make test-base4-matrix`, `-Werror` clean.
+  `STDLIB.md`'s own new "base4/matrix" section documents all of the above. PARENA commit
+  `8f56f97`. LO commit `e0aa901`. Apple #17107. (sess-20260830-1207-cc0ba7da)
 - [ ] **S208-07: PCRE-lite pattern matcher over base4 vectors for LO's PARENA stdlib target**
   (GRAMMAR.md §5.4's wildcard/star/anchor/alternation/non-nested-group token set). A real,
   separate backtracking-matcher-sized piece of work, not an elementwise op. Not started.
