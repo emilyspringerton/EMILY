@@ -2319,6 +2319,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: we have Slack now (founder has a Slack account) -- after this iteration, add OpenClaw and Slack inte…** — obs `2026-08-30T14:22:25Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: add DCGAN primitives to PARENA** — obs `2026-08-30T14:20:36Z`. CURATED: 2026-08-30.
 - [ ] **  OK -> https://okemily.com/prompt-o-verse/emily-emoji/ make that the readme art for LO use proper imagemagic like u do…** — obs `2026-08-30T14:05:43Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time, continued: build the bare-bones Emily chat (Qwen fallback) into IDUNA's back office / dev portal** — obs `2026-08-30T14:26:06Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: use Qwen for some of the Anthropic API issues affecting core Emily Prime/FatBaby Emily bots -- explo…** — obs `2026-08-30T14:25:52Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
