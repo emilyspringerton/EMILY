@@ -25645,6 +25645,31 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   plain `go build` and the real Bazel artifact. The "mods first everything" loop closes for DUNG:
   PARENA is the real source of truth for this decision logic now, not a parallel proof sitting
   next to hand-written Go. BURROW commit `1f037cc`, DUNG commit `7a24dcf`. Apple #17086.
+- [x] **S206-94: PAPERCRAFT reconnection message — follow-up investigation, real findings, no
+  further code change.** Founder real-time: "still getting the reconnection issue." Investigated
+  the live, currently-running server (`var/logs/server.log`, current boot since the last
+  restart): tick loop steady the whole session (no stalls), exactly **one** `save_player`
+  permission-warning-free run (S206-72's `chmod g+w` fix holds — the 192 earlier warnings in the
+  same log file all predate the current boot, from before that fix landed), and exactly **one**
+  `Player slot 0 timed out (no real packet in 60000ms)` event this boot, timestamped ~08:24Z —
+  minutes before the founder's 08:42Z report, so this is almost certainly the same event being
+  described. Checked the real, concrete alternative hypothesis before accepting "network jitter"
+  again: does the client only send input packets on active movement, so an idle/AFK player
+  naturally times out? No — `apps/client/src/main.c`'s main loop sends a `PcUserCmdPacket` every
+  frame regardless of movement once `ever_welcomed`, so a 60-second full silence really does mean
+  either the client process itself stalled (OS sleep/suspend, alt-tab pause) or a genuine
+  sustained network outage, not an app-level keepalive bug. **Honest conclusion: no code bug
+  found this pass** — S206-72's mitigations (halved snapshot bandwidth, bumped `PC_CLIENT_WEAK_MS`)
+  are holding as designed; the remaining single timeout is consistent with a real, external
+  connection/sleep event on the founder's own machine, not a server regression. Not closing the
+  thread by assumption, though: no diagnostics exist yet to *tell* the difference next time this
+  is reported, which is the real gap. Follow-up not yet started, named explicitly rather than
+  silently dropped: **S206-95 — add a client-side "time since last snapshot" value to the existing
+  weak-connection overlay** (`draw_weak_connection_indicator` already receives `now -
+  last_snapshot_ms` as an argument per `apps/client/src/main.c:1471`, so surfacing it as visible
+  text is a small, additive change) so a future report carries a number instead of a guess.
+- [ ] **S206-95: add the real gap-duration number to the weak-connection overlay** (see S206-94).
+  Not started.
 
 ## SECTION 207: KUBERNETES MIGRATION — PRRJECT_FATBABY PHASE 5 (2026-08-30)
 
@@ -25790,3 +25815,17 @@ real base4 symbol algebra).
   chat transcript before Phase 1 treats it as final. No lexer/parser/compiler code written —
   Phase 0 is grammar-only, per Spec Before Implementation. Registered `LO-GRAMMAR` in
   `EMILY/context/golden-docs-index.md`. LO commit `f2ae276`. Apple #17098. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 209: EDITOR KEYBINDING REPORT — CTRL+A (2026-08-30, logged not started)
+
+Founder real-time: "ctrl a left does not do what you would expect in a text editor." Real
+ambiguity, not glossed over: no specific app was named, and this monorepo has more than one
+"text editor" candidate — `PARENA/stdlib/editor/buffer.prn` (the real, existing Home/End/cursor-
+movement module, `DUNG`'s own planned editor consumer) is the most likely real target given it
+already implements cursor-motion keys, but it's not yet wired into any running DUNG UI to
+reproduce against live. Not scoped further this session — needs either a repro app named by the
+founder, or a first real DUNG editor pane to exist to test against.
+
+- [ ] **S209-01: reproduce and fix the Ctrl+A-behaves-wrong-in-a-text-editor report.** Blocked on
+  identifying which real app/buffer this was reported against (`buffer.prn` directly? A live DUNG
+  build? Something else editable in this monorepo?). Not started.
