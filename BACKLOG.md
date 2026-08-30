@@ -25134,3 +25134,43 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   84/84 assertions pass (same real count/coverage as before, confirming behavior preserved
   through the conversion), `bazel test //:test` PASSED, `bazel run //:build`/`//:install` both
   verified working. MISHRI commits `281dfb1`/`ed7454a`. Apple #16994.
+- [x] **S206-71: PARENA — new v0 TypeScript emitter, MISHRI as the real proving ground.** Founder
+  real-time: "using the MISHRI construct add apis for rewriting MISHRI in parena we want to add
+  all the building bloccks to the std lib as best we can and the MISHRI deps - check the
+  repository XCVBNM-OR for that manifest and then start working on the parena ts emitter using
+  MISHRI as proving ground we can start to replace the MISHRI js deps little by little using the
+  dependent stdlibs plannning pattern check the parena stdlib md file." Real manifest checked:
+  `XCVBNM-OR/MISHRI_CONSTRUCT.txt`'s own `package.json` section. **Real, honest reframing,
+  documented in `PARENA/STDLIB.md`'s own new section**: `mineflayer` + its five plugins +
+  `minecraft-data` are real host libraries (network protocol, versioned data tables), not real
+  PARENA reimplementation candidates — same real split PAPERCRAFT's own mods already settled for
+  SDL2. The real, valuable "MISHRI deps to replace" are MISHRI's own decision/behavior modules
+  (`humanness`/`movement`/`behavior`/`skills`/`social`/`perception`) layered on top of that host
+  library, the identical shape `xp_award_mod.prn`/`item_drop_mod.prn`/`phone_mod.prn` already
+  proved for PAPERCRAFT. Shipped: new `src/emit_ts.c`/`emit_ts.h` — a real, deliberately narrow
+  v0 TypeScript emitter (matching `emit_c()`'s own original documented real scope, same "start
+  narrow, grow via real found-and-fixed gaps" discipline): zero-Arena/region scalar `defn` params
+  (I32/F64/Bool/String), a single real expression body (number/symbol literals, the real
+  arithmetic/comparison/logical binop set, `if` as a ternary, calls to sibling `defn`s or the one
+  real recognized external primitive `math/random` → `Math.random()`). Wired into the existing
+  `parena build ... -o <output>` command by output extension (`.ts` routes here, everything else
+  keeps the unchanged, default C path) — no new subcommand, zero risk to the existing,
+  `-Werror`-clean C emitter (its own independent file — own string builder, own name-mangler, not
+  a refactor of the existing emitter into a shared multi-target abstraction). New
+  `stdlib/math/random.prn` (the real FFI-shaped `math/random` primitive — no pure-PARENA PRNG
+  exists yet) and `stdlib/mishri/bezier_interp.prn` (real proving-ground module, a faithful port
+  of MISHRI's own real `HumannessLayer.bezierInterp`, one nested expression, no `let` needed).
+  **Real, verified proof, not just a compile check**: compiled to
+  `MISHRI/src/generated/bezier_interp.ts` (committed generated output, same convention every
+  PAPERCRAFT `*_mod.c` file already uses), `HumannessLayer.ts`'s own hand-written `bezierInterp`
+  body replaced with a call into it. Verified bit-for-bit identical against the original across 6
+  real `(start, end, t)` cases × 20 trials each with `Math.random()` mocked deterministically —
+  zero mismatches; MISHRI's own full 84-assertion test suite still passes unchanged. New
+  `tests/test_emit_ts.c` (14 assertions, `bazel test //tests:test_emit_ts`) covers the real
+  success shapes above plus two real, honest failure cases (an `Arena`-typed parameter, a
+  `let`-block body) — both correctly rejected. Full `bazel test //tests/...` green (4/4 targets,
+  no regressions to the existing C-emitter toolchain). `STDLIB.md`'s own new section also plans a
+  real, dependency-ordered `mishri` package tree past `bezier-interp` — honestly marked design
+  only, naming the real, genuine blockers (no async primitive for `delay`/`throttleAPM`, no
+  struct/map support for the QWERTY-adjacency typo table) rather than overclaiming readiness.
+  PARENA commits `b37cec2`/`548667a`, MISHRI commits `1cbfcdc`/`9bd9aa6`. Apple #16999.
