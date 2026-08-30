@@ -26305,5 +26305,22 @@ word processing + spell-check + autocomplete, built on real document management 
   mod-boundary convention itself needs a real, separate, considered evolution (struct/String
   marshaling across the FFI boundary) before `document.prn`/`registry.prn` can cross it — a real
   founder call, not decided unilaterally here. (sess-20260830-1207-cc0ba7da)
-- [ ] **S218-02: decide + build the real PAPERCRAFT native-editor path** (host-C buffer vs. a
-  real mod-boundary evolution), per S218-01's own named fork. Not started.
+- [x] **S218-02: real PAPERCRAFT mod-boundary evolution, founder-decided.** Founder real-time:
+  "evolve the mod boundary." `packages/simulation/parena_runtime.{h,c}` grown from its own
+  deliberately-minimal 17-line header-only stub to the full, real PARENA runtime (Arena/Vec/
+  String), vendored verbatim from `PARENA/runtime/` — that stub's own header comment named this
+  exact moment ("grow this file... the moment a future mod genuinely needs" it). New `:editor`
+  mod (`packages/simulation/editor_mod.c`, generated from `PARENA/stdlib/editor/
+  {buffer,document,registry}.prn` + `papercraft/note_version_mod.prn` compiled together in one
+  real `parena build` invocation — a real cross-module dependency requirement, not a style
+  choice): the first mod in this repo to cross the host boundary with real structs and `String`s
+  directly, not just I32 scalars. **Verified no regression, not assumed**: `bazel build`/`bazel
+  test //packages/simulation/...` both clean, all 14 tests pass (13 pre-existing scalar-only mods
+  unaffected + the new `:editor` test). `PAPERCRAFT/CLAUDE.md`'s own "Mods first, everything"
+  section updated to document the real evolution AND its real, honest cost (a mod crossing with a
+  struct/String needs a real `Arena *` from its caller — host C now owns that lifetime; this
+  should stay the exception, not the new default, for anything that could be a plain scalar
+  decision instead). Real, honest limitation: could not update `PAPERCRAFT/CHANGELOG.md` directly
+  — owned by a different user (`treeiii`), ACL mask limits this session to read-only, same class
+  of issue already hit on `BURROW`'s own CHANGELOG earlier this session. PAPERCRAFT commit
+  `a12829a`. Apple #17164. (sess-20260830-1207-cc0ba7da)
