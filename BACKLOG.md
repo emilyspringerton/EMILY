@@ -25941,6 +25941,35 @@ and portal.go's current real structure before adding a chat panel to it.
 
 - [ ] **S212-01: audit recent Anthropic API failures against Emily Prime/FatBaby bots, confirm
   what Qwen access exists, scope a real northstar.** Not started.
+- [x] **S212-03: fixed real "API key not valid" break in `gemini --yolo`, real root cause found.**
+  Founder hit the error live (`> test` → `API_KEY_INVALID`) right after S212-02's fresh key was
+  created. Real root cause, not guessed: `.bashrc` still exported `GOOGLE_GENAI_USE_VERTEXAI=true`
+  (a real, dated workaround from an earlier session for a since-superseded Google-side AI-Studio
+  bug) while `~/.gemini/settings.json`'s own `auth.selectedType` had already been switched to
+  `"gemini-api-key"` — the CLI was mixing a plain AI-Studio key with Vertex-mode env vars. Verified
+  the plain key works fine on its own merits first (`curl` directly against
+  `generativelanguage.googleapis.com`, real model list returned) before touching anything, then
+  commented out the Vertex env vars in `.bashrc` (kept, not deleted — the original 404/403 bug may
+  still be real for other projects/keys) and exported `GEMINI_API_KEY` from S212-02's key file.
+  Confirmed via a genuinely clean shell (`env -i ... bash -i -c`, not this session's own
+  already-polluted environment) that a fresh login shell now has Vertex mode off and the key set.
+  **Second, real, already-documented issue surfaced immediately after** (matches the 2026-08-20
+  observation's own prior finding, not new): the CLI's default model routing hits
+  `gemini-3.1-pro`, which returns a real `429`/zero-free-tier-quota error on this key — `-m
+  gemini-2.5-flash` (confirmed to have real quota) works around it. Wrote
+  `tmux-gemini-session.sh` (founder real-time: "copy the prior art of the tmux session launch
+  script") — same survivability pattern as `tmux-session.sh` (detached tmux, reattach-on-
+  collision), defaulting to `-m gemini-2.5-flash` so the known-bad default model routing doesn't
+  bite again. MONOREPO commit `0f04aef`. **Real, honest end-to-end result, not glossed over**: a
+  live `gemini -m gemini-2.5-flash -p "test"` run in a genuinely clean shell got past BOTH prior
+  errors (auth is fixed, model routing is fixed) and hit a third, real, different failure —
+  `429: Your prepayment credits are depleted. Please go to AI Studio at
+  https://ai.studio/projects to manage your project and billing.` This is a real GCP
+  billing/credits state on project `einhorn-mjolnir`, not a config or code problem — nothing left
+  to fix from this session; needs the founder to add billing/prepay credits at
+  `https://ai.studio/projects` (or point the key at a different project that already has active
+  billing) before `gemini`/`tmux-gemini-session.sh` will actually complete a real request.
+  Apple #17116. (sess-20260830-1207-cc0ba7da)
 - [x] **S212-02: real Gemini API key created (founder real-time: "can you get me a gemini key out
   of vector api somehow?").** Real `gcloud alpha services api-keys create` against project
   `einhorn-mjolnir` (already-authenticated `garybifrost@gmail.com` gcloud session found live, no
