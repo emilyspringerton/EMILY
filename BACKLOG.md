@@ -25404,3 +25404,24 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   matching the pattern already proven for `xp_award`/`item_drop`/`inventory`/`pickup`/
   `phone_message`/`interact_falloff`/`slide_jump`/`stat_effects`/`talent`. Logged so this standing
   priority isn't lost, not claiming false completion.
+- [x] **S206-84: BURROW — Phase 1 real lexer parity shipped, hand-ported from `src/lexer.c`.**
+  Founder real-time: "start phase 1 lexer parity on burrow" (S206-77's own real, still-open next
+  step). Real architecture call made and documented directly in `BURROW/NORTHSTAR.md`, not glossed
+  over: reading `PARENA/selfhost/lexer.prn` in full before starting showed it leans on real PARENA
+  language surface (`defstruct`, a payload-carrying `defenum`, `match`, `loop`/`recur`,
+  `Result<T,E>`, `Vec`, reference params) well beyond `emit_ts.c`/`emit_java.c`'s own proven
+  narrow v0 scope — building a general enough PARENA→Go emitter to cover all of that correctly, in
+  one sitting, at a verifiable quality bar, was not realistic. Took the doc's own named fallback
+  instead: `BURROW/lexer.go`, a real, faithful hand-port of `PARENA/src/lexer.c` (idiomatic Go —
+  native mutable structs and `(Token, error)` returns replace the C reference's own arena/
+  functional-update workarounds entirely, since Go's own GC makes them moot). `lexer_test.go`: a
+  real, direct port of all 9 real test scenarios from `PARENA/tests/test_selfhost_lexer.c`, every
+  expected token sequence copied verbatim from that file's own real, hand-traced-against-
+  `src/lexer.c` expectations — this IS the real, founder-named "pass all that parena c tests"
+  acceptance bar, achieved directly for the lexer domain. `go build`/`go vet`/`go test` all clean,
+  9/9 pass. Also stress-tested (one-off, not committed) against real, substantial PARENA source —
+  `selfhost/lexer.prn` itself (2104 tokens), `stdlib/string.prn` (744), `stdlib/mishri/
+  humanness.prn` (127), `stdlib/gta7/humanness_fingerprint_mod.prn` (74) — all clean, no crashes.
+  `NORTHSTAR.md`/`README.md`/`CLAUDE.md` all updated to reflect real status. BURROW commits
+  `144d8a8`/`056d71e`. Apple #17042. Real, still-open next step: Phase 2 (parser + region-analyzer
+  parity) — not started, no `selfhost/parser.prn`/`selfhost/region.prn` exist yet either.
