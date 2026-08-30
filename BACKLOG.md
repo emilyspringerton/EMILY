@@ -25553,21 +25553,35 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   Follow-up: "make sure the skrip uses claude continue or whateva" — added `--continue` to every
   `claude` invocation per Principle 11 (resume prior context on re-run after a drop, don't start
   blank). MONOREPO commits `d2c6a1c`/`3206cd0`. Apples #17076/#17077.
-- [x] **S206-90: Blog post — all 18 principles of The Emily Way.** Founder real-time, 2026-08-30:
-  "and then we have at least 18 principles can you write a blog post about alln of them? read all
-  the blog posts for blog voice context." Read `EMILY/docs/THE_EMILY_WAY.md` (confirmed exactly
-  18 numbered principles) plus two existing Claude-authored posts ("Notes on the Emily Way, from
-  the inside," "Nine Hours In, The Emily Way") from the live `IDUNA/var/blog.db` corpus for voice
-  — first-person, concrete, unhype, named real incidents over abstraction. Published via
-  `POST /api/v1/blog/posts` (the founder-documented `OKEMILY/CLAUDE.md` "publish it yourself"
-  path, EMILY-PRIME agent token). See CHANGELOG/Apple for slug + URL once posted.
-- [ ] **S206-91: DUNG Phase 1 — continue work on DUNG.** Founder real-time, 2026-08-30: "continue
-  work on DUNG." Real, current status check before resuming: `BURROW`'s own Phase 3-4 (region
-  analyzer + v0 C emitter), named in DUNG's own `NORTHSTAR.md`/`CLAUDE.md`/`README.md` as a hard
-  blocker ("`burrow build` reports not yet implemented"), **shipped the same day** (S206-88,
-  gcc-verified end-to-end proof against PAPERCRAFT's `level_mod.prn`) — DUNG's own docs are stale
-  on this point and need correcting. Real next step per DUNG's own phased plan: Phase 0 (unblock
-  toolchain) is now clear; Phase 1 is the smallest real proof point — an SDL2 window (Go host)
-  rendering a visor-style drop-down terminal (PTY + vterm, hand-ported/vendored from `PITVIPER`'s
-  own already-working `internal/pty`/`internal/vterm`/`internal/font` — Go-hosted, doesn't wait on
-  `burrow`) that can i3-split into two panes. In progress this session.
+- [x] **S206-90: Blog post — "The Full Eighteen," all 18 principles of The Emily Way.** Founder
+  real-time, 2026-08-30: "and then we have at least 18 principles can you write a blog post about
+  alln of them? read all the blog posts for blog voice context." Read `EMILY/docs/
+  THE_EMILY_WAY.md` (confirmed exactly 18 numbered principles) plus two existing Claude-authored
+  posts ("Notes on the Emily Way, from the inside," "Nine Hours In, The Emily Way") from the live
+  `IDUNA/var/blog.db` corpus for voice — first-person, concrete, unhype, named real incidents over
+  abstraction. Published via `POST /api/v1/blog/posts` (the founder-documented `OKEMILY/CLAUDE.md`
+  "publish it yourself" path, EMILY-PRIME agent token). Live, verified HTTP 200:
+  https://okemily.com/blog/the-full-eighteen/. Apple #17078.
+- [x] **S206-91: DUNG Phase 1 — SDL2 visor terminal + i3-primitive split, real proof point.**
+  Founder real-time, 2026-08-30: "continue work on DUNG." Corrected DUNG's own stale docs first
+  (`NORTHSTAR.md`/`CLAUDE.md`/`README.md` all named `burrow build` as a current blocker —
+  `BURROW`'s own Phase 3-4 shipped the same day, S206-88, clearing DUNG's own Phase 0). Built
+  `cmd/dung/main.go`: a real SDL2 window (Go host) with a visor-style drop-down terminal (F12
+  toggle, animated slide) and a real i3-primitive binary split tree (Ctrl+Shift+Enter/
+  Ctrl+Shift+O, Alt+Arrow focus-cycling) — matching NORTHSTAR.md's own Phase 1 scope exactly, no
+  editor pane yet. `internal/vterm`/`internal/pty`/`internal/font` vendored verbatim from
+  `PITVIPER`'s own already-working implementations (package names/APIs kept identical; `PITVIPER`
+  itself untouched, same "new fork" precedent `SAND` already set). `go build`/`go vet`/`go test`
+  clean across all four packages, including new `cmd/dung/split_test.go` covering the split-tree
+  logic without needing a real PTY/SDL window. **Real, verified end-to-end, not just written**:
+  ran under Xvfb (`--show` flag added for exactly this), a real bash spawned via a real PTY, its
+  real colored SGR prompt rendered correctly through the vterm→font→SDL2 pipeline, screenshot
+  verified, process stable, no panics. Bazel scaffold (`MODULE.bazel`+per-package `BUILD.bazel`)
+  iterated through three real, distinct failures (CcInfo removed under Bazel 9.2.0; gazelle's own
+  internal fetch auto-discovering the monorepo's root `go.work` and needing a matching SDK
+  version) down to one real, still-open blocker named precisely, not glossed over: `go-sdl2`'s cgo
+  pkg-config directive doesn't resolve `SDL.h` inside Bazel's sandboxed cgo action, though the
+  identical code builds clean under plain `go build` — separate, later work, not this phase's own
+  functional proof. Honest, named simplifications: F12 only fires with window focus (no X11
+  global hotkey yet); `nextFocus` is visit-order, not geometric nearest-neighbor. DUNG commits
+  `a88308e`/`9dae963`. Apple #17079.
