@@ -25941,3 +25941,20 @@ and portal.go's current real structure before adding a chat panel to it.
 
 - [ ] **S212-01: audit recent Anthropic API failures against Emily Prime/FatBaby bots, confirm
   what Qwen access exists, scope a real northstar.** Not started.
+- [x] **S212-02: real Gemini API key created (founder real-time: "can you get me a gemini key out
+  of vector api somehow?").** Real `gcloud alpha services api-keys create` against project
+  `einhorn-mjolnir` (already-authenticated `garybifrost@gmail.com` gcloud session found live, no
+  interactive login needed this time), restricted to `generativelanguage.googleapis.com` only.
+  **Real, deliberate storage decision, not a repeat of the original incident**: `IDUNA` Vault
+  (`S170-01`/`S170-03b`) is the real, already-built place for this, but it's currently locked and
+  only the founder holds the passphrase (by design — an agent never chooses or knows it). Rather
+  than write the raw key to a bare plaintext file in `$HOME` (the exact anti-pattern that
+  motivated building the Vault in the first place), wrote it to a `chmod 600`,
+  `fatbaby`-owned-only file, `EMILY/var/gemini-api-key.env` (confirmed `.gitignore`d —
+  `var/*.env` — before writing, so it can never land in a commit). **Real, explicit follow-up
+  named, not silently left as a permanent arrangement**: founder should run `emily vault unlock`
+  + `emily vault add` to move it into the Vault properly once convenient; this file is interim
+  storage only. Founder real-time follow-up ("let's put it on kubernetes? defer it until we get
+  that key"): real K8s Secret storage (`S207-06`) deliberately deferred — no live cluster exists
+  yet (`S207-02`/`S207-03` not started), so there's nowhere to put a K8s Secret today; noted as
+  the real long-term home once that infra exists. (sess-20260830-1207-cc0ba7da)
