@@ -25673,3 +25673,30 @@ uploads curated `var/` state to a real, live GCS bucket.
   stateless/lower-stakes processes first (`dashboard`/`newssite`), data-critical ones last
   (`secwatch`/`eps-reconciler`) per `THE_EMILY_WAY.md` Principle 15 (Operational Health Is Not
   Optional). Blocked on everything above.
+- [x] **S207-08: real Kubernetes + Helm primitives in the PARENA stdlib, cross-repo.** Founder
+  real-time: "write kubernetes primitives into the stdlib and write helm support into parena both
+  in the stdlib and also into DUNG and project BURROW" → "helm primatives". `PARENA/stdlib/k8s/
+  k8s.prn`: real defstructs (`Container`/`Deployment`/`ServiceSpec`/`PVCSpec` — nested struct
+  fields confirmed working) + real YAML-emitting functions, matching the exact resource shapes
+  `k8s/dashboard.yaml` already needed. `PARENA/stdlib/helm/helm.prn`: a real `Chart` defstruct +
+  `chart-yaml`/`values-yaml` (real Helm-standard `replicaCount`/`image.repository`/`image.tag`
+  shape) + a real `templated-deployment-yaml` substituting `{{ .Values.X }}` for image/replica
+  fields. Both verified end-to-end via a real C test harness (matching `PAPERCRAFT/
+  level_mod_test.c`'s own pattern), all assertions pass against real dashboard values — real,
+  working `PRRJECT_FATBABY/charts/dashboard/` Helm chart generated from it (Apple #17091,
+  supersedes the raw `k8s/dashboard.yaml` manifest, kept as pre-Helm documentation). **Real,
+  honest boundary found and worked through, not glossed over**: `k8s.prn`/`helm.prn`'s own
+  String+Arena-threaded string-building is fundamentally incompatible with `BURROW`'s own Go
+  emission target (GC-off-safe by design, no allocation reachable) — confirmed directly (`burrow
+  build` fails on the first `Arena` param). Extended `BURROW` itself in response: real
+  `defstruct`/`get-field` support added to `emit_go.go` (a registered `defstruct` emits a real
+  exported Go struct type; construction deliberately NOT emitted — a real Go host constructs via
+  an ordinary composite literal, same split the C target's own test harnesses use), `go test`
+  50/50 (Apple #17089). `PARENA/stdlib/k8s/scaling.prn` (scalar-only `ScalingSpec` +
+  `clamp-replicas`, a real HPA-style decision) is the real proof this new capability works end to
+  end, verified via a real `go test` against `DUNG`'s own checked-in copy (`internal/burrowgen/
+  k8s_scaling_gen.go`, Apple #17090) — real, honestly not wired into any live DUNG feature yet
+  (no k8s-facing UI today), available for real future use. `go build`/`go vet`/`go test` and a
+  real `bazel build //...` clean for DUNG with both `burrowgen` files present. Cross-repo commits:
+  PARENA `694e658`, BURROW `aad0fc8`, DUNG `29c1d1f`, PRRJECT_FATBABY `c1d23ee`. Apples #17088
+  (PARENA), #17089 (BURROW), #17090 (DUNG), #17091 (PRRJECT_FATBABY).
