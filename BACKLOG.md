@@ -26351,3 +26351,23 @@ use ✨ for LET" → "use it for equalityu" → "in LO." Posted via `emily obser
   compiled through `parena build` + `cc` + execution, confirming the actual exit code (`S2 XOR4
   S1 = 3`). 15 tests total (4 new/updated for `Let`), `GOWORK=off go build/vet/test ./...` clean.
   LO commit `134449c`. Apple #17166. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 220: LO — REAL LEFT-ASSOCIATIVE ARITH CHAINS (2026-08-30)
+
+- [x] **S220-01: fix a real, previously-unnoticed parser gap.** Continuing to iterate on LO after
+  S219's real `Let` support. Found: the parser only ever accepted ONE arith operator with a bare
+  `State` on both sides — `GRAMMAR.md` §3.3's own documented "left-associative chain" rule
+  (`a XOR4 b XOR4 c`) couldn't parse at all, and neither could combining two `Let`-bound values in
+  one expression (`x XOR4 y`, both bare `MAGNET`s) — both are ordinary uses of `GRAMMAR.md`'s own
+  `Value ArithOp Value` production, not exotic cases. Fixed: `value()` now loops over `(op,
+  primary)` pairs building a real left-associative `Arith` chain; a new `primary()` unifies
+  `State`/`VOID`/bare-`MAGNET` operand parsing (previously duplicated ad hoc in two places).
+  **Real, honest caveat surfaced, not glossed over**: two `MAGNET`s in the same body still
+  resolve to the SAME (innermost) `Let` binding today, since nested `Let`s fully shadow rather
+  than exposing both simultaneously — a real, already-named `GRAMMAR.md` limitation (S219-02's
+  own doc comment), not a new one; the new test's own doc comment says so explicitly rather than
+  implying the fix does more than it does. **Verified end-to-end**: `S1 XOR4 S2 XOR4 S3` actually
+  compiles through `parena build` + `cc` + execution and computes correctly (`(1^2)^3 = 0`). 4
+  new/updated parser tests, 1 new live emitter test (refactored the existing one's subprocess
+  plumbing into a shared `compileRunAndGetExitCode` helper). 18 tests total, `GOWORK=off go
+  build/vet/test ./...` clean. LO commit `f7e11a5`. Apple #17167. (sess-20260830-1207-cc0ba7da)
