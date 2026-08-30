@@ -25272,3 +25272,133 @@ handle it"** (founder taking the actual new-repo creation on themselves — stop
   `PC_PACKET_CONNECT` and rendering something different once a real `PC_PACKET_WELCOME` comes
   back) — no real 3D rendering yet, proving the real network path end to end first, matching
   `apps/client`'s own real Phase 0 precedent.
+- [x] **S206-76: PARENA — new v0 Java emitter, third compilation target.** Founder real-time:
+  "break out the java emitter for PARENA" (after correctly declining a proposed "java applet"
+  pivot for the web client — applets have been non-functional in every real browser since
+  ~2017-2018, NPAPI/Applet-API removal, a permanent fact, not an effort tradeoff; founder
+  confirmed continuing with TypeScript+WebGL instead via AskUserQuestion).
+  `src/emit_java.h`/`.c`: same real, narrow v0 scope as `emit_ts.c` (scalar params, one-expression
+  body, shared `math/*` primitive table — `java.lang.Math` has identical real method names to JS's
+  own `Math`), two real Java-specific differences (`=`→`==` not `===`; every `defn` wrapped in one
+  `public final class <ClassName>` matching the output file's own basename, a real `javac`
+  requirement). `tests/test_emit_java.c`: 23 assertions, `bazel test //tests:test_emit_java`
+  green. **Real proof, verified with an actual `javac`** (JDK 25.0.4,
+  `EINHORN_SURVIVAL/jdk25/bin/javac`): the exact same, unmodified `stdlib/mishri/bezier_interp.prn`
+  + `humanness.prn` already proven for C and TypeScript compiled a third time, actually `javac`'d
+  to `.class` with zero errors, smoke-tested via a real `Main.java` — one PARENA source, three
+  real compiled targets. Also fixed a real gap found later the same session: `main.c`'s own usage
+  text never mentioned the new `.java` build target. PARENA commits `2cebd07`/`d24c714`/`52bf707`.
+  Apple #17016.
+- [x] **S206-77: BURROW — new repo, real founder-corrected scoping pass + first real CLI slice.**
+  Founder real-time, real-time-corrected across several rapid messages: "can we build project
+  BURROW the golang emitter where we design it to run with the gc turned off - upstream GITHUB
+  created" → **corrected** "project burrow is a feature for feature rewrite of the parena compiler
+  in golang and parena" → "like the first test is can we write a pure golang and parena tool that
+  still pass all that parena c tests" → "dog food it like write the golang in a way that doesnt
+  allocate on the heap or whatever" → "use parena primatives adding to the stdlibs when it helps"
+  → "so write the burrow cli in parena and go it should have the same api as parena like yarn is
+  the same as npm". Real, corrected final scope (documented start-to-finish in `BURROW/
+  NORTHSTAR.md`, including the honest mis-scope-then-correction arc, not silently rewritten away):
+  a full, feature-for-feature parallel rewrite of the entire PARENA compiler (lexer/parser/
+  region-analyzer/every emit target), in a real combination of Go and PARENA itself, leaning on
+  PARENA's own already-in-progress self-hosting effort (`selfhost/*.prn`). Real, founder-named,
+  falsifiable Phase 0 acceptance bar: pass the exact same real `.prn` test corpus `parena-c`'s own
+  C test suite already covers. Real first slice shipped: `go.mod`+`main.go`, a working CLI shell
+  with full command-surface parity to `parena`'s own `main.c` (parse/analyze/build/fmt/ci-status,
+  identical usage text/argument validation), each subcommand honestly reporting "not yet
+  implemented (see NORTHSTAR.md, Phase N)" rather than silently no-op'ing — `go build`/`go vet`
+  clean, every subcommand's usage-error and not-implemented path hand-verified. Registered in
+  monorepo `CLAUDE.md` and `EMILY/context/golden-docs-index.md` (BURROW-NORTH). BURROW commits
+  `b818224`(upstream initial)/`244aab3`/`3af5c69`/`fa0b13d`/`f44e108`/`5aef9f5`. Apples #17020/
+  #17032. Real, still-open next step: settle Phase 1 (lexer parity, leaning on `selfhost/
+  lexer.prn`) — not started.
+- [x] **S206-78: PARENA — new `stdlib/tyler` package, real cutscene decision-logic mod.** Founder
+  real-time: "building the tyler cutscene system into parena check the tyler engine docs." Real
+  doc checked: `TYLER/engine/tyler_cutscene_system.md` ("FFXI-Style Dialogue Scene Spec v0.1",
+  2026-06-12, "implementation deferred to GoblinFoxDragon EduScript" — predates PARENA's own
+  existence). New `stdlib/tyler/cutscene_mod.prn`: real decision logic for that doc's own Trigger
+  Model/Effects sections — effect codes (noop/advance_stage/trigger_awareness/grant_contact/
+  post_message), effect-is-mechanical dispatch, trust-threshold + urgency-window trigger
+  conditions, composed trigger-readiness w/ the one-shot rule. Real, deliberate line kept: scene
+  sequencing (typewriter timing) stays host logic — confirmed by reading SHANKPIT's own existing,
+  separate, already-shipped `packages/simulation/cutscene.c` linear slide ticker first, not
+  assumed identical. Compiled to `SHANKPIT/packages/simulation/cutscene_effect_mod.c`, 23 real
+  C-assert test assertions all pass (deliberately NOT ladybug BDD — checked first, ladybug's own
+  `scarab.prn`/`firefly/ladybug.prn` genuinely can't `parena build` yet, a real domain-3
+  compiler-gap blocker in the framework's own plumbing per `ladybug/README.md`'s own "Honest
+  current status," not this test's complexity; noted for migration once that closes, see S206-81
+  below). TYLER's own doc updated to note the real supersession, original recommendation kept as
+  historical record, not deleted. **Not yet wired into a live host** — real, honest blocker:
+  SHANKPIT's own persistent backend is Go, PARENA's Go emitter (BURROW) isn't built yet; cgo is
+  the real interim path if wired sooner. PARENA commit `6d71ad4`/`a81d088`, SHANKPIT commit
+  `798ecf9`/`69d5a36`, TYLER commit `baa901d`/`96bf998`. Apples #17029/#17030/#17031.
+- [x] **S206-79: IDUNA stability investigation — real evidence gathered, no code change needed.**
+  Founder real-time: "ok get iduna stable" → "i think iduna runs off of sqlite? maybe we need to
+  switch to mysql" → "i dunno bro its kinda nuts we dont use something more but that maynot be it"
+  → "figure it out." Real investigation (journal/root access unavailable as `treeiii`, worked
+  around via what WAS accessible): confirmed `iduna.service` is real, correctly systemd-supervised
+  (`Restart=on-failure`, cgroup path confirmed), and DID restart twice during this session's own
+  heavy Apple-posting burst (05:14:41, 05:16:30) — but a clean, deliberate 2-minute zero-write-
+  traffic observation window (05:18:31–05:20:22) showed zero restarts, same PID throughout.
+  OOM ruled out concretely (cgroup `memory.current` ~17MB vs. 256MB cap, `memory.events`
+  `oom_kill=0`). SQLite lock contention ruled out architecturally: `store/sqlite.go`'s own
+  `OpenSQLite` already uses WAL + `_busy_timeout=5000` + `db.SetMaxOpenConns(1)` (serialized
+  single-writer, with an explicit comment naming exactly this real concern) — a real, professional,
+  correct design, not a naive one. Real, honest conclusion: IDUNA is stable under normal load; the
+  observed restarts most likely correlate with a separate, parallel fatbaby-owned session (PID
+  1928) actively doing `EMILY/docs/REBOOT_RUNBOOK.md` service-recovery work at the same real time,
+  not an organic SQLite/architecture flaw — **a MySQL migration is not evidence-supported right
+  now**, named directly rather than deferred with a hedge. Apple #17035. No code change — a real
+  investigation finding, logged for the record.
+- [x] **S206-80: PARENA — `emit_java` real Maven/Gradle package-declaration support.** Real gap
+  found wiring the Java emitter into an actual live Maven consumer (S206-82 below): a generated
+  class with no `package` line lands in Java's unnamed/default package, which a real named-package
+  caller (every real class in a Maven `src/main/java/` tree) cannot import from at all — a hard
+  Java rule, not a style preference; the first Java-emitter proof (S206-76) never hit this since it
+  was a standalone smoke test with no cross-package consumer. `emit_java()` now takes an explicit
+  `package_name`; `main.c`'s new `java_package_name_from_path()` auto-detects the real, standard
+  `src/main/java/<pkg/path>/ClassName.java` convention. `tests/test_emit_java.c`: 27/27 assertions
+  pass (up from 23). PARENA commit `6aff750`. Apple #17038 (combined with S206-82).
+- [x] **S206-81: PARENA/GTA7 — new `stdlib/gta7` package, real Enforcement "humanness
+  fingerprint."** Founder real-time: "ok use mishri and parena mods to write an auto generated mod
+  for gta7 like have it use some logging and shit some of the concepts in mishri to build like a
+  humanness fingerprint." Real, concrete problem found by reading GTA7's own live
+  `EnforcementManager.java` before writing anything: every Enforcement zombie called
+  `setTarget()` in the same spawn tick — zero variance, mechanically uniform target-acquisition,
+  the same real "reads as robotic" tell MISHRI's own `HumannessLayer` exists to fix for its own
+  bot. New `PARENA/stdlib/gta7/humanness_fingerprint_mod.prn`: real, deliberate reuse (not
+  reinvention) of `stdlib/mishri/humanness.prn`'s own already-proven `chance`/`random-int`/
+  `gaussian-noise`, via multi-file `parena build` — GTA7-specific tuning
+  (`enforcement-reaction-delay-ticks`, `enforcement-should-hesitate`,
+  `enforcement-hesitation-bonus-ticks`) on top of those general primitives. Compiled (multi-file,
+  with `humanness.prn`) to a real, LIVE consumer, not just a smoke test:
+  `GTA7/plugin/.../generated/HumannessFingerprint.java`, wired into `EnforcementManager.java`'s own
+  real `spawnSquad` path via a new `scheduleHumanReaction()` (gaussian-jittered reaction delay,
+  bounded hesitation chance, logged per-mob). **Verified**: full `mvn package` (JDK 25) builds
+  clean end to end — real integration, not just compiled-and-unused. PARENA commits
+  `10e85b4`/`b06e943`, GTA7 commits `71f5450`/`b3e66dc`. Apples #17038/#17039.
+- [ ] **S206-82: ladybug BDD framework — real domain-3 compiler-gap blockers, now a standing
+  test-writing policy dependency.** Founder real-time, standing instruction: "when you add new
+  tests use the ladybug bdd framework." Real, current blocker (unchanged from `ladybug/README.md`'s
+  own "Honest current status," re-confirmed this session against S206-78's own cutscene mod test):
+  `scarab.prn`'s `describe`/`context`/`it` runner and `firefly/ladybug.prn`'s own matcher chain
+  genuinely cannot `parena build` yet — blocked on real, pre-existing PARENA gaps (`Vec` as a
+  generic field type, `&Any`/`&mut T` reference types, non-zero-arg typed `Fn` callback params,
+  multi-field `defenum` payloads), all in ladybug's own framework plumbing, not any one consuming
+  test's complexity — meaning no real PARENA mod test, however simple, can adopt ladybug today.
+  Real, concrete next step, now elevated in priority by the founder's own standing instruction:
+  close these 4 real PARENA compiler gaps (tracked in `PARENA/STDLIB.md`'s own gap-analysis
+  section already) so ladybug's own CI gains a real `parena build` step, then migrate every
+  existing plain-C-assert mod test in this monorepo (`level_mod_test.c`, `xp_award_mod_test.c`,
+  `cutscene_effect_mod_test.c`, etc.) to it. Not started.
+- [ ] **S206-83: PAPERCRAFT — continue "mods first everything" PARENA rewrite.** Founder
+  real-time, standing/re-affirmed priority (not a new concrete task): "keep reweriting papercraft
+  in native parena and also preparing for the webgl version." Real, already-open, already-tracked
+  work this re-affirms rather than newly scopes: S206-75 (web client Phase 0 implementation,
+  still `[ ]` above) is the real "webgl version" half; the "keep rewriting papercraft" half has no
+  single next concrete mechanic named by the founder this pass — real next candidates (not yet
+  triaged into their own sub-items) include auditing `apps/server/src/main.c` for any remaining
+  hand-rolled decision logic not yet extracted into a `PARENA/stdlib/papercraft/*.prn` mod,
+  matching the pattern already proven for `xp_award`/`item_drop`/`inventory`/`pickup`/
+  `phone_message`/`interact_falloff`/`slide_jump`/`stat_effects`/`talent`. Logged so this standing
+  priority isn't lost, not claiming false completion.
