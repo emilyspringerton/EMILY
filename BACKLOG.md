@@ -2286,6 +2286,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'so write the burrow cli in parena and go it should have the same api as parena like yarn is the sam…** — obs `2026-08-30T05:09:54Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time, two rapid follow-ups on BURROW's corrected scope: (1) 'dog food it like write the golang in a way th…** — obs `2026-08-30T05:07:20Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time correction: 'project burrow is a feature for feature rewrite of the parena compiler in golang and par…** — obs `2026-08-30T05:05:23Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'ok use mishri and parena mods to write an auto generated mod for gta7 like have it use some logging…** — obs `2026-08-30T05:20:50Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: 'i think iduna runs off of sqlite? maybe we need to switch to mysql' -- confirmed via the real iduna…** — obs `2026-08-30T05:16:07Z`. CURATED: 2026-08-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
