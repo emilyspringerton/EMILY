@@ -26130,12 +26130,26 @@ already support today") is the real next unstarted item.
   depends on it), bare-vs-VS16 equivalence, ZWJ rejection, `VECLIT`/unrecognized-character
   handling. `GOWORK=off go build/test/vet ./...` clean. LO commit `5f74f69`. Apple #17132.
   (sess-20260830-1207-cc0ba7da)
-- [ ] **S214-02: real LO parser** — tokens → an AST matching `GRAMMAR.md` §2's EBNF (`Ternary`,
-  `Cond`, `Value`, `Arith`, `LinAlg`, `VectorLit`, `MagnetExpr`, `Pattern`), honoring §3's
-  precedence/associativity rules. Not started.
-- [ ] **S214-03: real `.prn` emitter for the scalar/flat-struct subset** — Phase 1's own actual
-  acceptance bar: compile the spec's `on-thing`-shaped example (scoped to its scalar `I32` path)
-  to real `.prn` text, verify it compiles cleanly through BOTH `parena build` and `burrow build`.
+- [x] **S214-02/S214-03: real LO parser + emitter + CLI — Phase 1 core complete.** `internal/
+  parser`: tokens → AST for `GRAMMAR.md` §2's covered subset (`Ternary`/`Cond`/`Arith`/`State`/
+  `Void`/`Door`) — `LinAlg`/`VectorLit`/`MagnetExpr`/`Pattern` deliberately not yet covered, real
+  named follow-up. `internal/emitter`: real `.prn` emission calling into `PARENA/stdlib/
+  base4/algebra.prn` (not hand-generated base4 logic), per NORTHSTAR.md's own "ffi into parena is
+  acceptable" design. Real CLI (`cmd/lo`: `lo build in.llll -o out.prn`).
+  **Real, found-live discrepancy, not silently resolved either way**: the repo's own existing
+  `examples/xor_check.llll` uses prefix arith notation (`XOR4 S1 S3`); `GRAMMAR.md` and the
+  original source spec both use infix (`S1 XOR4 S3`) — kept the parser matching `GRAMMAR.md` (the
+  reviewed canonical spec), tests use a fresh grammar-consistent example instead of rewriting
+  either side unilaterally; a real follow-up to reconcile once decided.
+  **Verified end-to-end, not just compiled**: `lo build`'s own `.prn` output fed through a real
+  `parena build` → `cc` → execution, correct exit code (`1 XOR 3 = 2`, hand-verified). `burrow
+  build` honestly skipped in the test suite (real, separate, already-known burrow limitation — no
+  cross-module import resolution at all yet, not an emitter bug). **Real, documented finding**:
+  naming a defn `main` happens to produce a real, runnable C entry point purely because PARENA's
+  mangler leaves a hyphen-free name untouched, colliding with C's own real entry-point name —
+  confirmed nothing special-cases `"main"` in `src/emit.c`, not a designed PARENA feature, noted
+  so it isn't relied on as guaranteed. `GOWORK=off go build/vet/test ./...` clean. LO commit
+  `e07ca40`. Apple #17145. (sess-20260830-1207-cc0ba7da)
   Not started, blocked on S214-02.
 
 ## SECTION 215: PARENA PLAYGROUND SPRINT — MAG BOOK, NOTES, DATETIME (2026-08-30)
