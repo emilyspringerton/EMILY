@@ -26563,3 +26563,17 @@ LO". Posted via `emily observe` before acting (Principle 18).
   S222-05 through S222-08 — real, end-to-end, not just parsed or shape-checked. 3 new real
   end-to-end emitter tests. 68 tests total (subtests included), `GOWORK=off go build/vet/test
   ./...` clean. LO commit `b800ee2`. Apple #17178. (sess-20260830-1207-cc0ba7da)
+- [x] **S222-10: `MATCH`'s own Subject can be a Let-bound String.** Founder real-time: "continue".
+  New minimal per-binding type tracking in `emitExpr` (`exprType` typeI32/typeString + a `types
+  []exprType` slice threaded alongside `depth`, indexed the same way `x0`/`x1`/... are). A `Let`
+  now records its own Bound's inferred type (`exprTypeOf`); `MATCH`'s own Subject
+  (`emitStringSubject`) accepts either a bare `StringLit` (unchanged) or a `LetRef`/`MAGNET` that
+  resolves to a `typeString` binding — closing the "Subject must be a bare LITERAL" restriction
+  S222-09 left as a named follow-up. A `LetRef` resolving to a `typeI32` binding stays a real,
+  honest emit-time error, not silently coerced. **Verified end-to-end**: `LET "cat" (MAGNET MATCH
+  ^cat$) ? S1 : S0` compiles and runs, matching. Real, honest, still-unattempted follow-up:
+  `Lambda`'s own parameter stays `typeI32` always (its real type isn't knowable until `Call` time,
+  and PARENA's own `fn` needs a concrete param type regardless) — a String-typed `Lambda`
+  parameter remains separate, larger work. 2 new real emitter tests. 70 tests total (subtests
+  included), `GOWORK=off go build/vet/test ./...` clean. LO commit `a208d0e`. Apple #17179.
+  (sess-20260830-1207-cc0ba7da)
