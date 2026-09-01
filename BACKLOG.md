@@ -26453,3 +26453,22 @@ LO". Posted via `emily observe` before acting (Principle 18).
   had only ever updated the header note, never the actual grammar block — a real doc gap closed
   here, not new scope). 28 tests total, `GOWORK=off go build/vet/test ./...` clean. LO commit
   `13a2934`. Apple #17173. (sess-20260830-1207-cc0ba7da)
+- [x] **S222-05: lexer-level start on the extended PCRE literal/class/range/escape grammar
+  (LO_Formal_Grammar_Phase_0_Complete.md §19-29).** Founder real-time: "continue". New tokens
+  `LITERAL` (🔤), `CLASS` (🅰️), `NCLASS` (🚫), `RANGE` (↔️), `ESCAPE` (🛡️). `LITERAL` is not a bare
+  emoji lookup like the rest — it must be immediately followed by a real double-quoted text
+  payload (`🔤"cat"`), so `Token` gained a `Text` field and the lexer gained a new
+  `lexQuotedText` helper. **Real, resolved decision where the source doc is silent, flagged
+  rather than guessed at without comment**: the doc never states LITERAL's own exact quoting
+  rule — every worked example glues `🔤` directly to its opening quote with zero space, so this
+  repo requires no intervening whitespace between them (a deliberate, named exception to the
+  grammar's own general "whitespace is insignificant between tokens" rule); no backslash-escapes
+  happen inside the quotes (`ESCAPE` is a separate PATTERN-level construct applying to a
+  following atom, not a string-lexing escape); an unterminated quote is a fatal lex error. Real,
+  honest, narrow scope for this pass: lexer-level token recognition only — the actual
+  `Pattern`/`Literal`/`CharacterClass`/`Escaped` parser productions, their emitter lowering
+  (likely target: `PARENA/stdlib/regex/pcre.prn`'s own real, mature PCRE-over-`String` matcher,
+  confirmed present), and `MATCH`'s own real String-typed subject (LO has no string VALUES at all
+  yet, only the unused `STRING` Door `TypeAtom`) remain a real, separate, larger follow-up. 4 new
+  lexer tests. 32 tests total, `GOWORK=off go build/vet/test ./...` clean. LO commit `4549f02`.
+  Apple #17174. (sess-20260830-1207-cc0ba7da)
