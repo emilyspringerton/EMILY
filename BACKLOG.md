@@ -26531,3 +26531,35 @@ LO". Posted via `emily observe` before acting (Principle 18).
   wiring `MATCH`/`Pattern` into a real `regex/pcre` call. 1 new parser test, 2 new real
   end-to-end emitter tests. 65 tests total (subtests included), `GOWORK=off go build/vet/test
   ./...` clean. LO commit `6df1df9`. Apple #17177. (sess-20260830-1207-cc0ba7da)
+- [x] **S222-09: `MATCH` wired into a real, running `regex/pcre` call — the Arena-threading
+  redesign lands.** Founder real-time: "continue". New `exprNeedsArena` walks the body for a
+  `Match` node; when found, the generated function is renamed `lo-program` (mangles to C
+  `lo_program`) and takes a real `(dest : Arena @ Region)` parameter, with `(import regex/pcre)`
+  added — a `defn` named `main` with an Arena parameter would mangle to `int main(Arena)`, not a
+  valid C entry point at all (unlike the F64/String Door cases, which stayed valid-but-meaningless
+  `main` signatures). `Match` lowers to the exact `match`/`Ok`/`Err`/`unbox-bool` Result-unwrap
+  shape `stdlib/awk.prn`'s own `rule-matches?` already uses, calling PARENA's real
+  `regex/pcre/compile`+`is-match` against `patternToPCRE`'s own text and a `StringLit` subject.
+  **Two real, found-live PARENA compiler issues, confirmed in isolation and worked around here
+  (not fixed in `src/emit.c` itself — a real, separate, out-of-scope investigation)**: (1) a
+  `{:max-steps N}` `MatchBudget` map literal can't be passed directly as a call argument (`parena
+  build` rejects it live: "map literal doesn't match any registered defstruct's own field set") —
+  bound via a `let` first, same as every real stdlib caller already does; (2) a genuine compiler
+  bug, not just an inconvenient shape: ANY binding form (`let`, or a `match` arm's own bound name)
+  used directly as an `if`'s own CONDITION fails with "unknown identifier" for anything it binds,
+  referenced anywhere inside that same condition — even though the identical binding form
+  compiles fine as a function's own direct body. Minimal repros confirmed directly against
+  `parena build` for both `let` and `match`. Worked around by fully evaluating the match chain
+  into a plain `result` binding first (a normal `let` body position, which compiles correctly),
+  so the `if`'s own condition is just a bare identifier reference, never a binding form itself.
+  `compileToGeneratedC`'s own test harness now always includes `regex/pcre`'s real dependency
+  closure (`string`/`array`/`io`/`regex/syntax`/`regex/pcre`) in every build — PARENA compiles
+  whole-program from whatever files are passed to `build`; a bare `(import ...)` in the generated
+  `.prn` text alone is not sufficient (confirmed live), at no cost to programs that don't use
+  `MATCH`. **Verified end-to-end for three real cases**: `"cat" MATCH ^cat$` → true, `"dog" MATCH
+  ^cat$` → false, `"42" MATCH [0-9]+` → true (also exercises `patternToPCRE`'s own class/range/
+  quantifier lowering through a real compile+run, not just its own string-output unit test). This
+  closes out the LO_Formal_Grammar_Phase_0_Complete.md §12/§19-29 MATCH/Pattern thread started in
+  S222-05 through S222-08 — real, end-to-end, not just parsed or shape-checked. 3 new real
+  end-to-end emitter tests. 68 tests total (subtests included), `GOWORK=off go build/vet/test
+  ./...` clean. LO commit `b800ee2`. Apple #17178. (sess-20260830-1207-cc0ba7da)
