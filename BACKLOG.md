@@ -26396,3 +26396,43 @@ use ✨ for LET" → "use it for equalityu" → "in LO." Posted via `emily obser
   cases — genuinely new territory, LO's `Ternary` already covers binary branching) hasn't been
   scoped at all yet either. Not started — needs both a real glyph decision and a real grammar
   design pass, not just a token pick.
+
+## SECTION 222: LO — AUTHORITATIVE GRAMMAR UPLOAD + REAL SWITCH/CASE/LAMBDA/CALL (2026-08-31)
+
+Founder real-time: "add switch and case" → "🐪 LAMBDA" → "add switch and case and LAMBDA,
+continue rebase pull LO for an extended grammar" → "keep working on LO" → "continue crunbching on
+LO". Posted via `emily observe` before acting (Principle 18).
+
+- [x] **S222-01: reconcile the founder-uploaded `LO_Formal_Grammar_Phase_0_Complete.md`.** A
+  real, authoritative, later (1316-line) Phase 0 consolidation, adding `SWITCH`/`CASE`/`DEFAULT`,
+  `LAMBDA`/`CALL`, `FLOAT`/`DOUBLE`, and a much larger PCRE literal/class/range/escape grammar.
+  Registered `LO-GRAMMAR-COMPLETE` in `EMILY/context/golden-docs-index.md`. `GRAMMAR.md`'s own
+  header updated to name it the canonical Phase 0 spec going forward, with `GRAMMAR.md` itself
+  repositioned as the real implementation-status/compiler-findings tracker. **Real, found
+  conflict, flagged rather than silently resolved either way**: the uploaded doc's own §33
+  explicitly lists "explicit access to shadowed outer `LET` bindings" as OUT OF SCOPE for v1 —
+  but this same week's own `S221-01` already built and shipped exactly that (`LetRef`'s `Depth`
+  field). Kept as a real, working, tested superset rather than reverted; flagged for the
+  founder's own awareness, not decided unilaterally.
+- [x] **S222-02: real `SWITCH`/`CASE`/`DEFAULT` support (🔘/🔹/🔸).** Lowers to a nested PARENA
+  `if`/`=` chain — the same shape `Ternary` already emits, just chained per `Case`. Real, narrow
+  v0 differences from the uploaded doc, named: each `Case`'s own match value is a bare `State`
+  (0-3), not the doc's own full `Value` generality (every worked example in the source doc itself
+  uses a bare state); `DEFAULT` is REQUIRED here rather than optional (sidesteps the doc's own
+  separate "no default → VOID" fallback-typing question this scalar-only emitter has no real way
+  to produce anyway). **Verified end-to-end, matching the uploaded doc's own §18 worked example
+  exactly**: `SWITCH S1` with cases `S0→S0`/`S1→S3`/`S2→S1`/`DEFAULT→S3` compiles, links, runs,
+  exit code 3.
+- [x] **S222-03: real `LAMBDA`/`CALL` support (💠/📞).** Real, deliberate simplification over the
+  uploaded doc's own `LambdaParams ::= Param+`/`Param ::= LITERAL` (named, quoted-string
+  parameters): real string-literal lexing doesn't exist in this compiler yet, a genuinely bigger,
+  separate lexer feature. This v0 instead reuses the already-real `Let`/`LetRef` depth-index
+  binding mechanism — a `Lambda` introduces one parameter at the next nesting depth exactly like
+  a `Let`, referenced via `LetRef`; `Call` is single-argument (the doc's own multi-arg `ArgList`
+  is a real, separate follow-up). **Verified end-to-end, not just shape-checked**: `CALL (LAMBDA
+  x → x XOR4 S1) S2` compiles a real immediately-invoked inline `fn` literal
+  (`((fn [(x:I32)] body) arg)`) through `parena build` + `cc` + execution — confirming PARENA
+  genuinely accepts this IIFE shape, correct result (`2^1 = 3`).
+  6 new parser tests, 2 new live emitter tests (S222-02/03 combined). 26 tests total,
+  `GOWORK=off go build/vet/test ./...` clean. LO commit `96201ed`. Apple #17172.
+  (sess-20260830-1207-cc0ba7da)
