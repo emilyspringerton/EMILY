@@ -26472,3 +26472,23 @@ LO". Posted via `emily observe` before acting (Principle 18).
   yet, only the unused `STRING` Door `TypeAtom`) remain a real, separate, larger follow-up. 4 new
   lexer tests. 32 tests total, `GOWORK=off go build/vet/test ./...` clean. LO commit `4549f02`.
   Apple #17174. (sess-20260830-1207-cc0ba7da)
+- [x] **S222-06: real Pattern grammar parser (§19-29), wired into `MATCH`.** Founder real-time:
+  "continue". `internal/parser` gains `pattern`/`patternSequence`/`patternItem`/`patternAtom`/
+  `patternClass`/`patternEscaped`, wired into `Cond ::= Value MATCH Pattern` via a new `Match`
+  AST node (alongside the existing `Eq`). Covers `Literal`/`Wildcard`/all 3 `Quantifier`s/
+  `START`/`END` anchors/`Alternation`/`CLASS`+`NCLASS`+`Range`/`Escaped`/a quantifiable
+  `PatternGroup` — checked against every one of the doc's own §20-29 worked examples. **Two real,
+  flagged-not-silently-resolved decisions**: the doc's own `Atom` production includes a bare
+  base4 `State`, not implemented here (every worked example uses only text atoms — looks like a
+  leftover from LO's older, unrelated base4-vector pattern grammar); nested `PatternGroup`s parse
+  structurally fine today even though §33 lists them as out of v1 scope (no depth check yet, a
+  real named follow-up). **Real, found-live parser bug fixed in the same pass**: `GROUP` (🗜️) is
+  the same token for both open and close, so the original "can this token start a new pattern
+  item" check couldn't tell a group's own closing delimiter from an attempt to open a nested one
+  — fixed with an `insideGroup` parameter threaded through `patternSequence`/`patternItem`, so a
+  `GROUP` seen while already inside a group's own body is always read as that group's closer.
+  Real, honest scope: parser-only, unit-tested against AST shape — no emitter support yet, and LO
+  still has no real String values at all, so nothing runs end-to-end through this yet (the likely
+  next emitter target: `PARENA/stdlib/regex/pcre.prn`'s own real, mature PCRE-over-`String`
+  matcher, confirmed present in S222-05). 10 new parser tests. 41 tests total, `GOWORK=off go
+  build/vet/test ./...` clean. LO commit `3dc6b90`. Apple #17175. (sess-20260830-1207-cc0ba7da)
