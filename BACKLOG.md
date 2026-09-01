@@ -26492,3 +26492,23 @@ LO". Posted via `emily observe` before acting (Principle 18).
   next emitter target: `PARENA/stdlib/regex/pcre.prn`'s own real, mature PCRE-over-`String`
   matcher, confirmed present in S222-05). 10 new parser tests. 41 tests total, `GOWORK=off go
   build/vet/test ./...` clean. LO commit `3dc6b90`. Apple #17175. (sess-20260830-1207-cc0ba7da)
+- [x] **S222-07: lower the Pattern AST to real PCRE syntax text.** Founder real-time: "continue".
+  New `internal/emitter/pattern.go` (`patternToPCRE` + helpers) turns a parsed `Pattern` (S222-06)
+  into the exact PCRE text format PARENA's own real, mature `regex/pcre.prn`
+  (`compile`/`is-match`, confirmed present) actually consumes. **Verified against the literal PCRE
+  text every one of the doc's own §20-29 worked examples shows** (`^cat$`, `c.t`, `a*`/`a+`/`a?`,
+  `cat|dog|fox`, `[abc]`/`[^abc]`, `[a-zA-Z0-9]+`, `(ab)+`, escaped `\*`/`\.`), plus a real
+  correctness case the doc itself doesn't exercise (a `LITERAL` containing PCRE metacharacters
+  comes out backslash-escaped, since §20's own "literal content" means literally, not as PCRE
+  syntax). **One real, honest, named gap, not a silent guess**: `ESCAPE GROUP` has no unambiguous
+  `(` vs `)` mapping — `PatternEscaped` only knows a GROUP token was escaped, not which paren was
+  meant (the parser itself can't know either, since GROUP is the same token for both) — reported
+  as a real error. **Real, honest, explicitly-named next step**: wiring this text into an actual
+  emitted `regex/pcre/compile`+`is-match` call needs a caller-supplied `Arena @ Region`, which
+  breaks LO's existing zero-parameter "name the defn `main`" verification trick — confirmed
+  against `PARENA/tests/test_base4_pattern.c` that PARENA's own Arena-taking self-test convention
+  always threads the Arena in from an external C driver, never conjures one inside a zero-arg
+  `main`. LO also still has no String-typed value for `MATCH`'s own subject. 24 new emitter tests
+  (string-output unit tests only — no `.prn` emission or compile/run for this node yet). 65 tests
+  total, `GOWORK=off go build/vet/test ./...` clean. LO commit `5969325`. Apple #17176.
+  (sess-20260830-1207-cc0ba7da)
