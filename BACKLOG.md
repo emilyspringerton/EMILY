@@ -26512,3 +26512,22 @@ LO". Posted via `emily observe` before acting (Principle 18).
   (string-output unit tests only — no `.prn` emission or compile/run for this node yet). 65 tests
   total, `GOWORK=off go build/vet/test ./...` clean. LO commit `5969325`. Apple #17176.
   (sess-20260830-1207-cc0ba7da)
+- [x] **S222-08: LO's first real String-typed value (`StringLit`) + real `DOOR STRING`.**
+  Founder real-time: "continue". A bare `LITERAL` (`🔤"..."`) is now usable directly as a `Value`,
+  not just inside a `Pattern` — a real, flagged, minimal extension of the source doc's own `Value`
+  production (which never actually lists a bare `Literal`, only `PatternValue`; every one of the
+  doc's own STRING-Door examples writes the placeholder English word "value", never real LO
+  source). Emitter: `DOOR STRING` now works (`PARENA`'s `String` maps directly to C `char *`, no
+  cast needed, confirmed against `src/emit.c`). **Real, checked-not-assumed correctness fix found
+  along the way**: PARENA's own string-literal reader unescapes `\n`/`\t`/`\"`/`\\` (confirmed
+  against `src/lexer.c`'s `lex_string`), but LO's own `lexQuotedText` does ZERO escape processing
+  on its raw text — so a literal backslash in LO source must be doubled at emission time or it
+  would silently start an unintended PARENA-level escape sequence; verified live with a real
+  `a\b` round-trip. **Verified end-to-end**: `DOOR STRING 🔤"hello"` compiles through
+  `parena build` + `cc` + execution and prints `hello`, reusing the `#define main`-rename driver
+  technique the FLOAT/DOUBLE work (S222-04) already established (`char *main(void)` has the same
+  "exit code is meaningless" problem `double main(void)` did). This makes the Arena-threading
+  redesign (still not attempted — see S222-07's own doc comment) the ONLY remaining blocker for
+  wiring `MATCH`/`Pattern` into a real `regex/pcre` call. 1 new parser test, 2 new real
+  end-to-end emitter tests. 65 tests total (subtests included), `GOWORK=off go build/vet/test
+  ./...` clean. LO commit `6df1df9`. Apple #17177. (sess-20260830-1207-cc0ba7da)
