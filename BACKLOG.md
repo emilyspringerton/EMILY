@@ -26436,3 +26436,20 @@ LO". Posted via `emily observe` before acting (Principle 18).
   6 new parser tests, 2 new live emitter tests (S222-02/03 combined). 26 tests total,
   `GOWORK=off go build/vet/test ./...` clean. LO commit `96201ed`. Apple #17172.
   (sess-20260830-1207-cc0ba7da)
+- [x] **S222-04: real `FLOAT`/`DOUBLE` Door type support (⚫/⚪).** Founder real-time: "continue".
+  Real, checked-not-assumed finding: PARENA has no separate F32 at all (grepped `src/emit.c`
+  directly, no "F32" anywhere) — LO's `FLOAT` and `DOUBLE` both compile to the same real PARENA
+  F64, cast from the program's own I32 result via a small `lo-i32-to-f64` helper emitted into the
+  same module. **Real, found-live verification problem, not silently worked around**: PARENA
+  mangles `(defn main [] : F64 ...)` to literal C `double main(void)`, which compiles (real
+  `-Wmain` warning) but whose PROCESS EXIT CODE is undefined behavior (calling-convention
+  mismatch) — the existing exit-code-based test pattern used for I32 Doors is invalid here. Fixed
+  by validating (first via raw shell/`cc`, then in Go) a `#define main lo_generated_main` /
+  `#include` / `#undef main` driver that calls the renamed function directly and reads its real
+  `printf`'d value from stdout instead — new `compileRunAndGetFloat` test helper. **Verified
+  end-to-end**: `DOOR FLOAT S1` → `1.0`; `DOOR DOUBLE S1 XOR4 S2` → `3.0` (1^2=3, matches hand
+  calc). Also backfilled `GRAMMAR.md`'s own formal EBNF block with the `TypeAtom` FLOAT/DOUBLE
+  entries and the still-missing `Switch`/`Case`/`Default`/`Lambda`/`Call` productions (S222-02/03
+  had only ever updated the header note, never the actual grammar block — a real doc gap closed
+  here, not new scope). 28 tests total, `GOWORK=off go build/vet/test ./...` clean. LO commit
+  `13a2934`. Apple #17173. (sess-20260830-1207-cc0ba7da)
