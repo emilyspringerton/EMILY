@@ -26870,3 +26870,30 @@ Posted via `emily observe` before acting (Principle 18, Apple #17191).
   separate, broader follow-up — every real LOGIN surface and the explicitly-named
   suspend/unsuspend actions are done; everything else is lower urgency and larger in surface
   area.
+
+## SECTION 227: LOG QUERY UI + A REAL MIGRATION ARCHITECTURE IDEA (2026-09-02)
+
+Founder real-time, two parts, posted via `emily observe` before acting (Principle 18, Apple
+#17196): (1) build a log query interface into the IDUNA developer portal for the unified logging
+backend, with real regex query support — explicitly accepted as IDUNA-dependent ("we dont want to
+rely on iduna being up to view the logs but if iduna is our logging backend assuming it needs to
+be up anyways... for now this is technical debt but it is also in the name of keeping operations
+simple while we plan migration"); (2) a real, exploratory migration architecture idea, named
+"i wonder if" — not a firm directive, logged here rather than built.
+
+- [ ] **S227-01: log query UI in the IDUNA developer portal, with regex support.** Not started
+  at the time this section was opened — see this same session's own real, in-progress work.
+- [ ] **S227-02 (design-only, not started): "beachhead" migration pattern using
+  `PRRJECT_FATBABY/broker/proxy.go`.** Real, already-existing infrastructure checked, not
+  assumed: `broker.ProxyHandler` (real reverse proxy to tenant upstreams, `eventstore`-backed
+  request logging already built). The founder's own real idea: run a thin proxy AS a given
+  service (e.g. IDUNA) in a NEW target environment, forwarding every request back to the REAL
+  service still running on this box, if the new environment has the needed secrets — a real
+  "beachhead" before that service's own real logic actually migrates. Named sequencing: start
+  migration → establish a beachhead → launch new services into the new environment as
+  dependencies allow, standing up fewer services pre-migration (operational simplicity while
+  migration is in flight). Real, honest, not scoped further here: which service goes first,
+  what "the new environment" concretely is, and whether `broker.ProxyHandler`'s own current
+  real shape (built for "tenant upstreams," not yet confirmed suited to a single always-on
+  reverse-proxy-to-legacy-instance role) needs real changes, are all real, open questions for
+  whoever picks this up — not decided unilaterally here.
