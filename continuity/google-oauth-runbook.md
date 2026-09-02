@@ -52,52 +52,63 @@ if IDUNA's real current public URL is different now.
 
 ---
 
+## Step 1 — DONE
+
+You created the OAuth consent screen + a real Web application Client ID and handed me the
+Client ID + Client Secret directly. Real, done, verified:
+
+- Found the real place these belong: IDUNA runs here as a real, live `systemctl --user` service
+  (`iduna.service`, confirmed running, PID checked directly), which loads its env from
+  `~/.config/iduna/env` (an `EnvironmentFile=`, per the unit file's own header comment) —
+  **not** a file this session had visibility into before you gave me the credential, so this
+  answers the "where does IDUNA's real env actually live" question the previous version of this
+  file left open.
+- Added `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` to that file (values not repeated here or in
+  git — this file and its own git history never carry the actual secret).
+- Rebuilt the binary (`go build -o ~/.local/bin/iduna .`, matching the unit file's own documented
+  deploy step) and restarted the service (`systemctl --user restart iduna.service`) so the new
+  env vars actually take effect (systemd doesn't hot-reload `EnvironmentFile` into an already-
+  running process).
+- **Verified live**: `curl http://localhost:8080/health` → healthy; `curl .../portal/login`'s own
+  real HTML now renders `data-google-client-id="532442865445-...apps.googleusercontent.com"` —
+  the real Client ID is reaching the page (checked the actual server-rendered attribute, not the
+  page's own always-present client-side JS fallback STRING, which would have shown up in a naive
+  text search regardless of whether it's really unconfigured — a real, worth-naming gotcha for
+  next time this needs re-checking).
+
 ## NEXT STEP (do this one)
 
-1. Go to **https://console.cloud.google.com/apis/credentials** (Google Cloud Console →
-   APIs & Services → Credentials). Select the `project-d24a71e9-2daf-4b2d-917` project (or
-   whichever real project you want IDUNA's OAuth client to live in) from the project picker at
-   the top, if it isn't already selected.
+**Try a real, end-to-end sign-in** in an actual browser: go to IDUNA's own real, public
+`/portal/login` page (you know the real current public URL for this — my own only confirmed lead
+this session was `https://iduna.farthq.com`, from a month-old note, so please use whatever you
+know to be current) and click the real "Sign in with Google" button.
 
-2. If you haven't already configured an **OAuth consent screen** for this project, you'll be
-   prompted to do that first (Console → APIs & Services → OAuth consent screen):
-   - User type: **External** (unless every real IDUNA user is inside a Google Workspace org you
-     control, in which case **Internal** is simpler — your call, either works with the code as
-     built).
-   - App name: something recognizable, e.g. `IDUNA` or `EINHORN_INDUSTRIAL IDUNA`.
-   - Support email / developer contact: your own email.
-   - Scopes: the defaults (`.../auth/userinfo.email`, `.../auth/userinfo.profile`, `openid`) are
-     enough — the code only reads `sub` (Google's own stable user ID) and `email` from the
-     verified token.
-   - If **External** + "Testing" publishing status: add your own Google account (and anyone else
-     who needs to sign in before this goes fully public) under **Test users**.
-
-3. Create a new **OAuth 2.0 Client ID**: Credentials → **+ Create Credentials** → **OAuth client
-   ID** → Application type: **Web application**.
-   - Name: e.g. `IDUNA web`.
-   - **Authorized JavaScript origins** (needed for the Sign-in-with-Google button,
-     `GoogleAuthHandler`): add
-     - `https://iduna.farthq.com` (confirm/correct this is the real current domain)
-     - `http://localhost:8080` (for local dev/testing)
-   - **Authorized redirect URIs** (needed for `WebCeremonyHandler`'s own separate flow): add
-     - `https://iduna.farthq.com/`
-     - `http://localhost:8080/`
-   - Click **Create**. Google will show you a real **Client ID** and **Client Secret** —
-     copy both somewhere safe for the next step (don't paste them back to me in chat; treat them
-     like any other credential).
-
-4. **Tell me once you've done this** (you don't need to hand me the actual secret values) —
-   the next step will be setting `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` as real env vars
-   wherever IDUNA's real production process actually runs (I don't have visibility into that
-   host from this sandbox, so I'll need you to tell me how IDUNA's env is currently configured
-   there — a systemd unit's `Environment=` lines, a `.env` file it sources, etc. — so the next
-   step in this file is exact rather than generic).
-
-**If you get stuck on any of the above** (can't find a menu, a field asks for something not
-listed here, the domain guess is wrong, etc.) — tell me exactly where, and I'll correct this file.
+- **If it works** (you land back on `/portal` signed in) — tell me, and we're done here; I'll
+  close this out.
+- **If Google shows an error page instead of completing sign-in** — the two most likely real
+  causes, given Step 1's own guesses about your real domain:
+  - `redirect_uri_mismatch` — the real redirect URI Google received doesn't match what's
+    registered on the OAuth client. Tell me the exact URI Google's own error page shows; I'll add
+    it to the Client ID's own **Authorized redirect URIs** list in the Console (I can't do this
+    part myself — it's the same GCP Console step as Step 1).
+  - `origin_mismatch` / "not a valid origin for the client" — same real fix, but for **Authorized
+    JavaScript origins** instead.
+  - "Access blocked: this app has not completed Google's verification process" / "app isn't
+    verified" — if the consent screen is in **Testing** mode, your own Google account needs to be
+    added under **Test users** (OAuth consent screen page) before you can sign in with it.
+- **If the button doesn't even render** (blank space where it should be, or the "not yet
+  configured" fallback text really shows up on the actual rendered page, not just present
+  somewhere in page source) — that's a real, different bug (the server-side check above already
+  confirmed the value IS reaching the page, so this would point at something client-side) — tell
+  me exactly what you see.
 
 ---
 
 ## Log
 
 - 2026-09-02 — file created, Step 1 (consent screen + OAuth client) written. Not yet attempted.
+- 2026-09-02 — founder created the OAuth client, gave me the real Client ID + Secret directly in
+  chat. Found IDUNA's real running env file (`~/.config/iduna/env`, a live `iduna.service`
+  systemd user unit), added both values there, rebuilt the binary, restarted the service, and
+  verified live (health check green, the real Client ID confirmed reaching `/portal/login`'s own
+  server-rendered HTML). Next: a real end-to-end sign-in attempt in an actual browser.
