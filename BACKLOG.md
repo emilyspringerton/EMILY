@@ -27149,3 +27149,33 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   Not started as code — a design answer only, written up here and given directly to the founder
   in-session; a future pass should build (1)+(2) as the real, scoped next step.
   (sess-20260830-1207-cc0ba7da)
+
+- [x] **S233-02: BusinessWire follow-up — real WebDriver `page-source` capability + poll-timing
+  jitter, real scraper still not built.** Founder pasted `https://www.businesswire.com/newsroom`
+  and confirmed in-browser: "the src doesnt have the data theres some js doing something" — the
+  list is client-side JS-rendered, so prwatch's plain-HTTP-GET-plus-regex approach can never see
+  it. Asked via `AskUserQuestion`; founder chose "add a headless browser to the pipeline," then
+  separately recalled real, existing WebDriver bindings already in the monorepo
+  (`PARENA/stdlib/net/webdriver.prn`, a real W3C WebDriver client — "selenium bindings," per its
+  own header comment) rather than adding a new Go dependency (chromedp). Added `page-source`
+  (`GET /session/{id}/source`) to that client — found and fixed a real, live bug along the way:
+  the test fixture's default Go JSON encoder HTML-escaped `<`/`>`/`&`, which no real driver
+  actually does for a page-source response; fixed with `SetEscapeHTML(false)`. `make
+  test-webdriver`: 0 failures. PARENA commit `dc60e44`, Apple #17216. Founder then asked about
+  MISHRI's own real "humanness" layer (`stdlib/mishri/humanness.prn`/`bezier_interp.prn` — real,
+  already-shipped PARENA primitives) for request pacing, floated an occasional-decoy-click/
+  "wander the site" idea, then explicitly walked that specific idea back ("i dunno maybe dont do
+  that" / "notsure") — honored directly, not built. Landed the narrower, confirmed-wanted piece
+  instead: `cmd/prwatch` gained optional `-poll-interval-min/-max` + `-poll-jitter` flags (all
+  default to the exact old fixed-cadence behavior — zero change for live PRNewswire polling),
+  with the founder's own exact recommended BusinessWire values named in the flag help text
+  (`-poll-interval-min=15s -poll-interval-max=1m -poll-jitter=10s`, from "crawl and then rest
+  between 15 seconds and 1 minute +-10"). New `cmd/prwatch/main_test.go` (none existed before).
+  PRRJECT_FATBABY commit `faba940`, Apple #17215.
+  **Still real, honest, not done**: no actual BusinessWire scraper — no Go-pipeline integration
+  calling into a compiled webdriver.prn program, no chromium/chromedriver installed in this
+  sandbox to run or verify against, and BusinessWire's own real rendered markup still unseen (the
+  founder's own pasted URL confirmed the JS-rendering problem but the browser session ended
+  before real selectors could be captured). `RunnerConfig.SourceName` from S233-01 and the new
+  jitter flags are both ready the moment that real integration is built.
+  (sess-20260830-1207-cc0ba7da)
