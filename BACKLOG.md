@@ -27109,7 +27109,7 @@ sub types." Posted via `emily observe` (Principle 18, Apple #17211).
   browser access to businesswire.com provides its actual page structure or a real feed URL.
   (sess-20260830-1207-cc0ba7da)
 
-## SECTION 234: BACKLOG.md ↔ KANBAN — REAL PROJECTION DESIGN (2026-09-02, DESIGN ONLY)
+## SECTION 234: BACKLOG.md ↔ KANBAN — REAL PROJECTION, DESIGNED THEN BUILT (2026-09-02)
 
 Founder real-time, exploratory, not a build order yet: "we need to start using the golden
 backlog as data somehow right now its just a text file... i still like the text file being the
@@ -27119,7 +27119,7 @@ golden file as the source of truth and still have nice integrations like the kan
 sort the work and then tell you to work from one of the queues." Posted via `emily observe`
 (Principle 18, Apple #17214).
 
-- [ ] **S234-01: real gap confirmed, design proposed, not built.** Checked directly: no parser
+- [x] **S234-01: real gap confirmed, design proposed.** Checked directly: no parser
   from `BACKLOG.md` into structured items exists anywhere (`emily.cli`, IDUNA) — `kanban_cards`
   rows are hand-typed (`backlog_item_id` + `title` via the kanban page's own add-card form or a
   raw POST), never derived from the real file. `kanban.go`'s own doc comment already states the
@@ -27148,6 +27148,26 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
      so a queued card's title is trustworthy enough to act on directly.
   Not started as code — a design answer only, written up here and given directly to the founder
   in-session; a future pass should build (1)+(2) as the real, scoped next step.
+  (sess-20260830-1207-cc0ba7da)
+- [x] **S234-02: (1)+(2) built for real — "get the backlog working with the kanban."** Built the
+  parser in **IDUNA** rather than `emily.cli` as S234-01 first proposed — a deliberate, better
+  call made at build time: IDUNA is the live process actually serving `/admin/kanban`, so that's
+  where the live join needs to happen, not a separate CLI. New `internal/backlog` package: a
+  real, mechanical, read-time parser (multi-line bold-title regex, section/line tracking) —
+  verified against the real, live ~27,000-line `BACKLOG.md`: 1315 items, 170 open. New `GET
+  /admin/kanban/api/inbox` (same cookie + `iduna.admin` gate as the rest of the kanban page)
+  returns real open items with no kanban card yet. Founder real-time, same conversation: "for now
+  we wont see the completed stuff on the kanban to save dom nodes we can view that data elsewhere
+  for now" — completed items are excluded entirely, not just visually hidden. Frontend: the board
+  is now 4 columns (Inbox + Backlog/Priority/Cruise); dragging an Inbox item into a column creates
+  a real card with the live-parsed title (not hand-typed), closing "i can sort the work" for real.
+  New `EMILY_BACKLOG_PATH` env var. New tests (`internal/backlog/parse_test.go`,
+  `internal/http/handlers/kanban_inbox_test.go`). `go build/test` + `GOWORK=off` both clean, `go
+  vet` clean, live `iduna.service` rebuilt/restarted and the new route confirmed registered (401,
+  not 404). IDUNA commit `902ef0a`, Apple #17223. Item 3 (HEIMDAL is the wrong tool here) and item
+  4 (queue-based work-from convention) from S234-01 stand as real, already-answered design
+  guidance — nothing further needed on those unless the founder wants the Backlog Protocol
+  addendum from item 4 written up as its own doc change.
   (sess-20260830-1207-cc0ba7da)
 
 - [x] **S233-02: BusinessWire follow-up — real WebDriver `page-source` capability + poll-timing
