@@ -27369,3 +27369,5 @@ up front with no help avoiding an already-used one.
   (sess-20260830-1207-cc0ba7da)
 - [ ] **S205-99: we need a Done option for send to in the kanban its fine we dont have a done column** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260830-1207-cc0ba7da)
+- [ ] **S205-98: Kanban send to Archive special column we want to send stuff there that we basically want to delete but not say its done but we need to look at them later just in case we missed some context previously** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260830-1207-cc0ba7da)
