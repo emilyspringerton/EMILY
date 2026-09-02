@@ -26651,3 +26651,37 @@ larger (a) feature work.
   per `stdlib/datetime.prn`'s own real, live-found note, to reject GNU statement-expressions),
   so this may need a different real mechanism than the naive `({...})` sketch, or a build-flag
   carve-out, decided with real investigation, not assumed away.
+
+## SECTION 224: LO — QI (PHASE 2 FRONTEND) SCOPING PASS (2026-09-02)
+
+Founder real-time: "continue", against `NORTHSTAR.md`'s own already-named Phase 2 ("`qi`'s own
+real frontend, same scalar/struct scope"). Real, honest reason for pivoting here now rather than
+pushing further into the LO grammar itself: everything left in that thread is either a genuine
+source-doc ambiguity (multi-arg `Call`/multi-param `Lambda`'s own `LambdaParams Expr` grammar has
+no way to tell how many trailing `LITERAL`s are params vs. the body; `ESCAPE GROUP`'s own `(` vs
+`)` ambiguity) best left for founder confirmation rather than guessed at, or a larger,
+separately-scoped project (`MagnetExpr` needs a real Vector/Matrix value system LO doesn't have
+at all yet, plus `base4/matrix.prn` has no row-extraction primitive either; the PARENA
+if-condition compiler fix is SECTION 223's own S223-02).
+
+- [x] **S224-01: write `QI_NORTHSTAR.md`, a real, reviewed design pass for `qi` — no code.**
+  Matches this repo's own "Spec Before Implementation" precedent (`NORTHSTAR.md`/`GRAMMAR.md`
+  were both written and reviewed before any Phase 0/1 code existed). Real, directly-answered
+  question: PARENA's own `.prn` already has real `defn`/`let`/`match`/`if`/`cond` — so what does
+  `qi` actually add? Two real things, not vague "friendlier syntax": (1) `qi` stays LO's own
+  narrow base4-state value space, not a general PARENA authoring frontend; (2) `qi`'s own
+  lowering pass can keep a real compile-time `name -> depth` environment, finally giving LO real
+  NAMED variables — the one concrete gap `Let`/`LetRef`/`Lambda`'s own doc comments have flagged
+  repeatedly all session — by emitting the exact same depth-indexed AST Phase 1 already produces,
+  with ZERO changes needed to `internal/parser` or `internal/emitter`, inheriting every real
+  Phase 1 finding (the F64 `main`-signature coincidence, the `#define main` verification
+  technique, Arena-threading, the `MatchBudget`-needs-a-`let` constraint, the if-condition
+  compiler bug) for free. First-draft concrete EBNF for `qi`'s own surface syntax covering
+  scalars/`Let`/`Switch`/`Lambda`/`Call`, with `Pattern`/`Match`'s own ASCII mirror deliberately
+  deferred to a later phase (2c) — matching Phase 1's own "prove the narrowest slice first"
+  discipline. Real, phased plan: 2a (lexer) → 2b (parser + name-resolution lowering, verified
+  through the exact same real `parena build` + `cc` + execution pipeline Phase 1's own tests
+  already use) → 2c (`Pattern`/`Match`). Registered `LO-QI-NORTHSTAR` in
+  `EMILY/context/golden-docs-index.md`. No `qi` lexer/parser/lowering code written yet — that's
+  Phase 2a, a real, separate next step. LO commit `e1dca89`. Apple #17182.
+  (sess-20260830-1207-cc0ba7da)
