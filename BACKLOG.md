@@ -27429,7 +27429,7 @@ up front with no help avoiding an already-used one.
   live `backlog.ParseFile` result before insert, to catch this class of mistake at creation time
   instead of after the fact?
   (sess-20260830-1207-cc0ba7da)
-- [ ] **S205-99: we need a Done option for send to in the kanban its fine we dont have a done column** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S205-99: we need a Done option for send to in the kanban its fine we dont have a done column** Added via the IDUNA kanban interface. Real duplicate of the same ask already shipped this session as **S234-05** (the "✓ Done" option on every card's "Send to…" select, archiving the item's real BACKLOG.md line + filing a real Apple) — cross-referenced here rather than reworked, IDUNA commit `0b00d44`.
   (sess-20260830-1207-cc0ba7da)
 - [ ] **S205-98: Kanban send to Archive special column we want to send stuff there that we basically want to delete but not say its done but we need to look at them later just in case we missed some context previously** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260830-1207-cc0ba7da)
