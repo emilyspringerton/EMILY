@@ -27006,3 +27006,10 @@ and pad both drove the same fighter.
   inputs merging into the same character. README documents the TIPJAR control scheme for both
   players. Verified: `gcc -fsyntax-only` clean, `bash scripts/build.sh` builds and the physics
   smoke test passes. BRAWLPIT commit `9571293`. Apple #17205. (sess-20260830-1207-cc0ba7da)
+- [x] **S230-02: real dual-pad support — two controllers now drives two independent players.**
+  Founder follow-up ("1") asking for the real thing rather than the single-pad workaround.
+  Engine now opens up to two SDL controllers (`g_pad`/`g_pad2`, hotplug add/remove wired for
+  both). One connected pad still goes to P2 (preserves S230-01's fix); a second pad takes over
+  P1 instead of staying keyboard-only. New shared `apply_pad_to_tipjar_input` helper. Verified:
+  `gcc -fsyntax-only` clean, `bash scripts/build.sh` build + physics smoke test pass. BRAWLPIT
+  commit `09a7ff1`. Apple #17206. (sess-20260830-1207-cc0ba7da)
