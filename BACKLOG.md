@@ -2336,6 +2336,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continued: make the USB/FLASH work in either parena or burrow** — obs `2026-08-30T15:07:28Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time, continued FLASH/parenify thread: write USB primitives into PARENA stdlib** — obs `2026-08-30T15:06:54Z`. CURATED: 2026-08-30.
 - [ ] **Founder real-time: run FLASH from Git Bash inside PITVIPER on Windows, use PARENA, get it working -- 'we forked it'** — obs `2026-08-30T15:06:01Z`. CURATED: 2026-08-30.
+- [ ] **Founder real-time: BusinessWire scraping is blocked on this box's datacenter IP being flagged by anti-bot systems (real…** — obs `2026-09-02T16:42:47Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: add BusinessWire as a PR data source alongside PRNewswire, tag both as content type 'pressreleases' …** — obs `2026-09-02T15:31:15Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: get PAPERCRAFT working with controller input and a 'punch' action to test punching destructables; al…** — obs `2026-09-02T15:05:51Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: publish an updated Terms of Service and Privacy Policy.** — obs `2026-09-02T14:40:02Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: ensure admin events (suspend/unsuspend) and ALL login paths to the IDUNA backend are wired into the …** — obs `2026-09-02T13:32:11Z`. CURATED: 2026-09-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
