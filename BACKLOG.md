@@ -27186,6 +27186,32 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   `go build/test` + `GOWORK=off` both clean, `go vet` clean, live `iduna.service` rebuilt/
   restarted. IDUNA commit `190fc31`, Apple #17224.
   (sess-20260830-1207-cc0ba7da)
+- [x] **S234-04: real two-way sync — kanban writes back to `BACKLOG.md`, and done items leave the
+  board.** Founder: "i just added S202-200 can you make sure it ends up in the text file in git
+  on like the eventual consistiency paradigm?... if it gets added to backlog via the kanban
+  interface it needs to wind up in the golden backlog file in git and as we work it needs to all
+  stay in sync... when we finish something it needs to move off the kanban board." S234-01/02
+  only built the file→board direction (live, read-only); this closes the other half for real:
+  (1) `KanbanHandler.create` appends a real `- [ ] **ID: title**` line to `BACKLOG.md` (a new
+  standing intake section, `## SECTION 9000: ADDED VIA IDUNA KANBAN INTERFACE` — deliberately not
+  guessing which existing topical section a UI-typed card belongs to) and commits+pushes,
+  fire-and-forget, reusing `apples.go`'s own already-production-proven `syncAppleToGit`/
+  `gitPushWithRetry` idiom rather than inventing a new one. Found and fixed a real small bug in
+  that shared code along the way: `gitPushWithRetry` hardcoded the `[apples-git]` log prefix
+  regardless of caller. (2) `KanbanHandler.list` deletes any card from `kanban_cards` for real
+  the moment its item is confirmed `[x]` in the live file — "done" really does move it off the
+  board, not just hide it. **Real, live reconciliation, not just new-code-only**: queried the
+  actual production sqlite DB directly and found 3 real cards predating this sync — `GFD-SYNC`,
+  `S202-99`, and `S202-200` (the founder's own just-added test card, literally titled "THIS IS A
+  TEST DOES THIS WIND UP IN THE TEXT FILE OR IS IT A PHANTOM IN THE SYSTEM?") — missing from
+  `BACKLOG.md` because the new sync only fires on a fresh `create()`. Backfilled all 3 by hand
+  into the same intake section (EMILY commit `a3155ea0`); every card created from now on syncs
+  automatically, no further manual reconciliation expected. New `kanban_git_sync_test.go`: real
+  git-repo-backed tests (new item appended + committed, existing item never duplicated, completed
+  item's card actually removed from both the response and the DB). `go build/test` + `GOWORK=off`
+  both clean, `go vet` clean, live `iduna.service` rebuilt/restarted. IDUNA commit `7dd132c`,
+  Apple #17225.
+  (sess-20260830-1207-cc0ba7da)
 
 - [x] **S233-02: BusinessWire follow-up — real WebDriver `page-source` capability + poll-timing
   jitter, real scraper still not built.** Founder pasted `https://www.businesswire.com/newsroom`
