@@ -27345,3 +27345,25 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   (sess-20260830-1207-cc0ba7da)
 - [ ] **S204-99: ECOWAR Iterate** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260830-1207-cc0ba7da)
+
+## SECTION 235: KANBAN ADD-CARD UX — ID COLLISION FOUND LIVE (2026-09-02, DESIGN NOTE)
+
+Founder real-time, while working from the priority queue: a real ID collision happened live — a
+new card was created for "fix PAPERCRAFT build in ci" using id `S203-04`, which already existed
+in BACKLOG.md as a completely unrelated, still-open item ("fix Google OAuth for the portal,
+deferred"). Confirmed by the founder: the PAPERCRAFT CI card is the real, intended one; the
+collision was accidental, caused by the add-card form requiring a full, precise `S###-##` id
+up front with no help avoiding an already-used one.
+
+- [ ] **S235-01: make the item-number suffix optional when manually adding a kanban card.**
+  Founder: "the -27 part of the item doesnt need to be specify you can but if you just say S203
+  then you can do that but you shouldnt have to." Real proposal: accept a bare section reference
+  (`S203`) as valid input, auto-assigning/deferring the specific item number rather than forcing
+  the caller to know and correctly guess an unused one — the exact class of mistake that just
+  happened live. Not built this pass — founder explicitly said not to bother logging the
+  PAPERCRAFT CI card into the backlog file for this specific instance, just do the real work
+  (S203-04's collision itself was left alone, not renamed/fixed, per that direction). A future
+  pass should also decide: does `KanbanHandler.create` validate/reject a colliding id against the
+  live `backlog.ParseFile` result before insert, to catch this class of mistake at creation time
+  instead of after the fact?
+  (sess-20260830-1207-cc0ba7da)
