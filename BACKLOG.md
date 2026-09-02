@@ -27235,3 +27235,23 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   session never got to actually load `businesswire.com/newsroom` (blocked earlier by 403s before
   a real browser existed; not retried yet with the now-working browser).
   (sess-20260830-1207-cc0ba7da)
+
+- [x] **S233-05: "yea go for it" — real browser now points at businesswire.com/newsroom, and hits
+  a final, real, structural (not code) blocker: this box's own IP is a flagged datacenter IP.**
+  With the webdriver chain fully working (S233-04), fetched `https://www.businesswire.com/
+  newsroom` for real with the now-working Chrome+chromedriver — got back a Chrome-internal error
+  page (`ERR_HTTP2_PROTOCOL_ERROR`), not the real site. To rule out a BusinessWire-specific
+  problem, tried `https://www.google.com` too: got a real, live Google reCAPTCHA challenge page
+  instead of search results — confirms this box is broadly flagged by anti-bot systems, not just
+  by BusinessWire specifically. Checked directly (`curl ipinfo.io`): this box's outbound IP
+  (`198.58.107.85`) resolves to `AS63949 Akamai Connected Cloud` (Linode) — a real, well-known
+  datacenter/VPS IP range. Real, honest conclusion: this is IP-reputation-based bot blocking, the
+  same wall every real Selenium/Puppeteer/Playwright scraper hits running from a cloud/VPS IP —
+  no Chrome flag, WebDriver capability, or PARENA code change fixes an IP reputation problem; the
+  standard real-world mitigation is a residential/mobile proxy or IP-rotation service, a real,
+  separate infrastructure decision, not a coding task. **Not a regression or a bug in anything
+  built this session** — the webdriver/HTTP client fix from S233-04 is confirmed still correct
+  (verified again against `example.com`, which has no such gate). BusinessWire ingestion is
+  genuinely blocked on an infrastructure/networking decision (proxy service, or running the
+  scraper from a non-datacenter IP) that only the founder can make, not on more engineering from
+  here. (sess-20260830-1207-cc0ba7da)
