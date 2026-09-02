@@ -27108,3 +27108,44 @@ sub types." Posted via `emily observe` (Principle 18, Apple #17211).
   The full pipeline (`RunnerConfig.SourceName` onward) is ready the moment someone with real
   browser access to businesswire.com provides its actual page structure or a real feed URL.
   (sess-20260830-1207-cc0ba7da)
+
+## SECTION 234: BACKLOG.md ↔ KANBAN — REAL PROJECTION DESIGN (2026-09-02, DESIGN ONLY)
+
+Founder real-time, exploratory, not a build order yet: "we need to start using the golden
+backlog as data somehow right now its just a text file... i still like the text file being the
+source of truth and the kanban stuff is just meta data... do we need to start to use heimdal
+sprint planning api? decouple it from llm and make it the plumbing... how can we still have the
+golden file as the source of truth and still have nice integrations like the kanban where i can
+sort the work and then tell you to work from one of the queues." Posted via `emily observe`
+(Principle 18, Apple #17214).
+
+- [ ] **S234-01: real gap confirmed, design proposed, not built.** Checked directly: no parser
+  from `BACKLOG.md` into structured items exists anywhere (`emily.cli`, IDUNA) — `kanban_cards`
+  rows are hand-typed (`backlog_item_id` + `title` via the kanban page's own add-card form or a
+  raw POST), never derived from the real file. `kanban.go`'s own doc comment already states the
+  right principle — cards track only queue+position, `BACKLOG.md` stays the one authoritative
+  content source — so **no kanban-table redesign is needed**, just the missing bridge:
+  1. A small, real parser (`emily.cli`, new `internal/backlog` package) scanning `BACKLOG.md` for
+     `S###-##`-style items (section/id/title/checked-state/line), mirroring the real
+     log→projection idiom this same session already shipped for PARENA
+     (`stdlib/log/jsonl.prn`+`projector.prn`) — `BACKLOG.md`'s own git history is the real event
+     log; the parse is a cheap, rebuildable, read-time projection, not a second database of
+     record. No new store needed: parse on request with a short (mtime-keyed) in-memory cache,
+     same idiom `EDIS_Core_Cache`/WP transients already use for signalapi reads.
+  2. `KanbanPageHandler` joins each card's `backlog_item_id` against the live parse so the board
+     always shows the item's *real current* title/checked-state, not a stale hand-typed copy —
+     and lists every real open `[ ]` item with no kanban card yet as an "Inbox" the founder can
+     drag straight into Priority/Cruise, closing "i can sort the work" for real.
+  3. **HEIMDAL is the wrong plumbing for this specific gap** — it solves a different problem
+     (MJOLNIR/human asks → a new backlog item via an LLM triage step); once an item already
+     exists as a real `S###-##` line, `kanban.go`'s own already-LLM-free CRUD API is the right
+     layer, no HEIMDAL involvement needed. Decoupling HEIMDAL from its LLM step is a real, worth-
+     doing idea on its own merits, just a separate piece of work, not a prerequisite here.
+  4. "Tell you to work from one of the queues" is almost free today: `GET
+     /api/v1/kanban/cards?queue=priority` already exists (bearer + `kanban.access`) — the only
+     real gap is a documented convention (a Backlog Protocol addendum: check the named queue via
+     this endpoint before falling back to "lowest-numbered open section") plus the parser above
+     so a queued card's title is trustworthy enough to act on directly.
+  Not started as code — a design answer only, written up here and given directly to the founder
+  in-session; a future pass should build (1)+(2) as the real, scoped next step.
+  (sess-20260830-1207-cc0ba7da)
