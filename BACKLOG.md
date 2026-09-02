@@ -26949,8 +26949,18 @@ not re-created — see the file's own "Log" section at the bottom for the curren
   way: a naive text search for "not yet configured" gives a false negative, since that exact
   string is always present in the page's own client-side JS fallback code regardless of whether
   it actually renders. EMILY commit `24d81581`. Apple #17200. (sess-20260830-1207-cc0ba7da)
-- [ ] **S228-03: a real, end-to-end sign-in attempt in an actual browser.** Not started —
-  written as the runbook's own current "NEXT STEP," waiting on real founder feedback (either
-  "it worked" or a specific Google error page) before the next concrete step can be written.
-  Check `EMILY/continuity/google-oauth-runbook.md`'s own "Log" section for the current real
-  state before assuming this is still open.
+- [x] **S228-03: a real, end-to-end sign-in attempt — found two real, concrete blockers.**
+  Founder tried the real sign-in at the real domain, `okemily.com/portal/login` — **not**
+  `iduna.farthq.com` (Step 1's own domain guess was wrong, corrected in the runbook). Two real
+  errors hit across attempts: "your Google account may not be registered" (the predicted
+  Testing/Test-users case) and `redirect_uri_mismatch` (the likely-direct consequence of the
+  wrong domain being registered on the OAuth client instead of the real one). Founder also asked
+  whether this reaches the new unified logging backend — answered directly, honestly: no, a
+  Google-side rejection never reaches IDUNA's own code at all (`GoogleAuthHandler` only runs once
+  Google hands back a real ID token), named as a real, separate, later idea (client-side JS
+  calling `POST /services/collector` on a GIS error callback) rather than built now. EMILY commit
+  `2eb69b43`. Apple #17201. (sess-20260830-1207-cc0ba7da)
+- [ ] **S228-04: add the real `okemily.com` origin/redirect URIs + the real test account to the
+  OAuth client, same Console visit.** Not started — written as the runbook's own current "NEXT
+  STEP." Check `EMILY/continuity/google-oauth-runbook.md`'s own "Log" section for the current
+  real state before assuming this is still open.
