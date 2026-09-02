@@ -27422,5 +27422,8 @@ every prior step in this arc already established.
   self-hosted compiler compiling itself into a working binary) needs that as its own real,
   substantial, separate pass. PARENA commit `6fb0376`, Apple #17229.
   (sess-20260830-1207-cc0ba7da)
-- [ ] **S236-TEST-DONE-FLOW: real live verification of the kanban Done+archive+Apple flow** Added via the IDUNA kanban interface, not yet triaged into a real section.
+
+## SECTION 9001: ARCHIVE (completed via kanban board move)
+
+- [x] **S236-TEST-DONE-FLOW: real live verification of the kanban Done+archive+Apple flow** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
