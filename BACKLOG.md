@@ -27072,3 +27072,39 @@ room but just shove it in there its fine we will fix it soon." Posted via `emily
   `iduna.service` rebuilt/restarted, `curl /admin/kanban` → 401 (route + auth gate confirmed
   live, not 404), binary `strings`-checked for the new nav text. IDUNA commit `7aba7a7`. Apple
   #17210. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 233: PRESS-RELEASE PROVIDER/SUBTYPE (PRTYPE) + CONTENT-TYPE TAXONOMY (2026-09-02)
+
+Founder real-time: "can we add businesswire prs to our data sources same as prnewswire but
+businesswire we will want them tagged as bothmarked in the system as type pressreleases... and
+then individual businesswire and prnnewswire as options for prtype... do we have a good sense of
+how we are storing the data in terms of content type?... we need to get the press releases set
+up on the EDIS wordpress site - there we can prove that there can be pressreleases type and then
+sub types." Posted via `emily observe` (Principle 18, Apple #17211).
+
+- [x] **S233-01: real `SourceProvider` (prtype) field, end to end, + answered the content-type
+  question in a real doc.** Found the real, existing answer first: `SourceType`
+  (`pkg/intelligence.SourceDocument`) is already a real, broadly-used content-type field
+  (`press_release`/`sec_8k`+other SEC forms/`market_movers`/`emily_commentary`) — flat,
+  string-literal-scattered, no formal enum, but genuinely not nothing. Found and fixed a real bug
+  along the way: `prwatch/runner.go` hardcoded `Source: "prnewswire"` in two places regardless of
+  what `Client` actually scraped — replaced with `RunnerConfig.SourceName` (defaults
+  "prnewswire", zero behavior change for existing callers). Threaded the real name end to end:
+  `PressReleaseDiscovered.Source` → new `BodyFetchedEvent.Source` → new
+  `SourceDocument.SourceProvider` → new `DocSummary.SourceProvider` → new `?provider=` filter on
+  `GET /v1/press-releases/{ticker}`. Wrote `docs/CONTENT_TYPE_TAXONOMY.md` (golden-indexed as
+  PR-CONTENT-TYPE-TAXONOMY): reuses `SourceType` as the real content-type axis rather than a
+  parallel `content_type`/`prtype` pair, names how the same shape extends to guidance
+  articles/contributed content/third-party ingestion later. EDIS's `edis_press_releases`
+  shortcode/template updated in the same pass — new `provider` attribute, a color-coded
+  PRNewswire/Business Wire badge — proving the type+subtype model on the "WordPress as consumer,
+  not source of truth" side, per the founder's own explicit ask. PRRJECT_FATBABY commit
+  `f70de47`, Apple #17212; EDIS commit `7bc09ed`, Apple #17213.
+  **Honest, checked-not-guessed limitation**: no working BusinessWire scraper shipped.
+  `businesswire.com`'s news-list page, an industry page, and their RSS help page all returned
+  HTTP 403 to this session's own WebFetch tooling (real bot-protection, not a URL typo), and
+  their real RSS feed needs a subscriber-specific opaque token this session doesn't have —
+  writing scrape regexes against markup nobody has actually seen would be guessing, not shipping.
+  The full pipeline (`RunnerConfig.SourceName` onward) is ready the moment someone with real
+  browser access to businesswire.com provides its actual page structure or a real feed URL.
+  (sess-20260830-1207-cc0ba7da)
