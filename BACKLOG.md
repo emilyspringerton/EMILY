@@ -26990,3 +26990,19 @@ existed anywhere in the monorepo.
   Deployed live via `~/okemily-deploy.sh` (OKEMILY commit `517142a`) and verified 200 on both
   live URLs with the v2 version string confirmed present. Apple #17203.
   (sess-20260830-1207-cc0ba7da)
+
+## SECTION 230: BRAWLPIT — TIPJAR CONTROLLER FIX (2026-09-02)
+
+Founder real-time: "can we make it so tipjar is 2 player? right now if i plug controller in the
+keyboard cobtrolls that character both same char." Posted via `emily observe` (Principle 18,
+Apple #17204). TIPJAR already had real, separate 2-player keyboard schemes (P1 WASD/Space/J/K/
+LShift, P2 arrows/RCtrl/Slash/Apostrophe) shipped in an earlier session — the bug was the single
+supported gamepad merging into P1's input on top of P1's own full keyboard scheme, so keyboard
+and pad both drove the same fighter.
+
+- [x] **S230-01: reassigned the one supported gamepad from Player 1 to Player 2 in
+  `STATE_TIPJAR`.** P1 is now pure keyboard; P2 is keyboard-or-pad — plugging in one controller
+  now gives a real 2-player split (one person on keyboard, one on the pad) instead of both
+  inputs merging into the same character. README documents the TIPJAR control scheme for both
+  players. Verified: `gcc -fsyntax-only` clean, `bash scripts/build.sh` builds and the physics
+  smoke test passes. BRAWLPIT commit `9571293`. Apple #17205. (sess-20260830-1207-cc0ba7da)
