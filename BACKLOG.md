@@ -26937,7 +26937,20 @@ not re-created — see the file's own "Log" section at the bottom for the curren
   confirmed `iduna.farthq.com` live via curl — used as the real, current best-guess domain,
   explicitly flagged in the runbook for the founder to confirm or correct. EMILY commit
   `6593f443`. Apple #17199. (sess-20260830-1207-cc0ba7da)
-- [ ] **S228-02+: whatever the runbook's own "NEXT STEP" section says once the founder reports
-  back.** Not started — waiting on real founder feedback (either "done" or a blocker) before the
-  next concrete step can be written. Check `EMILY/continuity/google-oauth-runbook.md`'s own "Log"
-  section for the current real state before assuming this is still Step 1.
+- [x] **S228-02: real OAuth credentials installed and verified live.** Founder created the OAuth
+  client in the Console and handed the real Client ID + Client Secret over directly. Found
+  IDUNA's real running env file (`~/.config/iduna/env`, the `EnvironmentFile=` for the live
+  `systemctl --user iduna.service` unit — not previously visible to this session, a real,
+  concrete answer to Step 1's own open "where does IDUNA's real env actually live" question).
+  Added both values there (no secrets committed to git or written into the runbook file itself).
+  Rebuilt the binary and restarted the service per the unit's own documented deploy step.
+  **Verified live**: health check green; the real Client ID confirmed reaching `/portal/login`'s
+  own server-rendered HTML (`data-google-client-id` attribute) — a real, named gotcha along the
+  way: a naive text search for "not yet configured" gives a false negative, since that exact
+  string is always present in the page's own client-side JS fallback code regardless of whether
+  it actually renders. EMILY commit `24d81581`. Apple #17200. (sess-20260830-1207-cc0ba7da)
+- [ ] **S228-03: a real, end-to-end sign-in attempt in an actual browser.** Not started —
+  written as the runbook's own current "NEXT STEP," waiting on real founder feedback (either
+  "it worked" or a specific Google error page) before the next concrete step can be written.
+  Check `EMILY/continuity/google-oauth-runbook.md`'s own "Log" section for the current real
+  state before assuming this is still open.
