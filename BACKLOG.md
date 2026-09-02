@@ -27227,6 +27227,48 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   both clean, `go vet` clean, live `iduna.service` rebuilt/restarted. IDUNA commit `7dd132c`,
   Apple #17225.
   (sess-20260830-1207-cc0ba7da)
+- [x] **S234-05: real "Done" action — moving a card to Done archives its real `BACKLOG.md` line
+  and files a real Apple, instead of just disappearing.** Founder: "we still need to file the
+  apple for moving it to done — say manual kanban move or something in the apple... it should be
+  moved to a different section of the backlog for archive," plus a repeated "ensure our sync is
+  working both ways, codify the plumbing more, running stuff through CLI etc, whatever you
+  think." S234-04 already deleted a card from `kanban_cards` once its item read `[x]` in the
+  file, but that only covered items someone else already checked off elsewhere — there was no
+  real "Done" action a user could take ON the board itself. Built one: new
+  `internal/backlog.ExtractItemRaw(text, id)` cuts an item's own complete real text span (its
+  line through the next real item / next `## SECTION` heading / EOF, whichever comes first) so
+  the checkbox-flip-and-relocate is exact, not a guess. `KanbanHandler.update` special-cases
+  `PATCH {"queue":"done"}` (a real action, not a literal queue — documented as such in
+  `IDUNA/CLAUDE.md`'s endpoint table) into `completeCard`: flips `- [ ]` → `- [x]` on the item's
+  real line, removes it from wherever it was, appends it under a new standing
+  `## SECTION 9001: ARCHIVE (completed via kanban board move)` section, commits+pushes (reusing
+  S234-04's own `commitAndPushBacklog`/`gitPushWithRetry` idiom), then files a real Apple
+  (`AppleType: "backlog_completion"`, title `"Manual kanban move: <task>"` truncated to 60
+  chars — carrying the real task context the founder asked for, not a generic placeholder) via
+  `Store.AppendApple` + `syncAppleToGit`, and only then deletes the card. Refactored
+  `apples.go`'s `syncAppleToGit` from a method into a shared free function
+  (`func syncAppleToGit(gitDir string, apple auth.AppleRecord)`) so `kanban.go` could reuse the
+  same production-proven git-sync path instead of a second copy — one more piece of "codify the
+  plumbing," per the founder's own ask. Frontend: the per-card "Send to…" select gains a
+  "✓ Done" option (card-only — Inbox items have no real `kanban_cards` id yet to complete).
+  **Real, live, found-and-fixed bug along the way**: `internal/backlog`'s item-id regex was
+  hardcoded to `S\d+-\d+`, so it silently could never match a real, already-live, non-numeric id
+  (`GFD-SYNC`) — meaning both S234-04's own "already exists" dedup check AND this session's new
+  archive lookup were silently broken for any such id. Confirmed live: created a real test card
+  `S236-TEST-DONE-FLOW`, marked it done, and the archive step correctly (if unhappily) logged "no
+  matching BACKLOG.md line" even though `grep` showed the line WAS there — because the id didn't
+  match the old regex. Widened `itemRe` to `[A-Za-z][A-Za-z0-9_-]*` (matches every real id shape
+  actually seen in the file). Re-verified end to end after the fix: recreated the same test card,
+  marked done again, confirmed real archival into `SECTION 9001` + a real filed Apple + no
+  duplicate lines (`grep -c` = 1). New tests: `kanban_complete_test.go`
+  (`TestKanbanComplete_ArchivesRealItemAndFilesApple`,
+  `TestKanbanComplete_NoMatchingBacklogLineStillFilesAppleAndRemovesCard` — the latter uses a
+  direct `db.Exec` insert to avoid a real race against the async create-time sync), plus new
+  `parse_test.go` cases for the regex fix and `ExtractItemRaw`. `go build/test` + `GOWORK=off`
+  both clean, `go vet` clean, live `iduna.service` rebuilt/restarted, `/health` checked. IDUNA
+  commit `0b00d44`, Apples #17231 (pre-fix, honest degraded-path run) and #17233 (post-fix,
+  real archival run).
+  (sess-20260830-1207-cc0ba7da)
 
 - [x] **S233-02: BusinessWire follow-up — real WebDriver `page-source` capability + poll-timing
   jitter, real scraper still not built.** Founder pasted `https://www.businesswire.com/newsroom`
