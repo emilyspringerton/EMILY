@@ -27661,3 +27661,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   correct and will work once run from an environment with real SMTP egress. emily.cli commit
   `aba796a`, Apple #17256.
   (sess-20260902-2008-ed50169e)
+- [ ] **S205-87: duck smoke bomb should have a 50% chance to slow each enemy hit by it** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
