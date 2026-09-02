@@ -26628,8 +26628,26 @@ naming the limitation, instead of the current confusing "unknown identifier" —
 would be a real, honest, low-risk improvement over today's misleading error message, without the
 larger (a) feature work.
 
-- [ ] **S223-01: fix (or at minimum give a clear, real diagnostic for) a binding form
-  (`let`/`match`, and possibly `loop`/`cond`'s own clause bodies) used directly as an `if`'s own
-  condition in expression position.** Not started. Real, contained regression-test candidates:
-  the two minimal repros above, run through the full PARENA test suite before considering this
-  done — `emit_if`/`emit_expr` are heavily shared, foundational code paths.
+- [x] **S223-01: at minimum, give a clear, real diagnostic for a binding form (`let`/`match`/
+  `loop`) used directly as an `if`'s own condition in expression position.** `emit_expr` had no
+  case for `let`/`match`/`loop` at all, so one reaching it (nested inside an `if`'s own condition,
+  or any other expression-position slot) fell through to the generic call path, which treated the
+  binding form's own `[binding value]` vector as ordinary call arguments and reported a
+  misleading `unknown identifier '<the bound name>'` instead of naming the real limitation. Fixed
+  with a real, honest diagnostic naming the actual problem (`'let' at line N can't be used
+  directly in expression position...`) — deliberately the low-risk half of this item's own stated
+  minimum bar, not the full feature. Zero behavior change for any program that doesn't hit this
+  shape. 6 new regression tests in `tests/test_emit.c` (the two minimal repros above, plus
+  message-content checks). Full suite: 342 passed, 0 failed (336 pre-existing + 6 new). LO's own
+  emitter tests re-run against the rebuilt `parena` binary: all green, no behavior change to the
+  already-shipped S222-09 workaround. PARENA commit `b616ed0` (+ `4604f99` changelog). Apple
+  #17181. (sess-20260830-1207-cc0ba7da)
+- [ ] **S223-02: the real fix — let `let`/`match` (and possibly `loop`) actually BE used as an
+  `if`'s own condition**, not just fail with a better message. Not started. Suggested shape
+  (S223-01's own doc comment in `src/emit.c`): synthesize a GNU C statement-expression
+  (`({ ...; temp; })`) around a call into the existing statement-oriented emitter
+  (`emit_body`/`emit_let`/`emit_match`), targeting a fresh temp variable that becomes the
+  ternary's own condition — mind this project's own `-pedantic` build flag (already known,
+  per `stdlib/datetime.prn`'s own real, live-found note, to reject GNU statement-expressions),
+  so this may need a different real mechanism than the naive `({...})` sketch, or a build-flag
+  carve-out, decided with real investigation, not assumed away.
