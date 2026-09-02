@@ -27475,31 +27475,35 @@ every prior step in this arc already established.
   substantial, separate pass. PARENA commit `6fb0376`, Apple #17229.
   (sess-20260830-1207-cc0ba7da)
 
-## SECTION 237: PAPERCRAFT CI — REAL BAZEL TEST FAILURE, ROOT CAUSE NOT YET FOUND (2026-09-02)
+## SECTION 237: PAPERCRAFT CI — REAL BAZEL TEST FAILURE, ROOT CAUSE FOUND + FIXED UPSTREAM (2026-09-02)
 
 Priority-queue card `S203-04: fix PAPERCRAFT build in ci`, founder-confirmed as the real,
 intended item (distinct from the older, unrelated `S203-04: fix Google OAuth for the portal`
 BACKLOG.md entry it collided with — see SECTION 235).
 
-- [ ] **S203-04: PAPERCRAFT's "🧪 Bazel Test" GitHub Actions job fails for real, root cause not
-  yet found.** Investigated the live failure on run `33647252365` (commit `02c9aa4`,
-  `bazel test --build_tests_only //...`, fails in ~50s). Reproduced the exact same commit
-  locally three separate ways — warm cache, `bazel clean --expunge`, and a fully cold
-  `--output_base`/`--repository_cache`/empty-`$HOME` run simulating a brand-new runner — all
-  three pass cleanly, 18/18 tests, zero code changes needed. Hardened the step with a real
-  3-attempt retry loop against the leading honest hypothesis (a transient Bazel Central Registry
-  fetch hiccup resolving `rules_cc` via bzlmod, refetched fresh every run) — PAPERCRAFT commit
-  `ac1204e`, Apple #17235. **That hypothesis is now ruled out**: the very next CI run
-  (`33682121082`, same commit + the new retry logic) failed again, in ~77s total across all 3
-  attempts combined — too fast for even one real 166-action bazel test run, meaning it fails
-  early and deterministically on every attempt, not intermittently. Apple #17236 (observation)
-  records this. Real, honest current state: a verified-clean source tree, a real and consistently
-  reproducing CI-only failure, and no further diagnosis possible from this sandbox — the
-  unauthenticated GitHub Actions API returns 403 on job log text (`Must have admin rights`), no
-  `gh` CLI or GitHub token is available here, and WebFetch can't see the JS-rendered Actions log
-  UI either. **Blocked on real log access** — needs either a GitHub token wired into this
-  environment, or the founder pulling the actual error text from the Actions UI directly so this
-  can be diagnosed for real instead of guessed at again.
+- [x] **S203-04: PAPERCRAFT's "🧪 Bazel Test" GitHub Actions job — real root cause found and
+  fixed, upstream, by gary/codex.** Investigated the live failure on run `33647252365` (commit
+  `02c9aa4`, `bazel test --build_tests_only //...`, fails in ~50s). Reproduced the exact same
+  commit locally three separate ways — warm cache, `bazel clean --expunge`, and a fully cold
+  `--output_base`/`--repository_cache`/empty-`$HOME` run — all three passed cleanly, 18/18 tests,
+  which was the honest, wrong signal that led to a 3-attempt CI retry-loop hardening (PAPERCRAFT
+  commit `ac1204e`, Apple #17235) against a suspected transient BCR fetch flake — **ruled out**
+  when the very next run failed again just as fast (Apple #17236). **Real root cause, found
+  upstream**: `packages/simulation/parena_runtime.h` unconditionally `#include`d
+  `<SDL2/SDL.h>`/`<SDL2/SDL_ttf.h>` even for PARENA modules that never call SDL —
+  `editor_mod_test.c` (a real Bazel test target) transitively pulls that header in, so *any*
+  environment building the test job needs `libsdl2-dev`/`libsdl2-ttf-dev` just to compile it. A
+  bare `ubuntu-latest` CI runner's `test` job never installs those (only the separate,
+  test-gated `build_linux` job does) — while this dev box already has both packages installed,
+  which is exactly why all three "cold" local repro attempts missed it: they varied Bazel's own
+  caches, never the host's actual system package footprint, the one thing genuinely different
+  between this box and a fresh CI runner. Fixed upstream via PR `garyredg/codex/fix-failing-
+  tests` (commit `75ad04a`, merged `d5ade80`/`8158abf`): SDL2 headers + host glue gated behind a
+  new opt-in macro, `PARENA_RUNTIME_ENABLE_SDL2`, defined by nothing in this repo's current build
+  graph. Verified live, not just by commit message: CI runs `33683787996` and `33684071625`
+  (the fix commit and its final merge) both completed with **every job green** — Bazel Test, both
+  platform builds, and the release job. Rebased local PAPERCRAFT main onto origin/main
+  (fast-forward, no conflicts). Apple #17243, filed on gary/codex's behalf crediting the real fix.
   (sess-20260902-2008-ed50169e)
 
 ## SECTION 238: OBSERVATIONS→KANBAN CRON — CONFIRMED ALREADY EXISTS (2026-09-02)
