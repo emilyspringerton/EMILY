@@ -27470,6 +27470,33 @@ every prior step in this arc already established.
   substantial, separate pass. PARENA commit `6fb0376`, Apple #17229.
   (sess-20260830-1207-cc0ba7da)
 
+## SECTION 237: PAPERCRAFT CI — REAL BAZEL TEST FAILURE, ROOT CAUSE NOT YET FOUND (2026-09-02)
+
+Priority-queue card `S203-04: fix PAPERCRAFT build in ci`, founder-confirmed as the real,
+intended item (distinct from the older, unrelated `S203-04: fix Google OAuth for the portal`
+BACKLOG.md entry it collided with — see SECTION 235).
+
+- [ ] **S203-04: PAPERCRAFT's "🧪 Bazel Test" GitHub Actions job fails for real, root cause not
+  yet found.** Investigated the live failure on run `33647252365` (commit `02c9aa4`,
+  `bazel test --build_tests_only //...`, fails in ~50s). Reproduced the exact same commit
+  locally three separate ways — warm cache, `bazel clean --expunge`, and a fully cold
+  `--output_base`/`--repository_cache`/empty-`$HOME` run simulating a brand-new runner — all
+  three pass cleanly, 18/18 tests, zero code changes needed. Hardened the step with a real
+  3-attempt retry loop against the leading honest hypothesis (a transient Bazel Central Registry
+  fetch hiccup resolving `rules_cc` via bzlmod, refetched fresh every run) — PAPERCRAFT commit
+  `ac1204e`, Apple #17235. **That hypothesis is now ruled out**: the very next CI run
+  (`33682121082`, same commit + the new retry logic) failed again, in ~77s total across all 3
+  attempts combined — too fast for even one real 166-action bazel test run, meaning it fails
+  early and deterministically on every attempt, not intermittently. Apple #17236 (observation)
+  records this. Real, honest current state: a verified-clean source tree, a real and consistently
+  reproducing CI-only failure, and no further diagnosis possible from this sandbox — the
+  unauthenticated GitHub Actions API returns 403 on job log text (`Must have admin rights`), no
+  `gh` CLI or GitHub token is available here, and WebFetch can't see the JS-rendered Actions log
+  UI either. **Blocked on real log access** — needs either a GitHub token wired into this
+  environment, or the founder pulling the actual error text from the Actions UI directly so this
+  can be diagnosed for real instead of guessed at again.
+  (sess-20260902-2008-ed50169e)
+
 ## SECTION 9001: ARCHIVE (completed via kanban board move)
 
 - [x] **S236-TEST-DONE-FLOW: real live verification of the kanban Done+archive+Apple flow** Added via the IDUNA kanban interface, not yet triaged into a real section.
