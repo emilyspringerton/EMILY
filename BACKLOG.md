@@ -27040,3 +27040,35 @@ Posted via `emily observe` (Principle 18, Apple #17207).
   session's changelog write — flagged rather than silently skipped or faked. Needs `treeiii` (or
   root) to run `setfacl -m mask::rwx PAPERCRAFT/CHANGELOG.md` (and check whether other files in
   that repo have the same stale mask) before a future agent session can write it normally.
+
+## SECTION 232: GFD/MINECRAFT CHAT BRIDGE BUG + IDUNA KANBAN NAV (2026-09-02)
+
+Founder real-time, two parts: "so the chat bridge works from minecraft to GFD mud gui client but
+typing in the GFD mud gui client does not chat back into minecraft - log that into the backlog"
+and "lets get the iduna kanban interface up... it needs to be in the menu of iduna theres no
+room but just shove it in there its fine we will fix it soon." Posted via `emily observe`
+(Principle 18, Apple #17209).
+
+- [ ] **S232-01: GFD↔EINHORN_SURVIVAL chat bridge is one-directional — logged, not fixed.**
+  Founder-confirmed: Minecraft chat reaches the GFD (DragonsNShit) GUI client; typing in that
+  client does not reach Minecraft. Traced (not fixed) to a real, likely root cause:
+  `GoblinFoxDragon/apps2/server-go/main.go:863-876` only relays `chat.ChatYell` to IDUNA's
+  `/api/v1/chat/messages` (`sender_source: "gfd_server"`, channel `"yell"`) — any other channel
+  a player types in the GFD GUI client (most plausibly a default "say"-equivalent) is silently
+  never posted, so `GTA7Plugin`'s own `ChatBridgePoller.java` (which correctly polls and filters
+  for `sender_source == "gfd_server"`, `IdunaClient.java`) has nothing to ever find. The
+  Minecraft→GFD direction (`ChatBridgeListener.java` posts `sender_source: "einhorn_survival"`,
+  channel `"gta7"`; `apps2/server-go/main.go:334`'s own poll loop consumes it) is separate code
+  and unaffected — matches the founder's own one-directional report exactly. Real fix (not done
+  here): either relay every GFD chat channel to IDUNA, not just yell, or confirm with the founder
+  which in-GFD channel the GUI client's default chat box actually sends and relay that one too.
+  (sess-20260830-1207-cc0ba7da)
+- [x] **S232-02: surfaced the already-built IDUNA kanban interface in the Back Office nav.**
+  `kanban.go`/`kanban_page.go`/`main.go`'s `/admin/kanban` route (3-column backlog/priority/
+  cruise board, drag-and-drop) were already fully built and working — zero nav entry point
+  anywhere in IDUNA, so undiscoverable. Added one link to the shared `admin.go` nav template per
+  founder's own "shove it in there" direction, no layout rework. Verified: `go build` +
+  `GOWORK=off go build` both clean, `go test ./internal/http/handlers/...` passes, live
+  `iduna.service` rebuilt/restarted, `curl /admin/kanban` → 401 (route + auth gate confirmed
+  live, not 404), binary `strings`-checked for the new nav text. IDUNA commit `7aba7a7`. Apple
+  #17210. (sess-20260830-1207-cc0ba7da)
