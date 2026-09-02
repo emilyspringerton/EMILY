@@ -27381,3 +27381,39 @@ up front with no help avoiding an already-used one.
   (sess-20260830-1207-cc0ba7da)
 - [ ] **S205-98: Kanban send to Archive special column we want to send stuff there that we basically want to delete but not say its done but we need to look at them later just in case we missed some context previously** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260830-1207-cc0ba7da)
+
+## SECTION 236: PARENA SELF-HOSTING — STEP 6, REAL CLI BINARY + LIVE SEGFAULT FIX (2026-09-02)
+
+Founder real-time: "continue working on parena self hosted compiler." Real, incremental
+continuation of the self-hosting effort (`PARENA/NORTHSTAR.md`'s own "Self-hosting" section) —
+same "find the next real gap via actually trying to compile more real code through it" discipline
+every prior step in this arc already established.
+
+- [x] **S236-01: real, standalone `parena-selfhost` argv-parsing binary + a real, live
+  self-compilation segfault found and fixed.** Closed the honest gap `selfhost/main.prn`'s own
+  header comment already named: "NOT yet a real argv-parsing standalone executable." New
+  `selfhost/cli_main.c` — a thin, hand-written C `main` (argv → a real `Vec String`, an exit code
+  back out) calling straight into the compiled `build-file`/`build-files`, mirroring
+  `src/main.c`'s own real `build <files...> -o <out.c>` subcommand shape — no new compiler
+  feature, the same real "small C driver calling into compiled PARENA logic" pattern every
+  selfhost test harness already used. New `make parena-selfhost`/`make test-selfhost-cli` targets.
+  **The first real thing tried with it found a real, live segfault**: genuine self-compilation
+  (`parena-selfhost` pointed at the self-hosting compiler's own real source) crashed on
+  `region.prn`/`emit.prn`/`main.prn`. `gdb` traced it precisely to `match-pattern-payload-name`
+  reading `children[1]` on a real, zero-payload, PARENTHESIZED pattern (`((None) ...)`, common
+  throughout `region.prn`'s own match clauses) that only has 1 child — `match-pattern-has-
+  payload?` checked the pattern's kind but never its actual child count. Fixed generically (child
+  count ≥ 2, not special-cased to "None"). The full, real 8-file self-compilation attempt (3 real
+  stdlib deps + all 5 selfhost domains) now completes cleanly, exit 0, real C output — a genuine
+  first for this effort. New regression test (`tests/test_selfhost_emit.c` +
+  `tests/integration/driver_none_paren_pattern.c`). Full Makefile suite (342 tests) + every
+  `test-selfhost-*` target clean; local `bazel build //...` unverifiable this pass (a pre-
+  existing, local-only permission wall — stale `bazel-*` symlinks in this checkout pointing at a
+  different user's own cache, not something a real CI runner would ever hit).
+  **Real, honest, newly-found next frontier, not started**: the self-compiled OUTPUT itself
+  doesn't yet compile under `gcc` — `selfhost/emit.prn` has no `#target`/`inline-c` FFI emission
+  support yet (confirmed the real `parena-c` handles this correctly today, so this is a genuine,
+  separate self-hosted-emitter scope gap, not a production regression). True bootstrapping (the
+  self-hosted compiler compiling itself into a working binary) needs that as its own real,
+  substantial, separate pass. PARENA commit `6fb0376`, Apple #17229.
+  (sess-20260830-1207-cc0ba7da)
