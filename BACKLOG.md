@@ -27367,3 +27367,5 @@ up front with no help avoiding an already-used one.
   live `backlog.ParseFile` result before insert, to catch this class of mistake at creation time
   instead of after the fact?
   (sess-20260830-1207-cc0ba7da)
+- [ ] **S205-99: we need a Done option for send to in the kanban its fine we dont have a done column** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260830-1207-cc0ba7da)
