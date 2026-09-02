@@ -26964,3 +26964,29 @@ not re-created — see the file's own "Log" section at the bottom for the curren
   OAuth client, same Console visit.** Not started — written as the runbook's own current "NEXT
   STEP." Check `EMILY/continuity/google-oauth-runbook.md`'s own "Log" section for the current
   real state before assuming this is still open.
+
+## SECTION 229: OKEMILY.COM — TERMS OF SERVICE + UPDATED PRIVACY POLICY (2026-09-02)
+
+Founder real-time: "ok lets puhlish an updated terms of service and privacy policy." Posted via
+`emily observe` before drafting (Principle 18, Apple #17202). Only `privacy.html` existed
+before this (okemily-v1-2026-07-17, scoped to the mailing list only); no Terms of Service file
+existed anywhere in the monorepo.
+
+- [x] **S229-01: drafted and published `terms.html` (new) + `privacy.html` v2, deployed live.**
+  `terms.html`: acceptance, eligibility, accounts (Google sign-in / local portal accounts),
+  acceptable use (incl. community game server conduct), early-stage/experimental-software
+  disclosure, IP (most code public on GitHub, some public-domain-released — points to each
+  repo's own actual license as controlling), third-party services, warranty disclaimer,
+  liability limitation, termination, changes, contact. `privacy.html` bumped
+  okemily-v1-2026-07-17 → okemily-v2-2026-09-02: kept the existing mailing-list section as-is,
+  added real, accurate new sections for developer-portal accounts (Google sign-in vs. local
+  email/password), the unified security/operational log (S226 work — login events, admin
+  suspend/unsuspend, never passwords/secrets), community Minecraft server data handling, and
+  children's privacy. Both pages cross-link each other; homepage footer and the mailing-list
+  consent checkbox now link both. **Honesty note, not legal advice**: drafted directly from this
+  session's own real, verified knowledge of what the site/portal/logging actually collect — not
+  attorney-reviewed; flagged to the founder as worth a real legal review before treating as
+  final if okemily.com starts handling anything more sensitive than what's described today.
+  Deployed live via `~/okemily-deploy.sh` (OKEMILY commit `517142a`) and verified 200 on both
+  live URLs with the v2 version string confirmed present. Apple #17203.
+  (sess-20260830-1207-cc0ba7da)
