@@ -26750,8 +26750,32 @@ of `LO/FRAMEWORK_NORTHSTAR.md`'s own already-established Rails-like "batteries i
   test-http-routes` green, `-Werror -pedantic` clean, full suite unaffected (342 passed, 0
   failed; `test-http-router` still green). PARENA commit `52b2d92` (+ `fbc03d2` changelog). Apple
   #17185. (sess-20260830-1207-cc0ba7da)
-- [ ] **S225-03: Models — `model/save`/`find`/`all`/`destroy` over IDUNA.** Not started. Real,
-  named blocker: the real IDUNA HTTP client shape (a generic `/api/v1/records/:kind/:id`
-  endpoint vs. per-model typed endpoints) needs a real decision before any code.
+- [x] **S225-03: Models, refined into event-sourcing — JSONL log + SQL projectors.** Founder
+  real-time: "continue building the framework with jsonl log streaming with mysql psql sqlite
+  etc projectors." Real architectural refinement, not a reversal of the original IDUNA-direct
+  plan: an append-only JSONL log (`PARENA/stdlib/log/event.prn`/`log/jsonl.prn`) is the real
+  source of truth; SQL databases become real, REBUILDABLE projections
+  (`PARENA/stdlib/log/projector.prn`: one shared generic `events` table across SQLite/MySQL/
+  PostgreSQL, `project-sqlite!`/`project-mysql!`/`project-postgres!`, each shelling out via a
+  new `PARENA/stdlib/process.prn` `run-capture`/`run-capture-exit-code` — a real, general
+  popen-based subprocess primitive). **Two real, previously-unexercised compiler gaps found and
+  fixed**: a `FileHandle` bound by a `match` clause reports as `FileHandle` at the `.prn` level
+  but the emitted C keeps it as `Result`'s own generic `void*` (new `unbox-filehandle` helper,
+  same class as `regex/pcre.prn`'s own `unbox-bool`); `OpenMode`'s own zero-payload variant
+  constructors must be written bare (`Append`, not `(Append)`) at a construction call site.
+  **The founder then ran the queued `sudo-queue/45-install-sqlite3-and-postgresql-client.sh`**,
+  making `sqlite3`/`psql` available — live-testing `project-sqlite!` against a real database
+  immediately found and fixed a real, genuine shell-quoting bug: SQL text wrapped in plain
+  `"..."` for the shell silently corrupted embedded `"` characters from JSON field values
+  (`{"name":"PARENA"}` landed in the real database as `{name:PARENA}`, invalid JSON) — fixed
+  with a new `shell-single-quote` (real POSIX single-quote escaping) applied once in
+  `run-sql-via`. **SQLite is now real, live-verified** end-to-end (a real, permanent,
+  environment-skip-guarded test confirms a real round-trip through the actual `sqlite3` CLI);
+  MySQL/PostgreSQL remain blocked only on server/credential access (no local Postgres server
+  running, no usable MySQL credentials — pre-existing gap S30-02), not on any code or design
+  work. New Makefile targets `test-process`/`test-log-jsonl`/`test-log-projector`. Full suite:
+  342 passed, 0 failed. PARENA commits `0569617`, `d675f86` (+ changelog `a6a0c0d`). LO commits
+  `6e721dd` → `4d3ed7e` (`FRAMEWORK_NORTHSTAR.md` updated to match). Apples #17188/#17189.
+  (sess-20260830-1207-cc0ba7da)
 - [ ] **S225-04: Controllers — `Request`/`Response` structs + `match-route`-driven dispatch.**
   Not started.
