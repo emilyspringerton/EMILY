@@ -27516,6 +27516,42 @@ BACKLOG.md entry it collided with — see SECTION 235).
   touched without more signal anything still reads it. Apple #17240.
   (sess-20260902-2008-ed50169e)
 
+## SECTION 239: REDGARDEN PING SYSTEM — GROUNDED IN REAL CODE + BOT HUMANNESS SPLIT (2026-09-02)
+
+Founder real-time: "check REDGARDEN upstream rebase pull a northstar for a ping system its
+codex's first attempt without knowing any context can you improve the ping system northstar if
+its missing anything especially for ai bot coorddination and also how our current bots should
+respond to pings in a human like way describe some of teh relevant concepts from the mishri repo
+in terms of humanness... it probably needs to get split into 2 northstars whatever you think."
+
+- [x] **S239-01: rebased REDGARDEN onto the upstream Codex PR, reviewed
+  `docs/PING_SYSTEM_NORTHSTAR.md`, grounded its bot contract in real code, and split bot
+  humanness into a new document.** The upstream doc (League-style server-authoritative team ping
+  protocol: 6-type tactical vocabulary, radial+fast-key human input, fog-of-war/authority
+  integrity, wire event, delivery plan, acceptance criteria) held up well on review — no rewrite
+  needed there. Extended §7's bot contract with real grounding against `apps/arena_bot/src/
+  main.c` (the `my_owner % squad_count` partition `hero_squad_count`/`hero_squad_target_node`
+  actually use, and the RL policy's real scope as an additive movement nudge on the same
+  deterministic heuristic bot — v0 ping logic belongs to the heuristic layer only) and added an
+  explicit determinism constraint: any bot-side ping timing/compliance variance must be a
+  deterministic hash of `(server_tick, owner_slot, purpose_tag)`, matching `arena_game.c`'s own
+  real item-curriculum-blend convention, never `rand()`/wall-clock — required by the doc's own
+  §9.4 replay-determinism test. Split the deeper "how should bots respond to pings in a
+  human-feeling way, especially for AI bot coordination" question into a new
+  `docs/BOT_HUMANNESS_NORTHSTAR.md` — directly answering the ask: ports MISHRI's real, shipped
+  humanness layer (mood enum, `reactionDelay`/`chatDelay` split, APM throttle, imperfect
+  compliance/ignoring, utility-scored decision cadence, all cited by real file/function name) as
+  design shapes, not code — per-bot persistent temperament (deterministic from `match_seed`/
+  `owner_slot`/`hero_id`), emission/consumption reaction delay, imperfect ping compliance bounded
+  to never break squad-to-node legality, and squad-level speaker-election jitter. Explicitly
+  scopes OUT bot chat/typos/AFK/gameplay-legality mistakes as non-transferable from MISHRI's live-
+  social-bot context (no chat exists in ping-system v0; a REDGARDEN bot must never become
+  illegal in the name of "feeling human"). Flags, doesn't fix, a real pre-existing gap against
+  this same determinism bar: `synergy_roll_tier` (NORTHSTAR §25.3) already uses real `rand()`.
+  Both docs registered in `EMILY/context/golden-docs-index.md`. REDGARDEN commit `c20ea74`, EMILY
+  commit `59256700`, Apple #17241.
+  (sess-20260902-2008-ed50169e)
+
 ## SECTION 9001: ARCHIVE (completed via kanban board move)
 
 - [x] **S236-TEST-DONE-FLOW: real live verification of the kanban Done+archive+Apple flow** Added via the IDUNA kanban interface, not yet triaged into a real section.
