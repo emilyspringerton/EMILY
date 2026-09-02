@@ -27599,3 +27599,20 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   PAPERCRAFT commit `130e7f0`, Apple #17249. `CHANGELOG.md` write blocked again by the known
   `treeiii` ACL.
   (sess-20260902-2008-ed50169e)
+- [x] **S240-02: camera-relative WASD/stick movement, was hardcoded to world N/S/E/W.** Founder:
+  "make movement relative to the camera with wasd and the control stick now its like hard coded
+  to north south east and west." Real cause: `move_x`/`move_z` were built from raw LOCAL input
+  axes (W/stick-forward, D/stick-right) but sent to the server completely unrotated — the server
+  derives `own.yaw` straight from `atan2f(move_x, move_z)` (world +Z=north, +X=east), so W always
+  walked the character due world-north regardless of where the real, decoupled orbit camera
+  (`cam_yaw`, added the same session mouse-look was) was actually pointing. Fixed by rotating the
+  local input vector by `cam_yaw` before sending, reusing the exact spherical-orbit convention
+  (`eye = target - dist*(sin(cam_yaw), ..., cos(cam_yaw))`) that already governs the camera's own
+  position — forward now always means "the way the camera is currently looking." Verified: hand-
+  checked the rotation against 4 `cam_yaw` angles in a standalone harness (forward always maps
+  exactly to the camera's own forward vector; reduces to the identity — the exact old behavior —
+  at `cam_yaw=0`, confirming a real generalization, not a divergent rewrite); `gcc` (Linux) and
+  `x86_64-w64-mingw32-gcc` against the real SDL2-2.30.10 mingw devel package (Windows) both
+  compile clean, zero new warnings; full `bazel test --build_tests_only //...` (18/18) green in a
+  fresh clone. PAPERCRAFT commit `e52613c`, Apple #17251.
+  (sess-20260902-2008-ed50169e)
