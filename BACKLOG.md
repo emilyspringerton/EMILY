@@ -27179,3 +27179,31 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   before real selectors could be captured). `RunnerConfig.SourceName` from S233-01 and the new
   jitter flags are both ready the moment that real integration is built.
   (sess-20260830-1207-cc0ba7da)
+
+- [x] **S233-03: "yea set up the webdriver" — real Chrome+chromedriver installed and proven,
+  a real deeper PARENA HTTP bug found and precisely diagnosed (not fixed).** Installed real
+  Chrome for Testing + matching chromedriver, no sudo (`npx @puppeteer/browsers install`, under
+  `~/.local/browsers`). Confirmed via raw curl that a real WebDriver session/navigate/page-source
+  round trip works against them in this sandbox (headless, `--no-sandbox`). Found and fixed a
+  real, load-bearing bug live: `host_json_unescape` copied `\uXXXX` hex-digit *characters*
+  through raw instead of decoding them (`<` became the literal 5-char string "003C") — invisible
+  until tested against a REAL driver, because an earlier commit this same session had wrongly
+  disabled the test fixture's HTML-escaping to make a test pass; that direction was backwards
+  and has been reverted (real drivers DO escape `<`/`>` in page-source, confirmed live). Added
+  `new-session-with-capabilities` — needed live: an empty `alwaysMatch` makes chromedriver launch
+  Chrome with defaults that need a real X display/sandbox, confirmed failing
+  ("session not created: Chrome instance exited") before this existed. `make test-webdriver`:
+  0 failures. PARENA commit `607c7b4`, Apple #17217.
+  **Real, honest, precisely-diagnosed blocker for the actual BusinessWire scrape, not fixed this
+  pass**: `net/http.prn`'s own `build-request` uses bare LF line endings (already self-documented
+  in its own doc comment as relying on lenient servers — verified only against IDUNA's own Go
+  `net/http`). A real chromedriver session confirmed its own embedded HTTP server does NOT
+  tolerate this — identical JSON body succeeds via curl, fails via PARENA's own client
+  (`ProtocolError`, empty body). Real, scoped fix identified: build actual CRLF via
+  `string/char-from-code 13` and restructure `build-request`'s nested, literal-newline string
+  concatenation — deliberately left for its own dedicated pass rather than squeezed in here,
+  given `net/http.prn` is shared by more than just webdriver.prn and deserves its own focused
+  verification. Once fixed, the entire chain built this session (Chrome+chromedriver install →
+  `page-source`/`new-session-with-capabilities` → `RunnerConfig.SourceName`/`SourceProvider` from
+  S233-01/02) is ready for a real BusinessWire scraper.
+  (sess-20260830-1207-cc0ba7da)
