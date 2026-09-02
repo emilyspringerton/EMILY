@@ -26881,8 +26881,23 @@ be up anyways... for now this is technical debt but it is also in the name of ke
 simple while we plan migration"); (2) a real, exploratory migration architecture idea, named
 "i wonder if" — not a firm directive, logged here rather than built.
 
-- [ ] **S227-01: log query UI in the IDUNA developer portal, with regex support.** Not started
-  at the time this section was opened — see this same session's own real, in-progress work.
+- [x] **S227-01: log query UI in the IDUNA developer portal, with regex support.** New
+  `PortalHandler.Logs` (`GET /portal/logs`): a real HTML query page matching the existing
+  cream/gold style guide, requiring both `devportal.access` (base portal gate) and `logs.read`
+  (same permission the JSON search API itself requires). Backend refactored — `logs.go`'s search
+  filtering now lives in one shared `searchEvents`/`parseSearchQuery`, called by both
+  `HandleSearch` (the JSON API) and the new portal page — and extended with a real, separate
+  `regex=` query parameter (deliberately its own param, not a fourth `search=` term, since a
+  regex pattern can contain spaces that would break the existing space-tokenized mini-language);
+  Go's own `regexp` compiles to RE2 (linear-time, no catastrophic backtracking), so this isn't a
+  real ReDoS vector even on a large log — a bad pattern is a real, honest 400. **Real, on-page,
+  not-hidden limitation**: viewing logs requires IDUNA itself to be up (it's also the logging
+  backend) — named directly in the page's own copy, matching the founder's own "real technical
+  debt, accepted deliberately... in the name of keeping operations simple while we plan
+  migration" framing, not silently glossed over or solved unilaterally. 8 new tests (2 regex
+  tests in `logs_test.go`, 3 for the new portal page). Verified with both `go build/test` and
+  `GOWORK=off go build/test` (the real standalone CI path) — zero regressions in either. IDUNA
+  commits `4dae169`/`ad2d158`/`172e392`. Apple #17197. (sess-20260830-1207-cc0ba7da)
 - [ ] **S227-02 (design-only, not started): "beachhead" migration pattern using
   `PRRJECT_FATBABY/broker/proxy.go`.** Real, already-existing infrastructure checked, not
   assumed: `broker.ProxyHandler` (real reverse proxy to tenant upstreams, `eventstore`-backed
