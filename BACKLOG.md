@@ -26685,3 +26685,17 @@ if-condition compiler fix is SECTION 223's own S223-02).
   `EMILY/context/golden-docs-index.md`. No `qi` lexer/parser/lowering code written yet — that's
   Phase 2a, a real, separate next step. LO commit `e1dca89`. Apple #17182.
   (sess-20260830-1207-cc0ba7da)
+- [x] **S224-02: Phase 2a — real lexer for `qi`'s own ASCII surface syntax.** New
+  `internal/qi/lexer` (`Lex`/`Token`/`Kind`) per `QI_NORTHSTAR.md`'s own phased plan:
+  parens/brackets, deliberately permissive bare symbols (no restricted charset invented — the
+  doc's own grammar names symbol spellings like `+4`/`foo-bar`/`x?` that already need punctuation
+  beyond plain letters/digits), decimal int literals range-checked to LO's own four base4 states
+  (0-3, a real, honest error otherwise), double-quoted strings (no escape processing, matching
+  LO's own `LITERAL` rule exactly), and `;` line comments (a real new capability LO's own emoji
+  grammar has no lexical room for, since `;` is already its `SEMI` token there). Real, honest
+  scope: lexer only — the parser + real name-resolution lowering pass to `internal/parser`'s
+  existing AST (`qi`'s own single biggest value-add: real named variables via a compile-time
+  `name -> depth` environment) is Phase 2b, a real, separate next step, not attempted in this same
+  pass. 11 new tests, including `QI_NORTHSTAR.md`'s own worked example (`(let [x 1] (+4 x x))`).
+  `GOWORK=off go build/vet/test ./...` clean. LO commit `de8b918`. Apple #17183.
+  (sess-20260830-1207-cc0ba7da)
