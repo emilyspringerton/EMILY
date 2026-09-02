@@ -27616,3 +27616,27 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   compile clean, zero new warnings; full `bazel test --build_tests_only //...` (18/18) green in a
   fresh clone. PAPERCRAFT commit `e52613c`, Apple #17251.
   (sess-20260902-2008-ed50169e)
+- [x] **S240-03: decoupled facing from travel direction — real 3rd-person movement matching
+  SHANKPIT's own model.** Founder, after S240-02's first camera-relative attempt still felt
+  wrong: "check the way that the shankpit construct works, it has an example of how 3rd person
+  should work," then "the combat is jacked up... lets get the movement down check the shankpit
+  construct." Real gap in S240-02: the server still derived facing from travel direction
+  (`state.yaw = atan2f(mx, mz)`, only while moving), so strafing/backpedaling spun the character
+  to face its direction of travel instead of continuing to face the camera — unlike
+  `SHANKPIT_CONSTRUCT.txt`'s own real `phys_update_player`, which sets facing straight from an
+  explicitly transmitted yaw every tick, never derived from movement. That same movement-derived
+  yaw also drove `PC_PACKET_INTERACT`'s own reach direction — the real, honest cause of "the
+  combat is jacked up" even with no combat built yet. Redesign: `PcUserCmdPacket` gains a real
+  `yaw` field (the client's current camera yaw, sent every tick); client sends LOCAL fwd/strafe
+  (unrotated) + `yaw`; server rotates into world-space using the same math as S240-02
+  (`Forward(yaw)=(sin,cos)`, this repo's own established convention, not SHANKPIT server's own
+  separate degrees-negated variant) and sets `state.yaw` directly from the transmitted yaw,
+  unconditionally — facing no longer depends on movement at all. **Verified live against a real,
+  freshly-built server**, not just static analysis this time: self-minted a real connect ticket,
+  sent real `PcUserCmdPacket` traffic (local strafe=1, fwd=0, yaw=90°) for 30 ticks, read back the
+  real `PcSnapshotPacket` — strafe-right at `cam_yaw=90°` moved the player entirely in -Z with
+  zero X leak, and facing landed at exactly 90.0° matching the transmitted yaw, not the ~180° a
+  travel-direction-derived facing would have produced. Full `bazel test --build_tests_only //...`
+  (18/18) green; server+client+mapeditor all compile clean via `bazel build` in a fresh clone.
+  PAPERCRAFT commit `1a9f436`, Apple #17253.
+  (sess-20260902-2008-ed50169e)
