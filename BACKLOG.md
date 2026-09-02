@@ -27571,3 +27571,31 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
 
 - [x] **S236-TEST-DONE-FLOW: real live verification of the kanban Done+archive+Apple flow** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 240: PAPERCRAFT SESSION LOGOUT — REAL BUG FOUND AND FIXED (2026-09-02)
+
+- [x] **S240-01: filed paperwork for gary/codex's upstream token-refresh PR, then fixed the real
+  bug it didn't actually solve.** Founder: "ok we have some upstream work from codex in the
+  paperfcraft repo can you file a apple on gary/codex's behalf?" — then, after the review
+  surfaced a real gap: "can you actually fix it? at some point i just get logged out if im
+  logged into papercraft for long enough." Rebased PAPERCRAFT onto PR `garyredg/codex/refresh-
+  token-to-prevent-auto-logout` (commit `d36297a`, merged `e42e4a2`/`eeb5b7a`) — a real periodic
+  IDUNA JWT refresh (every 15 min) plus a 401-refresh-then-retry branch inside `pc_mint_ticket`,
+  explicitly untested per its own PR. Apple #17248 filed crediting the real contribution.
+  Reviewing it found a real gap: `pc_mint_ticket` is only ever called once, at startup — the
+  client's actual reconnect path (`PC_CLIENT_STALE_MS` staleness detection) just re-sent the
+  SAME original login-time ticket bytes forever, never re-invoking it, so the new refresh logic
+  was unreachable dead code for the one scenario (a long session's ticket/JWT aging out) it was
+  meant to fix — confirmed for real, not guessed, via IDUNA's own currently-passing
+  `TestRefreshExpiredToken` (a refresh call can never revive an already-expired JWT by IDUNA's
+  own intentional design). Fixed: the reconnect path now re-mints a fresh ticket
+  (`need_ticket_remint`, finally exercising gary/codex's own refresh-then-retry logic for real)
+  before resending CONNECT, and withholds resending while a re-mint is outstanding/failing
+  rather than ever replaying known-stale credentials. Verified: `gcc` (Linux) and
+  `x86_64-w64-mingw32-gcc` against the real SDL2-2.30.10 mingw devel package (Windows) both
+  compile clean, zero new warnings; full `bazel test --build_tests_only //...` (18/18) green in
+  a fresh clone (sidesteps this checkout's own unrelated stale-symlink permission wall). Not yet
+  live-verified against a real, multi-hour orchestrated session — flagged honestly, not claimed.
+  PAPERCRAFT commit `130e7f0`, Apple #17249. `CHANGELOG.md` write blocked again by the known
+  `treeiii` ACL.
+  (sess-20260902-2008-ed50169e)
