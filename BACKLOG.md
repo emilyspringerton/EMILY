@@ -27013,3 +27013,30 @@ and pad both drove the same fighter.
   P1 instead of staying keyboard-only. New shared `apply_pad_to_tipjar_input` helper. Verified:
   `gcc -fsyntax-only` clean, `bash scripts/build.sh` build + physics smoke test pass. BRAWLPIT
   commit `09a7ff1`. Apple #17206. (sess-20260830-1207-cc0ba7da)
+
+## SECTION 231: PAPERCRAFT — CEL-SHADING + VERIFIED CONTROLLER PUNCH (2026-09-02)
+
+Founder real-time: "ok lets get papercraft working with the controller and the 'punch' to test
+punching the destructables - also update the graphics to cellshading similar to REDGARDEN."
+Posted via `emily observe` (Principle 18, Apple #17207).
+
+- [x] **S231-01: cel-shading ported from REDGARDEN + controller-punch trigger verified.**
+  Controller support and the X-button-to-`PC_PACKET_INTERACT` punch path already existed
+  (2026-08-30 pass) but had never been verified against a real controller in this sandbox —
+  wrote a standalone SDL2 virtual-joystick probe (`SDL_JoystickAttachVirtual`, headless dummy
+  video driver) that presses BUTTON_X and confirms `SDL_CONTROLLERBUTTONDOWN(BUTTON_X)` actually
+  arrives, the exact condition the handler checks. PASSED. Cel-shading: REDGARDEN's own
+  technique (`apps/arena` S180-09, a GLSL fragment shader quantizing N.L into 3 bands + an
+  inverted-hull outline) ported as C-side per-face banding (new `cel_color3f`/`cel_color4f`
+  helpers, same 0.75/0.35 thresholds) since this client is deliberately legacy fixed-function GL
+  with no shader pipeline — applied to the city grid, Paper Engine props/fragments/debris (real
+  cross-product normals, jitter/rotation-aware), and the player marker. A real outline pre-pass
+  (scale-from-local-origin + `glCullFace(GL_FRONT)`) is applied to the player marker and Paper
+  Engine props specifically, matching REDGARDEN's own "hero-box primitive, not whole-scene"
+  outline scoping. Verified: `bazel build //apps/client/...` clean. PAPERCRAFT commit `02c9aa4`.
+  Apple #17208. (sess-20260830-1207-cc0ba7da)
+  **Known blocker, not worked around**: `PAPERCRAFT/CHANGELOG.md` has a restrictive ACL (owner
+  `treeiii`, ACL mask `r--` overriding the `fatbaby` grant's own `rwx` entry) that blocked this
+  session's changelog write — flagged rather than silently skipped or faked. Needs `treeiii` (or
+  root) to run `setfacl -m mask::rwx PAPERCRAFT/CHANGELOG.md` (and check whether other files in
+  that repo have the same stale mask) before a future agent session can write it normally.
