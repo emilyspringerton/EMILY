@@ -26777,5 +26777,25 @@ of `LO/FRAMEWORK_NORTHSTAR.md`'s own already-established Rails-like "batteries i
   342 passed, 0 failed. PARENA commits `0569617`, `d675f86` (+ changelog `a6a0c0d`). LO commits
   `6e721dd` → `4d3ed7e` (`FRAMEWORK_NORTHSTAR.md` updated to match). Apples #17188/#17189.
   (sess-20260830-1207-cc0ba7da)
-- [ ] **S225-04: Controllers — `Request`/`Response` structs + `match-route`-driven dispatch.**
-  Not started.
+- [x] **S225-04: Controllers — `Request`/`Response` structs + `match-route`-driven dispatch.**
+  New `PARENA/stdlib/http/controller.prn` (`Request`/`Response` + Rails' own real
+  `response-ok`/`response-json`/`response-not-found` constructors) and
+  `examples/shithub_controller_demo.prn` (a real, explicitly demo-labeled `dispatch` — a
+  hand-written `if`/`string/str-eq?` chain over `match-route`'s own returned route's
+  `handler-name` — plus two illustrative actions, NOT real SHITHUB domain logic, which stays
+  Phase C). `Request` carries no generic params collection, same reasoning as `log/event.prn`'s
+  own `fields-json` decision (no real, proven `Vec`-of-tuple usage anywhere in this stdlib).
+  `http/routes.prn` now exports `vec-route-at` so a dispatcher can read a matched route's own
+  fields. Real, unchanged, named limitation: dispatch can't be a generic stdlib function
+  (PARENA's own `fn` is non-capturing/file-scope-only, no confirmed cross-module first-class
+  function references) — every real application writes its own version of this chain. Verified
+  end-to-end via new `tests/test_http_controller.c`: a real `Router` via `resource-routes`, real
+  `Request`s through the full pipeline to the right action or a real 404. Full suite unaffected:
+  342 passed, 0 failed. PARENA commits `1e34dc4`/`a33e85d`. LO commits `e122de8`/`08fe571`. Apple
+  #17190. (sess-20260830-1207-cc0ba7da)
+
+This closes out SECTION 225's own real, phased plan (Routing → Models/event-sourcing →
+Controllers) — all four Rails-like pillars are now real: Routing/Models/Controllers shipped and
+tested, Migrations reusing the already-existing `papercraft/note_version_mod.prn` decision. Real
+SHITHUB domain logic itself (repos/users/issues/pull requests) remains Phase C, a real, separate,
+NORTHSTAR-worthy scope of its own — not started, not detailed here.
