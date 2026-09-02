@@ -27169,6 +27169,23 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   guidance — nothing further needed on those unless the founder wants the Backlog Protocol
   addendum from item 4 written up as its own doc change.
   (sess-20260830-1207-cc0ba7da)
+- [x] **S234-03: real UX bug found live in the new board, fixed.** Founder: "i am way down on
+  the column of the inbox and i found one i want to drag over buut i actually cant because those
+  oolumns are small and at the top of the page we need to either extend the columns down or add
+  a right click send to interface." Real cause: with 170 real open Inbox items, that column grew
+  far taller than a viewport — scrolling down to find one scrolled the other 3 columns' own drop
+  targets out of view too, making drag-and-drop between them impossible. Fixed with both real
+  ideas the founder named, implemented as one coherent pair rather than picking just one: (1)
+  every column is now bounded (`max-height: calc(100vh - 12rem)`) with its own independently-
+  scrolling card list — the standard Trello-style pattern, all 4 columns stay visible on screen
+  at once; (2) every card (including Inbox items) gets an always-visible "Send to…" quick-move
+  select — chosen over a real right-click context menu since it needs no custom positioning/
+  dismiss/keyboard-handling code and covers the identical real need (moving a card without
+  needing source and target on screen together), plus it works via keyboard/touch. Both paths
+  (drag-and-drop and the new select) now share one `sendToQueue()` function, not two copies.
+  `go build/test` + `GOWORK=off` both clean, `go vet` clean, live `iduna.service` rebuilt/
+  restarted. IDUNA commit `190fc31`, Apple #17224.
+  (sess-20260830-1207-cc0ba7da)
 
 - [x] **S233-02: BusinessWire follow-up — real WebDriver `page-source` capability + poll-timing
   jitter, real scraper still not built.** Founder pasted `https://www.businesswire.com/newsroom`
