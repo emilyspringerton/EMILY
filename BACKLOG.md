@@ -27255,3 +27255,19 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   genuinely blocked on an infrastructure/networking decision (proxy service, or running the
   scraper from a non-datacenter IP) that only the founder can make, not on more engineering from
   here. (sess-20260830-1207-cc0ba7da)
+
+- [x] **S233-06: BusinessWire work PAUSED per founder direction.** "the plumbing is there disable
+  it for now until we can figure out a better idea." Not a code fix — a status/documentation
+  change so this doesn't get silently re-attempted and hit the same real wall again.
+  `PRRJECT_FATBABY/docs/CONTENT_TYPE_TAXONOMY.md` now carries an explicit **"PAUSED, do not retry
+  without a proxy plan"** marker on its own BusinessWire section, spelling out the real blocker
+  (this box's datacenter IP, confirmed via `ipinfo.io` + live reCAPTCHA/HTTP2-error reproductions
+  against google.com/businesswire.com) and the one real thing that would unblock it (a
+  residential/mobile proxy or a non-datacenter IP — an infrastructure decision, not engineering).
+  All plumbing built across S233-01 through S233-04 stays in place, dormant: `RunnerConfig.
+  SourceName`/`SourceProvider`, `cmd/prwatch`'s poll-jitter flags, and the real webdriver/
+  HTTP-client fixes in PARENA — none of it needs re-verification, all of it has safe defaults, so
+  nothing here changes live PRNewswire polling behavior. PRRJECT_FATBABY commit `ec3a12a`, Apple
+  #17221. **This SECTION 233 thread is now closed pending a real proxy/IP decision** — do not
+  pick BusinessWire back up as an open work item without one.
+  (sess-20260830-1207-cc0ba7da)
