@@ -2361,6 +2361,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continued: power the JEWEL word processor via LO** — obs `2026-08-30T16:26:16Z`. CURATED: 2026-09-02.
 - [ ] **Founder real-time: build a word processor into JEWEL, reusing SARENA_NOTEBOOK's own infrastructure, to power a GUI word…** — obs `2026-08-30T16:25:32Z`. CURATED: 2026-09-02.
 - [ ] **Founder real-time: also require semicolons in LO** — obs `2026-08-30T16:20:55Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time, SHITHUB/SHITLAB split clarified: SHITLAB is for CI work, copying GitLab's own APIs** — obs `2026-08-30T16:03:08Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time, correction: SHITHUB's IAM should be IDUNA-powered (not PARENA) -- though PARENA involved too somehow…** — obs `2026-08-30T16:02:47Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: SHITHUB and SHITLAB upstream repos already created; put the main git GUI in SHITHUB, PARENA-powered …** — obs `2026-08-30T16:02:39Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: as a dogfooding NORTHSTAR for the LO Rails-like framework, stand up 'SHITHUB' -- our own self-hosted…** — obs `2026-08-30T15:59:38Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time, FLASH naming clarification: our own fork is renamed 'FLASH' (doesn't match upstream image-builder-rp…** — obs `2026-08-30T14:58:46Z`. CURATED: 2026-09-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
