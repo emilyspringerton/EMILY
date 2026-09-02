@@ -26833,6 +26833,23 @@ Posted via `emily observe` before acting (Principle 18, Apple #17191).
   `GOWORK=off go build/test` (the real standalone CI path) — zero regressions in either.
   `CLAUDE.md` updated (new endpoints, `IDUNA_HEC_TOKEN`, a real "Unified Logging Backend"
   section). IDUNA commits `839ee7d`/`97683f7`. Apple #17192. (sess-20260830-1207-cc0ba7da)
-- [ ] **S226-02: wire real IDUNA code paths to actually emit events into the unified log.** Not
-  started. Real, separate, higher-risk follow-up touching security-critical code paths (auth
-  login/logout, admin actions, HEIMDAL sprint transitions) this pass deliberately didn't touch.
+- [x] **S226-02: wire real auth events into the unified log.** `GoogleAuthHandler`/
+  `AgentAuthHandler` both gain an optional, nil-safe `EventLog` field and a shared
+  `emitAuthEvent` helper — nil skips entirely (zero behavior change, every existing test for
+  both handlers passes completely unmodified), and any real `Append` error is silently dropped
+  (a logging-backend outage must never break the real auth flow, same fire-and-forget precedent
+  `apples.go`'s own `syncAppleToGit` already established). Four real emission points:
+  `iduna:auth.google.failure`/`.success`, `iduna:auth.agent.failure`/`.success` — the agent
+  failure event logs only the attempted `agent_name`, NEVER the raw `agent_secret` (a real
+  security-audit-trail discipline, verified by a real test). `main.go` wires `unifiedLog` into
+  both handlers (already registered into `mux` by pointer earlier) once it exists, same "wire
+  late" pattern `portalH.Proj` already uses. New `TestAgentAuthHandler_EmitsEvents`. Google
+  auth's own success path isn't independently tested (`googleverify.Verify` hits a real external
+  endpoint with no injectable seam yet — a real, pre-existing gap, not introduced here) — covered
+  by the same shared helper the agent test already exercises. Verified with both `go build/test`
+  and `GOWORK=off go build/test` (the real standalone CI path) — zero regressions in either.
+  IDUNA commits `aaafcb7`/`f6f61ac`. Apple #17193. (sess-20260830-1207-cc0ba7da)
+- [ ] **S226-03: wire remaining IDUNA code paths (admin actions, HEIMDAL sprint transitions,
+  Apple postings, ...) into the unified log.** Not started. Real, separate, broader follow-up —
+  auth (the highest-value, most security-relevant stream) is done; everything else is lower
+  urgency and larger in surface area.
