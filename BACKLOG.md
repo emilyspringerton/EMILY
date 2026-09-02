@@ -26912,3 +26912,32 @@ simple while we plan migration"); (2) a real, exploratory migration architecture
   real shape (built for "tenant upstreams," not yet confirmed suited to a single always-on
   reverse-proxy-to-legacy-instance role) needs real changes, are all real, open questions for
   whoever picks this up — not decided unilaterally here.
+
+## SECTION 228: GOOGLE OAUTH — ITERATIVE RUNBOOK IN GIT (2026-09-02)
+
+Founder real-time: "lets get the google oauth stuff working - as we iterate figure out the next
+step for me and keep a running file in emily repo somewhere that i can refer to on each
+iteration for the next instruction lets iterate with git like that figure out what i need to do
+put it in the file file an apple and then ill do my best to do the task if i cant ill give
+feedback and you can update that file and then repeat process." Posted via `emily observe`
+before acting (Principle 18, Apple #17198). Real process, not a one-shot task: the running file
+IS the deliverable each cycle, updated in place (`git log` on it is the real progress record),
+not re-created — see the file's own "Log" section at the bottom for the current state.
+
+- [x] **S228-01: `EMILY/continuity/google-oauth-runbook.md` created, Step 1 written.** Google
+  sign-in has been blocked on a real, human-only Google Cloud Console step all session (already
+  named in `portal.go`'s own header comment) — everything on the code side (`GoogleAuthHandler`'s
+  real GIS button flow, `WebCeremonyHandler`'s own separate server-side flow) is already real and
+  built, just waiting on real `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` values. Step 1: create the
+  OAuth consent screen + a real OAuth 2.0 Web application Client ID in Google Cloud Console
+  (likely reusing the already-configured `project-d24a71e9-2daf-4b2d-917`, real, live in this
+  environment already for Vertex AI/Gemini), with the exact `Authorized JavaScript origins`/
+  `Authorized redirect URIs` both real code paths need. Real, existing lead used, not guessed
+  cold: an earlier continuity note (`EMILY/continuity/2026-07-18-concrete-next-steps.md`) already
+  confirmed `iduna.farthq.com` live via curl — used as the real, current best-guess domain,
+  explicitly flagged in the runbook for the founder to confirm or correct. EMILY commit
+  `6593f443`. Apple #17199. (sess-20260830-1207-cc0ba7da)
+- [ ] **S228-02+: whatever the runbook's own "NEXT STEP" section says once the founder reports
+  back.** Not started — waiting on real founder feedback (either "done" or a blocker) before the
+  next concrete step can be written. Check `EMILY/continuity/google-oauth-runbook.md`'s own "Log"
+  section for the current real state before assuming this is still Step 1.
