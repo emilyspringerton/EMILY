@@ -27207,3 +27207,31 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   `page-source`/`new-session-with-capabilities` → `RunnerConfig.SourceName`/`SourceProvider` from
   S233-01/02) is ready for a real BusinessWire scraper.
   (sess-20260830-1207-cc0ba7da)
+
+- [x] **S233-04: "fix" — both real HTTP bugs fixed, webdriver now works end to end against a
+  real browser.** Founder's one-word follow-up to S233-03's diagnosis. Fixed the CRLF bug: `crlf`
+  is now built for real via `string/char-from-code 13` (the compiler's own lexer still can't
+  unescape `\r` in a string literal). Verified byte-for-byte correct via a standalone raw-socket
+  probe. That fix alone then surfaced a SECOND, deeper real bug immediately: every real request
+  to chromedriver hung forever. Root-caused two ways (a bare `/dev/tcp` round trip, and a raw C
+  reproduction calling `tcp_read_impl` directly): chromedriver claims `Connection:close` in its
+  response but never actually closes the socket — `tcp_read_impl`'s entire "read until peer
+  closes" design (an already-honestly-documented real limitation) hangs forever against it, for
+  every real WebDriver request, not something this session's own changes introduced. Fixed
+  generically in the runtime: `tcp_read_impl` now watches for the `\r\n\r\n` header/body
+  boundary, parses a real `Content-Length` header when present, and stops once exactly that many
+  body bytes arrive — falls back to the old read-until-EOF behavior when no `Content-Length`
+  exists (unchanged), plus a new 30s `poll`-based idle timeout as a real safety net.
+  **Verified end to end, for real**: a standalone C harness calling the actual compiled
+  `new-session-with-capabilities`/`navigate-to`/`page-source`/`quit-session` against a real,
+  freshly-installed Chrome for Testing + chromedriver fetched `https://example.com` and got back
+  correct, instant, cleanly-decoded rendered HTML. `make test-webdriver` + `make test-http-router`
+  (`-Werror -pedantic`) both clean. PARENA commit `7e236dc`, Apple #17218.
+  **The entire webdriver chain built across S233-01 through S233-04 is now real and working end
+  to end against an actual browser** — `RunnerConfig.SourceName`/`SourceProvider`, poll jitter,
+  `page-source`, `new-session-with-capabilities`, and now a correct HTTP client. The one piece
+  still not built: the actual Go-pipeline integration point (a compiled PARENA fetch program
+  wired into `prwatch`) and BusinessWire's own real page selectors, since this sandbox's browser
+  session never got to actually load `businesswire.com/newsroom` (blocked earlier by 403s before
+  a real browser existed; not retried yet with the now-working browser).
+  (sess-20260830-1207-cc0ba7da)
