@@ -27308,3 +27308,12 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   #17221. **This SECTION 233 thread is now closed pending a real proxy/IP decision** — do not
   pick BusinessWire back up as an open work item without one.
   (sess-20260830-1207-cc0ba7da)
+
+## SECTION 9000: ADDED VIA IDUNA KANBAN INTERFACE (eventual-consistency intake)
+
+- [ ] **GFD-SYNC: GoblinFoxDragon battlegrounds_gui: sync REDGARDEN's Shadow Step rework + bacon puck intangible speed mod (vendored arena_game.c has fallen behind).** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260830-1207-cc0ba7da)
+- [ ] **S202-99: unify REDGARDEN into GFD all the new redgarden tech needs to land in GFD battlegrounds the only difference being the wasd movement in GFD battlegrounds and the numbers to cast instead of wasd.** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260830-1207-cc0ba7da)
+- [ ] **S202-200: THIS IS A TEST DOES THIS WIND UP IN THE TEXT FILE OR IS IT A PHANTOM IN THE SYSTEM?** Added via the IDUNA kanban interface, not yet triaged into a real section. This one and the two above it were real, pre-existing kanban cards created before S234's kanban↔BACKLOG.md git sync existed, so the automatic sync (which only fires on a *new* create()) never saw them -- reconciled here by hand, once, as part of shipping that feature. Every card created from now on syncs automatically; no further manual reconciliation should be needed.
+  (sess-20260830-1207-cc0ba7da)
