@@ -2341,6 +2341,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: get PAPERCRAFT working with controller input and a 'punch' action to test punching destructables; al…** — obs `2026-09-02T15:05:51Z`. CURATED: 2026-09-02.
 - [ ] **Founder real-time: publish an updated Terms of Service and Privacy Policy.** — obs `2026-09-02T14:40:02Z`. CURATED: 2026-09-02.
 - [ ] **Founder real-time: ensure admin events (suspend/unsuspend) and ALL login paths to the IDUNA backend are wired into the …** — obs `2026-09-02T13:32:11Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: build SHITHUB using LO -- build a real, Rails-like 'batteries included' web framework directly into …** — obs `2026-09-02T00:34:04Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: add LAMBDA to LO, glyph 🐪 (camel)** — obs `2026-08-30T17:32:25Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time, exploring SWITCH/CASE emoji candidates for LO: SWITCH=🎛️ (control/selector metaphor, but U+1F39B+VS1…** — obs `2026-08-30T17:30:04Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: use ANCHOR (⚓) as LO's real EQ glyph (replacing the provisional 🟰), and add SPARKLES (✨) as LO's new…** — obs `2026-08-30T17:09:15Z`. CURATED: 2026-09-02.
+- [ ] **Real finding while scoping PAPERCRAFT editor wiring: PAPERCRAFT's own CLAUDE.md establishes mods as I32-scalar-only at …** — obs `2026-08-30T16:51:22Z`. CURATED: 2026-09-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
