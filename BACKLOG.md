@@ -26699,3 +26699,59 @@ if-condition compiler fix is SECTION 223's own S223-02).
   pass. 11 new tests, including `QI_NORTHSTAR.md`'s own worked example (`(let [x 1] (+4 x x))`).
   `GOWORK=off go build/vet/test ./...` clean. LO commit `de8b918`. Apple #17183.
   (sess-20260830-1207-cc0ba7da)
+
+## SECTION 225: SHITHUB — RAILS-LIKE FRAMEWORK API, BUILT INTO LO'S STDLIB (2026-09-02)
+
+Founder real-time: "ok lets build SHITHUB using LO we need to build in that rails like framework
+into LO we want basic github functionality into our own software to reduce our dependence on
+github -define the api first of the web framework make it like rails build in the stdlib as
+needed using single point code emojis when necessary to add to the language via the stdlib."
+Posted via `emily observe` before acting (Principle 18, Apple #17184). Real, direct continuation
+of `LO/FRAMEWORK_NORTHSTAR.md`'s own already-established Rails-like "batteries included" plan
+(SECTION 217/222's own earlier work), not a new, separate epic invented from scratch.
+
+- [x] **S225-01: real capability re-check + the Rails-like API definition
+  (`LO/FRAMEWORK_NORTHSTAR.md`).** LO itself now has real `Let`/`LetRef`/`Switch`/`Lambda`/`Call`/
+  `StringLit`/`Match` (all landed since this doc was first written) — but still exactly one `defn`
+  per `.llll` file, so real multi-function application code still needs `qi`'s own Phase 2b
+  (parser + lowering), which has only reached Phase 2a (lexer, S224-02) so far. Real, direct
+  consequence: the framework targets PARENA stdlib `.prn` modules directly (matching
+  `base4/*`/`regex/pcre`/`http/router` precedent), not LO source, and not blocked on `qi`. **The
+  "single point code emoji" question answered directly, not deferred**: no new LO grammar tokens
+  are needed for this pass — every piece of the API is an ordinary PARENA `defstruct`/`defn`, not
+  an LO-level construct; a real, later piece that genuinely needs one gets a real, named
+  `GRAMMAR.md` amendment the same way `SWITCH`/`LAMBDA`/`MATCH` each got one, not invented
+  silently. Real, concrete 4-pillar Rails-like API defined: **Routing** (real, shipped this same
+  pass — S225-02), **Models** (`model/save`/`find`/`all`/`destroy` over IDUNA, the real IDUNA
+  endpoint shape — generic-record vs. per-model-typed — left an open, named question),
+  **Controllers** (`Request`/`Response` structs + a `match-route`-driven dispatch chain),
+  **Migrations** (direct reuse of the already-existing `papercraft/note_version_mod.prn`
+  decision, unchanged). Only Routing is built; the other three are the real API this pass
+  DEFINES, explicitly marked not-yet-built, not conflated with what's done. Phase A/B marked
+  done (Phase A's original "blocked on `qi`" framing was itself outdated the moment this work
+  targeted PARENA stdlib directly); new Phase B2 (Models)/B3 (Controllers) named, not started.
+  LO commit `6e721dd`. Apple #17186. (sess-20260830-1207-cc0ba7da)
+- [x] **S225-02: `PARENA/stdlib/http/routes.prn` — real HTTP-method + route-table layer.** On top
+  of the already-real `http/router.prn` path-pattern matching: `Route`
+  (method/pattern/handler-name), `add-route!` (Rails' own declarative `get "/repos", to:
+  "repos#index"` shape), `match-route` (first method+path match in declaration order — Rails' own
+  real routing semantics, not path specificity — a real `-1` "not found" sentinel), and
+  `resource-routes` (Rails' own `resources :repos` one-liner, generating all 5 standard RESTful
+  entries: index/create/show/update/destroy). **Real, honest, named scope restriction**: a
+  Route's own `handler-name` is a plain `String`, not a callable function value — PARENA's own
+  `fn` literals are non-capturing/file-scope-only, and no cross-module first-class function
+  reference is confirmed working either — so `match-route` returns WHICH route matched; the app's
+  own dispatch code (today: a hand-written `cond`/`match` chain; once `qi` lands: real named
+  calls) decides what to actually call. Two real, found-live compiler constraints worked around
+  in the process: a `{...}` struct literal can't be a bare call argument (needs a `let` first,
+  same class as S222-09's own `MatchBudget`); pushing a by-value struct onto a `Vec` needs a real
+  Arena to box it into. New `tests/test_http_routes.c`: route declaration order, method+path
+  matching, a real not-found case, and all 5 `resource-routes` entries verified. `make
+  test-http-routes` green, `-Werror -pedantic` clean, full suite unaffected (342 passed, 0
+  failed; `test-http-router` still green). PARENA commit `52b2d92` (+ `fbc03d2` changelog). Apple
+  #17185. (sess-20260830-1207-cc0ba7da)
+- [ ] **S225-03: Models — `model/save`/`find`/`all`/`destroy` over IDUNA.** Not started. Real,
+  named blocker: the real IDUNA HTTP client shape (a generic `/api/v1/records/:kind/:id`
+  endpoint vs. per-model typed endpoints) needs a real decision before any code.
+- [ ] **S225-04: Controllers — `Request`/`Response` structs + `match-route`-driven dispatch.**
+  Not started.
