@@ -2367,6 +2367,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: as a dogfooding NORTHSTAR for the LO Rails-like framework, stand up 'SHITHUB' -- our own self-hosted…** — obs `2026-08-30T15:59:38Z`. CURATED: 2026-09-02.
 - [ ] **Founder real-time, FLASH naming clarification: our own fork is renamed 'FLASH' (doesn't match upstream image-builder-rp…** — obs `2026-08-30T14:58:46Z`. CURATED: 2026-09-02.
 - [ ] **Founder real-time: confirmed the actual bug -- gets logged out of PAPERCRAFT if logged in long enough. Diagnosing why g…** — obs `2026-09-02T21:45:11Z`. CURATED: 2026-09-02.
+- [ ] **Founder real-time: set up a PAPERCRAFT/IDUNA account for garybifrost@gmail.com (gary, the real person behind the garyre…** — obs `2026-09-02T22:14:51Z`. CURATED: 2026-09-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
