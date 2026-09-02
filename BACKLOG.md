@@ -27343,3 +27343,5 @@ sort the work and then tell you to work from one of the queues." Posted via `emi
   (sess-20260830-1207-cc0ba7da)
 - [ ] **S202-200: THIS IS A TEST DOES THIS WIND UP IN THE TEXT FILE OR IS IT A PHANTOM IN THE SYSTEM?** Added via the IDUNA kanban interface, not yet triaged into a real section. This one and the two above it were real, pre-existing kanban cards created before S234's kanban↔BACKLOG.md git sync existed, so the automatic sync (which only fires on a *new* create()) never saw them -- reconciled here by hand, once, as part of shipping that feature. Every card created from now on syncs automatically; no further manual reconciliation should be needed.
   (sess-20260830-1207-cc0ba7da)
+- [ ] **S204-99: ECOWAR Iterate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260830-1207-cc0ba7da)
