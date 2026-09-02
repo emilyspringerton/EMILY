@@ -27497,6 +27497,25 @@ BACKLOG.md entry it collided with — see SECTION 235).
   can be diagnosed for real instead of guessed at again.
   (sess-20260902-2008-ed50169e)
 
+## SECTION 238: OBSERVATIONS→KANBAN CRON — CONFIRMED ALREADY EXISTS (2026-09-02)
+
+- [x] **S238-01: confirmed the observations-into-kanban pipeline already exists; no new cron
+  built.** Founder: "we need a cron that pulls observations into kanban... im assuming we dont
+  have that yet bbut maybe we do or its not needed." Checked live process state rather than
+  assuming: `cmd/observation-watcher` is running continuously (PIDs 1265/1516) and picks up a new
+  `emily observe` within ~10s; `emily-agent --daemon` (PID 1780) is genuinely alive and cycling —
+  Apple #17234 ("Cycle 12458 — idle") filed 9 minutes before this check proves its internal
+  15-min RSI cron's PLAN phase (which triages queued observations into `BACKLOG.md`) is actually
+  running, not stalled; IDUNA's kanban Inbox (`/admin/kanban/api/inbox`, S234-01/02) reads
+  `BACKLOG.md`'s live unchecked items on every page load — a pull, not a poll, so there's no
+  scheduling gap on that leg either. Full real chain: observe → (watcher, ~10s) → directed task,
+  or (daemon cron, ~15min) → BACKLOG.md → (kanban inbox, on-demand) → visible on the board. No new
+  code needed — it just isn't shaped like a literal cron job, which is why it read as possibly
+  missing. One stale artifact noted, not acted on: `EMILY/var/rsi-loop-state.json` still shows
+  iteration 177 / 2026-06-13, looks superseded by whatever counter produced "Cycle 12458" — not
+  touched without more signal anything still reads it. Apple #17240.
+  (sess-20260902-2008-ed50169e)
+
 ## SECTION 9001: ARCHIVE (completed via kanban board move)
 
 - [x] **S236-TEST-DONE-FLOW: real live verification of the kanban Done+archive+Apple flow** Added via the IDUNA kanban interface, not yet triaged into a real section.
