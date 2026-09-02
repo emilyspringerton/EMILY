@@ -45,10 +45,13 @@ this same project** for the OAuth client instead of creating a new one — one l
 make in Step 1, but confirm it's the right project when you're in the Console (a genAI-only
 project may deliberately be kept separate from public-facing OAuth, only you know that context).
 
-The real, live public domain for IDUNA, per an earlier session's own confirmed-via-curl note
-(`EMILY/continuity/2026-07-18-concrete-next-steps.md`): `iduna.farthq.com`. **This is my own best
-current guess for what to register in the Console below — confirm or correct it in your feedback**
-if IDUNA's real current public URL is different now.
+~~The real, live public domain for IDUNA, per an earlier session's own confirmed-via-curl note
+(`EMILY/continuity/2026-07-18-concrete-next-steps.md`): `iduna.farthq.com`.~~ **Corrected by the
+founder**: the real domain actually used for `/portal/login` is **`okemily.com`** — the guess
+above was wrong (stale from a month-old note, or IDUNA's own real public path moved since). See
+the current NEXT STEP below: the OAuth client likely needs `https://okemily.com` added to its own
+Authorized JavaScript origins / redirect URIs, since Step 1 only ever registered the wrong
+`iduna.farthq.com` guess.
 
 ---
 
@@ -76,31 +79,64 @@ Client ID + Client Secret directly. Real, done, verified:
   text search regardless of whether it's really unconfigured — a real, worth-naming gotcha for
   next time this needs re-checking).
 
-## NEXT STEP (do this one)
+## Step 2 attempt — real error hit: "your Google account may not be registered, sign in failed"
 
-**Try a real, end-to-end sign-in** in an actual browser: go to IDUNA's own real, public
-`/portal/login` page (you know the real current public URL for this — my own only confirmed lead
-this session was `https://iduna.farthq.com`, from a month-old note, so please use whatever you
-know to be current) and click the real "Sign in with Google" button.
+This is the exact "Testing" publishing-status case named in Step 1's own predictions: the OAuth
+consent screen is almost certainly still in **Testing** mode, which only allows sign-in from
+Google accounts explicitly added as **Test users** — every other account (including yours, unless
+already added) gets turned away with a message shaped like this one, before the button even gets
+to a real permission-grant screen.
 
-- **If it works** (you land back on `/portal` signed in) — tell me, and we're done here; I'll
-  close this out.
-- **If Google shows an error page instead of completing sign-in** — the two most likely real
-  causes, given Step 1's own guesses about your real domain:
-  - `redirect_uri_mismatch` — the real redirect URI Google received doesn't match what's
-    registered on the OAuth client. Tell me the exact URI Google's own error page shows; I'll add
-    it to the Client ID's own **Authorized redirect URIs** list in the Console (I can't do this
-    part myself — it's the same GCP Console step as Step 1).
-  - `origin_mismatch` / "not a valid origin for the client" — same real fix, but for **Authorized
-    JavaScript origins** instead.
-  - "Access blocked: this app has not completed Google's verification process" / "app isn't
-    verified" — if the consent screen is in **Testing** mode, your own Google account needs to be
-    added under **Test users** (OAuth consent screen page) before you can sign in with it.
-- **If the button doesn't even render** (blank space where it should be, or the "not yet
-  configured" fallback text really shows up on the actual rendered page, not just present
-  somewhere in page source) — that's a real, different bug (the server-side check above already
-  confirmed the value IS reaching the page, so this would point at something client-side) — tell
-  me exactly what you see.
+## Real domain correction — okemily.com, not iduna.farthq.com
+
+Confirmed by the founder: `/portal/login` is really served from **`https://okemily.com`**. Step
+1's own guess (`iduna.farthq.com`) was wrong, so the OAuth client currently has the WRONG origin/
+redirect URI registered — this is very likely the real, direct cause of the `redirect_uri_mismatch`
+error below, separate from (and in addition to) the Test-users issue.
+
+## NEXT STEP (do this one) — two real fixes on the same OAuth client
+
+**Confirmed so far**: `redirect_uri_mismatch` (this iteration) and, on an earlier attempt,
+"your Google account may not be registered" (the Testing/Test-users case). Both are real, and
+both need fixing — do both while you're in the Console rather than one round trip each.
+
+1. Go to **https://console.cloud.google.com/apis/credentials** (project
+   `project-d24a71e9-2daf-4b2d-917`), open the **OAuth client ID** created in Step 1, and add:
+   - **Authorized JavaScript origins**: `https://okemily.com`
+   - **Authorized redirect URIs**: `https://okemily.com/` **and** `https://okemily.com/portal/login`
+     — I don't know which EXACT one Google's own error page is asking for without seeing it, so
+     add both rather than guessing once and possibly missing again. If the error page you saw
+     printed an exact `redirect_uri=...` value (Google's own real error pages usually show this
+     in the fine print), please tell me that exact string too — it's the one, certain fix, no
+     guessing needed.
+   - You can leave the old, wrong `iduna.farthq.com` entries in place (harmless) or delete them —
+     your call.
+   - **Save.**
+2. Same visit, also do the **Test users** fix from the earlier "may not be registered" error: OAuth
+   consent screen → **Audience** tab → **Test users** → **+ Add users** → add the real Google
+   account you're testing with → **Save**.
+3. **Try the real sign-in again** at `https://okemily.com/portal/login`, same account.
+   - **Works** → tell me, done.
+   - **Different error** → tell me exactly what it says.
+   - **Same error** → tell me the exact `redirect_uri=...` value from Google's own error page
+     text if you can find it; that's the one real, unambiguous fix.
+
+---
+
+## Do we have logging for this failure? — real, honest answer: no, not this specific one
+
+This particular failure (Google rejecting the sign-in on Google's OWN side — wrong redirect URI,
+or account not in Test users) happens entirely between the browser and `accounts.google.com`,
+**before** any request ever reaches IDUNA. `GoogleAuthHandler` (the code that emits
+`iduna:auth.google.failure` into the unified log, S226-02) only runs once Google hands the
+browser a real ID token to POST to `/api/v1/auth/google` — a rejection at this earlier stage never
+gets that far, so there's genuinely nothing for IDUNA's own logging to see or record here. This
+isn't a gap in the logging work itself, just the real limitation of a client-side OAuth flow: the
+config-mismatch/consent-screen failures are only ever visible in the browser (and, for anyone with
+real Console access, in the OAuth client's own "Recent activity" / Google Cloud's own audit
+surfaces — not this app's own log). A real, separate, later idea if this keeps needing debugging:
+have the login page's own JS call `POST /services/collector` directly on a GIS error callback, so
+even these "never reached IDUNA" failures land in the same place — not built now, just named.
 
 ---
 
@@ -112,3 +148,11 @@ know to be current) and click the real "Sign in with Google" button.
   systemd user unit), added both values there, rebuilt the binary, restarted the service, and
   verified live (health check green, the real Client ID confirmed reaching `/portal/login`'s own
   server-rendered HTML). Next: a real end-to-end sign-in attempt in an actual browser.
+- 2026-09-02 — founder tried the real sign-in at the real domain, `okemily.com/portal/login` (not
+  `iduna.farthq.com` — Step 1's own domain guess was wrong, corrected here). Two real errors seen
+  across attempts: "your Google account may not be registered" (Testing/Test-users case) and
+  `redirect_uri_mismatch` (the direct, likely-primary consequence of the wrong domain guess).
+  Founder also asked whether this failure is captured in the new unified logging backend —
+  answered: no, honestly, since a Google-side rejection never reaches IDUNA's own code at all.
+  Next: add the real `okemily.com` origin/redirect URIs to the OAuth client, and add the real
+  test account, in the same Console visit.
