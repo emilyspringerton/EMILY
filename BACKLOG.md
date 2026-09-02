@@ -26577,3 +26577,59 @@ LO". Posted via `emily observe` before acting (Principle 18).
   parameter remains separate, larger work. 2 new real emitter tests. 70 tests total (subtests
   included), `GOWORK=off go build/vet/test ./...` clean. LO commit `a208d0e`. Apple #17179.
   (sess-20260830-1207-cc0ba7da)
+
+## SECTION 223: PARENA — `if`'S OWN CONDITION CAN'T HOLD A BINDING FORM (2026-09-02, logged not started)
+
+Real, found-live compiler limitation, surfaced while building LO's S222-09 (`MATCH` end-to-end),
+confirmed with minimal repros directly against `parena build` (not an LO emitter mistake) —
+logged here as its own PARENA-domain item rather than left buried only in `LO/GRAMMAR.md`'s own
+prose, per the Emily Way's own "findings get real backlog visibility" norm. **Not started —
+LO's own real, working, verified workaround already ships (S222-09), so nothing here is blocking
+LO's own progress; this is purely so a future PARENA-focused session has enough to actually fix
+the root cause instead of every future caller needing to remember the same workaround.**
+
+**The bug**: `emit_if` (`src/emit.c`) implements `(if cond then else)` as a real C ternary
+`(cond ? then : else)`, emitting `cond`/`then`/`else` via the plain EXPRESSION dispatcher
+(`emit_expr`). `emit_expr` has NO case at all for `is_call_named(expr, "let")` or `"match"` (or
+almost certainly `"loop"`/`"cond"`'s own binding-introducing clause bodies, unverified) — those
+forms are ONLY handled by the separate STATEMENT-oriented emitters (`emit_body`/`emit_let`/
+`emit_match`/`emit_loop`, all of which take a real `EmitScope child` and correctly thread new
+bindings to sub-expressions). When a `let` or `match` reaches `emit_expr` (because it's nested
+inside an `if`'s own condition, not sitting in a real statement/body position), it falls through
+to the GENERIC CALL path — which processes the `let`'s own `[binding value]` bindings-vector as
+if it were an ordinary argument list, calling `scope_lookup` on the bound NAME itself (e.g.
+`budget` in `(let [budget {...}] ...)`) as though it were a plain variable reference — which of
+course fails, since the binding was never actually registered anywhere. This is why the error is
+always "unknown identifier '<the bound name>'", not "unknown identifier 'let'": `emit_expr`
+partially, incorrectly processes the form's shape rather than rejecting it outright.
+
+**Minimal repros** (confirmed directly against `parena build`, no LO involved):
+```
+(if (let [x 1] (= x 1)) 1 0)                     ;; fails: unknown identifier 'x'
+(if (match r ((Ok re) re) ((Err _) 0)) 1 0)      ;; fails: unknown identifier 're'
+```
+Both compile FINE as a function's own direct body (statement position) — only expression
+position (an `if`'s own `cond`, and very likely `then`/`else` too, and any other expression-
+position slot that calls `emit_expr`) is affected.
+
+**LO's own real, verified workaround** (`LO/internal/emitter/emitter.go`'s `emitMatchIf`, S222-09):
+fully evaluate the binding-form chain into a plain, already-computed `result` local first (a
+normal `let` BODY position, which compiles correctly), so the `if`'s own condition ends up being
+just a bare identifier reference — never a binding form itself:
+```
+(let [budget {...}] (let [result (match ...)] (if result then else)))
+```
+
+**Real, suggested (not yet attempted) fix shape**: either (a) teach `emit_if` to detect a
+`let`/`match`/`loop`/`cond`-shaped condition and synthesize a GNU C statement-expression
+(`({ ...; temp; })`) around a call into the existing statement-oriented emitter targeting a fresh
+temp variable, or (b) reject nested binding-form conditions with a clear, real compile error
+naming the limitation, instead of the current confusing "unknown identifier" — even just (b)
+would be a real, honest, low-risk improvement over today's misleading error message, without the
+larger (a) feature work.
+
+- [ ] **S223-01: fix (or at minimum give a clear, real diagnostic for) a binding form
+  (`let`/`match`, and possibly `loop`/`cond`'s own clause bodies) used directly as an `if`'s own
+  condition in expression position.** Not started. Real, contained regression-test candidates:
+  the two minimal repros above, run through the full PARENA test suite before considering this
+  done — `emit_if`/`emit_expr` are heavily shared, foundational code paths.
