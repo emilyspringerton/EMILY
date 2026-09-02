@@ -26849,7 +26849,24 @@ Posted via `emily observe` before acting (Principle 18, Apple #17191).
   by the same shared helper the agent test already exercises. Verified with both `go build/test`
   and `GOWORK=off go build/test` (the real standalone CI path) — zero regressions in either.
   IDUNA commits `aaafcb7`/`f6f61ac`. Apple #17193. (sess-20260830-1207-cc0ba7da)
-- [ ] **S226-03: wire remaining IDUNA code paths (admin actions, HEIMDAL sprint transitions,
-  Apple postings, ...) into the unified log.** Not started. Real, separate, broader follow-up —
-  auth (the highest-value, most security-relevant stream) is done; everything else is lower
-  urgency and larger in surface area.
+- [x] **S226-03: wire ALL real login surfaces + admin suspend/unsuspend into the unified log.**
+  Founder real-time: "ensure admin events like suspend un suspend all logins to the iduna
+  backend make sure that is all going to our logging platform." Extends S226-02's own real,
+  established pattern to every remaining real login surface: `LocalAuthHandler`
+  (`iduna:auth.local.success`/`.failure`), `AdminLoginHandler`
+  (`iduna:auth.admin_login.success`/`.failure`, two distinct real failure reasons),
+  `PortalHandler.LocalLogin` (`iduna:auth.portal.success`/`.failure` — a real, separate surface
+  from `LocalAuthHandler` despite the same email+password shape), plus the founder's own
+  explicitly named case: `AdminHandler.userAction`/`agentAction` suspend/activate
+  (`iduna:admin.user.suspend`/`.unsuspend`, `iduna:admin.agent.suspend`/`.unsuspend`). All
+  failure events avoid logging raw credentials (email/agent_name only, never password/secret —
+  verified by real tests). 6 new tests across 4 test files, each confirming the actual emitted
+  event Type/payload. `stubApplesStore` (already used by `apples_test.go`) satisfies the full
+  `store.IAMStore` interface directly, reused rather than a second stub. Verified with both `go
+  build/test` and `GOWORK=off go build/test` (the real standalone CI path) — zero regressions in
+  either. IDUNA commits `d6c7404`/`5a751cf`. Apple #17195. (sess-20260830-1207-cc0ba7da)
+- [ ] **S226-04: wire remaining IDUNA code paths (HEIMDAL sprint transitions, Apple postings,
+  role assign/revoke, agent permission grants, ...) into the unified log.** Not started. Real,
+  separate, broader follow-up — every real LOGIN surface and the explicitly-named
+  suspend/unsuspend actions are done; everything else is lower urgency and larger in surface
+  area.
