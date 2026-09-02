@@ -26799,3 +26799,40 @@ Controllers) — all four Rails-like pillars are now real: Routing/Models/Contro
 tested, Migrations reusing the already-existing `papercraft/note_version_mod.prn` decision. Real
 SHITHUB domain logic itself (repos/users/issues/pull requests) remains Phase C, a real, separate,
 NORTHSTAR-worthy scope of its own — not started, not detailed here.
+
+## SECTION 226: IDUNA — UNIFIED LOGGING BACKEND, SPLUNK-SHAPED (2026-09-02)
+
+Founder real-time: "create a unified logging backend for IDUNA using the new tech - so we can
+have one place to jump to and grab the logs - use whatever affordances and apis splunk uses."
+Posted via `emily observe` before acting (Principle 18, Apple #17191).
+
+- [x] **S226-01: `POST /services/collector` + `GET /services/search/jobs`.** New
+  `IDUNA/internal/http/handlers/logs.go`: `LogsHandler` reuses IDUNA's own existing, tested
+  `internal/userlog.FileEventLog` (NDJSON append-only log + `Event` envelope) with a separate
+  root dir (`var/eventlog/`) — not a third reimplementation of the same real pattern this
+  session already built twice this week (`userlog` here, `log/event.prn`/`log/jsonl.prn` in
+  PARENA for SHITHUB, SECTION 225). **Real, checked-not-assumed finding, caught before
+  shipping**: the initial instinct was to cross-import `PRRJECT_FATBABY`'s own `eventstore`
+  package directly (the more "original" implementation of the identical shape) — but IDUNA's
+  real CI (`.github/workflows/iduna-construct.yml`) checks out ONLY the IDUNA repo and runs `go
+  test ./...` with no `go.work`/sibling-repo present. Confirmed live via `GOWORK=off go build
+  ./...`, which failed to resolve the cross-repo import — exactly the class of mistake this
+  session's own memory note ("Always verify every real CI path before pushing") exists to catch,
+  caught here before pushing, not discovered by a real CI failure after the fact. Fixed by
+  reusing `userlog`'s own already-in-repo, standalone-buildable types instead. Two real,
+  Splunk-shaped endpoints: `POST /services/collector` (Splunk's own real HTTP Event Collector
+  endpoint path, `Authorization: Splunk <IDUNA_HEC_TOKEN>` auth via `crypto/subtle` constant-time
+  comparison, Splunk's own real request/response payload shapes) and `GET /services/search/jobs`
+  (Splunk's own real search endpoint path, deliberately SYNCHRONOUS this v0 rather than Splunk's
+  own real async job create/poll dance — a named simplification; a real, narrow SPL subset:
+  space-separated `type=`/`source=`/`q=` terms, ANDed), gated on a new `logs.read` permission via
+  the existing `RequireAuth`/`RequirePermission` middleware. Real, honest, deliberately NOT
+  attempted this pass: wiring IDUNA's own existing code paths (auth, admin actions, HEIMDAL
+  transitions) to actually emit events into this log — ships the real, tested ingest/search
+  infrastructure only. 7 new tests, verified with BOTH `go build/test` (workspace mode) and
+  `GOWORK=off go build/test` (the real standalone CI path) — zero regressions in either.
+  `CLAUDE.md` updated (new endpoints, `IDUNA_HEC_TOKEN`, a real "Unified Logging Backend"
+  section). IDUNA commits `839ee7d`/`97683f7`. Apple #17192. (sess-20260830-1207-cc0ba7da)
+- [ ] **S226-02: wire real IDUNA code paths to actually emit events into the unified log.** Not
+  started. Real, separate, higher-risk follow-up touching security-critical code paths (auth
+  login/logout, admin actions, HEIMDAL sprint transitions) this pass deliberately didn't touch.
