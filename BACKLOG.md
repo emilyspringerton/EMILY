@@ -29133,3 +29133,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **IDUNA-93939: iduna log query interface (unified search v0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PXCL-9311: make parena cli tool do the same thing burrow new does but for C instead of for go** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
