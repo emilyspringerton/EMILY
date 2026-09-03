@@ -29341,3 +29341,5 @@ whole card marked done on the strength of a scoping doc alone.*
   the closing hit's own window arrives — and that real `invuln_frames` appear during the dash.
   `bash scripts/build.sh`: clean, all 3 real tests pass. `gcc -Wall -Wextra` clean (no new
   warnings). BRAWLPIT commit `fd0b8d3`. Apple #17533. (sess-20260902-2008-ed50169e)
+- [ ] **TIPJAR-0001: iterate on gameplay of TIPJAR the mechanics are sort of there but we need a lot of polish theres no way to serve drinks shift randomly ends** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
