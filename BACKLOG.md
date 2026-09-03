@@ -29067,3 +29067,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   `len`-parameter fix actually works). `make test`: 345/345, zero regressions. `net/wire.prn`'s
   own `raw-byte` helper is now exported (was internal-only), its first real second consumer.
   PARENA commit `e25fb3d`. Apple #17501. (sess-20260902-2008-ed50169e)
+- [ ] **LB-911: FIX LADYBUG AND SCARAB** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
