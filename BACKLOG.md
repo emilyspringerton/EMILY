@@ -28177,3 +28177,5 @@ IDUNA_PRO extraction, broker Host-routing), not invented from scratch.
   `sudo-queue/*.sh` script matching this monorepo's own established convention for anything
   needing `sudo`/`certbot`. Blocked on S244-03's decision and S244-05's credentials file.
 (sess-20260902-2008-ed50169e)
+- [ ] **109393: GCLOUD MIGRATION FIGURE YOUR SHIT OUT BRO** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
