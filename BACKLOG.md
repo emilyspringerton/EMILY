@@ -29185,6 +29185,10 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type it twice have the field like hidden with the eye thing** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **WOTAN-996: ITERATE WOTAN you can buy upgraded hats for brawlpit using flow from GFD make
   it so users can draw their own hats in a pixel editor.** Folded into the same unified
   `WOTAN_HAT_STORE_NORTHSTAR.md` plan as `WOTAN-999`/`WOTAN-998` (see that entry above) — real
@@ -29195,7 +29199,3 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   different feature), and a real cost model for a user-drawn hat (flat Flow price? free? — a
   real, founder-level product decision, not resolved here). BRAWLPIT commit `cf254a2`.
   Apple #17518. Planning only. (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
