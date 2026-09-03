@@ -29380,3 +29380,5 @@ not duplicate the work.
   doesn't misread this as chat-moderation work. (sess-20260902-2008-ed50169e)
 - [ ] **PC-CALI-002: PAPERCRAFT SNOWBOARD MOD vs0 mountain and grind on golden gate style bridge** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PC-CALI-003: papercraft vehicles are destructable and persistant in the world (GTA LIKE ENTITIES) also there are fake shell versions for world building  not destructable** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
