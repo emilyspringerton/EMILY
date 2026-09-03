@@ -28863,3 +28863,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **II-001: web app super simple to start - IDUNA inventory system for example i have 2 rasbberyy pi b2 and 2 zero i think? also i have at least 1 ada feather with some kinda packetmodule etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **II-102: design IDUNA inventory system affordances simple but useful** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
