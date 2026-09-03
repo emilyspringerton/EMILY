@@ -313,6 +313,37 @@ under-application of the existing rule, not a new one: it's easy to mentally fil
 real work" and skip the log, but the whole point of this mechanism is a durable record of when
 work actually stopped and on whose instruction.
 
+### 19. A Big, Unscoped Ask Gets Scoped, Not Swallowed Whole
+
+Kanban card `GOLDENOPS-001`, verbatim: *"emily framework default behavior if a new unscoped
+request comes in on the priority queue or cruise queue and it is a big ask: scope/northstar it,
+then toss card back to backlog. standard op procedure."*
+
+**The mechanism:** when the next queue item is a real, big, genuinely unscoped ask (a whole
+feature, a cross-repo system, "build X" with no phased breakdown attached) rather than a
+narrow, already-actionable task, the default move is NOT to attempt the whole thing in one pass,
+and it is also NOT to mark the kanban card fully done the moment a plan exists. The real sequence
+is: (1) investigate what already exists — checked, not assumed, same discipline every other
+principle here already demands; (2) write a real, phased NORTHSTAR that names the real
+dependencies, the real open questions, and a real, honest sequence of sub-steps; (3) register it
+as a golden doc per Principle 5 so Emily Prime can see it; (4) **return the resulting scoped
+sub-tasks to `BACKLOG.md` as their own real section/sub-items**, per Principle 1's own "real work
+gets planned into a sprint in the backlog" — not left as one flat, now-"done" kanban card with no
+real remaining trail for the next session to pick up from.
+
+**Why this exists, specifically:** a big ask marked "done" the moment a plan exists is a real,
+quiet way to lose the actual remaining work — the plan itself doesn't get built, and nothing in
+`BACKLOG.md` keeps pointing at the real, still-open phases the plan just named. Scoping a big ask
+and handing the real sub-tasks back to the backlog (rather than closing the loop on the kanban
+card alone) is what makes the plan a real, load-bearing part of the ongoing work, not a one-off
+document nobody returns to.
+
+**What this does not change:** a kanban card whose own literal ask IS "plan/scope/research this"
+(not "build this") is genuinely satisfied by a real, phased plan — that card closes normally,
+same as any other completed task, per Principle 3 (Apple Before Mark-Done). This principle is
+about the OTHER case: a big ask with no such explicit "planning only" framing, where scoping it
+is a real, necessary FIRST step, not the whole job.
+
 ---
 
 ## The Feedback Loop

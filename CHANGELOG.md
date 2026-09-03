@@ -1,3 +1,7 @@
+## 2026-09-03
+
+- docs/THE_EMILY_WAY.md: new Principle 19 ("A Big, Unscoped Ask Gets Scoped, Not Swallowed Whole"), kanban priority-queue card GOLDENOPS-001 — the standing default for a big, unscoped ask on the priority/cruise queue: investigate, write a real phased NORTHSTAR, register it as a golden doc, then return the real, resulting sub-tasks to BACKLOG.md as their own section/sub-items rather than marking the whole kanban card fully done the moment a plan exists. Explicitly does not change how a genuinely "plan/scope this" card closes (that's a real, complete deliverable on its own, per Principle 3). Apple #17524. (sess-20260902-2008-ed50169e)
+
 ## 2026-08-28
 
 - BACKLOG.md: logged S202-54 (PARENA construct-split Spotlight mod), Apple #16540 (sess-20260825-1938-f6bd411e)
