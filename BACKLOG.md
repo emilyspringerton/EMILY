@@ -28710,5 +28710,30 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   workload is ever actually deployed in-cluster (none is planned today). `S207-02` (real
   `gcloud auth` + cluster provisioning) stays open — unaffected by this decision, still blocked
   on interactive founder auth. PRRJECT_FATBABY commit `f4d7c1e`. Apple #17443. (sess-20260902-2008-ed50169e)
-- [ ] **PARENA-0001: ok so can we start to dig into the parena OS implementation? lets focus the work by targeting alpine? what is the smallest vertical slice we can take to actually make it work with the os? debian?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **PARENA-0001: ok so can we start to dig into the parena OS implementation? lets focus the
+  work by targeting alpine? what is the smallest vertical slice we can take to actually make it
+  work with the os? debian?** Real, checked-not-assumed framing: "Debian" was already solved —
+  this dev box IS a real Debian-family/glibc distro, every PARENA build already runs on it daily.
+  Alpine's genuinely novel angle is **musl libc**, a real, different C runtime, not just a
+  different package manager. No docker/podman in this sandbox (same real gap Phase 5.0's
+  Dockerfile work already hit), so built a real, **no-root** musl toolchain instead
+  (`apt-get download musl musl-dev musl-tools` + `dpkg-deb -x`, same trick class as this session's
+  own libpcap-dev extraction, + a locally path-rewritten `musl-gcc.specs`). **Real finding #1**:
+  `parena-c` (the compiler itself) already compiles clean and links fully static under musl, zero
+  changes needed — confirmed live building a real `.prn` file with the musl-built compiler binary.
+  **Real finding #2, the actual blocker**: `runtime/parena_runtime.h` unconditionally
+  `#include`d SDL2/SDL2_ttf for EVERY generated program regardless of whether its own `.prn`
+  source used `sdl2.prn` at all — confirmed live via a real glibc/musl header-mixing compile
+  failure (`__gnuc_va_list`/`__time64_t` undefined, a real structural incompatibility, not a
+  PARENA bug). **Real fix**: new `PARENA_NO_GRAPHICS` opt-out macro wraps SDL2's includes + the
+  whole SDL2/SDL2_ttf function-impl block — default behavior unchanged (345/345 tests clean).
+  **Real, live, end-to-end proof**: `stdlib/sip/message.prn` built with `-DPARENA_NO_GRAPHICS`
+  under the musl toolchain produced a genuinely static (`not a dynamic executable`, zero shared
+  libs) ELF binary that runs — the real, concrete shape that runs unmodified on real Alpine. New
+  `PARENA/docs/OS_PORTABILITY_NORTHSTAR.md`, registered as golden doc `PARENA-OS-PORTABILITY-
+  NORTH`. Honest scope named: doesn't prove a real SDL2-using program on musl (needs Alpine's own
+  musl-native `sdl2-dev`, unavailable in this sandbox), and deliberately does NOT attempt a full
+  custom-OS/distro-image build — that's the separate, much larger S213/FLASH/image-builder-rpi
+  thread. Not-yet-done follow-up named honestly: no CI/Makefile wiring yet for this musl path,
+  this pass's proof was a manual one-off compile. PARENA commit `050d145`. Apple #17445.
   (sess-20260902-2008-ed50169e)
