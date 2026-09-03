@@ -28118,3 +28118,62 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **10999: FIGURE OUT MULTI TENANT APPLES (OFFER GIT SYNC IN THE CONSOLE INTERFACE) NEEDS TO WORK WITH PUBANDPRIV** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 244: CONSOLE.OKEMILY.COM + CLOUDFLARE-TOKEN CLI COMMAND — SUBTASK PLANNING (2026-09-03)
+
+Founder real-time: "console.okemily.com added that needs to be where a customer can set up their
+instance which would set up its own subdomain — update the emily cli tool so there is a command
+for adding the cloudflare token — plan this task into subtasks into the inbox." Per explicit
+instruction, this is a real planning pass only — no code shipped in this section. Each subtask
+below is grounded in real, already-checked facts from S243-06/07/08 (multi-tenancy NORTHSTAR,
+IDUNA_PRO extraction, broker Host-routing), not invented from scratch.
+
+- [ ] **S244-01: real `tenants`/`trials` table + migration in IDUNA (the control plane, NOT
+  IDUNA_PRO itself).** Per the already-agreed control-plane model
+  (`IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`): org name, contact email, desired subdomain,
+  status (`trial`/`active`/`expired`), assigned port, `SQLITE_PATH`, created_at/expires_at. This
+  is the real, first, concrete piece of "IDUNA manages the free trials" — nothing else below can
+  work without a real place to record a trial's own state.
+- [ ] **S244-02: real tenant-provisioning pipeline (IDUNA-side).** Given a new row in S244-01's
+  table: (a) allocate a free port, (b) create a fresh `SQLITE_PATH` for a new `IDUNA_PRO`
+  process and run its migrations (already proven trivial, S243-06), (c) start/supervise that
+  process (systemd unit template, or a process-manager library — real, undecided implementation
+  choice, not resolved here), (d) write a new broker `Route` (`Host:
+  "<subdomain>.console.okemily.com"`) into `gpt2-alpine-c/config/broker-routes.json` — real,
+  honest gap named in S243-06 itself: this file is hand-edited today, this subtask is what
+  actually needs to write it programmatically. Real, load-bearing prerequisite: S243-06's own
+  `Route.Host` routing capability already exists and is tested — this subtask is the automation
+  that WRITES a route, not the routing mechanism itself.
+- [ ] **S244-03: TLS for a new tenant subdomain — resolve the wildcard-vs-per-tenant decision
+  S243-06 left open.** Two real options, named there, not chosen between: (a) one real wildcard
+  cert for `*.console.okemily.com` via a DNS-01 challenge (needs S244-05 below first), reused
+  for every tenant; (b) a real, individual `certbot --nginx -d <subdomain>.console.okemily.com`
+  run per signup (no wildcard/API-token dependency, more moving parts per onboarding). Real next
+  step: a founder decision, then implement whichever path — not attempted here.
+- [ ] **S244-04: console.okemily.com itself — the real signup/status front-end.** A real page
+  (static + small JS, or server-rendered — undecided) with: a signup form (org name, contact
+  email, desired subdomain with a real availability check against S244-01's table), a call into
+  a new, real IDUNA API endpoint (e.g. `POST /api/v1/tenants/trials`, itself part of S244-01/02,
+  not yet designed in endpoint-shape detail), and a real status view while S244-02's pipeline
+  runs, ending in a working login URL for the new tenant's own `IDUNA_PRO` instance. Blocked on
+  S244-01/02 existing first — this is the visible front door, not the actual provisioning logic.
+- [ ] **S244-05: `emily cloudflare set-token` (or `emily key set CLOUDFLARE_API_TOKEN ...
+  --target cloudflare-dns`) — a real, new emily.cli command.** Real, checked, decisive finding:
+  `certbot-dns-cloudflare`'s own real credentials file is **not** a plain shell env-export like
+  `emily key set`'s existing `emily`/`iduna` targets — it's an INI-style file
+  (`dns_cloudflare_api_token = <token>`), consumed via `certbot ... --dns-cloudflare-credentials
+  <path>`, and certbot's own docs require restrictive file permissions (0600) on it. `emily.cli`
+  already has a real, generic `emily key set <NAME> <VALUE> --target <T>` mechanism
+  (`cmd/key.go`, S153-05) with two existing targets (`emily`, `iduna`) — this subtask adds a
+  THIRD target (or a small dedicated subcommand) that writes the real INI format certbot
+  actually expects, not just another env-file line, and sets 0600 on the resulting file. Real,
+  concrete file location: `~/.config/cloudflare/dns-credentials.ini` (or similar — exact path
+  not fixed yet). `emily key show` should mask the token the same way `maskKey` already does for
+  `ANTHROPIC_API_KEY`. This subtask is the real, direct unblock for S244-03 option (a).
+- [ ] **S244-06: wire S244-05's credentials file into a real wildcard-cert issuance command.**
+  Once S244-05 exists and S244-03 picks option (a): a real, one-time (or renewal-cron'd)
+  `certbot certonly --dns-cloudflare --dns-cloudflare-credentials <path> -d
+  '*.console.okemily.com' -d 'console.okemily.com'` invocation, most likely wrapped in a
+  `sudo-queue/*.sh` script matching this monorepo's own established convention for anything
+  needing `sudo`/`certbot`. Blocked on S244-03's decision and S244-05's credentials file.
+(sess-20260902-2008-ed50169e)
