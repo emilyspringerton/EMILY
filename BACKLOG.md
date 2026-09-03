@@ -27854,3 +27854,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   (sess-20260902-2008-ed50169e)
 - [ ] **210: lets have MixForge be a web app we can prove out the web framework in parena keep the interface simple for  now we arent real time djing yet  also we can build it into electron at the same time?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **210-101: sprint plan the items in the CRUISE column** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
