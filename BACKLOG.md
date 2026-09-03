@@ -29086,3 +29086,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (Originate/Hangup/QueueStatus, Phase 3), ARI/WebSocket deferred as real, separate, larger work
   (Phase 4). PARENA commit `42c9bd6`. Apple #17503. Planning only — no code written.
   (sess-20260902-2008-ed50169e)
+- [ ] **B-111: add commands for standing up the models and views and controllers and all of that for a web app get that working by using it to scaffold shithub** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
