@@ -27838,6 +27838,42 @@ shipped in this section itself; this is planning work, matching the card's own l
   EMILY_FOR_BUSINESS commit `5289bb9`, MONOREPO commit `fba0421`, Apple #17315.
   (sess-20260902-2008-ed50169e)
 
+- [x] **S243-06: real multi-tenancy architecture direction -- IDUNA_PRO extraction plan +
+  Host-based subdomain routing shipped. DONE.** Founder real-time, three follow-up messages
+  continuing the S243-02 Emily for Business thread: "so to make iduna multi tenant we need like
+  a DB per install and we need console.okemily.com for our customers and partners to onboard
+  also we can use the fatbaby proxies for offering custom subdomains for partners/customers" →
+  "so we need multi tenant iduna as a platform we can offer a free trial that really stands up
+  their iduna instance - we pull some of the more custom stuff out of iduna and the code goes
+  right into the emily for business product IDUNA_PRO" → "so we use our IDUNA to manage the free
+  trials for emily for business." **Real, checked findings, not assumed**: DB-per-install is
+  already near-free — IDUNA's own `main.go` resolves its DB from a single `SQLITE_PATH` env var
+  per process, migrations run clean against an empty file; the real remaining work is
+  orchestration, not a database redesign. `console.okemily.com` does not exist anywhere in the
+  monorepo yet. **Real, shipped code**: the FatBaby broker (`PRRJECT_FATBABY/broker`) had a
+  decisive gap — no Host-header/subdomain routing at all, only bearer-token and path-prefix
+  matching. New `Route.Host` field + `Registry.ResolveByHost`, checked FIRST in `AuthMiddleware`
+  (before path-prefix), deliberately skipping the broker's own Basic Auth since a tenant
+  subdomain's real auth boundary is its own upstream IDUNA instance, not the broker. 4 new
+  tests, `go build/vet/test ./...` clean, zero regressions. **Real, checked infra fact**:
+  okemily.com's DNS is confirmed live on Cloudflare — a real wildcard cert needs a DNS-01
+  (`certbot-dns-cloudflare`) challenge, not the HTTP-01 flow every existing cert on this box
+  uses; named as a real, unresolved decision point (wildcard vs. per-tenant cert on signup), not
+  solved here. **Resolves the NORTHSTAR doc's own original Open Question 1**: internal IDUNA is
+  NOT externalized in place — it stays the backbone and additionally becomes the control plane
+  provisioning/tracking `IDUNA_PRO` tenant trials. Wrote a real, checked categorization of
+  `internal/` and `http/handlers/` into core-generic `IDUNA_PRO` candidates (auth, store,
+  userlog/unified-logging, the Apples audit-ledger mechanism) vs genuinely monorepo-custom code
+  staying behind (blog, tyler, mmo/redgarden/shankpit/papercraft game handlers, vault,
+  promptoverse, mailinglist, drive, statuspage, the BACKLOG.md-coupled kanban bridge) vs real,
+  honestly unresolved ambiguous cases (honorcode's mechanism-vs-content split, subscriptions.go,
+  the well-built-but-BACKLOG.md-coupled kanban feature). `IDUNA_PRO` repo does not exist upstream
+  yet — checked via a real clone attempt (`Repository not found`) — named only, no code moved, no
+  repo created, matching this session's own precedent of not overreaching into unrequested
+  execution on a genuinely large architecture decision. IDUNA commits `d0a53f2`/`d67adac`,
+  PRRJECT_FATBABY commit `5876dce`, EMILY commit `3ce5633e`, Apple #17320.
+  (sess-20260902-2008-ed50169e)
+
 - [x] **210-101: sprint plan the items in the CRUISE column. DONE.** Triaged the 4 raw,
   un-triaged cruise-queue kanban cards above (S243-01 through S243-04) — each now has a real,
   checked scope and a concrete next step, replacing a bare one-line ask. Two genuine, decisive
