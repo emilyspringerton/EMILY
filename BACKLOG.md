@@ -28718,7 +28718,24 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
 - [x] **435423: parena PCAP primatives** Added via the IDUNA kanban interface, not yet triaged into a real section. **DONE.** **Status update**: the earlier real, honest blocker (this box has libpcap's runtime but not the `-dev` package carrying `<pcap.h>`, `sudo-queue/47-install-libpcap-dev.sh` queued rather than installed directly) was worked around for real without needing root at all: `apt-get download libpcap0.8-dev` (a plain package download needs no root) + `dpkg-deb -x <the .deb> /tmp/pcap_extract` (a local, unpacked extraction, also no root) gets the exact real headers needed, linking against the already-installed real runtime `.so` via GNU ld's own `-l:libpcap.so.0.8` exact-filename syntax. New `tools/pentest_pcap_host.c`: real `pcap_open_live`/`pcap_next`/`pcap_compile`+`pcap_setfilter` calls implementing `start-capture`/`read-packet`/`filter`'s own real `#target inline-c` FFI declarations, a real, minimal, fixed-size opaque-handle table (`Capture`'s own `handle : I32` field is a table index, never a raw host pointer), real safety choices named explicitly (a real 1000ms read timeout so `read-packet` doesn't hang forever on a quiet interface; a real copy of the captured bytes into the arena rather than a raw pointer into libpcap's own internal buffer — a genuine use-after-free risk avoided). **Real, genuine build-integration gap found and fixed, distinct from the missing host code**: the established `-include`-based forward-declaration trick (`ci_status.h`'s own real precedent) can't reach a host function whose own parameter type is a struct the `.prn` compile itself generates (`Capture`) — a `-include`d header loads before `parena_runtime.h` even does, too early for a type that doesn't exist yet. Fixed via a real, working `sed`-spliced forward-declaration block, anchored on PARENA's own always-generated `Result filter(Capture *, char *);` line, documented in the new `test-pentest-pcap` Makefile target. New `tests/test_pentest_pcap.c`: real, honest, environment-dependent assertions, not glossed over — this sandbox has no real `CAP_NET_RAW`/root capture privilege, so `start-capture` against a real interface (`lo`) correctly reports a real, honest `Err`, not a crash or a fabricated success; a genuinely nonexistent interface name always fails regardless of privilege, asserted unconditionally. Both real outcome branches are written and the success path (a real BPF filter applying, then correctly rejecting an invalid one) is structurally proven and will exercise automatically the moment this runs with real capture privilege. `make test`: 345/345, zero regressions (this work doesn't touch the compiler). Commit `e14f45b`, Apple #17435.
   (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
-- [ ] **342332432423: ldap primatives parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **342332432423: ldap primatives parena.** New `PARENA/stdlib/ldap/ber.prn`: real, direct
+  BER TLV (Tag-Length-Value) primitives — `read-ber-tag`/`read-ber-length`/`build-ber-tlv`.
+  Real, checked-live research first: LDAP's own real wire format (RFC 4511) is ASN.1 BER-encoded
+  — every real LDAP message, at every nesting level, is a real TLV element, the same real
+  structure whether it's a whole `BindRequest` or one integer field inside it. This is the real,
+  single most foundational LDAP primitive, the direct structural analog of this same session's
+  own `sip/rtp.prn` (RTP headers) and `net/dns.prn` (DNS records), just for a real, general-
+  purpose, recursive encoding instead of one fixed protocol's own specific header shape. Real,
+  honest v0 boundary, named explicitly: short-form length only (0-127) and low tag numbers only
+  (0-30) — a real long-form length byte or high-tag-number continuation form reports a real,
+  honest error rather than silently mis-decoding. `build-ber-tlv` uses a real, honest
+  `#target inline-c` escape hatch, the same real reason `net/dns.prn`'s own `build-dns-query`
+  already needed one — a real tag/length header is frequently, legitimately zero, and
+  `string/concat`'s own `strcpy`/`strcat` truncation would corrupt real, ordinary output, not
+  just an edge case. New `make test-ber` target, 5 real assertions (a real INTEGER TLV decode,
+  the long-form-length honest error, a real OCTET STRING TLV round-trip, and a deliberate
+  zero-length-value case proving the `inline-c` escape hatch was actually necessary). `make
+  test`: 345/345, zero regressions. PARENA commit `0d3d059`. Apple #17511.
   (sess-20260902-2008-ed50169e)
 - [x] **334534: DNS primatives parena.** New `PARENA/stdlib/net/dns.prn`: real, direct RFC 1035
   A-record (IPv4) query construction and response parsing. `parse-dns-response` is pure PARENA
