@@ -27872,3 +27872,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   rebuilt and restarted, `/health` green, `/admin/kanban` still correctly gated (401
   unauthenticated) — the admin auth boundary wasn't touched. commit `abd4a74`, Apple #17304.
   (sess-20260902-2008-ed50169e)
+- [ ] **211: duck is no longer last - update the blog** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
