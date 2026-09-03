@@ -29266,7 +29266,7 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **PMPX-000: build out additional project management automations like a page showing the tags for the different projects etc - auto researching on a -000 card** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-DNS-001: build out WOTAN as a subdomain you should have access to cloudflare key in EMILY/var** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **WOTAN-DNS-001: build out WOTAN as a subdomain you should have access to cloudflare key in EMILY/var.** Checked the real Cloudflare API (`EMILY/var/cloudflare.md` token, real immediate need) directly: `wotan.okemily.com`'s A record already exists, pointing at this box's own IP (`198.58.107.85`) same as every other `okemily.com` subdomain — DNS itself needed no new work. Real gap was server-side: added `WOTAN/ops/nginx-wotan.conf` (matches `OKEMILY/ops/nginx-okemily.conf`'s own pattern), `wotan-deploy.sh` (root monorepo, matches `okemily-deploy.sh`'s rsync convention), and queued `sudo-queue/48-setup-wotan-nginx-and-dir.sh` (mkdir/chown `/var/www/wotan`, install+reload nginx site, initial deploy, certbot) rather than running it directly per standing sudo policy. WOTAN commit `2904913`, monorepo-root commit `6d632f7`. Apple #17548. **Real, honest, NOT done**: the queued sudo script hasn't been run yet — `wotan.okemily.com` is not actually live until someone runs it.
   (sess-20260902-2008-ed50169e)
 - [x] **GOLDENOPS-001: emily framework default behavior if a new unscoped request comes in on the
   priority queue or cruise queue and it is a big ask scope/northstar it then toss card back to
