@@ -29170,3 +29170,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-998: IMPLEMENT vs0 GO WOTAN you can buy upgraded hats for brawlpit using flow from GFD plan nortgstar it** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type it twice have the field like hidden with the eye thing** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
