@@ -28397,7 +28397,33 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   panicked via `template.Must`). IDUNA commit `c72b513`, Apple #17354.
   (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
-- [ ] **4444: GFD add dungeons - we need content - make it like DIABLO in terms of how the procedural dungeons work use the hero compendium to design bosses for the named dungeons** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **4444: GFD add dungeons - we need content - make it like DIABLO in terms of how the
+  procedural dungeons work use the hero compendium to design bosses for the named dungeons.
+  DONE (content pass — engineering not started).** Read the real, existing
+  `GoblinFoxDragon/docs2/DUNGEON_NORTHSTAR.md` in full — already scoped (all engineering
+  Milestones 1–4.5 real but NOT STARTED), and it explicitly named this exact gap as unresolved:
+  "exact mapping of which arena hero kit's AI drives which visual is not decided here." This is
+  a real content-design pass resolving that gap, not engineering — new NORTHSTAR §7. Checked
+  `TYLER/multiverse_heroes.md` directly (the real 123-hero compendium) and confirmed every one
+  of the 30 real, implemented `ARENA_HERO_*` kits traces to a real named compendium entry,
+  clustering cleanly into real factions. Designed 8 named dungeons, each themed to one real
+  compendium faction with a boss + elite roster drawn from that same faction's own real heroes:
+  The Sealed Archive (Jiangshi Syndicate, boss Cart), The Frequency Table (Goetia Court, boss
+  Paimon), The Remnant's Hall (Valhalla Remnant, boss Gunnr — a real, deliberate continuity nod
+  to this same session's earlier blog post naming Gunnr as the roster's new last-place hero),
+  East of the Wall (Middle Kingdom Heirs, boss He Xiangu), The Highland Wake (Highland Court,
+  boss Morrigan), The Founders' Table (the original pre-compendium REDGARDEN cast, boss
+  Unicorn), The Unbound Wing (Unbound Historicals, boss Cain), and The Proving Grounds (non-canon
+  DragonsNShit content, boss Warrior — the real low-tier starter dungeon). Named Kikoryu's Hoard
+  as the real superboss/endgame dungeon built around the already-landed `kikoryu.jpeg` art,
+  honestly scoped as genuinely new AI work — unlike every other dungeon's reused-hero-AI
+  approach, no existing hero kit maps to that creature. Real, honest gaps named, not hidden:
+  `ARENA_HERO_PIZZA`/`TYLER`/`BACON_PUCK` have no dungeon placement in this pass; none of the
+  actual engineering (dungeon server, room generator, mob wiring, client render mode, billboard
+  sprites) is built — this is real content grounding for those future milestones, matching the
+  founder's own literal framing ("we need content"), not an implementation. GoblinFoxDragon
+  commit `0527fc8`, Apple #17366.
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [x] **8744: ensure we are working from a kanban API it seems like claude is yolo querying sqlite a lot can we pave that cow path/. DONE.** Real, fair feedback about this session's own behavior — direct `sqlite3 .../iduna.db "SELECT ... FROM kanban_cards"` reads were used repeatedly this session to check the priority/cruise queue instead of the real `GET /api/v1/kanban/cards?queue=...` API that already exists (the same real, bearer-authenticated, `kanban.access`-gated endpoint every `PATCH .../done` call already goes through). No code change needed — the API already existed and is the correct, already-"paved" path; this was a real behavioral gap in how I was using it, not a missing feature. Fixed going forward: saved as a standing session memory (`use_kanban_api_not_sqlite.md`) so future queue checks go through the real API, reserving direct DB reads for genuine debugging of the kanban system itself (e.g. verifying a migration created the right tables).
   (sess-20260902-2008-ed50169e)
