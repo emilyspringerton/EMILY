@@ -27665,3 +27665,23 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   (sess-20260902-2008-ed50169e)
 - [ ] **S205-77: minmax template** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 241: IDUNA PLAYER ACCOUNTS ARE NOT SCOPED PER-GAME (2026-09-02, FOUND NOT FIXED)
+
+- [ ] **S241-01: real, pre-existing gap — IDUNA player accounts work across every game, not just
+  the one they were created for.** Founder, setting up Gary's PAPERCRAFT account: "make sure that
+  account only for papercraft." Investigated (not yet fixed): `player_email_auth.go`'s
+  register/login always stamps a generic `aud: shankpit` claim regardless of which game the
+  account is for, and none of the three real ticket-minting handlers that trust a player JWT
+  (`PapercraftTicketHandler`, `RacerTicketHandler`, `ShankpitTicketHandler`) check `aud` or any
+  other game-identifying claim — each only verifies `sub` is a valid player UUID. The `players`
+  table schema has no game-scope column either. Real, honest consequence: one email/password is
+  currently a single, shared identity across every game trusting IDUNA player JWTs — Gary's
+  account (or any other) can mint a connect ticket for PAPERCRAFT, SHANKPIT, or
+  WEAKNIGHT_BEDROCK_RACERS interchangeably today. Real fix scoped, not built: an optional `game`
+  field on registration, persisted on the player row and stamped into every JWT issued for that
+  player (register AND login), each ticket handler rejecting a JWT whose `game` claim doesn't
+  match its own — an absent claim (every existing account) stays unscoped, backward compatible.
+  Touches shared IDUNA trust-authority code across 3 handlers plus a schema migration — flagged
+  for a deliberate pass, not rushed. Apple #17268 (observation).
+  (sess-20260902-2008-ed50169e)
