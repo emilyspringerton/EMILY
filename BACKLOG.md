@@ -27756,7 +27756,26 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   (sess-20260902-2008-ed50169e)
 - [ ] **S206-96: EMILY_ENTERPRISE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **205: emojis need to work in pitviper and parena editor what do we need to build a custom emoji font or use image files or something?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **205: emojis need to work in pitviper and parena editor what do we need to build a custom
+  emoji font or use image files or something?** Real, checked answer, both halves: **no custom
+  font or image files needed anywhere.** `PITVIPER`: `internal/font/emoji.go`'s own code was
+  real and complete but explicitly untested since its real deps (`libsdl2-ttf-dev`,
+  `fonts-noto-color-emoji`) weren't installed at write time — both confirmed installed now. New
+  `TestColorEmojiRenders` verifies at the actual SDL surface/pixel level: loads the real font,
+  renders 5 real emoji, inspects real pixel data confirming genuine opaque, multi-colored
+  glyphs. `go build/vet/test` all clean. Real, separate, honestly-flagged gap found along the
+  way, not solved here: a full windowed screenshot under this sandbox's own Xvfb setup showed a
+  black frame despite the process running with zero crash and libSDL2 confirmed loaded — a
+  real, unrelated window-compositing issue, verified not to be an emoji-rendering defect (proven
+  separately at the surface level). PITVIPER commit `a4ead16`, Apple #17297.
+  `PARENA` editor: `sdl2.prn`'s own `open-font` is already fully generic — Noto Color Emoji
+  loads as a second `Font` handle with zero new FFI, same design PITVIPER's Go code just
+  verified works. Real, separate, more fundamental prerequisite found: `editor/render.prn`
+  renders a whole token span through one `Font` at a time; mixing emoji needs detecting
+  emoji-range codepoints within a span first, but `string.prn`'s own `char-at` is explicitly
+  byte-indexed, not UTF-8-aware — no function anywhere in this stdlib decodes UTF-8 into real
+  codepoints, confirmed by grep. Documented in `STDLIB.md`, not built — a real, separate scoping
+  pass (a real UTF-8 decoder) needed first. PARENA commit `5368023`, Apple #17298.
   (sess-20260902-2008-ed50169e)
 - [x] **S205-100: intake mixforge legacy conversation northstar it with our stack not the one
   discussed built with parena.** Real, 1901-line legacy conversation (`MIXFORGE/legacy.txt`,
