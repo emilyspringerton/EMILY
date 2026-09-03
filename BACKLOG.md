@@ -18140,13 +18140,20 @@ it, captured here before context-switching to PARENA. None of these are started.
   session. Not scoped past the basic ask; needs a design pass (persistent list vs. rolling feed,
   which events qualify — damage only, or kills/buffs/objectives too) before building. Port to GFD
   fork per the "ui match for both" instruction, same pattern as every other S188 fix.
-- [ ] **S189-03: Team awareness of Kings.** Founder: "also my team is unaware of the 4 kings" —
-  teammates not looking at that part of the map have no way to know a King exists/is up, even
-  after S188-01's rendering fix made Kings visible to whoever IS looking. Real gap, not scoped
-  past the ask — candidate mechanisms (minimap ping/icon when a King is up, an alert on
-  spawn/engage, a chat-log line) not decided. May overlap with S189-02's ping system once that's
-  built (a King-spawn auto-ping is one plausible answer) but not assumed to be subsumed by it
-  without a founder call.
+- [x] **S189-03: Team awareness of Kings — design/spec phase complete, not yet implemented.**
+  Founder: "also my team is unaware of the 4 kings" — teammates not looking at that part of the
+  map have no way to know a King exists/is up, even after S188-01's rendering fix made Kings
+  visible to whoever IS looking. The founder call this card's own note left open ("may overlap
+  with S189-02's ping system... not assumed without a founder call") is now made: extended
+  `PING_SYSTEM_NORTHSTAR.md` §4.5 with a real, system-generated objective alert — fires at
+  `arena_tick_kings`'s own real spawn/respawn moment, reuses the ping wire event's shape as a
+  distinct, non-player-pingable category (a reserved server sentinel, its own icon/sound). Also
+  folded in the founder's own real-time follow-up ("if a bot wants to take on a king they can
+  send out a ping to group up before going in") into §7's bot emission triggers — Assist Me at
+  the camp position before committing, reusing the existing vocabulary. Real, honest state:
+  design phase complete, matching S189-02's own already-accepted pattern — zero game code
+  written yet. REDGARDEN commit `d05a550`, Apple #17276.
+  (sess-20260902-2008-ed50169e)
 - [ ] **S189-04: Flow upkeep tax — bounty-style comeback mechanic.** Founder: "also add an
   upkeep tax on flow in REDGARDEN and GFD battlegrounds the more resources you have collected the
   more flow you are worth to the other team" → "as a come back mechanism" → "so if the winning
