@@ -29166,14 +29166,35 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   verified: a real scaffold builds, runs, and prints the correct output, and a second
   `parena new` on the same name correctly refuses to overwrite it. `make test`: 345/345, zero
   regressions. PARENA commit `cafaf2f`. Apple #17514. (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-999: ok we need to build the hat store  WOTAN you can buy upgraded hats for brawlpit using flow from GFD plan nortgstar it** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-998: IMPLEMENT vs0 GO WOTAN you can buy upgraded hats for brawlpit using flow from GFD plan nortgstar it** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **WOTAN-999 / WOTAN-998: ok we need to build the hat store WOTAN you can buy upgraded hats
+  for brawlpit using flow from GFD plan nortgstar it / IMPLEMENT vs0 GO... plan nortgstar it —
+  treated as one unified planning ask, per `WOTAN-999`'s own explicit "plan northstar it"
+  framing.** New `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md`, golden doc
+  `WOTAN-HAT-STORE-NORTH`. Real, decisive finding: GFD's own real, already-live Flow currency
+  (`Player.flow` in `GoblinFoxDragon/apps2/mud/main.go`, already used for real buy/sell/
+  travel-cost mechanics) has **no external API today** — it only exists as in-process MUD server
+  state. This is not a new problem this feature invents — it's the exact same real gap kanban
+  cards `3213432`/`345234` already name ("build flow API bindings into papercraft... IDUNA game
+  accounts dont have game boundaries"), named directly here rather than silently re-derived or
+  duplicated. Real 4-phase plan: Phase 0 (the real external Flow API prerequisite — belongs to
+  cards `3213432`/`345234` directly, not re-planned here), Phase 1 (a real hat catalog/inventory
+  data model, following `GoblinFoxDragon/docs2/INVENTORY_EQUIPMENT_NORTHSTAR.md`'s own real,
+  existing precedent), Phase 2 (the real WOTAN store page, gated on IDUNA login), Phase 3 (real
+  BRAWLPIT-side cosmetic rendering — an honestly-named, unresolved technical question, not
+  designed here). BRAWLPIT commit `cf254a2`. Apple #17518. Planning only — no code written.
   (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type it twice have the field like hidden with the eye thing** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-996: ITERATE WOTAN you can buy upgraded hats for brawlpit using flow from GFD make it so users can draw their own hats in a pixel editor** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **WOTAN-996: ITERATE WOTAN you can buy upgraded hats for brawlpit using flow from GFD make
+  it so users can draw their own hats in a pixel editor.** Folded into the same unified
+  `WOTAN_HAT_STORE_NORTHSTAR.md` plan as `WOTAN-999`/`WOTAN-998` (see that entry above) — real
+  Phase 4: a real, canvas-based pixel editor on the WOTAN page itself, producing a user-drawn hat
+  image alongside Phase 1's own catalog. Real, honest, named open questions, not resolved:
+  content moderation for a public, player-visible pixel editor (the same real class of question
+  `EMILY_FOR_BUSINESS_NORTHSTAR.md`'s own self-signup/abuse-policy question already named for a
+  different feature), and a real cost model for a user-drawn hat (flat Flow price? free? — a
+  real, founder-level product decision, not resolved here). BRAWLPIT commit `cf254a2`.
+  Apple #17518. Planning only. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** Added via the IDUNA kanban interface, not yet triaged into a real section.
