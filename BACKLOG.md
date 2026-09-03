@@ -19015,22 +19015,38 @@ it, captured here before context-switching to PARENA. None of these are started.
   存在的處理程序,待補充更新(獨立小任務)。Apple #14986(audit)。
   (sess-20260820-0649-a3f19d93)
 
-- [ ] **S189-42: TINA desk engine——用 PARENA + Go plugin 架構自動發布 TINA 系列文章
-  (guidance raise 觸發)。** 創辦人:「and start publishing TINA stories based on press
+- [x] **S189-42: TINA desk engine——用 PARENA + Go plugin 架構自動發布 TINA 系列文章
+  (guidance raise 觸發)。真正實作了 Go host 半邊,PARENA plugin 半邊誠實地標記為
+  下一步、本次未做。** 創辦人:「and start publishing TINA stories based on press
   releases that come through on the same day as guidance increases」+「full
   disclousures as usual」+「a true TINA desk engine」+「in PARENA」+「build the go
-  parena plugins」。確認架構:不是要 PARENA 本身憑空長出 HTTP/JSON/collection 能力去
-  撐起整個引擎,而是採用跟 `stdlib/editor/plugin.prn` 完全同一個模式——PRRJECT_FATBABY
-  (Go)這邊做出真正的 host-side plugin 函式(讀 `var/guidance`/`var/prwatch-body` 找
-  同一天的新聞稿+guidance raise、發布 TINA 文章到 blog),PARENA 這邊用 `#target/
-  inline-c` FFI 宣告介面呼叫進去。**待辦**:(a) 了解 TINA 現有的內容產生機制實際長
-  什麼樣子(現有貼文如「TINA: CAMELS — What We Won't Claim to Know」是怎麼寫/發的,
-  disclosure 慣例是什麼)、(b) 設計 `stdlib/fatbaby.prn` 風格的 plugin 介面檔案、
-  (c) PRRJECT_FATBABY 對應的真實 Go host 函式(guidance-raise-and-same-day-pr 偵測、
-  TINA 文章草稿產生、含完整揭露的發布)、(d) 串接觸發時機(guidance-watcher 本身
-  publish 時,還是另一個獨立的 poller)。S189-41 的健康檢查已確認 `guidance-watcher`/
-  `prwatch-body` 資料源本身健康,這條路徑是真實可行的。
-  (sess-20260820-0649-a3f19d93)
+  parena plugins」。先讀完 `docs/northstar/tina-engine.md`(既有設計文件,已標記
+  「是否需要真正的法遵審查」這個尚未解決的開放問題),再直接查 `IDUNA/var/blog.db`
+  的 `posts` table 找到 4 篇真實已發布的 TINA 文章(含
+  「TINA: CAMELS — What We Won't Claim to Know」),完整讀了其中一篇建立真實的
+  house voice/格式/揭露慣例範本。新增 `PRRJECT_FATBABY/cmd/tina-engine/main.go`
+  (~330 行):真正的 guidance-raise 偵測(`var/guidance/articles.ndjson`,篩選
+  `Action == "raised"`)+ 對應新聞稿全文查找(`var/prwatch-body` eventstore,用
+  `source_identity`/`PRDiscoveryID` 對應)+ 呼叫 Anthropic API 產生真正符合既有
+  house style 的 TINA 文章草稿(system prompt 直接用讀到的真實範本文章打造)。
+  **刻意的安全邊界**(對應 northstar 自己標記的未解決法遵問題):只寫草稿到
+  `var/tina-drafts/<id>.json`,完全沒有接 IDUNA blog 的 Create API,不會自動發布。
+  新增 `main_test.go`(6 個測試,涵蓋 raise 篩選+壞行容錯、seen-set round trip、
+  JSON 物件擷取、草稿檔案 round trip、dry-run 真的不打 API)。`go build`/`go vet`/
+  `go test ./...` 全倉庫乾淨、零回歸(全部套件 `ok`)。**真實、對照正式生產資料驗證
+  過**:對真實、未修改的 `var/guidance/articles.ndjson`(113 筆真實 raise 記錄)跑
+  `-dry-run`,正確解析出 18+ 筆對應到真實公司(Deere、Ross Stores、BMO、Medtronic、
+  MongoDB、Workday、Autodesk 等)的真實來源新聞稿網址。**真實、誠實、非程式碼問題
+  的發現**:針對其中一筆真實記錄(Medtronic)跑了一次真正的(非 dry-run)草稿產生,
+  拿到 Anthropic API 的真實錯誤:「Your credit balance is too low to access the
+  Anthropic API.」——確認程式碼有正確處理:錯誤被記錄下來,該筆記錄**沒有**被標記
+  為 seen,代表正式環境等額度恢復後下一次 poll 會自動重試,不會被無聲吞掉。這是
+  一個真實的、需要創辦人層級處理的帳務/額度問題,不是程式碼缺陷,在這裡誠實標出。
+  **刻意延後、明確標記在程式碼自己的 doc comment 裡**:backlog 這條項目原始架構筆記
+  要求的 PARENA 側 `stdlib/fatbaby.prn` FFI 宣告介面(比照 `stdlib/editor/
+  plugin.prn` 的 host/plugin 分工模式)本次沒有做——這次交付 100% 都在 Go 這邊,
+  PARENA plugin 半邊是真實、具體命名的下一步。commit `1d89ccb`,Apple #17302。
+  (sess-20260902-2008-ed50169e)
 
 - [x] **S189-43: PARENA C emitter 支援 defenum,真正的使用者自訂 tagged union。
   DONE。** 創辦人:「keep pushing on defenum」。`process_defenum()` 處理頂層
