@@ -28311,3 +28311,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **1111: IDUNA UNIFIED SEARCH INTERFACE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **4444: GFD add dungeons - we need content - make it like DIABLO in terms of how the procedural dungeons work use the hero compendium to design bosses for the named dungeons** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
