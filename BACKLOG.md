@@ -28515,3 +28515,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   沒有寫任何一行真正的引擎程式碼——比照 container/lxc、Moltbook 等同類巨大構想在動筆前先
   規劃的處理方式。
   (sess-20260902-2008-ed50169e)
+- [ ] **321442321: source engine parity modeling eyes** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
