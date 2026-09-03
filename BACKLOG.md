@@ -29438,3 +29438,5 @@ services survive the way their own unit files already intend.
   (sess-20260902-2008-ed50169e)
 - [ ] **IUSX-003: IDUNA UNIFIED SEARCH - i need a way to brouse the newest golden docs through iduna unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **IDUXN-003: kanban needs a quick filter at the top to help me find cards quick when i think of one that needs to move filtering on the card name priority over the rest of the text iduna index** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
