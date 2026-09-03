@@ -28882,3 +28882,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   only — no code written, matching this stage's own "northstar first" framing. (sess-20260902-2008-ed50169e)
 - [ ] **SIP-001: what software do we need to build io be the pipes between our sipphone clients (yet to be built) and twillio do research and planning on what parena deps scratch built** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **CPCORE-001: SMS stdlibs we need to forward messages from sms network into the mesgh network** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
