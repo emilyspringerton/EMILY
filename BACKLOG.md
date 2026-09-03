@@ -27812,6 +27812,30 @@ shipped in this section itself; this is planning work, matching the card's own l
   not alongside, the server work. Real next step: scope a PARENA HTTP server (`net/http.prn`
   `serve`) as its own dedicated PARENA backlog item before any MixForge web-app work starts.
 
+- [x] **S243-05: EMILY_FOR_BUSINESS licensing — "The Emily License v0" + Trademark Policy. DONE.**
+  Founder real-time, two follow-ups on S243-02's own work: "EMILY_FOR_BUSINESS repo created the
+  license will be source available and we license the actual name of the product like chef model
+  can we write a license based on the chef license?" then "write that emily for business cant be
+  offered as a platform and also we need to limit our own liablility can you write The Emily
+  Licens v0?" Real research first, not assumed: Chef Software's own code is actually Apache 2.0
+  (fully open source) — the real "Chef model" is a separate Trademark Policy (anyone may
+  redistribute the code, but must strip Chef's own branding; only Chef's official builds carry
+  the Chef name), not a source-available code license. Confirmed with the founder via
+  AskUserQuestion which base to use for the code license itself (a plain custom restriction, not
+  an existing named license family like BSL/Elastic) and confirmed a separate `TRADEMARK.md`
+  matching the real Chef split. New `EMILY_FOR_BUSINESS/LICENSE.md` ("The Emily License v0"):
+  internal use/modification permitted; explicitly, plainly states the software cannot be offered
+  as a platform/hosted/managed service to third parties or redistributed without a separate
+  commercial agreement; real, explicit Section 5 limitation-of-liability clause (damages cap,
+  no-indirect-damages, an honest note on jurisdiction-dependent enforceability). New
+  `TRADEMARK.md`: separate name/branding policy modeled directly on Chef's real, checked model.
+  **Real, honestly named gap**: neither document has been reviewed by a lawyer — both explicitly
+  flag this as a real, necessary next step before either is relied on as binding, matching this
+  session's own established discipline. New repo scaffolded (README/CLAUDE.md/CHANGELOG,
+  upstream had been pre-created empty) and registered in the root MONOREPO CLAUDE.md.
+  EMILY_FOR_BUSINESS commit `5289bb9`, MONOREPO commit `fba0421`, Apple #17315.
+  (sess-20260902-2008-ed50169e)
+
 - [x] **210-101: sprint plan the items in the CRUISE column. DONE.** Triaged the 4 raw,
   un-triaged cruise-queue kanban cards above (S243-01 through S243-04) — each now has a real,
   checked scope and a concrete next step, replacing a bare one-line ask. Two genuine, decisive
