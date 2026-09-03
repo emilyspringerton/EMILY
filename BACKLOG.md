@@ -29041,3 +29041,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **PBX-003: either iterate more towards native pbx or more towards asterisk depending on what is actually working after we get the first two parts added** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PX-099: PARENA SCAFFOLD TOOL SCAFFOLD OUT SHITHUB** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
