@@ -27877,6 +27877,39 @@ shipped in this section itself; this is planning work, matching the card's own l
   PRRJECT_FATBABY commit `5876dce`, EMILY commit `3ce5633e`, Apple #17320.
   (sess-20260902-2008-ed50169e)
 
+- [x] **S243-07: IDUNA_PRO v0 -- real, extracted, standalone core IAM service, live-verified.
+  DONE.** Founder: "IDUNA_PRO created" (upstream, empty, matching the `EMILY_FOR_BUSINESS`/`LO`/
+  `MIXFORGE` precedent) then, mid-follow-up: "so we use our IDUNA to manage the free trials for
+  emily for business." Extracted the real "core candidates" list from S243-06's own
+  categorization: `internal/auth` (Google OAuth, ES256 JWT hand-rolled on `crypto/ecdsa`, M2M
+  agent auth, device flow), `internal/store` (SQLite+MySQL, migrations engine),
+  `internal/userlog` (unified logging backend + local-user event log/projector),
+  `internal/util`, `internal/http/middleware`, plus core handlers (Google/local/agent/device
+  auth, JWT refresh, self-serve registration, `/me`, users, agents, Apples, unified logging).
+  **Checked directly before copying**: zero cross-imports from these into any of IDUNA's own
+  custom packages — the categorization held under a real extraction, not just inspection. New
+  standalone `go.mod` (module `idunapro`, `GOWORK=off`), new `main.go`, 7 core migration files
+  (EINHORN-specific `system_seeds.sql`/`cluster_heartbeats.sql` deliberately excluded). `go
+  build/vet/test ./...` clean. **Live-verified, not just compiled**: booted the real binary
+  against a fresh SQLite file (migrations created exactly the expected core tables, none of the
+  excluded ones); confirmed `/health`, a real ES256 key from `/.well-known/jwks.json`, a real
+  self-serve `POST /api/v1/auth/register` issuing a real JWT, and `POST /api/v1/auth/local`
+  correctly rejecting bad credentials. **Real, honest, found gap, not fixed here**: `GET
+  /api/v1/identities/me` doesn't resolve a local-auth JWT subject (`local:<N>`) — confirmed
+  pre-existing in IDUNA's own `store.GetUserByID`, not introduced by the extraction, named
+  because it matters more for a self-serve-auth-first product. Also wrote a real, phased
+  extensibility plan (founder: "how do we abstract the primitives of the stuff we left out to
+  let people build on top... PARENA mods built in I guess — we could even provide an online
+  parena editor"): customer-side PARENA mods compiled via `BURROW`'s native Go emission target
+  (not PARENA's own C target — `IDUNA_PRO`'s host is Go, the same real reason `DUNG` needs the
+  Go target too, zero cgo/FFI boundary), with `JEWEL` named as a real, already-existing
+  precedent for an eventual online editor that needs real adaptation (different execution model
+  for the Go target vs. JEWEL's own C-target compile-and-run flow), not a direct reuse. Neither
+  the extensibility hook contract, docs site, nor online editor were built in this pass — named,
+  phased, deferred. IDUNA_PRO commits `2765e1e`/`af423d1`, IDUNA commit `fae8f23`, MONOREPO
+  commit `14fa7e5`, Apple #17323.
+  (sess-20260902-2008-ed50169e)
+
 - [x] **210-101: sprint plan the items in the CRUISE column. DONE.** Triaged the 4 raw,
   un-triaged cruise-queue kanban cards above (S243-01 through S243-04) — each now has a real,
   checked scope and a concrete next step, replacing a bare one-line ask. Two genuine, decisive
