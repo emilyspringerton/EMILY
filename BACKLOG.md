@@ -29434,3 +29434,5 @@ services survive the way their own unit files already intend.
   D-Bus session?) and get the existing, already-written `ops/systemd/*.service` units actually
   enabled, so a future crash doesn't require another manual incident-response pass like this one.
   (sess-20260902-2008-ed50169e)
+- [ ] **IDUNA_PRO-0003: confluence style golden doc editor** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
