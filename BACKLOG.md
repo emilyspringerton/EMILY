@@ -28993,6 +28993,27 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   header-rewriting) Asterisk has already solved for years. Flagged as a real founder-level
   speed-vs-dogfooding decision, not resolved unilaterally. PARENA commit `84cec7d`. Apple #17490.
   (sess-20260902-2008-ed50169e)
+- [x] **PXCL-001: PX-we need a batteries included cli tool to generate scaffolding and stuff for
+  us build it into burrow so it can help us manage both the go and prn side of things.** New,
+  real `burrow new <name>` subcommand. Generates a real, immediately-runnable starter:
+  `<name>.prn` (a minimal PARENA decision-logic module), `main.go` (a real Go host importing its
+  own compiled `internal/burrowgen` package, the same real shape `IDUNA_PRO/cmd/idunapro` already
+  established), and `go.mod` — then actually runs the new `.prn` through `EmitGo` AND a real
+  `go build ./...` before returning success, so a broken scaffold is a real, honest failure in
+  this command itself, never silently handed to the user (not a template-only tool). Real,
+  deliberate v0 scope: the Go target only — BURROW's own real differentiator over plain `parena`
+  (PARENA decision logic called directly from a real Go host, no cgo/FFI) is exactly the pattern
+  worth scaffolding first; refuses to overwrite an existing directory. `go test`: 101/101 (2 new).
+  Real, live, end-to-end proof, not just unit tests: ran the actual built `burrow` binary
+  (`burrow new demo_mod`) in a real scratch directory, then `go run .` against the result —
+  printed the real, correct `Hello from demo_mod!`. BURROW commit `47e1246`. Apple #17495.
+  (sess-20260902-2008-ed50169e)
+- [ ] **HWLAB: WATERPROOF BT KEYBOARD** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **PBX-001: Build the narrow scope parena PBX primativews pass think low level close to the metal primatives like what does asterisk need to build on top of do that stuff fiirst** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **PBX-002: full featured PBX add asterisk bindings to parena whatever needs to fill in the gaps between our low level implementation and a real deal** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **PX-333: PARENA SCAFFOLD NEW NEEDS TO GENERATE BAZEL BY DEFAULT WE WILL FIGURE OUT A
   FALLBACK LATER.** `burrow new <name>` (this same session's own real answer to `PXCL-001`) now
   also generates real Bazel files by default: `MODULE.bazel` (`bazel_dep`/`git_override` pinning
@@ -29017,25 +29038,4 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   Bazel fetched `@burrow` from GitHub at the pinned commit, the genrule correctly compiled the
   `.prn` file, and the resulting binary printed the real, correct output. BURROW commits
   `977dd9e` (LO-file fix), `9e006a0`/`bb5e4c5` (Bazel exposure + generation). Apple #17498.
-  (sess-20260902-2008-ed50169e)
-- [x] **PXCL-001: PX-we need a batteries included cli tool to generate scaffolding and stuff for
-  us build it into burrow so it can help us manage both the go and prn side of things.** New,
-  real `burrow new <name>` subcommand. Generates a real, immediately-runnable starter:
-  `<name>.prn` (a minimal PARENA decision-logic module), `main.go` (a real Go host importing its
-  own compiled `internal/burrowgen` package, the same real shape `IDUNA_PRO/cmd/idunapro` already
-  established), and `go.mod` — then actually runs the new `.prn` through `EmitGo` AND a real
-  `go build ./...` before returning success, so a broken scaffold is a real, honest failure in
-  this command itself, never silently handed to the user (not a template-only tool). Real,
-  deliberate v0 scope: the Go target only — BURROW's own real differentiator over plain `parena`
-  (PARENA decision logic called directly from a real Go host, no cgo/FFI) is exactly the pattern
-  worth scaffolding first; refuses to overwrite an existing directory. `go test`: 101/101 (2 new).
-  Real, live, end-to-end proof, not just unit tests: ran the actual built `burrow` binary
-  (`burrow new demo_mod`) in a real scratch directory, then `go run .` against the result —
-  printed the real, correct `Hello from demo_mod!`. BURROW commit `47e1246`. Apple #17495.
-  (sess-20260902-2008-ed50169e)
-- [ ] **HWLAB: WATERPROOF BT KEYBOARD** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **PBX-001: Build the narrow scope parena PBX primativews pass think low level close to the metal primatives like what does asterisk need to build on top of do that stuff fiirst** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **PBX-002: full featured PBX add asterisk bindings to parena whatever needs to fill in the gaps between our low level implementation and a real deal** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
