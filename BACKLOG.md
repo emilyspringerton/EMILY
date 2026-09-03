@@ -29347,3 +29347,34 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **PC-CALI-001: PAPERCRAFT underwater mod vs0 punching sharks in the face** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 248: BRAWLPIT MATCHMAKING PORTAL — SUBTASK PLANNING (2026-09-03)
+
+Real sub-tasks returned per Principle 19's own scoping of `BP-LOBBY-001` (see above), from
+`BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md`'s 5-phase plan. Note: kanban `BP-WOTAN-ML-000`
+("get online matchmaking working right away... same model as ecowar... 1v1 human and bot pool")
+overlaps directly with S248-01/S248-02 below — whoever picks either up should check both cards,
+not duplicate the work.
+
+- [ ] **S248-00: Real arena client-server netcode (Phase 0, blocking).** Wire up the real
+  `net_send_cmd`/`net_tick` calls in `apps/lobby/src/main.c` (currently commented out) so
+  `STATE_GAME_NET` actually sends/receives real input and snapshots, following
+  `docs/net_plan.md`'s already-agreed shape (server-authoritative sim, client prediction,
+  reconciliation) applied to the arena `ServerState`. DoD: two real processes fight over
+  loopback UDP with correctly reconciled state on both ends. Nothing below is buildable first.
+- [ ] **S248-01: Server-side matchmaking queue (Phase 1).** Real queue: hold a "find match"
+  client until 8 have queued or a real timeout fires (bot-fill the rest, reusing existing
+  `bot_think` from `packages/simulation/local_game.h` — same real model `BP-WOTAN-ML-000` names
+  from ECOWAR). Emits a real "match found" message once full.
+- [ ] **S248-02: Client-side portal trigger volume (Phase 2).** A real, physical trigger in the
+  lobby scene (same pattern as `T` opening TIPJAR) that calls the Phase 1 queue request instead
+  of a keypress; shows real, live queue status while waiting.
+- [ ] **S248-03: `MODE_SANDBOX` damage-suppression flag (Phase 3).** New `ServerState.mode`
+  flag; gate `apply_knockback` and any direct `damage_percent`/`hitstun_frames` mutation (e.g.
+  `special_petrify_gaze`) on it, so abilities still fire/animate but deal no real damage. Keep
+  existing blast-zone/respawn positioning; "no lives" just means stocks never deplete in this
+  mode.
+- [x] **S248-04: "No chat" — explicit non-task.** No chat system exists anywhere in this repo
+  today (checked: no chat UI, no chat packet type in `protocol.h`) — "no chat" for this card
+  means don't build one, not remove one. Named directly in the NORTHSTAR so a future pass
+  doesn't misread this as chat-moderation work. (sess-20260902-2008-ed50169e)
