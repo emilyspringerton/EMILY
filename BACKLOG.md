@@ -28741,3 +28741,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **K8S-0002: cloud container clusters create-auto <CLUSTER_NAME> \     --region=<REGION>** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **K8S-0000: evaluate all of our services in systemd and create a staged kubernetes service migration plan** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
