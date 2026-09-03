@@ -29343,3 +29343,5 @@ whole card marked done on the strength of a scoping doc alone.*
   warnings). BRAWLPIT commit `fd0b8d3`. Apple #17533. (sess-20260902-2008-ed50169e)
 - [ ] **TIPJAR-0001: iterate on gameplay of TIPJAR the mechanics are sort of there but we need a lot of polish theres no way to serve drinks shift randomly ends** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BP-WOTAN-ML-000: get online matchmaking working right away we need to start recording the games so we can improve the bot in brawlpit same model as ecowar is right now 1 v 1 human and bot pool** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
