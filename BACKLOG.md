@@ -27776,6 +27776,14 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
   `ae5812be`, Apple #17286.
   (sess-20260902-2008-ed50169e)
+- [ ] **S206-601: iterate on mixforge** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **S207-68: KANBAN i should have the ability to sort the cards in a column** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **S205-509: CONTINUE WORKING ON DUNG IDE write it in LO.** Investigated a real "write DUNG
   in LO" integration against `LO`'s own real, current compiler — found two real, compounding
   blockers, checked directly, not assumed: (1) LO's own arithmetic is mod-4 by design
@@ -27803,12 +27811,4 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   `gcc -Wall -Wextra` → run, correct result (710 for a 1440-wide rect, 20px border). DUNG's own
   `NORTHSTAR.md` updated with the real, narrower current Phase 2 scope (structs passed in and
   read, not yet constructed). DUNG commit `1647b97`, Apple #17293.
-  (sess-20260902-2008-ed50169e)
-- [ ] **S206-601: iterate on mixforge** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **S207-68: KANBAN i should have the ability to sort the cards in a column** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
