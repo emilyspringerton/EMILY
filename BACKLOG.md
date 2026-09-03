@@ -27866,11 +27866,6 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [x] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Triaged into
-  SECTION 243 as S243-02, per the 210-101 cruise-column sprint-planning pass — S243-02 itself is
-  now DONE (real product-scoping NORTHSTAR written, `IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`,
-  Apple #17311). See S243-02's own entry for full detail.
-  (sess-20260902-2008-ed50169e)
 - [x] **S205-509: CONTINUE WORKING ON DUNG IDE write it in LO.** Investigated a real "write DUNG
   in LO" integration against `LO`'s own real, current compiler — found two real, compounding
   blockers, checked directly, not assumed: (1) LO's own arithmetic is mod-4 by design
@@ -27969,4 +27964,9 @@ shipped in this section itself; this is planning work, matching the card's own l
   210-101 cruise-column sprint-planning pass — S243-01 itself is now DONE (real V0 YouTube-URL
   track import shipped, PARENA commit `77401dc`, Apple #17309). See S243-01's own entry for
   full detail.
+  (sess-20260902-2008-ed50169e)
+- [x] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Triaged into
+  SECTION 243 as S243-02, per the 210-101 cruise-column sprint-planning pass — S243-02 itself is
+  now DONE (real product-scoping NORTHSTAR written, `IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`,
+  Apple #17311). See S243-02's own entry for full detail.
   (sess-20260902-2008-ed50169e)
