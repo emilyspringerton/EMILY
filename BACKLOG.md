@@ -29201,6 +29201,16 @@ whole card marked done on the strength of a scoping doc alone.*
   BRAWLPIT-side cosmetic rendering — an honestly-named, unresolved technical question, not
   designed here). BRAWLPIT commit `cf254a2`. Apple #17518. Planning only — no code written.
   (sess-20260902-2008-ed50169e)
+  **Status update: kanban follow-up "IMPLEMENT vs0 GO... store interface make it nice." DONE
+  (real Phase 2 visual first draft, not the full store).** New `OKEMILY/hats.html`, deployed
+  live at `https://okemily.com/hats.html` (confirmed 200, real title). A real, polished, honest
+  visual first draft matching the site's own existing dark/light CSS design system exactly — 6
+  placeholder hats (real, generic icons, no Prompt-o-verse art commissioned yet), a Flow-balance
+  panel showing "link your account" rather than fake data, and every purchase/link control
+  clearly, honestly disabled ("Coming Soon") — real Phase 0 (the Flow-balance API) still doesn't
+  exist, so this deliberately does NOT fake a working purchase flow. `OKEMILY/tournaments.html`
+  gets a real new section linking to it. OKEMILY commit `2b4eed0`. Apple #17529.
+  (sess-20260902-2008-ed50169e)
 - [~] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type
   it twice have the field like hidden with the eye thing.** Real, checked-live investigation
   found this was genuinely bigger than the literal ask — no email/password signup HTML exists
