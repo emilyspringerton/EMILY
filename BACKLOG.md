@@ -29112,3 +29112,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **PARENA-99999: what kinds of apis does powershell have to manage systems and are we missing any of those affordances or primatives in the current language and implementation of parena and the stdlib?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **ParenaAlpine-001: ok so lets build our parena alpine distro first with docker and then into raspi** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
