@@ -29282,3 +29282,5 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-fix: i think turnip projectiles are broken for petalia and for rosie - fix and then put the full moves and combo list into the readme** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BP-TUNE-0033: make rosie direction B do a double hit dash ability it does damage at the beginning and end of the dash and in the middle shes totally invuln like SSB dodge** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
