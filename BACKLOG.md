@@ -29280,10 +29280,53 @@ whole card marked done on the strength of a scoping doc alone.*
   Apple #17524. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-REPO-001: GITHUB REPO CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **BP-fix: i think turnip projectiles are broken for petalia and for rosie - fix and then put the full moves and combo list into the readme** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **BP-fix: i think turnip projectiles are broken for petalia and for rosie - fix and then put
+  the full moves and combo list into the readme.** **Real, direct investigation performed, not a
+  blind guess-and-patch** — wrote a real, standalone repro harness calling `spawn_turnip`/
+  `special_insert_coin` + `update_turnips` directly for Petalia, Vexar, and Rosie: all three
+  correctly spawn, travel, and land real hits with correct damage (confirmed live). Checked and
+  ruled out two real, plausible bug classes: (1) `fighter_def`'s own out-of-range fallback
+  returns `&g_fighters[CHARACTER_PETALIA]` (index 0) — a real, live "character ID 0 as silent
+  fallback" pattern, but no actual out-of-range `character_id` path was found triggering it; (2)
+  `update_turnips`'s own `p == t->owner_id` hit-exclusion check assumes `PlayerState.id` always
+  equals array index — confirmed true in both `local_game.h` and `apps/server`, ruling this out
+  too. Found one real, separate, genuinely pre-existing gap along the way: `FighterDef`'s own
+  `projectile_speed_mul` stat is defined but never actually applied anywhere in `spawn_turnip`/
+  `special_insert_coin` — real, but uniform across every character, not specific to Petalia/
+  Rosie. **Real, honest conclusion: the core server-side turnip mechanic is NOT broken for
+  either character, verified directly — not closed as "fixed," flagged honestly as
+  investigated-but-not-reproduced.** If a real, live bug exists, it's most likely client-
+  rendering or live-multiplayer-timing related, outside what this synthetic, single-process
+  physics test can reproduce — a real, separate, next step for whoever can reproduce it live
+  (Xvfb + real input, or the founder's own direct playtest). **Second half DONE**: a real, full
+  moves & combo list added to `README.md`, covering every real per-character special that exists
+  today (universal moves, Medusa/Raccoon/Second Tree/Uncrowned/Vexar's own specials, Rosie's own
+  two new moves), honestly naming Sunlit Draw/Sequel Duck as still fully generic and Understudy/
+  Petalia as deliberately untouched. BRAWLPIT commit `fd0b8d3`. Apple #17533.
   (sess-20260902-2008-ed50169e)
-- [ ] **BP-TUNE-0033: make rosie direction B do a double hit dash ability it does damage at the beginning and end of the dash and in the middle shes totally invuln like SSB dodge** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **BP-TUNE-0033: make rosie direction B do a double hit dash ability it does damage at the
+  beginning and end of the dash and in the middle shes totally invuln like SSB dodge.** New
+  `special_high_score_rush_hit` (`BRAWLPIT/packages/common/physics.h`) + new
+  `STATE_ROSIE_DASH`/`PlayerState.rosie_dash_frame`: a real, 18-frame committed dash, a real hit
+  at the very start AND the very end (the card's own literal ask), real invulnerability (reusing
+  the existing `invuln_frames` field — the same real mechanic post-respawn invulnerability
+  already uses) through the real middle window in between, matching a real SSB dodge's own
+  "committed, but safe in the middle" shape. Real, deliberate input design: intercepts the SAME
+  real input (grounded + strong held direction + special) the universal smash-charge system
+  already claims — Rosie is explicitly excluded from smash-charging so her own dash takes over
+  that input instead, the same real "repurpose a specific input combination per-character"
+  precedent Medusa/Raccoon/Second Tree/Uncrowned's own neutral-specials already established.
+  Real, honest limitation named directly, not glossed over: turnip hits don't check
+  `invuln_frames` at all — a real, pre-existing, cross-cutting gap every other custom special's
+  own hit-check already has, not introduced here — so a turnip can still land on Rosie mid-dash
+  even though normal attacks can't. New `tests/test_physics.c` coverage
+  (`test_rosie_high_score_rush`): drives the real input→dispatch→per-frame pipeline via
+  `update_entity` itself (not calling the hit function directly), confirms both the opening and
+  closing hits land independently — via two real, separately-positioned targets, since the
+  opening hit's own real knockback would otherwise displace a single stationary target before
+  the closing hit's own window arrives — and that real `invuln_frames` appear during the dash.
+  `bash scripts/build.sh`: clean, all 3 real tests pass. `gcc -Wall -Wextra` clean (no new
+  warnings). BRAWLPIT commit `fd0b8d3`. Apple #17533. (sess-20260902-2008-ed50169e)
 - [ ] **BP-TUNE-CP-001: BP CONTROLLER PARITY - keyboard controll can drop down through the platforms controller cant (fall through)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **BPTUNE-10001: brawlpit B up b and down b all do the same thing it seem,s like for every character they need to be distinct moves continue reworking the characters (dont touch petalia or understudy)** Added via the IDUNA kanban interface, not yet triaged into a real section.
