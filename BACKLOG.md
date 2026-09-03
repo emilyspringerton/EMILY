@@ -29220,7 +29220,7 @@ whole card marked done on the strength of a scoping doc alone.*
   `af7ef0b`, Apple #17528. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`).
   (sess-20260902-2008-ed50169e)
 - [x] **WOTAN-996: ITERATE WOTAN you can buy upgraded hats for brawlpit using flow from GFD make
   it so users can draw their own hats in a pixel editor.** Folded into the same unified
@@ -29344,4 +29344,6 @@ whole card marked done on the strength of a scoping doc alone.*
 - [ ] **TIPJAR-0001: iterate on gameplay of TIPJAR the mechanics are sort of there but we need a lot of polish theres no way to serve drinks shift randomly ends** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-WOTAN-ML-000: get online matchmaking working right away we need to start recording the games so we can improve the bot in brawlpit same model as ecowar is right now 1 v 1 human and bot pool** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **PC-CALI-001: PAPERCRAFT underwater mod vs0 punching sharks in the face** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
