@@ -28945,7 +28945,16 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **HW-003: SERIAL STDLIBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **SIPX-001: dont we need to build an asterisk equivalent or whatever routs our calls to our sip?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **SIPX-001: dont we need to build an asterisk equivalent or whatever routs our calls to our
+  sip?** Real, direct answer added as an addendum to `PARENA/docs/SIP_TWILIO_GATEWAY_NORTHSTAR.md`
+  (this same session's own real SIP-001 plan): **yes — that doc's own Phase 1-2 already IS the
+  Asterisk equivalent** (a real B2BUA/SIP proxy routing calls between our clients and Twilio's
+  trunk plays the same real role Asterisk/FreeSWITCH/Kamailio play in a traditional PBX). Named
+  the real, honest build-vs-adopt tradeoff explicitly rather than silently defaulting to either
+  choice: real Asterisk is mature/full-featured and routes calls sooner; the narrow PARENA-native
+  B2BUA already planned dogfoods the language but re-derives real protocol logic (SIP proxy
+  header-rewriting) Asterisk has already solved for years. Flagged as a real founder-level
+  speed-vs-dogfooding decision, not resolved unilaterally. PARENA commit `84cec7d`. Apple #17490.
   (sess-20260902-2008-ed50169e)
 - [x] **CPCORE-001: SMS stdlibs we need to forward messages from sms network into the mesgh
   network.** Real, direct continuation of `CarePyre/docs/MESH_NETWORK_RESEARCH.md` (S184-02),
