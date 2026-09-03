@@ -2374,6 +2374,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (via kanban priority queue): TINA desk engine -- auto-publish TINA articles on guidance raises using …** — obs `2026-09-03T02:41:25Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time: refine EMILY_FOR_BUSINESS license -- name it 'The Emily License v0', make explicit that Emily for Bu…** — obs `2026-09-03T03:20:13Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time: EMILY_FOR_BUSINESS repo created; wants a source-available license that also protects/licenses the pr…** — obs `2026-09-03T03:16:13Z`. CURATED: 2026-09-03.
+- [ ] **Founder real-time, continuing the IDUNA_PRO thread: 'so we use our IDUNA to manage the free trials for emily for busine…** — obs `2026-09-03T03:30:53Z`. CURATED: 2026-09-03.
+- [ ] **Founder real-time: multi-tenant IDUNA as a platform, IDUNA_PRO under Emily for Business -- free trial self-serve tenant…** — obs `2026-09-03T03:29:46Z`. CURATED: 2026-09-03.
+- [ ] **Founder real-time: Emily for Business multi-tenancy architecture direction -- IDUNA multi-tenant via DB-per-install, ne…** — obs `2026-09-03T03:24:17Z`. CURATED: 2026-09-03.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
