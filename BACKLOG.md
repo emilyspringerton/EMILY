@@ -27812,3 +27812,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   `NORTHSTAR.md` updated with the real, narrower current Phase 2 scope (structs passed in and
   read, not yet constructed). DUNG commit `1647b97`, Apple #17293.
   (sess-20260902-2008-ed50169e)
+- [ ] **S208-11: project exodus claude -> notebook lm -> git somehow need a pipeline to slurp in old convos some kind of workflow** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
