@@ -29442,3 +29442,5 @@ services survive the way their own unit files already intend.
   (sess-20260902-2008-ed50169e)
 - [ ] **k8smigration-00333: matchmaking can move fairly easily to kubernetes no?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BLOGREPORT-0111: long and detailed blog post with a list of literally all of the tickets we closed in the last 12 hours** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
