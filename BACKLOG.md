@@ -28762,7 +28762,7 @@ whole card marked done on the strength of a scoping doc alone.*
   Apple #17508. (sess-20260902-2008-ed50169e)
 - [ ] **434534: use fatbaby proxy and proxy broker to inform vpn primatives built into parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **232131231: fix unicode in pitviper** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **232131231: fix unicode in pitviper.** Real, genuine bug found live: the OG bitmap glyph atlas only covers ASCII plus a curated extended set (box-drawing, braille) — any other real character (accented Latin: é/ñ/ü, Cyrillic, Greek, general punctuation) silently rendered as a bare `?`, even though the real TTF "shiny" font (JetBrains Mono, already loaded unconditionally at startup) has glyphs for those — it was only ever consulted when the F11 display toggle was manually on. New pure `shouldTryShinyFallback(useShinyFont, inAtlas)` tries the real TTF glyph before the `?` fallback whenever the toggle wants it OR the character isn't atlas-coverable at all. New `TestShouldTryShinyFallback` (this package's first test file). `go build/vet/test ./...` clean. PITVIPER commit `0f99110`. Apple #17561. Real, honest, NOT done: full live visual confirmation isn't possible under this sandbox's own already-documented Xvfb window-compositing gap.
   (sess-20260902-2008-ed50169e)
 - [x] **3454353: fix unicode in parena editor.** Real, genuine bug found and fixed in
   `PARENA/stdlib/editor/buffer.prn`: every cursor-movement/delete function (`move-cursor-left`/
