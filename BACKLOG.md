@@ -28855,3 +28855,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **PX-BZ-001: we need to add support to commit the .prn file right in the same directory as the generated output  [BAZEL TICKET] - not sure how that would work with bazel and other build tools** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **HITL-PROV-TI83-001: provision a ti83+ and possibly an 89?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
