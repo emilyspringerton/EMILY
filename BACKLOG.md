@@ -28993,6 +28993,8 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   header-rewriting) Asterisk has already solved for years. Flagged as a real founder-level
   speed-vs-dogfooding decision, not resolved unilaterally. PARENA commit `84cec7d`. Apple #17490.
   (sess-20260902-2008-ed50169e)
+- [ ] **PX-333: PARENA SCAFFOLD NEW NEEDS TO GENERATE BAZEL BY DEFAULT WE WILL FIGURE OUT A FALLBACK LATER** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **PXCL-001: PX-we need a batteries included cli tool to generate scaffolding and stuff for
   us build it into burrow so it can help us manage both the go and prn side of things.** New,
   real `burrow new <name>` subcommand. Generates a real, immediately-runnable starter:
@@ -29007,6 +29009,4 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   Real, live, end-to-end proof, not just unit tests: ran the actual built `burrow` binary
   (`burrow new demo_mod`) in a real scratch directory, then `go run .` against the result —
   printed the real, correct `Hello from demo_mod!`. BURROW commit `47e1246`. Apple #17495.
-  (sess-20260902-2008-ed50169e)
-- [ ] **PX-333: PARENA SCAFFOLD NEW NEEDS TO GENERATE BAZEL BY DEFAULT WE WILL FIGURE OUT A FALLBACK LATER** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
