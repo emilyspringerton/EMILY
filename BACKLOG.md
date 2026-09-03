@@ -28837,7 +28837,17 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   now real and done, not just this kanban card — the real remaining Phase 5 work (5.2 PVCs, 5.3
   Deployment/Helm manifests, 5.4 cutover) can now target a real, live cluster instead of a planned
   one. (sess-20260902-2008-ed50169e)
-- [ ] **PCAP-0022: build multi byte feed extraction parena to support pcap work** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **PCAP-0022: build multi byte feed extraction parena to support pcap work.**
+  （回應 `NATIVE_PCAP_NORTHSTAR.md` 第 2 階段規劃)新增 `PARENA/stdlib/net/wire.prn`:
+  純 PARENA、無 FFI 的多位元組欄位擷取模組——`read-u16-be`/`read-u32-be`
+  (big-endian 讀取)、`mac-to-string`/`ipv4-to-string`(欄位格式化),全部用
+  既有原語(`bit-and`/`bit-or`/`shl`/`shr`/`char-at`)組成,沒有新增任何編譯器
+  原語,印證了規劃文件早先的判斷。真實找到並修正一個臭蟲:`char-at` 底層是
+  `(int32_t)s[i]`,此機器 `char` 為有號,位元組值 ≥128(絕大多數 MAC/IPv4
+  位址都有,例如 192.168.1.1 的 192)會被符號延伸成負數——新增內部 `raw-byte`
+  輔助函式,用 `bit-and 255` 遮掉高位正確還原,測試特意涵蓋 `0xaa`/`0xff`/
+  `192` 等真實 ≥128 位元組案例,不是只測小數值僥倖過關。新增 `make test-wire`
+  目標,6 個真實斷言全過;`make test`:345/345,無回歸。PARENA commit
+  `e93db5b`。Apple #17471。(sess-20260902-2008-ed50169e)
 - [ ] **3090394: pitviper scrollback** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
