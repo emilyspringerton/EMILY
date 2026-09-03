@@ -26886,22 +26886,6 @@ Posted via `emily observe` before acting (Principle 18, Apple #17191).
   `store.IAMStore` interface directly, reused rather than a second stub. Verified with both `go
   build/test` and `GOWORK=off go build/test` (the real standalone CI path) — zero regressions in
   either. IDUNA commits `d6c7404`/`5a751cf`. Apple #17195. (sess-20260830-1207-cc0ba7da)
-- [x] **S226-04: wire remaining IDUNA code paths (HEIMDAL sprint transitions, Apple postings,
-  role assign/revoke, agent permission grants, ...) into the unified log.** Closed out —
-  `HeimdalHandler.submit`/`.patch` (`iduna:heimdal.submit`, `iduna:heimdal.transition` with real
-  `from_status`/`to_status`), `ApplesHandler.create` (`iduna:apples.create`), `AdminHandler`
-  role assign/revoke (`iduna:admin.role.assign`/`.revoke`), agent permission grant/revoke
-  (`iduna:admin.agent_permission.grant`/`.revoke`) all now emit, plus agent secret rotation
-  (`iduna:admin.agent.secret_rotate` — records the rotation, never the plaintext, verified by a
-  real test) added along the way since it's the same handler and equally security-sensitive. All
-  reuse S226-02's own established `emitAuthEvent` helper — nil-safe, fire-and-forget. 9 new
-  tests; `go build/test` + `GOWORK=off go build/test` (real standalone CI path) both clean; `go
-  vet` clean. Verified live, not just unit tests: rebuilt/restarted `iduna.service`, posted a
-  real Apple through it, confirmed the real `iduna:apples.create` event landed in
-  `var/eventlog/events/` by reading the actual NDJSON file. `CLAUDE.md` updated. **SECTION 226
-  fully closed.** IDUNA commit `3d690d5`, Apple #17273.
-  (sess-20260902-2008-ed50169e)
-
 ## SECTION 227: LOG QUERY UI + A REAL MIGRATION ARCHITECTURE IDEA (2026-09-02)
 
 Founder real-time, two parts, posted via `emily observe` before acting (Principle 18, Apple
@@ -27702,4 +27686,19 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   committed to. **Real, honest state: fully specified across 2 documents, zero game code written
   yet** — the doc's own header still reads "not implemented." REDGARDEN commit `084d0db`, Apple
   #17269.
+  (sess-20260902-2008-ed50169e)
+- [x] **S226-04: wire remaining IDUNA code paths (HEIMDAL sprint transitions, Apple postings,
+  role assign/revoke, agent permission grants, ...) into the unified log.** Closed out —
+  `HeimdalHandler.submit`/`.patch` (`iduna:heimdal.submit`, `iduna:heimdal.transition` with real
+  `from_status`/`to_status`), `ApplesHandler.create` (`iduna:apples.create`), `AdminHandler`
+  role assign/revoke (`iduna:admin.role.assign`/`.revoke`), agent permission grant/revoke
+  (`iduna:admin.agent_permission.grant`/`.revoke`) all now emit, plus agent secret rotation
+  (`iduna:admin.agent.secret_rotate` — records the rotation, never the plaintext, verified by a
+  real test) added along the way since it's the same handler and equally security-sensitive. All
+  reuse S226-02's own established `emitAuthEvent` helper — nil-safe, fire-and-forget. 9 new
+  tests; `go build/test` + `GOWORK=off go build/test` (real standalone CI path) both clean; `go
+  vet` clean. Verified live, not just unit tests: rebuilt/restarted `iduna.service`, posted a
+  real Apple through it, confirmed the real `iduna:apples.create` event landed in
+  `var/eventlog/events/` by reading the actual NDJSON file. `CLAUDE.md` updated. **SECTION 226
+  fully closed.** IDUNA commit `3d690d5`, Apple #17273.
   (sess-20260902-2008-ed50169e)
