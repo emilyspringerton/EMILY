@@ -29110,3 +29110,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   Apple #17505. (sess-20260902-2008-ed50169e)
 - [ ] **PENT-0011: how does kismet work? what parena primatives needed to build out similar functionality through parena apis?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PARENA-99999: what kinds of apis does powershell have to manage systems and are we missing any of those affordances or primatives in the current language and implementation of parena and the stdlib?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
