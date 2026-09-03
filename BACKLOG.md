@@ -28661,3 +28661,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **3243242: ensure kanban does log streaming and checks in to the unified logsensure that we can build on top of the kanban system as a load bearing system ie aditional integrations a card can assig** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **324234324234: GOOGLE CLOUD MIGRATATION WHAT WE DO? KUBERNETES STAND IT UP** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
