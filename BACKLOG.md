@@ -28315,3 +28315,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **8744: ensure we are working from a kanban API it seems like claude is yolo querying sqlite a lot can we pave that cow path/** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **499988: can we start to add more api surfaces to PAPERCRAFT mod api surface we want to get parity with ROBLOX apis start with the api for setting an explosion** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
