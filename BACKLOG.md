@@ -28697,3 +28697,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **432432423: DECIDE BETWEEN GKE AUTO PILOT CLUSTER AND GKE STANDARD CLUSTER** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PARENA-0001: ok so can we start to dig into the parena OS implementation? lets focus the work by targeting alpine? what is the smallest vertical slice we can take to actually make it work with the os? debian?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
