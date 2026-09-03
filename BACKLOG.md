@@ -29304,6 +29304,20 @@ whole card marked done on the strength of a scoping doc alone.*
   two new moves), honestly naming Sunlit Draw/Sequel Duck as still fully generic and Understudy/
   Petalia as deliberately untouched. BRAWLPIT commit `fd0b8d3`. Apple #17533.
   (sess-20260902-2008-ed50169e)
+- [ ] **BP-TUNE-CP-001: BP CONTROLLER PARITY - keyboard controll can drop down through the platforms controller cant (fall through)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **BPTUNE-10001: brawlpit B up b and down b all do the same thing it seem,s like for every character they need to be distinct moves continue reworking the characters (dont touch petalia or understudy)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **WTHS-0010: WOTAN HAT SHOP AFFORANCES (DESIGN YOUR HAT)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **WTHS-0000: ok i need the actual GFD hat shop integrations built I need a real functioning hat marketplace with user generated content** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **HSG-000: promptoverse hat gen -  we already queries for the sprites with the specific background and give them a good prompt for a nice pixel art  hat as the tag  promptoverse hat  pirate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **BPHS-00001: a surprise box with a lot of flow allows you to generate your own hat with the promptoverse hat gen (inflation sync)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **BPGFD-INTEROP-000: GFD dungeons have a super rare chance to drop brawlpit hats and those hats are sellable on the GFD auction house** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **BP-TUNE-0033: make rosie direction B do a double hit dash ability it does damage at the
   beginning and end of the dash and in the middle shes totally invuln like SSB dodge.** New
   `special_high_score_rush_hit` (`BRAWLPIT/packages/common/physics.h`) + new
@@ -29327,17 +29341,3 @@ whole card marked done on the strength of a scoping doc alone.*
   the closing hit's own window arrives — and that real `invuln_frames` appear during the dash.
   `bash scripts/build.sh`: clean, all 3 real tests pass. `gcc -Wall -Wextra` clean (no new
   warnings). BRAWLPIT commit `fd0b8d3`. Apple #17533. (sess-20260902-2008-ed50169e)
-- [ ] **BP-TUNE-CP-001: BP CONTROLLER PARITY - keyboard controll can drop down through the platforms controller cant (fall through)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **BPTUNE-10001: brawlpit B up b and down b all do the same thing it seem,s like for every character they need to be distinct moves continue reworking the characters (dont touch petalia or understudy)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **WTHS-0010: WOTAN HAT SHOP AFFORANCES (DESIGN YOUR HAT)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **WTHS-0000: ok i need the actual GFD hat shop integrations built I need a real functioning hat marketplace with user generated content** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **HSG-000: promptoverse hat gen -  we already queries for the sprites with the specific background and give them a good prompt for a nice pixel art  hat as the tag  promptoverse hat  pirate** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **BPHS-00001: a surprise box with a lot of flow allows you to generate your own hat with the promptoverse hat gen (inflation sync)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **BPGFD-INTEROP-000: GFD dungeons have a super rare chance to drop brawlpit hats and those hats are sellable on the GFD auction house** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
