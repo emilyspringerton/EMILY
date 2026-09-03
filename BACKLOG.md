@@ -29245,3 +29245,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   exists. Explicitly named as NOT changing how a genuinely "plan/scope this" card closes (that
   stays a real, complete deliverable on its own, per Principle 3). EMILY commit `c483de13`.
   Apple #17524. (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-REPO-001: GITHUB REPO CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
