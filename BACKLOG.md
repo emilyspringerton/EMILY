@@ -27776,7 +27776,33 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
   `ae5812be`, Apple #17286.
   (sess-20260902-2008-ed50169e)
-- [ ] **S205-509: CONTINUE WORKING ON DUNG IDE write it in LO** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S205-509: CONTINUE WORKING ON DUNG IDE write it in LO.** Investigated a real "write DUNG
+  in LO" integration against `LO`'s own real, current compiler — found two real, compounding
+  blockers, checked directly, not assumed: (1) LO's own arithmetic is mod-4 by design
+  (`GRAMMAR.md`'s `Arith` operator set), genuinely incompatible with DUNG's real
+  division/modulo-over-arbitrary-pixel-widths needs; (2) `lo build`'s own compiled output is
+  always a single, self-contained, zero-parameter computation — no way to emit a real,
+  exported, runtime-callable function at all yet, blocking any LO integration regardless of
+  arithmetic domain. Scoped the concrete prerequisite in `LO/NORTHSTAR.md`, not built (a real
+  compiler feature deserving its own pass). Also fixed long-stale LO `CLAUDE.md`/`README.md`
+  status text still claiming "no compiler code yet" despite real, extensive shipped work. LO
+  commit `931cfa1`, Apple #17290.
+  Founder then confirmed the real pivot: "ok write it in parena and go? right? with burrow/" —
+  the concrete next step was unblocking the exact gap `DUNG/parena/rect_probe.prn` found live on
+  2026-08-30 (`emit_c: unsupported top-level form` on any `defstruct`). `BURROW`'s `emit_c.go`
+  gained real `defstruct`/`get-field` support, ported directly from the Go target's own
+  already-shipped equivalent — a registered `defstruct` emits a real C typedef, `get-field`
+  lowers to plain dot access, construction deliberately not emitted. 3 new tests, `go build/vet/
+  test` all clean (66/66). Verified live: a real Rect-shaped `.prn` file compiled via `burrow
+  build`, gcc-compiled clean, ran with the correct result. BURROW commit `c9cd324`, Apple
+  #17292.
+  Re-verified against DUNG's own real `rect_probe.prn` directly: its ORIGINAL struct-
+  constructing version now fails with a real, honest error (construction still deliberately
+  unsupported by either target, confirmed not a silent miscompile); rewritten to the real,
+  working slice (struct parameter + `get-field` read, scalar return), verified `burrow build` →
+  `gcc -Wall -Wextra` → run, correct result (710 for a 1440-wide rect, 20px border). DUNG's own
+  `NORTHSTAR.md` updated with the real, narrower current Phase 2 scope (structs passed in and
+  read, not yet constructed). DUNG commit `1647b97`, Apple #17293.
   (sess-20260902-2008-ed50169e)
 - [ ] **S206-601: iterate on mixforge** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
