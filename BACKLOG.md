@@ -29114,3 +29114,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **ParenaAlpine-001: ok so lets build our parena alpine distro first with docker and then into raspi** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **IDUNA-93939: iduna log query interface (unified search v0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
