@@ -28880,8 +28880,30 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   authoritative place `FLASH`/`image-builder-rpi` (S213)'s own real Raspberry Pi hardware
   questions should live, not re-asked each time. IDUNA commit `35ef8df`. Apple #17474. Planning
   only — no code written, matching this stage's own "northstar first" framing. (sess-20260902-2008-ed50169e)
-- [ ] **SIP-001: what software do we need to build io be the pipes between our sipphone clients (yet to be built) and twillio do research and planning on what parena deps scratch built** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **SIP-001: what software do we need to build io be the pipes between our sipphone clients
+  (yet to be built) and twillio do research and planning on what parena deps scratch built.**
+  Real, web-grounded research + phased plan: `PARENA/docs/SIP_TWILIO_GATEWAY_NORTHSTAR.md`,
+  golden doc `SIP-TWILIO-GATEWAY-NORTH`. Real, checked Twilio Elastic SIP Trunking requirements
+  (SIP methods INVITE/ACK/CANCEL/REFER/BYE/OPTIONS; UDP/TCP/TLS transports; auth via IP ACL or a
+  Credential List challenge; real signaling IP ranges + RTP media on `168.86.128.0/18` ports
+  10000-60000). Maps onto real, existing PARENA foundation: `sip/message.prn` (signaling, shipped
+  this same session) + `net/udp.prn` (transport) — both already real and reusable, no rebuild
+  needed. **Real, valuable finding**: a pure RTP relay needs zero codec understanding at all
+  (raw UDP byte forwarding once the two real media endpoints are known from SDP) — G.711 only
+  matters if PARENA ever needs to synthesize/consume audio content directly, a real, separate,
+  deferred concern, not silently assumed necessary. Real, newly-identified gaps named honestly:
+  SDP parsing/construction (`sip/message.prn`'s own already-named gap), SIP proxy/B2BUA header-
+  rewriting (`Via`/`Record-Route`/branch parameters — the genuinely hardest real protocol work
+  here), multi-fd `poll`/`select` concurrency (a real, genuinely NEW runtime primitive — checked
+  directly, `pty-poll-read` is single-fd only today), and SIP digest auth (needs `md5`,
+  `crypto/hash.prn` currently only ships `sha256` — but fully skippable via IP ACL auth instead).
+  Real 5-phase plan: Phase 1 (single-call, IP-ACL-authenticated relay — deliberately scoped to
+  defer the concurrency gap entirely), Phase 2 (`sip/sdp.prn`), Phase 3 (real multi-call
+  concurrency), Phase 4 (optional SIP digest auth), Phase 5 (deferred TLS/SRTP + G.711, FFI to a
+  real library if ever needed, matching `crypto/hash.prn`'s own `sha256` precedent — not
+  scratch-built, same judgment this session's own "remove FFI from net parena" Q&A already made).
+  PARENA commit `738f7c5`. Apple #17480. Planning only — no code written, matching the card's own
+  literal "do research and planning" framing. (sess-20260902-2008-ed50169e)
 - [ ] **CPCORE-001: SMS stdlibs we need to forward messages from sms network into the mesgh network** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **CPBOOT-002: stand up stalwart mail server in google cloud** Added via the IDUNA kanban interface, not yet triaged into a real section.
