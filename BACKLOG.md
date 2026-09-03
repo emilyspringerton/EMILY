@@ -2372,6 +2372,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (via kanban priority queue): intake a 'MIXFORGE legacy conversation' into a real NORTHSTAR built on o…** — obs `2026-09-03T01:58:50Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time (via kanban cruise queue): PITVIPER/PARENA editor emoji rendering support -- what's needed, custom fo…** — obs `2026-09-03T02:28:21Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time (via kanban priority queue): TINA desk engine -- auto-publish TINA articles on guidance raises using …** — obs `2026-09-03T02:41:25Z`. CURATED: 2026-09-03.
+- [ ] **Founder real-time: refine EMILY_FOR_BUSINESS license -- name it 'The Emily License v0', make explicit that Emily for Bu…** — obs `2026-09-03T03:20:13Z`. CURATED: 2026-09-03.
+- [ ] **Founder real-time: EMILY_FOR_BUSINESS repo created; wants a source-available license that also protects/licenses the pr…** — obs `2026-09-03T03:16:13Z`. CURATED: 2026-09-03.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
