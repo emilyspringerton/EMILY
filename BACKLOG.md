@@ -2371,6 +2371,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: redirected from the IDUNA account-scoping investigation to continue working from the priority kanban…** — obs `2026-09-03T01:00:43Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time (via kanban priority queue): intake a 'MIXFORGE legacy conversation' into a real NORTHSTAR built on o…** — obs `2026-09-03T01:58:50Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time (via kanban cruise queue): PITVIPER/PARENA editor emoji rendering support -- what's needed, custom fo…** — obs `2026-09-03T02:28:21Z`. CURATED: 2026-09-03.
+- [ ] **Founder real-time (via kanban priority queue): TINA desk engine -- auto-publish TINA articles on guidance raises using …** — obs `2026-09-03T02:41:25Z`. CURATED: 2026-09-03.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
