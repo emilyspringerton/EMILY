@@ -28101,7 +28101,31 @@ shipped in this section itself; this is planning work, matching the card's own l
   now DONE (real product-scoping NORTHSTAR written, `IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`,
   Apple #17311). See S243-02's own entry for full detail.
   (sess-20260902-2008-ed50169e)
-- [ ] **1001: EMILY+ paywall needs to actually function with user accounts etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **1001: EMILY+ paywall needs to actually function with user accounts etc. DONE.** Found
+  and fixed two real, serious, previously-unfound bugs in `internal/http/handlers/
+  subscriptions.go`, not a rewrite. **(1) SECURITY**: the Stripe webhook's own signature
+  verification only checked that a `Stripe-Signature` header was non-empty — never verified its
+  actual content — and skipped even that check entirely whenever `GFD_STRIPE_WEBHOOK_SECRET`
+  was unset. Anyone could POST a forged `customer.subscription.created` event naming an
+  arbitrary `iduna_user_id` and grant that user a real, active paid subscription for free, zero
+  real payment ever happening. New `verifyStripeSignature` — a real, direct hand-port of
+  Stripe's own documented v1 HMAC-SHA256 scheme (no new SDK dependency), with real replay-attack
+  timestamp tolerance and constant-time comparison. An unconfigured secret now fails CLOSED
+  (503), not open. **(2) ROUTING**: the entire `/api/v1/subscriptions/*` path, including
+  `/stripe`, was wrapped in `RequireAuth` — but Stripe's own real webhook caller carries no
+  IDUNA JWT and never will, so the real Stripe service could never reach this endpoint at all in
+  production; no real subscription could ever have activated via webhook. Also fixed the same
+  bug class on `/tiers` (doc comment said "public," code required auth anyway). Both now real,
+  separate, genuinely public mux routes. 10 new tests, including a real end-to-end reproduction
+  of the original exploit (a forged signature through the real HTTP handler, confirmed rejected
+  AND confirmed the subscription was never actually written to the store). `go build/vet/test
+  ./...` clean, zero regressions. **Live-verified**: `iduna.service` rebuilt and restarted, a
+  forged-signature request against the real running service now reaches the handler and is
+  correctly rejected (fails closed, no real secret on this box); `/tiers` confirmed genuinely
+  public. Honest, named gap: no real Stripe webhook secret exists in this sandbox, so the
+  real-valid-signature-accepted path is verified via `go test` only, not against the live
+  service with an actual Stripe-issued secret. IDUNA commits `75f9b33`/`8158de1`, Apple #17349.
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [ ] **9999: can we spend some sprints on making fatbaby news site not suck - i guess we audit the functionality of each of the menu items and port the stuff to EDIS that makes sense and then have fatbaby modata** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
