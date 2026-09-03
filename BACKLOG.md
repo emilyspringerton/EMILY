@@ -29383,3 +29383,5 @@ not duplicate the work.
   two new moves), honestly naming Sunlit Draw/Sequel Duck as still fully generic and Understudy/
   Petalia as deliberately untouched. BRAWLPIT commit `fd0b8d3`. Apple #17533.
   (sess-20260902-2008-ed50169e)
+- [ ] **PC-CALI-006: vehicles are multi tenant (people can jump in the back of a convertable or get in passenger etc) mod** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
