@@ -28919,6 +28919,16 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   scratch-built, same judgment this session's own "remove FFI from net parena" Q&A already made).
   PARENA commit `738f7c5`. Apple #17480. Planning only — no code written, matching the card's own
   literal "do research and planning" framing. (sess-20260902-2008-ed50169e)
+- [ ] **CPBOOT-002: stand up stalwart mail server in google cloud** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **PC-06667: PAPERCRAFT ENGINE normal maps north star** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **HW-001: UART STDLIBS and DEPS STDLIBS PLANNING FOR HARDWARE PLATFORMS ARDUINO EQUIVALENT etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **HW-003: SERIAL STDLIBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **SIPX-001: dont we need to build an asterisk equivalent or whatever routs our calls to our sip?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **CPCORE-001: SMS stdlibs we need to forward messages from sms network into the mesgh
   network.** Real, direct continuation of `CarePyre/docs/MESH_NETWORK_RESEARCH.md` (S184-02),
   which already named the real answer — gateway nodes bridging mesh-native messages out to
@@ -28941,13 +28951,3 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   idea, same session, same TLS blocker). Not registered as a golden doc, per CarePyre's own
   explicit standing "no golden doc until integration/divestment decision" instruction. CarePyre
   commit `814d304`. Apple #17484. Planning only — no code written. (sess-20260902-2008-ed50169e)
-- [ ] **CPBOOT-002: stand up stalwart mail server in google cloud** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **PC-06667: PAPERCRAFT ENGINE normal maps north star** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **HW-001: UART STDLIBS and DEPS STDLIBS PLANNING FOR HARDWARE PLATFORMS ARDUINO EQUIVALENT etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **HW-003: SERIAL STDLIBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **SIPX-001: dont we need to build an asterisk equivalent or whatever routs our calls to our sip?** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
