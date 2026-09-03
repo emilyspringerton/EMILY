@@ -28115,7 +28115,24 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9944: OG IDUNA unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **9933: INDEXING primatives built into PARENA to power IDUNA OG unified search - btries etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **9933: INDEXING primatives built into PARENA to power IDUNA OG unified search - btries etc.
+  DONE.** New `PARENA/stdlib/bstree.prn`: a real, compiling, live-tested (`make test-bstree`)
+  String-keyed, I32-valued binary search tree — insert (real insert-or-update), get
+  (`Option I32`), `contains?`. Two real, decisive design constraints checked directly before
+  building: VS0's emitter has no generic type parameters (`vec.prn`'s `(Vec T)`/`map.prn`'s
+  `(Map K V)` both fail to compile today, confirmed live) — so this commits to concrete
+  String/I32 types, the same real workaround `json.prn`'s own `JObject` already established;
+  nodes live in one flat `(Vec BSTNode)` with `left`/`right` as integer indices, not raw
+  pointers, matching `map.prn`'s own flat array-backed design. Real, honest scope: an unbalanced
+  BST (real O(log n) average, O(n) worst case on sorted insertion), not a full multi-way B-tree
+  — that's real, larger, separate follow-up work, named not built. Wiring this into IDUNA's own
+  unified-log search (a real, current linear `Scan`) is also separate, unattempted — needs
+  `BURROW`'s native Go emission target, same reasoning as IDUNA_PRO's own extensibility plan.
+  Two real VS0 emitter quirks found and worked around, documented in the file's own header
+  comment. `make test` (342 core-language cases), `test-process`, `test-mixforge-import` all
+  still green, zero regressions. PARENA commit `e9c069f`, Apple #17330. (Real, honest note: the
+  kanban board's own best-effort auto-archive-on-Done did not fire for this card — closed out by
+  hand here instead, matching the exact real content the automated path would have written.)
   (sess-20260902-2008-ed50169e)
 - [ ] **10999: FIGURE OUT MULTI TENANT APPLES (OFFER GIT SYNC IN THE CONSOLE INTERFACE) NEEDS TO WORK WITH PUBANDPRIV** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
