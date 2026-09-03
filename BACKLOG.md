@@ -27782,24 +27782,6 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   (sess-20260902-2008-ed50169e)
 - [ ] **S206-601: iterate on mixforge** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [x] **S207-68: KANBAN i should have the ability to sort the cards in a column. DONE.**
-  Added via the IDUNA kanban interface. Real, honest gap found: drag-and-drop already moved
-  cards between columns, but dropping a card back within its own column was a silent no-op —
-  no `position` write-back at all, even though the backend already had full support for
-  `PATCH /api/v1/kanban/cards/{id} {"position":N}`, just entirely unused by the frontend.
-  Shipped two real, working paths in `IDUNA/internal/http/handlers/kanban_page.go`: (1) live
-  drag reorder — `onCardDragOver` moves the actual dragged DOM node into place as the cursor
-  crosses a sibling card's top/bottom half; `onDrop` reads that column's final real DOM order
-  and PATCHes every card in it with a fresh, gapless `0..n-1` position (handles a cross-column
-  drop and a same-column reorder in one code path); (2) click-based ▲/▼ buttons (`moveCardBy`),
-  a reliable non-drag alternative using a server-confirmed order cache (`kanbanOrder`), for
-  inputs where drag isn't practical. New `TestKanban_PatchPositionReordersColumn` — a real
-  integration test proving the underlying position-PATCH contract end to end (3 cards created,
-  PATCHed into reverse order, GET reflects the new order, not creation order). `go build/vet/
-  test ./...` clean, zero regressions across the whole repo. Live-verified: `iduna.service`
-  rebuilt and restarted, `/health` green, `/admin/kanban` still correctly gated (401
-  unauthenticated) — the admin auth boundary wasn't touched. commit `abd4a74`, Apple #17304.
-  (sess-20260902-2008-ed50169e)
 - [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -27871,4 +27853,22 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
 - [ ] **210: lets have MixForge be a web app we can prove out the web framework in parena keep the interface simple for  now we arent real time djing yet  also we can build it into electron at the same time?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **210-101: sprint plan the items in the CRUISE column** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **S207-68: KANBAN i should have the ability to sort the cards in a column. DONE.**
+  Added via the IDUNA kanban interface. Real, honest gap found: drag-and-drop already moved
+  cards between columns, but dropping a card back within its own column was a silent no-op —
+  no `position` write-back at all, even though the backend already had full support for
+  `PATCH /api/v1/kanban/cards/{id} {"position":N}`, just entirely unused by the frontend.
+  Shipped two real, working paths in `IDUNA/internal/http/handlers/kanban_page.go`: (1) live
+  drag reorder — `onCardDragOver` moves the actual dragged DOM node into place as the cursor
+  crosses a sibling card's top/bottom half; `onDrop` reads that column's final real DOM order
+  and PATCHes every card in it with a fresh, gapless `0..n-1` position (handles a cross-column
+  drop and a same-column reorder in one code path); (2) click-based ▲/▼ buttons (`moveCardBy`),
+  a reliable non-drag alternative using a server-confirmed order cache (`kanbanOrder`), for
+  inputs where drag isn't practical. New `TestKanban_PatchPositionReordersColumn` — a real
+  integration test proving the underlying position-PATCH contract end to end (3 cards created,
+  PATCHed into reverse order, GET reflects the new order, not creation order). `go build/vet/
+  test ./...` clean, zero regressions across the whole repo. Live-verified: `iduna.service`
+  rebuilt and restarted, `/health` green, `/admin/kanban` still correctly gated (401
+  unauthenticated) — the admin auth boundary wasn't touched. commit `abd4a74`, Apple #17304.
   (sess-20260902-2008-ed50169e)
