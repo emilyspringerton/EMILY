@@ -27778,3 +27778,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   (sess-20260902-2008-ed50169e)
 - [ ] **S205-509: CONTINUE WORKING ON DUNG IDE write it in LO** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **S206-601: iterate on mixforge** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
