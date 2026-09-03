@@ -28737,3 +28737,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   thread. Not-yet-done follow-up named honestly: no CI/Makefile wiring yet for this musl path,
   this pass's proof was a manual one-off compile. PARENA commit `050d145`. Apple #17445.
   (sess-20260902-2008-ed50169e)
+- [ ] **231321: yea write that pcap report if u didnt already** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
