@@ -29201,3 +29201,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   Apple #17518. Planning only. (sess-20260902-2008-ed50169e)
 - [ ] **BPTUNE-001: tuning pass on the brawlpit characters they all need unique normal b up b down b and direction b attacks like dont tune petalia start going one by one** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPTUNE-003: DONT TOUCH UNDERSTUDY OR PETALIA** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
