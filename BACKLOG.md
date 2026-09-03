@@ -29286,3 +29286,5 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-TUNE-CP-001: BP CONTROLLER PARITY - keyboard controll can drop down through the platforms controller cant (fall through)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPTUNE-10001: brawlpit B up b and down b all do the same thing it seem,s like for every character they need to be distinct moves continue reworking the characters (dont touch petalia or understudy)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
