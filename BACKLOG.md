@@ -29382,3 +29382,5 @@ not duplicate the work.
   (sess-20260902-2008-ed50169e)
 - [ ] **PC-CALI-003: papercraft vehicles are destructable and persistant in the world (GTA LIKE ENTITIES) also there are fake shell versions for world building  not destructable** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PC-CALI-004: PAPERCRAFT ENVIRONMENTS MOD (FORREST)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
