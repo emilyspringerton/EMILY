@@ -28043,3 +28043,5 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9997: figure out how the cli will work for emily for business - for example if someone wants to interract with their iduna pro instance on the command line (emily.cli+)?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
