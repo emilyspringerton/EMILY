@@ -29280,3 +29280,5 @@ whole card marked done on the strength of a scoping doc alone.*
   Apple #17524. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-REPO-001: GITHUB REPO CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BP-fix: i think turnip projectiles are broken for petalia and for rosie - fix and then put the full moves and combo list into the readme** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
