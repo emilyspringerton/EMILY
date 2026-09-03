@@ -28771,8 +28771,28 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **K8S-0002: cloud container clusters create-auto <CLUSTER_NAME> \     --region=<REGION>** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **K8S-0000: evaluate all of our services in systemd and create a staged kubernetes service migration plan** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **K8S-0000: evaluate all of our services in systemd and create a staged kubernetes service
+  migration plan.** Real, live inventory via `systemctl --user list-units --type=service --all`:
+  53 real units, 46 relevant after excluding pure OS/dev-tooling noise (dbus/gpg-agent/etc.).
+  Grouped by real migration risk into 5 tiers: **A** (stateless HTTP/API — the 17 PRRJECT_FATBABY
+  processes already covered by that repo's own `KUBERNETES_MIGRATION.md`, plus `gpt2-serve`,
+  `sarena-notebook`, `promptoverse-*` as real `CronJob`s) is the natural first wave; **B**
+  (`iduna` — the central trust authority, blast-radius-sensitive; `jewel-jupyter` — needs the
+  full PARENA toolchain baked into its image) moves carefully, not first; **C** (12 real-time UDP
+  game servers — GoblinFoxDragon/PAPERCRAFT/SHANKPIT-460/WEAKNIGHT_BEDROCK_RACERS/REDGARDEN +
+  a genuinely separate `redgarden-stable` deployment, confirmed live via each service's own
+  `WorkingDirectory=`) is explicitly NOT first-wave, with real, honest reasoning (untested UDP
+  LoadBalancer network-path variables vs. a known-good VPS), not a blanket "games can't run on
+  k8s" claim; **D** (`einhorn-survival`, the live community Minecraft server) is its own special,
+  likely-last case — flagged as possibly cheaper staying off Autopilot entirely given its
+  sustained-not-bursty resource shape, a real, deliberate exception to this monorepo's own
+  Autopilot-by-default lean (kanban 432432423); **E** (`emily-system`, the RSI orchestrator that
+  spawns Claude Code sessions on this very box) is deliberately left un-scoped — a real, separate,
+  foundational design question, named honestly rather than glossed over. Real 8-stage sequence
+  table, Stage 0 = this session's own real GKE Autopilot cluster provisioning (see `K8S-0002`
+  below). New `EMILY/docs/KUBERNETES_SERVICE_MIGRATION_NORTHSTAR.md`, golden doc
+  `K8S-SERVICE-MIGRATION-NORTH`. Planning only past Stage 0 — no service migrated. Commit
+  `555d8dde`. Apple #17453. (sess-20260902-2008-ed50169e)
 - [ ] **IUS-001: can we add git indexing to iduna unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **342432: check mjolnir build i think its still failing** Added via the IDUNA kanban interface, not yet triaged into a real section.
