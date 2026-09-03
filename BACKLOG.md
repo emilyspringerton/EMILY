@@ -22030,20 +22030,6 @@ routed through `emily observe` before being acted on, per Principle 18.*
   the same stated limitation every prior GTA7 milestone (VS0-VS5) already carries; founder should
   playtest and report back. GTA7 commits `7468990` + `830fe58` + `466c3e4`, Apple #16062.
 
-- [ ] **S202-30: REDGARDEN — He Xiangu hero rework/buff (hover casting + supporting items).**
-  Founder real-time, 2026-08-25: "hero stats on wotan for example xehingu is not an easy hero to
-  get value out of in my opinion - we need to buff or rework add hover casting and supporting
-  items for him to thrive." Confirmed the real, current kit
-  (`packages/simulation/arena_game.c`/`.h`, `ARENA_HERO_HE_XIANGU`): Q is a 6.0-unit melee-range
-  damage+self-heal poke (4.2s CD), W is a self-regen toggle, R is a 4.5-radius ally-heal zone with
-  no damage — a pure sustain/support kit with zero mobility or engage/disengage tool, which is the
-  concrete, findable reason the founder's read ("hard to get value out of") holds up against the
-  actual numbers, not just a vibe. Scope not yet decided: real buff numbers, a rework of one of
-  Q/W/R, a new "hover casting" mechanic (cast Q/W/R while airborne/hovering — mechanic itself not
-  yet designed), and 1+ new supporting items in the item shop tuned for a melee-range sustain
-  support. Queued via `emily observe` (Apple #16073) — not yet implemented, tracked on the kanban
-  board (`emily kanban`, cruise queue) for pickup.
-
 - [x] **S202-31: REDGARDEN — wire the trained RL inference engine into the LIVE bot AI decision
   loop.** Founder real-time, 2026-08-25/26, re-flagging a gap REDGARDEN's own README already
   states plainly: the autocurriculum training pipeline trains, exports, and syncs weights — but
@@ -29152,3 +29138,16 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **PXCL-9311: make parena cli tool do the same thing burrow new does but for C instead of for go** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [x] **S202-30: REDGARDEN — He Xiangu hero rework/buff (hover casting + supporting items).**
+  Founder real-time, 2026-08-25: "hero stats on wotan for example xehingu is not an easy hero to
+  get value out of in my opinion - we need to buff or rework add hover casting and supporting
+  items for him to thrive." Confirmed the real, current kit
+  (`packages/simulation/arena_game.c`/`.h`, `ARENA_HERO_HE_XIANGU`): Q is a 6.0-unit melee-range
+  damage+self-heal poke (4.2s CD), W is a self-regen toggle, R is a 4.5-radius ally-heal zone with
+  no damage — a pure sustain/support kit with zero mobility or engage/disengage tool, which is the
+  concrete, findable reason the founder's read ("hard to get value out of") holds up against the
+  actual numbers, not just a vibe. Scope not yet decided: real buff numbers, a rework of one of
+  Q/W/R, a new "hover casting" mechanic (cast Q/W/R while airborne/hovering — mechanic itself not
+  yet designed), and 1+ new supporting items in the item shop tuned for a melee-range sustain
+  support. Queued via `emily observe` (Apple #16073) — not yet implemented, tracked on the kanban
+  board (`emily kanban`, cruise queue) for pickup.
