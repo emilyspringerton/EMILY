@@ -18139,18 +18139,25 @@ it, captured here before context-switching to PARENA. None of these are started.
   session. Not scoped past the basic ask; needs a design pass (persistent list vs. rolling feed,
   which events qualify — damage only, or kills/buffs/objectives too) before building. Port to GFD
   fork per the "ui match for both" instruction, same pattern as every other S188 fix.
-- [ ] **S189-02: Ping system.** Founder, real-time thread: "we need a way to ping eachother" →
-  "in the ai" → "both heuristically and in the vector brain" → "i dunno" → "party of the leaky
-  gistalt for sure" → "if i ping the whole team shouldnt come over" → "and especially if im
-  wiwinning im assuming my cohesion goes down only 1 or 2 teamers come to a ping instead of more
-  considering it when we are behind as a comeback mechanism." Real design, genuinely well-
-  developed despite the fragmented delivery: a click-to-ping map-location system (standard MOBA
-  convention) whose team response should reuse the ALREADY-BUILT synergy-decay cohesion tier
-  (NORTHSTAR §25.3, Apple #12844) — winning/high-decay teams get fewer (1-2) responders per ping,
-  losing/low-decay teams get more, making ping-responsiveness itself part of the existing
-  comeback-mechanic design rather than a new parallel system. Bot/AI awareness of pings ("both
-  heuristically and in the vector brain") explicitly flagged by the founder as uncertain ("i
-  dunno") — real open question, not a firm spec, don't build blind. Not started.
+- [x] **S189-02: Ping system — design/spec phase complete, not yet implemented.** Founder,
+  real-time thread: "we need a way to ping eachother" → "in the ai" → "both heuristically and in
+  the vector brain" → "i dunno" → "party of the leaky gistalt for sure" → "if i ping the whole
+  team shouldnt come over" → "and especially if im wiwinning im assuming my cohesion goes down
+  only 1 or 2 teamers come to a ping instead of more considering it when we are behind as a
+  comeback mechanism." **2026-09-02/03**: an upstream Codex PR (no visibility into this thread)
+  landed `REDGARDEN/docs/PING_SYSTEM_NORTHSTAR.md`, a solid protocol/product spec (tactical
+  vocabulary, human input, server authority/fog-of-war integrity, wire event, delivery plan) —
+  reviewed and grounded in real code (SECTION 239/S239-01), and split bot humanness into
+  `docs/BOT_HUMANNESS_NORTHSTAR.md` (MISHRI-derived). This pass wires in the piece those docs
+  still missed — the founder's own original mechanic named above: ping response COUNT scales
+  with the already-shipped synergy-decay cohesion tier (NORTHSTAR §25.3) — winning/high-decay
+  teams get fewer (1-2) responders per ping, losing/low-decay teams get more, extending the
+  existing comeback mechanic rather than a new parallel system. Bot/AI "vector brain" (RL policy)
+  awareness of pings stays an explicit, founder-flagged open question ("i dunno") in §11, not
+  committed to. **Real, honest state: fully specified across 2 documents, zero game code written
+  yet** — the doc's own header still reads "not implemented." REDGARDEN commit `084d0db`, Apple
+  #17269.
+  (sess-20260902-2008-ed50169e)
 - [ ] **S189-03: Team awareness of Kings.** Founder: "also my team is unaware of the 4 kings" —
   teammates not looking at that part of the map have no way to know a King exists/is up, even
   after S188-01's rendering fix made Kings visible to whoever IS looking. Real gap, not scoped
