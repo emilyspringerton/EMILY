@@ -28136,7 +28136,7 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9997: figure out how the cli will work for emily for business - for example if someone wants to interract with their iduna pro instance on the command line (emily.cli+)?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update (2)**: founder, direct explicit follow-up: "take on the full match/Result BURROW port" — real, done, see item below (`match`/`Result`/`Option` shipped in BURROW's Go emission target, with a real, deliberate v0 boundary named honestly: scrutinee must be a direct call to a known Result/Option-returning defn, not a `let`-bound variable). Combined with card 1199's own earlier `let`/`do` work, this closes the second of the real prerequisites named for "write a CLI in this." **Status update (3)**: cruise-queue pickup, real v0 proof-of-concept built and live-verified — see new item below. `PARENA/stdlib/idunapro/cli_mod.prn` (`interpret-health-response`/`exit-code-for-health`, real match/Result construction AND consumption in one file) compiled via `burrow build` into `IDUNA_PRO/internal/burrowgen/idunapro_cli_gen.go`, driven by a new real Go host binary `IDUNA_PRO/cmd/idunapro/main.go` (`idunapro health <base-url>`) — no cgo/FFI. Live-verified against IDUNA's actual running `:8080` (healthy → exit 0) and an unreachable host (exit 1). Still genuinely open, named explicitly: `defenum`/`loop`/`Vec`/struct construction are all still unstarted in `emit_go.go` — `loop` in particular is a real, necessary prerequisite for any real iteration a fuller CLI would need — and only one real subcommand exists so far, not a full "emily for business" CLI. **Status update (4)**: cruise-queue pickup, `loop`/`recur` shipped in `emit_go.go` — see new item below. Real, deliberate v0 boundary named explicitly: loop body must be exactly one top-level `(if cond then else)` with `recur` in exactly one branch, matching every real `.prn` loop in `stdlib/array.prn`; `recur` nested deeper (inside `match`/`cond`/another `if`) is real, separate, unstarted work. Real bug found and fixed live: `i := 0` defaults to Go `int` not `int32`, fixed via an explicit `var name int32 = expr` declaration. `go test`: 88/88, real end-to-end proof (a triangular-number `sum-to` loop compiled/linked/run with correct output for n=0,1,10,100). Still genuinely open: `defenum`/`Vec`/struct construction remain unstarted — a real CLI still needs at least `Vec` for output-building before "write a CLI in this" is fully true.
+- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update (2)**: founder, direct explicit follow-up: "take on the full match/Result BURROW port" — real, done, see item below (`match`/`Result`/`Option` shipped in BURROW's Go emission target, with a real, deliberate v0 boundary named honestly: scrutinee must be a direct call to a known Result/Option-returning defn, not a `let`-bound variable). Combined with card 1199's own earlier `let`/`do` work, this closes the second of the real prerequisites named for "write a CLI in this." **Status update (3)**: cruise-queue pickup, real v0 proof-of-concept built and live-verified — see new item below. `PARENA/stdlib/idunapro/cli_mod.prn` (`interpret-health-response`/`exit-code-for-health`, real match/Result construction AND consumption in one file) compiled via `burrow build` into `IDUNA_PRO/internal/burrowgen/idunapro_cli_gen.go`, driven by a new real Go host binary `IDUNA_PRO/cmd/idunapro/main.go` (`idunapro health <base-url>`) — no cgo/FFI. Live-verified against IDUNA's actual running `:8080` (healthy → exit 0) and an unreachable host (exit 1). Still genuinely open, named explicitly: `defenum`/`loop`/`Vec`/struct construction are all still unstarted in `emit_go.go` — `loop` in particular is a real, necessary prerequisite for any real iteration a fuller CLI would need — and only one real subcommand exists so far, not a full "emily for business" CLI. **Status update (4)**: cruise-queue pickup, `loop`/`recur` shipped in `emit_go.go` — see new item below. Real, deliberate v0 boundary named explicitly: loop body must be exactly one top-level `(if cond then else)` with `recur` in exactly one branch, matching every real `.prn` loop in `stdlib/array.prn`; `recur` nested deeper (inside `match`/`cond`/another `if`) is real, separate, unstarted work. Real bug found and fixed live: `i := 0` defaults to Go `int` not `int32`, fixed via an explicit `var name int32 = expr` declaration. `go test`: 88/88, real end-to-end proof (a triangular-number `sum-to` loop compiled/linked/run with correct output for n=0,1,10,100). Still genuinely open: `defenum`/`Vec`/struct construction remain unstarted — a real CLI still needs at least `Vec` for output-building before "write a CLI in this" is fully true. **Status update (5)**: cruise-queue pickup, `Vec` shipped in `emit_go.go` — see new item below. Real, direct port to Go's own idiomatic `[]any` slice (no wrapper struct); real, necessary prerequisites found and added live (`Arena @ Region` params, a return type's own trailing `@ Region` suffix — neither had any parsing before this pass). `vec/new`/`vec/push!`/`vec/get`/`vec/len`/`deref` all real and working; `vec/get` deliberately coerces to `int32` (a real, named v0 boundary — no `(Vec SomeStruct)` support yet, `bstree.prn`'s own BSTNode-valued Vec is the known counter-example). Three real bugs found and fixed live along the way. `go test`: 93/93, real end-to-end proof (building a `(Vec I32)` via a loop, reading it back, correct sums). Still genuinely open: `defenum`/struct construction/`(Vec SomeStruct)` — the actual CLI itself (the literal ask) still hasn't been started; this and the `loop` work before it are real, necessary language-feature prerequisites, not the deliverable itself.
   (sess-20260902-2008-ed50169e)
 - [x] **Founder real-time, explicit follow-up on card 9988 (cruise queue): real v0 CLI proof-of-
   concept, "idunapro health". DONE.** First real proof that this session's own BURROW match/
@@ -28194,6 +28194,46 @@ shipped in this section itself; this is planning work, matching the card's own l
   `defenum`, `Vec`, struct construction, and `loop`/`match` beyond their own current v0
   boundaries — card 9988 stays open above, a real CLI still needs at least `Vec` for
   output-building before "write a CLI in this" is fully true.
+  (sess-20260902-2008-ed50169e)
+- [x] **Cruise-queue follow-up on card 9988: real `Vec` support added to BURROW's Go emission
+  target. DONE.** Real, direct port of PARENA's own runtime `Vec` representation to Go's own
+  idiomatic equivalent: a bare `[]any` slice, no wrapper struct at all — `append()` does the real
+  dynamic-growth job C's own hand-rolled `vec_push_` does, and `any` does the real "erase to a
+  pointer-ish box" job `void *` does. **Real, honest consequence, named directly**: this target's
+  own header comment previously claimed every v0-scope program is "already GC-irrelevant, no heap
+  allocation possible" — that stops being literally true the moment a real program uses `Vec`
+  (`append` is a real Go heap allocation); a host relying on `debug.SetGCPercent(-1)` needs to
+  know this no longer holds. **Real, necessary prerequisite found live, not scoped in advance**:
+  every real `.prn` function that builds a `Vec` takes a `dest : Arena @ Region` param and/or
+  returns `(Vec ElemType) @ Region` — v0 had NO parsing at all for either shape before this pass.
+  Both now real and accepted: an `Arena @ Region` param becomes a real, present Go param typed
+  `any` (unused for real work, but resolvable as a local, and a real Go host now knows to pass a
+  literal `nil` for it); a return type's own trailing `@ Region` suffix is parsed and correctly
+  skipped. **Real, deliberate v0 boundary for `vec/get`, named explicitly**: no per-Vec
+  element-type tracking exists in this target, so `vec/get`'s own result is always coerced to
+  `int32` — right for every current real `.prn` Vec usage this target actually needs
+  (`array.prn`'s own shape/stride vectors), a real, named, NOT-yet-supported gap for a
+  `(Vec SomeStruct)` (`bstree.prn`'s own real `BSTNode`-valued Vec is the known, existing
+  counter-example). Out-of-bounds returns a real, honest `int32(0)` via a comma-ok assertion,
+  never a Go panic; `deref` is a real, honest no-op (Go's `any`-boxed element already IS the
+  value). **Three real, genuine bugs found and fixed live, not designed in advance**: (1)
+  `append(vec, 1)` boxes a bare literal as plain Go `int`, not `int32` — the same defaulting class
+  already fixed twice this same day, fixed via explicit `int32(...)` wrapping; (2) the real,
+  common `.prn` idiom `array.prn`'s own `zeros` uses (a discarded side-effecting `loop`, then the
+  real result) broke because a discarded expression's own internal `RetType` boxing had always
+  unconditionally used the ENCLOSING DEFN's own return type — fixed by giving every non-final
+  `do`/`let` statement its own scope with `retType` overridden to `any`; (3) `recur` inside a
+  `(do effect... (recur ...))` — the exact real shape a Vec-building loop needs — wasn't
+  recognized as a recur branch at all, fixed by extending `loop`'s own recur-detection to unwrap
+  a `do` whose own last expression is a direct recur call. `go test`: 93/93 total (5 new). **Real,
+  live, end-to-end proof, not just unit tests**: a real program building a `(Vec I32)` via a
+  `loop`+`vec/push!` (the exact real `zeros`-style shape above), then reading it back via
+  `vec/len`+`vec/get`+`deref` in a second `loop`, compiled via `burrow build`, linked into a real,
+  separate Go module via `go build`, and run — correct output for `sum-of(5)=10`, `sum-of(0)=0`,
+  `sum-of(10)=45`. Commit `9ebf8d0`, Apple #17418. Still real, honest, unstarted: `defenum`,
+  struct construction, `(Vec SomeStruct)` element types, and `loop`/`match` beyond their own
+  current v0 boundaries — card 9988 stays open above, the actual CLI itself (the literal ask)
+  still hasn't been started.
   (sess-20260902-2008-ed50169e)
 - [x] **Founder real-time, explicit follow-up on card 9988: "take on the full match/Result
   BURROW port." DONE.** Real, direct port of PARENA's own reference C runtime's representation
