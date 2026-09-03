@@ -29168,3 +29168,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   regressions. PARENA commit `cafaf2f`. Apple #17514. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-999: ok we need to build the hat store  WOTAN you can buy upgraded hats for brawlpit using flow from GFD plan nortgstar it** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-998: IMPLEMENT vs0 GO WOTAN you can buy upgraded hats for brawlpit using flow from GFD plan nortgstar it** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
