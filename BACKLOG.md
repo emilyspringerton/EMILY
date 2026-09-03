@@ -27709,3 +27709,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   design phase complete, matching S189-02's own already-accepted pattern — zero game code
   written yet. REDGARDEN commit `d05a550`, Apple #17276.
   (sess-20260902-2008-ed50169e)
+- [ ] **S235-02: live bare-section resolution test** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
