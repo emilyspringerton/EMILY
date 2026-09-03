@@ -28457,6 +28457,36 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   as S245-04).** Add/remove/reorder links, view real per-link click counts. Blocked on
   S245-06/07 existing as real APIs first.
 (sess-20260902-2008-ed50169e)
+
+## SECTION 246: NATIVE PARENA PCAP IMPLEMENTATION — SUBTASK PLANNING (2026-09-03)
+
+- [x] **S246-01: real, phased plan for a native (no libpcap FFI) PARENA packet-capture
+  implementation. DONE (planning only, per explicit instruction).** Founder real-time, direct
+  follow-up on kanban card 435423 (the FFI-bound `pentest/pcap.prn` shipped earlier this same
+  session): *"ok but we want to build pcap into parena on a deep low level we want a parena pcap
+  implementation and build the std lib deps it needs into the std lib. plan that work."* New
+  `PARENA/docs/NATIVE_PCAP_NORTHSTAR.md`. **Real, checked-live finding worth surfacing**: most of
+  the real "stdlib deps" this ask names already exist — `bit-and`/`bit-or`/`bit-xor`/`shl`/`shr`
+  real binops (added 2026-08-20 for `compress/lz4.prn`'s own byte-level codec work), `char-at` as
+  a real byte-buffer read — confirmed live via a real compile that a big-endian 16-bit field read
+  is already buildable today with zero new compiler work. The one genuinely missing, new
+  capability: a raw `AF_PACKET` capture-socket runtime primitive, a real, honest, named
+  Linux-only platform trade-off against libpcap's own real cross-platform BPF/Npcap/`AF_PACKET`
+  abstraction. **Real 4-phase plan, none started**: (1) the raw-socket runtime primitive,
+  mirroring `tcp_connect_impl`'s own already-established "thin FFI over a raw syscall" shape in
+  `runtime/parena_runtime.h`; (2) a real `net/wire.prn` byte/field-extraction module built
+  entirely from primitives that already exist (`read-u16-be`/`read-u32-be`/`mac-to-string`/
+  `ipv4-to-string`); (3) native Ethernet/IPv4/TCP/UDP header parsing, pure PARENA, the direct
+  structural sibling of this session's own `sip/message.prn`; (4) a real, PARENA-native filter
+  (plain predicate functions on parsed structs, explicitly NOT full BPF bytecode compatibility —
+  named as real, separate, much larger, later work if ever needed). **Real, deliberate
+  recommendation**: keep this as an ADDITIONAL capability alongside the already-shipped FFI-bound
+  `pentest/pcap.prn`, not a replacement — libpcap's own real cross-platform portability and free
+  BPF-filter-string compatibility are real, genuine value this native path wouldn't have.
+  Registered as golden doc NATIVE-PCAP-NORTH. Commit `1296bb3`, Apple #17441. No implementation
+  code written — the founder's own instruction was explicitly to plan this work, not build it.
+  (sess-20260902-2008-ed50169e)
+
 - [x] **1199: iterate on project burrow we need to get that ready to write the cli for emily for
   business and iduna pro so that parena gets transformed into idiomatic go. DONE (this
   iteration) — real, honest progress, not the full journey.** Real, checked finding before
