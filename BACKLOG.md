@@ -28993,7 +28993,30 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   header-rewriting) Asterisk has already solved for years. Flagged as a real founder-level
   speed-vs-dogfooding decision, not resolved unilaterally. PARENA commit `84cec7d`. Apple #17490.
   (sess-20260902-2008-ed50169e)
-- [ ] **PX-333: PARENA SCAFFOLD NEW NEEDS TO GENERATE BAZEL BY DEFAULT WE WILL FIGURE OUT A FALLBACK LATER** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **PX-333: PARENA SCAFFOLD NEW NEEDS TO GENERATE BAZEL BY DEFAULT WE WILL FIGURE OUT A
+  FALLBACK LATER.** `burrow new <name>` (this same session's own real answer to `PXCL-001`) now
+  also generates real Bazel files by default: `MODULE.bazel` (`bazel_dep`/`git_override` pinning
+  a real, known-good BURROW commit, same real "pin now, bump later" convention `ladybug`/`DUNG`/
+  `longma`'s own `MODULE.bazel` files already use for `@parena`) and `BUILD.bazel` (a `genrule`
+  invoking `@burrow//:burrow build`, feeding a plain `rules_go` `go_library`/`go_binary`). Real,
+  necessary prerequisite built first: BURROW's own repo gained its own `MODULE.bazel`/
+  `BUILD.bazel`, exposing `@burrow//:burrow` as a real `go_binary` — mirroring PARENA's own real
+  `@parena//src:parena` precedent exactly, the one thing needed for a scaffolded project's own
+  genrule to resolve at all. **Real, genuine, pre-existing bug found live while verifying this,
+  not caused by this pass**: a fresh clone of BURROW itself failed to build entirely —
+  `main.go` (already committed, long before this session) references `LoParseProgram`, but
+  `lo_lexer.go`/`lo_parser.go` (where it's defined), `lo_parser_test.go`, and `unparse.go` were
+  never actually pushed to git (546 real, legitimate lines of LO-integration work — every prior
+  session worked fine locally only because these files already existed on disk in this
+  persistent sandbox, masking the real, broken published state). Fixed by committing them for
+  real. Real, deliberate design for the card's own literal ask: Bazel generation does NOT
+  replace the existing plain `go build`/`go run` path — the card's own "we will figure out a
+  fallback later" framing is already satisfied, since that fallback already existed and keeps
+  working unchanged. `go test`: 101/101. **Real, live, end-to-end proof, not just a unit test**:
+  ran `bazel run //:<name>` against a freshly-scaffolded project in a real scratch directory —
+  Bazel fetched `@burrow` from GitHub at the pinned commit, the genrule correctly compiled the
+  `.prn` file, and the resulting binary printed the real, correct output. BURROW commits
+  `977dd9e` (LO-file fix), `9e006a0`/`bb5e4c5` (Bazel exposure + generation). Apple #17498.
   (sess-20260902-2008-ed50169e)
 - [x] **PXCL-001: PX-we need a batteries included cli tool to generate scaffolding and stuff for
   us build it into burrow so it can help us manage both the go and prn side of things.** New,
