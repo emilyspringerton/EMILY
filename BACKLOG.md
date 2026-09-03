@@ -19443,26 +19443,6 @@ it, captured here before context-switching to PARENA. None of these are started.
   ID 本身仍有效)。
   (sess-20260820-0649-a3f19d93)
 
-- [x] **S189-63: 「V16」JS engine,原生 PARENA 實作,尚未開始,NORTHSTAR-level 才對。DONE
-  (scoping only)。** 創辦人:「so our v16 reengine is tablestakes」→「v16 engine」→
-  「native prn」→「pure prn」——延續 session 更早提過的既有構想(TS compiler in PARENA
-  stdlib、vanilla+TS output)。創辦人明確把這定位成『table stakes』(基本門檻,不是加分
-  項)。**真實產出**:新增 `PARENA/docs/V16_NORTHSTAR.md`,真實規模評估寫死在文件裡——
-  這等同重建 V8/Node.js 等級的 JS 引擎,是這整個 session 裡規模最大的單一構想。文件直接
-  點名真正最卡的瓶頸,不是隨口帶過:VS0 目前完全沒有 generic type parameters(這個 session
-  再次現場確認——`vec.prn` 的 `(Vec T)`、`map.prn` 的 `(Map K V)` 都會編譯失敗,
-  "unsupported return type symbol"),這卡死了真正的 JS tagged-value 表示法、通用
-  `(Map String JSValue)` object model,以及 JS 本身 closures/circular references 需要的
-  GC vs. region-based allocation 這個真實、尚未解決的架構抉擇。明列 6 階段真實計畫(先解決
-  generics 問題 → lexer/parser → tree-walking interpreter → GC 策略 → 最小 stdlib 切片 →
-  對照真實使用者重新評估,最可能是 PAPERCRAFT/GoblinFoxDragon 的 mod scripting 或 DUNG 自己
-  的「v16 renderer」)。明確排除範圍:JIT、完整 ECMAScript spec 相容、DOM/browser API、npm
-  模組解析。已登記為 golden doc(V16-JS-ENGINE-NORTH)。commit `8b3d1c9`,Apple #17379。
-  **老實說**:這次只完成 NORTHSTAR-only 的範疇規劃本身(這個 kanban 卡片字面上的要求),
-  沒有寫任何一行真正的引擎程式碼——比照 container/lxc、Moltbook 等同類巨大構想在動筆前先
-  規劃的處理方式。
-  (sess-20260902-2008-ed50169e)
-
 - [x] **S189-64: 里程碑——firefly.prn 真正通過 gcc 編譯,ladybug BDD 框架第一個真正可編譯
   的檔案。DONE。** 繼續「ladybug first」,commit 96e232e(PARENA)。firefly.prn(整個
   ladybug/Ginkgo-Gomega 風格測試框架的地基)第一次真的通過真正
@@ -28515,4 +28495,23 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
 - [ ] **1121: back office stuff for manual creation of emily+ accounts** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **543453: wotan stock market game** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **S189-63: 「V16」JS engine,原生 PARENA 實作,尚未開始,NORTHSTAR-level 才對。DONE
+  (scoping only)。** 創辦人:「so our v16 reengine is tablestakes」→「v16 engine」→
+  「native prn」→「pure prn」——延續 session 更早提過的既有構想(TS compiler in PARENA
+  stdlib、vanilla+TS output)。創辦人明確把這定位成『table stakes』(基本門檻,不是加分
+  項)。**真實產出**:新增 `PARENA/docs/V16_NORTHSTAR.md`,真實規模評估寫死在文件裡——
+  這等同重建 V8/Node.js 等級的 JS 引擎,是這整個 session 裡規模最大的單一構想。文件直接
+  點名真正最卡的瓶頸,不是隨口帶過:VS0 目前完全沒有 generic type parameters(這個 session
+  再次現場確認——`vec.prn` 的 `(Vec T)`、`map.prn` 的 `(Map K V)` 都會編譯失敗,
+  "unsupported return type symbol"),這卡死了真正的 JS tagged-value 表示法、通用
+  `(Map String JSValue)` object model,以及 JS 本身 closures/circular references 需要的
+  GC vs. region-based allocation 這個真實、尚未解決的架構抉擇。明列 6 階段真實計畫(先解決
+  generics 問題 → lexer/parser → tree-walking interpreter → GC 策略 → 最小 stdlib 切片 →
+  對照真實使用者重新評估,最可能是 PAPERCRAFT/GoblinFoxDragon 的 mod scripting 或 DUNG 自己
+  的「v16 renderer」)。明確排除範圍:JIT、完整 ECMAScript spec 相容、DOM/browser API、npm
+  模組解析。已登記為 golden doc(V16-JS-ENGINE-NORTH)。commit `8b3d1c9`,Apple #17379。
+  **老實說**:這次只完成 NORTHSTAR-only 的範疇規劃本身(這個 kanban 卡片字面上的要求),
+  沒有寫任何一行真正的引擎程式碼——比照 container/lxc、Moltbook 等同類巨大構想在動筆前先
+  規劃的處理方式。
   (sess-20260902-2008-ed50169e)
