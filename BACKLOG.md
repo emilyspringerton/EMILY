@@ -28941,10 +28941,25 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **PC-06667: PAPERCRAFT ENGINE normal maps north star** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **HW-001: UART STDLIBS and DEPS STDLIBS PLANNING FOR HARDWARE PLATFORMS ARDUINO EQUIVALENT etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **HW-003: SERIAL STDLIBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **HW-001 / HW-003: UART STDLIBS and DEPS STDLIBS PLANNING FOR HARDWARE PLATFORMS ARDUINO
+  EQUIVALENT / SERIAL STDLIBS — treated as one unified ask, UART is one specific kind of serial
+  communication.** New `PARENA/docs/UART_SERIAL_NORTHSTAR.md`, golden doc `UART-SERIAL-NORTH`.
+  Real motivation, grounded in this same session's own `IDUNA/docs/NORTHSTAR_INVENTORY.md` real
+  hardware (Raspberry Pi, an Adafruit Feather with a radio module). Real, existing foundation
+  checked directly: `io.prn` (real, generic file I/O) + `pty.prn` (the real, direct structural
+  precedent for a raw, FFI-bound POSIX terminal-adjacent syscall wrapper, though `forkpty` itself
+  isn't directly reusable for a real device file). **The one real, genuinely new gap**: a
+  `termios` configuration primitive (`tcgetattr`/`cfsetispeed`/`cfsetospeed`/`cfmakeraw`/
+  `tcsetattr`) needed right after opening a real serial device file to set baud rate + raw/8N1
+  mode — everything else (the actual read/write once configured) already exists via `io.prn`.
+  Real, honest, deliberately out-of-scope distinction named explicitly: the Feather's own radio
+  module is very likely SPI, not UART — a genuinely different bus protocol, unscoped here (the
+  cards name UART/Serial specifically). Real API surface (`serial-open`/`-read`/`-write`/
+  `-close`), direct structural sibling of `net/tcp.prn`. Real 2-phase plan: the termios primitive
+  + a `stdlib/hw/serial.prn` wrapper, then a real hardware round-trip proof — honestly named as
+  blocked (no physical USB-serial device in this sandbox, same real limitation class this
+  session's own `pentest/pcap.prn` already hit for `CAP_NET_RAW`). PARENA commit `d4d970d`.
+  Apple #17492. Planning only — no code written. (sess-20260902-2008-ed50169e)
 - [x] **CPCORE-001: SMS stdlibs we need to forward messages from sms network into the mesgh
   network.** Real, direct continuation of `CarePyre/docs/MESH_NETWORK_RESEARCH.md` (S184-02),
   which already named the real answer — gateway nodes bridging mesh-native messages out to
@@ -28977,4 +28992,6 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   B2BUA already planned dogfoods the language but re-derives real protocol logic (SIP proxy
   header-rewriting) Asterisk has already solved for years. Flagged as a real founder-level
   speed-vs-dogfooding decision, not resolved unilaterally. PARENA commit `84cec7d`. Apple #17490.
+  (sess-20260902-2008-ed50169e)
+- [ ] **PXCL-001: PX-we need a batteries included cli tool to generate scaffolding and stuff for us build it into burrow so it can help us manage both the go and prn side of things** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
