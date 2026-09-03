@@ -18774,6 +18774,35 @@ it, captured here before context-switching to PARENA. None of these are started.
   `FCM_PROJECT_ID`/`FCM_SERVICE_ACCOUNT_JSON`)。
   (sess-20260820-0649-a3f19d93)
 
+  **Real update, 2026-09-03 (still `[~]`, real progress, not fully done)**: founder said "i have
+  gcloud open i can do what is needed" — re-verified the blocker live first, not assumed stale
+  (`addFirebase` still returned a real, live `403 PERMISSION_DENIED` at the exact moment this
+  session checked, confirming the browser-ToS diagnosis above was still correct). Founder then did
+  the real browser step themselves (console.firebase.google.com) and provided a real, live
+  `google-services.json` — a NEW Firebase project (`mjolnir-d2ff6`), not the pre-existing
+  `einhorn-mjolnir` GCP project the API attempts above targeted; real, correct Android package
+  `industrial.einhorn.mjolnir` registered, matching `build.gradle.kts`'s own `applicationId`
+  exactly. Routed through `emily observe` first (Apple #17450). File placed at real
+  `MJOLNIR/app/google-services.json` (confirmed gitignored, not committed). **Real, new, honest
+  blocker found trying to finish the remaining step (setting the `GOOGLE_SERVICES_JSON` GitHub
+  Actions secret via the API with `EMILY/var/emily-secrets.env`'s own `GITHUB_TOKEN`)**: the repo
+  read itself succeeds (`admin`/`push`/`pull` all true) but `GET .../actions/secrets/public-key`
+  returns `403 Resource not accessible by personal access token` — a real, fine-grained-PAT
+  resource-permission gap (this token was never granted the "Secrets" write permission
+  specifically, separate from its repo-role-level admin access) confirmed via `X-Accepted-
+  Github-Permissions: metadata=read` on a plain repo GET, not a bug or a retry-able transient
+  error. **Real remaining action, named honestly, not attempted further**: either (a) the founder
+  pastes this same `google-services.json` into
+  github.com/emilyspringerton/MJOLNIR → Settings → Secrets and variables → Actions →
+  `GOOGLE_SERVICES_JSON` directly (fastest — MJOLNIR/README.md's own §1b already documents the
+  exact steps), or (b) grant the existing `GITHUB_TOKEN` PAT the "Secrets" (write) fine-grained
+  permission so this can be finished via the API next time. No CI/Gradle wiring is missing — CI's
+  own `build.yml`/release job have been correctly wired since `7b1305f`, only ever missing a real
+  secret to build against. FCM server-side wiring
+  (`FCM_PROJECT_ID`/`FCM_SERVICE_ACCOUNT_JSON`, a service-account key) is real, separate,
+  not-yet-started follow-up once the secret is set and a real green CI build is confirmed.
+  (sess-20260902-2008-ed50169e)
+
 - [ ] **S189-32: PITVIPER 渲染/redraw 問題彙整回報(mod-surface API 完成後,以「mod」
   形式修復,先驗證再 mainline)。** 創辦人一連串即時回報,自己多次澄清「非阻斷性,可以先
   出貨」(「like it kinda works dont get me wrong」「we can ship it like this」「copy
