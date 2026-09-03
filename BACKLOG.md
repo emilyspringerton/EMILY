@@ -29378,3 +29378,5 @@ not duplicate the work.
   today (checked: no chat UI, no chat packet type in `protocol.h`) — "no chat" for this card
   means don't build one, not remove one. Named directly in the NORTHSTAR so a future pass
   doesn't misread this as chat-moderation work. (sess-20260902-2008-ed50169e)
+- [ ] **PC-CALI-002: PAPERCRAFT SNOWBOARD MOD vs0 mountain and grind on golden gate style bridge** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
