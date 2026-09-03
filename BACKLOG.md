@@ -29440,3 +29440,5 @@ services survive the way their own unit files already intend.
   (sess-20260902-2008-ed50169e)
 - [ ] **IDUXN-003: kanban needs a quick filter at the top to help me find cards quick when i think of one that needs to move filtering on the card name priority over the rest of the text iduna index** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **k8smigration-00333: matchmaking can move fairly easily to kubernetes no?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
