@@ -27405,18 +27405,27 @@ deferred"). Confirmed by the founder: the PAPERCRAFT CI card is the real, intend
 collision was accidental, caused by the add-card form requiring a full, precise `S###-##` id
 up front with no help avoiding an already-used one.
 
-- [ ] **S235-01: make the item-number suffix optional when manually adding a kanban card.**
+- [x] **S235-01: make the item-number suffix optional when manually adding a kanban card.**
   Founder: "the -27 part of the item doesnt need to be specify you can but if you just say S203
-  then you can do that but you shouldnt have to." Real proposal: accept a bare section reference
-  (`S203`) as valid input, auto-assigning/deferring the specific item number rather than forcing
-  the caller to know and correctly guess an unused one — the exact class of mistake that just
-  happened live. Not built this pass — founder explicitly said not to bother logging the
-  PAPERCRAFT CI card into the backlog file for this specific instance, just do the real work
-  (S203-04's collision itself was left alone, not renamed/fixed, per that direction). A future
-  pass should also decide: does `KanbanHandler.create` validate/reject a colliding id against the
-  live `backlog.ParseFile` result before insert, to catch this class of mistake at creation time
-  instead of after the fact?
-  (sess-20260830-1207-cc0ba7da)
+  then you can do that but you shouldnt have to." Built (2026-09-03, worked from the cruise
+  queue): new `resolveBareSectionID` (`IDUNA/internal/http/handlers/kanban.go`) — a manually-
+  typed `backlog_item_id` matching a bare `S<section>` shape now gets resolved to the next real,
+  actually-unused item number under that section, read live from `backlog.ParseFile` (never
+  guessed); a caller who already gives a full, specific id (the pre-existing path) is untouched.
+  Falls back honestly to `-01` on a read failure rather than blocking card creation. The create
+  response now echoes the real resolved `backlog_item_id` back, and the add-card form
+  (`kanban_page.go`) surfaces it in the status line so a caller who used the shortcut can see
+  what actually got assigned. 6 new tests (unit-level resolver + a full create-request
+  integration test reproducing the exact real collision this fix prevents — `S203` resolving to
+  `S203-05` when `S203-04` already exists) plus a real, live end-to-end check against the
+  restarted `iduna.service`: `S235` correctly resolved to `S235-02` (this very section's own
+  `S235-01` already occupying `-01`), synced into `BACKLOG.md`, then cleaned up as the test
+  artifact it was. `go build/test` + `GOWORK=off go build/test` (real standalone CI path) both
+  clean, `go vet` clean. Deferred, still open, not scoped further this pass: whether
+  `KanbanHandler.create` should also validate/reject an already-taken FULL id up front (this fix
+  only covers the bare-section shortcut, not a caller who still types a full, colliding id by
+  hand). IDUNA commit `eb77b75`, Apple #17278.
+  (sess-20260902-2008-ed50169e)
 - [x] **S205-99: we need a Done option for send to in the kanban its fine we dont have a done column** Added via the IDUNA kanban interface. Real duplicate of the same ask already shipped this session as **S234-05** (the "✓ Done" option on every card's "Send to…" select, archiving the item's real BACKLOG.md line + filing a real Apple) — cross-referenced here rather than reworked, IDUNA commit `0b00d44`.
   (sess-20260830-1207-cc0ba7da)
 - [ ] **S205-98: Kanban send to Archive special column we want to send stuff there that we basically want to delete but not say its done but we need to look at them later just in case we missed some context previously** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -27708,6 +27717,4 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   the camp position before committing, reusing the existing vocabulary. Real, honest state:
   design phase complete, matching S189-02's own already-accepted pattern — zero game code
   written yet. REDGARDEN commit `d05a550`, Apple #17276.
-  (sess-20260902-2008-ed50169e)
-- [ ] **S235-02: live bare-section resolution test** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
