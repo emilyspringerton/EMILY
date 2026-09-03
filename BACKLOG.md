@@ -28663,3 +28663,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **324234324234: GOOGLE CLOUD MIGRATATION WHAT WE DO? KUBERNETES STAND IT UP** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **342534534535: copy the git interface paradigms and idoms and affordances from vs codes for GIT for our parena editor** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
