@@ -28726,8 +28726,23 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **232131231: fix unicode in pitviper** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **3454353: fix unicode in parena editor** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **3454353: fix unicode in parena editor.** Real, genuine bug found and fixed in
+  `PARENA/stdlib/editor/buffer.prn`: every cursor-movement/delete function (`move-cursor-left`/
+  `-right`, `backspace-at-cursor`, `delete-forward-at-cursor`, `extend-selection-left`/`-right`)
+  moved exactly one BYTE, not one UTF-8 codepoint — for any real multi-byte character (accented
+  Latin, CJK, emoji), a single Backspace/arrow key only touched one byte of a real multi-byte
+  sequence, corrupting it, almost certainly the exact real symptom behind this card's own report.
+  Fixed via two new private helpers: `utf8-codepoint-len` (real byte count of the codepoint
+  starting at a position, per RFC 3629's own lead-byte bit patterns) and `utf8-prev-boundary`
+  (walks backward over continuation bytes to the start of the preceding codepoint) — every
+  affected function now moves by a whole codepoint. Real, honest signedness note, same fix class
+  this session's own `net/wire.prn` already needed: `char-at` sign-extends a byte ≥ 0x80 on this
+  box, so a new `byte-at` helper normalizes with `bit-and 255` first. New
+  `tests/test_editor_unicode.c` (`make test-editor-unicode`), deliberately exercising both a real
+  2-byte codepoint (é) and a real 4-byte codepoint (an emoji), not just ASCII (which would pass
+  even with the old, broken code) — all pass. `make test`: 345/345; the existing real, SDL-driven
+  `make test-editor` also stays green (confirmed live, ASCII-only edit path unaffected). PARENA
+  commit `ee7e3cd`. Apple #17482. (sess-20260902-2008-ed50169e)
 - [ ] **3243242: ensure kanban does log streaming and checks in to the unified logsensure that we can build on top of the kanban system as a load bearing system ie aditional integrations a card can assig** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **324234324234: GOOGLE CLOUD MIGRATATION WHAT WE DO? KUBERNETES STAND IT UP** Added via the IDUNA kanban interface, not yet triaged into a real section.
