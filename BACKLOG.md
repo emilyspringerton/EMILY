@@ -29231,3 +29231,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **GOLDENOPS-001: emily framework default behavior if a new unscoped request comes in on the priority queue or cruise queue and it is a big ask scope/northstar it then toss card back to backlog standard op procedure** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **MULTIKANBAN-000: the kanban is a good primative i want to move it up the abstraction layer i want IDUNA and IDUNA PRO to give the ability to create multiple kanbans** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
