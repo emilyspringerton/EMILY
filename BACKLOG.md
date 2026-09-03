@@ -28377,7 +28377,25 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **353534: emily for business fresh repo stand up IDUNA pro and set up emily cli and EMILY repo and extract emily for business core product (create a new EMILY_PRIME ) (WHERE NEW EMILY repo?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **1111: IDUNA UNIFIED SEARCH INTERFACE** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **1111: IDUNA UNIFIED SEARCH INTERFACE. DONE.** New `/portal/search`: one query box, real
+  results from two real corpora shown together — Apples and the unified event log. New
+  `store.IAMStore.SearchApples` (real SQLite + MySQL implementations) — real, checked gap found
+  first: `ListApples` only ever supported exact `agent_id`/`source_repo`/`apple_type` filters,
+  no free-text search over apple title/body existed anywhere before this. Event-log side reuses
+  the existing `searchEvents` from `/portal/logs`, same query string, no second syntax invented.
+  Each corpus independently reports its own real "not configured" state — one missing dependency
+  never blocks the other half. Real, deliberate simplicity, same judgment call as kanban 9933's
+  own `bstree.prn` work on the log-search-indexing side of this exact thread: plain SQL `LIKE`,
+  not a real full-text index — narrowest real slice first. 6 new tests (2 real store-level
+  against an actual in-memory SQLite DB, 4 handler-level including the real independence proof).
+  `go build/vet/test ./...` clean, zero regressions. Live-verified: `iduna.service` rebuilt and
+  restarted, `/health` green; the real underlying `LIKE` query run directly against the live
+  production apples table confirmed correct, current real results. Honest, named gap: the page
+  itself needs a real admin cookie session this sandbox has no credentials for, so its live
+  render wasn't visually confirmed — verified instead via handler-level tests exercising the
+  exact same template, plus the service's own clean restart (a malformed template would have
+  panicked via `template.Must`). IDUNA commit `c72b513`, Apple #17354.
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [ ] **4444: GFD add dungeons - we need content - make it like DIABLO in terms of how the procedural dungeons work use the hero compendium to design bosses for the named dungeons** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
