@@ -27752,3 +27752,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   trailing-field append already produces, not a new problem). REDGARDEN commit `3d3f560`, Apple
   #17281.
   (sess-20260902-2008-ed50169e)
+- [ ] **S205-100: intake mixforge legacy conversation northstar it with our stack not the one discussed built with parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
