@@ -29065,6 +29065,27 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   `len`-parameter fix actually works). `make test`: 345/345, zero regressions. `net/wire.prn`'s
   own `raw-byte` helper is now exported (was internal-only), its first real second consumer.
   PARENA commit `e25fb3d`. Apple #17501. (sess-20260902-2008-ed50169e)
+- [x] **PBX-002: full featured PBX add asterisk bindings to parena whatever needs to fill in the
+  gaps between our low level implementation and a real deal.** New
+  `PARENA/docs/PBX_ASTERISK_NORTHSTAR.md`, golden doc `PBX-ASTERISK-NORTH`. Real, checked-live
+  research into Asterisk's 3 real control surfaces: AMI (Asterisk Manager Interface, plain-ASCII,
+  line-based, TCP port 5038), ARI (a modern HTTP+WebSocket API), AGI (a per-call stdin/stdout
+  script interface). **Real, decisive finding**: AMI's own real wire format
+  (`\r\n`-terminated key:value lines, blank-line-terminated) is a direct structural sibling of
+  `sip/message.prn`'s own already-solved header-parsing shape — not a new parsing problem for
+  this stdlib, the same real problem already solved applied to a simpler protocol. Real,
+  deliberate recommendation: AMI first, not ARI (needs a real WebSocket primitive PARENA doesn't
+  have) or AGI (only reactive within a single already-routed call, not a real monitor/control
+  surface). Real 4-phase plan: `stdlib/pbx/ami.prn` (Phase 1 — login-action construction +
+  message parsing, a direct port of `sip/message.prn`'s own `parse-headers` shape), a real login
+  round-trip against a live Asterisk instance (Phase 2 — honestly named as untestable in this
+  sandbox, no Asterisk instance available, same real limitation class `pentest/pcap.prn`'s own
+  no-`CAP_NET_RAW` gap already established), real event parsing + a small useful action set
+  (Originate/Hangup/QueueStatus, Phase 3), ARI/WebSocket deferred as real, separate, larger work
+  (Phase 4). PARENA commit `42c9bd6`. Apple #17503. Planning only — no code written.
+  (sess-20260902-2008-ed50169e)
+- [ ] **B-111: add commands for standing up the models and views and controllers and all of that for a web app get that working by using it to scaffold shithub** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **LB-911: FIX LADYBUG AND SCARAB.** Checked live rather than trusting `ladybug/README.md`'s
   own existing claim (a real, stale gap list from an earlier pass): **`firefly.prn` already
   builds cleanly through domain 3 (`parena build`, the real C emitter) today** — the original
@@ -29087,24 +29108,3 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   existing `//:firefly_verify`/`//:ladybug_verify`/`//:gomega_alias_verify`/`//:scarab_verify`
   targets all still pass under the bumped pin. PARENA commit `227f78c`, ladybug commit `2e675f1`.
   Apple #17505. (sess-20260902-2008-ed50169e)
-- [x] **PBX-002: full featured PBX add asterisk bindings to parena whatever needs to fill in the
-  gaps between our low level implementation and a real deal.** New
-  `PARENA/docs/PBX_ASTERISK_NORTHSTAR.md`, golden doc `PBX-ASTERISK-NORTH`. Real, checked-live
-  research into Asterisk's 3 real control surfaces: AMI (Asterisk Manager Interface, plain-ASCII,
-  line-based, TCP port 5038), ARI (a modern HTTP+WebSocket API), AGI (a per-call stdin/stdout
-  script interface). **Real, decisive finding**: AMI's own real wire format
-  (`\r\n`-terminated key:value lines, blank-line-terminated) is a direct structural sibling of
-  `sip/message.prn`'s own already-solved header-parsing shape — not a new parsing problem for
-  this stdlib, the same real problem already solved applied to a simpler protocol. Real,
-  deliberate recommendation: AMI first, not ARI (needs a real WebSocket primitive PARENA doesn't
-  have) or AGI (only reactive within a single already-routed call, not a real monitor/control
-  surface). Real 4-phase plan: `stdlib/pbx/ami.prn` (Phase 1 — login-action construction +
-  message parsing, a direct port of `sip/message.prn`'s own `parse-headers` shape), a real login
-  round-trip against a live Asterisk instance (Phase 2 — honestly named as untestable in this
-  sandbox, no Asterisk instance available, same real limitation class `pentest/pcap.prn`'s own
-  no-`CAP_NET_RAW` gap already established), real event parsing + a small useful action set
-  (Originate/Hangup/QueueStatus, Phase 3), ARI/WebSocket deferred as real, separate, larger work
-  (Phase 4). PARENA commit `42c9bd6`. Apple #17503. Planning only — no code written.
-  (sess-20260902-2008-ed50169e)
-- [ ] **B-111: add commands for standing up the models and views and controllers and all of that for a web app get that working by using it to scaffold shithub** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
