@@ -28332,7 +28332,8 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **4444: GFD add dungeons - we need content - make it like DIABLO in terms of how the procedural dungeons work use the hero compendium to design bosses for the named dungeons** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **8744: ensure we are working from a kanban API it seems like claude is yolo querying sqlite a lot can we pave that cow path/** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **8744: ensure we are working from a kanban API it seems like claude is yolo querying sqlite a lot can we pave that cow path/. DONE.** Real, fair feedback about this session's own behavior — direct `sqlite3 .../iduna.db "SELECT ... FROM kanban_cards"` reads were used repeatedly this session to check the priority/cruise queue instead of the real `GET /api/v1/kanban/cards?queue=...` API that already exists (the same real, bearer-authenticated, `kanban.access`-gated endpoint every `PATCH .../done` call already goes through). No code change needed — the API already existed and is the correct, already-"paved" path; this was a real behavioral gap in how I was using it, not a missing feature. Fixed going forward: saved as a standing session memory (`use_kanban_api_not_sqlite.md`) so future queue checks go through the real API, reserving direct DB reads for genuine debugging of the kanban system itself (e.g. verifying a migration created the right tables).
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [ ] **499988: can we start to add more api surfaces to PAPERCRAFT mod api surface we want to get parity with ROBLOX apis start with the api for setting an explosion** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
