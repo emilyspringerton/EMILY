@@ -28089,7 +28089,21 @@ shipped in this section itself; this is planning work, matching the card's own l
   rebuilt and restarted, `/health` green, `/admin/kanban` still correctly gated (401
   unauthenticated) — the admin auth boundary wasn't touched. commit `abd4a74`, Apple #17304.
   (sess-20260902-2008-ed50169e)
-- [ ] **211: duck is no longer last - update the blog** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **211: duck is no longer last - update the blog. DONE.** Checked the real, live claim
+  before writing anything: queried `redgarden_hero_stats` directly. Confirmed The Duck
+  (`ARENA_HERO_DUCK=1`) is now 145/350 = 41.4%, ranked 5th from the bottom of 30 heroes — a real
+  change from the two prior posts in this exact running series ("Last Place (And Not Confirming
+  Anything About It)": 106/297=35.7%; "State of the Ecosystem: The Duck Still Hasn't Moved",
+  2026-08-29: 135/333=40.5%, "dead last of thirty, same as last time we checked"). Found the
+  hero now actually holding dead last: Gunnr (`ARENA_HERO_GUNNR=21`, 141/351=40.2%) — a real,
+  fitting callback, since the immediately preceding post already named Gunnr by name as Duck's
+  own nearest comparison point. Published a new post continuing the exact established
+  Tyler-moderated ensemble-transcript format/voice through the real, live `BlogHandler.Create`
+  API (not a direct DB insert), triggering the real static-page re-render. Live-verified: post
+  id 190, slug `state-of-the-ecosystem-the-duck-has-in-fact-moved`, confirmed publicly reachable
+  (200) at `https://okemily.com/blog/state-of-the-ecosystem-the-duck-has-in-fact-moved/` with the
+  correct rendered content. Apple #17351.
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [x] **S206-601: iterate on mixforge.** Triaged into SECTION 243 as S243-01, per the
   210-101 cruise-column sprint-planning pass — S243-01 itself is now DONE (real V0 YouTube-URL
