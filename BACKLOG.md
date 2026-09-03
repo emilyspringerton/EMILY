@@ -27738,6 +27738,69 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   trailing-field append already produces, not a new problem). REDGARDEN commit `3d3f560`, Apple
   #17281.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 243: CRUISE-QUEUE SPRINT PLANNING (2026-09-03)
+
+Kanban priority-queue card "210-101: sprint plan the items in the CRUISE column." Real triage
+pass over the 4 raw, un-triaged kanban cards sitting in the cruise queue — each gets a real,
+grounded scope + phased next-step plan below rather than staying a bare one-line ask. No code
+shipped in this section itself; this is planning work, matching the card's own literal request.
+
+- [ ] **S243-01: iterate on MixForge (was S206-601).** MIXFORGE already has a real, grounded
+  NORTHSTAR (`MIXFORGE/NORTHSTAR.md`, S205-100/101) scoping the legacy-conversation DJ-tool idea
+  onto this monorepo's own PARENA-first stack. Real, checked, current blocking dependency: V0
+  (paste-a-YouTube-URL track import) needs only `stdlib/shell.prn` (real, exists) shelling out to
+  `yt-dlp`, so it's actually startable today without waiting on anything; the NEXT phase
+  (two-deck playback/crossfade) is genuinely blocked on `stdlib/media/audio.prn`/`codec.prn`,
+  which are design-only in PARENA today (STDLIB.md §26-27, zero `.prn` source exists) — a real,
+  named, cross-repo PARENA-side prerequisite, not a MIXFORGE-repo task. Real next step: build V0
+  (import + local track library) now, since it has no blocker; track the audio/codec stdlib gap
+  as its own PARENA-side backlog item before starting playback.
+- [ ] **S243-02: Emily for Business — IDUNA as a zero-trust, security-agent-native product (was
+  S208-10).** Founder's own framing, preserved verbatim: "IDUNA IS THE PRODUCT BASICALLY ZERO
+  TRUST SECURITY AGENT NATIVE." This is a real, board-level product-positioning idea, not yet a
+  scoped engineering task — no NORTHSTAR exists for it anywhere in the monorepo today (checked:
+  no `EMILY_ENTERPRISE`/"emily for business" doc found in EMILY, IDUNA, or EmilyOS). Real,
+  honest assessment: this needs a founder-level product scoping conversation before engineering
+  work can be sequenced (what "zero trust" concretely means as a sellable IDUNA feature set vs.
+  what already exists internally — RBAC, M2M agent auth, ES256 JWTs, the unified logging backend
+  SECTION 226 just closed — is a real open question, not a known answer). Real next step: write
+  a real NORTHSTAR.md (likely under `IDUNA/docs/` or a new dedicated doc) mapping IDUNA's
+  existing internal security primitives onto an external-facing "zero trust agent-native IAM"
+  product pitch, flagging what's genuinely sellable today vs. what needs building — not attempted
+  in this pass, named as the concrete unblock.
+- [ ] **S243-03: port PAPERCRAFT's PARENA mod plugins to SHANKPIT OG, not SHANKPIT 460 (was
+  "208").** Real, checked precondition: PAPERCRAFT already has a real, proven PARENA mod-loading
+  pipeline (`MODDING.md`, live SIGHUP hot-reload, `xp_award_mod` as a working reference mod).
+  SHANKPIT itself (checked directly, `SHANKPIT/CLAUDE.md`) has **no PARENA mod-loading pipeline
+  wired in at all today** — this is a real, new integration, not a copy-paste of existing plumbing.
+  Real, honest scope split: (a) port the actual PAPERCRAFT mod-loader/host-call-site pattern
+  (`parena build` → dlopen/dynamic dispatch → "mod decides, host applies") into SHANKPIT's own
+  C/SDL2 codebase, (b) port or re-author the specific PAPERCRAFT plugin(s) referenced (`xp_award_mod`
+  or similar) against SHANKPIT's own real game-state shape, which is not identical to PAPERCRAFT's.
+  Real next step: (a) is the actual unblock and hasn't been scoped in SHANKPIT terms yet — needs
+  its own follow-up investigation pass before implementation starts.
+- [ ] **S243-04: MixForge as a web app, prove out a PARENA web framework, Electron packaging (was
+  "210").** Real, checked, decisive blocker found: PARENA's own `stdlib/net/http.prn` is
+  **client-only** (`http-get`/`http-post`/`http-request`) — the original design's server-side
+  `serve` was explicitly dropped and is flagged in the stdlib source itself as a real, deferred
+  gap ("no PARENA-side HTTP server yet"). "Prove out the web framework in PARENA" cannot start
+  until a real PARENA HTTP server exists — this is a PARENA-repo prerequisite, larger than
+  MixForge itself, and not attempted in this pass. Electron packaging is a real, separate,
+  much-later concern (it wraps a working web UI, doesn't unblock building one) — sequenced after,
+  not alongside, the server work. Real next step: scope a PARENA HTTP server (`net/http.prn`
+  `serve`) as its own dedicated PARENA backlog item before any MixForge web-app work starts.
+
+- [x] **210-101: sprint plan the items in the CRUISE column. DONE.** Triaged the 4 raw,
+  un-triaged cruise-queue kanban cards above (S243-01 through S243-04) — each now has a real,
+  checked scope and a concrete next step, replacing a bare one-line ask. Two genuine, decisive
+  cross-repo blockers found and named, not glossed over: PARENA's `media/audio`/`codec` stdlib
+  (blocks MixForge phase 2) and PARENA's missing HTTP server (blocks the MixForge-as-web-app ask
+  entirely, not just phase 2) — both are real PARENA-repo prerequisites, correctly not attempted
+  inside this planning pass. No code shipped; this is a planning/triage deliverable, matching the
+  card's own literal request. Apple #17306.
+  (sess-20260902-2008-ed50169e)
+
 - [ ] **S206-96: EMILY_ENTERPRISE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [x] **205: emojis need to work in pitviper and parena editor what do we need to build a custom
@@ -27780,11 +27843,13 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
   `ae5812be`, Apple #17286.
   (sess-20260902-2008-ed50169e)
-- [ ] **S206-601: iterate on mixforge** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **S206-601: iterate on mixforge.** Triaged into SECTION 243 as S243-01, per the
+  210-101 cruise-column sprint-planning pass.
   (sess-20260902-2008-ed50169e)
 - [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Triaged into
+  SECTION 243 as S243-02, per the 210-101 cruise-column sprint-planning pass.
   (sess-20260902-2008-ed50169e)
 - [x] **S205-509: CONTINUE WORKING ON DUNG IDE write it in LO.** Investigated a real "write DUNG
   in LO" integration against `LO`'s own real, current compiler — found two real, compounding
@@ -27816,7 +27881,10 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   (sess-20260902-2008-ed50169e)
 - [ ] **S208-11: project exodus claude -> notebook lm -> git somehow need a pipeline to slurp in old convos some kind of workflow** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **208: can we make the papercraft plugins work for SHANKPIT? add the papercraft MOD work to SHANKPIT OG (not 460 yet)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **208: can we make the papercraft plugins work for SHANKPIT? add the papercraft MOD work to SHANKPIT OG (not 460 yet)** Triaged
+  into SECTION 243 as S243-03, per the 210-101 cruise-column sprint-planning pass. (Note: this
+  card's raw numeric id "208" is a bare kanban-typed number, unrelated to the real, pre-existing
+  SECTION 208 — LO esolang — a coincidental collision, not a real reference.)
   (sess-20260902-2008-ed50169e)
 - [x] **S189-42: TINA desk engine——用 PARENA + Go plugin 架構自動發布 TINA 系列文章
   (guidance raise 觸發)。真正實作了 Go host 半邊,PARENA plugin 半邊誠實地標記為
@@ -27850,7 +27918,10 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   plugin.prn` 的 host/plugin 分工模式)本次沒有做——這次交付 100% 都在 Go 這邊,
   PARENA plugin 半邊是真實、具體命名的下一步。commit `1d89ccb`,Apple #17302。
   (sess-20260902-2008-ed50169e)
-- [ ] **210: lets have MixForge be a web app we can prove out the web framework in parena keep the interface simple for  now we arent real time djing yet  also we can build it into electron at the same time?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **210: lets have MixForge be a web app we can prove out the web framework in parena keep the interface simple for  now we arent real time djing yet  also we can build it into electron at the same time?** Triaged
+  into SECTION 243 as S243-04, per the 210-101 cruise-column sprint-planning pass. (Note: this
+  card's raw numeric id "210" is a bare kanban-typed number, unrelated to the real, pre-existing
+  SECTION 210 — DCGAN primitives — a coincidental collision, not a real reference.)
   (sess-20260902-2008-ed50169e)
 - [ ] **210-101: sprint plan the items in the CRUISE column** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
