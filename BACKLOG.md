@@ -28541,3 +28541,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **1233421: shankpit og osaka garage as ''the construct' multiverse portal can download and launch new scenes in papercraft** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **3243222: realistic lifelike NPCs think skyrim deep mod api integration papercraft parena and then in GFD then OG shankpit** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
