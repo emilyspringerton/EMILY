@@ -28204,7 +28204,8 @@ shipped in this section itself; this is planning work, matching the card's own l
   startup. IDUNA commit `0cbcb99`, Apple #17347.
   (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
-- [ ] **9944: OG IDUNA unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **9944: OG IDUNA unified search** Added via the IDUNA kanban interface, not yet triaged into a real section. **DONE.** Found live: card 1111's own original `/portal/search` only covered Apples + the unified event log — IDUNA's own real, prominent blog content (Tyler's REDGARDEN/ecosystem series) had no search story at all. New `internal/blog.Store.Search(query, limit)` (plain title-OR-body `LIKE` match, same deliberate "narrowest real slice, not a full-text index" scope `SearchApples` already established); new `PortalHandler.BlogStore` field, same independent-availability shape as `Store`/`EventLog` — one unconfigured corpus never blocks the other two. Template gets a new Blog Posts results section between Apples and Log Events, intro copy updated from "two" to "three real corpora." New tests: `TestStore_Search_MatchesTitleOrBody`, `TestStore_Search_LimitRespected`, `TestPortalHandler_Search_IncludesBlogPosts`, `TestPortalHandler_Search_UnconfiguredBlogStoreDoesNotBlockOthers`. `go test ./...` clean, zero regressions. Live-verified: rebuilt + restarted `iduna.service`, confirmed `/health`, confirmed the live `blog.db` has real matchable content ("duck" → "The Duck Also Has Opinions About the Hoodie"). Commit `c330bbd`, Apple #17383.
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [x] **9933: INDEXING primatives built into PARENA to power IDUNA OG unified search - btries etc.
   DONE.** New `PARENA/stdlib/bstree.prn`: a real, compiling, live-tested (`make test-bstree`)
