@@ -28301,3 +28301,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **109777: we need to identify a subset of golden docs that get built into a new Emily for Business project when it gets scaffolded on the command line or setup via cloud etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **109778: oh yea and logs will be indexed for the unified search in IDUNA obviousl;y** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
