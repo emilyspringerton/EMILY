@@ -28297,3 +28297,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
 (sess-20260902-2008-ed50169e)
 - [ ] **1199: iterate on project burrow we need to get that ready to write the cli for emily for business and iduna pro so that parena gets transformed into idiomatic go** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **7799: what other primatives and affordances do we need to start building out our indexes? we should be able to like have a heirarchy of indexes maybe? apples, kanban, fatbaby news etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
