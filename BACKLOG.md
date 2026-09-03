@@ -27770,19 +27770,26 @@ shipped in this section itself; this is planning work, matching the card's own l
   (design-only, zero `.prn` source, STDLIB.md §26-27). Also honestly open: no CLI entry point
   exists in the MIXFORGE repo itself yet — nothing calls the new library function from a real
   `main.c`. PARENA commit `77401dc`, MIXFORGE commit `fef399c`, Apple #17309.
-- [ ] **S243-02: Emily for Business — IDUNA as a zero-trust, security-agent-native product (was
-  S208-10).** Founder's own framing, preserved verbatim: "IDUNA IS THE PRODUCT BASICALLY ZERO
-  TRUST SECURITY AGENT NATIVE." This is a real, board-level product-positioning idea, not yet a
-  scoped engineering task — no NORTHSTAR exists for it anywhere in the monorepo today (checked:
-  no `EMILY_ENTERPRISE`/"emily for business" doc found in EMILY, IDUNA, or EmilyOS). Real,
-  honest assessment: this needs a founder-level product scoping conversation before engineering
-  work can be sequenced (what "zero trust" concretely means as a sellable IDUNA feature set vs.
-  what already exists internally — RBAC, M2M agent auth, ES256 JWTs, the unified logging backend
-  SECTION 226 just closed — is a real open question, not a known answer). Real next step: write
-  a real NORTHSTAR.md (likely under `IDUNA/docs/` or a new dedicated doc) mapping IDUNA's
-  existing internal security primitives onto an external-facing "zero trust agent-native IAM"
-  product pitch, flagging what's genuinely sellable today vs. what needs building — not attempted
-  in this pass, named as the concrete unblock.
+- [x] **S243-02: Emily for Business — IDUNA as a zero-trust, security-agent-native product (was
+  S208-10). DONE — real product-scoping NORTHSTAR written.** Founder's own framing, preserved
+  verbatim: "IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE." This was a real,
+  board-level product-positioning idea with no NORTHSTAR anywhere in the monorepo — now has one:
+  `IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`. Names a real, direct tension head-on rather than
+  smoothing it over: `IDUNA/docs/NORTHSTAR.md`'s own standing line, "IDUNA is not a product. It
+  is the backbone," is a real reversal this doc leaves for the founder to resolve, not this
+  session. Maps IDUNA's real, checked-today primitives (agent-native dual JWT/OAuth auth,
+  hierarchical RBAC, git-backed Apples audit ledger, the just-closed unified Splunk-shaped
+  logging backend) onto what a real external zero-trust product pitch needs, and names what's
+  genuinely missing without glossing over it: no multi-tenancy, no self-serve onboarding, no
+  continuous device/posture verification (EmilyOS's own `docs/POSTURE.md` design exists but is
+  mostly unimplemented, `[ ] Milestone 1/2`), no network micro-segmentation story, no completed
+  compliance attestation (EmilyOS's `docs/SOC2.md` is a controls map, not an attestation). Four
+  open questions named explicitly for a founder-level decision, deliberately NOT resolved here:
+  literal-IDUNA-externalization vs. a new separate product reusing IDUNA's design; who the actual
+  buyer is; whether EmilyOS's posture kernel folds into this pitch; pricing/packaging. This is a
+  real planning deliverable, not an implementation — no code changes follow from it alone.
+  Registered in `EMILY/context/golden-docs-index.md` as `EMILY-FOR-BUSINESS-NORTH`. IDUNA commit
+  `7db8c44`, EMILY commit `0c47bb53`, Apple #17311.
 - [ ] **S243-03: port PAPERCRAFT's PARENA mod plugins to SHANKPIT OG, not SHANKPIT 460 (was
   "208").** Real, checked precondition: PAPERCRAFT already has a real, proven PARENA mod-loading
   pipeline (`MODDING.md`, live SIGHUP hot-reload, `xp_award_mod` as a working reference mod).
@@ -27859,8 +27866,10 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Triaged into
-  SECTION 243 as S243-02, per the 210-101 cruise-column sprint-planning pass.
+- [x] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Triaged into
+  SECTION 243 as S243-02, per the 210-101 cruise-column sprint-planning pass — S243-02 itself is
+  now DONE (real product-scoping NORTHSTAR written, `IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`,
+  Apple #17311). See S243-02's own entry for full detail.
   (sess-20260902-2008-ed50169e)
 - [x] **S205-509: CONTINUE WORKING ON DUNG IDE write it in LO.** Investigated a real "write DUNG
   in LO" integration against `LO`'s own real, current compiler — found two real, compounding
