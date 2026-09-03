@@ -29385,3 +29385,5 @@ not duplicate the work.
   (sess-20260902-2008-ed50169e)
 - [ ] **PC-CALI-006: vehicles are multi tenant (people can jump in the back of a convertable or get in passenger etc) mod** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **IN-000: IDUNA NOTEBOOK - we need an icloud like affordances for creating notes for iduna and iduna pro research** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
