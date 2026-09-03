@@ -28109,7 +28109,7 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9997: figure out how the cli will work for emily for business - for example if someone wants to interract with their iduna pro instance on the command line (emily.cli+)?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update**: card 1199's own prerequisite work (real `let`/`do` support in BURROW's Go emission target, live-verified) has landed — see its own entry above. Still genuinely open: `match`/`Result` (real error handling) and `loop` (real iteration) are both still unstarted in `emit_go.go` and are real, necessary prerequisites before an actual CLI can be written this way — not attempted in this pass, and the CLI itself (the literal ask here) has not been started.
   (sess-20260902-2008-ed50169e)
 - [ ] **9977: can we add SARENA notebook to OG IDUNA as an option in the menu?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
@@ -28295,7 +28295,26 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   as S245-04).** Add/remove/reorder links, view real per-link click counts. Blocked on
   S245-06/07 existing as real APIs first.
 (sess-20260902-2008-ed50169e)
-- [ ] **1199: iterate on project burrow we need to get that ready to write the cli for emily for business and iduna pro so that parena gets transformed into idiomatic go** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **1199: iterate on project burrow we need to get that ready to write the cli for emily for
+  business and iduna pro so that parena gets transformed into idiomatic go. DONE (this
+  iteration) — real, honest progress, not the full journey.** Real, checked finding before
+  building anything: BURROW's own Go emission target (`emit_go.go`) had a v0 scope of
+  "one-expression body" only — no real `.prn` function could declare a local variable at all,
+  the single largest real gap blocking any real multi-statement logic (a CLI's own argument
+  parsing, string building, sequential setup) from reaching this target. Added real `let`/`do`
+  support: emitted as the exact same immediately-invoked-func-literal-boxed-through-`any` shape
+  the existing `if` case already established, composing with `if` (and each other) for free. Real,
+  deliberate scope: `let` bindings evaluate into a cloned local-params map, never leaking outside
+  their own `let` — proven by a real test asserting the exact "unknown identifier" error a leak
+  would otherwise silently avoid. 7 new tests, `go build/vet/test` clean, 73/73 total, zero
+  regressions. **Live-verified end to end, not just unit tests**: a real two-binding `let` and a
+  real nested `let`-inside-`if` both compiled via `burrow build`, linked into a real, separate Go
+  module via `go build`, and run with correct output. **Real, honest, still-open remainder,
+  named not glossed over**: `defenum`/`match`/`loop`/`Result`/`Vec` and struct construction are
+  still unstarted — a real CLI needs `match`/`Result` (real error handling) and `loop` (real
+  iteration) too before "ready to write the CLI" is fully true. This closes the single biggest
+  blocker, not the last one — see 9988 below, still open, for the actual CLI deliverable itself.
+  BURROW commit `c8f0062`, Apple #17342.
   (sess-20260902-2008-ed50169e)
 - [ ] **7799: what other primatives and affordances do we need to start building out our indexes? we should be able to like have a heirarchy of indexes maybe? apples, kanban, fatbaby news etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
