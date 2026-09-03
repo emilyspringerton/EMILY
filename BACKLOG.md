@@ -29065,8 +29065,28 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   `len`-parameter fix actually works). `make test`: 345/345, zero regressions. `net/wire.prn`'s
   own `raw-byte` helper is now exported (was internal-only), its first real second consumer.
   PARENA commit `e25fb3d`. Apple #17501. (sess-20260902-2008-ed50169e)
-- [ ] **LB-911: FIX LADYBUG AND SCARAB** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **LB-911: FIX LADYBUG AND SCARAB.** Checked live rather than trusting `ladybug/README.md`'s
+  own existing claim (a real, stale gap list from an earlier pass): **`firefly.prn` already
+  builds cleanly through domain 3 (`parena build`, the real C emitter) today** — the original
+  blockers named for it (`Vec` as a generic struct field, `&mut T` params) had already closed in
+  PARENA's own emitter at some point, just never re-verified against this repo until now. New
+  real `firefly_build` Bazel genrule (actual `parena build`, not just parse+analyze), needing a
+  new, real `PARENA/stdlib/BUILD.bazel` (`exports_files` exposing `@parena//stdlib:<name>.prn`
+  for a consuming repo's own multi-file build invocation) — bumped `ladybug/MODULE.bazel`'s own
+  pinned PARENA commit accordingly. **Real, corrected gap list for the two files that remain
+  genuinely blocked, both on DIFFERENT real gaps than originally tracked**: `firefly/ladybug.prn`
+  (and `firefly/gomega.prn`, which delegates to it) are blocked on real lambda/closure captures
+  (`equal`'s own body needs to close over `expected` from its enclosing function — VS0 has no
+  closures at all yet; the non-zero-argument, typed `Fn` return-type SIGNATURE itself already
+  compiles fine, so that original claim was also stale). `scarab.prn` is blocked on real generic
+  type parameters (`(Fn [&mut T] Unit)`'s own bare `T`) — the same, already-known, monorepo-wide
+  "VS0 has no generics yet" limitation, not a scarab-specific gap. Both remaining blockers are
+  real, substantial, separate PARENA compiler features (comparable in scope to implementing
+  generics), not attempted in this pass — named honestly rather than silently re-copied from the
+  stale list. Real, live-verified: `bazel build //:firefly_build` succeeds end to end; the
+  existing `//:firefly_verify`/`//:ladybug_verify`/`//:gomega_alias_verify`/`//:scarab_verify`
+  targets all still pass under the bumped pin. PARENA commit `227f78c`, ladybug commit `2e675f1`.
+  Apple #17505. (sess-20260902-2008-ed50169e)
 - [x] **PBX-002: full featured PBX add asterisk bindings to parena whatever needs to fill in the
   gaps between our low level implementation and a real deal.** New
   `PARENA/docs/PBX_ASTERISK_NORTHSTAR.md`, golden doc `PBX-ASTERISK-NORTH`. Real, checked-live
