@@ -28136,7 +28136,7 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9997: figure out how the cli will work for emily for business - for example if someone wants to interract with their iduna pro instance on the command line (emily.cli+)?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update (2)**: founder, direct explicit follow-up: "take on the full match/Result BURROW port" — real, done, see item below (`match`/`Result`/`Option` shipped in BURROW's Go emission target, with a real, deliberate v0 boundary named honestly: scrutinee must be a direct call to a known Result/Option-returning defn, not a `let`-bound variable). Combined with card 1199's own earlier `let`/`do` work, this closes the second of the real prerequisites named for "write a CLI in this." **Status update (3)**: cruise-queue pickup, real v0 proof-of-concept built and live-verified — see new item below. `PARENA/stdlib/idunapro/cli_mod.prn` (`interpret-health-response`/`exit-code-for-health`, real match/Result construction AND consumption in one file) compiled via `burrow build` into `IDUNA_PRO/internal/burrowgen/idunapro_cli_gen.go`, driven by a new real Go host binary `IDUNA_PRO/cmd/idunapro/main.go` (`idunapro health <base-url>`) — no cgo/FFI. Live-verified against IDUNA's actual running `:8080` (healthy → exit 0) and an unreachable host (exit 1). Still genuinely open, named explicitly: `defenum`/`loop`/`Vec`/struct construction are all still unstarted in `emit_go.go` — `loop` in particular is a real, necessary prerequisite for any real iteration a fuller CLI would need — and only one real subcommand exists so far, not a full "emily for business" CLI.
+- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update (2)**: founder, direct explicit follow-up: "take on the full match/Result BURROW port" — real, done, see item below (`match`/`Result`/`Option` shipped in BURROW's Go emission target, with a real, deliberate v0 boundary named honestly: scrutinee must be a direct call to a known Result/Option-returning defn, not a `let`-bound variable). Combined with card 1199's own earlier `let`/`do` work, this closes the second of the real prerequisites named for "write a CLI in this." **Status update (3)**: cruise-queue pickup, real v0 proof-of-concept built and live-verified — see new item below. `PARENA/stdlib/idunapro/cli_mod.prn` (`interpret-health-response`/`exit-code-for-health`, real match/Result construction AND consumption in one file) compiled via `burrow build` into `IDUNA_PRO/internal/burrowgen/idunapro_cli_gen.go`, driven by a new real Go host binary `IDUNA_PRO/cmd/idunapro/main.go` (`idunapro health <base-url>`) — no cgo/FFI. Live-verified against IDUNA's actual running `:8080` (healthy → exit 0) and an unreachable host (exit 1). Still genuinely open, named explicitly: `defenum`/`loop`/`Vec`/struct construction are all still unstarted in `emit_go.go` — `loop` in particular is a real, necessary prerequisite for any real iteration a fuller CLI would need — and only one real subcommand exists so far, not a full "emily for business" CLI. **Status update (4)**: cruise-queue pickup, `loop`/`recur` shipped in `emit_go.go` — see new item below. Real, deliberate v0 boundary named explicitly: loop body must be exactly one top-level `(if cond then else)` with `recur` in exactly one branch, matching every real `.prn` loop in `stdlib/array.prn`; `recur` nested deeper (inside `match`/`cond`/another `if`) is real, separate, unstarted work. Real bug found and fixed live: `i := 0` defaults to Go `int` not `int32`, fixed via an explicit `var name int32 = expr` declaration. `go test`: 88/88, real end-to-end proof (a triangular-number `sum-to` loop compiled/linked/run with correct output for n=0,1,10,100). Still genuinely open: `defenum`/`Vec`/struct construction remain unstarted — a real CLI still needs at least `Vec` for output-building before "write a CLI in this" is fully true.
   (sess-20260902-2008-ed50169e)
 - [x] **Founder real-time, explicit follow-up on card 9988 (cruise queue): real v0 CLI proof-of-
   concept, "idunapro health". DONE.** First real proof that this session's own BURROW match/
@@ -28160,6 +28160,40 @@ shipped in this section itself; this is planning work, matching the card's own l
   above for the fuller "emily for business CLI" ask, since `defenum`/`loop`/`Vec`/struct
   construction remain unstarted in BURROW's Go target and a real, useful CLI needs more than a
   health check.
+  (sess-20260902-2008-ed50169e)
+- [x] **Cruise-queue follow-up on card 9988: real `loop`/`recur` support added to BURROW's Go
+  emission target. DONE.** Real, deliberate v0 boundary named explicitly, not silently limited:
+  the loop body must be exactly one top-level `(if cond then else)` with `recur` in exactly one
+  branch (the other branch is the loop's own terminal value) — the exact real shape every actual
+  `.prn` loop in `PARENA/stdlib/array.prn` uses (`product`/`sum`: `(if (>= i n) acc (recur (+ i 1)
+  ...))`). `recur` nested inside a deeper `if`/`cond`/`match` chain is real, separate, unstarted
+  work, same judgment call `match`'s own earlier v0 boundary already made — PARENA's own mature
+  `src/emit.c` needed a `loop_locals` array threaded through several nested-dispatch sites across
+  multiple bug-fix passes to get that fully general case right, not rushed past here either.
+  Bindings become real Go locals declared once before a real `for {}`; the terminal branch
+  returns through the same `any`/`RetType` boxing every other construct in this file uses; the
+  `recur` branch computes every new binding value into its own temp variable BEFORE reassigning
+  any of them (a real simultaneous-assignment requirement — `(recur acc i)` swapping two loop vars
+  would silently break without it), then `continue`s. **Real, genuine bug found and fixed live**
+  testing a real `sum-to` probe: `i := 0` lets Go infer `int`, not `int32` — the same real
+  defaulting-bug class the `if` case's own branch-boxing already needed a fix for, just hitting a
+  `:=` declaration this time. Fixed by declaring every non-`String`/non-bool loop binding as `var
+  name int32 = expr` instead of `:=` (Go allows an untyped constant to implicitly convert to a
+  var's own declared type) — a real, honestly-named v0 boundary itself: every real loop binding in
+  this stdlib today is I32, so this is right for the actual current corpus and fails loud (a real
+  Go compile error), not silently wrong, if a future non-I32 binding ever needs this path. `go
+  test`: 88/88 total (7 new — recur in either branch, the no-leak proof, recur-in-both-branches
+  and arity-mismatch errors, the nested-if-body v0-boundary error, a real end-to-end
+  `go build`-and-run test). **Real, live, end-to-end proof, not just unit tests**: a real
+  triangular-number `sum-to` loop compiled via `burrow build`, linked into a real, separate Go
+  module via `go build`, and run — correct output for `sum-to(0)=0`, `sum-to(1)=1`,
+  `sum-to(10)=55`, `sum-to(100)=5050`. A second, manual probe (`factorial`/`count-down-check`,
+  exercising both branch orderings and a single-binding loop) compiled via the real `burrow` CLI
+  and run the same way, also correct (`factorial(5)=120`, `factorial(0)=1`,
+  `count-down-check(3)=true`). Commit `c1f1a94`, Apple #17408. Still real, honest, unstarted:
+  `defenum`, `Vec`, struct construction, and `loop`/`match` beyond their own current v0
+  boundaries — card 9988 stays open above, a real CLI still needs at least `Vec` for
+  output-building before "write a CLI in this" is fully true.
   (sess-20260902-2008-ed50169e)
 - [x] **Founder real-time, explicit follow-up on card 9988: "take on the full match/Result
   BURROW port." DONE.** Real, direct port of PARENA's own reference C runtime's representation
