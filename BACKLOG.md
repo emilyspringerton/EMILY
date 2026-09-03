@@ -28080,3 +28080,5 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9977: can we add SARENA notebook to OG IDUNA as an option in the menu?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **9966: /design updatge the IDUNA OG menu interface so its a left menu thats always there keep it simple and nice let us scroll up and down on the menu if it gets that long** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
