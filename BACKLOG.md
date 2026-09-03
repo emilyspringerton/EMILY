@@ -29235,3 +29235,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **PMPX-000: build out additional project management automations like a page showing the tags for the different projects etc - auto researching on a -000 card** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-DNS-001: build out WOTAN as a subdomain you should have access to cloudflare key in EMILY/var** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
