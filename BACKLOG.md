@@ -28039,3 +28039,5 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9999: can we spend some sprints on making fatbaby news site not suck - i guess we audit the functionality of each of the menu items and port the stuff to EDIS that makes sense and then have fatbaby modata** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **9998: PORT SOME OF THE EMILY CORPUS TO EMILY FOR BUSINESS? (ACTUALLY I THINK IT GOES IN THE IDUNA PRO REPO OR WHATEVER REPO WE USE FOR THE EMILY FOR BUSINESS CLI** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
