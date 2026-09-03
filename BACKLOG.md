@@ -2383,6 +2383,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, second product-feature idea same conversation: a link-tree-style mini-site builder on top of IDUNA_P…** — obs `2026-09-03T04:14:19Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time: build mailing-list capture into Emily for Business/IDUNA_PRO. Real requirements given: (1) simple en…** — obs `2026-09-03T04:13:13Z`. CURATED: 2026-09-03.
 - [ ] **Founder real-time: provided a real, live google-services.json for MJOLNIR (Firebase project mjolnir-d2ff6, package indu…** — obs `2026-09-03T14:41:20Z`. CURATED: 2026-09-03.
+- [ ] **Founder real-time: create an IDUNA inventory system for personal electronics/components (2x Pi B2(?), 2x Pi Zero, Adafr…** — obs `2026-09-03T17:33:53Z`. CURATED: 2026-09-03.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
