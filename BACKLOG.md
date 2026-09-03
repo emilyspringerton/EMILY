@@ -27912,6 +27912,34 @@ shipped in this section itself; this is planning work, matching the card's own l
   commit `14fa7e5`, Apple #17323.
   (sess-20260902-2008-ed50169e)
 
+- [x] **S243-08: real kanban board shipped into IDUNA_PRO -- generalized as a human/agent core
+  integration point. DONE.** Founder real-time: "build the kanban into IDUNA_PRO its a good
+  affordance for interop between human and agents - we will probably build tools on top of the
+  IDUNA_PRO like this is one of the core integration points." Corrected S243-06's own earlier
+  assessment (kanban listed as "genuinely ambiguous, tightly coupled to BACKLOG.md") by reading
+  `kanban.go`/`kanban_inbox.go` directly: every BACKLOG.md-specific behavior (bare-section
+  resolution, git auto-commit, Inbox sync) was already gated behind an empty-string check on
+  `BacklogPath` in the source — real but already optional coupling, not structural. Copied
+  `internal/backlog` (a real, generic markdown-checkbox parser, takes any file path) plus
+  `kanban.go`/`kanban_page.go`/`kanban_inbox.go` verbatim. `BACKLOG_PATH` unset (`IDUNA_PRO`'s
+  own default) yields a pure, generic, DB-backed board with zero markdown coupling; setting it
+  opts a customer into the same real markdown-sync mechanism IDUNA itself uses. Two real
+  product-context fixes: hardcoded `SourceRepo: "EMILY"` on the done-move Apple replaced with a
+  real, configurable `KANBAN_SOURCE_REPO_NAME` env var (defaults `"kanban"`); the board's own
+  user-visible copy text rewritten to be product-neutral instead of naming EMILY/BACKLOG.md.
+  `admin_login.go` (needed for the board's real cookie-session login) turned out to have zero
+  `internal/mailinglist` coupling on direct inspection, unlike `admin.go` itself — came along
+  for free. Two new core migrations (`kanban_cards`, `kanban_access_permission`), both
+  self-contained SQLite DDL. `go build/vet/test ./...` clean. **Live-verified end to end, not
+  just unit tests**: minted a real agent JWT with `kanban.access`, created/listed/moved a card
+  to Done via the bearer API — confirmed the resulting Apple's `source_repo` reads `kanban` (not
+  `EMILY`) and the card was actually removed from the table; separately logged in via
+  `/admin/login` (real cookie session), loaded the real `/admin/kanban` page (confirmed
+  S207-68's own drag-sort JS intact), and created a card through the cookie-authenticated admin
+  API — the exact same `KanbanHandler` instance serving both a human and an agent caller, the
+  actual point of the feature. IDUNA_PRO commit `31cfb54`, IDUNA commit `0b220be`, Apple #17326.
+  (sess-20260902-2008-ed50169e)
+
 - [x] **210-101: sprint plan the items in the CRUISE column. DONE.** Triaged the 4 raw,
   un-triaged cruise-queue kanban cards above (S243-01 through S243-04) — each now has a real,
   checked scope and a concrete next step, replacing a bare one-line ask. Two genuine, decisive
