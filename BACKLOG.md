@@ -28857,3 +28857,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **HITL-PROV-TI83-001: provision a ti83+ and possibly an 89?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **HITL-PROV-002: Ti programmer** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
