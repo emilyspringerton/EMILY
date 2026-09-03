@@ -29292,3 +29292,5 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **WTHS-0000: ok i need the actual GFD hat shop integrations built I need a real functioning hat marketplace with user generated content** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **HSG-000: promptoverse hat gen -  we already queries for the sprites with the specific background and give them a good prompt for a nice pixel art  hat as the tag  promptoverse hat  pirate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
