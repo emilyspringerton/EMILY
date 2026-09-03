@@ -28919,8 +28919,28 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   scratch-built, same judgment this session's own "remove FFI from net parena" Q&A already made).
   PARENA commit `738f7c5`. Apple #17480. Planning only — no code written, matching the card's own
   literal "do research and planning" framing. (sess-20260902-2008-ed50169e)
-- [ ] **CPCORE-001: SMS stdlibs we need to forward messages from sms network into the mesgh network** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **CPCORE-001: SMS stdlibs we need to forward messages from sms network into the mesgh
+  network.** Real, direct continuation of `CarePyre/docs/MESH_NETWORK_RESEARCH.md` (S184-02),
+  which already named the real answer — gateway nodes bridging mesh-native messages out to
+  "a real SMS-gateway API (Twilio-style)." New `CarePyre/docs/SMS_MESH_GATEWAY_NORTHSTAR.md`
+  plans the actual PARENA stdlib work that role needs. Real, existing foundation checked
+  directly: `net/http.prn` (real HTTP client), `net/tcp.prn` (real `tcp-listen`/`tcp-accept`
+  server foundation), `http/controller.prn`+`router.prn`+`routes.prn` (real Request/Response data
+  shapes and route matching, but not raw-socket HTTP parsing). Real, newly-identified gaps, most
+  decisive first: **TLS/HTTPS client support** (`net/http.prn`'s own header comment already says
+  "not implemented" — Twilio's API is HTTPS-only, no fallback; real recommendation is FFI to
+  OpenSSL, same judgment `crypto/hash.prn`'s own `sha256` already makes, not scratch-built), raw
+  HTTP/1.1 request parsing off a socket (a real, buildable structural sibling of
+  `sip/message.prn`), `application/x-www-form-urlencoded` body decoding (Twilio's real inbound
+  webhook shape, not JSON), and base64 encoding (needed for the outbound API's own Basic Auth
+  header) — both new encode/decode gaps are the same real "lookup-table byte transform" shape
+  this session's own `net/wire.prn` helpers already established, no new compiler primitives
+  needed. Real 4-phase plan, explicitly gated on the TLS binding before any real end-to-end
+  inbound/outbound proof is possible. Real, direct sibling to
+  `PARENA/docs/SIP_TWILIO_GATEWAY_NORTHSTAR.md` (the voice half of the same real Twilio-bridge
+  idea, same session, same TLS blocker). Not registered as a golden doc, per CarePyre's own
+  explicit standing "no golden doc until integration/divestment decision" instruction. CarePyre
+  commit `814d304`. Apple #17484. Planning only — no code written. (sess-20260902-2008-ed50169e)
 - [ ] **CPBOOT-002: stand up stalwart mail server in google cloud** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **PC-06667: PAPERCRAFT ENGINE normal maps north star** Added via the IDUNA kanban interface, not yet triaged into a real section.
