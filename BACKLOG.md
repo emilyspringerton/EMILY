@@ -28777,21 +28777,6 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **231321: yea write that pcap report if u didnt already** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [x] **K8S-0002: cloud container clusters create-auto <CLUSTER_NAME> \     --region=<REGION>.**
-  Real, live GKE Autopilot cluster provisioned — `S207-02`'s own real, last remaining blocker
-  ("Needs the founder to run `gcloud auth login` interactively") cleared: founder had a real,
-  already-authenticated `gcloud` session (`garybifrost@gmail.com`) open this pass. Real target
-  project: `project-d24a71e9-2daf-4b2d-917` (co-located with the existing GCS backup bucket per
-  `KUBERNETES_MIGRATION.md`'s own Phase 5.1 reasoning), NOT `einhorn-mjolnir`/`mjolnir-d2ff6` (the
-  separate GCP/Firebase projects this same session's MJOLNIR work touched). Region `us-central1`,
-  matching the backup bucket's own real, confirmed location. Cluster type: **Autopilot** (per
-  kanban 432432423's own already-final decision) — confirmed live post-creation
-  (`autopilot.enabled: True`, `status: RUNNING`, `currentNodeCount: 3`). `container.googleapis.com`
-  enabled fresh on the target project first (was not previously enabled there — `compute.
-  googleapis.com` was, `container` wasn't). `S207-02` in `EMILY/BACKLOG.md`'s own SECTION 207 is
-  now real and done, not just this kanban card — the real remaining Phase 5 work (5.2 PVCs, 5.3
-  Deployment/Helm manifests, 5.4 cutover) can now target a real, live cluster instead of a planned
-  one. (sess-20260902-2008-ed50169e)
 - [ ] **IUS-001: can we add git indexing to iduna unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **342432: check mjolnir build i think its still failing** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -28818,3 +28803,18 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   below). New `EMILY/docs/KUBERNETES_SERVICE_MIGRATION_NORTHSTAR.md`, golden doc
   `K8S-SERVICE-MIGRATION-NORTH`. Planning only past Stage 0 — no service migrated. Commit
   `555d8dde`. Apple #17453. (sess-20260902-2008-ed50169e)
+- [x] **K8S-0002: cloud container clusters create-auto <CLUSTER_NAME> \     --region=<REGION>.**
+  Real, live GKE Autopilot cluster provisioned — `S207-02`'s own real, last remaining blocker
+  ("Needs the founder to run `gcloud auth login` interactively") cleared: founder had a real,
+  already-authenticated `gcloud` session (`garybifrost@gmail.com`) open this pass. Real target
+  project: `project-d24a71e9-2daf-4b2d-917` (co-located with the existing GCS backup bucket per
+  `KUBERNETES_MIGRATION.md`'s own Phase 5.1 reasoning), NOT `einhorn-mjolnir`/`mjolnir-d2ff6` (the
+  separate GCP/Firebase projects this same session's MJOLNIR work touched). Region `us-central1`,
+  matching the backup bucket's own real, confirmed location. Cluster type: **Autopilot** (per
+  kanban 432432423's own already-final decision) — confirmed live post-creation
+  (`autopilot.enabled: True`, `status: RUNNING`, `currentNodeCount: 3`). `container.googleapis.com`
+  enabled fresh on the target project first (was not previously enabled there — `compute.
+  googleapis.com` was, `container` wasn't). `S207-02` in `EMILY/BACKLOG.md`'s own SECTION 207 is
+  now real and done, not just this kanban card — the real remaining Phase 5 work (5.2 PVCs, 5.3
+  Deployment/Helm manifests, 5.4 cutover) can now target a real, live cluster instead of a planned
+  one. (sess-20260902-2008-ed50169e)
