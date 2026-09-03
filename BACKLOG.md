@@ -29136,8 +29136,23 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **IDUNA-93939: iduna log query interface (unified search v0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **PXCL-9311: make parena cli tool do the same thing burrow new does but for C instead of for go** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **PXCL-9311: make parena cli tool do the same thing burrow new does but for C instead of
+  for go.** New, real `parena new <name>` subcommand — the direct C-target sibling of BURROW's
+  own already-shipped `burrow new`. Generates a real, immediately-runnable starter: `<name>.prn`
+  (a minimal PARENA decision-logic module), `main.c` (a real C host including the compiled
+  output directly and calling into it), and a local copy of `runtime/parena_runtime.h`/`.c` (so
+  the new project doesn't need this repo's own source tree at a known relative path) — then
+  actually compiles AND RUNS the result via a real `cc` invocation before returning success, so a
+  broken scaffold is a real, honest failure in this command itself, never silently handed to the
+  user (not a template-only tool). Built headless (`main.c` defines `PARENA_NO_GRAPHICS` before
+  including the runtime header, this session's own real SDL2 opt-out), matching `burrow new`'s
+  own "don't force a heavier dependency on a trivial scaffold" judgment. Real, honest v0
+  assumption named directly: run it from this repo's own root (the runtime files are looked up
+  relative to the current working directory, not `argv[0]`) — a real, more portable fix is
+  separate, later work. New `tests/integration/run_new_check.sh` (`make test-new`), live-
+  verified: a real scaffold builds, runs, and prints the correct output, and a second
+  `parena new` on the same name correctly refuses to overwrite it. `make test`: 345/345, zero
+  regressions. PARENA commit `cafaf2f`. Apple #17514. (sess-20260902-2008-ed50169e)
 - [x] **S202-30: REDGARDEN — He Xiangu hero rework/buff (hover casting + supporting items).**
   Founder real-time, 2026-08-25: "hero stats on wotan for example xehingu is not an easy hero to
   get value out of in my opinion - we need to buff or rework add hover casting and supporting
