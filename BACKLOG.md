@@ -28867,9 +28867,27 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   `e93db5b`。Apple #17471。(sess-20260902-2008-ed50169e)
 - [ ] **3090394: pitviper scrollback** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **PX-001: we need to add support to commit the .prn file right in the same directory as the generated output to allow for easier adoption for parena currently the idiom is to add your mod to the stdlib** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **PX-BZ-001: we need to add support to commit the .prn file right in the same directory as the generated output  [BAZEL TICKET] - not sure how that would work with bazel and other build tools** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **PX-001 / PX-BZ-001: we need to add support to commit the .prn file right in the same
+  directory as the generated output... not sure how that would work with bazel and other build
+  tools — treated as one unified ask, not two separate ones.** Real, checked-not-assumed finding
+  first: **this already works today, no compiler change needed** — `parena build <file>.prn -o
+  <out>` (confirmed live) accepts a `.prn` file at ANY path; nothing enforces that source live
+  inside `stdlib/`. "Add your mod to the stdlib" was always a real, useful convention, never an
+  enforced restriction. **Two real, live examples already existed in this monorepo** before this
+  pass: `DUNG/parena/entry.prn` (co-located, regenerated via `//go:generate`, wired into a plain
+  `go_library` Bazel rule) and `ladybug/BUILD.bazel` (a hand-written genrule invoking
+  `@parena//src:parena` directly). New, real, reusable Bazel macro (`PARENA/bazel/
+  parena_compile.bzl`, `parena_compile_c`) closes the one real remaining friction point those two
+  examples still had — every adopting repo previously had to hand-write its own genrule
+  boilerplate. Real, live-verified, not just written: built via an actual `bazel build` against
+  new `bazel/testdata/` fixtures, both a single-file case and a real multi-file `deps` case
+  (correctly combining 3 real functions into one real generated C file). `PARENA/README.md` gets
+  a new "Adopting PARENA in your own repo" section answering both cards directly, with a real
+  usage example. Real, deliberate v0 scope: the C target only — an analogous macro for BURROW's
+  own Go/TS/Java targets would live in the BURROW repo (a different Bazel module), real,
+  separate, honest, not-yet-built follow-up. For non-Bazel build tools, the exact same
+  co-location already works trivially (a plain file path argument — this repo's own `Makefile`
+  already does this for every `test-*` target). PARENA commit `b2fa41f`. Apple #17487.
   (sess-20260902-2008-ed50169e)
 - [ ] **HITL-PROV-TI83-001: provision a ti83+ and possibly an 89?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
