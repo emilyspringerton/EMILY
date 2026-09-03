@@ -29166,3 +29166,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   verified: a real scaffold builds, runs, and prints the correct output, and a second
   `parena new` on the same name correctly refuses to overwrite it. `make test`: 345/345, zero
   regressions. PARENA commit `cafaf2f`. Apple #17514. (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-999: ok we need to build the hat store  WOTAN you can buy upgraded hats for brawlpit using flow from GFD plan nortgstar it** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
