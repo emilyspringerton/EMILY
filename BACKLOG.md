@@ -28695,7 +28695,20 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **342534534535: copy the git interface paradigms and idoms and affordances from vs codes for GIT for our parena editor** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **432432423: DECIDE BETWEEN GKE AUTO PILOT CLUSTER AND GKE STANDARD CLUSTER** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **432432423: DECIDE BETWEEN GKE AUTO PILOT CLUSTER AND GKE STANDARD CLUSTER.** Decision:
+  **GKE Autopilot**, confirmed final in `PRRJECT_FATBABY/docs/northstar/KUBERNETES_MIGRATION.md`'s
+  own new "Decision: GKE Autopilot over Standard" section (SECTION 207/S207-02's original Phase
+  5.1 already leaned Autopilot — this check confirms rather than reverses it). Real, checked
+  finding: `PRRJECT_FATBABY/CLAUDE.md`'s own current 17-process pipeline inventory (secwatch,
+  prwatch, processor, dashboard, feedserver, broker, signalapi, eps-processor/reconciler,
+  guidance-watcher, jon-agent, form4/dividend/buyback/nt-watcher, etc.) needs none of what
+  Autopilot restricts (no privileged pods, no `hostNetwork`/`hostPath`, no DaemonSets, no custom
+  node-level tuning) — the parent architecture doc's aspirational Kafka/Postgres/Redis stateful
+  bus is real but not yet deployed, so it doesn't weigh against this decision today. Real, named
+  future re-open trigger, not silently missed: `PARENA/docs/NATIVE_PCAP_NORTHSTAR.md`'s own
+  `AF_PACKET`/`CAP_NET_RAW` raw-capture need would force reconsidering Standard IF a raw-capture
+  workload is ever actually deployed in-cluster (none is planned today). `S207-02` (real
+  `gcloud auth` + cluster provisioning) stays open — unaffected by this decision, still blocked
+  on interactive founder auth. PRRJECT_FATBABY commit `f4d7c1e`. Apple #17443. (sess-20260902-2008-ed50169e)
 - [ ] **PARENA-0001: ok so can we start to dig into the parena OS implementation? lets focus the work by targeting alpine? what is the smallest vertical slice we can take to actually make it work with the os? debian?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
