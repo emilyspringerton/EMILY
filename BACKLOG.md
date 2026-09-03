@@ -27752,11 +27752,6 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   trailing-field append already produces, not a new problem). REDGARDEN commit `3d3f560`, Apple
   #17281.
   (sess-20260902-2008-ed50169e)
-- [x] **S205-101: intake MIXFORGE add to golden index etc.** Registered `MIXFORGE-NORTH`
-  (`MIXFORGE/NORTHSTAR.md`) in `EMILY/context/golden-docs-index.md`, plus a full repo row in the
-  top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
-  `ae5812be`, Apple #17286.
-  (sess-20260902-2008-ed50169e)
 - [ ] **S206-96: EMILY_ENTERPRISE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **205: emojis need to work in pitviper and parena editor what do we need to build a custom emoji font or use image files or something?** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -27774,4 +27769,9 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   leading candidate, its own scoping pass not attempted here. Licensing explicitly deferred per
   the transcript's own founder quote, preserved verbatim. 6-phase plan, import/library
   sequenced before playback. MIXFORGE commit `e78f78e`, Apple #17285.
+  (sess-20260902-2008-ed50169e)
+- [x] **S205-101: intake MIXFORGE add to golden index etc.** Registered `MIXFORGE-NORTH`
+  (`MIXFORGE/NORTHSTAR.md`) in `EMILY/context/golden-docs-index.md`, plus a full repo row in the
+  top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
+  `ae5812be`, Apple #17286.
   (sess-20260902-2008-ed50169e)
