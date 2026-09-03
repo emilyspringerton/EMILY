@@ -28428,7 +28428,29 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
 - [x] **8744: ensure we are working from a kanban API it seems like claude is yolo querying sqlite a lot can we pave that cow path/. DONE.** Real, fair feedback about this session's own behavior — direct `sqlite3 .../iduna.db "SELECT ... FROM kanban_cards"` reads were used repeatedly this session to check the priority/cruise queue instead of the real `GET /api/v1/kanban/cards?queue=...` API that already exists (the same real, bearer-authenticated, `kanban.access`-gated endpoint every `PATCH .../done` call already goes through). No code change needed — the API already existed and is the correct, already-"paved" path; this was a real behavioral gap in how I was using it, not a missing feature. Fixed going forward: saved as a standing session memory (`use_kanban_api_not_sqlite.md`) so future queue checks go through the real API, reserving direct DB reads for genuine debugging of the kanban system itself (e.g. verifying a migration created the right tables).
   (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
-- [ ] **499988: can we start to add more api surfaces to PAPERCRAFT mod api surface we want to get parity with ROBLOX apis start with the api for setting an explosion** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **499988: can we start to add more api surfaces to PAPERCRAFT mod api surface we want to
+  get parity with ROBLOX apis start with the api for setting an explosion. DONE (first slice).**
+  New `PARENA/stdlib/papercraft/explosion_mod.prn` → `PAPERCRAFT/packages/simulation/
+  explosion_mod.c`: real linear blast-radius damage falloff
+  (`on-papercraft-explosion-damage-at-distance`, `on-papercraft-explosion-in-range?`), matching
+  Roblox's own real `Explosion` instance (`Position`/`BlastRadius`) as the reference shape —
+  damage only for this v0, `BlastPressure` force/knockback named as a real, separate, later API
+  surface. Same real I32-only mod-decides/host-applies split every prior PAPERCRAFT mod already
+  uses. Real edge cases handled and tested: a zero/negative blast radius hits nothing at all
+  (not even distance 0); negative distance clamps to 0, never amplifying past max damage. `bazel
+  test //packages/simulation:explosion_mod_test` and the full `//packages/simulation:all` suite
+  (15 tests) both pass, zero regressions. New NORTHSTAR.md section naming this an ongoing
+  "Roblox API parity" direction. Real, honest, unwired gap: PAPERCRAFT has no gameplay host code
+  yet that actually triggers an explosion — real, tested decision logic waiting for that real
+  host wiring, not a live feature. **Real, separate, found-live environmental bug, honestly
+  flagged, not silently worked around**: `PAPERCRAFT/CHANGELOG.md`'s own POSIX ACL mask caps
+  agent write access at read-only despite its own named ACL entry for `fatbaby` nominally
+  granting `rwx` — both a direct file write and `emily changelog add PAPERCRAFT` failed with a
+  real permission-denied error (`NORTHSTAR.md`, same owner, has no such problem). Queued a real,
+  narrow, reversible fix at `sudo-queue/46-fix-papercraft-changelog-acl.sh` rather than running
+  `sudo` myself or faking the changelog entry — `PAPERCRAFT/CHANGELOG.md` was NOT updated this
+  pass because of this. PAPERCRAFT commit `fe485e3`, PARENA commit `1fbb4d1`, Apple #17369.
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [ ] **1121: back office stuff for manual creation of emily+ accounts** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
