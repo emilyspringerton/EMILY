@@ -29229,6 +29229,12 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   keep honoring it. (sess-20260902-2008-ed50169e)
 - [ ] **GFD-PLAYER-CAR: can we port the ronin armature we have like a model that is rigged up where the head can move and stuff the ronin like the model that is like the player and bot model** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **MULTIKANBAN-000: the kanban is a good primative i want to move it up the abstraction layer i want IDUNA and IDUNA PRO to give the ability to create multiple kanbans** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **PMPX-000: build out additional project management automations like a page showing the tags for the different projects etc - auto researching on a -000 card** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-DNS-001: build out WOTAN as a subdomain you should have access to cloudflare key in EMILY/var** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **GOLDENOPS-001: emily framework default behavior if a new unscoped request comes in on the
   priority queue or cruise queue and it is a big ask scope/northstar it then toss card back to
   backlog standard op procedure.** New Principle 19 in `EMILY/docs/THE_EMILY_WAY.md`, "A Big,
@@ -29239,9 +29245,3 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   exists. Explicitly named as NOT changing how a genuinely "plan/scope this" card closes (that
   stays a real, complete deliverable on its own, per Principle 3). EMILY commit `c483de13`.
   Apple #17524. (sess-20260902-2008-ed50169e)
-- [ ] **MULTIKANBAN-000: the kanban is a good primative i want to move it up the abstraction layer i want IDUNA and IDUNA PRO to give the ability to create multiple kanbans** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **PMPX-000: build out additional project management automations like a page showing the tags for the different projects etc - auto researching on a -000 card** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-DNS-001: build out WOTAN as a subdomain you should have access to cloudflare key in EMILY/var** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
