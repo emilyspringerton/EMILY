@@ -28861,3 +28861,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **AI-ITL: I need to create an inventory of all of my electronics equipment so ai can help guide me in terms of what components i have and what i need and what is possible etc - IDUNA inventory system** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **II-001: web app super simple to start - IDUNA inventory system for example i have 2 rasbberyy pi b2 and 2 zero i think? also i have at least 1 ada feather with some kinda packetmodule etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
