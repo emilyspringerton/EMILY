@@ -28086,3 +28086,5 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9933: INDEXING primatives built into PARENA to power IDUNA OG unified search - btries etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **10999: FIGURE OUT MULTI TENANT APPLES (OFFER GIT SYNC IN THE CONSOLE INTERFACE) NEEDS TO WORK WITH PUBANDPRIV** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
