@@ -29010,3 +29010,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (`burrow new demo_mod`) in a real scratch directory, then `go run .` against the result —
   printed the real, correct `Hello from demo_mod!`. BURROW commit `47e1246`. Apple #17495.
   (sess-20260902-2008-ed50169e)
+- [ ] **HWLAB: WATERPROOF BT KEYBOARD** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
