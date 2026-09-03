@@ -29014,3 +29014,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **PBX-001: Build the narrow scope parena PBX primativews pass think low level close to the metal primatives like what does asterisk need to build on top of do that stuff fiirst** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PBX-002: full featured PBX add asterisk bindings to parena whatever needs to fill in the gaps between our low level implementation and a real deal** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
