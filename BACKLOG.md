@@ -28839,3 +28839,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   one. (sess-20260902-2008-ed50169e)
 - [ ] **PCAP-0022: build multi byte feed extraction parena to support pcap work** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **3090394: pitviper scrollback** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
