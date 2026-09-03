@@ -28166,10 +28166,18 @@ IDUNA_PRO extraction, broker Host-routing), not invented from scratch.
   already has a real, generic `emily key set <NAME> <VALUE> --target <T>` mechanism
   (`cmd/key.go`, S153-05) with two existing targets (`emily`, `iduna`) — this subtask adds a
   THIRD target (or a small dedicated subcommand) that writes the real INI format certbot
-  actually expects, not just another env-file line, and sets 0600 on the resulting file. Real,
-  concrete file location: `~/.config/cloudflare/dns-credentials.ini` (or similar — exact path
-  not fixed yet). `emily key show` should mask the token the same way `maskKey` already does for
-  `ANTHROPIC_API_KEY`. This subtask is the real, direct unblock for S244-03 option (a).
+  actually expects, not just another env-file line, and sets 0600 on the resulting file.
+  **Founder real-time, source-of-truth location confirmed**: `EMILY/var/cloudflare.md` is where
+  the real token itself will live (matching this repo's own established `var/*-secrets.env`
+  convention, even though this one's a `.md`) — the new command reads/writes against that real
+  path (or a path derived from it), not the speculative `~/.config/cloudflare/dns-credentials.ini`
+  guessed here originally; exact read/write shape (plain value in the file vs. a small
+  labeled-section format) still needs to be nailed down when this is actually built, since a
+  `.md` file isn't `certbot-dns-cloudflare`'s own real expected format on its own — a real
+  conversion step from `cloudflare.md`'s own content into the real INI file certbot needs is
+  part of this subtask now, not assumed away. `emily key show` should mask the token the same
+  way `maskKey` already does for `ANTHROPIC_API_KEY`. This subtask is the real, direct unblock
+  for S244-03 option (a).
 - [ ] **S244-06: wire S244-05's credentials file into a real wildcard-cert issuance command.**
   Once S244-05 exists and S244-03 picks option (a): a real, one-time (or renewal-cron'd)
   `certbot certonly --dns-cloudflare --dns-cloudflare-credentials <path> -d
