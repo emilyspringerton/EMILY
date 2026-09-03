@@ -28545,3 +28545,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **3213432: build flow API bindings into papercraft IDUNA game accounts dont have game boundaries so we can use flow from GFD and also GTA7 (i think those are 2 different currencies that we can offer swaps** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **345234: build more api mod interfaces to allow more programatic access to the flow market in GFD** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
