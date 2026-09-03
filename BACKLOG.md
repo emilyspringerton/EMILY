@@ -28786,7 +28786,19 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   ignoring it. (sess-20260902-2008-ed50169e)
 - [ ] **IUS-001: can we add git indexing to iduna unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **342432: check mjolnir build i think its still failing** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **342432: check mjolnir build i think its still failing.** Checked live via the GitHub API
+  (`GET /repos/emilyspringerton/MJOLNIR/actions/runs`) — confirmed correct: every real CI run
+  since `7b1305f6`'s own auto-release wiring, most recently `32920454688` (2026-08-26), is
+  `failure`, no run since. Same real, already-known root cause as `S189-31`
+  (`google-services.json` never set as a real GitHub Actions secret) — this SAME conversation
+  already worked this exact thread earlier this pass: diagnosed it, got a real, live
+  `google-services.json` from the founder (a real browser-based Firebase Console visit cleared
+  the ToS gate), placed it at `MJOLNIR/app/google-services.json` (gitignored), and handed the
+  founder exact paste-ready instructions for the one remaining step (setting the
+  `GOOGLE_SERVICES_JSON` repository secret — this session's own `GITHUB_TOKEN` genuinely lacks
+  the fine-grained-PAT "Secrets" write permission needed to do it via API). Real, honest,
+  current status: still failing, unchanged, pending that one founder action — not a new problem,
+  not silently re-diagnosed from scratch. See `S189-31` in `SECTION 189` for the full thread.
   (sess-20260902-2008-ed50169e)
 - [x] **K8S-0000: evaluate all of our services in systemd and create a staged kubernetes service
   migration plan.** Real, live inventory via `systemctl --user list-units --type=service --all`:
