@@ -28307,3 +28307,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **45645646: https://github.com/emilyspringerton/IDUNA/issues/9** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **353534: emily for business fresh repo stand up IDUNA pro and set up emily cli and EMILY repo and extract emily for business core product (create a new EMILY_PRIME ) (WHERE NEW EMILY repo?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
