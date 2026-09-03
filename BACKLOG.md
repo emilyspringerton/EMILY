@@ -28147,7 +28147,30 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9997: figure out how the cli will work for emily for business - for example if someone wants to interract with their iduna pro instance on the command line (emily.cli+)?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update (2)**: founder, direct explicit follow-up: "take on the full match/Result BURROW port" — real, done, see new item below (`match`/`Result`/`Option` shipped in BURROW's Go emission target, with a real, deliberate v0 boundary named honestly: scrutinee must be a direct call to a known Result/Option-returning defn, not a `let`-bound variable). Combined with card 1199's own earlier `let`/`do` work, this closes the second of the real prerequisites named for "write a CLI in this." Still genuinely open, named explicitly: `defenum`/`loop`/`Vec`/struct construction are all still unstarted in `emit_go.go` — `loop` in particular is a real, necessary prerequisite for any real iteration a CLI would need — and the actual CLI itself (the literal ask here) has not been started.
+- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update (2)**: founder, direct explicit follow-up: "take on the full match/Result BURROW port" — real, done, see item below (`match`/`Result`/`Option` shipped in BURROW's Go emission target, with a real, deliberate v0 boundary named honestly: scrutinee must be a direct call to a known Result/Option-returning defn, not a `let`-bound variable). Combined with card 1199's own earlier `let`/`do` work, this closes the second of the real prerequisites named for "write a CLI in this." **Status update (3)**: cruise-queue pickup, real v0 proof-of-concept built and live-verified — see new item below. `PARENA/stdlib/idunapro/cli_mod.prn` (`interpret-health-response`/`exit-code-for-health`, real match/Result construction AND consumption in one file) compiled via `burrow build` into `IDUNA_PRO/internal/burrowgen/idunapro_cli_gen.go`, driven by a new real Go host binary `IDUNA_PRO/cmd/idunapro/main.go` (`idunapro health <base-url>`) — no cgo/FFI. Live-verified against IDUNA's actual running `:8080` (healthy → exit 0) and an unreachable host (exit 1). Still genuinely open, named explicitly: `defenum`/`loop`/`Vec`/struct construction are all still unstarted in `emit_go.go` — `loop` in particular is a real, necessary prerequisite for any real iteration a fuller CLI would need — and only one real subcommand exists so far, not a full "emily for business" CLI.
+  (sess-20260902-2008-ed50169e)
+- [x] **Founder real-time, explicit follow-up on card 9988 (cruise queue): real v0 CLI proof-of-
+  concept, "idunapro health". DONE.** First real proof that this session's own BURROW match/
+  Result Go port works end to end, both constructing and consuming a `Result` in the same real
+  file — not just a synthetic unit test. `stdlib/idunapro/cli_mod.prn`: `interpret-health-
+  response` returns `(Result String String)` from a real HTTP status code + body-ok flag (the
+  calling Go host does the actual HTTP GET/JSON parse — no real JSON/String story in VS0's Go
+  target yet, so that correctly stays host-owned); `exit-code-for-health` wraps it with a real
+  `match`, deciding the CLI's real process exit code. Compiled via `burrow build ... -o *.go`
+  into `IDUNA_PRO/internal/burrowgen/idunapro_cli_gen.go` (same package-naming convention DUNG's
+  own `internal/burrowgen` already established); called directly from a new, real Go host binary
+  `IDUNA_PRO/cmd/idunapro/main.go` — no cgo/FFI boundary, matching DUNG's own precedent. Live-
+  verified end to end, not just unit tests: `idunapro health http://localhost:8080` against
+  IDUNA's real, currently-running instance → "IDUNA_PRO instance is healthy", exit 0; `idunapro
+  health http://localhost:1` against a real unreachable host → connection-refused message on
+  stderr, exit 1. `go test ./...` clean in both PARENA and IDUNA_PRO, zero regressions; PARENA's
+  own 342-test suite unaffected (this stdlib file doesn't touch the compiler). New tests:
+  `IDUNA_PRO/internal/burrowgen/idunapro_cli_gen_test.go` (4 real unit tests directly against the
+  compiled decision logic). PARENA commit `d5e4696`, IDUNA_PRO commit `10f9d98`, Apple #17377.
+  Real, honest scope, stated plainly: one subcommand, not a CLI framework — card 9988 stays open
+  above for the fuller "emily for business CLI" ask, since `defenum`/`loop`/`Vec`/struct
+  construction remain unstarted in BURROW's Go target and a real, useful CLI needs more than a
+  health check.
   (sess-20260902-2008-ed50169e)
 - [x] **Founder real-time, explicit follow-up on card 9988: "take on the full match/Result
   BURROW port." DONE.** Real, direct port of PARENA's own reference C runtime's representation
