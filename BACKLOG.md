@@ -28859,3 +28859,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **HITL-PROV-002: Ti programmer** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **AI-ITL: I need to create an inventory of all of my electronics equipment so ai can help guide me in terms of what components i have and what i need and what is possible etc - IDUNA inventory system** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
