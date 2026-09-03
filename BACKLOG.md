@@ -28295,3 +28295,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   as S245-04).** Add/remove/reorder links, view real per-link click counts. Blocked on
   S245-06/07 existing as real APIs first.
 (sess-20260902-2008-ed50169e)
+- [ ] **1199: iterate on project burrow we need to get that ready to write the cli for emily for business and iduna pro so that parena gets transformed into idiomatic go** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
