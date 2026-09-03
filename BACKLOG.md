@@ -28927,3 +28927,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **HW-001: UART STDLIBS and DEPS STDLIBS PLANNING FOR HARDWARE PLATFORMS ARDUINO EQUIVALENT etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **HW-003: SERIAL STDLIBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
