@@ -28512,6 +28512,24 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   code written — the founder's own instruction was explicitly to plan this work, not build it.
   (sess-20260902-2008-ed50169e)
 
+## SECTION 247: WOTAN SIGNUP UI — SUBTASK PLANNING (2026-09-03)
+
+*Real, first live application of `THE_EMILY_WAY.md`'s own new Principle 19 (kanban
+`GOLDENOPS-001`): kanban card `WOTAN-997`'s own literal ask ("confirm the password, hide the
+field with the eye thing") turned out to need a real signup page that doesn't exist yet — scoped
+in `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`, real sub-tasks returned here rather than the
+whole card marked done on the strength of a scoping doc alone.*
+
+- [ ] **S247-01: decide where the WOTAN signup page is hosted.** Real, open, two-option
+  architectural question, not resolved by the scoping doc: (a) `IDUNA_PRO` serves the page
+  directly (needs a real, new static-file-serving capability added to that service — checked
+  live, none exists today), or (b) WOTAN/`okemily.com` hosts the HTML and calls `IDUNA_PRO`'s
+  real `POST /api/v1/auth/register` API cross-origin (needs real CORS headers added to that
+  handler, also not present today). Not started.
+- [ ] **S247-02: build the real signup form** (email, password, confirm-password with
+  client-side match check, a real show/hide "eye" toggle on both password fields — the literal
+  `WOTAN-997` ask) once `S247-01` picks a real hosting answer. Not started.
+
 - [x] **1199: iterate on project burrow we need to get that ready to write the cli for emily for
   business and iduna pro so that parena gets transformed into idiomatic go. DONE (this
   iteration) — real, honest progress, not the full journey.** Real, checked finding before
@@ -29183,8 +29201,13 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   BRAWLPIT-side cosmetic rendering — an honestly-named, unresolved technical question, not
   designed here). BRAWLPIT commit `cf254a2`. Apple #17518. Planning only — no code written.
   (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type it twice have the field like hidden with the eye thing** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [~] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type
+  it twice have the field like hidden with the eye thing.** Real, checked-live investigation
+  found this was genuinely bigger than the literal ask — no email/password signup HTML exists
+  anywhere yet to add the confirm-field/eye-toggle UX to. Per `THE_EMILY_WAY.md`'s own new
+  Principle 19 (kanban `GOLDENOPS-001`): scoped, not swallowed whole — see `SECTION 247` below
+  for the real, resulting sub-tasks. `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`, commit
+  `af7ef0b`, Apple #17528. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** Added via the IDUNA kanban interface, not yet triaged into a real section.
