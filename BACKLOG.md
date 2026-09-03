@@ -28035,3 +28035,5 @@ shipped in this section itself; this is planning work, matching the card's own l
   now DONE (real product-scoping NORTHSTAR written, `IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`,
   Apple #17311). See S243-02's own entry for full detail.
   (sess-20260902-2008-ed50169e)
+- [ ] **1001: EMILY+ paywall needs to actually function with user accounts etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
