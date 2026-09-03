@@ -29387,3 +29387,5 @@ not duplicate the work.
   (sess-20260902-2008-ed50169e)
 - [ ] **IN-000: IDUNA NOTEBOOK - we need an icloud like affordances for creating notes for iduna and iduna pro research** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **IN-001: vs 0 build it out in IDUNA IDUNA NOTEBOOK - we need an icloud like affordances for creating notes for iduna and iduna pro notebooks are sarena based but actually just advertised as regular notes** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
