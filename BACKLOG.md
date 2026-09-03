@@ -27752,9 +27752,24 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   trailing-field append already produces, not a new problem). REDGARDEN commit `3d3f560`, Apple
   #17281.
   (sess-20260902-2008-ed50169e)
-- [ ] **S205-100: intake mixforge legacy conversation northstar it with our stack not the one discussed built with parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S205-100: intake mixforge legacy conversation northstar it with our stack not the one
+  discussed built with parena.** Real, 1901-line legacy conversation (`MIXFORGE/legacy.txt`,
+  pulled in via `git rebase` after the founder caught this doc being drafted without it) reached
+  a concrete C++/JUCE/Essentia/RubberBand/yt-dlp/SQLite DJ-app design — rejected per this card's
+  own instruction. `MIXFORGE/NORTHSTAR.md` maps every real component onto PARENA's actual
+  stdlib (checked against `PARENA/stdlib/`, not assumed): built-in `sdl2` + design-only
+  `media/audio`/`codec` for playback, real `stdlib/shell.prn` shelling to the real `yt-dlp`
+  binary for the transcript's own explicit first feature (YouTube-URL import, optional separate
+  instrumental URL), FFI-bound `libsqlite3` for the track library. Named a genuinely new gap:
+  key/BPM detection has no PARENA story anywhere in this monorepo — FFI-binding `aubio` is the
+  leading candidate, its own scoping pass not attempted here. Licensing explicitly deferred per
+  the transcript's own founder quote, preserved verbatim. 6-phase plan, import/library
+  sequenced before playback. MIXFORGE commit `e78f78e`, Apple #17285.
   (sess-20260902-2008-ed50169e)
-- [ ] **S205-101: intake MIXFORGE add to golden index etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S205-101: intake MIXFORGE add to golden index etc.** Registered `MIXFORGE-NORTH`
+  (`MIXFORGE/NORTHSTAR.md`) in `EMILY/context/golden-docs-index.md`, plus a full repo row in the
+  top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
+  `ae5812be`, Apple #17286.
   (sess-20260902-2008-ed50169e)
 - [ ] **S206-96: EMILY_ENTERPRISE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
