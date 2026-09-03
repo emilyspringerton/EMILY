@@ -28771,6 +28771,10 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **K8S-0002: cloud container clusters create-auto <CLUSTER_NAME> \     --region=<REGION>** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **IUS-001: can we add git indexing to iduna unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [ ] **342432: check mjolnir build i think its still failing** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
 - [x] **K8S-0000: evaluate all of our services in systemd and create a staged kubernetes service
   migration plan.** Real, live inventory via `systemctl --user list-units --type=service --all`:
   53 real units, 46 relevant after excluding pure OS/dev-tooling noise (dbus/gpg-agent/etc.).
@@ -28793,7 +28797,3 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   below). New `EMILY/docs/KUBERNETES_SERVICE_MIGRATION_NORTHSTAR.md`, golden doc
   `K8S-SERVICE-MIGRATION-NORTH`. Planning only past Stage 0 — no service migrated. Commit
   `555d8dde`. Apple #17453. (sess-20260902-2008-ed50169e)
-- [ ] **IUS-001: can we add git indexing to iduna unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **342432: check mjolnir build i think its still failing** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
