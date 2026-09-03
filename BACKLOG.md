@@ -28837,3 +28837,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   now real and done, not just this kanban card — the real remaining Phase 5 work (5.2 PVCs, 5.3
   Deployment/Helm manifests, 5.4 cutover) can now target a real, live cluster instead of a planned
   one. (sess-20260902-2008-ed50169e)
+- [ ] **PCAP-0022: build multi byte feed extraction parena to support pcap work** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
