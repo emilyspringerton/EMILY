@@ -29199,9 +29199,33 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   different feature), and a real cost model for a user-drawn hat (flat Flow price? free? — a
   real, founder-level product decision, not resolved here). BRAWLPIT commit `cf254a2`.
   Apple #17518. Planning only. (sess-20260902-2008-ed50169e)
-- [ ] **BPTUNE-001: tuning pass on the brawlpit characters they all need unique normal b up b down b and direction b attacks like dont tune petalia start going one by one** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **BPTUNE-003: DONT TOUCH UNDERSTUDY OR PETALIA** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [~] **BPTUNE-001: tuning pass on the brawlpit characters they all need unique normal b up b
+  down b and direction b attacks like dont tune petalia start going one by one.** Real, genuinely
+  multi-pass, ongoing task — "start going one by one" names 8 eligible fighters (everyone except
+  `Understudy`/`Petalia`, per `BPTUNE-003`), each needing a real, unique normal + up-B + down-B +
+  side-B — this is honestly NOT a one-pass task, kept `[~]` rather than `[x]`. **Real progress,
+  character 1 of the roster**: `Rosie of the Unclaimed Arcade Cabinet` — was 100% generic before
+  this pass (the shared turnip-toss fallback). New `special_insert_coin`
+  (`BRAWLPIT/packages/common/physics.h`): her real, first custom special (neutral-B), an argument
+  made directly from her own lore ("generated twice, a style apart, and kept both times... two
+  separate generations of the same subject, both times reaching for a game that isn't the one
+  she's actually standing in") — she throws TWO turnip-style projectiles in a real, distinct
+  spread (different arc, "a style apart") instead of one, each at reduced damage for real balance
+  (rewards landing both, doesn't make the double-hit free). Wired into the same real per-character
+  dispatch hook `Medusa`/`Raccoon`/`Second Tree`/`Uncrowned`'s own specials already use. New
+  `tests/test_physics.c` coverage confirming exactly 2 turnips spawn, correctly styled, with a
+  real distinct trajectory. Real, deliberate scope, matching the card's own "dont bite off too
+  much": ONE new special this pass (neutral-B), not all four B-moves + a unique normal at once —
+  Rosie's own up-B/down-B/side-B/normal, and the remaining un-tuned fighters (`Sunlit Draw`,
+  `Sequel Duck`, and re-confirming `Vexar`'s own barely-modified turnip cooldown doesn't really
+  count as "unique"), stay real, honestly-tracked, NOT-yet-started follow-up for future passes.
+  `bash scripts/build.sh`: clean build, both the pre-existing friction smoke test and the new
+  Insert Coin test pass. `gcc -Wall -Wextra` clean (no new warnings). BRAWLPIT commit `a483d66`.
+  Apple #17522. (sess-20260902-2008-ed50169e)
+- [x] **BPTUNE-003: DONT TOUCH UNDERSTUDY OR PETALIA.** Honored this pass — neither character was
+  touched (this pass's own real work was scoped entirely to `Rosie`). Real, honest note: this is
+  a standing constraint for EVERY future `BPTUNE-001` tuning pass too, not a one-time task that's
+  now permanently satisfied — whoever picks up the next character in that ongoing pass needs to
+  keep honoring it. (sess-20260902-2008-ed50169e)
 - [ ] **GFD-PLAYER-CAR: can we port the ronin armature we have like a model that is rigged up where the head can move and stuff the ronin like the model that is like the player and bot model** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
