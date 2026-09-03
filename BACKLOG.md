@@ -28860,9 +28860,23 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **HITL-PROV-002: Ti programmer** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **AI-ITL: I need to create an inventory of all of my electronics equipment so ai can help guide me in terms of what components i have and what i need and what is possible etc - IDUNA inventory system** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **II-001: web app super simple to start - IDUNA inventory system for example i have 2 rasbberyy pi b2 and 2 zero i think? also i have at least 1 ada feather with some kinda packetmodule etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [ ] **II-102: design IDUNA inventory system affordances simple but useful** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **AI-ITL / II-001 / II-102: IDUNA inventory system (electronics/components, AI-assisted
+  guidance, simple web app, simple-but-useful affordances) — treated as one unified feature, not
+  three separate asks.** Real, unified NORTHSTAR written: `IDUNA/docs/NORTHSTAR_INVENTORY.md`,
+  golden doc `IDUNA-INVENTORY-NORTH`. Real placement: an IDUNA sibling app (same `drive`/`blog`/
+  `vault` "monorepo-custom behind the portal" pattern), not `IDUNA_PRO` (single-operator personal
+  data, no multi-tenant story). Real, flat SQLite schema (free-text `category`/`tags`, no rigid
+  taxonomy — a deliberate v0 boundary, not an oversight), seeded with the founder's own real,
+  named starting inventory (2× Pi B2 "i think?", 2× Pi Zero, an Adafruit Feather with a radio
+  module — the founder's own uncertainty carried honestly into the doc, not guessed away). Real
+  API surface: plain CRUD (`II-001`) plus a genuinely new `POST /api/v1/inventory/query` endpoint
+  feeding the real, current inventory into an LLM call — the actual load-bearing answer to
+  `AI-ITL`'s own "ai can help guide me... what is possible" ask, not just a raw data dump. Real
+  3-phase plan: Phase 1 = schema + CRUD + a minimal web UI (`II-001`'s own "super simple to
+  start"); Phase 2 = quick-add via free text, low-quantity flags, tag browsing (`II-102`'s own
+  "simple but useful" affordances); Phase 3 = the real AI query panel (`AI-ITL`). Real, deferred
+  stretch goals named honestly, not promised for v0: barcode/UPC lookup, photo-based vision
+  cataloging. Real, named connective tissue to existing work: this inventory is the natural,
+  authoritative place `FLASH`/`image-builder-rpi` (S213)'s own real Raspberry Pi hardware
+  questions should live, not re-asked each time. IDUNA commit `35ef8df`. Apple #17474. Planning
+  only — no code written, matching this stage's own "northstar first" framing. (sess-20260902-2008-ed50169e)
