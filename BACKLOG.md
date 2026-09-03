@@ -28147,7 +28147,33 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9997: figure out how the cli will work for emily for business - for example if someone wants to interract with their iduna pro instance on the command line (emily.cli+)?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update**: card 1199's own prerequisite work (real `let`/`do` support in BURROW's Go emission target, live-verified) has landed — see its own entry above. Still genuinely open: `match`/`Result` (real error handling) and `loop` (real iteration) are both still unstarted in `emit_go.go` and are real, necessary prerequisites before an actual CLI can be written this way — not attempted in this pass, and the CLI itself (the literal ask here) has not been started.
+- [ ] **9988: emily for business CLI written in GO with BURROW** Added via the IDUNA kanban interface, not yet triaged into a real section. **Status update (2)**: founder, direct explicit follow-up: "take on the full match/Result BURROW port" — real, done, see new item below (`match`/`Result`/`Option` shipped in BURROW's Go emission target, with a real, deliberate v0 boundary named honestly: scrutinee must be a direct call to a known Result/Option-returning defn, not a `let`-bound variable). Combined with card 1199's own earlier `let`/`do` work, this closes the second of the real prerequisites named for "write a CLI in this." Still genuinely open, named explicitly: `defenum`/`loop`/`Vec`/struct construction are all still unstarted in `emit_go.go` — `loop` in particular is a real, necessary prerequisite for any real iteration a CLI would need — and the actual CLI itself (the literal ask here) has not been started.
+  (sess-20260902-2008-ed50169e)
+- [x] **Founder real-time, explicit follow-up on card 9988: "take on the full match/Result
+  BURROW port." DONE.** Real, direct port of PARENA's own reference C runtime's representation
+  (`{int tag; void *value;}` Result/Option) into BURROW's Go emission target — one real, fixed,
+  shared Go struct per Result/Option (`Tag int; Value any`), not per-instantiation, since VS0
+  has no generics to give either a real one anyway. `Ok`/`Err`/`Some` construct via a plain Go
+  composite literal; bare `None` (the real, established PARENA source convention) constructs an
+  empty `Option`. **Real, deliberate v0 boundary, named explicitly, not hidden**: `match`'s
+  scrutinee must be a direct call to a known Result/Option-returning defn (payload/error types
+  resolved via a new first-pass `defnRetInfo` map) — not an arbitrary expression or a `let`-bound
+  variable, since this emitter's own local-variable tracking carries presence only, no
+  per-variable type; PARENA's own mature `src/emit.c` needed several distinct, dated bug-fix
+  passes (2026-08-21/23/24/27) to get this fully right for its own C target, so this Go v0
+  deliberately doesn't rush past the same real complexity. Exactly 2 clauses required per match,
+  one per real tag value — the second compiles to a plain Go `else`, and two clauses naming the
+  same tag is a real, honest compile error. **Two real, separate gaps found and fixed live, not
+  designed in advance**: string literals had NO handling anywhere in `emitGoExpr` at all (fixed
+  via `strconv.Quote`, correctly re-escaping); a match clause's unused bound payload is a real Go
+  "declared and not used" compile error with no direct equivalent to the C target's own
+  `__attribute__((unused))` (fixed with an explicit `_ = name` discard). 30 new tests (103/103
+  total). `go build/vet/test ./...` clean, zero regressions. **Live-verified end to end**: a real
+  `safe-div`/`half-of-even` pair plus `match`-based callers compiled via `burrow build`,
+  `go build`-linked into a real, separate Go module, and run — correct output for all four real
+  cases (`5`, `-1`, `4`, `-99`). Still real, honest, unstarted: `defenum`/`loop`/`Vec`/struct
+  construction — a real CLI still needs `loop` for iteration too. BURROW commit `6b74171`,
+  Apple #17372.
   (sess-20260902-2008-ed50169e)
 - [ ] **9977: can we add SARENA notebook to OG IDUNA as an option in the menu?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
