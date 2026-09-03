@@ -29203,3 +29203,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **BPTUNE-003: DONT TOUCH UNDERSTUDY OR PETALIA** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-PLAYER-CAR: can we port the ronin armature we have like a model that is rigged up where the head can move and stuff the ronin like the model that is like the player and bot model** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
