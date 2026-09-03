@@ -27857,11 +27857,6 @@ shipped in this section itself; this is planning work, matching the card's own l
   top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
   `ae5812be`, Apple #17286.
   (sess-20260902-2008-ed50169e)
-- [x] **S206-601: iterate on mixforge.** Triaged into SECTION 243 as S243-01, per the
-  210-101 cruise-column sprint-planning pass — S243-01 itself is now DONE (real V0 YouTube-URL
-  track import shipped, PARENA commit `77401dc`, Apple #17309). See S243-01's own entry for
-  full detail.
-  (sess-20260902-2008-ed50169e)
 - [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **S208-10: emily for business (IDUNA IS THE PRODUCT BASICALLY ZERO TRUST SECURITY AGENT NATIVE)** Triaged into
@@ -27960,4 +27955,9 @@ shipped in this section itself; this is planning work, matching the card's own l
   unauthenticated) — the admin auth boundary wasn't touched. commit `abd4a74`, Apple #17304.
   (sess-20260902-2008-ed50169e)
 - [ ] **211: duck is no longer last - update the blog** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **S206-601: iterate on mixforge.** Triaged into SECTION 243 as S243-01, per the
+  210-101 cruise-column sprint-planning pass — S243-01 itself is now DONE (real V0 YouTube-URL
+  track import shipped, PARENA commit `77401dc`, Apple #17309). See S243-01's own entry for
+  full detail.
   (sess-20260902-2008-ed50169e)
