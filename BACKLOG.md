@@ -29284,3 +29284,5 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-TUNE-0033: make rosie direction B do a double hit dash ability it does damage at the beginning and end of the dash and in the middle shes totally invuln like SSB dodge** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BP-TUNE-CP-001: BP CONTROLLER PARITY - keyboard controll can drop down through the platforms controller cant (fall through)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
