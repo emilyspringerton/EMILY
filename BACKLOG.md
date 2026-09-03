@@ -28775,8 +28775,15 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   thread. Not-yet-done follow-up named honestly: no CI/Makefile wiring yet for this musl path,
   this pass's proof was a manual one-off compile. PARENA commit `050d145`. Apple #17445.
   (sess-20260902-2008-ed50169e)
-- [ ] **231321: yea write that pcap report if u didnt already** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **231321: yea write that pcap report if u didnt already.** Already real and done, checked
+  directly against this session's own earlier work before doing anything new: kanban card
+  435423's own real, shipped FFI-bound host implementation (`PARENA/tools/pentest_pcap_host.c`,
+  `STDLIB.md`'s own "pentest/pcap — real host implementation shipped" section) plus the founder's
+  own explicit real-time follow-up ask for a deep, native (no-libpcap-FFI) implementation
+  (`PARENA/docs/NATIVE_PCAP_NORTHSTAR.md`, golden doc `NATIVE-PCAP-NORTH`) — both real, both
+  written, both committed (`e14f45b`/`1296bb3`) earlier in this same session, before this card
+  was even pulled. No new work needed; closing as a real, verified duplicate rather than silently
+  ignoring it. (sess-20260902-2008-ed50169e)
 - [ ] **IUS-001: can we add git indexing to iduna unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **342432: check mjolnir build i think its still failing** Added via the IDUNA kanban interface, not yet triaged into a real section.
