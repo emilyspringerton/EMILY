@@ -29296,3 +29296,5 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **BPHS-00001: a surprise box with a lot of flow allows you to generate your own hat with the promptoverse hat gen (inflation sync)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPGFD-INTEROP-000: GFD dungeons have a super rare chance to drop brawlpit hats and those hats are sellable on the GFD auction house** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
