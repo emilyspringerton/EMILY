@@ -27746,16 +27746,30 @@ pass over the 4 raw, un-triaged kanban cards sitting in the cruise queue — eac
 grounded scope + phased next-step plan below rather than staying a bare one-line ask. No code
 shipped in this section itself; this is planning work, matching the card's own literal request.
 
-- [ ] **S243-01: iterate on MixForge (was S206-601).** MIXFORGE already has a real, grounded
-  NORTHSTAR (`MIXFORGE/NORTHSTAR.md`, S205-100/101) scoping the legacy-conversation DJ-tool idea
-  onto this monorepo's own PARENA-first stack. Real, checked, current blocking dependency: V0
-  (paste-a-YouTube-URL track import) needs only `stdlib/shell.prn` (real, exists) shelling out to
-  `yt-dlp`, so it's actually startable today without waiting on anything; the NEXT phase
-  (two-deck playback/crossfade) is genuinely blocked on `stdlib/media/audio.prn`/`codec.prn`,
-  which are design-only in PARENA today (STDLIB.md §26-27, zero `.prn` source exists) — a real,
-  named, cross-repo PARENA-side prerequisite, not a MIXFORGE-repo task. Real next step: build V0
-  (import + local track library) now, since it has no blocker; track the audio/codec stdlib gap
-  as its own PARENA-side backlog item before starting playback.
+- [x] **S243-01: iterate on MixForge (was S206-601). DONE — V0 shipped.** MIXFORGE already had a
+  real, grounded NORTHSTAR (`MIXFORGE/NORTHSTAR.md`, S205-100/101) scoping the legacy-conversation
+  DJ-tool idea onto this monorepo's own PARENA-first stack. Real, checked finding: V0
+  (paste-a-YouTube-URL track import) needed no new stdlib work at all to start — shipped as
+  `PARENA/stdlib/mixforge/import.prn`: shells out to real `yt-dlp` via `stdlib/process.prn`'s
+  `run-capture` (not `shell.prn` as originally guessed above — `shell.prn` is for spawning an
+  interactive PTY shell, a different real primitive; `run-capture`'s synchronous "run + capture
+  stdout + exit code" shape is what this actually needed), `--print after_move:filepath` for the
+  real resulting path. **Real, explicit security work**: `run-capture` shells the whole command
+  through `/bin/sh -c` — `safe-youtube-url?` is a narrow host+charset allowlist (rejects, not
+  merely escapes, anything outside youtube.com/youtu.be plus a fixed safe-punctuation set),
+  layered with `log/projector.prn`'s already-proven `shell-single-quote`. New
+  `PARENA/tests/test_mixforge_import.c` (`make test-mixforge-import`) proves real rejection of
+  every real shell-injection payload tried (`'; rm -rf`, backticks, `&&`, `|`, `$HOME`), plus a
+  real stubbed-yt-dlp end-to-end download and `import-track` with/without an instrumental — all
+  passing. `./parena build` clean, `gcc -Wall -Wextra -pedantic -Werror` clean, PARENA's full
+  342-case `make test` plus `test-process`/`test-log-projector` all still green, zero
+  regressions. Metadata lands as a real NDJSON line, honestly not a queryable SQLite row yet
+  (`sql/driver` is design-only in PARENA; direct `libsqlite3` FFI-binding is real, separate,
+  unstarted work, named not glossed over) — same real reasoning as the NEXT phase (two-deck
+  playback/crossfade), which stays genuinely blocked on `stdlib/media/audio.prn`/`codec.prn`
+  (design-only, zero `.prn` source, STDLIB.md §26-27). Also honestly open: no CLI entry point
+  exists in the MIXFORGE repo itself yet — nothing calls the new library function from a real
+  `main.c`. PARENA commit `77401dc`, MIXFORGE commit `fef399c`, Apple #17309.
 - [ ] **S243-02: Emily for Business — IDUNA as a zero-trust, security-agent-native product (was
   S208-10).** Founder's own framing, preserved verbatim: "IDUNA IS THE PRODUCT BASICALLY ZERO
   TRUST SECURITY AGENT NATIVE." This is a real, board-level product-positioning idea, not yet a
@@ -27843,8 +27857,10 @@ shipped in this section itself; this is planning work, matching the card's own l
   top-level `/home/fatbaby/CLAUDE.md` (MONOREPO repo, commit `0d5d92d`). EMILY commit
   `ae5812be`, Apple #17286.
   (sess-20260902-2008-ed50169e)
-- [ ] **S206-601: iterate on mixforge.** Triaged into SECTION 243 as S243-01, per the
-  210-101 cruise-column sprint-planning pass.
+- [x] **S206-601: iterate on mixforge.** Triaged into SECTION 243 as S243-01, per the
+  210-101 cruise-column sprint-planning pass — S243-01 itself is now DONE (real V0 YouTube-URL
+  track import shipped, PARENA commit `77401dc`, Apple #17309). See S243-01's own entry for
+  full detail.
   (sess-20260902-2008-ed50169e)
 - [ ] **S209-77: PARENA PODCAST** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
