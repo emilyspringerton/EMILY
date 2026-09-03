@@ -28113,7 +28113,18 @@ shipped in this section itself; this is planning work, matching the card's own l
   (sess-20260902-2008-ed50169e)
 - [ ] **9977: can we add SARENA notebook to OG IDUNA as an option in the menu?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **9966: /design updatge the IDUNA OG menu interface so its a left menu thats always there keep it simple and nice let us scroll up and down on the menu if it gets that long** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **9966: /design updatge the IDUNA OG menu interface so its a left menu thats always there
+  keep it simple and nice let us scroll up and down on the menu if it gets that long. DONE.**
+  The Back Office admin nav was a single horizontal top bar cramming 12 links into one row —
+  replaced with a real `position:fixed` left sidebar (always visible while scrolling page
+  content) with its own `overflow-y:auto`, so a longer link list in the future scrolls within
+  the menu itself instead of pushing content down or overflowing the viewport. Links/hrefs
+  entirely unchanged — purely a layout/CSS re-orientation, horizontal to vertical; sign-out
+  pinned to the bottom via `margin-top:auto`. `go build/vet/test ./...` clean. Live-verified:
+  `iduna.service` rebuilt and restarted successfully, `/health` green — meaningful confirmation
+  since the template is parsed via `template.Must`, so a malformed edit would have panicked at
+  startup. IDUNA commit `0cbcb99`, Apple #17347.
+  (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [ ] **9944: OG IDUNA unified search** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
