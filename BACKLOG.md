@@ -29278,32 +29278,6 @@ whole card marked done on the strength of a scoping doc alone.*
   exists. Explicitly named as NOT changing how a genuinely "plan/scope this" card closes (that
   stays a real, complete deliverable on its own, per Principle 3). EMILY commit `c483de13`.
   Apple #17524. (sess-20260902-2008-ed50169e)
-- [ ] **WOTAN-REPO-001: GITHUB REPO CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-- [~] **BP-fix: i think turnip projectiles are broken for petalia and for rosie - fix and then put
-  the full moves and combo list into the readme.** **Real, direct investigation performed, not a
-  blind guess-and-patch** — wrote a real, standalone repro harness calling `spawn_turnip`/
-  `special_insert_coin` + `update_turnips` directly for Petalia, Vexar, and Rosie: all three
-  correctly spawn, travel, and land real hits with correct damage (confirmed live). Checked and
-  ruled out two real, plausible bug classes: (1) `fighter_def`'s own out-of-range fallback
-  returns `&g_fighters[CHARACTER_PETALIA]` (index 0) — a real, live "character ID 0 as silent
-  fallback" pattern, but no actual out-of-range `character_id` path was found triggering it; (2)
-  `update_turnips`'s own `p == t->owner_id` hit-exclusion check assumes `PlayerState.id` always
-  equals array index — confirmed true in both `local_game.h` and `apps/server`, ruling this out
-  too. Found one real, separate, genuinely pre-existing gap along the way: `FighterDef`'s own
-  `projectile_speed_mul` stat is defined but never actually applied anywhere in `spawn_turnip`/
-  `special_insert_coin` — real, but uniform across every character, not specific to Petalia/
-  Rosie. **Real, honest conclusion: the core server-side turnip mechanic is NOT broken for
-  either character, verified directly — not closed as "fixed," flagged honestly as
-  investigated-but-not-reproduced.** If a real, live bug exists, it's most likely client-
-  rendering or live-multiplayer-timing related, outside what this synthetic, single-process
-  physics test can reproduce — a real, separate, next step for whoever can reproduce it live
-  (Xvfb + real input, or the founder's own direct playtest). **Second half DONE**: a real, full
-  moves & combo list added to `README.md`, covering every real per-character special that exists
-  today (universal moves, Medusa/Raccoon/Second Tree/Uncrowned/Vexar's own specials, Rosie's own
-  two new moves), honestly naming Sunlit Draw/Sequel Duck as still fully generic and Understudy/
-  Petalia as deliberately untouched. BRAWLPIT commit `fd0b8d3`. Apple #17533.
-  (sess-20260902-2008-ed50169e)
 - [ ] **BP-TUNE-CP-001: BP CONTROLLER PARITY - keyboard controll can drop down through the platforms controller cant (fall through)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [~] **BPTUNE-10001: brawlpit B up b and down b all do the same thing it seem,s like for every character they need to be distinct moves continue reworking the characters (dont touch petalia or understudy)** **Real investigation performed first, not a blind patch.** Traced the actual claim: up-B (Parasol) really IS meant to be the same universal move for every character — that's by design (confirmed in `packages/common/physics.h`'s own dispatch), not the bug. The real bug: down-B (hold S + special, grounded) was a genuine **dead input for every single character** — nothing in the special-dispatch chain ever checked `in_y < -0.5f`, only the neutral-B's `in_y > 0.5f` and the separate air-only up-B check. **Second, separate real bug found along the way**: `README.md`'s own Controls/Moves docs said "hold S" for Turnip Toss and every tuned neutral-B — backwards from the real code (`SDL_SCANCODE_W` → `in_y > 0.5f`); fixed throughout — a real, plausible, previously-unconsidered contributor to `BP-fix`'s own "turnips seem broken" report (a player following the old docs by holding S could never trigger a neutral-special at all). **Shipped**: Medusa's **Serpents' Grasp**, the tuning pass's first real, distinct down-B — melee-range damage/knockback vs. her own ranged, no-damage neutral-B (Petrifying Gaze), sharing its cooldown on purpose. New `test_medusa_serpents_grasp` passes; `gcc -fsyntax-only` clean on the full arena binary. BRAWLPIT commit `27edf64`. Apple #17536. **Real, honest, NOT done**: this is a big, ongoing, per-character ask (Principle 19) — Raccoon, Second Tree, Uncrowned, Rosie, Vexar, Sunlit Draw, and Sequel Duck each still need their own real, distinct down-B. Kanban card #172 left open in `priority` (not moved to done) to continue this same tuning pass character-by-character.
@@ -29383,4 +29357,29 @@ not duplicate the work.
 - [ ] **PC-CALI-003: papercraft vehicles are destructable and persistant in the world (GTA LIKE ENTITIES) also there are fake shell versions for world building  not destructable** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **PC-CALI-004: PAPERCRAFT ENVIRONMENTS MOD (FORREST)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **WOTAN-REPO-001: GITHUB REPO CREATED.** Confirmed via unauthenticated GitHub API check (`api.github.com/users/emilyspringerton/repos`) that the founder pre-created a real, empty `WOTAN` repo 2026-09-03 — same pattern as `LO`/`SPIDERBEETLE`/`EMILY_FOR_BUSINESS`. Gave it a real first commit: placeholder `index.html` matching `OKEMILY/tournaments.html`'s own design system (same `:root` palette, honestly labeled "under construction," linking back to the live `tournaments.html` page which stays live until this repo actually replaces it), `CLAUDE.md`/`README.md`/`CHANGELOG.md` describing real current status and pointing at `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md` and `WOTAN-DNS-001` as the real next steps. Registered as a new row in `/home/fatbaby/CLAUDE.md`'s repo table (commit `deb3220`). WOTAN commit `64fcf19`. Apple #17538. (sess-20260902-2008-ed50169e)
+- [~] **BP-fix: i think turnip projectiles are broken for petalia and for rosie - fix and then put
+  the full moves and combo list into the readme.** **Real, direct investigation performed, not a
+  blind guess-and-patch** — wrote a real, standalone repro harness calling `spawn_turnip`/
+  `special_insert_coin` + `update_turnips` directly for Petalia, Vexar, and Rosie: all three
+  correctly spawn, travel, and land real hits with correct damage (confirmed live). Checked and
+  ruled out two real, plausible bug classes: (1) `fighter_def`'s own out-of-range fallback
+  returns `&g_fighters[CHARACTER_PETALIA]` (index 0) — a real, live "character ID 0 as silent
+  fallback" pattern, but no actual out-of-range `character_id` path was found triggering it; (2)
+  `update_turnips`'s own `p == t->owner_id` hit-exclusion check assumes `PlayerState.id` always
+  equals array index — confirmed true in both `local_game.h` and `apps/server`, ruling this out
+  too. Found one real, separate, genuinely pre-existing gap along the way: `FighterDef`'s own
+  `projectile_speed_mul` stat is defined but never actually applied anywhere in `spawn_turnip`/
+  `special_insert_coin` — real, but uniform across every character, not specific to Petalia/
+  Rosie. **Real, honest conclusion: the core server-side turnip mechanic is NOT broken for
+  either character, verified directly — not closed as "fixed," flagged honestly as
+  investigated-but-not-reproduced.** If a real, live bug exists, it's most likely client-
+  rendering or live-multiplayer-timing related, outside what this synthetic, single-process
+  physics test can reproduce — a real, separate, next step for whoever can reproduce it live
+  (Xvfb + real input, or the founder's own direct playtest). **Second half DONE**: a real, full
+  moves & combo list added to `README.md`, covering every real per-character special that exists
+  today (universal moves, Medusa/Raccoon/Second Tree/Uncrowned/Vexar's own specials, Rosie's own
+  two new moves), honestly naming Sunlit Draw/Sequel Duck as still fully generic and Understudy/
+  Petalia as deliberately untouched. BRAWLPIT commit `fd0b8d3`. Apple #17533.
   (sess-20260902-2008-ed50169e)
