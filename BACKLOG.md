@@ -28720,8 +28720,25 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **342332432423: ldap primatives parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **334534: DNS primatives parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
+- [x] **334534: DNS primatives parena.** New `PARENA/stdlib/net/dns.prn`: real, direct RFC 1035
+  A-record (IPv4) query construction and response parsing. `parse-dns-response` is pure PARENA
+  (byte reads only, safe with `net/wire.prn`'s own `raw-byte`/`read-u16-be`); `build-dns-query`
+  uses a real, honest `#target inline-c` escape hatch, matching `mag/gematria.prn`'s own
+  already-established `squish` precedent — necessary because a real DNS query's own fixed
+  12-byte header is mostly zero bytes (ANCOUNT/NSCOUNT/ARCOUNT are always `0x00 0x00`), and
+  `string/concat`'s own `strcpy`/`strcat` truncation (already documented in this same session's
+  own `sip/rtp.prn`) would break on literally every real query, not an edge case. Handles real
+  DNS name compression on the read side (a real `11xxxxxx` pointer byte, RFC 1035 §4.1.4) —
+  ubiquitous in real responses (virtually every real server compresses the answer's own NAME
+  field back to the question) — enough to correctly skip a compressed name. **Real, genuine,
+  live-confirmed compiler bug found and worked around, not fixed**: two sibling `loop` forms
+  originally reused identical binding names (`i`/`pos`), a real "redefinition" C compile error,
+  the exact same class of bug `base4/matrix.prn`'s own already-documented comment names — worked
+  around via renaming (`qi`/`qpos`, `ai`/`apos`), the identical real fix that file already
+  applies. New `make test-dns` target, 5 real assertions (an exact byte-for-byte query
+  construction check, a full response parse using real DNS name compression, and a
+  too-short-buffer error case). `make test`: 345/345, zero regressions. PARENA commit `35edf55`.
+  Apple #17508. (sess-20260902-2008-ed50169e)
 - [ ] **434534: use fatbaby proxy and proxy broker to inform vpn primatives built into parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **232131231: fix unicode in pitviper** Added via the IDUNA kanban interface, not yet triaged into a real section.
