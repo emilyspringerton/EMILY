@@ -27835,3 +27835,5 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   (sess-20260902-2008-ed50169e)
 - [ ] **S208-11: project exodus claude -> notebook lm -> git somehow need a pipeline to slurp in old convos some kind of workflow** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **208: can we make the papercraft plugins work for SHANKPIT? add the papercraft MOD work to SHANKPIT OG (not 460 yet)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
