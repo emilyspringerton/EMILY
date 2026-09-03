@@ -28205,3 +28205,91 @@ IDUNA_PRO extraction, broker Host-routing), not invented from scratch.
 (sess-20260902-2008-ed50169e)
 - [ ] **109393: GCLOUD MIGRATION FIGURE YOUR SHIT OUT BRO** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 245: MAILING-LIST + LINK-TREE MINI-SITE — TWO REAL PRODUCT FEATURES, SUBTASK PLANNING (2026-09-03)
+
+Founder real-time, two feature ideas in one conversation, both explicitly non-urgent ("not sure
+doesnt need to happen immediately but i think its a good offering for a business product"). Per
+that framing and the S244 precedent, this is a real planning pass only — no code shipped here.
+
+### Mailing-list capture as an Emily for Business feature
+
+Founder: "we need to build the mailing list capture stuff into emily for business but it needs
+to be just regular encrypted at rest via a file so it can always be used... integrate with email
+providers but it also saves your list in IDUNA in case you need to export it from there later...
+we have mailchimp integration now it needs to be consoleified... how do we multi tenant that?"
+
+Real, checked findings grounding these subtasks: `IDUNA/internal/mailinglist` already has real,
+working pieces of exactly this shape — `Store` (a real, local, encrypted SQLite record of every
+subscriber, explicitly documented as "the system of record," Mailchimp a "downstream sync
+target... not the authoritative copy") and `MailchimpClient` (already a plain per-instance
+struct with its own `APIKey`/`ListID` fields, NOT baked-in globals — the env-var hardcoding lives
+only in `main.go`'s own startup wiring, not the client type itself).
+
+- [ ] **S245-01: a real, alternative vault-unlock mode — config/file-key, not human-passphrase.**
+  The CURRENT `internal/mailinglist/crypto.go` design is deliberately, explicitly paranoid: a
+  human-memorized passphrase, held only in memory, requiring manual `cmd/mailing-list-unlock`
+  after every restart — a real, accepted trade-off for EINHORN's own founder-only use case, but
+  wrong for a product a customer expects to "just work" after a redeploy/crash with no operator
+  standing by. Real, honest trade-off to design explicitly, not hide: a key sourced from a local
+  config file or env var is real encryption-at-rest (protects against a leaked backup or stolen
+  disk image where the key isn't ALSO on it), but weaker than the human-passphrase model against
+  an attacker with live access to the running server's own config. Real next step: a new,
+  clearly-named alternate `Vault` construction path (e.g. `NewVaultFromKeyFile`), the existing
+  passphrase path untouched — EINHORN's own instance keeps its current paranoid model, a product
+  tenant opts into the simpler one.
+- [ ] **S245-02: a real export endpoint/command for the local `Store`.** Confirmed: `Store` is
+  already the real, durable, local record — but there's no existing way to actually decrypt and
+  dump it (checked: no `Export`-shaped function anywhere in `internal/mailinglist/store.go`
+  today). Real, concrete, bounded: a real `GET /api/v1/mailinglist/export` (CSV or JSON), gated
+  behind a real permission, decrypting each stored subscriber via the unlocked vault. This is
+  the literal, direct answer to "saves your list in IDUNA in case you need to export it later."
+- [ ] **S245-03: make the email-provider integration (Mailchimp today) a real, per-instance,
+  admin-configurable setting — not an env var.** Real, decisive architectural fact: `IDUNA_PRO`'s
+  own real multi-tenancy model (per S243-06/07) is one full, separate PROCESS per tenant, each
+  with its own DB — not one shared process serving many tenants' data out of one table. This
+  means "multi-tenanting" the Mailchimp integration is NOT a hard per-request tenant-resolution
+  problem — it's simply: store one tenant's own Mailchimp API key/list ID in THEIR OWN instance's
+  own encrypted store (reusing S245-01's vault), settable through a real admin API/UI, instead of
+  requiring a redeploy with new env vars to change it. `MailchimpClient` itself needs zero
+  redesign for this — it already takes `APIKey`/`ListID` as real, per-instance fields.
+- [ ] **S245-04: "consoleify" — a real settings page in IDUNA_PRO's own admin surface.** A real
+  UI (likely alongside the kanban board's own `/admin/*` surface, S243-08) to: view subscriber
+  count/sync status, configure the provider (S245-03), trigger an export (S245-02). Blocked on
+  S245-01/02/03 existing as real APIs first — this is the visible front end for them.
+- [ ] **S245-05: extract `internal/mailinglist` into `IDUNA_PRO` itself.** S243-06's own original
+  categorization listed this package as "leave behind, custom" — real, honest correction once
+  S245-01 exists: the ONLY EINHORN-specific parts are `main.go`'s own hardcoded `AllowOrigin`
+  (okemily.com) and per-product Mailchimp list-ID env vars, both real, ordinary config values,
+  not structural coupling. Once S245-01 (the product-appropriate vault mode) exists, this package
+  is a real core-candidate after all, matching the same "actually check before excluding" lesson
+  S243-08's own kanban re-categorization already taught.
+
+### Link-tree-style mini-site with basic analytics
+
+Founder: "can we have a little mini website they can set up where they can use IDUNA PRO and
+emily for business to manage a little link tree style mini site that we can do some basic
+analytics and they can use it as a general tool to link from social medias etc."
+
+Real, checked precedent: `IDUNA/internal/blog` already has almost exactly this shape — a real
+`Store` (post data) + a real `Renderer` (renders to static HTML on disk, e.g.
+`/var/www/okemily/blog`) — the same real Store+Renderer split a linktree page needs (link items:
+label/URL/order + a rendered public page), not a new architecture pattern. Real, checked gap:
+zero analytics/click-tracking of any kind exists anywhere in this monorepo today (confirmed by
+grep — no `pageview`/`analytics`/click-tracking code anywhere).
+
+- [ ] **S245-06: a real `linktree` package in `IDUNA_PRO`, `blog`-shaped.** A `Store` (per-tenant
+  list of link items: label, URL, display order, enabled/disabled) + a `Renderer` producing one
+  real, small, static public page per tenant. Real, checked reuse: the exact same broker
+  Host-routing capability shipped in S243-06 can serve this page on a tenant's own subdomain (or
+  a future custom domain) — no new routing mechanism needed.
+- [ ] **S245-07: real, minimal click analytics.** No existing primitive to build on (checked, see
+  above) — real, new, bounded v0: each link gets a real tracking redirect
+  (`GET /l/<slug>` → real click-count increment → `302` to the actual target URL), the same
+  simple mechanism every real linktree-style tool uses. "Basic analytics" per the founder's own
+  framing — real, explicit scope boundary: click counts and maybe daily buckets, not a full
+  analytics platform (referrer/geo/device breakdown is real, separate, later scope if ever).
+- [ ] **S245-08: a real settings/editor page for the linktree (admin surface, same real UI home
+  as S245-04).** Add/remove/reorder links, view real per-link click counts. Blocked on
+  S245-06/07 existing as real APIs first.
+(sess-20260902-2008-ed50169e)
