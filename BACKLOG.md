@@ -29108,3 +29108,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   existing `//:firefly_verify`/`//:ladybug_verify`/`//:gomega_alias_verify`/`//:scarab_verify`
   targets all still pass under the bumped pin. PARENA commit `227f78c`, ladybug commit `2e675f1`.
   Apple #17505. (sess-20260902-2008-ed50169e)
+- [ ] **PENT-0011: how does kismet work? what parena primatives needed to build out similar functionality through parena apis?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
