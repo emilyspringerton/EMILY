@@ -29136,6 +29136,19 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **IDUNA-93939: iduna log query interface (unified search v0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [x] **S202-30: REDGARDEN — He Xiangu hero rework/buff (hover casting + supporting items).**
+  Founder real-time, 2026-08-25: "hero stats on wotan for example xehingu is not an easy hero to
+  get value out of in my opinion - we need to buff or rework add hover casting and supporting
+  items for him to thrive." Confirmed the real, current kit
+  (`packages/simulation/arena_game.c`/`.h`, `ARENA_HERO_HE_XIANGU`): Q is a 6.0-unit melee-range
+  damage+self-heal poke (4.2s CD), W is a self-regen toggle, R is a 4.5-radius ally-heal zone with
+  no damage — a pure sustain/support kit with zero mobility or engage/disengage tool, which is the
+  concrete, findable reason the founder's read ("hard to get value out of") holds up against the
+  actual numbers, not just a vibe. Scope not yet decided: real buff numbers, a rework of one of
+  Q/W/R, a new "hover casting" mechanic (cast Q/W/R while airborne/hovering — mechanic itself not
+  yet designed), and 1+ new supporting items in the item shop tuned for a melee-range sustain
+  support. Queued via `emily observe` (Apple #16073) — not yet implemented, tracked on the kanban
+  board (`emily kanban`, cruise queue) for pickup.
 - [x] **PXCL-9311: make parena cli tool do the same thing burrow new does but for C instead of
   for go.** New, real `parena new <name>` subcommand — the direct C-target sibling of BURROW's
   own already-shipped `burrow new`. Generates a real, immediately-runnable starter: `<name>.prn`
@@ -29153,16 +29166,3 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   verified: a real scaffold builds, runs, and prints the correct output, and a second
   `parena new` on the same name correctly refuses to overwrite it. `make test`: 345/345, zero
   regressions. PARENA commit `cafaf2f`. Apple #17514. (sess-20260902-2008-ed50169e)
-- [x] **S202-30: REDGARDEN — He Xiangu hero rework/buff (hover casting + supporting items).**
-  Founder real-time, 2026-08-25: "hero stats on wotan for example xehingu is not an easy hero to
-  get value out of in my opinion - we need to buff or rework add hover casting and supporting
-  items for him to thrive." Confirmed the real, current kit
-  (`packages/simulation/arena_game.c`/`.h`, `ARENA_HERO_HE_XIANGU`): Q is a 6.0-unit melee-range
-  damage+self-heal poke (4.2s CD), W is a self-regen toggle, R is a 4.5-radius ally-heal zone with
-  no damage — a pure sustain/support kit with zero mobility or engage/disengage tool, which is the
-  concrete, findable reason the founder's read ("hard to get value out of") holds up against the
-  actual numbers, not just a vibe. Scope not yet decided: real buff numbers, a rework of one of
-  Q/W/R, a new "hover casting" mechanic (cast Q/W/R while airborne/hovering — mechanic itself not
-  yet designed), and 1+ new supporting items in the item shop tuned for a melee-range sustain
-  support. Queued via `emily observe` (Apple #16073) — not yet implemented, tracked on the kanban
-  board (`emily kanban`, cruise queue) for pickup.
