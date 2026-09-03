@@ -29233,3 +29233,5 @@ grep — no `pageview`/`analytics`/click-tracking code anywhere).
   (sess-20260902-2008-ed50169e)
 - [ ] **MULTIKANBAN-000: the kanban is a good primative i want to move it up the abstraction layer i want IDUNA and IDUNA PRO to give the ability to create multiple kanbans** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PMPX-000: build out additional project management automations like a page showing the tags for the different projects etc - auto researching on a -000 card** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
