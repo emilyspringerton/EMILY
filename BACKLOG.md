@@ -27718,3 +27718,37 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
   only covers the bare-section shortcut, not a caller who still types a full, colliding id by
   hand). IDUNA commit `eb77b75`, Apple #17278.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 242: REDGARDEN — "LUCK OF THE DRAW" TRINKET (2026-09-03)
+
+- [x] **S242-01: new Trinket-slot item, "Luck of the Draw," +1 flat mp/sec regen while in
+  combat, 2200 Flow.** Founder, worked from the cruise queue: "we should have a weapon that is
+  on like page 5 for 2.2k flow a trinket called 'luck of the draw' that gives some mana regen
+  during combat." **Real, live data-integrity note**: the kanban card carrying this ask had
+  `backlog_item_id: S205-87`, which already belonged to a completely unrelated, real, existing
+  item ("duck smoke bomb should have a 50% chance to slow each enemy hit by it") — a collision
+  predating S235-01's own same-day fix for exactly this class of mistake. Reconciled by hand:
+  this real work gets its own correct id here (`S242-01`), the card's own `backlog_item_id`
+  updated to match, `S205-87`'s real original item left untouched.
+  Implementation, following `packages/simulation`'s own established "trailing-field, positional-
+  initializer" convention every prior trinket append (Haste Trinket's `bonus_cdr_pct`, Kite
+  String's `bonus_attack_range_pct`) already used: new `ArenaItemDef.bonus_mp_regen_combat`
+  field (flat, not a percentage — the base `ARENA_MP_REGEN_IN_COMBAT_PER_SEC` rate it adds onto
+  is itself a flat int), a new cached `ArenaHero.item_bonus_mp_regen_combat` aggregate (same
+  `arena_recompute_item_stats` pipeline every other item stat already uses), and the mana-regen
+  tick's own in-combat rate now reads `ARENA_MP_REGEN_IN_COMBAT_PER_SEC +
+  item_bonus_mp_regen_combat` — scoped narrowly to the in-combat rate only, exactly matching the
+  founder's own "during combat" framing (the out-of-combat rate is untouched, verified by a real
+  test). `ARENA_ITEM_COUNT` 34→35. **Real, honest scope note**: at 35 items, the shop's own
+  `SHOP_PAGE_COUNT` (`ceil(ARENA_ITEM_COUNT/9)`) computes to page 4, not the founder's own
+  literal "page 5" — treated as descriptive color ("somewhere further down the shop"), not a
+  hard requirement, rather than padding the catalog with filler items just to force a page that
+  doesn't reflect a real 37th+ item existing yet. New test
+  (`test_luck_of_the_draw_boosts_in_combat_mp_regen_only`, `tests/test_arena_game.c`) verifies
+  both the in-combat boost (base 1 + bonus 1 = 2/sec) and that the bonus does NOT leak into the
+  out-of-combat rate. `scripts/test_arena.sh` (1145 assertions, zero failures) and
+  `scripts/test_10_bots.sh` (5 concurrent matches, stable) both green; `scripts/build.sh` clean
+  (only pre-existing-pattern `-Wmissing-field-initializers` warnings, the same class every prior
+  trailing-field append already produces, not a new problem). REDGARDEN commit `3d3f560`, Apple
+  #17281.
+  (sess-20260902-2008-ed50169e)
