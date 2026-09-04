@@ -29759,8 +29759,6 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-ONBOARD-123: SIGN UP BUTTON SHOULD LAUNCH SIGN UP PAGE IN GAME EMAIL PASSWORD CONFIRM PASSWORD NEXT SCREEN HONOR CODE NEXT SCREEN CHARACTER NAME CREATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **GFD-NM-123: NOTORIOUS MONSTER INTERFACE - THE MOB SPAWN INTERFACE CAN OPTIONALLY SPECIFY A NOTORIOUS MONSTER SPAWN FOR ONE OF THE BASE MOBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
 - [ ] **GFD-NM-124: actual web interface for modifying the notorious monsters allow plugins call special abilities via special named functions keep it simple ish but pretty powerful NM form drops spawn logic HP etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-x-123: mod interface for event broker in server mods should be able to register and or subscribe to specific named events in the system  (USE PARENA TYPES) mods should fire off signals for their callgbacks** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -29787,4 +29785,6 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
 - [ ] **GFD-MXX-12441: GFD NOTORIOUS MONSTER MOD HAVE IT FOLLOW THE NEW FORMAT FOR PUBLISHING AND SUBSCRIBEING TO EVENTS** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-PROJECT-HORIZON-12441: GFD ANDROID APP BEGIN REWRITING THE CLIENT IN PARENA LITTLE BY LITTLE UNTIL WE CAN JUST TARGET JAVA VIA PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **GFD-NM-123: NOTORIOUS MONSTER INTERFACE - THE MOB SPAWN INTERFACE CAN OPTIONALLY SPECIFY A NOTORIOUS MONSTER SPAWN FOR ONE OF THE BASE MOBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
