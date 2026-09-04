@@ -29478,7 +29478,7 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   via AI instead of a pixel editor — an AI-generated hat from an arbitrary player-chosen
   subject is still real, public, player-visible content needing a real review step before wide
   publication.
-- [ ] **EMILY-LOGO-1234: /design update the emily okemily main site with this art https://okemily.com/prompt-o-verse/emily-whiteboard/** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **EMILY-LOGO-1234: /design update the emily okemily main site with this art https://okemily.com/prompt-o-verse/emily-whiteboard/.** Downloaded the real generated whiteboard-sketch portrait, added `images/emily-whiteboard.jpg` + a small rounded portrait beside the `<h1>Emily</h1>`/wordmark in the homepage header — the site's first real image (previously entirely text-only). **Real, honest, NOT fully deployed**: `/var/www/okemily/images/` is owned by a different local user (`treeiii`, mode 775), unlike the rest of `/var/www/okemily/` (`fatbaby:www-data` mode 2775, specifically so deploys never need sudo) — `okemily-deploy.sh` failed to write the new image. Restored the live site to its prior, working text-only header rather than leave a broken image icon live. Queued `sudo-queue/49-fix-okemily-images-dir-ownership.sh` — once run, a plain `bash ~/okemily-deploy.sh` completes this for real, no further code changes needed. OKEMILY commit `6d559df`, root monorepo commit `147a765`. Apple #17573.
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-TUNE-93939: rosie and petalia TURNIPS SHOULD NOT BE UP B THEY SHOULD BE DOWN B AND ALSO AVAILABLE IN THE AIR** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
