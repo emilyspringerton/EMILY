@@ -29882,3 +29882,5 @@ session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
 - [ ] **EOSUI-1244: can we actually implement some super basic html and css renderer for our games? hear me out we need a design language for the interfaces i think HTML CSS is the only thing that makes sense** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **EOSUI-12444: we can have a native version and an embedded version so we can judge which experience is better and closer to ship we can interop with web like roblox does especially if we build our own browser** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
