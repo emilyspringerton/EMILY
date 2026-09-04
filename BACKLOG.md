@@ -29731,3 +29731,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-FIX: ctrl alt s to sign up does not actually work** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-UX-8325432: GFD login screen we need an actual login button with a sign up button lower down on the screen** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
