@@ -29450,3 +29450,31 @@ services survive the way their own unit files already intend.
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-TUNE-9838382: characters that do not have turnips (everyone but petalia and rosie) should not have wave dash as their down b should be unique abilities** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 250: BRAWLPIT SURPRISE-BOX HAT GEN — SUBTASK PLANNING (2026-09-04)
+
+Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see above), from
+`BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md`'s new Phase 4.5.
+
+- [ ] **S250-00: Real async generation shape for the surprise box.** A real promptoverse
+  generation is slow and can't fit inside `handleBuyHat`'s own synchronous one-transaction
+  design. Design and build a real deduct-then-queue-then-poll flow: deduct Flow immediately
+  (with a real, honest refund path if generation fails), queue the real generation request,
+  let the player check back for the result — matching `emily promptoverse add`'s own real
+  request-then-poll queue model rather than inventing a new one.
+- [ ] **S250-01: Decide the generated hat's real subject.** A real, founder-level product/flavor
+  decision — a random word from a curated pool, the player's own character name, or a themed
+  pool tied to whichever BRAWLPIT character is equipped. Not resolved in the northstar's own
+  scoping pass.
+- [ ] **S250-02: Resolve "inflation sync."** The card's own literal phrase, read as "the box's
+  Flow cost should scale with GFD's real Flow supply so it doesn't become trivially affordable
+  over time" — but no existing Flow-supply metric was found to key off. Needs a real, separate
+  scoping pass (or founder clarification) before a real price-scaling formula can be built.
+- [ ] **S250-03: New `hats.user_generated` schema column.** Today's `hats` rows are all
+  hand-curated (Phase 1's own fixed 6-hat seed); a generated hat needs at minimum a
+  `user_generated` flag and the real generating character's own ID, so the catalog can tell
+  curated and player-generated hats apart.
+- [ ] **S250-04: Moderation.** Carries over from Phase 4 unchanged, not resolved by generating
+  via AI instead of a pixel editor — an AI-generated hat from an arbitrary player-chosen
+  subject is still real, public, player-visible content needing a real review step before wide
+  publication.
