@@ -29948,3 +29948,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260904-2324-5f032e08)
 - [ ] **EFB-CRM-1244: SCOPE CRM PRIMATIVES FOR IDUNA ORGANIZATIONS CONTACTS CALLS NOT SURE WHAT ELSE WE NEED PRIMATIVES** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260904-2324-5f032e08)
+- [ ] **HITL-TW-000: TWITCH ACCOUNT** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260904-2324-5f032e08)
