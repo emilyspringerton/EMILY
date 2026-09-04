@@ -29873,3 +29873,5 @@ session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
 - [ ] **KX-010111: EMILY OS SLOW DOUBLE CLICK EDIT AFFORDANCE FOR KANBAN** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPLE-13331: a user can select the map on the online registry and hit play and it launches brawlpit client with that level (ROBLOX STYLE AFFORDANCE FOR WORLD SELECTION WEB->NATIVE)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
