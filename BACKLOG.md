@@ -29814,3 +29814,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-X-9-93: manifestation crystal: a character to embody the archetype of a racial like fish people or cat people and the races have racials fish people have a silence cat people have a stealth clear on death** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-RDM-12422: program the real RDM abilities: POISON, FIRE, WATER, STONE, CURE, BIO, DIA** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
