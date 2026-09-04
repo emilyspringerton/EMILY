@@ -29823,3 +29823,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **BPSW-1213: instead of that there will be a short windup (16 frames) in which that same behavior is still applicable - shilding makes you super vulnerable for 16 frames** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPSW-1214: except for now after the shield deploys after the 16 frame powerup the shield is OVERPOWERED (USE A SHINY SHADER LIKE HALO SHIELD) for 16 frames** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
