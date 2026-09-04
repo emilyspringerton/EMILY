@@ -29910,3 +29910,5 @@ session: sess-20260902-2008-ed50169e
 
 session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
+- [ ] **PEN-11412: PARENA STDLIBS can we start to add algorythms for our homegrown scanner? FAST_SCAN SLOW_SCAN SMART_SCAN SNEAKY_SCAN** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
