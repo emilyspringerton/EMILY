@@ -29950,3 +29950,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260904-2324-5f032e08)
 - [ ] **HITL-TW-000: TWITCH ACCOUNT** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260904-2324-5f032e08)
+- [ ] **HITL-YT-000: YOUTUBE ACCOUNTS FOR EINHORN MEDIA, EINHORN INDUSTRIAL, EMILY, TYLER, GARY, The Duck** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260904-2324-5f032e08)
