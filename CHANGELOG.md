@@ -1,3 +1,7 @@
+## 2026-09-04
+
+- docs/ECOSYSTEM_CONTINUITY_REPORT.md: real, full continuity report for EMILY-CR-12414 ("the emily ecosystem is a comprehensive thing... we need an actual list of all of our repos and the purpose and the status full full full continuity report"), organized directly from CLAUDE.md's own authoritative per-repo table — ~50 real repos grouped into the operational spine, games & interactive worlds, the PARENA language ecosystem, the business/product layer, infra/dev tooling, and new/stub repos, closing with 4 real cross-cutting themes synthesized from this session's own actual work. Registered as golden doc `EMILY-ECOSYSTEM-CR`; `CLAUDE.md` linked to it. Apple #17753. (sess-20260902-2008-ed50169e)
+
 ## 2026-09-03
 
 - docs/THE_EMILY_WAY.md: new Principle 19 ("A Big, Unscoped Ask Gets Scoped, Not Swallowed Whole"), kanban priority-queue card GOLDENOPS-001 — the standing default for a big, unscoped ask on the priority/cruise queue: investigate, write a real phased NORTHSTAR, register it as a golden doc, then return the real, resulting sub-tasks to BACKLOG.md as their own section/sub-items rather than marking the whole kanban card fully done the moment a plan exists. Explicitly does not change how a genuinely "plan/scope this" card closes (that's a real, complete deliverable on its own, per Principle 3). Apple #17524. (sess-20260902-2008-ed50169e)
