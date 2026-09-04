@@ -29827,3 +29827,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **BPSW-1216: enemies that hit a shield while it is over popowered get damaged and stunned for 8 frames** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPSW-1217: UNCROWNED SHIELD NEEDS TO WORK THE EXACT SAME WAY BUT IT IS STRONGER AFTER OVERPOWERED HIS CODE PATHS NEED TO BE TOTALLY DIFFERENT FOR TUNING** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
