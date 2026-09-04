@@ -26646,15 +26646,17 @@ larger (a) feature work.
   emitter tests re-run against the rebuilt `parena` binary: all green, no behavior change to the
   already-shipped S222-09 workaround. PARENA commit `b616ed0` (+ `4604f99` changelog). Apple
   #17181. (sess-20260830-1207-cc0ba7da)
-- [ ] **S223-02: the real fix — let `let`/`match` (and possibly `loop`) actually BE used as an
-  `if`'s own condition**, not just fail with a better message. Not started. Suggested shape
-  (S223-01's own doc comment in `src/emit.c`): synthesize a GNU C statement-expression
-  (`({ ...; temp; })`) around a call into the existing statement-oriented emitter
-  (`emit_body`/`emit_let`/`emit_match`), targeting a fresh temp variable that becomes the
-  ternary's own condition — mind this project's own `-pedantic` build flag (already known,
-  per `stdlib/datetime.prn`'s own real, live-found note, to reject GNU statement-expressions),
-  so this may need a different real mechanism than the naive `({...})` sketch, or a build-flag
-  carve-out, decided with real investigation, not assumed away.
+- [~] **S223-02: the real fix — let `let`/`match` (and possibly `loop`) actually BE used as an
+  `if`'s own condition**, not just fail with a better message. Scoped, not implemented —
+  `PARENA/docs/EXPR_POSITION_BINDING_FORMS_NORTHSTAR.md` (real Principle-19 pass, 2026-09-04).
+  Real, decisive finding: the naive `({...})` sketch is confirmed blocked by `-pedantic`, and
+  this file's own `g_boxed_types`/`g_box_helpers` synthesized-helper precedent doesn't transfer
+  cleanly — a let/match/loop body can capture arbitrary outer-scope locals, needing real
+  free-variable analysis this codebase has no primitive for, and getting it wrong means silent
+  wrong-codegen (compiles, runs wrong), not a loud failure — worse than S223-01's current honest
+  rejection. 3 options named (narrow `let`-only phase / full generality / keep the existing
+  "extract to a named function" workaround as the permanent answer) — needs a founder pick before
+  any code lands. session: sess-20260904-2324-5f032e08
 
 ## SECTION 224: LO — QI (PHASE 2 FRONTEND) SCOPING PASS (2026-09-02)
 
