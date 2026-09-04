@@ -2400,6 +2400,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue existing 'v16' JS engine work toward a full WebKit alternative (iterate) -- overrides EOSUI…** — obs `2026-09-04T22:15:26Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: priority — pulling EOSUI-1244/EOSUI-12444 (cross-game HTML/CSS UI renderer + native-vs-embedded-brow…** — obs `2026-09-04T22:10:34Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: priority queue is fully parked -- BPMM-x-123 (social lobby) and the BPLE-12441/BPLE-13331 level-edit…** — obs `2026-09-04T22:08:36Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: priority — slog through the full queue, scope or iterate each card, repeat until drained** — obs `2026-09-04T22:28:51Z`. CURATED: 2026-09-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
