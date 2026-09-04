@@ -29766,3 +29766,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-NM-123: NOTORIOUS MONSTER INTERFACE - THE MOB SPAWN INTERFACE CAN OPTIONALLY SPECIFY A NOTORIOUS MONSTER SPAWN FOR ONE OF THE BASE MOBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-NM-124: actual web interface for modifying the notorious monsters allow plugins call special abilities via special named functions keep it simple ish but pretty powerful NM form drops spawn logic HP etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
