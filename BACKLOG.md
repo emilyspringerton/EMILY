@@ -29936,3 +29936,5 @@ session: sess-20260902-2008-ed50169e
 
 session: sess-20260904-2324-5f032e08
   (sess-20260902-2008-ed50169e)
+- [ ] **PSL-0012: parena mysql driver** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260904-2324-5f032e08)
