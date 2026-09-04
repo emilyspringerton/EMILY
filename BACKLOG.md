@@ -28905,7 +28905,7 @@ whole card marked done on the strength of a scoping doc alone.*
   `192` 等真實 ≥128 位元組案例,不是只測小數值僥倖過關。新增 `make test-wire`
   目標,6 個真實斷言全過;`make test`:345/345,無回歸。PARENA commit
   `e93db5b`。Apple #17471。(sess-20260902-2008-ed50169e)
-- [ ] **3090394: pitviper scrollback** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **3090394: pitviper scrollback** Real investigation first, per this vague one-liner's own ambiguity: the actual scrollback feature (10,000-line buffer, Shift+PageUp/Down, Shift+Home/End) was already fully built and working — no code gap found there. The one genuinely still-experimental piece touching scrollback was `internal/scrollmod`'s mouse-wheel scroll mod (S192), gated off since 2026-08-25 pending verification. It has had a real, passing round-trip test (`TestTriggerWheelScrollRoundTrip`) with no reported regression the whole time, so promoted to default-on here per S189-32's own "mod surface first... verify it actually works... then mainline" rollout policy — `-mod-scroll=false`/`PITVIPER_MOD_SCROLL=0` still opts out. `GOWORK=off go build/vet/test ./...` clean (one pre-existing, unrelated vet warning noted, not touched). PITVIPER commit `b59a061`. Apple #17598. (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
 - [x] **PX-001 / PX-BZ-001: we need to add support to commit the .prn file right in the same
   directory as the generated output... not sure how that would work with bazel and other build
