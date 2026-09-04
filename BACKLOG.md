@@ -29663,3 +29663,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-MOBSPAWN-001: Phase 1: zone grid coordinate system (I-7 style) + data-driven spawn tables + IDUNA GUI + difficulty-tier mob variants -- see docs2/MOB_SPAWN_NORTHSTAR.md.** Real 5-phase plan already scoped in full under `MOB-SPAWN-NORTH` above and in `GoblinFoxDragon/docs2/MOB_SPAWN_NORTHSTAR.md` itself. This kanban card (#223, priority queue) is the literal next unit of work once the current cruise cycle reaches it — start with Phase 1 (zone grid coordinate math), not the GUI, since the data model doesn't exist yet.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-CL-0012: GFD take out COR and PUP mark for possible expansion and scholar whatever the abbreviation is keep dancer** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
