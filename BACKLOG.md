@@ -26136,12 +26136,23 @@ acting (Principle 18). Real, multi-part scope, not yet touched this session:
   headless KVM VM, S213-01). `bash -n` and `bazel test //:syntax-check` both pass; this needs the
   founder's own live test-and-report on their actual machine before it's trusted as working, not
   just compiling. FLASH commit `262a7b8`. Apple #17130. (sess-20260830-1207-cc0ba7da)
-- [ ] **S213-04: USB primitives for PARENA stdlib**, founder real-time: "write usb shit into the
-  stdlibs" → "make it work in either parena or burrow." Real scope split, not yet built: a
-  Linux-only device-enumeration path (String/Vec-heavy, `parena`/C-only, most plausibly real
-  sysfs reads under `/sys/bus/usb/devices/`) plus scalar-only decision logic (e.g. a real
-  USB-mass-storage-class check) that could reach `burrow`'s own Go target too, matching the
-  established `stdlib/k8s/k8s.prn` vs. `stdlib/k8s/scaling.prn` precedent. Not started.
+- [x] **S213-04: USB primitives for PARENA stdlib**, founder real-time: "write usb shit into the
+  stdlibs" → "make it work in either parena or burrow." Real, shipped: `stdlib/usb/usb.prn`
+  (String/Vec-heavy device enumeration over real sysfs reads under `/sys/bus/usb/devices/`,
+  `parena`/C-only) + `stdlib/usb/mass_storage.prn` (scalar-only `is-mass-storage-class?`,
+  reaching `burrow`'s own Go target too) — matching the established `stdlib/k8s/k8s.prn` vs.
+  `stdlib/k8s/scaling.prn` precedent exactly. Real bug found+fixed live: a first-draft
+  `(deref (vec/get &entries i))` over a `(Vec String)` compiled to a literal `void entry` in the
+  generated C — fixed by following `awk.prn`'s own already-working convention (no `deref` on
+  `vec/get`'s result). Verified: `parena build` emits real C, clean `gcc -c` (zero warnings) on
+  both files; `burrow build` on `mass_storage.prn` emits real Go, clean `go build`. Real,
+  separate, worth-flagging finding: `stdlib/vec.prn`'s own source (unresolved generic `T`) must
+  never be passed to `parena build` directly — `Vec` support is a compiler-native intrinsic, not
+  that file's own body. Real, honest, NOT done: vendor/product name database, interface-level
+  class enumeration (many real mass-storage devices are composite, device-level class 0x00, real
+  class on one interface — named explicitly in `mass_storage.prn`'s own header comment), and live
+  verification against a real device (this sandbox's own `/sys/bus/usb/devices/` is real but
+  empty — no USB bus on this VPS). PARENA commit `30b049f`. Apple #17623.
 
 ## SECTION 214: LO PHASE 1 — REAL COMPILER FRONTEND BEGINS (2026-08-30)
 
@@ -26212,8 +26223,11 @@ the same magic string as golang" → "use burrow." All posted via `emily observe
   just unit-testing the emitter. `day-of-year`/`format-go-layout` stay C-only (real, separate,
   already-known boundaries). `make test-datetime` green. PARENA commit `baa454c`, BURROW commit
   `b27c697`. Apple #17136.
-- [ ] **S215-04: FLASH USB primitives for PARENA stdlib** (S213-04, same real scope named there —
-  Linux sysfs enumeration, C-only; scalar decision logic dual-target). Not started.
+- [x] **S215-04: FLASH USB primitives for PARENA stdlib** (S213-04, same real scope named there —
+  Linux sysfs enumeration, C-only; scalar decision logic dual-target). Shipped as part of
+  `S213-04`'s own entry above — see that entry for the full writeup; not duplicated here to
+  avoid double-counting the same real work under two card IDs. PARENA commit `30b049f`. Apple
+  #17623.
 - [x] **S215-05a: `LO/FRAMEWORK_NORTHSTAR.md` — real NORTHSTAR for the "batteries included"
   Rails-like framework.** Real capability check done first, not assumed: LO currently has no
   variables/`let`, no multi-arg functions, no records, no strings — a framework needs Phase 2
