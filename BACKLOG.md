@@ -29484,3 +29484,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-TUNE-3939309: RESTORE PETALIA PARISOL UP B FROM WAY BACK IN GIT IT NEEDS TO BE MULTI HIT AND GIVE VERTICAL MOBILITY AND OPEN THE PARISOL** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **ops-0019: actually deploy new okemily design changes fix the permissions write a sudo script if needed** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
