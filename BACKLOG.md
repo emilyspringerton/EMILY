@@ -29782,3 +29782,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **TJ-124: TIPJAR THE LEVEL NEEDS TO BE BIGGER! 2 floors and a basement larger horizontally** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BP-LE-12441: BP ONLINE LEVEL EDITOR AND LEVEL REGISTRY WOTAN ACCOUNTS** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
