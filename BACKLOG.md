@@ -29581,3 +29581,72 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [ ] **SIP-0001: develop simple sip app android MVP give us something we can iterate from use parena and java ffi escape hatch when needed** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+
+## SECTION 251: GFD ITEM BUILDER — REMAINING SPRINT PLAN (2026-09-04)
+
+*Real, direct sprint breakdown of the founder's own real-time direction thread on
+`GFD-ITEM-SUPPLY-CHAIN-000` — too long and too iterative to have been written into a single
+kanban card as it happened ("thanks for taking the real time direction it was too long to write
+into cards"), so it's captured here as real, individually workable sub-tasks instead. Phases 0
+and 2a are already shipped (see `GFD-ITEM-SUPPLY-CHAIN-000`'s own entry above) — everything
+below is real, remaining, not-yet-built work, in the real dependency order it needs to happen.*
+
+- [ ] **S251-01: mod-hook mechanism (`ITEM_BUILDER_NORTHSTAR.md` Phase 1).** Port PAPERCRAFT's
+  own real `--mods-manifest` `dlopen`/`dlsym` pipeline into `apps2/mud/main.go`: a manifest entry
+  maps a mod name to a compiled `.so` + function name, `SIGHUP`-reloadable, fail-soft on a bad
+  entry (matching `MODDING.md`'s own already-proven contract). Real, minimal proof point: port
+  Potion into a real PARENA-authored `heal_mod.prn` (a scalar decision function, matching
+  `stdlib/k8s/scaling.prn`'s own I32-only shape) and wire it to fire from `cmdUseItem`
+  (`S251-02`'s own real dispatch point). Blocking prerequisite for `S251-02`/`S251-05`.
+- [ ] **S251-02: wire `cmdUseItem`'s real dispatch to `S251-01`'s mod-hook mechanism.**
+  `cmdUseItem` (Phase 0, shipped) currently always reports "nothing happens yet" for any real
+  consumable — once `S251-01` exists, a consumable with a real `on_use_mod` field (see
+  `S251-03`) should actually call it instead.
+- [ ] **S251-03: add `on_use_mod`/`on_equip_mod` fields to `ItemDef`.** Real schema change to
+  `server/itemdef.ItemDef` (+ `IDUNA`'s own `GfdItemDef` mirror, kept in sync) — an optional
+  mod-name string per item, empty for the (large majority) archetype-only roster.
+- [ ] **S251-04: Item Builder mod-name picker (`ITEM_BUILDER_NORTHSTAR.md` Phase 2c).** Once
+  `S251-01`/`S251-03` exist, extend `/admin/gfd-items` with a real dropdown of already-compiled
+  mod names for `on_use_mod`/`on_equip_mod` — sourced from the real manifest, not a free-text
+  field a typo could silently break.
+- [ ] **S251-05: broader special-effect coverage (`ITEM_BUILDER_NORTHSTAR.md` Phase 3).** Once
+  `S251-01`'s mechanism is proven on Potion, port more of the currently-inert consumable roster
+  (Hi-Potion, Ether, Antidote, Echo Drop, etc.) through the same real pipeline.
+- [ ] **S251-06: NPC vendor catalog data-driving (`ITEM_BUILDER_NORTHSTAR.md` Phase 2b).**
+  `npcVendorCatalog` in `apps2/mud/main.go` is a hardcoded Go map today, not data-driven at all
+  — real, separate prerequisite before any GUI can manage which items an NPC actually sells, at
+  what price: move it to its own editable file (the same real shape `items.json` already has)
+  + a real reload mechanism (same `SIGHUP` precedent `S251-01` already establishes for mods, or
+  reused directly if it lands first).
+- [ ] **S251-07: NPC vendor catalog GUI.** Once `S251-06` exists, extend `/admin/gfd-items` (or
+  a sibling page) with real per-NPC catalog management — add/remove/reprice an item a given NPC
+  sells.
+- [ ] **S251-08: live-reload for `data/items.json` itself.** Real, honest, separate gap named on
+  the Item Builder page already: `apps2/mud` only loads `items.json` once, at startup, so a GUI
+  edit needs a process restart to take effect. A real reload mechanism (matching the `S251-01`/
+  `S251-06` `SIGHUP` precedent) would let Item Builder edits go live without a restart.
+- [ ] **S251-09: fix `itemdef.Registry.ByName`'s space-vs-hyphen mismatch.** Real, found-live bug
+  (not fixed when found): multi-word item names (`"Earth Crystal"`) register a lowercased key
+  with a SPACE (`"earth crystal"`), but the shop's own item-ID convention is hyphenated
+  (`"earth-crystal"`) — `ByName("earth-crystal")` never matches. Real fix: either normalize
+  `ByName`'s own lookup key (strip/replace both spaces and hyphens the same way) or normalize
+  every multi-word item's own `Name` field to match its real shop-facing ID — a real, load-bearing
+  decision about which convention is canonical, not obvious which one to pick without checking
+  every real call site that keys off `Name` first.
+- [ ] **S251-10: fix the `eat` command's `args[1]`/`args[0]` bug.** Real, found-live bug: `case
+  "eat":` checks `len(args) < 2` then calls `cmdEat(p, args[1])`, but `args[0]` is the actual
+  item-id — a single-word `eat potion` always misses and hits the usage error. Real fix: change
+  to `len(args) < 1` and `cmdEat(p, args[0])`, matching every other single-argument command's own
+  real convention (`cmdGo(p, args[0])`, etc.).
+- [ ] **S251-11: fix Leather Gloves/Spiked Knuckles' un-hyphenated `equip_slots`.** Real,
+  found-live bug: `data/items.json` ids 103 and 115 use `equip_slots:["handl","handr"]` (no
+  hyphen), but `server/gear.AllSlots`'s own real canonical values are `"hand-l"`/`"hand-r"`
+  (hyphenated) — neither item has ever been equippable as authored. Real fix: correct the two
+  rows' own `equip_slots` values (via the new Item Builder GUI, dogfooding it again) to the real
+  hyphenated names.
+- [ ] **S251-12: ongoing archetype content pass.** Per the founder's own real, explicit framing
+  ("a lot of items are gonna just be stronger armor different model... to start we need like 3
+  different swords etc") — the 18 items seeded this session (3 swords + Novice/Rugged/Warden
+  armor sets) are a real, first slice, not the whole roster. Real, open, ongoing: more weapon
+  tiers, more armor sets at higher levels, accessory variety — genuinely unbounded content work
+  to continue through the Item Builder GUI itself, not a single closeable task.
