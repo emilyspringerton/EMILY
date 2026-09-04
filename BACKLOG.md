@@ -29942,3 +29942,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260904-2324-5f032e08)
 - [ ] **PSL-114: parena mongo driver** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260904-2324-5f032e08)
+- [ ] **TD-1400: GAMES MULTI RESOLUTION** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260904-2324-5f032e08)
