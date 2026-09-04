@@ -29723,3 +29723,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-AH-93944: ok auction house it lets us select choose an item but then it does not show the items in our inventory on the next screen** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-INV-93911: list based inventory system like FFXI list based navigation so keyboard and controller can navigate we will enhance with click functionality later for now its not needed** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
