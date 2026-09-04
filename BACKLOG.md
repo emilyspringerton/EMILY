@@ -28523,15 +28523,20 @@ field with the eye thing") turned out to need a real signup page that doesn't ex
 in `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`, real sub-tasks returned here rather than the
 whole card marked done on the strength of a scoping doc alone.*
 
-- [ ] **S247-01: decide where the WOTAN signup page is hosted.** Real, open, two-option
-  architectural question, not resolved by the scoping doc: (a) `IDUNA_PRO` serves the page
-  directly (needs a real, new static-file-serving capability added to that service — checked
-  live, none exists today), or (b) WOTAN/`okemily.com` hosts the HTML and calls `IDUNA_PRO`'s
-  real `POST /api/v1/auth/register` API cross-origin (needs real CORS headers added to that
-  handler, also not present today). Not started.
-- [ ] **S247-02: build the real signup form** (email, password, confirm-password with
+- [x] **S247-01: decide where the WOTAN signup page is hosted.** Resolved 2026-09-04, a real
+  third option neither original branch named: `WOTAN/store.html` (built for `WTHS-0000` Phase 2,
+  not originally for this card) hosts the HTML on WOTAN's own subdomain and calls plain IDUNA's
+  (not `IDUNA_PRO`'s) `POST /api/v1/auth/email/register` through a same-origin `/api/` nginx
+  proxy (`WOTAN/ops/nginx-wotan.conf`) — no cross-origin call, no CORS headers needed at all,
+  avoiding option (b)'s own named gap entirely, and no new static-file-serving capability needed
+  on `IDUNA_PRO` (option (a)), since WOTAN's own existing nginx already serves static files.
+  Real, honest scope note: this resolves signup for WOTAN's own account system against plain
+  IDUNA — whether `IDUNA_PRO` (a distinct, separate product) also needs its own signup page is
+  a real, separate, still-open question this doesn't answer.
+- [x] **S247-02: build the real signup form** (email, password, confirm-password with
   client-side match check, a real show/hide "eye" toggle on both password fields — the literal
-  `WOTAN-997` ask) once `S247-01` picks a real hosting answer. Not started.
+  `WOTAN-997` ask). Shipped in `WOTAN/store.html` (commit `3d49641`) — see `WOTAN-997`'s own
+  entry above for the full writeup. Apple #17619.
 
 - [x] **1199: iterate on project burrow we need to get that ready to write the cli for emily for
   business and iduna pro so that parena gets transformed into idiomatic go. DONE (this
@@ -29198,13 +29203,20 @@ whole card marked done on the strength of a scoping doc alone.*
   exist, so this deliberately does NOT fake a working purchase flow. `OKEMILY/tournaments.html`
   gets a real new section linking to it. OKEMILY commit `2b4eed0`. Apple #17529.
   (sess-20260902-2008-ed50169e)
-- [~] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type
-  it twice have the field like hidden with the eye thing.** Real, checked-live investigation
-  found this was genuinely bigger than the literal ask — no email/password signup HTML exists
-  anywhere yet to add the confirm-field/eye-toggle UX to. Per `THE_EMILY_WAY.md`'s own new
-  Principle 19 (kanban `GOLDENOPS-001`): scoped, not swallowed whole — see `SECTION 247` below
-  for the real, resulting sub-tasks. `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`, commit
-  `af7ef0b`, Apple #17528. (sess-20260902-2008-ed50169e)
+- [x] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type
+  it twice have the field like hidden with the eye thing.** Original investigation (this same
+  session, earlier) found the real prior blocker: no email/password signup HTML existed anywhere
+  yet, scoped via Principle 19 into `SECTION 247`'s sub-tasks rather than built. **That blocker
+  no longer exists**: `WTHS-0000`'s own Phase 2 work (see its own entry above) shipped
+  `WOTAN/store.html`, a real IDUNA email/password login+register page, later the same session —
+  so the literal ask is now directly buildable, not still blocked. Shipped: a real "Confirm
+  Password" field, validated (`password !== confirm` → real error, no request sent) only on the
+  register path, never enforced on login; both the password and confirm-password fields get
+  their own independent show/hide ("eye") toggle button. JS syntax-checked; redeployed and
+  live-verified on `wotan.okemily.com/store.html` (real 200, confirm-password field present).
+  WOTAN commit `3d49641`. Apple #17619. `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`'s own
+  `SECTION 247` scoping stays real background/history — its own broader sub-tasks (if any beyond
+  this literal UX ask) are unaffected by this update. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`).
