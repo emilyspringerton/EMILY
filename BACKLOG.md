@@ -29205,7 +29205,7 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`). **Phase 0 (`S248-00`) shipped (2026-09-04)** — see SECTION 248 for the full writeup; real client-server netcode now works, live-verified over real loopback UDP. Phases 1-3 (`S248-01`/`02`/`03`) remain open; card stays in `backlog`.
+- [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`). **Phase 0 (`S248-00`) shipped (2026-09-04)** — see SECTION 248 for the full writeup; real client-server netcode now works, live-verified over real loopback UDP. **Phase 1 (`S248-01`) shipped (2026-09-04)** — real server-side matchmaking queue, live-verified (both timeout-bot-fill and immediate queue-full paths). Phases 2-3 (`S248-02`/`03`, client portal trigger + sandbox damage-suppression) remain open; card stays in `backlog`.
   (sess-20260902-2008-ed50169e)
 - [x] **WOTAN-996: ITERATE WOTAN you can buy upgraded hats for brawlpit using flow from GFD make
   it so users can draw their own hats in a pixel editor.** Folded into the same unified
@@ -29329,10 +29329,24 @@ not duplicate the work.
   showing their own entity moving under the server's real physics, meeting this task's own DoD
   exactly. BRAWLPIT commit `af4c7b9`. Apple #17683. `S248-01` (server-side matchmaking queue) is
   now unblocked and buildable.
-- [ ] **S248-01: Server-side matchmaking queue (Phase 1).** Real queue: hold a "find match"
+- [x] **S248-01: Server-side matchmaking queue (Phase 1).** Real queue: hold a "find match"
   client until 8 have queued or a real timeout fires (bot-fill the rest, reusing existing
   `bot_think` from `packages/simulation/local_game.h` — same real model `BP-WOTAN-ML-000` names
-  from ECOWAR). Emits a real "match found" message once full.
+  from ECOWAR). Emits a real "match found" message once full. **Shipped (2026-09-04)**: new
+  `PACKET_FIND_MATCH`/`PACKET_MATCH_FOUND` packet types, a real queue on the server
+  (`mm_queue`/`mm_start_match`/`mm_tick`), holding real players until `MATCHMAKING_MAX_QUEUE`
+  (7, not 8 — real, pre-existing structural finding: slot 0 has never been a real network slot,
+  both the existing `PACKET_CONNECT` handler and `server_broadcast` already loop from `i=1`) or
+  `MATCHMAKING_TIMEOUT_MS` (20s) elapses, then bot-fills the rest via the exact same `bot_think`
+  already used for local single-player, no new AI. Every queued human gets a real
+  `PACKET_MATCH_FOUND` reply carrying their assigned `client_id`. All existing tests still pass;
+  live-verified over real loopback UDP with a shortened test timeout — a solo probe confirmed
+  timeout-triggered bot-fill into a real 8-entity match, and seven real concurrent probes
+  confirmed the immediate queue-full path, each seeing its own entity in the resulting snapshot.
+  Real, honest, not automated as a unit test this pass: the matchmaking functions live directly
+  in `apps/server/src/main.c`, not a shared header, so verification was the live probe runs
+  rather than a `tests/`-directory regression test. BRAWLPIT commit `a6c8226`. Apple #17686.
+  `S248-02` (client-side portal trigger) is next.
 - [ ] **S248-02: Client-side portal trigger volume (Phase 2).** A real, physical trigger in the
   lobby scene (same pattern as `T` opening TIPJAR) that calls the Phase 1 queue request instead
   of a keypress; shows real, live queue status while waiting.
