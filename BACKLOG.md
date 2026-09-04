@@ -26136,24 +26136,6 @@ acting (Principle 18). Real, multi-part scope, not yet touched this session:
   headless KVM VM, S213-01). `bash -n` and `bazel test //:syntax-check` both pass; this needs the
   founder's own live test-and-report on their actual machine before it's trusted as working, not
   just compiling. FLASH commit `262a7b8`. Apple #17130. (sess-20260830-1207-cc0ba7da)
-- [x] **S213-04: USB primitives for PARENA stdlib**, founder real-time: "write usb shit into the
-  stdlibs" → "make it work in either parena or burrow." Real, shipped: `stdlib/usb/usb.prn`
-  (String/Vec-heavy device enumeration over real sysfs reads under `/sys/bus/usb/devices/`,
-  `parena`/C-only) + `stdlib/usb/mass_storage.prn` (scalar-only `is-mass-storage-class?`,
-  reaching `burrow`'s own Go target too) — matching the established `stdlib/k8s/k8s.prn` vs.
-  `stdlib/k8s/scaling.prn` precedent exactly. Real bug found+fixed live: a first-draft
-  `(deref (vec/get &entries i))` over a `(Vec String)` compiled to a literal `void entry` in the
-  generated C — fixed by following `awk.prn`'s own already-working convention (no `deref` on
-  `vec/get`'s result). Verified: `parena build` emits real C, clean `gcc -c` (zero warnings) on
-  both files; `burrow build` on `mass_storage.prn` emits real Go, clean `go build`. Real,
-  separate, worth-flagging finding: `stdlib/vec.prn`'s own source (unresolved generic `T`) must
-  never be passed to `parena build` directly — `Vec` support is a compiler-native intrinsic, not
-  that file's own body. Real, honest, NOT done: vendor/product name database, interface-level
-  class enumeration (many real mass-storage devices are composite, device-level class 0x00, real
-  class on one interface — named explicitly in `mass_storage.prn`'s own header comment), and live
-  verification against a real device (this sandbox's own `/sys/bus/usb/devices/` is real but
-  empty — no USB bus on this VPS). PARENA commit `30b049f`. Apple #17623.
-
 ## SECTION 214: LO PHASE 1 — REAL COMPILER FRONTEND BEGINS (2026-08-30)
 
 Real, direct continuation of `LO/NORTHSTAR.md`'s phased plan, per "continue iterating on LO."
@@ -29574,3 +29556,20 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   WOTAN commit `3d49641`. Apple #17619. `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`'s own
   `SECTION 247` scoping stays real background/history — its own broader sub-tasks (if any beyond
   this literal UX ask) are unaffected by this update. (sess-20260902-2008-ed50169e)
+- [x] **S213-04: USB primitives for PARENA stdlib**, founder real-time: "write usb shit into the
+  stdlibs" → "make it work in either parena or burrow." Real, shipped: `stdlib/usb/usb.prn`
+  (String/Vec-heavy device enumeration over real sysfs reads under `/sys/bus/usb/devices/`,
+  `parena`/C-only) + `stdlib/usb/mass_storage.prn` (scalar-only `is-mass-storage-class?`,
+  reaching `burrow`'s own Go target too) — matching the established `stdlib/k8s/k8s.prn` vs.
+  `stdlib/k8s/scaling.prn` precedent exactly. Real bug found+fixed live: a first-draft
+  `(deref (vec/get &entries i))` over a `(Vec String)` compiled to a literal `void entry` in the
+  generated C — fixed by following `awk.prn`'s own already-working convention (no `deref` on
+  `vec/get`'s result). Verified: `parena build` emits real C, clean `gcc -c` (zero warnings) on
+  both files; `burrow build` on `mass_storage.prn` emits real Go, clean `go build`. Real,
+  separate, worth-flagging finding: `stdlib/vec.prn`'s own source (unresolved generic `T`) must
+  never be passed to `parena build` directly — `Vec` support is a compiler-native intrinsic, not
+  that file's own body. Real, honest, NOT done: vendor/product name database, interface-level
+  class enumeration (many real mass-storage devices are composite, device-level class 0x00, real
+  class on one interface — named explicitly in `mass_storage.prn`'s own header comment), and live
+  verification against a real device (this sandbox's own `/sys/bus/usb/devices/` is real but
+  empty — no USB bus on this VPS). PARENA commit `30b049f`. Apple #17623.
