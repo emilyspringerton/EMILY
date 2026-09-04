@@ -29770,3 +29770,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-x-123: mod interface for event broker in server mods should be able to register and or subscribe to specific named events in the system  (USE PARENA TYPES) mods should fire off signals for their callgbacks** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-x-124: and then mods can subscribe to certain events provided by core mods or mod mods and can fire off callbacks on specific event types events can have generic payload must be typed** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
