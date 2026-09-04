@@ -29541,3 +29541,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [x] **ops-0019: actually deploy new okemily design changes fix the permissions write a sudo script if needed.** Same real gap `EMILY-LOGO-1234` already found and queued a fix for — `sudo-queue/49-fix-okemily-images-dir-ownership.sh`. **Update 2026-09-04**: founder fixed the ownership directly (`fatbaby:fatbaby` mode 775, not the script's own `fatbaby:www-data` — functionally equivalent, both give `fatbaby` write access). Ran `okemily-deploy.sh` — clean. Live-verified: real 200 on `/images/emily-whiteboard.jpg`, homepage renders it. Done, same real fix as `EMILY-LOGO-1234` above.
   (sess-20260902-2008-ed50169e)
+- [ ] **S179-25-2: also instead of medical students we can also make one for law students** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
