@@ -29205,7 +29205,7 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`). **Phase 0 (`S248-00`) shipped (2026-09-04)** — see SECTION 248 for the full writeup; real client-server netcode now works, live-verified over real loopback UDP. **Phase 1 (`S248-01`) shipped (2026-09-04)** — real server-side matchmaking queue, live-verified (both timeout-bot-fill and immediate queue-full paths). Phases 2-3 (`S248-02`/`03`, client portal trigger + sandbox damage-suppression) remain open; card stays in `backlog`.
+- [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`). **Phase 0 (`S248-00`) shipped (2026-09-04)** — see SECTION 248 for the full writeup; real client-server netcode now works, live-verified over real loopback UDP. **Phase 1 (`S248-01`) shipped (2026-09-04)** — real server-side matchmaking queue, live-verified (both timeout-bot-fill and immediate queue-full paths). **Phase 2 (`S248-02`) shipped (2026-09-04)** — real client-side matchmaking entry + live queue status, with a real, honest scope correction found live (no walkable lobby scene exists, so a menu option replaced the originally-imagined "walk into a trigger volume"). Phase 3 (`S248-03`, sandbox damage-suppression) remains open; card stays in `backlog`.
   (sess-20260902-2008-ed50169e)
 - [x] **WOTAN-996: ITERATE WOTAN you can buy upgraded hats for brawlpit using flow from GFD make
   it so users can draw their own hats in a pixel editor.** Folded into the same unified
@@ -29347,9 +29347,26 @@ not duplicate the work.
   in `apps/server/src/main.c`, not a shared header, so verification was the live probe runs
   rather than a `tests/`-directory regression test. BRAWLPIT commit `a6c8226`. Apple #17686.
   `S248-02` (client-side portal trigger) is next.
-- [ ] **S248-02: Client-side portal trigger volume (Phase 2).** A real, physical trigger in the
+- [x] **S248-02: Client-side portal trigger volume (Phase 2).** A real, physical trigger in the
   lobby scene (same pattern as `T` opening TIPJAR) that calls the Phase 1 queue request instead
-  of a keypress; shows real, live queue status while waiting.
+  of a keypress; shows real, live queue status while waiting. **Shipped (2026-09-04), real scope
+  correction found live**: `STATE_LOBBY` has always been a flat 2D text menu (`D:`/`F:`/`J:`/`T:`
+  letter-key options), not a walkable 3D scene — checked directly, no avatar/environment exists
+  here unlike GFD's own real Town. The northstar's own "physical trigger volume you walk into"
+  framing assumed a scene that doesn't exist in this game; shipped the real, working equivalent
+  instead — a new menu option (`M`), same established convention as every other mode select.
+  New `STATE_MATCHMAKING`: `M` calls `net_send_find_match`, shows a real, live "X / 7 PLAYERS
+  QUEUED" waiting screen backed by a new `PACKET_QUEUE_STATUS` packet the server sends on every
+  `PACKET_FIND_MATCH` it processes from a not-yet-matched sender. `net_tick`'s own
+  `PACKET_MATCH_FOUND` handler now actually transitions `app_state` into `STATE_GAME_NET`
+  (previously set only `g_net_client_id`, with no caller wiring the transition since this phase
+  hadn't landed). Both files gcc-clean; all existing tests (16 physics + 2 protocol) still pass.
+  Live-verified over real loopback UDP: a solo probe confirmed the status ack and dedupe-safe
+  re-poll (no double-enqueue), and seven real concurrent probes confirmed the full sequence —
+  status counts incrementing 1 through 6, the 7th triggering immediate match-start with no
+  status ack (matching S248-01's own real behavior), every probe receiving its correct
+  `PACKET_MATCH_FOUND`. BRAWLPIT commit `85ed697`. Apple #17693. `S248-03` (`MODE_SANDBOX`
+  damage-suppression flag) is the last remaining phase.
 - [ ] **S248-03: `MODE_SANDBOX` damage-suppression flag (Phase 3).** New `ServerState.mode`
   flag; gate `apply_knockback` and any direct `damage_percent`/`hitstun_frames` mutation (e.g.
   `special_petrify_gaze`) on it, so abilities still fire/animate but deal no real damage. Keep
