@@ -29729,3 +29729,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-MACRO-0012: GFD macro system make sure we tie the action frame stuff into a parena mod based shape so we can easily allow for extension at the action bar affordance** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-FIX: ctrl alt s to sign up does not actually work** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
