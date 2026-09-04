@@ -2397,6 +2397,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: priority then cruise continuing — pulling BPMM-1202020 (BRAWLPIT 1v1 matchmaking with bot pool)** — obs `2026-09-04T21:47:39Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: priority then cruise — pulling GFD-994001 (GFD core game loop performance tuning)** — obs `2026-09-04T21:41:25Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: priority then cruise continuing — pulling BPMM-x-123 (BRAWLPIT social lobby mode)** — obs `2026-09-04T21:52:59Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: continue existing 'v16' JS engine work toward a full WebKit alternative (iterate) -- overrides EOSUI…** — obs `2026-09-04T22:15:26Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: priority — pulling EOSUI-1244/EOSUI-12444 (cross-game HTML/CSS UI renderer + native-vs-embedded-brow…** — obs `2026-09-04T22:10:34Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: priority queue is fully parked -- BPMM-x-123 (social lobby) and the BPLE-12441/BPLE-13331 level-edit…** — obs `2026-09-04T22:08:36Z`. CURATED: 2026-09-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
