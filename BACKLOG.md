@@ -29451,12 +29451,31 @@ services survive the way their own unit files already intend.
 Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see above), from
 `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md`'s new Phase 4.5.
 
-- [ ] **S250-00: Real async generation shape for the surprise box.** A real promptoverse
-  generation is slow and can't fit inside `handleBuyHat`'s own synchronous one-transaction
-  design. Design and build a real deduct-then-queue-then-poll flow: deduct Flow immediately
-  (with a real, honest refund path if generation fails), queue the real generation request,
-  let the player check back for the result — matching `emily promptoverse add`'s own real
-  request-then-poll queue model rather than inventing a new one.
+- [x] **S250-00: Real async generation shape for the surprise box.** Resolved by real, direct
+  founder clarification (kanban `HS-GFD-2223`, 2026-09-04): "a surprise box does not need to
+  generate the image at the time of purchase, it needs to get generated when the player uses
+  the item in GFD — it is actually like a tradable token." The box itself is a real GFD item
+  (buy = fast, ordinary Flow-for-item purchase, same shape every other shop item already has);
+  the slow generation only happens later, at real USE time, which can be genuinely async
+  without blocking a purchase. `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md` Phase 4.5 updated
+  with the real resolved design. Real, honest, NOT built this pass — see `S250-05`/`S250-06`
+  below for the concrete remaining engineering this resolution still needs.
+- [ ] **S250-05: Real async "use box → generate → grant" completion path.** The MUD server
+  (`apps2/mud`) has no real background-job runner. "Use box" needs to kick off the real
+  promptoverse generation in a goroutine (`os/exec` calling the already-proven `emily
+  promptoverse add <subject> --tag "promptoverse hat"`), tell the player it's in progress, and
+  a real completion callback grant the resulting hat once done. Real, named safety concern, not
+  solved here: touching a player's own connection/state from a background goroutine (to message
+  them once generation finishes, well after their own "use box" command already returned) needs
+  the same `gw.mu` locking discipline `deliverChat`'s own existing goroutine already follows —
+  a careless implementation here risks a real, live concurrency bug in production MUD server
+  code, deliberately not rushed.
+- [ ] **S250-06: New IDUNA "create hat + grant" endpoint.** `handleBuyHat` only ever grants an
+  EXISTING, already-catalogued hat by ID; a surprise box's own generated hat doesn't exist in
+  the `hats` table until the moment it's generated. Needs a new, real endpoint (or an extension
+  of the existing hats handler) that inserts a brand-new `hats` row (flagged `user_generated`,
+  see `S250-03`) AND grants it to the using character's own `character_hats`, in one real step,
+  callable from the MUD server's own async completion callback (`S250-05`).
 - [ ] **S250-01: Decide the generated hat's real subject.** A real, founder-level product/flavor
   decision — a random word from a curated pool, the player's own character name, or a themed
   pool tied to whichever BRAWLPIT character is equipped. Not resolved in the northstar's own
@@ -29485,5 +29504,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [x] **BP-TUNE-93939: rosie and petalia TURNIPS SHOULD NOT BE UP B THEY SHOULD BE DOWN B AND ALSO AVAILABLE IN THE AIR.** Rosie's own Insert Coin moved entirely off her old neutral-B slot (hold W) onto a real down-B (hold S). Petalia gets a real, dedicated down-B for the first time — previously only reachable via the generic neutral-B fallback (hold W, grounded only); now `spawn_turnip` is wired to her own real down-B, explicitly excluded from the generic fallback. Both now real, genuinely usable in the air, via a new branch checked before the existing airborne umbrella-toggle fallback. New `test_rosie_petalia_turnip_is_down_b_not_up_b` confirms all 4 real cases. `bash scripts/build.sh` clean, all 8 physics tests pass. README updated. BRAWLPIT commit `3a07b68`. Apple #17582.
   (sess-20260902-2008-ed50169e)
-- [ ] **HS-GFD-2223: a surprise box does not need to generate the image at the time of purchase it needs to get generated when the player uses the item in GFD it is actually like a tradable token** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **HS-GFD-2223: a surprise box does not need to generate the image at the time of purchase it needs to get generated when the player uses the item in GFD it is actually like a tradable token.** Real, direct founder clarification resolving `BPHS-00001`/Phase 4.5's own previously-named blocking gap (a slow promptoverse generation can't fit inside a synchronous purchase transaction) — the box is a real, tradable GFD item, bought fast like any other shop item; the slow generation only happens later, at real use time, genuinely async. `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md` Phase 4.5 updated with the real resolved design; `S250-00` marked resolved. Real, new remaining gaps named in `S250-05`/`S250-06`, not solved: the MUD server has no real background-job runner, and no IDUNA endpoint exists yet to create-a-new-hat-and-grant-it in one step. No code written — planning only. BRAWLPIT commit `b035851`. Apple #17584.
   (sess-20260902-2008-ed50169e)
