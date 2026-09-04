@@ -29478,3 +29478,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   via AI instead of a pixel editor — an AI-generated hat from an arbitrary player-chosen
   subject is still real, public, player-visible content needing a real review step before wide
   publication.
+- [ ] **EMILY-LOGO-1234: /design update the emily okemily main site with this art https://okemily.com/prompt-o-verse/emily-whiteboard/** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
