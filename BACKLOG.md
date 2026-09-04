@@ -28395,7 +28395,13 @@ target... not the authoritative copy") and `MailchimpClient` (already a plain pe
 struct with its own `APIKey`/`ListID` fields, NOT baked-in globals — the env-var hardcoding lives
 only in `main.go`'s own startup wiring, not the client type itself).
 
-- [ ] **S245-01: a real, alternative vault-unlock mode — config/file-key, not human-passphrase.**
+- [x] **S245-01: a real, alternative vault-unlock mode — config/file-key, not human-passphrase.**
+  Shipped (Apple #17853, commit `3cc3aaa`). `Vault.UnlockFromKeyFile` + `NewFileKey`/
+  `NewCanaryFromKey` in `internal/mailinglist/crypto.go`, opt-in via `MAILING_LIST_KEY_FILE`
+  (`main.go`'s new `mailingListAutoUnlock`: generates+persists a key on first boot, reuses it on
+  reboot). Default (unset) behavior — including EINHORN's own instance — is unchanged, the
+  existing passphrase path stays exactly as it was. Unblocks S245-02/03/04/05.
+  session: sess-20260904-2324-5f032e08
   The CURRENT `internal/mailinglist/crypto.go` design is deliberately, explicitly paranoid: a
   human-memorized passphrase, held only in memory, requiring manual `cmd/mailing-list-unlock`
   after every restart — a real, accepted trade-off for EINHORN's own founder-only use case, but
