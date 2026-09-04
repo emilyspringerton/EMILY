@@ -29853,3 +29853,5 @@ session: sess-20260902-2008-ed50169e
 
 session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
+- [ ] **BPMM-1202020: get the matchmaking working for 1 v 1  with a bot pool** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
