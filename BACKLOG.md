@@ -29764,3 +29764,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-ONBOARD-123: SIGN UP BUTTON SHOULD LAUNCH SIGN UP PAGE IN GAME EMAIL PASSWORD CONFIRM PASSWORD NEXT SCREEN HONOR CODE NEXT SCREEN CHARACTER NAME CREATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-NM-123: NOTORIOUS MONSTER INTERFACE - THE MOB SPAWN INTERFACE CAN OPTIONALLY SPECIFY A NOTORIOUS MONSTER SPAWN FOR ONE OF THE BASE MOBS** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
