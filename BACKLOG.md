@@ -29532,3 +29532,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   current status: still failing, unchanged, pending that one founder action — not a new problem,
   not silently re-diagnosed from scratch. See `S189-31` in `SECTION 189` for the full thread.
   (sess-20260902-2008-ed50169e)
+- [ ] **HITL-PRODUCT: phone holster including mag safe phone  and accompanying strap/suspenders attachment or whatever** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
