@@ -29543,3 +29543,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [ ] **S179-25-2: also instead of medical students we can also make one for law students** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-UA-001: GFD needs a sign up button that shells out to IDUNA GFD signup form (need a toggle in iduna back office to turn it into a waiting list once we have some initial testers)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
