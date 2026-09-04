@@ -29817,3 +29817,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [x] **PBX-003: either iterate more towards native pbx or more towards asterisk depending on what is actually working after we get the first two parts added** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PCPBX-000: a sip phone interface from inside papercraft can receive a real call from the real telephone trunk (HITL TWILIO TICKET SEPARATE)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
