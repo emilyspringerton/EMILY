@@ -29778,3 +29778,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-DOX-124: do a deep dive stack continuity report linking off the readme fully update teh readme with the current state of the world and current direction of the project** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-XX-12441: teleport to town should teleport to home point crystal not the dragon gate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
