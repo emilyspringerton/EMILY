@@ -29725,3 +29725,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-INV-93911: list based inventory system like FFXI list based navigation so keyboard and controller can navigate we will enhance with click functionality later for now its not needed** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-AF-01939: UX UI needs a big overhaul we need to bring the ability frames down to the bottom of the screen lets start with 1-6 as action abilities** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
