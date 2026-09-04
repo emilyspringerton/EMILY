@@ -2405,6 +2405,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: priority — pulling PEN-11412 (PARENA scanner speed-profile algorithms: FAST/SLOW/SMART/SNEAKY_SCAN)** — obs `2026-09-04T22:56:39Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: implement the recommended/smallest real next phase from every Principle-19 scoping doc created this …** — obs `2026-09-04T23:05:22Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: fix tmux-session.sh script, then continue the priority queue (currently mid-implementation of KISMET…** — obs `2026-09-04T23:23:42Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: proceeding through priority/cruise by own judgment of value-per-effort — starting with k9s-99-001 (k…** — obs `2026-09-04T23:43:04Z`. CURATED: 2026-09-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
