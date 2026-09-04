@@ -2391,6 +2391,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: GFD item builder needs a big GUI to manage items (resolves ITEM_BUILDER_NORTHSTAR.md Phase 2's CLI-v…** — obs `2026-09-04T05:19:53Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: add attack speed (delay) to GFD items -- individually per weapon, not per item type; found and fixed…** — obs `2026-09-04T06:14:12Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: wants a mob spawn management interface (complementary to the just-shipped Mob Drops GUI) -- control …** — obs `2026-09-04T06:37:20Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: mid-GFD-AF-01939 UI work (expanding Town's ability bar from 3 to 6 slots), founder asked to populate…** — obs `2026-09-04T16:18:33Z`. CURATED: 2026-09-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
