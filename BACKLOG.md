@@ -29857,3 +29857,5 @@ session: sess-20260902-2008-ed50169e
 
 session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
+- [ ] **BPMM-x-123: new mode social lobby either you join a lobby or it starts a new one if it cant find one for you to join even if its just you the lobby opens when another player joins they appear in lobby** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
