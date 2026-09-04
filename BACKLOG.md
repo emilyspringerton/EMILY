@@ -29794,3 +29794,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-JOB-244122: NEW CLASS ENFEEBLE DD SUPPORT SUSTAIN (sorta LIKE DNC) ASSASSIN ASN can cast aoe buffs like a bard for different poisons that have different impacts on the different mob types etc mp regen affordancs** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-LO-12444: GFD LO MOD BINDINGS** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
