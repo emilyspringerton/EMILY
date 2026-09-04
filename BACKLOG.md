@@ -29726,9 +29726,6 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **CONSOLE-3994: UI UX for ok emily console and console login should follow the IDUNA style guide** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **GFD-993944: GFD the core game loop is slow lets tune it with v0 of a dungeon lets get gameplay working there is basic combat but its super bare bones - have a dungeons button lets us select dungeon from a list** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
-
 ## SECTION 252: GFD INVENTORY PERSISTENCE — SUBTASK PLANNING (2026-09-04)
 
 Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see above), from
@@ -29779,4 +29776,6 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
 - [ ] **GFD-DOX-124: do a deep dive stack continuity report linking off the readme fully update teh readme with the current state of the world and current direction of the project** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-XX-12441: teleport to town should teleport to home point crystal not the dragon gate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **GFD-993944: GFD the core game loop is slow lets tune it with v0 of a dungeon lets get gameplay working there is basic combat but its super bare bones - have a dungeons button lets us select dungeon from a list** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
