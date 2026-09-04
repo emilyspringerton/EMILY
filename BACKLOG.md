@@ -29876,12 +29876,6 @@ session: sess-20260902-2008-ed50169e
 
 session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
-- [x] **PEN-11412: PARENA STDLIBS can we start to add algorythms for our homegrown scanner? FAST_SCAN SLOW_SCAN SMART_SCAN SNEAKY_SCAN** — real, shipped (Phase 0+1 of the Principle-19 scoping below, same day). Real, decisive finding: `pentest/scan.prn`'s own `scan-ports` was never actually implemented — its `inline-c` call referenced a `pentest_scan_ports` C function that existed nowhere real in this repo, and `PortResult`/`ScanError` were used but never defined. Real fix: defined structs, `tools/pentest_scan_host.c` shells out to the real `nmap` binary via `popen`, real `-oG -` greppable-output parsing. Real profile mapping shipped: `scan-profile-fast`/`-slow`/`-sneaky`/`-smart` → nmap `-T4`/`-T0`/`-T1`/`-A` (`SneakyScan` = nmap's own literal "-T1 Sneaky" name, an exact match). Real, live-verified security precaution: a strict target-string allow-list rejects shell metacharacters before they ever reach a shell command line — confirmed live, a malicious target string is rejected as `InvalidTarget`, never executed. New `make test-pentest-scan` target + `tests/test_pentest_scan.c`: a real end-to-end scan of `127.0.0.1` finds this box's own real, live open ports (22/80/443/3306/8080, confirmed against the actual running services, not assumed); `make test`: 345/345 core compiler tests, zero regressions. Developed and verified against a real, sandboxed, no-root `nmap` copy (`apt-get download` + `dpkg-deb -x`, no sudo used); new `sudo-queue/48-install-nmap.sh` queues the real system package for an actual deployment host. Full real research in `docs/SCAN_PROFILES_NORTHSTAR.md` (golden doc `SCAN-PROFILES-NORTH`), `STDLIB.md`'s own new "pentest/scan" section. PARENA commit `181a657`. Apple #17839.
-
-session: sess-20260902-2008-ed50169e
-
-session: sess-20260902-2008-ed50169e
-  (sess-20260902-2008-ed50169e)
 - [x] **HITL-12: GitHub Personal Access Token, so Claude Code can create repos, not just push to
   existing ones.** Surfaced 2026-08-17 during Prompt-o-verse: founder wants `prompt-o-verse` as
   its own upstream GitHub repo (matching the `CarePyre`/`EXODUS`/`TTT` precedent) but can't create
@@ -29921,3 +29915,9 @@ in HITL-11 ("silently falling back... since"). Flagging as a side-finding rather
 is real scoped work, blocked on the same HITL-11 credit top-up to even test against a working key.
 
 ---
+- [x] **PEN-11412: PARENA STDLIBS can we start to add algorythms for our homegrown scanner? FAST_SCAN SLOW_SCAN SMART_SCAN SNEAKY_SCAN** — real, shipped (Phase 0+1 of the Principle-19 scoping below, same day). Real, decisive finding: `pentest/scan.prn`'s own `scan-ports` was never actually implemented — its `inline-c` call referenced a `pentest_scan_ports` C function that existed nowhere real in this repo, and `PortResult`/`ScanError` were used but never defined. Real fix: defined structs, `tools/pentest_scan_host.c` shells out to the real `nmap` binary via `popen`, real `-oG -` greppable-output parsing. Real profile mapping shipped: `scan-profile-fast`/`-slow`/`-sneaky`/`-smart` → nmap `-T4`/`-T0`/`-T1`/`-A` (`SneakyScan` = nmap's own literal "-T1 Sneaky" name, an exact match). Real, live-verified security precaution: a strict target-string allow-list rejects shell metacharacters before they ever reach a shell command line — confirmed live, a malicious target string is rejected as `InvalidTarget`, never executed. New `make test-pentest-scan` target + `tests/test_pentest_scan.c`: a real end-to-end scan of `127.0.0.1` finds this box's own real, live open ports (22/80/443/3306/8080, confirmed against the actual running services, not assumed); `make test`: 345/345 core compiler tests, zero regressions. Developed and verified against a real, sandboxed, no-root `nmap` copy (`apt-get download` + `dpkg-deb -x`, no sudo used); new `sudo-queue/48-install-nmap.sh` queues the real system package for an actual deployment host. Full real research in `docs/SCAN_PROFILES_NORTHSTAR.md` (golden doc `SCAN-PROFILES-NORTH`), `STDLIB.md`'s own new "pentest/scan" section. PARENA commit `181a657`. Apple #17839.
+
+session: sess-20260902-2008-ed50169e
+
+session: sess-20260902-2008-ed50169e
+  (sess-20260902-2008-ed50169e)
