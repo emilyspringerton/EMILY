@@ -4620,46 +4620,6 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   send a future session down the same dead end; the var is set and the key is simply out of
   credit. No further action possible here without a top-up.
 
-- [ ] **HITL-12: GitHub Personal Access Token, so Claude Code can create repos, not just push to
-  existing ones.** Surfaced 2026-08-17 during Prompt-o-verse: founder wants `prompt-o-verse` as
-  its own upstream GitHub repo (matching the `CarePyre`/`EXODUS`/`TTT` precedent) but can't create
-  it right now (dead mouse battery blocking GitHub's web UI) and asked for me to have standing
-  "git service account" capability instead of needing this every time. Checked what's actually
-  available: this box's git auth is SSH-key-only (`~/.ssh/id_ed25519`, pushes to already-existing
-  `emilyspringerton/*` repos) — real for push/pull, but SSH access alone cannot create a new
-  GitHub repository; that needs the GitHub REST/GraphQL API (or the web UI), which needs a PAT.
-  No `gh` CLI is installed, and no `GITHUB_TOKEN`/`GH_TOKEN`/PAT exists anywhere in this
-  environment (checked env vars and common config paths). Once a token exists (Settings → Developer
-  settings → Personal access tokens, scope: `repo` — create-repo capability, on
-  github.com/settings/tokens), store it the same way every other secret in this monorepo is
-  stored: **correction — there already is a real `emily cli key` command**, `emily key set
-  GITHUB_TOKEN <token>` (`emily.cli/cmd/key.go`, S153-05) — the first BACKLOG.md pass on this item
-  wrongly said no such command existed, an error made without actually checking `emily.cli`'s own
-  command set first, caught and fixed here rather than left standing. Once set, either install
-  `gh` (`apt install gh` then `gh auth login --with-token < <(echo $GITHUB_TOKEN)`) or use raw
-  `curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user/repos` — both unblock
-  repo creation without needing the web UI (or a working mouse) at all.
-
----
-
-## HITL-11 SIDE-FINDING: `full-system-context.md` mtime is fresh, content is likely stale-cached
-
-Investigating S170-265 (2026-08-09) surfaced this: `EMILY/context/full-system-context.md` on disk
-carries today's date and "Sources compiled: 45/45" from `GoldenDocCompiler` (emily-agent's
-internal compiler, separate Go implementation from the CLI's `emily context build`), and its
-bilingual-compressed prose looks genuinely translated, not raw/truncated — but per HITL-11 the
-underlying API key has had zero credit since 2026-07-19, and the same key hash was confirmed
-identical between this shell and the live daemon. The most likely explanation, not fully
-confirmed here (would need to read `GoldenDocCompiler`'s Go source in `EMILY/emily-agent/` to be
-sure): the daemon is rewriting the file's timestamp/envelope every cycle while reusing per-source
-compressed text cached from before credits ran out, so the file *looks* fresh but the actual
-compressed content is a month-plus stale snapshot, same failure mode already named for `GOLDEN.md`
-in HITL-11 ("silently falling back... since"). Flagging as a side-finding rather than fixing here
-— confirming the caching hypothesis and deciding whether to add a staleness marker to the output
-is real scoped work, blocked on the same HITL-11 credit top-up to even test against a working key.
-
----
-
 ## SECTION 126: DEEP PLANNING — SYSTEMIC DEPTH PASS (2026-06-24)
 
 *Second fractal layer. Each system now has a working core. This section goes deeper:*
@@ -29920,3 +29880,42 @@ session: sess-20260902-2008-ed50169e
 
 session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
+- [x] **HITL-12: GitHub Personal Access Token, so Claude Code can create repos, not just push to
+  existing ones.** Surfaced 2026-08-17 during Prompt-o-verse: founder wants `prompt-o-verse` as
+  its own upstream GitHub repo (matching the `CarePyre`/`EXODUS`/`TTT` precedent) but can't create
+  it right now (dead mouse battery blocking GitHub's web UI) and asked for me to have standing
+  "git service account" capability instead of needing this every time. Checked what's actually
+  available: this box's git auth is SSH-key-only (`~/.ssh/id_ed25519`, pushes to already-existing
+  `emilyspringerton/*` repos) — real for push/pull, but SSH access alone cannot create a new
+  GitHub repository; that needs the GitHub REST/GraphQL API (or the web UI), which needs a PAT.
+  No `gh` CLI is installed, and no `GITHUB_TOKEN`/`GH_TOKEN`/PAT exists anywhere in this
+  environment (checked env vars and common config paths). Once a token exists (Settings → Developer
+  settings → Personal access tokens, scope: `repo` — create-repo capability, on
+  github.com/settings/tokens), store it the same way every other secret in this monorepo is
+  stored: **correction — there already is a real `emily cli key` command**, `emily key set
+  GITHUB_TOKEN <token>` (`emily.cli/cmd/key.go`, S153-05) — the first BACKLOG.md pass on this item
+  wrongly said no such command existed, an error made without actually checking `emily.cli`'s own
+  command set first, caught and fixed here rather than left standing. Once set, either install
+  `gh` (`apt install gh` then `gh auth login --with-token < <(echo $GITHUB_TOKEN)`) or use raw
+  `curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user/repos` — both unblock
+  repo creation without needing the web UI (or a working mouse) at all.
+
+---
+
+## HITL-11 SIDE-FINDING: `full-system-context.md` mtime is fresh, content is likely stale-cached
+
+Investigating S170-265 (2026-08-09) surfaced this: `EMILY/context/full-system-context.md` on disk
+carries today's date and "Sources compiled: 45/45" from `GoldenDocCompiler` (emily-agent's
+internal compiler, separate Go implementation from the CLI's `emily context build`), and its
+bilingual-compressed prose looks genuinely translated, not raw/truncated — but per HITL-11 the
+underlying API key has had zero credit since 2026-07-19, and the same key hash was confirmed
+identical between this shell and the live daemon. The most likely explanation, not fully
+confirmed here (would need to read `GoldenDocCompiler`'s Go source in `EMILY/emily-agent/` to be
+sure): the daemon is rewriting the file's timestamp/envelope every cycle while reusing per-source
+compressed text cached from before credits ran out, so the file *looks* fresh but the actual
+compressed content is a month-plus stale snapshot, same failure mode already named for `GOLDEN.md`
+in HITL-11 ("silently falling back... since"). Flagging as a side-finding rather than fixing here
+— confirming the caching hypothesis and deciding whether to add a staleness marker to the output
+is real scoped work, blocked on the same HITL-11 credit top-up to even test against a working key.
+
+---
