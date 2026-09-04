@@ -29759,8 +29759,6 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-ONBOARD-123: SIGN UP BUTTON SHOULD LAUNCH SIGN UP PAGE IN GAME EMAIL PASSWORD CONFIRM PASSWORD NEXT SCREEN HONOR CODE NEXT SCREEN CHARACTER NAME CREATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **GFD-NM-124: actual web interface for modifying the notorious monsters allow plugins call special abilities via special named functions keep it simple ish but pretty powerful NM form drops spawn logic HP etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
 - [ ] **GFD-x-123: mod interface for event broker in server mods should be able to register and or subscribe to specific named events in the system  (USE PARENA TYPES) mods should fire off signals for their callgbacks** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-x-124: and then mods can subscribe to certain events provided by core mods or mod mods and can fire off callbacks on specific event types events can have generic payload must be typed** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -29791,4 +29789,6 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
 - [ ] **GFD-XX-1249: every class/job needs to have separate levels right now im level 10 and switching to RDM makes me a lvl 10 RDM i think? thats not right every class starts at lvl 1 and can level up to 75** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-BG-12444: GFD battle grounds is down never works i dunno if its matchmaking or the bot pools or just some weirdness with the server we are migrating redgarden changes to gfd battlegrounds maybe something broke** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **GFD-NM-124: actual web interface for modifying the notorious monsters allow plugins call special abilities via special named functions keep it simple ish but pretty powerful NM form drops spawn logic HP etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
