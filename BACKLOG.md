@@ -29859,3 +29859,5 @@ session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
 - [ ] **BPMM-x-123: new mode social lobby either you join a lobby or it starts a new one if it cant find one for you to join even if its just you the lobby opens when another player joins they appear in lobby** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPUX-12444: fix the brawlpit UX its like crazy cant really read the words can we make the font nicer and have clear buttons for the modes like the mainline of shankpit has?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
