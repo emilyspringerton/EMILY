@@ -29536,3 +29536,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-DUNGONS-1133: GFD dungeons unblock us** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-ENRICHMENT-0013: can we port some of the skins from SHANKPIT to GFD as NPCs Mobs even the yellow ronin shell can stand in for our player character for now thats actually really cool** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
