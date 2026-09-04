@@ -29808,3 +29808,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **ACCESSABILITY-14441: IDUNA  (and WOTAN) SETTINGS WE NEED A HIGH CONTRAST SETTING for that account TO MAKE IDUNA MORE HIGH CONTRAST FOR VISUALLY ACCESSABILITY** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **WOTAN-24412: IDUNA (WOTAN) USER SETTINGS IN GENERAL WE NEED A PLACE FOR THE USER TO CHANGE SETTINGS** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
