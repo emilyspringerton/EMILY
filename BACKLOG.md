@@ -29205,7 +29205,7 @@ whole card marked done on the strength of a scoping doc alone.*
   (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`).
+- [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`). **Phase 0 (`S248-00`) shipped (2026-09-04)** — see SECTION 248 for the full writeup; real client-server netcode now works, live-verified over real loopback UDP. Phases 1-3 (`S248-01`/`02`/`03`) remain open; card stays in `backlog`.
   (sess-20260902-2008-ed50169e)
 - [x] **WOTAN-996: ITERATE WOTAN you can buy upgraded hats for brawlpit using flow from GFD make
   it so users can draw their own hats in a pixel editor.** Folded into the same unified
@@ -29305,12 +29305,30 @@ Real sub-tasks returned per Principle 19's own scoping of `BP-LOBBY-001` (see ab
 overlaps directly with S248-01/S248-02 below — whoever picks either up should check both cards,
 not duplicate the work.
 
-- [ ] **S248-00: Real arena client-server netcode (Phase 0, blocking).** Wire up the real
+- [x] **S248-00: Real arena client-server netcode (Phase 0, blocking).** Wire up the real
   `net_send_cmd`/`net_tick` calls in `apps/lobby/src/main.c` (currently commented out) so
   `STATE_GAME_NET` actually sends/receives real input and snapshots, following
   `docs/net_plan.md`'s already-agreed shape (server-authoritative sim, client prediction,
   reconciliation) applied to the arena `ServerState`. DoD: two real processes fight over
   loopback UDP with correctly reconciled state on both ends. Nothing below is buildable first.
+  **Shipped (2026-09-04)**: real, checked-live finding — `apps/server/src/main.c` was already a
+  complete, correct implementation; the entire gap was client-side. Implemented
+  `net_send_cmd`/`net_tick` matching the live server's exact wire layout (including its one-byte
+  reserved padding after `NetHeader`). Also fixed a real bug this surfaced: the server never
+  assigns real network clients slot 0, but `local_update`'s own hardcoded "always predict slot 0"
+  path would have driven the wrong `PlayerState` for every real networked match — fixed by
+  routing local input through `local_set_player_input` at the real, server-assigned `client_id`.
+  Reconciliation: every player's state (including our own predicted slot) is overwritten from
+  each snapshot — a real, working predict-then-snap-correct baseline, not full input-buffer
+  replay (real, separate follow-up if finer smoothing is wanted). New `tests/test_net_protocol.c`
+  (2 wire byte-layout round-trip checks); all 12 existing `test_physics.c` checks still pass;
+  both gcc-clean with zero warnings. Live-verified end-to-end, not just compiled: built the real
+  server + client binaries plus a standalone SDL-free probe speaking the identical protocol, ran
+  a real headless server and two real concurrent probes over real loopback UDP — both got
+  distinct `client_id`s, both sent real `PACKET_USERCMD`s, both received `PACKET_SNAPSHOT`s
+  showing their own entity moving under the server's real physics, meeting this task's own DoD
+  exactly. BRAWLPIT commit `af4c7b9`. Apple #17683. `S248-01` (server-side matchmaking queue) is
+  now unblocked and buildable.
 - [ ] **S248-01: Server-side matchmaking queue (Phase 1).** Real queue: hold a "find match"
   client until 8 have queued or a real timeout fires (bot-fill the rest, reusing existing
   `bot_think` from `packages/simulation/local_game.h` — same real model `BP-WOTAN-ML-000` names
