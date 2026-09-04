@@ -29665,3 +29665,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-CL-0012: GFD take out COR and PUP mark for possible expansion and scholar whatever the abbreviation is keep dancer** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-020203499: ensure pve mobs have tp and special moves** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
