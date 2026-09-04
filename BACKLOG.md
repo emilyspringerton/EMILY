@@ -2389,6 +2389,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: sudo queue scripts ran** — obs `2026-09-04T03:31:28Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: BRAWLPIT physics.h readability pass -- reduce gauntlet of ifs, stop reusing turnip_cooldown for non-…** — obs `2026-09-04T04:58:51Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: GFD item builder needs a big GUI to manage items (resolves ITEM_BUILDER_NORTHSTAR.md Phase 2's CLI-v…** — obs `2026-09-04T05:19:53Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: add attack speed (delay) to GFD items -- individually per weapon, not per item type; found and fixed…** — obs `2026-09-04T06:14:12Z`. CURATED: 2026-09-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
