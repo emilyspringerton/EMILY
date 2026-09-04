@@ -29510,3 +29510,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [ ] **PCNPC-02003: PAPERCRAFT NPC attention mechanisms. Hitman Codename 47 you could change clothes to blend in like that for papercraft** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **PCNPC-02033: depending on their values NPCs may be more wary of you if you are dressed as a biker than a delivery driver** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
