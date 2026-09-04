@@ -29112,8 +29112,6 @@ whole card marked done on the strength of a scoping doc alone.*
   (Originate/Hangup/QueueStatus, Phase 3), ARI/WebSocket deferred as real, separate, larger work
   (Phase 4). PARENA commit `42c9bd6`. Apple #17503. Planning only — no code written.
   (sess-20260902-2008-ed50169e)
-- [ ] **B-111: add commands for standing up the models and views and controllers and all of that for a web app get that working by using it to scaffold shithub** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
 - [x] **LB-911: FIX LADYBUG AND SCARAB.** Checked live rather than trusting `ladybug/README.md`'s
   own existing claim (a real, stale gap list from an earlier pass): **`firefly.prn` already
   builds cleanly through domain 3 (`parena build`, the real C emitter) today** — the original
@@ -29818,4 +29816,6 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
 - [ ] **PCPBX-000: a sip phone interface from inside papercraft can receive a real call from the real telephone trunk (HITL TWILIO TICKET SEPARATE)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [x] **PX-099: PARENA SCAFFOLD TOOL SCAFFOLD OUT SHITHUB** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **B-111: add commands for standing up the models and views and controllers and all of that for a web app get that working by using it to scaffold shithub** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
