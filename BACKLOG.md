@@ -2387,6 +2387,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: Ally Cat Security should be an in-universe TRAPX security contractor (GTA7) selling anti-K9 tech and…** — obs `2026-09-04T01:35:06Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: shared draft marketing copy for a hypothetical cybersecurity brand ('Ally Cat Security'), asked for …** — obs `2026-09-04T01:32:42Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: sudo queue scripts ran** — obs `2026-09-04T03:31:28Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: BRAWLPIT physics.h readability pass -- reduce gauntlet of ifs, stop reusing turnip_cooldown for non-…** — obs `2026-09-04T04:58:51Z`. CURATED: 2026-09-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
