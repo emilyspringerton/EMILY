@@ -29800,3 +29800,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **MFXX-1244: evolve mixforge into a live video dj tool (live tv tool suitable for editing videos in real time for direct live broadcast)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **MFXX-1246: we will also add affordances little by little making it suitable for more traditional video editing tasks** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
