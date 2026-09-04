@@ -28840,22 +28840,6 @@ whole card marked done on the strength of a scoping doc alone.*
   written, both committed (`e14f45b`/`1296bb3`) earlier in this same session, before this card
   was even pulled. No new work needed; closing as a real, verified duplicate rather than silently
   ignoring it. (sess-20260902-2008-ed50169e)
-- [x] **IUS-001: can we add git indexing to iduna unified search** Real, shipped: new `IDUNA/cmd/git-log-indexer` walks a repo's HEAD commit history and ingests each commit via IDUNA's existing Splunk-HEC-shaped `POST /services/collector` (`sourcetype=git_commit`) — no new search-side code needed, commits are immediately searchable via the existing `GET /services/search/jobs`/`/portal/logs` UI. Real per-repo idempotent cursor file (only advances past successfully-posted commits) for safe cron/timer reruns. Real bug caught by its own test suite before shipping: the failure path was wrongly advancing the cursor past a failed commit — fixed. 5 new tests (real git repos via `t.TempDir()`, real `httptest.Server` exercising the real HEC contract), `go build/vet/test ./...` clean. Live, end-to-end smoke-verified against the real `LogsHandler`/`FileEventLog` code path with a real throwaway git repo — confirmed correct events landed in the real NDJSON log, rerun indexed 0 new. **Real, honest, found-live gap, not fixed here**: the actual production IDUNA instance has no `IDUNA_HEC_TOKEN` configured (`POST /services/collector` returns "HEC disabled" live today) — this tool (and the unified logging backend generally) can't ingest anything in production until an operator sets that env var and restarts IDUNA. Also not attempted: indexing every monorepo repo automatically (explicit repo paths only) and non-HEAD branches/tags. Commit `f648c30`. Apple #17600. (sess-20260902-2008-ed50169e)
-  (sess-20260902-2008-ed50169e)
-- [x] **342432: check mjolnir build i think its still failing.** Checked live via the GitHub API
-  (`GET /repos/emilyspringerton/MJOLNIR/actions/runs`) — confirmed correct: every real CI run
-  since `7b1305f6`'s own auto-release wiring, most recently `32920454688` (2026-08-26), is
-  `failure`, no run since. Same real, already-known root cause as `S189-31`
-  (`google-services.json` never set as a real GitHub Actions secret) — this SAME conversation
-  already worked this exact thread earlier this pass: diagnosed it, got a real, live
-  `google-services.json` from the founder (a real browser-based Firebase Console visit cleared
-  the ToS gate), placed it at `MJOLNIR/app/google-services.json` (gitignored), and handed the
-  founder exact paste-ready instructions for the one remaining step (setting the
-  `GOOGLE_SERVICES_JSON` repository secret — this session's own `GITHUB_TOKEN` genuinely lacks
-  the fine-grained-PAT "Secrets" write permission needed to do it via API). Real, honest,
-  current status: still failing, unchanged, pending that one founder action — not a new problem,
-  not silently re-diagnosed from scratch. See `S189-31` in `SECTION 189` for the full thread.
-  (sess-20260902-2008-ed50169e)
 - [x] **K8S-0000: evaluate all of our services in systemd and create a staged kubernetes service
   migration plan.** Real, live inventory via `systemctl --user list-units --type=service --all`:
   53 real units, 46 relevant after excluding pure OS/dev-tooling noise (dbus/gpg-agent/etc.).
@@ -29531,4 +29515,20 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
 - [ ] **PCNPC-02033: depending on their values NPCs may be more wary of you if you are dressed as a biker than a delivery driver** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [ ] **ALLYCAT-299: oh yea allycat can be the front for a new faction the egyptian cat people egyptian priests become infosec warriors lol** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **IUS-001: can we add git indexing to iduna unified search** Real, shipped: new `IDUNA/cmd/git-log-indexer` walks a repo's HEAD commit history and ingests each commit via IDUNA's existing Splunk-HEC-shaped `POST /services/collector` (`sourcetype=git_commit`) — no new search-side code needed, commits are immediately searchable via the existing `GET /services/search/jobs`/`/portal/logs` UI. Real per-repo idempotent cursor file (only advances past successfully-posted commits) for safe cron/timer reruns. Real bug caught by its own test suite before shipping: the failure path was wrongly advancing the cursor past a failed commit — fixed. 5 new tests (real git repos via `t.TempDir()`, real `httptest.Server` exercising the real HEC contract), `go build/vet/test ./...` clean. Live, end-to-end smoke-verified against the real `LogsHandler`/`FileEventLog` code path with a real throwaway git repo — confirmed correct events landed in the real NDJSON log, rerun indexed 0 new. **Real, honest, found-live gap, not fixed here**: the actual production IDUNA instance has no `IDUNA_HEC_TOKEN` configured (`POST /services/collector` returns "HEC disabled" live today) — this tool (and the unified logging backend generally) can't ingest anything in production until an operator sets that env var and restarts IDUNA. Also not attempted: indexing every monorepo repo automatically (explicit repo paths only) and non-HEAD branches/tags. Commit `f648c30`. Apple #17600. (sess-20260902-2008-ed50169e)
+  (sess-20260902-2008-ed50169e)
+- [x] **342432: check mjolnir build i think its still failing.** Checked live via the GitHub API
+  (`GET /repos/emilyspringerton/MJOLNIR/actions/runs`) — confirmed correct: every real CI run
+  since `7b1305f6`'s own auto-release wiring, most recently `32920454688` (2026-08-26), is
+  `failure`, no run since. Same real, already-known root cause as `S189-31`
+  (`google-services.json` never set as a real GitHub Actions secret) — this SAME conversation
+  already worked this exact thread earlier this pass: diagnosed it, got a real, live
+  `google-services.json` from the founder (a real browser-based Firebase Console visit cleared
+  the ToS gate), placed it at `MJOLNIR/app/google-services.json` (gitignored), and handed the
+  founder exact paste-ready instructions for the one remaining step (setting the
+  `GOOGLE_SERVICES_JSON` repository secret — this session's own `GITHUB_TOKEN` genuinely lacks
+  the fine-grained-PAT "Secrets" write permission needed to do it via API). Real, honest,
+  current status: still failing, unchanged, pending that one founder action — not a new problem,
+  not silently re-diagnosed from scratch. See `S189-31` in `SECTION 189` for the full thread.
   (sess-20260902-2008-ed50169e)
