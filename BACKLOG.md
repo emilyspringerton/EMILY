@@ -29653,9 +29653,9 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   to continue through the Item Builder GUI itself, not a single closeable task.
 - [ ] **GFD-IM-0012: item management interface improvement: sortable colums** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **GFD-IM-0013: make sure our GFD item management page and the drop management page make sure they both have IDUNA menu items** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260902-2008-ed50169e)
 - [ ] **GFD-IQA-001: GFD ensure we have shields in terms of game systems blocking etc vit should increase block effectiveness** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [x] **GFD-MD-001: we needs some kind of complimentary gui to the item management page you made in GFD we need a page to manage mob drops for the different mobs in different zones and the different bosses etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
+- [x] **GFD-IM-0013: make sure our GFD item management page and the drop management page make sure they both have IDUNA menu items** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
