@@ -29786,3 +29786,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-MXX-12441: GFD NOTORIOUS MONSTER MOD HAVE IT FOLLOW THE NEW FORMAT FOR PUBLISHING AND SUBSCRIBEING TO EVENTS** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-PROJECT-HORIZON-12441: GFD ANDROID APP BEGIN REWRITING THE CLIENT IN PARENA LITTLE BY LITTLE UNTIL WE CAN JUST TARGET JAVA VIA PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
