@@ -118,7 +118,7 @@ deliberate scope-narrowing: this plan's silence on `emily-system` is not an over
 
 | Stage | Services | Real gating condition |
 |---|---|---|
-| **0 (done, this session)** | GKE Autopilot cluster `prrject-fatbaby` provisioned in `us-central1` (co-located with the existing GCS backup bucket) | `S207-02` real `gcloud auth` blocker cleared — founder had a live, authenticated `gcloud` session |
+| **0 (done, but see real audit note below)** | GKE Autopilot cluster `prrject-fatbaby` provisioned in `us-central1` (co-located with the existing GCS backup bucket) | `S207-02` real `gcloud auth` blocker cleared — founder had a live, authenticated `gcloud` session |
 | **1** | `sarena-notebook` (trivial, static), then PRRJECT_FATBABY's `dashboard` (Group A's own real, already-planned first process) | Real Dockerfile build+run verified on a box with Docker (this sandbox still doesn't have one) |
 | **2** | Remaining PRRJECT_FATBABY processes (per `KUBERNETES_MIGRATION.md`'s own Phase 5.3/5.4 order — stateless first, `secwatch`/`eps-reconciler` data-critical, last), `gpt2-serve`, `promptoverse-*` (as real `CronJob`s, not `Deployment`s) | Stage 1's pattern proven end to end in the real cluster |
 | **3** | `iduna` | Stage 2 proven; real parallel-run + traffic-shift, not a hard cutover (Principle 15) |
@@ -127,6 +127,55 @@ deliberate scope-narrowing: this plan's silence on `emily-system` is not an over
 | **6** | Remaining Group C services, one at a time | Stage 5's proof holds up under real player load |
 | **7 (maybe never)** | `einhorn-survival` | Real, separate cost/risk re-evaluation once Stages 1-6 are done — may conclude "stays exactly where it is" |
 | **(not scoped)** | `emily-system` | Real, foundational design question named in Group E above, deliberately not answered by this pass |
+
+## Real audit finding (2026-09-04, kanban `k9s-99-001`, "DO WE HAVE A CLUSTER? WHAT IS THE NEXT STEP")
+
+Real, decisive, checked-live audit — not assumed, not re-derived from the earlier BACKLOG.md
+entry alone. **Yes, a real cluster exists and its control plane is reachable** —
+`prrject-fatbaby` (project `project-d24a71e9-2daf-4b2d-917`, `us-central1`, Autopilot,
+`status: RUNNING`), confirmed via `gcloud container clusters list` and a real, successful
+`kubectl` connection (real `gke-gcloud-auth-plugin`/`kubectl` obtained without root the same
+no-root `apt-get download` + `dpkg-deb -x` way this session's own `nmap`/`tshark` work already
+used, since neither was pre-installed and `gcloud components install` is disabled on this box's
+own apt-managed gcloud).
+
+**Real, urgent, previously-unknown problem found**: the cluster has had **zero working compute
+nodes for 32+ hours**. Every single pod cluster-wide — including GKE's own required system
+components (`kube-dns`, `metrics-server`, `event-exporter`, `konnectivity-agent`, the GMP
+monitoring stack) — is stuck `Pending`, real `FailedScheduling` events repeating thousands of
+times: `no nodes available to schedule pods`. `kubectl get nodes` returns none at all. This means
+the cluster is currently **non-functional for any real workload** — Stage 1's own real next step
+(`sarena-notebook`) would not actually run even once its own separate Docker-availability blocker
+is cleared.
+
+**Real root-cause investigation performed, ruled out, not guessed**:
+- **Not a quota problem** — `gcloud compute regions describe`'s own real quota table shows
+  32 CPU limit, 0 in use, in `us-central1`.
+- **Not an IP-exhaustion problem** — the real `default` subnet has a `/20` primary range (4096
+  IPs) and a `/17` secondary pod range (32768 IPs), both essentially empty.
+- **Not a cluster-level error** — `gcloud container clusters describe` reports a clean
+  `status: RUNNING` with no error conditions; `autoscaling`/`resourceLimits` are sane (real, huge
+  1e9 CPU/memory ceilings, `enableNodeAutoprovisioning: true`).
+- **The real autoscaler itself isn't even trying** — `container.googleapis.com/cluster-autoscaler
+  -visibility` logs (`gcloud logging read`) show `autoscaledNodesTarget: 0` consistently over the
+  full 32-hour window, despite real, continuous, unschedulable pod demand. This is a real,
+  decisive signal that the blocker sits at the Autopilot node-provisioning layer itself, not in
+  anything this monorepo's own config controls.
+
+**Real, honest, NOT resolved this pass**: the exact underlying cause (a possible real GCP-side
+regional capacity shortage for the specific machine shapes Autopilot wants, or a deeper
+platform-level issue) needs either GCP Console-level investigation (Operations/Recommender
+panels this CLI-only audit can't see) or a GCP support case — genuinely beyond what's safely
+diagnosable/fixable blind from here. **Deliberately not attempted**: deleting/recreating the
+cluster or node pool — a real, moderately destructive action against live, billed infrastructure
+that shouldn't be taken speculatively without understanding the real root cause first (Principle:
+match the scope of action to what's actually authorized). **Real, concrete recommended next
+step**: the founder checks the GKE Console's own real Operations/Recommender view for
+`prrject-fatbaby` (a real, richer diagnostic surface than `gcloud logging read` reaches), or
+opens a real GCP support case citing the exact real symptom above (`autoscaledNodesTarget: 0`
+despite real pending demand, 32+ hours). This audit's own real value: confirming decisively that
+the blocker is NOT anything wrong with this monorepo's own real config (quota/network/cluster
+settings all check out clean) — it's upstream of that.
 
 ## Honest scope
 
