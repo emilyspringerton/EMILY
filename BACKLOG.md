@@ -29735,3 +29735,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **CONSOLE-3994: UI UX for ok emily console and console login should follow the IDUNA style guide** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-993944: GFD the core game loop is slow lets tune it with v0 of a dungeon lets get gameplay working there is basic combat but its super bare bones - have a dungeons button lets us select dungeon from a list** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
