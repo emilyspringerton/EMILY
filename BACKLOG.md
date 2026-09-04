@@ -29831,3 +29831,5 @@ Real sub-tasks returned per Principle 19's own scoping of `GFD-AH-93944` (see ab
   (sess-20260902-2008-ed50169e)
 - [ ] **BPMM-12441: BRALPIT MATCHMAKING SHOULD ACTUALLY WORK queuing with 2 clients doesnt get me in a game queueing with 1** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **BPMM-12442: queieing with 1 client doesnt get me in a game either (no bot pool)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
