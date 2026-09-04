@@ -29203,20 +29203,6 @@ whole card marked done on the strength of a scoping doc alone.*
   exist, so this deliberately does NOT fake a working purchase flow. `OKEMILY/tournaments.html`
   gets a real new section linking to it. OKEMILY commit `2b4eed0`. Apple #17529.
   (sess-20260902-2008-ed50169e)
-- [x] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type
-  it twice have the field like hidden with the eye thing.** Original investigation (this same
-  session, earlier) found the real prior blocker: no email/password signup HTML existed anywhere
-  yet, scoped via Principle 19 into `SECTION 247`'s sub-tasks rather than built. **That blocker
-  no longer exists**: `WTHS-0000`'s own Phase 2 work (see its own entry above) shipped
-  `WOTAN/store.html`, a real IDUNA email/password login+register page, later the same session —
-  so the literal ask is now directly buildable, not still blocked. Shipped: a real "Confirm
-  Password" field, validated (`password !== confirm` → real error, no request sent) only on the
-  register path, never enforced on login; both the password and confirm-password fields get
-  their own independent show/hide ("eye") toggle button. JS syntax-checked; redeployed and
-  live-verified on `wotan.okemily.com/store.html` (real 200, confirm-password field present).
-  WOTAN commit `3d49641`. Apple #17619. `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`'s own
-  `SECTION 247` scoping stays real background/history — its own broader sub-tasks (if any beyond
-  this literal UX ask) are unaffected by this update. (sess-20260902-2008-ed50169e)
 - [ ] **WOTAN-994: the creator can control the distribution scheme for the hats** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
 - [~] **BP-LOBBY-001: brawlpit lobby have like a portal you jump in to find matchmaking and have auto lobbies get filled with 8 random players no chat no lives and combat abilities work but dont damage other characters** **Big, unscoped ask — scoped per Principle 19, not swallowed whole.** Real investigation found the actual blocker: `apps/lobby/src/main.c`'s `net_send_cmd`/`net_tick` are commented out, so `STATE_GAME_NET` predicts locally but never really networks players today — real Phase 0 underneath the whole ask. Wrote `BRAWLPIT/docs/BP_LOBBY_MATCHMAKING_NORTHSTAR.md` (5-phase plan: real netcode → server matchmaking queue w/ bot-fill timeout → client portal trigger volume → `MODE_SANDBOX` damage-suppression flag → "no chat" named as an explicit non-task). Registered as `BP-LOBBY-MATCHMAKING-NORTH`. BRAWLPIT commit `075a959`. Apple #17537. Real sub-tasks in **SECTION 248** below; kanban card #159 moved to `backlog` (not `done`).
@@ -29560,3 +29546,17 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [ ] **BP-UX-0190: vexar and racoon shold look different** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [x] **WOTAN-997: WOTAN account signups via email/password have them confirm the password type
+  it twice have the field like hidden with the eye thing.** Original investigation (this same
+  session, earlier) found the real prior blocker: no email/password signup HTML existed anywhere
+  yet, scoped via Principle 19 into `SECTION 247`'s sub-tasks rather than built. **That blocker
+  no longer exists**: `WTHS-0000`'s own Phase 2 work (see its own entry above) shipped
+  `WOTAN/store.html`, a real IDUNA email/password login+register page, later the same session —
+  so the literal ask is now directly buildable, not still blocked. Shipped: a real "Confirm
+  Password" field, validated (`password !== confirm` → real error, no request sent) only on the
+  register path, never enforced on login; both the password and confirm-password fields get
+  their own independent show/hide ("eye") toggle button. JS syntax-checked; redeployed and
+  live-verified on `wotan.okemily.com/store.html` (real 200, confirm-password field present).
+  WOTAN commit `3d49641`. Apple #17619. `IDUNA_PRO/docs/WOTAN_SIGNUP_UI_SCOPING.md`'s own
+  `SECTION 247` scoping stays real background/history — its own broader sub-tasks (if any beyond
+  this literal UX ask) are unaffected by this update. (sess-20260902-2008-ed50169e)
