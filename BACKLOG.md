@@ -29727,3 +29727,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-AF-01939: UX UI needs a big overhaul we need to bring the ability frames down to the bottom of the screen lets start with 1-6 as action abilities** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-MACRO-0012: GFD macro system make sure we tie the action frame stuff into a parena mod based shape so we can easily allow for extension at the action bar affordance** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
