@@ -29539,3 +29539,5 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-ENRICHMENT-0013: can we port some of the skins from SHANKPIT to GFD as NPCs Mobs even the yellow ronin shell can stand in for our player character for now thats actually really cool** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-ITEM-SUPPLY-CHAIN-000: we need a tool for creating and managing the stats on GFD items and weapons etc some items need special programming but we should do that with mods and then expose affordances to the item builder** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
