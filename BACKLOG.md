@@ -2394,6 +2394,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: mid-GFD-AF-01939 UI work (expanding Town's ability bar from 3 to 6 slots), founder asked to populate…** — obs `2026-09-04T16:18:33Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: 'do your best to clear out the priority queue stop waiting for next im done organizign for a minute'…** — obs `2026-09-04T18:29:09Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: priority cycle continuing — pulling BRAWLPIT matchmaking cards #279/#280 (BPMM-12441/12442)** — obs `2026-09-04T20:32:12Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: priority then cruise continuing — pulling BPMM-1202020 (BRAWLPIT 1v1 matchmaking with bot pool)** — obs `2026-09-04T21:47:39Z`. CURATED: 2026-09-04.
+- [ ] **Founder real-time: priority then cruise — pulling GFD-994001 (GFD core game loop performance tuning)** — obs `2026-09-04T21:41:25Z`. CURATED: 2026-09-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
