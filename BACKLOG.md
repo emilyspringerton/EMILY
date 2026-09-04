@@ -29657,3 +29657,5 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   (sess-20260902-2008-ed50169e)
 - [ ] **GFD-IM-0013: make sure our GFD item management page and the drop management page make sure they both have IDUNA menu items** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
+- [ ] **GFD-IQA-001: GFD ensure we have shields in terms of game systems blocking etc vit should increase block effectiveness** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260902-2008-ed50169e)
