@@ -29257,7 +29257,9 @@ session: sess-20260902-2008-ed50169e
 
 session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
-- [ ] **PMPX-000: build out additional project management automations like a page showing the tags for the different projects etc - auto researching on a -000 card** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **PMPX-000: build out additional project management automations like a page showing the tags for the different projects etc - auto researching on a -000 card** — real, scoped not built (Principle 19). Real, decisive finding: "projects"/"tags" are not formalized concepts anywhere in this monorepo's own data model — no `projects` table, no tag column on `kanban_cards` or the Apples ledger. Closest real, existing analogs: `EMILY/BACKLOG.md`'s own `SECTION` numbers and Apples' own `source_repo` field. Real 3 open questions named in `docs/PROJECT_TAGS_NORTHSTAR.md` (golden doc `PROJECT-TAGS-NORTH`): what counts as "a project" here (SECTION? repo? a genuinely new freeform concept); whether this overlaps with `MULTIKANBAN-000`'s own board concept (a "project" could just mean "a kanban board" once multi-board support exists); what the real first concrete automation is beyond "a page" (the card's own "etc" is open-ended). Real, minimal, buildable-now option named: a zero-new-schema dashboard grouping existing kanban cards + Apples by their own already-real `SECTION`/`source_repo` values — answers the literal ask without inventing a new tagging system. Real sub-tasks await a founder decision — not resolved or started here. IDUNA commit `0d3a3ab`. Apple #17830.
+
+session: sess-20260902-2008-ed50169e
   (sess-20260902-2008-ed50169e)
 - [x] **GOLDENOPS-001: emily framework default behavior if a new unscoped request comes in on the
   priority queue or cruise queue and it is a big ask scope/northstar it then toss card back to
