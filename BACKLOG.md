@@ -30288,3 +30288,20 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **PBX-SRE-124533: iterate on the asterisk plan do the next unblocked step** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 259: CAREPYRE CONSOLE LIVE + SUDO-QUEUE D-BUS FIXES (2026-09-05)
+
+- [x] **CarePyre Console deploy went live.** Founder ran `sudo-queue/51-carepyre-console-idunapro-deploy.sh`
+  and hit two real, sequential bugs, both fixed live: (1) ran it under `sudo`, breaking
+  `systemctl --user` (no D-Bus session as root) — fixed with a hard root guard; (2) still failed
+  run as a plain user because `XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS` weren't reliably
+  exported in the shell — fixed by setting them explicitly in the script and checking the real
+  bus socket exists first (verified live against this box's own bus before pushing). After a
+  successful run, found and fixed a third, smaller issue: `identities/me`'s
+  `authority_signature_cluster` defaulted to `http://localhost:8081/...`, unreachable
+  externally — fixed via IDUNA_PRO's own existing `BASE_URL` env var (ops config only, zero
+  IDUNA_PRO source changes). **End-to-end verified live through the real public URLs**:
+  `https://carepyre.org/console.html` (200), register → local-login → `identities/me` all
+  succeed through `https://carepyre.org/console-api/...`. Apple #17929. MONOREPO commits
+  `7f7e1ab`/`b98fec2`, CarePyre commit `be132ea`.
+  (sess-20260905-0117-d84e3a4e)
