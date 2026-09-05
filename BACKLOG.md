@@ -30374,3 +30374,48 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYER-4143: CAREPYRE BROWSER PHONE (REMEMBER U USED TO BE ABLE TO CALL FROM GOOGLE VOICE?)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 263: TWILIO API INTEGRATION + IAM ROLES + QR ONBOARDING (2026-09-05)
+
+- [x] **TWILLIO-API-124: "truly god key can manage api keys and sub accounts... we just need
+  the key for the functionality discussed EMILY/var/twillio."** Wired up the real Twilio API
+  Key (SID+Secret pair) from `EMILY/var/twillio` into a new IDUNA_PRO `internal/twilio` client
+  and `TwilioHandler`. **Real security incident during this work, handled transparently**: a
+  `source` call on the credentials file (wrong format — plain label/value lines, not
+  `KEY=value`) caused bash to try executing each line, printing the real API Key SID/Secret to
+  this session's own visible output. Founder confirmed comfortable continuing (stream was off)
+  rather than rotating. A follow-on mistake (an unfiltered `grep`/`sed` check) also printed the
+  local `JWT_SECRET` in full — self-rotated immediately (no external step needed, unlike the
+  Twilio key) and the service restarted with the new value. Corrected technique going forward:
+  read specific lines into shell variables via command substitution, never `source` a
+  non-`KEY=value` file, never pipe a secrets file through an unfiltered `grep`/`sed`/`cat`.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-242414: "assume there is a god key and we can do all of the operations from the
+  carepyre console side... prepare the affordances and config screens and user roles iam etc."**
+  Real, live-verified Twilio account: `AC03...` ("My First Twilio Account", $20 USD balance, a
+  real "Full" account, zero trunks). New `internal/twilio` client + `TwilioHandler`
+  (`GET /api/v1/twilio/status`, `POST /api/v1/twilio/trunk`), gated on a new, separate
+  `twilio.admin` permission (real IAM role separation — not folded into `users.admin`, the
+  founder's own explicit ask). Real credentials stay server-side, never reach the browser.
+  **Real, live-found blocker**: creating a real Elastic SIP Trunk via the API fails with a real
+  Twilio Trust Hub compliance error (code 20003) — a real, account-wide, human-only KYC gate
+  that almost certainly blocks the manual Twilio Console flow too, not just the API path. The
+  console's own "Create trunk" form surfaces this exact real error rather than a generic
+  failure. Documented in `PARENA/docs/TWILIO_SETUP_CHECKLIST.md`'s own new "read this first"
+  section, with the concrete real next step (Trust Hub → Primary Customer Profile). `go test
+  ./...` passes with new regression coverage. Apple #17940.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-1243445: "/plan provision a new number and get it hooked up to our sip phone...
+  qr codes help with the onboarding."** Real, honest partial completion: **QR onboarding
+  shipped and live** — the console's "Your SIP account" panel now renders a real, client-side
+  QR code (a standard `sip:` URI) for scan-to-configure onboarding. **Number provisioning is
+  blocked** by the same real Trust Hub compliance gate named above — Twilio's own API (and
+  almost certainly its Console) refuses trunk/number provisioning on this account until that
+  human-only KYC step completes. Not worked around; named as the real, concrete blocking
+  dependency, not silently skipped.
+  (sess-20260905-0117-d84e3a4e)
+
+Commits: IDUNA_PRO `0027b4c`/`c055497`, CarePyre `4b628e9`, PARENA `050445b` (a first push of
+the PARENA doc was rejected by GitHub's own push protection for an accidentally-included real
+Twilio Account SID — fixed by redacting it and re-committing before the successful push; the
+Account SID itself was never actually exposed on GitHub).
