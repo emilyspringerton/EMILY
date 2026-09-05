@@ -30505,3 +30505,20 @@ EMILY `482b8f7f` (golden-index).
   users/Twilio/mail-account provisioning) unchanged — markup/CSS reorganization only. Apple
   #18063 (observation), #18064 (completion). CarePyre commit `2d6d552`.
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **CAREPYRE-MAIL-HAPPY-PATH-1: Admin-provisioned mailboxes should just work for the user.**
+  Founder real-time: "its good that the admin has the ability to log into any mail account from
+  their console and that they can create untethered email boxes we need the happy path to be
+  happier for our normal users after a user provisions their account an admin can provision an
+  email for them and then the web mail for that user should just work we can still reveal their
+  password for webmail use somehow." Implemented: new `mail_account_credentials` table
+  (IDUNA_PRO) links a mailbox to a `local_uid`, storing its real password AES-256-GCM-encrypted
+  at rest; `POST /api/v1/mail-accounts` accepts an optional `local_uid` to link at creation;
+  `WebmailHandler` auto-connects a linked user's webmail with zero manual "Connect" step (falls
+  back to the decrypted, persisted credential on a cache miss); new admin-only
+  `GET /api/v1/mail-accounts/{uid}/reveal-password` lets an admin see the stored password again.
+  Console Admin Users table gets a Mailbox column: create-mailbox-for-user or reveal-password
+  inline. The existing untethered/self-connect flow is unchanged (still works for a mailbox not
+  linked to any uid). Apple #18068 (observation), #18067 (completion). IDUNA_PRO commit
+  `4de6c3c`, CarePyre commit `5150171`.
+  (sess-20260905-0720-ec33e7c5)
