@@ -28,6 +28,8 @@ var/emily-secrets.env
 var/*.env
 *-secrets.env
 *.env.local
+var/pexels.txt
+var/cloudflare.md
 
 # Runtime state subdirs
 context/var/
