@@ -27623,8 +27623,16 @@ in terms of humanness... it probably needs to get split into 2 northstars whatev
 
 ## SECTION 241: IDUNA PLAYER ACCOUNTS ARE NOT SCOPED PER-GAME (2026-09-02, FOUND NOT FIXED)
 
-- [ ] **S241-01: real, pre-existing gap — IDUNA player accounts work across every game, not just
-  the one they were created for.** Founder, setting up Gary's PAPERCRAFT account: "make sure that
+- [x] **S241-01: real, pre-existing gap — IDUNA player accounts work across every game, not just
+  the one they were created for.** Shipped (Apple #17863, commit `627633e`). New nullable
+  `players.game` column, stamped into every JWT at register/login/OAuth; each of the 3 ticket
+  handlers (`PapercraftTicketHandler`/`RacerTicketHandler`/`ShankpitTicketHandler`) now rejects a
+  mismatched `game` claim with 403 via a new shared `gameClaimMatches` helper — an absent claim
+  stays unscoped, backward compatible. 21 new tests. Live-verified against real prod
+  `var/iduna.db`: reproduced and fixed the exact founder-named scenario end to end (a
+  papercraft-scoped account minted a papercraft ticket, was rejected minting a shankpit ticket).
+  session: sess-20260904-2324-5f032e08
+  Founder, setting up Gary's PAPERCRAFT account: "make sure that
   account only for papercraft." Investigated (not yet fixed): `player_email_auth.go`'s
   register/login always stamps a generic `aud: shankpit` claim regardless of which game the
   account is for, and none of the three real ticket-minting handlers that trust a player JWT
