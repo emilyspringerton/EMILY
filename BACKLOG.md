@@ -30416,8 +30416,6 @@ Twilio Account SID — fixed by redacting it and re-committing before the succes
 Account SID itself was never actually exposed on GitHub).
 - [ ] **CAREPYRE-535454: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE SIPPHONE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CAREPYRE-994994: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE CONSOLE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-ADMIN-124323: IDUNAPRO admin accounts have the chicken and egg problem i need an admin account to create admin accounts how do we achieve admin genesis? garybifrost@gmail.com set him up an admin account and put the** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-911343: PARENA CODEC AND ALL THE SIP PLUMBING TO MAKE THE SIP PHONE WORK** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -30429,4 +30427,6 @@ Account SID itself was never actually exposed on GitHub).
 - [x] **CAREPYER-4143: CAREPYRE BROWSER PHONE (REMEMBER U USED TO BE ABLE TO CALL FROM GOOGLE VOICE?)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CAREPYRE-9311: CAREPYRE what other google voice grand central features can we add? like voicemail right? hitting a button to start recording a call? (this call is being recorded)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CAREPYRE-994994: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE CONSOLE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
