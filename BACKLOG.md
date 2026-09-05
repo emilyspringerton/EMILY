@@ -30138,3 +30138,21 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SIP-129: README INSTRUCTIONS HOW TO INSTALL THE APK FROM THE RELEASES** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 253: FARTHQ.COM NANODE REUSE — PROVISIONING AUTOMATION REPORT (2026-09-05)
+
+- [x] **Founder real-time: farthq.com's existing Nanode is disposable/reusable for Stalwart — how
+  do we provision/command-and-control it from this dev box, without custom automation software,
+  without deep-diving Emily federated operations, fully automated, no manual login? "maybe we
+  need terraform what do you think."** Wrote `CarePyre/docs/STALWART_PROVISIONING_REPORT.md`:
+  Terraform for Cloudflare DNS records only (farthq.com already Cloudflare-DNS-managed, real
+  token on file at `EMILY/var/cloudflare.md`; deliberately leaves the already-live Nanode itself
+  OUT of Terraform state — importing a live resource is real, risky, and unneeded since it's not
+  being created/destroyed) + Ansible for everything on the box itself (agentless, plain SSH,
+  `ansible-playbook` run non-interactively — the real "yes, fully automatable, no login" answer).
+  Named, not glossed over: real missing pieces before this executes (the box's real IP/hostname,
+  which existing SSH credential if any already reaches it) and why this isn't "Emily federated
+  operations" (a real, separate, deliberately-deferred concept named elsewhere in this monorepo,
+  not a two-box SSH deploy). Recommendation only — no Ansible/Terraform installed, nothing run
+  against the real box. Apple #17901. CarePyre commit pending.
+  (sess-20260905-0117-d84e3a4e)
