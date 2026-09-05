@@ -30159,3 +30159,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SIP-CONTINUE-123: build out simple sip phone interfaces inside CAREPYRE SIP PHONE APP using parena and parena UX UI I DUNNO CAN WE USE THE NICE JET BRAINS FONT?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CP-SIP-CONTINUE: WE MAY NEED TO USE WEB TECHNOLOGIES FOR THE INTERFACE IF WE WANT TO GET IT UP AND RUNNING SUPER FAST TO ITERATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
