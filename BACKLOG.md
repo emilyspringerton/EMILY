@@ -30470,3 +30470,5 @@ Commits: PARENA `4132bf9`/`a3685fd`/`87d77db`, CarePyre `c034f65`, MONOREPO `489
 EMILY `482b8f7f` (golden-index).
 - [ ] **CAREPYRE-245435: FINISH THE SIPPHONE IT NEEDS TO ACTUALLY WORK PLUMB IT** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260810-0505-a53abca2)
+- [ ] **CAREPYRE-2399192: CAREPYRE CONSOLE ADMINS NEED AN AFFORDANCE FOR RECORDING THIS CALL MAY BE RECORDED MESSAGE** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
