@@ -30432,3 +30432,39 @@ Account SID itself was never actually exposed on GitHub).
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-5435439434: making calls from our carepyre android sip phone i know its going to take a bit of finesse we want to make calls from our softphone the config needs to be magical and automatic as much as is reaonable** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 264: REAL TWILIO TRUNK LIVE + VOICEMAIL/RECORDING + FEATURE PLANS (2026-09-05)
+
+- [x] **TWILLIO-OPS-12433: "TWILLIO COMPLIANCE PROFILE CREATED."** Trust Hub compliance cleared
+  -- provisioned the full real Elastic SIP Trunk via the API end to end: trunk
+  `carepyre.pstn.twilio.com` (`TK26beb46d6ae9c91ea0d0adef35eaa753`), a real IP ACL for this
+  box's static IP, a real Origination URI, and a real phone number (`+17855315546`, $1.15/mo)
+  assigned to the trunk. The real domain is baked directly into
+  `PARENA/ops/asterisk/pjsip_twilio_trunk.conf` (no more placeholder) --
+  `sudo-queue/52-carepyre-asterisk-plumbing-deploy.sh` is a complete, one-shot deploy. Not yet
+  run against the live Asterisk instance (needs real root). Apple #17945.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CAREPYRE-9311: "what other google voice grand central features can we add? like
+  voicemail right? hitting a button to start recording a call?"** Shipped real voicemail
+  (mailbox 1000) as a real fallback for unanswered/busy inbound calls, and always-on inbound
+  call recording preceded by a consent announcement. Real, honest, named gap: the announcement
+  `.wav` doesn't exist in this repo yet (Playback fails silently until it's added). Full
+  feature map (shipped vs. real, separate follow-up: on-demand recording toggle, visual
+  voicemail, SMS, call screening) in `CarePyre/docs/GOOGLE_VOICE_FEATURES_NORTHSTAR.md`. Apple
+  #17948.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CAREPYER-4143: "CAREPYRE BROWSER PHONE (remember u used to be able to call from Google
+  Voice?)."** Real, phased plan: Twilio's own Voice JS SDK is the correct tool, independent of
+  the Asterisk trunk. Named the real concrete pieces (TwiML App, Access Tokens via the existing
+  `internal/twilio` client, a webhook handler, a browser dial pad) in
+  `CarePyre/docs/BROWSER_PHONE_NORTHSTAR.md`. No code written — planning only. Apple #17949.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CAREPYRE-994994: "CONTINUE WIRING UP OUR PLATFORM... MAKE ANY CHANGES NEEDED TO THE
+  CONSOLE."** Addressed by the real Twilio trunk provisioning above — the console's own Twilio
+  panel (shipped earlier this session) now has real trunk/number data to display once a
+  `twilio.admin` account loads it; no further console code changes identified as needed this
+  pass.
+  (sess-20260905-0117-d84e3a4e)
+
+Commits: PARENA `4132bf9`/`a3685fd`/`87d77db`, CarePyre `c034f65`, MONOREPO `4891c2e`/`963033c`,
+EMILY `482b8f7f` (golden-index).
