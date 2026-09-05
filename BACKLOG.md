@@ -29476,11 +29476,38 @@ A real, separate follow-up (outside dungeon-scoping's own remit) is named, not s
 real systemd user-session access (or an equivalent supervisor) working in this sandbox so these
 services survive the way their own unit files already intend.
 
-- [ ] **S249-01: Get real process supervision working for the 4 REDGARDEN/redgarden-stable
-  matchmaker pools.** `systemctl --user` currently fails with "Permission denied" in this
-  sandbox — investigate why (lingering session? `loginctl enable-linger`? a missing user
-  D-Bus session?) and get the existing, already-written `ops/systemd/*.service` units actually
-  enabled, so a future crash doesn't require another manual incident-response pass like this one.
+- [x] **S249-01: Get real process supervision working for the 4 REDGARDEN/redgarden-stable
+  matchmaker pools.** Fixed (2026-09-05, Apple #17865). Real, decisive root-cause finding,
+  overturning every hypothesis this card's own text speculated: `loginctl show-user fatbaby`
+  showed `State=lingering`/`Linger=yes` the whole time, and `systemctl --user status` (once
+  invoked with the RIGHT env) showed a healthy, 2-day-uptime user session already running 184+
+  units — the real systemd `--user` session was never broken. The actual cause: this
+  environment's own shells inherit `XDG_RUNTIME_DIR=/run/user/0` (root's own runtime dir) even
+  when running as fatbaby (uid 1000) — `systemctl --user` was trying to reach ROOT's own D-Bus
+  socket as an unprivileged user, hence "Permission denied." With `XDG_RUNTIME_DIR=/run/user/1000`
+  set explicitly, `systemctl --user` worked immediately and revealed the REAL live incident:
+  `redgarden-matchmaker-bots.service`/`redgarden-matchmaker-players.service` (ports 7778/7779)
+  were both already `enabled` but stuck in an `activating`/auto-restart crash loop —
+  **18,700+ restart attempts**, `FAILED TO BIND MATCHMAKER PORT 7778` every 5 seconds — because
+  four unsupervised orphan `red_garden_matchmaker` processes (started manually/nohup'd during the
+  prior SECTION 249 incident response, since `systemctl --user` access looked broken at the time)
+  were still alive since 2026-09-03 and already holding all 4 real ports (7778/7779/7780/8778) via
+  UDP. Real fix, one port at a time (stop the crash-looping unit if any → kill the orphan → start
+  the real unit immediately, minimizing the unclaimed-port window): all 4 pools
+  (`redgarden-matchmaker-bots`/`-players`/`-bots-3v3`/`redgarden-stable-matchmaker-bots`) are now
+  genuinely `active (running)` under real systemd supervision, confirmed via `systemctl --user
+  status` showing each unit's own real cgroup, and confirmed refilling queues in their own log
+  files after the swap (18-19/20, 4-5/6 — real, live bot traffic, not stalled). `reset-failed`
+  cleared the stale restart-counter noise. Added a guarded `export XDG_RUNTIME_DIR=/run/user/$(id
+  -u)` + matching `DBUS_SESSION_BUS_ADDRESS` to `~/.profile` — confirmed, honestly, this does NOT
+  take effect in this specific sandbox's own non-interactive tool-invoked shells (tested: a fresh
+  shell still inherited `/run/user/0`), so it's a partial mitigation for any shell that DOES source
+  `.profile` (a real login/interactive session), not a full fix for this harness's own Bash tool.
+  The reliable, repeatable path going forward, for this session and any future one: explicitly
+  `export XDG_RUNTIME_DIR=/run/user/$(id -u); export
+  DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus` before any `systemctl --user` command —
+  already the exact pattern used throughout this session for `iduna.service` restarts, now known
+  to be load-bearing rather than an arbitrary habit. session: sess-20260904-2324-5f032e08
   (sess-20260902-2008-ed50169e)
 - [ ] **IDUNA_PRO-0003: confluence style golden doc editor** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
