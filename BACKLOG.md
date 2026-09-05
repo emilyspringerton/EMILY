@@ -30258,3 +30258,31 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **CPP-2144333: CAREPYRE CONSOLE MAKE IT LIKE THE IDUNA LOGIN AND BACKOFFICE EXPERIENCE BUT FOR CAREPYRE SEPARATE PLATFORM (WE RELY ON IDUNA) but we need a clean interface for meetings and demos etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 258: CAREPYRE CONSOLE ON IDUNA_PRO + DOCS — PRIORITY QUEUE (2026-09-05)
+
+- [x] **CPP-124433 / CPP-2144333: CarePyre Portal/Console — like IDUNA login and backoffice,
+  separate platform, "we rely on IDUNA," clean interface for meetings and demos.** Real,
+  rapid founder-direction sequence mid-build corrected the architecture: "BUILD IT USING IDUNA
+  PRO SOMEHOW" → "IDUNA PRO SHOULD BE WHITELABLE BACK OFFICE" → "WE KEEP OPERATIONS USING OG
+  IDUNA BUT WE NEED TO HAVE IDUNA PRO BE BASICALLY A CONSOLE FOR THE PLATFORM THAT THE IDUNA
+  PRO IS SUPPORTING" → "build it with iduna pro not into iduna pro" → "or whatever you think is
+  best the deadline is 2 days." Final, shipped v0: **IDUNA_PRO's own source is untouched** — a
+  real, separately-running IDUNA_PRO instance (own port `:8081`, own SQLite DB, own JWT signing
+  key — a genuinely separate trust domain) is CarePyre's console backend, consumed purely
+  through its already-shipped REST API (register/local-auth/identities-me). A new, real,
+  CarePyre-branded static page (`CarePyre/console.html`) talks to it via a same-origin nginx
+  proxy (`/console-api/` → `:8081`) — no CORS, no IDUNA_PRO code changes. EINHORN's own internal
+  ops keep running unchanged on the original IDUNA. Live-verified end to end against a
+  locally-booted `idunapro` instance (register → local-login → identities/me, all real, correct
+  JSON). Full architecture in `CarePyre/docs/CAREPYRE_CONSOLE_NORTHSTAR.md` (registered in
+  golden-docs-index). Deploy queued (`sudo-queue/51-carepyre-console-idunapro-deploy.sh`) — not
+  yet run, needs real root. Apple #17921. CarePyre commits `c3718de`/`84fd0e4`, IDUNA_PRO
+  commits `e03375b`/`bd3146e` (systemd unit only, zero app code changes), MONOREPO commit
+  `e4bff63`.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-DOCS-12442: CarePyre docs — how to install the APK, linked from README.** Real
+  standalone `CarePyre/docs/ANDROID_APK_INSTALL.md` (full steps, what to expect, troubleshooting)
+  linked from `README.md`'s own short pointer section. Apple #17922. CarePyre commits
+  `c3718de`/`84fd0e4`.
+  (sess-20260905-0117-d84e3a4e)
