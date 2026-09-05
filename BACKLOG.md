@@ -2456,6 +2456,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: build a TYLER video gallery page adapting the Reading Room's design; deployed live to okemily.com/ty…** — obs `2026-09-05T02:10:15Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time (multi-message thread, kanban CPMAIL-114/144): weigh Linode vs Google Cloud for the Stalwart sovereig…** — obs `2026-09-05T03:35:07Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: farthq.com Nanode is disposable/reusable for Stalwart mail hosting - asked how to provision/command-…** — obs `2026-09-05T04:20:19Z`. CURATED: 2026-09-05.
+- [ ] **Founder real-time: web kanban showed 30 items in priority after moving a bunch to cruise, suspected a caching bug, aske…** — obs `2026-09-05T04:50:15Z`. CURATED: 2026-09-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
