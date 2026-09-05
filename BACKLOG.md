@@ -30234,3 +30234,21 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **PBX-SRE-12442: what is the proper SRE way to get ASTERISK running i think its gotta go on our same iduna box everything is on for now do you just wanna yolo install it until we dev our own?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 257: ASTERISK PBX SRE INSTALL DECISION — PBX-SRE-12442 (2026-09-05)
+
+- [x] **Founder real-time: "what is the proper SRE way to get ASTERISK running i think its
+  gotta go on our same iduna box everything is on for now do you just wanna yolo install it
+  until we dev our own?"** Answer: yes, install the plain Debian `asterisk` package via its own
+  default systemd unit on the same IDUNA box — no custom build, no container, no new box — but
+  with three real, checked guardrails: (1) found a real `:8088` port conflict with this box's
+  existing gpt2-alpine-c model server (`ss -tulnp`), fixed by disabling Asterisk's own unused
+  built-in HTTP/ARI server (PARENA's own PBX plan is AMI-only, never needed it); (2) AMI bound
+  to `127.0.0.1` only with a freshly-generated secret, never exposed on this box's real public
+  interface; (3) RTP firewall opening narrowed from Asterisk's own 10,000-port default
+  (`10000-20000`) to a real, sufficient 100 ports (`10000-10099`). Checked real headroom first
+  (73GB free disk, ~7GB available memory). Full reasoning in
+  `PARENA/docs/PBX_ASTERISK_NORTHSTAR.md`'s new "Real install decision" section; queued as
+  `sudo-queue/50-install-asterisk-pbx.sh` (root MONOREPO repo) — not yet run, needs real root.
+  Apple #17917. PARENA commit `81e2d87`, MONOREPO commit `3042cd5`.
+  (sess-20260905-0117-d84e3a4e)
