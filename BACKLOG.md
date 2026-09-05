@@ -30205,3 +30205,28 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-24332: /design CAREPYRE SIP PHONE make it look nice** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 256: CARE PYRE SIP PHONE UI — PRIORITY QUEUE (2026-09-05)
+
+- [x] **CP-SIP-CONTINUE-123 / CP-SIP-CONTINUE: build out simple SIP phone interfaces using
+  PARENA UX UI / "WE MAY NEED TO USE WEB TECHNOLOGIES ... TO ITERATE FAST" / "CAN WE USE THE
+  NICE JET BRAINS FONT?"** Real architecture decision: a local, bundled HTML/CSS/JS UI
+  (`android/app/src/main/assets/`) rendered via `android.webkit.WebView`
+  (`file:///android_asset/index.html`), not PARENA's own UI surface — PARENA has no proven
+  Android UI target today (same SDL2/NDK gap already blocking the native SIP core). Reuses
+  MJOLNIR's own established WebView-in-a-native-Activity pattern. JetBrains Mono (SIL OFL)
+  bundled locally as real `.woff2` files, not CDN-loaded. CarePyre commit `c459907`.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-124455: `/plan` — dial screen, incoming call screen, config screen.** All three
+  shipped as one real, working single-page app: Dial (12-key keypad, number display, call/
+  backspace, demo-labeled simulate-incoming-call), Incoming Call (caller placeholder, accept/
+  decline), Config (SIP account fields, saved to `localStorage` on-device, password excluded
+  pending real secure storage). No real SIP signaling wired in yet — named, honest hand-off
+  points (`placeCall`/`acceptCall`/`endCall`/`saveConfig`) for the native JNI bridge. CarePyre
+  commit `c459907`.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-24332: `/design` — CarePyre SIP Phone, make it look nice.** Real Claude Design
+  canvas of the three screens (CarePyre palette, JetBrains Mono, static mockups) published for
+  founder visual review: https://claude.ai/code/artifact/935808bf-007d-4ab2-a03a-1b2e3cee1241.
+  Apple #17910. CarePyre commits `c459907`, `f636ee2`.
+  (sess-20260905-0117-d84e3a4e)
