@@ -30056,3 +30056,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **SHITHUB-1244: I NEED AN ONLINE IDE WITH GIT AND FILE EDITING SO I CAN START TO WORK ON SOME BRAWLPIT CHANGES OUT OF BAND I DONT WANT TO DO IT IN GITHUB** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CLAUDE-ULTRA-1244: claude ultracode just mention ultracode** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
