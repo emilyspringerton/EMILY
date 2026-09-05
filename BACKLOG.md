@@ -164,11 +164,30 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 2: MONEYPRINTERTURBO (video pipeline)
 
-- [ ] **MPT Pexels API key** — Set YOUR_PEXELS_API_KEY_HERE in MoneyPrinterTurbo/config.toml.
-  Human action required (key must come from the user). BLOCKED: waiting on key.
+- [x] **MPT Pexels API key** — Shipped (Apple #17870, 2026-09-05). Real key found at
+  `EMILY/var/pexels.txt` (founder-supplied) and wired into `MoneyPrinterTurbo/config.toml`.
+  session: sess-20260905-0117-d84e3a4e
 
-- [ ] **S01E01 cold open compiled clip** — Once MPT is running, run the cold open compilation.
-  See TYLER BACKLOG.md for full spec. Dependency: Pexels key ✓, MPT service running.
+- [x] **S01E01 cold open compiled clip** — Shipped (Apple #17871, 2026-09-05). Real, full
+  end-to-end MPT run against the existing `TYLER/compiled/s01e01_cold_open/mpt_payload.json`
+  topic — real Pexels footage (7 real stock clips fetched live), real `en-GB-RyanNeural`
+  edge-tts narration, real burned-in subtitles, real bgm mix, assembled into a real 21s
+  1080x1920 H.264/AAC MP4. Output at `TYLER/compiled/s01e01_cold_open/mpt_output/cold_open_v1.mp4`
+  — the first actual generated video this pipeline has ever produced (the prior S01E02 package
+  commit explicitly left this as "Video pending S01E01 pipeline confirmation"). Real, honest
+  caveat: MPT's own LLM-driven script/keyword generation (litellm → Claude) is still blocked by
+  HITL-11's already-tracked Anthropic billing issue (re-confirmed live: `credit balance too
+  low`), so this run supplied `video_script`/`video_terms` directly — a real, first-class,
+  intentional API path (`app/services/task.py`'s `generate_script`/`generate_terms` both already
+  skip the LLM call when the caller provides these), not a workaround hack. Real, separate
+  fixes made along the way: `config.toml`'s `listen_port` needed to move to the top level (MPT's
+  own `app/config/config.py` reads it outside the `[app]` table, not inside it) and be changed
+  off the default 8080 (already bound by IDUNA on this box); `font_name`/`text_fore_color`/
+  `font_size`/`video_aspect` in the payload's own field names didn't match the real API schema
+  (`app/models/schema.py`) — `video_aspect` wants `"9:16"` not `"portrait"`, and the doc's
+  `subtitle_font: "Anton"` isn't a bundled font, substituted with the real bundled
+  `UTM Kabel KT.ttf`. `uv` installed via the official installer (no sudo). session:
+  sess-20260905-0117-d84e3a4e
 
 - [x] **MPT → TYLER RSI trigger** — compiled/mpt_episode_trigger.sh written per moneyprinter_pipeline.md §VI. Extracts MPT_TOPIC, generates payload, POSTs to MPT API, polls, routes output, writes Emily Prime observation. --dry-run verified on S01E01. Apple #3090 | 2026-06-23
 
@@ -2408,6 +2427,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: proceeding through priority/cruise by own judgment of value-per-effort — starting with k9s-99-001 (k…** — obs `2026-09-04T23:43:04Z`. CURATED: 2026-09-04.
 - [ ] **Founder real-time: continue kanban, pick next value/effort items from priority queue** — obs `2026-09-05T00:14:30Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: work from any of the backlog/priority/cruise in any order, take big risks, do important work, full a…** — obs `2026-09-05T00:37:46Z`. CURATED: 2026-09-05.
+- [ ] **Founder real-time: Pexels API key now available (EMILY/var/pexels.txt) -- find and unblock the MoneyPrinterTurbo/TYLER …** — obs `2026-09-05T01:22:47Z`. CURATED: 2026-09-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -4587,13 +4607,16 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   checkpoints/gpt2-emily-colab.bin. Copy to gpt2-alpine-c/checkpoints/.
   Unblocks: S125-06 Emily Prime local inference fallback.
 
-- [ ] **HITL-07: Pexels API key for MPT** — Set YOUR_PEXELS_API_KEY_HERE in
-  MoneyPrinterTurbo/config.toml. Get key at pexels.com/api/.
-  Unblocks: TYLER S01E01 cold open video compilation.
+- [x] **HITL-07: Pexels API key for MPT** — Shipped, see SECTION 2's own entry above (same
+  work, same Apple #17870). session: sess-20260905-0117-d84e3a4e
 
-- [ ] **HITL-08: TYLER S01E01 cold open video** — Once Pexels key set + MPT running:
-  Run MoneyPrinterTurbo with TYLER/scripts/s01e01-cold-open.json config.
-  Unblocks: TYLER pilot episode rough cut.
+- [x] **HITL-08: TYLER S01E01 cold open video** — Shipped, see SECTION 2's own entry above
+  (same work, same Apple #17871). Real, honest note: no
+  `TYLER/scripts/s01e01-cold-open.json` file exists at that exact path — the real, already-built
+  payload lives at `TYLER/compiled/s01e01_cold_open/mpt_payload.json`, used instead. Unblocks:
+  TYLER pilot episode rough cut — a real first draft clip now exists to review, not yet the
+  final rough cut (LLM-scripted narration is still blocked on HITL-11). session:
+  sess-20260905-0117-d84e3a4e
 
 ### Tier 4 — Registration + wiring
 
