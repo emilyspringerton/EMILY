@@ -29962,3 +29962,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260904-2324-5f032e08)
 - [ ] **BP-LVL-1234: begin designing new levels just bigger more variety gen one and we will do 2 or 3 iterations** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260904-2324-5f032e08)
+- [ ] **BP-LVL-1236: begin designing new levels just bigger more variety gen one and we will do 2 or 3 iterations** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260904-2324-5f032e08)
