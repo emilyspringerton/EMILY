@@ -28420,8 +28420,14 @@ only in `main.go`'s own startup wiring, not the client type itself).
   handler-side decrypt via the already-unlocked `Vault`, fails closed while locked, skips (not
   aborts on) one corrupted row. Live-verified against real prod `var/iduna.db`, redeployed.
   Unblocks S245-04's export button. session: sess-20260904-2324-5f032e08
-- [ ] **S245-03: make the email-provider integration (Mailchimp today) a real, per-instance,
-  admin-configurable setting — not an env var.** Real, decisive architectural fact: `IDUNA_PRO`'s
+- [x] **S245-03: make the email-provider integration (Mailchimp today) a real, per-instance,
+  admin-configurable setting — not an env var.** Shipped (Apple #17858, commit `534dd12`).
+  `GET`/`PUT /api/v1/mailing-list/settings/mailchimp` (new `mailinglist.admin` permission,
+  super_admin), new `mailchimp_settings` encrypted table, `resolveMailchimpClient` resolution
+  order (stored settings win when unlocked, falls back to env-var config otherwise —
+  `MailchimpClient` needed zero redesign, exactly as predicted below). Live-verified against real
+  prod DBs, redeployed. Unblocks S245-04's settings UI. session: sess-20260904-2324-5f032e08
+  Real, decisive architectural fact: `IDUNA_PRO`'s
   own real multi-tenancy model (per S243-06/07) is one full, separate PROCESS per tenant, each
   with its own DB — not one shared process serving many tenants' data out of one table. This
   means "multi-tenanting" the Mailchimp integration is NOT a hard per-request tenant-resolution
