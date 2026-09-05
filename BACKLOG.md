@@ -30477,3 +30477,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-OPS-939141: ok after you get it all sorted nice penelope is the only registered user do be a peach and register her as an admin** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **HITL-2434534325: GYM MEMBERSHIP** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
