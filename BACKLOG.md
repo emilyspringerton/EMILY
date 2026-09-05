@@ -30304,3 +30304,18 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **PBX-SRE-124533: iterate on the asterisk plan do the next unblocked step** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 260: PBX-SRE-124533 — AMI PHASE 3 SHIPPED (2026-09-05)
+
+- [x] **PBX-SRE-124533: iterate on the asterisk plan, do the next unblocked step.** Phase 2
+  (live round-trip against a real Asterisk instance) is still blocked on
+  `sudo-queue/50-install-asterisk-pbx.sh` not yet being run — identified Phase 3 (real AMI
+  action builders beyond Login) as the real, concrete next unblocked step, testable the same
+  wire-format-assertion way Phase 1 already is, no live instance needed. Shipped:
+  `build-originate-action`/`build-hangup-action`/`build-queue-status-action` in
+  `PARENA/stdlib/pbx/ami.prn`, real Asterisk-documented wire formats, same concat-chain shape
+  as `build-login-action`. Real event parsing needed zero new code (Phase 1's `parse-message`
+  already handles Events) — proven against a real `OriginateResponse` sample, not just claimed.
+  `make test-ami` passes, `make test` 345/345 zero regressions. Apple #17930. PARENA commits
+  `b644e3b`/`1995c26`.
+  (sess-20260905-0117-d84e3a4e)
