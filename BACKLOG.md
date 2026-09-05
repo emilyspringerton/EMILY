@@ -189,6 +189,17 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   `UTM Kabel KT.ttf`. `uv` installed via the official installer (no sudo). session:
   sess-20260905-0117-d84e3a4e
 
+- [x] **Founder real-time: run the full TYLER Season 1 through MoneyPrinterTurbo.** Shipped
+  (Apple #17874, 2026-09-05). All 5 episodes (S01E01–S01E05) now have a real generated cold-open
+  video at `TYLER/compiled/s01e0N/mpt_output/cold_open_v1.mp4` (+`.srt`), ~19–21s, 1080x1920
+  H.264/AAC, real Pexels footage + `en-GB-RyanNeural` narration + burned-in subtitles + bgm — all
+  verified with ffprobe. S01E02's own pre-existing payload only had `video_subject` (no
+  `video_script`/`video_terms`), so it hit the same HITL-11 LLM-billing block on the first
+  attempt; fixed by adding both fields to that file for real, permanent reuse. S01E03/04/05 had
+  no prior payload at all — wrote a new `mpt_payload.json` for each with an original short
+  present-tense topic summary (same real bypass path S01E01 already proved out). TYLER commit
+  `8a609d8`. session: sess-20260905-0117-d84e3a4e
+
 - [x] **MPT → TYLER RSI trigger** — compiled/mpt_episode_trigger.sh written per moneyprinter_pipeline.md §VI. Extracts MPT_TOPIC, generates payload, POSTs to MPT API, polls, routes output, writes Emily Prime observation. --dry-run verified on S01E01. Apple #3090 | 2026-06-23
 
 ---
