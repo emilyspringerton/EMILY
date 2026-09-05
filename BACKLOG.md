@@ -30029,3 +30029,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260904-2324-5f032e08)
 - [ ] **BP-LVL-1237: begin designing new levels just bigger more variety gen one and we will do 2 or 3 iterations** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260904-2324-5f032e08)
+- [ ] **SEC-1244: secirity keys and backups for all accounts (GMAIL)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
