@@ -30134,3 +30134,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-OPS-1244: CP SIP PHONE SHOULD USE BAZEL** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **KB-XX-12442: controller controlled kanban** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
