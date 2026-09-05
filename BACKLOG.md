@@ -30474,3 +30474,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-SIP-4324324: SIP PHONE NEEDS DTMF DIAL TONES BOTH WHEN DIALING AND ALSO IN BAND WHILE IN A CALL VIA THE NUMBER PAD** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CAREPYRE-OPS-939141: ok after you get it all sorted nice penelope is the only registered user do be a peach and register her as an admin** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
