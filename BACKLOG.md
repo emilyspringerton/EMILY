@@ -30136,3 +30136,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-9911: Android APK should be in releases for CAREPYRE SIP PHONE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CP-SIP-129: README INSTRUCTIONS HOW TO INSTALL THE APK FROM THE RELEASES** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
