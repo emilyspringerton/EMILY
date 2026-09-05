@@ -30203,3 +30203,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SIP-124455: /plan we need some kind of config screen im guessing a dial screen .... what else an incoming call screen?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CP-SIP-24332: /design CAREPYRE SIP PHONE make it look nice** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
