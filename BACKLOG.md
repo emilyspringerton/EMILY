@@ -2460,6 +2460,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (rapid sequence): for CPP-124433/CPP-2144333 (CarePyre portal/console), pivoted architecture mid-buil…** — obs `2026-09-05T05:18:18Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: what is the proper SRE way to get Asterisk running, it's gotta go on the same IDUNA box, do we just …** — obs `2026-09-05T05:07:07Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: 'ok we have a platform we have a pbx we have a sip phone do all the plumbing while i sign up for twi…** — obs `2026-09-05T05:51:20Z`. CURATED: 2026-09-05.
+- [ ] **when oduna is down unified logging isnt really useful to debug iduna because unified logging is powered by iduna we nee…** — obs `2026-09-05T07:26:51Z`. CURATED: 2026-09-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
