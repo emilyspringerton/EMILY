@@ -30232,3 +30232,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **PBX-SRE-12442: what is the proper SRE way to get ASTERISK running i think its gotta go on our same iduna box everything is on for now do you just wanna yolo install it until we dev our own?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CP-DOCS-12442: carepyre docs write a doc about how to install the APK onto an android from releases link to it from the README** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
