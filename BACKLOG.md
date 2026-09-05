@@ -28435,10 +28435,13 @@ only in `main.go`'s own startup wiring, not the client type itself).
   own encrypted store (reusing S245-01's vault), settable through a real admin API/UI, instead of
   requiring a redeploy with new env vars to change it. `MailchimpClient` itself needs zero
   redesign for this — it already takes `APIKey`/`ListID` as real, per-instance fields.
-- [ ] **S245-04: "consoleify" — a real settings page in IDUNA_PRO's own admin surface.** A real
-  UI (likely alongside the kanban board's own `/admin/*` surface, S243-08) to: view subscriber
-  count/sync status, configure the provider (S245-03), trigger an export (S245-02). Blocked on
-  S245-01/02/03 existing as real APIs first — this is the visible front end for them.
+- [x] **S245-04: "consoleify" — a real settings page in IDUNA_PRO's own admin surface.** Shipped
+  (Apple #17860, commit `c6fcf41`). Real page at `/admin/mailing-list`, alongside the kanban
+  board's own `/admin/*` surface (S243-08) — real subscriber count/sync status
+  (`Store.SyncedCount` + `AdminSummary`), Mailchimp settings form (reuses S245-03 as-is), CSV/JSON
+  export links (reuses S245-02). Fixed a real pre-existing dead `/admin` link on the kanban page
+  along the way. Live-verified booting the real binary. Closes out the full S245 chain
+  (S245-01 through S245-05). session: sess-20260904-2324-5f032e08
 - [x] **S245-05: extract `internal/mailinglist` into `IDUNA_PRO` itself.** Shipped (Apple #17859,
   commit `f19382f`). Copied verbatim (zero cross-imports); generalized the two real
   EINHORN-specific parts named below (`AllowOrigin` → `MAILING_LIST_ALLOW_ORIGIN` env,
