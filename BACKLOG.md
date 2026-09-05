@@ -30121,7 +30121,7 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CLAUDE-ULTRA-1244: claude ultracode just mention ultracode** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CP-SIP-123: CAREPYRE SIP PHONE SHOULD HAVE ARTIFACTS** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SIP-124: CAREPYRE SIP PHONE SHOULD HAVE RELEASES** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-123: CAREPYRE SIP PHONE SHOULD HAVE ARTIFACTS** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
