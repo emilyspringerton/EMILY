@@ -30153,8 +30153,6 @@ session: sess-20260904-2324-5f032e08
   not a two-box SSH deploy). Recommendation only — no Ansible/Terraform installed, nothing run
   against the real box. Apple #17901. CarePyre commit pending.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CP-SIP-CONTINUE: WE MAY NEED TO USE WEB TECHNOLOGIES FOR THE INTERFACE IF WE WANT TO GET IT UP AND RUNNING SUPER FAST TO ITERATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [x] **CP-OPS-1244: CP SIP PHONE SHOULD USE BAZEL** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-129: README INSTRUCTIONS HOW TO INSTALL THE APK FROM THE RELEASES** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -30204,4 +30202,6 @@ session: sess-20260904-2324-5f032e08
 - [ ] **CP-SIP-24332: /design CAREPYRE SIP PHONE make it look nice** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-CONTINUE-123: build out simple sip phone interfaces inside CAREPYRE SIP PHONE APP using parena and parena UX UI I DUNNO CAN WE USE THE NICE JET BRAINS FONT?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-CONTINUE: WE MAY NEED TO USE WEB TECHNOLOGIES FOR THE INTERFACE IF WE WANT TO GET IT UP AND RUNNING SUPER FAST TO ITERATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
