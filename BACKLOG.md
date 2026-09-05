@@ -30414,8 +30414,6 @@ Commits: IDUNA_PRO `0027b4c`/`c055497`, CarePyre `4b628e9`, PARENA `050445b` (a 
 the PARENA doc was rejected by GitHub's own push protection for an accidentally-included real
 Twilio Account SID — fixed by redacting it and re-committing before the successful push; the
 Account SID itself was never actually exposed on GitHub).
-- [ ] **CAREPYRE-9311: CAREPYRE what other google voice grand central features can we add? like voicemail right? hitting a button to start recording a call? (this call is being recorded)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-535454: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE SIPPHONE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-994994: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE CONSOLE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -30429,4 +30427,6 @@ Account SID itself was never actually exposed on GitHub).
 - [ ] **CAREPYRE-42143124: how batteries included can we make the qr code onboarding with the sip phone? get it working for what we have going so far and we will expand the platform after we get the initial  POC end to end** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CAREPYER-4143: CAREPYRE BROWSER PHONE (REMEMBER U USED TO BE ABLE TO CALL FROM GOOGLE VOICE?)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CAREPYRE-9311: CAREPYRE what other google voice grand central features can we add? like voicemail right? hitting a button to start recording a call? (this call is being recorded)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
