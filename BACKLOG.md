@@ -30563,3 +30563,20 @@ EMILY `482b8f7f` (golden-index).
   content area via flexbox. Static-only change, deployed live directly (no backend rebuild
   needed). Apple #18078. CarePyre commit `172c1cf`.
   (sess-20260905-0720-ec33e7c5)
+
+- [ ] **MONOREPO-ASTERISK-AOR-1: Run sudo-queue/70 to fix empty aors= on live Asterisk endpoints
+  1000/1000web.** Founder tried the SIP phone's "register from URL" flow: "Registering.. for a
+  long time then failed." Root-caused via a live SIP digest-auth REGISTER probe run from an
+  external box against production Asterisk: auth succeeds, but the registrar rejects with 404 --
+  `/var/log/asterisk/messages.log` shows `AOR '' not found for endpoint '1000'` (and the same for
+  `1000web`). The live deployed `pjsip_carepyre_phone.conf`/`pjsip_carepyre_webphone.conf` have
+  an empty `aors=` value for both endpoints even though this repo's own checked-in templates
+  correctly say `aors=carepyre-phone-aor`/`aors=carepyre-webphone-aor` -- real config drift on
+  the box, not a code bug. `sudo-queue/70-fix-asterisk-empty-aors.sh` backs up both live files,
+  patches just the broken line, reloads PJSIP, and verifies -- not yet run (needs the founder's
+  own interactive sudo session). Honest caveat carried into that script's own output: an earlier
+  session separately found raw UDP SIP from a real mobile network may be blocked outside this
+  box entirely (why the WebRTC webphone exists as a fallback) -- this fix addresses the
+  definite, confirmed AOR bug, not necessarily every possible network-path issue. Apple #18082.
+  MONOREPO commit `12ea086`.
+  (sess-20260905-0720-ec33e7c5)
