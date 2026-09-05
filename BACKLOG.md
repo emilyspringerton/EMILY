@@ -30286,3 +30286,5 @@ session: sess-20260904-2324-5f032e08
   linked from `README.md`'s own short pointer section. Apple #17922. CarePyre commits
   `c3718de`/`84fd0e4`.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **PBX-SRE-124533: iterate on the asterisk plan do the next unblocked step** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
