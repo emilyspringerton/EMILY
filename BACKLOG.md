@@ -30468,3 +30468,5 @@ Account SID itself was never actually exposed on GitHub).
 
 Commits: PARENA `4132bf9`/`a3685fd`/`87d77db`, CarePyre `c034f65`, MONOREPO `4891c2e`/`963033c`,
 EMILY `482b8f7f` (golden-index).
+- [ ] **CAREPYRE-245435: FINISH THE SIPPHONE IT NEEDS TO ACTUALLY WORK PLUMB IT** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260810-0505-a53abca2)
