@@ -30319,3 +30319,5 @@ session: sess-20260904-2324-5f032e08
   `make test-ami` passes, `make test` 345/345 zero regressions. Apple #17930. PARENA commits
   `b644e3b`/`1995c26`.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CP-SRE-1255333: ok we have a platform we have a pbx we have a sip phone do all the plumbing while i sign up for twillio** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
