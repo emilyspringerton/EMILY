@@ -30421,3 +30421,5 @@ Twilio Account SID — fixed by redacting it and re-committing before the succes
 Account SID itself was never actually exposed on GitHub).
 - [ ] **CAREPYRE-9311: CAREPYRE what other google voice grand central features can we add? like voicemail right? hitting a button to start recording a call? (this call is being recorded)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CAREPYRE-535454: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE SIPPHONE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
