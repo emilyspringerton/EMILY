@@ -30364,8 +30364,6 @@ session: sess-20260904-2324-5f032e08
   sip-accounts/me correctly 404s pre-assignment). Apple #17937. IDUNA_PRO commits
   `dfc9625`/`1d8a345`, CarePyre commits `2a4d898`/`479affb`.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **TWILLIO-OPS-12433: TWILLIO COMPLIANCE PROFILE CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-242414: ok im going to assume there is a god key and we can do all of the operations from the carepyre console side can you prepare the affordances and config screens and user roles iam etc we need to get the** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-1243445: /plan we are going to want to provision a new number and get it hooked up to our sip phone that we downloaded we are going to want to have qr codes help with the onboarding** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -30428,4 +30426,6 @@ Account SID itself was never actually exposed on GitHub).
 - [ ] **CAREPYRE-ADMIN-124323: IDUNAPRO admin accounts have the chicken and egg problem i need an admin account to create admin accounts how do we achieve admin genesis? garybifrost@gmail.com set him up an admin account and put the** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-911343: PARENA CODEC AND ALL THE SIP PLUMBING TO MAKE THE SIP PHONE WORK** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **TWILLIO-OPS-12433: TWILLIO COMPLIANCE PROFILE CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
