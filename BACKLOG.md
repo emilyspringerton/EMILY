@@ -28439,7 +28439,13 @@ only in `main.go`'s own startup wiring, not the client type itself).
   UI (likely alongside the kanban board's own `/admin/*` surface, S243-08) to: view subscriber
   count/sync status, configure the provider (S245-03), trigger an export (S245-02). Blocked on
   S245-01/02/03 existing as real APIs first — this is the visible front end for them.
-- [ ] **S245-05: extract `internal/mailinglist` into `IDUNA_PRO` itself.** S243-06's own original
+- [x] **S245-05: extract `internal/mailinglist` into `IDUNA_PRO` itself.** Shipped (Apple #17859,
+  commit `f19382f`). Copied verbatim (zero cross-imports); generalized the two real
+  EINHORN-specific parts named below (`AllowOrigin` → `MAILING_LIST_ALLOW_ORIGIN` env,
+  per-product `MailchimpLists` dropped from the extracted core). Brought S245-01/02/03 along in
+  the same pass. Live-verified: fresh-SQLite boot, both new permissions present, `/health` OK.
+  Unblocks S245-04. session: sess-20260904-2324-5f032e08
+  S243-06's own original
   categorization listed this package as "leave behind, custom" — real, honest correction once
   S245-01 exists: the ONLY EINHORN-specific parts are `main.go`'s own hardcoded `AllowOrigin`
   (okemily.com) and per-product Mailchimp list-ID env vars, both real, ordinary config values,
