@@ -30551,3 +30551,15 @@ EMILY `482b8f7f` (golden-index).
   end-to-end probe: the encryption endpoint went from a bogus 404 to the correct 428 "not
   connected"). Apple #18074. MONOREPO commit `80fe071`.
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **CAREPYRE-CONSOLE-REFRESH-2: Mail view didn't match the approved /design mockup.**
+  Founder, after seeing the deployed refresh: "this page doesnt really look like the mockup can
+  we make it look more like the mockup?" Root cause: the two-pane mail UI was wrapped in the
+  same generic `.card` used for simple settings forms, and a global 960px content cap centered
+  everything -- on a wide viewport this produced a small floating card with huge empty gutters,
+  nothing like the mockup's edge-to-edge composition. Fixed: removed the global cap (SIP/Account
+  pages get their own `.narrow-card` max-width instead); mail's two-pane view is now a flush
+  panel (single divider between list/reading panes, no outer card shadow) filling the full
+  content area via flexbox. Static-only change, deployed live directly (no backend rebuild
+  needed). Apple #18078. CarePyre commit `172c1cf`.
+  (sess-20260905-0720-ec33e7c5)
