@@ -30372,3 +30372,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **TWILLIO-API-124: truly god key can manage api keys and sub accounts so that may be pretty useful for us but maybe not immediately we just need the key for the functionality discussed EMILY/var/twillio** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CAREPYER-4143: CAREPYRE BROWSER PHONE (REMEMBER U USED TO BE ABLE TO CALL FROM GOOGLE VOICE?)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
