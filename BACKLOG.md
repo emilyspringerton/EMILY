@@ -28413,12 +28413,12 @@ only in `main.go`'s own startup wiring, not the client type itself).
   clearly-named alternate `Vault` construction path (e.g. `NewVaultFromKeyFile`), the existing
   passphrase path untouched — EINHORN's own instance keeps its current paranoid model, a product
   tenant opts into the simpler one.
-- [ ] **S245-02: a real export endpoint/command for the local `Store`.** Confirmed: `Store` is
-  already the real, durable, local record — but there's no existing way to actually decrypt and
-  dump it (checked: no `Export`-shaped function anywhere in `internal/mailinglist/store.go`
-  today). Real, concrete, bounded: a real `GET /api/v1/mailinglist/export` (CSV or JSON), gated
-  behind a real permission, decrypting each stored subscriber via the unlocked vault. This is
-  the literal, direct answer to "saves your list in IDUNA in case you need to export it later."
+- [x] **S245-02: a real export endpoint/command for the local `Store`.** Shipped (Apple #17856,
+  commit `3a50395`). `GET /api/v1/mailing-list/export` (`?format=csv|json`), gated behind a new
+  dedicated `mailinglist.export` permission (super_admin), new `Store.ListForExport` +
+  handler-side decrypt via the already-unlocked `Vault`, fails closed while locked, skips (not
+  aborts on) one corrupted row. Live-verified against real prod `var/iduna.db`, redeployed.
+  Unblocks S245-04's export button. session: sess-20260904-2324-5f032e08
 - [ ] **S245-03: make the email-provider integration (Mailchimp today) a real, per-instance,
   admin-configurable setting — not an env var.** Real, decisive architectural fact: `IDUNA_PRO`'s
   own real multi-tenancy model (per S243-06/07) is one full, separate PROCESS per tenant, each
