@@ -30197,11 +30197,11 @@ session: sess-20260904-2324-5f032e08
   requested manual "⟳ Refresh" button. `go test ./...` clean; IDUNA service rebuilt and restarted
   live. Apple #17907. IDUNA commits `60b5afa`, `b23bd8d`.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CP-SIP-124455: /plan we need some kind of config screen im guessing a dial screen .... what else an incoming call screen?** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SIP-24332: /design CAREPYRE SIP PHONE make it look nice** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-CONTINUE-123: build out simple sip phone interfaces inside CAREPYRE SIP PHONE APP using parena and parena UX UI I DUNNO CAN WE USE THE NICE JET BRAINS FONT?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-CONTINUE: WE MAY NEED TO USE WEB TECHNOLOGIES FOR THE INTERFACE IF WE WANT TO GET IT UP AND RUNNING SUPER FAST TO ITERATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-124455: /plan we need some kind of config screen im guessing a dial screen .... what else an incoming call screen?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
