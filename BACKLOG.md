@@ -30423,3 +30423,5 @@ Account SID itself was never actually exposed on GitHub).
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-535454: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE SIPPHONE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CAREPYRE-994994: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE CONSOLE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
