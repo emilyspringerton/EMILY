@@ -30341,3 +30341,5 @@ session: sess-20260904-2324-5f032e08
   `#include`, not destructive, not yet run, needs real root. Apple #17934. PARENA commits
   `54cb407`/`bfbcf40`, MONOREPO commit `dabd844`.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CP-SIP-242414: ok im going to assume there is a god key and we can do all of the operations from the carepyre console side can you prepare the affordances and config screens and user roles iam etc we need to get the** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
