@@ -30429,3 +30429,5 @@ Account SID itself was never actually exposed on GitHub).
   (sess-20260905-0117-d84e3a4e)
 - [x] **TWILLIO-OPS-12433: TWILLIO COMPLIANCE PROFILE CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CAREPYRE-42143124: how batteries included can we make the qr code onboarding with the sip phone? get it working for what we have going so far and we will expand the platform after we get the initial  POC end to end** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
