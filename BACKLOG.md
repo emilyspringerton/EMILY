@@ -2451,6 +2451,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue kanban, pick next value/effort items from priority queue** — obs `2026-09-05T00:14:30Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: work from any of the backlog/priority/cruise in any order, take big risks, do important work, full a…** — obs `2026-09-05T00:37:46Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: Pexels API key now available (EMILY/var/pexels.txt) -- find and unblock the MoneyPrinterTurbo/TYLER …** — obs `2026-09-05T01:22:47Z`. CURATED: 2026-09-05.
+- [ ] **Founder real-time: write up a plan for standing up a Stalwart email server in Google Cloud** — obs `2026-09-05T02:14:18Z`. CURATED: 2026-09-05.
+- [ ] **Founder real-time: build a SIP phone Android app for CarePyre using PARENA, keep it in the CarePyre repo for now** — obs `2026-09-05T02:11:37Z`. CURATED: 2026-09-05.
+- [ ] **Founder real-time: build a TYLER video gallery page adapting the Reading Room's design; deployed live to okemily.com/ty…** — obs `2026-09-05T02:10:15Z`. CURATED: 2026-09-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
