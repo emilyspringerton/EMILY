@@ -30131,8 +30131,6 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **CPMAIL-114: scope the stalwart email server hosting is it better to pay out of pocket to be on linode (sounds better on paper than our soverign email data is in google) or is it fine to put it on google clou** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CP-OPS-1244: CP SIP PHONE SHOULD USE BAZEL** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [ ] **KB-XX-12442: controller controlled kanban** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-9911: Android APK should be in releases for CAREPYRE SIP PHONE** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -30160,4 +30158,6 @@ session: sess-20260904-2324-5f032e08
 - [ ] **CP-SIP-CONTINUE-123: build out simple sip phone interfaces inside CAREPYRE SIP PHONE APP using parena and parena UX UI I DUNNO CAN WE USE THE NICE JET BRAINS FONT?** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SIP-CONTINUE: WE MAY NEED TO USE WEB TECHNOLOGIES FOR THE INTERFACE IF WE WANT TO GET IT UP AND RUNNING SUPER FAST TO ITERATE** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-OPS-1244: CP SIP PHONE SHOULD USE BAZEL** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
