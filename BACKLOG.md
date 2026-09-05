@@ -30430,3 +30430,5 @@ Account SID itself was never actually exposed on GitHub).
   (sess-20260905-0117-d84e3a4e)
 - [x] **CAREPYRE-994994: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE CONSOLE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CAREPYRE-5435439434: making calls from our carepyre android sip phone i know its going to take a bit of finesse we want to make calls from our softphone the config needs to be magical and automatic as much as is reaonable** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
