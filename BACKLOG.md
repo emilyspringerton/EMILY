@@ -29727,7 +29727,12 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   the Item Builder page already: `apps2/mud` only loads `items.json` once, at startup, so a GUI
   edit needs a process restart to take effect. A real reload mechanism (matching the `S251-01`/
   `S251-06` `SIGHUP` precedent) would let Item Builder edits go live without a restart.
-- [ ] **S251-09: fix `itemdef.Registry.ByName`'s space-vs-hyphen mismatch.** Real, found-live bug
+- [x] **S251-09: fix `itemdef.Registry.ByName`'s space-vs-hyphen mismatch.** Shipped (Apple
+  #17866, commit `fa8b62d`). New `nameKey` helper normalizes both the stored and lookup keys
+  (spaces → hyphens), leaving `ItemDef.Name` untouched for display — the safer of the two options
+  this card named. New test `TestByName_HyphenatedMultiWordName`. session:
+  sess-20260904-2324-5f032e08
+  Real, found-live bug
   (not fixed when found): multi-word item names (`"Earth Crystal"`) register a lowercased key
   with a SPACE (`"earth crystal"`), but the shop's own item-ID convention is hyphenated
   (`"earth-crystal"`) — `ByName("earth-crystal")` never matches. Real fix: either normalize
@@ -29735,12 +29740,18 @@ below is real, remaining, not-yet-built work, in the real dependency order it ne
   every multi-word item's own `Name` field to match its real shop-facing ID — a real, load-bearing
   decision about which convention is canonical, not obvious which one to pick without checking
   every real call site that keys off `Name` first.
-- [ ] **S251-10: fix the `eat` command's `args[1]`/`args[0]` bug.** Real, found-live bug: `case
+- [x] **S251-10: fix the `eat` command's `args[1]`/`args[0]` bug.** Shipped (Apple #17866, commit
+  `fa8b62d`) — now matches `use`'s own already-correct pattern. session:
+  sess-20260904-2324-5f032e08
+  Real, found-live bug: `case
   "eat":` checks `len(args) < 2` then calls `cmdEat(p, args[1])`, but `args[0]` is the actual
   item-id — a single-word `eat potion` always misses and hits the usage error. Real fix: change
   to `len(args) < 1` and `cmdEat(p, args[0])`, matching every other single-argument command's own
   real convention (`cmdGo(p, args[0])`, etc.).
-- [ ] **S251-11: fix Leather Gloves/Spiked Knuckles' un-hyphenated `equip_slots`.** Real,
+- [x] **S251-11: fix Leather Gloves/Spiked Knuckles' un-hyphenated `equip_slots`.** Shipped
+  (Apple #17866, commit `fa8b62d`) — both rows corrected to `"hand-l"`/`"hand-r"`. session:
+  sess-20260904-2324-5f032e08
+  Real,
   found-live bug: `data/items.json` ids 103 and 115 use `equip_slots:["handl","handr"]` (no
   hyphen), but `server/gear.AllSlots`'s own real canonical values are `"hand-l"`/`"hand-r"`
   (hyphenated) — neither item has ever been equippable as authored. Real fix: correct the two
