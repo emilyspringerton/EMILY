@@ -2464,6 +2464,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok we have a platform we have a pbx we have a sip phone do all the plumbing while i sign up for twi…** — obs `2026-09-05T05:51:20Z`. CURATED: 2026-09-05.
 - [ ] **when oduna is down unified logging isnt really useful to debug iduna because unified logging is powered by iduna we nee…** — obs `2026-09-05T07:26:51Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: start working on Stalwart mail server detail — Terraform + Ansible. Found while starting: farthq.com…** — obs `2026-09-05T17:04:23Z`. CURATED: 2026-09-05.
+- [ ] **Founder real-time: provision Stalwart mail accounts from the CarePyre admin console. Scope decision: admin-only for now…** — obs `2026-09-05T19:54:36Z`. CURATED: 2026-09-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
