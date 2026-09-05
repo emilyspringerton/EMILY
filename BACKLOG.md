@@ -29030,7 +29030,23 @@ session: sess-20260902-2008-ed50169e
   scratch-built, same judgment this session's own "remove FFI from net parena" Q&A already made).
   PARENA commit `738f7c5`. Apple #17480. Planning only — no code written, matching the card's own
   literal "do research and planning" framing. (sess-20260902-2008-ed50169e)
-- [ ] **CPBOOT-002: stand up stalwart mail server in google cloud** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **CPBOOT-002: stand up stalwart mail server in google cloud** Plan written (Apple #17882,
+  CarePyre commit `dd7f544`), 2026-09-05, founder real-time: "stalwart email server in google
+  cloud write up the plan." Real sequel to `EMAIL_NORTHSTAR.md`'s already-done "why Stalwart"
+  research — see `CarePyre/docs/STALWART_GCP_DEPLOYMENT_PLAN.md` for the full plan (dedicated GCP
+  infra, SQLite backend, staff-provisioned v0, e2-small Compute Engine + static IP + PTR-record
+  request + Stalwart's own ACME/DNS auto-publish). Real sub-tickets for the actual build, none
+  started — this card's own "write up the plan" ask is done, the deploy itself is separate,
+  later, live-money/live-DNS work:
+  - [ ] **CPBOOT-002a: GCP foundation** — project, static IP, Compute Engine VM, firewall rule,
+    file the PTR-record request (longest real lead time).
+  - [ ] **CPBOOT-002b: Stalwart install + DNS** — install on the VM, point/delegate `carepyre.org`
+    DNS at a new GCP Cloud DNS zone, confirm Stalwart's own MX/SPF/DKIM/DMARC auto-publish + ACME
+    cert issuance.
+  - [ ] **CPBOOT-002c: real end-to-end proof** — one staff-provisioned test mailbox, a real
+    message sent/received each direction against an external provider (Gmail/Outlook), DKIM/SPF/
+    DMARC all passing on the receiving end.
+  session: sess-20260905-0117-d84e3a4e
   (sess-20260902-2008-ed50169e)
 - [x] **PC-06667: PAPERCRAFT ENGINE normal maps north star** Real, scoped (Principle 19): new `PAPERCRAFT/docs/NORTHSTAR_NORMAL_MAPS.md`. Real, checked-live finding: `apps/client/src/main.c` is deliberately legacy fixed-function OpenGL with CPU-side per-face cel-shading (S231), no shaders, no texture mapping of any kind today. Decisive correction to an initial assumption: `paper_mesh.h` DOES compute real per-face UVs, but only for the paper-fragment subdivision grid, never fed to `glTexCoord2f` — zero prerequisite infrastructure for normal maps exists. Names the real architectural fork as a founder-level decision: pivot to a modern GLSL shader pipeline vs. stay fixed-function via `GL_ARB_texture_env_dot3`/`_combine` DOT3 bump mapping. Real 4-phase plan: Phase 0 plain diffuse texture mapping (the real shared prerequisite either path needs), Phase 1 the shader-vs-DOT3 fork itself, Phase 2 normal map asset pipeline, Phase 3 integrating per-pixel lighting into the existing cel-shading bands. No rendering code written — planning only. Registered as golden doc `PC-NORMALMAPS-NORTH`. Real, found-live, NOT fixed here: could not append `PAPERCRAFT/CHANGELOG.md` — same pre-existing ACL bug (owner `treeiii`, mask caps `fatbaby` to read-only) already queued in `sudo-queue/46-fix-papercraft-changelog-acl.sh`, still not run. PAPERCRAFT commit `2a9db11`. Apple #17603. (sess-20260902-2008-ed50169e)
   (sess-20260902-2008-ed50169e)
@@ -29730,7 +29746,28 @@ Real sub-tasks returned per Principle 19's own scoping of `BPHS-00001` (see abov
 - [x] **BRAWLPIT physics.h readability pass** — founder real-time, direct hands-on hacking on `physics.h`: "the control flow is fucking terrible... a crazy gauntlet of ifs the code just is totally unreadable" / "remove all the crazy comments i dont need ticket numbers on every line of code" / "express yourself with the code." Extracted `update_entity`'s 15-branch special-move else-if chain into a standalone `dispatch_special_move` function — one guard clause per branch with an early return instead of an accumulating else-if chain (same behavior, conditions were already mutually exclusive). Renamed two overloaded `PlayerState` fields that read as bugs: `turnip_cooldown` → `special_b_cooldown` (also gates Medusa/Second Tree/Uncrowned/Vexar's specials, not just turnip throws) and `dodge_cooldown` → `dash_cooldown` (also gates Raccoon's specials and Rosie's High Score Rush, not just wavedash). Stripped ticket-number/lore comment bloat throughout the file down to real gotchas only. Mid-task, the founder made a direct edit to `main` via GitHub's web editor that introduced real syntax errors (missing `||`, a malformed `else if`, a stray character, an undefined variable) while trying to make Vexar's Relic Warp usable airborne — real, honest incident: local uncommitted refactor work was backed up to scratchpad, `git reset --hard origin/main` adopted the founder's own commits as the real base, then the clean refactored files were restored and the founder's actual intent (Vexar's Relic Warp airborne, retuned to 28.4 units) was correctly implemented on top. New `test_vexar_relic_warp_airborne`; all 12 physics tests pass, `apps/server` builds clean against the renamed fields. BRAWLPIT commit `1071eb0`. Apple #17629.
 - [ ] **GFD-OPTIM-000: GFD rip out the dragonfly stuff we need a custom engine that just works on flat grounds and terrains we dont need it editable terrain for this version** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260902-2008-ed50169e)
-- [ ] **SIP-0001: develop simple sip app android MVP give us something we can iterate from use parena and java ffi escape hatch when needed** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **SIP-0001: develop simple sip app android MVP give us something we can iterate from use
+  parena and java ffi escape hatch when needed** Scoped + Phase 1 shipped (Apple #17881, CarePyre
+  commit `dd7f544`), 2026-09-05, founder real-time: "CarePyre EPhone App - SIP PHONE on android
+  use parena - keep it in the CarePyre repo for now." Real foundation found: PARENA already has
+  tested `stdlib/sip/message.prn`/`sip/rtp.prn`. Real architecture: PARENA-C → shared library →
+  JNI (the literal "java ffi escape hatch"). See `CarePyre/docs/SIP_PHONE_ANDROID_NORTHSTAR.md`
+  for the full scoping. Real sub-tickets for the remaining phases:
+  - [x] **SIP-0001a: prove the PARENA→C→.so→JNI link.** Shipped —
+    `CarePyre/native/sip-jni-proof/`, verified live (a real JNI call returns a correct RFC 3261
+    REGISTER message). session: sess-20260905-0117-d84e3a4e
+  - [ ] **SIP-0001b: SDP body support** (new `sip/sdp.prn` or extend `message.prn`) — the real
+    blocking gap for negotiating a two-way audio session (RFC 4566).
+  - [ ] **SIP-0001c: minimal SIP transaction/dialog state** — enough to place and answer one real
+    call (calling → ringing → established → terminated), not the full RFC 3261 FSM.
+  - [ ] **SIP-0001d: G.711 codec + real RTP send/receive loop**, wired to Android's
+    `AudioRecord`/`AudioTrack` via the same JNI bridge `SIP-0001a` proved.
+  - [ ] **SIP-0001e: real Android app scaffold** (Gradle/Manifest/Activity/permissions) — blocked
+    on Android SDK access this sandbox doesn't have (same real constraint SPIDERBEETLE's own
+    NORTHSTAR already documented); build/verify on the founder's own machine or real CI.
+  - [ ] **SIP-0001f: a real SIP account/server to test end-to-end against** — human-supplied,
+    same pattern as the Pexels API key.
+  session: sess-20260905-0117-d84e3a4e
   (sess-20260902-2008-ed50169e)
 
 ## SECTION 251: GFD ITEM BUILDER — REMAINING SPRINT PLAN (2026-09-04)
