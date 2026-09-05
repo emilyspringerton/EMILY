@@ -30370,3 +30370,5 @@ session: sess-20260904-2324-5f032e08
   sip-accounts/me correctly 404s pre-assignment). Apple #17937. IDUNA_PRO commits
   `dfc9625`/`1d8a345`, CarePyre commits `2a4d898`/`479affb`.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **TWILLIO-OPS-12433: TWILLIO COMPLIANCE PROFILE CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
