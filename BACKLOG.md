@@ -2470,6 +2470,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: provision Stalwart mail accounts from the CarePyre admin console. Scope decision: admin-only for now…** — obs `2026-09-05T19:54:36Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: set up provisioning URL from the console for users under my sip, make the sip phone register with ju…** — obs `2026-09-05T20:17:48Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: minimal custom webmail in the console (found via a real question: non-admin console login had no way…** — obs `2026-09-05T20:54:33Z`. CURATED: 2026-09-05.
+- [ ] **Founder real-time: sending from webmail to gmail doesn't work, receiving does. Real root cause found live: Linode block…** — obs `2026-09-05T21:13:09Z`. CURATED: 2026-09-05.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
