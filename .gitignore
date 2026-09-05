@@ -30,6 +30,7 @@ var/*.env
 *.env.local
 var/pexels.txt
 var/cloudflare.md
+var/twillio
 
 # Runtime state subdirs
 context/var/
