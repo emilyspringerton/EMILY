@@ -200,6 +200,18 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   present-tense topic summary (same real bypass path S01E01 already proved out). TYLER commit
   `8a609d8`. session: sess-20260905-0117-d84e3a4e
 
+- [x] **Founder real-time: build a gallery for the TYLER cold-open videos off of the Reading
+  Room.** Shipped (Apple #17877, 2026-09-05). New page live at
+  `okemily.com/tyler/screening-room/`, adapting the Reading Room's exact design tokens
+  (warm off-white/gold documentary palette, Georgia/Cormorant Garamond serif, Inter sans labels,
+  light+dark auto). Drafted first via the Design canvas skill for review, then deployed for real
+  — the canvas itself can't embed actual video (no network egress, 16MB payload cap), so it used
+  placeholder play-button frames; the live page uses real `<video controls>` elements against
+  the 5 real Season 1 cold-open files. Reciprocal cross-link added between the Reading Room and
+  the Screening Room. No repo commit — `/var/www/okemily/tyler/` is a direct-deploy-only tree
+  with no git backing (checked), matching every other `/tyler/` episode page's own convention.
+  session: sess-20260905-0117-d84e3a4e
+
 - [x] **MPT → TYLER RSI trigger** — compiled/mpt_episode_trigger.sh written per moneyprinter_pipeline.md §VI. Extracts MPT_TOPIC, generates payload, POSTs to MPT API, polls, routes output, writes Emily Prime observation. --dry-run verified on S01E01. Apple #3090 | 2026-06-23
 
 ---
