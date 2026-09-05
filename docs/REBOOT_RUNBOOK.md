@@ -287,6 +287,48 @@ sequence numbering is monotonic and expects whole records only.
   manual with no guard against double-starting and double-writing to the
   append-only event stores.
 
+## Update 2026-09-05 — full home-config loss, not just a normal reboot
+
+A reboot this day was preceded by `~/.ssh`, `~/.gitconfig`, `~/.config/systemd/user`,
+`~/.local/bin`, and `~/go.work` all turning up **empty/missing** — not a normal reboot recovery,
+since none of the "should auto-start" units above had any unit file left to load. All *data*
+(git repos, `IDUNA/var/*.db`, `IDUNA/iduna-key.json` — the actual ES256 signing keypair) survived
+untouched; only home-scoped config/dotfiles were gone. Checked for intrusion (users, authorized_keys,
+cron, listening ports) — all clean; root logins all traced to one consistent residential/mobile IP.
+Read as an infra/home-reset event, not a compromise, but not root-caused with certainty from inside
+the box alone.
+
+Real new gotchas found doing full recovery from this state, not covered above:
+- **`~/go.work` is NOT git-tracked** (confirmed via `git log --all -- go.work`) — it's a
+  machine-local convenience file, gone for good on a home reset with no git backup. Recreate with
+  `go work init ./EMILY/emily-agent ./EDIS ./IDUNA ./PRRJECT_FATBABY ./emily.cli ./gpt2-alpine-c`
+  — note `gpt2-alpine-c` is a 6th real member, needed because `EMILY/emily-agent/enrichworker.go`
+  imports `gpt2-alpine-c/pkg/towerprint`; CLAUDE.md's own "5 modules" table predates this and is
+  stale. Without it, `emily-agent`'s daemon fails to `go run` at all with a confusing "not in std"
+  error, which reads like a code bug but is purely a missing workspace file.
+- **The REDGARDEN matchmaker/bot-pool unit files exist in 5 places** (`REDGARDEN/`, `ECOWAR/`,
+  `redgarden-deploy/`, `redgarden-stable/`, `fix/REDGARDEN/`) — only two are real: R&D units run
+  from `/home/fatbaby/REDGARDEN` itself, stable units from `/home/fatbaby/redgarden-stable` (check
+  each unit's own `WorkingDirectory=` to confirm, don't guess). `redgarden-deploy` is only
+  `auto_deploy.sh`'s own private CI-polling checkout (see its `DEPLOY_DIR` var) and never serves
+  live traffic; `ECOWAR`'s copies are fork leftovers (it has its own distinct
+  `ecowar-matchmaker`/`ecowar-bot-pool` units instead); `fix/REDGARDEN` is a scratch checkout.
+- **`gpt2-serve.service` needs Python `transformers`/`torch`** installed somewhere on the box (no
+  `requirements.txt` exists to pin versions) — if `~/.local` is what's wiped, these likely lived in
+  user site-packages there. Not reinstalled blind during this recovery (unclear size/version
+  pinning) — a deliberate, separate decision, not bundled into "just get services back."
+- **`~/.config/iduna/env` and `~/.config/idunapro/env` contents are NOT recoverable if lost** —
+  `JWT_SECRET`/`JWT_ISSUER`/`BASE_URL` have no backup anywhere found. Safe to regenerate
+  `JWT_SECRET` fresh (only used for the narrow device-auth flow) as long as the real ES256 keypair
+  (`IDUNA/iduna-key.json` / IDUNA_PRO's own equivalent) is confirmed intact first — that's the
+  actual trust root, not the env file.
+- **Git push breaks silently and system-wide if `~/.ssh` is wiped** — no private key, no
+  `known_hosts`. `ssh-keyscan -t ed25519,rsa github.com >> ~/.ssh/known_hosts` fixes host
+  verification, but a lost private key needs a **new keypair generated and its public half added
+  to GitHub by a human** — not something recoverable from inside the box. This also silently broke
+  IDUNA's own kanban-git auto-sync and `redgarden-auto-deploy.timer` (both retry-loop and fail
+  until the new key is registered).
+
 ## Known gaps, deliberately not auto-fixed
 
 - **Alerting env vars aren't wired into the systemd path.** `EMILY/var/emily-secrets.env`
