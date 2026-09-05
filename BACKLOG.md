@@ -30322,3 +30322,22 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SRE-1255333: ok we have a platform we have a pbx we have a sip phone do all the plumbing while i sign up for twillio** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 261: ASTERISK <-> TWILIO PLUMBING (2026-09-05)
+
+- [x] **"ok we have a platform we have a pbx we have a sip phone do all the plumbing while i
+  sign up for twillio."** Built real, deployable Asterisk PJSIP configuration connecting the
+  CarePyre SIP Phone extension to a real Twilio Elastic SIP Trunk (`PARENA/ops/asterisk/`):
+  `pjsip_carepyre_phone.conf` (extension 1000, real generated password at deploy time),
+  `pjsip_twilio_trunk.conf` (Twilio Elastic SIP Trunk, IP-ACL auth — this box's real, static
+  public IP `198.58.107.85`, confirmed live — all 8 real Twilio signaling regions as identify
+  matches, verified live against Twilio's own current published IP list), `extensions_carepyre.conf`
+  (E.164-formatted outbound/inbound dialplan). Config fields cross-checked against Twilio's own
+  official "Elastic SIP Trunking – Asterisk Configuration Guide" PDF
+  (`rewrite_contact`/`rtp_symmetric`/`dtmf_mode=rfc4733`), not guessed. New, real
+  `PARENA/docs/TWILIO_SETUP_CHECKLIST.md` — step-by-step Twilio Console instructions using this
+  box's own real values, ending in the one real value (Trunk Termination domain) needed to go
+  live. Deploy queued (`sudo-queue/52-carepyre-asterisk-plumbing-deploy.sh`) — additive
+  `#include`, not destructive, not yet run, needs real root. Apple #17934. PARENA commits
+  `54cb407`/`bfbcf40`, MONOREPO commit `dabd844`.
+  (sess-20260905-0117-d84e3a4e)
