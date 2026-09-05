@@ -30160,3 +30160,24 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-129: README INSTRUCTIONS HOW TO INSTALL THE APK FROM THE RELEASES** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 254: CARE PYRE SIP PHONE — PRIORITY QUEUE (2026-09-05)
+
+- [x] **CP-OPS-1244: CP SIP PHONE SHOULD USE BAZEL.** `native/sip-jni-proof/` now builds
+  hermetically under Bazel 9.2.0 — `MODULE.bazel`/`.bazelrc`/`.bazelversion` (matching PARENA's
+  own rules_cc layout), `native/sip-jni-proof/BUILD.bazel` builds `libcarepyre_sip.so` and runs
+  the real Java JNI smoke test via `@bazel_tools//tools/jdk:jni` against a hermetic
+  `remotejdk_21` (no system JDK needed, verified live — this sandbox has no `javac` on PATH at
+  all). `bazel build //...`/`bazel test //...` both pass clean; `.github/workflows/ci.yml`'s
+  `sip-jni-proof` job now runs through `bazel-contrib/setup-bazel` + `bazel build`/`bazel test`
+  instead of raw gcc/javac/java. `android/` (Gradle) deliberately stays outside Bazel — real
+  Android SDK/NDK needed, this sandbox's `dl.google.com` blocker (already documented) prevents
+  local verification. Apple #17906. CarePyre commit `3d7f3bb`.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-129: README INSTRUCTIONS HOW TO INSTALL THE APK FROM THE RELEASES.** Real
+  "Installing the SIP phone APK" section added to `README.md` — points at the repo's own
+  Releases page (auto-published every green `main` build), names the real asset
+  (`app-debug.apk`, confirmed against the live `v0.4.0` release), and is honest that this is an
+  unsigned debug build with no native SIP core wired in yet (no calls placeable). Kanban move
+  auto-filed its own completion Apple. CarePyre commit `ea15a51`.
+  (sess-20260905-0117-d84e3a4e)
