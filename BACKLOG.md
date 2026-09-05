@@ -30254,3 +30254,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CPP-124433: CAREPYRE PORTAL (LIKE IDUNA LOGIN BUT ITS A DIFFERNT PLATFORM) (CAREPYRE IS THE FIRST IDUNA PRO CUSTOMER WE WILL NEED TO SPLIT OUT BUT NOT NOW)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CPP-2144333: CAREPYRE CONSOLE MAKE IT LIKE THE IDUNA LOGIN AND BACKOFFICE EXPERIENCE BUT FOR CAREPYRE SEPARATE PLATFORM (WE RELY ON IDUNA) but we need a clean interface for meetings and demos etc** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
