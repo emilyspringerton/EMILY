@@ -30348,3 +30348,25 @@ session: sess-20260904-2324-5f032e08
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-1244543543: we are going to need the console screens for the admins and for the users of the platform to reset their password and see their sip information** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 262: CONSOLE PASSWORD RESET + SIP INFO SCREENS (2026-09-05)
+
+- [x] **CP-SIP-1244543543: "we are going to need the console screens for the admins and for the
+  users of the platform to reset their password and see their sip information."** Real,
+  found-live, GENERIC IDUNA_PRO gap fixed (not CarePyre branding): `PATCH /api/v1/users/{uid}`
+  already changed a password but required `users.admin` with no self-access carve-out (unlike
+  `GET /api/v1/users/{uid}`, which already allows `sub=local:{uid}`) — a regular local user had
+  no way to change their own password at all. Fixed with a new
+  `POST /api/v1/auth/change-password` (verifies the caller's own current password via bcrypt
+  first, reuses the existing `EventUserPasswordReset` event type). New `sip_accounts` table +
+  `GET/PUT/DELETE /api/v1/sip-accounts` — a real, honest v0 metadata mapping from a user to a
+  manually-provisioned Asterisk extension (self-read at `/me`; admin CRUD gated on
+  `users.admin`) — does not itself provision/reload Asterisk config, named as real, separate,
+  bigger future work. `console.html` gained a real "Change password" panel, a "Your SIP
+  account" panel (honest "not assigned yet" when unset), and an admin-only panel (shown when
+  `users.admin` is in the caller's own effective permissions) to assign extensions and reset any
+  user's password. `go test ./...` passes with new regression coverage. Live-verified against
+  the real, running deployment end to end (old password rejected after change, new one works;
+  sip-accounts/me correctly 404s pre-assignment). Apple #17937. IDUNA_PRO commits
+  `dfc9625`/`1d8a345`, CarePyre commits `2a4d898`/`479affb`.
+  (sess-20260905-0117-d84e3a4e)
