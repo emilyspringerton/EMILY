@@ -30320,9 +30320,6 @@ session: sess-20260904-2324-5f032e08
   `make test-ami` passes, `make test` 345/345 zero regressions. Apple #17930. PARENA commits
   `b644e3b`/`1995c26`.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CP-SRE-1255333: ok we have a platform we have a pbx we have a sip phone do all the plumbing while i sign up for twillio** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
-
 ## SECTION 261: ASTERISK <-> TWILIO PLUMBING (2026-09-05)
 
 - [x] **"ok we have a platform we have a pbx we have a sip phone do all the plumbing while i
@@ -30346,4 +30343,6 @@ session: sess-20260904-2324-5f032e08
 - [ ] **CP-SIP-1243445: /plan we are going to want to provision a new number and get it hooked up to our sip phone that we downloaded we are going to want to have qr codes help with the onboarding** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CP-SIP-1244543543: we are going to need the console screens for the admins and for the users of the platform to reset their password and see their sip information** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SRE-1255333: ok we have a platform we have a pbx we have a sip phone do all the plumbing while i sign up for twillio** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
