@@ -30523,3 +30523,31 @@ EMILY `482b8f7f` (golden-index).
   linked to any uid). Apple #18068 (observation), #18067 (completion). IDUNA_PRO commit
   `4de6c3c`, CarePyre commit `5150171`.
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **CAREPYRE-MAIL-ENCRYPT-1: Console-created mailboxes automatically encrypted at rest.**
+  Founder real-time: "all of the mailboxes that are created via the console need to be set
+  automatically to encrypted at rest." Real constraint verified LIVE against production
+  mail.carepyre.org before shipping (a throwaway probe account round-tripped end to end, then
+  cleaned up): Stalwart cannot encrypt anything until the account has a real OpenPGP public key
+  or S/MIME certificate on file -- there is no server-side switch, and IDUNA_PRO deliberately
+  does not generate a keypair on a user's behalf (would mean either handing over a private key
+  exactly once, easy to lose forever, or IDUNA_PRO keeping it, defeating the point). Built the
+  real ceiling of "automatic": `mailaccounts.Client.AddEncryptionKey` uploads a pasted key as a
+  real `x:PublicKey` then immediately enables `encryptionAtRest` referencing it (tries
+  AES-256-GCM first, falls back to AES-256 on Stalwart's own "OpenPGP key" rejection); new
+  `GET/POST /api/v1/mail/encryption` on `WebmailHandler` (same per-user client, so admin-linked
+  mailboxes work too via the reveal-password flow); Account page gets a status + paste-a-key
+  section. Apple #18075. IDUNA_PRO commit `f210969`, CarePyre commit `b732663`.
+  (sess-20260905-0720-ec33e7c5)
+
+- [x] **MONOREPO-DEPLOY-1: Fix 51-carepyre-console-idunapro-deploy.sh silently not restarting
+  idunapro.** Founder, after deploying the encryption feature above: "i see the option it says
+  HTTP 404 when i click on the option to unfurl it." Root cause: `systemctl --user enable --now`
+  does not restart an already-running service -- two separate deploys earlier the same day both
+  reported success but left the OLD binary (running since 20:50:35) serving every request the
+  whole time, so every backend change since then (including the earlier mail happy-path work)
+  was silently never live despite clean builds. Fixed the script to explicitly `restart`;
+  manually restarted the live service in-session to pick up current code (confirmed via a live
+  end-to-end probe: the encryption endpoint went from a bogus 404 to the correct 428 "not
+  connected"). Apple #18074. MONOREPO commit `80fe071`.
+  (sess-20260905-0720-ec33e7c5)
