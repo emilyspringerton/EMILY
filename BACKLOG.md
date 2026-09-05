@@ -30580,3 +30580,22 @@ EMILY `482b8f7f` (golden-index).
   definite, confirmed AOR bug, not necessarily every possible network-path issue. Apple #18082.
   MONOREPO commit `12ea086`.
   (sess-20260905-0720-ec33e7c5)
+
+- [ ] **MONOREPO-ASTERISK-AOR-2: Run sudo-queue/71 -- /70's fix was a no-op, real root cause
+  found.** Founder ran /70, then confirmed via a live re-test it was still broken ("ok i ran it
+  im not sure if its ready to test again?"). Re-verified live with a full SIP digest-auth
+  REGISTER probe: still 404. Root-caused for real this time by pulling Asterisk's own
+  `res_pjsip_registrar.c` source (`find_aor_name()`): the registrar requires an AOR's own
+  section NAME to literally equal the REGISTER request's username/`username@domain`/
+  `username@realm` -- it does not just use whichever single AOR an endpoint lists. A
+  descriptively-named AOR (`carepyre-phone-aor`) can never match either pattern, so registration
+  always 404'd regardless of the `aors=` value being "correct" -- explains why /70's fix
+  (patching a value that was never actually blank) did nothing. Fixed `PARENA/ops/asterisk/
+  pjsip_carepyre_phone.conf`/`pjsip_carepyre_webphone.conf` templates (AOR sections renamed to
+  `[1000]`/`[1000web]`, matching the standard Asterisk PJSIP convention). Wrote
+  `sudo-queue/71-fix-asterisk-aor-naming.sh` to apply the same rename to the live deployed files
+  and reload PJSIP -- critically, unlike /70, it verifies with a REAL end-to-end SIP REGISTER
+  attempt against the live server (not just a config dump), so it can't repeat /70's false
+  success. Not yet run (needs the founder's own interactive sudo session). Apple #18084. PARENA
+  commit `b1f9fbe`, MONOREPO commit `48beaff`.
+  (sess-20260905-0720-ec33e7c5)
