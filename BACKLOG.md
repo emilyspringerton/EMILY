@@ -30200,3 +30200,5 @@ session: sess-20260904-2324-5f032e08
   requested manual "⟳ Refresh" button. `go test ./...` clean; IDUNA service rebuilt and restarted
   live. Apple #17907. IDUNA commits `60b5afa`, `b23bd8d`.
   (sess-20260905-0117-d84e3a4e)
+- [ ] **CP-SIP-124455: /plan we need some kind of config screen im guessing a dial screen .... what else an incoming call screen?** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
