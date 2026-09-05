@@ -30181,3 +30181,22 @@ session: sess-20260904-2324-5f032e08
   unsigned debug build with no native SIP core wired in yet (no calls placeable). Kanban move
   auto-filed its own completion Apple. CarePyre commit `ea15a51`.
   (sess-20260905-0117-d84e3a4e)
+
+## SECTION 255: KANBAN "30 IN PRIORITY" CACHING REPORT — KBUX-CACHE-001 (2026-09-05)
+
+- [x] **Founder real-time: web kanban board shows 30 items in priority after moving a bunch of
+  cards to cruise, closed the tab — suspected a caching issue, asked for a refresh icon to do a
+  full cache clear.** Investigated for real before changing anything: cross-checked
+  `emily kanban list -queue priority` (CLI), the live `IDUNA/var/iduna.db` `kanban_cards` table
+  directly, and the unified event log (`iduna:kanban.card.move`/`.create`). **30 is real and
+  correct, not stale** — the event log shows a real bulk move of ~37 other cards from priority
+  to cruise at 2026-09-04T23:56:28Z that succeeded and is durable (cruise now holds 49); a
+  separate, untouched set of 30 cards stayed in priority the whole time, and later within-column
+  drag/sort activity on them (each reorder PATCHes every card in the column) produced a bursty,
+  repeated-move log signature that could look like cards jumping back in but never actually
+  crossed queues. No caching bug found in this specific incident. Hardened anyway, since none of
+  the kanban endpoints sent any `Cache-Control` header at all: added explicit `no-store`
+  server-side (page/cards/inbox), `cache: 'no-store'` on the board's own `fetch()` calls, and the
+  requested manual "⟳ Refresh" button. `go test ./...` clean; IDUNA service rebuilt and restarted
+  live. Apple #17907. IDUNA commits `60b5afa`, `b23bd8d`.
+  (sess-20260905-0117-d84e3a4e)
