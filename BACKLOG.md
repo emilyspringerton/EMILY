@@ -30338,8 +30338,6 @@ session: sess-20260904-2324-5f032e08
   `#include`, not destructive, not yet run, needs real root. Apple #17934. PARENA commits
   `54cb407`/`bfbcf40`, MONOREPO commit `dabd844`.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CP-SIP-1243445: /plan we are going to want to provision a new number and get it hooked up to our sip phone that we downloaded we are going to want to have qr codes help with the onboarding** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SRE-1255333: ok we have a platform we have a pbx we have a sip phone do all the plumbing while i sign up for twillio** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [ ] **TWILLIO-API-124: truly god key can manage api keys and sub accounts so that may be pretty useful for us but maybe not immediately we just need the key for the functionality discussed EMILY/var/twillio** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -30371,4 +30369,6 @@ session: sess-20260904-2324-5f032e08
 - [ ] **TWILLIO-OPS-12433: TWILLIO COMPLIANCE PROFILE CREATED** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [x] **CP-SIP-242414: ok im going to assume there is a god key and we can do all of the operations from the carepyre console side can you prepare the affordances and config screens and user roles iam etc we need to get the** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **CP-SIP-1243445: /plan we are going to want to provision a new number and get it hooked up to our sip phone that we downloaded we are going to want to have qr codes help with the onboarding** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
