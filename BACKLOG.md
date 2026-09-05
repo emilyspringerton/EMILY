@@ -29958,3 +29958,5 @@ session: sess-20260904-2324-5f032e08
   (sess-20260904-2324-5f032e08)
 - [ ] **HITL-YT-000: YOUTUBE ACCOUNTS FOR EINHORN MEDIA, EINHORN INDUSTRIAL, EMILY, TYLER, GARY, The Duck** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260904-2324-5f032e08)
+- [ ] **BP-TUNE-1232111: ok for the character 'sunlit draw' we need her forward b ability to change it is going to be the same blue circle charge up growing circle but when she lets go of it it becomes horizontal projectile** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260904-2324-5f032e08)
