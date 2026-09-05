@@ -30286,9 +30286,6 @@ session: sess-20260904-2324-5f032e08
   linked from `README.md`'s own short pointer section. Apple #17922. CarePyre commits
   `c3718de`/`84fd0e4`.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **PBX-SRE-124533: iterate on the asterisk plan do the next unblocked step** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
-
 ## SECTION 259: CAREPYRE CONSOLE LIVE + SUDO-QUEUE D-BUS FIXES (2026-09-05)
 
 - [x] **CarePyre Console deploy went live.** Founder ran `sudo-queue/51-carepyre-console-idunapro-deploy.sh`
@@ -30304,4 +30301,6 @@ session: sess-20260904-2324-5f032e08
   `https://carepyre.org/console.html` (200), register → local-login → `identities/me` all
   succeed through `https://carepyre.org/console-api/...`. Apple #17929. MONOREPO commits
   `7f7e1ab`/`b98fec2`, CarePyre commit `be132ea`.
+  (sess-20260905-0117-d84e3a4e)
+- [x] **PBX-SRE-124533: iterate on the asterisk plan do the next unblocked step** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
