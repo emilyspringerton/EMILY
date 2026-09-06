@@ -30741,3 +30741,39 @@ EMILY `482b8f7f` (golden-index).
   minion's olive), the actual "ecosystem, not two copies of one thing" ask. `build.sh` +
   `test_arena.sh` clean, 1188 PASS, no regressions. Apple #18116. ECOWAR commit `753560f`.
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **ECOWAR-ECOSYSTEM-2: Ravager -- third camp-minion archetype, unconditional march.**
+  Founder: "build ecowar make it good" (same PvE-expansion thread). Third of spec-1's six-
+  personality creep roster. "Charges towns, tunnel-vision objective focus": marches toward the
+  nearest node from the moment it spawns, skipping §3.4's camp-escalation gate every other
+  archetype needs -- real, immediate board pressure a team can't safely ignore for 90s the way
+  an un-escalated camp normally is. Still fights any hittable hero in range while marching.
+  Tankier than the base minion, dull blood-red, taller/wider box. Refactored
+  `ArenaCampMinion.is_swarmling` (bool) into a proper `.archetype` enum to make room for a third
+  type, with a per-camp wave counter cycling spawns through all three across successive waves.
+  `build.sh` + `test_arena.sh` clean, 1188 PASS, no regressions. Apple #18119. ECOWAR commit
+  `fd21882`.
+  (sess-20260905-0720-ec33e7c5)
+
+- [x] **ECOWAR-CARDS-VERIFY-1: verified the 16-card system is real and wired end-to-end (not a
+  stub).** Founder: "last time i checked it was 1 v 1 no card interface please do really hard to
+  check that there are cards in ECOWAR." Thorough code-level audit (no display available in this
+  sandbox to physically play-test, so this is the strongest verification achievable here): the
+  founder's own impression is stale relative to what's actually shipped -- Phase 2
+  (2026-08-27/28, before this session) wired the real 16-card `ECOWAR_CARDS` catalog into a real
+  in-match input path. Confirmed, reading the actual code, not assuming from docs: (1) `V` cycles
+  the armed card through all 16 (`g_ecowar_armed_card`), `G` casts it at the hovered target,
+  with a real HUD cooldown tile showing the armed card's name; (2) this sits in the exact same
+  SDL keydown dispatch block as Q/W/R ability casts (core, definitely-functional gameplay); (3)
+  the client sends a real `PACKET_ARENA_CARD_PLAY` packet (`net_send_card_play`) that the server
+  dispatches through the exact same packet-type switch as Q/W/R casts, calling
+  `arena_ecowar_play_card` -> `ecowar_resolve_card_effect`; (4) `tests/test_ecowar_cards.c` (15
+  distinct test functions, all passing) covers catalog integrity, all 5 effect types, magnitude
+  scaling, cooldown start/block/tick, hover-target resolution, and no-op edge cases; (5)
+  confirmed the real 1v1 flow (`scripts/launch_arena_pools.sh`, both the player pool and the bot
+  pool) launches `red_garden_arena`, the exact binary built from this same source -- no separate/
+  stale client binary in play. No ownership/collection gating exists anywhere in the code (every
+  card_id 0-15 is playable by any client with no unlock check), matching the founder's own "the
+  cards in the game are available to the users" instruction with zero extra work needed on that
+  front. No code changes -- audit only.
+  (sess-20260905-0720-ec33e7c5)
