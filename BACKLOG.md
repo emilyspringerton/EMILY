@@ -30599,3 +30599,16 @@ EMILY `482b8f7f` (golden-index).
   (`Contact: <sip:1000@127.0.0.1:5199>;expires=3599`), replacing the earlier 404. Apple #18084
   (fix), #18089 (live confirmation). PARENA commit `b1f9fbe`, MONOREPO commit `48beaff`.
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **CAREPYRE-WEBPHONE-CONSOLE-1: Embed the browser Web Phone into the console.** Founder
+  tested the native SIP phone again over cellular data after the Asterisk AOR fix: same
+  "Registering.. for a long time then failed." Confirmed live (both localhost and external
+  probes) that BOTH extension 1000 (native) and 1000web (webphone) now register successfully
+  server-side (200 OK) -- the remaining failure is consistent with a previously-documented,
+  separate finding that raw UDP SIP is blocked somewhere on the real mobile network path,
+  outside this server's control (why the WebRTC webphone exists at all). Founder: "make the web
+  phone work from inside of the console." Embedded the already-real, already-verified standalone
+  `webphone.html`/`webphone.js` (JsSIP over wss://) into the console's SIP Phone page via a
+  same-origin iframe -- not reimplemented inline, zero risk of a fresh bug. Deployed live
+  (static-only, no backend rebuild needed). Apple #18093. CarePyre commit `ba3d852`.
+  (sess-20260905-0720-ec33e7c5)
