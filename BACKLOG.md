@@ -30638,3 +30638,56 @@ EMILY `482b8f7f` (golden-index).
   JSON. Apple #18097. IDUNA_PRO commit `12facae`, CarePyre commit `56ac6c4`, MONOREPO commit
   `eff05c9`.
   (sess-20260905-0720-ec33e7c5)
+
+- [ ] **MONOREPO-NGINX-WS-1: Run sudo-queue/73 to restore the live /ws WebSocket proxy.**
+  Founder logged Penelope back in and the embedded Web Phone hung on "Connecting..." forever.
+  Root cause: `sudo-queue/63` added the `/ws` location block directly to the LIVE nginx config
+  when the webphone was first built, but never checked it into this repo's own
+  `CarePyre/ops/nginx-carepyre.conf` -- so when `sudo-queue/51` (console deploy) was re-run
+  earlier the same session to pick up the mail-encryption feature, its own blind `cp` of that
+  repo file over the live one silently erased the webphone's only public entry point. Confirmed
+  via a direct `wss://` upgrade probe returning `404` instead of `101`. Fixed permanently in the
+  repo (CarePyre commit `7142296`) so a future `sudo-queue/51` run can't regress it again; wrote
+  `sudo-queue/73-restore-webphone-nginx-proxy.sh` (nginx-only, no idunapro rebuild) to apply it
+  live and verify the upgrade succeeds. Not yet confirmed run.
+  (sess-20260905-0720-ec33e7c5)
+
+## SECTION 265: PITVIPER — SSH CLIENT MODE FOR ANDROID (2026-09-06)
+
+- [ ] **PITVIPER-ANDROID-1: Build PITVIPER for Android with SSH client capability.** Founder
+  real-time pivot: "get pitviper building for android im not sure how you will let me have bash
+  or zsh all i need to do is ssh from android." Real, honest architecture: Android has no
+  bash/zsh to spawn locally, and PITVIPER's existing `internal/pty` forks a LOCAL shell -- the
+  wrong tool there. Made PITVIPER a real SSH client instead (renders an actual remote shell --
+  this box -- over the same io.Reader/Writer + Resize abstraction already shared with local PTY
+  and GFD MUD mode):
+  - `internal/sshconn` (real `golang.org/x/crypto/ssh` session, remote PTY, merged
+    stdout+stderr, `WindowChange`-based resize, `~/.ssh/known_hosts`-preferring host key
+    verification). Fixed a real live-found bug: `-ssh-insecure` wasn't actually honored once
+    `known_hosts` existed but lacked a matching entry.
+  - `internal/sshkey` -- generates a real on-device Ed25519 keypair on first use; the private
+    half never leaves the device.
+  - `cmd/pitviper-enroll` -- a tiny, single-use, by-hand-run HTTP listener that lets a
+    freshly-generated public key self-enroll into `~/.ssh/authorized_keys`, gated by a random
+    one-time code, so pairing a new device needs zero manual key copy/paste. Founder: "you gotz
+    some magic its cool if u do?" -- yes, this is it.
+  - New `-ssh`/`-ssh-key`/`-ssh-password`/`-ssh-insecure`/`-ssh-enroll`/`-ssh-enroll-code` flags
+    wiring it all together.
+  Verified live end to end: key generation, enrollment POST, `authorized_keys` append, and the
+  full SSH+PTY handshake all confirmed working against a local test account. **Found live, not
+  yet resolved**: the founder's own real daily SSH access to this box is as `root`, not
+  `fatbaby` -- enrolling a root-login device needs `pitviper-enroll` run via `sudo`; a first
+  attempt at that hung/exited before the enrollment request landed, not yet successfully
+  retested. Apple #18105. PITVIPER commit `fb77a85`.
+  (sess-20260905-0720-ec33e7c5)
+
+- [ ] **PITVIPER-ANDROID-2: Actual Android APK packaging.** Real, separate, substantially bigger
+  work, not started: NDK cross-compile of PITVIPER's CGO+SDL2 code for Android, plus the
+  SDL2/go-sdl2 Java `SDLActivity` glue project (build.gradle, AndroidManifest.xml, jniLibs) to
+  produce an installable APK. Real, found-live constraint: `go-sdl2`'s vendored Android static
+  libs (`_libs/*_android_arm.a`) are 32-bit ARM (`armeabi-v7a`) only -- no `arm64-v8a` prebuilt
+  libs ship with the module, so an arm64 build would need SDL2/FreeType/etc. built from source
+  via the NDK first, a real, heavier lift. This box has only the bare Android `cmdline-tools`
+  installed (no NDK, no platforms, no build-tools) as of this session -- installing those is
+  itself a real, sizable download not yet done.
+  (sess-20260905-0720-ec33e7c5)
