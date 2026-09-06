@@ -30612,3 +30612,29 @@ EMILY `482b8f7f` (golden-index).
   same-origin iframe -- not reimplemented inline, zero risk of a fresh bug. Deployed live
   (static-only, no backend rebuild needed). Apple #18093. CarePyre commit `ba3d852`.
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **CAREPYRE-WEBPHONE-MULTI-1: Web Phone made per-user, not hardcoded to extension 1000.**
+  Founder, after the embedded Web Phone worked but only for extension 1000: "can we have more
+  than just the 1 extension or what? i am expecting to only see the web sip phone if there is an
+  extension configured for that user and then if its not 1000 im still expecting it to work is
+  that reasonable? i feel like working with asterisk is like pulling teeth." Real, honest yes --
+  built: new `GET /api/v1/sip-accounts/me/webphone-credentials` (bearer-authenticated, no HMAC
+  token needed since the console embedding this is already logged in) returns the caller's OWN
+  real `<extension>web` identity + password, gated on `WEBPHONE_SECRETS_JSON` (mirrors
+  `SIP_SECRETS_JSON`'s keying-by-base-extension); console's Web Phone card is hidden by default
+  and only shown once this succeeds (not just on having any `sip_accounts` row, since a
+  placeholder extension can have nothing real behind it); `webphone.js` now auto-registers from
+  URL query params with zero typing, for whichever extension is actually the user's, while the
+  manual config screen still works unchanged standalone. New
+  `sudo-queue/72-provision-web-extension.sh` generalizes provisioning a real `<extension>web`
+  Asterisk endpoint to any extension (one command instead of hand-editing config from scratch
+  each time), verified with a real end-to-end SIP REGISTER before declaring success. Verified
+  the whole pipeline end to end with a throwaway test account (200 OK, correct
+  extension+password), cleaned up after. Rebuilt and restarted `idunapro` directly (no sudo
+  needed for `go build`/`systemctl --user` once the right D-Bus env vars are set) and added
+  `WEBPHONE_SECRETS_JSON={"1000": ...}` to `~/.config/idunapro/env` myself (a file fatbaby owns,
+  no root needed) so extension 1000's webphone already works live; any NEW extension still needs
+  the founder to run `sudo-queue/72` (real Asterisk config edit) and add its entry to that same
+  JSON. Apple #18097. IDUNA_PRO commit `12facae`, CarePyre commit `56ac6c4`, MONOREPO commit
+  `eff05c9`.
+  (sess-20260905-0720-ec33e7c5)
