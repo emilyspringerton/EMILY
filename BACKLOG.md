@@ -30690,3 +30690,39 @@ EMILY `482b8f7f` (golden-index).
   installed (no NDK, no platforms, no build-tools) as of this session -- installing those is
   itself a real, sizable download not yet done.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 266: ECOWAR — WIKI SPEC ITERATION (2026-09-06)
+
+- [x] **ECOWAR-KING-TELEGRAPH-1: real spawn/respawn telegraph, closing NORTHSTAR §22.5 gap #1.**
+  Founder: "iterate on ecowar" + `EMILY.wiki/ECOWAR-game-spec-1`. That doc's own real, still-
+  open gap (named 2026-07-30, never built): a jungle boss should visibly telegraph before it
+  spawns/respawns, not just pop into existence on a bare timer. Built: `ARENA_KING_TELEGRAPH_
+  WINDOW_MS` (5s), a new `ArenaKingSnapshot.telegraph` wire field, pulsing disc+ring at the
+  camp's position (same convention as the existing R-zone-circle previews). Fixed a real, latent
+  bug found while wiring this: a not-yet-spawned King's x/z were always 0,0 (never set until
+  first spawn) -- would have rendered the telegraph glow at the map origin. `build.sh` +
+  `test_arena.sh` both clean, 1188 PASS, no regressions. Apple #18112. ECOWAR commit `de1504a`.
+  (sess-20260905-0720-ec33e7c5)
+
+- [x] **ECOWAR-KING-TELEGRAPH-2: confirmed camp buffs (§22.5 gap #2) already shipped, updated
+  NORTHSTAR.** §22.5 named "camp buffs" as a real missing mechanic on 2026-07-30; checking
+  actual code found the Four Heavenly Kings system (built 2026-08-10, after that analysis)
+  already ships exactly this (Music/Growth/All-Seeing/Wealth buffs) -- not this session's work,
+  just closing the loop so NORTHSTAR's own open-question list stays honest instead of stale.
+  ECOWAR commit `e52832a`.
+  (sess-20260905-0720-ec33e7c5)
+
+- [ ] **ECOWAR-AUTOMATA-POPULATION-1: GridCell.population is tracked but dead -- needs a real
+  design pass, not attempted.** Fresh read of `EMILY.wiki/ECOWAR-game-spec-2` (previously
+  analyzed as adding nothing beyond spec-4's material, per §22.5 -- that conclusion still holds
+  for the unit/tech-tree content, but this is a genuinely new finding from this pass): spec-2
+  gives concrete population/pressure automata numbers (3+ neighbors + pressure >50 converts,
+  population >200 splits to a neighbor, population <20 for 5 ticks reverts to neutral) that
+  don't exist in the real code. Confirmed via `packages/simulation/local_game.c`'s actual
+  `tick_automata`: neighbor-majority conversion already exists (`>= 3`, corruption `>= 4`,
+  matching the doc's broad shape) but `GridCell.population` (real field, initialized to 50 in
+  `init_grid`) is never read or written anywhere -- a genuinely dead field, not a stub. Not
+  implemented: which neighbor absorbs an overpopulation split isn't specified anywhere in either
+  spec (a real design decision, not just numbers to fill in) -- named as a new open question in
+  NORTHSTAR §22.7 rather than guessed at. ECOWAR commit `e52832a` (docs only).
+  (sess-20260905-0720-ec33e7c5)
