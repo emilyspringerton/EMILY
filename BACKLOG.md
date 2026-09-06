@@ -30727,3 +30727,17 @@ EMILY `482b8f7f` (golden-index).
   spec (a real design decision, not just numbers to fill in) -- named as a new open question in
   NORTHSTAR §22.7 rather than guessed at. ECOWAR commit `e52832a` (docs only).
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **ECOWAR-ECOSYSTEM-1: Swarmling -- second camp-minion archetype, real distinct AI.**
+  Founder, real-time: "can we really make the pve expansive? we need like a ton of shit
+  happening on the board redgarden was more about heroes this is more about the ecosystem" ->
+  "iterate." First real step toward `ECOWAR-game-spec-1`'s six-personality creep roster
+  (Bruiser/Skirmisher/Swarmling/Ravager/Hexbound/Behemoth) instead of every camp minion being one
+  uniform stat block. Swarmling ("fast, low health, attacks weakest targets, ignores
+  structures"): real new weakest-current-HP targeting (every other neutral in this engine always
+  picks nearest), lower HP, faster escalated march speed; "ignores structures" already true for
+  every camp minion today (named honestly, not a new behavior). Alternates within each camp wave
+  so two visibly different creatures spawn together (bright acid-yellow-green vs. the base
+  minion's olive), the actual "ecosystem, not two copies of one thing" ask. `build.sh` +
+  `test_arena.sh` clean, 1188 PASS, no regressions. Apple #18116. ECOWAR commit `753560f`.
+  (sess-20260905-0720-ec33e7c5)
