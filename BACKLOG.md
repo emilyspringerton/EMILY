@@ -2474,6 +2474,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: approved CarePyre console redesign prototype, requested implementation into production console.html …** — obs `2026-09-05T21:24:02Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: admin should be able to provision a mailbox for a user in one step and have that user's webmail just…** — obs `2026-09-05T21:34:44Z`. CURATED: 2026-09-05.
 - [ ] **Founder real-time: pivoted to getting PITVIPER building for Android with SSH client capability (bash/zsh access from ph…** — obs `2026-09-06T02:09:35Z`. CURATED: 2026-09-06.
+- [ ] **Founder real-time: iterate on ECOWAR per the EMILY wiki ECOWAR-game-spec-1 doc** — obs `2026-09-06T02:41:19Z`. CURATED: 2026-09-06.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
