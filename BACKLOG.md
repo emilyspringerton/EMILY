@@ -27119,20 +27119,18 @@ and "lets get the iduna kanban interface up... it needs to be in the menu of idu
 room but just shove it in there its fine we will fix it soon." Posted via `emily observe`
 (Principle 18, Apple #17209).
 
-- [ ] **S232-01: GFD↔EINHORN_SURVIVAL chat bridge is one-directional — logged, not fixed.**
+- [x] **S232-01: GFD↔EINHORN_SURVIVAL chat bridge is one-directional — fixed 2026-09-06.**
   Founder-confirmed: Minecraft chat reaches the GFD (DragonsNShit) GUI client; typing in that
-  client does not reach Minecraft. Traced (not fixed) to a real, likely root cause:
-  `GoblinFoxDragon/apps2/server-go/main.go:863-876` only relays `chat.ChatYell` to IDUNA's
-  `/api/v1/chat/messages` (`sender_source: "gfd_server"`, channel `"yell"`) — any other channel
-  a player types in the GFD GUI client (most plausibly a default "say"-equivalent) is silently
-  never posted, so `GTA7Plugin`'s own `ChatBridgePoller.java` (which correctly polls and filters
-  for `sender_source == "gfd_server"`, `IdunaClient.java`) has nothing to ever find. The
-  Minecraft→GFD direction (`ChatBridgeListener.java` posts `sender_source: "einhorn_survival"`,
-  channel `"gta7"`; `apps2/server-go/main.go:334`'s own poll loop consumes it) is separate code
-  and unaffected — matches the founder's own one-directional report exactly. Real fix (not done
-  here): either relay every GFD chat channel to IDUNA, not just yell, or confirm with the founder
-  which in-GFD channel the GUI client's default chat box actually sends and relay that one too.
-  (sess-20260830-1207-cc0ba7da)
+  client does not reach Minecraft. Root cause confirmed: `apps2/server-go`'s `PacketChat`
+  handler only relayed `chat.ChatYell` to IDUNA's `/api/v1/chat/messages` — any other channel a
+  player types (most plausibly the default `ChatSay`) was silently dropped. Found the real,
+  already-correct precedent to match rather than inventing a new policy: `apps2/mud`'s own
+  `deliverChat` has already relayed `say`+`yell`+`guild` for a while (deliberately excluding
+  `tell` — "a DM isn't meant for a wider audience"). Brought `apps2/server-go` to parity with
+  that exact pattern. `go build`/`vet`/`test` all green. Apple #18107. GoblinFoxDragon commit
+  `6cf2ad2`.
+  (sess-20260905-0720-ec33e7c5, picked up from the backlog per "go find some work that
+  interests you")
 - [x] **S232-02: surfaced the already-built IDUNA kanban interface in the Back Office nav.**
   `kanban.go`/`kanban_page.go`/`main.go`'s `/admin/kanban` route (3-column backlog/priority/
   cruise board, drag-and-drop) were already fully built and working — zero nav entry point
