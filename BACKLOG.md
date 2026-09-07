@@ -31724,11 +31724,73 @@ EMILY `482b8f7f` (golden-index).
   this sandbox's own current run, not silently skipped. `make test`: 348/348, zero regressions.
   STDLIB.md registered. Apple #18394. Commit `ab2c278`.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **SET-PRIM-001: Hash-set stdlib primitives (set.prn) — intersection/union/difference for IOC-matching at scale (500k malicious domains vs 10M firewall connections)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **SET-PRIM-001: Hash-set stdlib primitives (set.prn) — intersection/union/difference for IOC-matching at scale (500k malicious domains vs 10M firewall connections)** Built — see SECTION 291 below. Apple #18399, commit `050fe0b`. Card #371 removed from kanban (worked directly, not via the kanban-sync `done` action — see SECTION 291's own note on that gap).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **DATAFRAME-ROLLING-001: Time-series rolling/resample windowing for dataframe.prn (rolling(window=), time-bucket resample, monotonic ns-precision index) — security-log brute-force/beaconing detection in rolling windows** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **STRING-DISTANCE-ENTROPY-001: String/math similarity primitives — Levenshtein distance, Hamming distance, Shannon entropy (typosquat/homoglyph detection, DGA-domain/encrypted-payload flagging)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **LINALG-SPARSE-001: Sparse matrix primitives (CSR format) for linalg.prn — large, mostly-empty relational graphs (user-to-asset maps) without dense-array memory blowup** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
+
+## SECTION 291: PARENA mmap / /proc-maps / hash-set primitives (2026-09-07)
+
+- [x] **S291-01: founder's own pasted proposal — "Raw Disk / Memory-Mapped File Primitives
+  (mmap): low-level memory map abstractions that treat massive raw memory dumps or binary file
+  streams directly as flat arrays in PARENA memory space."** Routed through `emily observe`
+  (Apple #18397, bundled with S291-02 below — same proposal). Built `stdlib/io/mmap.prn` +
+  new `mmap_*_impl` host glue in `runtime/parena_runtime.h` (a real, fixed 16-slot handle table,
+  matching `pentest/pcap.prn`'s own "handle is a table index, never a raw pointer" precedent).
+  Real, key design point: `mmap-ptr` hands back the live-mapped bytes AS a `String` directly —
+  genuinely zero-copy, since `String` is already a real `char *` — so every existing
+  String-based helper in this stdlib works against the real, OS-paged mapped memory with zero
+  conversion, the actual value `mmap` adds over `io/read-string`'s own read()-and-copy shape.
+  Real, honest, standing caveats named directly: the returned `String` dangles after
+  `mmap-close` (no region-lifetime enforcement of "used after unmap" yet); `mmap-len` is
+  `I32`-only (no `I64` yet, so files over ~2GB report an incorrect length); read-only v0.
+  New `make test-io-mmap`, real assertions against an actual file on disk (correct size,
+  byte-exact zero-copy content, real nonexistent-path and empty-file failure paths).
+  `make test`: 348/348. STDLIB.md registered. Apple #18399. Commit `050fe0b`.
+  (sess-20260905-0720-ec33e7c5)
+
+- [x] **S291-02: same proposal, second half — "Structured Binary System File Parsers: native
+  primitives or layout structures to unpack active operating system configurations (like
+  Windows Registry hives or Linux /proc/ maps) rapidly."** Built `stdlib/pentest/procmaps.prn` —
+  a real Linux `/proc/[pid]/maps` parser. Real, honest v0 scope: Linux `/proc/[pid]/maps` ONLY
+  (a real TEXT format, buildable/testable here); Windows Registry hive parsing named as a real,
+  separate, deliberately deferred gap (a genuinely different, much larger binary format, no
+  Windows host or sample hive file in this sandbox to test against). Real, honest v1 boundary:
+  every field that can exceed `I32`'s 32-bit range (address ranges, offset, dev, inode) stays
+  exact hex/decimal TEXT, never coerced — only the 4 real permission-bit characters get decoded
+  into real `I32` booleans. New `make test-pentest-procmaps`: hand-verified lines, a real
+  anonymous mapping, a real shared mapping, a real malformed-line rejection, AND this test
+  binary's OWN, actually-running `/proc/self/maps`, parsed live at test time. `make test`:
+  348/348. STDLIB.md registered. Apple #18399. Commit `050fe0b`.
+  (sess-20260905-0720-ec33e7c5)
+
+- [x] **S291-03: founder's own pasted proposal — "Set Theory and Set Convergence Primitives
+  (set) ... highly optimized hash-set primitives featuring lightning-fast standard set logic:
+  intersections (∩), unions (∪), and set differences (\)" — kanban `SET-PRIM-001` (#371).**
+  Routed through `emily observe` (Apple #18398). Checked reality first: `stdlib/map.prn`
+  already designs a real open-addressing hash table shape, but it's generic (`(Map K V)`) and
+  genuinely does not compile — VS0 has no real generic-type monomorphization yet. Built
+  `stdlib/set.prn`: a real FNV-1a open-addressing `StringSet`, hand-monomorphized to a concrete
+  `String` key (matching the real IOC use case — domains, IPs — exactly), with
+  `set-intersect`/`set-union`/`set-difference` each sized to the real, correct worst-case bound.
+  Found and fixed two real, new compiler gaps along the way, distinct from every gap found
+  earlier this session: a bare negative integer literal used as a `loop` binding's own initial
+  value infers as `double` (fixed by routing it through a real `I32`-typed zero-arg function);
+  a plain `if` used as a NON-tail statement mis-emits as a raw C ternary, breaking the instant
+  either arm is `void`-typed (fixed by extracting each conditional side-effect into its own
+  small function whose entire body IS the `if`, its own real tail — VS0 correctly emits a real
+  `if {}else{}` block for that shape). Also found and fixed a real, live RUNTIME bug: FNV-1a's
+  own `I32` hash can be negative, and C's `%` preserves the dividend's sign, producing a real
+  negative bucket index — confirmed live via an actual SIGSEGV, fixed by masking the hash with
+  `bit-and 2147483647` before the `mod`. New `make test-set`: real intersect/union/difference
+  against a small "malicious domains" vs "observed connections" scenario (2 real hits, 5 real
+  deduplicated union members, 1 real miss), plus a real `Full`-on-saturated-table check.
+  `make test`: 348/348. STDLIB.md registered. Apple #18399. Commit `050fe0b`. Kanban card #371
+  removed directly (worked, not moved through the kanban `done` action — that action's own
+  BACKLOG-line-archival step is a known, separately-noted, not-yet-investigated gap from an
+  earlier session).
   (sess-20260905-0720-ec33e7c5)
