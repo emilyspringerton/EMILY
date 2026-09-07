@@ -2484,6 +2484,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: make the ECOWAR map 9x bigger with more nodes to capture** — obs `2026-09-07T13:07:26Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: NPC/creep AI needs a hybrid vector-model + heuristic brain (north star, self-corrected from an initi…** — obs `2026-09-07T13:20:16Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: build true server-authoritative fog of war for ECOWAR -- scoped only per founder's own 'hold the bui…** — obs `2026-09-07T13:24:13Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time: build SHANKPIT's weapon-switching (arsenal) affordance into PAPERCRAFT, but based on real found-in-w…** — obs `2026-09-07T13:45:34Z`. CURATED: 2026-09-07.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
