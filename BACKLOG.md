@@ -2487,6 +2487,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: build SHANKPIT's weapon-switching (arsenal) affordance into PAPERCRAFT, but based on real found-in-w…** — obs `2026-09-07T13:45:34Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: build a multi-organization provider-cluster trust model for IDUNA_PRO/CarePyre -- clustered orgs can…** — obs `2026-09-07T16:09:29Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: build the CarePyre admin app -- white-label IDUNA_PRO's console/branding first (general capability, …** — obs `2026-09-07T16:30:16Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time: build GAUNTLET v0 for the FatBaby content pipeline -- (1) all auto-generated articles need disclaime…** — obs `2026-09-07T16:49:05Z`. CURATED: 2026-09-07.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
