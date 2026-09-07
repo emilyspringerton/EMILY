@@ -31282,3 +31282,25 @@ EMILY `482b8f7f` (golden-index).
   pricing not yet designed). Needs real scoping (which feeds, pricing, auth/metering mechanism,
   actual landing-page copy/placement) before implementation.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 281: MOVERS-WATCHER MIDDAY RUN AT 10:20AM ET (2026-09-07)
+
+- [x] **CP-MOVERS-MIDDAY-1: "schedule mid day movers to go out at 10:20am."** Founder real-time,
+  a direct follow-through on this same session's own throughput-lever finding ("movers-watcher
+  is hardcoded to exactly one run/day... running it at open/midday/close instead would triple
+  that generator's output"). Routed through `emily observe` (Apple #18324) before implementing.
+  Real, found risk caught and fixed before it could ship: `movers-watcher`'s article ID was
+  date-only (`movers-YYYY-MM-DD`) and commentary's own `Refresh()` dedups by exact ID,
+  last-write-wins (S167-05) -- a naive second timer at the same ID would have silently
+  overwritten the morning article, not added a real second one. New `-slot` flag (e.g.
+  `-slot Midday`) distinguishes both the ID (`movers-YYYY-MM-DD-midday`) and the headline
+  ("Stocks on the Move (Midday Update) -- ...") for an intraday re-run; the original run
+  (`-slot` omitted) keeps its exact existing ID/headline, no backward-compat break for already-
+  published links. New `ops/systemd/fatbaby-movers-watcher-midday.{service,timer}` -- a second,
+  independent user-level systemd unit (no sudo required, unlike the CarePyre Asterisk sudo-queue
+  items this same session's earlier throughput audit ran into), firing at 10:20am ET. Deployed
+  and enabled LIVE this pass (`systemctl --user enable --now`), confirmed the real next trigger
+  lands on the correct UTC-equivalent of 10:20am ET, and dry-run-verified the article renders
+  correctly labeled. New test locking in the distinct-ID/headline behavior. `go build/vet/test
+  ./...` clean across the whole module. Apple #18325. Commit `8e64e1f`.
+  (sess-20260905-0720-ec33e7c5)
