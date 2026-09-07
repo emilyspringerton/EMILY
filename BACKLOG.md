@@ -30847,3 +30847,41 @@ EMILY `482b8f7f` (golden-index).
   (Stalwart listens locally but UFW never allowed them in) -- already unreachable, no action
   needed. Apple #18254. CarePyre commit `b827139`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 269: IDUNA_PRO — GDPR EXPORT + ERASURE PIPELINE (2026-09-07)
+
+- [x] **IDUNAPRO-GDPR-1: build a real GDPR data export + data delete request pipeline into
+  IDUNA_PRO, multi-tenant, cookie-consent widget explicitly out of scope for now.** Founder
+  real-time: "build gdpr into iduna pro multi tennant with data exporting and data delete
+  request pipeline dont focus on the cookie confirm widget at this time." Routed through
+  `emily observe` first (obs #2026-09-07T11-37-32Z, Apple #18257).
+  Real, load-bearing finding this closes: IDUNA_PRO's local-user identity is event-sourced
+  (`internal/userlog` -- an append-only NDJSON log a SQL projection is built from). The
+  existing `EventUserDeleted` handling only ever set `status='deleted'` in the projection --
+  it never touched the projection's own `email`/`display_name`/`password_hash` columns, and
+  did nothing at all to the raw event log files, which held the original PII forever (`Append`
+  never rewrites a line once written). A "GDPR delete" that only fired that existing event
+  would have been misleading.
+  Shipped: `FileEventLog.RedactUser` (rewrites matching NDJSON records in place -- redacts PII
+  string fields, preserves structural fields/sequence numbering for audit/replay integrity,
+  idempotent) and `UserProjector.ScrubPII` (implemented on both `SQLiteProjector` and
+  `MySQLProjector`); `internal/gdpr` package with `Export` (Article 15/20 -- full JSON bundle:
+  profile, event history, optional `sip_accounts`/`mail_accounts` extension data, deliberately
+  excluding live mailbox secret values) and `Delete` (Article 17 -- fires the existing deletion
+  event, then redacts the event log, scrubs the SQL projection, and removes PII-bearing
+  extension-table rows), both tracked as auditable `gdpr_requests` rows; HTTP layer at
+  `POST /api/v1/gdpr/{export,delete}` (self-service; `users.admin` required to act on behalf of
+  another uid) and `GET /api/v1/gdpr/requests` (self, or `?all=1` for admins) plus
+  `GET /api/v1/gdpr/requests/{id}/download`; migration
+  `202609070001_gdpr_requests.sql` (auto-discovered by the existing migration runner, no manual
+  registration needed).
+  Found and fixed a real interface-compliance break along the way: adding `ScrubPII` to
+  `UserProjector` broke `go vet`/`go test` (not `go build`, since test files aren't compiled by
+  plain `go build`) via a stale test-only `stubUserProjector` mock missing the new method.
+  Real, honest scope note: cookie-consent widget explicitly NOT built, per the founder's own
+  words.
+  `go build ./... && go vet ./... && go test ./...` clean (including 3 new `internal/gdpr`
+  tests and 5 new `internal/http/handlers` GDPR handler tests, plus 2 new `internal/userlog`
+  redaction tests and 1 new `ScrubPII` projector test). Apple #18258. IDUNA_PRO commit
+  `65f64f5`.
+  (sess-20260905-0720-ec33e7c5)
