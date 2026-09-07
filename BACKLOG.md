@@ -31655,3 +31655,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0117-d84e3a4e)
 - [x] **FB-12343: as soon as we tickerize a press release we want to publish a signal for TICKER mentioned in a press release** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **SET-PRIM-001: Hash-set stdlib primitives (set.prn) — intersection/union/difference for IOC-matching at scale (500k malicious domains vs 10M firewall connections)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
