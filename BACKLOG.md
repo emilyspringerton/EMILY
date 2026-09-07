@@ -31051,3 +31051,43 @@ EMILY `482b8f7f` (golden-index).
   replay/spectator tension a genuine fog implementation creates. NORTHSTAR.md §30. Apple #18289.
   ECOWAR commit `280d44a`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 276: PAPERCRAFT — REAL ARSENAL WEAPON-SWITCHING (2026-09-07)
+
+- [x] **PAPERCRAFT-WEAPON-1: "can we build shankpit affordances into papercraft? aresnal
+  (weapon switching) but based on real entities like not all characters get all aresenals you
+  have to find a shoddy [shotgun] etc" -> "using native parena" -> "with mods."** Founder
+  real-time. Routed through `emily observe` first (obs #2026-09-07T13-45-34Z, Apple #18292).
+  Direct port of SHANKPIT's own weapon roster (Knife/Magnum/AR/Shotgun/Sniper/Katana; Missile
+  excluded, no hit-detection story for a travelling projectile yet) -- SHANKPIT itself has no
+  ownership concept at all (`current_weapon` is a freely-switchable index, checked directly).
+  Real, new part: `PARENA/stdlib/papercraft/weapon_mod.prn`'s own real gate -- a player may only
+  switch to a weapon they've actually found (a real `PC_ITEM_WPN_*` world-entity pickup, same
+  GTA3-style walk-over system `PC_ITEM_SCRAP` already uses) or the universal baseline Knife.
+  Real spawn path, not just an ungated gate: `item_drop_mod.prn` extended so destroying a METAL
+  object (the toughest material) drops a real shotgun -- closes what would've been a real gap
+  (ownership/switch logic existing with zero way for a weapon to ever enter the world); the
+  other 5 slots have real gate logic + item ids but no live drop source yet, named honestly as
+  an easy follow-up, not silently pretended complete. Real wire-budget regression caught and
+  fixed BEFORE landing, not after: an initial attempt broadcasting `current_weapon` in
+  `PcPlayerState` pushed `sizeof(PcSnapshotPacket)` from 1436 to 1500 bytes, past the real
+  1472-byte unfragmented-UDP ceiling -- reverted, `current_weapon` now lives only in a new
+  per-owner-only `PcWeaponOwnedPacket`, confirmed after every switch attempt, since nothing
+  renders another player's weapon yet anyway. Client: F1-F6 request a switch (server is the only
+  real gate); a new bottom-right HUD readout shows current weapon + found count. New
+  `weapon_mod_test.c`; `item_drop_mod_test.c` updated for the real METAL->Shotgun drop. Server +
+  client both compile clean (gcc `-Wall -Wextra`, zero errors), Bazel unavailable in this
+  sandbox so verified via direct gcc builds mirroring the exact BUILD.bazel file/dep lists.
+  NORTHSTAR.md documents the full design. Apple #18294. PAPERCRAFT commit `c0cc3d8`.
+  **Real PARENA compiler bug found and fixed along the way** (`PARENA/src/emit.c`): `!=` had no
+  `binop_c_symbol()` entry at all -- every OTHER comparison (`</>/<=/>=/=`) did. `(!= a b)`
+  silently fell through to a bogus function-call emission (`=(a, b)`), invalid C that only
+  failed at gcc time, never at `parena build` time. New regression test in
+  `PARENA/tests/test_emit.c`; `make test` (test_lexer_parser/test_region/test_emit) clean:
+  35+8+348 passed, 0 failed. Apple #18293. PARENA commit `2bd6ae3`.
+  **Real, honest environment gap found, not worked around**: `PAPERCRAFT/CHANGELOG.md` is owned
+  by a different user (`treeiii`) with an ACL mask (`r--`) that caps effective write access
+  below what the ACL's own per-user `rwx` entries grant -- could not append the usual
+  post-completion changelog entry for this repo; not fixed (would need root/the file's real
+  owner), named here instead of silently skipped.
+  (sess-20260905-0720-ec33e7c5)
