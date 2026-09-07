@@ -31661,3 +31661,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **STRING-DISTANCE-ENTROPY-001: String/math similarity primitives — Levenshtein distance, Hamming distance, Shannon entropy (typosquat/homoglyph detection, DGA-domain/encrypted-payload flagging)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **LINALG-SPARSE-001: Sparse matrix primitives (CSR format) for linalg.prn — large, mostly-empty relational graphs (user-to-asset maps) without dense-array memory blowup** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
