@@ -31530,3 +31530,76 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **SSH-EINHORN-001: SSH interface into EINHORN_INDUSTRIAL, like terminal.shop** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 288: FULL SAGA AUDIT SESSION -- CLAIMS-WITHOUT-CODE + CODE-WITHOUT-DOCS (2026-09-07)
+
+- [x] **CP-SAGA-1: "run a full saga session find claims that dont exist and code that does not
+  have documentation across the hot repos first then dig deeper a little"** -> "especially
+  update the readmes my fam." Founder real-time. Routed through `emily observe` (Apple #18360).
+  Applied the same real methodology `EMILY/docs/SAGA_SYSTEM_AUDIT_2026-07-18.md` established
+  (a three-way reconciliation between intent/claim-ledger/reality; "vaporware debt" = claims
+  without code, "dark matter" = code without claims) to the 8 hottest repos by this week's own
+  commit volume: PARENA, CarePyre, IDUNA, BRAWLPIT, IDUNA_PRO, PAPERCRAFT+GoblinFoxDragon,
+  PRRJECT_FATBABY+EDIS -- 8 parallel research passes, each reading every real doc in full and
+  verifying every claim against actual code (never assumed).
+  **Findings, by repo:**
+  - **PARENA** — no vaporware; 4 real, working stdlib files (`emilyos/fsacl.prn`,
+    `racer/bike_gear_mod.prn`, `tyler/cutscene_mod.prn`, `eventstore/seqlock.prn`) shipped with
+    zero entry in STDLIB.md, a mechanical registration gap. **FIXED**: all 4 registered.
+  - **IDUNA** — the single largest gap found: `CLAUDE.md`'s own Key Endpoints table and the
+    live-served OpenAPI spec (`GET /api/v1/openapi.json`) covered roughly 20 and 50 of `main.go`'s
+    real ~128 registered routes respectively; the static `openapi.yaml` at repo root (19 paths)
+    is dead, unread by any Go code, and orphaned. `IDUNA_DB_PATH`'s own doc default
+    (`var/truestore.db`) doesn't match the real, live, actively-used file (`var/iduna.db`).
+    **FIXED**: `CLAUDE.md` now names every real subsystem by category (GFD MMO backend,
+    per-game ticketing, GFD admin tools, organizations/branding/compliance/GDPR, notes/supply/
+    research/kgraph/tenants/chat), the DB-path mismatch is called out explicitly,
+    `openapi.yaml` is marked stale/orphaned in its own header, and `openapi.go`'s spec grew
+    from 50 to 112 real documented paths -- live-verified by rebuilding and restarting the real
+    `iduna.service` and confirming `GET /api/v1/openapi.json` actually serves 112 paths, not
+    just that the source compiles. `go build/vet/test ./...` clean.
+  - **IDUNA_PRO** — README.md/CLAUDE.md stopped tracking reality around 2026-09-05; 5 real,
+    tested, live-routed features shipped since then (organizations/cluster trust, white-label
+    branding, compliance-recording, the GDPR pipeline, the 4-tier RBAC model) had zero mention
+    in either doc (some were documented in a sibling repo instead, never here). **FIXED**: both
+    docs now name all 5.
+  - **CarePyre** — `CLAUDE.md`'s Status section still said "this is currently a mission pitch +
+    contact intake, not working infrastructure," with zero mention of `console.html` (a full
+    IDUNA_PRO-backed admin portal), `android/` (a real SIP phone app), `android-admin/`,
+    `webphone.js/html` (a real browser softphone), or `ops/`. **FIXED**: Status section
+    rewritten to match reality, real remaining gaps (consent-announcement audio, browser-phone
+    integration) named honestly alongside it.
+  - **PAPERCRAFT** — `CLAUDE.md` still said "NORTHSTAR only — no gameplay code yet" against
+    ~3500 real lines of `apps/server`/`apps/client` C and 14+ real PARENA mods (`NORTHSTAR.md`
+    itself was already accurate). **FIXED**: one-line correction pointing at `NORTHSTAR.md` as
+    the real source of truth.
+  - **BRAWLPIT** — unusually clean; every major DONE/SHIPPED/LIVE claim checked out against real
+    code (the WOTAN hat store phases, the matchmaking netcode, the `SERVER_HOST` DNS fix, the
+    live systemd deploy). One minor, low-priority dark-matter finding, not fixed this pass: ~805
+    lines of real, compilable, but orphaned prototype scaffolding (`core/`, `characters/`,
+    `levels/`, `webterm/`) from an earlier, abandoned architecture, not wired into
+    `scripts/build.sh` and not mentioned in any doc -- a real cleanup-or-document decision for
+    later, not a functional risk since nothing builds or ships it.
+  - **GoblinFoxDragon** — a real, significant, NOT-yet-fixed dark-matter finding: a full PvP duel
+    system (`cmdDuelChallenge`/`DuelAccept`/`DuelForfeit`, a real `duel` package with its own
+    state machine), plus real, implemented BST jug-pet, food-buff, and fame-system commands
+    (`cmdJugPet`/`cmdFoodBuff`/`cmdFame`) -- roughly 128 real MUD commands exist total against a
+    much smaller documented surface in `docs2/`. Flow/hat-shop claims and the honestly-disclosed
+    GFD-BG-12444 Battlegrounds bug both checked out accurate. **Not fixed this pass** -- a full
+    command-to-doc reconciliation is real, separate, scoped work, named here rather than rushed.
+  - **PRRJECT_FATBABY** — `internal/gauntlet` (this session's own disclaimer/ticker-linking/
+    SKULDMARK work) has zero coverage in `docs/northstar/*` (only self-documented via its own
+    doc comments and this BACKLOG). `docs/northstar/tina-engine.md`'s claimed generalized schema
+    doesn't match the real, narrower, guidance-only `TinaDraft` struct that shipped. GTM_FUNNEL's
+    Emily+ tier undersells itself -- real Stripe-integrated subscription code exists
+    (`IDUNA/internal/http/handlers/subscriptions.go`), just not wired to a real self-serve
+    checkout yet (the CTA is still a bare `mailto:`). **Not fixed this pass** -- named, not
+    silently skipped; a real northstar-doc pass for `internal/gauntlet` and a tina-engine.md
+    correction are legitimate, separate follow-ups.
+  - **EDIS** — clean; `AD_MONETIZATION_NORTHSTAR.md` and the `EDIS_Core_API_Client` convention
+    both check out exactly against real code, no divergence found.
+  Apples #18361 (IDUNA), #18362 (IDUNA_PRO), #18363 (CarePyre), #18364 (PAPERCRAFT), #18365
+  (PARENA). Commits: IDUNA `72c421f`, IDUNA_PRO `a321598`, CarePyre `bcf4ca1`, PAPERCRAFT
+  `f2f211b`, PARENA (STDLIB.md, appended same pass). No code behavior changed anywhere except
+  IDUNA's own OpenAPI spec (a real, additive doc-as-code change, not a route/behavior change).
+  (sess-20260905-0720-ec33e7c5)
