@@ -2497,6 +2497,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: build screen sharing + super basic chat into IDUNA Pro (explicitly: don't NORTHSTAR it, just kanban …** — obs `2026-09-07T20:53:55Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: work on LO.** — obs `2026-09-07T21:01:32Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: run a full SAGA audit session (claims-without-code + code-without-documentation) across the hot repo…** — obs `2026-09-07T20:56:16Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time (work from kanban): picked up card #93, 'kanban search (filter)' -- the admin web UI already had a cl…** — obs `2026-09-07T21:51:31Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time (work from kanban): picked up FB-12343 -- as soon as a press release is tickerized, publish a real si…** — obs `2026-09-07T21:43:05Z`. CURATED: 2026-09-07.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
