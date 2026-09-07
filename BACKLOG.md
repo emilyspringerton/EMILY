@@ -31445,3 +31445,56 @@ EMILY `482b8f7f` (golden-index).
   verification step if the founder still can't connect after this fix. Apple #18345. Commit
   `77e50ce`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 286: PAPERCRAFT/PARENA ROBLOX-PARITY -- REAL, WORKING math/random FOR THE C TARGET (2026-09-07)
+
+- [x] **CP-PAPERCRAFT-ROBLOX-1: "in the spirit of continuing to add apis to papercraft with
+  parena to get with parity with the roblox api this is a random skrip i have for an npc to walk
+  around the world can you add apis to papercraft mod surface to make skrips like this work in
+  our environment?"** (a real Roblox Lua NPC-wander-and-chat-bubble script pasted in full).
+  Founder real-time. Routed through `emily observe` (Apple #18347) before implementing.
+  Investigated first via a dedicated research pass: the script exercises `math.random`, NPC
+  clone/spawn with a health field, a world-space "chat bubble" billboard UI, and a `wait(N)`
+  timer -- NONE of these existed for the PAPERCRAFT/PARENA C target. Real, decisive, scoped
+  finding: `math/random` was a real, honest, NEVER-EVALUATED `0.0` placeholder body since the
+  day it was written -- the TS/Java emitters recognize the qualified call name directly and
+  lower to `Math.random()`, but the C target (PAPERCRAFT's own real compile target) had no
+  equivalent, and nothing had ever actually tried to compile it for real before this pass.
+  Fixed the real, foundational piece first, since randomness blocks not just this script but any
+  future Roblox-parity C-target mod (already a real, cited beneficiary: GTA7's own
+  `humanness_fingerprint_mod.prn`). **Real, live compiler bug found along the way**: naming the
+  emitted C function `random` (its bare mangled name) conflicts with glibc's own
+  `long random(void)`, declared whenever `_DEFAULT_SOURCE` is active (already required by this
+  runtime's own pty support) -- a real, hard "conflicting types" gcc error, confirmed live the
+  first time the C target ever actually tried to compile this function. Fixed by renaming the
+  exported symbol `math/random` -> `math/random-f64` and updating every real caller
+  (`mishri/humanness.prn`, `mishri/bezier_interp.prn`) plus both the TS and Java emitter lookup
+  tables in the same commit -- `floor`/`sqrt`/`log`/`cos` happen to share names with real libm
+  functions too, but only `random`'s SIGNATURE actually conflicts (the others' 0.0-placeholder
+  signatures happen to match `<math.h>`'s own declarations exactly, so they compile without
+  erroring, just silently shadow real libm behavior -- a real, separate, pre-existing, honestly
+  named, not-fixed-here gap). New `runtime/parena_runtime.h::math_random_impl`, lazily
+  self-seeded via `srand(time(NULL))` on first call -- a real, found-live correctness issue, not
+  hypothetical: unseeded `rand()` always starts from the same internal state, so a real
+  PAPERCRAFT mod using this for NPC spawn positions would replay the identical sequence on every
+  server restart. Live-verified end to end, not just "compiles": a real test mod calling
+  `(math/random-f64)` via a C host program produced real varying values within one run and
+  different sequences across two process launches 2 seconds apart (same-second launches
+  correctly get the same seed, `time()`'s own real 1-second resolution -- an honest, minor,
+  accepted limitation). `make test` (348 assertions), `test-emit-ts` (21), `test-emit-java` (31)
+  all pass clean; `mishri/bezier_interp.prn` (a real downstream consumer) still compiles clean
+  end to end.
+  **Also found and committed, unrelated to this pass's own work**: an earlier, real,
+  already-described feature (`stdlib/papercraft/item_drop_mod.prn`'s "METAL objects drop a real
+  shotgun," matching the founder's own earlier-this-session weapon-arsenal ask) sitting
+  uncommitted in the PARENA repo's own working tree since the matching PAPERCRAFT-side host
+  commit shipped -- compile-verified and committed separately.
+  **Real, honest, NOT built this pass** (named, not solved): the NPC entity-with-health spawn
+  system (PAPERCRAFT's host C has no NPC concept at all today, only item-drop entities with no
+  HP field), the world-space "chat bubble" billboard text rendering (only a 2D HUD stroke font
+  exists, no 3D-to-screen projection anywhere), and the actual PARENA mod replicating the
+  script's own spawn/skip-chance/message-selection decision logic. `math/random-f64` was the
+  one, real, foundational, most-leveraged piece to fix first -- everything else needs it and
+  couldn't have been meaningfully tested without it. Apple #18349. Commits `70ee67a`
+  (item_drop_mod), `81872c9` (the random fix).
+  (sess-20260905-0720-ec33e7c5)
