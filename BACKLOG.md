@@ -31179,3 +31179,5 @@ EMILY `482b8f7f` (golden-index).
   7 new Go tests, all passing. `go build/vet/test ./...` clean. Apple #18311. IDUNA_PRO commit
   `185c74a`, CarePyre commit `f5a27d5`.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **FB-12343: as soon as we tickerize a press release we want to publish a signal for TICKER mentioned in a press release** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
