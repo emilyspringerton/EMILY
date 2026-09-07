@@ -30505,8 +30505,6 @@ Commits: PARENA `4132bf9`/`a3685fd`/`87d77db`, CarePyre `c034f65`, MONOREPO `489
 EMILY `482b8f7f` (golden-index).
 - [ ] **CAREPYRE-245435: FINISH THE SIPPHONE IT NEEDS TO ACTUALLY WORK PLUMB IT** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260810-0505-a53abca2)
-- [ ] **CAREPYRE-2399192: CAREPYRE CONSOLE ADMINS NEED AN AFFORDANCE FOR RECORDING THIS CALL MAY BE RECORDED MESSAGE** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-SIP-4324324: SIP PHONE NEEDS DTMF DIAL TONES BOTH WHEN DIALING AND ALSO IN BAND WHILE IN A CALL VIA THE NUMBER PAD** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
 - [ ] **CAREPYRE-OPS-939141: ok after you get it all sorted nice penelope is the only registered user do be a peach and register her as an admin** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -31644,3 +31642,5 @@ EMILY `482b8f7f` (golden-index).
   done silently -- asked first, given the standing "never update git config" default. Apple
   #18371. Commit `71218fc`.
   (sess-20260905-0720-ec33e7c5)
+- [x] **CAREPYRE-2399192: CAREPYRE CONSOLE ADMINS NEED AN AFFORDANCE FOR RECORDING THIS CALL MAY BE RECORDED MESSAGE** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0117-d84e3a4e)
