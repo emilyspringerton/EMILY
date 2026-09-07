@@ -31093,3 +31093,47 @@ EMILY `482b8f7f` (golden-index).
   post-completion changelog entry for this repo; not fixed (would need root/the file's real
   owner), named here instead of silently skipped.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 277: IDUNA_PRO — ORGANIZATIONS/CLUSTER TRUST MODEL (2026-09-07)
+
+- [x] **CP-HIPAA-3: "there may be a several organizations who have service agreements with each
+  other in that case the admins from that collective should be able to administer participants
+  from that cluster of providers we need intense logging to ensure against fraud waste and
+  abuse... a health care provider giving a participant services creates an email account for a
+  user - the service navigator at the shelter that participant stays at needs to be able to
+  password reset that participant... building towards zero ish trust with happy path shortcuts
+  for the use case we have right now whatever you think in terms of pragmatism."** Founder
+  real-time. Routed through `emily observe` (Apple #18305) before implementing.
+  Real, minimal trust model layered on the existing 4-tier RBAC (CP-HIPAA-2): a real
+  `organizations` table with a bare, nullable `cluster_id` -- deliberately NOT a many-to-many
+  membership table, since "we will assume the provider cluster is a trusted network for now
+  until we bring the service to multiple markets" reads as one flat trust boundary per market
+  today; a genuine per-relationship membership model is the real, later "zero-ish trust"
+  granularity step, named honestly, not built. `local_users.org_id` (dual real meaning: which
+  org a provider belongs to, or which org onboarded a participant) is stamped automatically at
+  creation time -- "batteries included happy path," a provider never picks an org by hand.
+  Ships the exact worked example given: a plain Provider Operator (not just a Provider Admin)
+  can now `PATCH /api/v1/users/{uid} {"password": ...}` for a participant whose `org_id` shares
+  a real cluster with their own -- every other field (email/display_name/status) stays out of
+  scope for this tier, the real, deliberate "not totally granular yet" narrow first slice. Same
+  cluster-trust extended to mail/SIP account visibility, reveal, and provisioning
+  (`owning_org_id`, snapshotted at creation the same way `created_by` already is).
+  "Intense logging... against fraud waste and abuse": a real, dedicated `cross_org_access_log`
+  SQL table (not folded into the general event log, same precedent `gdpr_requests` already set)
+  populated on every cross-org password reset and mailbox-password reveal -- same-org and
+  users.admin actions are deliberately NOT logged there. Real, safe, backward-compatible
+  default: `org_id`/`owning_org_id` are 0 for every pre-existing account, and 0 explicitly never
+  "shares a cluster" with anything, including another 0 -- verified by a dedicated test. New,
+  minimal admin tooling: `GET/POST /api/v1/organizations`, `PATCH /api/v1/organizations/{id}`
+  (users.admin-gated; renaming/deleting an org is real, separate, not-yet-needed scope, named
+  honestly). 9 new tests across the full worked example (cluster password reset, cross-cluster
+  denial, same-org-not-logged, 0-never-shares-0, cluster-mate mail/SIP visibility +
+  provisioning, organizations CRUD) -- all passing. `GOWORK=off go build/vet/test ./...` clean
+  (225 top-level test functions, 0 failing). Live-verified: rebuilt and restarted the real,
+  running `idunapro.service`, confirmed via `curl /health` and a direct `sqlite3 var/iduna.db`
+  schema check that `organizations`, `cross_org_access_log`, and `local_users.org_id` all landed
+  against the live database, not just a test environment. Docs:
+  `CarePyre/docs/HIPAA_COMPLIANCE_NORTHSTAR.md` extended with the full design writeup and honest
+  named gaps (no admin UI yet for org/cluster assignment, no per-relationship granularity, no
+  domicile verification). Apple #18306. IDUNA_PRO commit `55ea4ce`, CarePyre commit `66de951`.
+  (sess-20260905-0720-ec33e7c5)
