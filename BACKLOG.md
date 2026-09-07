@@ -31527,3 +31527,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **IDUNAPRO-SCREENSHARE-001: build screen sharing into IDUNA Pro** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **SSH-EINHORN-001: SSH interface into EINHORN_INDUSTRIAL, like terminal.shop** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
