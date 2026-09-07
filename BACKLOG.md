@@ -31405,3 +31405,42 @@ EMILY `482b8f7f` (golden-index).
   original ask (real store-unlocked hats) -- `apps/lobby` still has no HTTP client of any kind.
   Apple #18341. Commits `b56bcf7`/`ed95da2`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 285: BRAWLPIT MULTIPLAYER -- THE REAL "NEVER WORKED" ROOT CAUSE FIXED (2026-09-07)
+
+- [x] **CP-BRAWLPIT-MP-1: "brawlpit multiplayer has never worked for me can you take a look at a
+  reasonable pivot point?"** Founder real-time, a pivot away from the WOTAN hat store work
+  mid-thread. Routed through `emily observe` (Apple #18343). Investigated via a dedicated
+  research agent before touching any code -- real, decisive finding: BPMM-12441/12442's own
+  earlier fix (the server was never deployed anywhere + a port collision with SHANKPIT, fixed
+  2026-09-04) is real and confirmed live right now -- `brawlpit-server.service` bound on
+  `0.0.0.0:6978`, real matchmaking queues (FFA + 1v1) implemented and working, every
+  "live-verified" test in `CHANGELOG.md` genuinely passed. So the ALREADY-DIAGNOSED bug was
+  already fixed. The remaining, previously-undiagnosed real cause: every one of those
+  verifications was loopback/same-host UDP testing, and `apps/lobby/src/main.c`'s own
+  `SERVER_HOST` defaulted to `"127.0.0.1"` -- so a compiled client run on ANY machine other than
+  the server's own (every real player, including the founder) silently tried to matchmake
+  against itself with nothing listening there. No error anywhere; `PACKET_FIND_MATCH` just went
+  nowhere and `STATE_MATCHMAKING` sat waiting forever, indistinguishable from "multiplayer
+  doesn't work." `--host <ip>` always existed as a manual override, but nothing in this repo's
+  build/CI/docs ever told a real player they needed it.
+  **Real, shipped fix**: a new, real DNS A record, `brawlpit.okemily.com -> 198.58.107.85` (this
+  box's own real, live public IP -- confirmed the exact same IP already backing
+  okemily.com/wotan.okemily.com/etc.), created live via the real Cloudflare API (DNS-only,
+  unproxied -- a UDP game server can't sit behind Cloudflare's HTTP proxy), confirmed resolving
+  via a real external DNS query. `SERVER_HOST`'s default is now that hostname --
+  `gethostbyname()` already resolved hostnames, not just raw IPs, so no other client code
+  change was needed.
+  **Live-verified genuinely external to loopback**, not just "server is running": sent a real,
+  hand-crafted `PACKET_FIND_MATCH` UDP packet (matching `NetHeader`'s exact wire layout) to
+  `brawlpit.okemily.com:6978` from a plain Python socket and got back a real
+  `PACKET_QUEUE_STATUS` reply from `198.58.107.85:6978` with the correct queue depth -- the
+  actual matchmaking protocol, working over the public address. `scripts/build.sh` still clean
+  (client + dedicated UDP server + the full physics smoke-test suite).
+  Real, honest, not solved by this fix: this test was still one client on this same host talking
+  to the server via its public address, not two players on genuinely different
+  networks/NATs -- a real cross-NAT UDP traversal problem, if one exists, would only surface
+  with an actual second machine on a different network, untested here and named as the real next
+  verification step if the founder still can't connect after this fix. Apple #18345. Commit
+  `77e50ce`.
+  (sess-20260905-0720-ec33e7c5)
