@@ -30927,3 +30927,21 @@ EMILY `482b8f7f` (golden-index).
   registry, no DPA template) and 5 concrete next steps. Apple #18270. IDUNA_PRO commit
   `14db78f`. Golden-index: `SOC2-READINESS-NORTH`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 271: CAREPYRE WEB PHONE AUTO-LOGIN FIX (2026-09-07)
+
+- [x] **CP-WEBPHONE-1: web phone must not show a login screen at all when the caller's extension
+  is already provisioned.** Founder real-time (Penelope Frost, current CarePyre super admin,
+  reporting it against her own account): "web phone needs to auto login if the extension is
+  provisioned for that user i need just a dialing interface when i log in not another login."
+  Real bug found: auto-connect itself already worked (console.html already passed real ext/
+  pass/domain query params, `webphone.js` already called `doRegister` with them) -- the login
+  form (`screen-config`) just stayed the visibly "active" screen the whole time registration was
+  happening in the background, so it flashed on screen before flipping to the dial screen on
+  success. Fixed with a new `screen-connecting` state switched to by a small inline script at
+  the top of `webphone.html`'s body (runs before the vendor JsSIP bundle or `webphone.js` even
+  load), so the login form never paints at all when real auto-connect creds are present; a
+  genuine registration failure now falls back to the login screen with a visible error instead
+  of leaving someone stuck on "Connecting..." forever. Standalone (no query params) behavior
+  unchanged. Apple #18272. CarePyre commit `e30e203`.
+  (sess-20260905-0720-ec33e7c5)
