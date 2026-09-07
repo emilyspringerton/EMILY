@@ -31137,3 +31137,44 @@ EMILY `482b8f7f` (golden-index).
   named gaps (no admin UI yet for org/cluster assignment, no per-relationship granularity, no
   domicile verification). Apple #18306. IDUNA_PRO commit `55ea4ce`, CarePyre commit `66de951`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 278: WHITE-LABEL BRANDING + COMPLIANCE RECORDING + CAREPYRE ADMIN ANDROID APP (2026-09-07)
+
+- [x] **CP-WHITELABEL-1/CP-COMPLIANCE-REC-1: "build the carepyre admin app that will let us do
+  stuff like record the compliance recording maybe make it white label the iduna pro app??? i
+  dunno it needs to be both white labeled first then made into carepyre"** -> founder
+  clarification mid-turn: **"android."** Routed through `emily observe` (Apple #18310) before
+  implementing. Real, minimal white-label layer added to IDUNA_PRO first, general-platform, not
+  CarePyre-special-cased -- same "build once general, CarePyre is the first customer" precedent
+  GDPR/RBAC already set this session: a `branding_settings` table (app_name/tagline/
+  primary_color/accent_color/logo_data_uri) behind `GET /api/v1/branding` (deliberately public --
+  a login screen needs to render branded before anyone has a token) and `PUT /api/v1/branding`
+  (branding.admin-gated). `CarePyre/console.html` now fetches this at load
+  (`applyBranding()`) and applies the app name + colors as CSS custom properties instead of
+  anything hardcoded, falling back to its own existing values if unconfigured -- verified live:
+  `GET /api/v1/branding` against the running `idunapro.service` returned the generic "IDUNA Pro"
+  defaults before any tenant configured it, then CarePyre's own real name/tagline/colors after
+  setting them through the same API. New "White-label branding" admin panel in console.html lets
+  an admin edit these live.
+  Second real gap closed the same pass: CAREPYRE-9311 (2026-09-05) shipped inbound call
+  recording with a consent announcement that had no actual audio file behind it ("Playback fails
+  silently until it's added"). New `compliance_recordings` table + `compliance.recording.manage`
+  -gated `GET/PUT /api/v1/compliance/recording` store the announcement audio; console.html's new
+  "Compliance recording" panel lets an admin record it straight from the browser's own
+  microphone (MediaRecorder) or upload a file, preview it, and save. Real, honest, deliberately
+  not automated: converting the saved audio to a telephony-ready format and copying it into the
+  live Asterisk box stays a separate manual step (this pass makes the audio exist and be
+  auditable, not the dialplan wiring).
+  **"android"**: new `CarePyre/android-admin/` Gradle module -- a real, minimal white-label
+  Android app, one `:app` module, one WebView-wrapper `MainActivity`, two product flavors
+  sharing the exact same code (`generic` = `pro.iduna.admin` / "IDUNA Pro Admin" pointed at a
+  placeholder console URL; `carepyre` = `org.carepyre.admin` / "CarePyre Admin" pointed at
+  `https://carepyre.org/console.html`) -- a third tenant means a third flavor block, never a
+  fork. `WebChromeClient.onPermissionRequest` bridges the console's own mic-based compliance
+  recording through to the OS `RECORD_AUDIO` permission, the one real native glue this app
+  needs. Real, honest, named gap: source-complete but not build-verified -- this sandbox has no
+  Android SDK at all (same gap already named for `SPIDERBEETLE`/`MJOLNIR`); build via CI or the
+  founder's own machine.
+  7 new Go tests, all passing. `go build/vet/test ./...` clean. Apple #18311. IDUNA_PRO commit
+  `185c74a`, CarePyre commit `f5a27d5`.
+  (sess-20260905-0720-ec33e7c5)
