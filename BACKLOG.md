@@ -30481,7 +30481,7 @@ Account SID itself was never actually exposed on GitHub).
   (sess-20260905-0117-d84e3a4e)
 - [x] **CAREPYRE-994994: CONTINUE WIRING UP OUR PLATFORM MAKE ANY CHANGES NEEDED TO THE CONSOLE TO GET IT TO WORK WITH OUR PLATFORM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
-- [ ] **CAREPYRE-5435439434: making calls from our carepyre android sip phone i know its going to take a bit of finesse we want to make calls from our softphone the config needs to be magical and automatic as much as is reaonable** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **CAREPYRE-5435439434: making calls from our carepyre android sip phone... the config needs to be magical and automatic as much as is reasonable.** Real, partial progress this session, config-automation piece only (the actual call-placing piece still needs the live verification named in SECTION 292): added a one-tap "Open in CarePyre SIP Phone app" link in `console.html` for same-device setup (triggers the app's own VIEW/BROWSABLE intent-filter, zero typing/scanning), and `app.js` now persists the provisioning URL (never the password) to `localStorage`, auto-re-registering on every app launch via `tryAutoRegister()` — the phone now stays registered across restarts without any new plaintext-password storage. Apple #18411. Commit `9539881`. Left open: the actual call-placing/audio-path verification.
   (sess-20260905-0117-d84e3a4e)
 
 ## SECTION 264: REAL TWILIO TRUNK LIVE + VOICEMAIL/RECORDING + FEATURE PLANS (2026-09-05)
