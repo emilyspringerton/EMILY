@@ -30817,3 +30817,32 @@ EMILY `482b8f7f` (golden-index).
   itself (the actual self-serve onboarding UI) also remains fully unbuilt. Apple #18250.
   IDUNA commit `64f678b`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 268: MAIL SERVER GEO-RESTRICTION (2026-09-07)
+
+- [x] **CAREPYRE-MAIL-GEO-1: geo-restrict mail.carepyre.org's login surfaces to US/MX/CA, leave
+  SMTP untouched.** Founder: "given the sensitivity of the email server etc can you make it so
+  that the email server is not reachable from outside of the united states mexico and canada?"
+  -> "like on the cloudflare level or something?" Real, checked finding: Cloudflare's free-plan
+  proxy can't see raw TCP mail traffic at all -- SMTP/IMAP DNS records have to stay unproxied for
+  delivery to work, so Cloudflare-level geo-blocking never applies to mail ports regardless of
+  plan; real geo-blocking has to happen at the host firewall. Named and confirmed a real risk
+  before implementing: geo-blocking raw SMTP (port 25, server-to-server relay) by source IP
+  risks silently dropping legitimate inbound mail, since Gmail/Outlook/etc. route through
+  globally distributed infrastructure not tied to the sender's actual location. Founder
+  confirmed: restrict only the real human-login surfaces (webmail HTTPS 443, IMAPS 993, the
+  Stalwart admin panel 8080); leave SMTP (25) open to the whole internet.
+  Built `CarePyre/ops/stalwart/update-geo-allowlist.sh` (a real ipset, `geo_allow_na`, built from
+  ipdeny.com's free per-country CIDR zone files -- US+MX+CA, ~80k entries, no API key/signup
+  dependency, atomic swap-in) and `setup-geo-restrict-mail.sh` (hooks a DROP rule into UFW's own
+  documented customization point, `/etc/ufw/before.rules`, without touching any existing UFW
+  rule; installs a `Before=ufw.service` restore unit so a reboot never starts UFW referencing a
+  nonexistent set; a weekly refresh timer since IP allocations shift over time).
+  **Live-verified on the real mail server (45.79.143.216), not just written**: `ufw reload`
+  completed clean, the real iptables rule is active (`multiport dports 443,993,8080 !
+  match-set geo_allow_na src -> DROP`), the ipset correctly includes a real US IP (8.8.8.8) and
+  excludes real foreign ranges (Deutsche Telekom, China Telecom), and this session's own real
+  US-based connections to all three ports still succeed end to end. Checked 465/995/4190
+  (Stalwart listens locally but UFW never allowed them in) -- already unreachable, no action
+  needed. Apple #18254. CarePyre commit `b827139`.
+  (sess-20260905-0720-ec33e7c5)
