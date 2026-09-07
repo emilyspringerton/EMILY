@@ -2502,6 +2502,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: pasted PARENA data-analysis/security-forensics primitives proposal (dataframe rolling/resample windo…** — obs `2026-09-07T22:07:46Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: pasted PARENA cybersecurity-primitives proposal (pcap/struct/sysaudit/asn1-dns-x509) — checked reali…** — obs `2026-09-07T22:07:39Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: pasted PARENA raw-socket IP_HDRINCL proposal (follow-up to the cybersecurity-primitives thread) — bu…** — obs `2026-09-07T22:13:35Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time: pasted PARENA hash-set primitives ask (intersections/unions/differences) — built real stdlib/set.prn…** — obs `2026-09-07T22:32:30Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time: pasted PARENA mmap/procfs-parser proposal (mmap flat-array primitives + Windows Registry hive/Linux …** — obs `2026-09-07T22:32:30Z`. CURATED: 2026-09-07.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
