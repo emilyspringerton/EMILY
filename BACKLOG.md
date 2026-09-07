@@ -31029,3 +31029,24 @@ EMILY `482b8f7f` (golden-index).
   per-archetype constants -- a real, large, unscoped architecture question, named honestly not
   guessed at).
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 275: ECOWAR — FOG OF WAR SCOPED (2026-09-07)
+
+- [x] **ECOWAR-FOW-1: "we need to build true server authoritative fog of war" -- scoped, not
+  built, per the founder's own explicit "hold the build" direction given session size.**
+  Founder real-time. Routed through `emily observe` first (obs #2026-09-07T13-24-13Z, Apple
+  #18288). Real, checked finding: `apps/arena_server/src/main.c`'s `server_broadcast()` builds
+  one shared snapshot per tick and sends the identical bytes to every connected client
+  regardless of team -- true server-authoritative fog (the server itself never puts a hidden
+  enemy's real position on the wire, not just hidden client-side where raw-packet reading would
+  trivially defeat it) needs per-team filtered snapshots, a real structural change to this
+  file's own hottest loop. Favorable finding lowering real future implementation risk: `clients[]`
+  is already index-matched to `arena_state.heroes[]` (client-to-team lookup is free, no new
+  tracking needed) and `ArenaSnapshotHeroesMsg.total_count` already drives a variable-length
+  client-side read (sending fewer hero entries needs no wire-format change). 5 real, open design
+  decisions named, none guessed at: vision-radius rule (hero position only vs. also structures),
+  Phase 1 scope boundary (heroes only, camps/creeps/structures always visible, vs. everything),
+  per-team snapshot construction cost, no stealth/vision-denial mechanics in scope, and the real
+  replay/spectator tension a genuine fog implementation creates. NORTHSTAR.md §30. Apple #18289.
+  ECOWAR commit `280d44a`.
+  (sess-20260905-0720-ec33e7c5)
