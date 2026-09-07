@@ -30967,3 +30967,31 @@ EMILY `482b8f7f` (golden-index).
   `scripts/test_arena.sh` both clean: 1191 PASS, zero regressions. NORTHSTAR.md §22.8. Apple
   #18277. ECOWAR commit `a19a81a`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 273: ECOWAR — MAP GROWN 9X WITH MORE NODES (2026-09-07)
+
+- [x] **ECOWAR-DENSITY-2: "make the ecowar map like 9x bigger with more nodes to capture."**
+  Founder real-time. Routed through `emily observe` first (obs #2026-09-07T13-07-26Z, Apple
+  #18280). New `ARENA_MAP_SCALE_9X` (3.0, i.e. 3x linear = 9x area) multiplies
+  `ARENA_HALF_EXTENT` on top of the existing golden-ratio value from S170-191 -- same visible-
+  multiplier idiom, applied again rather than replaced with a precomputed number. Everything
+  DERIVED from `ARENA_HALF_EXTENT` (fountains, graveyards, shops, jungle camps/Kings) inherited
+  the new scale automatically; everything NOT derived from it (node layout, jungle obstacle
+  layout, mid-lane waypoints, Berserker/Regen powerup positions) got the same factor applied
+  directly at each literal. Real, previously-unnoticed gap found and closed along the way: the
+  mid-lane waypoint path had never received the ORIGINAL phi scale-up either, leaving it a
+  comically tiny path in the middle of an otherwise much bigger map -- now scales by both
+  factors. Deliberately NOT scaled: ability ranges, aggro radii, hero speed -- combat pacing is
+  unchanged, so the real effect is more travel time and more ground to contest, the actual point
+  of "dense and robust like an RTS." `ARENA_NODE_COUNT` grew 5 -> 9: Northwest/Northeast/
+  Southwest/Southeast Outpost fill the real midpoints between Blacksmith (center) and each
+  original outer station, a symmetric inner ring so the bigger map has real, evenly-spread
+  contestable ground. One real, honest test-behavior change found and fixed (not glossed over):
+  `ARENA_DONKEY_GLIDE_RANGE` (96, deliberately unscaled) used to exceed the old
+  `ARENA_HALF_EXTENT` (~51.78) and get clamped at the map edge; the new ~155.34 extent is now
+  bigger than that range, so the glide reaches its full, unclamped distance -- test updated to
+  assert the correct new behavior. Two more tests had stale hand-typed lane-waypoint literals,
+  fixed the same way. One new test verifies the real extent, node count, and all 4 new node
+  positions directly. `bash scripts/build.sh` + `scripts/test_arena.sh` both clean: 1200 PASS,
+  zero regressions. NORTHSTAR.md §22.9. Apple #18281. ECOWAR commit `e396bdc`.
+  (sess-20260905-0720-ec33e7c5)
