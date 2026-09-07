@@ -31657,3 +31657,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **SET-PRIM-001: Hash-set stdlib primitives (set.prn) — intersection/union/difference for IOC-matching at scale (500k malicious domains vs 10M firewall connections)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **DATAFRAME-ROLLING-001: Time-series rolling/resample windowing for dataframe.prn (rolling(window=), time-bucket resample, monotonic ns-precision index) — security-log brute-force/beaconing detection in rolling windows** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
