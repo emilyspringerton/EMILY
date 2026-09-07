@@ -30777,3 +30777,42 @@ EMILY `482b8f7f` (golden-index).
   cards in the game are available to the users" instruction with zero extra work needed on that
   front. No code changes -- audit only.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 267: IDUNA_PRO TENANT PROVISIONING CONTROL PLANE (2026-09-07)
+
+- [x] **IDUNA-TENANTS-1: real, live-verified IDUNA_PRO tenant provisioning control plane.**
+  Founder: "do we have a wotan onboarding signup page etc? can we split out a new instance of
+  iduna pro? can we make the multi tenant changes to make that possible?" Investigated first
+  rather than building blind: WOTAN's own `store.html` already has a real register/login flow,
+  but it's tied to the MAIN internal IDUNA (the same accounts used to log into the actual GFD
+  game client -- hat purchases need to resolve a real GFD character). Flagged that splitting
+  WOTAN onto its own separate IDUNA_PRO instance would sever that link and break the hat store.
+  Founder confirmed the real ask was the Emily for Business multi-tenant platform (`IDUNA/docs/
+  EMILY_FOR_BUSINESS_NORTHSTAR.md`'s own "control-plane model", scoped 2026-09-03, not yet
+  built), not a WOTAN-specific change.
+  Built the real, full pipeline (confirmed with the founder given the real infrastructure-
+  mutation stakes, not artifact-generation-only): new `tenants` table (provisioning/active/
+  failed/expired lifecycle); `internal/tenantprovision` allocates a free port, generates a
+  per-tenant JWT secret, writes a per-tenant systemd user unit + env file (parameterized from
+  IDUNA_PRO's own real `idunapro.service` template), starts it via `systemctl --user enable
+  --now` (verified live, no sudo needed -- internal IDUNA already runs as a systemd `--user`
+  unit itself, so this session's own earlier D-Bus-session finding applies here directly),
+  polls the new instance's real `/health`, and records the outcome. Reuses the ONE already-built
+  `~/.local/bin/idunapro` binary for every tenant (config-driven via env vars) -- zero per-tenant
+  rebuild, matching the NORTHSTAR doc's own "DB-per-install is already close to free" finding.
+  New admin-only (`iduna.admin`) `GET/POST /api/v1/tenants`.
+  **Live-verified, not just unit-tested**: provisioned one real throwaway tenant end to end (real
+  port allocated, real systemd service started, real `/health` check passed), then deprovisioned
+  and cleaned up every generated artifact. 7 new permanent unit tests cover the safe, pure/file-
+  writing pieces; the live systemctl spin-up path is verified manually rather than checked into
+  CI, matching this monorepo's own established convention for infra-touching code (mailaccounts/
+  sshconn elsewhere this session). `go build/vet/test ./...` clean, no regressions. Deployed
+  live: rebuilt and restarted the real `iduna.service` myself (no sudo needed), confirmed the
+  migration applied to the live DB and the new route answers (401 unauthenticated, not 404).
+  **Real, named follow-up, not built here**: broker Host-route registration for a new tenant's
+  subdomain (writing `gpt2-alpine-c/config/broker-routes.json` + SIGHUP-ing the broker) --
+  confirmed the broker's own `Reload()`/SIGHUP hot-reload mechanism already exists and is live-
+  wired, just nothing writes a new Route entry programmatically yet. `console.okemily.com`
+  itself (the actual self-serve onboarding UI) also remains fully unbuilt. Apple #18250.
+  IDUNA commit `64f678b`.
+  (sess-20260905-0720-ec33e7c5)
