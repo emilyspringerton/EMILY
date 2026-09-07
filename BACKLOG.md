@@ -31374,3 +31374,33 @@ EMILY `482b8f7f` (golden-index).
   HTTP client of any kind, only the game's own UDP protocol to `apps/server`; a real, separate,
   larger follow-up, not attempted here. Apple #18338. Commits `b73b3f5`/`9dc5b07`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 284: BRAWLPIT IN-MATCH HAT RENDERING -- REAL BLOCKING PREREQUISITE CLOSED (2026-09-07)
+
+- [x] **CP-WOTAN-HATS-3: "whatever you think"** (delegated pragmatic judgment, continuation of
+  CP-WOTAN-HATS-2 -- chosen over the IDUNA-login/HTTP-client half since it's the one item
+  explicitly named as blocking EITHER free or purchased hats from ever showing up in a real
+  match, and builds directly on the just-shipped `selected_hat[]` state with no new network
+  surface). Routed through `emily observe` (Apple #18339) before implementing.
+  Closed the real, named blocker: `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md` said BRAWLPIT's
+  asset pipeline had no "attach a cosmetic during a match" point. It turned out to already
+  exist -- `draw_player()`'s own existing "mirror-match hat" (a same-character-mirror-match
+  disambiguator, drawn last, above the head, in local player-model space) is the exact real
+  attach point a cosmetic needs. `selected_hat[]` now renders there in `STATE_GAME_LOCAL`
+  matches, taking priority over the generic mirror-match pom-pom (a real hat already
+  disambiguates a mirror match on its own -- showing both would look like a mistake, not a
+  feature).
+  Real, found-and-fixed risk before it shipped: the render loop that calls `draw_player` also
+  runs for `STATE_GAME_NET` with up to `MAX_CLIENTS` players, but `selected_hat` is a 2-element,
+  purely-local array (this machine's own character-select choices, never synced over the
+  network protocol) -- applying it unconditionally would have shown the wrong player's hat, or
+  read past the array for `player_index >= 2`. Fixed by gating both the new hat render and the
+  mirror-match-hat's own skip condition on `app_state == STATE_GAME_LOCAL && player_index < 2`.
+  Verified real, not just "compiles": `scripts/build.sh` clean (client + dedicated UDP server +
+  full physics smoke-test suite), a separate `gcc -Wall -Wextra` pass clean on the new code, and
+  a headless run (`SDL_VIDEODRIVER=dummy`) starting and running without crashing.
+  Real, honest, still not built: syncing a hat choice across `STATE_GAME_NET` at all (no
+  protocol field exists for it), and the IDUNA login + HTTP-client half of the founder's own
+  original ask (real store-unlocked hats) -- `apps/lobby` still has no HTTP client of any kind.
+  Apple #18341. Commits `b56bcf7`/`ed95da2`.
+  (sess-20260905-0720-ec33e7c5)
