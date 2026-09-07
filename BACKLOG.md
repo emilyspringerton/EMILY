@@ -31181,3 +31181,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **FB-12343: as soon as we tickerize a press release we want to publish a signal for TICKER mentioned in a press release** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **GFD-1234: then pivot to GFD lets get the core game working basic mobs etc dungeon GUI the models are the least important part still there should be affordances to let the player understand what is happening lik** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
