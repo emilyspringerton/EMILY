@@ -31225,3 +31225,60 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **GFD-1234: then pivot to GFD lets get the core game working basic mobs etc dungeon GUI the models are the least important part still there should be affordances to let the player understand what is happening lik** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 280: FATBABY AD MONETIZATION V0 (2026-09-07)
+
+- [x] **CP-ADMON-1: "lets think about how that data can be used for revenue (TINA articles ->
+  internal ads for games or emily+ or emily for business etc) and certain vetted advertisers (we
+  wont share data with them just allow them to put an ad with a link)... we would take a redbull
+  sponsorship TBH but we still wouldnt share data with them we aknowledge if the ad gets clicked
+  data will be collectable to a certain extent but thats the internet my friends"** -> "im saying
+  if there is an external advertiser and someone clicks on a link there is data about where they
+  came from right?" (confirmed: yes, the `Referer` header + IP/UA, inherent to HTTP, not
+  something we add) -> "yea write it all up" -> "the ad can be to the ads like would you like to
+  advertise?" -> "mixed with other stuff as we have stuff to advertise." Founder real-time.
+  Routed through `emily observe` (Apple #18321) before implementing. Research first: TINA is
+  real and live (publishes to okemily.com), and EDIS already had a working, health-adaptive ad
+  shortcode (`edis-dis`'s `[edis_dis_ad]`) wired to zero actual sponsors/products -- no analytics
+  exist anywhere on the FatBaby site at all (checked directly).
+  Shipped a real, filterable ad pool (`edis_dis_ad_pool`) on top of that existing shortcode
+  rather than a second ad system: GFD (real, live, shipped -- `dis-gfd-subscription` is this
+  exact repo's own precedent for a real cross-product integration) as the one real house entry,
+  and a real, admin-configurable "advertise here" mailto CTA (`edis_dis_advertise_contact`) --
+  picked at random from the SAME pool on every render, not a fallback shown only when nothing
+  else exists, exactly matching "mixed with other stuff as we have stuff to advertise." Both
+  render through the shortcode's own pre-existing health-adaptive pipeline (SVG when healthy,
+  text-only when elevated, PoW-gated under attack, nothing when degraded) unchanged.
+  Real privacy policy enforced in code, not just prose: a vetted external sponsor
+  (`kind: "sponsor"`) gets `rel="nofollow noreferrer noopener"` -- suppresses even the default
+  `Referer`-header leak a plain outbound link would otherwise send, going further than the
+  internet's own default. House/meta links (our own ecosystem, our own inbox) stay
+  `nofollow`-only. No fabricated sponsor entry ships -- the pool ships with exactly the two real,
+  current, honest items; a real vetted sponsor (Red Bull or otherwise) is a filter callback away,
+  not built here since none exists yet.
+  Wired live into `themes/edis/footer.php` (`slot="footer"`), the one real placement this pass.
+  New `EDIS/docs/AD_MONETIZATION_NORTHSTAR.md` (registered in `golden-docs-index.md`) documents
+  the full policy and honest gaps: no analytics on the site at all, no real sponsor yet, no
+  ad-pool admin UI beyond the one settings field, only one slot wired. Apple #18322. Commit
+  `9f409c4`.
+  (sess-20260905-0720-ec33e7c5)
+- [ ] **CP-EMILYPLUS-SUB-1: "lets build out the plumbing for emily plus so we can manage
+  subscribers lets assume people will want to sub to that and then we can have real users to
+  help us guide the products."** Founder real-time, stacked in the same thread as CP-ADMON-1
+  above -- routed through `emily observe` (Apple #18321), NOT YET IMPLEMENTED. Real prior art to
+  build on: `PRRJECT_FATBABY/docs/GTM_FUNNEL.md` already names Emily+ ($29/mo) as a real
+  monetization tier in the Ask Emily funnel; `IDUNA_PRO/internal/mailinglist` (Mailchimp-backed
+  subscriber vault, shipped 2026-09-05) is the closest existing real subscriber-management
+  primitive in this monorepo and the natural thing to extend or adapt, not necessarily build from
+  scratch. Needs real scoping (billing provider -- Stripe, per `dis-gfd-subscription`'s own real
+  precedent, is the obvious candidate -- subscriber tiers, what "manage subscribers" concretely
+  means for an admin) before implementation.
+  (sess-20260905-0720-ec33e7c5)
+- [ ] **CP-DATALICENSE-1: "also we can offer to license our data feeds we can have landing pages
+  for that."** Founder real-time, stacked in the same thread as CP-ADMON-1 above -- routed
+  through `emily observe` (Apple #18321), NOT YET IMPLEMENTED. Real prior art: `GTM_FUNNEL.md`'s
+  own "Merkle Query API tier" is the closest existing scoped idea for this; `signalapi` (`:9091`)
+  is the real, existing API surface a licensed feed would plausibly sit on top of (auth/metering/
+  pricing not yet designed). Needs real scoping (which feeds, pricing, auth/metering mechanism,
+  actual landing-page copy/placement) before implementation.
+  (sess-20260905-0720-ec33e7c5)
