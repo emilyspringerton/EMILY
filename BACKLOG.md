@@ -31226,8 +31226,6 @@ EMILY `482b8f7f` (golden-index).
   session bus reachable here) -- the new binaries need the standard deploy path to actually take
   effect on the live pipeline; not something this sandbox can do or verify directly.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **FB-12343: as soon as we tickerize a press release we want to publish a signal for TICKER mentioned in a press release** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
 - [ ] **GFD-1234: then pivot to GFD lets get the core game working basic mobs etc dungeon GUI the models are the least important part still there should be affordances to let the player understand what is happening lik** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 
@@ -31644,3 +31642,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0117-d84e3a4e)
 - [x] **CAREPYRE-SIP-4324324: SIP PHONE NEEDS DTMF DIAL TONES BOTH WHEN DIALING AND ALSO IN BAND WHILE IN A CALL VIA THE NUMBER PAD** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0117-d84e3a4e)
+- [x] **FB-12343: as soon as we tickerize a press release we want to publish a signal for TICKER mentioned in a press release** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
