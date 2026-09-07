@@ -31655,6 +31655,49 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0117-d84e3a4e)
 - [x] **FB-12343: as soon as we tickerize a press release we want to publish a signal for TICKER mentioned in a press release** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 290: PARENA CYBERSECURITY PRIMITIVES — REAL X.509 v0 (2026-09-07)
+
+- [x] **S290-01: founder's own pasted cybersecurity-primitives proposal ("if you want PARENA to
+  natively excel at cybersecurity, here are the core primitives...") — pcap/packet-capture,
+  binparse/struct, sysaudit/proc, asn1/dns/x509.** Routed through `emily observe` (Apple #18388).
+  Checked reality before building anything: 3 of the 4 requested areas already have real, shipped
+  implementations (`pentest/pcap.prn`, `pentest/dot11.prn`, `pentest/scan.prn` for packet capture;
+  `net/wire.prn` for byte-field parsing, narrower than a general struct DSL but real; `net/dns.prn`
+  + `ldap/ber.prn` for the ASN.1/BER encoding foundation X.509 needs). Native process/system
+  introspection (`/proc` listing, fd inspection, ptrace) is a genuine, unaddressed gap —
+  `process.prn` is real but scoped to fork+exec only; named, not built this pass.
+  Built the one clearly real, buildable gap: **X.509 certificate parsing.** Found live, before
+  writing any X.509 code, that `ldap/ber.prn`'s own `read-ber-length` only supported short-form
+  BER lengths (0-127 bytes) — every real field in a real certificate is essentially always
+  larger, so building directly on it would have made "X.509 support" fail on any real cert
+  immediately. Fixed the actual prerequisite first: `read-ber-length-ext`/`ber-header-size-ext`
+  (long-form BER length decode, 1-2 byte counts), live-verified against a genuine
+  openssl-generated DER certificate's own actual long-form bytes, plus 2 new honest `BerError`
+  boundaries (`IndefiniteLengthUnsupported`, `LongFormTooLong`). Then built
+  `stdlib/pentest/x509.prn` — a real, honestly-scoped v0: walks `Certificate` →
+  `tbsCertificate` and extracts `version` (RFC 5280 encoded int) + `serialNumber` (lowercase hex),
+  handling both real DER shapes of `version` (explicit `[0]` wrapper present, or its real
+  DEFAULT-v1 absence). New `make test-ber` (+4 assertions) and `make test-pentest-x509`
+  (3 assertions) against a genuine `openssl req -x509`-generated DER certificate, independently
+  cross-checked against `openssl x509 -noout -text -serial`'s own output before being embedded as
+  the test fixture. `make test`: 348/348, zero regressions. STDLIB.md registered (both the
+  `ldap/ber` addendum and the new `pentest/x509` section). Apple #18390. Commit `ddf45d1`.
+  Real, remaining gaps named for a future pass, not silently dropped: a general `binparse`/struct
+  DSL, native process/system introspection (`sysaudit`), and X.509's own deeper fields (issuer/
+  subject RDN, validity dates, public key, extensions, signature verification).
+  (sess-20260905-0720-ec33e7c5)
+
+- [ ] **S290-02: founder's own second pasted proposal — data-analysis/security-forensics
+  primitives (time-series rolling/resample windowing, hash-set intersection/union/difference,
+  Levenshtein/Hamming/Shannon-entropy string metrics, sparse CSR matrix support).** Routed through
+  `emily observe` (Apple #18389). Founder said "when u can" — no urgency stated. Deliberately NOT
+  scoped or built this pass, per the same "kanban it, don't northstar it" convention SECTION 289
+  already established for asks with no explicit build directive. Filed as 4 real kanban cards:
+  `DATAFRAME-ROLLING-001` (#370), `SET-PRIM-001` (#371), `STRING-DISTANCE-ENTROPY-001` (#372),
+  `LINALG-SPARSE-001` (#373). All sit in the backlog queue, untriaged, for a future real scoping
+  pass.
+  (sess-20260905-0720-ec33e7c5)
 - [ ] **SET-PRIM-001: Hash-set stdlib primitives (set.prn) — intersection/union/difference for IOC-matching at scale (500k malicious domains vs 10M firewall connections)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **DATAFRAME-ROLLING-001: Time-series rolling/resample windowing for dataframe.prn (rolling(window=), time-bucket resample, monotonic ns-precision index) — security-log brute-force/beaconing detection in rolling windows** Added via the IDUNA kanban interface, not yet triaged into a real section.
