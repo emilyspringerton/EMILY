@@ -31179,6 +31179,47 @@ EMILY `482b8f7f` (golden-index).
   7 new Go tests, all passing. `go build/vet/test ./...` clean. Apple #18311. IDUNA_PRO commit
   `185c74a`, CarePyre commit `f5a27d5`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 279: GAUNTLET V0 — DISCLAIMERS + TICKER LINKING + SKULDMARK (2026-09-07)
+
+- [x] **CP-GAUNTLET-1: "find GAUNTLET API docs for fatbaby content pipeline"** -> "one use case
+  of gauntlet is all auto generated articles need disclaimers; another is the tickerization via
+  (NYSE:F) raw text or metadata whatever we can get at" -> "then ensure SKULDMARK (the updated
+  version) is included in GAUNTLET obviously."** Founder real-time. Routed through
+  `emily observe` (Apple #18315) before implementing. Research first: GAUNTLET was NOT a real,
+  built API -- it was a 2026-07-19 NORTHSTAR-only concept
+  (`EMILY/docs/fable-prompts/gauntlet-press-release-publishing.md`, a broader editorial/
+  licensing pipeline, never built) plus one real, live enforcement point already referencing it
+  by name (`internal/tickerlink`'s own doc comment: "movers-watcher today; anything else Gauntlet
+  eventually manages," EMILY/BACKLOG.md SECTION 167). Real, found gap the founder's own two
+  examples exactly named: NONE of the three live auto-publishing generators (movers-watcher,
+  eps-processor, guidance-watcher) carried a disclaimer at all -- only `cmd/tina-engine`'s
+  human-reviewed, never-auto-published LLM drafts had one, baked into its own prompt text; and
+  ticker-linking was wired into movers-watcher only, not eps/guidance.
+  Shipped a real, narrow v0: new `internal/gauntlet` package
+  (`Disclaimer`/`AppendDisclaimer`/`AppendDisclaimerHTML`, `LinkIssuer`/`PlainIssuer` thin
+  wrappers over the existing `tickerlink`, `SkuldmarkTag`/`SkuldmarkTagHTML`) wired into all
+  three generators: movers-watcher now appends the disclaimer to both its plain and HTML bodies;
+  eps-processor/guidance-watcher append the disclaimer and a `PlainIssuer` ticker reference to
+  every article body.
+  **SKULDMARK, the updated (v1) layout, obviously included**: real, already-live minting
+  (`prwatch`'s own `mintSkuldmarkIDs`, unchanged) already stamps a SKULDMARK-25 ID onto
+  `identity.SecurityRef` at discovery time for watchlist tickers -- Gauntlet never re-mints, it
+  only propagates. `eps-processor`'s `loadTickerMap`/`guidance-watcher`'s `buildTickerMap` now
+  carry the full `SecurityRef` (not just the ticker string) through to a new
+  `SkuldmarkID` field on `eps.Article`/`guidance.Article` (json `skuldmark_id`, empty when
+  unmintable -- never guessed). `movers-watcher` mints its own (new
+  `mintTrackedSkuldmarks`, reusing `internal/skuldmarkid.FromSecurityRef` exactly as `prwatch`
+  already does) for any tracked/watchlisted mover with CIK+Exchange on file, rendering a real
+  `data-skuldmark="..."` tag next to it in both plain and HTML output.
+  New `gauntlet_test.go` + 2 new `movers-watcher` tests (`mintTrackedSkuldmarks` only mints for
+  complete entries; the HTML body actually renders the tag). `go build/vet/test ./...` clean
+  across the whole PRRJECT_FATBABY module. Apple #18316. Commit `64025b6`.
+  **Named, not fixed this pass**: could not restart/verify the live `movers-watcher`/
+  `eps-processor`/`guidance-watcher` systemd units from this sandbox (`systemctl --user`: no
+  session bus reachable here) -- the new binaries need the standard deploy path to actually take
+  effect on the live pipeline; not something this sandbox can do or verify directly.
+  (sess-20260905-0720-ec33e7c5)
 - [ ] **FB-12343: as soon as we tickerize a press release we want to publish a signal for TICKER mentioned in a press release** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **GFD-1234: then pivot to GFD lets get the core game working basic mobs etc dungeon GUI the models are the least important part still there should be affordances to let the player understand what is happening lik** Added via the IDUNA kanban interface, not yet triaged into a real section.
