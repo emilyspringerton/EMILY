@@ -31796,3 +31796,34 @@ EMILY `482b8f7f` (golden-index).
   BACKLOG-line-archival step is a known, separately-noted, not-yet-investigated gap from an
   earlier session).
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 292: CAREPYRE SIP PHONE — REAL STATE SURVEY + LIVE CALL MONITOR (2026-09-07)
+
+- [ ] **Priority-queue cluster CAREPYRE-911343/42143124/5435439434/245435/535454 ("make the SIP
+  phone actually work").** A full survey of the current, real state (not further work on any
+  one card, since all five overlap on the same underlying question) found: PJSIP registration
+  for both extensions (1000 native, 1000web webphone) is confirmed working live (the AOR-naming
+  bug from `sudo-queue/71` is fixed); IDUNA_PRO's provisioning (`sip_accounts.go`), QR-code
+  onboarding (`sip_provisioning_fetch.go` + `console.html`'s own QR generator), and the Android
+  app's own real SIP/RTP/DTMF/G.711 signaling code (`CarePyre/android/.../sip/`, a real, honest
+  hand-port of the PARENA `sip/*.prn` stdlib, not a stub) are all real and wired end to end.
+  PARENA's own `pbx/ami.prn` (Phases 1-3: Login/Originate/Hangup/QueueStatus action builders) is
+  real and unit-tested but has never been run against a live Asterisk instance — Asterisk itself
+  is NOW actually running (it wasn't when Phase 2 was last attempted), so this is newly
+  unblocked. **The one real, still-unverified link, named directly**: no one has ever watched a
+  real INVITE reach a device, get answered, and carry actual two-way audio, end to end — every
+  piece upstream of that is confirmed, but the live call itself has never been witnessed. This
+  is genuinely NOT closeable by a background script alone — it requires a real person actively
+  placing or receiving a call at the same moment something is watching.
+  Built `sudo-queue/74-ami-call-monitor.sh`: reads the AMI secret directly from
+  `manager.conf`'s own `[parena]` section inside the founder's own root session (never printed,
+  never leaves the local AMI TCP connection — matching `50-install-asterisk-pbx.sh`'s own
+  established "secrets from a queued script never surface to the agent" rule), logs into AMI,
+  and narrates real call events (`Newchannel`/`Newstate`/`DialEnd`/`Hangup`/`ContactStatus`) in
+  plain English while a real test call is placed. **Concrete, real next action, not yet taken —
+  needs the founder**: run `sudo bash sudo-queue/74-ami-call-monitor.sh`, then place or receive
+  one real test call (dial in via the Twilio trunk, or just open the webphone/Android app and
+  make a call) — the script's own live output will be the first real, direct evidence of
+  whether the full path actually works, and exactly where it breaks if not. MONOREPO commit
+  `02ebce8`.
+  (sess-20260905-0720-ec33e7c5)
