@@ -2479,6 +2479,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: requested geo-restricting the CarePyre mail server to US/Mexico/Canada, initially asking about Cloud…** — obs `2026-09-07T11:15:59Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: build GDPR into IDUNA_PRO multi-tenant with data exporting and data delete request pipeline; cookie …** — obs `2026-09-07T11:37:32Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: build HIPAA operational framework into CarePyre -- providers can create participant email accounts (…** — obs `2026-09-07T11:41:04Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time: extend provider role model to SIP provisioning (mail-accounts.provision treatment mirrored as sip-ac…** — obs `2026-09-07T11:57:35Z`. CURATED: 2026-09-07.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
