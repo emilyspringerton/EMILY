@@ -31347,3 +31347,30 @@ EMILY `482b8f7f` (golden-index).
   GAUNTLET/movers-scheduling work. Apple #18329. IDUNA commit `9e56e2b`, BRAWLPIT commit
   `0ba457a`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 283: BRAWLPIT FREE 3-HAT PICKER -- WOTAN HAT STORE PHASE 3, FIRST SLICE (2026-09-07)
+
+- [x] **CP-WOTAN-HATS-2: "continue"** (direct follow-through on CP-WOTAN-HATS-1's own offer to
+  "start with the free 3-hat picker (no login/network needed, so it's the tractable first
+  slice)"). Founder real-time. Routed through `emily observe` (Apple #18336) before
+  implementing. Real, shipped: `apps/lobby/src/main.c`'s `STATE_CHARACTER_SELECT` screen now
+  offers No Hat/Blue/Red/Green per player slot via Up/Down (keyboard or pad d-pad/left-stick,
+  unused by this screen otherwise so no input collision), rendered as a solid-color brim+crown
+  above each fighter using the screen's own existing `draw_rect` primitive -- real, deliberate
+  v0: no new asset/texture pipeline needed for a flat-color swatch. New `draw_hat()` helper, new
+  `selected_hat[2]` state matching `selected_chars`'s own per-player-slot convention. Wired into
+  BOTH of this screen's two structurally-identical update/render blocks (found live, byte-diffed
+  to confirm: one event-driven, one per-frame) to stay consistent with this file's own
+  established pattern of every character-select input needing to be applied twice.
+  Verified real, not just "compiles": `scripts/build.sh` (client + dedicated UDP server + the
+  full physics smoke-test suite, ~25 assertions) all pass clean; a headless run
+  (`SDL_VIDEODRIVER=dummy`) starts and runs without crashing.
+  Real, honest, explicitly not solved by this slice (named in
+  `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md`): the equipped hat only renders on the SELECT
+  screen, not on a fighter mid-match -- BRAWLPIT's own asset pipeline still has no "attach a
+  cosmetic layer during a match" point, the one real remaining blocker for rendering ANY hat
+  in-match, free or purchased. The "any hats the user has unlocked" half of the founder's own
+  ask (real IDUNA login + the store's own inventory) also stays unbuilt -- `apps/lobby` has no
+  HTTP client of any kind, only the game's own UDP protocol to `apps/server`; a real, separate,
+  larger follow-up, not attempted here. Apple #18338. Commits `b73b3f5`/`9dc5b07`.
+  (sess-20260905-0720-ec33e7c5)
