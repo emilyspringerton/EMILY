@@ -31700,6 +31700,29 @@ EMILY `482b8f7f` (golden-index).
   `LINALG-SPARSE-001` (#373). All sit in the backlog queue, untriaged, for a future real scoping
   pass.
   (sess-20260905-0720-ec33e7c5)
+
+- [x] **S290-03: founder's own third pasted proposal, same thread — "Raw Socket Protocol
+  Overrides (IP_HDRINCL): a primitive socket option that tells the host operating system kernel:
+  'Do not auto-generate the IP header for this payload; the PARENA standard library has manually
+  crafted the raw bytes.'"** Routed through `emily observe` (Apple #18393). Checked reality first:
+  every real socket primitive before this (`net/tcp.prn`, `net/udp.prn`) let the kernel build the
+  IP header — genuinely no way to hand-craft one in PARENA before this. Built real host glue in
+  `runtime/parena_runtime.h` (`rawsocket_open_impl`/`rawsocket_hdrincl_impl`/
+  `rawsocket_sendto_impl`/`rawsocket_close_impl`) and `stdlib/net/rawsocket.prn` on top:
+  `raw-ip4-open`/`raw-hdrincl-enable` as two separate real primitives (matching the founder's own
+  framing — "a primitive socket option," not "always on"), a `raw-ip4-open-hdrincl` convenience,
+  `raw-ip4-send`/`raw-ip4-close`. Real, standing, unavoidable OS-level limitation named directly:
+  `SOCK_RAW` requires `CAP_NET_RAW`/root on every real POSIX kernel — no stdlib can lift that gate.
+  New `make test-net-rawsocket`, following `pentest/pcap.prn`'s own already-established
+  convention: live-checks this sandbox's own actual privilege (`geteuid()`), asserts the real,
+  deterministic `PermissionDenied` this fatbaby user's own real, current privilege level (no
+  `CAP_NET_RAW`, no passwordless root) genuinely produces, plus a privilege-independent invalid-
+  dest-ip rejection check. The real success path (open+HDRINCL+send+close, a real hand-crafted
+  20-byte IPv4 header + 8-byte ICMP echo payload) is written as real, structurally complete code,
+  gated to run automatically under real root/CAP_NET_RAW — honestly labeled as not exercised by
+  this sandbox's own current run, not silently skipped. `make test`: 348/348, zero regressions.
+  STDLIB.md registered. Apple #18394. Commit `ab2c278`.
+  (sess-20260905-0720-ec33e7c5)
 - [ ] **SET-PRIM-001: Hash-set stdlib primitives (set.prn) — intersection/union/difference for IOC-matching at scale (500k malicious domains vs 10M firewall connections)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **DATAFRAME-ROLLING-001: Time-series rolling/resample windowing for dataframe.prn (rolling(window=), time-bucket resample, monotonic ns-precision index) — security-log brute-force/beaconing detection in rolling windows** Added via the IDUNA kanban interface, not yet triaged into a real section.
