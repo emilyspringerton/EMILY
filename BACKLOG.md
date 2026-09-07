@@ -31523,3 +31523,5 @@ EMILY `482b8f7f` (golden-index).
   next, not board hygiene, and wasn't part of this pass's own scope.
   171 -> 165 cards. No code changed. Apple #18352.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **IDUNAPRO-CHAT-001: super basic chat in IDUNA Pro** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
