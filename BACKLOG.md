@@ -30888,3 +30888,42 @@ EMILY `482b8f7f` (golden-index).
   redaction tests and 1 new `ScrubPII` projector test). Apple #18258. IDUNA_PRO commit
   `65f64f5`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 270: CAREPYRE HIPAA OPERATIONAL FRAMEWORK — RBAC TIERS + SIP + SOC2 (2026-09-07)
+
+- [x] **CP-HIPAA-2: extend the provider role to SIP; build a 4-tier admin hierarchy (Top Admin /
+  Operator Admin / Provider Admin / Provider Operator); write a SOC 2 readiness mapping.**
+  Founder real-time, continuing S269's own IDUNAPRO-GDPR-1 session: "and then give the same
+  treatment for sip also the top admins at carepyre can disable admins but mid level operator
+  admins cant disable other operator admins etc - but really the providers need the provider
+  admin and the provider operators who can provision if that make sense - so its like a 3 or 4
+  layer model to start with" + "also anything we can do to get ahead of soc 2 compliance ... we
+  want soc 2 on the whole emily for business platform including the platform idunapro
+  offering." Routed through `emily observe` first (obs #2026-09-07T11-57-35Z, Apple #18267).
+  **RBAC hierarchy (IDUNA_PRO)**: real 4-tier model -- Top Admin (`IsAdmin`/uid=0, unrestricted,
+  gets the new `admins.manage` permission), Operator Admin (new `IsOperatorAdmin`, identical
+  practical permission set to Top Admin EXCEPT cannot modify/disable another admin-tier
+  account -- enforced server-side in `users.go`'s `updateUser`/`deleteUser` via a real tier
+  guard, not a UI convention), Provider Admin (new `IsProviderAdmin`, provisions like a Provider
+  Operator plus gets `providers.manage` to grant/revoke the Provider Operator role on others --
+  a `providers.manage`-only caller is restricted to touching `is_provider` alone), Provider
+  Operator (`IsProvider`, unchanged from S269's own CP-HIPAA-1). Granting any admin-tier role
+  itself stays Top-Admin-only, matching CP-SIP-ADMIN-124323's own admin-genesis caution.
+  Migrations `202609070004_local_users_tiered_admin_roles.sql`,
+  `202609070005_sip_accounts_created_by.sql`.
+  **SIP provider treatment**: `sip-accounts.provision` extends the exact same minimum-necessary
+  scoping `mail-accounts.provision` already established to `SipAccountsHandler` -- a provider
+  can list/upsert/remove SIP accounts scoped to participants they already manage (an existing
+  SIP account or mailbox they created), never an arbitrary uid; upsert rejects provisioning for
+  an unrelated participant with 403.
+  15 new tests (tier-guard restrictions, provider SIP scoping). `go build/vet/test ./...` clean.
+  Apple #18268. IDUNA_PRO commit `053dc88`.
+  **SOC 2 readiness mapping**: `IDUNA_PRO/docs/SOC2_READINESS_NORTHSTAR.md` -- explicitly NOT a
+  compliance claim (that needs a real, independent CPA audit). Maps the 5 Trust Services
+  Criteria against real current controls (the new 4-tier RBAC, the append-only Apples audit
+  ledger, opt-in PGP/S-MIME encryption, the GDPR export/erasure pipeline) with honest, named
+  gaps per criterion (no written infosec policy, no pen-testing ever run, no incident-response
+  runbook, no monitoring/alerting stack, no backup/restore drill, no vendor/sub-processor
+  registry, no DPA template) and 5 concrete next steps. Apple #18270. IDUNA_PRO commit
+  `14db78f`. Golden-index: `SOC2-READINESS-NORTH`.
+  (sess-20260905-0720-ec33e7c5)
