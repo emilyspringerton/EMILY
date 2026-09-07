@@ -2492,6 +2492,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue work on the BRAWLPIT/WOTAN hat store, including BRAWLPIT-side affordances -- an optional lo…** — obs `2026-09-07T17:54:59Z`. CURATED: 2026-09-07.
 - [ ] **Continuation (autonomous, delegated 'whatever you think'): implement in-match rendering of the free WOTAN hat picker on…** — obs `2026-09-07T18:52:46Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: BRAWLPIT multiplayer has never worked for the founder specifically -- asked for a reasonable pivot p…** — obs `2026-09-07T19:05:28Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time: continue adding APIs to PAPERCRAFT's PARENA mod surface toward Roblox API parity -- specifically, wa…** — obs `2026-09-07T19:25:06Z`. CURATED: 2026-09-07.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
