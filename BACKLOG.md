@@ -30996,3 +30996,35 @@ EMILY `482b8f7f` (golden-index).
   positions directly. `bash scripts/build.sh` + `scripts/test_arena.sh` both clean: 1200 PASS,
   zero regressions. NORTHSTAR.md §22.9. Apple #18281. ECOWAR commit `e396bdc`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 274: ECOWAR — CAMP MINION CHASE/LEASH + PYROMANCER CASTER (2026-09-07)
+
+- [x] **ECOWAR-DENSITY-3: "creeps should have agro range and chase to a certain extent like
+  lol" + "also we need caster creeps with attack like garyt [Gary]."** Founder real-time.
+  Routed through `emily observe` first (obs #2026-09-07T13-20-16Z, Apple #18284). Real,
+  previously-missing gap closed: no creep system in this file ever moved toward a hero before
+  this pass -- every one attacked passively only when a hero happened to stand within a fixed
+  aggro radius. Camp minions now have real LoL-style aggro+chase+leash+reset built on a new
+  persistent `chase_target_hero` field: a hero inside `ARENA_CAMP_MINION_AGGRO_RADIUS` is
+  acquired as a real, remembered target; out of the new `ARENA_CAMP_MINION_ATTACK_RANGE` (1.6)
+  but still valid, the minion actually chases; beyond `ARENA_CAMP_MINION_LEASH_RANGE` (2x aggro
+  radius, measured from the minion's own home/camp position, never its current chased position)
+  it gives up, marches home, and heals to full HP on arrival -- real "camp resets," so kiting for
+  free chip damage isn't viable. Ravager (tunnel-vision, no meaningful home) is unaffected,
+  falling straight to its own unconditional march-to-node behavior as before. New Pyromancer
+  archetype (4th camp-minion archetype): a real ranged-attack role "like Gary" -- distinct from
+  Hexbound (a pure-support buffer that never attacks) -- trading `ARENA_PYROMANCER_HP` (20) for
+  `ARENA_PYROMANCER_ATTACK_RANGE` (3.5), same design pattern the existing lane-creep caster role
+  already uses. 3 new tests (real chase movement, leash give-up + home-return + HP-reset, ranged
+  Pyromancer hit without moving). `bash scripts/build.sh` + `scripts/test_arena.sh` both clean:
+  1208 PASS, zero regressions. NORTHSTAR.md §22.10. Apple #18285. ECOWAR commit `516e6ef`.
+  **North star, explicitly not built this pass** (NORTHSTAR.md §22.11): hybrid vector-model +
+  heuristic "brain" per NPC unit (founder self-corrected from an initial "LLM" framing --
+  "not lm ummm vector brain... whatever thats called - model yadda" -- a real per-tick LLM call
+  per unit would be far too slow for this simulation's own tick rate; the existing
+  `rl_policy_forward` small-neural-net bot-hero AI is the real, existing precedent this would
+  build on, nothing analogous exists for NPCs/creeps yet) and Dwarf-Fortress-style individual
+  unit personalities (currently zero per-instance trait state beyond position/HP/cooldowns, only
+  per-archetype constants -- a real, large, unscoped architecture question, named honestly not
+  guessed at).
+  (sess-20260905-0720-ec33e7c5)
