@@ -31499,3 +31499,26 @@ EMILY `482b8f7f` (golden-index).
   couldn't have been meaningfully tested without it. Apple #18349. Commits `70ee67a`
   (item_drop_mod), `81872c9` (the random fix).
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 287: KANBAN BOARD CLEANUP (2026-09-07)
+
+- [x] **CP-KANBAN-CLEAN-1: "organize the kanban"** -> "there is shit in there i dont know what
+  it is" -> "do the nasty" -> "whatever u think." Founder real-time, full delegated judgment.
+  Routed through `emily observe` (Apple #18351) before acting. Reviewed all 171 cards across
+  backlog/priority/cruise. Removed 6, each with a concrete, verified reason, none guessed:
+  `#7` (S202-200) was a literal test artifact ("THIS IS A TEST DOES THIS WIND UP IN THE TEXT
+  FILE OR IS IT A PHANTOM IN THE SYSTEM?"); `#320`/`#321` (BP-LVL-1236/1237) were exact-text
+  duplicates of `#319` (BP-LVL-1234), kept; `#293` (BPLE-13331) was an exact-text duplicate of
+  `#292` (same ID, same text), kept; `#52` ("208") and `#53` ("210") were both already
+  superseded by their own real, renumbered replacements (`#57` S243-03 and `#56` S243-04
+  respectively), each of which explicitly says "(was '208')"/"(was '210')" in its own text --
+  not a guess, the board's own record already named the supersession.
+  **Deliberately NOT deleted**: the many real, legible ideas sitting under ugly, ad-hoc numeric
+  IDs (`9999`, `7799`, `109777`, etc.) -- these are real backlog content the founder or a prior
+  session typed in a hurry, not junk, just badly labeled; renaming them wasn't attempted (no
+  rename affordance exists in `emily kanban`, only `move`/`add`/`rm`). Also deliberately did NOT
+  re-triage priority-tier assignments (e.g. whether the sudo-blocked CarePyre Asterisk cards
+  should move out of `priority`) -- that's a real, separate judgment call about what to work on
+  next, not board hygiene, and wasn't part of this pass's own scope.
+  171 -> 165 cards. No code changed. Apple #18352.
+  (sess-20260905-0720-ec33e7c5)
