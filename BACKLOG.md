@@ -31305,3 +31305,44 @@ EMILY `482b8f7f` (golden-index).
   correctly labeled. New test locking in the distinct-ID/headline behavior. `go build/vet/test
   ./...` clean across the whole module. Apple #18325. Commit `8e64e1f`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 282: WOTAN HAT STORE -- PHASE 2 VERIFIED LIVE + PHASE 4.5 SHIPPED (2026-09-07)
+
+- [x] **CP-WOTAN-HATS-1: "continue work on the brawlpit hat store"** -> "including affordances
+  on the brawlpit side (optional login screen on the hat selection screen give a blue and a red
+  hat and a green hat to choose from in addition to any hats the user has unlocked)." Founder
+  real-time. Routed through `emily observe` (Apple #18328) before implementing. Research first,
+  against `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md`'s own real, phased status: Phase 2 (the
+  WOTAN store page) was marked "code-complete, not yet live -- blocked on WOTAN-DNS-001's own
+  sudo-queue deploy." **Real, decisive correction found live**: that deploy had already
+  happened -- `wotan.okemily.com` returns a real 200. Live-verified the full read path end to
+  end against the running `iduna.service`: registered a real test player, confirmed
+  `GET /api/v1/hats` returns the real 6-hat catalog through the WOTAN proxy with a real Bearer
+  JWT, confirmed the correct "no DragonsNShit character for this player_id" response for a
+  brand-new signup with no GFD character yet. The doc's own prior "no live verification
+  possible" status was simply stale, not a real remaining blocker.
+  Shipped Phase 4.5's own real, previously-named gap ("surprise box" -- founder's own prior
+  clarification, kanban `HS-GFD-2223`: "it needs to get generated when the player uses the item
+  in GFD -- it is actually like a tradable token"): a new migration adds `user_generated`/
+  `generated_by_character_id` to `hats`; new `POST /api/v1/characters/:id/hats/generated`
+  (agent-only, same "level/job updates are agent-only" pattern `mmo.go` already establishes)
+  inserts a brand-new `hats` row (`flow_cost=0` -- Flow was already spent on the box) and grants
+  it to the character in one real transaction -- closing the free-hat-creation exploit an
+  unrestricted, player-callable version would otherwise be. 2 new tests (agent creates+grants;
+  plain player JWT rejected, zero rows created). `go build/vet/test ./...` clean across the
+  whole IDUNA module. Live-verified end to end: minted a real `DRAGONSNSHIT-MUD` agent token,
+  generated a real hat for a real character, confirmed both the `hats` row
+  (`user_generated=1`, correct `generated_by_character_id`) and the `character_hats` grant
+  landed, then cleaned up the test data.
+  **Phase 3 design resolved** (the doc's own prior "real, unresolved technical question, not
+  designed"): BRAWLPIT's hat-selection screen (`STATE_CHARACTER_SELECT`) always offers 3 free,
+  no-login-required hats (Blue/Red/Green); login stays optional, and additionally surfaces any
+  real hats the player unlocked via the store (Phase 1's own `GET /api/v1/characters/:id/hats`),
+  mixed into the same list. Real, honest, not built this pass: the native SDL2 hat-picker UI, a
+  new IDUNA HTTP client for `apps/lobby` (which has none today -- only the game's own UDP
+  protocol to `apps/server`), and the still-unresolved "attach a cosmetic layer onto a fighter
+  sprite" rendering point, which the 3 free hats need exactly as much as a purchased one does --
+  sized as its own dedicated pass, not folded into this session's broader ad-monetization/
+  GAUNTLET/movers-scheduling work. Apple #18329. IDUNA commit `9e56e2b`, BRAWLPIT commit
+  `0ba457a`.
+  (sess-20260905-0720-ec33e7c5)
