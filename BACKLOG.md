@@ -2494,6 +2494,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: BRAWLPIT multiplayer has never worked for the founder specifically -- asked for a reasonable pivot p…** — obs `2026-09-07T19:05:28Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: continue adding APIs to PAPERCRAFT's PARENA mod surface toward Roblox API parity -- specifically, wa…** — obs `2026-09-07T19:25:06Z`. CURATED: 2026-09-07.
 - [ ] **Founder real-time: organize/clean up the kanban board -- found junk in it. Removed a literal test-artifact card, 3 exac…** — obs `2026-09-07T19:36:22Z`. CURATED: 2026-09-07.
+- [ ] **Founder real-time: build screen sharing + super basic chat into IDUNA Pro (explicitly: don't NORTHSTAR it, just kanban …** — obs `2026-09-07T20:53:55Z`. CURATED: 2026-09-07.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
