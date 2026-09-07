@@ -30945,3 +30945,24 @@ EMILY `482b8f7f` (golden-index).
   of leaving someone stuck on "Connecting..." forever. Standalone (no query params) behavior
   unchanged. Apple #18272. CarePyre commit `e30e203`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 272: ECOWAR — BOSS-DEATH-AS-MATCH-EVENT (2026-09-07)
+
+- [x] **ECOWAR-DENSITY-1: King kills need a real board-state consequence, not just a buff/econ
+  reward -- "keep grinding on ecowar it should be a dense and rhobust experience like a rts."**
+  Founder real-time. Routed through `emily observe` first (obs #2026-09-07T12-50-37Z, Apple
+  #18276). Closed the exact gap NORTHSTAR.md named twice and left open both times
+  (§22.6/2026-08-10, §22.7/2026-09-06): `king_reward_wave` (`arena_game.c`, called from
+  `arena_hero_attack_kings`' own kill branch alongside `king_grant_buff`) spawns 3
+  (`ARENA_KING_REWARD_WAVE_SIZE`) bonus lane creeps for the KILLER's team, reusing the lane-creep
+  system's already-tested team ownership/waypoint-marching/combat wholesale rather than teaching
+  the neutral camp-minion system a new ownership concept. The real, board-changing part: they
+  spawn at waypoint 1 (the contested center node) instead of waypoint 0 (spawn line) -- a genuine
+  tempo swing an opponent has to react to, not just a bigger buff number -- and carry a +50% HP
+  bonus (`ARENA_KING_REWARD_CREEP_HP_BONUS_PCT`) so it reads as "a real strike force," not a
+  slightly-early normal wave. `ARENA_MAX_LANE_CREEPS` grew to give this real headroom alongside
+  an ordinary wave. One new test (`test_king_kill_spawns_reward_wave_of_lane_creeps`) verifies
+  count/team/waypoint/HP directly off real post-kill state. `bash scripts/build.sh` +
+  `scripts/test_arena.sh` both clean: 1191 PASS, zero regressions. NORTHSTAR.md §22.8. Apple
+  #18277. ECOWAR commit `a19a81a`.
+  (sess-20260905-0720-ec33e7c5)
