@@ -2524,6 +2524,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: write NEVER_LAND E5, continuing from E4 (the Stillness Council review of the Man's broken protocol) …** — obs `2026-09-08T09:18:09Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: NEVER_LAND season ending direction — if that's the end, it just resets and Tyler/Hana don't escape. …** — obs `2026-09-08T11:24:26Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: session-boundary directive — 'i think its over,' wrapping session sess-20260905-0720-ec33e7c5 after …** — obs `2026-09-08T11:23:00Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: write Season 6 Episode 0 (S06E00), the first episode of the season after NEVER_LAND resets without a…** — obs `2026-09-08T11:28:32Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: next TYLER season after NEVER_LAND is arbitrarily designated Season 6.** — obs `2026-09-08T11:28:12Z`. CURATED: 2026-09-08.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
