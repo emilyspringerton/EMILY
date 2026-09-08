@@ -32177,3 +32177,33 @@ EMILY `482b8f7f` (golden-index).
   `NORTHSTAR_DISTRO.md` updated with the full trail. EmilyOS commits `eff60d2`/`1498464`.
   Top-level monorepo commit `770a8e967`. Apple #18469.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 302: EMILYOS — PHASE 3 BOOT-TEST ATTEMPTED, REAL PARTIAL SIGNAL (2026-09-08)
+
+- [x] **Founder real-time: "continue."** Checked the backlog first per protocol before picking a
+  new item — found and flagged a real, separate, cross-cutting finding: a large chunk of this
+  file's own intake queue (dozens of items dated back to 2026-08-09) is stuck with `Blocked on
+  HITL-11 (ANTHROPIC_API_KEY credit balance dead)` — the exact same dead-credit-balance issue
+  found live earlier this session blocking `gpt2-alpine-c`'s new CoT feature. Real, external,
+  only-founder-fixable (adding Anthropic API credits) — flagged directly rather than silently
+  worked around or ignored. Also refreshed the stale `EMILYOS-DISTRO-NORTH` golden-docs-index
+  entry (still described the original Arch-based scoping-only pass) to reflect the real
+  2026-09-08 pivot and progress since.
+  Continued EmilyOS Phase 3 (boot-test, previously not started): root-lessly bootstrapped
+  `qemu-system-aarch64` (`apt-get download` + `dpkg-deb -x`, same technique as the rest of this
+  session; two transitive deps — `libndctl6`/`libdaxctl1` — found only by iterating real "cannot
+  open shared object" errors, not predicted up front). Attempted a real boot of the actual
+  `vmlinuz-rpi`/`initramfs-rpi`/`bcm2710-rpi-3-b.dtb` under `-M raspi3b` with the corrected
+  `root=`-bearing cmdline from SECTION 301. **Real, honest partial result**: no visible console
+  output reached stdio across several variants tried (`-serial stdio`, `-nographic`, `mon:stdio`,
+  with/without an explicit `earlycon=` argument), but QEMU's own `-d guest_errors,unimp` debug
+  log confirms the kernel IS actively executing and probing real hardware (35 real log lines:
+  mailbox property tags, register writes, USB controller reset attempts) — a genuine signal the
+  kernel+dtb pairing boots far enough to start real hardware init, not an immediate crash. Most
+  likely explanation named directly, not yet confirmed: Alpine's kernel may target the
+  framebuffer console by default (matching the ORIGINAL stock cmdline's own `console=tty1`)
+  rather than either RPi UART, which a headless (`-display none`) test wouldn't show. Phase 3
+  stays explicitly OPEN, not closed — real, improved confidence without yet producing the actual
+  conclusive pass/fail boot signal it exists to get. `NORTHSTAR_DISTRO.md` updated with the full
+  trail. EmilyOS commits `dd75836`/`0b341c6`. Apple #18471.
+  (sess-20260905-0720-ec33e7c5)
