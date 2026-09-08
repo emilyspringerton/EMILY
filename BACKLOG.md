@@ -32626,3 +32626,34 @@ EMILY `482b8f7f` (golden-index).
   `activity.md` (Build 0132 entry), `CHANGELOG.md` all updated. TYLER commits `e348c64`/
   `6d828e3`. Apple #18516.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 314: TYLER — NEVER_LAND E3 "THE LINE COUNT" WRITTEN (2026-09-08)
+
+- [x] **Founder real-time: "next episode."** Wrote NEVER_LAND E3, "The Line Count" (Build 0133),
+  continuing directly from E2's own cliffhanger (Tyler and Hana pushing through an unmarked exit
+  door into light that "isn't weather") — another AI-authored continuation, named as such
+  directly in `EPISODES.md`/`activity.md`.
+  Real, structural naming used rather than new lore invented from nothing: the exit door doesn't
+  lead outside the Academy at all — it loops through a white non-space where **Emily OS (Layer
+  4)** manifests directly for the first time in NEVER_LAND, via her own real, pre-existing modal-
+  tile convention already documented in `README.md` (eggshell-white, sliding in from nowhere,
+  "concierge-perfect" typography, minimal line count). The show's own four-layer architecture
+  already defines **Layer 1, "Custody Trial,"** as "infrastructure drama; when someone touches
+  Layer 4 directly" — this episode names, directly and explicitly, that NEVER_LAND (a season
+  built entirely around a literal custody decision — person vs. resource) IS a real instance of
+  that pre-defined layer, not a new concept bolted on.
+  NLE01's own "the debt... collects proof that we were here" is identified as the same real
+  sentence as CAST's own already-established doctrine, "the footage is hers before it is theirs"
+  — Emily OS states it plainly on-screen: "I AM THE LEDGER." Forced to classify Tyler again after
+  contact with the Ledger falls outside any existing custody-assessment protocol, Hana instead
+  asks to be classified in Tyler's place — a real turning point Emily OS resolves by
+  reclassifying BOTH: Tyler "WITNESSED, NOT OWNED," Hana "PRESENT, NOT ASSIGNED," closing this
+  line of the Ledger without closing "the book." The Archivist (the Morrigan, introduced in E2)
+  repeats her own established seed phrase back at the outcome — "Refused once. Present ever
+  since." — closing a real narrative loop across all three episodes. The Man's authority visibly
+  cracks for the first time in the season. Episode ends on the Academy steps, real daylight, Hana
+  deferring the actual-leaving question: "Ask me tomorrow."
+  Checked against Writer's Room Rule 1 — confirmed compliant. `EPISODES.md` (episode count
+  92→93, new NLE03 crossover note), `activity.md` (Build 0133 entry), `CHANGELOG.md` all updated.
+  TYLER commits `2211339`/`8525c2d`. Apple #18518.
+  (sess-20260905-0720-ec33e7c5)
