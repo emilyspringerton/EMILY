@@ -32347,3 +32347,41 @@ EMILY `482b8f7f` (golden-index).
   boot depends on, each a real, separate, much larger undertaking named as later phases, not
   attempted here.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 306: PARENA-POWERED BUSYBOX — REAL, MINIMAL SH V0 SHIPPED (2026-09-08)
+
+- [x] **Founder real-time: "zsh etc build it prn."** Continued `PARENA_COREUTILS_NORTHSTAR.md`
+  Phase 3 (the `sh` applet, named there as "the largest, hardest real phase"). Real, live audit
+  done BEFORE writing anything, per that same doc's own stated judgment call: read this session's
+  own already-built EmilyOS Alpine rootfs's real `/etc/init.d/hostname`/`bootmisc` scripts and
+  found they use real shell FUNCTIONS, `if`/`[ ]` conditionals, and `${var:-default}` parameter
+  expansion — genuinely closer to a full POSIX shell than a "sequential commands" toy. Running
+  those real scripts is explicitly named as NOT this pass's goal (a real, separate, much later
+  milestone), rather than silently oversold as done.
+  Shipped a real v0 shell: `stdlib/coreutils/sh.prn` has real PARENA logic — `tokenize-line` (a
+  real, quote-aware word-splitter: single/double quotes suppress whitespace/`;` splitting and are
+  stripped from the output word; `;` is itself both a splitter and its own emitted token, letting
+  the host split sequential commands) and `expand-word` (real, minimal whole-word `$VAR`
+  expansion via a new `getenv(3)`-backed `raw-getenv` primitive). `tools/parenash_host.c` does
+  the real process management every actual shell needs: a REPL loop (interactive `$ ` prompt on a
+  real tty, silent script-mode otherwise — `parenash < script.sh` works too),
+  `fork`/`execvp`/`waitpid` for real external commands, and three real builtins that must run in
+  the PARENT process (a forked child could never affect the shell's own cwd/environment) — `cd`,
+  `export NAME=value`, `exit [code]`.
+  Found and worked around a real, live VS0 emitter gap, named directly rather than silently
+  patched around: a `loop` whose own terminal (non-`recur`) branch resolves to `Unit` produces an
+  invalid `void __loop_result_N` C local (confirmed live via a real gcc "declared void" error) —
+  `tokenize-line`'s own terminal branch gives itself a real, dummy `""` tail value instead (the
+  function's real result, `words`, is read from the enclosing `let`, never the loop's own value)
+  — a real, separate emitter bug, not fixed in `src/emit.c` itself this pass.
+  New `make parenash`/`test-parenash` targets. Real end-to-end test coverage
+  (`tests/test_parenash.c`) pipes real script text into the ACTUAL compiled binary via `popen` —
+  9 real assertions (quoting, `;`-sequencing, real `$VAR` expansion via `export`, all 3 builtins
+  including proving `cd` genuinely mutates the shell's own parent-process cwd not a throwaway
+  child's, and the standard `127` "not found" exit code) — all pass. `make test`: 347/347, zero
+  regressions. `PARENA_COREUTILS_NORTHSTAR.md`/`STDLIB.md` updated with the full real trail.
+  PARENA commits `3fefc89`/`e2fa5c3`. Apple #18489. Real, honest v0 boundary: no pipes,
+  redirection, functions, conditionals/test builtin, job control, or mid-word `$VAR` expansion —
+  a real, useful toy shell, not yet capable of running real OpenRC scripts (Phase 3b, named
+  directly as the concrete next slice, not started).
+  (sess-20260905-0720-ec33e7c5)
