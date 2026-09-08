@@ -2522,6 +2522,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: write NEVER_LAND E3, continuing from E2's cliffhanger (Tyler and Hana pushing through the unmarked e…** — obs `2026-09-08T09:04:25Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: write the next episode of TYLER's new NEVER_LAND season (E2), continuing directly from E1's cliffhan…** — obs `2026-09-08T08:56:30Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: write NEVER_LAND E5, continuing from E4 (the Stillness Council review of the Man's broken protocol) …** — obs `2026-09-08T09:18:09Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: NEVER_LAND season ending direction — if that's the end, it just resets and Tyler/Hana don't escape. …** — obs `2026-09-08T11:24:26Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: session-boundary directive — 'i think its over,' wrapping session sess-20260905-0720-ec33e7c5 after …** — obs `2026-09-08T11:23:00Z`. CURATED: 2026-09-08.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
