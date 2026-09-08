@@ -32980,3 +32980,49 @@ EMILY `482b8f7f` (golden-index).
   until pipe close, real file/stdin passthrough, real timed sleep, real environment variables.
   EmilyOS commit `6788ad1`. Apple #18586.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 323: EMILYOS CI — AUTO-RELEASE JOB, MATCHING PARENA'S OWN PATTERN (2026-09-08)
+
+- [x] **Founder real-time: "do we have artifacts publishing and auto releasing the same way as
+  parena repo?" -> "yea."** Investigated first, not assumed: `PARENA/.github/workflows/ci.yml`
+  has a full real pipeline — builds for Linux/Windows/macOS, a construct-bundle artifact, and a
+  dedicated `release` job (gated to push-to-main only) that auto-bumps a version, tags it, and
+  runs `gh release create` for a real, persistent GitHub Release with binaries attached.
+  `EmilyOS/.github/workflows/ci.yml` had only one job uploading an ephemeral,
+  run-scoped `actions/upload-artifact` output — nothing on the repo's own Releases page. (Also
+  named for context, not touched: CarePyre's Android app has a third, simpler pattern — always
+  publish the latest debug APK, no version-tag logic.)
+  **Shipped**: a new `release` job in `EmilyOS/.github/workflows/ci.yml`, reusing PARENA's own
+  release-job pattern verbatim — gated to `github.ref == 'refs/heads/main' && github.event_name
+  == 'push'` (not PRs, not tags, not `workflow_dispatch`), `permissions: contents: write` (added
+  at the workflow level, with the existing `test_build_construct` job scoping itself back down to
+  `contents: read`, matching PARENA's own exact split). Version scheme confirmed directly with
+  the founder via AskUserQuestion (given some fragmented follow-up messages that needed
+  disambiguating before this could safely start tagging things) — same as PARENA:
+  `v{major}.{minor+1}.0`, auto-bumped off the latest existing tag (`v0.1.0` on the very first
+  run, same bootstrap behavior). Publishes a real, regular (not `--prerelease`) Release via
+  `gh release create --generate-notes` — EmilyOS has no earlier "pre-release for now" period to
+  honor the way PARENA did (that repo's own 2026-08-21→2026-08-26 policy arc), so no reason to
+  start there.
+  **Real, deliberate scope difference from PARENA, named directly rather than silently matched**:
+  only one platform/artifact (a single `emilyos-linux-amd64.tar.gz`, bundling the binary +
+  `EMILYOS_CONSTRUCT.txt`), matching this repo's own `CLAUDE.md` scoping ("the policy kernel that
+  runs ON Linux... not a from-scratch, dependency-free bootable image") — no cross-compiled
+  Windows/macOS build story exists for this binary, so none was invented to match PARENA's own
+  three-platform editor-demo bundles.
+  **Real bug found and fixed before it ever ran, not discovered live in CI**: naively downloading
+  the multi-path build artifact into a directory also named `dist` would have produced a
+  confusing `dist/dist/emilyos` nesting — `actions/upload-artifact@v4` preserves each given
+  path's own structure relative to the least common ancestor of everything it was given (here,
+  the repo root, since `dist/emilyos` and top-level `EMILYOS_CONSTRUCT.txt` don't share a deeper
+  common directory). Fixed by downloading into a distinctly-named `artifact/` directory, then
+  staging both files flat into a `release-stage/` directory before a single, unambiguous `tar`
+  call — deliberately not fighting multiple `-C` flags in one `tar` invocation, which an earlier
+  draft of this same step did and which is fragile/easy to get subtly wrong.
+  **Real, honest limitation, named directly**: YAML syntax validated locally (`python3 -c
+  "import yaml..."`), and the job's logic was checked line-by-line against PARENA's own
+  already-proven-working release job — but the actual GitHub Actions run itself could not be
+  watched end-to-end from this sandbox (no `gh` CLI auth available here). Real verification is
+  the founder checking the repo's own Releases page after this push lands.
+  EmilyOS commit `2f20881`. Apple #18589.
+  (sess-20260905-0720-ec33e7c5)
