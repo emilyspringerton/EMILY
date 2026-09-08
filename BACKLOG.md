@@ -31839,3 +31839,46 @@ EMILY `482b8f7f` (golden-index).
   whether the full path actually works, and exactly where it breaks if not. MONOREPO commit
   `02ebce8`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 293: PARENA — THE REAL, CROSS-CUTTING LOOP-VARIABLE I32 BOXING BUG FIXED (2026-09-08)
+
+- [x] **Founder real-time: "can we fix the loop-variable I32 boxing bug?"** — the real,
+  cross-cutting gap `linalg.prn`'s own header comment (2026-08-21) and several `base4/*` doc
+  comments had documented as confirmed and "genuinely cross-cutting... not attempted." Root
+  cause: `NODE_NUMBER` always reported `"double"` for every real numeric literal (VS0's own
+  deliberate "no int/float distinction" simplification) — so a `loop`/`let` binding seeded from
+  a whole-number literal like `0` was C-typed `double`, silently fine for arithmetic but
+  genuinely corrupting the moment such a value was pushed into an `I32`-typed `Vec`
+  (`vec_push_`/`vec_set_at_`'s own boxing decision picks `vec_box_f64`, a later typed read does
+  `*(int *)` on that same 8-byte cell — real memory-level corruption, reproduced live multiple
+  times this session).
+  Real fix, two parts: (1) `NODE_NUMBER` now reports `"int"` for a literal with no `.`/`e`/`E` in
+  its own text — doesn't change any already-correct C arithmetic (a bare literal's own C text
+  already governed real division/promotion, independent of this internal bookkeeping string),
+  only downstream decisions that were wrong before. (2) A `let` binding (assigned exactly once)
+  is immediately safe; a `loop` binding can be reassigned via `recur` on every iteration, so it
+  additionally needs a new `loop_body_int_safe()` — after every binding in a loop is known, walk
+  the loop's own body (mirroring `emit_loop_tail`'s real traversal, stopping at a nested loop)
+  and downgrade an `"int"`-typed binding back to `"double"` (today's pre-existing safe default)
+  unless EVERY real `recur` update for it also resolves to `"int"` via the REAL `emit_expr` type
+  inference — a first draft using a narrow, hand-rolled `+`/`-`/`*`-only recognizer regressed
+  `set.prn`'s own `fnv1a-hash` (updates via `bit-xor`/`*`), caught live via the real test suite
+  and fixed by reusing the real emitter instead of a necessarily-incomplete subset.
+  Verified: `base4/vector.prn`'s `dot` and `base4/matrix.prn`'s `matmul` — both had their own
+  tests asserting the CONFIRMED-buggy behavior as an explicit regression gate — now produce the
+  real, hand-traced correct values via the correct `int*` cast; both tests and both files' own
+  doc comments updated. Real, honest, NOT claimed fixed: `linalg.prn`'s own `array/set!`-based
+  `matmul`/`transpose` remain separately unverified — live-checked after this fix and still
+  produce wrong numbers, meaning `array.prn`'s own `[i j]` index-Vec-literal path
+  (`g_veclit_helpers`) has at least one additional, different bug beyond this one, a real,
+  separate, deeper investigation for a future pass.
+  `make test`: 347/347 (2 pre-existing tests updated to assert the real, fixed behavior — this
+  is the bug's own fix landing, not new breakage). Every other real, buildable test target
+  re-run clean (base4/awk/ami/ber/bstree/datetime/dns/dtmf/g711/git/http-*/io-mmap/json/
+  linalg-sparse/mag-gematria/mixforge/multifile/net-proxy/net-rawsocket/pentest-*/process/rtp/
+  set/sip-*/textmate-loader/v16-*/webdriver/wire/yaml/selfhost-*/construct-split) — zero
+  regressions across the full test surface, self-host compiler tests included. STDLIB.md
+  registered. Apple #18429. Commits `5facc65`/`3b04bf9`.
+  (sess-20260905-0720-ec33e7c5)
+- [ ] **PARENA-ARRAY-MATMUL-001: array.prn's own matmul/transpose (via array/zeros + array/set! + [i j] index-Vec-literal construction) still produce wrong numbers even after the loop-variable I32 boxing bug fix -- a separate, unrela** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
