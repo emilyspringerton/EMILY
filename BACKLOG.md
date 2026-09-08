@@ -32899,3 +32899,50 @@ EMILY `482b8f7f` (golden-index).
   its first run logged (0 purged — correct, nothing resolved yet).
   Apples: IDUNA_PRO #18571, IDUNA #18572, CarePyre #18574.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 321: EMILYOS PI IMAGE — "PARENA POWERED", COREUTILS/SHELL STAGED + MUSL/GLIBC ABI FIX (2026-09-08)
+
+- [x] **Founder real-time: "lets work on the alpine pi installable parena powered emily os."**
+  Made the real, previously-deferred founder call `PARENA/docs/PARENA_COREUTILS_NORTHSTAR.md`'s
+  own Phase 5 named ("whether any of this ever actually replaces Alpine's own real busybox
+  package... a founder call, not decided here"): yes, staged — available, not default.
+  **Shipped, in `EmilyOS/packaging/scripts/build-pi-image-rootless.sh`**: a new step 3b
+  cross-compiles PARENA's `parenabusybox` (echo/basename/pwd/true/false) and `parenash` (the real
+  shell) for aarch64, reusing the exact same root-less Debian cross-toolchain step 3 already
+  bootstraps for the EmilyOS Go binary — PARENA's own compiler runs NATIVELY (x86_64) to emit
+  portable C; only the final C-to-object compile needs the aarch64 cross-compiler, the same
+  two-stage shape `src/emit.c`'s own C target already has everywhere else. Kept AVAILABLE, NOT
+  DEFAULT as `turbogrep`/`turbosed`'s own precedent always intended: `parenabusybox`'s applet
+  symlinks live in their own dedicated `/usr/local/parena-coreutils/`, off Alpine's default
+  `$PATH`, so they never silently shadow the real coreutils; `parenash` (a uniquely-named binary,
+  no collision risk) goes directly into `/usr/local/bin/`.
+  **Real, previously-undiscovered gap found and fixed along the way, affecting the
+  ALREADY-EXISTING `emilyos` Go binary too, not just this new work** — found by actually
+  EXECUTING the cross-compiled binaries rather than just checking `file(1)` output for
+  architecture: root-lessly re-bootstrapped `qemu-user-static` (same `apt-get download`+
+  `dpkg-deb -x` trick this doc's own Phase 3 already used) and ran the binaries against the real
+  rootfs. This cross-toolchain is Debian/Ubuntu's, GLIBC-targeted (dynamic linker
+  `/lib/ld-linux-aarch64.so.1`) — but Alpine, the image's actual target, ships MUSL
+  (`/lib/ld-musl-aarch64.so.1`), an incompatible ABI. A plain dynamic cross-build failed live with
+  `Could not open /lib/ld-linux-aarch64.so.1` — meaning EVERY PRIOR BUILD of this image shipped an
+  `emilyos` binary that could never actually start its own core service on the real device, a
+  real, significant, previously-unverified gap in work that predates this pass. Fixed via
+  `-static` linking for both the Go binary (`CGO_LDFLAGS`) and the new PARENA binaries — the
+  linker warns about `getpwnam_r`/`getgrgid_r`/`getgrouplist` (Go's `os/user` package is reachable
+  in the dependency graph), a real, checked-not-assumed accepted risk since EmilyOS itself never
+  calls user/group lookups (confirmed via grep across `internal/`), so those symbols are linked
+  but dead code.
+  **Live-verified, not just built**: `qemu-aarch64-static` runs the resulting static `emilyos`
+  binary correctly (`--help` prints its real usage) against the real rootfs; all 4
+  `parenabusybox` applets (echo/pwd/true/false, correct exit codes) and a real `parenash` script
+  (sequencing, `true`/echo) execute correctly the same way. Full build script re-run end to end
+  from scratch, clean.
+  Both NORTHSTAR docs updated with the full writeup (`EmilyOS/docs/NORTHSTAR_DISTRO.md`'s own new
+  "Phase 1, continued" entry; `PARENA/docs/PARENA_COREUTILS_NORTHSTAR.md`'s Phase 5 entry marked
+  decided). EmilyOS commit `5582db9`, PARENA commit `7c5513e`. Apples: EmilyOS #18580, PARENA
+  #18582.
+  **Still open, unchanged by this pass**: the one remaining gate before a first genuinely
+  complete, bootable `.img` is the actual privileged run — `sudo-queue/76-build-emilyos-pi-
+  image.sh` (chroot-based `apk fix` + `mke2fs -d` population + final `dd` assembly), still
+  queued, still needs real root this sandbox doesn't have.
+  (sess-20260905-0720-ec33e7c5)
