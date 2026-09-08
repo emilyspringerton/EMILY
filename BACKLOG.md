@@ -32040,3 +32040,36 @@ EMILY `482b8f7f` (golden-index).
   from a real mailbox rather than a protocol-level TCP/DNS check). CarePyre commits `8c0b501`/
   `5dc487e`. Apple #18453.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 298: EMILYOS ALPINE/PI IMAGE BUILD — ROOT-LESS HALF PROVEN AND RUN LIVE (2026-09-08)
+
+- [x] **Founder real-time: "ok back on Emily os alpine."** Continued SECTION 296 (Phase 0
+  scoping). Went further than the planned "queue the whole privileged build" before actually
+  running anything: live-tested whether individual pieces of image assembly genuinely need root,
+  rather than assuming the whole thing does. Real, checked findings: `parted` partitions a plain
+  regular file directly (no `losetup`); `mkfs.vfat`/`mkfs.ext4` format plain files the same way;
+  `mtools`'s `mcopy` writes into an unmounted FAT32 image; `dd`-copying independently-built
+  sub-images into one combined file at exact byte offsets is byte-identical to building them in
+  place (verified via `cmp`). All root-less.
+  Acted on it: split the single monolithic privileged script into a new root-less one
+  (`EmilyOS/packaging/scripts/build-pi-image-rootless.sh`) and actually RAN it end to end in this
+  sandbox (not just written) — real `apk` package bootstrap, a real FAT32 `boot.img` built from
+  Alpine's own official RPi boot bundle (verified live via `mdir`: real `bcm2710-rpi-3-b.dtb`/
+  `bcm2712-rpi-5-b.dtb`/etc. inside it), and an attempted EmilyOS Go cross-build. Found and named
+  two further real, previously-unknown gaps live rather than papering over them: (1) `mke2fs -d`
+  (populating an ext4 image straight from a directory tree) ALSO needs root — Alpine's own
+  `busybox-suid` package ships `/bin/bbsuid` as mode `---x--x--x` (execute-only, unreadable even
+  by its own owning user), which a non-root reader genuinely cannot copy; (2) EmilyOS's own
+  `cmd/emilyos` does not cross-compile to `linux/arm64` with `CGO_ENABLED=0` — `internal/
+  fsaclmod` (the GRANT_FS/REVOKE_FS PARENA-mod package, 2026-08-25) is a genuine cgo package with
+  no cgo-disabled fallback, and this sandbox has no aarch64 cross-compiler to build it with
+  `CGO_ENABLED=1` either. Folded both into the now-much-smaller remaining privileged script
+  (`sudo-queue/76-build-emilyos-pi-image.sh`, top-level monorepo, rewritten): chroot-based
+  package finishing + `qemu-user-static` registration, `mke2fs -d` (now root, so the `bbsuid`
+  read succeeds), a cgo cross-build retry with a freshly-installed `gcc-aarch64-linux-gnu`, and
+  the SAME root-less `parted`+`dd` assembly technique reused under sudo rather than re-invented
+  with `losetup`/mount. Also fixed a `GOWORK=off` omission that broke the Go build entirely when
+  run from within the top-level monorepo's `go.work`. `NORTHSTAR_DISTRO.md` updated with the full
+  real trail. EmilyOS commits `a5a86df`/`f39767a`. Top-level monorepo commit `b31999896`. Apple
+  #18456. Real image assembly still not run end to end — needs the actual privileged pass.
+  (sess-20260905-0720-ec33e7c5)
