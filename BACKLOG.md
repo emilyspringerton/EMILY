@@ -32500,3 +32500,41 @@ EMILY `482b8f7f` (golden-index).
   `source`/`.` builtin — the real, concrete, now-precisely-named next gate before this shell could
   run a real OpenRC script completely end to end.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 310: PARENASH — REAL SOURCE/., COMMENTS, BRACE-ON-OWN-LINE FUNCTIONS (2026-09-08)
+
+- [x] **Founder real-time: "continue emilyos+."** Shipped the precisely-named next gate from
+  SECTION 309: a real `source`/`.` builtin — reads a real file, tokenizes it whole, and runs it
+  through the exact same `exec_range` every other construct in this shell uses, in-process
+  (never forked) so a sourced file's own assignments/function definitions genuinely persist in
+  the calling shell. Live-verified against a real, hand-written test file first. Then attempted
+  the REAL target this was actually for — OpenRC's own real `/lib/rc/sh/functions.sh` — and
+  found, by reading its real source directly rather than assuming: it needs
+  `$((arithmetic))`, `case`/`esac`, `local`, and `eval`, none of which this shell has. `source`/
+  `.` itself is real and correct; that specific file needs real, separate, much larger features
+  not attempted this pass.
+  Found and fixed TWO further real, live bugs along the way, neither previously known: (1) real
+  `#` comments — EVERY comment line in `functions.sh` was being executed as a bogus `#: not
+  found` command, since this shell had no comment support at all (prior testing had always
+  manually stripped comments before feeding a script in, masking the gap the whole time). Fixed
+  in `tokenize-line`: `#` is only a real comment at a word boundary (mid-word `foo#bar` stays
+  literal, matching real shell semantics). (2) Fixing comments exposed a SECOND real gap in the
+  same file: `name()\n{\n...\n}` (the opening `{` on its own physical line, real and extremely
+  common POSIX style, used throughout `functions.sh`) produced `sh: name(): not found`. Two real,
+  distinct causes, both fixed: `func_def_brace_index` (renamed from `is_func_def_shape`, now
+  returning the real brace index) tolerates one optional `;` token between the `()` word and the
+  `{`; and a subtler completeness-detection bug in the REPL's own `is_balanced` heuristic —
+  `NAME()` alone (its own trailing newline already a `;`, zero unmatched `if`/`{`) looked
+  perfectly "complete" and got executed as a bogus command ONE STATEMENT TOO EARLY, before the
+  real `{` on the next physical line ever arrived. Fixed: a trailing `NAME()`-shaped word now
+  marks the buffer incomplete regardless of brace count.
+  8 new real end-to-end assertions (3 comments, 3 `source`, 1 brace-on-own-line) — all pass,
+  alongside the original 32. `make test`: 347/347, zero regressions.
+  `PARENA_COREUTILS_NORTHSTAR.md`/`STDLIB.md` updated with the full real trail. PARENA commits
+  `3b30a74`/`f485495`. Apple #18504. Real, honest conclusion: this shell can now source a real
+  file and define/call real functions written in either real brace style, and correctly ignores
+  real comments — but running OpenRC's own real `functions.sh` end-to-end still needs arithmetic
+  expansion, `case`/`esac`, `local`, and `eval`, each a real, separate, later phase, named
+  directly rather than claimed done. `case`/`esac` and arithmetic named as the likely highest-
+  value next two, both real and independently useful beyond just this one file.
+  (sess-20260905-0720-ec33e7c5)
