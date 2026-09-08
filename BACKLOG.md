@@ -33026,3 +33026,57 @@ EMILY `482b8f7f` (golden-index).
   the founder checking the repo's own Releases page after this push lands.
   EmilyOS commit `2f20881`. Apple #18589.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 324: PARENA SELF-HOSTING — MID-BODY #TARGET STATEMENT SUPPORT (2026-09-08)
+
+- [x] **Founder real-time: "work on parena self host."** Continuation of the self-hosting effort
+  first tracked in SECTION 236 (2026-09-02, the real CLI binary + live segfault fix). Read
+  `PARENA/NORTHSTAR.md`'s own "Self-hosting" section fully before picking a next step, rather
+  than guessing: the most recent entry (2026-09-08, whole-body `#target` support, done earlier
+  this same session) explicitly named its own real, precise next step — "mid-body `#target`... a
+  real, separate, DIFFERENT shape from whole-body... this session's own real, named next step."
+  Worked that exact, already-scoped item, not a new plan.
+  **Shipped**: `stdlib/string.prn`'s own `char-from-code`/`substring`/`concat` use `#target` as
+  one STATEMENT inside a `let`'s body (filling an already-allocated buffer for its own side
+  effect), a real, different shape from `#target` as a defn's ENTIRE body (already supported).
+  New `emit-body-forms-target-statement-shaped?`/`emit-body-forms` in `selfhost/emit.prn` — a
+  direct port of the reference C compiler's own `emit_body` mid-body dispatch
+  (`is_symbol(form, "#target") && i + 1 < count`): splices the raw inline-C text in verbatim as
+  its own statement, no `return`-wrapping, advancing past both the `#target` symbol and its
+  `{:c ...}` map together — reusing `target-map-c-src`, the same extraction the already-shipped
+  whole-body case uses, rather than duplicating it.
+  **Real, live-found bug fixed along the way, not assumed away**: an inline
+  `(get-field (vec/get ...) :kind)` — `get-field` applied directly to a nested expression rather
+  than a bound `let` variable — doesn't compile (`vec/get` returns `void *` in the emitted C;
+  this narrow self-hosted emitter's own `get-field` cast logic only tracks the C type of BOUND
+  scope variables, not arbitrary nested expressions, the same class `get-field-shaped?`'s own
+  header comment already names as a known limitation elsewhere). Found via a real, live
+  `gcc -Werror` failure on the first attempt, not caught in review — fixed by binding through a
+  `let` first, matching `defn-body-target-shaped?`'s own already-working pattern in the same
+  file, rather than inventing a new approach.
+  **Live-verified against the REAL, exact motivating case, not a synthetic stand-in**: self-
+  compiling `stdlib/string.prn`'s own actual `concat` function through the real `parena-selfhost`
+  binary now emits `strcpy(out, a); strcat(out, b);\n    return out;` — correct, unwrapped,
+  exactly matching the reference compiler's real output shape for the identical source (this
+  emitted `#error`/garbage before the fix).
+  **Real, separate gap found but deliberately NOT fixed here, named honestly rather than
+  papered over**: `emit-alloc-call` (a separate, pre-existing, already-narrow-v0 piece of this
+  same emitter) only supports a literal-string size/content argument, not an arbitrary
+  expression — `concat`'s own real `(alloc dest String (+ (length a) (length b)))` silently
+  emits `arena_strdup(dest, "", 0)`, a genuine zero-byte allocation the following
+  `strcpy`/`strcat` would overflow. This means `concat` now emits STRUCTURALLY correct C but
+  still isn't SAFE to actually run end-to-end — a real, necessary companion fix before
+  `stdlib/string.prn` can genuinely self-host, not attempted in this pass. The new test
+  deliberately isolates the mid-body `#target` feature from this unrelated gap via a
+  literal-sized `alloc` in its own fixture, so the two don't get conflated.
+  6 new tests (`tests/test_selfhost_emit.c` + `tests/integration/driver_target_mid_body.c`):
+  parse, no-`#error`, correct unwrapped-statement text, correct single `return` (proving the
+  `#target`+map pair was consumed together, not leaving a stray child), a real `gcc` compile, and
+  a real compile+run+assert-on-the-actual-returned-string-value check (`"hithere"`).
+  `make test`: 347/347; every `test-selfhost-*` target (including a full, fresh 8-file
+  self-compile of the whole selfhost pipeline) plus `test-selfhost-cli` (the standalone
+  `parena-selfhost` binary, real `fork`+`exec`) re-run clean, zero regressions.
+  `NORTHSTAR.md`'s own Self-hosting section updated with the full writeup, closing the item it
+  had itself flagged and naming the new alloc-argument gap as a real, separate follow-up.
+  PARENA commit `5d902d5`. Apple #18595.
+  (sess-20260905-0720-ec33e7c5)
