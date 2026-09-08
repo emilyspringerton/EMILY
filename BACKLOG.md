@@ -32417,3 +32417,33 @@ EMILY `482b8f7f` (golden-index).
   functions, or `${var:-default}` parameter expansion — the real, concrete next slices before
   this shell could run actual OpenRC scripts, not attempted here.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 308: PARENASH — REAL ELIF + ${VAR:-DEFAULT} PARAMETER EXPANSION (2026-09-08)
+
+- [x] **Founder real-time: "keep working on Emily os busybox and all of that."** Shipped two more
+  of the real, named Phase 3b next slices from SECTION 307. `elif`: `exec_if_chain` in
+  `tools/parenash_host.c` treats a real `elif` identically to a fresh `if` (both find their own
+  `then`, then the nearest of `elif`/`else`/`fi` as the branch boundary) — when the boundary is
+  another `elif`, it recurses right back into `exec_if_chain` starting at that word, correctly
+  sharing the SAME outer `fi` (there is exactly one, closing the whole chain) rather than
+  searching for a second one. Live-verified across 6 real scenarios before writing any test code:
+  a taken `elif` branch, a later also-true `elif` correctly never running once an earlier
+  condition already won, a real multi-`elif` chain resolving to the first true condition among
+  them, falling through to `else` when all are false, and code after the chain's own `fi` still
+  running.
+  `${VAR:-default}`/`${VAR-default}`: real PARENA logic added to `stdlib/coreutils/sh.prn` —
+  `find-dash-index` (a real, tail-recursive scan for the first `-`, safe because POSIX variable
+  names never contain one) plus `expand-param` (splits on that dash into `varname`/`default-val`,
+  substitutes the default when the real environment value is empty). Real, honest, DELIBERATE
+  simplification named directly: since `raw-getenv` already can't distinguish "unset" from "set
+  but empty" (a pre-existing v0 boundary), the plain `-` form is treated IDENTICALLY to `:-` here
+  rather than silently claiming a real POSIX distinction this shell can't actually make.
+  9 new real end-to-end assertions (5 for `elif`, 4 for parameter expansion) — all pass, alongside
+  the original 14. `make test`: 347/347, zero regressions. `PARENA_COREUTILS_NORTHSTAR.md`/
+  `STDLIB.md` updated with the full real trail. PARENA commits `621e8e6`/`23ef0f2`. Apple #18496.
+  Real, honest v0 boundary still standing: no nesting, no real shell FUNCTIONS, no `:=`/`:+`/`#`/
+  `%` parameter-expansion operators, no nested `${...}` inside a default value. Real shell
+  functions are now named directly as the single largest remaining piece (both audited real
+  scripts, `/etc/init.d/hostname`/`bootmisc`, define at least one) and still the real gate before
+  this shell could run actual OpenRC scripts.
+  (sess-20260905-0720-ec33e7c5)
