@@ -32270,3 +32270,41 @@ EMILY `482b8f7f` (golden-index).
   `7bef738`. Apple #18479. Remaining self-host gaps named honestly, not closed here: mid-body
   `#target`, `if`-as-whole-body, a narrow struct-literal-shape restriction.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 304: EMILYOS — REAL ROOTFS CONFIRMED BOOTING INTO OPENRC (2026-09-08)
+
+- [x] **Founder real-time: "iterate on Emily os alpine saspi" (typo for "raspi," per context —
+  founder's own keyboard is broken).** Continued Phase 3 boot-testing beyond the synthetic-root
+  test: booted the REAL, apk-installed `rootfs/` tree (not the earlier throwaway synthetic one)
+  under `qemu-system-aarch64`. Confirmed live: it fails IDENTICALLY (`switch_root: can't execute
+  '/sbin/init': No such file or directory`) — direct, empirical proof the privileged chroot-
+  finishing step is genuinely load-bearing, not a theoretical nicety. Found the exact real cause
+  by extracting and reading busybox's own actual `.trigger` script from the real `.apk` (not
+  guessed): its load-bearing action is `/bin/busybox --install -s`, creating ~304 real applet
+  symlinks (`init`/`sh`/`mount`/`md5sum`/`getty`/etc.) — the exact script that fails root-lessly
+  (`chroot: Operation not permitted`) in this session's own earlier bootstrap.
+  Root-lessly bootstrapped `qemu-user-static`'s `qemu-aarch64-static` (same `apt-get download` +
+  `dpkg-deb -x` technique already used all session) and used it for a genuinely SAFE, READ-ONLY
+  check — `qemu-aarch64-static -L <rootfs> <rootfs>/bin/busybox --list` — confirming live that
+  the real rootfs's own busybox binary has a real `init` applet (304 total, `init`/`sh` both
+  confirmed) WITHOUT ever running the real, unsafe `--install` (which does ABSOLUTE-PATH
+  filesystem writes — running it without genuine chroot isolation would write into THIS HOST's
+  own real `/sbin`/`/bin`, a real, unacceptable side effect deliberately avoided, not attempted).
+  On a THROWAWAY test copy only (never the real, committed `rootfs/`), hand-created just the one
+  real symlink busybox's installer would (`sbin/init -> ../bin/busybox`, Alpine's own relative-
+  symlink convention) via plain `ln -s` — no binary execution, no filesystem-root ambiguity,
+  completely safe — and rebooted. **Real, definitive, screendump-captured result** (saved at
+  `EmilyOS/docs/pi-boot-test-openrc-starting.png`): `OpenRC 0.54 is starting up Linux 6.6.49-0-rpi
+  (aarch64)` — `switch_root` succeeds, busybox's `init` applet correctly detects the real OpenRC
+  install and launches it, OpenRC caches service dependencies AND explicitly finds
+  `/etc/init.d/emilyos` (this session's own real service file). Remaining errors (`md5sum`/
+  `mount`/`getty` "not found") are a direct, expected ARTIFACT of hand-creating only ONE of
+  busybox's ~304 real applet symlinks, not evidence of a real bug — they should disappear once
+  the actual privileged `apk fix` (re-running busybox's real trigger for all 304) runs for real.
+  This test doesn't replace that real privileged run — it forecasts, with real, live evidence
+  rather than hope, that the actual build should get meaningfully further than "won't boot at
+  all," likely to a working service/login state. `NORTHSTAR_DISTRO.md` updated with the full real
+  trail. EmilyOS commits `2b35f3f`/`1e8e64b`. Apple #18482. The privileged run
+  (`sudo-queue/76-build-emilyos-pi-image.sh`) is still the one remaining real gate before a first
+  genuinely complete, bootable `.img` exists.
+  (sess-20260905-0720-ec33e7c5)
