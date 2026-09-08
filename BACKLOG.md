@@ -32144,3 +32144,36 @@ EMILY `482b8f7f` (golden-index).
   + `mke2fs -d` step is now the ONLY remaining real blocker before a first complete, flashable
   `.img` exists — still needs an actual privileged run.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 301: EMILYOS — REAL BOOT-CONFIG GAP FOUND BEFORE THE FIRST PRIVILEGED RUN (2026-09-08)
+
+- [x] **Founder real-time: "continue."** Kept iterating SECTION 300 rather than stopping at "the
+  privileged run is the only thing left" — extracted `initramfs-rpi` (the real, official Alpine
+  RPi initramfs already downloaded) and read its own `/init` script directly rather than assuming
+  the stock boot config would work. Real, decisive finding: Alpine's stock `cmdline.txt`
+  (`modules=loop,squashfs,sd-mod,usb-storage quiet console=tty1`) has NO `root=` parameter at
+  all — with none set, the real init script takes Alpine's DISKLESS boot path (unpack an apkovl
+  into a tmpfs root), never touching a persistent disk partition. That's categorically the wrong
+  boot mode for this build, which assembles a real, persistent apk-installed rootfs baked into an
+  ext4 partition. Confirmed live in the same init script's own `if [ -n "$KOPT_root" ]` branch
+  (grepped directly) that setting `root=` instead runs `nlplug-findfs` + `switch_root` into that
+  real partition — the actual disk-install path needed. Would have produced a genuinely
+  non-booting (or wrong-mode) image on the very first privileged run if left uncaught.
+  Fixed: `build-pi-image-rootless.sh` now writes its own `cmdline.txt`
+  (`root=/dev/mmcblk0p2 rootfstype=ext4 rootflags=rw quiet console=tty1`) instead of copying
+  Alpine's stock diskless one verbatim. Checked the real kernel config before adding any
+  `modules=` entries (not guessed): MMC/SDHCI and ext4 are compiled directly into this kernel
+  (`CONFIG_MMC_BLOCK=y`, `CONFIG_MMC_SDHCI=y`, `CONFIG_EXT4_FS=y`, not `=m`), so none are needed.
+  Same pass, found by cross-checking the built rootfs's own real `/etc/init.d/` listing against
+  the privileged script's existing `rc-update` calls: `root`/`fsck`/`localmount`/`swap`/
+  `seedrng` were missing entirely — real, standard Alpine boot-runlevel services a disk-installed
+  system needs, added to `sudo-queue/76`'s `rc-update` list (names confirmed present in the built
+  rootfs, not guessed) as a belt-and-suspenders match alongside the explicit `rootflags=rw`
+  above. Re-ran the full root-less script end to end to confirm the fix — the corrected
+  `cmdline.txt` is live-verified inside the assembled `boot.img` via `mtype`. Neither fix is
+  boot-tested yet (Phase 3, no real Pi hardware or `qemu-system-aarch64` in this sandbox), but
+  both are real, live-checked fixes against the actual init script and rootfs contents, giving
+  the first real privileged run a much better chance of producing something that actually boots.
+  `NORTHSTAR_DISTRO.md` updated with the full trail. EmilyOS commits `eff60d2`/`1498464`.
+  Top-level monorepo commit `770a8e967`. Apple #18469.
+  (sess-20260905-0720-ec33e7c5)
