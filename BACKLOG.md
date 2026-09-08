@@ -2517,6 +2517,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue EmilyOS+ — implementing a real source/. builtin for parenash, the precisely-named next gap …** — obs `2026-09-08T07:53:36Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: dooittt — implement real shell functions (name() { ... }) for parenash, the single largest remaining…** — obs `2026-09-08T07:39:51Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: dooitttt — implementing real case/esac pattern matching for parenash, one of the two highest-value n…** — obs `2026-09-08T08:33:41Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: pasted a full new TYLER episode script, Season NEVER_LAND, episode 'NEVER_LAND' (Tyler + Hana, the A…** — obs `2026-09-08T08:49:49Z`. CURATED: 2026-09-08.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
