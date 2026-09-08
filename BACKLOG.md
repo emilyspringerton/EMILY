@@ -32385,3 +32385,35 @@ EMILY `482b8f7f` (golden-index).
   a real, useful toy shell, not yet capable of running real OpenRC scripts (Phase 3b, named
   directly as the concrete next slice, not started).
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 307: PARENASH PHASE 3B — REAL IF/THEN/ELSE/FI CONDITIONALS (2026-09-08)
+
+- [x] **Founder real-time: "continue."** Shipped the concrete Phase 3b next slice named in
+  SECTION 306: real `if`/`then`/`else`/`fi` conditionals for `parenash`. Real, deliberate
+  architecture choice: control-flow structure recognition lives in `tools/parenash_host.c` as a
+  plain recursive-descent walk (`exec_range(words, start, end)`) over the already-tokenized word
+  array, NOT in `stdlib/coreutils/sh.prn` — PARENA's own real strength in this package is
+  string/token processing (tokenizing, quoting, `$VAR` lookup), and imperative control-flow
+  branching is a more natural fit for the same C layer that already does process management.
+  Recognizes a single-level `if COND; then BRANCH1; [else BRANCH2;] fi` (COND/BRANCH1/BRANCH2 may
+  themselves contain further `;`-separated commands, handled by recursing back into
+  `exec_range`); real, honest v0 boundary: no `elif`, no nesting (the first `then`/`fi` found
+  closes the nearest-enclosing `if`). Confirmed live BEFORE adding anything new that `test`/`[`
+  already work today via the existing plain `execvp` fallback (real system binaries, not shell
+  builtins) — `if test -f /etc/passwd; then echo has-passwd; else echo missing; fi` runs
+  correctly end to end.
+  Found and fixed a real bug caught before it could ship broken: a trailing `;` inside the
+  condition range (the real, common shape `if false; then ...` produces) fed into an empty tail
+  recursion whose own base case returns a fixed `0`, silently DISCARDING the real exit status
+  just computed and always taking the then-branch regardless of the condition's real result —
+  confirmed live via `if false; then echo yes; fi` wrongly printing `yes`. Fixed: a trailing `;`
+  with nothing meaningful after it now returns the already-computed real status directly instead
+  of blindly recursing into an empty range. 5 new real end-to-end assertions in
+  `tests/test_parenash.c` (then-branch, no-else skip, else-branch, "code after `fi` still runs,"
+  a multi-command then-branch — one of them names the exact bug just fixed and would have caught
+  it) — all pass, alongside the original 9. `make test`: 347/347, zero regressions.
+  `PARENA_COREUTILS_NORTHSTAR.md`/`STDLIB.md` updated with the full real trail. PARENA commits
+  `8f93017`/`3003f95`. Apple #18493. Real, honest v0 boundary still standing: no `elif`, nesting,
+  functions, or `${var:-default}` parameter expansion — the real, concrete next slices before
+  this shell could run actual OpenRC scripts, not attempted here.
+  (sess-20260905-0720-ec33e7c5)
