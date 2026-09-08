@@ -32791,3 +32791,35 @@ EMILY `482b8f7f` (golden-index).
   96→97, new S6BE01 row + description), `activity.md` (Build 0137 entry), `CHANGELOG.md` all
   updated. TYLER commits `d946c37`/`05e5d0e`. Apple #18541.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 319: TYLER — SEASON 6 (TAKE 2) E2 "YELLOW, CUT SHORT" WRITTEN (2026-09-08)
+
+- [x] **Founder real-time direction, assembled from several short messages**: "the duck from
+  redgarden," "narrates the next episode," "old noire style," followed by "check the blog posts."
+  Wrote SEASON 6 (TAKE 2) E2, "Yellow, Cut Short" (Build 0138).
+  **Real character, not invented**: the Duck is `just_a_duck.md`'s own existing character
+  (telekinesis, secret government agent, "the chosen one"), already used once in TYLER proper
+  (`episodes/x00_the_custody_of_a_duck.md`) and separately implemented as a real playable
+  REDGARDEN hero (`REDGARDEN/README.md`'s roster, Q/W kit; `just_a_duck.md` credited directly as
+  `REDGARDEN/NORTHSTAR.md`'s own source material — confirmed by grep before writing anything).
+  **Voice grounded in two real sources, per the founder's own follow-up direction to check**: (1)
+  `x00_the_custody_of_a_duck.md`'s deadpan, never-explained, never-integrated-into-mythology
+  restraint; (2) IDUNA's live blog store (`var/blog.db`, queried directly via sqlite3) — the real,
+  live "State of the Ecosystem" post series, where the Duck is petty, self-mythologizing, obsessed
+  with its own REDGARDEN leaderboard standing, and prone to "reassigning credit" to itself ("Say
+  the part where it's my game," "It's a coping mechanism, not a citation error").
+  **Structural choice made to honor an existing rule rather than break it**: the Duck does not
+  actually appear in the Season 6 (Take 2) scene it narrates — it wasn't there, matching `x00`'s
+  own established restraint of keeping the Duck apocryphal and un-integrated into whichever
+  continuity it's adjacent to. The whole episode is instead the Duck's own secondhand, embellished,
+  old-noir-narrated account of E1's aftermath, bracketed by a frame where Tyler corrects the record
+  on both ends — the same "fun version vs. boring accurate version" dynamic the blog posts already
+  established.
+  Real plot advance delivered underneath the pastiche, not just a joke episode: the cleaned
+  boom-mic audio from E1 yields one more word of the cut-off warning — "DON'T LET HIM START—",
+  still cut off — plus the Duck's own unconfirmed read that someone besides Tyler may already be
+  running the same five-color ignition sequence on a separate clock, "behind" rather than broken.
+  Checked against Writer's Room Rule 1 — confirmed compliant. `EPISODES.md` (episode count
+  97→98, new S6BE02 row + description), `activity.md` (Build 0138 entry), `CHANGELOG.md` all
+  updated. TYLER commits `99d3501`/`b639f39`. Apple #18544.
+  (sess-20260905-0720-ec33e7c5)
