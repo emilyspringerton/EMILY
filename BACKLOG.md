@@ -32018,3 +32018,25 @@ EMILY `482b8f7f` (golden-index).
   commits `8e34c38`/`e879897`. Top-level monorepo commit `e59743810`. Apple #18450. Planning +
   one queued script only — no image built yet.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 297: CAREPYRE — AKAMAI/LINODE SMTP RESTRICTION LIFT CONFIRMED, TICKET CLOSED (2026-09-08)
+
+- [x] **Founder real-time: forwarded an Akamai Cloud Support email confirming SMTP port
+  restrictions were lifted for the `carepyre-email` Linode, then "do the akamai work pls."**
+  Real context found first: this is the direct resolution of a real, already-logged blocker
+  (`STALWART_RUNBOOK.md`'s own "Outbound delivery to Gmail/Outlook didn't work at first"
+  section) — outbound port 25 was blocked by Linode's own default new-account restriction,
+  support ticket `#27380609` was filed requesting it be lifted, and rDNS/SPF/DMARC were already
+  independently confirmed correct at the time. Did not take the email at its word: re-verified
+  live — `ssh deploy@45.79.143.216` outbound TCP 25 to `gmail-smtp-in.l.google.com` now connects
+  (was a timeout before); `dig -x 45.79.143.216` still correctly resolves to `mail.carepyre.org.`;
+  `dig TXT carepyre.org`/`_dmarc.carepyre.org` still correctly report the existing SPF/DMARC
+  records — none of those needed any change, only the port-25 block itself was ever the real gap.
+  Posted a confirmation reply on ticket `#27380609` and closed it via the Linode API
+  (`POST /v4/support/tickets/27380609/close`), confirmed `status: closed` on re-fetch.
+  Real, honest scope: no code/config change was needed anywhere — this was purely Linode's own
+  restriction to lift, and the fix is now live end to end. Not exercised this pass: an actual
+  real send-and-receive test from `console.html`'s own webmail (would mean sending a real email
+  from a real mailbox rather than a protocol-level TCP/DNS check). CarePyre commits `8c0b501`/
+  `5dc487e`. Apple #18453.
+  (sess-20260905-0720-ec33e7c5)
