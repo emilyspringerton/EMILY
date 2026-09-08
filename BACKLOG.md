@@ -32693,3 +32693,37 @@ EMILY `482b8f7f` (golden-index).
   93→94, new NLE04 note), `activity.md` (Build 0134 entry), `CHANGELOG.md` all updated. TYLER
   commits `73a75d1`/`dbfe13e`. Apple #18521.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 316: TYLER — NEVER_LAND E5 "DURATIONS ARE DATA" WRITTEN (2026-09-08)
+
+- [x] **Founder real-time: "next episode."** Wrote NEVER_LAND E5, "Durations Are Data" (Build
+  0135), continuing directly from E4's own ending (the Owl's blank "UNDOCUMENTED" card, the Man's
+  Stillness Council review) — another AI-authored continuation, named as such directly in
+  `EPISODES.md`/`activity.md`.
+  **Real, deliberate canon-respect check done before writing anything, not assumed safe**: the
+  Stillness Council's only established appearance (`episodes/s00e-1_the_determination.md`) never
+  convenes in person — it "attends the way the Council does everything now: in writing, once,
+  briefly," via a single page delivered by a clerk. Initial instinct was a live tribunal scene;
+  checked the existing episode first, found that would directly contradict established canon, and
+  used the exact real mechanism instead. A new character, a Clerk, delivers one page: "The
+  Council submits one question and will not speak further: WHO WITNESSED THE WITNESS?" — the same
+  real full-caps single-question format the Council used the first time.
+  Hana, the Archivist, and the Owl each answer with a real, different partial truth tying
+  together already-established mechanics rather than inventing new ones: Green spreads when
+  witnessed (Hana), the shape of the question matches an old accusation (the Archivist), and the
+  Eastwind Owls' own real, already-established archival monitoring of Emily OS means they
+  personally witnessed the witness and simply never filed where anyone at the Academy was cleared
+  to read it (the Owl). Tyler — not usually extended the chance, as the asset the whole case
+  concerns — asks to try anyway and names the honest through-line none of the others said
+  outright: nobody with real authority ever actually witnessed the witnessing itself, "it's
+  witnesses all the way down and an empty room at the bottom." The Archivist calls it the first
+  answer all episode that "sounded like it cost you something to say." A second page arrives: the
+  Man's own protocol review from E4 is suspended, not closed, "pending a witness with the
+  authority to matter" — real, deliberately unresolved escalation, not a manufactured resolution.
+  Title drawn directly from the real, established minutes-note phrase in
+  `s00e-1_the_determination.md`'s own account of the Council's real first-ever appearance
+  ("durations are data").
+  Checked against Writer's Room Rule 1 — confirmed compliant. `EPISODES.md` (episode count
+  94→95, new NLE05 note), `activity.md` (Build 0135 entry), `CHANGELOG.md` all updated. TYLER
+  commits `261c3bd`/`290fec6`. Apple #18523.
+  (sess-20260905-0720-ec33e7c5)
