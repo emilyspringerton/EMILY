@@ -32309,3 +32309,41 @@ EMILY `482b8f7f` (golden-index).
   (`sudo-queue/76-build-emilyos-pi-image.sh`) is still the one remaining real gate before a first
   genuinely complete, bootable `.img` exists.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 305: PARENA-POWERED BUSYBOX V0 SHIPPED (2026-09-08)
+
+- [x] **Founder real-time: "let's write our own parena powered busybox."** Directly motivated by
+  this same session's EmilyOS/Alpine RPi image work: Alpine's own real busybox `--install`
+  trigger script (extracted and read directly from the `.apk` earlier this session — its
+  load-bearing action is `/bin/busybox --install -s`, creating ~304 real applet symlinks
+  including `/sbin/init`) is the one remaining privileged blocker before a first bootable image.
+  New `docs/PARENA_COREUTILS_NORTHSTAR.md` scopes this honestly before building: names the real
+  tension with `NORTHSTAR_DISTRO.md`'s own existing "GNU tools stay for load-bearing
+  infrastructure" guidance directly (rather than silently contradicting it) — `init`/`sh`/`mount`
+  are about as load-bearing as software gets, and this is a real, deliberate departure for this
+  specific founder ask, not a blanket policy change; whether any of it ever actually replaces
+  Alpine's real busybox in the shipped image stays an explicit, later, founder-call decision,
+  matching `turbogrep`/`turbosed`'s own already-established "available, not default" precedent.
+  Shipped a real v0: same "PARENA logic + a C host driver" architecture every other real PARENA
+  binary in this repo already uses (`turbogrep`, `editor-demo`, `parena-selfhost` itself) —
+  `tools/parenabusybox_host.c` provides `main()` and real busybox-style multi-call dispatch (an
+  `argv[0]` basename check, falling back to `parenabusybox <applet> ...`, the exact real
+  dual-invocation convention busybox itself uses), real applet LOGIC in `stdlib/coreutils/*.prn`:
+  `echo` (real string-joining logic, `-n` flag in the host), `basename` (real, tail-recursive
+  trailing-slash strip + last-`/`-index scan + optional suffix strip, built from `string.prn`'s
+  own existing `char-at`/`substring` rather than reimplementing string scanning), `pwd` (a real,
+  new `getcwd(3)` primitive — `coreutils_getcwd_impl`, a dedicated `runtime/parena_runtime.h`
+  helper rather than a bare `inline-c` expression, since a GNU statement-expression would be
+  needed to declare a local buffer inline and this project's own S223-02 saga already confirmed
+  live that fails a real `-pedantic` build), and `true`/`false` (deliberately trivial — the real,
+  minimal proof multi-call dispatch itself works before layering real logic on top). New
+  `make parenabusybox`/`test-parenabusybox` targets; real end-to-end test coverage
+  (`tests/test_parenabusybox.c`) invokes the ACTUAL compiled binary via `popen`/`system` in both
+  real call forms (`parenabusybox <applet>` AND a real symlink named after the applet, e.g.
+  `/tmp/echo` — the real thing busybox's own multi-call mechanism is actually for) — 12 real
+  assertions, all pass. `make test`: 347/347, zero regressions. Golden doc registered
+  (`PARENA-COREUTILS-NORTH`). PARENA commits `591e996`/`ff3aca7`. Apple #18486. Real, honest v0
+  boundary: no `sh`/`mount`/`init` yet — the three genuinely hard, load-bearing applets a real
+  boot depends on, each a real, separate, much larger undertaking named as later phases, not
+  attempted here.
+  (sess-20260905-0720-ec33e7c5)
