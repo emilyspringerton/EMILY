@@ -32538,3 +32538,36 @@ EMILY `482b8f7f` (golden-index).
   directly rather than claimed done. `case`/`esac` and arithmetic named as the likely highest-
   value next two, both real and independently useful beyond just this one file.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 311: PARENASH — REAL CASE/ESAC PATTERN MATCHING (2026-09-08)
+
+- [x] **Founder real-time: "dooitttt."** Shipped one of the two named highest-value next slices
+  from SECTION 310: real `case WORD in PAT1) CMDS1 ;; PAT2) CMDS2 ;; esac` pattern matching,
+  using real, standard POSIX shell glob syntax via the real, already-correct `fnmatch(3)` — no
+  hand-rolled glob engine. Needed NO new tokenizer support at all: a real case clause's own
+  `PATTERN)` shape is already one word (no space before the `)` in real syntax, matching this
+  shell's own already-established tokenizing convention), and a real `;;` terminator already
+  tokenizes as two literal `;` tokens back to back — both detected directly in the new
+  `exec_case`. Real pipe-alternation (`yes|true|on)`, splitting on `|`, matching if any
+  alternative does) — the exact real shape `functions.sh` uses throughout. Runs only the FIRST
+  matching clause's own commands through the exact same `exec_range` every other construct in
+  this shell already uses; the REPL's own `is_balanced` heuristic extended to also track net
+  `case`/`esac` depth, so a real multi-line `case` block is correctly recognized as incomplete
+  until its own `esac` arrives — the same real treatment `if`/`fi` and `{`/`}` already get.
+  Live-verified against 6 real scenarios (exact literal match, no-match-no-`*` producing no
+  output, a REAL glob pattern in the exact `[Yy][Ee][Ss]`-shaped style `functions.sh` uses
+  throughout, pipe-alternation, `*` wildcard fallback, and code after `esac` still running)
+  before writing any test code. 6 new real end-to-end assertions — all pass, alongside the
+  original 40. `make test`: 347/347, zero regressions.
+  **Real, honest further finding, checked live rather than assumed**: `case`/`esac` alone does
+  NOT make `functions.sh`'s own real `yesno()` function work — read its actual source directly
+  and found it ALSO needs real `&&`/`||` (short-circuit command chaining), real POSITIONAL
+  PARAMETERS (`$1`, referenced repeatedly), a real `return` builtin (distinct from `exit` — this
+  shell's own `exit` kills the WHOLE process, not just the current function call), plus the
+  already-named `local`/`eval`. `case`/`esac` was a real, necessary, independently-useful piece —
+  genuinely used throughout `functions.sh` — but was never going to be sufficient alone, named
+  honestly rather than overclaimed. `PARENA_COREUTILS_NORTHSTAR.md`/`STDLIB.md` updated with the
+  full real trail. PARENA commits `09447d2`/`1530dd4`. Apple #18509. `&&`/`||` and positional
+  parameters named as the likely next highest-value pair — both real, independently useful, and
+  needed by every real init script, not just this one file.
+  (sess-20260905-0720-ec33e7c5)
