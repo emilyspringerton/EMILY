@@ -32573,3 +32573,28 @@ EMILY `482b8f7f` (golden-index).
   parameters named as the likely next highest-value pair — both real, independently useful, and
   needed by every real init script, not just this one file.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 312: TYLER — NEVER_LAND E1 SAVED, NEW NAMED SEASON (2026-09-08)
+
+- [x] **Founder real-time: pasted a full new TYLER episode script, "NEVER_LAND," episode
+  "Never_Land."** Saved verbatim into `TYLER/episodes/nl01_never_land.md`, matching the repo's
+  own established episode-file conventions (header block, act structure) — no invented Goetia
+  activation/binding-stage metadata added, since the founder's own script names none and this
+  repo's own established episode-header fields would otherwise be fabricated, not real.
+  Found and named a real, direct continuity link before filing anything, not assumed: Hana and a
+  hidden-school Custody Office already exist in `episodes/s01e02_school.md` (Build 0001,
+  "The School That Isn't There") — this new episode's Academy (Registry/Seals/Names wings, a
+  Handler system, "Green" classification for anomalies "that spread when witnessed," a real
+  debt-collecting `PAY WHAT YOU SAW` mechanic) is a genuine expansion of that same premise, not a
+  coincidence. Filed as its own NAMED season ("SEASON: NEVER_LAND") rather than force-fitted into
+  a numbered S1–S11 slot or the current Series X/Attempt Five timeline — the same real convention
+  Series X itself already used to sit outside the numbered run. Deliberately left OPEN, not
+  resolved here: where NEVER_LAND sits relative to Attempt Four (archived at S11E08/S00E-1) vs.
+  Attempt Five (the current Series X ground state) is a real, founder-owned continuity call this
+  pass has no basis to make unilaterally.
+  Updated `EPISODES.md` (new "SEASON: NEVER_LAND" section + episode table row, total episode
+  count 90→91), `activity.md` (Build 0131 entry, matching the established per-build log format),
+  and `CHANGELOG.md`. Checked the episode against Writer's Room Rule 1 ("Tyler never completes a
+  self-defining sentence") — confirmed compliant, no violations found. TYLER commits `f35e840`/
+  `5793cd5`. Apple #18513.
+  (sess-20260905-0720-ec33e7c5)
