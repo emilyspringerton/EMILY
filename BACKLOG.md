@@ -32730,3 +32730,29 @@ EMILY `482b8f7f` (golden-index).
   94→95, new NLE05 note), `activity.md` (Build 0135 entry), `CHANGELOG.md` all updated. TYLER
   commits `261c3bd`/`290fec6`. Apple #18523.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 317: TYLER — SEASON 6 (TAKE 2) E0 "THE RESIDUE TEST" WRITTEN (2026-09-08)
+
+- [x] **Founder real-time: "lets just arbitrarily say next season is season 6,"** followed by a
+  full pasted script. This is the first episode of the season named directly after NEVER_LAND's
+  own open, unresolved ending (founder, real-time, separately: "if thats the end and it just
+  resets and they dont escape... thats so sad").
+  **Real numbering conflict found and resolved before filing, not guessed past**: `TYLER/episodes/`
+  already has `s06e01_the_blue_bird.md` through `s06e06_the_usual_place.md` occupying Season 6 as
+  a separate, unrelated arc. Flagged directly to the founder via AskUserQuestion rather than
+  silently picking a number; founder chose to keep the "Season 6" label and disambiguate as
+  "SEASON 6 (TAKE 2)" rather than renumbering either the new or the existing arc.
+  Founder-authored script saved verbatim (same convention as NLE01). Returns to the main
+  documentary-crew frame (Cam the cameraman, a sound guy, a PA) rather than NEVER_LAND's Academy
+  setting. Tyler picks up a reactive "memory adhesive" residue in a Detroit parking structure that
+  writes and revises warnings directly into concrete, responds to being named and being looked at,
+  and eventually surfaces a live flip-phone text thread on Tyler's own forearm between an unseen
+  "the Suit" and Hana — revealing Hana already knows him from "the version that leaks," and that
+  touching the patch's edge "starts indexing." Tyler touches it anyway. The scene peels by a
+  millimeter, duplicating the room and showing one single frame of an older/alternate Hana
+  mid-catastrophe, already shouting "DON'T LET HIM—" before the cut to black.
+  Checked against Writer's Room Rule 1 — confirmed compliant (no self-defining sentence from
+  Tyler). `EPISODES.md` (episode count 95→96, new SEASON 6 (TAKE 2) section + placement note),
+  `activity.md` (Build 0136 entry), `CHANGELOG.md` all updated. TYLER commits
+  `7d5d8ec`/`3f1189f`. Apple #18538.
+  (sess-20260905-0720-ec33e7c5)
