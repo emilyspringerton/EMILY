@@ -32758,3 +32758,36 @@ EMILY `482b8f7f` (golden-index).
   `activity.md` (Build 0136 entry), `CHANGELOG.md` all updated. TYLER commits
   `7d5d8ec`/`3f1189f`. Apple #18538.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 318: TYLER — SEASON 6 (TAKE 2) E1 "THE WRONG ORDER" WRITTEN (2026-09-08)
+
+- [x] **Founder real-time: "next episode."** Wrote SEASON 6 (TAKE 2) E1, "The Wrong Order" (Build
+  0137), resuming Build 0136's cliffhanger inside the same unbroken scene (Tyler's thumb still on
+  the peeled patch's corner) rather than opening a new one, written in matching prose style rather
+  than the show's more common bold-character-cue screenplay format.
+  **Real, load-bearing lore connections found and used directly, not invented fresh**: grepped
+  the repo for prior "Suit"/ignition-order references before writing anything, and found the
+  flip-phone "black green red yellow white" text from E0 is the exact, already-established Osaka
+  operator ignition order from `manuscripts/tyler_book2.md` ("Black is refusal. Green is consent.
+  Red is cost. Yellow is the part everyone forgets to plan for. White is what's left over once
+  you've paid for all four.") and `manuscripts/tyler_book0.md`'s Osaka Garage sequence. "SUIT:
+  wrong order again" ties directly to `README.md`'s own documented "Cursed Timeline" note — a
+  one-time AR-overlay glitch during the Custody Trial showing the sequence reversed, which the
+  Eastwind Owls have a footnote about and are "not sharing" — that footnote stays exactly as
+  withheld here, not resolved. `HQ-CANON-TYLER-105-EPOCH-EXTINCTION.md`'s Canon Rule 2 ("No
+  character except Tyler may enter the seam and return") is used, without violating it, to explain
+  why the residue singles Tyler out specifically — framed strictly as the seam bleeding a fragment
+  outward into the room, never as anyone actually entering and returning. Noted honestly, not
+  silently smoothed over: this episode's crew (Cam, sound guy, PA) is a distinct lineup from
+  `tyler_book0.md`/`tyler_book2.md`'s Mara/Len/Jules — treated as a different crew on a different
+  shoot (the show already runs multiple non-unified documentary crews across seasons), not a
+  character conflict requiring a fix.
+  The older/alternate Hana from E0 is glimpsed once more, cut off mid-sentence, then gone; the
+  boom mic captures a clean four-second audio artifact of her voice at 12:04:47, not yet played
+  back for the crew. Present-Hana confirms she knows four of the five ignition-order stages
+  without explaining how. Closes on a new hook rather than a repeat cliffhanger: "somebody started
+  at yellow."
+  Checked against Writer's Room Rule 1 — confirmed compliant. `EPISODES.md` (episode count
+  96→97, new S6BE01 row + description), `activity.md` (Build 0137 entry), `CHANGELOG.md` all
+  updated. TYLER commits `d946c37`/`05e5d0e`. Apple #18541.
+  (sess-20260905-0720-ec33e7c5)
