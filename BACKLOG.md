@@ -32073,3 +32073,36 @@ EMILY `482b8f7f` (golden-index).
   real trail. EmilyOS commits `a5a86df`/`f39767a`. Top-level monorepo commit `b31999896`. Apple
   #18456. Real image assembly still not run end to end — needs the actual privileged pass.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 299: GPT2-ALPINE-C — FORMAT-LEVEL CHAIN-OF-THOUGHT AUGMENTATION (2026-09-08)
+
+- [x] **Founder real-time: "can we add chain of thought to our gpt 2? I know it's a bit of a
+  stretch." → "ok" (confirming the scoped-down proposal).** Named the real, honest boundary
+  before building anything: GPT-2-small (~124M params, this repo's own real fine-tune target) is
+  well below the scale where multi-step reasoning emerges on its own — real CoT gains in the
+  literature show up at 100B+ params. Scoped instead as format-level distillation (the STaR
+  "rationalization" technique): for a sample of the corpus's existing `{prompt, completion}`
+  pairs, ask Claude for a short rationale plausibly bridging the two, then teach the fine-tune to
+  emit that reasoning-then-answer SHAPE for in-distribution prompts — not a claim of general
+  reasoning capability.
+  Added `--cot-augment`/`--cot-fraction`/`--cot-model` to `prime_directive_dataset.py`, mirroring
+  the existing S150-01 `towerprint_augmented_records` shape directly (deterministic sha256
+  sampling so re-runs are reproducible, the same "decide the fraction, don't default to 100%"
+  judgment, skip-on-error rather than fail-the-whole-pass) rather than inventing a new pattern.
+  New minimal, dependency-free Anthropic Messages API call via `urllib` (matching
+  `drive_sync.py`'s own established "urllib, not requests" convention in this repo).
+  Live-tested against the real corpus, not just written: correctly skips with a clear message
+  when `ANTHROPIC_API_KEY` is unset; with the key set, the request/auth/response-parsing path
+  reaches the real Anthropic API and correctly parses a real error response — confirming the
+  plumbing itself is correct. Full rationale generation is blocked on a real, separate, external
+  issue found live: the session's stored `ANTHROPIC_API_KEY` currently has an empty credit
+  balance (`HTTP 400 "Your credit balance is too low"`) — unrelated to this code, but worth
+  flagging since `EMILY/CLAUDE.md` names this same key as required for `emily-agent`/
+  `obs-watcher`/`emily backlog promote` too, so this may be a live, cross-cutting blocker beyond
+  just this feature. Improved error surfacing (the real API error prints once per run in verbose
+  mode) so a future run doesn't produce a silent, confusing zero-pairs result. Also found and
+  fixed, incidentally: this repo's `git push` was blocked by a missing `git-lfs` binary (its own
+  pre-push hook requires it even though this commit touched no LFS-tracked files) — installed
+  root-lessly via the established `apt-get download` + `dpkg-deb -x` trick. gpt2-alpine-c commits
+  `2f59160`/`a4fa77e`. Apple #18460.
+  (sess-20260905-0720-ec33e7c5)
