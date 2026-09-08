@@ -32824,3 +32824,77 @@ EMILY `482b8f7f` (golden-index).
   97→98, new S6BE02 row + description), `activity.md` (Build 0138 entry), `CHANGELOG.md` all
   updated. TYLER commits `99d3501`/`b639f39`. Apple #18544.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 320: CAREPYRE PII AUDIT — CONTACT FORM MOVED TO IDUNA_PRO, RETENTION, LOG MINIMIZATION (2026-09-08)
+
+- [x] **Founder real-time: "ok so whats the plan? make the top admin have access to the contact
+  form and then support iam roless? move the contact form to idunapro? what else needs to happen
+  can we encrypt the sqlite at rest? not really right? salted or something?"** — following up on
+  an earlier founder question: "ok the carepyre accounts... the name and the email could be
+  considered pii are we handling that appropriately?"
+  **Live audit performed first** (IDUNA + IDUNA_PRO + CarePyre code, not from memory): found
+  `carepyre_contact_submissions` plaintext at rest with no retention limit and no deletion/export
+  code path despite `privacy.html` promising access/deletion rights; login events logging
+  plaintext emails into a shared cross-product event log; and every `var/*.db` on the box
+  world-readable (mode 674/644). Reported back; founder chose the recommended option on all three
+  follow-up questions (90-days-after-resolved retention, drop email from login events, check the
+  VPS provider on disk encryption separately/later).
+  **Encryption-at-rest question answered directly, not deferred**: SQLCipher/filesystem
+  encryption protects against a stolen disk/backup, not the real threat named in
+  `docs/HIPAA_COMPLIANCE_NORTHSTAR.md` (a subpoena compelling readable data) — the service must
+  decrypt `name`/`email` on every read to render the admin console, so the decryption key
+  necessarily lives somewhere the process can reach it, defeating that protection against
+  compelled disclosure specifically. "Salted" doesn't apply to name/email either — salting only
+  works when you never need the plaintext back (passwords); email/name must be read back to
+  render/match against, so a one-way hash would break the product. Recommended, and did: fix file
+  permissions + add real retention limits instead of pursuing encryption this pass.
+  **Shipped, in dependency order**:
+  1. **IDUNA_PRO** (commit `076bc20`): new `carepyre_contact_submissions` table + status/
+     resolved_at columns; `CarePyreContactHandler` (public submit + admin list/resolve/delete)
+     gated by a new `contacts.manage` permission — Top-Admin-only for now, built through
+     `localUserPermissions` (not hardcoded) so it can extend to Operator Admin or a new
+     Provider-tier role later without a rewrite, directly answering "make the top admin have
+     access... and then support iam roles." `cmd/carepyre-contact-purge` + systemd service/timer
+     (same no-sudo user-unit pattern `IDUNA/scripts/promptoverse-thumbnails.*` already
+     established) auto-deletes a submission 90 days after it's marked resolved; a submission
+     still `status="new"` is never auto-deleted, however old. `local_auth.go`/`auth.go`: login
+     success/failure events no longer carry the plaintext email — `local_uid` (or `sub` for
+     Google auth) alone is kept, enough to correlate internally without scattering PII into a log
+     store shared with unrelated products (REDGARDEN, GFD, etc.). `var/*.db` fixed to mode 640
+     (was 644); `scripts/idunapro.service` gets `UMask=0027` so newly-created files don't
+     regress. 4 new tests (list/resolve/delete/permission-gating), full suite green.
+  2. **Data migration**: `IDUNA_PRO/scripts/migrate-carepyre-contacts-from-iduna.sh` (idempotent,
+     `INSERT ... WHERE NOT EXISTS` guard, no schema-level UNIQUE constraint needed) copied
+     IDUNA's 4 real existing submissions forward, all defaulted to `status="new"` (no historical
+     "resolved" state existed to preserve — a submission an admin hasn't triaged yet should not
+     silently start a purge countdown). Verified byte-for-byte against source after running.
+     IDUNA's own copy of the table is left in place, untouched, as a frozen historical backup —
+     a deliberate, conservative choice, not a claim the data is disposable.
+  3. **IDUNA** (commit `0439da6`): `CarePyreContactHandler`, the `/admin/carepyre` back-office
+     page (nav links + template), and their route registrations removed — the feature and its
+     data now live in IDUNA_PRO, gated by a real permission instead of this repo's much broader,
+     catch-all `iduna.admin` population. Same `var/*.db` 674→640 fix + `UMask=0027` applied here
+     too (systemic, not CarePyre-specific — every DB file on the box had the same gap).
+  4. **CarePyre** (commit `1fa03cf`): `index.html`'s contact-form fetch retargeted to
+     `/console-api/api/v1/carepyre/contact` — reuses the already-live `/console-api/` nginx proxy
+     to IDUNA_PRO, no nginx config change or reload needed. `console.html` gets a real "Contact
+     form" panel (list/mark-resolved/reopen/delete), gated on `contacts.manage`, same table-panel
+     pattern the other admin cards already use. `privacy.html`'s retention section now names the
+     contact form specifically (90 days after resolved) instead of only covering accounts; "Your
+     rights" now explicitly covers contact-form submitters.
+  **Real, unrelated incident found and stabilized along the way, not swept under the rug**: while
+  restarting IDUNA to deploy the above, `journalctl` showed IDUNA had been OOM-killed against its
+  256M `MemoryMax` ceiling starting at 18:16 UTC — well before this session's own restart at
+  18:42 — then recurring every ~30-40s during this session's own heavy Apple-filing activity
+  (each `emily apples post` triggers an `apples-git` sync subprocess). Host has 9GB+ available
+  (`free -h`), so `MemoryMax` was bumped 256M→512M as an immediate, safe stopgap in
+  `IDUNA/scripts/iduna.service` (deployed, confirmed stable via a 3-minute `journalctl` watch,
+  zero further OOM events). The actual root cause of the memory growth (a specific handler? the
+  apples-git sync path itself?) is named honestly as a real, separate, NOT diagnosed-here
+  follow-up — not fixed by this stopgap, just no longer crash-looping the service.
+  **Live-verified, not just `go build`/`go test`**: both services rebuilt and restarted, real
+  end-to-end contact-form submission tested through the actual nginx proxy into IDUNA_PRO's new
+  table (then deleted, test data only), old IDUNA route confirmed 404, purge timer enabled with
+  its first run logged (0 purged — correct, nothing resolved yet).
+  Apples: IDUNA_PRO #18571, IDUNA #18572, CarePyre #18574.
+  (sess-20260905-0720-ec33e7c5)
