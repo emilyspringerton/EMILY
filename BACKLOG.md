@@ -32207,3 +32207,33 @@ EMILY `482b8f7f` (golden-index).
   conclusive pass/fail boot signal it exists to get. `NORTHSTAR_DISTRO.md` updated with the full
   trail. EmilyOS commits `dd75836`/`0b341c6`. Apple #18471.
   (sess-20260905-0720-ec33e7c5)
+- [x] **Founder real-time: "keep going I can't do any so [do] scripts but u can keep on
+  going"** (typed through a broken keyboard, per founder). Confirmed the prior pass's framebuffer
+  theory directly rather than leaving it a guess: QEMU's own QMP `screendump` command (over the
+  `-qmp unix:...` socket, spoken via plain `nc -U` — no VNC client or GUI needed) captures the
+  emulated device's real framebuffer content regardless of `-display none`. First screendump (no
+  disk attached) showed real, live kernel boot text — confirming the console really was going to
+  the framebuffer the whole time — ending in `Mounting boot media failed. initramfs emergency
+  recovery shell launched.`, the exact correct behavior with nothing attached.
+  Went one step further: built a real, throwaway, root-less test image — the SAME real `boot.img`
+  this session's own script produces, `dd`-assembled (same proven technique) alongside a tiny
+  SYNTHETIC ext4 root partition (one file, no real init), purely to exercise the partition table
+  + `cmdline.txt` + mount + `switch_root` pipeline structurally. Found and fixed a real QEMU
+  constraint along the way: SD-card emulation (`-drive if=sd`) requires a power-of-2 image size
+  (`truncate -s 256M`). **Real, definitive, screendump-captured result** (saved at `EmilyOS/docs/
+  pi-boot-test-switch-root-panic.png`): `switch_root: can't execute '/sbin/init': No such file or
+  directory` → kernel panic — exactly the correct failure for a synthetic root with no init, and
+  live proof that every real piece of the boot pipeline works end to end: the kernel finds and
+  mounts the real `/dev/mmcblk0p2` partition (confirming `cmdline.txt`'s own `root=` fix from
+  SECTION 301 is correct), `nlplug-findfs` resolves it, and `switch_root` genuinely transitions
+  into it (proven by the kernel correctly trying to exec `/sbin/init` FROM the new root). The one
+  class of risk that would have been hardest to debug after a failed real privileged attempt (a
+  silently wrong boot config producing a non-booting image with no clear error) is now retired
+  with positive evidence, not just careful reasoning — the real Alpine rootfs this session's own
+  scripts build DOES ship a real `/sbin/init` at exactly the path this test proved `switch_root`
+  correctly looks for (confirmed present in the built `rootfs/` tree already, not assumed).
+  `NORTHSTAR_DISTRO.md` updated with the full trail. EmilyOS commits `6710f33`/`04e11de`. Apple
+  #18474. Phase 3 still not fully closed — this doesn't yet prove the REAL rootfs boots all the
+  way to a working login/SSH/`emilyos` service, only that the boot ARCHITECTURE is sound; that
+  final confirmation needs the actual privileged run plus a real boot test against its output.
+  (sess-20260905-0720-ec33e7c5)
