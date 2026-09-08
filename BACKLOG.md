@@ -31972,3 +31972,47 @@ EMILY `482b8f7f` (golden-index).
   Response, Data/EAPOL) named directly, not silently dropped. Apple #18445. Commits `f733e9f`/
   `b081fda`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 296: EMILYOS — ALPINE/RASPBERRY PI DISTRO PIVOT, PHASE 0 (2026-09-08)
+
+- [x] **Founder real-time: "ok can we start working on an installable alpine based raspi
+  distro I guess in Emily os repo."** Real, prior context checked first: `EmilyOS/docs/
+  NORTHSTAR_DISTRO.md` already existed (2026-08-25 scoping, targeting Arch, 4 real open
+  questions left unresolved, explicitly "no implementation" pending a base-mechanism decision).
+  This ask resolves two of those four rather than starting a new thread — confirmed directly
+  with the founder which of 3 real placement options to take: **EmilyOS becomes the real
+  distro** (not a generic distro EmilyOS's binary happens to run on, and not distro-plumbing
+  with the branding question deferred).
+  Real, technical (not preference-based) resolution of open question 1: Arch has no
+  first-class official ARM/Pi story (Arch Linux ARM is a separate community project) — Alpine
+  does, checked live by downloading and inspecting the real `alpine-rpi-3.20.10-aarch64.tar.gz`
+  release artifact: a complete boot-partition bundle (RPi firmware, prebuilt kernel/initramfs/
+  modloop, real dtbs+overlays covering the current Zero 2 W/3B+/4B/CM4/5B/CM5 hardware matrix,
+  config.txt/cmdline.txt) — no from-scratch kernel/firmware build needed. Extends this
+  monorepo's own already-logged `PARENA-0001` finding (PARENA's C emitter already compiles
+  clean and fully static under musl) — Alpine was already the musl-portability target, now
+  also the real Pi target. Open question 2 (target hardware) resolved as Raspberry Pi.
+  Real, live root-less proof (no root, no Docker, no VM, this sandbox's own real constraints):
+  Alpine's own `apk-tools-static` (x86_64 build) can fetch/extract a real aarch64 rootfs with
+  zero privilege — 24/24 packages, ~17MiB, real `/etc/os-release` confirming `Alpine Linux
+  v3.20.10`. Real, honest boundary found and NOT worked around with something fragile: every
+  package's chroot-based post-install/trigger script needs real `CAP_SYS_CHROOT` (confirmed
+  failing live), and chrooting into an aarch64 rootfs from this x86_64 box additionally needs
+  `qemu-user-static`'s binfmt_misc registration (the same real technique Docker's own official
+  multiarch pipeline uses) — neither available here; `fakeroot` (installed) doesn't fake
+  `chroot(2)` itself so it doesn't help; unprivileged user namespaces are kernel-enabled but
+  blocked by this specific sandbox's own container policy (checked live, not assumed). Queued
+  the real Phase 1 privileged build script instead: `sudo-queue/76-build-emilyos-pi-image.sh`
+  (top-level monorepo) — full `apk` bootstrap-with-real-root, qemu-user-static chroot finishing,
+  EmilyOS's own Go binary built for `linux/arm64` and wired in as a real OpenRC service
+  (`/etc/init.d/emilyos`), FAT32 boot + ext4 root image assembly via `losetup`/`parted`/
+  `mkfs.vfat`/`mkfs.ext4`. Explicitly NOT run end-to-end yet (no root in this sandbox) — named
+  honestly in the script's own header rather than claimed working. Real phased plan (Phase 1
+  privileged build -> Phase 2 already wired into that same script -> Phase 3 boot-test, needs
+  real Pi hardware or `qemu-system-aarch64`, neither available here -> Phase 4 hand the `.img`
+  to `FLASH`/S213 for the real "write to SD card" step, closing the loop with that existing
+  thread rather than duplicating it -> Phase 5 the 2026-08-25 package-selection guidance:
+  PARENA, vim, `emily` CLI, SSH, GCC, GNAT/Ada) written into `NORTHSTAR_DISTRO.md`. EmilyOS
+  commits `8e34c38`/`e879897`. Top-level monorepo commit `e59743810`. Apple #18450. Planning +
+  one queued script only — no image built yet.
+  (sess-20260905-0720-ec33e7c5)
