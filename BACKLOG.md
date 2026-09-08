@@ -31901,4 +31901,31 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [x] **PARENA-ARRAY-MATMUL-001: array.prn's own matmul/transpose still produce wrong numbers even after the loop-variable I32 boxing bug fix.** Root-caused to a SECOND, separate bug — not in the original bug, in the FIX's own safety-net check: `array.prn`'s `strides-for` reassigns its accumulator via a recur value that's a bare reference to an interior `let`-bound local (`next`), and `loop_recur_binding_is_int_safe`'s own `let` case recursed into the let's body using the outer scope, never binding `next` into it — so the check's own `emit_expr` dry-run always failed to resolve `next`'s type, conservatively downgrading the whole chain back to `double`. Fixed by giving that `let` case a real, properly-scoped child `EmitScope` (mirroring `emit_let`'s own real binding loop). Verified: `matmul(A,B)`/`transpose(A)` now produce the real, hand-computed correct values end to end (genuine 2×3 × 3×2 product `[[58,64],[139,154]]`) — previously long-documented as "compiles clean but NOT verified numerically correct." New `make test-linalg-matmul`, the real, permanent regression gate. `make test`: 347/347, full real-target regression sweep re-run clean. STDLIB.md/`linalg.prn` doc comments updated. Apple #18432. Commit `ee13e61`. Kanban card #374 removed.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 294: PARENA SELF-HOST — WHOLE-BODY #target/inline-c FFI EMISSION SHIPPED (2026-09-08)
+
+- [x] **Founder real-time: "iterate on parena self host."** Closed the real, named "next
+  frontier" from the prior self-hosting session (`NORTHSTAR.md`'s own "Self-hosting" section,
+  2026-09-02): the self-compiled OUTPUT couldn't compile under `gcc` because `#target inline-c`
+  FFI bodies — real, load-bearing throughout this stdlib (`math/random-f64`, `net/tcp`'s own raw
+  syscalls, `ldap/ber`'s `build-ber-tlv`, dozens more) — had no emission support anywhere in
+  `selfhost/emit.prn`. Shipped a direct port of the reference compiler's own `find_target_c_src`/
+  `emit_target_defn`: `defn-body-target-shaped?` detects a defn whose ENTIRE body is `#target
+  {:c (inline-c "...")}`, `target-map-c-src` extracts the raw C text (reusing
+  `map-literal-field-value-index`, the same real key lookup struct literals already use),
+  `emit-defn-target-body` wraps it in a real `return (...);`. Live-verified end to end through
+  the real, standalone `parena-selfhost` binary: a real `#target` function compiles gcc-clean
+  under `-pedantic -Werror` and returns the correct runtime value. New test in
+  `tests/test_selfhost_emit.c` + `tests/integration/driver_target_whole_body.c`.
+  Real, honest scope: only the WHOLE-BODY `#target` shape is covered — the reference compiler's
+  own SEPARATE mid-body `#target` statement form (`string.prn`'s own `char-from-code`/
+  `substring`/`concat` all use this different shape) is real, additional, not-yet-attempted
+  scope. A genuine self-compilation attempt (`parena-selfhost` building its own real 8-file
+  source set) surfaced the precise, remaining gap list beyond that, more accurate than the prior
+  session's own guess: mid-body `#target`, no real `I32`/`F64` scalar return-type support
+  (`defn-c-return-type` defaults everything non-Result/Option/struct to `"char * "`), `if` used
+  as a defn's whole body, and a narrow struct-literal-shape restriction. All named directly in
+  `NORTHSTAR.md`'s own "Self-hosting" section — true bootstrapping needs all of them, not just
+  this one. `make test`: 347/347, every `selfhost-*` test target re-run clean, zero regressions.
+  Apple #18439. Commit `8822b52`.
   (sess-20260905-0720-ec33e7c5)
