@@ -39,3 +39,6 @@ var/logs/
 
 # emily start PID files (rewritten every restart, not meaningful history)
 var/*.pid
+
+# raw DB backups/snapshots taken during ops work — real PII, never belongs in git history
+var/backups/
