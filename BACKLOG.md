@@ -32107,3 +32107,40 @@ EMILY `482b8f7f` (golden-index).
   root-lessly via the established `apt-get download` + `dpkg-deb -x` trick. gpt2-alpine-c commits
   `2f59160`/`a4fa77e`. Apple #18460.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 300: EMILYOS — ROOT-LESS AARCH64 CROSS-TOOLCHAIN CLOSES THE LAST PHASE 1 GAP (2026-09-08)
+
+- [x] **Founder real-time: "iterate Emily os."** Continued SECTION 298 directly: rather than
+  waiting on the queued privileged script for the two gaps found there, checked live whether the
+  cgo cross-build gap specifically could ALSO move root-less, the same way image assembly already
+  had. It could: Debian's `gcc-aarch64-linux-gnu` cross-toolchain and its real dependency chain
+  (`gcc-13-aarch64-linux-gnu`, `binutils-aarch64-linux-gnu`, `libgcc-13-dev-arm64-cross`,
+  `libgcc-s1-arm64-cross`, `libc6-dev-arm64-cross`) install cleanly via the same `apt-get
+  download` + `dpkg-deb -x` extraction already used for `apk-tools-static`/`mtools`/`git-lfs`
+  this session — `apt` itself is the only part needing root, for writing into `/var/lib/dpkg`,
+  not anything the extracted compiler does.
+  Two real, live-found wrinkles fixed, neither guessable in advance: (1) the actual target
+  runtime libc (`libc.so.6`/`ld-linux-aarch64.so.1`) is NOT part of `libc6-dev-arm64-cross`
+  (headers/static libs only) — it's the foreign-architecture `libc6:arm64` binary package, which
+  `apt` won't resolve without `dpkg --add-architecture arm64` (needs root to register); fetched
+  instead directly from the real Ubuntu ports mirror (`ports.ubuntu.com` carries non-amd64/i386
+  architectures at a separate pool path), version-pinned to exactly match this box's own noble
+  release; (2) Debian's cross-gcc bakes an ABSOLUTE default sysroot (`/usr/aarch64-linux-gnu`) at
+  package-build time, ignoring `PATH`/`LIBRARY_PATH`/`C_INCLUDE_PATH` entirely for the linker's
+  own default search dirs — confirmed live via a real "cannot find libc.so.6" failure that only
+  cleared once `--sysroot=<extraction dir>` was passed explicitly via `CGO_CFLAGS`/`CGO_LDFLAGS`.
+  With both fixed, `GOWORK=off GOOS=linux GOARCH=arm64 CGO_ENABLED=1
+  CC=aarch64-linux-gnu-gcc-13 go build` produces a real, correct aarch64 ELF executable —
+  live-verified via `file` (`ELF 64-bit LSB executable, ARM aarch64, ... dynamically linked,
+  interpreter /lib/ld-linux-aarch64.so.1`), not just a clean exit code. Folded into
+  `build-pi-image-rootless.sh` as a cached one-time toolchain bootstrap; re-ran the FULL script
+  clean from a wiped workdir to confirm no regression — the binary now lands in
+  `rootfs/usr/local/bin/emilyos` on every root-less run, with no `PENDING_BINARY_BUILD` marker.
+  `sudo-queue/76`'s privileged scope shrinks accordingly: no more Go build retry, no more
+  `gcc-aarch64-linux-gnu` install — exactly chroot-based package finishing +
+  `qemu-user-static` registration, and `mke2fs -d` against the finished tree remain genuinely
+  privileged. `NORTHSTAR_DISTRO.md` updated with the full real trail. EmilyOS commits
+  `b3dd869`/`c7af32a`. Top-level monorepo commit `1318ba1ca`. Apple #18466. The chroot-finishing
+  + `mke2fs -d` step is now the ONLY remaining real blocker before a first complete, flashable
+  `.img` exists — still needs an actual privileged run.
+  (sess-20260905-0720-ec33e7c5)
