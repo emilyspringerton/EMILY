@@ -32660,3 +32660,36 @@ EMILY `482b8f7f` (golden-index).
   92→93, new NLE03 crossover note), `activity.md` (Build 0133 entry), `CHANGELOG.md` all updated.
   TYLER commits `2211339`/`8525c2d`. Apple #18518.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 315: TYLER — NEVER_LAND E4 "UNDOCUMENTED" WRITTEN (2026-09-08)
+
+- [x] **Founder real-time: "next episode."** Wrote NEVER_LAND E4, "Undocumented" (Build 0134),
+  continuing directly from E3's own ending (Hana deferring the leaving question to "tomorrow") —
+  another AI-authored continuation, named as such directly in `EPISODES.md`/`activity.md`.
+  Introduces a new Eastwind Owl field operative ("the Owl") — deliberately a NEW character, named
+  honestly as such, rather than reusing the already-seeded "Edinburgh Exchange Student" (a
+  different, specific character seeded for the separate Tides of Paradox teen-faction layer).
+  **Real, deliberate restraint checked directly before writing anything, not assumed safe**: this
+  episode does NOT touch Emily OS's Tyler file or its line count. `README.md`'s own real,
+  load-bearing rule ("the file is three words... its power is its brevity. Leave it alone") was
+  already, canonically, carefully spent once — three words to four lines at Build 0006, four to
+  six across the whole of Season 11 — each expansion earned across real story weight, never
+  handed out per-episode. Adding a line casually four episodes into a brand-new season would
+  cheapen a mechanic this show has always guarded closely.
+  What the Owl brings instead, correctly within her faction's own already-established real scope
+  (Eastwind Owls "monitor Emily OS's log activity" — the same real mechanism that first noticed
+  the historical Build 0006 Tyler-file update, per `README.md`): the Ledger's own older name,
+  "the Standing Debt" (older than the Academy, "older, probably, than the building it's currently
+  wearing as a hat"), and two real prior cases of a debt negotiated rather than collected — one
+  person erased from all record ("the debt didn't take proof they were here — it took the
+  possibility of proof ever again"), one case still open, deliberately left unresolved rather
+  than invented an ending for. The Man returns visibly changed: a Stillness Council (the same
+  real body first seen in `episodes/s00e-1_the_determination.md`) is now reviewing his own broken
+  protocol from E3 — real, escalating consequence for the crack in his authority NLE03 already
+  established. Episode closes with the Owl leaving Tyler a blank card that resolves the single
+  word "UNDOCUMENTED" under his thumb before fading — the season's own title, handed back as a
+  real, diegetic in-story object rather than just a header label.
+  Checked against Writer's Room Rule 1 — confirmed compliant. `EPISODES.md` (episode count
+  93→94, new NLE04 note), `activity.md` (Build 0134 entry), `CHANGELOG.md` all updated. TYLER
+  commits `73a75d1`/`dbfe13e`. Apple #18521.
+  (sess-20260905-0720-ec33e7c5)
