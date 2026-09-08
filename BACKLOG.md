@@ -26747,17 +26747,27 @@ larger (a) feature work.
   emitter tests re-run against the rebuilt `parena` binary: all green, no behavior change to the
   already-shipped S222-09 workaround. PARENA commit `b616ed0` (+ `4604f99` changelog). Apple
   #17181. (sess-20260830-1207-cc0ba7da)
-- [~] **S223-02: the real fix — let `let`/`match` (and possibly `loop`) actually BE used as an
-  `if`'s own condition**, not just fail with a better message. Scoped, not implemented —
-  `PARENA/docs/EXPR_POSITION_BINDING_FORMS_NORTHSTAR.md` (real Principle-19 pass, 2026-09-04).
-  Real, decisive finding: the naive `({...})` sketch is confirmed blocked by `-pedantic`, and
-  this file's own `g_boxed_types`/`g_box_helpers` synthesized-helper precedent doesn't transfer
-  cleanly — a let/match/loop body can capture arbitrary outer-scope locals, needing real
-  free-variable analysis this codebase has no primitive for, and getting it wrong means silent
-  wrong-codegen (compiles, runs wrong), not a loud failure — worse than S223-01's current honest
-  rejection. 3 options named (narrow `let`-only phase / full generality / keep the existing
-  "extract to a named function" workaround as the permanent answer) — needs a founder pick before
-  any code lands. session: sess-20260904-2324-5f032e08
+- [x] **S223-02: the real fix — let `let`/`match` (and possibly `loop`) actually BE used as an
+  `if`'s own condition**, not just fail with a better message. Shipped 2026-09-08, worked from
+  the kanban cruise queue (card #306). The prior scoping pass (`PARENA/docs/
+  EXPR_POSITION_BINDING_FORMS_NORTHSTAR.md`) considered exactly two mechanisms and rejected
+  both — a GNU statement-expression (confirmed blocked by `-pedantic`) and a synthesized helper
+  function (blocked by real free-variable capture, since a helper is a new C scope boundary
+  needing every outer local threaded through as a parameter). Found a real THIRD mechanism that
+  doc never considered: hoist the binding form's own generated statements directly into the SAME
+  enclosing C statement list the `if` is already being emitted into — no new scope boundary at
+  all, so free-variable capture simply doesn't apply. New `emit_if_condition()` (`PARENA/
+  src/emit.c`), wired into all 4 real `if`-in-statement-position call sites (a function's own
+  tail, a `loop`'s own tail, a `match` clause's own body, another `if`'s own branches), reusing
+  the already-existing `emit_match_clause_body()` dispatcher rather than new capture-analysis
+  code. Real, honest, unchanged boundary: `if` as a bare nested ternary with no accessible
+  statement list (a binop operand, a call argument) still fails exactly as before — S223-01's
+  original diagnostic, untouched for that narrower residual case. Two pre-existing regression
+  tests (LO's own S222-09 repro, and the matching `match` case) updated from "fails honestly" to
+  "compiles under `-pedantic -Werror` AND runs correctly" (live-verified, not just compiled).
+  `make test`: 347/347. `EXPR_POSITION_BINDING_FORMS_NORTHSTAR.md` updated with the real, shipped
+  mechanism. Apple #18414. Commit `67fd3fd`.
+  (sess-20260905-0720-ec33e7c5)
 
 ## SECTION 224: LO — QI (PHASE 2 FRONTEND) SCOPING PASS (2026-09-02)
 
