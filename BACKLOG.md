@@ -32238,3 +32238,35 @@ EMILY `482b8f7f` (golden-index).
   way to a working login/SSH/`emilyos` service, only that the boot ARCHITECTURE is sound; that
   final confirmation needs the actual privileged run plus a real boot test against its output.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 303: PARENA SELF-HOST — REAL SCALAR RETURN-TYPE SUPPORT FOR #target-BODIED DEFNS (2026-09-08)
+
+- [x] **Founder real-time: "iterate on parena self host."** Continued the self-hosting bootstrap
+  gap list from the earlier `SECTION 294`-era work: `defn-c-return-type` widened to recognize
+  `Unit`/`I32`/`Bool`/`F64` (mapping to `void`/`int`/`int`/`double`, matching the reference
+  compiler's own `resolve_base_type_name` table exactly) — scoped precisely to the case the gap
+  list named: a `#target`-bodied defn (`stdlib/string.prn`'s own `length`/`char-at`-shaped)
+  previously emitted the wrong `char *` return type despite its own `#target` BODY already
+  emitting correct, typed C. Real, live-found reason this is scoped to `#target`-bodied defns
+  ONLY, not every I32/F64/Bool-declared function: widening it unconditionally broke a real,
+  pre-existing, previously-passing test (`unwrap-or-zero`, a match/deref-bodied `I32`-returning
+  function) with a genuine `gcc -Werror=int-conversion` failure — this self-hosted emitter's own
+  `emit-i32-boxed`/`emit-deref` are still deliberately built around a uniform "every non-#target
+  value is `char *`-shaped" convention (documented in `emit-i32-boxed`'s own header comment), a
+  real, separate, larger gap (would need threading the declared return type into
+  `emit-tail-expr`/`emit-body-forms` generally) not attempted here. Scoping the fix to
+  `#target`-bodied defns closes the literal, named gap while avoiding that whole class of
+  regression. Also found and fixed, same pass: a real, previously-dead
+  `(string/str-eq? return-type-c "void")` check in `emit-defn-target-body` — compared against the
+  bare string `"void"`, but `return-type-c` always carries `defn-c-return-type`'s own established
+  trailing space (`"Result "`, `"char * "`, now `"void "` too), so it never actually matched
+  anything even once a real Unit-returning `#target` function existed to hit it. New test
+  (`magic-number`, a real `I32`-returning `#target`-bodied defn) +
+  `tests/integration/driver_target_scalar_return.c` — a real end-to-end assertion (compiles,
+  links against `extern int magic_number(void)`, runs, returns 42) that would have failed to even
+  LINK under the old `char *` default. `make test`: 347/347, every `test-selfhost-*` target
+  re-run clean, zero regressions. `NORTHSTAR.md`'s own self-hosting gap list updated to mark this
+  gap CLOSED (for `#target`-bodied defns) with the full real trail. PARENA commits `3596c94`/
+  `7bef738`. Apple #18479. Remaining self-host gaps named honestly, not closed here: mid-body
+  `#target`, `if`-as-whole-body, a narrow struct-literal-shape restriction.
+  (sess-20260905-0720-ec33e7c5)
