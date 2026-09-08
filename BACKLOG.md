@@ -2511,6 +2511,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: start work on an installable Alpine-based Raspberry Pi distro, placed in the EmilyOS repo.** — obs `2026-09-08T03:59:37Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: add chain-of-thought to the GPT-2 fine-tune. Scoped as format-level CoT (not emergent reasoning, mod…** — obs `2026-09-08T04:43:24Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: iterate on PARENA self-host (continuing the whole-body #target/inline-c FFI work already shipped) — …** — obs `2026-09-08T06:38:12Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: let's write our own PARENA-powered busybox (a real, native multi-call replacement for Alpine's busyb…** — obs `2026-09-08T07:02:48Z`. CURATED: 2026-09-08.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
