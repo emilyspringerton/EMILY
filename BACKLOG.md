@@ -32946,3 +32946,37 @@ EMILY `482b8f7f` (golden-index).
   image.sh` (chroot-based `apk fix` + `mke2fs -d` population + final `dd` assembly), still
   queued, still needs real root this sandbox doesn't have.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 322: PARENABUSYBOX PHASE 1 — WC/HEAD/YES/CAT/SLEEP/ENV, STAGED INTO THE PI IMAGE (2026-09-08)
+
+- [x] **Founder real-time: "also a parena based busybox to go with it."** Follow-up to SECTION
+  321's Pi-image work — shipped `PARENA_COREUTILS_NORTHSTAR.md`'s own already-named Phase 1
+  roadmap ("broaden the trivial-but-real applet set — cat, head, wc -l, yes, sleep, env") rather
+  than inventing a new plan.
+  **Real PARENA logic where genuine logic exists, matching `echo.prn`'s own established "argv
+  stays in the host, real logic lives in PARENA" split**: `stdlib/coreutils/wc.prn`
+  (`count-lines`, real tail-recursive newline-byte scan, same shape `sh.prn`'s own
+  `find-newline-index` already established), `stdlib/coreutils/head.prn`
+  (`head-should-print?`, the one real per-line decision `head` makes), `stdlib/coreutils/yes.prn`
+  (`yes-line`, echo's own close cousin — one formatted line, defaulting to `"y"` with no args).
+  `cat`/`sleep`/`env` turned out to be host-only pure I/O/syscall utilities with no real logic to
+  extract — a real, honest correction of this doc's own original Phase 1 guess ("no new hard
+  primitives needed beyond what `io.prn`/`process.prn` likely already cover") — `true`/`false`
+  had already established the precedent that some real applets are legitimately
+  zero-PARENA-logic, and this pass confirmed three more belong in that category.
+  **Real, live-found naming gotcha, not previously documented**: PARENA function names ending in
+  `?` get a trailing underscore in emitted C (`head-should-print?` → `head_should_print_`), not
+  the bare name — found live when the host driver's first call to it failed to link.
+  `tools/parenabusybox_host.c` gained `read_all_fp` (plain-C whole-file slurp, used by `wc`/`cat`)
+  and `do_wc`/`do_head`/`do_yes`/`do_cat`/`do_sleep`/`do_env`; dispatch table and usage message
+  updated. 13 new end-to-end tests (`tests/test_parenabusybox.c`), all pass; full suite 347/347,
+  zero regressions. PARENA commits `60256bb`/`167c03b`. Apple #18584.
+  **Staged into the real EmilyOS Pi image the same day**: `build-pi-image-rootless.sh`'s own
+  step 3b (SECTION 321) updated to cross-compile the 3 new `.prn` files for aarch64 and create
+  all 10 applet symlinks (up from 5) in `/usr/local/parena-coreutils/`. Live-verified: full build
+  script re-run end to end from scratch, all 10 applets (echo/basename/pwd/true/false/wc/head/
+  yes/cat/sleep/env) confirmed executing correctly under `qemu-aarch64-static` against the real,
+  actual staged rootfs — real newline counting, real `head -n` truncation, real repeated output
+  until pipe close, real file/stdin passthrough, real timed sleep, real environment variables.
+  EmilyOS commit `6788ad1`. Apple #18586.
+  (sess-20260905-0720-ec33e7c5)
