@@ -31930,3 +31930,44 @@ EMILY `482b8f7f` (golden-index).
   this one. `make test`: 347/347, every `selfhost-*` test target re-run clean, zero regressions.
   Apple #18439. Commit `8822b52`.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 295: PARENA — NEXMON-TARGETING STDLIB GAPS FILLED (2026-09-08)
+
+- [x] **Founder real-time thread: "ok we want to target nexmon stack what stdlibs are missing
+  from our hipster version?" → "ok fill in the gaps."** Real, live-checked (grep+compile, not
+  guessed) 6-point gap audit first: no monitor-mode/channel control anywhere (no nl80211/`iw`
+  wrapper), only one narrow bespoke ioctl wrapper (no general ioctl primitive),
+  `net/rawsocket.prn` is IPv4/`IP_HDRINCL` only (no link-layer `AF_PACKET` TX), no Radiotap/
+  802.11 frame construction (`pentest/dot11.prn` only parses, never builds), no frame types
+  beyond Beacon parsing, no channel hopping. Closed 3 of the 6 this pass:
+  - `pentest/wireless.prn`: monitor-mode/managed-mode/channel control via real `iw`/`ip link`
+    shell-out (matching `pentest/scan.prn`'s own nmap-shell-out precedent, same real approach
+    `aircrack-ng`'s own `airmon-ng` uses) — replaced a dead stub found live via a direct `gcc`
+    compile (`Handshake`/`WirelessError` were never defined; its one `#target` call named a host
+    function that never existed anywhere). `tools/pentest_wireless_host.c` adds `iface_is_safe()`
+    (the same character-whitelist shell-injection guard as `pentest/scan.prn`'s own
+    `target_is_safe`). `iw` confirmed absent from this sandbox — queued via
+    `sudo-queue/75-install-iw.sh` rather than installed directly (no root).
+  - `net/l2socket.prn`: `AF_PACKET`/`SOCK_RAW` link-layer raw socket — the genuinely different
+    LINK-layer complement to `net/rawsocket.prn`'s own network-layer primitive, needed for real
+    802.11 frame injection over a monitor interface. Host glue in `runtime/parena_runtime.h`,
+    Linux-only (no BSD/macOS equivalent).
+  - `pentest/dot11.prn` build side: `build-radiotap-header` (real, minimal 8-byte injection-ready
+    header) + `build-deauth-frame` (real, spec-accurate 26-byte 802.11 Deauthentication frame —
+    the highest-value real target, matching `aircrack-ng`'s own flagship `aireplay-ng --deauth`),
+    plus a new string→bytes MAC parser (the reverse of this file's own pre-existing bytes→string
+    `format-mac`/`format-mac-from`). Real, live-caught bug fixed before shipping: a first draft
+    built these buffers via `string/concat` (`strcpy`/`strcat` under the hood) — silently
+    truncates on the FIRST embedded zero byte, and a real Radiotap header/802.11 frame is mostly
+    zero bytes. Fixed by reusing `net/dns.prn`'s own already-established `(alloc dest String n)`
+    + one real `inline-c` block byte-buffer pattern instead.
+  Real, honest environment-dependent test scope throughout (this sandbox has no WiFi hardware and
+  no `CAP_NET_RAW`/root): what's verified live is the shell-injection guard, real command
+  construction, live failure paths against genuinely nonexistent-but-valid interface names, and
+  privilege-independent checks (`if_nametoindex`'s own real "no such interface" detection).
+  `make test-pentest-wireless`, `make test-net-l2socket`, `make test-pentest-dot11`: all real
+  assertions pass. `make test`: 347/347, zero regressions. STDLIB.md registered. Remaining real
+  gaps (general ioctl primitive, channel hopping, non-Deauth frame types — Probe Request/
+  Response, Data/EAPOL) named directly, not silently dropped. Apple #18445. Commits `f733e9f`/
+  `b081fda`.
+  (sess-20260905-0720-ec33e7c5)
