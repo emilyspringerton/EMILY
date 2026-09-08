@@ -32598,3 +32598,31 @@ EMILY `482b8f7f` (golden-index).
   self-defining sentence") — confirmed compliant, no violations found. TYLER commits `f35e840`/
   `5793cd5`. Apple #18513.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 313: TYLER — NEVER_LAND E2 "THE WASHER" WRITTEN (2026-09-08)
+
+- [x] **Founder real-time: "next episode."** Wrote NEVER_LAND E2, "The Washer" (Build 0132),
+  continuing directly from E1's own cliffhanger (the debt collecting, the crow-feather wall
+  panel, the sealed Archivist door, Hana's custody decision) — an AI-authored continuation, not
+  founder-pasted content like E1, named as such directly in `EPISODES.md`/`activity.md` rather
+  than blurred together.
+  Real, load-bearing crossover found and used before inventing anything new: identified E1's own
+  crow-wing wall-panel imagery as hero #68 already in `multiverse_heroes.md`, "The Morrigan, Once
+  Refused" (seed phrase "refused once, present ever since"; Δφ crow-form readings cluster at 31°,
+  Golden Band; her own real "Washer at the Ford" aspect — traditionally an omen washing the blood
+  of those about to die). Introduces the Archivist as a new character: the Morrigan herself,
+  operating inside Academy custody, found washing something CLEAN instead — for Tyler, who
+  "hasn't died... not yet." This ties NEVER_LAND into the existing multiverse compendium as a
+  real, load-bearing crossover rather than a new, disconnected entity invented in isolation.
+  The Man returns to force Hana's own custody-assessment deadline; under real pressure she
+  discloses Tyler is "the only thing I've ever wanted that wasn't assigned to me." Tyler's own
+  act of looking is confirmed as the debt's real billing mechanism ("witnessing is how the debt
+  confirms the amount owed") — a direct, deliberate mechanism given to Tyler's own pre-existing
+  "Green: spreads when witnessed" classification from E1, not just a repeated label. Episode ends
+  with Tyler and Hana pushing together through an unmarked exit door into light that "isn't
+  weather" — the literal first attempt at E1's own closing vow to run.
+  Checked against Writer's Room Rule 1 ("Tyler never completes a self-defining sentence") —
+  confirmed compliant. `EPISODES.md` (episode count 91→92, new NLE02 crossover note),
+  `activity.md` (Build 0132 entry), `CHANGELOG.md` all updated. TYLER commits `e348c64`/
+  `6d828e3`. Apple #18516.
+  (sess-20260905-0720-ec33e7c5)
