@@ -26046,8 +26046,27 @@ slate) — this is a genuinely large, multi-package effort, not a same-session s
 and `STDLIB.md`'s own "nn" section to find the real current starting point before scoping a
 phased plan.
 
-- [ ] **S210-01: audit `stdlib/nn.prn`'s current real scope, write a real phased DCGAN plan.**
-  Not started.
+- [x] **S210-01: audit `stdlib/nn.prn`'s current real scope, write a real phased DCGAN plan.**
+  Worked from the kanban cruise queue (card #313). `nn.prn` is real, working, but forward-only
+  activation functions for a `gpt2-alpine-c` port — no `conv2d`/`conv2d-transpose`/`batchnorm`/
+  autodiff/optimizer/loss/image-loading exist anywhere in this stdlib; the real gap is on the
+  scale of `linalg.prn`+`array.prn`+`stats.prn` combined, not a `nn.prn` extension. Named the
+  real, decisive fork this doc's own predecessor (`EXPR_POSITION_BINDING_FORMS_NORTHSTAR.md`)
+  left unresolved for a different question: hand-derived backward formulas per op (Option B,
+  RECOMMENDED — matches this stdlib's own established "short, hand-rolled, no new framework"
+  style, needs zero new compiler capability) vs. full reverse-mode autodiff (Option A, needs
+  generic dispatch VS0 has never had). Real, phased, dependency-ordered plan: Phase 0 `Conv2D`
+  (im2col + the now-verified-correct `linalg/matmul`) → Phase 1 `ConvTranspose2D` (the generator's
+  own upsampling) → Phase 2 `BatchNorm2D` (forward only) → Phase 3 hand-derived backward passes
+  for every op, activations first → Phase 4 real Adam optimizer + BCE loss → Phase 5 the real
+  DCGAN architecture/training loop as a standalone consumer → Phase 6 real image data loading
+  (deliberately last — every earlier phase is testable against synthetic tensors alone). Real,
+  honest, standing limitation named directly: a full training run to visual convergence in this
+  sandbox is a real, separate, likely-infeasible undertaking (no GPU, no staged dataset) — the
+  real goal is a correctly-differentiable, tested primitive set, not a trained model. Scoping
+  only, no code. `docs/DCGAN_PRIMITIVES_NORTHSTAR.md`, registered in golden-docs-index. Apple
+  #18435. Commit `b013f11`. Kanban card #313 removed.
+  (sess-20260905-0720-ec33e7c5)
 
 ## SECTION 211: OPENCLAW + SLACK INTEGRATION (2026-08-30)
 
