@@ -2507,6 +2507,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: pasted PARENA sparse-matrix (CSR) primitives ask for linalg.prn — built real CsrMatrix/csr-from-coo/…** — obs `2026-09-08T01:15:51Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: 'iterate on parena self host' -- shipped whole-body #target/inline-c FFI emission support in selfhos…** — obs `2026-09-08T03:08:49Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: Nexmon-targeting thread — gap-filled PARENA stdlib with pentest/wireless.prn (monitor-mode/channel c…** — obs `2026-09-08T03:49:16Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time / third-party: Linode (Akamai Cloud Support) confirmed SMTP port restrictions have been lifted for th…** — obs `2026-09-08T04:05:50Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: start work on an installable Alpine-based Raspberry Pi distro, placed in the EmilyOS repo.** — obs `2026-09-08T03:59:37Z`. CURATED: 2026-09-08.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
