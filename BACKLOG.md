@@ -2528,6 +2528,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: next TYLER season after NEVER_LAND is arbitrarily designated Season 6.** — obs `2026-09-08T11:28:12Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: asked whether CarePyre account name/email PII is handled appropriately. Live audit performed (IDUNA …** — obs `2026-09-08T17:57:09Z`. CURATED: 2026-09-08.
 - [ ] **Founder real-time: resume work on the Alpine-based Raspberry Pi installable distro for EmilyOS, this time framed as 'PA…** — obs `2026-09-08T18:55:55Z`. CURATED: 2026-09-08.
+- [ ] **Founder real-time: PARENA CI build is down/failing on the macOS editor build job; founder suggests possibly switching t…** — obs `2026-09-08T23:58:43Z`. CURATED: 2026-09-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
