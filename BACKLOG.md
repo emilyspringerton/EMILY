@@ -33196,3 +33196,51 @@ EMILY `482b8f7f` (golden-index).
   own likely radio-module bus) stays real, separate, unscoped, exactly as the NORTHSTAR doc says.
   PARENA commits `223d178` (implementation) + `4f2d0ea` (docs). Apple #18620.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 328: PARENA HW — SPI STDLIB, UART'S OWN NAMED FOLLOW-UP (2026-09-09, same day)
+
+- [x] **Real SPI hardware interface: stdlib/hw/spi.prn over Linux spidev(4).** Founder
+  real-time: "continue" (building out PARENA hardware interfaces past SECTION 327's own
+  UART/Serial Phase 1). Direct follow-up to that work's own header comment, which named the
+  Adafruit Feather's likely RFM9x LoRa radio module as SPI, not UART, and explicitly left it
+  unscoped. New `PARENA/docs/SPI_NORTHSTAR.md`, golden doc `SPI-NORTH` — scoped and shipped in
+  the same pass, unlike UART's own northstar-then-build split.
+  New `runtime/parena_runtime.h` host glue over Linux's real `spidev(4)` userspace API:
+  `spi_open_impl` (open + `SPI_IOC_WR_MODE`/`SPI_IOC_WR_BITS_PER_WORD`/`SPI_IOC_WR_MAX_SPEED_HZ`,
+  rolling back the fd on any configure failure) and `spi_transfer_impl` (`SPI_IOC_MESSAGE`, a
+  real full-duplex transfer). Real, deliberate guard choice: its own top-level `#if
+  defined(__linux__)`, NOT nested inside the shared `#ifndef _WIN32` block `net/tcp.prn`/
+  `pty.prn`/`hw/serial.prn` use — spidev is Linux-only even among POSIX systems (no macOS/BSD
+  equivalent), so their POSIX-wide guard would be wrong here; a real, honest stub covers
+  Windows/macOS/BSD alike, same shape `pty.prn`'s own ConPTY stub already uses.
+  New `PARENA/stdlib/hw/spi.prn` wraps it as `spi-open`/`spi-transfer`/`spi-close` over
+  `SpiDevice`/`SpiError`. Real, structural departure from `hw/serial.prn`/`net/tcp.prn`/
+  `pty.prn`'s own `-read`/`-write` pair, not an oversight: SPI is synchronous and full-duplex —
+  one real transfer clocks bytes out and in on the same clock edges, so there's only one real
+  operation, `spi-transfer`.
+  Two real, honestly-named limitations found while implementing this, not previously written
+  down anywhere in this stdlib (full reasoning in `SPI_NORTHSTAR.md`): **(1)** every String-based
+  host primitive in this runtime is NUL-terminated-C-string-shaped, so a payload needing an
+  embedded `0x00` byte (real and ordinary for SPI register addressing — the RFM9x's own
+  `RegFifo` register IS address `0x00`) cannot round-trip through it today — a real fix needs a
+  length-explicit byte-buffer type at the PARENA core-language level (`compress/lz4.prn`'s own
+  pure-PARENA `(Vec I32)` byte buffer is the real, existing precedent for the *shape*, but
+  plugging one into a raw syscall `#target` body has no established calling-convention precedent
+  yet — real, separate, un-derisked, not attempted here); **(2)** a failed transfer ioctl isn't
+  distinguished from "the device returned all zeros," the same coarser-signal judgment this
+  stdlib already makes for `tcp-read`/`pty-read`/`serial-read` — `TransferFailed` is real and
+  honestly named for symmetry but genuinely unreachable through this path.
+  New `make test-spi` target, 9 real assertions scoped to what's genuinely testable: unlike
+  `hw/serial`'s own real pty-based stand-in for a serial device, there is no userspace way to
+  conjure a fake `spidev` device (a real kernel SPI controller must actually register one) — real
+  open failures against a nonexistent path and a real-but-wrong-type device file (`/dev/null`,
+  proving the configure-then-rollback-on-failure path actually runs, not just claiming success), a
+  direct `spi_transfer_impl` call against a non-SPI fd proving it returns a real zeroed buffer
+  (not a crash or garbage), and real close success/failure. `make test`: 347/347, zero
+  regressions.
+  Real, honest, not done: an actual hardware round-trip against a real SPI device remains
+  genuinely blocked — no physical SPI controller/device in this sandbox, the same limitation
+  class `UART_SERIAL_NORTHSTAR.md`'s own Phase 2 and `pentest/pcap.prn`'s no-`CAP_NET_RAW` gap
+  already name. The embedded-NUL byte-buffer gap stays real, separate, unscoped follow-up.
+  PARENA commit `6bf4801`. Apple #18625.
+  session: sess-20260905-0720-ec33e7c5
