@@ -33984,3 +33984,5 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **CVB-124312: logo for resume** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **CVB-124332: templates should be represented in pdf download** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
