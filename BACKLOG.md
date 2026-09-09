@@ -33348,3 +33348,46 @@ EMILY `482b8f7f` (golden-index).
   rather than assumed solved just because the core type now exists.
   PARENA commit `f588d00`. Apple #18637.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 331: PARENA HW — BYTES RETROFIT PHASE 2, SPI/I2C/SERIAL SIBLINGS (2026-09-09, same day)
+
+- [x] **Phase 2 shipped: real Bytes-based siblings for spi-transfer/i2c-read+write/
+  serial-read+write.** Founder real-time: "continue" (past SECTION 330's own core `Bytes` type,
+  into the real, explicitly-named follow-up that doc's own "Phase 2 — not started" section
+  pointed at). Real, direct completion of `docs/BYTES_NORTHSTAR.md`'s own retrofit plan, shipped
+  the same day as `Bytes` itself.
+  Real, deliberate design choice, named directly: every existing `String`-based function
+  (`spi-transfer`, `i2c-read`/`i2c-write`, `serial-read`/`serial-write`) is **unchanged** — these
+  are new, additive sibling functions (`spi-transfer-bytes`, `i2c-read-bytes`/`i2c-write-bytes`,
+  `serial-read-bytes`/`serial-write-bytes`), not breaking replacements, exactly as
+  `BYTES_NORTHSTAR.md` said this retrofit would be.
+  New `runtime/parena_runtime.h` primitives mirror each existing `*_impl` function's real
+  mechanics exactly (identical ioctl/poll/read/write logic), differing only in using `Bytes`'s
+  own explicit length instead of `strlen`: `spi_transfer_bytes_impl` (same full-duplex
+  `SPI_IOC_MESSAGE` call, `tx.len` instead of `strlen(tx)`), `i2c_read_bytes_impl`/
+  `i2c_write_bytes_impl` (same plain `read()`/`write()`, with `i2c_read_bytes_impl` reporting the
+  real, actual short-read length via `Bytes.len` rather than NUL-terminating),
+  `serial_read_bytes_impl`/`serial_write_bytes_impl` (same zero-timeout `poll()`-gated
+  non-blocking technique). Each hardware module's own `.prn` file gained one `raw-*-bytes`
+  primitive and one public `*-bytes` wrapper, `(import bytes)` added, new names added to each
+  file's own `export` list.
+  **Real, byte-perfect end-to-end verification, not just compilation**: `hw/serial.prn`'s own test
+  (`make test-serial`) round-trips a genuine embedded `0x00` byte through a REAL open pty device
+  in BOTH directions — `serial-write-bytes`'s own device-side write confirmed byte-for-byte via a
+  real `read()` on the pty master, `serial-read-bytes` polling real device-side output into a
+  `Bytes` whose reported length is the real, full byte count, unaffected by the embedded zero —
+  proving what `serial-write`/`serial-read`'s own `String`-based pair genuinely cannot do.
+  `hw/i2c.prn`'s own test (`make test-i2c`) does the identical real byte-perfect round trip via
+  `i2c_write_bytes_impl`/`i2c_read_bytes_impl` against a real temp file fd (i2c-dev's own
+  data-transfer path is plain POSIX I/O, needing no real hardware), plus a real short-read case
+  proving the reported length reflects what was actually read even with an embedded zero in the
+  middle. `hw/spi.prn`'s own test (`make test-spi`) stays scoped to what's honestly possible with
+  no real spidev controller in this sandbox — `spi_transfer_bytes_impl` called directly against a
+  non-SPI fd, proving it returns a buffer of the exact requested length (unaffected by its own
+  embedded-zero tx payload) and zeroes its receive buffer on ioctl failure, same discipline the
+  original `spi_transfer_impl` test already established.
+  `make test`: 347/347 throughout (no compiler changes in this pass — purely additive runtime +
+  stdlib work, unlike `Bytes` itself, which needed real `src/emit.c` changes). All four
+  `hw/serial`/`hw/spi`/`hw/i2c`/`bytes` test targets pass in full.
+  PARENA commit `013c9e3`. Apple #18650.
+  session: sess-20260905-0720-ec33e7c5
