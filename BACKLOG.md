@@ -33754,3 +33754,58 @@ EMILY `482b8f7f` (golden-index).
   changed.
   IDUNA_PRO commits `e1d16e9`/`d57d461`. CarePyre commits `8b016cd`/`f4baf3e`. Apple #18742.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 339: CAREPYRE — COMMUNITY TOOLS: 403 ROOT-CAUSE + REAL RESUME SEEDED (2026-09-09, same day)
+
+- [x] **Real 403 bug root-caused, one account fixed, and a real resume loaded from an upload.**
+  Founder real-time: "ok its giving 403 errors when i try to do anything on the resume page,"
+  followed by (mid-diagnosis) "here is my resume can you make like auto build it in the builder
+  for me?" with an uploaded PDF.
+  **Real, confirmed root cause (design gap, not user error)**: `console.html`'s bearer-token API
+  calls go through `middleware.RequireAuth`, which decodes the `permissions` claim BAKED INTO
+  the JWT at login time and never re-derives it — unlike `RequireCookieAuth`'s own agent-session
+  path (`auth.go`'s own "re-derive permissions from live grants, not the token's snapshot"
+  comment), which only covers cookie-based agent sessions, not local human bearer sessions. Only
+  `GET /api/v1/identities/me` (`me.go`) recomputes `localUserPermissions(u)` fresh from the DB on
+  every call — which is why the "Resume" nav button correctly appeared (nav visibility comes
+  from a fresh `/identities/me` read) while every real action inside the page kept 403ing
+  (enforced against the STALE, already-issued token). Real, honest, NOT fixed in this pass: this
+  same staleness applies to every other permission flag on this platform for bearer-token
+  sessions, not just `community-tools.access` — named here as real, separate follow-up (a
+  refresh-token / live-recompute path for local human sessions, mirroring what agent cookie
+  sessions already get) rather than reached for in the middle of an live incident.
+  **Real, separate, compounding cause found in production data**: the founder's own account
+  (`frostpenelope1@gmail.com`, local_uid 7) still had `is_community_tools_enabled=0` — a
+  different account (`joe@carepyre.org`, local_uid 12) had been flipped on instead (a stray
+  click, not investigated further). Fixed with a direct, one-off `UPDATE local_users SET
+  is_community_tools_enabled=1 WHERE local_uid=7` — the identical, already-documented-safe
+  pattern `cmd/admin-grant` established for `is_admin` ("internal/userlog's own SQLite/MySQL
+  projectors only ever advance forward from a cursor... never at risk of being silently
+  reverted by a later event replay"). Told the founder directly: a fresh login (not just a page
+  reload) is required to pick this up, since that's what actually re-mints the JWT with current
+  permissions.
+  **Real resume data loaded from an upload**: the founder uploaded a real resume PDF (Brian
+  Danowski — Service Coordinator/shelter-services background) and asked to have it auto-built
+  into the tool. Asked which account should receive it (`frostpenelope1@gmail.com` vs.
+  `brian@carepyre.org`, a plausible name-matched existing account) rather than guessing with
+  real personal data on the line — founder named a third, correct answer:
+  `joe@carepyre.org` (local_uid 12, already `is_community_tools_enabled=1` from the earlier
+  stray click — so that flip turns out to have been the real intended account all along, not a
+  mistake). Parsed the PDF (7 real work entries, 2 education entries, 8 named skills + one
+  "Programming Languages" skill with a real keyword list — JSON Resume's own `Language` type is
+  for spoken-language fluency, not a tech stack, so the resume's own "LANGUAGES" section was
+  deliberately mapped to a Skill instead of misused), generated real per-entry UUIDs (mirroring
+  `assignResumeIDs`' own server-side behavior exactly, since this write bypassed the HTTP PUT
+  path), and wrote it directly into the `resumes` table (a plain, non-event-sourced flat table —
+  real, checked-not-assumed: `loadResume`/`saveResume` are ordinary SQL, no event log involved,
+  so this direct write carries none of the event-sourcing risk a `local_users` write would).
+  Real, honest verification before calling it done: wrote a throwaway Go program (inside
+  `IDUNA_PRO/cmd/`, since `internal/resume` can't be imported from outside the module) that
+  reads the seeded row back through the REAL `resume.Resume` struct, confirms every entry has a
+  real, non-empty ID, runs the REAL `resume.Verify` (passed) and the REAL `resume.RenderPDF`
+  (produced a genuine, well-formed 2624-byte PDF) — then deleted the throwaway tool, leaving no
+  trace in the repo.
+  No code changes this round — this was incident diagnosis + a one-off data fix + a one-off data
+  seed, not a feature change. Real, named follow-up if the founder wants it: the bearer-token
+  live-permission-refresh gap named above.
+  session: sess-20260905-0720-ec33e7c5
