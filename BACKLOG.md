@@ -33120,3 +33120,42 @@ EMILY `482b8f7f` (golden-index).
   `NORTHSTAR.md`'s own Self-hosting section updated with the full writeup. PARENA commit
   `f8e9bef`. Apple #18600.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 326: PARENA CI — UNBLOCK RELEASES, DECOUPLE FROM THE FAILING MACOS EDITOR BUILD (2026-09-09)
+
+- [x] **Founder real-time: "parena build is down... failing on mac editor build... maybe we
+  switch that to linux editor build for now."** Investigated first via the public GitHub Actions
+  API (`api.github.com/repos/emilyspringerton/PARENA/actions/runs`) rather than guessing —
+  no `gh` CLI auth and no admin rights on the repo from this sandbox to pull the actual raw
+  clang error log (`GET .../jobs/{id}/logs` returned "Must have admin rights to Repository"),
+  but the run/job list itself is public and required no auth.
+  **Confirmed exactly what the founder reported**: `Build Editor (macOS)` has failed at its own
+  "Build editor-demo" step on every single CI run since commit `ab2c2786` (2026-09-07, "feat
+  (net/rawsocket): real IP_HDRINCL raw-socket primitives") — the last GREEN run was `ddf45d13`
+  (run #397). Because the `release` job's own `needs:` list included `build_editor_macos`, this
+  meant `Tag & Release` was silently SKIPPED on every push since — roughly a day and a half of
+  real, shipped PARENA work (mid-body `#target`, alloc non-literal values, parenabusybox Phase 1,
+  the CarePyre PII audit's own EmilyOS CI work, etc.) with NO new tagged release cutting for any
+  of it.
+  **Reviewed the suspect commit's own code directly before assuming it was the cause**: the new
+  `rawsocket_open_impl`/`rawsocket_hdrincl_impl`/`rawsocket_sendto_impl`/`rawsocket_close_impl`
+  host glue in `runtime/parena_runtime.h` uses only portable POSIX/BSD sockets calls
+  (`socket`/`setsockopt`/`sendto`/`close`, `AF_INET`/`SOCK_RAW`/`IPPROTO_IP`/`IP_HDRINCL`, all
+  real on macOS too), with no new, unguarded platform-specific `#include` added — nothing
+  obviously wrong at the source level. The real, exact clang diagnostic isn't visible from this
+  sandbox (the 403 above) — named HONESTLY as NOT diagnosed here, not guessed at or silently
+  papered over.
+  **Real, temporary fix shipped, matching exactly what was proposed**: `release`'s own `needs:`
+  no longer includes `build_editor_macos` (now `[build_and_test, build_editor_windows]` only);
+  its "Download editor-demo (macOS)" step, the macOS-specific lines in "Package release assets"
+  (chmod/cp-construct/tar.gz), and `editor-demo-macos.tar.gz` from the final
+  `gh release create` asset list are all removed. `build_editor_macos` ITSELF is completely
+  UNCHANGED and still runs on every push — real, ongoing signal for whenever the actual failure
+  gets diagnosed and fixed, not silently deleted — it simply no longer blocks a release. Releases
+  now ship Linux + Windows `editor-demo` builds only, until someone fixes the real macOS build
+  failure and this gets re-added.
+  PARENA commit `6507eb3`. Apple #18617. Live CI verification of this exact push (confirming
+  `Tag & Release` actually runs and succeeds this time) was still in progress via the public
+  Actions API when this entry was written — see the session's own follow-up if that surfaced
+  anything further.
+  (sess-20260905-0720-ec33e7c5)
