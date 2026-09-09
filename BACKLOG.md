@@ -33547,3 +33547,35 @@ EMILY `482b8f7f` (golden-index).
   implemented.
   IDUNA_PRO commit `43fa3de`. CarePyre commit `1bb61d4`. Apple #18725.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 335: CAREPYRE — COMMUNITY TOOLS RESUME/CV BUILDER FRONTEND (2026-09-09, same day)
+
+- [x] **Real Resume/CV builder + verifier frontend panel in console.html.** Founder real-time:
+  "continue" (past SECTION 334's own backend-only shipment, into the real "maintain" half of
+  "maintain and verify" that was left undone).
+  New "Resume" sidebar item in `CarePyre/console.html`, hidden by default — shown only when
+  `effective_permissions` includes `community-tools.access` (a real UX convenience only; every
+  real call still requires the permission server-side, the same established convention
+  `nav-admin` already uses). Real, editable Basics fields (name/headline/email/phone/summary),
+  real dynamic, repeatable Work Experience and Education entry lists (add/remove rows, matching
+  JSON Resume's own real array shape, not a fixed-count form), Save (`PUT`) and Verify
+  (`POST .../verify`) buttons, and a real, itemized verify report (per-rule pass/fail + message,
+  never a single opaque score) — matches "i dont want to put my data into some rando site"
+  directly.
+  **Real, live-found correctness issue fixed while building this, not shipped broken**: entry
+  rows were first drafted via string-concatenated `innerHTML` with `esc()`'d values spliced into
+  `value="..."` attributes — `esc()` (already defined earlier in the file) only escapes
+  `&`/`<`/`>` for safe TEXT CONTENT, not the double-quote a real field value (a quoted job title,
+  an apostrophe in a name) could contain, which would break out of the attribute and inject
+  HTML. Fixed by building entry-row inputs via `document.createElement` + setting `.value` as a
+  real DOM property (never HTML-parsed), not string concatenation — the only place this file
+  still builds HTML via `esc()` + string concat is the verify-results panel, which is a
+  genuinely safe text-content position, not an attribute value.
+  Real, honest verification limits, named directly: this repo has no build/test pipeline for
+  static HTML — JS syntax verified directly (`node --check` against the extracted `<script>`
+  block) and HTML `<div>`/`</div>` tag balance verified directly (119/119), but no live
+  browser/click-through test was run.
+  `CarePyre/docs/COMMUNITY_TOOLS_RESUME_NORTHSTAR.md` and `CarePyre/CLAUDE.md` updated; golden
+  doc `COMMUNITY-TOOLS-RESUME-NORTH` updated with the frontend status.
+  CarePyre commit `d9e1a1f`. Apple #18729.
+  session: sess-20260905-0720-ec33e7c5
