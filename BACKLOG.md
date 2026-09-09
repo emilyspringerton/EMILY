@@ -2533,6 +2533,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue' -- continue building out PARENA hardware interfaces past SPI (HW-001/HW-003 family). Next…** — obs `2026-09-09T00:56:58Z`. CURATED: 2026-09-09.
 - [ ] **Founder real-time: 'continue' -- continue past the 3 real PARENA hardware buses (UART/SPI/I2C) shipped today into the e…** — obs `2026-09-09T02:13:29Z`. CURATED: 2026-09-09.
 - [ ] **Founder real-time: 'continue' -- continue past the real Bytes core-language type (SECTION 330) into the real, explicitl…** — obs `2026-09-09T04:50:44Z`. CURATED: 2026-09-09.
+- [ ] **Founder real-time: 'continue parena self host' -- continue PARENA's self-hosting effort (selfhost/*.prn: lexer/parser/r…** — obs `2026-09-09T09:08:27Z`. CURATED: 2026-09-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
