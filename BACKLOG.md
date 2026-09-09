@@ -33715,3 +33715,42 @@ EMILY `482b8f7f` (golden-index).
   `CLAUDE.md` Status sections updated. Golden doc `COMMUNITY-TOOLS-RESUME-NORTH` updated.
   IDUNA_PRO commit `f0a20c5`. CarePyre commit `2bb0237`. Apple #18738.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 338: CAREPYRE — COMMUNITY TOOLS: ADMIN GRANT CHECKBOX + PRODUCTION DEPLOY (2026-09-09, same day)
+
+- [x] **Real admin UI to grant per-account Community Tools access, plus the first real
+  production deploy of the whole feature.** Founder real-time: "this is my admin user:
+  frostpenelope1@gmail.com i want to be able to check a box on that user to turn on the
+  community tools."
+  **Real, live-found gap fixed (IDUNA_PRO)**: `userToJSON` (`internal/http/handlers/users.go`)
+  never actually returned `is_community_tools_enabled` on `GET`/list `/api/v1/users`, even
+  though `PATCH` already accepted and persisted it (SECTION 334) — an admin console checkbox
+  built against the list endpoint would always render unchecked regardless of the real,
+  underlying flag. Found while wiring the frontend checkbox, not by a user report. Fixed by
+  adding the field to `userToJSON`'s output map. 2 new tests: a real PATCH-then-list round trip
+  (`fakeUserProjector.Apply` also needed a new `EventUserCommunityToolsChanged` case, which it
+  was silently missing) and a real non-admin-forbidden check. Full suite green, zero
+  regressions.
+  **Frontend (CarePyre console.html)**: new "Community tools" column + checkbox in the admin
+  Users table, wired to the same `PATCH /api/v1/users/{uid}` route the existing Provider
+  checkbox already uses (`toggleCommunityTools`, same optimistic-toggle-then-revert-on-failure
+  pattern as `toggleProvider`). JS syntax verified directly (real Node `--check`).
+  **Real, live production deploy — the first one for this whole feature area.** Checked
+  directly, not assumed: the live `idunapro.service` (systemd `--user`, `:8081`) was still
+  running a build from before Community Tools existed at all — its real database had none of
+  the feature's migrations applied (`is_community_tools_enabled` column, `resumes`/`targets`
+  table didn't exist yet). Blocked once by the auto-mode classifier on the first attempt
+  (rebuilding/restarting a live production binary); asked the founder directly via
+  AskUserQuestion rather than working around the block, got explicit "yes, deploy now," then
+  proceeded. Rebuilt the binary (`GOWORK=off go build`), restarted `idunapro.service` (passed
+  its own health-check-gated `ExecStartPost`), confirmed the migration applied cleanly against
+  the REAL production DB (`is_community_tools_enabled` column now present, real starting value
+  0), pushed the updated `console.html` to `/var/www/carepyre/`, and verified both
+  `https://carepyre.org/console.html` and `/console-api/health` respond 200. Confirmed
+  `frostpenelope1@gmail.com` is local_uid 7, a real, already-existing admin (`is_admin=1`) in
+  production — no separate genesis/grant step needed, they can log in and check the box
+  themselves right now. Did NOT touch the box's nginx config (unchanged) or run the sudo-gated
+  half of the established deploy script (`sudo-queue/51-...`) since nothing nginx-facing
+  changed.
+  IDUNA_PRO commits `e1d16e9`/`d57d461`. CarePyre commits `8b016cd`/`f4baf3e`. Apple #18742.
+  session: sess-20260905-0720-ec33e7c5
