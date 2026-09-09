@@ -34065,3 +34065,52 @@ EMILY `482b8f7f` (golden-index).
   session: sess-20260905-0720-ec33e7c5
 - [x] **CVB-12434: the work history needs to auto sort i put a new one 2006-present and it went to the bottom of the resume instead of the top** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 346: CAREPYRE — COMMUNITY TOOLS: WORK/EDUCATION/AWARDS AUTO-SORT (2026-09-09, same day)
+
+- [x] **Real auto-sort fix for a real, reported bug, worked directly from the IDUNA priority
+  kanban queue.** Founder real-time: "work from the priority kanban." The real, live priority
+  queue (`IDUNA` — not `IDUNA_PRO`'s own separate kanban table, a real, found-live distinction —
+  `queue='priority'` on `kanban_cards`) held exactly two cards: CVB-12434 (position 0) and
+  CVB-124332 (position 2, already resolved by SECTION 341/345's own PDF-template work and
+  auto-removed by the board's own real eventual-consistency sync the moment its BACKLOG.md line
+  was checked — no manual cleanup needed). Picked up CVB-12434, the real, remaining
+  highest-priority item: "the work history needs to auto sort i put a new one 2006-present and
+  it went to the bottom of the resume instead of the top."
+  **Real fix**: new `resume.SortByRecency(r)` reorders Work, Education, AND Awards to the real,
+  standard most-recent-first resume convention — a currently-ongoing entry (no end date) always
+  sorts first, ahead of anything already ended, however recently; ties between two ongoing
+  entries break by start date (more recently started ranks first). `dateSortKey` parses the
+  three real JSON Resume date formats (`YYYY`/`YYYY-MM`/`YYYY-MM-DD`) into a comparable integer,
+  defaulting a missing month/day to the LATEST plausible value in that period so a coarse
+  year-only date still compares sensibly against a more precise same-year one; an empty or
+  malformed date degrades to sorting as the oldest, never panics.
+  **Real, single choke point**: wired into `saveResume`, the one real, shared persistence step
+  every write path already reduces to (the whole-document PUT AND every single-entry
+  POST/PATCH/DELETE primitive the earlier agent-ergonomics work — SECTION 341 — shipped) — so
+  this is guaranteed regardless of which API surface made the edit, zero duplicated sort logic
+  needed across handlers.
+  **10 new tests**: the exact reported bug scenario reproduced twice — once as a focused
+  `internal/resume` unit test, once end to end through the real HTTP handler (PUT two already-
+  ended jobs, then POST a brand-new "2006-present" one via the single-entry create primitive —
+  the real, most likely path someone "adding one more job" actually takes — then confirm GET
+  reflects it sorted to the top) — plus tie-breaking between two ongoing entries, Education/
+  Awards getting the identical real treatment, malformed/empty dates not panicking, and sort
+  stability for identical dates. Full suite green, zero regressions.
+  **Real, live verification beyond the test suite, not just "go test passes"**: deployed the
+  fix (rebuilt + restarted `idunapro.service`), then re-sorted BOTH real, existing production
+  resumes using the EXACT SAME shipped `SortByRecency` function (not reimplemented ad hoc for
+  the one-off script) — the real, live data for one real account turned up an entry ("CarePyre,"
+  started 2006, still ongoing) matching the reported scenario almost verbatim, previously
+  ranked near the bottom of that resume's Work list, confirmed now sorted near the top.
+  **Real kanban completion, not a manual DB edit**: authenticated as the real `EMILY-PRIME`
+  M2M agent (`kanban.access` permission) and called the actual `PATCH /api/v1/kanban/cards/375
+  {"queue":"done"}` endpoint against the live IDUNA service — the real, established "done" flow
+  (not a literal 4th board column) that archives the item's own real BACKLOG.md line into the
+  standing archive section (confirmed via `git log`: commit `e03a8972`, made directly by the
+  IDUNA server process itself) and files a real completion Apple (#18769) through the exact
+  same `Store.AppendApple` code path a normal implement-then-file-an-Apple flow uses — one real
+  completion mechanism, not a second, parallel one for a manually-worked kanban card.
+  IDUNA_PRO commits `08ed3ae`/`94d93ef`. CarePyre commit `455c9b4`. Apple #18769 (kanban
+  completion, filed automatically by the real PATCH .../done flow).
+  session: sess-20260905-0720-ec33e7c5
