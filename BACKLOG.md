@@ -33290,3 +33290,61 @@ EMILY `482b8f7f` (golden-index).
   genuine I2C sensor remains genuinely blocked, deliberately, for the reasons above.
   PARENA commit `f56b0fc`. Apple #18629.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 330: PARENA — REAL BYTES CORE-LANGUAGE TYPE, CLOSING SPI/I2C'S SHARED GAP (2026-09-09, same day)
+
+- [x] **Real second core-language type: Bytes, closing the embedded-NUL gap SPI/I2C named.**
+  Founder real-time: "continue" (past SECTION 329's own I2C work, into the embedded-NUL
+  byte-buffer gap all three hardware buses shipped today independently named). New
+  `PARENA/docs/BYTES_NORTHSTAR.md`, golden doc `BYTES-NORTH` — written AFTER the real
+  investigation that proved this tractable, not before, overturning the initial assumption (made
+  explicitly in `SPI_NORTHSTAR.md`'s own words) that this would need a large, multi-subsystem
+  compiler change.
+  Real, checked-not-assumed investigation finding: `stdlib/vec.prn`'s own `(Raw T)`-based design
+  genuinely does **not compile** against the real compiler at all
+  (`./parena build stdlib/vec.prn` → `"unsupported return type form"`) — `compress/lz4.prn`'s own
+  header comment naming it "the real, existing precedent" is stale; the `Vec` that actually works
+  is a separate, hand-written, fully built-in runtime type (`Arena *`/`void **items`/`count`/
+  `capacity`, ~58 real dispatch-point call sites across `src/emit.c`). That distinction is what
+  made `Bytes` tractable as a small, additive change rather than a `Vec`-scale one: `Vec`'s own
+  real complexity comes from being generic over element type, which a fixed-always-a-byte buffer
+  doesn't need — structurally much closer to `String`/`Arena`'s own simple, non-generic base-type
+  shape.
+  Real compiler change, confirmed minimal by reading the source directly before writing code: one
+  new `resolve_base_type_name` entry in `src/emit.c` (plus two more hand-maintained allowlists
+  found only by actually attempting to compile a `Bytes`-typed parameter and reading VS0's own
+  real error — `emit_defn`'s own parameter-type table and `resolve_param_prototype_type`'s
+  forward-declaration table). `ensure_box_helper` (the function generating a
+  `(Result Bytes E)`/`(Option Bytes)` box helper) needed **zero** `Bytes`-specific code — confirmed
+  by reading it in full first: it already boxes any non-pointer C type string generically, the
+  exact same path real `defstruct` types (`SpiDevice`/`SerialPort`/`I2cDevice`, all shipped
+  earlier the same day) already go through successfully.
+  New `runtime/parena_runtime.h` `Bytes` struct (`unsigned char *data; int len;`) plus
+  `bytes_alloc_impl`/`bytes_len_impl`/`bytes_get_impl`/`bytes_set_impl`/`bytes_from_string_impl`/
+  `bytes_to_string_lossy_impl`. **Real, live bug found and fixed while implementing, not just
+  designing** — caught by actually `gcc`-compiling the emitted C, not by trusting `parena build`'s
+  own success (which never validates `inline-c` content): a first draft named these runtime
+  functions WITHOUT the `_impl` suffix, reasoning by wrong analogy to `arena_alloc`/`vec_new` —
+  `stdlib/bytes.prn`'s own `bytes-alloc` mangles to the bare C identifier `bytes_alloc`, a real
+  symbol collision with the runtime primitive of the identical name, the exact bug class
+  `net/tcp.prn`'s/`pty.prn`'s own header comments already document (and the exact reason those
+  files' own runtime primitives all carry `_impl`). Fixed by renaming every runtime `Bytes`
+  function the same way; re-verified with a clean `-Wall -Wextra -pedantic` gcc compile
+  afterward.
+  New `PARENA/stdlib/bytes.prn`: `bytes-alloc`/`bytes-len`/`bytes-get`/`bytes-set!`/
+  `bytes-from-string`/`bytes-to-string-lossy`. New `make test-bytes`, 18 real assertions,
+  including a genuine embedded-`0x00`-byte-survives-with-length-intact proof (the entire real
+  point of this type), honest out-of-bounds handling matching `vec-get`/`vec-set-at!`'s own
+  established convention, and both real, honestly-named `String` interop boundaries
+  (`bytes-from-string` inherits a C string literal's own pre-existing truncation;
+  `bytes-to-string-lossy` truncates on the way back out, named plainly in its own function name,
+  not silently). `make test`: 347/347, checked REPEATEDLY through the compiler-change process
+  (after the `resolve_base_type_name` change, again after the parameter-table fixes, again after
+  the `_impl`-suffix bug fix), not just once at the end — zero regressions throughout.
+  Real, honest, **not done**: no retrofit of `hw/spi.prn`'s `spi-transfer` / `hw/i2c.prn`'s
+  `i2c-read`/`i2c-write` / `hw/serial.prn`'s `serial-read`/`serial-write` onto a real
+  `Bytes`-based sibling function happened in this pass — the core gap is closed, the
+  hardware-facing consumers of it are real, separate, additive follow-up work, named explicitly
+  rather than assumed solved just because the core type now exists.
+  PARENA commit `f588d00`. Apple #18637.
+  session: sess-20260905-0720-ec33e7c5
