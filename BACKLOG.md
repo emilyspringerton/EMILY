@@ -33159,3 +33159,39 @@ EMILY `482b8f7f` (golden-index).
   Actions API when this entry was written — see the session's own follow-up if that surfaced
   anything further.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 327: PARENA HW — UART/SERIAL STDLIB PHASE 1 (2026-09-09)
+
+- [x] **HW-001 / HW-003 Phase 1: real stdlib/hw/serial.prn UART/Serial primitives.** Founder
+  real-time: "lets build out the hardware interfaces." Implements
+  `PARENA/docs/UART_SERIAL_NORTHSTAR.md`'s (golden doc `UART-SERIAL-NORTH`) Phase 1 plan for
+  real. New `runtime/parena_runtime.h` host glue, its own guard alongside `net/tcp.prn`/
+  `pty.prn`: `serial_raw_open_impl` (`O_NOCTTY|O_NDELAY` open) and `serial_configure_impl` — the
+  one genuinely new primitive that doc named — running the real `tcgetattr`/`cfmakeraw`/
+  `cfsetispeed`/`cfsetospeed`/`tcsetattr` sequence against the fd, 8N1 framing, a small
+  9600/115200 v0 baud lookup table, plus `serial_read_impl`/`serial_write_impl`/
+  `serial_close_impl`; a Windows stub carries the same honest "not yet" boundary `pty.prn`'s own
+  ConPTY stub already has. New `PARENA/stdlib/hw/serial.prn` wraps it (`serial-open`/`-read`/
+  `-write`/`-close`, `SerialPort`, `SerialError`), following `net/tcp.prn`'s established
+  raw-primitive-plus-`Result`-boxing shape.
+  Two real, deliberate departures from the NORTHSTAR doc's own rough API sketch, found while
+  actually implementing rather than transcribing it verbatim: `serial-read` is a non-blocking,
+  `poll(2)`-gated read from the start (a direct reuse of `pty-poll-read`'s own proven technique),
+  not a blocking read-until-close — a real connected microcontroller never closes its side of the
+  link, so a blocking read would hang forever, the exact bug class `pty-read` originally had and
+  `pty-poll-read` already fixed once for a long-lived interactive shell; applied here up front
+  instead of re-discovering it live against real hardware. `serial-close` is `Result`-boxed (a
+  new, honest `CloseFailed` variant on `SerialError`) matching `tcp-close`/`pty-close`'s own
+  established convention instead of the sketch's bare-`Unit` shape.
+  New `make test-serial` target, 13 real end-to-end assertions against a genuine BSD pty pair — a
+  real termios-configurable tty device standing in for the physical USB-serial hardware this
+  sandbox doesn't have: real open+configure at 9600 baud, real non-blocking round-trip reads/
+  writes in both directions, a real idle-read wall-clock non-blocking proof, and honest failures
+  on an unsupported v0 baud rate (4800) and a nonexistent device path. `make test`: 347/347, zero
+  regressions.
+  Real, honest, not done: Phase 2 (a real Arduino echo-sketch round trip over actual hardware)
+  remains genuinely blocked — no physical USB-serial device in this sandbox, the same limitation
+  class `pentest/pcap.prn`'s own no-`CAP_NET_RAW` gap already names. SPI (the Adafruit Feather's
+  own likely radio-module bus) stays real, separate, unscoped, exactly as the NORTHSTAR doc says.
+  PARENA commits `223d178` (implementation) + `4f2d0ea` (docs). Apple #18620.
+  session: sess-20260905-0720-ec33e7c5
