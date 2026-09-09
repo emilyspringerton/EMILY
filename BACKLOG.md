@@ -33980,3 +33980,5 @@ EMILY `482b8f7f` (golden-index).
   `/var/www/carepyre/console.html`, confirmed `https://carepyre.org/console.html` responds 200.
   CarePyre commits `7769a82`/`15c6e26`/`2d19d26`. Apple #18760.
   session: sess-20260905-0720-ec33e7c5
+- [ ] **CVB-12434: the work history needs to auto sort i put a new one 2006-present and it went to the bottom of the resume instead of the top** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
