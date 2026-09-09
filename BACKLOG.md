@@ -33809,3 +33809,36 @@ EMILY `482b8f7f` (golden-index).
   seed, not a feature change. Real, named follow-up if the founder wants it: the bearer-token
   live-permission-refresh gap named above.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 340: CAREPYRE — BESPOKE RESUMES: COLLAPSED CARDS + EDIT ACTION (2026-09-09, same day)
+
+- [x] **Real "load a saved bespoke resume for editing" affordance.** Founder real-time: "the
+  bespoke resume section needs a way to load one up for editing."
+  **Real, checked-first finding**: editing an existing saved Target was already functionally
+  possible before this change — `loadResume()` already called `loadTargetsUI()` on page load,
+  which rendered every saved target as a fully-open editable form automatically. The real gap
+  was UX, not function: no explicit "load/edit" affordance, and every saved target's checklists
+  and override fields stayed permanently expanded at once, unworkable once someone accumulates
+  more than a couple of bespoke resumes.
+  **Fix**: saved targets now render as a collapsed summary row — name +
+  `describeTargetSummary()`'s own real, counted description ("3 jobs, 1 education, 2 skills
+  shown") — with a real "Edit" button that expands that one target's full form in place ("Done
+  editing" to collapse it back). Tracked by real object IDENTITY (`expandedTargets`, a `Set` of
+  the actual objects living in `currentTargets`), deliberately not array index (shifts on
+  Remove) or `target.id` (a brand-new/cloned target doesn't have one yet). New (`+ New bespoke
+  resume`) and cloned targets are added to `expandedTargets` before their first render, so they
+  still open straight into the editable form instead of a collapsed summary of nothing.
+  **Real, load-bearing risk checked and closed before shipping**: the existing "Save bespoke
+  resumes" button reads every `.target-card` in the DOM via `collectOneTargetFromCard`, which
+  itself just does `card.querySelector(...)` for the name/checklist/override elements — a naive
+  "don't render the form at all when collapsed" implementation would have made a collapsed
+  card's real data invisible to that save path, silently dropping or blanking it. Fixed by
+  keeping the real form elements in the DOM always, just visually hidden (`hidden` attribute,
+  not omitted) when collapsed — `querySelector`/`.value`/`.checked` all still work normally on
+  hidden elements, so Save behaves identically regardless of which cards are expanded.
+  JS syntax (`node --check` on the extracted script) and full HTML tag-balance (a real Python
+  `HTMLParser` walk, not just eyeballing) both verified directly. Deployed live: pushed to
+  `/var/www/carepyre/console.html`, confirmed `https://carepyre.org/console.html` responds 200.
+  No backend change needed — this was frontend-only.
+  CarePyre commits `a25ceb6`/`d07f068`. Apple #18747.
+  session: sess-20260905-0720-ec33e7c5
