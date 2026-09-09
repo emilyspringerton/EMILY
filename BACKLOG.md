@@ -33432,3 +33432,49 @@ EMILY `482b8f7f` (golden-index).
   out to, nothing more. `NORTHSTAR.md`'s own Self-hosting section updated with the full writeup.
   PARENA commit `c2027f1`. Apple #18671.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 333: PARENA SELF-HOSTING — NARROW-V0 LOOP/RECUR SUPPORT (2026-09-09)
+
+- [x] **Self-hosting: real narrow-v0 `loop`/`recur` support in `selfhost/emit.prn`.** Founder
+  real-time: "keep working parena self host" / "button up the self host work and then pivot."
+  Picked the next highest-leverage named gap after tail-position `if` support (SECTION 332): "no
+  loop/recur support at all," found blocking `stdlib/string.prn`'s own real `is-valid-i32-text?`/
+  `split`.
+  Real, deliberate v0 scope, matching `src/emit.c`'s own `emit_loop_tail` HISTORICAL v0 exactly
+  (its own header comment: "Originally real, honest, narrower scope" — `if` only, before
+  `cond`/`when`/`match`/`do` were added there later, over several separate passes): new
+  `loop-call-shaped?`/`emit-loop` in `selfhost/emit.prn`, loop-tail dispatch supporting `recur`
+  (real simultaneous assignment via temp variables, then `continue;`), `if` (recursively,
+  loop-aware, via a new `emit-loop-if-tail`), or a plain terminal value delegated to the file's
+  own existing, non-loop-aware `emit-form`. Real v0 simplification vs. the C reference's own
+  `emit_loop`: no separate named `result_var` + post-loop return — since `loop` here is scoped to
+  TAIL position only (the same boundary `if`-tail support already established), the terminal
+  branch's own `return` lives directly inside the `while (1)` block. Loop-binding inits are
+  scoped to a bare number literal, a `plain-call-shaped?` call, or a binary-op; every binding is
+  declared a real C `int` unconditionally (this emitter has no general type-inference machinery).
+  9 new tests (`tests/test_selfhost_emit.c` + `tests/integration/driver_loop_recur.c`): structural
+  checks (no `#error`, real `int` declarations, the real `while(1)` block, `continue` not
+  `return`, both `__recur_tmp_N` temps present) plus a real compile+run+assert check — `sum-to-n`
+  (two I32 loop bindings, an if-tail choosing `recur` vs. a terminal value), self-compiled through
+  `parena-selfhost`, correctly computing `0`/`6`/`15` for `n=0/3/5`. `make test`: 347/347; every
+  `test-selfhost-*` target re-run clean, zero regressions.
+  **Real, live-found bug fixed along the way, confirmed via an actual gcc compile**: `get-field`
+  applied directly to a nested `vec/get` result inside `loop-call-shaped?`'s own first draft (the
+  same class `get-field-shaped?`'s own header comment already names elsewhere) — fixed by binding
+  through a `let` first, matching `defn-body-target-shaped?`'s own already-working pattern.
+  **Real, honest findings from re-running the self-compile diagnostic against
+  `stdlib/string.prn` after this landed, not assumed**: `is-valid-i32-text?` still doesn't compile
+  (its own loop binding init is `if`-shaped, out of this v0's binding-value scope). `split` still
+  doesn't either — its own loop-tail is `cond`-shaped with `recur` inside more than one clause,
+  the exact next widening the C reference itself needed too, real, separate, not attempted here —
+  but its own loop BINDINGS now correctly emit as real C ints, genuine partial progress. A
+  second real, live-found wrinkle from that same check: a bare `(recur ...)` reaching plain,
+  non-loop-aware `emit-form` (e.g. inside `split`'s own `cond` clauses) used to be silently,
+  WRONGLY matched by `plain-call-shaped?` as an ordinary function call, emitting a bogus
+  `recur(...)` C call to a function that's never defined. Fixed cheaply by adding
+  `recur`/`if`/`loop` to `other-special-form-symbol?`'s own existing exclusion list (the same
+  mechanism `is-vec-call?`'s own `vec/`-prefix exclusion already uses) — verified live: the bogus
+  `recur(...)` call is gone from `split`'s own generated C. `NORTHSTAR.md`'s own Self-hosting
+  section updated with the full writeup.
+  PARENA commit `531116b`. Apple #18720.
+  session: sess-20260905-0720-ec33e7c5
