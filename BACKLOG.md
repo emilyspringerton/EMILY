@@ -2536,6 +2536,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue parena self host' -- continue PARENA's self-hosting effort (selfhost/*.prn: lexer/parser/r…** — obs `2026-09-09T09:08:27Z`. CURATED: 2026-09-09.
 - [ ] **Founder real-time: 'keep working parena self host' -- continuing past tail-position if support (SECTION 332) into the n…** — obs `2026-09-09T17:38:31Z`. CURATED: 2026-09-09.
 - [ ] **Founder real-time: 'we want to build a tool to maintain and verify resume data' -> 'build it as a separate app using a …** — obs `2026-09-09T20:16:51Z`. CURATED: 2026-09-09.
+- [ ] **Founder real-time: 'we need to be able to build the resume as data like certain jobs we can show and hide from a specif…** — obs `2026-09-09T20:55:34Z`. CURATED: 2026-09-09.
+- [ ] **Founder real-time: 'continue' -- continue Community Tools resume/CV builder work (SECTION 334) into the real frontend: …** — obs `2026-09-09T20:50:08Z`. CURATED: 2026-09-09.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
