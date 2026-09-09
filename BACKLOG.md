@@ -33980,8 +33980,6 @@ EMILY `482b8f7f` (golden-index).
   `/var/www/carepyre/console.html`, confirmed `https://carepyre.org/console.html` responds 200.
   CarePyre commits `7769a82`/`15c6e26`/`2d19d26`. Apple #18760.
   session: sess-20260905-0720-ec33e7c5
-- [ ] **CVB-12434: the work history needs to auto sort i put a new one 2006-present and it went to the bottom of the resume instead of the top** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
 - [ ] **CVB-124312: logo for resume** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [x] **CVB-124332: templates should be represented in pdf download** Added via the IDUNA kanban
@@ -34065,3 +34063,5 @@ EMILY `482b8f7f` (golden-index).
   IDUNA_PRO commits `bc9b865`/`2cf34ae`/`987c3af`. CarePyre commits `10f6f65`/`5afa299`/`b004eed`.
   Apples #18764 (backend), #18765 (frontend).
   session: sess-20260905-0720-ec33e7c5
+- [x] **CVB-12434: the work history needs to auto sort i put a new one 2006-present and it went to the bottom of the resume instead of the top** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
