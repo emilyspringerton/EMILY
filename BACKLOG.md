@@ -33956,3 +33956,27 @@ EMILY `482b8f7f` (golden-index).
   `/var/www/carepyre/console.html`, confirmed `https://carepyre.org/console.html` responds 200.
   CarePyre commits `1520841`/`aa831c2`. Apple #18758.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 344: CAREPYRE — COMMUNITY TOOLS: NEW BESPOKE RESUME DEFAULTS TO FULL MASTER (2026-09-09, same day)
+
+- [x] **Real UX default-state fix.** Founder real-time: "ok i removed all my bespoke resumes,
+  created a new bespoke resume, and i am expecting it to default to the exact same as the
+  master resume."
+  "+ New bespoke resume" originally started every checkbox unchecked — an empty selection,
+  technically consistent with `Resolve`'s own literal "nothing selected means nothing shown"
+  contract (SECTION 336), but the wrong real-world default: real resume tailoring is
+  subtractive (start from everything, hide what's not relevant to one specific opportunity),
+  not additive (start from nothing, add pieces back).
+  Fixed entirely in `console.html` — a new `allIDs(entries)` helper maps a master list to its
+  own real ids (dropping any entry somehow missing one, rather than leaving `undefined` in the
+  array). A brand-new target's `included_work_ids`/`included_education_ids`/
+  `included_skill_ids`/`included_award_ids`/`included_profile_ids` now all default to the FULL
+  current master set instead of empty arrays. `Resolve`'s own backend contract is completely
+  untouched — an explicitly emptied selection still resolves to an empty resume; this only
+  changes what a NEW target's checkboxes start out checked as.
+  Real, direct verification: `allIDs()` checked against an entry missing its own `id` (dropped,
+  not left as `undefined` in the output), an `undefined` list, and an empty list — all correct.
+  JS syntax + HTML tag balance verified directly. Deployed live: pushed to
+  `/var/www/carepyre/console.html`, confirmed `https://carepyre.org/console.html` responds 200.
+  CarePyre commits `7769a82`/`15c6e26`/`2d19d26`. Apple #18760.
+  session: sess-20260905-0720-ec33e7c5
