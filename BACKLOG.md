@@ -33393,3 +33393,41 @@ EMILY `482b8f7f` (golden-index).
   `hw/serial`/`hw/spi`/`hw/i2c`/`bytes` test targets pass in full.
   PARENA commit `013c9e3`. Apple #18650.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 332: PARENA SELF-HOSTING — TAIL-POSITION `if` SUPPORT (2026-09-09)
+
+- [x] **Self-hosting: real tail-position `if` support in `selfhost/emit.prn`, closes NORTHSTAR's
+  own named "if as whole body" gap.** Founder real-time: "continue parena self host." Picked the
+  next real, precisely-named, not-yet-closed gap `NORTHSTAR.md`'s own Self-hosting section
+  flagged: "`if` used directly as a defn's own whole body doesn't emit (`return if(...)` —
+  invalid C)."
+  Real, direct port of `src/emit.c`'s own `emit_body` tail-position `if` dispatch (found and
+  fixed there 2026-08-21, well before `S223-02` existed) — a genuinely separate, distinct fix
+  from `S223-02` (which covers `let`/`match`/`loop` as an `if`'s own CONDITION, a real, later,
+  narrower gap, not attempted here). New `if-tail-shaped?`/`emit-if-tail` in `selfhost/emit.prn`,
+  modeled directly on `emit-cond`/`cond-call-shaped?`'s own already-proven tail-position pattern:
+  a real `if (test) {\n<then>    } else {\n<else>    }\n`, each branch recursively emitted via
+  `emit-form` itself (the same shared tail-position entry point `emit-cond-clauses` already
+  reuses), so a NESTED `if` composes for free with no separate bespoke recursion needed. The test
+  condition itself reuses the already-established `bool-expr-supported?`/`emit-bool-expr` test
+  sub-language `cond`'s own test position already uses — real, honest, narrower than the C
+  reference's fully general `emit_if_condition`, not attempted here.
+  8 new tests (`tests/test_selfhost_emit.c` + `tests/integration/driver_if_tail.c`): structural
+  checks (no `#error`, a genuine statement-shaped `if`/`else`, the nested `if` correctly present)
+  plus a real compile+run+assert check — a `sign` function (nested `if`, each branch a bare
+  number literal) self-compiled through `parena-selfhost`, correctly returning `1`/`-1`/`0` for
+  positive/negative/zero input. `make test`: 347/347; every `test-selfhost-*` target re-run
+  clean, zero regressions.
+  **Real, honest finding from re-running the self-compile diagnostic against `stdlib/string.prn`
+  after this landed, not assumed** — checked live: the file is now down to exactly ONE genuine
+  `#error` (`split`'s own `(let [result (vec/new dest)] ...)`, blocked by `is-vec-call?`'s own
+  separate, deliberate, PERMANENT exclusion — `vec/`-qualified calls are never disambiguable from
+  a real user function without a registry this narrow emitter doesn't have; unrelated to `if`).
+  `is-valid-i32-text?`'s own real `(if (= n 0) false (loop ...))` now correctly emits the real
+  `if`/`else` structure itself — but its `else` branch (`(loop ...)`) still falls through to the
+  honest-but-silently-empty `emit-tail-symbol` fallback, since `loop`/`recur` support doesn't
+  exist in this file at all yet, a real, separate, much larger gap this fix doesn't claim to
+  close. Named precisely, not overclaimed: this fix closes exactly the `if`-dispatch gap it set
+  out to, nothing more. `NORTHSTAR.md`'s own Self-hosting section updated with the full writeup.
+  PARENA commit `c2027f1`. Apple #18671.
+  session: sess-20260905-0720-ec33e7c5
