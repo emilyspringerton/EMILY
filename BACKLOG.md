@@ -33982,3 +33982,5 @@ EMILY `482b8f7f` (golden-index).
   session: sess-20260905-0720-ec33e7c5
 - [ ] **CVB-12434: the work history needs to auto sort i put a new one 2006-present and it went to the bottom of the resume instead of the top** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **CVB-124312: logo for resume** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
