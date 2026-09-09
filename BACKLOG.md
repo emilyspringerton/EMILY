@@ -33984,5 +33984,84 @@ EMILY `482b8f7f` (golden-index).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **CVB-124312: logo for resume** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **CVB-124332: templates should be represented in pdf download** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
+- [x] **CVB-124332: templates should be represented in pdf download** Added via the IDUNA kanban
+  interface. Real, direct match to the founder's own same-day real-time ask ("add a new output
+  template compact... so we can get more skills on the page and keep it 1 page") — resolved by
+  SECTION 345 below: `resume.RenderPDF` now takes a real `template` argument, a new `template`
+  query param on both export.pdf routes, and console.html's Download PDF/Export PDF buttons now
+  pass through whichever preview template is currently selected. IDUNA_PRO commit `bc9b865`.
+  CarePyre commit `10f6f65`. Apples #18764/#18765.
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 345: CAREPYRE — COMMUNITY TOOLS: COMPACT PDF TEMPLATE + NAME/TIMESTAMP IN EXPORTS (2026-09-09, same day)
+
+- [x] **Real two-column "Compact" PDF/preview template + a real candidate name and export
+  timestamp on every downloaded resume.** Founder real-time: "add a new output template compact
+  that manages to get the experience and education like into 2 columns or something so we can
+  get more skills on the page and keep it 1 page" / "the downloaded resume should include the
+  candidate name and the export timestamp." Directly resolves kanban item CVB-124332 (marked
+  done above).
+  **Real, named trade-off, not hidden**: the existing "classic" PDF layout was deliberately
+  single-column specifically because multi-column layouts are a real, documented ATS parsing
+  pitfall (a parser reading strictly left-to-right across the page width can interleave column
+  content into garbled order). "Compact" is a genuinely new, separate, OPT-IN layout choice —
+  classic stays the default and the one recommended for an actual ATS submission — not a
+  replacement, and both `resume.RenderPDF`'s own doc comment and the NORTHSTAR doc say so
+  explicitly.
+  **Real backend implementation**: `resume.RenderPDF(r *Resume, template string)` — a real,
+  breaking signature change (every call site in this repo updated, no compatibility shim) that
+  dispatches to `renderClassicExperienceEducation` (unchanged) or the new
+  `renderCompactExperienceEducation`. The compact layout manually positions two columns via a
+  new `colState` helper (tracks each column's own x/width/y cursor) because fpdf's own newline
+  handling (`CellFormat`'s `ln=1/2`, `MultiCell`'s internal line breaks) always resets the cursor
+  X to the PAGE's own left margin, never to an arbitrary column start — every single draw call
+  in a column explicitly re-sets `(x, y)` first rather than trusting fpdf's cursor to stay
+  inside the column. Real, honest, named limitation: if either column's content is unusually
+  long, fpdf's own automatic page-break can trigger mid-column rather than continuing inside
+  that column — optimized for the common case, not a hard 1-page guarantee.
+  **Real name + timestamp, both places asked for**: every generated PDF (both templates) now
+  carries a real footer via fpdf's own `SetFooterFunc` (repeats on every page, not just appended
+  once) reading `"<Name>  ·  Exported <date> <time> UTC"`. The downloaded FILENAME also now
+  includes the candidate's real name plus today's date (`resumeExportBaseName`), replacing the
+  old generic `"resume.pdf"`/target-name-only convention that gave no indication of whose resume
+  a downloaded file was — a real, concrete pain point once someone (a case manager, for example)
+  ends up with a folder of several people's downloaded PDFs. `pdfFilename` now also collapses
+  consecutive hyphens, a small real cleanup for the new space-joined `"name suffix date"`
+  convention.
+  **Real, direct verification beyond `go test`**: rather than trust `RenderPDF` returning without
+  error, the actual public `RenderPDF(r, "compact")` output's own real FlateDecode content
+  stream was decompressed (zlib, standard library, no new dependency) and inspected directly —
+  confirmed "Experience" renders at x=59.53 and "Education" at x=357.17, two genuinely distinct,
+  non-overlapping horizontal positions with two separate divider lines matching each column's
+  own real width and a real gutter between them — and confirmed the exact footer text (candidate
+  name + real timestamp) is present in the real, decompressed page content, not just asserted by
+  the code that generated it.
+  **New `template` query param** on both `GET .../resume/export.pdf` and
+  `GET .../resume/targets/{id}/export.pdf`, documented in the OpenAPI spec (§341's own spec,
+  extended) alongside the new footer/filename behavior.
+  **9 new/updated Go tests**: compact produces a valid PDF, tolerates an empty Work OR Education
+  column without panicking (a real target resolved with only one section selected), an
+  unrecognized template string falls back to classic rather than erroring, `footerLine`'s own
+  exact output format, a real `SetCompression(false)` raw-content-stream check that the footer
+  text actually lands on the page, and the export-endpoint filename assertions updated to check
+  the new candidate-name+date substrings (the date is genuinely dynamic, so an exact-string
+  match would have been wrong). Full suite green, zero regressions.
+  **Frontend**: new "Compact" button in console.html's Preview & templates card, alongside
+  Classic/Clean Tech — `renderResumeTemplate` refactored (Work/Education extracted into their
+  own reusable functions) so Compact can wrap them in a real CSS grid (`.rt-columns`), a screen
+  approximation of the PDF's own two-column idea, not pixel-matched (the same "no visual parity"
+  precedent Classic/Clean Tech already established against the PDF). Both PDF download paths
+  (the Preview card's own button and each Target's inline "Export PDF" button) now pass the
+  currently-selected preview template through as a real query param via a new
+  `pdfTemplateParam()` mapping — "compact" passes through, everything else (including the
+  screen-only "Clean Tech," which has no PDF equivalent) maps to the real, ATS-safe "classic"
+  PDF layout. Verified directly: the refactored `renderResumeTemplate` was extracted and run in
+  real Node against sample data, confirming classic has no columns wrapper, compact has exactly
+  one with both sections correctly nested inside it, escaping still holds, and a fully empty
+  resume doesn't throw.
+  Deployed live for both repos: rebuilt and restarted `idunapro.service` (health-check-gated
+  restart passed), pushed the updated `console.html`, confirmed both `/health` and
+  `https://carepyre.org/console.html` respond correctly.
+  IDUNA_PRO commits `bc9b865`/`2cf34ae`/`987c3af`. CarePyre commits `10f6f65`/`5afa299`/`b004eed`.
+  Apples #18764 (backend), #18765 (frontend).
+  session: sess-20260905-0720-ec33e7c5
