@@ -33245,3 +33245,47 @@ EMILY `482b8f7f` (golden-index).
   already name. The embedded-NUL byte-buffer gap stays real, separate, unscoped follow-up.
   PARENA commit `6bf4801`. Apple #18625.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 329: PARENA HW — I2C STDLIB, THIRD REAL BUS SAME DAY (2026-09-09, same day)
+
+- [x] **Real I2C hardware interface: stdlib/hw/i2c.prn over Linux i2c-dev(4).** Founder
+  real-time: "continue" (building out PARENA hardware interfaces past SECTION 328's own SPI
+  work). Third real hardware bus in the same day — UART/serial (SECTION 327), SPI
+  (SECTION 328), now I2C, the third of the three buses any real Arduino-class or
+  Raspberry-Pi-class hobby sensor overwhelmingly uses. New `PARENA/docs/I2C_NORTHSTAR.md`,
+  golden doc `I2C-NORTH` — scoped and shipped in the same pass, matching SPI's own precedent.
+  New `runtime/parena_runtime.h` host glue over Linux's real `i2c-dev(4)` API: `i2c_open_impl`
+  (open + `ioctl(fd, I2C_SLAVE, addr)` to fix the target device address for the fd's lifetime,
+  rolling back on failure) and plain `read()`/`write()` afterward (`i2c_read_impl`/
+  `i2c_write_impl`) — no transfer-struct ioctl needed the way SPI's `SPI_IOC_MESSAGE` was. Own
+  top-level `#if defined(__linux__)` guard matching `hw/spi.prn`'s own precedent (i2c-dev is
+  Linux-only too).
+  New `PARENA/stdlib/hw/i2c.prn` wraps it as `i2c-open`/`i2c-read`/`i2c-write`/`i2c-close` over
+  `I2cDevice`/`I2cError`. Real, structural distinction from `hw/spi.prn`, not an inconsistency:
+  I2C is addressed and half-duplex-per-direction (write a register address, then separately read
+  a value), much closer to `hw/serial.prn`'s/`net/tcp.prn`'s own `-read`/`-write` shape than
+  SPI's necessarily-simultaneous `-transfer` — a correct shape match to the bus, not an arbitrary
+  API choice. `i2c-read` takes an explicit length (unlike `serial-read`'s poll-gated "whatever's
+  available"), matching how a real I2C read actually works.
+  Real, found-live testing distinction from SPI, worth naming directly: this actual box has a
+  real, functioning I2C controller (`lsmod`'s own `i2c_i801` entry, a real `/dev/i2c-0`) — unlike
+  SPI, where no controller of any kind exists here. **Deliberately not opened or probed
+  anywhere** in this work: it's root-owned (`crw------- root root`) and a real SMBus commonly
+  carries real system battery/thermal/RAM-SPD traffic — issuing an unreviewed real transaction
+  against it from an automated pass is a real, unnecessary risk to real system hardware this
+  stdlib work does not need to take to be correct. A genuinely different kind of limitation from
+  SPI's "no device exists" — named explicitly as "chose not to," not "couldn't."
+  What WAS honestly testable, and is: i2c-dev's actual data-transfer path is plain POSIX
+  `read()`/`write()` with no ioctl involved (distinct from `i2c-open`'s own `I2C_SLAVE` ioctl),
+  so `make test-i2c`'s 14 real assertions include a genuine byte-perfect round-trip and real
+  short-read handling against a real temp file fd — stronger real coverage than SPI's own
+  ioctl-gated transfer could offer, alongside honest open-failure tests (a nonexistent path, and
+  a real file where the kernel's own `I2C_SLAVE` ioctl genuinely refuses a non-I2C fd). `make
+  test`: 347/347, zero regressions.
+  Real, honest, not done: the same write-side embedded-NUL-byte limitation `hw/spi.prn`/
+  `hw/serial.prn`/`net/tcp.prn` already carry applies here too — unfixed for the same real,
+  named reason (a length-explicit byte-buffer type is a separate, un-derisked PARENA
+  core-language piece of work, not attempted in this pass). A real hardware round-trip against a
+  genuine I2C sensor remains genuinely blocked, deliberately, for the reasons above.
+  PARENA commit `f56b0fc`. Apple #18629.
+  session: sess-20260905-0720-ec33e7c5
