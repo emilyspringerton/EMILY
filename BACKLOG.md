@@ -33935,3 +33935,24 @@ EMILY `482b8f7f` (golden-index).
   proof this shipped without disturbing a real, currently-in-use account's data.
   IDUNA_PRO commits `1491216`/`54337d3`. CarePyre commits `f60d9bc`/`aa1128f`. Apple #18753.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 343: CAREPYRE — COMMUNITY TOOLS: QUICK-ADD SKILLS (2026-09-09, same day)
+
+- [x] **Real quick-add for skills via a comma-separated list.** Founder real-time: "ok we need
+  a way to quick add skills via a comma separated list."
+  New "Quick add" field above the Skills list in console.html's Resume editor — paste or type a
+  comma-separated list, hit Add (or press Enter), and each word becomes its own real skill row
+  through the same `addResumeSkillRow`/`makeResumeEntryRow` machinery "+ Add skill" already
+  uses one at a time — no new save path, no backend change, this reuses the existing
+  whole-document PUT exactly as before.
+  Real, deliberate dedup: skips anything that case-insensitively matches a skill already on the
+  page, including duplicates within the SAME paste (e.g. "Go, go, GO" adds only once) — the
+  `existing` name set is updated as each name is accepted, not just checked once against the
+  page's starting state.
+  Real, honest verification: extracted the parsing/dedup algorithm and ran it directly in Node
+  against comma/whitespace edge cases (trailing commas, mixed internal whitespace, mixed-case
+  duplicates both pre-existing and within-paste, empty/whitespace-only input) — all 6 cases
+  pass. JS syntax and HTML tag balance verified directly. Deployed live: pushed to
+  `/var/www/carepyre/console.html`, confirmed `https://carepyre.org/console.html` responds 200.
+  CarePyre commits `1520841`/`aa831c2`. Apple #18758.
+  session: sess-20260905-0720-ec33e7c5
