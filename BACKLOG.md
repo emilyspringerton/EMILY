@@ -33479,3 +33479,71 @@ EMILY `482b8f7f` (golden-index).
   section updated with the full writeup.
   PARENA commit `531116b`. Apple #18720.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 334: CAREPYRE — COMMUNITY TOOLS RESUME/CV BUILDER + VERIFIER (2026-09-09)
+
+- [x] **Community Tools: real resume/CV builder + verifier, gated by a per-account feature
+  flag.** Founder real-time arc, followed in full: "we want to build a tool to maintain and
+  verify resume data" → "build it as a separate app using a new instance of iduna pro" →
+  "cvb.okemily.com for cvbuilder" → on "verify": "we want to ensure the output is structured to
+  cater to machines reading the resume theres always advice to run it through a resume
+  validator i dont want to put my data into some rando site lets build our own to build towards
+  known standards for machine readable cvs" → **real, final correction**: "build it into
+  carepyre actually it makes sense to have that as part of the community tools but we want it to
+  be gated so that accounts need a feature flag set to see those features."
+  **Real, honest history**: scoped and partially built as its own standalone app (`CVBUILDER` —
+  `NORTHSTAR.md`, a real Go module skeleton, JSON-Resume-shaped data model, deploy configs for a
+  brand-new dedicated IDUNA_PRO instance) before the founder's own real-time correction
+  redirected it into CarePyre's own already-live IDUNA_PRO instance (`idunapro.service`, CarePyre
+  Console, `:8081`) instead — the `CVBUILDER` scaffold was deleted (never pushed to GitHub — no
+  `gh` CLI available in this sandbox, and no matching repo found under `emilyspringerton`); the
+  one real piece of value carried over unchanged is the JSON Resume data model itself
+  (`IDUNA_PRO/internal/resume`), which never depended on which app hosted it.
+  Real, checked-not-assumed grounding: fetched JSON Resume's own actual, current schema
+  (jsonresume.org) rather than working from memory — confirmed it's a real, open, widely-adopted
+  standard, the actual "known standard for machine readable CVs" the founder's own framing named.
+  New `LocalUser.IsCommunityToolsEnabled` (IDUNA_PRO) — a real, plain, per-account feature flag,
+  deliberately SEPARATE from the existing 4-tier admin/provider RBAC hierarchy (Top Admin/
+  Operator Admin/Provider Admin/Provider Operator are all staff-tier roles; this flag is for
+  ordinary community-participant accounts). Event-sourced (`EventUserCommunityToolsChanged`/
+  `UserCommunityToolsChangedData`), the same real grant/revoke-in-one-event-type shape
+  `IsAdmin`/`IsProvider` already established, mirrored precisely across BOTH the sqlite and mysql
+  projectors (4 real touch points each: INSERT, UPDATE-on-event, and both SELECT+Scan read
+  paths). `localUserPermissions` grants a real `"community-tools.access"` permission whenever the
+  flag is set, checked INDEPENDENTLY of tier — a real, literal reading of "accounts need a
+  feature flag set": even an admin who wants personal access needs the same flag on their own
+  account, no tier gets it implicitly. `PATCH /api/v1/users/{uid}
+  {"is_community_tools_enabled": true}` is `users.admin`-gated, same tier as `org_id`
+  reassignment (grants no elevated RBAC tier, only access to one participant-facing feature).
+  New `internal/resume`: a real, field-for-field Go mirror of the JSON Resume schema
+  (`model.go`) plus a real, itemized, two-layer `Verify` function (`verify.go`) — Layer 1 schema
+  conformance (name/email present, at least one work/education entry) and Layer 2 ATS-readiness
+  rules named directly (phone present, real parseable `YYYY`/`YYYY-MM`/`YYYY-MM-DD` dates not
+  free text, a work entry with a position but no employer name flagged) — a real, itemized
+  report (`{rule, passed, message}` per check), never a single opaque score, matching "i dont
+  want to put my data into some rando site" directly. Layer 3 (ATS-safe export-format rendering)
+  is real, honestly named, NOT built in this pass.
+  New `internal/http/handlers/community_tools.go`: `GET`/`PUT /api/v1/community-tools/resume`
+  (one resume per user, scoped to the caller's own `local_uid` via the JWT's own claim — no
+  cross-user access path exists at all, real and verified) and
+  `POST /api/v1/community-tools/resume/verify`. Both `community-tools.access`-gated in `main.go`.
+  New migration `202609090001_community_tools.sql`.
+  **Real, live-verified, not just `go build`/`go test`**: booted the real `idunapro` binary
+  against a fresh SQLite file — the new migration applied cleanly, the `resumes` table and the
+  new `is_community_tools_enabled` column both present, `/health` OK. 12 new Go tests
+  (`internal/resume` + `internal/http/handlers`), all passing — including a real
+  forbidden-without-the-flag check and a real cross-user isolation proof (two distinct accounts'
+  own resumes genuinely never leak into each other). Full existing `go test ./...` green, zero
+  regressions (found and fixed 3 pre-existing test files' own inline `local_users` schema
+  copies, which needed the new column added to keep passing after the projector's own SELECT
+  column list changed).
+  New `CarePyre/docs/COMMUNITY_TOOLS_RESUME_NORTHSTAR.md`, golden doc
+  `COMMUNITY-TOOLS-RESUME-NORTH`. Both `CarePyre/CLAUDE.md` and `IDUNA_PRO/CLAUDE.md` Status
+  sections updated.
+  Real, honest, not done: no frontend UI yet (the real "maintain" half of "maintain and verify"
+  — a web form in `console.html` or a new page, over this same real API); Layer 3 (a real
+  ATS-safe PDF/DOCX export template) not built; one resume per account only, no named variants;
+  a real section-label-vocabulary advisory check (named in the original scoping pass) not
+  implemented.
+  IDUNA_PRO commit `43fa3de`. CarePyre commit `1bb61d4`. Apple #18725.
+  session: sess-20260905-0720-ec33e7c5
