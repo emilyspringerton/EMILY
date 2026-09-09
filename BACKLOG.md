@@ -33842,3 +33842,96 @@ EMILY `482b8f7f` (golden-index).
   No backend change needed — this was frontend-only.
   CarePyre commits `a25ceb6`/`d07f068`. Apple #18747.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 341: CAREPYRE — COMMUNITY TOOLS: AGENT-ERGONOMIC API PRIMITIVES + OPENAPI SPEC (2026-09-09, same day)
+
+- [x] **Real PATCH/POST/DELETE primitives + a published OpenAPI spec, so an agent can manage a
+  resume without whole-document PUT.** Founder real-time: "ensure that all of the features we
+  have have good api because i am going to ask agents to work with those primitives to start
+  intelligently managing the resume using agentic ai."
+  **New routes**: `PATCH /resume/basics`; `POST`/`PATCH`/`DELETE /resume/{work,education,
+  skills,awards}[/{id}]`; the identical shape on `.../targets` (`POST` create one,
+  `PATCH`/`DELETE /targets/{id}`). The original whole-document/whole-list `GET`/`PUT` routes are
+  unchanged — these are real, additive alternatives for a small, targeted edit, not a
+  replacement.
+  **One real, shared generic implementation**: `entryOps[T]` (get/set/getID/setID closures) +
+  `CommunityToolsEntryHandler[T]`, registered four times (`NewCommunityToolsWorkHandler` etc.)
+  instead of four hand-duplicated handlers — the same real generics-over-duplication judgment
+  `target.go`'s own `filterByID[T]` already made.
+  **Real, deliberate PATCH semantics**: relies on `encoding/json`'s own native "unmarshal onto
+  an already-populated value" behavior — a JSON key ABSENT from the request body leaves that
+  field's existing value untouched; a key PRESENT (including an explicit `""` or `null`)
+  overwrites it. No hand-written `*string`-pointer-per-field patch struct needed (the convention
+  `users.go`'s `updateUserRequest` uses) — for Target's own `summary_override`/`label_override`
+  specifically this gives a genuine three-way distinction (absent/null/value) verified directly
+  in a test, not just asserted.
+  **Real, found-and-fixed-before-shipping bug**: `main.go`'s first draft built the four entry
+  handlers with only `DB`/`Prefix` set, leaving `Ops` a zero-value struct of nil function
+  pointers — compiles clean, panics the instant any entry is actually touched. Found while
+  double-checking the wiring, not by a test (the bug was in construction, not logic a unit test
+  would exercise without noticing the real crash). Fixed with real, exported per-type
+  constructors that fully wire `DB`/`Prefix`/`Ops` together every time.
+  **New `GET /api/v1/community-tools/openapi.json`**: a real, complete OpenAPI 3.0 document
+  (`go:embed`, genuine JSON authored directly — not YAML converted-and-served under a misleading
+  `.json` URL) covering every route, request/response schema, and the real PATCH-merge semantics
+  above in prose, so an agent can bootstrap against this API without reading Go source.
+  Deliberately public (no auth) — describes the API's shape, not any caller's data, the same
+  reasoning `JWKSHandler` already applies to its own public key set.
+  **18 new tests**: partial-merge correctness (omitted field survives, present field
+  overwrites), client-supplied `id` on create is ignored, `id` is immune to being patched via
+  the request body, 404s on unknown ids, forbidden-without-flag on every new route, the real
+  null-clears-an-override proof, and a real OpenAPI-document-shape check (parses as JSON, has a
+  real non-empty `paths` object, the new routes are actually documented in it). Full suite
+  green, zero regressions.
+  **Deployed live**: rebuilt and restarted the real `idunapro.service` (health-check-gated
+  restart passed), confirmed `GET /api/v1/community-tools/openapi.json` responds with the real
+  spec (19 documented paths) both directly against `:8081` and through the `carepyre.org`
+  `/console-api/` proxy.
+  IDUNA_PRO commits `dd6af68`/`5f923a1`. Apple #18752.
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 342: CAREPYRE — COMMUNITY TOOLS: MULTIPLE GITHUB/LINKEDIN LINKS (2026-09-09, same day)
+
+- [x] **Real support for multiple, independently-tailorable GitHub/LinkedIn/portfolio links.**
+  Founder real-time: "we need to be able to add and configure the output of multiple github
+  links."
+  **Real, checked-first finding, not assumed**: `basics.profiles` (JSON Resume's own field for
+  exactly this) existed in the data model since this feature's very first pass, but a direct
+  grep across `console.html` and `internal/resume/pdf.go` turned up ZERO references — no UI, no
+  PDF rendering, no screen-preview rendering, and (unlike Work/Education/Skill/Award) no stable
+  per-entry `id`, so it also couldn't be selected into a bespoke Target. A real, silent,
+  three-way gap, not a partially-working feature.
+  **Fixed**: new `Profile.ID` (mirrors `Work.ID`'s own real reasoning exactly) — multiple
+  entries sharing the IDENTICAL `network` value (e.g. three separate GitHub repo links, all
+  labeled "GitHub") is real and expected, real proof: `TestResolve_
+  MultipleGitHubProfilesCanBeSelectedIndependently` selects 2 of 3 same-labeled entries purely
+  by id. New `Target.IncludedProfileIDs`; `Resolve` now filters Profiles the same way it filters
+  the other four sections. `assignResumeIDs` now assigns Profile ids too.
+  **Real output, where there was none before**: `RenderPDF` now renders a real "Links" line
+  under the contact info (`Network: address`, an address-less entry skipped entirely rather than
+  printing a bare, meaningless label) — proven with a real test asserting the exact expected
+  string, not just "doesn't error." console.html's `renderResumeTemplate` (the screen preview)
+  gets the identical treatment, verified with a real, standalone Node execution (not just
+  `node --check`) against sample data containing an XSS-shaped payload in a profile URL and two
+  same-network GitHub links — confirmed the payload renders escaped (not raw), both links render
+  independently, and the address-less entry is skipped, matching this whole feature's own
+  established `esc()`-into-text-content-never-an-attribute discipline.
+  **Real frontend**: new "Links" section in the Resume editor (network label + URL, add/remove
+  rows, matching the existing Work/Education/Skills row-editor convention byte-for-byte) and a
+  new "Show links" checklist in the Bespoke Resumes card, so a Target can show a different
+  subset of links per opportunity — someone with several project repos can point different
+  applications at different, relevant subsets.
+  **Real backend primitive reuse**: `NewCommunityToolsProfilesHandler` plugs directly into the
+  exact same generic `CommunityToolsEntryHandler[T]` machinery SECTION 341 just shipped —
+  `POST`/`PATCH`/`DELETE /resume/profiles[/{id}]`, documented in the same OpenAPI spec, zero new
+  handler-shape code needed.
+  **Deployed live for both SECTION 341 and 342 together** (one restart): rebuilt and restarted
+  `idunapro.service`, pushed the updated `console.html`. Real, honest post-deploy check that
+  went beyond "it responds 200": read back the REAL, currently-live production resume for
+  `joe@carepyre.org` — confirmed it had been independently, genuinely edited by its own real
+  owner in the time between an earlier session's seed and this deploy (skills trimmed to
+  Kubernetes/Helm/DevOps, a real `updated_at` timestamp proving it) — and confirmed it still
+  parses, verifies, and renders to PDF cleanly under the new schema with zero data loss, real
+  proof this shipped without disturbing a real, currently-in-use account's data.
+  IDUNA_PRO commits `1491216`/`54337d3`. CarePyre commits `f60d9bc`/`aa1128f`. Apple #18753.
+  session: sess-20260905-0720-ec33e7c5
