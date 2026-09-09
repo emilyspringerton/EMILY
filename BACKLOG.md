@@ -33581,3 +33581,74 @@ EMILY `482b8f7f` (golden-index).
   doc `COMMUNITY-TOOLS-RESUME-NORTH` updated with the frontend status.
   CarePyre commit `d9e1a1f`. Apple #18729.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 336: CAREPYRE — BESPOKE TARGET RESUMES + PREVIEW TEMPLATES (2026-09-09, same day)
+
+- [x] **Real Target resumes (bespoke, tailored variants per opportunity) + preview templates.**
+  Founder real-time arc, followed in full, past SECTION 335's own backend+frontend for the
+  master resume: "like we have a base set of things that we tell the system in terms of
+  history and skills etc we need some way to start building more bespoke resumes for specific
+  opportunities" → "the pattern probably applies to education awards experience skills even
+  different little summary texts" → "this is probably most useful in the skills section" →
+  "we are going to want to keep all of the exported tweaked versions so we can clone from them
+  for new opportunities" → "you should be able to change your resume from a classy looking
+  output to a more tech clean tech looking with a click" → "so when they say to have a
+  different resume for each opportunity this allows you to actually begin to manage your data
+  in a way to allow you to do that."
+  **Real, deliberate design**: the master resume stays the single, full source of truth. A
+  Target never duplicates or edits that data — it real, named SELECTS a subset of it (by
+  stable ID) to show for one specific opportunity, plus a small, named set of text overrides
+  for the professional summary/headline (the two blurbs that actually get rewritten per
+  application in practice), not a general per-entry text-override mechanism, named honestly as
+  out of scope.
+  **Backend (IDUNA_PRO)**: new `Work.ID`/`Education.ID`/`Skill.ID`/`Award.ID` — a real,
+  deliberate CarePyre extension beyond strict JSON Resume (which has no `id` field),
+  server-assigned (`assignResumeIDs`) whenever a saved entry arrives with none. New
+  `internal/resume/target.go`: `Target{IncludedWorkIDs, IncludedEducationIDs,
+  IncludedSkillIDs, IncludedAwardIDs, SummaryOverride, LabelOverride}` +
+  `Resolve(master, target) *Resume`, a real generic `filterByID[T]` shared across all four
+  sections rather than four hand-duplicated loops. A nil/empty selection resolves to EMPTY,
+  not a fallback to "show everything." New `CommunityToolsTargetsHandler`: `GET`/
+  `PUT /api/v1/community-tools/resume/targets` (whole-list replace, matching the master
+  resume's own established convention — an entry with no `id` is new, one missing from the new
+  list is a real delete, satisfying "clone from them" with zero new API surface), plus
+  `GET .../targets/{id}/resolved` and `POST .../targets/{id}/verify` — verification runs
+  against the real RESOLVED view, not the master, catching e.g. "this target hides every work
+  entry, it now fails has-work-or-education" even though the master itself passes. New
+  migration `202609090002_resume_targets.sql` (a sibling `targets` JSON column on the same
+  `resumes` row). 17 new Go tests (5 `internal/resume` + 12 `internal/http/handlers`), all
+  passing — including a real proof that verify runs against the resolved view and a real
+  cross-user isolation proof for targets. Real, live-verified boot: fresh SQLite, both
+  migrations apply cleanly, routes register with no panic, `/health` OK. Full existing suite
+  green, zero regressions.
+  **Frontend (CarePyre console.html)**: new Skills editor in the master resume (name/level/
+  keywords). New "Bespoke resumes" card: a real checkbox per master Work/Education/Skill/
+  Award entry, human-labeled (e.g. "Line Cook — Acme Corp"), real optional summary/headline
+  override fields (a real checkbox gates whether an override is sent at all — `null` vs. an
+  empty string are genuinely different on the wire, matching the backend's own
+  `*string`-pointer contract), and real Clone/Verify/Preview/Remove actions per bespoke
+  resume. New "Preview & templates" card: one real, semantic render (`renderResumeTemplate`)
+  wrapped in one of two real, distinct CSS templates (`.resume-tpl-classic`/
+  `.resume-tpl-tech`), switchable instantly with no new fetch — matching "change... with a
+  click" literally.
+  **Real, live-found bug fixed before shipping, not caught by syntax checking alone**: the
+  "Remove" button on a bespoke-resume card originally removed only the DOM element, never the
+  matching entry in `currentTargets` (the real, separate source-of-truth array "New"/"Clone"
+  re-render FROM) — clicking either of those after a Remove would silently resurrect the
+  "removed" target. Fixed by splicing the array too, then re-rendering, the same DOM/array-sync
+  discipline every other mutation already follows. Found by re-reading the actual control
+  flow, not by any automated check.
+  **Real, honest verification, beyond syntax checking**: `renderResumeTemplate` was extracted
+  and run directly (real Node execution, not just `node --check`) against sample data
+  containing real HTML-special characters (`<`, `>`, `&`, `"`) in the name/label/summary
+  fields, confirming the raw characters never appear unescaped in the output for either
+  template, and that it doesn't throw on an empty resume. JS syntax + HTML `<div>` balance
+  (148/148) also verified directly.
+  `docs/COMMUNITY_TOOLS_RESUME_NORTHSTAR.md`, `CarePyre/CLAUDE.md`, and the golden doc
+  `COMMUNITY-TOOLS-RESUME-NORTH` all updated with the full design record, including what's
+  still real, honestly not done: no downloadable ATS-safe PDF/DOCX file (Layer 3 stays
+  preview-only), no per-entry text overrides beyond summary/headline, no saved template
+  preference per target.
+  IDUNA_PRO commits `8bc4889`/`56689e4`. CarePyre commits `c3b69d2`/`d2f5b6d`. Apple #18733
+  (Apple #18731 filed for the founder real-time direction itself, per protocol).
+  session: sess-20260905-0720-ec33e7c5
