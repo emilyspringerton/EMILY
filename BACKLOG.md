@@ -33652,3 +33652,66 @@ EMILY `482b8f7f` (golden-index).
   IDUNA_PRO commits `8bc4889`/`56689e4`. CarePyre commits `c3b69d2`/`d2f5b6d`. Apple #18733
   (Apple #18731 filed for the founder real-time direction itself, per protocol).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 337: CAREPYRE — COMMUNITY TOOLS: PDF EXPORT (LAYER 3) (2026-09-09, same day)
+
+- [x] **Real, downloadable, ATS-safe PDF export — the last gap SECTION 334/336 both named
+  honestly as not-done.** Founder direction was simply "yea keep working" after the two
+  remaining honest gaps (PDF export vs. per-entry text overrides) were named — PDF export
+  chosen as the higher-leverage, originally-named-in-the-founder's-own-framing gap ("verify the
+  output... run it through a [checker]" implied a real exportable artifact, not just a screen
+  preview).
+  **Backend (IDUNA_PRO)**: new dependency `github.com/go-pdf/fpdf v0.9.0` (maintained
+  `jung-kurt/gofpdf` fork — real, pure Go, no cgo, matching this repo's own established
+  `modernc.org/sqlite` no-cgo discipline). New `internal/resume/pdf.go`: `RenderPDF(r *Resume)
+  ([]byte, error)` — one deliberately plain, single-column, real-selectable-text layout (never
+  an image — real ATS parsers choke on image-only text), Arial core font,
+  `UnicodeTranslatorFromDescriptor("")` to transliterate UTF-8 down to that font's Windows-1252
+  coverage (named, honest limitation: CJK/Cyrillic degrade gracefully, not a silent corruption
+  of the rest of the page). 3 new tests incl. a real structural check (`%PDF-` magic bytes,
+  `%%EOF` marker) and a real, deliberate non-Latin-input test proving graceful degradation, not
+  just documenting it. New `CommunityToolsExportHandler` (`GET
+  /api/v1/community-tools/resume/export.pdf`) and a new `exportTarget` method + `/export.pdf`
+  sub-route on `CommunityToolsTargetsHandler` (`GET
+  .../targets/{id}/export.pdf`), both `community-tools.access`-gated, sharing one
+  `writeResumePDF` helper.
+  **Real, found-and-fixed-before-shipping security issue**: a Target's own real, user-controlled
+  `Name` field going straight into the `Content-Disposition` response header is the identical
+  class of bug SECTION 336's own `esc()`-into-an-HTML-attribute fix already closed once
+  client-side — caught here by reasoning about it directly, not found live. Closed with
+  `pdfFilename`, a narrow allowlist sanitizer (letters/digits/hyphen/underscore only, everything
+  else collapsed to a hyphen, fixed `.pdf` extension always appended, falls back to
+  `resume.pdf` if the sanitized result is empty).
+  **Real, extra verification beyond the normal test suite**: `pip`/`venv`-based independent PDF
+  inspection was blocked in this sandbox (PEP 668 externally-managed-environment restriction;
+  `python3-venv` not installed, would need sudo) — worked around with a real, standalone Go
+  program (`SetCompression(false)`) grepping the raw PDF content stream for literal extractable
+  text, confirming genuinely selectable text, not just trusting the library's own claims. Scratch
+  files cleaned up after.
+  **13 new/updated handler tests**: `newTestCommunityToolsHandlers` grew a 5th return value
+  (the export handler); new tests cover forbidden-without-flag, a real PDF file returned for the
+  master resume (`Content-Type`/`Content-Disposition` checked), a resolved-Target export, a
+  real regression check for the header-injection fix (a target literally named `Kitchen Jobs
+  "Special"` must produce a well-formed, single-quoted-filename header), and 404 on an unknown
+  target ID. Full suite green (`go build`/`go vet`/`go test ./...`), zero regressions.
+  **Real, live-boot smoke test, not just `go test`**: booted the actual `idunapro` binary
+  against a fresh SQLite file, registered a real account, flipped
+  `is_community_tools_enabled` directly in the DB, logged in for a token carrying the real
+  `community-tools.access` permission, saved a real resume, and confirmed `GET .../export.pdf`
+  returns a real, `file(1)`-recognized single-page PDF with the correct headers — then repeated
+  the exact quoted-target-name case live against the running server, confirming the
+  `Content-Disposition` header stays well-formed end to end, not just in the isolated unit test.
+  **Frontend (CarePyre console.html)**: new `downloadResumePDF(targetId, btn, errEl)` shared
+  helper — fetches the PDF as a blob through `authHeaders()` (a plain `<a href>` can't carry the
+  bearer token these routes require), then triggers a real browser download via a throwaway
+  object URL, using the server's own real `Content-Disposition` filename rather than
+  reconstructing one client-side. New "Download PDF" button in the "Preview & templates" card
+  (downloads whichever source — master or Target — is currently selected in the preview
+  dropdown) and a new per-card "Export PDF" button alongside each Target's own
+  Clone/Preview/Verify/Remove actions. JS syntax verified directly (real Node
+  `--check` on the extracted script).
+  `docs/COMMUNITY_TOOLS_RESUME_NORTHSTAR.md` new §4d, §5 gap list corrected (Layer 3 no longer
+  listed as not-done; a new, honest DOCX/visual-parity gap named instead). Both repos'
+  `CLAUDE.md` Status sections updated. Golden doc `COMMUNITY-TOOLS-RESUME-NORTH` updated.
+  IDUNA_PRO commit `f0a20c5`. CarePyre commit `2bb0237`. Apple #18738.
+  session: sess-20260905-0720-ec33e7c5
