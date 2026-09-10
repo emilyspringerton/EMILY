@@ -34519,3 +34519,28 @@ EMILY `482b8f7f` (golden-index).
   re-verified end to end (rebuilt and re-linked, not just re-compiled).
   Apple #18811 (founder-direction observation), Apple #18812 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 355: PRRJECT_FATBABY — RESEARCH NOTE: LOCAL IPC (UNIX SOCKETS/SHARED MEMORY) FOR REAL-TIME SEC FILING PROCESSING (2026-09-10)
+
+- [ ] **Real, honest research note — not an active task, not scoped, not started.** Founder
+  real-time, from an unrelated side conversation about Unix file descriptors: "note this as a
+  line of research for fatbaby (speed up SEC filing processing) probably not really helpful for
+  us yet but if we want to do real time data analysis writing directly using unix domain sockets
+  or pipes... if you have a distributed system on the same node you can like turbo it with in
+  memory channels." The real, underlying technique: same-node inter-process communication via
+  Unix domain sockets, raw pipes/file descriptors 3+, or shared memory regions is genuinely much
+  lower-latency than TCP loopback (no network stack traversal, kernel-buffer-to-kernel-buffer or
+  direct RAM-to-RAM transfer) — a real, well-established pattern (systemd socket activation,
+  Envoy/Istio sidecar proxies, Redis/Postgres Unix-socket client connections, HFT shared-memory
+  designs). Real, honest, named tradeoff the founder's own conversation already surfaced: no
+  persistence (Kafka's own real durability guarantee this wouldn't replace) and no easy
+  broadcast/fan-out (a plain socket/pipe is strictly 1:1). Real, plausible future fit: if
+  `PRRJECT_FATBABY`'s own signal pipeline ever needs genuinely real-time, same-node processing
+  stages (e.g. a filing-ingest process handing off to a scoring process on the same box) with
+  latency tight enough that TCP loopback overhead actually matters, this is a real, legitimate
+  optimization to consider — NOT scoped, NOT designed, NOT started; no code, no NORTHSTAR doc,
+  no concrete proposal exists yet. Logged here purely so this research direction isn't lost, per
+  this repo's own standing "founder real-time direction always goes into BACKLOG.md" discipline,
+  even for an explicitly speculative, "probably not really helpful for us yet" idea.
+  Apple #18816 (founder-direction observation).
+  session: sess-20260905-0720-ec33e7c5
