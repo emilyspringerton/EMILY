@@ -2553,6 +2553,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue on parena llvm and selfhost.' Continued the self-hosting effort (selfhost/emit.prn): close…** — obs `2026-09-10T06:53:40Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: KARAMBIT build is down.** — obs `2026-09-10T17:59:53Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: SHANKPIT main repo should be cutting auto releases, matching the established PARENA/KARAMBIT CI patt…** — obs `2026-09-10T17:59:28Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time: CarePyre resume builder Skills section feedback -- alphabetical chaos, not scannable for employers. …** — obs `2026-09-10T19:04:38Z`. CURATED: 2026-09-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
