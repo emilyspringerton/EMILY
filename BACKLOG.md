@@ -34198,3 +34198,54 @@ EMILY `482b8f7f` (golden-index).
   IDUNA_PRO commits `e04d261`/`1f66563`/`46e604d`. CarePyre commits `9bad4cb`/`b2e7b86`/
   `adf4d51`. Apple #18777.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 349: PARENA — RUN ON ARDUINO (AVR NATIVE TARGET) + EDITOR UPLOAD BUTTON (2026-09-10)
+
+- [x] **Real v0: PARENA compiles + flashes an onboard-LED-blink program to an Arduino, plus a
+  real "Upload" button in the real PARENA editor.** Founder real-time pivot: "ok a pivot lets
+  update parena so that it can run on an arduino... we need to update the arduino editor to be
+  able to upload to an arduino with a button... clicking the button compiles the parena code and
+  uploads it to the arduino... start with making the onboard led blink," clarified moments later
+  ("the parena editor") to mean `examples/editor_main.c` — this repo's own real, existing SDL2-
+  windowed editor, not `SAND`/`DUNG` (planned, not built) or `JEWEL` (the Jupyter product).
+  **Real, checked distinction named first**: the existing `stdlib/hw/serial.prn`/`spi.prn`/
+  `i2c.prn` are for a Linux HOST talking TO an Arduino/peripheral over USB — this ask is the
+  opposite direction, PARENA code running natively ON the AVR chip itself. Confirmed directly
+  (not assumed) that the shared `runtime/parena_runtime.h` cannot compile under avr-gcc's
+  freestanding environment (Linux-syscall-heavy: sockets/pty/mmap/spidev/i2c-dev headers).
+  **Real architecture**: same shape SPIDERBEETLE's `stdlib/android/battery_ui.prn` +
+  `BatteryUi.java` host already established for a different native target — PARENA emits pure,
+  platform-agnostic scalar decision logic; a thin, hand-written native host wires it to the real
+  platform. `examples/avr/blink.prn` (one `next-led-state : Bool -> Bool` toggle, zero I/O/
+  Region machinery) + `examples/avr/parena_runtime.h` (a real, minimal AVR-safe runtime stub —
+  picked up automatically over the shared runtime because `parena build`'s generated `.c` uses a
+  QUOTED `#include "parena_runtime.h"`, resolved against its own directory first by C's normal
+  include rules; zero compiler/`emit_c.c` changes) + `examples/avr/blink_main.c` (hand-written
+  host: real `DDRB`/`PORTB` register writes for the Arduino Uno's onboard LED, PB5/pin 13, plus
+  avr-libc's `_delay_ms`).
+  **Real, no-sudo AVR toolchain acquisition**: `apt-get download` (distinct from `apt-get
+  install`, needs no root) fetched real gcc-avr/avr-libc/avrdude/binutils-avr `.deb`s plus 3 real
+  missing shared-lib deps for avrdude (libftdi1/libhidapi-libusb0/libusb-0.1-4 — checked directly
+  via `dpkg -l`, not assumed), extracted via `dpkg -x` into a real, user-owned
+  `~/.local/opt/avr-toolchain`. Found live: a batch `apt-get download` silently aborts ENTIRELY
+  if one package name in the list is invalid (an earlier attempt including the nonexistent
+  `cpp-avr` fetched zero files).
+  **New Makefile targets** `avr-blink-hex`/`avr-blink-upload` (real, overridable
+  `AVR_TOOLCHAIN_ROOT`/`AVR_MCU`/`AVR_PORT`/etc vars). **New "Upload" button** in the editor's
+  right sidebar (`compile_and_upload_avr`, same real blocking-`system()` shape the existing
+  Compile button already uses and documents), a second reserved strip stacked directly above
+  Compile's own, distinct color (blue vs. green) so the two are visually distinguishable.
+  **Live-verified, real, end to end**: `parena build` → `avr-gcc` → `avr-objcopy` produces a
+  correctly-shaped `.hex` (`avr-size`: 192 bytes / 0.6% of an atmega328p's program memory),
+  `avrdude` loads its real config and correctly attempts the real configured serial port, failing
+  ONLY at port-open (`/dev/ttyACM0: No such file or directory`) — the exact same "no physical
+  hardware in this sandbox" constraint `docs/UART_SERIAL_NORTHSTAR.md`'s own Phase 2 already
+  names and accepts, not a new gap. `editor-demo` itself still builds clean
+  (`-Wall -Wextra -pedantic -Werror`, zero warnings) with the new button wired in.
+  **Real, honest, named follow-up, not done here**: Upload always targets `blink.prn` regardless
+  of the currently-open file; no `#target`-based AVR GPIO stdlib yet (every AVR program needs its
+  own hand-written host); no port/board auto-detection; the actual hardware round-trip remains
+  unproven (no physical Arduino in this sandbox). Full design in
+  `PARENA/docs/AVR_ARDUINO_NORTHSTAR.md`.
+  Apple #18784.
+  session: sess-20260905-0720-ec33e7c5
