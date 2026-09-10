@@ -34605,3 +34605,36 @@ EMILY `482b8f7f` (golden-index).
   too noisy" framing). Full design in `KARAMBIT/NORTHSTAR.md`.
   Apple #18813/#18817 (founder-direction observations), Apple #18818 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real same-day follow-up: product-completeness pass + real auto-releases.** Founder
+  real-time: "iterate ensuring the product is complete once its good ensure we are cutting auto
+  releases." Real completeness gaps closed: a real, generated launcher icon (radar-style PNG,
+  every real density bucket `mdpi`-`xxxhdpi`, via ImageMagick — the app previously used the OS's
+  own default icon); explicit `minSdkVersion="23"`/`targetSdkVersion="34"` in the manifest
+  (previously left implicit, silently patched by a `rules_android` build step — now documented,
+  not a build-tool side effect); real `versionCode`/`versionName` wiring via `android_binary`'s
+  own `manifest_values` (previously both empty); a live scan-progress indicator in `MainActivity`
+  ("N/254 checked", not just a silent start/finish message) — a real, considered completeness
+  improvement for a "quickly check" tool that previously gave no feedback until the whole /24
+  finished. Found and fixed a SECOND real instance of the XML `--`-in-comment bug (same real XML
+  spec rule — comments can't contain a literal `--` anywhere in their body — bit
+  `AndroidManifest.xml` again on a NEW comment added during this same pass); added a real note to
+  `CLAUDE.md` naming this gotcha directly so it doesn't recur a third time.
+  New `.github/workflows/ci.yml`, mirroring PARENA's own already-established real auto-release
+  scheme in this monorepo: `build_and_test` runs on every push/PR (real `bazel run
+  //app:scan_core_test` + a real, placeholder-versioned `//app:karambit` build, uploaded as a
+  downloadable workflow artifact); `release` (gated to `main`-branch pushes only) computes the
+  next minor version the same real way PARENA's own release job does, `sed`-patches that real
+  version into `app/BUILD.bazel`'s `manifest_values` (versionCode/versionName can't be patched
+  onto an already-signed APK after the fact — the real version has to be baked in before the
+  build), rebuilds, tags, and cuts a real GitHub Release with the real, correctly-versioned,
+  correctly-signed APK attached (`versionCode` = `github.run_number`, a real, monotonically-
+  increasing integer across the whole repo's CI history).
+  Live-verified the exact `sed`-patch + rebuild logic locally, not just trusted blind in CI:
+  patched a real `versionCode=42`/`versionName=v0.1.0` into a real local build, confirmed via
+  `aapt2 dump badging` (both values correctly present) and `apksigner verify` (still validly
+  signed) before ever committing the workflow that would run this for real. `bazel run
+  //app:scan_core_test` still 13/13 passing; `//app:karambit` still builds, links, and signs
+  clean throughout every step of this pass.
+  Apple #18828 (founder-direction observation), Apple #18829 (completion).
+  session: sess-20260905-0720-ec33e7c5
