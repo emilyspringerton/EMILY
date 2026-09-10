@@ -2549,6 +2549,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Continuation of the LLVM backend work (user said only 'continue' again, no new direction -- picked the next natural, bo…** — obs `2026-09-10T03:39:10Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time follow-through complete: KARAMBIT v0 shipped, real APK builds. Real PARENA decision logic (parena/sca…** — obs `2026-09-10T04:18:23Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time research note (not an active task): investigating file descriptors 3+ / Unix domain sockets / shared …** — obs `2026-09-10T04:13:32Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time: 'iterate ensuring the product is complete once its good ensure we are cutting auto releases.' Comple…** — obs `2026-09-10T06:33:33Z`. CURATED: 2026-09-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
