@@ -34416,3 +34416,61 @@ EMILY `482b8f7f` (golden-index).
   `parena` itself emitting LLVM IR / linking `libLLVM`).
   Apple #18801 (founder-direction observation), Apple #18802 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 354: PARENA — LLVM BACKEND PHASE 3-V0 SHIPPED (DIRECT AVR ROUTE) (2026-09-10)
+
+- [x] **Real v0 of the literal "our compiler supports LLVM directly" ask — both plans now shipped
+  same session.** Founder direction: "continue working on LLVM we want to do both plans first the
+  clang rout then the direct AVR route start the clang work." Following SECTION 353's clang route,
+  shipped a real, new `src/emit_llvm.c`/`emit_llvm.h` compiler backend: `parena build input.prn -o
+  output.ll` emits genuine LLVM IR text directly, wired via the same "dispatch by output extension"
+  convention `emit_ts`/`emit_java` already use in `src/main.c` — zero new CLI flags. Unlike every
+  other emitter in this repo (which build flat text expressions), this one is architecturally new:
+  LLVM IR is SSA-register-based, so `emit_llvm_expr` returns a real `(type, SSA-or-literal-ref)`
+  pair while appending real instruction lines to a per-function buffer, with a real, narrow
+  type-inference rule (a top-down "expected type" hint disambiguates only bare numeric literals;
+  every other expression computes its own type bottom-up from its structure — a symbol's declared
+  type, a comparison's own real `i1` result regardless of operand type, a call's own declared
+  return type via a real two-pass forward-reference-safe signature table).
+  `examples/avr/blink.prn`'s own `next-led-state` compiles through this new backend to real,
+  correct LLVM IR (`define i1 @next_led_state(i1 %current) { ... %0 = xor i1 %current, true ret i1
+  %0 }`), which `llc -mtriple=avr -mcpu=atmega328p -filetype=obj` lowers STRAIGHT to real AVR
+  machine code — disassembly confirmed correct (`ldi r25,1` / `eor r24,r25` / `ret`, a minimal,
+  correct boolean-negation implementation) with ZERO C representation of the decision logic
+  anywhere in this path. Linked via a new host, `examples/avr/blink_main_llvm.c` (an `extern`
+  declaration only — no `#include`, since the real function body now lives in a separately-compiled
+  object file, unlike `blink_main.c`'s own `#include "blink_gen.c"` shape), through `avr-ld` +
+  avr-gcc's own real `libgcc.a` (same real `_exit`-resolution technique SECTION 353 already
+  established) into a genuinely correct, complete `blink_llvm.elf` — real vector table, real crt
+  startup, `main`/`next_led_state`/`_exit` all present and correctly linked. Real, load-bearing ABI
+  detail found by actually disassembling the output, not assumed: `Bool` lowers to LLVM's `i1`, and
+  AVR's default C calling convention passes/returns an `i1` value in exactly ONE 8-bit register
+  (`r24`) — so the host's own extern must be `unsigned char next_led_state(unsigned char)`, NOT
+  `int next_led_state(int)` (which would wrongly expect a 16-bit `r24:r25` register pair). New
+  Makefile targets `avr-blink-hex-llvm`/`avr-blink-upload-llvm`, verified end to end via `make
+  avr-blink-upload-llvm`, failing only at the same expected `avrdude` port-open step every other
+  AVR target in this repo already does (no physical Arduino in this sandbox).
+  22 new real assertions (`tests/test_emit_llvm.c`, verified via both `make test-emit-llvm` and
+  real Bazel `bazelisk test //tests:test_emit_llvm`), covering successful emission (zero-arg
+  constants, the exact real Bool/`not` shape `blink.prn` uses, if/select, F64 vs. I32 arithmetic
+  opcode splits — `fadd` vs. `add`, comparisons' own real `i1` result type, forward-referencing
+  calls) AND real, honest error paths (an undeclared symbol reference, a float-looking literal in
+  I32 context, mismatched `if`-branch types surfaced via a call's own real, independently-computed
+  F64 return type) — never silently-wrong IR, matching this repo's own standing discipline every
+  other emitter already holds itself to.
+  Real, honest v0 scope, named directly, not hidden: scalar (I32/F64/Bool) params/returns only, no
+  String yet (needs global declarations + pointer types — real, separate, not-attempted scope);
+  `if` lowers to a real `select` instruction (correct and simpler than branch/phi for this v0's
+  pure, side-effect-free scope); `and`/`or` are honestly non-short-circuiting LLVM bitwise
+  operators (a real, named semantic difference from every other backend's own short-circuiting
+  `&&`/`||`, observably identical only because this v0 has no side effects); a call's argument
+  types are not independently re-verified against the callee's declared parameter types (same real,
+  narrow limitation `emit_java.c`/`emit_ts.c` already carry in spirit). This is genuinely NOT the
+  same as `libLLVM` linked in-process — `parena` still just writes a `.ll` text file for `llc` to
+  consume, the same "generate source text a separate real tool consumes" shape every emitter here
+  already uses, just targeting IR text instead of Java/TS/C source text — and does not cover
+  Vec/Result/Region/String/pattern-matching. `make test`: 347/347 throughout, zero regressions;
+  `editor-demo` still builds and Xvfb-smoke-tests clean. Full write-up in
+  `PARENA/docs/LLVM_BACKEND_NORTHSTAR.md`.
+  Apple #18804 (founder-direction observation), Apple #18805 (completion).
+  session: sess-20260905-0720-ec33e7c5
