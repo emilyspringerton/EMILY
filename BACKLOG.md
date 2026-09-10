@@ -34688,3 +34688,17 @@ EMILY `482b8f7f` (golden-index).
   section, seventh step.
   Apple #18832 (founder-direction observation), Apple #18833 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real same-day follow-up: real CI coverage added for test_emit_llvm.** Continuing "continue
+  on parena llvm and selfhost" — LLVM side. Found live: `test_emit_llvm` (and, pre-existing,
+  `test_emit_ts`/`test_emit_java`) were only ever COMPILE-checked by CI's own `bazel build //...`
+  step — no `bazel test` invocation ever actually RAN any of the three narrow emitters' own real
+  assertions, meaning a real regression could ship silently. Closed for `test_emit_llvm`
+  specifically (the target this whole session's own work has been on) via a new
+  `bazel test //tests:test_emit_llvm --test_output=all` CI step, verified locally (35/35 passing)
+  before trusting it in CI. The same real gap for `test_emit_ts`/`test_emit_java` is honest,
+  pre-existing, and named directly in `docs/LLVM_BACKEND_NORTHSTAR.md` rather than silently fixed
+  alongside — explicitly out of this pass's own scope. `make test`: 347/347; `bazel build //...`
+  clean, zero regressions.
+  Apple #18834 (founder-direction observation), Apple #18835 (completion).
+  session: sess-20260905-0720-ec33e7c5
