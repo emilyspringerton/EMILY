@@ -2540,6 +2540,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue' -- continue Community Tools resume/CV builder work (SECTION 334) into the real frontend: …** — obs `2026-09-09T20:50:08Z`. CURATED: 2026-09-09.
 - [ ] **Founder real-time follow-up: (1) editor Upload button was hard to find in the right sidebar -- 'i cant see the button m…** — obs `2026-09-10T01:33:37Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: pivot — make PARENA run on an Arduino (AVR native target), add an Upload button to the real PARENA e…** — obs `2026-09-10T01:19:27Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time: 'can you please disable the mac editor builds i dont like seeing the red in the ci' -- disabled PARE…** — obs `2026-09-10T02:00:22Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time follow-up (3rd round on the AVR/Arduino editor work): (1) 'we need the compile button to move up to n…** — obs `2026-09-10T01:56:21Z`. CURATED: 2026-09-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
