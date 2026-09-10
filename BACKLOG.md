@@ -34114,3 +34114,33 @@ EMILY `482b8f7f` (golden-index).
   IDUNA_PRO commits `08ed3ae`/`94d93ef`. CarePyre commit `455c9b4`. Apple #18769 (kanban
   completion, filed automatically by the real PATCH .../done flow).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 347: CAREPYRE — COMMUNITY TOOLS: COMPACT HEADER LEFT/RIGHT LAYOUT (2026-09-10)
+
+- [x] **Real header layout refinement for the Compact template.** Founder real-time: "can we
+  shift the contact info and links to the right (right align) and the name and headline to the
+  left so they can free up just a bit more vertical space on the compact template?"
+  **PDF (IDUNA_PRO)**: `RenderPDF`'s header rendering now branches by template. `renderClassicHeader`
+  is a byte-for-byte extraction of the original centered-stack header (name/label/contact/links
+  each their own full-width, centered line) — completely unchanged for the "classic" template.
+  New `renderCompactHeader`: name+label render left-aligned, contact+links render right-aligned,
+  on two shared rows instead of four separate lines — real, direct vertical space freed up,
+  matching the compact template's own two-column Experience/Education body.
+  **Real, direct verification**: a new test (`TestRenderCompactHeader_NameLeftContactRight`)
+  renders the header alone with `SetCompression(false)`, then parses the actual `Td` (text-
+  position) operator immediately preceding each string's `Tj` draw call in the raw PDF content
+  stream — confirms the name/label's own x-coordinate sits near the real left margin while the
+  contact info's own x-coordinate sits meaningfully further right. Real, structural proof of
+  layout, not just "the strings appear somewhere on the page." Full suite green, zero
+  regressions — the classic template's own header is untouched.
+  **Screen preview (CarePyre console.html)**: `renderResumeTemplate` now builds the name/label/
+  contact/links markup as separate fragments and, for "compact" only, wraps them in a real flex
+  row (`.rt-header-split`) — a screen approximation of the same left/right idea. Verified
+  directly: extracted the refactored function and ran it in real Node, confirming classic has no
+  header-split wrapper, compact correctly nests name/label inside the left side and contact
+  inside the right side, and a resume with only a name (no label/contact) doesn't throw.
+  Deployed live for both repos: rebuilt and restarted `idunapro.service`, pushed the updated
+  `console.html`.
+  IDUNA_PRO commits `e2b48e2`/`b151357`. CarePyre commits `771b63b`/`53ca196`/`f80ec0d`.
+  Apple #18773.
+  session: sess-20260905-0720-ec33e7c5
