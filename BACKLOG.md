@@ -34362,3 +34362,27 @@ EMILY `482b8f7f` (golden-index).
   genuinely works. `make test`: 347/347, zero regressions.
   Apple #18795 (founder-direction observation), Apple #18796 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 352: PARENA — LLVM BACKEND SCOPING (2026-09-10)
+
+- [x] **Real scoping pass, no code, per founder's own "monumental ask" framing.** When offered a
+  choice between documenting a required Windows toolchain install vs. bundling a portable
+  compiler, founder real-time: "no i told you use llvm doesnt that solve it?" then "instead of
+  that can we upgrade our compiler so that it supports LLVM directly?" Distinguished two very
+  differently-sized things "supports LLVM" could mean: (1) use clang as the external C compiler in
+  place of gcc/avr-gcc, vs (2) the literal ask — make `parena` itself emit LLVM IR / link `libLLVM`
+  directly, a genuine new compiler backend. Real, verified findings for (1): LLVM 18/clang-18 are
+  fetchable no-sudo (same `apt-get download` technique the AVR toolchain used, ~75MB); this build's
+  LLVM genuinely includes a working AVR backend (`llc --version` lists it); actually compiled the
+  real `examples/avr/blink_main.c` to a real AVR object file via `clang -target avr` with zero
+  avr-gcc involvement. Real, found limits: linking still needs `avr-ld` (binutils-avr); two
+  concrete avr-libc/clang compatibility gaps found and not yet closed (`__builtin_avr_delay_cycles`
+  unsupported by clang — real workaround found, `_delay_loop_2`; and an unresolved `_exit` symbol
+  at link time, no `libgcc` equivalent). (2) — the literal ask — scoped as a real, separate,
+  much larger Phase 3 needing its own design pass (IR strategy, target-triple selection, a real
+  noted interaction with `BURROW`'s own parallel-rewrite effort) before any code. Full findings and
+  phased plan in `PARENA/docs/LLVM_BACKEND_NORTHSTAR.md`. No PARENA source or CI changes made in
+  this pass — the smaller, already-scoped Windows `parena.exe` bundling work (mingw-w64-based) is
+  paused pending founder direction on which path to pursue.
+  Apple #18798 (founder-direction observation), Apple #18799 (completion).
+  session: sess-20260905-0720-ec33e7c5
