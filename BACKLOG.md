@@ -34144,3 +34144,57 @@ EMILY `482b8f7f` (golden-index).
   IDUNA_PRO commits `e2b48e2`/`b151357`. CarePyre commits `771b63b`/`53ca196`/`f80ec0d`.
   Apple #18773.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 348: CAREPYRE — COMMUNITY TOOLS: AUTO-LINKING + MARKDOWN SUMMARY LINKS (2026-09-10)
+
+- [x] **Real auto-linking for email/profile URLs + markdown links in the summary, in both the
+  PDF export and the screen preview.** Founder real-time: "can we add auto linking to the email
+  and the links on the exports also can we allow for markdown in the summary so that we can have
+  hyperlinks there too?"
+  **Auto-linking**: email becomes a real `mailto:` link; each profile entry with a real URL
+  becomes a real, clickable link — a bare `github.com/x/y`-style entry (no scheme typed) gets a
+  real `https://` prefix auto-added so it's actually clickable, not just prefixed text. A
+  username-only profile has no real URL to link to, so it stays honest plain text rather than a
+  guessed-at link.
+  **Real PDF implementation**: new `pdfSegment`/`pdfDrawSegments`/`pdfSegmentsWidth` helpers
+  render a row of independently-linked, independently-colored text segments — fpdf's own
+  `CellFormat` align modes can't center/right-align a SEQUENCE of separately-linked segments the
+  way a single plain string can, so the real total width is measured first (`GetStringWidth`),
+  then the starting X computed so the whole group sits centered (classic) or flush against the
+  real right margin (compact). `profileLinks` (the existing plain-text renderer) refactored to
+  build on the new `pdfProfileSegments`, so the plain-text and clickable-link paths share one
+  real source of truth for which profiles get included.
+  **Markdown links in the summary**: a real, narrow `[text](url)` subset (no bold/italic/
+  headers — a deliberate v0 boundary) via fpdf's own `Write`/`WriteLinkString`, the real,
+  documented primitives for mixing plain and linked text within one flowing, word-wrapping
+  paragraph (`MultiCell` has no equivalent mixed-content mode). Deliberately scoped to
+  `basics.summary` only, not Work-entry summaries — `Write`/`WriteLinkString` aren't column-
+  width-aware (they wrap against the page's own full margins, not a caller-given width), so
+  applying this inside the compact template's own narrow per-column entry summaries would
+  overflow into the adjacent column. Named honestly in the NORTHSTAR doc as a real, separate,
+  not-yet-attempted follow-up if ever needed.
+  **Real, named security measure**: a new `safeHref` (Go) mirrored by hand in a JS twin (no
+  shared library between the two runtimes) rejects `javascript:`/`data:`/`vbscript:`/`file:`
+  schemes outright, in EITHER path (profile link or markdown-summary link) — renders as its own
+  literal, un-linked text instead of silently dropping it or, worse, becoming a real dangerous
+  link. Verified with real, deliberate XSS-shaped payloads on both sides: a literal `"` in a URL
+  (confirming no attribute-breakout in the JS path, where `escAttr` closes the exact same class
+  of bug this feature's own console.html work already found and fixed once before), raw HTML in
+  a markdown link's own display text (confirmed escaped, not injected), and a `javascript:`
+  scheme in both a profile URL and a markdown link (confirmed neither ever becomes a real link
+  annotation/`<a>` tag).
+  **10 new Go tests + 21 real Node checks**: the Go side verified via the actually-confirmed-
+  empirically fact that fpdf stores a link's own `/URI` target as plain, uncompressed text in
+  the PDF's object structure (unlike page CONTENT, annotations are never stream-compressed) —
+  checked directly against the real, public `RenderPDF` output, not a synthetic reconstruction
+  or a decompression step. Full suite green, zero regressions.
+  **Real, live verification beyond the test suite**: read back the real, existing production
+  resume for `local_uid=12` (a real email, a real GitHub profile URL already saved there from
+  earlier live use) and confirmed the actual generated PDF's raw bytes contain the real
+  `/URI (mailto:...)` and `/URI (https://github.com/...)` link annotations for that exact real
+  data — not just synthetic test fixtures.
+  Deployed live for both repos: rebuilt and restarted `idunapro.service`, pushed the updated
+  `console.html`.
+  IDUNA_PRO commits `e04d261`/`1f66563`/`46e604d`. CarePyre commits `9bad4cb`/`b2e7b86`/
+  `adf4d51`. Apple #18777.
+  session: sess-20260905-0720-ec33e7c5
