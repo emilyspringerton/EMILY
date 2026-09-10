@@ -2545,6 +2545,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, repeated 3-4 times across sessions with visible frustration this time: 'the parena source code is st…** — obs `2026-09-10T02:13:07Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: 'continue working on LLVM we want to do both plans first the clang rout then the direct AVR route st…** — obs `2026-09-10T02:36:17Z`. CURATED: 2026-09-10.
 - [ ] **Continuation of the LLVM backend work (no new founder message this round -- user said only 'continue', so picked the mo…** — obs `2026-09-10T03:27:54Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time, new repo: 'im having a hard time figuring out if my raspberry pi is booting and connecting to the ne…** — obs `2026-09-10T03:47:29Z`. CURATED: 2026-09-10.
+- [ ] **Continuation of the LLVM backend work (user said only 'continue' again, no new direction -- picked the next natural, bo…** — obs `2026-09-10T03:39:10Z`. CURATED: 2026-09-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
