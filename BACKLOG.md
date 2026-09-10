@@ -2538,6 +2538,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'we want to build a tool to maintain and verify resume data' -> 'build it as a separate app using a …** — obs `2026-09-09T20:16:51Z`. CURATED: 2026-09-09.
 - [ ] **Founder real-time: 'we need to be able to build the resume as data like certain jobs we can show and hide from a specif…** — obs `2026-09-09T20:55:34Z`. CURATED: 2026-09-09.
 - [ ] **Founder real-time: 'continue' -- continue Community Tools resume/CV builder work (SECTION 334) into the real frontend: …** — obs `2026-09-09T20:50:08Z`. CURATED: 2026-09-09.
+- [ ] **Founder real-time follow-up: (1) editor Upload button was hard to find in the right sidebar -- 'i cant see the button m…** — obs `2026-09-10T01:33:37Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time: pivot — make PARENA run on an Arduino (AVR native target), add an Upload button to the real PARENA e…** — obs `2026-09-10T01:19:27Z`. CURATED: 2026-09-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
