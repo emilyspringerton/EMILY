@@ -34280,3 +34280,35 @@ EMILY `482b8f7f` (golden-index).
   (`-Wall -Wextra -pedantic -Werror`, zero warnings). `make test`: 347/347, zero regressions.
   Apple #18786 (founder-direction observation), Apple #18787 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real followup, same day: editor affordances for an actual Arduino dev workflow.** Founder
+  real-time: "we need the compile button to move up to next to save and upload" — moved the
+  pre-existing Compile hot-reload button (rebuilds the editor itself via `make editor-demo`,
+  unrelated to AVR) out of the right sidebar's own former bottom strip to sit directly next to
+  the top bar's Save and Upload buttons, all three now living together. Founder real-time:
+  "originally we wanted to ship all the parena code with the editor so you could hack on the code
+  easily i want that to happen... the code tree to the right currently duplicates the one to the
+  left. the one to the right should be for opening up the file in the tree in the current
+  editor... i need a parena program to upload to the arduino to make it blink. i need to
+  understand how to edit the file(s) involved in that program to edit them so i can have an
+  arduino dev environment." Found the right sidebar already defaulted to real CWD (browsing the
+  entire shipped PARENA repo when launched normally, already achieving "ship all the parena code
+  with the editor" in practice) — but its click behavior was a real, confirmed exact duplicate of
+  the left tree (both `spawn_new_instance`, opening a new window). Fixed by giving the two trees
+  two distinct real jobs: the LEFT tree keeps its own real, founder-confirmed new-window behavior
+  unchanged; the RIGHT tree now loads a clicked file directly into the CURRENT buffer instead —
+  the same real in-place-load shape the Spotlight overlay's own File-result activation already
+  used (`load_from_file` + reset undo/redo), plus updating `path`/`is_markdown` so Save,
+  F3-reload, and syntax highlighting all correctly track whatever was just opened. Closes the
+  real, concrete ask: open `examples/avr/blink.prn` (or `examples/host_led/led_main.c`) via the
+  right tree, edit it in place, hit Compile/Upload (now in the same top bar), watch the LED blink
+  — a real Arduino dev environment inside this same editor, no second window needed. Also
+  confirmed the previously-named "Upload always targets blink.prn regardless of what's open" gap
+  matters less in practice than it sounds: `make avr-blink-upload` regenerates the AVR build fresh
+  from `examples/avr/blink.prn` on disk on every click, so editing that exact file through the new
+  right-tree affordance and hitting Upload genuinely flashes the edit. `editor-demo` builds clean
+  (`-Wall -Wextra -pedantic -Werror`, zero warnings) and passes its own real Xvfb-driven smoke
+  test. `make test`: 347/347, zero regressions. Full design in
+  `PARENA/docs/AVR_ARDUINO_NORTHSTAR.md`.
+  Apple #18790 (founder-direction observation), Apple #18791 (completion).
+  session: sess-20260905-0720-ec33e7c5
