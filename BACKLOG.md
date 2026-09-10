@@ -2551,6 +2551,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time research note (not an active task): investigating file descriptors 3+ / Unix domain sockets / shared …** — obs `2026-09-10T04:13:32Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: 'iterate ensuring the product is complete once its good ensure we are cutting auto releases.' Comple…** — obs `2026-09-10T06:33:33Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: 'continue on parena llvm and selfhost.' Continued the self-hosting effort (selfhost/emit.prn): close…** — obs `2026-09-10T06:53:40Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time: KARAMBIT build is down.** — obs `2026-09-10T17:59:53Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time: SHANKPIT main repo should be cutting auto releases, matching the established PARENA/KARAMBIT CI patt…** — obs `2026-09-10T17:59:28Z`. CURATED: 2026-09-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -34639,6 +34641,26 @@ EMILY `482b8f7f` (golden-index).
   //app:scan_core_test` still 13/13 passing; `//app:karambit` still builds, links, and signs
   clean throughout every step of this pass.
   Apple #18828 (founder-direction observation), Apple #18829 (completion).
+  session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real, live CI break fixed: the auto-release CI added in the prior sub-item had never
+  actually run successfully.** Founder real-time: "KARAMBIT build is down." Fetched the real
+  GitHub Actions job log directly via the API (using a stored `GITHUB_TOKEN` from
+  `EMILY/var/emily-secrets.env`, since `gh` CLI isn't available in this sandbox) rather than
+  guessing — confirmed the "Install Android SDK platform + build-tools" step failed with exit
+  code 1 even though `sdkmanager` itself genuinely succeeded (all three packages installed
+  cleanly): `yes | sdkmanager ...` under this step's own `set -o pipefail` reports failure once
+  `yes` gets a real SIGPIPE (`yes: standard output: Broken pipe`) after `sdkmanager` stops
+  reading stdin — bash's pipefail surfaces THAT nonzero exit for the whole pipeline, masking
+  `sdkmanager`'s own real 0. Fixed with a scoped `set +o pipefail` around just that one command
+  in both jobs that run it (`build_and_test`, `release`) — a genuine `sdkmanager` failure (bad
+  package name, real network error, a license genuinely not accepted) still fails the step
+  correctly, since `-e` still applies to `sdkmanager`'s own exit code. Reproduced and confirmed
+  the exact failure/fix with a minimal, isolated `yes | head -1` repro under `set -euo pipefail`
+  locally before trusting the fix in CI. Real, honest implication named directly: since this bug
+  has been present since the CI workflow was first added, no real auto-release has ever actually
+  fired for this repo — the same real completeness gap the prior sub-item believed it had closed.
+  Apple #18882 (founder-direction observation), Apple #18883 (completion).
   session: sess-20260905-0720-ec33e7c5
 
 ## SECTION 357: PARENA — SELF-HOSTING: LOOP-BINDING VALUE WIDENING + A REAL SEGFAULT FIXED (2026-09-10)
