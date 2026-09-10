@@ -34544,3 +34544,62 @@ EMILY `482b8f7f` (golden-index).
   even for an explicitly speculative, "probably not really helpful for us yet" idea.
   Apple #18816 (founder-direction observation).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 356: KARAMBIT — NEW REPO: ANDROID NETWORK-SCANNER TOOLKIT, PARENA + BAZEL (2026-09-10)
+
+- [x] **Real v0 shipped: a real, signed, installable Android APK, PARENA-native decision logic,
+  Bazel build.** Founder real-time: "im having a hard time figuring out if my raspberry pi is
+  booting and connecting to the network.. i dont have a monitor or anything to plug in... can we
+  build a toolkit android app to help scan my network to see if i can find it? ssh for example
+  should be open... maybe we just check for that for now so we arent too noisy on the network...
+  we dont need to avoid detection but i figure our work will be available to security
+  professionals in case it ends up being good... keep it pluggable and extensible we may very
+  well want to build an in app terminal right there to connect to it (not yet just sayin) build
+  it parena native as much as possible interopping with native java use BAZEL and PARENA the
+  upstream repo is called KARAMBIT."
+  Cloned the real, upstream-pre-created (Unlicense) `KARAMBIT` repo. New `parena/scan_decisions.prn`
+  — real PARENA decision logic (`is-target-port`, `has-more-hosts`/`next-scan-index` loop control,
+  `classify-scan-result`), compiled via PARENA's own already-shipped Java emitter to
+  `app/.../generated/ScanDecisions.java` — same real "PARENA emits pure decision logic, native
+  Java does real I/O" pattern SPIDERBEETLE's own `battery_ui.prn` already established. Real,
+  hand-written Java for everything PARENA's own narrow language surface genuinely can't do yet
+  (no socket primitives, no bitwise integer operators): `ScanStrategy` (the real, founder-asked-for
+  pluggable interface — any future probe kind, incl. eventually an in-app terminal's own
+  connection attempt, implements it), `SshPortScanStrategy` (v0: a bare TCP connect/close on port
+  22 only — no banner read, no handshake, matching "we arent too noisy" directly), `ScanEngine`
+  (a bounded 8-way concurrent host-enumeration loop, deliberately not a burst-scan-everything
+  design, plain-JVM-testable with zero Android dependency), `NetworkInfo` (real
+  `ConnectivityManager`-based local-subnet detection), `MainActivity` (real UI: detect + scan
+  button + live-appending results log).
+  Real, no-sudo-acquired Android SDK (cmdline-tools + platform 34 + build-tools 34.0.0/35.0.0) and
+  a real, no-sudo-acquired JDK — this sandbox had neither, matching AND exceeding SPIDERBEETLE's
+  own earlier "no Android SDK at all" finding, which (checked directly this time) had never
+  actually been tested with a real, genuine acquisition attempt.
+  Real Bazel setup (bzlmod, `rules_android` 0.7.3 + `rules_java`), split into a real,
+  plain-JVM-testable `//app:scan_core_lib`/`//app:scan_core_test` (13 real assertions, including
+  a genuine local TCP socket round trip against a real `ServerSocket`, not a mock — verified via
+  both `bazel run` and manual `java` invocation) and the Android-dependent
+  `//app:karambit_lib`/`//app:karambit`, which **builds a real, signed, installable APK** —
+  independently verified via `apksigner verify` (v1/v2/v3 signature schemes all pass) and
+  `aapt2 dump badging` (correct package name, both real permissions present, `MainActivity`
+  correctly registered as the launchable activity) — genuinely surpassing SPIDERBEETLE's own prior
+  "no real Android project" limitation.
+  Two real, live-found build bugs fixed along the way: an XML comment containing `--` broke
+  aapt2's manifest parsing (a real XML spec rule — comments can't contain a literal `--` anywhere
+  in their body, not an Android-specific quirk); a real target/tool Java-version-selection
+  mismatch broke compiling `rules_android`'s own internal `DexFileSplitter.java` ("could not
+  locate class file for java.lang.Record"), fixed by pinning both consistently via a new
+  `.bazelrc`. Also found and worked around a real, sandbox-specific gotcha: this monorepo's own
+  `/home/fatbaby/go.work` (living in a directory ABOVE this repo) leaks into `rules_android`'s
+  own internal Go-tool bootstrap (`go mod download` walks upward looking for `go.work`), breaking
+  it with a Go-version mismatch — `--repo_env=GOWORK=off` did not reliably reach that subprocess;
+  the real, working fix was running the build with `HOME` pointed outside `/home/fatbaby` for that
+  one invocation, documented honestly as sandbox-specific and not expected to recur elsewhere.
+  Real, honest, not done: installing/running the built APK on a real device (none reachable from
+  this sandbox); an in-app terminal (the founder's own explicit "not yet, just sayin"); real
+  CIDR/netmask arithmetic (v0 assumes an ordinary /24 — PARENA's own language has no bitwise
+  operators yet, a real, separate, not-yet-scoped compiler change); a configurable scan scope
+  (port list/concurrency/timeout are fixed v0 constants, deliberately, per the founder's own "not
+  too noisy" framing). Full design in `KARAMBIT/NORTHSTAR.md`.
+  Apple #18813/#18817 (founder-direction observations), Apple #18818 (completion).
+  session: sess-20260905-0720-ec33e7c5
