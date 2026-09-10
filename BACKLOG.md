@@ -2555,6 +2555,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: SHANKPIT main repo should be cutting auto releases, matching the established PARENA/KARAMBIT CI patt…** — obs `2026-09-10T17:59:28Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: CarePyre resume builder Skills section feedback -- alphabetical chaos, not scannable for employers. …** — obs `2026-09-10T19:04:38Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: CarePyre console's unencrypted-mailbox warning reads as too alarming/full-screen -- asked to make it…** — obs `2026-09-10T19:43:43Z`. CURATED: 2026-09-10.
+- [ ] **Founder real-time: resume Skills categorization isn't working -- Vertex auto-categorize doesn't sort skills, and manual…** — obs `2026-09-10T20:17:18Z`. CURATED: 2026-09-10.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
