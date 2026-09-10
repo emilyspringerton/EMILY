@@ -34474,3 +34474,25 @@ EMILY `482b8f7f` (golden-index).
   `PARENA/docs/LLVM_BACKEND_NORTHSTAR.md`.
   Apple #18804 (founder-direction observation), Apple #18805 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real same-day follow-up: String support added to the LLVM backend.** No new founder
+  message this round (just "continue") — picked the most natural, immediately-verifiable-in-this-
+  sandbox next increment the doc's own "Honest bottom line" already named (Phase 2/Windows CI
+  can't be verified here at all; full language coverage was the other real, open item). `String`
+  now lowers to LLVM's opaque `ptr` type; a literal becomes a real, private, hex-escaped,
+  NUL-terminated global constant (`@.str.N = private unnamed_addr constant [LEN x i8]
+  c"...\00"`), referenced directly by the global's own name — no `getelementptr` decay
+  instruction needed, since LLVM's opaque pointers (default since LLVM 14+) mean a global array's
+  own name already IS a plain `ptr` value, verified live against real `llc 18` (compiled a real
+  quote/backslash/newline-containing string end to end, confirmed the correct bytes land in the
+  resulting object file's own string data), not assumed from older typed-pointer-era LLVM IR
+  examples. Real, minimal refactor along the way: the two separate `sigs`/`sig_count` parameters
+  threaded through every `emit_llvm_expr` call collapsed into one shared `LlvmModule` struct,
+  giving string literals a real, shared, module-level place to accumulate their own global
+  declarations (LLVM globals live at module scope, never inside a function body, unlike
+  everything else this emitter tracks). 9 more real assertions added (31 total in
+  `tests/test_emit_llvm.c`, still verified via both `make test-emit-llvm` and real Bazel).
+  `make test`: still 347/347, zero regressions; `editor-demo`, the clang route, and the
+  direct-AVR route all still build and link clean.
+  Apple #18808 (founder-direction observation), Apple #18809 (completion).
+  session: sess-20260905-0720-ec33e7c5
