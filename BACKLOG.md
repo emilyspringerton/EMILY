@@ -34497,3 +34497,23 @@ EMILY `482b8f7f` (golden-index).
   direct-AVR route all still build and link clean.
   Apple #18808 (founder-direction observation), Apple #18809 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real same-day follow-up: call argument-count/type validation added.** Another "continue"
+  with no new direction — picked the next natural, bounded, self-verifiable hardening increment
+  rather than starting a much bigger new feature (Vec/Result would need real new design work —
+  external malloc/realloc declarations or reimplementing growable-array semantics natively —
+  deferred as a real, separate, not-yet-scoped decision, not silently taken on). `LlvmFnSig` now
+  records every declared parameter's own type, not just the return type; a real call site checks
+  both argument COUNT and each argument's own real type against the callee's declared signature —
+  closing the previously-named "argument types not independently re-verified" v0 limitation, plus
+  a real, separate, previously-UNNAMED latent gap found while closing it: argument count was never
+  checked at all (a wrong-arity call would have silently produced a malformed `call` instruction).
+  Also closes the OTHER previously-named limitation for free: a bare numeric literal call argument
+  now correctly picks up the callee's own declared parameter type as its `expected_type` hint
+  (previously failed with "no type context to disambiguate I32 vs F64") — verified with a real
+  `(add-one 5)`-shaped call, confirming the emitted `call i32 @add_one(i32 5)` is correctly typed.
+  4 more real assertions added (35 total in `tests/test_emit_llvm.c`). `make test`: still
+  347/347, zero regressions; `editor-demo`, the clang route, and the direct-AVR route all
+  re-verified end to end (rebuilt and re-linked, not just re-compiled).
+  Apple #18811 (founder-direction observation), Apple #18812 (completion).
+  session: sess-20260905-0720-ec33e7c5
