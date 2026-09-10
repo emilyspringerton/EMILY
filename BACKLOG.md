@@ -34251,3 +34251,32 @@ EMILY `482b8f7f` (golden-index).
   `PARENA/docs/AVR_ARDUINO_NORTHSTAR.md`.
   Apple #18784 (founder-direction observation), Apple #18785 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real followup, same day: Upload button relocated + a real, live-verifiable LED actually
+  flashing.** Founder real-time: "i cant see the button move it to next to the save button at the
+  top" — the right-sidebar Upload button required opening that sidebar first and was easy to
+  miss; moved to the top-left hover-reveal bar, directly next to the existing Save button, same
+  visibility mechanic. Founder real-time: "ok do the followup work we need the led on the board
+  to actually flash (there's one built in you can make blink)." Checked directly: this sandbox
+  has no USB device at all (`lsusb` empty) — a real physical-Arduino round-trip genuinely isn't
+  possible here. Found a real, different, actually-present target instead: a `*::scrolllock`
+  keyboard LED under `/sys/class/leds` (Linux's own standard i8042 keyboard-LED sysfs interface).
+  New `examples/host_led/led_main.c` reuses `examples/avr/blink.prn`'s exact same
+  `next_led_state` decision logic, unmodified, driving this real LED via a normal x86 host build
+  (no cross-compiler/AVR stub needed — the real shared `runtime/parena_runtime.h` works fine
+  here). New Makefile `host-led-blink-build` target (no root needed for the build itself). Since
+  writing to that LED's brightness file needs root, the actual run is routed through
+  `sudo-queue/77-blink-onboard-led.sh` per this monorepo's own standing no-sudo discipline —
+  bounded to 10 real on/off cycles (~8 seconds), then leaves the LED off and exits, no lingering
+  root-owned process. Live-verified as a non-root user: the binary correctly finds the real LED
+  path (`/sys/class/leds/input1::scrolllock/brightness` on this box) and fails only at `open()`'s
+  own `EACCES` — the expected, correct permission boundary, not a bug; the actual physical toggle
+  itself awaits the founder running the queued script. Real bug found and fixed along the way:
+  `blink_gen.c` must be `#include`d before any system header so `parena_runtime.h`'s own
+  `_POSIX_C_SOURCE`/`_DEFAULT_SOURCE` feature-test macros actually take effect (glibc only honors
+  them if set before the first system header is parsed — that header's own comment already
+  documents this rule; an early draft got it backwards and broke `usleep`/`strtok_r`/`kill`/
+  `popen`/`setenv`/`cfmakeraw` under `-Werror`). `editor-demo` still builds clean
+  (`-Wall -Wextra -pedantic -Werror`, zero warnings). `make test`: 347/347, zero regressions.
+  Apple #18786 (founder-direction observation), Apple #18787 (completion).
+  session: sess-20260905-0720-ec33e7c5
