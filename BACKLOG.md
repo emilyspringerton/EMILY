@@ -34776,3 +34776,52 @@ EMILY `482b8f7f` (golden-index).
   package before trusting the fix in CI.
   Apple #18881 (founder-direction observation), Apple #18885 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 359: CAREPYRE COMMUNITY TOOLS — RESUME SKILLS GROUPED BY CATEGORY + REAL VERTEX AI AUTO-CATEGORIZE (2026-09-10)
+
+- [x] **Real fix: Skills section grouped by category, plus a real Vertex AI auto-categorize
+  endpoint.** Founder real-time, direct employer-scan feedback on the rendered resume: "Skills
+  section is a dump — it's alphabetical chaos. Employers scan, they don't read linearly...
+  Reorganize by category: Backend & APIs / Frontend / Cloud & Infrastructure / Security &
+  Reliability / Databases / Leadership & Process... I think we need to build google vertex AI
+  into it like we have for the DragonsNShit item builder so that vertex can auto organize the
+  skills for us."
+  New `Skill.Category` field (`IDUNA_PRO/internal/resume/model.go`) — a deliberate CarePyre
+  extension beyond strict JSON Resume, same real precedent `Skill.ID`/`Work.ID` already set. New
+  `resume.SkillCategories`/`SkillCategoryOther`/`GroupSkillsByCategory`
+  (`internal/resume/skill_categories.go`) — the one real, shared bucketing choke point both the
+  PDF export (`pdf.go`) and the screen preview (`CarePyre/console.html`'s `groupSkillsByCategory`,
+  a direct JS port kept in lockstep) use, so the two never drift into two different groupings of
+  the same data. `console.html`'s skill-editing row gained a real, constrained `<select>` Category
+  field (the six known values + Other, not free text — a free-text field would let typos/synonyms
+  fragment the same real category into near-duplicate buckets).
+  New `POST /resume/skills/categorize`
+  (`IDUNA_PRO/internal/http/handlers/community_tools_skills_categorize.go`) — real Vertex AI
+  auto-categorization, reusing IDUNA's own GFD Item Builder credential/call pattern EXACTLY (real
+  ADC via `gcloud auth print-access-token`, no static API key, same
+  `project-d24a71e9-2daf-4b2d-917`/`us-central1` project, `gemini-2.5-flash`,
+  `generationConfig.responseMimeType: application/json`) — duplicated rather than imported since
+  IDUNA and IDUNA_PRO are separate Go modules with no shared internal package for this today, same
+  real precedent that file itself already set. One real, deliberate difference: the caller's WHOLE
+  uncategorized skill list goes in a SINGLE Vertex call (cheaper, faster, more internally-
+  consistent bucketing) rather than one call per skill. Real, deliberate idempotence: only skills
+  with an empty Category are ever sent, so `console.html`'s new "Auto-organize with AI" button is
+  always safe to click again, never silently overwriting a manual correction — a model-returned
+  category that isn't one of the six real, known values (or Other) is normalized to Other rather
+  than trusted verbatim.
+  New tests: pure grouping-logic unit tests (canonical order, empty-treated-as-Other, an
+  unrecognized category never silently dropped, within-bucket order preserved), a network-free
+  unit test of the Vertex response-parsing/normalization against a canned response body matching
+  the real, documented shape, and handler-level tests for the access gate, the "nothing
+  uncategorized" no-op path, and per-user scoping. OpenAPI spec
+  (`internal/http/handlers/openapi/community_tools.json`) updated with the new endpoint and field.
+  `go build`/`go vet`/`go test ./...` all clean; `node --check` clean on `console.html`'s inline
+  script; re-verified with a fresh-SQLite live boot (`/health` OK, a real self-serve registration
+  issuing a real ES256 JWT) to confirm no regression to the server's own boot sequence.
+  Real, honest, not done: this sandbox has no active `gcloud` account, so the live Vertex network
+  call itself was never exercised end to end here — closed instead with the real, network-free
+  unit coverage described above. Full write-up in
+  `CarePyre/docs/COMMUNITY_TOOLS_RESUME_NORTHSTAR.md` §4k.
+  Apple #18889 (founder-direction observation), Apple #18891 (IDUNA_PRO completion), Apple #18892
+  (CarePyre completion).
+  session: sess-20260905-0720-ec33e7c5
