@@ -34247,5 +34247,5 @@ EMILY `482b8f7f` (golden-index).
   own hand-written host); no port/board auto-detection; the actual hardware round-trip remains
   unproven (no physical Arduino in this sandbox). Full design in
   `PARENA/docs/AVR_ARDUINO_NORTHSTAR.md`.
-  Apple #18784.
+  Apple #18784 (founder-direction observation), Apple #18785 (completion).
   session: sess-20260905-0720-ec33e7c5
