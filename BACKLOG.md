@@ -34386,3 +34386,32 @@ EMILY `482b8f7f` (golden-index).
   paused pending founder direction on which path to pursue.
   Apple #18798 (founder-direction observation), Apple #18799 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 353: PARENA — LLVM BACKEND PHASE 0/1 SHIPPED (CLANG ROUTE) (2026-09-10)
+
+- [x] **Real, verified Phase 0/1 of the "clang instead of gcc" route.** Founder real-time:
+  "continue working on LLVM we want to do both plans first the clang rout then the direct AVR
+  route start the clang work." Closed both real gaps SECTION 352's own scoping pass found: switched
+  `examples/avr/blink_main.c`'s delay call from `_delay_ms` (expands through
+  `__builtin_avr_delay_cycles`, a GCC-only compiler builtin clang's AVR frontend doesn't implement)
+  to `_delay_loop_2` (an ordinary inline-asm function from `<util/delay_basic.h>`, real and portable
+  under both avr-gcc and clang — kept as ONE shared host file, not forked). Resolved the missing
+  `_exit` symbol at link time by linking against avr-gcc's own real `libgcc.a` (confirmed live it
+  genuinely defines `_exit`, not just declares it — no hand-rolled stub needed). New Makefile
+  targets `avr-blink-hex-clang`/`avr-blink-upload-clang`, real and parallel to the original
+  avr-gcc-based `avr-blink-hex`/`avr-blink-upload` (avr-gcc not replaced — both toolchains coexist).
+  New persistent `LLVM_TOOLCHAIN_ROOT` (`~/.local/opt/llvm-toolchain`), acquired no-sudo via
+  `apt-get download clang-18 llvm-18 libllvm18 libclang-cpp18 libclang1-18 libclang-common-18-dev`
+  + `dpkg -x`, same real recipe the AVR toolchain itself used. Live-verified end to end:
+  `avr-nm`/`avr-objdump` on the clang-built `blink_clang.elf` confirm a correct interrupt vector
+  table and `main`/`next_led_state`/`_exit` all correctly present and resolved — the same real
+  verification bar the avr-gcc build already met (194 vs. 224 bytes program size, a real, small,
+  not-investigated-further difference). `make avr-blink-upload-clang` runs the full real pipeline
+  end to end, failing only at the same expected `avrdude` port-open step (`/dev/ttyACM0: No such
+  file or directory`) the avr-gcc path already does — no physical Arduino in this sandbox.
+  `editor-demo` still builds clean and `make test` stays 347/347 after the `blink_main.c` change.
+  Full findings and updated phased plan in `PARENA/docs/LLVM_BACKEND_NORTHSTAR.md`. Next, per the
+  founder's own explicit "do both plans" direction: the much larger "direct AVR route" (Phase 3 —
+  `parena` itself emitting LLVM IR / linking `libLLVM`).
+  Apple #18801 (founder-direction observation), Apple #18802 (completion).
+  session: sess-20260905-0720-ec33e7c5
