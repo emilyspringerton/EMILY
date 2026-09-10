@@ -34639,3 +34639,52 @@ EMILY `482b8f7f` (golden-index).
   clean throughout every step of this pass.
   Apple #18828 (founder-direction observation), Apple #18829 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 357: PARENA — SELF-HOSTING: LOOP-BINDING VALUE WIDENING + A REAL SEGFAULT FIXED (2026-09-10)
+
+- [x] **Real seventh step of the self-hosting effort — `if`/`true`/`false`/`or`/`and`/`not`-shaped
+  loop-binding values, and a real, live crash fixed along the way.** Founder real-time: "continue
+  on parena llvm and selfhost." Closed the previously-named gap `loop-binding-value-shaped?`'s own
+  header comment already flagged after `loop`/`recur` v0 landed: `is-valid-i32-text?`'s own real
+  `i (if (starts-with-sign? s) 1 0)` loop-binding init. New `if-value-shaped?`/`emit-if-value` —
+  a real, VALUE-producing sibling of `if-tail-shaped?`/`emit-if-tail`, emitting a genuine C
+  ternary instead of an if/else statement, with both branches explicitly required to themselves
+  be `loop-binding-value-shaped?` (real, mutual recursion, so a nested `if` composes for free).
+  Re-running the self-compile diagnostic against `stdlib/string.prn` immediately after that fix
+  surfaced two more real, concrete blockers, found live, not assumed: `ok true` (a bare boolean
+  symbol as a second loop binding, closed by adding `true`/`false` symbol recognition), and a
+  real, LIVE SEGFAULT confirmed via `gdb`: `emit-recur-temps` had ALWAYS called
+  `emit-loop-binding-value` UNCONDITIONALLY on every real recur argument, with NO
+  `loop-binding-value-shaped?` gate at all — a genuine, pre-existing gap in the same "shaped?
+  check before the matching emit-* call" discipline every other real dispatch in this file
+  already holds itself to. `is-valid-i32-text?`'s own real `(recur (+ i 1) (and ok (is-digit?
+  (char-at s i))))` passes an `and`-shaped second argument straight into `emit-loop-binding-value`,
+  whose new catch-all (`emit-if-value`) then unconditionally indexed `:children` assuming a real
+  `if`-shape, walked off the end of a 3-child `and` node, and dereferenced the resulting NULL
+  `Node`. Fixed with a real, direct `loop-binding-value-shaped?` gate in `emit-recur-temps`
+  (computed once via `let`) — an unsupported recur-argument shape now emits a real, clean `#error`
+  line instead of crashing the compiler process, the same real bar `alloc-call-shaped?`'s own
+  guard already set for let-bindings. Then closed the actual gap that error was naming:
+  `or-and-shaped?`/`not-shaped?` added to `loop-binding-value-shaped?`/`emit-loop-binding-value`,
+  delegating straight to the already-correct, already-tested `emit-bool-expr`.
+  8 new tests (`tests/test_selfhost_emit.c` + `tests/integration/driver_if_loop_binding.c`):
+  structural checks plus a real compile+run+assert check — `count-from` (an `if`-shaped
+  loop-binding init genuinely taking different runtime paths depending on its own chosen branch:
+  3 iterations vs. 4), not just gcc-clean text with an unexercised ternary.
+  Real, live-checked picture after all three fixes, re-running the self-compile diagnostic end to
+  end: `is-valid-i32-text?` now has ZERO `#error` directives anywhere in its own generated C — the
+  `while(1)` loop, both bindings' own real inits, and the real recur-argument boolean composition
+  all now emit correctly. Two real, separate, NOT-yet-attempted gaps found honestly (not fixed) by
+  actually reading the resulting C: the function's own base-case tail value (also `and`-shaped)
+  still emits a bare, invalid `return ;` — a different code path (`emit-loop-tail`'s own
+  plain-terminal-value fallback, not `emit-loop-binding-value`); and, unrelated to loop/recur
+  entirely, this function's own `Bool`-typed early-return branch emits a bare `return false;`, but
+  neither `true` nor `false` is ever `#define`d anywhere in `runtime/parena_runtime.h` — a
+  `Bool`-returning defn's own literal return value has apparently never been exercised through a
+  real `gcc` compile by any prior test in this whole effort. `split` (the file's own other real
+  remaining holdout) is unaffected — still blocked by its own separate, permanent
+  `vec/`-qualified-call-as-a-let-value exclusion. `make test`: 347/347; every `test-selfhost-*`
+  target clean, zero regressions. Full write-up in `PARENA/NORTHSTAR.md`'s own "Self-hosting"
+  section, seventh step.
+  Apple #18832 (founder-direction observation), Apple #18833 (completion).
+  session: sess-20260905-0720-ec33e7c5
