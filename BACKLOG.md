@@ -34703,3 +34703,28 @@ EMILY `482b8f7f` (golden-index).
   clean, zero regressions.
   Apple #18834 (founder-direction observation), Apple #18835 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real immediate follow-up: both remaining honestly-named gaps from the seventh step closed.**
+  Continuing "continue on parena llvm and selfhost" (bare "continue"). Closed `if` as a binary-op
+  comparison OPERAND (`every-call-arg-symbol-or-number?`/`emit-call-arg` widened to accept
+  `if-value-shaped?`, fixing `is-valid-i32-text?`'s own previously-silent `return ;` base-case tail)
+  and a bare `true`/`false` literal in a defn's own TAIL position (`emit-tail-symbol` now routes
+  through `emit-tail-expr`/`emit-i32-boxed`). Found a real, second live bug along the way: the
+  first true/false fix (bare `"return 1;\n"`/`"return 0;\n"` C strings) looked correct against the
+  self-compile diagnostic's own no-`#error` bar — `stdlib/string.prn` never actually exercises a
+  bare `true` in real tail position — but directly compiling a minimal, standalone snippet under
+  the project's own real, strict `gcc -std=c99 -Wall -Wextra -pedantic -Werror` flags caught a
+  genuine `-Werror=int-conversion` failure (`return 1;` from a `char *`-declared function; only `0`
+  is a real null-pointer constant in C). Also hit and fixed a real, separate PARENA syntax
+  limitation along the way: a `let` isn't legal directly inside a `cond`-clause body in this narrow
+  v0 — extracted the original bare-symbol logic into a new `emit-tail-bare-symbol` helper instead
+  of inlining it. 4 new tests, each isolating its own gap into a minimal dedicated defn with a real
+  compile+run+assert check (`tests/test_selfhost_emit.c` + `tests/integration/
+  driver_tail_bool_literal.c` + `driver_if_comparison_operand.c`). Re-ran the self-compile
+  diagnostic end to end: `is-valid-i32-text?` now compiles with genuinely correct, gcc-verified C
+  for its entire body — zero `#error`, zero invalid empty returns. `split` remains the file's own
+  only real holdout (separate, permanent `vec/`-qualified-call-as-a-let-value exclusion, unrelated).
+  `make test`: 347/347; every `test-selfhost-*` target clean, zero regressions. Full write-up in
+  `PARENA/NORTHSTAR.md`'s own "Self-hosting" section, eighth step.
+  Apple #18880 (completion).
+  session: sess-20260905-0720-ec33e7c5
