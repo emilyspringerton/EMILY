@@ -34329,6 +34329,35 @@ EMILY `482b8f7f` (golden-index).
   job depends on `build_editor_macos` (confirmed via grep — the release job's own macOS artifact
   download step was already removed on 2026-09-08), so this has zero effect on releases. YAML
   validated (`python3 -c "import yaml; yaml.safe_load(...)"`).
-  PARENA commit (pending push).
+  PARENA commit `8fed8ee`.
   Apple #18792 (founder-direction observation), Apple #18793 (completion).
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 351: PARENA — REAL FIX: BUNDLE SOURCE + COMPILER INTO EDITOR-DEMO RELEASES (2026-09-10)
+
+- [x] **Real fix (not a workaround): downloaded editor-demo archives now genuinely contain the
+  PARENA source + compiler, closing a gap the founder had named 3-4 times across sessions.**
+  Founder real-time, with visible frustration: "the parena source code is still not being
+  included in the editor demo... blink.prn is not being included in the editor demo code we dont
+  need some workaround i specifically asked for the parena code to be included in editor demo
+  this is the third of fourth time i have asked." Root cause, found this time by actually
+  inspecting CI's own release-packaging step instead of assuming: `editor-demo-linux-x86_64.tar.gz`
+  and `editor-demo-windows-x86_64.zip` NEVER contained any real PARENA source at all — just the
+  `editor-demo` binary, bundled SDL2 libs, a font, and `PARENA_CONSTRUCT.txt` (a build-identifying
+  snapshot, not source). A prior session's fix (the right-sidebar tree opening files in-place,
+  SECTION 349's own second followup) was real but genuinely insufficient on its own: it only
+  worked when launching from a full git checkout, since no source was ever bundled into the
+  downloadable archive itself — a real, honest miss, wrongly declared solved without checking what
+  a downloaded release actually contained. Fixed for real: a new "Bundle real PARENA source +
+  compiler for hacking" CI step copies `src/`, `stdlib/`, `examples/` (including
+  `examples/avr/blink.prn`), `runtime/`, `docs/`, `Makefile`, `STDLIB.md`, `NORTHSTAR.md`, and
+  `README.md` into both platform archive directories before they're tarred/zipped, plus the real
+  `parena` compiler binary into the Linux one specifically (honestly NOT the Windows one — no
+  Windows-native `parena` is ever built anywhere in this CI; `build_editor_windows` only compiles
+  `editor-demo.exe` from already-generated C, never the compiler itself — a real, named,
+  not-yet-solved gap for that platform). Live-verified by locally reproducing the exact packaging
+  step end to end: built a real archive the same way CI does, extracted it into a clean directory,
+  and ran the bundled `./parena build examples/avr/blink.prn` against the bundled `blink.prn` —
+  genuinely works. `make test`: 347/347, zero regressions.
+  Apple #18795 (founder-direction observation), Apple #18796 (completion).
   session: sess-20260905-0720-ec33e7c5
