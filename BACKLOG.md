@@ -34312,3 +34312,21 @@ EMILY `482b8f7f` (golden-index).
   `PARENA/docs/AVR_ARDUINO_NORTHSTAR.md`.
   Apple #18790 (founder-direction observation), Apple #18791 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 350: PARENA — DISABLE FAILING MACOS EDITOR CI JOB (2026-09-10)
+
+- [x] **Real fix: `build_editor_macos` disabled via `if: false`, no longer shows red in CI.**
+  Founder real-time: "can you please disable the mac editor builds i dont like seeing the red in
+  the ci." That job has been real, confirmed-live failing at its own compile step since commit
+  `ab2c2786` (2026-09-07) — already decoupled from gating the Tag & Release job on 2026-09-08 (see
+  that job's own "build_editor_macos DELIBERATELY excluded" comment), but it still ran and showed
+  red on every push/PR since. Disabled with `if: false` rather than deleting the job — keeps the
+  real step definitions and the honest "why this scope" reasoning in place for whenever the actual
+  macOS clang failure gets diagnosed and fixed (still genuinely blocked: no admin rights on this
+  repo from this sandbox to pull the real error log, per the 2026-09-09 CHANGELOG entry). No other
+  job depends on `build_editor_macos` (confirmed via grep — the release job's own macOS artifact
+  download step was already removed on 2026-09-08), so this has zero effect on releases. YAML
+  validated (`python3 -c "import yaml; yaml.safe_load(...)"`).
+  PARENA commit (pending push).
+  Apple #18792 (founder-direction observation), Apple #18793 (completion).
+  session: sess-20260905-0720-ec33e7c5
