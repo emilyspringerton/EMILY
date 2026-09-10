@@ -34826,3 +34826,47 @@ EMILY `482b8f7f` (golden-index).
   Apple #18889 (founder-direction observation), Apple #18891 (IDUNA_PRO completion), Apple #18892
   (CarePyre completion).
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **Real immediate follow-up: the redeployed feature was actually stale, plus a real, separate
+  Preview-panel bug found and fixed, plus the Vertex failure root-caused.** Founder real-time
+  reports: "i dont see the skill categories or the organize with AI button not sure if we shipped
+  the updates or not," then "the categorization isnt working... the vertex auto categorize doesnt
+  actually sort the skills into categories also the output doesn't show them in categories if i
+  manually sort them into categories and save it."
+  First finding: `IDUNA_PRO`/`CarePyre` don't auto-deploy on `git push` — the live `idunapro`
+  binary (a `systemd --user` unit) and the live static `console.html` were both built/copied at
+  00:29 that morning, hours before the Skills-categorization commits landed. Rebuilt the binary,
+  restarted `idunapro.service` (with the real `XDG_RUNTIME_DIR`/`DBUS_SESSION_BUS_ADDRESS`
+  workaround this repo's own `sudo-queue/51` script already documents), and re-copied
+  `console.html` — verified live (`POST .../skills/categorize` now 401 not 404, live static file
+  has the new UI markers). Also found, separately, a real pre-existing production issue while
+  verifying: the live nginx config is missing the `/ws` WebSocket proxy block the SIP webphone
+  needs — already diagnosed and staged as `sudo-queue/73-restore-webphone-nginx-proxy.sh`, just
+  never actually run (needs an interactive sudo password this session doesn't have).
+  Second, real, live-confirmed bug (unrelated to Vertex): the Preview panel never actually
+  rendered the master resume, ever, for anyone — `loadPreviewSource()` was only wired to the
+  source dropdown's own `change` event and a bespoke Target's own Preview button, never called on
+  initial resume load or after a save; the dropdown's default "Master resume" option never fires
+  `change` from being pre-selected, so the Classic/Clean Tech/Compact buttons were a silent no-op
+  the whole time. Fixed `loadResume()`/`saveResumeFromForm()` to call `loadPreviewSource()`
+  directly. Verified end to end against real, live production data (local_uid 12's own real
+  resume, 64 skills, 2 already manually categorized "Security & Reliability"): ran the actual
+  deployed grouping/rendering functions in a real JS engine and confirmed the preview now
+  correctly groups into "Security & Reliability"/"Other," matching a direct decompressed-PDF
+  check of that same account's real `export.pdf` (the PDF side was already correct).
+  Third finding: root-caused the Vertex 503 — `gcloud` has ZERO active credentials anywhere on
+  this box (no user account, no ADC, no service-account key file found anywhere in the repo), a
+  real, pre-existing infrastructure gap that would break ANY Vertex call from this deployment,
+  including IDUNA's own GFD Item Builder — not a bug this feature introduced. Needs a human to run
+  `gcloud auth login` or provision a service-account key; not fixable from this session.
+  Also shipped same round: the CP-HIPAA-1 unencrypted-mailbox warning restyled from a tall,
+  dark-red/pink boxed card wedged into the mail reading pane (hard-coded colors clashing with the
+  app's own light theme) into a slim amber "flash message" strip directly under the header,
+  visible on any page — founder real-time: "can we make the carepyre encryption warning a little
+  less scary? it takes over the full screen can you make it more like a flash message at the
+  top?" Pure markup/CSS move, no behavior change.
+  `node --check` clean throughout. Full write-up in
+  `CarePyre/docs/COMMUNITY_TOOLS_RESUME_NORTHSTAR.md`'s own live-confirmed follow-up section.
+  Apple #18895/#18899 (founder-direction observations), Apple #18896 (encryption banner
+  completion), Apple #18900 (Preview panel + Vertex root-cause completion).
+  session: sess-20260905-0720-ec33e7c5
