@@ -34750,3 +34750,28 @@ EMILY `482b8f7f` (golden-index).
   `PARENA/NORTHSTAR.md`'s own "Self-hosting" section, eighth step.
   Apple #18880 (completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 358: SHANKPIT — REAL, MONTH-LONG AUTO-RELEASE CI BREAK FOUND AND FIXED (2026-09-10)
+
+- [x] **Real, live CI break fixed: release.yml had been failing every single run since
+  2026-08-11, and the repo's last real GitHub Release was over 4 months stale.** Founder
+  real-time: "shankpit main repo should be cutting auto releases." Fetched the real GitHub
+  Actions workflow-run history and job logs directly via the API (stored `GITHUB_TOKEN` from
+  `EMILY/var/emily-secrets.env`, `gh` CLI unavailable in this sandbox) rather than assuming —
+  confirmed every `release.yml` run (19 in a row, 2026-08-11 through 2026-09-03) had failed or
+  been cancelled, and the repo's most recent actual GitHub Release is tag `654`, published
+  2026-04-26, despite frequent real commits landing continuously since. Root cause: commit
+  `f31cfcd` ("GOLDENBAND real bone-skinned mesh replaces Tyler cube body") wired
+  `apps/lobby/src/main.c` to call `gband_mesh_rig_init`/`gband_mesh_rig_draw`, but
+  `release.yml`'s own "Build Windows Client" `x86_64-w64-mingw32-gcc` command was never updated
+  to compile+link `packages/goldenband`'s own real sources (`gband.c`/`gband_mesh_rig.c`/
+  `gmesh.c`/`gskel.c`) — a genuine `undefined reference to gband_mesh_rig_draw/init` link
+  failure, so the release job's own downstream `Tag & Release` step never even ran. A real,
+  separate, sibling workflow (`tests.yml`) already carried the correct fix, landed 2026-08-20
+  (commit `e807597a`) — `release.yml` had simply drifted out of sync with it since, both files
+  building the identical target independently. Fixed `release.yml` to match `tests.yml`'s own
+  already-correct command. Reproduced and confirmed both the exact failure and the fix locally
+  with a real `x86_64-w64-mingw32-gcc` build against a freshly-downloaded SDL2 mingw devel
+  package before trusting the fix in CI.
+  Apple #18881 (founder-direction observation), Apple #18885 (completion).
+  session: sess-20260905-0720-ec33e7c5
