@@ -35080,3 +35080,64 @@ code was written (see below). Plan approved, then implemented in the same sessio
   Apple #18928 (founder-direction observation), Apple #18930 (completion). IDUNA_PRO commit
   `94ac798`.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 363: EMILY FOR BUSINESS ITERATION, CONTINUED — IDUNA_PRO MULTI-TENANCY PHASE 2, FIRST SLICE (MAIL + SIP) SHIPPED (2026-09-11)
+
+Founder real-time: "ok consider the previous emily for business series of northstars ...
+ultracode me bro." Direct continuation of S362 (Phase 1): right after `local_users` shipped, read
+`mail_accounts.go`/`sip_accounts.go` on the hypothesis that they'd have the same "admin bypasses
+tenant filtering" shape the GDPR fix (S362-02) closed one layer up. Confirmed true by direct code
+inspection before writing any fix.
+
+- [x] **S363-01: real, found-live cross-tenant gap in `mail_account_credentials` +
+  `sip_accounts`, same vulnerability class as S362-02, one layer down.** Both tables already had
+  real, careful Go-side filtering by `owning_org_id`/`created_by` for a non-admin (provider-only)
+  caller — but a `users.admin` caller bypassed it entirely: `mail_accounts.go`'s `list()` ran
+  `SELECT ... FROM mail_account_credentials` with NO `WHERE` clause at all when the caller was an
+  admin; `revealPassword()` returned the live, DECRYPTED mailbox password for any `local_uid` to
+  any admin regardless of tenant (the single most sensitive read this handler exposes);
+  `sip_accounts.go`'s `list()` had the identical no-`WHERE`-clause shape, and `upsert()`/`remove()`
+  let an admin silently hijack or delete ANY tenant's phone extension outright, not just view it.
+  Once a second tenant is real, any tenant's admin would see, and could reveal/hijack/delete,
+  every OTHER tenant's mail and SIP data.
+- [x] **S363-02: fixed with a new `tenant_id` column on both tables, backfilled correctly, not a
+  bare constant.** Migration `202609111001_mail_and_sip_tenant_id.sql` adds
+  `tenant_id INTEGER NOT NULL DEFAULT 1` to `mail_account_credentials` and `sip_accounts`, then
+  backfills via a real correlated join to `local_users.tenant_id` (the authoritative source of
+  truth for "which tenant does this row actually belong to," since both tables' `local_uid` is a
+  real foreign key into `local_users`) — not just a hardcoded `1`, unlike Phase 1's own
+  `local_users.tenant_id` column (which had no prior tenant data to join against). New
+  `localUserTenantID` helper (`users.go`) for the one case that can't be checked against an
+  existing row's own `tenant_id` — `sip_accounts.upsert` is insert-or-update, so a target row may
+  not exist yet; this looks up the target's real tenant directly from `local_users` instead. Same
+  404-not-403 idiom as Phase 1 throughout: a cross-tenant probe (reveal-password, upsert, or
+  remove) gets byte-for-byte the same response as a genuinely nonexistent uid — except where
+  CP-HIPAA's own prior, deliberate 403 for "target exists but you don't manage it" already applied
+  within a tenant (`sip_accounts.upsert`'s target-tenant check is scoped narrowly to a CONFIRMED
+  mismatch only, so it doesn't swallow that existing, intentionally-disclosed 403 into an
+  ambiguous 404 just because a uid has no `local_users` row yet).
+- [x] **S363-03: real verification, at every layer, including the actual running binary.** New
+  adversarial tests: `TestMailAccountsHandler_AdminCannotRevealCrossTenantMailboxPassword` (seeds
+  two tenants' mailboxes, proves a tenant-1 admin gets 404 revealing tenant-2's password, and that
+  the encrypted secret never leaks into the 404 body) and
+  `TestSipAccounts_AdminCannotSeeOrTouchCrossTenantAccount` (proves `list()` never surfaces
+  tenant-2's SIP account to a tenant-1 admin, `upsert()`/`remove()` both 404 instead of
+  hijacking/deleting it, the row survives untouched, and same-tenant admin actions still succeed).
+  `go build`/`go vet`/`go test ./...` all clean. Then, matching this session's own "don't just
+  trust go test" discipline: booted a real, fresh-SQLite `idunapro` binary, registered two real
+  users via the actual `/api/v1/auth/register` endpoint, promoted one to admin via the real
+  `cmd/admin-grant` tool, moved the other into a hand-inserted second tenant, seeded real
+  cross-tenant mail/SIP rows, and confirmed live over real HTTP with a genuine, freshly-logged-in
+  JWT (not hand-forged) — `GET /api/v1/sip-accounts` as the tenant-1 admin lists only tenant-1's
+  own SIP account; `PUT`/`DELETE /api/v1/sip-accounts/{tenant-2-uid}` both return a genuine 404,
+  confirmed via direct SQL afterward that the tenant-2 row was neither modified nor deleted; `GET
+  /api/v1/mail-accounts/{tenant-2-uid}/reveal-password` returns 404 instead of the real password;
+  the same reveal-password call against the caller's OWN tenant-1 mailbox correctly passes the
+  tenant check (reaches the decrypt step, which then 500s on the deliberately-fake test
+  ciphertext — expected, and proof the access-control check itself let it through, not a false
+  pass). Real, honest, explicitly out of scope for this slice (named in
+  `docs/MULTI_TENANCY_NORTHSTAR.md`'s own updated Phase 2 list): `resumes`/`resume_targets`/
+  `community_tools`, `gdpr_requests`'s own `?all=1` residual, `branding_settings`,
+  `compliance_recordings` — none yet audited for the same "admin bypasses everything" shape.
+  Apple #18934 (completion). IDUNA_PRO commit `5dbe265`.
+  session: sess-20260905-0720-ec33e7c5
