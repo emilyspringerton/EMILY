@@ -35235,5 +35235,51 @@ launch PLAY.bat and its just stuck on queueing."
   follow-up for whoever has root on this box.
   Apple #18938 (completion). ECOWAR commit `361e09e`. IDUNA commit `15bf19a`.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 366: REDGARDEN — 8 NEW SHOP ITEMS, GFD-DATABASE-INSPIRED, CLOSES A REAL BUILD-CHOICE GAP (2026-09-11)
+
+Founder real-time: "iterate on REDGARDEN add some more items look into the GFD item database for
+inspiration bring in AD not just AP." Scope confirmed with the founder before writing any code
+(AskUserQuestion): new items only, using REDGARDEN's existing stat fields -- REDGARDEN's engine
+has no ability-power-scaling mechanic at all (every hero's Q/W/R deals flat, hardcoded damage,
+unaffected by items), so introducing a real new "AP" damage stat would mean retrofitting all 26
+existing hero kits, flagged as real, separate, much larger follow-on work, not attempted here.
+
+- [x] **S366-01: real source, not invented — `GoblinFoxDragon/data/items.json`.** A genuine
+  FFXI-styled 155-item catalog with a real dual stat system: Attack/STR/DEX (physical) alongside
+  Magic Attack Bonus/INT/MND (magic) -- the actual "AD vs AP" split the founder's own phrasing
+  names. Translated onto REDGARDEN's EXISTING stats: physical GFD items map to `bonus_ad`
+  (already-established); "AP-flavored" GFD items (staffs, robes, caster rings) map to
+  `bonus_max_mp`/`bonus_cdr_pct`/`bonus_mp_regen_combat` -- the closest real "caster" analog this
+  catalog already has, not a new damage-scaling stat.
+- [x] **S366-02: 5 of the 8 close a real, concrete gap found by directly counting the existing
+  35-item catalog** — Body (Haubergeon), Legs (Iron Ram Trousers), Feet (Creek F. Boots), Neck
+  (Justice Badge), and Waist (Warwolf Belt) each had exactly ONE item — zero real build choice in
+  5 of 11 equipment slots. New: Wizard's Coat (Body, caster alt), Chain Leggings (Legs, tankier
+  alt), Boots of Winter (Feet, caster alt), Mage's Earring (Neck, mana stat stick), Venerer's
+  Belt (Waist, AD/range hybrid) — each a genuinely different stat SHAPE from its slot-mate, not a
+  straight upgrade, same discipline this catalog's own prior additions (Ninja Tekko vs. Battle
+  Gloves) already established.
+- [x] **S366-03: 3 new flagship Weapon items, real named legendary weapons from GFD's own
+  catalog.** Mikazuki and Dojigiri (real named katana, GFD's own high-haste/high-attack stats
+  translated into stat shape, same "real reputation into stat shape, no new RNG" convention
+  Kraken Club/Ridill/Muramasa already set) and **Excalibur** — by a wide margin the single
+  strongest item, of any kind, in GFD's entire 155-item database — now this catalog's own new
+  most powerful and most expensive item, a real flagship matching its real mythic reputation.
+- [x] **S366-04: real, functional verification, not just a clean build.** New test
+  (`test_gfd_item_pass_new_items_apply_correct_stats`, `tests/test_arena_game.c`, 26 assertions)
+  purchases every one of the 8 new items in sequence and checks the exact resulting stat values
+  via `arena_recompute_item_stats` — cross-slot stacking (Body+Legs+Feet+Neck+Waist all summing
+  correctly together) and same-slot replacement (Mikazuki -> Dojigiri -> Excalibur correctly
+  REPLACING, not stacking, in the shared Weapon slot). This test caught and fixed one real bug
+  before it shipped: Chain Leggings' intended +14 armor bonus was missing from its own struct
+  literal (a copy-paste/positional-initializer slip), silently defaulting to zero armor — found
+  because the test asserted the specific expected cumulative value, not just "purchase succeeds."
+  `bash scripts/build.sh` and `bash scripts/test_arena.sh` both clean after the fix. REDGARDEN's
+  own R&D deployment auto-deploys from CI on a timer (`redgarden-auto-deploy.timer`) -- no manual
+  redeploy step needed once pushed.
+  Apple #18944 (completion). REDGARDEN commit `be58337`.
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **HITL-REV-101: RAINFORREST CAFE APPLY** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
