@@ -35933,7 +35933,7 @@ Plan:
   wayfinding fix, separate from this session's procedural-generation/redesign work.
   session: sess-20260905-0720-ec33e7c5
 
-## SECTION 377: ECOWAR — LIVING MAP PHASE 1: HEX GRID + FRONTIER VILLAGE (2026-09-11)
+## SECTION 377: ECOWAR — LIVING MAP: HEX GRID, TOWNS, CREEPS, CARDS, WIN CONDITION (2026-09-11)
 
 Founder real-time: "add towns - start with the entire map is divided into cells (hex grid) - so
 we can start to get the living map stuff more formalized" → 4 town types (Frontier Village,
@@ -35998,16 +35998,81 @@ Phase 5, not decisions made here.
 Commits: `ECOWAR` `3df6c50` (feature), `ECOWAR` `7084d08` (changelog), `PARENA` `5d7b7f8` (mod
 source), `EMILY` (this section + golden-docs-index). Apple #19039.
 
-Plan (8-phase, from the NORTHSTAR doc):
+**Phase 2 (same day, continued mid-build): creeps, Walled Hamlet, card-tie-in militia boost,
+resolved win condition, faster self-play ticks. DONE.** Founder real-time, arriving across 3
+separate messages while Phase 1 work was still fresh: "continue the living map including the
+spawned creeps make sure they have classic RTS interactions like agro chase and leash etc keep
+building out the factions" → "cards should be able to tie into stuff - like there should be a card
+that gives a chance to increase the number of militia emitted from frontier village by +1 so when
+you play it twice villages start putting up three militia out at a time" + a card-UI redesign ask
+(Hearthstone/Clash-Royale-style draggable panel opened on **G**) → "the wincon for ECOWAR - cap all
+of the control points - thats the base game mode ... redgarden you have to keep up pace or come
+back quick at the end which may include a 5 cap - in ECOWAR the goal is to get the board into such
+a state that the volatility happens at the points you need it to happen when you need it to happen
+... so ECOWAR its going to be hard to cap all of the nodes at once and thats the point it should be
+hard" → "can we also make it so that ticks happen faster and in fewer frames optionally via a
+command line flag" for eventual ECOWAR bot unsupervised ML training.
+
+- **Creeps (`packages/livingmap/creep.h/.c`, new)**: real classic-RTS aggro/chase/leash/reset,
+  directly mirroring `arena_game.h`'s own proven `ArenaCampMinion` shape (DETECT-vs-HIT range
+  distinction, leash measured from home not current position, reset to full HP only once actually
+  home) at hex-grid granularity. New `hex_step_toward`/`hex_coord_equal` helpers in `hex_grid.h/.c`
+  back its real, discrete, greedy-pathing movement.
+- **`TOWN_TYPE_WALLED_HAMLET`** now has real behavior (new `PARENA/stdlib/ecowar/
+  walled_hamlet_mod.prn`): slower economy + lower raise threshold (defensive bias trades economy
+  for defense), much higher convert resistance (60 vs. Frontier Village's 20 — "slow to flip," real
+  and measured), and genuinely new "shoots hostile creeps" — a stationary, garrison-scaled defense
+  fire against the `CreepRegistry` (`town_tick_with_creeps`), real cooldown, never friendly-fires.
+- **Cards tie into the Living Map**: `Town.militia_bonus` + `town_apply_militia_boost` — the exact
+  mechanic described (+1 militia/garrison raised per spawn tick per real card play, stacking,
+  capped at 20), fully tested, matching "play it twice → 3 militia at a time" precisely. Real,
+  honest gap named, not hidden: no live match anywhere initializes a `HexGrid`/`TownRegistry` yet,
+  so nothing calls this from a real game today — the founder's own "capture a node" card idea needs
+  **zero new mechanics** once that bridge exists, since `town_attempt_convert` (Phase 1) already
+  takes an arbitrary `attempt_strength`. Card-UI redesign (G-key panel) captured in the NORTHSTAR
+  doc as real direction, not built — client SDL2/OpenGL work, no display available in this sandbox
+  to verify visually.
+- **Win condition, resolved** (was "genuinely undecided" in Phase 1): `town_registry_
+  faction_has_full_control` — ECOWAR's base game mode is capping every active town at once, a
+  deliberate, real contrast with REDGARDEN's own pace/comeback-at-the-end dynamic (which can
+  include a late 5-cap). Other modes (e.g. "resource race") named as later, separate work.
+- **Faster self-play ticks**: `apps/arena_server` gained `--tick-ms`/`--fast-forward` (both default
+  to today's unchanged 16ms real-time-paced behavior — the live `ecowar-matchmaker.service` deploy
+  is unaffected). Found and fixed a real bug before shipping: `--fast-forward` must never skip the
+  real-time sleep during the WAITING-for-players phase, or the existing 60-second lobby-fill
+  timeout would fire almost instantly (a real UDP handshake still needs real wall-clock time).
+  Live-verified with a real server process. Also noted: `apps/arena_training/src/headless.c`
+  already provides a fast, zero-throttling in-process training harness for the hero-combat side —
+  this closes a different, real gap specific to the actual networked matchmaker/lobby path.
+- **Real, open architecture question, captured not resolved**: the founder raised converting
+  ECOWAR's directly-piloted hero into an NPC, making the whole game a deck-building card battler
+  (picking a hero puts it in your starting hand, its abilities shuffle into your deck as cards) —
+  named in the NORTHSTAR doc as genuinely undecided, not guessed at or built.
+- 43 new tests (`tests/test_creep.c`, `tests/test_walled_hamlet.c`), full Living Map suite (101
+  assertions across 4 files) green via `scripts/test_livingmap.sh`.
+
+Commits: `ECOWAR` `016eee8` (creeps/hamlet/cards/wincon), `ECOWAR` `83ac3a4` (tick flags), `PARENA`
+`349b948` (walled_hamlet_mod.prn). Apple #19047.
+
+Plan (9-phase, from the NORTHSTAR doc, renumbered after Phase 2 folded in what was originally
+scoped as separate Phases 2/7):
 - [x] Phase 1: hex grid + Frontier Village. Apple #19039.
-- [ ] Phase 2: Walled Hamlet — needs a real aggro/ranged-attack model against hostile creeps.
+- [x] Phase 2: Walled Hamlet, creeps (real aggro/chase/leash/reset), card-tie-in militia boost,
+  resolved win condition, faster self-play ticks. Apple #19047.
 - [ ] Phase 3: corruption mechanic (pick one of the 3 staged options) + Blighted Settlement.
-- [ ] Phase 4: Jungle Enclave — real integration question against `arena_game.c`'s creep system
-  or a new living-map-local creep concept, not yet decided which.
+- [ ] Phase 4: Jungle Enclave — spawning "hunters" as real `LivingMapCreep`s (Phase 2's new system)
+  is a plausible fit, not yet decided as the final shape.
 - [ ] Phase 5: the 3 factions as real AI agents contesting hex cells — first real test of the
   rock-paper-scissors hypothesis above.
 - [ ] Phase 6: tech tree doctrines, "pick 2 max," end-tech capstones.
-- [ ] Phase 7: win condition — decide from real play data once Phases 5-6 exist.
-- [ ] Phase 8: visual factions (Imperatives/Verdant Pact/Ascended) — deferred until gameplay
+- [ ] Phase 7: the arena↔living-map live-wiring bridge — a real running match that actually
+  initializes a `HexGrid`/`TownRegistry`, a real team-to-faction mapping, and the actual card-cast
+  call sites (`town_apply_militia_boost`, `town_attempt_convert` for "capture a node").
+- [ ] Phase 8: card UI redesign (G-key panel, Hearthstone/Clash-Royale-style drag-to-cast/
+  drag-to-hex-grid affordance) — real client rendering work, gated on reading the existing card HUD
+  code first.
+- [ ] Phase 9: visual factions (Imperatives/Verdant Pact/Ascended) — deferred until gameplay
   factions have real, distinguishable behavior worth skinning.
+- [ ] Open, unresolved (not phased, raised by the founder): hero-as-NPC / full deck-building
+  card-battler pivot — a fundamental core-loop change, named in the NORTHSTAR doc, not decided.
   session: sess-20260905-0720-ec33e7c5
