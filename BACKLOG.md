@@ -34957,3 +34957,65 @@ takes." Posted via `emily observe` before writing anything (Principle 18).
   engineering step for the whole platform is `MULTI_TENANCY_NORTHSTAR.md`'s own Phase 1.
   Apple #18917 (founder-direction observation).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 361: BRAWLPIT MATCHMAKING RE-VERIFIED LIVE + 2 REAL FOLLOW-UPS LOGGED (2026-09-11)
+
+Founder real-time: "can we check the brawlpit matchmaking? there should be a matchmaking server
+and a bot pool currently we only need a bot pool of 1 - log for further dev into the kanban we
+need to ensure we are doing match logging for ML learning later also we need to ensure that we
+are tracking the stats of the different brawlpit characters on wotan the same way we are doing
+currently with REDGARDEN - fix the matchmaking and or bot pool log the other tacks into the
+backlog." Posted via `emily observe` before acting (Apple #18923).
+
+- [x] **S361-01: real, live re-verification — matchmaking + bot pool already work correctly, no
+  fix needed.** Checked against the actual, deployed, currently-running `brawlpit-server.service`
+  (bound `0.0.0.0:6978`, live since 2026-09-05, its own on-disk binary MD5-confirmed identical to
+  `/proc/<pid>/exe` — genuinely current, not a stale deploy), not just by reading source. Wrote a
+  real, minimal raw-UDP Python client matching the actual wire protocol (`NetHeader`/`NetPlayer`
+  byte layouts confirmed via a throwaway C `offsetof`/`sizeof` probe, not guessed) and ran it live
+  against the real service twice: **1v1 mode** (the founder's own "we only need a bot pool of 1"
+  scope) — sent `PACKET_FIND_MATCH` (`MATCHMAKING_MODE_1V1`), got a real `PACKET_QUEUE_STATUS`
+  ack, waited the real 5s timeout, got a real `PACKET_MATCH_FOUND`, then real `PACKET_SNAPSHOT`s
+  confirming exactly 2 active combatants with real, live-changing damage/stock/velocity values
+  (the bot genuinely moving and fighting, not idle) — the existing `MATCHMAKING_1V1_MAX_QUEUE=2`/
+  bot-fills-exactly-one-slot logic (`BPMM-1202020`, shipped 2026-09-04) is real and working today.
+  **FFA mode** — same real proof at the 20s timeout: 1 human + 7 bots, 8-entity snapshot. Both
+  paths match their own already-closed BACKLOG entries (`BPMM-12441`/`BPMM-12442`/`BPMM-1202020`)
+  exactly — nothing regressed since. `git log`/`git status` confirm the working tree is clean and
+  the server-side source hasn't changed since the 2026-09-04 shipped commits, consistent with the
+  live re-test finding zero bugs. No code changes made — a real, honest "checked and it's fine,"
+  not a fix invented to justify the ask.
+- [ ] **S361-02 (logged, not built): real match logging for ML learning later.** Real, existing
+  precedent to port, not invent from scratch: `REDGARDEN/NORTHSTAR.md` §12 Phase B — a real,
+  shipped `packages/simulation/arena_replay.h`/`.c` fixed-format replay logger, explicitly
+  designed with this exact future in mind ("when replays/ML-training/esports work actually
+  starts, there's already a real foundation"), logging at a fixed snapshot INTERVAL rather than
+  true per-tick ("to keep log size sane, same spirit as real esports replay"), keyed to a real
+  WOTAN player identity so a replay is attributable to someone, not just "a match." Real, open
+  questions to resolve when this is picked up: whether BRAWLPIT logs full per-tick `NetPlayer`
+  state (richer for ML, much larger files) or REDGARDEN's own coarser fixed-interval snapshots
+  first; where the log lands (local file rotated off `brawlpit-server.service`'s own host vs.
+  streamed to IDUNA/WOTAN directly); and whether bot-vs-bot matches (no real human queued) are
+  worth logging at all for ML purposes, or only real-human matches.
+- [ ] **S361-03 (logged, not built): track BRAWLPIT character stats on WOTAN, the same way
+  REDGARDEN does today.** Real, existing, fully mature precedent to mirror directly — checked in
+  `IDUNA/internal/http/handlers/redgarden_stats.go`, not assumed: a single `redgarden.match.write`
+  M2M permission gates three POST endpoints REDGARDEN's own `apps/arena_server` calls at match end
+  (`POST /api/v1/redgarden/game-result` — per-player win/loss into the genre-agnostic
+  `player_game_stats` table, the same table REDGARDEN's own NORTHSTAR §12 Phase A flagged as the
+  right generic shape rather than corrupting a game-specific column set; `POST /api/v1/redgarden/
+  hero-result` — the actual "which characters are strongest" aggregate the founder is asking
+  BRAWLPIT to mirror, keyed by `hero_id`; `POST /api/v1/redgarden/live-match` — real, currently-
+  in-progress match state), plus two public, no-permission-required `GET` leaderboard endpoints
+  (`RedgardenLeaderboardHandler`/`RedgardenHeroLeaderboardHandler`) that `wotan.okemily.com` reads
+  directly. Real, concrete port for BRAWLPIT: a new `brawlpit.match.write` permission, the
+  analogous `POST /api/v1/brawlpit/{game-result,character-result,live-match}` handlers (character
+  IDs instead of hero IDs — BRAWLPIT's own `CharacterId` enum, `packages/common/protocol.h`,
+  already exists and is stable), and wiring `apps/server/src/main.c`'s own real match-end logic
+  (`mm_start_match`/`mm_start_match_1v1` — MODE_STOCK's real stock-depletion already determines a
+  genuine winner/loser for 1v1; FFA's own MODE_SANDBOX has no real win condition today, a real,
+  separate open question for whoever picks this up: what "wins" a no-damage sandbox FFA for
+  stat-tracking purposes) to POST these results the same way `arena_server`'s own match-end path
+  does, reusing IDUNA's real M2M agent-login flow already proven working for REDGARDEN. No new
+  WOTAN-side leaderboard UI needed beyond a real, character-scoped page mirroring REDGARDEN's own.
+  session: sess-20260905-0720-ec33e7c5
