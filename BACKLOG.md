@@ -34871,3 +34871,88 @@ EMILY `482b8f7f` (golden-index).
   Apple #18895/#18899 (founder-direction observations), Apple #18896 (encryption banner
   completion), Apple #18900 (Preview panel + Vertex root-cause completion).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 360: EMILY FOR BUSINESS — THE PLATFORM PITCH SHARPENS, 3 NEW SPEC-ONLY NORTHSTARS (2026-09-11)
+
+Founder real-time, long blue-sky thread, preserved close to verbatim across several messages:
+"the way claude builds apps when I have the IDUNA pro system already is it just builds APIs onto
+IDUNA PRO and then it builds a front end to consume those services... so I think the rails for
+2026 agents is an api that allows you to create apis... iduna pro already has IAM so once you
+have IAM what do you need? APIs... emily for business is the multiplatform idunapro that lets you
+just vibe code your own login and apis like wtf thats easy... but we dont do the llm side we are
+just the api for claude to use... idunapro needs to become truely multi tenant currently its just
+a fork of iduna for carepyre... what does the frontend look like? we need a super abstract
+language for affordances like a BA would write a user can do this... like react native but even
+more abstract — like we target ratatui and android native and react native and flutter and
+everything you just need to write an adaptor... northstar all of this as many northstars as it
+takes." Posted via `emily observe` before writing anything (Principle 18).
+
+- [x] **S360-01: real, checked-not-assumed confirmation that IDUNA_PRO is genuinely single-
+  tenant.** Before writing anything, verified the founder's own real-time claim directly against
+  the actual source: zero `tenant_id` anywhere in `internal/store`; `organizations`/`org_id`
+  (CP-HIPAA-3) is a real but WITHIN-tenant concept, not tenant isolation; ten `.go` files hardcode
+  `carepyre`/`CarePyre` by name (`main.go`'s own `mail.carepyre.org` default, a
+  `CarePyreContactHandler` mounted unconditionally, etc.). Confirmed: one process, one SQLite
+  file, one JWT signing key, for everyone — "just a fork of IDUNA for CarePyre" is literally true,
+  not a metaphor.
+- [x] **S360-02: `IDUNA_PRO/docs/MULTI_TENANCY_NORTHSTAR.md`** — the real, sequenced Phase 0 plan.
+  Names why the existing 2026-09-03 DB-per-install plan doesn't scale to "an agent vibe-codes a
+  new tenant's API in seconds" (real, unavoidable per-tenant OS-process/port/systemd-unit
+  operational weight), proposes real, single-process, row-level tenant isolation instead: a
+  `tenants` table, a real `tenant_id` column on every tenant-owned table (direct precedent
+  already in this exact codebase: `202609070008_owning_org_columns.sql`'s own `owning_org_id`
+  scoping-column mechanism, one layer up), a JWT `tenant_id` claim, per-tenant config replacing
+  hardcoded constants — DB-per-install kept as a real option for a small number of dedicated/
+  HIPAA-tier customers (CarePyre itself a plausible permanent resident there). Three real
+  enforcement-mechanism candidates named, not chosen between (a `TenantScopedDB` query-wrapper,
+  SQLite `ATTACH DATABASE`-per-tenant, Postgres row-level security). 5-phase plan, Phase 1's own
+  real Definition of Done: two tenants' `local_users` rows in the SAME database, a real
+  adversarial test confirming a tenant-A JWT cannot read a tenant-B user via any existing route.
+  IDUNA_PRO commit `48f3f2f`. Apple #18919.
+- [x] **S360-03: `IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md` updated — "an API that lets you
+  create APIs."** Sharpens (does not replace) the 2026-09-03 scoping pass: names S360-02 as the
+  literal Phase 0 the whole pitch depends on; names 3 real, existing options for backend API
+  generation without choosing between them (an agent hand-writing Go directly against
+  tenant-scoped primitives; the already-real, already-shipped LO/PARENA Rails-like framework —
+  `LO/FRAMEWORK_NORTHSTAR.md`, router/routes/controller/event-sourced-models, dogfooded via
+  `SHITHUB`, SECTION 225 — deliberately left as one option among several, not adopted as THE
+  answer; a Terraform-like declarative config), deliberately unresolved per
+  `EMILY/docs/THE_EMILY_WAY.md` Principle 18 ("pave the cow paths," the founder's own words: "we
+  dont care what this ends up looking like"). States an explicit, load-bearing scope boundary
+  found worth naming directly before it could quietly expand: NOT an LLM/agent-hosting product —
+  purely the IAM+API substrate an agent (Claude) targets. IDUNA commit `9f0fe78`. Apple #18918.
+- [x] **S360-04: `EMILY_FOR_BUSINESS/docs/UNIVERSAL_UI_NORTHSTAR.md`** — the frontend half, real
+  and separately scoped since it's genuinely novel, not a refinement of an already-scoped idea.
+  Names the real, hard problem honestly rather than glossing over it: React Native/Flutter
+  already separate app logic from platform rendering, but both commit to ONE GUI-widget-tree
+  paradigm — a ratatui terminal is a categorically different paradigm entirely (cell-addressed
+  text, no images/touch/haptics without real, named lossy tricks), and honestly spanning both
+  (not just picking the lowest common denominator) is the actual novel problem, never solved by
+  React Native/Flutter because they never had to try. Real prior art named with each one's own
+  real ceiling identified (JSON-Schema-driven forms/low-code platforms — same single-paradigm
+  ceiling; Gherkin/Cucumber — describes behavior/tests over an already-built UI, not a UI source;
+  Android `Intent`s — action-and-data over exact-widget, but inter-app-handoff-scoped only).
+  Grounds the whole idea in this monorepo's own already-PROVEN "one source, many real target
+  emitters" pattern — PARENA's own real C/Java/TS backends, and `KARAMBIT`/`SPIDERBEETLE`'s own
+  real, shipped "PARENA owns decision logic, a thin native host does I/O" split named directly as
+  the concrete precedent for what an "Adapter" is. Proposes a 3-layer model: an Affordance IR
+  (Entities/Actions/Views/Flows, described the way a BA would write "a user can do this," zero
+  widget/pixel information at all), a Capability Model (each target DECLARES what it can render,
+  with a real, non-negotiable rule that an unsupported affordance must degrade EXPLICITLY, never
+  silently drop — the same real "#error, never a segfault" discipline PARENA's own self-hosting
+  effort already holds itself to, applied to UI capability instead of compiler shapes), and
+  per-target Adapters (PARENA/BURROW-generated genuinely idiomatic target source, not a
+  lowest-common-denominator translation). 5 real, named, unresolved design questions (where the
+  IR gets authored; whether it doubles as an executable acceptance-test suite; live/real-time
+  data; cross-runtime state management; accessibility). 4-phase plan deliberately proving the
+  HARDEST target pair first (ratatui vs. a real touch GUI, not the two closest targets) on one
+  trivial CRUD affordance before generalizing. No name locked in (matching this monorepo's own
+  real precedent — `SAND` went `IRONCLAD → JEWEL → SAND` before landing), no repo created.
+  EMILY_FOR_BUSINESS commit `ea9e276`. Apple #18920.
+  Golden docs registered: `MULTI-TENANCY-NORTH`, `UNIVERSAL-UI-NORTH` (new), `EMILY-FOR-BUSINESS-
+  NORTH` (updated in place, tier bumped 2→1 given its now-confirmed Phase-0-blocking role).
+  Real, honest, explicitly not done: all three documents are spec-only — no `tenant_id` column,
+  no Affordance IR, no Adapter, no declarative-API-config interpreter exists yet. The real next
+  engineering step for the whole platform is `MULTI_TENANCY_NORTHSTAR.md`'s own Phase 1.
+  Apple #18917 (founder-direction observation).
+  session: sess-20260905-0720-ec33e7c5
