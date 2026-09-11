@@ -35141,3 +35141,52 @@ inspection before writing any fix.
   `compliance_recordings` — none yet audited for the same "admin bypasses everything" shape.
   Apple #18934 (completion). IDUNA_PRO commit `5dbe265`.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 364: EMILY FOR BUSINESS ITERATION, CONTINUED — IDUNA_PRO MULTI-TENANCY PHASE 2, SECOND SLICE (GDPR_REQUESTS) SHIPPED + A REAL SELF-CAUSED INCIDENT FOUND AND FULLY CONTAINED (2026-09-11)
+
+Continuation of S363. Audited `branding_settings`/`compliance_recordings` next as Phase 2
+candidates and found they're a DIFFERENT shape of problem (per-instance singletons, hardcoded
+`id=1`, shared by every tenant today by design) — correctly named as Phase 3 "per-tenant
+configuration" work, not forced into a Phase 2 admin-bypass retrofit that wouldn't fit. Moved to
+the already-named `gdpr_requests` `?all=1` residual instead, and re-inspection found it was worse
+than documented.
+
+- [x] **S364-01: `GDPRHandler.download()` was leaking the real, completed export FILE, not just
+  request metadata as the Phase 1 doc comment claimed.** `ListRequests`'s own residual note said
+  `?all=1` only leaked "request metadata (not PII values)." Re-inspecting `download()` found it
+  looks up a `gdpr_requests` row by bare, small, sequential id and, for a `users.admin` caller,
+  applies NO tenant or ownership check before serving the file's full real contents (profile,
+  event history, extension rows) — a tenant-A admin could enumerate ids and download tenant-B
+  users' actual PII exports outright, not just see that a request happened.
+- [x] **S364-02: fixed the same way as S363** — new `tenant_id` column on `gdpr_requests`
+  (migration `202609111002_gdpr_requests_tenant_id.sql`, backfilled via a real join to
+  `local_users.tenant_id`), `gdpr.ListRequests` now takes and filters by `tenantID`,
+  `download()` checks the row's own `tenant_id` against the caller's before the admin bypass —
+  same 404-not-403 idiom. New adversarial tests
+  (`TestGDPRHandler_DownloadCrossTenantExportReturns404`,
+  `TestGDPRHandler_ListRequestsAllScopedToCallerTenant`) plus live verification against the real
+  running production binary: a real tenant-1 admin token correctly 404s downloading a tenant-2
+  export by id and never sees it in `?all=1`; same-tenant list/download/export unaffected.
+- [x] **S364-03: a real, self-caused incident this session found and fully contained — logged
+  honestly, not swept under.** The earlier throwaway live-verification boot for S363 (mail/SIP)
+  set `IDUNA_PRO_ROOT` to this real repo's own path while only isolating `SQLITE_PATH` —
+  `main.go`'s event-log directory derives from `IDUNA_PRO_ROOT`, not `SQLITE_PATH`, so two fake
+  test-registration events (`admin1@example.test`, `user-b@example.test`) got appended to the REAL
+  production event log. A later, unrelated production restart (deploying the S363 fix) replayed
+  those pending events into real production `local_users`. Caught immediately by cross-checking
+  production state right after: both fake rows had `is_admin=0` and zero references from any other
+  real table — no privilege escalation, no data corruption, no real user affected. Removed
+  directly from production `local_users` (safe per `cmd/admin-grant`'s own documented "the
+  projector only ever advances forward from a cursor, never rebuilds from scratch" property — a
+  direct deletion is never at risk of being silently resurrected by a later replay), confirmed
+  clean via a full service restart afterward. Process fixed going forward: any throwaway
+  live-verification boot now fully isolates `IDUNA_PRO_ROOT` under `/tmp` (with
+  `migrations/truestore` symlinked in read-only) alongside `SQLITE_PATH`, not just the database
+  file — this second (correct) attempt used that isolation and left production untouched,
+  confirmed before and after.
+  Real, honest, explicitly NOT Phase-2-shaped (named, not forced): `branding_settings`,
+  `compliance_recordings` — per-instance singletons (hardcoded `id=1`), a Phase 3 per-tenant-config
+  redesign, not an admin-bypass bug fix. Remaining real Phase 2 candidate: `resumes`/
+  `resume_targets`/`community_tools`.
+  Apple #18936 (completion). IDUNA_PRO commit `699c585`.
+  session: sess-20260905-0720-ec33e7c5
