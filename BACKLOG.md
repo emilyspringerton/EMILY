@@ -35021,3 +35021,62 @@ backlog." Posted via `emily observe` before acting (Apple #18923).
   does, reusing IDUNA's real M2M agent-login flow already proven working for REDGARDEN. No new
   WOTAN-side leaderboard UI needed beyond a real, character-scoped page mirroring REDGARDEN's own.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 362: EMILY FOR BUSINESS ITERATION — IDUNA_PRO MULTI-TENANCY PHASE 1 SHIPPED (2026-09-11)
+
+Founder real-time: "ok iterate on emily for business make a plan." Entered plan mode: two Explore
+agents researched IDUNA_PRO's real JWT/middleware/schema/test-pattern surface in detail, a Plan
+agent pressure-tested the resulting design and found a real, unflagged security gap before any
+code was written (see below). Plan approved, then implemented in the same session.
+
+- [x] **S362-01: real, row-level tenant isolation on `local_users` — Phase 1 of
+  `IDUNA_PRO/docs/MULTI_TENANCY_NORTHSTAR.md`, shipped and live-verified.** New `tenants` table
+  (seeded with tenant 1 = CarePyre) + `local_users.tenant_id` column (two new migrations,
+  `202609110001`/`202609110002`). `userlog.UserProjector`'s `GetByUID`/`GetByEmail`/`ListUsers`/
+  `ScrubPII` all gained an explicit, compiler-enforced `tenantID int` parameter — deliberately
+  chosen over reading it implicitly from context, so a missing scope is a build error, not a
+  silently-wrong default (matches the NORTHSTAR doc's own "the safe path is also the easy path"
+  principle). Real, decisive finding made during implementation, not predicted in the original
+  spec: every single `local_users` read/write in the ENTIRE codebase already funneled through this
+  one interface — a much better real enforcement point than the NORTHSTAR doc's own more generic
+  `TenantScopedDB`-wrapper idea, which turned out unnecessary for this phase. New `tenant_id` JWT
+  claim (`local_auth.go`/`register.go` only — Google-OAuth/M2M-agent tokens don't get one this
+  phase, a real, named boundary), a new `middleware.TenantIDFromContext`, and `callerTenantID(r)`
+  threaded through every real `local_users`-touching handler (`users.go`, `me.go`,
+  `change_password.go`). `callerTenantID` defaults to tenant 1 when the claim is absent (agent/
+  cookie tokens) — a real, deliberate, explicitly-temporary fallback, safe ONLY because tenant 1
+  is the sole real tenant that exists yet (no tenant B to leak into) — pinned by a real trip-wire
+  test so a future change to this default fails loudly instead of drifting silently.
+- [x] **S362-02: a real, found-live GDPR cross-tenant security gap, closed in the same pass, not
+  deferred.** The Plan agent's own pressure-test pass (before any code was written) found that
+  `internal/gdpr`'s Export/Delete pipeline took a bare `local_uid` straight from a request body
+  with ZERO tenant check anywhere in the call chain — a tenant-A admin holding `users.admin`
+  could otherwise export, or PERMANENTLY, IRREVERSIBLY PII-scrub, a tenant-B user's real data via
+  the GDPR routes, entirely bypassing the new `UserProjector` scoping (which only protects callers
+  that go through it, and this path called `GetByUID`/`ScrubPII` directly with no gate in front).
+  Fixed with a new `verifyTenantMembership` check + `gdpr.ErrNotFound` (mapped to a real 404 at
+  the HTTP layer), checked BEFORE any `gdpr_requests` row is even created — a cross-tenant probe
+  leaves no trace at all, not even a "failed" request row referencing a foreign uid. Real, honest,
+  separate residual named (not fixed): `GET /api/v1/gdpr/requests?all=1` still lists every
+  tenant's request METADATA (not PII values) to any `users.admin` holder, since `gdpr_requests`
+  itself has no `tenant_id` column yet — a real, deferred Phase 2 item.
+- [x] **S362-03: real verification, at every layer, including the actual running binary.** New
+  tests in `internal/userlog` (projector-level tenant filtering, 4 new tests), `internal/gdpr`
+  (the cross-tenant Export/Delete refusal + a same-tenant regression guard, 3 new tests), and
+  `internal/http/handlers` (the real HTTP-level adversarial `GET /api/v1/users/{uid}` 404 proof,
+  the GDPR handler-level cross-tenant proof, and the tenant-1-fallback trip-wire). `go build`/
+  `go vet`/`go test ./...` all clean. Then, matching this session's own established "don't just
+  trust go test" discipline: booted a real, fresh-SQLite `idunapro` binary, registered two real
+  users via the actual `/api/v1/auth/register` endpoint, hand-inserted a second tenant and moved
+  one user into it (no self-serve tenant picker exists yet), and confirmed live over real HTTP —
+  `GET /api/v1/users` as the tenant-1 admin lists only tenant-1's own user; `GET /api/v1/users/
+  {tenant-2-uid}` returns a genuine 404; `POST /api/v1/gdpr/export {"local_uid": <tenant-2-uid>}`
+  also 404s, with the target account's real email confirmed untouched in the database afterward;
+  same-tenant access (`GET /api/v1/users/{own-uid}`) unaffected throughout.
+  Real, honest, explicitly out of scope for this phase (named in `docs/MULTI_TENANCY_NORTHSTAR.md`
+  as Phase 2+): every other tenant-owned table (`sip_accounts`, `mail_account_credentials`,
+  `resumes`, `organizations`, `gdpr_requests`, etc.), per-tenant email uniqueness (still a global
+  `UNIQUE` constraint), and a `tenant_id` claim for Google-OAuth/M2M-agent tokens.
+  Apple #18928 (founder-direction observation), Apple #18930 (completion). IDUNA_PRO commit
+  `94ac798`.
+  session: sess-20260905-0720-ec33e7c5
