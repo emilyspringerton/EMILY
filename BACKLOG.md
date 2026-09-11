@@ -35282,5 +35282,55 @@ existing hero kits, flagged as real, separate, much larger follow-on work, not a
   Apple #18944 (completion). REDGARDEN commit `be58337`.
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 367: REDGARDEN — MICHAEL, THE RECAST VICTORY (31ST HERO), FIRST REAL SHIELD MECHANIC (2026-09-11)
+
+Founder real-time: "add Michael (arch angel michael) to REDGARDEN he should have a very strong
+shield activated on W and a general strong Q (damage) and then E should be a heal like DOC
+WHEEL," followed by "add him to the TYLER hero bible first as per regulation."
+
+- [x] **S367-01: lore added to `TYLER/multiverse_heroes.md` first** (#124, "Michael, the Recast
+  Victory"), per standing regulation. Real source (Revelation 12:7-9, the War in Heaven),
+  reframed per that document's own stated ethos ("asks what the version of them who lost,
+  compromised, got left out of the story... would actually be like") rather than transcribed
+  straight: every telling of the myth stops at the exact instant of victory and never continues
+  past it. Deliberately no abilities/stats in the lore entry itself (this document's own standing
+  rule) -- a one-line "Founder pick, RED GARDEN implementation" note points at this section
+  instead. TYLER commit `26fb4d9`.
+- [x] **S367-02: Michael added to REDGARDEN's own arena roster** (`ARENA_HERO_COUNT` 30 -> 31).
+  This engine has no E slot (Q/W/R only) -- "E" mapped onto R, the roster's own ultimate slot,
+  same as every other hero's third ability. Q (Flaming Sword): a real strong single-target hit
+  (22 damage, notably above this roster's own typical 8-15 Q range). R (Recast Victory): reuses
+  Doc Wheel's own Bedside Manner heal-shape exactly (ally-targeted, heals more the more hurt the
+  target is) at bigger numbers and an ultimate-tier cooldown, matching "like Doc Wheel" while
+  fitting this roster's own established R-slot convention.
+- [x] **S367-03: W (Heaven's Shield) is this roster's FIRST REAL damage-absorption shield
+  mechanic** -- a genuinely new engine capability, not a reskin of an existing stat. Doc Wheel's
+  own R was explicitly "simplified from a shield" because "shields would be a new generic
+  damage-absorption mechanic" -- that exact deferred mechanic is what this ships. New
+  `shield_hp`/`shield_ms_remaining` fields on `ArenaHero`, drained in `apply_damage_ex` (the one
+  central choke point every damage source in this file already routes through) before real hp is
+  touched -- automatically available to any future hero's kit too, not just Michael's.
+- [x] **S367-04: full roster wiring, not just the simulation core.** Hero name/ability names/
+  ability descriptions/mechanical tags (`arena_ai_bridge.c`, including a new `has_shield` tag --
+  this roster's first, appended zero-fill-safe same as every prior struct-field append this
+  session already established); a real bot-AI heuristic (shield defensively at low HP, heal
+  correctly no-ops with no ally present in 1v1, matching every other ally-only hero's own
+  established convention); real wire-protocol sync (`ArenaHeroSnapshot.shield_hp`, both server
+  `fill_hero_snapshot` and the client's own apply-site) so the shield amount is genuine,
+  client-visible state, not server-only. Deliberately not attempted, named as a real gap: no
+  dedicated OpenGL shield-bar visual overlay in the client -- the mechanic and its wire sync are
+  fully real and correct; a rendering pass is separate, unverifiable-blind follow-up work in this
+  sandbox.
+- [x] **S367-05: real, functional tests, not just a clean build** (11 assertions: Q range/
+  damage, shield absorption across multiple hits including full-exhaustion-then-overflow, shield
+  expiry after its duration, ally-heal scaling, ally-only no-op). Caught and fixed two real bugs
+  in the TESTS themselves before trusting the result: a wrong 0-armor assumption on the test foe
+  (Unicorn has a real +4 passive armor; switched to Duck, this file's own established 0-armor
+  test foe), and an attacker running out of mana mid-test (`ARENA_MP_COST_Q` × repeated casts
+  exceeded `ARENA_MP_MAX`, silently under-counting real landed hits until mp was reset every
+  cast). `bash scripts/build.sh`/`bash scripts/test_arena.sh` both clean.
+  Apple #18949 (completion). REDGARDEN commit `d108af5`.
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **HITL-REV-101: RAINFORREST CAFE APPLY** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
