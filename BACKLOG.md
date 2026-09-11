@@ -35603,6 +35603,21 @@ explicitly" convention.
 Plan (not yet built), full detail in `NORTHSTAR.md`:
 - [x] **D0: repo hygiene** — `CLAUDE.md`, `NORTHSTAR.md`, golden-doc registration, root repo-table
   row. This session.
+- [x] **D0b: real spec review + per-phase docs.** Founder real-time: "review the document again it
+  was written by gemini mostly flash so there may be holes or opportunities for improving the
+  spec - and then write some more docs about the phases of development plan." New
+  `DEADWEIGHT/docs/SPEC_REVIEW.md`: found and RESOLVED (not just flagged) real holes in the
+  transcript's own design — two incompatible splitting systems (1-D quantized-fraction vs. 2-D
+  polyomino/Dead-Square) never reconciled, no single-match win condition ever stated, energy-
+  routing many-to-one conflict resolution unspecified, the shared real-time draft pool has no
+  race-condition rule, the `Naked Short` Mystery card is close to a free-roll exploit as written,
+  and `Realm Warp`/`Command: Shockwave` (full-grid-swap Ultimates) have no stated counterplay —
+  each given a concrete V0 rule, e.g. fragment shapes authored per item rather than computed
+  generically, hull%-at-timeout as the win condition, one-to-many-only energy routing, server-
+  authoritative first-claim-wins drafting with an explicit "Sniped!" rejection. New per-phase docs
+  (`docs/PHASE_D1_CORE_LOOP.md` through `docs/PHASE_D5_D6_UI_AND_LAUNCH.md`), each with real scope-
+  in/scope-out and acceptance criteria, referenced from `NORTHSTAR.md`'s own phase checklist.
+  DEADWEIGHT (commit follows this entry).
 - [ ] **D1: the core loop, local-only** — grid, placement, split+tax, energy routing, no
   networking, proves the mechanical core is fun before any server code exists.
 - [ ] **D2: server-authoritative 1v1** — new `apps/deadweight_server`/`apps/deadweight_matchmaker`
