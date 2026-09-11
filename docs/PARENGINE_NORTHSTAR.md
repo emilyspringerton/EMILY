@@ -9,6 +9,12 @@ Apple #19018) per `EMILY/docs/THE_EMILY_WAY.md` Principle 18, then investigated 
 game repo in this monorepo before proposing anything — same discipline `EOSUI_NORTHSTAR.md`
 already set for the UI half of this exact question.
 
+**Direct follow-on, same session**: `EMILY/docs/PARENACLOUD_NORTHSTAR.md` takes this doc's own
+engine-layer findings and asks the platform/multi-tenancy question on top of them — "what does it
+look like to offer this engine, plus a backend, as a real service to a tenant org (DEADWEIGHT
+first)." Read that doc for the tenancy/CLI/backend-API half; this one stays the engine-library
+half.
+
 ## The frame-break, stated plainly
 
 "SHANKPIT" has been informally shorthand for "the engine" in conversation, but it was never

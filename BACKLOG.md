@@ -35701,3 +35701,57 @@ Plan (not yet built), full detail in `PARENGINE_NORTHSTAR.md`:
   each game adopts pieces of `stdlib/engine/` whenever a real touch point (a bugfix, a new
   feature) makes it convenient, never a mandated rewrite of something already shipped and working.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 373: PARENACLOUD — MULTI-TENANT GAME-PLATFORM SCOPING (2026-09-11)
+
+Founder real-time: "lets start to think about multi tennant - what if we wanted to build
+DEADWEIGHT as a different organization on top of emily for business or whatever the gaming
+equivalent is? we can offer services such as engine and backend just like ROBLOX does... what do
+the backend APIs look like? a dev focused product with a command line tool to scaffold projects
+and to also do cloud things like the gcloud cli - like we can define somewhere what the
+multiplayer paradigm is and the different matchmaking queues (casual vs ranked vs bots etc)...
+its time to start paving the cow paths and abstracting stuff that would be actually useful and
+that wouldnt give us the problem of the shared library making it hard to edit code... so the
+library API or engine API needs to be overloadable in terms of like batteries included but
+extensible mods first as a montra." Routed via `emily observe` first (obs `2026-09-11T19-35-55Z`,
+Apple #19021) per Principle 18. Full write-up: `EMILY/docs/PARENACLOUD_NORTHSTAR.md` (golden doc
+`PARENACLOUD-NORTH`, working product name PARENACLOUD), direct continuation of S372/
+`PARENGINE-NORTH`.
+
+Real findings, connected rather than invented from scratch:
+- IDUNA_PRO already has a real, live, shipped tenant-provisioning control plane
+  (`internal/tenantprovision`, SECTION 267, 2026-09-07 — port allocation, per-tenant JWT secret,
+  systemd unit templating, health-poll, one shared binary reused per tenant via env vars).
+- The extensibility-mod question was already asked and decided for IDUNA_PRO itself
+  (`EMILY_FOR_BUSINESS_NORTHSTAR.md`, 2026-09-03): Go host → `BURROW`'s native Go emission target
+  for mods, no cgo. This doc inherits that split rather than re-deciding it — platform/backend
+  logic is BURROW-Go-overridable, game-engine/client logic (per PARENGINE-NORTH) is
+  PARENA-C-overridable.
+- A second, independent instance of PARENGINE-NORTH's own "copy-pasted by hand" finding, found
+  live on the backend side: IDUNA's `redgarden_ticket.go`/`racer_ticket.go`/
+  `papercraft_ticket.go`/`shankpit_ticket.go`/`shankpit_queue.go` are one hand-coded Go file
+  family per game solving the identical connect-ticket/queue/leaderboard problem — real,
+  concrete evidence for exactly the "matchmaking paradigm should be declarative" ask.
+- Real, undecided architecture fork named: game-backend tenancy (a long-lived matchmaker
+  spawning ephemeral per-match child server processes) is a materially different operational
+  shape than IDUNA_PRO's current one-long-lived-web-process-per-tenant model — extend
+  `tenantprovision` generically vs. a separate game-specific control plane, not resolved here.
+- A real `GameConfig` schema sketched, grounded directly in `apps/matchmaker`'s own real,
+  already-existing flags (`--server-bin`/`--listen-port`/`--first-game-port`/`--lobby-size`,
+  already close to config-driven) plus new, named work for ranked/bot-fill-policy fields that
+  don't exist anywhere yet.
+- CLI recommendation: extend the existing `parena` CLI with a `cloud` subcommand group
+  (`parena cloud init/deploy/queues/tenants`) rather than inventing a new binary — matching
+  `gcloud`'s own resource-scoped-subcommand convention, deliberately not designing `init`'s own
+  scaffolding template until DEADWEIGHT itself has a real, proven repo shape to generalize from.
+- "Batteries included, mods-first, overridable" formalized as a concrete rule: every
+  `stdlib/engine/*.prn` default is a swappable mod slot a tenant registers a replacement for,
+  never a vendored file they fork — the literal technical answer to the founder's own "shared
+  library hard to edit" worry. Named honestly: `BURROW`'s own real current emission capability is
+  narrow (`LO`'s own capability audit: scalar+flat-struct only) — real, not oversold.
+
+Explicitly gated, not started: PARENGINE-NORTH's own P1-P2 (a shared engine module has to exist
+before there's anything to provision tenants around) and DEADWEIGHT's own D1-D2 (a real server +
+guest-account flow to check the `GameConfig`/backend-API sketch against) both have to land first.
+No code written.
+  session: sess-20260905-0720-ec33e7c5
