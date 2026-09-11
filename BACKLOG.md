@@ -36157,6 +36157,59 @@ condition, refined" section. Founder explicitly chose design-doc-only for this p
 implementation) — real code (destroy mechanic, draw check, REFLUX action) is open, unstarted work.
 Apple #19072 (observation).
 
+**S377-07, same day: real CI outage found and fixed — the live client had been stuck on v0.36.0
+since Phase 7. DONE.** Founder real-time: "theres a bunch of updates to the game that im not
+seeing like day night cycle all of the new work sinse the add more trees thread" — plus "the last
+agent figured out the actual card battler isnt wired into the actual client... but it really
+didnt." Real root cause, found and fixed, not guessed at:
+
+1. **Every CI run on `main` since commit `d56f24e` (Phase 7, the Living Map bridge) has failed**
+   at the "Cross-compile Windows arena client" step (confirmed via the GitHub Actions API across
+   the last 5 runs, and via a local mingw-w64 + SDL2-mingw-devel repro producing the exact
+   undefined-reference link errors). Root cause: `.github/workflows/ci.yml`'s own Windows
+   cross-compile step globbed mod files only from `packages/simulation/*_mod.c` — a real, separate,
+   hand-maintained file list from `scripts/build_arena.sh`'s own (already-correct, already
+   up-to-date) one — and never picked up two new sibling package directories
+   (`packages/livingmap/`, `packages/reflux/`) or the one non-mod engine file
+   (`living_map_bridge.c`) `arena_game.c` now calls into unconditionally. Since `ci.yml`'s own
+   `release` job only runs after a green `build`, this silently meant **no new GitHub Release has
+   been cut since `v0.36.0` (commit `daf4bb7`)** — every real feature since (Living Map bridge,
+   REFLUX, day/night, ALLCAP, cows) had a green local build/test but never reached a real,
+   downloadable client. Fixed by widening the glob to `packages/*/` (matching
+   `scripts/build_arena.sh`'s own proven file list) plus explicit entries for the two real
+   non-`*_mod.c`-named engine files. Verified with a real local mingw cross-compile before
+   pushing. `ECOWAR` `9854d5a`.
+2. **A second, independent break**, found only once (1) was fixed and CI moved past that step to
+   an earlier one that had been silently red the whole time too: SECTION 381 (ALLCAP, commit
+   `316b46c`) made `town.c`'s `town_attempt_convert` call `on_town_captured`
+   (`town_cap_mod.c`) unconditionally, which itself calls `reflux_dispatch`
+   (`packages/reflux/reflux_mod.c`) — `scripts/test_livingmap.sh`'s own separate hand-maintained
+   file list was never updated for either, so its "Headless tests (Living Map hex grid + Frontier
+   Village)" CI step had *also* been failing since `316b46c`, actually the real, earlier blocker
+   for any run at or after that commit. Reproduced locally (stashed unrelated in-progress biome
+   work first to test against the real clean committed tree), fixed, full living-map test suite
+   green again (`test_hex_grid`/`test_town_frontier_village`/`test_walled_hamlet`/`test_creep`/
+   `test_cow`, all PASS), `scripts/test_arena.sh` re-run clean too. `ECOWAR` `6005e64`.
+
+**Separately, real and not a CI/deploy bug**: the card-battler UI (a G-key panel) was never built
+client-side at all — SECTION 378/379 already documented this honestly ("no client UI wiring...
+the G-key panel... is the real next step"). The founder correctly sensed the previous agent's
+"found it" diagnosis was wrong: that agent's finding (if it named the card battler alone) missed
+the much bigger, real story — a CI outage silently freezing the ENTIRE client at Phase-6-era
+content for over 90 minutes of real subsequent work, of which the missing card UI is only one
+symptom among several (day/night, hex grid, ALLCAP, cows were the others, and those three *are*
+real, wired, working features that simply never shipped to a release).
+
+Same real bug CLASS surfacing a 3rd/4th/5th/6th time in one repo now (ci.yml's own comment already
+named 4 prior recurrences from 2026-08-28): a hand-maintained "which files build this target" list
+existing in more than one place (`scripts/build.sh`, `scripts/build_arena.sh`,
+`scripts/test_arena.sh`, `scripts/test_livingmap.sh`, `.github/workflows/ci.yml`'s own Windows
+step — five real, independent copies) will keep drifting every time a new package directory
+appears, no matter how many individual globs get patched. Worth a real, later structural fix (a
+single shared source-file manifest all five scripts/steps read from) rather than trusting the next
+glob widening to be the last one — named here, not attempted this pass given the live outage
+needed the direct fix first.
+
 ## SECTION 378: ECOWAR — CARD-BATTLER EXPERIMENT: NPC HEROES + DECK/HAND CARDS (2026-09-11)
 
 Founder real-time, continuing SECTION 377's own "hero-as-NPC/card-battler" open question: "we may
