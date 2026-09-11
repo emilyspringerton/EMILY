@@ -2560,6 +2560,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: check BRAWLPIT matchmaking (server + bot pool, currently only need a bot pool of 1) -- fix if broken…** — obs `2026-09-11T00:46:25Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: iterate on Emily For Business, make a plan -- implementing Phase 1 of IDUNA_PRO/docs/MULTI_TENANCY_N…** — obs `2026-09-11T01:26:20Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: iterate on REDGARDEN, add more items, look into the GFD item database for inspiration, bring in AD (…** — obs `2026-09-11T03:22:42Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time: add Michael (Archangel Michael) to REDGARDEN -- W: very strong shield (activated), Q: general strong…** — obs `2026-09-11T04:15:24Z`. CURATED: 2026-09-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
