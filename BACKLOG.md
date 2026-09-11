@@ -35475,42 +35475,58 @@ Real findings from reading ECOWAR's own current code before scoping (not assumed
   pattern.
 
 Plan (not yet built):
-- [ ] **S370-01: isolated per-match PRNG.** Small seeded generator (e.g. splitmix32/xorshift),
-  not libc `rand()`; a `arena_set_match_seed(uint32_t)` setter storing it in a file-scope
-  static (NOT `arena_state`, which every init path `memset`s to zero before obstacles are laid
-  out).
-- [ ] **S370-02: seed plumbing.** Server: set from the existing `--seed`/`seed_arg` before
-  `arena_init_teams()`. Client: capture `msg->seed` in `net_find_and_connect` (currently
-  discarded) and set it before the client's own `arena_init()`/post-requeue
-  `arena_obstacles_reset_layout()` calls.
-- [ ] **S370-03: Mandelbrot-driven placement.** Map the jungle region between the two bases
-  (excluding spawn columns, graveyards/fountains, the four flank capture nodes, and the mid
-  lane corridor — reuse `arena_nodes_reset_layout`'s own positions and
-  `arena_graveyard_position()` for exclusion, same as the existing hand-placed walls already
-  route around) onto a per-match sub-window of the complex plane (seed picks the sub-window, so
-  each match's fractal pattern differs, not just tree jitter on a fixed skeleton). Sample
-  candidate points across that region; use escape-time iteration count as both a placement
-  mask (favor the fractal boundary band — pure interior/immediate-escape points are skipped, so
-  the result naturally clusters into organic, branching thickets rather than a uniform grid or
-  a solid blob) and obstacle radius/HP variation (slower-escaping = larger/older tree).
-  Target density: a clear step up from 32 toward something DOTA2-jungle-reads-as-dense — real
-  number to be tuned against the wire-size budget in S370-04, not fixed in advance.
-  Rocks stay a much smaller, secondary population (unchanged role: sight-blocking terrain
-  accents, not the "more trees" ask).
-- [ ] **S370-04: wire-size budget.** Recompute `ArenaSnapshotMsg` total size at the new
-  `ARENA_OBSTACLE_COUNT`; if it reopens the MTU ceiling (very likely per the finding above),
-  split `obstacle_hp[]` into its own `PACKET_ARENA_SNAPSHOT_OBSTACLES` packet, same pattern
-  `PACKET_ARENA_SNAPSHOT_HEROES` already established for exactly this reason — not a new
-  design.
-  `ARENA_SNAPSHOT_OBSTACLE_COUNT` must keep matching `ARENA_OBSTACLE_COUNT` per its own existing
-  doc comment.
-- [ ] **S370-05: exclusion-zone regression check.** Existing ~300 unit tests call
-  `arena_init_teams()`/`arena_init_with_heroes()` directly; procedural placement must never
-  obstruct a node, spawn, or graveyard those tests (and real matches) depend on being walkable
-  — verify against every node/graveyard/lane coordinate the same way the hand-placed layout's
-  own doc comments already reason about clearance, plus a new test asserting zero generated
-  obstacle overlaps any exclusion zone across a spread of seeds.
-- [ ] **S370-06: `go test ./...` N/A (this is the C module)** — `bash scripts/build.sh` +
-  `bash scripts/test_arena.sh` + `bazel test //tests/...` must stay clean (ECOWAR's own
-  documented bar), Apple + CHANGELOG + commit/push per `ECOWAR/CLAUDE.md`.
+- [x] **S370-01: isolated per-match PRNG.** Built exactly as scoped: xorshift32,
+  `arena_set_match_seed(unsigned int)` (plain `unsigned int` not `uint32_t` — this header has no
+  `stdint.h` include and nothing else in it used a stdint type either) storing into a file-scope
+  static `g_arena_match_seed`, not `arena_state`. ECOWAR `92e8052`.
+- [x] **S370-02: seed plumbing.** Real gap found while wiring this, not assumed: ECOWAR's own
+  matchmaker/server never actually had the seed-plumbing protocol.h's own (REDGARDEN-inherited)
+  comment described — `MatchFoundMsg` had no `seed` field at all (forked before that milestone
+  landed upstream), server had no `--seed` argv. Built for real: matchmaker generates one seed
+  per match (`time()` ^ uptime-ms ^ assigned port, no new `srand()` stream needed) and passes it
+  to both the spawned server (`--seed`) and every client (`MatchFoundMsg.seed`); server calls
+  `arena_set_match_seed` before the lobby-fill init; client captures it in
+  `net_find_and_connect` (previously read and discarded) and calls it before `arena_init()` and
+  again after a requeue's reconnect (the requeue path's own pre-existing
+  `arena_obstacles_reset_layout()` call ran BEFORE reconnecting in the original code — fixed the
+  ordering so it regenerates a second time, after the new seed is known, instead of shipping a
+  stale one). Also fixed a pre-existing bug found along the way: `MatchFoundMsg`'s own fields
+  were sent over the wire as uninitialized stack garbage (only `NetHeader` was ever zeroed).
+  ECOWAR `92e8052`.
+- [x] **S370-03: Mandelbrot-driven placement.** Built as scoped: rejection-sampled candidates
+  across the play area, kept only in the escape-time boundary band (iteration count in [6,80)
+  of an 80-cap), each match sampling a randomized pan/zoom/rotation sub-window near the real
+  cardioid/period-2-bulb boundary. Exclusion zones cover nodes, both teams' graveyard/spawn-fan
+  and shop, both fountains, all four camps, and every already-placed obstacle (checked against
+  real `arena_state` positions read after `arena_nodes_reset_layout`, not assumed coordinates).
+  Real, necessary correction made mid-build: the hand-placed 32-entry table's own array size and
+  loop bound had to STAY at the new `ARENA_OBSTACLE_HANDPLACED_COUNT` (32), not grow to the new
+  `ARENA_OBSTACLE_COUNT` (128) — sizing it to the new count would have zero-initialized the
+  other 96 slots (x=0,z=0,radius=0) landing a phantom obstacle on Blacksmith, the map's own true
+  center node. Density: 96 procedural additions (`ARENA_OBSTACLE_PROCEDURAL_COUNT`), 32 hand-
+  placed + 96 procedural = 128 total, ~85% trees. ECOWAR `92e8052`.
+- [x] **S370-04: wire-size budget.** Measured `sizeof(ArenaSnapshotMsg)` at the OLD 32-obstacle
+  count first (1244 bytes, ~216 bytes of real MTU headroom) rather than assuming — confirmed the
+  predicted ceiling really would reopen at 128, so split `obstacle_hp[]` into its own
+  `ArenaSnapshotObstaclesMsg`/`PACKET_ARENA_SNAPSHOT_OBSTACLES` (packet id 21, next free slot),
+  same pattern `PACKET_ARENA_SNAPSHOT_HEROES` already established (S170-193). `ARENA_SNAPSHOT_
+  OBSTACLE_COUNT` kept matching `ARENA_OBSTACLE_COUNT` (128) per its own doc comment.
+  `ARENA_SNAPSHOT_RECV_BUF_SIZE` widened to a real 3-way max. ECOWAR `92e8052`.
+- [x] **S370-05: exclusion-zone regression check.** New `tests/test_procedural_jungle.c`: zero
+  exclusion-zone violations across nodes/graveyards/shops/fountains/camps/other-obstacles over
+  several real seeds, hand-placed layout untouched, same seed byte-identical across two inits
+  (the actual client/server-agreement property this whole design depends on), adjacent seeds (1
+  vs 2) produce different layouts, and the fixed default seed keeps every OTHER existing test's
+  direct `arena_init_teams()`/`arena_init_with_heroes()` calls (~300 of them, none call
+  `arena_set_match_seed`) reproducible. ECOWAR `92e8052`.
+- [x] **S370-06: build+test clean, Apple/CHANGELOG/commit/push.** `bash scripts/build.sh` +
+  `bash scripts/test_arena.sh` both clean, 3138 PASS / 0 FAIL across the whole suite including
+  the new file. `bazel test //tests/...` NOT run — `bazel` is not installed in this sandbox (a
+  real, honest gap, not silently skipped: every other S370 verification above is real). Beyond
+  the scoped bar: live-verified end to end with a throwaway matchmaker+server+python-client round
+  trip on scratch ports (19780/19700) — one seed generated, delivered identically to both queued
+  clients' `MatchFoundMsg`, spawned server accepted `--seed` via argv and started clean, no
+  leftover processes after cleanup. Production `ecowar-matchmaker.service` (real, live, `:9779`)
+  deliberately NOT restarted — still serving the pre-change binary; deploying this is a separate
+  step, not requested this session. Apple #19009. ECOWAR `92e8052`.
   session: sess-20260905-0720-ec33e7c5
