@@ -2569,6 +2569,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: iterate on ECOWAR — procedural map generation lost fountains, add them back into procedural gen; add…** — obs `2026-09-11T20:24:46Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: rip out the ECOWAR build-template system entirely (arena_hero_apply_build_template, ARENA_BUILD_TEMP…** — obs `2026-09-11T20:43:27Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: ECOWAR living map — formalize the map as a hex grid, then add 4 town types (Frontier Village, Walled…** — obs `2026-09-11T21:00:14Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time (mid-task, ECOWAR Living Map win condition -- resolves the previously-flagged 'genuinely undecided' o…** — obs `2026-09-11T21:24:24Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time (mid-task, ECOWAR Living Map): cards should tie into the Living Map -- a card that gives Frontier Vil…** — obs `2026-09-11T21:22:01Z`. CURATED: 2026-09-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
