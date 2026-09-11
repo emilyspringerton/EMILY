@@ -35234,3 +35234,5 @@ launch PLAY.bat and its just stuck on queueing."
   follow-up for whoever has root on this box.
   Apple #18938 (completion). ECOWAR commit `361e09e`. IDUNA commit `15bf19a`.
   session: sess-20260905-0720-ec33e7c5
+- [ ] **HITL-REV-101: RAINFORREST CAFE APPLY** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
