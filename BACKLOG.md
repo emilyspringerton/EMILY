@@ -36133,6 +36133,28 @@ confirmed not to crash a real live match.
 Commit `ECOWAR` `d56f24e`. Apple #19059.
   session: sess-20260905-0720-ec33e7c5
 
+**S377-06, same day: win condition refined — destroy vs. capture, three archetypes. DESIGN ONLY,
+not built.** Founder real-time, continuing the win-condition thread: towns are the control
+points, and can be captured (already real) OR destroyed — a new "ecological disaster" mechanic
+that shrinks the active-town denominator ALLCAP's `owned == total` check runs against, rather than
+only ever growing the numerator via capture. Named 3 distinct archetypes: (1) **the blowout**
+("Jimmy"/big-clean-win) — capture every town intact, no destruction; (2) **the draw** — every
+town destroyed, including your own, zero active towns left, no faction can be said to control an
+empty board; (3) **the OTK** ("Miracle Rogue" archetype, explicit Hearthstone comparison,
+ECOWAR-has-no-turns-so-OTK-is-a-metaphor) — destroy every rival town in one coordinated burst
+while your own survives, having assembled the destruction capability and stayed alive through
+whatever the other factions were doing on their own axis (aggro rush/turtle/ramp/curve-out) in
+the meantime.
+
+Real, checked-first finding: this isn't landing on unprepared ground — `town.h`'s own
+`TownRegistry.town_count` comment has said since Phase 1 "even after a hypothetical future 'town
+destroyed' (not built yet)." Full design write-up (win-con mechanics, the draw-state gap in
+`town_registry_faction_has_full_control`, the destroy-mechanic open questions, a `TOWN_DESTROYED`
+REFLUX action mirroring `TOWN_CAPPED`) in `ECOWAR/docs/NORTHSTAR_LIVING_MAP.md`'s new "Win
+condition, refined" section. Founder explicitly chose design-doc-only for this pass (not
+implementation) — real code (destroy mechanic, draw check, REFLUX action) is open, unstarted work.
+Apple #19072 (observation).
+
 ## SECTION 378: ECOWAR — CARD-BATTLER EXPERIMENT: NPC HEROES + DECK/HAND CARDS (2026-09-11)
 
 Founder real-time, continuing SECTION 377's own "hero-as-NPC/card-battler" open question: "we may
