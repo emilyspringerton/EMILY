@@ -35332,5 +35332,45 @@ WHEEL," followed by "add him to the TYLER hero bible first as per regulation."
   Apple #18949 (completion). REDGARDEN commit `d108af5`.
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 368: REDGARDEN — REAL INCIDENT, AUTO-DEPLOY SILENTLY STALLED ~1HR, LIVE CLIENT PROTOCOL MISMATCH (2026-09-11)
+
+Founder real-time: "ok i downloaded new version of REDGARDEN and i launched it and it says
+queuing for match nothings happening either matchmaking or the bot pool is down?"
+
+- [x] **S368-01: real root cause found — a live client/server wire-protocol mismatch, caused by
+  auto-deploy silently stalling for ~1 hour, not the matchmaker actually being down.**
+  `redgarden-auto-deploy.timer` correctly detected each new green build from this same session's
+  own Michael/item work (which changed the wire protocol -- `shield_hp` added to
+  `ArenaHeroSnapshot`, `ARENA_HERO_COUNT` changed) and published fresh binaries to `build/` every
+  ~10 minutes starting 03:57 UTC, but perpetually deferred the actual `systemctl restart` with
+  "a match server is currently running." Root cause: the client's own default matchmaker port
+  (`:7778`, confirmed via `apps/arena_bot`'s `ARENA_MATCHMAKER_PORT` define and the CI-generated
+  `PLAY.bat`) runs a permanently self-sustaining 20-bot farm that is, by design, ALWAYS mid-match
+  -- so `auto_deploy.sh`'s safety guard (added after two real past incidents of a restart killing
+  a live founder match, Apple #11297 and a follow-up) can structurally never find a genuinely
+  idle window for THIS specific matchmaker. Live services were still running 5-day-old binaries
+  with the OLD wire protocol while the founder's freshly-downloaded client used the NEW one.
+- [x] **S368-02: fixed live, safely** -- confirmed via direct process inspection that no real
+  player match was at risk (only the harmless, always-on bot-farm match was active) before
+  touching anything, then manually restarted `redgarden-matchmaker-bots.service`/
+  `redgarden-matchmaker-players.service`/`redgarden-bot-pool.service` and updated
+  `redgarden-deploy/var/auto_deploy/.deployed_sha` to mark the SHA as deployed so the next
+  auto-deploy cycle doesn't think a deploy is still pending. Live-verified: the restarted binary
+  genuinely contains today's content (`strings` check for "michael"/"RECAST VICTORY"), the
+  bot-pool matchmaker is forming real matches with live gameplay data flowing, the player-only
+  pool restarted cleanly and is stable.
+- [x] **S368-03: real, structural gap named, deliberately NOT fixed this pass.** This exact stall
+  will very likely recur on every future deploy while the persistent bot pool is active (its own
+  steady state) -- `match_server_running()`'s `pgrep`-any-arena-server check has no way to tell a
+  real player's match apart from the always-on bot farm. Deliberately did not attempt a fix to
+  this safety-sensitive script under time pressure: it exists specifically because of two real
+  past incidents of killing a live founder match, and a wrong fix here risks reintroducing
+  exactly that. A real fix needs a reliable, well-tested signal that distinguishes "bot-only
+  farm match" from "a match with a real player in it" before the guard can be safely narrowed --
+  named as real follow-up work, not guessed at live.
+  Apple #18951 (completion). No REDGARDEN code changes -- this was a live ops incident response
+  (manual systemd restarts + a deploy-state file outside the git repo), not a commit.
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **HITL-REV-101: RAINFORREST CAFE APPLY** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
