@@ -2562,6 +2562,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: iterate on REDGARDEN, add more items, look into the GFD item database for inspiration, bring in AD (…** — obs `2026-09-11T03:22:42Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: add Michael (Archangel Michael) to REDGARDEN -- W: very strong shield (activated), Q: general strong…** — obs `2026-09-11T04:15:24Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: ECOWAR — use the Mandelbrot set to procedurally generate a much denser jungle of trees between the t…** — obs `2026-09-11T17:55:56Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time: DEADWEIGHT — new upstream repo has a captured Gemini transcript doc (misleadingly named 'LeetCode Sk…** — obs `2026-09-11T19:12:36Z`. CURATED: 2026-09-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
