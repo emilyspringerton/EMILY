@@ -36389,3 +36389,66 @@ Plan:
 - [ ] A real third REFLUX subscriber somewhere, to prove genuine N:M fan-out (2 dispatcher/
   subscriber PAIRS exist now, but no single action type has more than one real subscriber yet).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 382: ECOWAR — 生物群系（BIOMES）交接筆記（尚未完成，2026-09-11）
+
+**因額度用盡，緊急交接給下一位 agent，尚未完工，未提交（uncommitted）。**
+
+創辦人即時指示：分享了一份 4 種生物群系的地圖設計（Verdant Wilds/叢林、Ash Barrens/高風險腐化、
+Frozen Reach/防禦、Blighted Grid/混沌），並要求先做真實批評再動工（"written by a smart LLM but
+you may be a little smarter"）。已透過 `emily observe` 記錄過真實批評（見對應的 observation /
+Apple #19071）：原始設計裡的 "Pillager"／"Dragon" 用詞是從 SHANKPIT/DragonsNShit 的 Minecraft
+Bedrock 世界線混進來的，跟 ECOWAR 自己的命名體系無關；4 個生物群系裡有 3 個其實可以直接掛接到本次
+session 已經建好的系統上（town 轉換抗性、creep 移動速度、Phase 1 就保留卻從未真正使用的
+`HexCell.corruption` 欄位），不需要發明全新機制。
+
+**目前真實進度（尚未編譯、尚未測試、尚未提交）：**
+
+- `PARENA/stdlib/ecowar/biome_mod.prn`（新檔案，僅寫好 .prn 原始碼，**尚未**用 `parena build`
+  產生對應的 .c／host header，**尚未** commit）：`on-biome-convert-resistance-multiplier-pct`，
+  純 PARENA 邏輯（不需要 FFI）—— Verdant Wilds 回傳 70（更容易被轉換），Frozen Reach 回傳 140
+  （更難轉換），其餘回傳 100（中性，因為 Ash Barrens／Blighted Grid 的真正機制是走
+  corruption，不是走 resistance）。
+- `ECOWAR/packages/livingmap/hex_grid.h`（**已修改，尚未 commit**）：新增
+  `HexBiome` enum（`BIOME_VERDANT_WILDS=0`／`BIOME_ASH_BARRENS=1`／`BIOME_FROZEN_REACH=2`／
+  `BIOME_BLIGHTED_GRID=3`）、`HexCell.biome` 欄位、`hex_grid_generate_biomes(grid, seed)`
+  （用一個獨立的 xorshift32 PRNG，挑 4 個種子格做 Voronoi 式最近種子分區，決定性、可重現）、
+  `hex_grid_tick_corruption(grid, dt_ms)`（Blighted Grid 格子的 `corruption` 欄位直接累加真實
+  經過的毫秒數，滿 `HEX_CORRUPTION_FLIP_THRESHOLD_MS`（60000ms）就把中立格子直接翻成
+  faction 3／Corruption——這是 corruption 欄位從 Phase 1 保留至今第一次真的有系統在寫入）。
+- `ECOWAR/packages/livingmap/hex_grid.c`（**已修改，尚未 commit**）：對應上面兩個函式的實作，
+  以及 `hex_grid_init` 裡新增 `biome = BIOME_VERDANT_WILDS` 的預設值。
+
+**下一位 agent 還沒做、真實需要做的事（按順序）：**
+
+1. 用 `cd /home/fatbaby/PARENA && ./parena build stdlib/ecowar/biome_mod.prn -o
+   /home/fatbaby/ECOWAR/packages/livingmap/biome_mod.c` 產生真正的 .c 檔，並寫
+   `biome_mod_host.h`（參考同目錄下其他 `*_mod_host.h` 的寫法）。
+2. 把 `hex_grid_generate_biomes`／`hex_grid_tick_corruption` 接進
+   `packages/simulation/living_map_bridge.c`：`living_map_bridge_init_match` 要呼叫
+   `hex_grid_generate_biomes`（目前還沒有真正的 per-match seed 傳入機制，可以先用固定 seed，
+   誠實地標註這是暫時的）；`living_map_bridge_tick` 要呼叫 `hex_grid_tick_corruption(dt_ms)`。
+3. 把 `on-biome-convert-resistance-multiplier-pct` 接進
+   `packages/livingmap/town.c` 的 `town_attempt_convert`：算出 `resistance` 之後，用
+   `hex_grid_cell_at(grid, t->coord)` 找出該 town 所在格子的 `biome`，乘上真實的百分比再套用。
+4. 把新檔案加進 `packages/livingmap/BUILD.bazel`、`scripts/build.sh`、`scripts/build_arena.sh`、
+   `scripts/test_arena.sh`（這個 repo 每次新增 mod 檔案都要手動加進這些清單，之前已經踩過好幾次
+   這個坑，SECTION 377-381 的每個 commit 都示範過正確做法，照抄即可）。
+5. 寫真實的測試（`tests/test_biomes.c`）：至少要驗證
+   `hex_grid_generate_biomes` 是決定性的（同 seed 同結果）、`hex_grid_tick_corruption` 真的會在
+   `HEX_CORRUPTION_FLIP_THRESHOLD_MS` 之後把中立格子翻成 faction 3、Verdant Wilds／Frozen
+   Reach 真的改變了 `town_attempt_convert` 的抗性數字。
+6. 寫 `ECOWAR/docs/NORTHSTAR_BIOMES.md`（真實批評 + 設計 + phased plan，格式參考
+   `NORTHSTAR_REFLUX.md`／`NORTHSTAR_LIVING_MAP.md`），註冊進
+   `EMILY/context/golden-docs-index.md`。
+7. 全部測試跑過（`bash scripts/test_arena.sh`）、`build.sh`／`build_arena.sh` 都要乾淨無錯誤，
+   再照這個 monorepo 的標準流程 commit（PARENA 先、ECOWAR 再、EMILY BACKLOG 最後）、
+   `emily changelog add`、`emily apples post`、更新這個 SECTION 382 的勾選狀態。
+
+**尚未動工、只是命名、真實延後的部分（在 `docs/NORTHSTAR_BIOMES.md` 裡要如實記錄，不要假裝做了）：**
+Ash Barrens 的「更頻繁的敵對生物刷新」（可以接到 SECTION 380 已經建好的
+`ecowar_tick_bloodflower_hostile_spawner` 頻率上，但這次完全沒動）；Frozen Reach 的「creep 移動
+變慢」（`creep.c` 的函式目前完全不吃 `HexGrid*`，要讓 creep 感知自己所在格子的 biome 需要改
+函式簽名，這次時間不夠沒做）；"3–5 個生物群系"裡的可變數量／重複類型（這次固定做死 4 個區域、
+每種生物群系剛好一塊，是真實但比原始設計窄的版本）。
+  session: sess-20260905-0720-ec33e7c5
