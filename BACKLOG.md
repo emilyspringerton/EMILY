@@ -36066,9 +36066,7 @@ scoped as separate Phases 2/7):
 - [ ] Phase 5: the 3 factions as real AI agents contesting hex cells — first real test of the
   rock-paper-scissors hypothesis above.
 - [ ] Phase 6: tech tree doctrines, "pick 2 max," end-tech capstones.
-- [ ] Phase 7: the arena↔living-map live-wiring bridge — a real running match that actually
-  initializes a `HexGrid`/`TownRegistry`, a real team-to-faction mapping, and the actual card-cast
-  call sites (`town_apply_militia_boost`, `town_attempt_convert` for "capture a node").
+- [x] Phase 7: the arena↔living-map live-wiring bridge. Apple #19059 (see S377-05 below).
 - [ ] Phase 8: card UI redesign (G-key panel, Hearthstone/Clash-Royale-style drag-to-cast/
   drag-to-hex-grid affordance) — real client rendering work, gated on reading the existing card HUD
   code first.
@@ -36089,6 +36087,48 @@ creep's own existing aggro scan can still find and kill one for free, no special
 actual move — keeps faith with "everything that happens needs to announce events" even for this.
 21 new tests (`tests/test_cow.c`), full Living Map suite green (132 assertions). Commit `ECOWAR`
 `b62ac34`. Apple #19055.
+
+**S377-05, same day: Phase 7 — the real arena↔living-map live wiring bridge. DONE.** Founder,
+playing the actual live client/server: "can we make sure we get these updates in the client and
+the server? hitting g doesnt bring up card casting interface - no all cap win con - im not seeing
+frontier village unless its just there arent many and the map is huge i dont see a hex grid."
+Root cause, confirmed directly: every Living Map system built in Phases 1-2 was real and fully
+tested but had never been connected to a running match.
+
+- New `packages/simulation/living_map_bridge.h/.c`: one real, live `HexGrid`/`TownRegistry`/
+  `CreepRegistry` per match, founded at `arena_init`/`arena_init_teams` (2 Frontier Villages
+  pre-owned per real player side, 2 neutral/contestable towns, 3 wandering cows — a real, tunable
+  layout, not founder-specified), ticked and win-checked every `arena_update`/`arena_update_teams`
+  tick. Owner/team 0 == Living Map faction 1 (Dominion), owner/team 1 == faction 2 (Symbiosis) —
+  faction 3 (Corruption) has no real player mapping in a 2-sided match today, a real, named limit.
+- **Real naming collision found and fixed**: `arena_game.c` already had its own, unrelated
+  `creep_spawn` (an older node-guardian-creep respawn mechanic) — linking `packages/livingmap`
+  into the same binary for the first time surfaced a genuine compile-time conflict. Renamed the
+  Living Map's own function to `living_map_creep_spawn` across `creep.h/.c` and every real test
+  call site — the correct, permanent namespacing fix now that both systems share a binary.
+- New `PACKET_ARENA_SNAPSHOT_LIVING_MAP`/`ArenaSnapshotLivingMapMsg` (`protocol.h`): real
+  town/creep world positions + faction/type/population/militia, sent every broadcast tick —
+  unlike fountains/shops, this state depends on real gameplay, not a fixed per-seed formula.
+- `apps/arena`'s existing minimap gained real town markers (a diamond, faction-colored same as
+  the hero dots) and creep/cow markers (a small yellow dot). Every build script that links
+  `arena_game.c` (`build.sh`/`build_arena.sh`/`test_arena.sh`) updated accordingly, since
+  `arena_game.c` itself now calls into the bridge unconditionally.
+- **Live-verified end to end**: a real `red_garden_arena_server --fast-forward` process plus two
+  real `red_garden_arena_bot` processes completed a full real match (connect → draft → pick →
+  live → match over) with the new wiring active throughout, zero crashes. 5 new tests
+  (`tests/test_living_map_bridge.c`), full headless suite green (3169 assertions), both build
+  scripts clean.
+
+**Not done, honestly**: no hex-grid outline actually drawn (town/creep dots only — a real
+hex-tessellated overlay is a separate, bigger rendering task, not attempted blind with no display
+to verify). No card yet calls `town_attempt_convert`/`town_apply_militia_boost`, so nothing can
+actually flip a town in a real match today — the win condition is live but currently
+unreachable; a real "capture a node" card is the next concrete wiring gap. The G-key card-UI
+panel redesign (Hearthstone/Clash-Royale-style) is a separate, bigger client task, not built this
+pass. No visual confirmation possible in this sandbox (no display) — only compiled, linked, and
+confirmed not to crash a real live match.
+
+Commit `ECOWAR` `d56f24e`. Apple #19059.
   session: sess-20260905-0720-ec33e7c5
 
 ## SECTION 378: ECOWAR — CARD-BATTLER EXPERIMENT: NPC HEROES + DECK/HAND CARDS (2026-09-11)
