@@ -35429,3 +35429,87 @@ thoughts?" -- the S368 restart alone didn't fully fix it.
 
 - [ ] **HITL-REV-101: RAINFORREST CAFE APPLY** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 370: ECOWAR — MANDELBROT PROCEDURAL JUNGLE GENERATION (2026-09-11)
+
+Founder real-time, this session: "lets use the mandelbrot set to add more trees in between the
+bases. we want there to be a lot more trees like DOTA2 - but actually can we build it into the
+game so that we procedurally generate the map for each new game?" Routed via `emily observe`
+first (obs `2026-09-11T17:55:56Z`, Apple #19006), scoped here per `ECOWAR/CLAUDE.md`'s own
+Founder Real-Time Direction protocol. **ECOWAR only** (founder's own choice, asked directly —
+REDGARDEN shares byte-identical `arena_game.c`/obstacle code today but is explicitly out of
+scope for this pass; porting back is a separate, later decision, not silently implied here).
+
+Real findings from reading ECOWAR's own current code before scoping (not assumed):
+- Jungle obstacles (`ARENA_OBSTACLE_TREE`/`ARENA_OBSTACLE_ROCK`) are today a single fixed
+  32-piece static array (`ARENA_OBSTACLE_COUNT`, `arena_obstacles_reset_layout` in
+  `packages/simulation/arena_game.c`) — identical every match, hand-placed as two mirrored
+  "walls" between each team's spawn and its flank nodes plus scattered outer dressing.
+- Obstacles are **never wire-synced** — client and server each call the same deterministic
+  function independently and get the same static layout for free (only `obstacle_hp[]`, for
+  the Tree passive, rides the snapshot). Any procedural generator needs to preserve this
+  exact "compute-not-sync" property (both sides byte-identical, no extra round trip) or it
+  silently breaks the very requeue bug S170-148 already fixed once.
+- A real per-match seed **already exists end-to-end** and is unused for this purpose:
+  matchmaker generates a fresh `uint32_t seed` per match, passes it to the spawned
+  `arena_server` via `--seed` (`srand()`'d there) and to the client via `MatchFoundMsg.seed`
+  (`PACKET_MATCH_FOUND`) — but `apps/arena/src/main.c`'s `net_find_and_connect` currently reads
+  only `msg->port` and silently drops `msg->seed` on the floor. This is the natural seed to
+  drive per-match jungle variety from — no new protocol field needed, just wiring the drop
+  point.
+- Real risk named, not yet hit: using the shared global `rand()`/`srand()` stream for jungle
+  generation would NOT be safe, because client and server consume `rand()` for other,
+  independent things (bot AI decisions server-side, none client-side, etc.) in different
+  orders — the existing static layout is safe today only because it doesn't call `rand()` at
+  all. Generation needs its own small, isolated seeded PRNG (not libc `rand()`), seeded once
+  from the match seed, called at one matching point on both sides, so nothing else's `rand()`
+  calls can ever perturb it.
+- Real wire-size constraint found, not yet hit: `ArenaSnapshotMsg.obstacle_hp[]`
+  (`ARENA_SNAPSHOT_OBSTACLE_COUNT`, must match `ARENA_OBSTACLE_COUNT`) DOES ride the snapshot
+  (for Tree-passive HP/regen). `packages/common/protocol.h`'s own doc comment already records
+  that this struct was once split into a separate `PACKET_ARENA_SNAPSHOT_HEROES` packet purely
+  because a full 20-hero lobby blew past the ~1500-byte Ethernet MTU. Going from 32 to "a lot
+  more, DOTA2-style" trees (uint16_t each) will very plausibly reopen that same MTU ceiling and
+  need the same already-established fix (split obstacle HP into its own packet), not a new
+  pattern.
+
+Plan (not yet built):
+- [ ] **S370-01: isolated per-match PRNG.** Small seeded generator (e.g. splitmix32/xorshift),
+  not libc `rand()`; a `arena_set_match_seed(uint32_t)` setter storing it in a file-scope
+  static (NOT `arena_state`, which every init path `memset`s to zero before obstacles are laid
+  out).
+- [ ] **S370-02: seed plumbing.** Server: set from the existing `--seed`/`seed_arg` before
+  `arena_init_teams()`. Client: capture `msg->seed` in `net_find_and_connect` (currently
+  discarded) and set it before the client's own `arena_init()`/post-requeue
+  `arena_obstacles_reset_layout()` calls.
+- [ ] **S370-03: Mandelbrot-driven placement.** Map the jungle region between the two bases
+  (excluding spawn columns, graveyards/fountains, the four flank capture nodes, and the mid
+  lane corridor — reuse `arena_nodes_reset_layout`'s own positions and
+  `arena_graveyard_position()` for exclusion, same as the existing hand-placed walls already
+  route around) onto a per-match sub-window of the complex plane (seed picks the sub-window, so
+  each match's fractal pattern differs, not just tree jitter on a fixed skeleton). Sample
+  candidate points across that region; use escape-time iteration count as both a placement
+  mask (favor the fractal boundary band — pure interior/immediate-escape points are skipped, so
+  the result naturally clusters into organic, branching thickets rather than a uniform grid or
+  a solid blob) and obstacle radius/HP variation (slower-escaping = larger/older tree).
+  Target density: a clear step up from 32 toward something DOTA2-jungle-reads-as-dense — real
+  number to be tuned against the wire-size budget in S370-04, not fixed in advance.
+  Rocks stay a much smaller, secondary population (unchanged role: sight-blocking terrain
+  accents, not the "more trees" ask).
+- [ ] **S370-04: wire-size budget.** Recompute `ArenaSnapshotMsg` total size at the new
+  `ARENA_OBSTACLE_COUNT`; if it reopens the MTU ceiling (very likely per the finding above),
+  split `obstacle_hp[]` into its own `PACKET_ARENA_SNAPSHOT_OBSTACLES` packet, same pattern
+  `PACKET_ARENA_SNAPSHOT_HEROES` already established for exactly this reason — not a new
+  design.
+  `ARENA_SNAPSHOT_OBSTACLE_COUNT` must keep matching `ARENA_OBSTACLE_COUNT` per its own existing
+  doc comment.
+- [ ] **S370-05: exclusion-zone regression check.** Existing ~300 unit tests call
+  `arena_init_teams()`/`arena_init_with_heroes()` directly; procedural placement must never
+  obstruct a node, spawn, or graveyard those tests (and real matches) depend on being walkable
+  — verify against every node/graveyard/lane coordinate the same way the hand-placed layout's
+  own doc comments already reason about clearance, plus a new test asserting zero generated
+  obstacle overlaps any exclusion zone across a spread of seeds.
+- [ ] **S370-06: `go test ./...` N/A (this is the C module)** — `bash scripts/build.sh` +
+  `bash scripts/test_arena.sh` + `bazel test //tests/...` must stay clean (ECOWAR's own
+  documented bar), Apple + CHANGELOG + commit/push per `ECOWAR/CLAUDE.md`.
+  session: sess-20260905-0720-ec33e7c5
