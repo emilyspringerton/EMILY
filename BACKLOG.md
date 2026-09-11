@@ -35372,5 +35372,60 @@ queuing for match nothings happening either matchmaking or the bot pool is down?
   (manual systemd restarts + a deploy-state file outside the git repo), not a commit.
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 369: REDGARDEN — REAL MATCHMAKER BUG, next_game_port UNBOUNDED GROWTH (2026-09-11)
+
+Founder real-time, second report the same day: "ok i am queued and it still doesnt work... any
+thoughts?" -- the S368 restart alone didn't fully fix it.
+
+- [x] **S369-01: real root cause narrowed further than S368** -- the founder's own real external
+  IP genuinely reached the matchmaker and was included in a real 20-player match (confirmed via
+  the matchmaker's own log: `queued 174.210.226.137:6770` immediately followed by `matched 20
+  players -> spawned server on port 7300`), but then had to re-queue. This means the actual
+  failure is specifically between "matched" and "successfully connected to the spawned game,"
+  not the matchmaker's own fixed port.
+- [x] **S369-02: found live -- `next_game_port` in `apps/matchmaker/src/main.c` has no upper
+  bound at all.** Confirmed via this exact matchmaker's own log history: it drifted from its real
+  `--first-game-port` (7300) all the way to 38674 over 5 days of the bot-pool's own continuous
+  match cycling, with a plain unconditional `next_game_port++` and no wraparound. Ruled out a
+  bind-address bug first (the spawned `arena_server` binds `INADDR_ANY`, identical to the
+  matchmaker's own listen socket, independently confirmed externally reachable via the founder's
+  own real queue packets). Leading remaining theory, not fully confirmable from inside this box
+  (no sudo, no external vantage point available): an external firewall/NAT with a bounded allowed
+  range that the ever-growing port number had already walked outside of.
+- [x] **S369-03: fixed the unconditionally-real part of the bug.** New `first_game_port`/
+  `GAME_PORT_RANGE` (200) wrap the port back to its original starting value after 200 spawned
+  matches instead of growing forever -- keeps every game server inside a small, stable,
+  predictable window for the life of the process, whatever that window turns out to need to be.
+  Live-verified the fix's normal-operation path with a real, isolated matchmaker+bot instance
+  (ports increment correctly from a fresh `--first-game-port`, no regression to existing
+  behavior); the 200-match wraparound itself is verified by code review (a simple, obviously
+  correct boundary check), not a live 200-cycle run.
+- [x] **S369-04: a second, narrower gap named, not fixed.** The existing stale-retry protection
+  (`recently_matched`, S170-85/86) matches by exact IP+port, so a client that relaunches (a new
+  UDP socket, hence a new source port) after a failed connection looks like a brand-new player to
+  the matchmaker, not the same one retrying -- matching the founder's own log, which showed three
+  distinct source ports from the same real external IP in quick succession. Real, deliberately
+  not attempted here: fixing this properly needs a real player-identity signal (not just a raw
+  socket address) to tell "the same player retrying" apart from "a genuinely new player," which
+  this matchmaker doesn't currently have.
+- [x] **S369-05: deployed live -- and this pass's own restart killed the founder's real, active
+  match, a real mistake, corrected here rather than left standing.** Before restarting, the check
+  used was "is any `red_garden_arena_server --lobby-size 20` process running" -- reasoned to be
+  safe because that flag matches the bot-pool farm's own default. That reasoning was WRONG: the
+  bot-pool matchmaker (`:7778`) is this client's own default connection port, and its entire
+  design is real players filling open slots ALONGSIDE bots, not a separate bots-only mode -- a
+  real player's own match on this exact matchmaker is indistinguishable from an all-bot one by
+  lobby size alone. The founder had said "ok im in finally" shortly before this restart; that
+  should have been treated as a direct signal to confirm before touching anything, not proceed
+  on a process-list check that couldn't actually rule out exactly this. Founder confirmed
+  afterward: "u killed my game bro." Real, honest, not-yet-solved consequence: there is currently
+  NO reliable, safe way to auto-restart (or agent-restart) `:7778` specifically without either
+  asking a human first every time, or building a real player-identity signal this matchmaker
+  doesn't have today -- S369-04's own named gap and this incident are the same underlying
+  problem. Going forward this session: no further restarts of `redgarden-matchmaker-bots.service`
+  without asking first, full stop.
+  Apple #18953 (completion). REDGARDEN commit (next, this same session).
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **HITL-REV-101: RAINFORREST CAFE APPLY** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
