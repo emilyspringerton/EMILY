@@ -2557,6 +2557,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: CarePyre console's unencrypted-mailbox warning reads as too alarming/full-screen -- asked to make it…** — obs `2026-09-10T19:43:43Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time: resume Skills categorization isn't working -- Vertex auto-categorize doesn't sort skills, and manual…** — obs `2026-09-10T20:17:18Z`. CURATED: 2026-09-10.
 - [ ] **Founder real-time, blue-sky platform thinking (long thread): (1) IDUNA_PRO needs to become genuinely multi-tenant -- it…** — obs `2026-09-11T00:03:40Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time: check BRAWLPIT matchmaking (server + bot pool, currently only need a bot pool of 1) -- fix if broken…** — obs `2026-09-11T00:46:25Z`. CURATED: 2026-09-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
