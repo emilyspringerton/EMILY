@@ -36335,3 +36335,57 @@ Plan:
   practice.
 - [ ] Extract `reflux_runtime` into its own standalone package once a second real game wants it.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 381: ECOWAR — ALLCAP: THE WIN CONDITION ITSELF, MADE MOD-DRIVEN (2026-09-11)
+
+Founder real-time, continuing REFLUX (SECTION 380): "even the win con should be mods - capping a
+base should work as a mod or a collection of mods and the wincon mod should interface with that
+mod via the ALLCAP mod or something like that."
+
+**DONE.** Real 3-hop REFLUX chain — REFLUX's first genuine multi-hop pub/sub, and its second real
+dispatcher/subscriber pair:
+
+1. **CAP** (`PARENA/stdlib/ecowar/town_cap_mod.prn`, new) — trigger-only, same shape
+   `bloodflower_mod.prn` already established. `packages/livingmap/town.c`'s own
+   `town_attempt_convert` calls `on-town-captured` the instant a real conversion succeeds; the mod
+   dispatches `REFLUX_ACTION_TOWN_CAPPED(town-id, old-faction, new-faction)`.
+2. **ALLCAP** (`PARENA/stdlib/ecowar/allcap_mod.prn`, new) — real, pure PARENA logic, no FFI
+   needed at all: `on-allcap-check(owned-count, total-count)` is the actual win rule itself
+   (`owned == total`), now a real, named, mod-owned decision instead of a bare host-C comparison.
+   **Never imports, includes, or calls `town_cap_mod.prn`** — the only real connection is the
+   shared REFLUX log. New host-side `ecowar_tick_allcap_win_check` (`arena_game.c`) polls for
+   `TOWN_CAPPED`, computes real owned/total counts via new `town_registry_owned_count`/
+   `town_registry_active_count` (`packages/livingmap/town.h/.c` — real host C, since VS0's
+   scalar-only ABI can't loop over structured `TownRegistry` data), asks the mod, and dispatches
+   `REFLUX_ACTION_ALLCAP_WIN` if true.
+3. `arena_update`/`arena_update_teams` now poll for `REFLUX_ACTION_ALLCAP_WIN` (their own separate
+   real cursor) instead of calling `living_map_bridge_full_control_faction()` directly — that
+   function still exists, real and tested, for direct/test use; the live match loop no longer
+   calls it.
+
+**REFLUX extracted into its own standalone package** (`packages/reflux/`, moved from
+`packages/simulation/`) — `packages/livingmap/town.c` needed to dispatch into it too, and neither
+package was ever meant to depend on the other. A real, concrete second internal consumer, not
+hypothetical — exactly the trigger `docs/NORTHSTAR_REFLUX.md`'s own original "arena-scoped for
+now" note said to watch for.
+
+New `living_map_bridge_attempt_convert_town` — the real, live entry point the founder's own future
+"capture a node" card (SECTION 377 Phase 2) will eventually call; this pass's own test is its
+first real caller, proving the whole chain end to end.
+
+7 new tests (`tests/test_allcap.c`), full suite green (3196 assertions), both build scripts clean.
+Live-verified: a real fast-forwarded server + 2 real bots completed a full match with the new
+wiring active, zero crashes.
+
+Full design writeup: `ECOWAR/docs/NORTHSTAR_REFLUX.md`'s own new ALLCAP section.
+
+Commits: `PARENA` `4b3694c`, `ECOWAR` `316b46c`. Apple #19069.
+
+Plan:
+- [x] CAP mod + ALLCAP mod + full 3-hop REFLUX chain, live-tested. Apple #19069.
+- [x] REFLUX extracted into its own standalone `packages/reflux/` package.
+- [ ] The real "capture a node" card itself (SECTION 377 Phase 2/7) — `living_map_bridge_attempt_
+  convert_town` is ready and waiting, nothing in a live client calls it yet.
+- [ ] A real third REFLUX subscriber somewhere, to prove genuine N:M fan-out (2 dispatcher/
+  subscriber PAIRS exist now, but no single action type has more than one real subscriber yet).
+  session: sess-20260905-0720-ec33e7c5
