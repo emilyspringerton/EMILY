@@ -36076,6 +36076,19 @@ scoped as separate Phases 2/7):
   factions have real, distinguishable behavior worth skinning.
 - [ ] Open, unresolved (not phased, raised by the founder): hero-as-NPC / full deck-building
   card-battler pivot — a fundamental core-loop change, named in the NORTHSTAR doc, not decided.
+
+**S377-04, same day: cows. DONE.** Founder, terse: "add cows." Interpreted in context (no further
+detail given) as a real, well-known RTS-map convention: harmless, passive, wandering neutral
+wildlife, built on the existing creep aggro/chase/leash/reset system rather than a new one. New
+`creep_spawn_cow` (low hp, neutral faction, a new `LivingMapCreep.passive` flag that makes an IDLE
+tick wander — a plain, deterministic step pattern, no PRNG needed — instead of aggro-scanning,
+bounded to a real radius from home). A cow never fights back or initiates aggro, but isn't immune
+to being targeted — its neutral faction_owner is a real, ordinary value, so a hostile faction
+creep's own existing aggro scan can still find and kill one for free, no special-casing needed
+(real emergent behavior, not a bug). New `LIVING_MAP_EVENT_CREEP_WANDERED` event, fired only on an
+actual move — keeps faith with "everything that happens needs to announce events" even for this.
+21 new tests (`tests/test_cow.c`), full Living Map suite green (132 assertions). Commit `ECOWAR`
+`b62ac34`. Apple #19055.
   session: sess-20260905-0720-ec33e7c5
 
 ## SECTION 378: ECOWAR — CARD-BATTLER EXPERIMENT: NPC HEROES + DECK/HAND CARDS (2026-09-11)
