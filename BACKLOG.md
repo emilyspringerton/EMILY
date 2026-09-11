@@ -2574,6 +2574,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (mid-task, ECOWAR): green-lit the hero-as-NPC/card-battler experiment explicitly framed as reversible…** — obs `2026-09-11T21:39:42Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time (ECOWAR, with a reference screenshot of Spore's planet/Civilization-stage globe view): wants the map …** — obs `2026-09-11T22:28:51Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time (ECOWAR): the win condition itself should be mod-driven, not hardcoded host C -- 'even the win con sh…** — obs `2026-09-11T23:01:15Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time (ECOWAR Living Map, SECTION 377): towns ARE the capture points — towns can be captured (flip faction_…** — obs `2026-09-11T23:28:49Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time (ECOWAR Living Map): shared a 4-biome map design (Verdant Wilds/jungle, Ash Barrens/decay+pillagers+d…** — obs `2026-09-11T23:16:57Z`. CURATED: 2026-09-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
