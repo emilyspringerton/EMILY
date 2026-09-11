@@ -35531,3 +35531,89 @@ Plan (not yet built):
   deliberately NOT restarted — still serving the pre-change binary; deploying this is a separate
   step, not requested this session. Apple #19009. ECOWAR `92e8052`.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 371: DEADWEIGHT — "DARK SECTOR: HOLD BATTLES", REAL CRITICAL SCOPING PASS (2026-09-11)
+
+Founder real-time, this session: "check for new upstream DEADWEIGHT - it has a doc with a spec for
+a game - lets start building it out with online services the same model as REDGARDEN full tracking
+of games and profiles etc allow for the model of the mobile games where you just create your name
+and you dont have to connect it to an email but if you dont you cant get back into your account -
+1v1 so same bot pool set up as ECOWAR i believe - build it with PARENA so that we target both
+ANDROID AND WINDOWS (JAVA, C) - so we really need 1 client but 2 totally different platforms like
+HEARTHSTONE - we northstarred a meta ui framework yesterday establishing that pattern here may be
+useful". Routed via `emily observe` first (obs `2026-09-11T19-12-36Z`, Apple #19014) per
+`EMILY/docs/THE_EMILY_WAY.md` Principle 18, then scoped — full write-up: `DEADWEIGHT/NORTHSTAR.md`
+(golden doc `DEADWEIGHT-NORTH`), repo `CLAUDE.md` also written, root `/home/fatbaby/CLAUDE.md`
+repo table updated (MONOREPO repo).
+
+Real findings from this pass, not assumed:
+- The upstream doc (`DEADWEIGHT/LeetCode Skills Course Curriculum.pdf`, misleadingly named) is a
+  captured Gemini transcript, same provenance pattern `MIXFORGE/legacy.txt` already set. It starts
+  as an actual LeetCode teaching curriculum and, from "write a simple game that uses the first 6"
+  onward, spirals across ~50 further turns into a fully-designed PvP game, "Dark Sector: Hold
+  Battles" — a genuinely novel core (6x6 grid, splittable polyomino cargo items with a real
+  fragmentation tax, the same grid becoming the combat board via energy-routing) escalated turn by
+  turn into a multi-year live-service feature catalog: a Black-Scholes options-pricing engine, a
+  4-tier insurance/derivatives market with a 30-second real-time ticker, Merkle-tree cargo-hiding
+  proofs, 4 status effects, 24 candidate Legendary items, 16 Ultimate abilities × 3 Flow tiers (48
+  effect descriptions, several deliberately "why would anyone pick this" until a 2-year-solved
+  meta), a 3-Win Double-Elimination 8-player tournament bracket with phase-specific financial
+  rules, 2v2 team battles with cross-grid Link Modules, and full C++ data-structure specs. Not a
+  V0 — same "real, honest pivot" judgment `MIXFORGE`/`LO` already made against their own sources.
+- Real capability audit against "build it with PARENA... target Android and Windows... 1 client...
+  like Hearthstone," checked directly rather than assumed: PARENA's C emitter (`src/emit.c`, 6218
+  lines) is mature, but this monorepo's own universal precedent for every C-hosted PARENA game
+  (REDGARDEN/ECOWAR/PAPERCRAFT/WEAKNIGHT_BEDROCK_RACERS) is a hand-written C host engine + small
+  PARENA-compiled decision-logic mods, never "the whole client written in PARENA." PARENA's Java
+  emitter (`src/emit_java.c`, 391 lines) is real but genuinely v0/embryonic — only
+  `defn`/`module`/`export`/`import`, only scalar I32/F64/Bool/String/Unit params, no
+  structs/loops/`match`/`Vec` at all; its one real precedent, `SPIDERBEETLE`, is two standalone
+  scalar helper functions called from a hand-written native Android shell, nothing resembling a
+  game engine. "1 PARENA client, 2 platforms" isn't real capability today — real recommendation:
+  two native shells (C/SDL2 Windows per `apps/arena`'s own shape, Kotlin/Java Android per
+  `MJOLNIR`'s own real, live architecture) sharing one server-authoritative backend.
+- "we northstarred a meta ui framework yesterday" = found: `EOSUI-NORTH`
+  (`EMILY/docs/EOSUI_NORTHSTAR.md`, kanban `EOSUI-1244`/`EOSUI-12444`, Apple #17813) — a real,
+  already-scoped cross-repo pass (zero shared UI framework exists anywhere in this monorepo today)
+  recommending Option C: a new `stdlib/ui/style.prn` PARENA-native flexbox-lite styling layer,
+  not built yet anywhere. DEADWEIGHT's own UI-dense spec (shop panel, ticker drawer, tabs, mobile
+  thumb-zones) makes it a real, concrete second consumer once Option C exists, alongside BRAWLPIT.
+- Guest accounts ("just create your name... don't have to connect it to an email but if you don't
+  you can't get back into your account") are genuinely new work, checked directly: IDUNA's real,
+  current `players`/`register.go` model supports exactly `provider ∈ {"google", "iduna_local"}`
+  today, both requiring a real credential up front — no anonymous/name-only provider exists
+  anywhere in this codebase. A new `provider="guest"` (client-persisted secret token, lost on
+  uninstall = the real, honest "can't get back into your account," with an upgrade-to-linked-
+  account path) is real, new IDUNA work this ask needs, not a config flag.
+- "1v1, same bot pool set up as ECOWAR" and "full tracking of games and profiles... same model as
+  REDGARDEN" are both real, directly reusable, already-built patterns (`apps/matchmaker`'s own
+  already-generic binary, `apps/arena_bot`, IDUNA's `players` table + per-match logs + Apples) —
+  named as the one genuinely low-risk, low-new-work part of this whole ask. Real, named gap: a
+  bot AI for THIS game's own mechanics (polyomino packing, energy routing) doesn't exist and isn't
+  free — ECOWAR's own bot policy network is trained against ECOWAR's own hero kit specifically.
+
+Recommended real V0 cut (`NORTHSTAR.md`'s own full section) — keep the core grid+combat loop, a
+small 6-9 item catalog, 2-3 simple Ultimates, a plain 1v1 ladder (no tournament bracket yet); defer
+the full derivatives/insurance macro layer, Merkle-tree proofs (the actual trust need is already
+solved by "don't send the layout over the wire until combat locks," the same pattern this
+monorepo's own obstacle/fountain layouts already use), 2v2, and the exact byte-level data
+structures — named explicitly, not silently dropped, matching this repo's own "real fork named
+explicitly" convention.
+
+Plan (not yet built), full detail in `NORTHSTAR.md`:
+- [x] **D0: repo hygiene** — `CLAUDE.md`, `NORTHSTAR.md`, golden-doc registration, root repo-table
+  row. This session.
+- [ ] **D1: the core loop, local-only** — grid, placement, split+tax, energy routing, no
+  networking, proves the mechanical core is fun before any server code exists.
+- [ ] **D2: server-authoritative 1v1** — new `apps/deadweight_server`/`apps/deadweight_matchmaker`
+  (the latter literally `apps/matchmaker` reused with new flags/ports) + a placeholder heuristic
+  bot. IDUNA: new `game='deadweight'` scope, new `DEADWEIGHT-BOTS` M2M agent identity, and the
+  real new guest-account provider work.
+- [ ] **D3: Windows client** — hand-written C/SDL2 shell, first real PARENA mod integration.
+- [ ] **D4: Android client** — hand-written native Kotlin/Java shell (MJOLNIR's own template, a
+  new app not a fork), PARENA's Java emitter used only for its real, narrow current capability.
+- [ ] **D5: EOSUI Option C retrofit** — once `stdlib/ui/style.prn` exists as its own, separate,
+  cross-repo deliverable.
+- [ ] **D6: V0 launch bar** — build clean on both client targets + server, live-verified 1v1 match,
+  Apple + CHANGELOG + commit/push per this repo's own `CLAUDE.md` protocol.
+  session: sess-20260905-0720-ec33e7c5
