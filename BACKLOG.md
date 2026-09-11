@@ -35190,3 +35190,47 @@ than documented.
   `resume_targets`/`community_tools`.
   Apple #18936 (completion). IDUNA_PRO commit `699c585`.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 365: ECOWAR MATCHMAKER DEAD FOR 5 DAYS — REAL ROOT CAUSE FOUND AND FIXED (2026-09-11)
+
+Founder real-time: "ok lets iterate on ecowar i tried to play a game and either the bot client or
+the matchmaking service is down... seems like - i downloaded the most recent release and tried to
+launch PLAY.bat and its just stuck on queueing."
+
+- [x] **S365-01: real root cause found — `ecowar-matchmaker.service` had been `inactive (dead)`
+  for 5 days**, while `ecowar-bot-pool.service` kept running the whole time against a matchmaker
+  nothing was listening on. `journalctl --user -u ecowar-matchmaker.service` showed the real
+  cause: "Failed to load environment files: No such file or directory" — the unit's
+  `EnvironmentFile=/home/fatbaby/ECOWAR/var/redgarden-iduna-agent.env` pointed at a file that
+  never existed for ECOWAR specifically, and a bare (non-optional) `EnvironmentFile=` fails a
+  systemd unit's ENTIRE activation when missing, not just the feature it backs — so the
+  matchmaker binary never even ran, and every real player's `PLAY.bat` queued against a dead
+  port with nothing to ever answer it.
+- [x] **S365-02: fixed by resolving `ECOWAR/README.md`'s own previously-flagged-but-undecided
+  "does ECOWAR report under its own agent identity or REDGARDEN's?" question — its own.**
+  Provisioned a real, genuinely distinct `ECOWAR-BOTS` M2M agent in IDUNA: new migration
+  `IDUNA/migrations/truestore/202609110001_ecowar_bots_agent.sql` (mirrors
+  `202608050002_gta7_server_agent.sql`'s exact shape, reusing the already-existing
+  `redgarden.ticket.mint`/`redgarden.match.write` permissions REDGARDEN-BOTS already has — no new
+  permission rows needed), a new `config/agents.json` entry, provisioned live via `cmd/bootstrap`
+  against the real production IDUNA DB (backed up first). Wrote the real secret to a new
+  `ECOWAR/var/ecowar-iduna-agent.env`, and made the `EnvironmentFile=` line optional (leading
+  `-`) in `ecowar-matchmaker.service` so this exact failure mode — core matchmaking blocked by an
+  auxiliary WOTAN-reporting credential — can never recur.
+- [x] **S365-03: deployed and live-verified end to end, not just "should work now."** Copied the
+  fixed unit to `~/.config/systemd/user/`, `daemon-reload` + `enable --now` — matchmaker came up
+  clean, listening on real UDP `0.0.0.0:9779`, log line confirms
+  `IDUNA agent configured: name=ECOWAR-BOTS ... (WOTAN match-result reporting available)`.
+  Restarted the bot pool for a clean reconnect. Then a real, tightly-timed two-bot test (the
+  persistent pool bot + one temporary manually-launched `red_garden_arena_bot`) proved the full
+  real flow: both queued, matched together, a dedicated arena server spawned, both connected
+  (`hero slot 0`/`hero slot 1`), both drafted real heroes, and the matchmaker's own log showed
+  real gameplay tick data flowing — the exact same journey a real player's `PLAY.bat` takes.
+  Real, separate, honest gap found along the way, logged not silently fixed (needs root, not
+  available in this sandbox — `sudo` requires a password here): `var/matches`/`var/corpus` are
+  owned by a different user (`treeiii`) without world-write permission, so the arena server
+  (now running as `fatbaby`) silently can't write match replay logs or AI training corpus data
+  ("could not open match log ... will not be logged") — non-blocking for actually playing, a real
+  follow-up for whoever has root on this box.
+  Apple #18938 (completion). ECOWAR commit `361e09e`. IDUNA commit `15bf19a`.
+  session: sess-20260905-0720-ec33e7c5
