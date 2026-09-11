@@ -36199,3 +36199,60 @@ Plan:
   already cheap (flip `npc_controlled` back to 0, stop calling the card-battler functions) — no
   code deletion required.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 379: ECOWAR — SPHERICAL WORLD + FIXED-CAMERA CONTROLS, SCOPED (2026-09-11)
+
+Founder real-time, with a reference screenshot (Spore's planet/Civilization-stage globe view):
+"can we have it so that the map is actually a sphere and then the camera is fixed and you can move
+the actual map around - like on mobile you can just rotate it like a ball - on pc you can do that
+with right click holding that makes it so the map rotates like you could rotate a sphere in a
+graphics program and then when you arent holding right click if you scroll to the edge of the
+screen like in an RTS the actual camera would pan if you move your mouse to the edge of the screen
+or however RTSs usually work flip the paradigm."
+
+Asked how to sequence this given the scale (a literal spherical world rewrites the coordinate
+system every Living Map/arena system this session was built on top of), the founder chose: **scope
+it first, no code yet.** Wrote `ECOWAR/docs/NORTHSTAR_SPHERE_CAMERA.md` (registered
+`ECOWAR-SPHERECAM-NORTH`) rather than guessing at implementation.
+
+Real, checked-first finding, not assumed: the camera is ALREADY a real 3D orbit camera
+(`mat4_orbit_view`, yaw/pitch/dist, real perspective projection) and right-click-drag ALREADY
+rotates it (`cam_yaw`/`cam_pitch` in `apps/arena/src/main.c`) — it just orbits the camera around a
+focus point hardcoded to the local hero's own position every frame (a MOBA-style hero-locked
+camera; no free-roam camera mode exists at all today).
+
+Names the single real, load-bearing decision this doc doesn't make: does "sphere" need to be
+**functionally real** (units walk a curved surface, geodesic distance/pathing, a from-scratch
+geodesic hex-and-12-pentagons grid replacing the flat `packages/livingmap/hex_grid.h` this session
+just built) or just **visually real** (the exact same flat world and math, rendered with a
+vertex-shader terrain curvature bend)? Recommends starting from the cheap visual version — nothing
+in the reference screenshot proves which one Spore itself actually used, and it needs zero changes
+to any Living Map/combat math already shipped this session.
+
+Real technical challenges named for the expensive path: no perfect hex tiling exists on a sphere
+(Euler's formula forces exactly 12 pentagons on any hex-dominant closed polyhedron — the real
+reason every hex-planet game uses a geodesic/Goldberg polyhedron, not a flat grid wrapped around a
+ball); sphere-raycasting for click-to-world; curved-surface hero "up"/facing (S202-40's Shadow
+Step already depends on a real, meaningful facing vector). Flags a real, unresolved tension in the
+ask itself as a direct founder follow-up, not guessed at: an edge-pan implies camera movement,
+"the camera is fixed" implies none — which one wins isn't decided here.
+
+6-phase plan in the doc: (1) a free, hero-decoupled camera on the existing flat map — real,
+useful regardless of the sphere decision; (2) resolve the edge-pan/fixed-camera tension; (3) the
+cheap visual sphere bend; (4) arcball rotation + reinterpreted edge-pan; (5) mobile touch-rotate
+input (no mobile client exists yet); (6) "functionally real" sphere, only if Phase 3's cheap
+version is tried and found genuinely insufficient.
+
+No code written this pass, per the founder's own explicit choice.
+
+Plan:
+- [x] Scoping doc written, golden-index registered.
+- [ ] Phase 1: free, hero-decoupled camera on the existing flat map.
+- [ ] Phase 2: resolve the fixed-camera-vs-edge-pan tension with the founder.
+- [ ] Phase 3: visual sphere bend (recommended starting point for the geometry question).
+- [ ] Phase 4: arcball rotation + reinterpreted edge-pan.
+- [ ] Phase 5: mobile touch-rotate input.
+- [ ] Phase 6: "functionally real" spherical geometry — only if Phase 3 is tried and found
+  insufficient; a real, large, multi-system rewrite, not estimated further without its own design
+  pass.
+  session: sess-20260905-0720-ec33e7c5
