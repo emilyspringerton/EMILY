@@ -35633,3 +35633,71 @@ Plan (not yet built), full detail in `NORTHSTAR.md`:
 - [ ] **D6: V0 launch bar** — build clean on both client targets + server, live-verified 1v1 match,
   Apple + CHANGELOG + commit/push per this repo's own `CLAUDE.md` protocol.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 372: PARENGINE — CROSS-REPO GAME-ENGINE ABSTRACTION SCOPING (2026-09-11)
+
+Founder real-time: "for the engine can we take a look at all of the games that we have - SHANKPIT,
+REDGARDEN, BRAWLPIT ETC - and start to abstract the libraries that make up our engine - like there
+must be things that we are doing every time that we can extract into PARENA to start to more
+formalize a shape of a game engine instead of just always calling SHANKPIT a game engine which it
+isnt really yet." Routed via `emily observe` first (obs `2026-09-11T19-28-04Z`, Apple #19018) per
+Principle 18, then investigated across every real game repo before proposing anything. Full
+write-up: `EMILY/docs/PARENGINE_NORTHSTAR.md` (golden doc `PARENGINE-NORTH`).
+
+Real findings, checked directly (full evidence table in the doc itself):
+- Frame-break named up front: `SHANKPIT`/`GoblinFoxDragon` are a genuinely different Go-server
+  lineage from `REDGARDEN`/`ECOWAR`/`BRAWLPIT`/`PAPERCRAFT`/`WEAKNIGHT_BEDROCK_RACERS`'s own
+  separate C/SDL2 `packages/simulation`-shaped lineage — neither was ever structurally "the
+  engine," each is one specific game other games copied pieces of by hand.
+- `mat4.h` is byte-identical (same md5) across REDGARDEN/ECOWAR/WEAKNIGHT_BEDROCK_RACERS — the
+  last of which isn't even a REDGARDEN fork, pure hand-copy-paste. `hmac_sha256.h`/`http_client.h`
+  were copied once each into PAPERCRAFT/WEAKNIGHT and have since silently diverged (different
+  md5s) — meaning a real bugfix in one never reaches the other three.
+- A live, self-caused example from this exact session: S370's own ECOWAR-only seed-plumbing fix
+  to `apps/matchmaker` already left REDGARDEN's identical copy behind (different file sizes now)
+  — proof the "generic, reusable" binary everyone points to as this monorepo's own best reuse
+  story is still, underneath, a duplicated-not-shared file.
+- Every SDL2 client independently reinvented mesh/shader/draw-primitive naming from scratch —
+  REDGARDEN/ECOWAR share one convention via their fork; BRAWLPIT/PAPERCRAFT/WEAKNIGHT_BEDROCK_
+  RACERS each built a separate, incompatible one. Starkest single finding: `draw_login_screen` is
+  a near-line-for-line hand-copy between PAPERCRAFT and WEAKNIGHT (identical signature/layout/
+  control-flow, only colors/title/`pc_`-vs-`rc_` prefix differ) — direct, concrete proof of the
+  exact pattern named in the ask.
+- Credited what's already real, working progress: PARENA's own `stdlib/sdl2.prn` (482 lines,
+  already grepped from 5 real games' usage) is genuine foundation, deliberately thin (raw SDL2
+  primitives only); `packages/goldenband` looks like a shared package but checked directly, it's
+  a literal duplicated file with no submodule/symlink, will drift the same way `hmac_sha256.h`
+  already has; the `stdlib/<game>/` per-game namespace convention works well for game-specific
+  mods but has no engine-generic equivalent.
+- Real, honest architectural distinction named: every existing PARENA mod integration is "PARENA
+  compiles logic, a hand-written C host calls into it" — pulling mesh/shader/window ownership
+  INTO PARENA is PARENA-owns-the-host, a different, bigger kind of ask needing its own design
+  pass before code, not assumed to be the same size as the existing mod pattern (same discipline
+  `DEADWEIGHT`'s own PARENA-Java-emitter audit already applied this same week).
+
+Proposed new `PARENA/stdlib/engine/` namespace (sibling to the existing per-game ones), grounded
+in real function signatures found, not invented: `mat4.prn` (zero-design-risk port, already
+byte-identical in 3 repos), `hmac.prn`/`http_client.prn` (one audited implementation instead of N
+diverging ones), `net_snapshot.prn` (the MTU-split packet-framing convention ECOWAR's own
+S170-193/S370-04 already proved twice), `mesh.prn`/`shader.prn` (highest value, gated on the
+architecture question above), `login_ui.prn` (converges independently with `EOSUI-NORTH`'s own
+Option C — corroborating signal from two separate scoping passes, not coincidence).
+
+Plan (not yet built), full detail in `PARENGINE_NORTHSTAR.md`:
+- [ ] **P1: zero-controversy extractions** — `mat4.prn`/`hmac.prn`/`http_client.prn`, with at
+  least one existing game (candidate: WEAKNIGHT_BEDROCK_RACERS, whose own `mat4.h` is a pure
+  hand-copy with nothing depending on the old file's identity) retrofit as proof it's a real
+  drop-in, not just a port that compiles in isolation.
+- [ ] **P2: `net_snapshot.prn`** — `DEADWEIGHT`'s own D2 phase (`docs/PHASE_D2_SERVER_AND_
+  ACCOUNTS.md`, EMILY/BACKLOG.md S371) is the real, ideal first NEW consumer, being built from
+  scratch this exact week rather than asking an existing shipped game to migrate first.
+- [ ] **P3: mesh/shader/render architecture design pass** — resolve PARENA-emits-helpers vs.
+  PARENA-owns-the-render-loop before any code, same "real fork named explicitly" discipline as
+  every other scoping doc in this monorepo.
+- [ ] **P4: `login_ui.prn`**, jointly with `EOSUI-NORTH`'s own Option C — not this doc's sole
+  deliverable, flagged so whoever picks up EOSUI's work knows a second, already-duplicated real
+  use case (login screens) is waiting alongside BRAWLPIT's shop-panel one.
+- [ ] **P5: opportunistic retrofit of existing games** — explicitly never a required migration;
+  each game adopts pieces of `stdlib/engine/` whenever a real touch point (a bugfix, a new
+  feature) makes it convenient, never a mandated rewrite of something already shipped and working.
+  session: sess-20260905-0720-ec33e7c5
