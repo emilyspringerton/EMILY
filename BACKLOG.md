@@ -36256,3 +36256,81 @@ Plan:
   insufficient; a real, large, multi-system rewrite, not estimated further without its own design
   pass.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 380: ECOWAR — REFLUX CROSS-MOD PUB/SUB, REAL BLOODFLOWER HOSTILES, DAY/NIGHT LIGHTING (2026-09-11)
+
+Founder real-time: "add the BLOOD FLOWER and day night rendering - we can take the graphics of the
+day night rendering from OG SHANKPIT i love the way the lighting shifts from day to night in
+shankpit - and the bloodflower for now just have it spawn a bunch of hostile creeps into the map
+at exactly the midpoint (already a mod) have the spwning in hostiles be a mod too with cross mod
+pub sub communications (THINK REDUX HOWEVER REDUX WORKS) call the mod itself REFLUX a mod that
+presents a new layer of mod interface for cross mod communication - give it its own stdlib in
+PARENA."
+
+**DONE.** Three real, separate pieces, all shipped and live-verified.
+
+**REFLUX** — real, checked-first constraint: VS0 (PARENA's compiler) has no function pointers or
+closures anywhere — a true Redux-style callback/subscriber-list dispatch table isn't buildable at
+the language level today (same limit `docs/NORTHSTAR_LIVING_MAP.md`'s own "Mod event model,
+honestly" section already named). What's real and shipped instead, and genuinely delivers
+cross-mod pub/sub: a single, shared, append-only action log any mod can DISPATCH into and any
+other mod can independently POLL from — generalizing `packages/livingmap/living_map_events.h`'s
+own proven shape into a standalone, game-agnostic primitive.
+
+- New `PARENA/stdlib/reflux/reflux.prn` (REFLUX's own real stdlib namespace, as asked): 6 real,
+  thin functions — `reflux-dispatch` + 5 real scalar accessors — thin FFI wrappers over a new real
+  host runtime, `ECOWAR/packages/simulation/reflux_runtime.h/.c` (arena-scoped for now, real and
+  cheap to extract into its own package once a second consumer wants it).
+- **Real naming collision found and fixed**: the PARENA-mangled function names `reflux_dispatch`/
+  `reflux_log_size` collided with the runtime's own originally-planned generic C API names.
+  Renamed the runtime's own internal functions (`reflux_log_dispatch`/`reflux_log_length`) rather
+  than the PARENA-facing ones.
+
+**Bloodflower's real hostile spawn** — REFLUX's first real dispatcher/subscriber pair.
+`redgarden/bloodflower_mod.prn`'s own `on-moon-zenith` — original claimable-Flow-pickup behavior
+completely unchanged — now ALSO dispatches `REFLUX_ACTION_BLOODFLOWER_TRIGGERED`. New, SEPARATE
+`ecowar/bloodflower_hostile_spawner_mod.prn` polls for it and names "a bunch" as a real, tunable 5
+creeps. **Neither mod imports, includes, or calls the other** — the only real connection is the
+shared REFLUX log; either could be deleted or a second/third subscriber added without touching the
+other. New `living_map_bridge_spawn_hostile_creep_at_map_center` spawns a real, aggressive
+`LivingMapCreep` at hex (0,0), Living Map faction 3 (Corruption)'s first real, live use anywhere in
+this codebase. New `ecowar_tick_bloodflower_hostile_spawner` (`arena_game.c`) is the real host-side
+polling loop, called once per real game tick, tracking its own persistent cursor (PARENA holds no
+state across calls).
+
+**Day/night dynamic scene lighting** — founder: "i love the way the lighting shifts from day to
+night in shankpit." Real, checked-first finding: this codebase had already ported HALF of
+SHANKPIT's own `retro_lighting.c` (the ambient clear-color tint, `arena_daynight_ambient_rgb`) but
+the actual 3D scene light direction `apps/arena`'s shader uses (`uLightDir`) was still a
+hardcoded, never-moving constant — the real gap behind "I love the way the lighting shifts." New
+`arena_daynight_light_dir` ports the other real half: SHANKPIT's own real sun-orbit formula
+extended into a full 3D direction, plus its own "sun by day, the exact opposite direction (moon)
+by night" convention. Wired into `apps/arena`'s per-frame render loop — the shader already reacts
+correctly to a moving direction with zero shader changes needed.
+
+**Live-verified end to end**: a real `red_garden_arena_server --fast-forward` process + two real
+bots completed a full match with all of this active, zero crashes. A separate, longer headless
+test drove a full real day/night cycle (practice bot disabled so it doesn't end the match first)
+and confirmed both the original Bloodflower pickup and the new real hostile creeps appear. 20 new
+tests (`tests/test_reflux.c`, `tests/test_daynight_lighting.c`), full suite green (3189
+assertions), both build scripts clean.
+
+**Not done, honestly**: no SHANKPIT starfield ported (real, self-contained, later addition if the
+light-direction change alone isn't enough). No sky-dome/gradient rendering (this game's top-down
+camera has no sky dome to light). No visual confirmation possible in this sandbox (no display) —
+only compiled, linked, and confirmed the real underlying math and live match behave correctly.
+
+Full design writeup: `ECOWAR/docs/NORTHSTAR_REFLUX.md` (registered `ECOWAR-REFLUX-NORTH`), a new
+`PARENA/STDLIB.md` entry for `reflux`.
+
+Commits: `PARENA` `83c1680`, `ECOWAR` `cfb3d19`. Apple #19065.
+
+Plan:
+- [x] REFLUX stdlib + real host runtime, live-tested. Apple #19065.
+- [x] Bloodflower hostile spawn via REFLUX (dispatcher + subscriber, zero direct coupling).
+- [x] Day/night dynamic scene light direction, ported from SHANKPIT.
+- [ ] SHANKPIT starfield port — real, later, if the light-direction change alone isn't enough.
+- [ ] A real second REFLUX subscriber/dispatcher pair, to prove N:M (not just 1:1) decoupling in
+  practice.
+- [ ] Extract `reflux_runtime` into its own standalone package once a second real game wants it.
+  session: sess-20260905-0720-ec33e7c5
