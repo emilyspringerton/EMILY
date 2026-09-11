@@ -1,5 +1,11 @@
 # PARENACLOUD — a real multi-tenant game-platform-as-a-service, scoped (Principle 19)
 
+**Direct follow-on, later same thread**: `EMILY/docs/PARENACLOUD_OPS_NORTHSTAR.md` makes this
+doc's own PC2/CLI-sketch concrete — a real, standardized `ops/playbook.toml` format plus a real,
+working `emily ops render-unit` renderer, live-verified against ECOWAR's and REDGARDEN's own real
+deployed systemd units. Read that doc for the deployment/systemd half; this one stays the
+tenancy/backend-API/CLI-architecture half.
+
 Founder real-time, this session: "lets start to think about multi tennant - what if we wanted to
 build DEADWEIGHT as a different organization on top of emily for business or whatever the gaming
 equivalent is? we can offer services such as engine and backend just like ROBLOX does... what do

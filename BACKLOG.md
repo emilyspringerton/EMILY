@@ -35802,3 +35802,62 @@ silently dropped: (1) standardizing the backend-service-creation APIs (`PARENACL
 own PC1/PC2), (2) the PARENGINE `stdlib/engine/` zero-controversy extractions
 (`PARENGINE_NORTHSTAR.md`'s own P1), (3) DEADWEIGHT's actual client (`docs/PHASE_D1_CORE_LOOP.md`).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 375: OPS/PLAYBOOK.TOML — STANDARD BACKEND-SERVICE DEPLOY FORMAT (2026-09-11)
+
+Founder real-time: "lets also start to create a standard format for the backend services in
+terms of like systemd? like for example if someone wanted to start their own fork of REDGARDEN on
+their own server there should be part of the command line interface that we discussed that pulls
+the repo reads the ops playbook or whatever and actually sets up those backend services (via
+systemd or whatever) it would be good to have a standard format - mention but defer work on
+additional dependent services setup via ansible and terraform." Direct continuation of
+`PARENACLOUD_NORTHSTAR.md`'s own PC2. Full write-up: `EMILY/docs/PARENACLOUD_OPS_NORTHSTAR.md`
+(golden doc `PARENACLOUD-OPS-NORTH`).
+
+Real findings, grounded in every hand-written unit file already live, not invented: `ECOWAR/ops/
+systemd/` still literally contains several un-renamed `redgarden-*.service` files, real copy-paste
+residue from the hard fork — the exact duplication problem this format replaces. Every correctly-
+adapted example (ECOWAR's own real `ecowar-matchmaker.service`/`ecowar-bot-pool.service`)
+independently converged on the same real shape (user-level systemd, `Type=simple`, `Restart=
+on-failure`/`RestartSec=5s`, an optional `EnvironmentFile` using the real `-`-prefix convention
+ECOWAR's own 5-day-outage incident already taught this org, `After=`/`Wants=` chaining a bot pool
+to its matchmaker). Two real, already-documented incidents (BRAWLPIT and PAPERCRAFT both silently
+bound a port another live process already held) get a real structural fix from this format's own
+`port` field being checkable data instead of buried in a free-text `ExecStart=` line.
+
+Real schema: `[game]` + repeatable `[[service]]` (`kind = "persistent" | "spawned"` — a `"spawned"`
+entry like `arena_server`, spawned per-match by its matchmaker, is documented but never gets a
+systemd unit) + `[values]` for `{{placeholder}}` substitution — real, concrete win: REDGARDEN's own
+3v3/stable/players-only unit variants (currently N separately hand-maintained near-duplicate
+files) become one playbook + small per-deploy value overrides.
+
+Real, working implementation, not just spec: `emily.cli`'s new `internal/opsplaybook` package
+(real TOML parsing via `BurntSushi/toml`, a real `RenderUnit` function) + `emily ops render-unit`.
+Live-verified with 5 real tests, including a field-by-field comparison of the rendered ECOWAR
+matchmaker unit against the real, currently-deployed `ecowar-matchmaker.service`'s own literal
+text — not eyeballed. Manually ran the real CLI against both `ECOWAR/ops/playbook.toml` (new,
+this session) and `REDGARDEN/ops/playbook.toml` (new, this session), output matching the real
+deployed units. `go build/vet/test ./...` clean across `emily.cli`, no regressions.
+
+Real, live risk found and named, not silently fixed: `REDGARDEN`'s own currently-deployed
+`redgarden-matchmaker-bots.service` still has a REQUIRED (non-optional) `EnvironmentFile=` — the
+identical landmine ECOWAR's own real incident already proved dangerous. Flagged in both the
+northstar doc and `REDGARDEN/ops/playbook.toml`'s own header comment; REDGARDEN's live matchmaker
+is a shared, currently-running service and was not touched without being asked first.
+
+Ansible (`ops/site.yml`) and Terraform (`ops/infra.tf`) for dependent services (databases, DNS,
+multi-box provisioning) explicitly mentioned and deferred per the founder's own direct
+instruction — named as real, deliberate extension points, not started.
+
+Commits: `emily.cli` `a43d41f`, `ECOWAR` `1ab2928`, `REDGARDEN` `bb9fc1c`.
+
+Plan:
+- [x] **OPS1-OPS3**: format spec, two real example playbooks, working renderer + CLI + tests —
+  all done and live-verified this session.
+- [ ] **OPS4**: the port-collision check this format now makes possible — not implemented yet.
+- [ ] **OPS5**: the real "pull the repo, build it, install+enable the rendered units" apply step
+  — gated on `PARENACLOUD_NORTHSTAR.md`'s own still-open CLI-surface decision, real live-infra-
+  mutation work needing explicit confirmation.
+- [ ] **OPS6**: fix REDGARDEN's own live required-`EnvironmentFile=` risk — named, not actioned,
+  a real, separate, confirmable infra change.
+  session: sess-20260905-0720-ec33e7c5
