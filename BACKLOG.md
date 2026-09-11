@@ -35863,3 +35863,148 @@ Plan:
 - [ ] **OPS6**: fix REDGARDEN's own live required-`EnvironmentFile=` risk — named, not actioned,
   a real, separate, confirmable infra change.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 376: ECOWAR — FOUNTAINS PROCEDURALIZED, SHOPS REDESIGNED TO 6 NEUTRAL CATALOG-SPLIT STORES (2026-09-11)
+
+Founder real-time: "ok lets iterate on ecowar - it seems like we lost fountains - can you add
+them into the procedural generation of the map? shops too? spawn like 6 shops on the map and
+divide the items on the pages between them (fundamental change to how the shop system works in
+ECOWAR vs REDGARDEN) the items will be randomized across the shops in the world so building
+towards a specifc kit with items is about strategy and luck." Followed mid-session by: "oh yea you
+can rip out templates" / "not needed in this version" (the build-template system, which the new
+shop design made incoherent — see below).
+
+Investigated first, not assumed: fountains/shops were never actually broken in the sim —
+`arena_tick_fountains`, `arena_fountain_position`, and the client's own draw loop are all real and
+unconditional. The real, found gap: the minimap (S181-04) never plotted fountains or shops at all
+— on a map that's grown 9x (ECOWAR-MAP-9X, 2026-09-07) with no wayfinding aid, a fixed-position
+structure many hundreds of units from spawn reads as "gone" in practice even though it's real and
+reachable.
+
+**Fountains (S371-01, ECOWAR-local tag S376-01 after a numbering collision — see below):** the
+corner margin (`ARENA_HALF_EXTENT - margin`) is now a real per-match PRNG output
+(`ARENA_FOUNTAIN_MARGIN_MIN`/`MAX`, computed once in `arena_set_match_seed`, mirrored across both
+fountains for fairness) instead of a fixed `8.0f` literal — genuinely part of "the procedural
+generation of the map" now, not just a formula that references a map-size constant.
+
+**Shops (S376-02): a fundamental redesign, not a patch.** `ARENA_SHOP_COUNT` (6) fully neutral,
+procedurally placed shops (angular-sector rejection sampling against every exclusion zone plus a
+minimum inter-shop separation, same discipline as the S370 Mandelbrot jungle scatter) replace the
+old "2 shops, one per team, everything for sale at both." The 34-item catalog is seeded
+Fisher-Yates shuffled and split round-robin across the 6 shops each match — every item sold at
+exactly one shop, which shop varies match to match. `arena_shop_buy` now finds the nearest shop in
+range and gates on that specific shop's own catalog; shops are no longer team-owned, any hero can
+buy from any shop they can reach — the real "strategy and luck" the founder asked for.
+
+New wire message `PACKET_ARENA_SNAPSHOT_LAYOUT`/`ArenaSnapshotLayoutMsg` (fountain + shop
+positions/catalogs, sent every broadcast tick): the human client (`apps/arena`) still recomputes
+both locally from the match seed, same "no sync needed for deterministic layout" precedent as the
+jungle — but `apps/arena_bot` deliberately doesn't link the simulation and, before this pass, never
+even captured `MatchFoundMsg`'s own seed field, so it needs this over the wire. Found and fixed
+along the way: `apps/arena_bot`'s own hand-copied fountain/shop position literals were already
+stale before this pass (never updated for the 2026-09-07 9x map widen — bots have likely been
+walking to the wrong coordinates for days), and its shopping logic is now catalog-aware.
+
+**Build templates removed outright** (founder direction above), not patched: `ArenaBuildTemplate`,
+`arena_hero_apply_build_template`, `PACKET_ARENA_APPLY_BUILD_TEMPLATE` (packet id retired, not
+reused), the shop UI's build-presets page, and `build_template_mod.c`/`.h` + its own test file all
+deleted. It assumed one shop sold everything, which the 6-shop redesign made untrue.
+
+**Numbering note:** this work was originally tagged S371 in ECOWAR's own code comments/commits,
+which collided with this same session's concurrent SECTION 371 (DEADWEIGHT scoping) — caught and
+renamed to S376 throughout ECOWAR (code, NORTHSTAR.md, CHANGELOG.md) in a small fixup commit
+before this backlog entry was written, so the tag actually resolves here.
+
+Tests: existing shop/combat-log tests updated to find a shop that actually stocks the item under
+test instead of assuming shop index/team 0 sells everything. `bash scripts/build.sh` +
+`scripts/build_arena.sh` + `scripts/test_arena.sh` all clean (3013 PASS, 0 FAIL) after every change
+in this section, including the S371→S376 renumbering fixup.
+
+Commits: `ECOWAR` `7a294b2` (feature), `ECOWAR` `aa4c0c0` (S371→S376 renumbering fixup).
+
+Plan:
+- [x] Fountains: per-match procedural margin (S376-01) — done, live-verified via the test suite.
+- [x] Shops: 6 neutral procedurally-placed shops, per-match catalog split, bot wire-sync,
+  build-template removal (S376-02) — done, live-verified via the test suite.
+- [ ] Minimap fountain/shop markers — the real root cause named above, not yet built; the actual
+  wayfinding fix, separate from this session's procedural-generation/redesign work.
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 377: ECOWAR — LIVING MAP PHASE 1: HEX GRID + FRONTIER VILLAGE (2026-09-11)
+
+Founder real-time: "add towns - start with the entire map is divided into cells (hex grid) - so
+we can start to get the living map stuff more formalized" → 4 town types (Frontier Village,
+Walled Hamlet, Jungle Enclave, Blighted Settlement) → 3 warring factions (Dominion/RTS-classic,
+Symbiosis/roguelike, Corruption/high-APM), each with an end-tech capstone (Citadel Node/Living
+Bastion/Cataclysm Beacon) → doctrine-based tech tree, "pick 2 max per match" → 3 visual factions
+(Imperatives/Verdant Pact/Ascended) mapped onto the same 3 gameplay factions → "i think these are
+like 3 warring factions ... 3 bots are playing our version of starcraft ... trying to gain
+territory" → "the ECOWAR game is all about full spectrum warfare ... im not sure what the win
+condition is to be honest with you" → "start with the frontier village" → "PARENA MODS FIRST —
+should plug into all of these entrypoints ... everything that happens in the game needs to
+announce events and then mods can subscribe."
+
+Real, checked-first finding, not guessed: `arena_game.c`'s existing map is 9 fixed capture nodes
+on a continuous float plane, built for 1v1/team MOBA matches — a genuinely different, coarser
+structure than "the entire map is divided into cells." Built as a new, standalone
+`ECOWAR/packages/livingmap` package rather than bolting hex cells onto `ArenaNode`, so the live,
+tested MOBA sim stays untouched while this new strategic layer is still being found. Full scoping
+in `ECOWAR/docs/NORTHSTAR_LIVING_MAP.md` (registered `ECOWAR-LIVINGMAP-NORTH`, golden-docs-index).
+
+**Phase 1 (hex grid + Frontier Village): DONE.**
+- `hex_grid.h/.c`: real axial-coordinate flat-top hex math (cube-coord distance/rounding,
+  world↔hex conversion, redblobgames' standard formulas), a fixed hex-radius-12 map (469 cells).
+- `living_map_events.h/.c`: an always-on, append-only event-announcement ring buffer every town
+  lifecycle transition writes into (founder: "everything that happens ... needs to announce
+  events"). Real, honest limit named in the NORTHSTAR doc's own "Mod event model, honestly"
+  section: VS0 (PARENA's current compiler) has no function pointers/closures anywhere, so a true
+  dynamic multi-subscriber registration table ("mods can subscribe ... register functions") isn't
+  buildable today — checked directly against every one of the 9 real mods in this monorepo, all of
+  which work by one hand-written call site calling one compiled-in function by name. What's real
+  and shipped instead: the event log (real, unconditional, readable by any future mod/tool) plus
+  that same existing call-by-name convention for the actual callback half.
+- `town.h/.c`: `Town` struct + registry. `TownType` names all 4 founder-specified types, but only
+  `TOWN_TYPE_FRONTIER_VILLAGE` has real behavior — the other 3 are documented, un-implemented enum
+  values, not stub structs pretending to be done.
+- `PARENA/stdlib/ecowar/frontier_village_mod.prn` (new): real I32 decision logic —
+  `on-frontier-village-spawn-interval-ms` (cadence accelerates with population), `on-frontier-
+  village-should-raise-militia` (deterministic peasant→militia promotion, gated on population's
+  own mod-3 count rather than militia's — militia only ever changes as a RESULT of this function,
+  so gating on militia's own value would make the very first raise mathematically unreachable, a
+  real bug caught and fixed before shipping, not just designed around), `on-frontier-village-
+  convert-resistance` (real, low resistance — "converts easily"). Same `card_effect_mod.prn`
+  "real decision logic, not just a trigger" tier, generated + committed via the real `parena
+  build` CLI (PARENA commit `5d7b7f8`).
+- 27 new tests (`tests/test_hex_grid.c`, `tests/test_town_frontier_village.c`), all passing
+  headlessly via new `scripts/test_livingmap.sh`, wired into `ci.yml` as its own step and into
+  `tests/BUILD.bazel` as a new `:living_map` cc_library (bazel itself isn't installed in this
+  sandbox — not locally verified against bazel, a real, named gap, not silently assumed clean).
+- Real, honest, not done: no wiring into `apps/arena`'s live match loop, no rendering, no AI
+  deciding where to found a town, no save/load.
+
+**Genuinely undecided, named not guessed** (both explicitly flagged by the founder): the
+corruption mechanic ("not sure what corrupted means") and the win condition ("im not sure ... to
+be honest with you"). The NORTHSTAR doc offers 3 staged options for corruption (environmental
+cell-spread / agent-level contagion / both) and a rock-paper-scissors hypothesis for the 3
+faction end-techs (Dominion's locked cells resist Corruption but can't heal/reposition →
+Symbiosis's healing/auto-align out-sustains Dominion but has no hard defense against a fast
+Corruption chain-reaction → Corruption spreads fastest through Symbiosis's own interconnected
+territory but burns out against Dominion's locked cells) as starting hypotheses for whoever scopes
+Phase 5, not decisions made here.
+
+Commits: `ECOWAR` `3df6c50` (feature), `ECOWAR` `7084d08` (changelog), `PARENA` `5d7b7f8` (mod
+source), `EMILY` (this section + golden-docs-index). Apple #19039.
+
+Plan (8-phase, from the NORTHSTAR doc):
+- [x] Phase 1: hex grid + Frontier Village. Apple #19039.
+- [ ] Phase 2: Walled Hamlet — needs a real aggro/ranged-attack model against hostile creeps.
+- [ ] Phase 3: corruption mechanic (pick one of the 3 staged options) + Blighted Settlement.
+- [ ] Phase 4: Jungle Enclave — real integration question against `arena_game.c`'s creep system
+  or a new living-map-local creep concept, not yet decided which.
+- [ ] Phase 5: the 3 factions as real AI agents contesting hex cells — first real test of the
+  rock-paper-scissors hypothesis above.
+- [ ] Phase 6: tech tree doctrines, "pick 2 max," end-tech capstones.
+- [ ] Phase 7: win condition — decide from real play data once Phases 5-6 exist.
+- [ ] Phase 8: visual factions (Imperatives/Verdant Pact/Ascended) — deferred until gameplay
+  factions have real, distinguishable behavior worth skinning.
+  session: sess-20260905-0720-ec33e7c5
