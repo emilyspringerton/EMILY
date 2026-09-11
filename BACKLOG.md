@@ -2571,6 +2571,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ECOWAR living map — formalize the map as a hex grid, then add 4 town types (Frontier Village, Walled…** — obs `2026-09-11T21:00:14Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time (mid-task, ECOWAR Living Map win condition -- resolves the previously-flagged 'genuinely undecided' o…** — obs `2026-09-11T21:24:24Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time (mid-task, ECOWAR Living Map): cards should tie into the Living Map -- a card that gives Frontier Vil…** — obs `2026-09-11T21:22:01Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time (mid-task, ECOWAR): green-lit the hero-as-NPC/card-battler experiment explicitly framed as reversible…** — obs `2026-09-11T21:39:42Z`. CURATED: 2026-09-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
