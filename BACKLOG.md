@@ -2564,6 +2564,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ECOWAR — use the Mandelbrot set to procedurally generate a much denser jungle of trees between the t…** — obs `2026-09-11T17:55:56Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: DEADWEIGHT — new upstream repo has a captured Gemini transcript doc (misleadingly named 'LeetCode Sk…** — obs `2026-09-11T19:12:36Z`. CURATED: 2026-09-11.
 - [ ] **Founder real-time: cross-repo game-engine abstraction — survey SHANKPIT, REDGARDEN, ECOWAR, BRAWLPIT, PAPERCRAFT, WEAKN…** — obs `2026-09-11T19:28:04Z`. CURATED: 2026-09-11.
+- [ ] **Founder real-time: multi-tenant game-platform-as-a-service — build DEADWEIGHT as a tenant of a gaming equivalent of Emi…** — obs `2026-09-11T19:35:55Z`. CURATED: 2026-09-11.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
