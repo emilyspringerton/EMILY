@@ -37394,3 +37394,40 @@ rather than the oldest-still-open one.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **GFD-534259: item backend needs affordances... item management screen has model name but no machine name. mob drop page seems to use item machine name. equipping an item should impact stats via db** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 399: GFD REAL EFFECTS FOR BERSERK/BOOST/SNEAK ATTACK (2026-09-12)
+
+Founder direct follow-up after SECTION 395's §0.5 audit had already established which job
+abilities were real vs. flavor-text-only, and after direct clarifying questions ("does provoke
+give emnity? does boost increase your attack? does sneak attack guarantee a critical on the next
+hit and give bonus attack on top of that?"). Said "continue" to proceed with fixing them for real.
+
+- [x] **S399-01: three of the six fake abilities fixed for real.** Berserk now applies real
+  `status.Haste` (Potency 30, 3 minutes) — the exact same mechanism the `haste` spell already
+  uses, matching what its own message has always claimed. New `player.pendingAttackBonus`
+  (+50%, `combatBoostBonus`) and `player.pendingGuaranteedCrit`, both real, one-shot effects
+  consumed by the caster's own next LANDED auto-attack in `resolvePlayerAutoAttackDamage` (the
+  new Phase 4.5 formula from SECTION 398, which made this fix directly buildable) — a missed
+  swing does not consume either, so whiffing right after Boost/Sneak Attack doesn't waste them.
+- [x] **S399-02: the other three named honestly in the code itself, not just the plan doc.**
+  Elemental Seal (no spell-accuracy system exists at all today — only auto-attacks roll accuracy,
+  so "guaranteed to land" has nothing real to guarantee against), Chainspell (a real fix needs a
+  free-MP check at every one of `cmdCast`'s own dozens of MP-deduction sites across its six
+  delegate functions — a real, separate, larger change), and Trick Attack (needs a real "which
+  nearby ally" targeting design this pass didn't make) all get a new doc comment at their own
+  `case` in `cmdJA` explaining exactly why they're still deferred, so the reason is visible to
+  the next person reading the code, not just this backlog entry.
+- [x] **S399-03: 8 new tests + live verification.** The bonus/guarantee measurably changes the
+  outcome (not just clears the flag) and neither is consumed by a miss. `GOWORK=off go build/
+  vet/test ./...` clean. Live-verified: `ja boost` produced a real, visibly bigger hit (31 damage
+  vs. the surrounding 20-26 range); Berserk correctly refused at level 1 (a real Lv5 gate, not a
+  bug). Two transient `BrokenPipeError` connection drops during live testing did not reproduce
+  across 5+ follow-up attempts with identical commands/timing, and the server log shows zero
+  panics/crashes throughout — treated as a one-off test-client flake, not a server regression.
+  GoblinFoxDragon commits `7726675`/`8fb966c`/`8d642fa`/`bcb1daf`. Apple #19196 (completion).
+  Real, honest, NOT done: Phase 1's own remaining scope (the full universal `Ability` struct
+  unifying `/ja`+`cast`) plus Phases 2-5. Noticed in passing, not investigated: three new,
+  separate, untriaged kanban cards just above this section (starter-zone weapon shops + per-job
+  weapon restrictions, and item-equip-affects-stats) are thematically part of this same job/
+  combat overhaul thread — named here for whoever triages them next, not acted on this pass.
+  session: sess-20260905-0720-ec33e7c5
