@@ -1,4 +1,5 @@
 ## 2026-09-12
+- backlog: NOCK Reddit blog post draft (r/proceduralgeneration, PARENA-to-JVM sandboxing) written (S400) (sess-20260905-0720-ec33e7c5)
 - backlog: GFD real Berserk/Boost/Sneak Attack effects shipped live (S399) (sess-20260905-0720-ec33e7c5)
 - backlog: GFD real combat damage formula (STR/DEX/VIT/AGI + marble-bag pity) shipped live (S398) (sess-20260905-0720-ec33e7c5)
 - backlog: GFD universal 1s spell/ability lockout shipped (S397) (sess-20260905-0720-ec33e7c5)
