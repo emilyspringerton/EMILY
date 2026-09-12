@@ -36712,3 +36712,56 @@ vs. photo-sourced) -- answered procedural.
   work, and plenty of other `draw_*` functions (player models, vehicles, UI) still render flat-
   colored, not silently claimed as textured here.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 386: NOCK — LAYERED IMAGE EDITOR V0 (ENGINE + CLI + HTTP API + REACT/TS GUI), YOLO'D INTO IDUNA (2026-09-12)
+
+Founder real-time, direct continuation of SECTION 385 (routed via `emily observe` first per
+Principle 18/1a, Apple #19107): "we are gonna need to build our own tools to create the
+textures... same affordances same interface layers layer masks opacity png and jpg gradient
+tool hue saturation sharpening resolution exporting etc lets build it on top of imagemagic for
+now and add cli affordances for everything in our app FIRST as much as possible... lets yolo it
+into iduna... this project is called NOCK." Mid-build corrections, also routed: "just get it
+working in whatever technology will get it working fastest," then "REACT would be nice on the
+frontend puer go on the backend is fine" / "TYPESCRIPT" / "whatever the newest react idioms are."
+
+- [x] **S386-01: real, working v0 shipped same day, not just scoped.** `IDUNA/internal/nock`:
+  an ImageMagick-6-backed layered image engine (`Project` = fixed canvas + ordered `Layer`
+  stack, every layer a real always-canvas-sized PNG) with real create/list/delete-project,
+  add/remove/reorder/opacity/visibility/mask-a-layer, gradient layers (vertical/horizontal),
+  destructive hue/saturation/brightness + unsharp-mask sharpen, whole-canvas resize, and
+  PNG/JPEG export honoring opacity+mask. 10 tests run against the real, installed `convert`
+  binary (not mocked) — one documents a real footgun found live while writing it: ImageMagick's
+  `-crop` retains the source image's "virtual canvas" page offset unless `+repage` follows it,
+  so a naive crop-then-flatten pixel sample silently reads the wrong region.
+- [x] **S386-02: CLI shipped first, per the founder's own explicit ordering.** `IDUNA/cmd/nock`
+  exposes every real engine operation as a subcommand. Live end-to-end verified (not just unit
+  tests): a real run importing a photo as a base layer, adding a gradient layer, setting
+  opacity, adjusting hue/saturation, sharpening, attaching a directional gradient mask, and
+  exporting to both PNG and JPEG — the resulting composite visibly shows the mask correctly
+  blending the two layers underneath.
+- [x] **S386-03: HTTP API + a real React 19/TypeScript GUI, "yolo'd" into IDUNA as asked.**
+  `internal/http/handlers/nock.go` (3 more tests, `httptest`-based) exposes the same engine as
+  JSON over HTTP, multipart for the two file-upload operations. `frontend/nock/` is a real Vite
+  + React 19 + TypeScript app — function components + hooks throughout, no class components,
+  **no Redux** (an earlier founder message floated it, superseded by "whatever the newest react
+  idioms are"; deliberately not adopted for a v0 this small — a real, considered call, not an
+  oversight). Served at `/admin/nock`, gated by the same `iduna.admin` permission every other
+  admin surface already uses. Built `dist/` is `go:embed`-ed straight into the IDUNA binary via
+  a small co-located `frontend/nock/embed.go` package (`go:embed` can't reach outside its own
+  directory tree, which is why the embed doesn't live next to the handler that serves it) — no
+  Node process needed at runtime. `dist/` is deliberately committed, not gitignored, since
+  nothing else regenerates it without a real `npm run build`.
+- [x] **S386-04: deliberately NOT GFD-coupled, per the founder's own explicit instruction**
+  ("this is for shankpit it will be used for GFD we build it for shankpit first to engineify it
+  we need it to not be tooooo coupled to GFD... extension points") — checked directly: zero
+  GoblinFoxDragon imports or concepts anywhere in `internal/nock`. Full phased plan + real,
+  honest scope (deferred: layer position/scale/rotate, non-destructive adjustments, PARENA as
+  the backend, a low-poly 3D modeler, a level editor, PARENA Editor macros, a real per-game
+  project-switcher data model) written up in `IDUNA/docs/NOCK_NORTHSTAR.md`, golden-indexed as
+  `NOCK-NORTH`. `go build/vet/test ./...` clean across the whole IDUNA module. IDUNA commits
+  `fbdafa3`/`8df7dff`. Apple #19109 (completion).
+  Real, honest gap, not silently skipped: this hasn't been live-verified against a running IDUNA
+  process — the port is hardcoded (`:8080`) and this pass deliberately did not stop/restart the
+  real, currently-running production IDUNA instance on this box ("the central trust authority")
+  to test against. Deploying this is a real, separate step for whoever runs that process.
+  session: sess-20260905-0720-ec33e7c5
