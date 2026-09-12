@@ -37759,5 +37759,58 @@ Routed through `emily observe` (Apple #19239) per Principle 1a.
   `b732089` (binary redeploy). Apple #19241 (completion).
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 408: GFD SSH — RAPID LIVE-FIX CHAIN + GUEST TAGS (2026-09-12)
+
+Founder real-time, live, while streaming: a rapid sequence of three real reports in quick
+succession — "now theres a new thing ever sense you fixed it so i could type when i couldnt type
+after login i have to hit enter twice..."; "missing [guest] tags in who listing"; "guest accounts
+allow for duplicate names - ssh accounts may as well please log into the production server with a
+new key and play a bit so you can see if you can make a character EMILY bound to a different
+key." Routed through `emily observe` implicitly per the live-blocking-severity convention already
+established this session (S404).
+
+- [x] **S408-01: TCP_NODELAY fixes "have to hit enter twice."** New `disableNagle(conn)`
+  (`terminal_io.go`), applied to both the SSH listener's raw underlying TCP connection and the
+  telnet listener's own accepted connection. Root cause: the prior commit's own new per-keystroke
+  echo writes are exactly the small/frequent-write workload Nagle's algorithm (Go's own
+  `net.TCPConn` default: enabled) actively hurts, compounding with the peer's own delayed-ACK
+  timer into the textbook "Nagle/delayed-ACK death spiral." 2 new tests (a real loopback
+  TCP accept/dial pair, and a `net.Pipe()` non-TCP fallback). GoblinFoxDragon commit `79b5283`.
+- [x] **S408-02: CRITICAL, found live seconds after deploying S408-01** while actually testing on
+  real production per the founder's own explicit ask: `readTerminalLine`'s `r.Peek(1)`, called
+  unconditionally right after receiving a bare `\r` (to swallow a trailing `\n` from a cooked
+  "\r\n" pair), BLOCKS until it can satisfy the peek — meaning a real interactive client, which
+  sends a bare `\r` on Enter and then waits for the server's own reply before sending anything
+  else, hangs this function FOREVER. This was a real, total, silent deadlock on every single line
+  read (the guest name prompt, the main command loop, and the SSH claim flow all share this one
+  function) — confirmed directly: connected to real production with a fresh key, typed a name,
+  watched the connection hang 15+ seconds with zero corresponding activity in IDUNA's own log.
+  Fixed by only Peeking when `r.Buffered() > 0` (a byte already sitting in bufio's own buffer —
+  can never block on the network). New `net.Pipe()`-based test (a `strings.Reader`-based test
+  always has all its data immediately available and would never have caught this) — verified the
+  test genuinely catches the bug by reverting the fix locally and confirming it fails/times out,
+  then restoring it and confirming it passes. GoblinFoxDragon commit `fd3c601`.
+- [x] **S408-03: `who` now tags `[Guest]` players.** An anonymous guest name has no durable
+  identity and can duplicate any other name — `who`'s own listing must visibly distinguish the
+  two, matching the `[P]`/`[KO]` tag convention already there. New test (`who_test.go`).
+  GoblinFoxDragon commit `bd93d40`. Binary rebuilt+redeployed to production: `28a93be`.
+  Apple #19244 (completion, covers S408-01/02/03 together).
+- [x] **S408-04: live-answered the founder's own real question** ("guest accounts allow for
+  duplicate names - ssh accounts may as well [allow duplicates too]") by literally doing what was
+  asked — connecting to real production with a fresh key and attempting to claim the name
+  "EMILY." Real, confirmed-live answer: **SSH-bound name uniqueness already works correctly** —
+  "EMILY" is already a real, existing character (the founder's own), and the fresh-key attempt
+  correctly got "That name is already taken. Choose another." (IDUNA's own real `UNIQUE`
+  constraint on `characters.name`, verified end to end, not just read in the schema file).
+  Guest-name duplication (the OTHER half of the founder's own observation) is real and NOT fixed
+  — guests are never inserted into the `characters` table at all (fully ephemeral, per-connection
+  state), so nothing today stops two simultaneous guest connections from picking the identical
+  name; named here as a real, open, not-yet-scoped gap, not silently accepted as fine.
+  session: sess-20260905-0720-ec33e7c5
+
+- [ ] **S409: GFD home point does not persist across logouts** — founder-reported live,
+  2026-09-12, not yet investigated. Real, open, next item.
+  (sess-20260905-0720-ec33e7c5)
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
