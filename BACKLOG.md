@@ -36672,3 +36672,42 @@ Founder real-time (routed via `emily observe` first per Principle 18/1a, Apple #
   these are real, hardcoded, one-off effects, the same shape `cmdRemoveDebuffs`/`cmdEat` already
   used, not the data-driven `on_use_mod` dispatch that doc scopes as a bigger, separate follow-up.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 385: SHANKPIT — REAL PROCEDURAL TEXTURES FOR TERRAIN/WALLS (2026-09-12)
+
+Founder real-time (routed via `emily observe` first per Principle 18/1a, Apple #19101, mid-turn
+during the GoblinFoxDragon item-use fix above): "lets start adding textures to shankpit have the
+compile like generate the textures at compile for now we will figure out how to make objects
+with textures with real textures - i guess half life a lot of the textures were basically photos
+of real stuff if we allow our engine to do that its going to bring us from like 1982 graphics to
+1999 graphics." Asked the founder which texture style to build first (procedural vs. solid-tint
+vs. photo-sourced) -- answered procedural.
+
+- [x] **S385-01: found the real gap.** `draw_terrain` (ground/floor mesh) and `draw_map`
+  (wall/box geometry) in `apps/lobby/src/main.c` were pure flat-shaded per-vertex-color OpenGL
+  immediate mode -- no `glTexCoord2f`, no bound texture, ever. `packages/render/proc_tex.c`
+  already existed but only for one-shot cosmetic overlays (vehicle noise/glitch effects), not
+  world geometry, and its own noise functions aren't seamlessly tileable (they cut off at the
+  texture edge -- fine for a one-shot overlay, a visible seam if `GL_REPEAT`-tiled across a
+  floor).
+- [x] **S385-02: shipped two new tileable procedural generators.** `proctex_make_ground_rgba`
+  (banded fbm-noise stone/dirt) and `proctex_make_wall_brick_rgba` (real running-bond brick, half-
+  brick offset on alternating rows) in `packages/render/proc_tex.c`, backed by a new
+  `value_noise_2d_tiled`/`fbm_2d_tiled` pair that wraps its integer lattice at the texture's own
+  period so `GL_REPEAT` tiling has no seam -- the existing non-tiled noise functions are untouched
+  (still correct for their own one-shot use). Generated once at startup (same convention as the
+  existing vehicle textures), bound in `draw_terrain`/`draw_map` underneath the existing per-
+  vertex `glColor3f` lighting/fog calls, which still apply as a `GL_MODULATE` tint on top --
+  lighting/fog/road-blend behavior is unchanged, real texture detail is now visible under it. UVs
+  use world-space coordinates (terrain) / per-face box dimensions (walls) so tile density stays
+  consistent regardless of geometry size.
+- [x] **S385-03: live-verified visually, not just "should render."** Built `bin/shank_lobby`, ran
+  it headless under `Xvfb` with a temporary (reverted, never committed) `app_state` override to
+  reach in-game rendering past the menu, screenshotted with `import` -- real tiled texture detail
+  visible on both floor and walls in the captured frame, no crash, no new compiler warnings.
+  `GOWORK=off go build ./...` unaffected (pure C change). SHANKPIT commit `2d03736`. Apple #19105
+  (completion). Real, honest scope note, per the founder's own "for now": procedural placeholder
+  only -- real photo-sourced textures (the founder's own Half-Life reference) are separate future
+  work, and plenty of other `draw_*` functions (player models, vehicles, UI) still render flat-
+  colored, not silently claimed as textured here.
+  session: sess-20260905-0720-ec33e7c5
