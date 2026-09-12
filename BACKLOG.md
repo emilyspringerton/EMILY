@@ -36210,6 +36210,78 @@ single shared source-file manifest all five scripts/steps read from) rather than
 glob widening to be the last one — named here, not attempted this pass given the live outage
 needed the direct fix first.
 
+**S377-09, same session: the card-battler UI itself, actually built. DONE.** Founder: "go ahead
+and build the card battler UI." Real, complete client-side UI for SECTION 378's previously
+backend-only experiment: **TAB** toggles card-battler mode for the local player's own hero
+(reversible, per SECTION 378's own "just never flipping the flag" rollback framing, now reachable
+at runtime); while ON, **G** opens/closes a real 4-tile hand panel (unchanged/untouched when OFF —
+the older V/G 16-card system still works exactly as before). Real mouse drag-to-cast: mousedown
+arms a hand tile, mouseup elsewhere plays it (`card_battler_play_slot`) at the current hover
+target, dropping back on the panel cancels — the founder's own original "drag onto the battlefield
+to cast a spell" ask. New net-mode wiring: `PACKET_ARENA_CARD_BATTLER_TOGGLE`/`_PLAY` (client→
+server) + `PACKET_ARENA_SNAPSHOT_CARD_BATTLER` (server→client, both heroes' real hand contents
+every tick). `card_battler_tick` wired into both real per-tick loops (`apps/arena_server`,
+`apps/arena`'s local demo) — deliberately NOT inside `arena_game.c` itself, keeping the new
+`card_deck.c`/`card_battler.c` dependency confined to exactly the 2 binaries that need it instead
+of the ~24 separate compile sites that link `arena_game.c` (the same bug class as S377-07's CI
+outage would otherwise have recurred a 7th time immediately). Verified before pushing: full test
+suite green, a real local mingw Windows cross-compile linked end-to-end, CI green, `v0.38.0` cut.
+`ECOWAR` `059a7e9`.
+
+**S377-10, same session: the win condition itself was broken — KO always beat ALLCAP. FOUND AND
+FIXED.** Founder, live-testing right after S377-09: "KO the opponent still ends the game it should
+not - capping all bases wins the game." Real, confirmed bug: `arena_update`'s own hero-death
+win-check ran *after* ALLCAP's own check in the same tick and was completely unconditional (no
+`if (winner == 0)` guard, despite ALLCAP's own comment claiming it followed that same convention)
+— so it silently overwrote an ALLCAP win, and in practice always fired first anyway (a 1v1 duel
+produces a death long before any faction caps every Living Map town). Real, minimal fix, no new
+respawn system needed: `apply_damage_ex` already armed `respawn_ms_remaining` on every 1v1 death;
+only `arena_update_teams` (team mode) ever ticked it down via `arena_tick_respawns`. Wired that
+same, fully mode-agnostic function into 1v1's own `arena_update` too, and deleted the death-ends-
+match check — hero death in 1v1 is now a temporary setback (30s wave respawn, same as team mode),
+never a win by itself; ALLCAP is the only real way to win. Renamed/rewrote the one test that
+asserted the old (wrong) behavior. Full suite green (3197 assertions), CI green, `v0.38.0`.
+`ECOWAR` `780387f`.
+
+**S377-11, same session: day/night start-in-day + SHANKPIT starfield. DONE (clouds deferred).**
+Founder: "can we make it so that the time cycle actually works with lighting changes? instead of
+starting at night can we start in the day? can we add the stars and clouds like in shankpit?"
+Real root cause for "starts at night": `time_of_day_sec` defaults to a plain memset-zero 0.0,
+which `arena_daynight_ambient_rgb`'s own `smoothstep(0, 0.22, sun_height)` reads as the *full*
+night floor at that exact value, not dawn. Fixed by starting both real match-init entry points
+(`arena_init_with_heroes`/`arena_init_teams`) at `ARENA_DAYNIGHT_NOON_START_SEC` (sun_height's real
+maximum) instead. Starfield ported from SHANKPIT's own `packages/render/retro_sky.c` (same
+deterministic-seed LCG, same zenith-biased distribution, same 12 brighter "hero" stars, same
+horizon-fade + twinkle shape) — camera-centered, plain immediate-mode `GL_POINTS` (no shader/
+texture needed), a new `arena_daynight_night_amount()` driving real fade-in at night. **Clouds
+explicitly NOT built** — SHANKPIT's own cloud rendering depends on a separate procedural-texture
+subsystem (`proc_tex.h`) this pass doesn't take on, named honestly rather than guessed at blind
+with no display to visually tune against. Full suite green, real mingw cross-compile verified, CI
+green, `v0.39.0`. `ECOWAR` `3f01665`.
+
+**S377-12, same session: client-side self-healing for a stuck/frozen connection. DONE (server-side
+fix still open).** Live incident this same session: a crashed match server left the founder's
+client sitting frozen with no automatic recovery ("i always kkill my client and restart it").
+Founder: "how can we make it self healing?" Shipped: `g_last_net_activity_ms` tracks the last real
+packet from the server; after `ARENA_CLIENT_NET_SILENCE_GIVEUP_MS` (10s) of total silence, the
+client now auto-requeues itself (same idiom `apps/arena_bot`'s own existing 10s-silence give-up
+already uses, applied to the human client for the first time) — bounded real recovery (~70s worst
+case: the server's own already-real 60s WAITING no-progress timeout, plus this 10s) instead of an
+indefinite freeze. The OK-REQUEUE button's own logic was extracted into `client_requeue()` so both
+call sites share the identical real code. Full suite green, real mingw cross-compile verified, CI
+green, `v0.40.0`. `ECOWAR` `35779b0`.
+- [ ] **Real, deliberately not built this session** (needs a live matchmaker/bot-pool restart —
+  held pending the founder's own "tell me when you're not mid-match," a real live-incident
+  finding: `apps/arena_bot` fully exits the instant a match ends rather than looping back to
+  requeue in-process, so `run_bot_pool.sh`'s supervisor has to cycle a full systemd `Restart`
+  (5s + 2s `ExecStartPre` sleep + bot startup) before a replacement bot is back in queue — the
+  real, confirmed root cause of the intermittent "every other match, the second player never
+  connects" bug, distinct from S377-10/12 above).
+- [ ] **Real, deliberately not built this session** (same restart-timing reason): a server-side
+  LIVE-phase inactivity watchdog on `apps/arena_server` itself (end/exit a match with zero packets
+  from either client for ~30-60s while LIVE) — would have auto-cleared the very first stuck-match
+  incident this session without needing a manual `kill`.
+
 ## SECTION 378: ECOWAR — CARD-BATTLER EXPERIMENT: NPC HEROES + DECK/HAND CARDS (2026-09-11)
 
 Founder real-time, continuing SECTION 377's own "hero-as-NPC/card-battler" open question: "we may
