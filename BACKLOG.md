@@ -37392,3 +37392,5 @@ rather than the oldest-still-open one.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **GFD-weapons: need basic weapons in the shops of the starter zones.. give everyone a sword and they start as a warrior. weapon skills are skill based BLM and WHM and MNK can not equip swords** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **GFD-534259: item backend needs affordances... item management screen has model name but no machine name. mob drop page seems to use item machine name. equipping an item should impact stats via db** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
