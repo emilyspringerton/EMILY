@@ -37538,3 +37538,22 @@ of works it lets us log in and then presents us with the warning about the chara
   needs a real encrypted secrets-backup path, not just adding the file to the existing target.
   Flagged here for deliberate triage rather than built unprompted.
   session: sess-20260905-0720-ec33e7c5
+
+- [x] **S402-03 (continue LIFO): the backup-coverage gap named above is now closed.** Founder:
+  "continue lifo" — most-recently-flagged pending item first. Added a new, AES-256-GCM-encrypted
+  `gfd-secrets` target to `emily.cli/cmd/backup.go` covering exactly `~/.config/gfd-mud/env`
+  (path overridable via `GFD_MUD_ENV_PATH`), reusing the same shared key the `iduna` target
+  already uses rather than proliferating keys. 3 new tests, including a real edge-case guard:
+  `looksLikeSecret` must NOT match the bare filename `env` (no leading dot), which would have
+  silently emptied this exact target's own archive while looking like it succeeded. `go test
+  ./...` + `./scripts/build.sh` clean. Live-verified: `emily backup run --target gfd-secrets`
+  correctly archived and AES-encrypted the real file (235-byte ciphertext) — the final `gcloud
+  storage cp` upload leg failed only on a separate, pre-existing gap (no active `gcloud auth`
+  account in this environment right now; every other target would hit the identical failure,
+  not something this change introduced). emily.cli commits `9ccba73`/`0ee170a`. Apple #19213
+  (completion).
+  Real, honest, NOT done: the encrypted archive was never actually confirmed to land in the GCS
+  bucket this session (blocked on the unrelated `gcloud auth` gap above) — the code path is
+  correct and tested, but "did it really upload" itself is unverified until someone runs `gcloud
+  auth login` (or wires a service account) in this environment.
+  session: sess-20260905-0720-ec33e7c5
