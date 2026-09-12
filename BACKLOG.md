@@ -37970,3 +37970,5 @@ at all) — worked FIRST, before the others, regardless of kanban queue order.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S412-x-000: MAKE SURE THAT THE JOBS SPECIFIED IN THE ITEM DATABASE ARE ONLY THE ONES THAT CAN EQUIP THAT ITEM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **gfd-123: Real, honest limitations: the live MUD server only loads mob_drops.json once, at startup — edits here take effect the next time that process restarts, not immediately. A drop table is keyed by mob k** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
