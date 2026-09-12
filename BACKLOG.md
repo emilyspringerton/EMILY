@@ -37459,3 +37459,42 @@ how we did it the texture generator and compiler pipeline that we built." Routed
   Real, honest, NOT done: this is a draft only — no tool exists in this environment to actually
   post to Reddit, so the founder posts it themselves whenever ready.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 401: FULL MONOREPO PRODUCT AUDIT (2026-09-12)
+
+Founder real-time: "Format that'll get you the most useful triage back: product, what a stranger
+can do in the first 60 seconds, install friction, and what's actually broken. Onboarding time
+alone won't rank them — a 10-second demo that needs a download loses to a 60-second one that
+doesn't. GO THROUGH EVERY REPO CURRENTLY ON THIS BOX IN THE MONO REPO AUDIT THE STATE OF THE
+PRODUCT..." Routed through `emily observe` first (Apple #19202) per Principle 1a.
+
+- [x] **S401-01: audited all 56 real git repos on this box** (`for d in */; do [ -d "$d/.git" ] &&
+  echo "$d"; done` — checked directly, not assumed; the real current count is 56, not the "63"
+  named in this session's own earlier working notes, which was a stale/incorrect count). Gathered,
+  per repo: README/NORTHSTAR head, `git log -1` + commit count for recency, and cross-checked
+  against real, live signals rather than README claims alone — `ss -tlnp` for what's actually
+  listening on this box (`:8080` IDUNA, `:2323`/`:2222` GFD telnet/SSH, `:25565` EINHORN_SURVIVAL,
+  `:8890` JEWEL) and the live nginx config for what's actually publicly reachable and where
+  (`okemily.com`, `news.okemily.com`, `carepyre.org`, `iduna.farthq.com`).
+- [x] **S401-02: report written and committed**, `EMILY/docs/MONOREPO_PRODUCT_AUDIT_2026-09-12.md`
+  — every repo tiered by the founder's own explicit ranking rule (zero-install-in-a-browser-or-
+  preinstalled-terminal beats a faster demo that needs a download, as a hard category, not folded
+  into one speed score). Tier 1 (real zero-install candidates): OKEMILY/IDUNA (browser, Google
+  sign-up), CarePyre (browser, contact form), EDIS (browser, WordPress), GoblinFoxDragon
+  (telnet/ssh — genuinely playable in 60s for anyone with a terminal already open), JEWEL (browser
+  but currently Basic-Auth-gated, so not actually public). Everything else — every C/SDL2 game
+  (REDGARDEN, SHANKPIT, ECOWAR, BRAWLPIT, WEAKNIGHT_BEDROCK_RACERS, shankpit-460), MJOLNIR, PITVIPER
+  — requires a real client download/build first regardless of how good the product is once
+  running. Headline broken finding: MJOLNIR has failed 13/13 CI runs on the same
+  "Validate google-services.json" step — zero installable APK exists in any form, the single worst
+  finding in the whole audit. Also named: REDGARDEN exists as three drifting copies
+  (`REDGARDEN`/`redgarden-deploy`/`redgarden-stable`, the last one 3+ weeks stale) with no
+  canonical download link anywhere; WOTAN has a live-but-stale page (`OKEMILY/tournaments.html`)
+  and a new-but-fake placeholder (`WOTAN/index.html`, not deployed) coexisting; PARENA named as the
+  highest-leverage non-consumer-facing repo, gating real progress in 7+ downstream repos. Golden-
+  indexed as `PRODUCT-AUDIT-2026-09-12`. EMILY commits (CHANGELOG + golden-index + this section).
+  Apple #19203 (completion).
+  Real, honest, NOT done: no action taken yet on any of the specific gaps named (MJOLNIR's CI,
+  REDGARDEN's triplication, WOTAN's dual-state) — this section is the audit only, triage/fixes are
+  separate, un-queued follow-up work for whoever picks them up next.
+  session: sess-20260905-0720-ec33e7c5
