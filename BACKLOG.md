@@ -37841,5 +37841,29 @@ established this session (S404).
   the founder's own stream; will deploy alongside S409's own held redeploy once confirmed clear.
   session: sess-20260905-0720-ec33e7c5
 
+- [x] **S411: guest could squat a real character's name (case-insensitive)** — founder-reported
+  live, directly proven via the founder's own `who` output showing the real "EMILY" (Lv.7,
+  SSH-bound) and a guest ALSO named "EMILY" (Lv.1, `[Guest]`) online at the same time; also asked
+  for real name normalization "so that we can have names in urls if we really wanted to." Real
+  fix, spanning both repos: **IDUNA** (commit `a05822a`) — new `GET /api/v1/characters/by-name/
+  :name`, a real case-insensitive lookup (SQLite's default BINARY collation had made the plain
+  `UNIQUE(name)` constraint case-sensitive, so "Emily"/"EMILY" never actually collided at the DB
+  level), plus `handleCreateCharacter` now checks case-insensitively before insert. 4 new IDUNA
+  tests. **GoblinFoxDragon** (commit `6835c0b`) — guest names now validated via
+  `validateSSHClaimName` (charset + reserved-list, shared with SSH claims, URL-safe by
+  construction), a new `idunaclient.GetCharacterByName` collision check against IDUNA's permanent
+  characters, and a new `player_name.go` (`normalizePlayerName`, `nameCollidesWithOnlinePlayer`)
+  checking every other currently-online player too — closing the guest-vs-guest half of the gap
+  named as open in S408-04. 5 new GoblinFoxDragon tests. Both isolated/verified, `go build/vet/
+  test ./...` clean on both sides. Live-verified end to end against real production IDUNA data
+  (IDUNA rebuilt and restarted to pick up the new route first): "EMILY"/"Emily"/"eMiLy" all
+  correctly refused as guest names on a throwaway GFD instance. Apple #19253 (completion).
+  **GoblinFoxDragon binary rebuild+redeploy deliberately HELD** alongside S409/S410's own held
+  redeploys — two live demo SSH sessions currently running for the founder's own stream.
+  (IDUNA's own service WAS restarted already, live, mid-session — a real, deliberate, lower-risk
+  exception: IDUNA is stateless and self-health-checks on restart, and the fix was directly
+  blocking verification of this exact bug report.)
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
