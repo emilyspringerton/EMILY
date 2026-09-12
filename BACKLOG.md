@@ -37155,3 +37155,54 @@ through `emily observe` first (Apple #19169) per Principle 1a.
   accounting is in-memory/per-process (fine at gfd-mud's current single-process scale). Spec
   stages 5-8 (identity binding, port 22 swap, device-flow hardening, telnet deprecation) remain.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 394: SSH TRANSPORT & IDENTITY SPEC — STAGE 5 SHIPPED (REAL IDENTITY BINDING + KEY MANAGEMENT) (2026-09-12)
+
+Founder said "continue" after Stage 4 shipped — proceeded to Stage 5 (§3 identity binding + key
+management), routed through `emily observe` first (Apple #19173) per Principle 1a.
+
+- [x] **S394-01: real, permanent fingerprint-to-character binding shipped IDUNA-side.** New
+  `character_ssh_keys` table + `GET /api/v1/ssh-keys?fingerprint=...` (lookup) + `GET`/`POST`/
+  `DELETE /api/v1/characters/:id/ssh-keys` (list/bind/revoke). Fingerprint is UNIQUE across the
+  whole table, never reassignable to a different character even after revocation; binding an
+  already-used fingerprint to a different character is refused (409), the same character
+  re-adding its own previously-revoked key reactivates it. Reads open, writes agent-only (same
+  cheat-vector reasoning `handleUpdateJobLevel` already established). Real, found-live bug caught
+  by testing the actual endpoint rather than trusting unit tests alone: the route was never
+  registered on the top-level mux at all — fixed same pass (IDUNA commit `3627140`).
+- [x] **S394-02: GFD-side identity resolution + claim flow.** `handleConn` now takes
+  `(isGuest bool, preset *presetIdentity)` — nil preset is byte-for-byte the existing telnet path;
+  a resolved/claimed identity skips the prompt and loads the character directly via a new
+  `applyFetchedCharacter` helper (factored out of, not duplicating, the existing by-name
+  cache-hit branch). `resolveSSHIdentity`/`runSSHClaimFlow` in `ssh_listener.go`: known
+  fingerprint → resume, no prompt, `isGuest=false`; unknown → rate-limited (per-IP-per-hour),
+  name-validated (length/charset/a real starting reserved-name list) claim, `CreateCharacter` +
+  `BindSSHKey`; IDUNA unreachable at any point falls back to guest (same best-effort posture
+  every other idunaclient call already has). A name collision surfaces IDUNA's own real 409 as a
+  re-prompt — §3.1's own explicit "refused, not silently reassigned" acceptance bullet.
+- [x] **S394-03: real, positive design finding — guest-gating "just works" for identified SSH
+  sessions with zero new gate code.** `guestGate` already checks `p.isGuest`; since that's now
+  `false` the moment identity resolves, bank/auction-house/chat unlock automatically, exactly
+  matching the guest banner's own promise ("those require an SSH-bound identity, coming soon").
+- [x] **S394-04: in-session key management (§3.2).** New commands `keys` (list, marks the
+  current session's own fingerprint), `key-add <authorized_keys line>` (real OpenSSH key parsing
+  via `golang.org/x/crypto/ssh`), `key-revoke <fingerprint>` (refuses to revoke the key currently
+  in use — enforced GFD-side, since IDUNA has no concept of "the session using this key").
+- [x] **S394-05: 20 new tests total (9 IDUNA, 6 idunaclient, 11 apps2/mud... some overlap in
+  count across layers, all real, all passing) plus live end-to-end verification against real
+  production IDUNA via a throwaway GFD instance** (not a copy — real character creation, matching
+  this session's established convention for identity features): unknown key claims a name and
+  unlocks bank/chat immediately; the same key reconnects with zero prompt; a different key
+  claiming an already-taken name is refused and re-prompted, then succeeds with a different name;
+  key-add binds a second key and `keys` shows both; key-revoke removes one; the revoked key can
+  no longer resume the character (falls back to its own fresh claim flow); the per-IP claim rate
+  limit was hit for real once multiple claim attempts came from the same source address. Deployed
+  to the real live production GFD service. IDUNA commits `8a319ab`/`3627140`/`1288adc`,
+  GoblinFoxDragon commits `d6c29d9`/`4c7ab90`/`e4c5bca`/`3950965`. Apple #19176 (completion).
+  Real, honest, NOT done (named in the NORTHSTAR, not silently skipped): §3.4's full WOTAN
+  account linkage (fingerprint→character is real and permanent, but not unified with IDUNA's
+  OAuth/local-auth account model — a real, scoped, deferred follow-up, IDUNA's existing
+  device-flow infra is the leading candidate); operator namespace reservation is a small starting
+  list, not a formal process; claim rate limiting is in-memory/per-process. Spec stages 6-8 (port
+  22 swap, device-flow hardening, telnet deprecation) remain.
+  session: sess-20260905-0720-ec33e7c5
