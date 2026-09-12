@@ -2596,6 +2596,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: write a technical blog post for r/proceduralgeneration about NOCK's procedural texture generator + P…** — obs `2026-09-12T17:01:41Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: GFD SSH login shows guest/no-persistence warning even though login worked -- character not saving** — obs `2026-09-12T18:02:57Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: BP (BRAWLPIT) level registry -- build now. Design: publish/fetch/version as core primitives from day…** — obs `2026-09-12T18:48:10Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: add AlphaStar-style league training (Main Agent / Main Exploiter / League Exploiter) to REDGARDEN's …** — obs `2026-09-12T20:43:45Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
