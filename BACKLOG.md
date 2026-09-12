@@ -37604,3 +37604,5 @@ candidate").
   named in the doc's own open-questions list) remain fully unstarted, per the doc's own updated
   "which phase next" resolution.
   session: sess-20260905-0720-ec33e7c5
+- [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
