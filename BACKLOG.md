@@ -37500,3 +37500,41 @@ PRODUCT..." Routed through `emily observe` first (Apple #19202) per Principle 1a
   REDGARDEN's triplication, WOTAN's dual-state) — this section is the audit only, triage/fixes are
   separate, un-queued follow-up work for whoever picks them up next.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 402: GFD SSH LOGIN — GUEST FALLBACK BUG (RECURRENCE OF 2026-08-02 GAP) (2026-09-12)
+
+Founder real-time: "ok keep working on the login stuff for GFD ssh login kinda works ok it kind
+of works it lets us log in and then presents us with the warning about the character not saving
+(should not be seeing this)." Routed through `emily observe` (Apple #19209) per Principle 1a.
+
+- [x] **S402-01: root-caused via the live server log**, not guesswork — `var/logs/mud.log` showed
+  `[ssh] fingerprint lookup failed, falling back to guest: idunaclient: server error: status 401`
+  on the one real external SSH connection this session. Traced to `~/.config/gfd-mud/env`
+  (`IDUNA_AGENT_NAME`/`IDUNA_AGENT_SECRET`) missing from disk entirely — confirmed directly
+  (`ls` → "No such file or directory"), not assumed. This is the exact same class of bug
+  `ops/systemd/gfd-mud.service`'s own comment already documents from 2026-08-02 (every
+  `idunaclient` call silently 401ing, masked by best-effort error handling everywhere except the
+  SSH identity path, which is the first place in this codebase that actually surfaces the
+  fallback to a player). Real, honest, most likely cause of the recurrence: this file lives
+  deliberately outside git (a secret) AND outside `GoblinFoxDragon/var` (so it isn't covered by
+  `emily.cli`'s own `gfd` backup target either) — this box's `$HOME` state appears to have been
+  reset/recreated at some point this session (`~/.config`, `~/.ssh`, `~/.bashrc` etc. all showed
+  as untracked-from-scratch in git status), and nothing restored this one file afterward.
+- [x] **S402-02: fixed and live-verified end to end.** Re-created the file from the real secret
+  in `IDUNA/var/agent-secrets.env` (`IDUNA_SECRET_DRAGONSNSHIT_MUD`), confirmed it actually mints
+  a real JWT against live IDUNA before touching the service, restarted `gfd-mud.service`
+  (confirmed via `/proc/<pid>/environ` that the new env actually loaded), then drove two real SSH
+  connections with a fresh throwaway ed25519 key over the real `ssh` binary (a PTY-driving Python
+  script, not a mock): first connection ran the claim flow and created a character
+  (`[ssh-claim] new identity claimed character=...`); second connection with the SAME key resumed
+  it (`[ssh] known fingerprint, resuming character=...`) — no guest fallback, no "character does
+  not save" banner. GoblinFoxDragon commit `ca2f463` (documents the recurrence in the service
+  file's own comment, matching its existing convention). Apple #19211 (completion).
+  Real, honest, NOT done: **no backup coverage exists anywhere for `~/.config/gfd-mud/env`**, so
+  another `$HOME` reset can silently reproduce this exact bug again. Not fixed as part of this
+  pass — the existing `gfd` backup target (`emily.cli/cmd/backup.go`) is deliberately
+  *unencrypted*, and this file holds a real credential (the same class of thing `looksLikeSecret`
+  was built to keep OUT of an unencrypted backup earlier this session), so doing this properly
+  needs a real encrypted secrets-backup path, not just adding the file to the existing target.
+  Flagged here for deliberate triage rather than built unprompted.
+  session: sess-20260905-0720-ec33e7c5
