@@ -37823,5 +37823,22 @@ established this session (S404).
   for the founder's own stream; will deploy once confirmed clear.
   session: sess-20260905-0720-ec33e7c5
 
+- [x] **S410: `help` (and every other multi-line message) renders garbled over a real Windows
+  Git Bash/MINGW64 SSH terminal** — founder-reported live via screenshot, 2026-09-12. Root
+  cause: `player.send`/`sendf` and both structurally identical local `send` closures
+  (`handleConn`, `runSSHClaimFlow`) only ever appended ONE trailing `\r\n`, leaving every
+  internal line break in a multi-line message (`cmdHelp`'s own block, `map`, `status`, `jobs`,
+  many more) as a bare `\n` — fine for telnet (which conventionally translates LF→CRLF itself),
+  broken for a real Windows PTY-based SSH session, which doesn't. New `normalizeLineEndings(s)`
+  (a real two-pass normalize, not a naive single `ReplaceAll` — ~120 existing call sites already
+  correctly prepend a leading `\r\n` for spacing and must not get doubled), wired into all three
+  real send points. 3 new tests. Isolated from a concurrent in-flight `main.go` change, zero
+  not-mine markers, `go build/vet/test ./...` clean. Live-verified on a throwaway instance: raw
+  socket capture of a real `help` response confirms zero bare LF bytes remain. GoblinFoxDragon
+  commit `e652950` (source pushed). Apple #19248 (completion). **Binary rebuild+redeploy
+  deliberately HELD** — two live demo SSH sessions (`claude`/`EmilyAI`) are currently running for
+  the founder's own stream; will deploy alongside S409's own held redeploy once confirmed clear.
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
