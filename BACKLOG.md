@@ -2586,6 +2586,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: NOCK is being re-scoped as a texture generator+manager first -- needs real CRUD, SQLite persistence …** — obs `2026-09-12T05:35:51Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time (via IDUNA kanban priority queue, card GFD-124433): GFD needs per-job leveling -- when a level 10 WAR…** — obs `2026-09-12T05:51:34Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: pasted a full 'SSH Transport & Identity' implementation spec for GoblinFoxDragon's MUD (telnet -> SS…** — obs `2026-09-12T06:14:13Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: continuing queued SSH Transport & Identity spec work for GoblinFoxDragon -- Stage 2 (§7 TLS on GUI l…** — obs `2026-09-12T11:05:05Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
