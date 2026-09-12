@@ -2588,6 +2588,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: pasted a full 'SSH Transport & Identity' implementation spec for GoblinFoxDragon's MUD (telnet -> SS…** — obs `2026-09-12T06:14:13Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: continuing queued SSH Transport & Identity spec work for GoblinFoxDragon -- Stage 2 (§7 TLS on GUI l…** — obs `2026-09-12T11:05:05Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: continue SSH Transport & Identity spec rollout — next stage (Stage 4: §2 SSH listener, high port, no…** — obs `2026-09-12T14:44:33Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: continue SSH Transport & Identity spec rollout — next stage (Stage 5: §3 identity binding + key mana…** — obs `2026-09-12T15:04:33Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
