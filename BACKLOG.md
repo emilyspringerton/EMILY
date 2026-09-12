@@ -2581,6 +2581,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: work from GitHub issues across the monorepo when they are clear -- fix the bug or ship the feature. …** — obs `2026-09-12T04:11:15Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: start adding textures to SHANKPIT -- have the compile step generate textures for now (procedural), f…** — obs `2026-09-12T04:39:32Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: MUD items aren't implemented, e.g. Echo Drops and Hi-Potion.** — obs `2026-09-12T04:33:50Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: wants to build NOCK -- a custom creative-tools suite (texture/image editor with Photoshop-equivalent…** — obs `2026-09-12T04:54:52Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
