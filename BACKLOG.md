@@ -37100,3 +37100,57 @@ service now.**
   and spec stages 4-8 (SSH listener, identity binding, port 22 swap, device-flow hardening,
   telnet deprecation).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 393: SSH TRANSPORT & IDENTITY SPEC — STAGE 4 SHIPPED (REAL SSH LISTENER, PUBLIC-KEY/TOFU) (2026-09-12)
+
+Founder said "next" after Stage 3 shipped — proceeded to Stage 4 (§2 SSH listener), routed
+through `emily observe` first (Apple #19169) per Principle 1a.
+
+- [x] **S393-01: real SSH server built, `apps2/mud/ssh_listener.go`, wired alongside (not
+  replacing) telnet.** Public-key auth only (`PasswordCallback`/`KeyboardInteractiveCallback`
+  left nil — both refused, not just discouraged); trust-on-first-use (any syntactically valid
+  offered key accepted for the connection, identity binding is §3/Stage 5); SSH username never
+  inspected. Host key (Ed25519) generated once at `var/ssh_host_ed25519_key` — this process's
+  own real `ReadWritePaths` data path from Stage 3, already backed up by Stage 3's new `gfd`
+  target with zero extra wiring. `pty-req`/`window-change` acknowledged without error; a client
+  with no PTY at all degrades identically (real, honest scope named: this game's output has no
+  width-aware reflow anywhere to plug a resize into, so "honoring" it means never crashing/
+  hanging on it, not new text-wrap behavior). Idle timeout (15m), max session duration (6h), max
+  5 concurrent sessions per source IP, `MaxAuthTries=3` — all real, new enforcement telnet itself
+  has never had (checked live: zero deadline calls anywhere in this file before this).
+- [x] **S393-02: real, positive design finding confirmed by actually building it, not just
+  claimed in Stage 3's placeholder note.** `handle()`/`handleConn` call exactly four methods on
+  `p.conn` anywhere in this file (`Read`/`Write`/`Close`/`RemoteAddr`, checked via grep before
+  writing a line of this) — so `sshConnAdapter` needs only those four plus three deadline no-ops
+  to satisfy `net.Conn`, and `handleConn(adapter)` then runs completely unmodified for SSH
+  sessions: same struct literal, same `isGuest: true`, same guest gate, same IDUNA
+  fetch-or-create. An SSH connection with no bound identity is still a guest per the spec's own
+  explicit framing — this reuse gives SSH sessions the exact same guest-tier treatment as telnet
+  with zero new gating code.
+- [x] **S393-03: 7 new unit tests, one real bug found and fixed in the test harness itself while
+  writing them.** Host key generate/reuse/persisted-file-permissions, per-IP address parsing, and
+  the real §2.1 auth semantics (password refused, keyboard-interactive refused, TOFU accepts
+  any/multiple never-registered keys) via a genuine `ssh.NewServerConn`/`ssh.NewClientConn`
+  handshake. First attempt used `net.Pipe()` and deadlocked live (caught via `-timeout`, a real
+  goroutine stack dump, not guessed): the SSH version-exchange has both sides write their version
+  string before either reads, and `net.Pipe()` is fully synchronous/unbuffered, so both sides
+  blocked on `Write` simultaneously. Fixed by switching to a real loopback TCP socket pair, which
+  buffers at the OS level.
+- [x] **S393-04: live-verified twice — a throwaway instance first, then the real live
+  production service after a founder-authorized restart** (asked via `AskUserQuestion`: this is
+  a genuinely new, publicly-reachable listener, not just a restart/hardening change like Stage 3
+  — founder chose "deploy + restart live now"). Password auth refused via the real `ssh` CLI on
+  both; a fresh, never-registered key succeeds via TOFU with no PTY (`-T`) and the guest banner/
+  gate work correctly over SSH on both. On the throwaway instance specifically: a Go test client
+  confirmed `pty-req` + initial window size + mid-session `window-change` + `shell` all work
+  together without error or hang, guest gate still blocks `bank`, `look` still works after
+  resize; a second Go test client confirmed the per-IP cap (exactly 5 concurrent sessions
+  succeed, the 6th refused); host key fingerprint confirmed identical across a real restart.
+  GoblinFoxDragon commits `86c7b95` (code), `bc6e4e1` (deploy), `731dcfc` (docs). Apple #19171
+  (completion).
+  Real, honest, NOT done (named in the NORTHSTAR, not silently skipped): no real text reflow on
+  resize (no gap against current gameplay — no width-aware output exists anywhere to reflow); no
+  character-name hint from the SSH username (would need Stage 5 to mean anything); per-IP session
+  accounting is in-memory/per-process (fine at gfd-mud's current single-process scale). Spec
+  stages 5-8 (identity binding, port 22 swap, device-flow hardening, telnet deprecation) remain.
+  session: sess-20260905-0720-ec33e7c5
