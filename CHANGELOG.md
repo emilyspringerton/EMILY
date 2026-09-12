@@ -1,4 +1,5 @@
 ## 2026-09-12
+- backlog: GFD real combat damage formula (STR/DEX/VIT/AGI + marble-bag pity) shipped live (S398) (sess-20260905-0720-ec33e7c5)
 - backlog: GFD universal 1s spell/ability lockout shipped (S397) (sess-20260905-0720-ec33e7c5)
 - backlog: GFD combat RNG shared marble-bag+pity utility (S396) (sess-20260905-0720-ec33e7c5)
 - backlog: GFD job/spell system overhaul plan + Phase 0 shipped (S395) (sess-20260905-0720-ec33e7c5)
