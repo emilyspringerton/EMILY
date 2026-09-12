@@ -37339,3 +37339,5 @@ Founder resolved SECTION 395's own named open question directly: "do a 1 s locko
   third attempt after 1.1s passes again. `GOWORK=off go build/vet/test ./...` clean.
   GoblinFoxDragon commits `3a8c4e5`/`3af8917`/`52a3524`. Apple #19186 (completion).
   session: sess-20260905-0720-ec33e7c5
+- [ ] **GFD-5498532: fix duels** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
