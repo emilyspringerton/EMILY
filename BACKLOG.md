@@ -36887,5 +36887,49 @@ question about generating the React frontend itself from PARENA source.
   SQLite, real ImageMagick/PARENA/JVM for generation-path tests). `go build/vet/test ./...`
   clean. IDUNA commits `90a3abf`/`b1dabce`. Apple #19118 (completion).
   session: sess-20260905-0720-ec33e7c5
-- [ ] **GFD-124433: when you are a lvl 10 warrior in gfd and you switch to RDM for the first time you go back to lvl 1 and you can level up to 5 and switch back to your level 10 war or to the lvl 1 mnk separate lvls/job** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **GFD-124433: when you are a lvl 10 warrior in gfd and you switch to RDM for the first time you go back to lvl 1 and you can level up to 5 and switch back to your level 10 war or to the lvl 1 mnk separate lvls/job** Added via the IDUNA kanban interface (priority queue). Real fix shipped same day -- see SECTION 389 below for the full writeup. Apples #19122 (IDUNA)/#19124 (GoblinFoxDragon).
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 389: GFD-124433 — PER-JOB LEVELING, WORKED FROM THE IDUNA KANBAN PRIORITY QUEUE (2026-09-12)
+
+Founder instruction: "work from the priority queue." Checked IDUNA's real `kanban_cards` table
+directly (`queue = 'priority'`) rather than guessing what that meant — exactly one card was
+there: GFD-124433 (routed via `emily observe` first per Principle 18/1a, Apple #19120), a raw,
+untriaged kanban-added item: "when you are a lvl 10 warrior in gfd and you switch to RDM for the
+first time you go back to lvl 1 and you can level up to 5 and switch back to your level 10 war
+or to the lvl 1 mnk separate lvls/job" — FFXI-style per-job leveling.
+
+- [x] **S389-01: found the real root cause.** `apps2/mud`'s `p.charXP` was ONE `*xp.CharXP`
+  struct per character, shared across every job — `cmdSetJob` never touched it at all when
+  switching jobs, so a level-10 WAR who switches to RDM just kept showing level 10 on RDM too,
+  exactly as reported. `server/job/subjob.go`'s own `CharJob{MainLvl, SubLvl}` looked like it
+  might already carry per-job levels but didn't — `MainLvl` was always just a mirror of the one
+  global `p.charXP.Level`, not an independently-tracked value.
+- [x] **S389-02: fixed with a minimally-invasive design.** `p.charXP` stays a *live alias* into
+  a new `p.jobXP map[string]*xp.CharXP` entry for whichever job is currently active, so every
+  existing read/write of `p.charXP.*` throughout this ~8000-line file (combat, HP/MP calc,
+  subjob math, prompt display) stays correct with zero changes — only `cmdSetJob` needed new
+  logic, via two small, real, independently unit-tested pure functions: `switchActiveJob`
+  (switch to, or lazily create at level 1, a job's own entry) and `loadJobXP` (build the initial
+  per-job map on connect, seeding the main job's first-ever row from the character's legacy
+  single level/current_xp columns — a real, one-time backward-compat migration so existing
+  characters don't lose already-earned progress).
+- [x] **S389-03: persisted via a new IDUNA `character_job_levels` table** (one row per
+  character+job, mirroring `character_skills`' own established shape) + `GET`/`PATCH
+  /api/v1/characters/:id/job-levels[/:job]` (agent-only, same real cheat-vector reasoning the
+  existing `/level` endpoint already documents) + `idunaclient.GetJobLevels`/`UpdateJobLevel`.
+  `characters.level`/`current_xp` are NOT retired — kept mirroring whichever job is currently
+  active, so any other consumer reading a character's plain "level" still sees a real number.
+- [x] **S389-04: two real, found-live twin bugs fixed in the same edit.** `cmdSetJob` never
+  refreshed `p.charJob.Main`/`MainLvl` on a plain main-job switch (harmless before this feature,
+  wrong now that jobs genuinely diverge — `sub`'s own status display and BST's pet-level calc
+  both read `MainLvl`). The telnet-reconnect-by-name-cache path in `handleConn` never called
+  `applyJobStats` after loading a returning character's real level, so max HP/MP stayed at
+  level-1 defaults regardless of real level. `cmdJobs` now shows each job's own real level
+  (`Lv.1` for never-played jobs, without eagerly creating 22 phantom rows).
+  16 new tests total (7 in `apps2/mud/job_levels_test.go`, 4 in GoblinFoxDragon's own
+  `idunaclient_test.go`, 5 in IDUNA's `mmo_job_levels_test.go`). `GOWORK=off go build/vet/test
+  ./...` clean across the whole GoblinFoxDragon module; `go build/vet/test ./...` clean in IDUNA.
+  GoblinFoxDragon commits `217cccb`/`5a50eb6`. IDUNA commits `4bc9d1f`/`fc381c9`. Apples #19122
+  (IDUNA)/#19124 (GoblinFoxDragon), completion.
+  session: sess-20260905-0720-ec33e7c5
