@@ -36604,3 +36604,38 @@ Ash Barrens 的「更頻繁的敵對生物刷新」（可以接到 SECTION 380 �
 函式簽名，這次時間不夠沒做）；"3–5 個生物群系"裡的可變數量／重複類型（這次固定做死 4 個區域、
 每種生物群系剛好一塊，是真實但比原始設計窄的版本）。
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 383: GITHUB ISSUE TRIAGE — GOBLINFOXDRAGON #33, DEAD MOBS NEVER RESPAWNING (2026-09-12)
+
+Founder real-time (routed via `emily observe` first per Principle 18/1a, Apple #19095):
+"work from github issues if they are clear in the bug fix the bug or add feature or whatever."
+
+- [x] **S383-01: scanned open GitHub issues across every `emilyspringerton/*` repo** (unauthenticated
+  `api.github.com` reads -- no `gh` CLI installed, no token in this sandbox, so `gh issue`/`gh pr`
+  tooling wasn't usable; plain `curl` against the public REST API worked for all of them). Real
+  finding: several "issues" returned by the `/issues` endpoint were actually open Codex-authored
+  PRs (`pull_request` key present) that GitHub's API doesn't distinguish by default -- filtered
+  those out before triaging. Several genuine issues (SKULDMARK#1, PRRJECT_FATBABY#9) turned out to
+  already be fixed in code, just never closed on GitHub -- left alone rather than closed, since
+  this sandbox has no write-capable GitHub credential (SSH key only, no REST API token) to close
+  them; noting that gap here rather than silently doing nothing about it.
+- [x] **S383-02: picked GoblinFoxDragon#33 ("mobs just sit dead in the mobs table and dont
+  respawn," filed 2026-09-12) as the clearest, most self-contained real bug** among the founder's
+  five same-day GFD issues (#30-#34) -- traced it to a real root cause: `apps2/mud`'s `tickAll()`
+  respawn path called `Registry.Spawn(m)` to bring a dead mob back, but `Registry.Hit` never
+  removes a dead mob from the registry (only flips `State` to `StateDead`), so `Spawn` always
+  rejected the same ID as a duplicate -- and the call site swallowed that error (`_ =
+  ...Spawn(m)`), so every respawn silently failed forever, exactly as reported.
+- [x] **S383-03: fixed with a new `Registry.Revive(id, pos)`** (`server/mob/mob.go`) that resets
+  an already-registered mob in place (HP/State/Pos, plus clearing TaggerSlot/AggroSlot/DiedAt/burrow
+  state so it comes back as a genuine fresh spawn, not a corpse still carrying its old life's tag)
+  instead of re-`Spawn`-ing a duplicate ID. `apps2/mud/main.go`'s deadQueue processing now calls
+  `Revive`, falling back to `Spawn` only if the mob is genuinely gone from the registry. Added
+  `TestReviveBringsDeadMobBack`/`TestReviveUnknownIDErrors` to `server/mob/mob_test.go` reproducing
+  the original bug against the fix. `GOWORK=off go test ./...` passes clean across the whole
+  `dragonsnshit` module. GoblinFoxDragon commit `921a284`. Apple #19096 (completion).
+  Real, honest note: unrelated, already-in-progress uncommitted changes (an inventory-sync fix,
+  S252-00/01/GFD-AH-93944) were sitting in this same working tree when this session started --
+  left untouched and uncommitted, not bundled into this commit, since they weren't this session's
+  own work and their state/intent wasn't this session's to decide.
+  session: sess-20260905-0720-ec33e7c5
