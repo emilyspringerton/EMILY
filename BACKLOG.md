@@ -2601,6 +2601,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: GFD guest-mode messaging is stale -- says 'SSH-bound identity... coming soon' but SSH is live. Updat…** — obs `2026-09-12T21:48:53Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: guest login must not allow claiming a name that collides (case-insensitively) with an existing SSH-b…** — obs `2026-09-12T22:22:20Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: full weapon-skill leveling design -- per-weapon-type skill levels (like fishing/mining skill-gain-on…** — obs `2026-09-12T22:36:06Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: 'ok we lost data somehow - did you roll the server back?' -- investigating now.** — obs `2026-09-12T23:44:15Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -37904,14 +37905,20 @@ items in this stack and send them to priority then work them." Routed through `e
   `itemdefReg.LoadFile` on the already-running server without a restart, since `Registry.LoadJSON`
   is already internally safe to call more than once (mutex-protected map replacement). Apple
   #19260, commit 552bd39.
-- [ ] **S412-06**: Full weapon-skill per-type leveling — `p.weaponSkills map[string]int`
+- [x] **S412-06**: Full weapon-skill per-type leveling — `p.weaponSkills map[string]int`
   (fishing/mining-shaped skill-gain-on-use), wired into real accuracy/damage in
   `combat_formula.go`. Unarmed (no weapon equipped) levels the "h2h" type; `wsSkill` defaults to
   "Combo" (h2h's real Lv1 WS) instead of "Fast Blade" (sword's) for a brand-new, unarmed
   character. Requires `skillchain.WeaponSkill` to gain real `WeaponType`/`MinSkillLevel` fields
   (today it has neither — `setws` currently accepts "any name, no gate") and real new roster
   entries for the weapon types that don't exist in `CanonicalWeaponSkills` at all yet: dagger,
-  axe, polearm, h2h.
+  axe, polearm, h2h. Apple #19265, commits 01a1a9d/e32c797/b56612f/90396d5. Live-verified: fresh
+  guest's h2h skill went 0->1 after landing an unarmed hit on a real worm; `wslist` shows live
+  per-skill weapon-type/skill/threshold/usable status. Honest gap: no polearm/club item exists
+  yet, so those types are unreachable until content is authored. Note: S412-03's starting-sword
+  grant means a brand-new character's actual weapon type is "sword," not "h2h," at spawn — Combo
+  (h2h) stays unusable until either unequipped or trained; `wslist`'s own new usable:yes/no
+  display surfaces this rather than leaving it silent.
 - [ ] **S412-07**: Per-job weapon-type skill caps — each job has one real "affinity" weapon type
   (RDM/PLD→sword, WAR→axe, MNK→h2h, THF→dagger, WHM/BLM→club, DRG→polearm, DRK→greatsword) that
   caps at a real, higher rate per character level than any off-affinity weapon type, so (per the
