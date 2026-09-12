@@ -37737,5 +37737,26 @@ Routed through `emily observe` (Apple #19234) per Principle 1a.
   skateboard commit `d3b7b30`. Apple #19235 (completion).
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 407: GFD GUEST MESSAGING — REAL SSH CONNECT COMMAND (2026-09-12)
+
+Founder real-time, live: "ok gfd guest works BUT it says those require an SSH-bound identity,
+coming soon. it needs to say ssh in at okemily.com -p 2222 or something like that make it nice."
+Routed through `emily observe` (Apple #19239) per Principle 1a.
+
+- [x] **S407-01: fixed and live-verified.** SSH has been live since Stage 4/5 (2026-09-12), but
+  every guest-facing "this needs SSH" message still said "coming soon" — stale the moment it
+  shipped. New shared `sshUpgradeHint` constant ("ssh -p 2222 okemily.com -- first time binds a
+  fresh key to a permanent name, no password, no signup form"), used consistently across all 4
+  real guest-facing messages: the initial connect banner, the economy-block message, the
+  chat-block message, and `requireSSHIdentity`'s own "guests can't manage keys" refusal. New
+  regression test (`guest_gate_test.go`) guards this from ever silently regressing back to
+  "coming soon" wording again. Isolated from a concurrent in-flight `main.go` change (S252
+  inventory sync) via this session's established hunk-isolation technique, zero not-mine
+  markers. `go build/vet/test ./...` clean. Live-verified on a throwaway instance (both the
+  initial connect banner and a real `bank` command refusal now show the concrete command), then
+  rebuilt and redeployed to real production. GoblinFoxDragon commits `cb63dc4` (source),
+  `b732089` (binary redeploy). Apple #19241 (completion).
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
