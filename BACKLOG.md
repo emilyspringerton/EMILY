@@ -37961,3 +37961,5 @@ at all) — worked FIRST, before the others, regardless of kanban queue order.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S412-09: gfd-mob-drops admin interface needs real per-item drop-rate tuning** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S412-x-000: MAKE SURE THAT THE JOBS SPECIFIED IN THE ITEM DATABASE ARE ONLY THE ONES THAT CAN EQUIP THAT ITEM** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
