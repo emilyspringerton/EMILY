@@ -2591,6 +2591,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue SSH Transport & Identity spec rollout — next stage (Stage 5: §3 identity binding + key mana…** — obs `2026-09-12T15:04:33Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time (2nd addition, same combat-depth theme): auto-attack damage is a flat hardcoded 30 regardless of clas…** — obs `2026-09-12T15:44:52Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: major new direction — GFD job/spell system overhaul. Universal 'everything is a spell' model (cost/c…** — obs `2026-09-12T15:41:21Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: continue GFD job/spell system work — Phase 1 remaining scope (universal Ability model unification + …** — obs `2026-09-12T16:41:32Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
