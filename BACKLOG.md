@@ -37431,3 +37431,31 @@ hit and give bonus attack on top of that?"). Said "continue" to proceed with fix
   weapon restrictions, and item-equip-affects-stats) are thematically part of this same job/
   combat overhaul thread — named here for whoever triages them next, not acted on this pass.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 400: NOCK REDDIT BLOG POST DRAFT — PARENA-TO-JVM SANDBOXING (2026-09-12)
+
+Founder real-time: "we want to write a post for a specific subreddit: r/proceduralgeneration...
+that audience will appreciate the compile-to-JVM sandboxing argument... write it as a blog post
+how we did it the texture generator and compiler pipeline that we built." Routed through
+`emily observe` first (Apple #19199) per Principle 1a.
+
+- [x] **S400-01: verified every real technical claim against the actual compiler source before
+  writing anything as fact for a public post** — did not rely on memory from earlier this
+  session. Re-grepped `PARENA/src/emit_java.c`/`.h`: confirmed the exact math primitive table
+  (only five: `math/random-f64`/`floor`/`sqrt`/`log`/`cos`, lowered to `java.lang.Math.*`), the
+  real scope statement from the header comment (a `defn` whose body is a SINGLE expression — no
+  loops, no mutation), and a real, confirmed-by-grep zero matches for any `#target`/inline
+  handling anywhere in that emitter. Cross-checked the C emitter's own real escape hatch
+  (`#target {:c (inline-c "...")}`) and pulled its own source comment verbatim ("the inline-c
+  string is trusted verbatim as real C") for an accurate quote rather than a paraphrase.
+- [x] **S400-02: real technical blog post drafted**, `IDUNA/docs/NOCK_PROCGEN_REDDIT_POST.md` —
+  the actual argument (sandboxing by choice of compiler target, not a runtime permission system:
+  the Java emitter has no code path that can EXPRESS a dangerous operation, vs. catching one at
+  runtime), the real pipeline (`parena build --target java` → `javac` against a small trusted
+  harness → `java`), and two real, honest build footguns from this session (the `javac`/`java`
+  JDK-version-mismatch bug, ImageMagick's `-crop`-retains-page-offset bug) included for
+  authenticity rather than only the clean success story. IDUNA commit `ff342f4`. Apple #19200
+  (completion).
+  Real, honest, NOT done: this is a draft only — no tool exists in this environment to actually
+  post to Reddit, so the founder posts it themselves whenever ready.
+  session: sess-20260905-0720-ec33e7c5
