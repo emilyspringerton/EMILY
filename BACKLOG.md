@@ -37041,3 +37041,61 @@ Founder said "ok do the queued ssh work GFD," then picked Stage 2 (§7 TLS on GU
   named: vendor a real TLS library for both build targets, or build the device-flow integration
   named in S391-02 — neither done here, both named as real future work, not silently dropped).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 392: SSH TRANSPORT & IDENTITY SPEC — STAGE 3 SHIPPED, PARTIAL (PROCESS ISOLATION + DATA BACKUP) (2026-09-12)
+
+Founder said "continue" after Stage 2 shipped — routed through `AskUserQuestion` on how to handle
+the live-restart risk (process isolation requires either root, which this sandbox doesn't have,
+or restarting the live `:2323` service, or both). **Founder chose: go ahead and restart the live
+service now.**
+
+- [x] **S392-01: found and live-tested the real, achievable ceiling before touching anything.**
+  `gfd-mud.service` is a `systemctl --user` unit (`ops/systemd/gfd-mud.service`). Tested every
+  §5 hardening directive individually on a throwaway instance (different port, isolated `var/`)
+  before the real one: `ProtectSystem=strict`/`ReadWritePaths`/`ProtectHome`/`PrivateTmp`/
+  `RestrictNamespaces`/`SUIDSGID`/`Realtime`/`AddressFamilies`/`LockPersonality`/`RemoveIPC`/
+  `ProtectHostname`/`KernelTunables`/`ControlGroups`/`SystemCallFilter`/`NoNewPrivileges`/`UMask`
+  all work; `CapabilityBoundingSet=`, `AmbientCapabilities=`, `ProtectKernelModules=`,
+  `ProtectKernelLogs=`, `ProtectClock=` all fail `status=218/CAPABILITIES` — root cause confirmed,
+  not guessed: the per-user systemd instance never holds `CAP_SETPCAP`, so it cannot drop
+  capabilities from any bounding set for any unit it manages. Checked `systemd-detect-virt`
+  (real KVM VM, not a container) to rule out a sandbox-specific quirk before concluding this is a
+  normal Linux capability rule any `--user` unit hits. The spec's own "dedicated unprivileged
+  user, no login shell" ask has the identical root dependency (`useradd`).
+- [x] **S392-02: real data backup before the rollout, matching §5's own explicit requirement.**
+  Added a new `gfd` target to `emily.cli`'s existing `emily backup run` tool
+  (`GoblinFoxDragon/var` — the mud process's real data path; durable character/economy state
+  itself lives in IDUNA, already covered by the `iduna` target). Found and fixed a real gap while
+  scoping it: `looksLikeSecret` missed `var/moltbook-credentials.json` entirely (only checked
+  `.env`/`secret`/`webmaster.json`) — would have shipped a real credential file into an
+  unencrypted cloud archive the moment this target existed. Ran the real archive step live,
+  confirmed the credential file was excluded; the actual GCS upload fails in this sandbox (no
+  `gcloud` ADC configured here — a real environment limit, not a code defect). Took a local
+  `var-backups/*.tar.gz` snapshot as real, immediate insurance and verified a byte-identical
+  restore round-trip (`diff -r`) before touching the live service. emily.cli commit `6b2eec7`.
+- [x] **S392-03: applied the achievable hardening to the real live service and restarted it**
+  (founder-authorized). `ops/systemd/gfd-mud.service` updated with every directive that survived
+  S392-01's live test; `systemd-analyze security` exposure score measured **9.8 UNSAFE → 5.8
+  MEDIUM**. GoblinFoxDragon commit `05e13aa`.
+- [x] **S392-04: real, unplanned, load-bearing finding — the live binary was stale since
+  2026-09-05,** predating every fix shipped this session (mob Revive, item-use fixes, per-job
+  leveling, Stage 1's own guest gate — none of it had actually gone live despite being committed
+  and tested, confirmed by `strings`-checking the running binary for Stage 1's own banner text
+  and finding it absent). Since a restart was happening regardless, rebuilt and deployed current
+  `master` instead of restarting back into the same stale binary — built from a clean checkout
+  with the pre-existing, not-mine, uncommitted S252-00/01 inventory-sync work (`git stash`'d out
+  first so it isn't silently baked into a live production deploy unreviewed, restored to the
+  working tree unchanged immediately after). `GOWORK=off go build/vet/test ./...` clean before
+  deploy. GoblinFoxDragon commit `6b03614`.
+- [x] **S392-05: live-verified after restart, real socket connection, not assumed.** Guest
+  connect banner present, `bank` correctly guest-blocked with the real explain-the-upgrade
+  message, normal movement/combat still fully functional, a real write landed in `var/` under
+  the new `ReadWritePaths` confinement. Apple #19162 (completion).
+  Real, honest, NOT done (named in the NORTHSTAR, not silently skipped): the dedicated
+  unprivileged/shell-less system user and the five capability-dropping directives (both need
+  root) — `sudo-queue/78-gfd-mud-dedicated-user-and-full-hardening.sh` (MONOREPO commit
+  `02effcb90`) is a complete, real, reviewed-not-yet-run script for the founder to run whenever
+  convenient; cloud upload of the `gfd` backup target (needs `gcloud` ADC on a host that has it);
+  and spec stages 4-8 (SSH listener, identity binding, port 22 swap, device-flow hardening,
+  telnet deprecation).
+  session: sess-20260905-0720-ec33e7c5
