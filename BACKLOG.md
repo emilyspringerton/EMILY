@@ -37317,3 +37317,25 @@ as unrelated bespoke code."
   Real, honest, NOT done: the RNG primitive itself is real and tested; it is not yet wired into
   `apps2/mud`'s actual combat resolution code (Phase 4.5 of SECTION 395, not started).
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 397: GFD UNIVERSAL 1S SPELL/ABILITY LOCKOUT (2026-09-12)
+
+Founder resolved SECTION 395's own named open question directly: "do a 1 s lockout."
+
+- [x] **S397-01: real universal lockout shipped and deployed live.** New `p.lastActionAt` +
+  `checkUniversalLockout`, called first in both `cmdCast` and `cmdJA` — covers `cmdCast`'s six
+  further delegate functions too (`cmdCastBlackMagic`/`BardSong`/`Teleport`/`DarkMagic`/
+  `Ninjutsu`/`PaladinMagic`), all only ever reached through `cmdCast` itself. A player can no
+  longer chain-spam Provoke into Cure into a nuke with zero real gap — closing the exact
+  structural gap SECTION 395's own §0 audit named as the real reason classes felt purposeless.
+  Named, deliberate simplification: the lockout starts on any attempt reaching the check, not
+  only a successful cast — tracking success/failure through all six delegates is real, separate,
+  larger Phase 1 follow-up work, not this bounded slice. Being told "still recovering" does not
+  reset the window.
+- [x] **S397-02: 7 new tests + live verification against real production.** First-action-never-
+  blocked, blocks within the window, allows after it elapses, blocked attempts don't extend the
+  window, success advances it, both real call sites actually gate (not just the helper existing
+  unwired). Live: back-to-back `ja provoke` correctly refused ("still recovering, 800ms"), a
+  third attempt after 1.1s passes again. `GOWORK=off go build/vet/test ./...` clean.
+  GoblinFoxDragon commits `3a8c4e5`/`3af8917`/`52a3524`. Apple #19186 (completion).
+  session: sess-20260905-0720-ec33e7c5
