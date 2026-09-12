@@ -36994,3 +36994,50 @@ security fix... ship it first. It can land in hours; the rest can take weeks."
   identity binding, port 22 swap, device-flow hardening, telnet deprecation) — all real, named,
   sequenced future work.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 391: SSH TRANSPORT & IDENTITY SPEC — STAGE 2 SHIPPED (GUI LOGIN DISABLED PENDING TLS) (2026-09-12)
+
+Founder said "ok do the queued ssh work GFD," then picked Stage 2 (§7 TLS on GUI login) via
+`AskUserQuestion` over Stage 3 (process isolation) — routed through `emily observe` first
+(Apple #19149) per Principle 1a.
+
+- [x] **S391-01: located and read the real GUI login code path before proposing anything.**
+  `apps2/battlegrounds_gui/src/main.c`'s `get_player_login_ticket` (called from
+  `run_login_screen`) POSTs real player-typed email+password to IDUNA's
+  `/api/v1/auth/email/login` via `packages/common/http_client.h`. Read that header in full: a raw
+  BSD-socket client (POSIX branch + a separate Winsock branch for the CI-built Windows client,
+  `DragonsNShit_MUD_GUI.exe`) with zero TLS capability on either platform — no OpenSSL/mbedTLS
+  linked, no TLS handshake code anywhere. Checked this sandbox directly: no `libssl-dev`/mbedTLS
+  installed, `x86_64-w64-mingw32-gcc` present but no TLS library available for that target either.
+- [x] **S391-02: named the real constraint rather than attempting a rushed fix — asked the
+  founder which of the spec's own two sanctioned §7 paths to take.** "Terminate TLS in front of
+  the login/ticket endpoints" doesn't close the gap alone here — a client with no TLS handshake
+  capability gets nothing from a TLS-terminating proxy in front of the server, it would just fail
+  to connect. Real TLS in this client means vendoring + cross-compiling a full library for both
+  targets plus real certificate/hostname verification; a rushed implementation without cert
+  validation would be worse than plaintext (looks encrypted, still MITM-able). Presented three
+  real options via `AskUserQuestion`: disable the plaintext path now (spec-sanctioned fallback),
+  build real TLS into the C client (large, risky, likely unfinishable this session), or
+  investigate reusing IDUNA's existing device-flow auth (`/auth/device/start`+`/poll`, real
+  infra but built for a different consumer, `aud:"kikoryu"`) as a password-less replacement.
+  **Founder chose: disable plaintext GUI login now.**
+- [x] **S391-03: shipped a three-layer gate, not just a UI hint.** New
+  `kGuiLoginDisabledPendingTLS` (`static const int`, `1`) in `main.c`: (1) `draw_login_screen`
+  never draws the email/password fields or LOG IN button, showing a plain-language notice
+  instead ("GUI LOGIN IS TEMPORARILY DISABLED... Play right now via telnet, or sign up below");
+  (2) `run_login_screen`'s keyboard/mouse handlers that would populate the fields or set
+  `st.submitting` are gated off; (3) **defense in depth** — the actual network call site
+  (`get_player_login_ticket`) is gated a third time, directly, so no future UI regression can
+  reach it. SIGN UP is untouched (opens the real WOTAN store page via `SDL_OpenURL` — a real
+  browser TLS handshake, this file's raw socket client never involved).
+- [x] **S391-04: live-verified, not just read.** Built the real client natively on Linux using
+  the exact same source file list `.github/workflows/build.yml`'s mingw cross-build uses
+  (`main.c` + `packages/simulation/{arena_game,arena_replay,arena_ai_bridge,action_bar_mod}.c` +
+  `packages/common/mlp_infer.c` + `packages/goldenband/*.c`), ran it under Xvfb, screenshotted
+  the actual login screen: no email/password fields, no LOG IN button, the disabled notice, SIGN
+  UP present and clickable. `gcc -fsyntax-only -Wall` clean; full native link clean (all warnings
+  pre-existing, none introduced). GoblinFoxDragon commit `dc293b6`. Apple #19152 (completion).
+  `docs2/SSH_TRANSPORT_IDENTITY_NORTHSTAR.md` updated (Stage 2 marked shipped, real follow-up
+  named: vendor a real TLS library for both build targets, or build the device-flow integration
+  named in S391-02 — neither done here, both named as real future work, not silently dropped).
+  session: sess-20260905-0720-ec33e7c5
