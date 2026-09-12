@@ -37208,3 +37208,69 @@ management), routed through `emily observe` first (Apple #19173) per Principle 1
   list, not a formal process; claim rate limiting is in-memory/per-process. Spec stages 6-8 (port
   22 swap, device-flow hardening, telnet deprecation) remain.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 395: GFD JOB/SPELL SYSTEM OVERHAUL — PLAN + PHASE 0 (DISABLE ADVANCED JOBS) (2026-09-12)
+
+Founder real-time direction, routed through `emily observe` first (Apples #19178/#19179) per
+Principle 1a: "the classes dont have any purpose there are no spells or job abilities... we make
+everything a spell... disable all of the advanced jobs for now including ASN... design the first
+tier of spells... start tracking skill levels for each of the weapon types... /ja /ma both map to
+the same spell casting affordance," then a second addition same session on combat determinism
+("i always hit for 30 no matter what class... STR/DEX/VIT/AGI should all matter").
+
+- [x] **S395-01: real audit against the codebase before planning anything, correcting the
+  stated premise where the code disagreed with it.** Checked `apps2/mud/main.go` and
+  `server/job/subjob.go` directly: BLM already has a full elemental tier-1/2/3 roster (fire/
+  blizzard/thunder/stone/water/aero ×3, plus poison/bio/distract/frazzle), WHM/RDM already have
+  cure/cure2/protect/shell/haste/regen/refresh/dia as real instant-cast spells, WAR already has
+  Provoke (real, functioning enmity), MNK already has Boost+Chakra, THF already has Sneak
+  Attack — the founder's own "there are no spells or job abilities" isn't quite what's actually
+  true. The real, checked gap: zero cast-time/cooldown/universal-lockout system exists anywhere
+  (every spell/ability resolves instantly, gated only by MP where it applies) — this is the real
+  structural reason classes feel purposeless, not missing content.
+- [x] **S395-02: direct founder follow-up answered precisely from the code, not from memory.**
+  "do the abilities actually do anything?" then "does provoke give enmity? does boost increase
+  your attack? does sneak attack guarantee a critical and bonus attack?" — read `cmdJA`'s own
+  switch statement line by line: Provoke/Chakra/Clear Mind/Convert/Benediction/Venom/Siphon are
+  real (state actually changes); Berserk/Boost/Elemental Seal/Chainspell/Sneak Attack/Trick
+  Attack are pure flavor text — each sends a message claiming an effect (haste, next-attack
+  bonus, guaranteed spell landing, free MP, crit, enmity transfer) that no code anywhere applies.
+  No crit system exists in the game at all today, confirmed directly. Named as a missing
+  "pending effect, consumed by the next matching action" mechanism, not six separate one-off
+  bugs — scoped into Phase 1 as one real primitive.
+- [x] **S395-03: second real finding, combat damage is deterministic, confirmed live not just
+  taken on the founder's word.** `apps2/mud/main.go`'s `playerDamage = 30` is a flat constant
+  fed straight into `server/mob.Registry.Hit` (player→mob) with zero stat read/variance; the
+  reverse direction (`p.hp -= ev.Damage` off each mob's own flat `MeleeDamage`) is identical.
+  Real, concrete proposed formulas given in the NORTHSTAR doc (not just named as a gap): STR-
+  scaled damage with ±20% variance, DEX-based crit (5% + DEX×0.1%, capped 50%, 1.5× damage), one
+  shared accuracy/evasion roll (90% + (attacker DEX − defender AGI)×0.5%, clamped 50-99%) doubling
+  as both "does it land" and "AGI-based evasion" per the founder's own explicit framing that
+  these are the same mechanism from two sides, VIT-based flat reduction (never below 1 damage on
+  a landed hit).
+- [x] **S395-04: new `docs2/JOB_SPELL_SYSTEM_NORTHSTAR.md`**, golden-indexed as
+  `JOB-SPELL-SYSTEM-NORTH`: full audit (§0/§0.5), universal `Ability` struct design
+  (MPCost/CastTime/Recast/Kind unifying `/ja`+`cast` into one `cmdAbility`, §1), weapon-skill-
+  per-type leveling design (§2, parallel to the already-shipped per-job `p.jobXP` pattern from
+  GFD-124433), `/ja`+`/ma` targeting rules matching the founder's own explicit offensive-auto-
+  target/defensive-explicit-target/provoke-redirects-without-retargeting rules (§3), a first-tier
+  roster table naming what's real vs. new per job (§4), the combat formula proposal (§5), and a
+  6-phase plan (§6) with 6 real, named open questions for founder input (universal lockout
+  duration, THF "SAP" naming/effect, RDM Polymorph's actual effect, cast-interrupt-on-damage,
+  mob stat-block depth, which phase to build next).
+- [x] **S395-05: Phase 0 shipped and deployed to live production** — the one item explicitly
+  directed rather than left as a planning question. New `enabledJobs` map: `cmdSetJob`/
+  `cmdSetSubJob` refuse every job outside WAR/MNK/WHM/BLM/RDM/THF with a clear message naming
+  what's available; `jobs` marks disabled jobs inline; ASN named explicitly per the founder's own
+  wording. Deliberately does NOT force-switch any character already playing a disabled job — an
+  unrequested, destructive side effect this phase doesn't call for. 1 new test (`enabledJobs`
+  contains exactly the six, ASN explicitly excluded — `cmdSetJob`'s own full gw-dependent
+  behavior live-verified against the real server instead, matching this package's established
+  pattern). `GOWORK=off go build/vet/test ./...` clean. Live-verified against real production:
+  `setjob PLD` refused, `setjob WHM` succeeds. GoblinFoxDragon commits `e540a39`/`978e436`/
+  `6fc6bf6`/`321bdda`. Apple #19181 (completion).
+  Real, honest, NOT done (named in the NORTHSTAR, not silently skipped): Phases 1-5 (spell
+  timing engine, weapon skill leveling, targeting rules, new content, the combat formula
+  rewrite, staged re-enablement of advanced jobs) — "plan this next phase of work" was the
+  literal ask; which phase to build next is one of the doc's own named open questions.
+  session: sess-20260905-0720-ec33e7c5
