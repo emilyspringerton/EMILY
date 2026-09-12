@@ -37385,3 +37385,5 @@ rather than the oldest-still-open one.
   duels") is thematically connected to the exact PvP duel code path this pass deliberately left
   untouched — named here for whoever triages that card next, not acted on in this pass.
   session: sess-20260905-0720-ec33e7c5
+- [ ] **LVL-EDITOR-12331: ok SHANKPIT itself can be the level editor.... like currently there are no textures for a lot of stuff what if we give an in game texture selection tool anc an in game geometry tool mv rotate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
