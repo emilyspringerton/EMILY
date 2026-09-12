@@ -2592,6 +2592,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (2nd addition, same combat-depth theme): auto-attack damage is a flat hardcoded 30 regardless of clas…** — obs `2026-09-12T15:44:52Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: major new direction — GFD job/spell system overhaul. Universal 'everything is a spell' model (cost/c…** — obs `2026-09-12T15:41:21Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: continue GFD job/spell system work — Phase 1 remaining scope (universal Ability model unification + …** — obs `2026-09-12T16:41:32Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: full monorepo product audit across all 63 repos (product/60s-no-install/friction/broken), report to …** — obs `2026-09-12T17:11:03Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: write a technical blog post for r/proceduralgeneration about NOCK's procedural texture generator + P…** — obs `2026-09-12T17:01:41Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
