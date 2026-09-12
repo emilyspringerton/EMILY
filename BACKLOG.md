@@ -36886,3 +36886,5 @@ question about generating the React frontend itself from PARENA source.
   SQLite, real ImageMagick/PARENA/JVM for generation-path tests). `go build/vet/test ./...`
   clean. IDUNA commits `90a3abf`/`b1dabce`. Apple #19118 (completion).
   session: sess-20260905-0720-ec33e7c5
+- [ ] **GFD-124433: when you are a lvl 10 warrior in gfd and you switch to RDM for the first time you go back to lvl 1 and you can level up to 5 and switch back to your level 10 war or to the lvl 1 mnk separate lvls/job** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
