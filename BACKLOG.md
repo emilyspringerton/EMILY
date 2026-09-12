@@ -37952,3 +37952,5 @@ at all) — worked FIRST, before the others, regardless of kanban queue order.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S412-06: Weapon skill per-type leveling (fishing/mining-shaped skill-gain-on-use, wired into accuracy/damage)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S412-07: Per-job weapon-type skill caps (RDM sword S-tier, WAR axe, MNK h2h, THF dagger, WHM/BLM club, PLD sword, DRG polearm)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
