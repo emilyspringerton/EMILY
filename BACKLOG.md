@@ -37879,30 +37879,31 @@ needs real per-item drop-rate tuning with its own hot reload. Founder: "make kan
 items in this stack and send them to priority then work them." Routed through `emily observe`
 (Apple #19254) per Principle 1a.
 
-- [ ] **S412-01**: Fix a real, found-live data-quality bug blocking everything else in this
+- [x] **S412-01**: Fix a real, found-live data-quality bug blocking everything else in this
   section: `data/items.json`'s own 155 items use inconsistent stat-key casing (`"STR"` alongside
   `"str"`, `"Attack"`/`"attack"`, `"Magic Attack Bonus"` with literal spaces alongside
   `magic_attack_bonus`) — `gear.Equipment.ComputeStats` sums by raw string key with zero
   normalization, so two items differing only in key casing land in separate map keys and silently
   don't combine. Real fix: normalize every stat key (lowercase + spaces→underscores) once, at
-  `itemdef.Registry` load time.
-- [ ] **S412-02**: Wire `gear.Equipment.ComputeStats` into REAL combat math — confirmed, live,
+  `itemdef.Registry` load time. Apple #19258, commit 818350f.
+- [x] **S412-02**: Wire `gear.Equipment.ComputeStats` into REAL combat math — confirmed, live,
   found-live: `playerCombatStats` (combat_formula.go) and `applyJobStats` never once consult
   `p.equip` today; `ComputeStats` is called only to print a cosmetic "Stat changes:" line on
   equip/unequip. Equipping literally anything, including a weapon's own "attack" stat, currently
   has ZERO effect on real damage/accuracy/stats — this is the real, confirmed truth behind the
   standing, previously-flagged, not-yet-triaged kanban item "item backend needs
-  affordances...equipping an item should impact stats via db."
-- [ ] **S412-03**: Give every new character a real starting weapon (item id 3, "Sword",
+  affordances...equipping an item should impact stats via db." Apple #19258, commit 818350f.
+- [x] **S412-03**: Give every new character a real starting weapon (item id 3, "Sword",
   `{"attack":10,"str":1}`, already real in `data/items.json`) instead of only starting Flow —
-  auto-equipped in the main-hand slot at character creation.
-- [ ] **S412-04**: Add the Sword to the Meadow ("guildmaster") shop catalog so it's also
+  auto-equipped in the main-hand slot at character creation. Apple #19259, commit 552bd39.
+- [x] **S412-04**: Add the Sword to the Meadow ("guildmaster") shop catalog so it's also
   purchasable/re-purchasable, and confirm its stats are the real, founder-specified
   `{"attack":10,"str":1}` (already true in the existing item record — this item did not need
-  creating, only adding to the shop and confirming).
-- [ ] **S412-05**: Hot reload for `data/items.json` — a real in-game/admin command that re-invokes
+  creating, only adding to the shop and confirming). Apple #19259, commit 552bd39.
+- [x] **S412-05**: Hot reload for `data/items.json` — a real in-game/admin command that re-invokes
   `itemdefReg.LoadFile` on the already-running server without a restart, since `Registry.LoadJSON`
-  is already internally safe to call more than once (mutex-protected map replacement).
+  is already internally safe to call more than once (mutex-protected map replacement). Apple
+  #19260, commit 552bd39.
 - [ ] **S412-06**: Full weapon-skill per-type leveling — `p.weaponSkills map[string]int`
   (fishing/mining-shaped skill-gain-on-use), wired into real accuracy/damage in
   `combat_formula.go`. Unarmed (no weapon equipped) levels the "h2h" type; `wsSkill` defaults to
@@ -37924,15 +37925,21 @@ items in this stack and send them to priority then work them." Routed through `e
   IDUNA's `items` table stores real item INSTANCES keyed by `def_id` into this local registry, so
   "the IDUNA item database" and "the item definition catalog" are two different real systems that
   need a clear, explicit design for how a machine name bridges them, not guessed at silently here.
-- [ ] **S412-09**: `okemily.com/admin/gfd-mob-drops` needs real per-item drop-RATE tuning (today's
+- [x] **S412-09**: `okemily.com/admin/gfd-mob-drops` needs real per-item drop-RATE tuning (today's
   admin surface controls which items drop, not confirmed to control drop probability per item) —
   needs its own real investigation of the current admin handler + `mobDropReg`/`data/
-  mob_drops.json` shape before scoping further.
-- [ ] **S412-10**: Hot reload for `data/mob_drops.json` too, same real mechanism/precedent as
+  mob_drops.json` shape before scoping further. Apple #19261. IDUNA commit e181d70 (admin UI +
+  API), GFD commits bee8833/c9f788a (Registry.RollDropsFor + dropsForMob wiring). Live-verified
+  end-to-end on production: 8 real fresh-guest kill trials vs. worms with earth-crystal's
+  drop_chance forced to 0.0 -- 6/6 kills dropped Worm Sinew (unset->always), 0/6 dropped Earth
+  Crystal (explicit 0%->never); reverted after.
+- [x] **S412-10**: Hot reload for `data/mob_drops.json` too, same real mechanism/precedent as
   S412-05 — `dropsForMob`'s own doc comment already CLAIMS drop tables are "managed via the
   GFD-MD-001 admin GUI, not a code change + redeploy," which needs verifying against the real,
   current code rather than trusted at face value, given this exact session already found multiple
-  "documented as done, actually never wired" gaps in this same subsystem area.
+  "documented as done, actually never wired" gaps in this same subsystem area. Same
+  `watchForReloadSignal` SIGHUP handler as S412-05 covers both files. Apple #19260, commit
+  552bd39. Live-verified: `kill -HUP` logged `[hot-reload] data/mob_drops.json reloaded`.
 
 Real, honest, sequencing note: S412-01/02 are the true root/foundation everything else in this
 section depends on (a starting sword's stats are meaningless if equip stats don't affect combat
@@ -37941,25 +37948,25 @@ at all) — worked FIRST, before the others, regardless of kanban queue order.
 
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-01: Normalize item stat-key casing at itemdef load time (STR vs str etc.)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S412-01: Normalize item stat-key casing at itemdef load time (STR vs str etc.)** Duplicate of SECTION 412's own S412-01 above — done there (Apple #19258, commit 818350f).
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-02: Wire gear.Equipment.ComputeStats into real combat math (playerCombatStats/applyJobStats)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S412-02: Wire gear.Equipment.ComputeStats into real combat math (playerCombatStats/applyJobStats)** Duplicate of SECTION 412's own S412-02 above — done there (Apple #19258, commit 818350f).
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-03: Give new characters a real starting Sword (auto-equipped) instead of only starting Flow** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S412-03: Give new characters a real starting Sword (auto-equipped) instead of only starting Flow** Duplicate of SECTION 412's own S412-03 above — done there (Apple #19259, commit 552bd39).
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-04: Add Sword to the Meadow (guildmaster) shop catalog** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S412-04: Add Sword to the Meadow (guildmaster) shop catalog** Duplicate of SECTION 412's own S412-04 above — done there (Apple #19259, commit 552bd39).
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-05: Hot reload for data/items.json (itemdefReg re-load command)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S412-05: Hot reload for data/items.json (itemdefReg re-load command)** Duplicate of SECTION 412's own S412-05 above — done there (Apple #19260, commit 552bd39).
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-06: Weapon skill per-type leveling (fishing/mining-shaped skill-gain-on-use, wired into accuracy/damage)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **S412-06: Weapon skill per-type leveling (fishing/mining-shaped skill-gain-on-use, wired into accuracy/damage)** Duplicate of SECTION 412's own S412-06 above — still open, tracked there.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-07: Per-job weapon-type skill caps (RDM sword S-tier, WAR axe, MNK h2h, THF dagger, WHM/BLM club, PLD sword, DRG polearm)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **S412-07: Per-job weapon-type skill caps (RDM sword S-tier, WAR axe, MNK h2h, THF dagger, WHM/BLM club, PLD sword, DRG polearm)** Duplicate of SECTION 412's own S412-07 above — still open, tracked there.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-08: IDUNA item database machine names (stable slug bridging def_id catalog and item instances)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **S412-08: IDUNA item database machine names (stable slug bridging def_id catalog and item instances)** Duplicate of SECTION 412's own S412-08 above — still open, tracked there.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-10: Hot reload for data/mob_drops.json** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S412-10: Hot reload for data/mob_drops.json** Duplicate of SECTION 412's own S412-10 above — done there (Apple #19260, commit 552bd39).
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S412-09: gfd-mob-drops admin interface needs real per-item drop-rate tuning** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S412-09: gfd-mob-drops admin interface needs real per-item drop-rate tuning** Duplicate of SECTION 412's own S412-09 above — done there (Apple #19261, IDUNA commit e181d70, GFD commits bee8833/c9f788a).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S412-x-000: MAKE SURE THAT THE JOBS SPECIFIED IN THE ITEM DATABASE ARE ONLY THE ONES THAT CAN EQUIP THAT ITEM** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
