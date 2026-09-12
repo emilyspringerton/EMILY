@@ -37389,3 +37389,5 @@ rather than the oldest-still-open one.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **GFD-x-99: manifestation crystals should drop from the KING nms in GFD king worm should have a chance to drop either one** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **GFD-weapons: need basic weapons in the shops of the starter zones.. give everyone a sword and they start as a warrior. weapon skills are skill based BLM and WHM and MNK can not equip swords** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
