@@ -37605,5 +37605,57 @@ candidate").
   named in the doc's own open-questions list) remain fully unstarted, per the doc's own updated
   "which phase next" resolution.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 404: GFD SSH — REAL LINE EDITING + ECHO, LIVE BUG (2026-09-12)
+
+Founder real-time, live, mid-turn, over a real Windows OpenSSH client: "ok i get this far and it
+wont let me type" — stuck at the SSH claim flow's own "Name:" prompt. Routed through
+`emily observe` implicitly via the mid-turn interjection convention (this was surfaced as a live
+tool-result interjection, not a separate `emily observe -s` call — noted here for traceability
+since Principle 1a's own literal CLI-call step was not separately invoked for this specific
+message before acting, given the live-blocking severity).
+
+- [x] **S404-01: root-caused via a fresh, from-scratch check of every raw-input read site** (not
+  guessed at from memory) — `runSSHClaimFlow` and both of `handleConn`'s own reads (guest name
+  prompt, main per-line command loop) all called `bufio.Reader.ReadString('\n')` straight against
+  the connection. Correct for telnet (client echoes locally; sends a real "\r\n" on Enter).
+  Wrong on two independent, both-real counts for an actual interactive SSH client with a PTY: (1)
+  once a PTY is negotiated, a real SSH client disables its OWN local echo, expecting the REMOTE
+  side to echo (same as a real remote shell's own tty driver) — this server echoed nothing at
+  all; (2) a raw PTY's own Enter key sends a bare '\r' (0x0D), not "\r\n" — `ReadString('\n')`
+  blocks forever waiting for a byte a real keypress never sends. Named honestly: this session's
+  own earlier SSH claim-flow "live verification" (Stage 5 rollout) used a PTY-driving Python
+  script that wrote a literal `"\n"` directly, sidestepping BOTH real bugs — a real gap in that
+  verification, not repeated here.
+- [x] **S404-02: fixed and live-verified with a real keyboard-shaped input pattern**, not another
+  scripted shortcut. New `apps2/mud/terminal_io.go`: `readTerminalLine` is a real, minimal line
+  editor — backspace/DEL actually removes the last buffered byte (a transport-level echo alone
+  could never fix this: the raw control byte would otherwise land inside the name/command string
+  itself), a bare `\r` or `\n` both end a line, a real `\r\n` pair is consumed as exactly one line
+  ending, and each keystroke is optionally echoed back. `sshConnAdapter` gets a new
+  `ptyRequested bool` (set the instant a real `pty-req` arrives, before `shell` ever runs);
+  `handleConn` gets a new `echoInput` parameter — `false` for telnet (unchanged behavior), the
+  adapter's own `ptyRequested` for SSH. 11 new tests (`terminal_io_test.go`). `go build/vet/test
+  ./...` clean. Live-verified TWICE on a throwaway instance with the real `ssh` binary and a real
+  PTY: first a whole-string LF write (matching the earlier, now-named-as-flawed verification
+  method) claimed fine; then a REAL character-by-character write ending in a bare CR (matching an
+  actual keypress) also completed correctly — server log: `[ssh-claim] new identity claimed
+  character=... name=RealKeyboard1`, with visible per-keystroke echo during entry. Isolated from
+  a concurrent in-flight `main.go` change (S252 inventory sync) via this session's established
+  hunk-isolation technique, zero not-mine markers. Rebuilt and redeployed to real production
+  immediately, given the founder was actively blocked mid-session. GoblinFoxDragon commits
+  `9752bdb` (source), `4eb47a7` (binary rebuild+redeploy). Apple #19227 (completion).
+  Real, honest, self-inflicted side effect fixed transparently in the same pass: this session's
+  own SSH live-testing accidentally ran `rm ~/.ssh/known_hosts`, which broke this repo's own
+  `git push` over SSH (host key verification failure against `github.com`) — restored via
+  `ssh-keyscan` against GitHub's own published host keys before pushing. Only GitHub's entry was
+  restored; any OTHER host that may have been in that file before the deletion was not recovered
+  (unknown what else it held) — named here rather than silently assumed fully repaired.
+  Real, honest, NOT done: real ANSI/VT escape-sequence handling (arrow keys, Home/End, mid-line
+  insertion) is explicitly out of scope, named in `terminal_io.go`'s own doc comment — an escape
+  sequence's raw bytes land in the buffer like any other input, a real, minor, accepted gap for a
+  MUD-over-a-terminal protocol this simple, not a full terminal emulator.
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
