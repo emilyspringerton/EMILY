@@ -37387,3 +37387,5 @@ rather than the oldest-still-open one.
   session: sess-20260905-0720-ec33e7c5
 - [ ] **LVL-EDITOR-12331: ok SHANKPIT itself can be the level editor.... like currently there are no textures for a lot of stuff what if we give an in game texture selection tool anc an in game geometry tool mv rotate** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **GFD-x-99: manifestation crystals should drop from the KING nms in GFD king worm should have a chance to drop either one** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
