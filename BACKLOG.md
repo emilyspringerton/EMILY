@@ -37942,3 +37942,5 @@ at all) — worked FIRST, before the others, regardless of kanban queue order.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S412-01: Normalize item stat-key casing at itemdef load time (STR vs str etc.)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S412-02: Wire gear.Equipment.ComputeStats into real combat math (playerCombatStats/applyJobStats)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
