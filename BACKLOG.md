@@ -37712,5 +37712,29 @@ dynamic. Routed through `emily observe` (Apple #19229) per Principle 1a.
   ready to actually run `scripts/run_league.sh` for real.
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 406: SKATEBOARD — CRYPTO WHITEPAPER MARKED SUPERSEDED (2026-09-12)
+
+Founder real-time: "update the SKATEBOARD readme with the whitepapers for crypto and put this
+notice" — a dated "Superseded — September 2026" notice stating the token/staking/bonding layers
+are not being built (securities/money-transmission/gambling exposure with no product benefit),
+and that the real game economy stays closed (earned in-game only, no purchase, no cash-out).
+Routed through `emily observe` (Apple #19234) per Principle 1a.
+
+- [x] **S406-01: whitepaper reformatted + notice added, zero content removed.** `SKATEBOARD/
+  README.md`'s real crypto whitepaper ("Bonded Coordination" — a 4-layer LEMIGOG/SkateChain/
+  Bonded Production/Bonded Flourishing token+staking+bonding architecture) had been pasted in as
+  one giant unstructured run-on block of text, mid-way through an unrelated architecture list
+  (splitting the "Web & Tooling" section's own bullet list in half around it — a real, found-live
+  formatting bug, not just a cosmetic nit). Reformatted into real, readable markdown (headers,
+  bullets, the original math notation preserved verbatim) as its own `## 📜 Whitepapers` section
+  — every real section (Abstract through the Layer 1-4 mechanics to the Conclusion) intact, no
+  content cut or summarized away. The founder's exact notice text placed directly above it,
+  verbatim. Fixed the "Web & Tooling" list back into one contiguous section (Static Site
+  Generator/Lightweight Web Server/Witch Editor/Turtle Library) as a direct byproduct of
+  untangling the whitepaper text out of it. Added a top-of-README pointer linking down to the new
+  section so a reader doesn't have to scroll past the whole architecture stack to find it.
+  skateboard commit `d3b7b30`. Apple #19235 (completion).
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
