@@ -37940,3 +37940,5 @@ at all) — worked FIRST, before the others, regardless of kanban queue order.
 
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S412-01: Normalize item stat-key casing at itemdef load time (STR vs str etc.)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
