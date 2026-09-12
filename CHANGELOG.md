@@ -1,3 +1,7 @@
+## 2026-09-12
+
+- backlog: SSH Transport & Identity spec Stage 2 shipped (GoblinFoxDragon GUI login disabled pending real TLS, S391) (sess-20260905-0720-ec33e7c5)
+
 ## 2026-09-04
 
 - docs/ECOSYSTEM_CONTINUITY_REPORT.md: real, full continuity report for EMILY-CR-12414 ("the emily ecosystem is a comprehensive thing... we need an actual list of all of our repos and the purpose and the status full full full continuity report"), organized directly from CLAUDE.md's own authoritative per-repo table — ~50 real repos grouped into the operational spine, games & interactive worlds, the PARENA language ecosystem, the business/product layer, infra/dev tooling, and new/stub repos, closing with 4 real cross-cutting themes synthesized from this session's own actual work. Registered as golden doc `EMILY-ECOSYSTEM-CR`; `CLAUDE.md` linked to it. Apple #17753. (sess-20260902-2008-ed50169e)
