@@ -36639,3 +36639,34 @@ Founder real-time (routed via `emily observe` first per Principle 18/1a, Apple #
   left untouched and uncommitted, not bundled into this commit, since they weren't this session's
   own work and their state/intent wasn't this session's to decide.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 384: GOBLINFOXDRAGON — MUD ITEMS HAD NO REAL EFFECTS (HI-POTION, ECHO DROP, ETC.) (2026-09-12)
+
+Founder real-time (routed via `emily observe` first per Principle 18/1a, Apple #19101):
+"ok the mud items arent implemented like echo drops and hi potion."
+
+- [x] **S384-01: found two distinct real bugs behind the one report.** (a) Hi-Potion/Potion/Ether
+  (real `itemdefReg`/`data/items.json` consumables) had zero effect -- `cmdUseItem` (Phase 0 of
+  `docs2/ITEM_BUILDER_NORTHSTAR.md`) always replied "nothing happens yet," since Phase 1's
+  mod-hook mechanism was never built and no item ever got a hardcoded effect either. (b) Echo
+  Drop was actually already fully implemented (`cmdRemoveDebuffs`) -- but only reachable via the
+  separate `removedebuffs`/`erase` command, never via `use`, since Echo Drop lives in the flat
+  string-ID economy (`p.inventory`) and isn't an `itemdefReg`/`items.json` entry at all, so `use
+  echo-drop` fell into "can't be used." That's the real, literal reason it looked unimplemented
+  despite already working.
+- [x] **S384-02: fixed both, plus a twin found-live bug.** Added FFXI-canonical flat HP/MP
+  restores (Potion +60, Hi-Potion +100, Ether +30 MP), clamped to max. Wired `use echo-drop` to
+  the existing `cmdRemoveDebuffs`, and added the same real, previously-nonexistent effect for
+  Antidote (cures Poison specifically, matching FFXI's own item) via a new `cmdCurePoison`. Also
+  found and fixed a twin bug in the same dispatch: `use`/`eat`'s call sites never lowercased
+  their item-id arg, unlike every sibling command (`cmdGo`/`cmdCast`/`cmdJA`/`cmdDeclare`), so
+  "use Hi-Potion" silently missed `p.inventory`'s always-lowercase keys. `zoneName()` picked up
+  the same nil-safety `prompt()` already has for `gw.weatherEngine`, needed to unit-test any
+  command path that calls `prompt()` at all (none did before this). New
+  `apps2/mud/use_item_test.go`: 7 tests covering all five items, the max-HP/MP clamp, no-inventory,
+  and unknown-item paths. `GOWORK=off go test ./...` clean across the whole module.
+  GoblinFoxDragon commit `f3a2816`. Apple #19102 (completion). Real, honest scope note: Phase 1's
+  mod-hook mechanism (PARENA/`dlopen`, per the Northstar doc's own plan) still doesn't exist --
+  these are real, hardcoded, one-off effects, the same shape `cmdRemoveDebuffs`/`cmdEat` already
+  used, not the data-driven `on_use_mod` dispatch that doc scopes as a bigger, separate follow-up.
+  session: sess-20260905-0720-ec33e7c5
