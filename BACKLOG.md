@@ -36766,3 +36766,64 @@ frontend puer go on the backend is fine" / "TYPESCRIPT" / "whatever the newest r
   real, currently-running production IDUNA instance on this box ("the central trust authority")
   to test against. Deploying this is a real, separate step for whoever runs that process.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 387: NOCK — PROCEDURAL TEXTURE GENERATION VIA PARENA (JAVA TARGET) + VERTEX AI (2026-09-12)
+
+Founder real-time, direct continuation of SECTION 386 (routed via `emily observe` first per
+Principle 18/1a, Apple #19111): "can we build that into nock tools... like an api for generating
+procedurally generated textures? like written in parena maybe so if you had an llm and you gave
+it the api and told it you need a texture for X it could just one shot something... you can save
+the texture as a file and also as the source code (think GENERA OS)." Then a real security
+concern, also routed: "we can farm the parena to texture generation off to the backend? that
+sounds unsafe i dunno lol maybe it needs to be done on the frontend i dunno" — resolved via
+`AskUserQuestion` (sandboxed backend execution, chosen over a review-queue-only or unsandboxed
+option) — then, after investigation surfaced the real mechanism, the founder's own follow-up
+landed on the actual fix: "we could write it in BURROW the go emitter - or we can run it on our
+JAVA server" / "yea run it in JAVA?"
+
+- [x] **S387-01: found the real safety problem, confirmed by reading the compiler source, not
+  assumed.** PARENA's C emitter's `#target`/`inline-c` escape hatch is completely unrestricted —
+  any `.prn` file, LLM-authored or not, can embed raw C, and `src/emit.c`'s own comment says that
+  string "is trusted verbatim as real C." An LLM-generated texture program compiled to C would
+  have been a genuine, unsandboxed arbitrary-code-execution vector — the founder's instinct was
+  right. "Do it on the frontend" doesn't actually fix this either: a browser can't execute
+  compiled native code at all; the real safe version of that idea is a WASM target, which PARENA
+  doesn't have yet (on the roadmap, not built).
+- [x] **S387-02: fixed via the founder's own suggested pivot — compile to PARENA's Java target
+  instead.** Confirmed directly: `src/emit_java.c` has zero handling for `#target`/inline-
+  anything at all. Combined with this target's own real, current construct support being narrow
+  (scalar `F64` math, `if`/`not`, and `math/*` genuinely lowered to `java.lang.Math.*` — unlike
+  the C target, where `cos`/`sqrt`/`floor`/`log` are still honest `0.0` placeholders in
+  `stdlib/math/math.prn`), a compiled texture program is provably a pure function: no
+  `defstruct`/`loop`/`match`/`import`-of-io-or-net support on this target means it cannot open a
+  file, make a network call, or spawn a process — the language surface here has no way to
+  express any of those. Runs inside a real JVM (memory-safe, bytecode-verified) with a capped
+  heap (`-Xmx128m`) and a hard wall-clock timeout on every subprocess — the same real mitigation
+  class actual run-untrusted-code services (competitive-programming judges, CI runners for fork
+  PRs) already use. `validateProcTextureSource` is a second, independent static layer on top
+  (rejects `#target` and any non-`math` import outright), not reliance on the emitter alone.
+- [x] **S387-03: real, working, tested end to end.** `IDUNA/internal/nock/procgen.go` (the real
+  pipeline: validate → `parena build -o X.java` → `javac` → `java` → PPM → PNG via the existing
+  `convert` wrapper, plus a trusted, checked-in, never-generated `Main.java` harness — the only
+  code in this pipeline with real file I/O) and `gen_vertex.go` (the real Vertex AI one-shot
+  call, same ADC-credential/project/region pattern `gfd_item_proposals.go` already uses). New
+  `Layer.Source` field ("think GENERA OS" — the founder's own framing for keeping a generated
+  asset's real source alongside its rendered output). `Service.AddProceduralLayer`/
+  `RegenerateProceduralLayer`/`GetProceduralSource` (a failed re-run leaves the layer's existing
+  render and source completely untouched). `cmd/nock proc-add`/`proc-edit`/`proc-show`. HTTP
+  `POST .../procedural`, `GET`/`PATCH .../layers/{name}/procedural`, `POST .../generate`. A real
+  GUI panel (prompt + generate button, an editable source textarea + Re-run). 13 new tests (11 in
+  `internal/nock`, 2 in `internal/http/handlers`), all against the real toolchain — real, found-
+  live bug fixed along the way: resolving `javac`/`java` independently (each falling back to
+  PATH first) picked `javac` from this box's own real JDK 25 (`EINHORN_SURVIVAL/jdk25` — the
+  system package has no `javac` at all) but `java` from an unrelated system JRE 21, a real
+  `UnsupportedClassVersionError` every time; fixed by resolving both from one shared JDK bin
+  directory. `TestGenerateProceduralTextureSource_RealVertexCall` skips honestly (no active
+  `gcloud` account in this sandbox) rather than faking a pass, same real precedent
+  `gfd_item_proposals_test.go` already set. Live-verified manually end to end: a real
+  checkerboard-style pattern from real `Math.cos`/`Math.sqrt` calls, full pipeline PARENA → Java
+  → JVM → PNG. `go build/vet/test ./...` clean. IDUNA commits `eac7a98`/`a2ca2ef`. Apple #19114
+  (completion). Full rationale, real contract, and honest scope (no non-destructive procedural
+  regen, no seed param, BURROW considered and deferred, no Vertex rate-limiting yet) in
+  `IDUNA/docs/NOCK_NORTHSTAR.md`.
+  session: sess-20260905-0720-ec33e7c5
