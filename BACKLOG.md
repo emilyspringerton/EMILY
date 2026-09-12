@@ -37341,3 +37341,47 @@ Founder resolved SECTION 395's own named open question directly: "do a 1 s locko
   session: sess-20260905-0720-ec33e7c5
 - [ ] **GFD-5498532: fix duels** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 398: GFD REAL COMBAT DAMAGE FORMULA — STR/DEX/VIT/AGI + MARBLE-BAG PITY LIVE (2026-09-12)
+
+Founder resolved SECTION 396's own open questions and directed the next build step: "ok yep do a
+1 s lockout then an start working on the stack LIFO" — read as: ship the 1s lockout (§397), then
+continue the phased plan starting from the most-recently-added phase (Phase 4.5, combat formula)
+rather than the oldest-still-open one.
+
+- [x] **S398-01: real formula shipped and wired into actual combat, not just designed.** New
+  `apps2/mud/combat_formula.go`: `resolvePlayerAutoAttackDamage` (STR-scaled mean damage with a
+  real ±20% variance roll, a pity-boosted DEX-based accuracy roll, a pity-boosted DEX-based crit
+  at 1.5x) and `resolveMobAutoAttackDamage` (a flat per-mob accuracy/crit baseline — real,
+  deliberate v0 answer to the open "do mobs get full stat blocks" question — with the player's
+  own real AGI reducing the mob's effective hit chance and VIT reducing whatever lands). Both use
+  `server/rng.MarbleBagPick` (S396) for the hit/miss and crit/normal rolls specifically; damage
+  magnitude stays a plain uniform roll, matching §5's own explicit discrete-outcomes-only scope.
+  Pity always favors the player, attacking or defending — a real, named design choice.
+- [x] **S398-02: real refactor, not a rewrite, of the shared combat package.** New
+  `server/mob.Registry.ReadyToSwing`, split out of `TickPlayer`'s own timing/target-validity/
+  range gating so `apps2/mud` (which has real job stats `server/mob` deliberately doesn't import)
+  can compute the real roll itself. `TickPlayer` itself is unchanged in behavior — verified by
+  its own pre-existing test suite passing unmodified plus a new explicit regression test.
+  Real, named scope boundary: PvP duel combat (a separate, pre-existing mob-registry-based
+  mechanic that reuses `TickPlayer` in an unrelated way, per a real, found-live oddity in that
+  code) was deliberately left untouched, still flat-damage.
+- [x] **S398-03: 16 new tests + live verification, twice.** 10 in `combat_formula_test.go`
+  (variance stays in-band, VIT/damage floor, the real pity structural check, STR measurably
+  raises average player damage WAR-vs-WHM, VIT measurably lowers average incoming damage
+  WAR-vs-BLM, consistent zero-damage shape on a miss for both directions), 6 in
+  `ready_to_swing_test.go`. Live-verified against a throwaway instance first (real damage
+  variance 24-28 vs. the old flat 30, real crits on both sides, a real evade, the full kill/XP/
+  loot/level-up flow unaffected), then against the real live production service after deploy
+  (real variance, a real evade, a real KO flow all correct even stacked with an existing Poison
+  DoT from an Elder Worm). `GOWORK=off go build/vet/test ./...` clean throughout.
+  GoblinFoxDragon commits `aaf5133`/`86fb69d`/`15b0339`/`3029f67`/`1115bec`. Apple #19189
+  (completion).
+  Real, honest, NOT done: Phase 1's remaining scope (the universal `Ability` model unifying
+  `/ja`+`cast`, and the real "pending effect" mechanism needed to fix Berserk/Boost/Elemental
+  Seal/Chainspell/Sneak Attack/Trick Attack) is the natural next candidate per the doc's own
+  updated open-question list; Phases 2/3/4/5 remain scoped, not started. Noticed in passing, not
+  investigated: a new, separate, untriaged kanban item just above this section ("GFD-5498532: fix
+  duels") is thematically connected to the exact PvP duel code path this pass deliberately left
+  untouched — named here for whoever triages that card next, not acted on in this pass.
+  session: sess-20260905-0720-ec33e7c5
