@@ -37865,5 +37865,78 @@ established this session (S404).
   blocking verification of this exact bug report.)
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 412: GFD WEAPON SKILLS + GEAR STATS + ITEM DATA (2026-09-12)
+
+Founder real-time, live, a rapid multi-message design/direction burst: full weapon-skill leveling
+(per-weapon-type, fishing/mining-shaped skill-gain-on-use, impacts accuracy/damage), per-job
+weapon-type caps (RDM S-tier sword, WAR axe, DRG polearm, WHM club, PLD sword, MNK h2h, THF
+dagger — same character level, same cap, for each job's own affinity weapon), unarmed = h2h
+leveling with WS default Combo (not Fast Blade), a real starting Sword item instead of only
+starting currency, that Sword's stats editable and sellable in the Meadow shop, IDUNA item DB
+"machine names," hot reload for item data, and (separately) the `gfd-mob-drops` admin interface
+needs real per-item drop-rate tuning with its own hot reload. Founder: "make kanbans for all
+items in this stack and send them to priority then work them." Routed through `emily observe`
+(Apple #19254) per Principle 1a.
+
+- [ ] **S412-01**: Fix a real, found-live data-quality bug blocking everything else in this
+  section: `data/items.json`'s own 155 items use inconsistent stat-key casing (`"STR"` alongside
+  `"str"`, `"Attack"`/`"attack"`, `"Magic Attack Bonus"` with literal spaces alongside
+  `magic_attack_bonus`) — `gear.Equipment.ComputeStats` sums by raw string key with zero
+  normalization, so two items differing only in key casing land in separate map keys and silently
+  don't combine. Real fix: normalize every stat key (lowercase + spaces→underscores) once, at
+  `itemdef.Registry` load time.
+- [ ] **S412-02**: Wire `gear.Equipment.ComputeStats` into REAL combat math — confirmed, live,
+  found-live: `playerCombatStats` (combat_formula.go) and `applyJobStats` never once consult
+  `p.equip` today; `ComputeStats` is called only to print a cosmetic "Stat changes:" line on
+  equip/unequip. Equipping literally anything, including a weapon's own "attack" stat, currently
+  has ZERO effect on real damage/accuracy/stats — this is the real, confirmed truth behind the
+  standing, previously-flagged, not-yet-triaged kanban item "item backend needs
+  affordances...equipping an item should impact stats via db."
+- [ ] **S412-03**: Give every new character a real starting weapon (item id 3, "Sword",
+  `{"attack":10,"str":1}`, already real in `data/items.json`) instead of only starting Flow —
+  auto-equipped in the main-hand slot at character creation.
+- [ ] **S412-04**: Add the Sword to the Meadow ("guildmaster") shop catalog so it's also
+  purchasable/re-purchasable, and confirm its stats are the real, founder-specified
+  `{"attack":10,"str":1}` (already true in the existing item record — this item did not need
+  creating, only adding to the shop and confirming).
+- [ ] **S412-05**: Hot reload for `data/items.json` — a real in-game/admin command that re-invokes
+  `itemdefReg.LoadFile` on the already-running server without a restart, since `Registry.LoadJSON`
+  is already internally safe to call more than once (mutex-protected map replacement).
+- [ ] **S412-06**: Full weapon-skill per-type leveling — `p.weaponSkills map[string]int`
+  (fishing/mining-shaped skill-gain-on-use), wired into real accuracy/damage in
+  `combat_formula.go`. Unarmed (no weapon equipped) levels the "h2h" type; `wsSkill` defaults to
+  "Combo" (h2h's real Lv1 WS) instead of "Fast Blade" (sword's) for a brand-new, unarmed
+  character. Requires `skillchain.WeaponSkill` to gain real `WeaponType`/`MinSkillLevel` fields
+  (today it has neither — `setws` currently accepts "any name, no gate") and real new roster
+  entries for the weapon types that don't exist in `CanonicalWeaponSkills` at all yet: dagger,
+  axe, polearm, h2h.
+- [ ] **S412-07**: Per-job weapon-type skill caps — each job has one real "affinity" weapon type
+  (RDM/PLD→sword, WAR→axe, MNK→h2h, THF→dagger, WHM/BLM→club, DRG→polearm, DRK→greatsword) that
+  caps at a real, higher rate per character level than any off-affinity weapon type, so (per the
+  founder's own worked example) an RDM's sword cap and a THF's dagger cap are the SAME number at
+  the same character level, while a THF's OWN sword cap (off-affinity) would be lower.
+- [ ] **S412-08**: IDUNA item database "machine names" — a real, stable, authored slug per item
+  (distinct from both the numeric `def_id` and the free-text display `Name`) so item references
+  survive a `data/items.json` reordering and are safe to expose in a future URL/API surface
+  without ad-hoc derivation. Real, separate, cross-repo scoping needed: today's `itemdef.Registry`
+  is a GFD-local file (`data/items.json`), not literally inside IDUNA's own database at all —
+  IDUNA's `items` table stores real item INSTANCES keyed by `def_id` into this local registry, so
+  "the IDUNA item database" and "the item definition catalog" are two different real systems that
+  need a clear, explicit design for how a machine name bridges them, not guessed at silently here.
+- [ ] **S412-09**: `okemily.com/admin/gfd-mob-drops` needs real per-item drop-RATE tuning (today's
+  admin surface controls which items drop, not confirmed to control drop probability per item) —
+  needs its own real investigation of the current admin handler + `mobDropReg`/`data/
+  mob_drops.json` shape before scoping further.
+- [ ] **S412-10**: Hot reload for `data/mob_drops.json` too, same real mechanism/precedent as
+  S412-05 — `dropsForMob`'s own doc comment already CLAIMS drop tables are "managed via the
+  GFD-MD-001 admin GUI, not a code change + redeploy," which needs verifying against the real,
+  current code rather than trusted at face value, given this exact session already found multiple
+  "documented as done, actually never wired" gaps in this same subsystem area.
+
+Real, honest, sequencing note: S412-01/02 are the true root/foundation everything else in this
+section depends on (a starting sword's stats are meaningless if equip stats don't affect combat
+at all) — worked FIRST, before the others, regardless of kanban queue order.
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
