@@ -2582,6 +2582,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: start adding textures to SHANKPIT -- have the compile step generate textures for now (procedural), f…** — obs `2026-09-12T04:39:32Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: MUD items aren't implemented, e.g. Echo Drops and Hi-Potion.** — obs `2026-09-12T04:33:50Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: wants to build NOCK -- a custom creative-tools suite (texture/image editor with Photoshop-equivalent…** — obs `2026-09-12T04:54:52Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: loves the SHANKPIT procedural textures, wants NOCK to get a procedural-texture-generation API writte…** — obs `2026-09-12T05:13:36Z`. CURATED: 2026-09-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
