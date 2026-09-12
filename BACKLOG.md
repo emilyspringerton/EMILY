@@ -37558,3 +37558,49 @@ of works it lets us log in and then presents us with the warning about the chara
   correct and tested, but "did it really upload" itself is unverified until someone runs `gcloud
   auth login` (or wires a service account) in this environment.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 403: JOB/SPELL SYSTEM — PHASE 1 REMAINDER, REAL CAST TIME (2026-09-12)
+
+Founder: "continue lifo" (again, after S402-03 closed) — next item down the stack per
+`GoblinFoxDragon/docs2/JOB_SPELL_SYSTEM_NORTHSTAR.md`'s own §6 phased plan and its own explicit
+open-question-6 resolution ("Phase 4.5 done; Phase 1's remaining scope... is the next real
+candidate").
+
+- [x] **S403-01: real cast time shipped for every already-live WHM/RDM/BLM spell.** New
+  `apps2/mud/ability.go` — every spell resolved instantly before this (only the 1s universal
+  lockout gated repeat casting; no spell ever actually took time to resolve). `spellCastTimes`
+  gives cure/cure2/protect/shell/haste/regen/refresh/dia and the full `blmSpells` roster
+  (poison/bio/distract/frazzle + fire/blizzard/thunder/stone/water/aero ×3 tiers each) a real,
+  non-zero cast time (2.0-3.5s v0 band, named as tunable, not FFXI-derived). `beginCast` runs a
+  cheap MP/target preflight (fails FAST, zero wait, on a cast that could never succeed) then
+  defers the exact, unchanged existing effect switch (`castNow`) via `time.AfterFunc` — the
+  completion callback re-locks `gw.mu` itself (matching `runHeadlessCommand`'s own established
+  background-goroutine pattern) and re-verifies the player is still present before touching
+  anything, so a mid-cast disconnect simply no-ops. `checkNotCasting` is a new, real, SHARED gate
+  both `cmdCast` and `cmdJA` call — casting a spell blocks a JA attempt and vice versa, matching
+  §1's own "one data shape" framing for the part that actually had behavior to unify.
+  Real, honest, deliberately bounded (named in `ability.go`'s own doc comment, not silently
+  substituted): this does NOT literally merge `cmdJA`/`cmdCast` into one `cmdAbility(id, target)`
+  entry point the way §1's own prose example shows — every current job ability already has
+  `CastTime=0`, so that larger, much riskier dispatcher-merge would have bought zero behavioral
+  change this pass. Interruption-on-damage and MP refund on a failed/interrupted cast remain the
+  NORTHSTAR doc's own named open question #4, not resolved here.
+  11 new tests (`apps2/mud/ability_test.go`): `checkNotCasting` block/expiry, preflight MP/target
+  checks, a real end-to-end deferred-completion test (MP/HP provably unchanged immediately after
+  the call, correctly applied once the real timer fires), a zero-cast-time regression guard, and
+  `cmdJA` correctly refused mid-cast with its own recast never consumed. `go build/vet/test ./...`
+  clean. Isolated from a concurrent in-flight `main.go` change (S252 inventory sync) via this
+  session's own established hunk-isolation technique — the staged diff was verified to build and
+  test clean standalone, with zero S252/`inventoryEqual`/`cloneInventory` markers.
+  Live-verified twice: a throwaway instance first (self-cast Cure showing the real cast bar, an
+  immediate `ja provoke` correctly refused mid-cast, a targeted Fire nuke resolving for real
+  damage+MP vs. an instant no-cast-bar failure with no target), then real production after
+  rebuild+redeploy (`cast cure` → "You begin casting Cure... (2s)" → "Cure: +100 HP. (MP: 35)"
+  landing automatically ~2s later, unprompted). GoblinFoxDragon commits `8b4f561` (source),
+  `0a66a4b` (binary rebuild+redeploy), `5cc4224` (NORTHSTAR doc update). Apple #19216
+  (completion).
+  Real, honest, NOT done: Phase 2 (weapon skill per-type leveling) and Phase 3 (new content —
+  RAISE/Polymorph/SAP naming/Chakra redefinition, all still pending real founder design answers
+  named in the doc's own open-questions list) remain fully unstarted, per the doc's own updated
+  "which phase next" resolution.
+  session: sess-20260905-0720-ec33e7c5
