@@ -37274,3 +37274,46 @@ the same spell casting affordance," then a second addition same session on comba
   rewrite, staged re-enablement of advanced jobs) — "plan this next phase of work" was the
   literal ask; which phase to build next is one of the doc's own named open questions.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 396: GFD COMBAT RNG — SHARED MARBLE-BAG + FIBONACCI PITY UTILITY (2026-09-12)
+
+Founder real-time follow-up on the combat formula work in SECTION 395: "Combat damage formula
+overhaul also needs to use marble bag RNG with pity we have 2 places in the stack currently with
+that concept," quoting the existing design note naming this "one mechanism, two call sites"
+(ECOWAR card draw/pack-opening) and "worth building once as a shared utility rather than twice
+as unrelated bespoke code."
+
+- [x] **S396-01: real prior art located and read directly before porting anything.**
+  ECOWAR/REDGARDEN's `packages/simulation/arena_game.c` (`arena_fibonacci`/
+  `arena_marble_bag_pick`, S202-09/S202-42) — the real, first implementation, weight[i] ×
+  fib(min(pity[i], 10)) in one weighted draw, winner resets to 0 pity, everyone else +1.
+  `emily.cli/cmd/promptoverse_pity.go` — a second, independently-built, real precedent, but a
+  DIFFERENT shape (Fibonacci escalates a binary eligibility gate ahead of a separate weighted
+  draw, not folded into one draw's own weights) — named, not conflated with the first.
+- [x] **S396-02: new `server/rng` package (GoblinFoxDragon), a faithful Go port of the ECOWAR
+  shape** (the one the founder's own combat-formula ask actually matches: a small, fixed set of
+  discrete outcomes in one weighted pick — hit/miss, normal/critical). `Fibonacci`/
+  `MarbleBagPick`, RNG source dependency-injected (`*rand.Rand`, matching emily.cli's own
+  `selectStylesForSubject` convention) for deterministic tests.
+- [x] **S396-03: real bug found by my own test, not silently carried forward or silently
+  "corrected" away from the real C algorithm.** ECOWAR's own header comment claims
+  `MAX_PITY_TIER 10 /* fib(10)=55 */` — tracing the actual C loop shows the real computed value
+  is 89 (55 is really fib(9)), a genuine pre-existing off-by-one in that repo's own comment. The
+  Go port matches the real, executable algorithm; the discrepancy is documented explicitly in
+  both the port's own doc comments and the test that caught it, not silently matched to the wrong
+  comment.
+- [x] **S396-04: 7 new tests**, including a real structural check that a rigged 99:1 bag with the
+  rare outcome in a full pity drought shifts toward ~47:53 over 20,000 trials — not a flat ~1%
+  forever, the actual real point of the mechanism, checked directly rather than trusted from the
+  formula alone. `GOWORK=off go build/vet/test ./...` clean.
+- [x] **S396-05: design for wiring into real combat**, added to
+  `docs2/JOB_SPELL_SYSTEM_NORTHSTAR.md` §5: 2-outcome bags for `[Hit, Miss]` and
+  `[Normal, Critical]`, pity tracked per-player on the desired outcome in each (Hit, Critical) so
+  a miss streak or crit drought becomes progressively more likely to break. Damage MAGNITUDE
+  (the ±20% variance band) deliberately stays a plain uniform roll, not a marble-bag pick — named
+  as a real, honest scope boundary (discrete outcome sets only), not something the founder's own
+  wording asked for either. GoblinFoxDragon commits `c4ea45e`/`6bdca47`. Apple #19184
+  (completion).
+  Real, honest, NOT done: the RNG primitive itself is real and tested; it is not yet wired into
+  `apps2/mud`'s actual combat resolution code (Phase 4.5 of SECTION 395, not started).
+  session: sess-20260905-0720-ec33e7c5
