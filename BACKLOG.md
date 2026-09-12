@@ -37808,9 +37808,20 @@ established this session (S404).
   name; named here as a real, open, not-yet-scoped gap, not silently accepted as fine.
   session: sess-20260905-0720-ec33e7c5
 
-- [ ] **S409: GFD home point does not persist across logouts** — founder-reported live,
-  2026-09-12, not yet investigated. Real, open, next item.
-  (sess-20260905-0720-ec33e7c5)
+- [x] **S409: GFD home point does not persist across logouts** — founder-reported live,
+  2026-09-12. Root cause: `applyFetchedCharacter` (the function every REAL SSH reconnect goes
+  through) never restored `p.homePoint` from IDUNA's character record — `getOrCreateHeadlessPlayer`
+  had this exact fix since 2026-08-04, never applied to the real player-facing path. `sethome`
+  already correctly persisted; it just never loaded back. Extracted into a shared
+  `restoreHomePointFromCharacter`, now used by both paths (one implementation, not two that can
+  drift apart again). 2 new tests. Found, not fixed: the telnet `mudCharCache` returning-guest
+  branch has the identical gap, entangled with an unrelated in-flight change — flagged for next
+  pickup, not silently left unnamed. Isolated via the established hunk technique, zero not-mine
+  markers, `go build/vet/test ./...` clean. GoblinFoxDragon commit `bd5a7a6` (source pushed).
+  Apple #19246 (completion). **Binary rebuild+redeploy deliberately HELD** — restarting the
+  service right now would drop two live demo SSH sessions (`claude`/`EmilyAI`) currently running
+  for the founder's own stream; will deploy once confirmed clear.
+  session: sess-20260905-0720-ec33e7c5
 
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
