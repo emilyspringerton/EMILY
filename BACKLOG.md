@@ -37658,5 +37658,59 @@ message before acting, given the live-blocking severity).
   MUD-over-a-terminal protocol this simple, not a full terminal emulator.
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 405: REDGARDEN — ALPHASTAR-STYLE LEAGUE TRAINING (2026-09-12)
+
+Founder real-time, citing a real, named source: a YouTube explainer of DeepMind's own AlphaStar
+league (timestamps 13:01-13:55), asking to add it to REDGARDEN's autocurriculum training to fix
+CYCLIC DOMINANCE — plain self-play (training only against your own current self) makes a policy
+better vs. one opponent while quietly getting worse vs. others, a real rock-paper-scissors
+dynamic. Routed through `emily observe` (Apple #19229) per Principle 1a.
+
+- [x] **S405-01: real three-role league implemented** (NORTHSTAR §25.4.1) on top of §25.4's
+  existing plain-PFSP autocurriculum, which stays fully intact and unchanged as the default. New
+  `scripts/rl_league.py`: `LeagueRole` (MAIN/MAIN_EXPLOITER/LEAGUE_EXPLOITER), the shared PFSP
+  weighting math (standard hard-biased direction for Main and League Exploiter's own whole-league
+  sampling; an inverted, easy-biased direction for Main Exploiter's own real "climb down through
+  Main's history when struggling" behavior — named explicitly as this module's own reasonable
+  interpretation of the video's described BEHAVIOR, not a verbatim reproduction of an unpublished
+  exact formula), `LeagueManager` (a real, permanent, append-only, cross-process JSON-file
+  registry — every registration is a brand-new atomically-renamed file, so three real concurrent
+  writers need no locking at all), and Main Exploiter's own struggle-detection
+  (`is_struggling_vs_main`) + periodic full-reset-to-a-fresh-network cadence
+  (`should_reset_main_exploiter`). 29 real unit tests (`scripts/test_rl_league.py`, pure Python,
+  zero gymnasium/SB3/compiled-.so dependency) — caught and FIXED one real bug live via a failing
+  test: `str(LeagueRole.MAIN)` returns `"LeagueRole.MAIN"`, not `"main"` (`Enum.__str__` wins over
+  the `str` mixin despite `class LeagueRole(str, enum.Enum)`) — fixed with a real `_role_str()`
+  normalizer rather than patched around ad hoc at each call site.
+- [x] **S405-02: wired additively into the real training pipeline**, zero regression to the
+  existing path. `scripts/rl_env_team.py`'s `ArenaTeamVecEnv` gets new `league_manager`/
+  `league_role` constructor params — `league_manager=None` (the default) is byte-for-byte the
+  pre-existing §25.4 behavior, verified via the existing `--smoke-test` still producing an
+  identical real episode after this change. `scripts/rl_train_team.py` gets new `--league`/
+  `--league-role {main,main_exploiter,league_exploiter}`/`--league-dir`/
+  `--league-reset-every-n-generations` flags. Found and FIXED a second real bug during this same
+  pass, via careful manual review rather than a live run catching it later: naively re-reading
+  `model.num_timesteps` as the training loop's own running total silently breaks the moment Main
+  Exploiter's periodic reset zeroes a fresh model's counter, which would have made the outer loop
+  either terminate far too early (undercounting) or run far longer than `--total-timesteps`
+  intended — fixed by tracking the DELTA from before each `.learn()` call instead of the raw
+  value, so total-timesteps accounting survives a mid-run model reset correctly. New
+  `scripts/run_league.sh` launches all three roles as separate concurrent processes against one
+  shared `--league-dir`, matching `run_bot_pool.sh`'s own established orchestration conventions.
+  NORTHSTAR.md §25.4.1 documents the full design, including the real, honest, necessary scope
+  note that "current Main" (from Main Exploiter's own perspective) means Main's most-recently-
+  REGISTERED checkpoint on disk, not a live in-memory model — a real, structural consequence of
+  running each role as a separate process with no shared memory, named directly rather than
+  smoothed over. REDGARDEN commit `d6194d6`. Apple #19232 (completion).
+  Real, honest, NOT done: no full multi-hour three-process training run was launched this
+  session — real GPU/CPU cost, a founder-scheduling decision matching this repo's own established
+  posture for every prior autocurriculum/noisy-gestalt run (both of which also weren't run
+  end-to-end in the same pass that built their own mechanism). The pure `rl_league.py` logic is
+  fully tested and the integration layer was reviewed directly (catching the two real bugs
+  above), but "does the real three-role league measurably reduce cyclic dominance in practice
+  versus plain `--autocurriculum`" remains the real, open, next question — say the word when
+  ready to actually run `scripts/run_league.sh` for real.
+  session: sess-20260905-0720-ec33e7c5
+
 - [ ] **SP-3532-134: https://www.youtube.com/shorts/PBpyCdy4pMg shankpit gun piano** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
