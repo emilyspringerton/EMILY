@@ -36934,3 +36934,62 @@ or to the lvl 1 mnk separate lvls/job" — FFXI-style per-job leveling.
   GoblinFoxDragon commits `217cccb`/`5a50eb6`. IDUNA commits `4bc9d1f`/`fc381c9`. Apples #19122
   (IDUNA)/#19124 (GoblinFoxDragon), completion.
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 390: SSH TRANSPORT & IDENTITY SPEC — STAGE 1 SHIPPED (TELNET GUEST-TIER ECONOMY+CHAT GATE) (2026-09-12)
+
+Founder-authored, verbatim-authoritative implementation spec pasted directly (routed via
+`emily observe` first per Principle 18/1a, Apple #19127) — `GoblinFoxDragon/docs2/
+SSH_TRANSPORT_IDENTITY_SPEC.md` (8-stage rollout, migrating GFD's MUD from anonymous telnet to
+SSH-based public-key identity) + `Amendment 1` (`..._AMENDMENT_1.md`, guest tier & channel
+gating, pasted moments later). Two real problems named in §0: plaintext telnet session hijack of
+an already-authenticated stream reaching a bank/AH/bazaar, and nameless identity (any account
+with accumulated value is takeable by anyone who reads or guesses the character name). Stage 1
+(§4 telnet economy gate + Amendment 1's chat gate) named explicitly in the spec as "the actual
+security fix... ship it first. It can land in hours; the rest can take weeks."
+
+- [x] **S390-01: found and raised a real conflict between the spec's own assumption and this
+  codebase, before implementing anything.** Amendment 1 §C.1 describes telnet's "current
+  behavior" as ephemeral ("a typed name creating a fresh level 1, duplicable, non-persistent").
+  Checked directly against `apps2/mud/main.go`: not true — `mudCharCache` means a telnet
+  character is a real, named, IDUNA-persisted row (real level, now real *per-job* levels per
+  GFD-124433/SECTION 389, real job/gold/inventory), resumed by name via `GetCharacter`. Asked the
+  founder directly via `AskUserQuestion` rather than either silently stripping real persistence
+  (a large, likely-irreversible destructive change with zero explicit request for it) or silently
+  ignoring the spec's own explicit requirement.
+- [x] **S390-02: founder's real, live-tested resolution accepted and implemented as specified.**
+  The underlying IDUNA rows staying real/persistent is fine (even useful for future NPC-driven
+  market dynamics), but the founder's own direct, live test showed reconnecting with the same
+  name does *not* reliably resume a character today — real quote: "does not need to be fixed
+  these specs supersede any needed fixes and reframes it as a feature." Treated as this tier's
+  real, permanent, intended model going forward, not a bug to hunt down and fix — the connect
+  banner states this plainly rather than promising a resume that doesn't reliably happen.
+- [x] **S390-03: Stage 1 shipped — real, server-layer command gate, not a menu hint.** New
+  `player.isGuest bool` (`true` for every real `handleConn`/telnet session, `false` — Go's own
+  zero value — for a headless/Town-GUI session, which already carries a real WOTAN-authenticated
+  `characterID` rather than a typed name). New `guestGate`, called from `handle()`'s own dispatch
+  *before* its command switch (matching the spec's own "enforced server-side... verified by
+  direct socket testing" requirement): blocks `bank`/`bazaar`/`ah` (economy, §4 core) and
+  `say`/`tell`/`yell`/`guild`/the `/p` party-chat shortcut (chat, Amendment 1 §B.1/B.3), while
+  explicitly leaving movement/combat/jobs/subjobs/party+linkshell **membership** (not chat)/
+  quests/exploration/dungeons/NMs permitted per Amendment 1 §B.4. Every refusal explains the real
+  SSH upgrade path rather than a bare denial, plus a structured `[guest-blocked]` log line per
+  attempt (the real, minimal slice of Amendment 1 §E's instrumentation ask). Connect banner states
+  guest-tier scope + the real, tested non-persistence behavior before the name prompt (§C.1/§D).
+- [x] **S390-04: live-verified by real direct socket testing, matching the spec's own literal
+  acceptance requirement** — built a throwaway instance (`-port 2399`, isolated `var/` via a
+  scratch working directory), connected with a real, unmocked Python socket script (no client, no
+  library): guest banner prints before the name prompt; `bank`/`bazaar`/`ah`/`say`/`tell`/`yell`/
+  `guild`/`/p` all return the real explain-the-upgrade message; `look`/`jobs`/movement/combat
+  remain fully functional. **The real, live production `:2323` server (PID confirmed running
+  since 2026-09-05) was never touched, restarted, or otherwise disturbed** — verified before and
+  after. 11 new tests (`apps2/mud/guest_gate_test.go`). `GOWORK=off go build/vet/test ./...`
+  clean across the whole module. GoblinFoxDragon commits `d5b2ef6`/`c7914ca`. Apple #19143
+  (completion). Full spec + phased status tracker in `docs2/SSH_TRANSPORT_IDENTITY_{SPEC,
+  AMENDMENT_1,NORTHSTAR}.md`, golden-indexed as `SSH-TRANSPORT-IDENTITY-NORTH`.
+  Real, honest, not done (named in the NORTHSTAR, not silently skipped): guest display marker +
+  reserved names (Amendment 1 §C.2/C.3 — no SSH identities exist yet to distinguish against or
+  reserve names from), idle eviction/per-IP session caps (§C.4), full instrumentation beyond one
+  log line (§E), and spec stages 2-8 (GUI-login TLS, process isolation, the actual SSH listener,
+  identity binding, port 22 swap, device-flow hardening, telnet deprecation) — all real, named,
+  sequenced future work.
+  session: sess-20260905-0720-ec33e7c5
