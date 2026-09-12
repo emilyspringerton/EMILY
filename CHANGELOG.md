@@ -1,4 +1,5 @@
 ## 2026-09-12
+- backlog: SSH Transport & Identity spec Stage 5 shipped (GoblinFoxDragon real identity binding + key management, S394) (sess-20260905-0720-ec33e7c5)
 - backlog: SSH Transport & Identity spec Stage 4 shipped (GoblinFoxDragon real SSH listener, public-key/TOFU, S393) (sess-20260905-0720-ec33e7c5)
 - backlog: SSH Transport & Identity spec Stage 3 shipped, partial (GoblinFoxDragon process isolation + data backup, S392) (sess-20260905-0720-ec33e7c5)
 
