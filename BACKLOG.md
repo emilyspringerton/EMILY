@@ -2618,6 +2618,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok can we add some modest rewards for hitting buttons like movement a and b' -- add a small activit…** — obs `2026-09-13T08:02:01Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: add a 'Hide Disabled' toggle to the NOCK AI Opponents UI so disabling a checkpoint can function as a…** — obs `2026-09-13T17:34:01Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: re-enable BRAWLPIT registry checkpoints disabled by NOCK's 'Disable All' (S452) whose elo is above 1…** — obs `2026-09-13T19:33:41Z`. CURATED: 2026-09-13.
+- [ ] **Founder real-time: SHANKPIT NOCK level editor initiative -- wants SHANKPIT built into a Half-Life/Halo-style narrative …** — obs `2026-09-13T23:59:34Z`. CURATED: 2026-09-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
