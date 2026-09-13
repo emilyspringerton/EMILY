@@ -38356,3 +38356,5 @@ BRAWLPIT-RL-NORTH).
   built, in `scripts/rl_train_packet.py`'s own top-of-file doc comment.
 
   session: sess-20260905-0720-ec33e7c5
+- [ ] **213213: shankpit parity with BRAWLPIT ui ux wise (needs a little love)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
