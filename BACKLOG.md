@@ -38209,3 +38209,5 @@ bazel too."
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-02: IDUNA: public read-only HTTPS API for level list/fetch (non-admin)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
