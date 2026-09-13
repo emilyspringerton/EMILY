@@ -38272,3 +38272,57 @@ snapping (revisit only if guides prove insufficient); automatic guide generation
 snapping on by default before an author creates a guide; live mirroring.
 
   session: sess-20260905-0720-ec33e7c5
+
+
+## SECTION 419: BRAWLPIT — PACKET-LEVEL RL TRAINING PIPELINE (2026-09-13)
+
+Founder real-time (routed via `emily observe`, Apple #19326): "can we build a training pipeline
+reinforcement learning on the packet level take autocurriculum doctrine (alpha star league) find
+the recent additions to the REDGARDEN docs to add that take the spicy AI stuff from REDGARDEN and
+ECOWAR especially in ECOWAR the ability to FAST FORWARD fractal commander but not necessary
+fractal squad commander (no team coordination) use PARENA when possible" -> "and we need to save
+all the snapshots adding them to the league" -> "so each snapshot has the 3 archetypes the normal
+the exploiter and the league exploiter so for each snapshot it adds 3 to the league" -> "we need
+to implement elo i guess". Full writeup: `BRAWLPIT/docs/RL_TRAINING_NORTHSTAR.md` (golden doc
+BRAWLPIT-RL-NORTH).
+
+- [x] **S419-01**: real, byte-exact wire-protocol observation/action layer -- `NetHeader`/
+  `UserCmd`/`NetPlayer` ctypes structures, self-checked against a live `sizeof`/`offsetof` C
+  probe (12/28/32 bytes). Found+fixed a real, live bug: `server_broadcast()` never set
+  `NetPlayer.jump_count`/`.hit_stun` (uninitialized stack garbage shipped in every real snapshot
+  this server has ever sent). BRAWLPIT commit d83a94a.
+- [x] **S419-02**: `--fast-forward` on `bin/brawlpit_server`, porting ECOWAR's own real
+  `apps/arena_server` precedent. Honestly scoped down: no `--tick-ms` (local_update has no dt_ms
+  parameter to wire it to -- a real, separate, riskier physics-timing change, not forced through).
+- [x] **S419-03**: `PARENA/stdlib/brawlpit/commander_mod.prn` -- a real, pure, rule-based
+  single-agent "fractal commander" posture function (REDGARDEN NORTHSTAR §26.3's own precedent,
+  explicitly WITHOUT §26.3's own squad-coordination/commander-soldier nesting, since BRAWLPIT has
+  no teams). Compiled via `parena build`, linked into BRAWLPIT as `build/libbrawlpit_commander.so`.
+  PARENA commit df66ffe.
+  session: sess-20260905-0720-ec33e7c5
+- [x] **S419-04**: REDGARDEN's `scripts/rl_league.py`/`test_rl_league.py` (AlphaStar-style
+  three-role league) ported VERBATIM into BRAWLPIT (zero REDGARDEN-specific coupling, all 29
+  original tests pass unmodified).
+- [x] **S419-05**: real Elo rating support (`elo_expected`/`elo_update`, `LeagueManager.get_elo`/
+  `.set_elo`/`.record_match_result`) plus `register_generation_snapshot()` -- registers all 3
+  archetypes (MAIN/MAIN_EXPLOITER/LEAGUE_EXPLOITER) together per generation, all-or-nothing, Elo
+  inheriting forward per role unless explicitly reset. 46 total league/Elo tests pass.
+- [x] **S419-06**: `scripts/rl_env_packet.py` -- the real packet-level `gymnasium.Env` (optional-
+  import guarded) + `--smoke-test` mode. Live-verified for real: built and ran
+  `bin/brawlpit_server --fast-forward` + `build/libbrawlpit_commander.so` in this session, ran
+  the smoke test against it -- real UDP handshake, real snapshot decode, real commander posture
+  via the actual compiled `.so`, real reward from real stock/damage deltas. 22 offline wire/
+  observation/reward tests pass. Real, honest, live-found blocker named directly: no
+  `PACKET_RESET_MATCH` exists server-side, so a connecting training client gets thrown into an
+  already-in-progress demo fight -- the real next blocker before an actual multi-episode PPO run.
+- [ ] **S419-07 (blocked on S419-06's own found gap)**: add a real `PACKET_RESET_MATCH` to
+  `bin/brawlpit_server` (re-run `local_init_match`/respawn both fighters on request) so an RL
+  episode boundary is real, not just observational.
+- [ ] **S419-08 (blocked on S419-07)**: `scripts/rl_train_packet.py` -- the actual multi-model
+  (Main/Main Exploiter/League Exploiter) PPO training orchestrator driving `rl_env_packet.py`,
+  calling `register_generation_snapshot` every save cycle. Also blocked on `gymnasium`/
+  `stable_baselines3` not being installable in this sandbox (same documented REDGARDEN
+  limitation) -- needs a normal, non-externally-managed Python environment.
+- [ ] **S419-09**: an actual multi-hour/multi-generation training run, once S419-07/08 land.
+
+  session: sess-20260905-0720-ec33e7c5
