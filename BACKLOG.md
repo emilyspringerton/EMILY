@@ -38708,3 +38708,41 @@ what."
   Apple #19390.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 432/433/434: BRAWLPIT — REWARD-HACKING BUG, LIVENESS WATCHDOG, --level CRASH FIX (2026-09-13)
+
+Founder real-time: "also we spiked in model quality around here... main_20260913_092837... but
+then the newer ones are all pretty dumb... like they walked up a gradient of stupidity i think i
+introduced some perverted incentives or something" -> "it was just like holding the shield as a
+strat then walk off the edge like holding the shield and stunning yourself actually made you
+survive longer and win more" -> "AND i disabled all but 1 model and restarted colab training and
+now its stuck no idea whats going on."
+
+- [x] **S433-01 (real, found, fixed reward-hacking bug)**: `SURVIVAL_STREAK_FIB_CAP` only
+  clamped the Fibonacci index fed into the per-tick reward, not whether the term kept being
+  PAID -- once a life survived past 20 ticks it earned `0.001 * fib(20)` = 6.765 reward EVERY
+  TICK, forever, for the rest of a match (up to 27/tick at 200% damage) -- tens of thousands of
+  total reward for simply not dying, versus `REWARD_WIN=10` for actually winning. Real fix:
+  `compute_reward` now stops paying this term entirely once `survival_ticks` exceeds the
+  (lowered, 14) cap, making the real worst-case total per life 3.944 -- safely under
+  `REWARD_STOCK_TAKEN=5`. New regression test pins the real worst-case total. 56/56 tests pass.
+  Apple #19394.
+- [x] **S432-01 (dead-server watchdog, the real likely cause of "stuck no idea whats going
+  on")**: nothing anywhere checked whether a spawned `bin/brawlpit_server` subprocess was still
+  actually running. UDP `sendto()` to a dead process doesn't error, and
+  `MATCH_TIME_LIMIT_TICKS` counts real ticks not wall-clock, so a dead server could make one
+  episode take up to ~5 real HOURS to reach the timeout and end -- indistinguishable from
+  "stuck" from the outside. New `_check_role_server_alive` raises loudly the instant this is
+  noticed, before each role's training chunk.
+- [x] **S434-01 (real crash bug, caught before shipping)**: `--level` was wired into
+  `_spawn_server`/`colab_train.py`'s own subprocess command line in the S431 commit, but the
+  actual argparse flag to RECEIVE `--level` on `rl_train_packet.py`'s own command line was never
+  added -- any run setting `BRAWLPIT_LEVEL` would have crashed immediately with "unrecognized
+  arguments." Caught via direct repro, fixed. 2 new tests, 125/125 total pass. Apple #19395.
+- [x] Also confirmed via direct investigation (not a bug): a real 2048-step PPO rollout (SB3's
+  own default `n_steps`, matching this pipeline's own established `--save-freq 2048` convention)
+  takes ~85 real seconds at this environment's own real ~24 steps/sec throughput -- expected SB3
+  rollout-batching behavior, not a hang; a shorter `--save-freq` can never produce output sooner
+  since PPO can't complete a partial rollout.
+
+  session: sess-20260905-0720-ec33e7c5
