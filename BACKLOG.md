@@ -38746,3 +38746,32 @@ now its stuck no idea whats going on."
   since PPO can't complete a partial rollout.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 435: BRAWLPIT — COLAB PREVIEW DISPLAY BUG + LIVE COLAB TRAINING DIAGNOSIS (2026-09-13)
+
+Founder real-time, pasting a real Colab session log full of `league_exploiter` entries: "is it
+pulling all those models or what?" -> "ok i havent gotten a checkpoint to save to registry in a
+long time" -> "not sure if its working when i disabled a bunch of them it caused it to stop
+working it seems like or its super wrong slow im on a GPU it should be fine."
+
+- [x] **S435-01**: `colab_train.py`'s own league-standings preview sorted the WHOLE checkpoint
+  list by `(role, -generation)` and sliced a flat top-20 -- confirmed live all 3 roles had the
+  exact same count (65) and max generation (38), so one role filling every slot was a pure
+  sort/slice artifact, not real data skew or "pulling all of them" (that preview is a real,
+  lightweight metadata-only `list_checkpoints` call -- no weights downloaded either way). Now
+  prints the newest 5 generations of each role explicitly.
+- [x] **Live diagnosis (real, checked, not guessed)**: confirmed via a direct registry query that
+  all 195 checkpoints across all 3 roles were disabled at the time of the report -- the
+  founder's own reset had already correctly taken effect, and `--resume-from-registry` would
+  find nothing enabled for any role (all 3 start fully fresh) -- ruling OUT the new S431
+  pause-on-disable feature as the cause (nothing to pause yet on a role's own first generation).
+  Named the real, likely actual cause instead: this pipeline always trains on `device="cpu"`
+  (S427's own deliberate, measured choice), so a GPU-accelerator Colab runtime provides zero
+  benefit and typically comes with a SMALLER vCPU allocation than a CPU-only runtime -- while 4
+  concurrent `bin/brawlpit_server` processes (3 roles + 1 eval) all compete for that same CPU.
+  Recommended switching the Colab runtime to no-accelerator/CPU-only as a free, no-downside fix.
+  Asked the founder to confirm whether server-spawn print lines had appeared at all (an earlier,
+  different failure point) vs. just a quiet, still-progressing first rollout -- not yet resolved,
+  no further code change made pending that answer.
+
+  session: sess-20260905-0720-ec33e7c5
