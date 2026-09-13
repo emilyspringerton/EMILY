@@ -39046,3 +39046,56 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   actually live in the running process, not just the source tree. Commit 06fe98d, Apple #19443.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 449: BRAWLPIT — HYPERBOT-STYLE REAL-TIME DISCOUNTING (2026-09-13)
+
+- [x] **S449**: founder asked directly "are we doing reward discounting in some way?", citing
+  Hyperbot's own real half-life-over-real-time draw-penalty discounting technique (a distinct
+  Melee-playing bot project). Real, checked answer: no -- only SB3 PPO's plain default
+  `gamma=0.99` per `env.step()`, not per real elapsed second, and the flat `REWARD_LOSS`-on-
+  timeout (S429) had no mechanism making STANDING STILL costlier than engaging as the deadline
+  approached, so a policy that judged its own win chance as low had no reason to ever stop
+  stalling for the WHOLE match (strictly worse than Hyperbot's own "stalls early, panics at the
+  buzzer" dynamic). New `time_pressure_multiplier()` reproduces Hyperbot's own real half-life
+  formula (`|D| * 0.5^((T-t)/half_life)`) as reward shaping, not literal value-function surgery
+  (SB3 PPO's stock GAE/rollout buffer has no hook for a per-transition, wall-clock-dependent
+  gamma) -- scales the existing S442 inactivity penalty up as the real match clock runs down
+  (~0.30x at match start, ~0.90x with a proportionally-scaled 21s left, full ceiling at the
+  buzzer). `TIME_PRESSURE_HALF_LIFE_SECONDS` is a ratio-preserving port of Hyperbot's own
+  139s/240s pairing onto BRAWLPIT's own real 150s (2.5min) match cap. Also named honestly: this
+  module has its own version of the SAME irregularity Hyperbot's technique addresses
+  (`recv_snapshot()`'s "drain to freshest" can let a training client's `step()` cadence fall
+  behind the server's real tick rate, yet `_episode_ticks` only increments once per `step()`
+  call) -- not fixed here, a real, separate, larger undertaking. 9 new tests verify Hyperbot's own
+  cited numbers directly. 72/72 tests pass. Commit f1fbf5e, Apple #19449.
+
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 450: BRAWLPIT — EVENT-DRIVEN SERVER MAIN LOOP (2026-09-13)
+
+- [x] **S450**: founder direction, citing Hyperbot's own event-driven architecture: "ensure we
+  are doing event driven instead of polling." Found and fixed a real, live CPU-wasting bug in
+  `apps/server/src/main.c`: `--fast-forward`'s socket is `O_NONBLOCK`, so the main loop free-spun
+  as fast as the CPU allowed EVEN WITH ZERO NEW PACKETS -- every spin still ran a full physics
+  tick and broadcast to every connected client regardless of whether any real state had changed.
+  Live-measured earlier this session: an idle `--fast-forward` server pegged a full CPU core at
+  ~100% and flooded an idle client's own socket with an effectively unbounded backlog nothing was
+  reading (S446's own regression test had to explicitly service both sides every tick to avoid
+  it) -- the same "3/4 of wakeups wasted re-evaluating unchanged state" Hyperbot's own
+  architecture doc names, just from a server busy-spinning against itself rather than a bot's own
+  fixed decision-loop timer. Fixed by blocking on `select()` with a bounded 10ms
+  `SERVER_IDLE_POLL_TIMEOUT_US` ceiling (far below `MATCHMAKING_TIMEOUT_MS`/
+  `MATCHMAKING_1V1_TIMEOUT_MS` so real, wall-clock-elapsed matchmaking timeouts keep firing on
+  schedule) instead of a non-blocking `recvfrom()` in a tight loop with no wait at all -- scoped
+  to `--fast-forward` only via an `if (fast_forward)` guard, so real-time mode's own existing
+  `usleep(16000)` pacing (a real, correct, standard 60Hz physics tick rate) is completely
+  unchanged. Live-verified: idle CPU now ~0.0-0.1% (was ~100%), zero added latency when clients
+  are actively sending (select() returns the instant real data is ready). Real self-destruct tick
+  timing is now accurate again too -- previously "free" stale-input ticks between client round
+  trips made a real self-destruct look like ~50-90 client-observed steps; with one round trip now
+  genuinely ~one real tick, it measures at 251 ticks under the exact same drive pattern (the
+  permanent regression test's own tick budget was corrected to match this real, measured number).
+  Full C build (`test_net_protocol`/`test_commander`/`test_mlp_policy`) and the full Python suite
+  (72/72) pass. Commit 9bcabda, Apple #19450.
+
+  session: sess-20260905-0720-ec33e7c5
