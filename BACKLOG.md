@@ -38775,3 +38775,22 @@ working it seems like or its super wrong slow im on a GPU it should be fine."
   no further code change made pending that answer.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 436: BRAWLPIT — REAL PER-GENERATION EVAL SLOWDOWN FIX (2026-09-13)
+
+Founder real-time: "earlier it seemed like it was going much faster 2-3 minutes per
+generations i doubled the wait for checkin but ive been waitin for 15 mins."
+
+- [x] **S436-01 (real, self-inflicted regression found and fixed)**: S429's real match timer
+  changed `run_evaluation_match`'s own default `max_ticks` to the full `MATCH_TIME_LIMIT_TICKS`
+  (9000, ~2.5 real minutes) -- correct for an actual played match, but `rl_train_packet.py`'s
+  own automatic per-generation evaluation (S424) calls this up to 3 TIMES every single
+  generation with no override, so two early, weak policies that never land a KO could each
+  silently run the full 9000-tick timeout (~6+ real minutes) instead of a fast comparison -- up
+  to ~18 minutes of pure evaluation overhead added to every generation, on top of real training
+  time. Fixed: the per-generation eval call now passes an explicit `EVAL_MAX_TICKS=1800`
+  (~30s), the original pre-S429 default this pipeline already used successfully -- a draw after
+  this cap is a real, honest outcome for a fast comparison, not something that needs full
+  match-length realism. 125/125 tests pass. Apple #19401.
+
+  session: sess-20260905-0720-ec33e7c5
