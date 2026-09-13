@@ -38135,3 +38135,5 @@ real, deferred future phases in prose but none had kanban visibility until now.
   session: sess-20260905-0720-ec33e7c5
 - [ ] **S415-01: Real BRAWLPIT level data format + native runtime loader (blocking Phase 0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S415-03: Save/list/browse BRAWLPIT levels (registry primitives)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
