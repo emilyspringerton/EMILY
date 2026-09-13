@@ -38393,12 +38393,40 @@ select a model for the opponent from the registry."
   checkpoints, confirmed the active-selection GET correctly returns null before any selection,
   confirmed the activate route correctly 401s without admin auth. IDUNA commit d4201e4.
   session: sess-20260905-0720-ec33e7c5
-- [ ] **S421-02 (blocking real gameplay use, same real gap as S419-10)**: BRAWLPIT's native
-  client does not yet read `is_active_opponent` to actually drive gameplay. Needs exporting a
-  saved PPO policy's weights to a real C inference function -- matching REDGARDEN's own
-  established `scripts/export_rl_policy_to_c.py`/`packages/common/mlp_infer.c` precedent -- then
-  wiring that into the opponent slot's input generation (replacing/augmenting the existing
-  heuristic `bot_think`). Real, separate, larger work; the selection UI above is the complete,
-  real, working half that doesn't depend on it.
+- [x] **S421-02**: BRAWLPIT's native client now actually loads and uses the selected checkpoint.
+  `scripts/export_policy_weights.py` exports a real trained PPO actor network to a small binary
+  format ("BPMW"); `packages/common/mlp_policy.h` is a real, generic C MLP loader+forward-pass,
+  cross-language-parity-verified live (the C forward pass matches `stable_baselines3`'s own real
+  `predict()` output exactly on a real checkpoint); `packages/common/ai_opponent.h` fetches the
+  active checkpoint + LZ4-compressed weights at game start (founder: "make sure the model
+  downloads with lz4") and drives the opponent's real input via the loaded policy, replacing
+  `bot_think`. `draw_hud` always shows "AI: DEFAULT" or "AI: <name> (id=N) Elo <elo>" (founder:
+  "show on the screen what model is loaded"). IDUNA: `Checkpoint.Name`
+  ("<role>_<YYYYMMDD>_<HHMMSS>", founder: "make sure that the models have like some id number...
+  datestamp to the second with the archetype type"), `SetWeights`/`ReadWeights`, `GET
+  .../weights` (LZ4 default). Live-verified with a real Xvfb+XTest screenshot of the actual
+  compiled client showing the "AI: DEFAULT" HUD line in a live match. 9 new Go tests + several
+  new C/Python tests pass. BRAWLPIT commit b0941a3, IDUNA commit 481f36c.
+- [x] **S421-03**: `--level <name>` on `bin/brawlpit_server` (founder real-time: "can we train on
+  the level called THREE from the registry?") -- resolves a real level by name from the public
+  registry and loads it via `stage_set_active_from_leveldata`, preserved across every
+  `PACKET_RESET_MATCH` via `STAGE_CUSTOM_MEMORY` (never silently reverts to `STAGE_FD` on
+  reset). Real, honest degrade on any failure (name not found / registry unreachable / malformed
+  level) -- falls back to `STAGE_FD`. Live-verified with a real Xvfb+XTest screenshot: connected
+  the actual compiled graphical client to a server booted with `--level THREE` (a real,
+  founder-created level, id=6) and confirmed a visibly different multi-platform stage layout.
+  BRAWLPIT commit b0941a3.
+- [ ] **S421-04 (real, named gap founder caught live: "the elo on the iduna backend is showing
+  the same ELO for all of them")**: correctly diagnosed, not yet fixed -- Elo only ever moves via
+  `LeagueManager.record_match_result`/`CheckpointStore` equivalent, and nothing in
+  `rl_train_packet.py` calls it. `register_generation_snapshot` only ever INHERITS a role's own
+  prior Elo forward (by design, for continuity across resets) -- it was never meant to be the
+  thing that MOVES Elo. A real fix needs an actual evaluation mechanism: run a genuine head-to-
+  head match between two checkpoints (BRAWLPIT's own existing `MATCHMAKING_MODE_1V1`/
+  `mm_start_match_1v1` is the real, already-built server capability to seat two real network
+  clients into one synchronous duel -- no server change needed) and call
+  `record_match_result`/an IDUNA equivalent with the real outcome. Not built in this pass; until
+  it exists, generation number + role remain the real, useful signals for picking an opponent,
+  not Elo.
 
   session: sess-20260905-0720-ec33e7c5
