@@ -38205,3 +38205,5 @@ bazel too."
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-05: BRAWLPIT: migrate build to Bazel** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S417-03: LZ4-compress level wire payload via PARENA's compiled lz4.prn** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
