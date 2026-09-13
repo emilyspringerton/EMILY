@@ -38969,5 +38969,42 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   changes (verified). 135/135 tests pass; live-verified real matchmaking seating two genuine
   clients (a real, observed stock-loss event on the opponent side that a truly static dummy
   could never produce). Apple #19431.
+- [x] **S444**: corrected S443's own initial self-play design (all 3 roles uniformly self-playing
+  against their own past self) per founder real-time clarification of the intended AlphaStar-
+  style asymmetric roles: Main Exploiter's sole job is finding Main's CURRENT weaknesses (always
+  targets Main's own latest checkpoint, never its own past self), League Exploiter's job is
+  finding strategies that work against the league broadly (samples from the available checkpoint
+  roster), Main self-plays against its own past self and never resets. New
+  `_pick_opponent_checkpoint(role, prev_checkpoint_paths)` in `rl_train_packet.py`, 7 new tests
+  (`TestPickOpponentCheckpoint`) covering each role's real targeting behavior plus empty-league/
+  no-checkpoint-yet edge cases. Real, honestly named next step (founder's own fuller PFSP spec,
+  posted 2026-09-13): true opponent sampling should be ELO/PFSP-weighted over the WHOLE frozen
+  league roster (`rl_league.py`'s LeagueManager, ~all past checkpoints, not just the immediately-
+  prior generation per role), Main Exploiter should climb backward through Main's historical
+  checkpoints when struggling against Main's current policy, and Main itself should also sample
+  the league (not just self-play) -- this S444 pass is the correct per-role TARGETING shape but
+  not yet the full weighted-sampling depth; tracked as the next real increment. Commit be9d3bf,
+  Apple #19437.
+- [x] **S445**: real, found-live server bug fixed in `apps/server/src/main.c` -- `PACKET_FIND_MATCH`'s
+  admission guard only ever accepted a queue request from a sender with no established
+  `client_id`, so a client that had already played one matchmade match could NEVER re-queue for
+  another in the same server process lifetime (`mm_init_slot` marks a matched client's slot
+  permanently active and nothing ever clears that). Live-reproduced by S443's own self-play mode:
+  the second `env.reset()` of a long-lived training loop always timed out with
+  `ConnectionError: failed to queue both evaluation clients into the same real 1v1 match`. Fixed
+  by also accepting a re-queue when `local_state.match_over` is true (a real, single, whole-
+  server flag on this deliberately single-match-at-a-time server).
+- [x] **S446**: a second, distinct real bug found while proving S445's own fix live --
+  `PACKET_MATCH_FOUND` is a fire-and-forget `sendto()` with no ack/retry, and can be a genuine
+  casualty of loopback UDP packet loss under `--fast-forward`'s own uncapped busy-spin broadcast
+  loop (`recvfrom` is `O_NONBLOCK`, so the main loop broadcasts every pass even with zero new
+  packets) -- one client's dropped `MATCH_FOUND` left it permanently stuck even with S445 fixed.
+  Fixed by making `FIND_MATCH` idempotent: an already-active, mid-match client gets its current
+  `MATCH_FOUND` re-sent instead of the retry being silently swallowed. New permanent, checked-in
+  regression test (`TestLiveMatchmakingRequeue` in `test_rl_env_packet.py`) spins up a real
+  `bin/brawlpit_server`, drives a genuine self-destruct via sustained movement (both clients
+  serviced in lockstep, matching real self-play's own per-tick pattern), then confirms a second
+  `find_match_1v1_both` succeeds -- verified 8/8 clean runs after both fixes; failed
+  deterministically before S446 and flakily before S445. Commit 5ab926d, Apple #19436.
 
   session: sess-20260905-0720-ec33e7c5
