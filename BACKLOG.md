@@ -39179,6 +39179,32 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
 
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 455: BRAWLPIT — GRACEFUL FALLBACK FOR OBS-SPACE-MISMATCHED RESUME (2026-09-13)
+
+- [x] **S455**: direct follow-up to S454 -- the founder kicked off a real training run resuming
+  from the just-re-enabled >1600 Elo lineage and it crashed immediately: `ValueError: Observation
+  spaces do not match: Box(-2.0, 2.0, (21,)) != Box(-2.0, 2.0, (31,))`. Root cause: EVERY
+  checkpoint in the registry (all 336, including all 54 just re-enabled by S454) was trained
+  before S430's own deliberate, documented `21->31` `OBS_SIZE` bump (10 new hand-tailored
+  relational features). S430's own doc comment already predicted this exact scenario ("a fresh
+  run starts over") but `rl_train_packet.py` never actually implemented that fallback --
+  `PPO.load`'s `ValueError` just propagated and killed the whole process over one role's stale
+  checkpoint, taking down all 3 roles' training. Fix: new `_load_resumed_model_or_fresh(
+  checkpoint_path, env, device, role_value, generation)` helper -- catches `ValueError`
+  specifically (space mismatches only, doesn't mask unrelated errors like a corrupt file), prints
+  a loud warning naming the checkpoint and the likely cause, falls back to a fresh model for that
+  role only, matching `_resume_skip_message`'s existing loud-warning convention. 3 new unit tests
+  (clean resume, mismatch fallback, unrelated-error passthrough, via mocked `PPO`/`_fresh_model`)
+  -- 34/34 total pass. REAL, HONEST CURRENT STATE: the entire >1600 Elo lineage (including S452's
+  recovered ~1900 Elo run) is now PERMANENTLY unusable for direct warm-start under the current
+  31-dim observation space -- re-enabling it (S454) stops the resume path from being silently
+  starved of good checkpoints and stops this exact crash, but every role still starts fresh
+  post-S430 regardless. A real weight-surgery migration (zero-pad the old 21-dim input layer to
+  31 dims, continue training) is the only way to actually recover that lineage's learned
+  behavior -- not attempted here, named as a real follow-up, not silently dropped. Apple #19465.
+
+  session: sess-20260905-0720-ec33e7c5
+
 ## SECTION 453: IDUNA/BRAWLPIT — UNIFIED-LOG EVENT TRAIL FOR AI CHANGES (2026-09-13)
 
 - [x] **S453**: founder direction, direct follow-up to diagnosing a real, observed ~1900 Elo
