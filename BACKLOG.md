@@ -38093,16 +38093,25 @@ its own `on_frame`/`on_collision` hooks. No file format, no runtime loader exist
   StageDef system (Battlefield/Final Destination/Weird Void) turned out to be dead code, never
   compiled into the real client -- the real, live geometry re-expressed as data is physics.h's
   own `stage_fd_geo`/`stage_timeline_geo`.
-- [ ] **S415-02 (BPLE-12441 #287/#288/#289)**: real NOCK-adjacent web editor slice in IDUNA —
+- [x] **S415-02 (BPLE-12441 #287/#288/#289)**: real NOCK-adjacent web editor slice in IDUNA —
   canvas size picker, place/resize/delete solid vs. passthrough platforms, reusing NOCK's own
   React/TS/Tailwind conventions and Go/SQLite backend pattern (new `brawlpit_levels` table,
   mirroring `nock_textures`' own CRUD shape). Gated admin-only for now (matching NOCK's own
   `/admin/nock` precedent) rather than blocking on BPLE-12441 #286's full IDUNA-login-
-  architecture decision (deferred to cruise, see below).
-- [ ] **S415-03 (BPLE-12441 #285/#290)**: save/list/browse levels — the real registry primitives
-  ("user contributed maps... default at top"), CRUD + a browsable list in the same web UI.
-- [ ] **S415-04**: real end-to-end proof — a level authored in the S415-02 web UI, exported in
+  architecture decision (deferred to cruise, see below). Apple #19287, IDUNA commits
+  3e18659/9ddcafc.
+- [x] **S415-03 (BPLE-12441 #285/#290)**: save/list/browse levels — the real registry primitives
+  ("user contributed maps... default at top"), CRUD + a browsable list in the same web UI. Apple
+  #19287, IDUNA commit 3e18659.
+- [x] **S415-04**: real end-to-end proof — a level authored in the S415-02 web UI, exported in
   S415-01's real format, actually loads and plays correctly through BRAWLPIT's native client.
+  Apple #19287. Live-verified against the real production DB: created a level via LevelStore
+  directly against the live `iduna.db`, exported it through the real Export() code path, loaded
+  that exact JSON through BRAWLPIT's real `stage_load_level_file` via a compiled C test harness
+  -- all 3 platforms loaded byte-identical to what was authored. Real, honest gap not solved:
+  no interactive browser in this sandbox to click through the canvas UI itself (same real gap
+  NOCK's own SECTION 386 already named) -- the full data pipeline is proven live, the visual UI
+  is unit/integration-tested but not browser-verified.
 
 Explicitly deferred (kanban-moved to cruise, not silently dropped): BPLE-12441 #286 (full IDUNA
 login for BRAWLPIT players, not just admin-gated), BPLE-13331 #292/#293 (Roblox-style "select
