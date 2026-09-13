@@ -38229,3 +38229,38 @@ bazel too."
   (sess-20260905-0720-ec33e7c5)
 - [x] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+
+## SECTION 418: NOCK — GUIDE-BASED SNAPPING FOR THE BRAWLPIT LEVEL EDITOR (2026-09-13)
+
+Founder real-time (routed via `emily observe`, Apple #19321): full requirements doc, "NOCK —
+Guide-Based Snapping," pasted verbatim. Core principle: no grid, ever — free placement is the only
+default; snapping exists only against author-placed guides (infinite horizontal/vertical lines
+per level) captured either by dragging from a ruler or from a selected platform's own edge.
+Status line on the doc itself: "Requirements only. Implementer owns design and code decisions."
+
+- [ ] **S418-01**: guide data model + persistence — `Guide{axis, coord, locked, isMirrorAxis}` on
+  the level, editable via the store/API, explicitly excluded from the client-facing `Export`/LZ4
+  wire format (authoring metadata only, BRAWLPIT's own native client must never load it).
+- [ ] **S418-02**: ruler UI + create/manipulate guides — drag from a ruler edge into the canvas;
+  "guide from left/right/top/bottom edge" on a selected platform; drag to move, numeric coordinate
+  in the inspector, drag-off-canvas to delete, per-guide lock toggle, global visibility toggle,
+  separate global snap-enable toggle.
+  session: sess-20260905-0720-ec33e7c5
+- [ ] **S418-03**: snapping behavior during platform drag/resize — left/right/top/bottom/center
+  (both axes) snappable edges, fixed screen-space threshold (~6-8px, configurable, not world
+  units so it feels identical at every zoom), modifier-key override to suppress snapping for that
+  drag, and highlight-only feedback on the guide being snapped to (no other chrome/tooltips).
+- [ ] **S418-04**: mirror axis + mirror command — one guide per level flaggable as the mirror
+  axis; an explicit (not automatic/live) "mirror selection across axis" command that duplicates
+  selected platforms reflected across it.
+- [ ] **S418-05 (deferred until a real level corpus exists, per the doc's own instruction)**:
+  guide library — save/apply a named guide set across levels, ship small defaults derived from
+  levels that actually play well. Do not build ahead of real playtested levels to draw numbers
+  from.
+
+Explicit non-goals named in the doc: grid snapping of any kind; platform-to-platform edge
+snapping (revisit only if guides prove insufficient); automatic guide generation/suggestion; any
+snapping on by default before an author creates a guide; live mirroring.
+
+  session: sess-20260905-0720-ec33e7c5
