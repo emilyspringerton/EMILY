@@ -38861,3 +38861,28 @@ day's "it just says running, no idea what's going on" thread.
   no training-logic change). Apple #19422.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 440: BRAWLPIT — REAL PARALLEL ENV SUPPORT VIA --num-envs (2026-09-13)
+
+Founder real-time: "you said run more at the same time to speed up training? how we do that?"
+
+- [x] **S440-01**: new `--num-envs N` spawns N real dedicated `bin/brawlpit_server` processes per
+  role, stepped in true OS-level parallel via `stable_baselines3`'s own `SubprocVecEnv`, so one
+  PPO rollout collects `N x n_steps` of real experience in roughly the wall-clock time a single
+  env's own `n_steps` took -- the actual, concrete lever for "run more at the same time,"
+  distinct from GPU (which accelerates neither the environment's own UDP round trip nor a
+  network this tiny). `ROLE_PORTS` renamed to `ROLE_BASE_PORTS` with a wide 100-port reserved
+  block per role; `EVAL_PORT` moved clear of all of them. `make_vec_env()` returns the plain env
+  directly for `--num-envs 1` (zero overhead, byte-for-byte pre-S440 behavior) or a real
+  `SubprocVecEnv` for more. `_check_role_server_alive` now checks every server in a role's own
+  list. Wired through `colab_train.py` via `BRAWLPIT_NUM_ENVS`.
+- [x] Real, honest, measured caveat -- NOT glossed over, documented directly in the code and CLI
+  help: all 3 roles' servers run continuously for the whole run regardless of which single role
+  is actively training (a pre-existing design trait, not new), so the real cost is
+  `3 * num_envs` servers always alive. Live-tested on this repo's own real 8-core dev box:
+  `--num-envs 2` (6 servers total) measured SLOWER (7.7 steps/sec) than `--num-envs 1`'s own
+  real baseline (11.3 steps/sec) -- genuine CPU oversubscription, not a bug. Only raise this on a
+  machine with meaningfully more free cores than `3 * num_envs`; check `nproc` first. 5 new
+  tests (including a real constructed `SubprocVecEnv`), 129/129 total pass. Apple #19425.
+
+  session: sess-20260905-0720-ec33e7c5
