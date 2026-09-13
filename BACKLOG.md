@@ -38619,3 +38619,25 @@ can you add a checkbox to the registry backend to disable those models from the 
   training and the bot pool, not just from display. Apple #19377.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 429: BRAWLPIT — REAL 2.5-MINUTE MATCH TIME LIMIT (2026-09-13)
+
+Founder real-time: "add a timer - 2.5 minutes - if time expires it's a draw and thats counted
+the same as a loss in terms of negative reward."
+
+- [x] **S429-01**: `MATCH_TIME_LIMIT_TICKS = 9000` (150 real seconds at the real, confirmed 60Hz
+  tick rate -- `physics.h`'s own `v * dt * 60.0f` scaling and the server's own 16ms tick loop)
+  caps every `BrawlpitPacketEnv` episode. `compute_reward` gained a `timed_out` param: on
+  timeout, `REWARD_LOSS` is applied for BOTH sides -- deliberately never `REWARD_WIN` for
+  whoever happened to be ahead on stocks when the clock ran out, so a policy can't learn to
+  build a small lead and stall it out. 5 new tests, 107/107 total pass. Live-verified against a
+  real running `bin/brawlpit_server` (limit temporarily overridden small): the episode actually
+  ended via the real UDP wire protocol at exactly the configured tick with a real, negative
+  terminal reward.
+- [x] **S429-02**: `rl_evaluate.py`'s `run_evaluation_match` and `rl_bot_pool.py`'s
+  `_play_and_score` both now default `max_ticks` to the same canonical
+  `MATCH_TIME_LIMIT_TICKS` (previously an arbitrary, much shorter 1800 ticks = 30s) and score a
+  timeout as a real 0.5 Elo draw, never a stock-comparison win for whoever was ahead. Apple
+  #19382.
+
+  session: sess-20260905-0720-ec33e7c5
