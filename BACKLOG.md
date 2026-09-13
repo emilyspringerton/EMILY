@@ -38207,9 +38207,13 @@ bazel too."
   compiles standalone). Linked via cgo (not a subprocess) since this is trusted, own-authored
   code, not untrusted LLM-generated PARENA like `internal/nock/procgen.go`'s own sandboxed case.
   Wired into `GET .../export?compress=lz4`. Live-verified over the real public domain.
-- [ ] **S417-04**: a real native level-browser UI screen in BRAWLPIT's lobby client (fetch the
+- [x] **S417-04**: a real native level-browser UI screen in BRAWLPIT's lobby client (fetch the
   list from S417-02, pick one, download+decompress+load it, matching S417-01's own real local
-  load path).
+  load path). Apple #19314, BRAWLPIT commit 6899fbf. Real, honest engineering choice: shells out
+  to the real `curl` CLI (via popen) instead of linking libcurl's C API -- this box has the
+  libcurl runtime but no dev headers, checked directly. Found+fixed a real live bug: glibc's
+  `popen` rejects mode "rb" outright (POSIX only accepts "r"/"w"). Live-verified against the real
+  production API: fetched, downloaded, decompressed, and parsed a real level correctly.
 - [ ] **S417-05 (separate, lower priority)**: migrate BRAWLPIT's build (currently a plain
   `gcc`/bash `scripts/build.sh`) to Bazel, matching this monorepo's own established precedent
   (FLASH/MISHRI/etc.) for other repos already on Bazel.
@@ -38217,11 +38221,11 @@ bazel too."
   session: sess-20260905-0720-ec33e7c5
 - [ ] **S417-05: BRAWLPIT: migrate build to Bazel** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
 - [x] **S417-01: BRAWLPIT: make custom levels actually playable locally (real client selection + gameplay)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [x] **S417-02: IDUNA: public read-only HTTPS API for level list/fetch (non-admin)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [x] **S417-03: LZ4-compress level wire payload via PARENA's compiled lz4.prn** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
+- [x] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
