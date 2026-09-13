@@ -38886,3 +38886,24 @@ Founder real-time: "you said run more at the same time to speed up training? how
   tests (including a real constructed `SubprocVecEnv`), 129/129 total pass. Apple #19425.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 441: BRAWLPIT — SERVERS SPAWN ONLY WHILE A ROLE IS ACTIVELY TRAINING (2026-09-13)
+
+Founder real-time: "why do we set up all 3 servers at once reguardless if they are needed?
+because teardown is expensive? are they python servers or what?"
+
+- [x] **S441-01**: real answer given directly -- they're the real compiled C
+  `bin/brawlpit_server` binary (not Python); teardown/spawn is cheap (live-measured ~0.8s round
+  trip including a real connect), it just was never restructured after the training loop was
+  written to train roles sequentially. That meant 2 of every 3 roles' own servers sat fully idle
+  (a full CPU core each, doing nothing) at any given instant -- real, wasted CPU that got worse
+  as `--num-envs` (S440) scaled up how many idle servers that meant. Restructured: each role's
+  own servers now spawn right before its training chunk and tear down right after; a paused
+  (disabled-checkpoint) role spawns nothing at all. `models` persist across generations via lazy
+  construction on a role's own first real chunk, with `model.set_env()` re-attaching each
+  generation's fresh env afterward. Live-verified against a real running training process: only
+  1 server process alive at any instant (confirmed via `ps aux`, not just reasoned about), and
+  measured throughput actually improved (18.8 steps/sec vs. the prior 11.3 steps/sec baseline)
+  purely from eliminating idle-server CPU contention. 129/129 tests pass. Apple #19428.
+
+  session: sess-20260905-0720-ec33e7c5
