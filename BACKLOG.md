@@ -38151,3 +38151,5 @@ real, deferred future phases in prose but none had kanban visibility until now.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S416-05: NOCK: PARENA backend migration (replace imagemagick.go)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S416-06: NOCK: low-poly 3D modeler (separate tool)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
