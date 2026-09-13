@@ -38556,3 +38556,23 @@ too?"
   `colab_train.py` as the superseding path for anyone who just wants training running).
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 426: BRAWLPIT — DIMINISHING RETURNS ON BUTTON-PRESS REWARD (2026-09-13)
+
+Founder real-time: "can we add diminishing marginal returns for the reward for 'rewarded for
+pushing buttons'?"
+
+- [x] **S426-01**: the Nth button press this episode (a real, whole-episode count -- deliberately
+  NOT reset on a stock loss the way tier 5's survival streak is, since this is about the whole
+  episode's own activity curve) is now worth `REWARD_BUTTON_PRESS_PER_TICK / N` -- a real,
+  harmonic diminishing-returns curve -- instead of a flat amount every single press. The first
+  press still gets the full, undiminished bonus (no change to prior training's baseline
+  magnitude at low activity levels); movement stays flat, since the founder's ask named buttons
+  specifically. Backward-compatible: `button_press_count=None` (the old default) keeps the exact
+  old flat behavior. `BrawlpitPacketEnv` tracks the real per-episode press count. 4 new tests,
+  103/103 total pass. Restarted the live training process using the newly-built
+  `--resume-from-registry` (S425-02) so ~5 generations of accumulated progress were preserved
+  instead of discarded -- live-confirmed via the training log: all 3 roles resumed from their
+  real gen-4 registry checkpoints. Apple #19371.
+
+  session: sess-20260905-0720-ec33e7c5
