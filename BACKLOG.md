@@ -2608,6 +2608,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, refining Moltbook plan: 'it should look for threads related to what we are doing here... light inter…** — obs `2026-09-13T01:21:34Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: 'get the brawlpit level editor online - web technologies - we already started building nock - can we…** — obs `2026-09-13T01:38:35Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time, rapid burst continuing BRAWLPIT level editor work: 'brawlpit needs a level selection/browser interfa…** — obs `2026-09-13T02:38:46Z`. CURATED: 2026-09-13.
+- [ ] **Founder real-time: full requirements doc for NOCK guide-based snapping (BRAWLPIT Levels tab) — no grid ever, author-pla…** — obs `2026-09-13T04:06:29Z`. CURATED: 2026-09-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
