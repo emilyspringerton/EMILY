@@ -38083,11 +38083,15 @@ type}` arrays are the REAL collision geometry (selected via `stage_set_active`);
 `StageDef` (Battlefield/Final Destination/Weird Void) is a separate, mostly-cosmetic system with
 its own `on_frame`/`on_collision` hooks. No file format, no runtime loader exists anywhere.
 
-- [ ] **S415-01 (BPLE-12441/blocking Phase 0)**: real, versioned JSON level format (`Platform2D`-
+- [x] **S415-01 (BPLE-12441/blocking Phase 0)**: real, versioned JSON level format (`Platform2D`-
   shaped: array of `{x,y,w,h,type}` + a name) + a real BRAWLPIT runtime loader that populates
   `stage_geo`/`stage_count` from a loaded file instead of switching between hardcoded compiled
   arrays. Definition of done: `stage_fd_geo`/`stage_timeline_geo` re-expressed as real level
   files, loading correctly through the new path with zero regression to existing physics tests.
+  Apple #19284, commit 67a5363. Real, honest correction found while scoping: `levels/*.c`'s own
+  StageDef system (Battlefield/Final Destination/Weird Void) turned out to be dead code, never
+  compiled into the real client -- the real, live geometry re-expressed as data is physics.h's
+  own `stage_fd_geo`/`stage_timeline_geo`.
 - [ ] **S415-02 (BPLE-12441 #287/#288/#289)**: real NOCK-adjacent web editor slice in IDUNA —
   canvas size picker, place/resize/delete solid vs. passthrough platforms, reusing NOCK's own
   React/TS/Tailwind conventions and Go/SQLite backend pattern (new `brawlpit_levels` table,
