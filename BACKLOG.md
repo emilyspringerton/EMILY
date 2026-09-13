@@ -38418,17 +38418,77 @@ select a model for the opponent from the registry."
   the actual compiled graphical client to a server booted with `--level THREE` (a real,
   founder-created level, id=6) and confirmed a visibly different multi-platform stage layout.
   BRAWLPIT commit b0941a3.
-- [ ] **S421-04 (real, named gap founder caught live: "the elo on the iduna backend is showing
-  the same ELO for all of them")**: correctly diagnosed, not yet fixed -- Elo only ever moves via
-  `LeagueManager.record_match_result`/`CheckpointStore` equivalent, and nothing in
-  `rl_train_packet.py` calls it. `register_generation_snapshot` only ever INHERITS a role's own
-  prior Elo forward (by design, for continuity across resets) -- it was never meant to be the
-  thing that MOVES Elo. A real fix needs an actual evaluation mechanism: run a genuine head-to-
-  head match between two checkpoints (BRAWLPIT's own existing `MATCHMAKING_MODE_1V1`/
-  `mm_start_match_1v1` is the real, already-built server capability to seat two real network
-  clients into one synchronous duel -- no server change needed) and call
-  `record_match_result`/an IDUNA equivalent with the real outcome. Not built in this pass; until
-  it exists, generation number + role remain the real, useful signals for picking an opponent,
-  not Elo.
+- [x] **S421-04 (real, named gap founder caught live: "the elo on the iduna backend is showing
+  the same ELO for all of them", then: "can we start recording the match results with the actual
+  outcomes?")**: `IDUNA/internal/brawlpit/checkpoint_store.go`'s `RecordMatchResult` (standard
+  Elo formula, one transaction, both sides) + `POST /api/v1/brawlpit-checkpoints/match-result`
+  (M2M-gated) is now the one real thing that moves a checkpoint's Elo off its inherited value.
+  `scripts/rl_evaluate.py` runs a genuine, synchronous head-to-head duel between two checkpoints
+  using BRAWLPIT's own existing `MATCHMAKING_MODE_1V1`/`mm_start_match_1v1` (no server change
+  needed) and calls it with the real outcome. Apple #19359 caught and fixed a real, self-found
+  blocker: `scripts/rl_registry.py` never actually implemented `record_match_result` despite
+  both `rl_evaluate.py` and `rl_bot_pool.py` importing it -- added it and live-verified
+  end-to-end against production (checkpoint 23 1500->1516, checkpoint 24 1500->1484). IDUNA
+  commit 0d787ca.
+- [x] **S421-05**: real in-game AI opponent browser (founder real-time: "we need an interface in
+  brawlpit to brows registry and select model and it works just like the level registry") -- new
+  `STATE_AI_OPPONENT_BROWSER` in `apps/lobby/src/main.c` ('K' key), `fetch_ai_opponent_registry_list`
+  + `ai_opponent_select_and_load` in `packages/common/ai_opponent.h`, mirroring the level
+  browser's own list/select/dim-if-unusable shape exactly. Fixed a real memory leak found along
+  the way (`ai_opponent_load_weights` re-selection leaked the prior `MlpPolicy`'s buffers).
+  BRAWLPIT commit d71cb80. Apple #19360.
+- [x] **S421-06**: modest activity/engagement reward (founder real-time: "ok can we add some
+  modest rewards for hitting buttons like movement a and b") -- Tier 4 in
+  `scripts/rl_env_packet.py` (`REWARD_MOVEMENT_PER_TICK`/`REWARD_BUTTON_PRESS_PER_TICK`,
+  deadzone-gated, deliberately small next to the outcome/positional/survival tiers). 35 reward
+  tests pass. BRAWLPIT commit cd37ba5. Apple #19361.
+
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 422: BRAWLPIT — PERSISTENT ELO-BASED BOT POOL (2026-09-13)
+
+Founder real-time (routed via `emily observe`): "ok so we need a bot pool like in redgarden it
+needs to be elo based and humans can join it in game so we can be matched with a bot and then we
+fight it and either our elo our its elo goes up and down depending on the outcome of the match"
+-> "its not a team game so we can have like 9 bots in bot pool and there should be 1 bot always
+waiting and 4 bot games always running" -> "i guess all model generations need to be added to
+the bot pool" -> "use matchmaking queues to manage load as the bot pool grows really low elos get
+looong queue times because we dont really need data on a shit bot fighting against anything
+really."
+
+- [x] **S422-01**: `scripts/rl_bot_pool.py` (new) -- mirrors REDGARDEN's own real
+  `apps/arena_bot` precedent: standing bot processes that queue into the SAME real matchmaker
+  humans use (`MATCHMAKING_MODE_1V1`), not a training-only mechanism. Real topology: up to 9
+  bots drawn from every real checkpoint in the registry that has exported weights ("all model
+  generations need to be added," not a fixed hand-picked set), 4 dedicated local servers running
+  continuous bot-vs-bot matches for ongoing Elo movement, 1 bot queued on whichever server
+  humans actually connect to (safety-defaulted to a local test server, never production, until
+  explicitly pointed elsewhere).
+- [x] **S422-02 (Elo-aware matchmaking queues)**: replaced the initial fixed-random-pair-per-port
+  design with `BotMatchmaker` -- a shared, thread-safe queue that refreshes live Elo from the
+  registry before every pairing decision, pairs the longest-waiting free bot with its
+  closest-current-Elo free partner, and lets each dedicated server ask for a fresh pair whenever
+  it's free rather than being locked to one pair for its whole lifetime. Outlier-Elo bots
+  naturally get paired (and thus queued) less often than well-matched bots, without a separate
+  explicit priority/delay mechanism -- exactly the founder's own framing. 7 new pairing tests
+  (`test_rl_bot_pool.py`, fully offline -- a stubbed `_refresh_elo` and a mocked
+  `list_checkpoints` cover fairness, Elo-proximity, busy-bot exclusion, and outlier starvation
+  without a live server).
+- [x] **S422-03 (real blockers found and fixed while wiring this up)**: `scripts/rl_registry.py`
+  never actually implemented `record_match_result` despite `rl_evaluate.py`/`rl_bot_pool.py`
+  both importing and calling it (an `ImportError` on any real run); `scripts/rl_env_packet.py`
+  never defined `PACKET_FIND_MATCH`/`PACKET_MATCH_FOUND`/`PACKET_QUEUE_STATUS` despite both
+  scripts importing them too. Both fixed; live-verified with a real smoke test: 2 real dedicated
+  `bin/brawlpit_server` processes, a real shared 4-bot Elo-aware queue, real matches played and
+  real Elo moved through production IDUNA, and the waiting-for-human bot correctly bot-filled
+  after its real 30s queue timeout and correctly did NOT record a result (no human registry
+  identity exists yet -- a real, named, not-yet-built gap, not silently dropped).
+- [ ] **S422-04 (real, named, not-yet-built gap)**: BRAWLPIT has no human player identity/login
+  system at all today (checked directly -- only free, no-login cosmetics exist). A human's own
+  match outcomes against the bot pool cannot move any real, persisted rating until this exists.
+  Scoped, not built, here.
+- [ ] **S422-05**: point `--human-host`/`--human-port` at the real production server
+  (`brawlpit.okemily.com:6978`, confirmed live/reachable this session) once the founder approves
+  moving off the local-only safety default.
 
   session: sess-20260905-0720-ec33e7c5
