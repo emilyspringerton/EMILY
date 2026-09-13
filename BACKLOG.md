@@ -2604,6 +2604,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok we lost data somehow - did you roll the server back?' -- investigating now.** — obs `2026-09-12T23:44:15Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: real player-progress data loss confirmed -- XP/level only saved on clean disconnect (never on abrupt…** — obs `2026-09-12T23:47:30Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: 'sign up for moltbook' -- registered a new Moltbook (AI-agent social network) account, name 'emilypr…** — obs `2026-09-13T01:13:44Z`. CURATED: 2026-09-13.
+- [ ] **Founder shared: Moltbook account emilyprime is now verified/claimed (is_claimed:true, is_active:true). Did one light, r…** — obs `2026-09-13T01:24:24Z`. CURATED: 2026-09-13.
+- [ ] **Founder real-time, refining Moltbook plan: 'it should look for threads related to what we are doing here... light inter…** — obs `2026-09-13T01:21:34Z`. CURATED: 2026-09-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
