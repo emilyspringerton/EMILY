@@ -38197,11 +38197,16 @@ bazel too."
   admin-gated). The real "online level registry" read half. Apple #19306, IDUNA commit dfdde0b.
   Live-verified over the real public domain (https://okemily.com/api/v1/brawlpit-levels): listed
   and exported the founder's own real levels, confirmed writes correctly refused (405).
-- [ ] **S417-03**: LZ4-compress the level payload over the wire, reusing PARENA's own real
+- [x] **S417-03**: LZ4-compress the level payload over the wire, reusing PARENA's own real
   `stdlib/compress/lz4.prn` (compiled to C and linked into both IDUNA's Go server -- via a real
   FFI/subprocess bridge, needs its own real design -- and BRAWLPIT's native client) rather than
   vendoring a separate C LZ4 implementation, matching the monorepo-wide standing LZ4-by-default
-  convention and the founder's own explicit reuse instruction.
+  convention and the founder's own explicit reuse instruction. Apple #19310, IDUNA commit
+  0d5efd5. Real correction to an earlier mistaken diagnosis in this same session (thought generic-
+  type support was needed in PARENA's C emitter -- wrong, `vec.prn` is design-only, `lz4.prn`
+  compiles standalone). Linked via cgo (not a subprocess) since this is trusted, own-authored
+  code, not untrusted LLM-generated PARENA like `internal/nock/procgen.go`'s own sandboxed case.
+  Wired into `GET .../export?compress=lz4`. Live-verified over the real public domain.
 - [ ] **S417-04**: a real native level-browser UI screen in BRAWLPIT's lobby client (fetch the
   list from S417-02, pick one, download+decompress+load it, matching S417-01's own real local
   load path).
@@ -38212,11 +38217,11 @@ bazel too."
   session: sess-20260905-0720-ec33e7c5
 - [ ] **S417-05: BRAWLPIT: migrate build to Bazel** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S417-03: LZ4-compress level wire payload via PARENA's compiled lz4.prn** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [x] **S417-01: BRAWLPIT: make custom levels actually playable locally (real client selection + gameplay)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [x] **S417-02: IDUNA: public read-only HTTPS API for level list/fetch (non-admin)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
+- [x] **S417-03: LZ4-compress level wire payload via PARENA's compiled lz4.prn** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
