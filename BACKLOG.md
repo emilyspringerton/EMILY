@@ -38145,3 +38145,5 @@ real, deferred future phases in prose but none had kanban visibility until now.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S416-02: NOCK: layer position/scale/rotate** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S416-04: NOCK: non-destructive adjustments (adjustment layers)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
