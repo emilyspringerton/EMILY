@@ -38240,21 +38240,27 @@ default; snapping exists only against author-placed guides (infinite horizontal/
 per level) captured either by dragging from a ruler or from a selected platform's own edge.
 Status line on the doc itself: "Requirements only. Implementer owns design and code decisions."
 
-- [ ] **S418-01**: guide data model + persistence — `Guide{axis, coord, locked, isMirrorAxis}` on
+- [x] **S418-01**: guide data model + persistence — `Guide{axis, coord, locked, isMirrorAxis}` on
   the level, editable via the store/API, explicitly excluded from the client-facing `Export`/LZ4
-  wire format (authoring metadata only, BRAWLPIT's own native client must never load it).
-- [ ] **S418-02**: ruler UI + create/manipulate guides — drag from a ruler edge into the canvas;
+  wire format (authoring metadata only, BRAWLPIT's own native client must never load it). Apple
+  #19323, IDUNA commit 4dff14b. Own real `PUT .../{id}/guides` endpoint, separate from the
+  platform-layout save.
+- [x] **S418-02**: ruler UI + create/manipulate guides — drag from a ruler edge into the canvas;
   "guide from left/right/top/bottom edge" on a selected platform; drag to move, numeric coordinate
   in the inspector, drag-off-canvas to delete, per-guide lock toggle, global visibility toggle,
-  separate global snap-enable toggle.
+  separate global snap-enable toggle. Apple #19323, IDUNA commit 4dff14b.
   session: sess-20260905-0720-ec33e7c5
-- [ ] **S418-03**: snapping behavior during platform drag/resize — left/right/top/bottom/center
+- [x] **S418-03**: snapping behavior during platform drag/resize — left/right/top/bottom/center
   (both axes) snappable edges, fixed screen-space threshold (~6-8px, configurable, not world
   units so it feels identical at every zoom), modifier-key override to suppress snapping for that
   drag, and highlight-only feedback on the guide being snapped to (no other chrome/tooltips).
-- [ ] **S418-04**: mirror axis + mirror command — one guide per level flaggable as the mirror
+  Apple #19323, IDUNA commit 4dff14b.
+- [x] **S418-04**: mirror axis + mirror command — one guide per level flaggable as the mirror
   axis; an explicit (not automatic/live) "mirror selection across axis" command that duplicates
-  selected platforms reflected across it.
+  selected platforms reflected across it. Apple #19323, IDUNA commit 4dff14b. Real, named scope
+  cut: the command operates on the single currently-selected platform (this editor has no
+  multi-select yet) rather than a true multi-platform selection -- extend when multi-select
+  itself exists.
 - [ ] **S418-05 (deferred until a real level corpus exists, per the doc's own instruction)**:
   guide library — save/apply a named guide set across levels, ship small defaults derived from
   levels that actually play well. Do not build ahead of real playtested levels to draw numbers
