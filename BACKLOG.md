@@ -39179,6 +39179,26 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
 
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 456: BRAWLPIT — PPO ENTROPY COEFFICIENT (POLICY COLLAPSE FIX) (2026-09-13)
+
+- [x] **S456**: founder real-time, diagnosing why gen1 "main" self-destructed then went
+  permanently inert -- root cause confirmed directly: stable_baselines3's PPO defaults
+  `ent_coef=0.0`, so nothing in the loss was fighting the policy's Gaussian action distribution's
+  `log_std` (a free, state-independent parameter, not conditioned on the observation) drifting
+  toward zero variance. Once `log_std` goes very negative, sampled actions collapse toward the
+  deadzone (no buttons) AND the gradient that would pull `log_std` back up shrinks right along
+  with it (`d(std)/d(log_std) = e^log_std` -- nearly flat once very negative), so nothing ever
+  perturbs it back out. A fresh `PPO("MlpPolicy", ...)` starts at exactly `log_std=0.0`
+  (`std=1.0`, real full-range exploration) -- every generation trained so far survived on nothing
+  but luck once that std started shrinking. Fix: new `DEFAULT_ENT_COEF=0.01` (SB3's own
+  commonly-cited continuous-control value), `_fresh_model`/`_load_resumed_model_or_fresh` now
+  take `ent_coef` as a parameter, exposed as a new `--ent-coef` argparse flag (not hardcoded, so
+  it can be retuned without a code change) and wired into all 3 call sites in `main()`. Test
+  suite's own mocked-call assertion updated for the new kwarg; 34/34 pass. Apple #19471. Commit
+  BRAWLPIT 055beb8.
+
+  session: sess-20260905-0720-ec33e7c5
+
 ## SECTION 455: BRAWLPIT — GRACEFUL FALLBACK FOR OBS-SPACE-MISMATCHED RESUME (2026-09-13)
 
 - [x] **S455**: direct follow-up to S454 -- the founder kicked off a real training run resuming
