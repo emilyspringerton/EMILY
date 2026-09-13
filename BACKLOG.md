@@ -38907,3 +38907,67 @@ because teardown is expensive? are they python servers or what?"
   purely from eliminating idle-server CPU contention. 129/129 tests pass. Apple #19428.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 442: BRAWLPIT — TOKEN-BUCKET ACTIVITY REWARD + INACTIVITY PENALTY (2026-09-13)
+
+Founder real-time, after directly observing a real trained checkpoint (gen1 "main")
+self-destruct on tick 0 then go completely inert for the rest of its life: "do we introduce a
+strong negative reward that ticks down if no key is pressed for say 4 seconds?" + "it should be
+token bag based though so spamming as much as possible only gets you so much reward and pausing
+20 ish percent of the time you should still get the same reward output for button pushing so at
+a certain APM you just dont get any more reward anymore for going faster."
+
+- [x] **S442-01 (real diagnosis, not guessed)**: downloaded and directly ran the real gen1
+  "main" checkpoint against a live server -- confirmed it self-destructs immediately (0 damage,
+  a stock lost on tick 0) then sits completely still (stick in the deadzone, zero button
+  presses) for the rest of its life. Not caused by the activity reward's own shape (it was never
+  negative) -- the policy had learned total inaction was safer than the small risk that led to
+  its earlier self-destruct.
+- [x] **S442-02 (real token-bucket activity reward)**: new `ActivityTokenBucket` (refill
+  `ACTIVITY_TOKEN_REFILL_RATE=0.8` tokens/tick -- exactly the founder's own "pausing 20% of the
+  time" framing) replaces the earlier harmonic-decay design for the button-press reward.
+  Pressing at or below an 80% duty cycle never runs the bucket dry (full reward every press);
+  exceeding that sustainable rate wastes presses on an empty bucket, capping the real maximum
+  achievable reward regardless of raw APM.
+- [x] **S442-03 (real inactivity penalty, the actual fix for the observed freeze)**: past
+  `INACTIVITY_TICKS_THRESHOLD=240` consecutive ticks (4 real seconds at 60Hz) with neither real
+  stick movement nor any button press, a real, flat `REWARD_INACTIVITY_PENALTY_PER_TICK`
+  applies every tick -- a real, direct cost for total inaction, breaking the "freezing is safest"
+  equilibrium the reward could never break on its own before.
+- [x] **S442-04 (real, evidence-based answer, not assumed)**: checked BRAWLPIT's actual smash-
+  charge mechanic (`physics.h`'s own `smash_charge_timer`) -- confirmed it's entirely
+  server-side, tracking charge duration from the raw per-tick "is this button currently held"
+  bit already sent every UserCmd packet. No client-side hold/release state machine is needed;
+  a policy that learns to output a sustained press across consecutive ticks already charges a
+  smash attack correctly with the existing packet-based design.
+  11 new tests, 62/62 in `test_rl_env_packet.py` pass. Apples #19430.
+
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 443: BRAWLPIT — REAL SELF-PLAY (2026-09-13)
+
+Founder real-time, reacting directly to learning training used a completely static, undriven
+opponent: "no no no sir its supposed to fight it self and evolve via the league" -> "fix it."
+
+- [x] **S443-01**: real, named, pre-existing gap (S419-10) fixed. `BrawlpitPacketEnv` gained a
+  real `opponent_checkpoint_path` parameter -- when set, `reset()` queues BOTH a training client
+  and a frozen-opponent client into BRAWLPIT's own real `MATCHMAKING_MODE_1V1` (no server
+  change, reusing the exact mechanism `rl_evaluate.py`'s own evaluation matches already use),
+  and `step()` drives the opponent's own real action from its own frozen model each tick (the
+  same lag-one-tick pattern already used for the training side). Unset (the default) keeps the
+  exact old static-dummy behavior, full backward compatibility with every existing test.
+- [x] **S443-02**: `rl_train_packet.py` wires this in -- every generation past the first now
+  trains against a real, frozen copy of that SAME role's own immediately-prior generation
+  (classic fictitious self-play, reusing the same checkpoint the S424 evaluation step already
+  tracked); generation 0 still uses the old static-dummy path since there's no prior self yet.
+  Real, honestly named next step: this is fictitious self-play, not yet full AlphaStar-style
+  PFSP (sampling a weighted mix of the whole league, exploiters included) -- the league/Elo
+  bookkeeping already tracks what a richer opponent-sampling pool would need.
+- [x] **S443-03**: moved `encode_find_match_1v1`/`decode_match_found`/`find_match_1v1_both`/
+  `MATCHMAKING_MODE_1V1` from `rl_evaluate.py` into `rl_env_packet.py` to avoid a circular
+  import, re-exported unchanged so `rl_bot_pool.py`'s own existing import kept working with zero
+  changes (verified). 135/135 tests pass; live-verified real matchmaking seating two genuine
+  clients (a real, observed stock-loss event on the opponent side that a truly static dummy
+  could never produce). Apple #19431.
+
+  session: sess-20260905-0720-ec33e7c5
