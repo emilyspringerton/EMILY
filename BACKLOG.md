@@ -39128,3 +39128,30 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   Apple #19454.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 452: BRAWLPIT — RESUME-SKIP WARNING FOR ALL-DISABLED HISTORY (2026-09-13)
+
+- [x] **S452**: founder asked directly, after observing a real Elo spike to ~1800 (with real
+  movement) followed by losing it: "are we sure we are saving the proper guys to the league and
+  not overwriting good brains with shit new ones? i dunno." Verified against the live IDUNA
+  registry: nothing was overwritten -- `checkpoint_store.go`'s own `Push` is a pure SQL `INSERT`
+  (confirmed directly: the same generation number from two different runs exists right now as two
+  separate, permanent rows, e.g. "main gen13" as both id=190 elo=1772 and, from a later run,
+  id=328 elo=1469). The actual, verified cause: 282 checkpoints across all 3 roles (94 each,
+  including MAIN's entire ~1700-1900 Elo lineage -- almost certainly the exact spike the founder
+  observed) are marked `is_disabled` -- consistent with the NOCK "Disable All" button (S431)
+  firing with no Role filter narrowed, disabling an entire prior run's output in one click.
+  `_find_latest_registry_checkpoint` (S428) correctly excludes disabled checkpoints from
+  `--resume-from-registry`, exactly as designed -- but the print line for "nothing to resume from"
+  was worded identically whether a role had genuinely never been pushed OR had 94 real, disabled
+  checkpoints sitting right there unused, so a later training run silently restarted MAIN from a
+  brand-new random model with no loud signal anything unusual had happened. New
+  `_resume_skip_message(role_value, all_for_role)`, a pure, unit-tested function, distinguishes
+  "genuinely never pushed" from "N real checkpoints exist but ALL are disabled" (a new, loud
+  WARNING naming the best disabled checkpoint's own id/generation/Elo and pointing at NOCK to
+  re-enable it). 3 new tests; 31/31 pass. Commit fbf41c2, Apple #19456. Founder asked whether to
+  re-enable the 282 disabled checkpoints (the real ~1900 Elo lineage among them) -- not done
+  unilaterally, pending founder confirmation since disabling is user-controlled state and this
+  may have been at least partly intentional.
+
+  session: sess-20260905-0720-ec33e7c5
