@@ -38816,3 +38816,23 @@ Founder real-time, twice: "it just says running... no idea whats going on."
   if it hasn't improved after another 15-20 generations.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 438: BRAWLPIT — COLAB ENTRYPOINT FORCE-UPDATES ITSELF (2026-09-13)
+
+Founder real-time, justified frustration at being asked to manually diagnose staleness: "either
+it should be updated or not handle it im running that skrip what do you think im doing like
+sshing into colab?" -> "its just no if the updates arent in there you didnt rig up the entrypoint
+it should always be the colab skrip."
+
+- [x] **S438-01**: real, found gap -- `colab_train.py`'s own `_bootstrap_repo` used
+  `git pull --ff-only` when the repo already existed in a Colab runtime, which silently does
+  nothing useful if the local checkout ever diverged (no loud error, just stays on old code
+  indefinitely across "restart the cell" attempts). Real mistake named directly: the founder was
+  asked to manually check `git log`/`rm -rf` instead of the script just guaranteeing this
+  itself. Fixed: `git fetch origin main` + `git reset --hard origin/main` unconditionally forces
+  the real latest remote commit every single run, no exceptions; the resulting `git log
+  --oneline -1` now prints automatically as ordinary output every run, no separate command
+  needed. Live-verified: reset a real local clone 5 commits behind, ran the new logic, confirmed
+  it force-updated to the true latest commit. Apple #19420.
+
+  session: sess-20260905-0720-ec33e7c5
