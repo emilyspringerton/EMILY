@@ -38181,11 +38181,17 @@ compression" -> "the levels need to be actually playable in brawlpit" -> "PARENA
 BRAWLPIT rather than vendoring/hand-rolling a new LZ4 implementation) -> "we should upgrade to
 bazel too."
 
-- [ ] **S417-01 (blocking)**: real, local playability — today NO client-side path loads any
+- [x] **S417-01 (blocking)**: real, local playability — today NO client-side path loads any
   level file other than the 2 hardcoded stage IDs (STAGE_FD/STAGE_TIMELINE); a custom/web-authored
   level has nowhere to go in the actual game flow. Add a real way to select and play a custom
   level file locally, and verify actually playable (real spawn behavior, blast zones, platform
-  collision) end to end.
+  collision) end to end. Apple #19303, BRAWLPIT commit 269880a, IDUNA commit 55478ed. Real,
+  found-live gap fixed: blast zones were 4 fixed global constants tuned only for the 2 original
+  stages -- now derived from each level's own real width/height when present (0=absent=zero
+  regression for the 2 original files). Real local level browser added (STATE_LEVEL_BROWSER,
+  press L in the lobby). Live-verified: a real Xvfb screenshot of the compiled client shows the
+  new lobby button; a small level created via the live IDUNA DB, exported, and loaded through the
+  native loader produced the exact correctly-scaled blast zone.
 - [ ] **S417-02**: a public (non-admin), read-only IDUNA API for level list/fetch, served over
   HTTPS -- distinct from the existing `/admin/nock/api/brawlpit-levels` editing surface (stays
   admin-gated). The real "online level registry" read half.
@@ -38202,8 +38208,6 @@ bazel too."
   (FLASH/MISHRI/etc.) for other repos already on Bazel.
 
   session: sess-20260905-0720-ec33e7c5
-- [ ] **S417-01: BRAWLPIT: make custom levels actually playable locally (real client selection + gameplay)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-05: BRAWLPIT: migrate build to Bazel** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-03: LZ4-compress level wire payload via PARENA's compiled lz4.prn** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -38211,4 +38215,6 @@ bazel too."
 - [ ] **S417-02: IDUNA: public read-only HTTPS API for level list/fetch (non-admin)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
+- [x] **S417-01: BRAWLPIT: make custom levels actually playable locally (real client selection + gameplay)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
