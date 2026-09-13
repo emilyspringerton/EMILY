@@ -38207,3 +38207,5 @@ bazel too."
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-03: LZ4-compress level wire payload via PARENA's compiled lz4.prn** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S417-02: IDUNA: public read-only HTTPS API for level list/fetch (non-admin)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
