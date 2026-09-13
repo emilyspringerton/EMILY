@@ -38360,3 +38360,5 @@ BRAWLPIT-RL-NORTH).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **213412: SHANKPIT LEVEL EDITOR** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **43243223: SHANKPIT MODEL EDITOR** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
