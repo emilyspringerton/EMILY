@@ -2613,6 +2613,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok lets fill in the gaps and then get a colab workflow set up' -- fill BRAWLPIT RL pipeline gaps na…** — obs `2026-09-13T06:15:29Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: 'lets make a checkpoint registry so we can train from multiple locations and then we can add checkpo…** — obs `2026-09-13T06:33:03Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: 'can we make it so that the current AI is saved? and then just like the level editor (or the skins i…** — obs `2026-09-13T06:56:14Z`. CURATED: 2026-09-13.
+- [ ] **Founder real-time: 'ensure that the client actually uses that model (download it when the game starts or something and …** — obs `2026-09-13T07:19:37Z`. CURATED: 2026-09-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
