@@ -39025,3 +39025,23 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   Full suite (63+22+46 tests) green. Commit 76a2d48, Apple #19440.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 448: IDUNA/NOCK — HIDE DISABLED (SOFT DELETE) + DEEP-LINKABLE TABS (2026-09-13)
+
+- [x] **S448**: founder real-time: "can we get an option in the AI opponent NOCK ui for HIDE
+  DISABLED so its like disable can function as soft delete for me so i dont have to look at a
+  bazillion old models that just stand there" -> "and deep links into that interface url wise? i
+  have to click on it every time i reload." `AiOpponents.tsx` gained a "Hide Disabled" checkbox
+  (default hidden, persisted per-viewer in `localStorage`, not the backend) filtering the table
+  over the existing real, reversible `is_disabled` server state -- an empty-state escape hatch
+  ("Show Disabled") appears when everything currently listed is hidden. `App.tsx`'s top-level tab
+  switcher now reads/writes the URL hash (`#ai-opponents` etc.) instead of pure in-memory
+  `useState`, synced both ways (tab click -> hash, browser back/forward -> tab via a `hashchange`
+  listener) -- hash-based specifically because `nock_page.go`'s own doc comment already names
+  path-based routing as needing a not-yet-built server-side SPA-fallback, while a hash fragment
+  never reaches the server at all, so this needed zero backend routing changes. Rebuilt
+  `npm run build` and the Go binary (`go build -o ~/.local/bin/iduna .`), restarted
+  `iduna.service`, and verified via `strings` on the deployed binary that the new identifiers are
+  actually live in the running process, not just the source tree. Commit 06fe98d, Apple #19443.
+
+  session: sess-20260905-0720-ec33e7c5
