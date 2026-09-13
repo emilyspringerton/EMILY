@@ -38597,3 +38597,25 @@ a GPU box?"
   a GPU) matter for this pipeline's real training throughput.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 428: BRAWLPIT/IDUNA — DISABLE-FROM-LEAGUE CHECKBOX (2026-09-13)
+
+Founder real-time: "i want to reset training but not include certain models from the registry -
+can you add a checkbox to the registry backend to disable those models from the league?"
+
+- [x] **S428-01 (IDUNA backend)**: new `is_disabled` column on `brawlpit_rl_checkpoints`
+  (migration `202609131700_brawlpit_checkpoint_disabled.sql`), `CheckpointStore.SetDisabled` (a
+  real, independent, reversible per-row flag -- no global single-selection invariant like
+  `is_active_opponent`), new admin-cookie-gated `PATCH /admin/nock/api/brawlpit-checkpoints/:id/
+  disable` mirroring the existing `activate` route's own trust level exactly. 5 new Go tests,
+  full existing suite passes. Deployed live with a real pre-deploy DB+binary backup, confirmed
+  via a live production GET that the new `is_disabled` field is present on every checkpoint.
+- [x] **S428-02 (NOCK checkbox)**: `frontend/nock/src/AiOpponents.tsx` gets a real "League"
+  checkbox column per checkpoint row, wired to the new endpoint (`api.ts`'s `setDisabled`).
+  `npx tsc --noEmit` passes clean.
+- [x] **S428-03 (real enforcement, not just a UI flag)**: `rl_train_packet.py`'s
+  `--resume-from-registry` lookup and `rl_bot_pool.py`'s `fetch_pool_bots` both now skip any
+  checkpoint marked `is_disabled` -- the checkbox actually excludes a model from resumed
+  training and the bot pool, not just from display. Apple #19377.
+
+  session: sess-20260905-0720-ec33e7c5
