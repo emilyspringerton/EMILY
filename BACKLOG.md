@@ -38794,3 +38794,25 @@ generations i doubled the wait for checkin but ive been waitin for 15 mins."
   match-length realism. 125/125 tests pass. Apple #19401.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 437: BRAWLPIT — REAL HEARTBEAT PROGRESS OUTPUT (2026-09-13)
+
+Founder real-time, twice: "it just says running... no idea whats going on."
+
+- [x] **S437-01**: `model.learn()` ran with `verbose=0`, producing ZERO output for the entire
+  duration of a training chunk (thousands of real env steps, potentially very long on a slow or
+  CPU-starved machine) -- made "alive but crawling" and "actually frozen" indistinguishable from
+  the outside. New `_HeartbeatCallback` prints elapsed wall-clock time and a real, measured
+  steps/sec every 200 env steps. Live-verified against a real running `bin/brawlpit_server`:
+  `main: 200 steps this chunk, 8s elapsed, 23.7 steps/sec` appeared exactly as expected mid-chunk.
+  125/125 tests pass (purely additive, no reward/training logic change). Apple #19417.
+- [x] Also live-diagnosed (real, checked, not guessed): downloaded and directly ran the
+  founder's own real gen-6 "main" checkpoint against a real server -- confirmed it dies in ~4
+  ticks every life by mashing jump+attack+shield+special simultaneously with the stick held
+  down, at ZERO damage taken (not a server/reset bug -- a control test with an all-zero action
+  kept stocks stable at 4 the whole time). Real, honest read: this is expected, very-early-
+  training PPO behavior (~24,500 total timesteps at gen 6) that the reward already punishes
+  hard (~-30 per 4-tick death); not evidence of misaligned incentives, though worth re-checking
+  if it hasn't improved after another 15-20 generations.
+
+  session: sess-20260905-0720-ec33e7c5
