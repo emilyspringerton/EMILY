@@ -39006,5 +39006,22 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   serviced in lockstep, matching real self-play's own per-tick pattern), then confirms a second
   `find_match_1v1_both` succeeds -- verified 8/8 clean runs after both fixes; failed
   deterministically before S446 and flakily before S445. Commit 5ab926d, Apple #19436.
+- [x] **S447**: real AlphaStar-style PFSP wired into opponent selection, replacing S444's
+  placeholder. Founder posted a full, detailed PFSP/league spec directly (2026-09-13: ELO-weighted
+  matchmaking over the whole frozen roster for Main, Main Exploiter climbing backward through
+  Main's own historical checkpoints when struggling, League Exploiter sampling the whole roster) --
+  real, found-live: this EXACT design already existed as tested infra in `rl_league.py`
+  (`pfsp_weight`/`pfsp_sample`/`sample_for_main`/`sample_for_main_exploiter`/
+  `sample_for_league_exploiter`/`is_struggling_vs_main`, ported from REDGARDEN's own NORTHSTAR
+  §25.4.1) but was never wired into `rl_train_packet.py`'s own opponent selection.
+  `_pick_opponent_checkpoint` is now a thin adapter: MAIN/LEAGUE_EXPLOITER sample PFSP-weighted
+  over the WHOLE registered league (self-play emerges naturally since a role's own past
+  checkpoints are league members too); MAIN_EXPLOITER always challenges MAIN's current checkpoint
+  or climbs down through MAIN's own history when struggling. New per-generation PFSP-feedback
+  evaluation match feeds real win/loss stats back (in-memory per role, matching rl_league.py's own
+  "stats stay local to whichever process is sampling" design) so future picks reflect real
+  outcomes instead of staying stuck at PFSP's neutral 0.5 prior forever. `TestPickOpponentCheckpoint`
+  rewritten against a real `LeagueManager` (temp-dir backed, no mocks for the sampling logic).
+  Full suite (63+22+46 tests) green. Commit 76a2d48, Apple #19440.
 
   session: sess-20260905-0720-ec33e7c5
