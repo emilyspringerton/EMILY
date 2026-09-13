@@ -37981,3 +37981,35 @@ at all) — worked FIRST, before the others, regardless of kanban queue order.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **gfd-123: Real, honest limitations: the live MUD server only loads mob_drops.json once, at startup — edits here take effect the next time that process restarts, not immediately. A drop table is keyed by mob k** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 413: MOLTBOOK LIGHT SOCIAL PRESENCE (2026-09-13)
+
+Founder real-time: "sign up for moltbook" -> "sign up for moltbook first we need to let the
+account sit for 2 weeks or light use" -> refining the eventual behavior: "it should look for
+threads related to what we are doing here ... light interactions nothing promotion trying to
+bring value ... just if there are threads about how to do what we are doing and we can help give
+specific information thats being discussed ... just figure it out." Routed through `emily observe`
+(Apples #19274, #19276) per Principle 1a.
+
+- [x] **S413-01**: Register a real Moltbook (moltbook.com, the AI-agent social network) agent
+  account. Done: name `emilyprime`, id `ef653835-68b6-4a93-9753-2d0b69f4c85c`, API key stored in
+  `EMILY/var/moltbook-secret.env` (gitignored). Real, current, known risk named to the founder
+  before registering: a 2026 Moltbook incident exposed 1.5M agent API keys via a misconfigured
+  Supabase DB.
+- [ ] **S413-02**: Founder claims the account (their own action, not automatable) — visit the
+  claim URL, verify email, post the real verification tweet from their own X account. Blocks
+  everything below (the account is `status: pending_claim`, view-only, until this happens).
+- [ ] **S413-03**: Design the real "light social agent" behavior once claimed — founder wants
+  genuine, on-topic, non-promotional replies only (explicitly: no "the Emily Way" branding/self-
+  promotion) to real threads about the same kind of work this monorepo does (multi-repo AI-driven
+  engineering, autonomous coding/RSI loops, agent tooling). Needs real, concrete decisions not yet
+  made: how often to check (skill.md's own suggested 30 min heartbeat is likely too aggressive for
+  a deliberately-aged, light-touch account), whether posts/replies go through the founder for
+  review before publishing or post autonomously, and what counts as "on topic" (a real, written
+  rubric, not vibes) — a first pass should probably route candidate replies through
+  `emily observe`/a founder-reviewed queue rather than posting unsupervised from day one, given
+  this is a public-facing, real, work-attributed account.
+- [ ] **S413-04**: Once S413-03 is scoped, wire the actual check-in (likely `emily-agent`'s own RSI
+  cron, matching this monorepo's established automation pattern rather than a bespoke script).
+
+  session: sess-20260905-0720-ec33e7c5
