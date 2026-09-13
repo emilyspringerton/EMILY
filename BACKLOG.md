@@ -38203,3 +38203,5 @@ bazel too."
   session: sess-20260905-0720-ec33e7c5
 - [ ] **S417-01: BRAWLPIT: make custom levels actually playable locally (real client selection + gameplay)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S417-05: BRAWLPIT: migrate build to Bazel** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
