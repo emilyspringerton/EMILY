@@ -39155,3 +39155,30 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   may have been at least partly intentional.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 453: IDUNA/BRAWLPIT — UNIFIED-LOG EVENT TRAIL FOR AI CHANGES (2026-09-13)
+
+- [x] **S453**: founder direction, direct follow-up to diagnosing a real, observed ~1900 Elo
+  lineage going dark (S452) with no record of what happened, plus the founder's own confirmation
+  afterward: "i must have enabled an old one where we had some movement before it all went to
+  hell" -- "lets start a log streaming trail and iduna unified logging for when the brawlpit AI is
+  changed on the server." Every real "the live AI population changed" point in
+  `internal/http/handlers/brawlpit_checkpoints.go` now emits into IDUNA's existing unified event
+  log (same `emitAuthEvent` helper/pattern `auth.go`/`admin.go` already use): upload (new
+  checkpoint pushed) -> `iduna:brawlpit.checkpoint.upload`, activate (which checkpoint is the live
+  opponent) -> `iduna:brawlpit.checkpoint.activate`, disable/enable (which are eligible at all) ->
+  `iduna:brawlpit.checkpoint.disable`/`.enable` (two distinct event types, matching `admin.go`'s
+  own suspend/unsuspend convention rather than one generic event with a bool field). Each event
+  records id/role/generation/elo (upload also records source_location/has_weights), queryable via
+  the existing `GET /services/search/jobs?search=type=iduna:brawlpit.checkpoint.*` or the
+  `/portal/logs` UI -- no new search infrastructure needed. Real, found-live wiring gap fixed
+  along the way: the upload handler was only reachable as an already-middleware-wrapped
+  `http.Handler` with no way to reach the inner struct's own new `EventLog` field -- split into
+  `brawlpitCheckpointsHInner` (the real struct) wrapped by `brawlpitCheckpointsH` (the auth
+  chain), matching the activate/disable handlers' own existing `Inner`-suffix convention. 2 new
+  tests using the same real `userlog.NewFileEventLog(t.TempDir())` + `ReadFrom` pattern
+  `admin_test.go` already established. Full `go test ./...` passes. Built and deployed:
+  `go build -o ~/.local/bin/iduna .`, `iduna.service` restarted, `/health` confirmed. Commit
+  a18f3e0, Apple #19459.
+
+  session: sess-20260905-0720-ec33e7c5
