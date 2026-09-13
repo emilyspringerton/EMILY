@@ -38192,9 +38192,11 @@ bazel too."
   press L in the lobby). Live-verified: a real Xvfb screenshot of the compiled client shows the
   new lobby button; a small level created via the live IDUNA DB, exported, and loaded through the
   native loader produced the exact correctly-scaled blast zone.
-- [ ] **S417-02**: a public (non-admin), read-only IDUNA API for level list/fetch, served over
+- [x] **S417-02**: a public (non-admin), read-only IDUNA API for level list/fetch, served over
   HTTPS -- distinct from the existing `/admin/nock/api/brawlpit-levels` editing surface (stays
-  admin-gated). The real "online level registry" read half.
+  admin-gated). The real "online level registry" read half. Apple #19306, IDUNA commit dfdde0b.
+  Live-verified over the real public domain (https://okemily.com/api/v1/brawlpit-levels): listed
+  and exported the founder's own real levels, confirmed writes correctly refused (405).
 - [ ] **S417-03**: LZ4-compress the level payload over the wire, reusing PARENA's own real
   `stdlib/compress/lz4.prn` (compiled to C and linked into both IDUNA's Go server -- via a real
   FFI/subprocess bridge, needs its own real design -- and BRAWLPIT's native client) rather than
@@ -38212,9 +38214,9 @@ bazel too."
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-03: LZ4-compress level wire payload via PARENA's compiled lz4.prn** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S417-02: IDUNA: public read-only HTTPS API for level list/fetch (non-admin)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
 - [ ] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [x] **S417-01: BRAWLPIT: make custom levels actually playable locally (real client selection + gameplay)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
+- [x] **S417-02: IDUNA: public read-only HTTPS API for level list/fetch (non-admin)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
