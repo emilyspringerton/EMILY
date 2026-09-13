@@ -39179,6 +39179,34 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
 
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 457: BRAWLPIT — MISSING S430 RELATIONAL-FEATURE BLOCK IN LIVE C INFERENCE (2026-09-13)
+
+- [x] **S457**: founder real-time, direct follow-up to S456 -- "that didnt fix it... elos are
+  going up and down but when i play them they just stand there." REAL, DEEPER root cause found
+  live: `ai_opponent_build_observation()` (packages/common/ai_opponent.h) stopped writing at 21
+  of the real 31 S430 observation dims (the posture one-hot block) -- `obs[21..30]` were
+  uninitialized stack garbage fed straight into the live policy net every single frame, even
+  though the 10 relational-feature helpers it needed
+  (`ai_opponent_time_to_any_blast_normalized`, `ai_opponent_facing_toward`, `ai_opponent_clampf`,
+  etc.) already existed in this exact same file, fully implemented and correct -- they were just
+  never actually called from `build_observation`. This is why training (Colab, pure Python --
+  `rl_env_packet.py`'s own `build_observation` always filled all 31 dims correctly) stayed
+  healthy and Elo genuinely climbed (1404->1484 across gens 5-9 in the live run diagnosed here),
+  while the live C game client's own real-time inference was silently broken the entire time --
+  the S456 entropy-coefficient fix was real and correctly applied (verified: `ent_coef=0.01`,
+  healthy non-collapsed `log_std`, non-zero actions on every live checkpoint inspected), it just
+  wasn't the actual bug the founder was hitting. Fix: added the missing 10-term block, reusing
+  the existing helpers, same order as `rl_env_packet.py`'s own `hand_tailored` list. Verified not
+  just "doesn't crash" but bit-for-bit: built a standalone C harness calling the real
+  `ai_opponent_build_observation` against a synthetic own/opp state, diffed all 31 output floats
+  against `rl_env_packet.py`'s own real `build_observation()` for the identical state -- exact
+  match to 6 decimal places on every dimension. New `tests/test_ai_opponent.c` locks this down
+  with real asserted values (not just non-crash), wired into `scripts/build.sh`; full build + all
+  5 C test suites (`test_physics`, `test_net_protocol`, `test_commander`, `test_mlp_policy`,
+  `test_ai_opponent`) pass. Apple #19473. Commit BRAWLPIT c77f1c1.
+
+  session: sess-20260905-0720-ec33e7c5
+
 ## SECTION 456: BRAWLPIT — PPO ENTROPY COEFFICIENT (POLICY COLLAPSE FIX) (2026-09-13)
 
 - [x] **S456**: founder real-time, diagnosing why gen1 "main" self-destructed then went
