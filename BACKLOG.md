@@ -38064,3 +38064,74 @@ then exit) would close that last gap entirely; scoped as a real, separate follow
 into this same pass under emergency pressure.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 415: BRAWLPIT ONLINE LEVEL EDITOR — WEB-FIRST, PARLAYED FROM NOCK (2026-09-13)
+
+Founder real-time: "get the brawlpit level editor online - web technologies - we already started
+building nock - can we finish building out some of that interface so we can kind of parlay it
+into an online brawlpit level editor?" Routed through `emily observe` (Apple #19283) per
+Principle 1a. Builds on the already-scoped `BRAWLPIT/docs/BP_LEVEL_EDITOR_NORTHSTAR.md`
+(`BP-LEVEL-EDITOR-NORTH`, kanban cluster BPLE-12441/13331) but pivots Phase 2 from a native SDL2
+in-client editor to a web editor built on NOCK's own React/TS/Tailwind/Go/SQLite stack in IDUNA —
+matching that doc's own Phase 3 "web map registry" idea, merging editing into it, and matching
+the founder's own explicit "web technologies" framing.
+
+Real, blocking prerequisite (confirmed by direct code reading, `BP_LEVEL_EDITOR_NORTHSTAR.md`'s
+own Phase 0 finding): BRAWLPIT levels are compiled C code today, not data.
+`packages/common/physics.h`'s own `stage_fd_geo`/`stage_timeline_geo` static `Platform2D{x,y,w,h,
+type}` arrays are the REAL collision geometry (selected via `stage_set_active`); `levels/*.c`'s
+`StageDef` (Battlefield/Final Destination/Weird Void) is a separate, mostly-cosmetic system with
+its own `on_frame`/`on_collision` hooks. No file format, no runtime loader exists anywhere.
+
+- [ ] **S415-01 (BPLE-12441/blocking Phase 0)**: real, versioned JSON level format (`Platform2D`-
+  shaped: array of `{x,y,w,h,type}` + a name) + a real BRAWLPIT runtime loader that populates
+  `stage_geo`/`stage_count` from a loaded file instead of switching between hardcoded compiled
+  arrays. Definition of done: `stage_fd_geo`/`stage_timeline_geo` re-expressed as real level
+  files, loading correctly through the new path with zero regression to existing physics tests.
+- [ ] **S415-02 (BPLE-12441 #287/#288/#289)**: real NOCK-adjacent web editor slice in IDUNA —
+  canvas size picker, place/resize/delete solid vs. passthrough platforms, reusing NOCK's own
+  React/TS/Tailwind conventions and Go/SQLite backend pattern (new `brawlpit_levels` table,
+  mirroring `nock_textures`' own CRUD shape). Gated admin-only for now (matching NOCK's own
+  `/admin/nock` precedent) rather than blocking on BPLE-12441 #286's full IDUNA-login-
+  architecture decision (deferred to cruise, see below).
+- [ ] **S415-03 (BPLE-12441 #285/#290)**: save/list/browse levels — the real registry primitives
+  ("user contributed maps... default at top"), CRUD + a browsable list in the same web UI.
+- [ ] **S415-04**: real end-to-end proof — a level authored in the S415-02 web UI, exported in
+  S415-01's real format, actually loads and plays correctly through BRAWLPIT's native client.
+
+Explicitly deferred (kanban-moved to cruise, not silently dropped): BPLE-12441 #286 (full IDUNA
+login for BRAWLPIT players, not just admin-gated), BPLE-13331 #292/#293 (Roblox-style "select
+map, hit play, launches native client" web→native handoff), BPLE-13331 #294 (embedded in-client
+browser), EOSUI-1244/EOSUI-12444 (broader HTML/CSS-as-game-UI-design-language research,
+unrelated enough to this specific push to not block it).
+
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 416: NOCK FOLLOW-UP WORK BROKEN INTO REAL, TRACKABLE CARDS (2026-09-13)
+
+Founder real-time: "also break up the existing NOCK work into cards." NOCK's own real, already-
+completed v0 (SECTION 386-388) is done and Apple'd; its own `NOCK_NORTHSTAR.md` already named
+real, deferred future phases in prose but none had kanban visibility until now.
+
+- [ ] **S416-01**: live-deploy and browser-verify `/admin/nock` against the real, currently-
+  running production IDUNA instance — named as a real, honest gap in SECTION 386 itself (v0
+  shipped same-day but was never actually verified against a live process; the port is
+  hardcoded and that pass deliberately didn't restart production IDUNA to test against).
+- [ ] **S416-02**: layer position/scale/rotate — the biggest real gap between NOCK v0 and an
+  actual Photoshop-shaped tool (every layer is forced full-canvas today).
+- [ ] **S416-03**: NOCK project-switcher — a real per-game namespace (today: one flat `DataDir`,
+  flat list of named projects), sequenced whenever a second real game project (GFD) needs its
+  own NOCK space.
+- [ ] **S416-04**: non-destructive adjustments — a real adjustment-layer concept instead of
+  baking hue/saturation/sharpen destructively into the stored file.
+- [ ] **S416-05**: PARENA backend migration — replace `imagemagick.go` (the one real seam every
+  other file already calls through) once PARENA has real image/raster stdlib support (checked:
+  none exists yet).
+- [ ] **S416-06**: a low-poly 3D modeler — a genuinely separate tool (geometry, not raster
+  images), possibly living under the same `/admin/nock`-branded umbrella later.
+- [ ] **S416-07**: PARENA Editor (PE) macro recording — no macro/scripting layer exists anywhere
+  in `internal/nock` yet.
+
+  session: sess-20260905-0720-ec33e7c5
+- [ ] **S415-01: Real BRAWLPIT level data format + native runtime loader (blocking Phase 0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
