@@ -2602,6 +2602,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: guest login must not allow claiming a name that collides (case-insensitively) with an existing SSH-b…** — obs `2026-09-12T22:22:20Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: full weapon-skill leveling design -- per-weapon-type skill levels (like fishing/mining skill-gain-on…** — obs `2026-09-12T22:36:06Z`. CURATED: 2026-09-12.
 - [ ] **Founder real-time: 'ok we lost data somehow - did you roll the server back?' -- investigating now.** — obs `2026-09-12T23:44:15Z`. CURATED: 2026-09-12.
+- [ ] **Founder real-time: real player-progress data loss confirmed -- XP/level only saved on clean disconnect (never on abrupt…** — obs `2026-09-12T23:47:30Z`. CURATED: 2026-09-13.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
