@@ -38015,3 +38015,52 @@ specific information thats being discussed ... just figure it out." Routed throu
   cron, matching this monorepo's established automation pattern rather than a bespoke script).
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 414: CRITICAL DATA-LOSS EMERGENCY (2026-09-12)
+
+Founder real-time, live, during S412-09 mob-drop-rate testing: "ok we lost data somehow - did you
+roll the server back?" -> "i was lvl 11 warrior before losing connection" (resolved to level 8 on
+reconnect) -> "yea this is unacceptable we can never lose player progress like that" -> "and
+items" -> "gear needs to persist what the fuck why was that deferred" -> "can we make sure fishing
+skill persists too?" -> "fix it". Routed through `emily observe` (Apples #19266, #19268) per
+Principle 1a. Apple #19280 is the consolidated completion record.
+
+Root causes, all confirmed by direct code reading, not assumed:
+- Level/XP/Flow only ever persisted in `handleConn`'s disconnect-time `defer` (S98-02) -- this
+  process has zero SIGTERM/graceful-shutdown handling anywhere (the only real signal handler in
+  the whole binary is `hot_reload.go`'s own SIGHUP watcher), so every `systemctl restart` this
+  session's own deploys had been doing all along killed the process immediately and skipped every
+  in-flight connection's disconnect defer, silently losing any progress since the last save.
+- Mining/fishing skill had NO persistence path at all, not even a disconnect-time save --
+  `IncrementSkill`/`character_skills` already existed in IDUNA but were never called from
+  apps2/mud.
+- Equipment had NO write path at all, ever -- `GET /api/v1/characters/:id/equipment` was the only
+  real equipment endpoint that ever existed in this codebase; a real, found-live gap from earlier
+  the same day's S412-03 (starting-sword) work, deferred at the time and should not have been.
+
+- [x] **S414-01**: Persist level/XP/Flow continuously (1Hz tick sync for every player, not just
+  headless) instead of only on clean disconnect. GFD commits 7def660/b634173. Live-verified: real
+  worm-kill level-up (1->3, 452 XP) written to IDUNA's DB within the same second, while still
+  connected.
+- [x] **S414-02**: Persist mining/fishing skill (had zero persistence before, at any point).
+  IDUNA already had `character_skills`/`IncrementSkill`; added the missing `GetSkills` read
+  wrapper (idunaclient commit cabd95c) and wired load-on-connect + periodic sync (GFD commit
+  059529e).
+- [x] **S414-03**: Add the missing equipment write path end-to-end -- new `PATCH
+  /api/v1/characters/:id/equipment` (IDUNA commit 5e250c1), `GetEquipment`/`UpdateEquipmentSlot`
+  client methods (idunaclient commit 5800566), wired into `cmdEquip`/`cmdUnequip`/
+  `grantStartingGear` + load-on-connect for every real connect path (GFD commit 108fabb). Real
+  correction to an earlier, overcautious assumption from the same day's S412-03 work:
+  `character_equipment` has no foreign key on `item_id`, so a real item-instance UUID was never
+  actually required -- a bare itemdef.Registry key was always safe to store.
+- [x] **S414-04**: Live-verify all three fixes end-to-end on production via a real, throwaway
+  SSH-bound test character (not a guest, which is ephemeral by design) -- confirmed level+XP+gear
+  all survive independently of any disconnect. Apple #19280.
+
+Real, honest, not addressed here: the deeper root enabler (no graceful SIGTERM shutdown at all)
+is still unfixed -- the periodic-sync fix makes it low-stakes (≤1s of exposure) rather than
+eliminating it. A real graceful-shutdown handler (drain connections, force one final sync pass,
+then exit) would close that last gap entirely; scoped as a real, separate follow-up, not rushed
+into this same pass under emergency pressure.
+
+  session: sess-20260905-0720-ec33e7c5
