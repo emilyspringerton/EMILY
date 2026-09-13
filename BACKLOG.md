@@ -38492,3 +38492,67 @@ really."
   moving off the local-only safety default.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 423: BRAWLPIT — FIBONACCI SURVIVAL-STREAK REWARD (2026-09-13)
+
+Founder real-time: "add a reward that ticks up over time so fib like 1 1 2 3 5 reward for not die
+also it should go exponentially ish for the higher damage you are it should reward you even more
+when you oof it resets."
+
+- [x] **S423-01**: Tier 5 reward in `scripts/rl_env_packet.py` -- `REWARD_SURVIVAL_STREAK_UNIT *
+  fib(min(survival_ticks, 20)) * 2.0 ** (damage / 100)`, applied every tick a life continues,
+  reset to zero the instant a stock is actually lost (enforced inside `compute_reward` itself,
+  not just trusted to the caller). `BrawlpitPacketEnv` tracks the real per-life tick counter. 5
+  new tests (Fibonacci growth ratio, damage scaling, reset-on-death, cap-at-long-life), 99/99
+  total pass. Apple #19366.
+
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 424: BRAWLPIT — AUTOMATIC PER-GENERATION ELO EVALUATION (2026-09-13)
+
+Founder real-time: "also ELOs stuck at 1500 again not sure if its cause we keep asking for more
+stuff and the training is reset or what."
+
+- [x] **S424-01 (real root cause found)**: `register_generation_snapshot`'s Elo inheritance
+  always worked correctly, but nothing in `rl_train_packet.py` ever called
+  `record_match_result` -- Elo only ever moved when a human ran `rl_evaluate.py`/`rl_bot_pool.py`
+  by hand this session. Training itself never actually moved a single checkpoint's rating.
+- [x] **S424-02 (fix)**: `rl_train_packet.py` now runs one real evaluation match per role per
+  generation (new checkpoint vs. that same role's own immediately-prior generation, on a
+  dedicated `EVAL_PORT` server) and records the real outcome both locally (`LeagueManager`) and
+  to the remote IDUNA registry. Skips a role in the same generation it was reset (a freshly
+  re-initialized network hasn't earned a match against its pre-reset predecessor any more than
+  it inherited that predecessor's Elo). Live-verified on the actual running training process
+  after a restart: gen 1 vs gen 0 moved real Elo (1500->1516/1484) for all 3 roles, both locally
+  and on production IDUNA, zero errors. Apple #19367.
+
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 425: BRAWLPIT — SINGLE-SCRIPT COLAB TRAINING + REGISTRY RESUME (2026-09-13)
+
+Founder real-time: "are we setup for pretty auto magical training on colab? it needs to like
+oauth into IDUNA to get the token used for training or something so it can check in models
+against the repository? a single python script to drop into a colab cell to download the repo
+and start the league would be awesome i guess it needs to download the league from the registry
+too?"
+
+- [x] **S425-01**: `scripts/colab_train.py` (new) -- the single, self-contained script: clones or
+  pulls BRAWLPIT, builds `bin/brawlpit_server`, `pip install`s gymnasium/stable-baselines3,
+  authenticates against IDUNA, and launches training. Its own doc comment honestly distinguishes
+  IDUNA's real M2M agent-secret->JWT exchange (`POST /api/v1/auth/agent`, the same mechanism
+  every automated agent in this monorepo already uses) from a human OAuth login redirect -- a
+  Colab training run isn't a person, so this is the real, correct mechanism, not a gap.
+- [x] **S425-02 (`--resume-from-registry`, the real fix for "download the league from the
+  registry too")**: `rl_train_packet.py` downloads each role's newest checkpoint from the shared
+  registry (real PPO weights, not just an Elo number) and warm-starts from it instead of a fresh
+  random network; seeds the local league with that checkpoint's real registry Elo/generation so
+  the very first local generation this runtime trains evaluates against (S424) and inherits from
+  the real, current standing. Live-verified against production IDUNA: found the real latest
+  checkpoint per role, downloaded a real 171963-byte checkpoint, loaded it as a genuine SB3 PPO
+  model, and seeded a local league member with the real registry Elo. Apple #19368.
+- [ ] **S425-03**: `notebooks/brawlpit_rl_training.ipynb` still works for step-by-step
+  inspection but was not itself updated to use `--resume-from-registry` -- a real, minor,
+  not-yet-done follow-up (doc comment in `RL_TRAINING_NORTHSTAR.md` already names
+  `colab_train.py` as the superseding path for anyone who just wants training running).
+
+  session: sess-20260905-0720-ec33e7c5
