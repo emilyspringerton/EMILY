@@ -38139,3 +38139,5 @@ real, deferred future phases in prose but none had kanban visibility until now.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S415-02: NOCK-adjacent web level editor slice (canvas size, place/resize/delete platforms)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+- [ ] **S415-04: End-to-end proof: web-authored level loads+plays in native BRAWLPIT client** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
