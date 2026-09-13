@@ -39179,6 +39179,32 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
 
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 458: IDUNA — BLOG POST PERMISSIONS SILENTLY BROKEN BY AMBIENT UMASK (2026-09-13)
+
+- [x] **S458**: founder asked for a real, in-depth blog post on BRAWLPIT's RL training pipeline
+  (league dynamics, PFSP, registry infra, native C inference) published to the okemily.com blog,
+  crediting a real Hyperbot video for its event-driven real-time reward-discounting technique and
+  the exploiter-role architecture. Published via `emily blog post` -- REAL, FOUND, FIXED BUG hit
+  immediately after: the live URL 403'd for real visitors. Root cause, checked directly via
+  `/proc/<pid>/status`: the live `iduna` process's own actual umask is 0027 (it runs as a
+  `~/.config/systemd/user/iduna.service` unit with no `UMask=` directive set, not inherited from
+  systemd's own 0022 default the way `systemctl show` misleadingly reported for the unit's static
+  config), silently turning every `internal/blog/render.go` `os.MkdirAll(0o755)`/`os.Create()`
+  call into on-disk 0750/0640 -- world-unreadable to nginx -- while every OLDER post on disk
+  stayed 0755/0664 from whenever it was rendered under a different ambient umask at some earlier
+  point. Fix: `RenderPost`/`RenderIndex`/`RenderManifest` now explicitly `os.Chmod` the directory
+  and file to 0755/0644 after creation, deterministic regardless of whatever umask the process
+  happens to inherit. Verified live end to end: manually chmod'd the real post to unblock it
+  immediately, rebuilt + restarted `iduna` via `systemctl --user restart iduna` (clean health
+  check), published a real throwaway verification post that landed correctly permissioned with
+  zero manual chmod, then fully cleaned it up (DB row deleted directly, rendered directory
+  removed, index + manifest re-rendered via the real `internal/blog` package so the stale entry
+  actually disappeared from `/blog/` and `/blog-manifest.txt`, confirmed 404 on the post itself).
+  The actual requested post is live at https://okemily.com/blog/brawlpit-alphastar-league/.
+  Apple #19480. Commit IDUNA 887734b (+ 15992d8 changelog correction).
+
+  session: sess-20260905-0720-ec33e7c5
+
 ## SECTION 457: BRAWLPIT — MISSING S430 RELATIONAL-FEATURE BLOCK IN LIVE C INFERENCE (2026-09-13)
 
 - [x] **S457**: founder real-time, direct follow-up to S456 -- "that didnt fix it... elos are
