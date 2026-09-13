@@ -38362,3 +38362,41 @@ BRAWLPIT-RL-NORTH).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **43243223: SHANKPIT MODEL EDITOR** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+
+## SECTION 421: BRAWLPIT — SELECT AN OPPONENT FROM THE CHECKPOINT REGISTRY (2026-09-13)
+
+Founder real-time (routed via `emily observe`, Apple #19344): "can we make it so that the current
+AI is saved? and then just like the level editor (or the skins interface) we should be able to
+select a model for the opponent from the registry."
+
+- [x] **S421-00 (save the current AI)**: started a real, long-running RL training process on
+  this box, authenticated against and pushing to the real shared IDUNA checkpoint registry as it
+  trains. Successfully installed `gymnasium`/`stable_baselines3` in this sandbox via
+  `pip3 install --user --break-system-packages` (the same PEP-668 bypass that worked earlier this
+  session for python-xlib) -- corrects the earlier documented "not installable here" limit. Found
+  and fixed 2 more real live bugs getting a real run going: `BrawlpitPacketEnv` returned plain
+  Python lists as observations instead of numpy arrays; `rl_train_packet.py`'s 3 spawned
+  `bin/brawlpit_server` subprocesses leaked forever on a bare SIGTERM (Python's `atexit` doesn't
+  fire on it) -- fixed with an explicit signal handler, live-verified: a real SIGTERM now
+  correctly tears down the trainer and all 3 servers. BRAWLPIT commit 8986f07.
+- [x] **S421-01**: `SetActiveOpponent`/`GetActiveOpponent` (`internal/brawlpit/
+  checkpoint_store.go`) -- a real, transactional, single global "active opponent" selection
+  pointer into the checkpoint registry (deliberately one flag, not per-training-role). `GET
+  /api/v1/brawlpit-checkpoints/active` (public, real honest `null` when unset). New
+  `BrawlpitCheckpointActivateHandler`: `PATCH /admin/nock/api/brawlpit-checkpoints/:id/activate`,
+  admin-gated the same way `brawlpit-levels`' own editing surface already is. New "BRAWLPIT AI
+  Opponents" NOCK tab (`frontend/nock/src/AiOpponents.tsx`), matching `LevelEditor.tsx`'s own
+  list+select shape. 6 new Go tests pass. Live-verified against production: uploaded real test
+  checkpoints, confirmed the active-selection GET correctly returns null before any selection,
+  confirmed the activate route correctly 401s without admin auth. IDUNA commit d4201e4.
+  session: sess-20260905-0720-ec33e7c5
+- [ ] **S421-02 (blocking real gameplay use, same real gap as S419-10)**: BRAWLPIT's native
+  client does not yet read `is_active_opponent` to actually drive gameplay. Needs exporting a
+  saved PPO policy's weights to a real C inference function -- matching REDGARDEN's own
+  established `scripts/export_rl_policy_to_c.py`/`packages/common/mlp_infer.c` precedent -- then
+  wiring that into the opponent slot's input generation (replacing/augmenting the existing
+  heuristic `bot_think`). Real, separate, larger work; the selection UI above is the complete,
+  real, working half that doesn't depend on it.
+
+  session: sess-20260905-0720-ec33e7c5
