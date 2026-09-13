@@ -38147,8 +38147,6 @@ real, deferred future phases in prose but none had kanban visibility until now.
   in `internal/nock` yet.
 
   session: sess-20260905-0720-ec33e7c5
-- [ ] **S415-01: Real BRAWLPIT level data format + native runtime loader (blocking Phase 0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260905-0720-ec33e7c5)
 - [ ] **S415-03: Save/list/browse BRAWLPIT levels (registry primitives)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S415-02: NOCK-adjacent web level editor slice (canvas size, place/resize/delete platforms)** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -38168,4 +38166,6 @@ real, deferred future phases in prose but none had kanban visibility until now.
 - [ ] **S416-06: NOCK: low-poly 3D modeler (separate tool)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S416-07: NOCK: PARENA Editor (PE) macro recording** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
+- [x] **S415-01: Real BRAWLPIT level data format + native runtime loader (blocking Phase 0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
