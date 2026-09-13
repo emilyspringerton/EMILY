@@ -38576,3 +38576,24 @@ pushing buttons'?"
   real gen-4 registry checkpoints. Apple #19371.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 427: BRAWLPIT — GPU-VS-CPU QUESTION ANSWERED, REAL `--device` FLAG (2026-09-13)
+
+Founder real-time: "are we using the GPU on colab? do we get increased training if we switch to
+a GPU box?"
+
+- [x] **S427-01**: real, measured answer -- no, and switching to a GPU box alone would not help.
+  The policy network is a tiny 64-unit MLP; this box's own real generation timings (~6-8
+  wall-clock minutes for 3 models x 2048 timesteps each) show the actual bottleneck is one real
+  UDP round trip per environment step (I/O latency), not matrix-multiply compute a GPU
+  accelerates -- matches `stable_baselines3`'s own documented guidance to prefer CPU for
+  `MlpPolicy`. Added a real, explicit `--device` flag (default `"cpu"`), fixing a found
+  inconsistency where `--resume-from-registry` hardcoded `device="cpu"` while a fresh model
+  silently deferred to SB3's own `"auto"`. Named the real lever that WOULD make more compute
+  matter: vectorized/parallel environment instances per role (S427-02, not built). 103/103 tests
+  pass; no behavioral change on this box (no GPU present here either way). Apple #19373.
+- [ ] **S427-02 (real, named, not-yet-built)**: vectorized/parallel environment instances per
+  role -- the actual architecture change that would make additional compute (CPU core count OR
+  a GPU) matter for this pipeline's real training throughput.
+
+  session: sess-20260905-0720-ec33e7c5
