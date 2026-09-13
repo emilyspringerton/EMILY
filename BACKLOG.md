@@ -38169,3 +38169,37 @@ real, deferred future phases in prose but none had kanban visibility until now.
   (sess-20260905-0720-ec33e7c5)
 - [x] **S415-04: End-to-end proof: web-authored level loads+plays in native BRAWLPIT client** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
+
+## SECTION 417: BRAWLPIT LEVEL EDITOR — PLAYABLE + ONLINE BROWSER (2026-09-13)
+
+Founder real-time, continuing SECTION 415 (routed via `emily observe`, Apple #19301):
+"ok dope there are some bugs but we got a level created lets move forward - brawlpit needs a
+level selection/browser interface it needs to work over https or some secure channel lz4
+compression" -> "the levels need to be actually playable in brawlpit" -> "PARENA has lz4" ->
+"you can build parena in" (reuse PARENA's own real `stdlib/compress/lz4.prn`, compiled to C, into
+BRAWLPIT rather than vendoring/hand-rolling a new LZ4 implementation) -> "we should upgrade to
+bazel too."
+
+- [ ] **S417-01 (blocking)**: real, local playability — today NO client-side path loads any
+  level file other than the 2 hardcoded stage IDs (STAGE_FD/STAGE_TIMELINE); a custom/web-authored
+  level has nowhere to go in the actual game flow. Add a real way to select and play a custom
+  level file locally, and verify actually playable (real spawn behavior, blast zones, platform
+  collision) end to end.
+- [ ] **S417-02**: a public (non-admin), read-only IDUNA API for level list/fetch, served over
+  HTTPS -- distinct from the existing `/admin/nock/api/brawlpit-levels` editing surface (stays
+  admin-gated). The real "online level registry" read half.
+- [ ] **S417-03**: LZ4-compress the level payload over the wire, reusing PARENA's own real
+  `stdlib/compress/lz4.prn` (compiled to C and linked into both IDUNA's Go server -- via a real
+  FFI/subprocess bridge, needs its own real design -- and BRAWLPIT's native client) rather than
+  vendoring a separate C LZ4 implementation, matching the monorepo-wide standing LZ4-by-default
+  convention and the founder's own explicit reuse instruction.
+- [ ] **S417-04**: a real native level-browser UI screen in BRAWLPIT's lobby client (fetch the
+  list from S417-02, pick one, download+decompress+load it, matching S417-01's own real local
+  load path).
+- [ ] **S417-05 (separate, lower priority)**: migrate BRAWLPIT's build (currently a plain
+  `gcc`/bash `scripts/build.sh`) to Bazel, matching this monorepo's own established precedent
+  (FLASH/MISHRI/etc.) for other repos already on Bazel.
+
+  session: sess-20260905-0720-ec33e7c5
+- [ ] **S417-01: BRAWLPIT: make custom levels actually playable locally (real client selection + gameplay)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260905-0720-ec33e7c5)
