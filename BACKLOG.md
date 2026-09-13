@@ -38316,14 +38316,42 @@ BRAWLPIT-RL-NORTH).
   observation/reward tests pass. Real, honest, live-found blocker named directly: no
   `PACKET_RESET_MATCH` exists server-side, so a connecting training client gets thrown into an
   already-in-progress demo fight -- the real next blocker before an actual multi-episode PPO run.
-- [ ] **S419-07 (blocked on S419-06's own found gap)**: add a real `PACKET_RESET_MATCH` to
-  `bin/brawlpit_server` (re-run `local_init_match`/respawn both fighters on request) so an RL
-  episode boundary is real, not just observational.
-- [ ] **S419-08 (blocked on S419-07)**: `scripts/rl_train_packet.py` -- the actual multi-model
-  (Main/Main Exploiter/League Exploiter) PPO training orchestrator driving `rl_env_packet.py`,
-  calling `register_generation_snapshot` every save cycle. Also blocked on `gymnasium`/
-  `stable_baselines3` not being installable in this sandbox (same documented REDGARDEN
-  limitation) -- needs a normal, non-externally-managed Python environment.
-- [ ] **S419-09**: an actual multi-hour/multi-generation training run, once S419-07/08 land.
+- [x] **S419-07**: real `PACKET_RESET_MATCH`/`PACKET_RESET_ACK` -- an already-connected client
+  requests a fresh episode; the server re-runs `local_init_match` while preserving that client's
+  own network binding, then acks. Found+fixed TWO more real live bugs verifying this end to end:
+  `local_init_match(1,...)` only initializes slot 0 (fixed by reusing `mm_init_slot`, the same
+  real per-slot init `PACKET_CONNECT`/matchmaking already share); `PacketClient.recv_snapshot`/
+  `.reset_match` gave up on the first stray backlog packet instead of waiting for the specific
+  type needed (a real failure mode under `--fast-forward`'s own higher packet rate). Live-verified
+  against a clean server process: both fighters return with real, fresh stocks/damage after a
+  reset. BRAWLPIT commit 24be529.
+- [x] **S419-08**: `scripts/rl_train_packet.py` -- the real orchestrator running all 3 league
+  archetypes in ONE process (each with its own dedicated server subprocess, see S419-11),
+  registering all 3 as one snapshot per generation via `register_generation_snapshot`, wiring
+  Main Exploiter's own reset cadence into `reset_roles`. Written to `stable_baselines3`'s real
+  documented API but not run end-to-end in this session (`gymnasium`/`stable_baselines3` aren't
+  installable in this sandbox) -- see S419-12's own Colab workflow for where this actually runs.
+  Real, honest, named scope limit: each model trains against a static default opponent today,
+  not true self-play against the league's own checkpoint pool (S419-10, not built).
+- [x] **S419-11**: real `--port` flag on `bin/brawlpit_server` (was hardcoded 6978) so
+  `rl_train_packet.py`'s three archetypes can each run their own dedicated server. Live-verified:
+  two real server processes on different ports (7978/7979) each independently completed a real
+  handshake.
+- [x] **S419-12**: a real, documented three-tier reward design (`compute_reward`) -- outcome
+  (damage/stock/win-loss deltas) / positional shaping conditioned on the real commander posture
+  (a dense edge-danger penalty, a recovery-success bonus, an edgeguard-conversion bonus) /
+  survival (a tiny, deliberately sub-dominant per-tick nudge). Founder real-time: "design the
+  rewards system if we havent already." 8 new tests confirm the shaping fires correctly against
+  the real compiled commander `.so`.
+- [x] **S419-13**: `notebooks/brawlpit_rl_training.ipynb` -- a real Colab workflow (clone this
+  private repo via a runtime-only GitHub token, build, `pip install gymnasium stable_baselines3`,
+  run the `--smoke-test` sanity check, a real small `rl_train_packet.py` run, print league
+  standings, zip+download results) so training can actually run somewhere with real pip access.
+  Founder real-time: "ok lets fill in the gaps and then get a colab workflow set up."
+- [ ] **S419-09**: an actual multi-hour/multi-generation training run -- unblocked now, needs the
+  founder (or whoever runs the Colab notebook) to actually launch it.
+- [ ] **S419-10**: real self-play -- loading a past league checkpoint's own policy to actually
+  drive the opponent slot server-side, instead of today's static default opponent. Named, not
+  built, in `scripts/rl_train_packet.py`'s own top-of-file doc comment.
 
   session: sess-20260905-0720-ec33e7c5
