@@ -38836,3 +38836,28 @@ it should always be the colab skrip."
   it force-updated to the true latest commit. Apple #19420.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 439: BRAWLPIT — REAL ROOT CAUSE OF THE "NO OUTPUT" SAGA FOUND AND FIXED (2026-09-13)
+
+Founder pasted a real Colab transcript that finally proved the actual root cause of the whole
+day's "it just says running, no idea what's going on" thread.
+
+- [x] **S439-01**: every single `_run()` call in `colab_train.py` showed only its own
+  `print(f"$ {cmd}")` launcher line, with the actual subprocess's own real output (git clone's
+  progress, `git log`'s commit line, apt-get's package info, `build_training.sh`'s build
+  messages, pip's install confirmation) completely missing -- while plain Python `print()` calls
+  elsewhere in the same script showed up fine. Root cause: a bare `subprocess.run(cmd)` inherits
+  the parent's raw OS file descriptors directly, and this specific Colab/Jupyter kernel setup
+  does not reliably forward that to the visible cell output the way it forwards writes made
+  through Python's own `sys.stdout`. This is almost certainly the real explanation for every
+  "no output" report all day, including every one of S437's own just-added heartbeat lines --
+  `rl_train_packet.py` was launched the exact same bare way, so its real output was never going
+  to reach the cell regardless of what the training code itself printed. Real fix: new
+  `_stream()` pipes the child's stdout+stderr together and re-emits every line through a real
+  Python `print(..., flush=True)` call, used by both the setup steps and the final long-running
+  training subprocess call. Live-verified: a real streaming test confirmed output arrives
+  incrementally (not buffered until the process ends), and a real failing-command test confirmed
+  `CalledProcessError` still raises correctly. 125/125 tests pass (purely a Colab-visibility fix,
+  no training-logic change). Apple #19422.
+
+  session: sess-20260905-0720-ec33e7c5
