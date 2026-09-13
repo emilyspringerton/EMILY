@@ -39156,6 +39156,28 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
 
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 454: IDUNA/BRAWLPIT — RE-ENABLE >1600 ELO CHECKPOINTS FROM S452'S MASS DISABLE (2026-09-13)
+
+- [x] **S454**: founder direction, direct follow-up to S452's diagnosis (282 checkpoints across
+  all 3 roles disabled at once by NOCK's "Disable All", almost certainly including the real
+  ~1800-1900 Elo MAIN lineage that produced the only observed movement): "re-enable only the ones
+  that are above 1600." Queried `brawlpit_rl_checkpoints` for `is_disabled=1 AND elo>1600` (54
+  rows: main 24 spanning 1602.9-1771.7, league_exploiter 29 spanning 1612.0-1900.7,
+  main_exploiter 1 at 1793.9) and flipped them via `UPDATE ... SET is_disabled=0 WHERE
+  is_disabled=1 AND elo>1600` against the live `var/iduna.db`. Verified: 0 remain disabled above
+  1600; 273 checkpoints at or below 1600 (main 85, league_exploiter 80, main_exploiter 108) stay
+  disabled, untouched. KNOWN GAP, not fixed here: done as a direct SQLite UPDATE, not through the
+  real admin-gated `PATCH /admin/nock/api/brawlpit-checkpoints/:id/disable` endpoint S428/S452
+  built for exactly this -- no `iduna.admin`-permissioned agent credential (EDDY/HOUSE/BOOTS) was
+  discoverable anywhere on this box, and EMILY-PRIME itself does not hold `iduna.admin`. Net
+  effect: no `iduna:brawlpit.checkpoint.enable` event landed in S453's own unified log for this
+  batch -- the identical undocumented-registry-change failure mode S452/S453 exist to close, now
+  reproduced by the fix path itself. Real follow-up named, not done: provision an
+  `iduna.admin`-capable agent credential (or an `emily` CLI wrapper hitting the real endpoint) so
+  future disable/enable actions go through the audited path instead of raw SQL. Apple #19463.
+
+  session: sess-20260905-0720-ec33e7c5
+
 ## SECTION 453: IDUNA/BRAWLPIT — UNIFIED-LOG EVENT TRAIL FOR AI CHANGES (2026-09-13)
 
 - [x] **S453**: founder direction, direct follow-up to diagnosing a real, observed ~1900 Elo
