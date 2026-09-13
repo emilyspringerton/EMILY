@@ -38641,3 +38641,70 @@ the same as a loss in terms of negative reward."
   #19382.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 430: BRAWLPIT — HAND-TAILORED RELATIONAL FEATURES (2026-09-13)
+
+Founder real-time: "how can we switch to RNN with hand tailored features and a critic with
+access to privledged info like opponent health" -- three-part plan, founder chose to sequence
+features first, then RNN, then the asymmetric privileged critic.
+
+- [x] **S430-01**: 10 new hand-tailored observation terms appended after the existing 21 raw
+  scalars + posture one-hot: relative dx/dy, distance, signed closing velocity, own/opp
+  time-to-any-blast-zone (a constant-velocity danger estimate in ticks, capped at a generous ~5s
+  horizon), own/opp facing-toward-opponent, signed damage/stock differentials.
+  `packages/common/ai_opponent.h`'s own `ai_opponent_build_observation` updated in lockstep for
+  native C inference parity. REAL, DELIBERATE BREAKING CHANGE: `OBS_SIZE` 21 -> 31 --
+  `--resume-from-registry` cannot warm-start from any pre-S430 checkpoint (a real shape
+  mismatch); verified the C side degrades safely instead of crashing (`mlp_policy_forward`'s own
+  existing shape check + `ai_opponent_drive`'s existing no-op-on-mismatch, a real, pre-existing
+  safety net now actually exercised). 7 new tests; full C build+tests
+  (`./scripts/build.sh`/`build_training.sh`) pass with zero failures. Apple #19389.
+- [ ] **S430-02 (RNN swap, not built)**: `stable_baselines3.PPO` -> `sb3_contrib.RecurrentPPO`
+  with `MlpLstmPolicy`. Real, named consequence: `mlp_policy.h`'s native C inference loader has
+  zero LSTM support (stateless feedforward only) -- native in-client inference breaks until
+  that's extended separately to carry recurrent state across ticks.
+- [ ] **S430-03 (asymmetric privileged critic, not built)**: needs a custom SB3 policy class
+  (subclassing `RecurrentActorCriticPolicy`/`ActorCriticPolicy`) since SB3 has no native support
+  for feeding the actor and critic different observation slices. Real, honest caveat named to the
+  founder: BRAWLPIT's own observation is already fully symmetric (both fighters see each other's
+  exact stocks/damage today) -- this isn't solving hidden information, it's a training-stability
+  technique (richer critic features than the actor needs), smallest expected payoff of the three.
+
+  session: sess-20260905-0720-ec33e7c5
+
+## SECTION 431: BRAWLPIT/IDUNA — LEVEL PASSTHROUGH, LIVE DISABLE-PAUSE, DISABLE ALL (2026-09-13)
+
+Founder real-time: "can we also check in the model half as frequently?" / "also can we switch
+the training level to the one called 4" / "i need a button in the model management screen for
+disable all" / "also disabling a model should disable it from training it looks like that python
+skrip ist pulling all of em still not sure if its been updated and i need to grab a new one or
+what."
+
+- [x] **S431-01**: `rl_train_packet.py` never wired `bin/brawlpit_server`'s own `--level` flag
+  (S421-03) through its 3-role orchestrator -- a real, named gap, now fixed (`_spawn_server` +
+  new `--level` arg, applied to all 3 role servers and the S424 eval server).
+  `colab_train.py` passes `BRAWLPIT_LEVEL` through when set.
+- [x] **S431-02**: `colab_train.py`'s `BRAWLPIT_SAVE_FREQ` default doubled 2048 -> 4096, so a
+  real checkpoint push (and its S424 automatic evaluation match) happens half as often.
+- [x] **S431-03 (the real fix for "disabling a model should disable it from training")**: the
+  existing `is_disabled` filtering in `_find_latest_registry_checkpoint`/`fetch_pool_bots` was
+  already correct and already pushed (commit 2db383a) -- what was actually missing was
+  enforcement against an ALREADY-RUNNING training process, which kept training+pushing a role
+  regardless of registry state. New `_is_checkpoint_disabled`: every generation, before training
+  each role, checks whether that role's own last-pushed registry checkpoint has since been
+  disabled; if so, that role pauses (no learn/save/push) this generation while the other 2 keep
+  going, reusing the role's last real local file so `register_generation_snapshot`'s own "all 3
+  archetypes or none" invariant still holds. Re-enabling in NOCK resumes it next generation.
+- [x] **S431-04**: new "Disable All" button in NOCK's AI Opponents table (respects the Role
+  filter -- "All roles" really disables all, a narrowed filter disables just that role), real
+  confirm dialog, `Promise.allSettled` so one failed PATCH doesn't abort the rest. Deployed live
+  with a real dist rebuild, confirmed embedded in the running binary.
+- [ ] **S431-05 (real, open question, not yet diagnosed)**: founder reported a Colab training run
+  got "stuck" after disabling all but 1 checkpoint and restarting -- not yet reproduced/diagnosed
+  here (no direct visibility into that Colab session's own output); real next step is finding out
+  what "stuck" looked like (last log line, hung with no output, an actual error).
+
+  12 new tests (test_rl_train_packet.py, offline, mocked registry), 122/122 total pass.
+  Apple #19390.
+
+  session: sess-20260905-0720-ec33e7c5
