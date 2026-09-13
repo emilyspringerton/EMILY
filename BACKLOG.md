@@ -39099,3 +39099,32 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   (72/72) pass. Commit 9bcabda, Apple #19450.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 451: BRAWLPIT — MAIN'S REGRESSION GUARD (PPO POLICY COLLAPSE) (2026-09-13)
+
+- [x] **S451**: founder reported a real, directly observed failure mode with S444-S450 all
+  already live: "it was doing the do nothing all the elos are basically the same dance then
+  somehow one of the models spiked to 1800 and it actually had movement and stuff but then more
+  training it all broke all of the model elos went back down and the new models were once again
+  dormant i tried to replicate it with another training run i could not." Diagnosed as classic
+  PPO catastrophic forgetting/policy collapse in self-play: exploration got lucky and found a
+  genuinely good, moving policy (real, hard evidence the environment/reward design CAN produce
+  the desired behavior), but on-policy PPO has no memory of "this was better" built in -- nothing
+  previously stopped a later generation's gradient update from making the live model worse. New
+  `_should_revert_main(new_elo, best_elo_so_far, threshold=REGRESSION_ELO_THRESHOLD)`, a pure,
+  unit-tested decision: true only when a generation's real evaluated Elo drops by
+  `REGRESSION_ELO_THRESHOLD=100` (well above `ELO_K=32`'s own single-match max swing, so this can
+  only fire on real, accumulated evidence, never one unlucky match) below the best Elo that
+  lineage has EVER reached. Wired into the per-generation evaluation loop: MAIN's own best-ever
+  (elo, checkpoint path, member id) tracked across generations; on a real regression,
+  `models[MAIN]` reloads from that best checkpoint via `PPO.load()` before the next generation
+  trains, and `prev_checkpoint_paths`/`prev_member_ids` for MAIN are redirected to it too, so the
+  next generation's own self-play opponent and evaluation baseline are drawn from the real
+  best-known self, not the regression just reverted away from. Deliberately MAIN-only --
+  MAIN_EXPLOITER/LEAGUE_EXPLOITER are DESIGNED to periodically reset/regress on purpose, so this
+  guard would fight their own intended behavior. The regressed checkpoint is never deleted
+  (`LeagueManager.register` never evicts) -- only the live, continuing training line is
+  redirected. 6 new tests (`TestShouldRevertMain`); full suite (28+72+46) green. Commit d3f4f30,
+  Apple #19454.
+
+  session: sess-20260905-0720-ec33e7c5
