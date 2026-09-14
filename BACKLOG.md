@@ -39698,6 +39698,27 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-31: IPS/HPS light fixtures cast real light on nearby walls** -- founder real-time: "ok
+  both of the light materials needs to actually cast light - like do you see how the flashlight
+  actually lights the wall up outside of the main beam the wall is actually getting light from the
+  flashlight but not the IPS light." Real, confirmed gap: `SHADER_IPS_LIGHT`/`SHADER_HPS_LIGHT`
+  (S459-29/S459-30) only ever forced their OWN box to full brightness -- nothing made nearby walls
+  brighter the way the flashlight's own `flashlight_face_boost` already does. Added
+  `fixture_light_face_contribution`/`fixture_lights_gather`: the same real per-face N.L +
+  distance-falloff shape the flashlight already established, but omnidirectional (a fixture
+  radiates every direction, not a cone) and carrying each source's own real color -- cool
+  white-blue for IPS, warm amber for HPS, pre-multiplied by the existing `hps_flicker` at gather
+  time so nearby walls visibly flicker along with the fixture itself. Live-verified via Xvfb:
+  numerically confirmed the per-face contribution computed correctly first (a backdrop box
+  directly behind an IPS panel got +0.6/+0.65/+0.7 added to its front-face lit color), then
+  visually confirmed against a gridded backdrop (many small boxes) showing a real, visible warm
+  halo spilling from the panel and fading with distance -- an earlier single-giant-box test looked
+  like "no visible change" purely because this whole lighting model is real per-box flat shading,
+  not per-pixel (one box = one flat brightness value, no gradient possible on a single face);
+  caught and fixed the TEST, not the implementation, once the numeric check confirmed the real
+  contribution was already correct. All three build paths verified clean (Makefile shank_lobby/
+  shank_server, Bazel). Apple #19580. Commit SHANKPIT `28bd7fa` (+ `2c97685` changelog). session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-30: SHADER_HPS_LIGHT flickering sodium-vapor emissive material** -- founder real-time:
   "panel looks so good, can you do it again for a high pressure sodium light with a flicker like in
   this video [youtube link]." The linked video couldn't actually be fetched/watched from here
