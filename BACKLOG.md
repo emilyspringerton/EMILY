@@ -39180,6 +39180,42 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
 
   session: sess-20260905-0720-ec33e7c5
 
+## SECTION 460: PAPERCRAFT — FRACTAL BOX/ROOM/WORLD MODULAR-BUILDING ARCHITECTURE (2026-09-14)
+
+- [x] **S460: real architecture scoping doc, no code changes** -- founder real-time (Apple
+  #19494), direct continuation of SECTION 459's own SHANKPIT scoping session: "how can we think
+  about building modular rooms that snap together... papercraft is the engine... its a fractal
+  heirarchy... we have to think of the levels themselves as objects." Wrote
+  `PAPERCRAFT/docs/NORTHSTAR_MODULAR_BUILDING.md` (registered as `MODULAR-BUILDING-NORTH` in the
+  golden-docs-index): box (material-tagged, optionally Paper-Engine-destructible) -> room
+  (composed of boxes, itself a placeable object) -> world/map (composed of rooms, WoW-style zone
+  stitching) as one placement+socket+snap mechanism at three scales. Grounded directly against
+  real existing code, not assumed: PAPERCRAFT's Paper Engine already has real materials
+  (`PAPER_MATERIAL_PAPER/WOOD/CONCRETE/METAL`, per-material max HP) driving real physical
+  destructibility; `PcWorldObjectDef` is the real, existing persisted object format
+  `apps/mapeditor` already edits (CLI-only, no visual tool); the real, load-bearing constraint
+  `PC_WO_MAX_OBJECTS=8` (a measured UDP-wire-budget cap) resolved into a two-tier structural-vs-
+  destructible object model. Captured every real-time correction from the scoping conversation:
+  SHANKPIT and PAPERCRAFT are real siblings sharing tech via hand-porting, not a shared
+  dependency; SHANKPIT is the actual playable client for PAPERCRAFT-authored geometry even before
+  material-awareness ("papercraft levels are just geometry"); movement tuning ports FROM SHANKPIT
+  INTO PAPERCRAFT (not invented fresh there), with an honest caveat that PAPERCRAFT is real
+  server-authoritative/net-native-only while neither codebase has a network-hardened controller
+  proven yet; materials are a real v0 requirement once PAPERCRAFT's own room builder actually
+  gets built, unlike SHANKPIT's own deliberate v0 texture cut ("we can build glass and stuff in
+  from day one"); both repos stay needed in parallel for now, a future merge genuinely undecided;
+  GFD's own real, already-working `packages/education/edu_vm.h` (a small, bounded, sandboxed
+  bytecode VM with world-state bindings) named as a strong, concrete candidate for room/world-tier
+  scripting (gates, Half-Life-style sequenced events) rather than assuming PARENA is the only
+  option there the way it is for box-tier decisions. Real, honest: nothing in this doc is built
+  yet -- pure architecture. Real, still-open questions named, not resolved: exact room/world
+  socket schema, whether to raise the object cap, whether room/world get their own IDUNA-backed
+  registries, and a genuinely uncertain third relationship to GFD's own voxel lineage ("gets
+  somehow also shared into the GFD lineage for world building"). Apple #19495. Commit PAPERCRAFT
+  `a98ada8` (+ `c380161` EduVM addendum).
+
+  session: sess-20260905-0720-ec33e7c5
+
 ## SECTION 459: SHANKPIT NOCK LEVEL EDITOR — SCOPED, NOT STARTED (2026-09-13/14)
 
 Founder real-time, a real, large, multi-message scoping session (routed via `emily observe` first
