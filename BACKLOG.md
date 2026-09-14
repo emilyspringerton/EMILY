@@ -39250,7 +39250,13 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   explicitly SKIPPED for this pass per direct founder instruction ("dont worry about the current
   levels"), not abandoned. A level created via S459-01 already has its own real, working format
   (SHANKPIT's own native `Wall` shape, see S459-01's own note) -- what's still missing is only the
-  BRAWLPIT-specific import/conversion path, deferred until asked for.
+  BRAWLPIT-specific import/conversion path, deferred until asked for. Real, separate, ALSO-still-
+  open gap directly confirmed while answering the founder's own question (S459-06): the format
+  match alone doesn't mean SHANKPIT can actually LOAD a level made here -- `Export` produces the
+  correct JSON shape, but `SHANKPIT/packages/map/map.c` has no JSON-parsing/loading path into
+  `GameMap` at all yet. That's a real, separate piece of native C work, not part of this ticket's
+  own original BRAWLPIT-conversion scope, but blocking the actual "play a level built in NOCK"
+  end-to-end story just as much -- worth its own real card once picked up.
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
@@ -39279,6 +39285,24 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   string before the Go binary embedding it (`go:embed`) was rebuilt -- the exact staleness pitfall
   a past session already got burned by once (see this repo's own memory notes). Apple #19491.
   Commit IDUNA `f6e6a64`.
+- [x] **S459-06 (immediate v0 follow-up, real bugs/gaps found live testing v0)**: founder tested
+  the shipped v0 directly and found two real problems plus confirmed one open question. Face-drag
+  was genuinely inverted -- root cause found and fixed: `closestPointOnAxisLineToRay`'s own `w0`
+  was defined as the negation of the standard closest-point-between-two-lines reference (Ericson,
+  "Real-Time Collision Detection": `r = P1 - P2 = rayOrigin - linePoint`), a sign error that
+  propagated through the whole computation; rederived directly against the reference and verified
+  numerically with a standalone script before deploying, not just guessed-and-flipped. Added the
+  requested object/face edit-mode toggle (object mode drags a whole cube, or the new spawner
+  marker, via a camera-facing-plane intersection -- the standard "billboard drag" technique free
+  3D object translation uses; face mode is the original per-face reshape) and a real, movable
+  spawner marker (session-only, deliberately not persisted level data -- same "authoring metadata"
+  role BRAWLPIT's own Guides play, just not saved here) so "+ Add cube" spawns wherever it's
+  placed instead of always at a fixed default, fixing new cubes landing on top of each other.
+  Also directly answered the founder's own question: no, the native SHANKPIT map loader was never
+  shipped -- the backend's `Export` endpoint produces the correct JSON, but
+  `SHANKPIT/packages/map/map.c` has no JSON-loading path at all yet (that's still S459-02-adjacent
+  open work, distinct from the BRAWLPIT-conversion half of S459-02). Apple #19493. Commit IDUNA
+  `a2d4e3b`.
 
 NEAR-TERM FOLLOW-UP, right after v0 lands (not part of the deferred-later list below): the
 founder named wanting real premades/prefabs "pretty early on" -- save a piece of edited geometry
