@@ -39443,6 +39443,42 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `draw_scene`'s own per-frame scene_id resync, which real key-7 gameplay never touches) -- named
   honestly rather than overclaimed; all temporary test/debug code fully reverted before commit.
   Apple #19513. Commit SHANKPIT `bd3f74b` (+ `1a3c1d9` changelog).
+- [x] **S459-15: levels as objects -- "a map is a composition of levels"** -- founder real-time:
+  "i have this level 2222 - already i want to use it as an object - the whole level - can you make
+  the 'map editor' ... our naming of it will be a map is a composition of levels ... i want to
+  mirror the base i built for like a 2 base fortress vs fortress basic map." Direct follow-up:
+  "really a level and a map is the same thing - its like a smart document in photoshop where you
+  have like a photoshop doc in a photoshop doc - so we want them to load the totally same way."
+  There is no separate Map type -- any level can hold OBJECTS, each one a reference to another
+  level placed at a position with a 90-degree-snapped Y rotation ("snap rotate 90 degree turns is
+  good for now") plus two forward-compatible plane_visible/plane_solid toggles ("THEIR PLANE NEEDS
+  TO BE TOGGALABLE ON THE MAP SIDE ... DEFAULTS TO OFF" -- both default false; composing a nested
+  level's own ground plane at its own offset is real, named, deferred work, not silently faked).
+  New `objects_json` column, wholesale-replaced on save like `walls_json`. `LevelStore.Export`/
+  `flattenObjects` recursively resolves object children (and their own further-nested objects)
+  into ONE flat wall list entirely server-side in Go -- the native SHANKPIT client needs ZERO
+  changes to load a composed map, matching "we want them to load the totally same way" exactly. A
+  real cycle guard (visited-level-ID set) + depth cap (6) protect Export; a direct 1-hop
+  self-reference is also rejected at save time. NOCK editor UI: an "Add level as object" picker +
+  per-object inspector (X/Y/Z, Rotate 90° button, plane toggles, remove), wireframe viewport
+  preview of each placed object's own real footprint. 5 new tests (flatten-at-offset, 90-degree
+  rotation math, direct/indirect cycle rejection) pass, full existing IDUNA suite green, frontend
+  builds clean. Live-verified against the REAL production database: composed the founder's own
+  real level 2222 (id=3, 10 real walls) twice into a real temporary map -- rot_y=0 at x=-150,
+  rot_y=180 at x=+150, the exact "mirror the base for a 2-base fortress vs fortress" case --
+  exported it, confirmed 20 correctly mirrored flattened walls by hand-checked coordinates, then
+  deleted the temp level with zero residue left in the live DB. Apple #19516. Commit IDUNA
+  `5e434d4` (+ `892afed` changelog).
+
+  Two follow-up founder real-time asks, confirmed already true by this same architecture rather
+  than needing separate new work: (a) "MAPS ALSO ALLOW FOR PLACING BLOCKS (I WILL NEED TO PUT UP
+  BIG RETAINING WALLS)" -- a map IS a level, and a level's own `walls` array already places raw
+  boxes directly (S459-04 onward); no new object type was needed, per the real, decided answer in
+  this same session ("Own lightweight Map-level object type" was considered and explicitly NOT
+  built since walls already cover it). (b) "WHEN LEVELS GET UPDATED IN THE DB THE MAP GETS UPDATED
+  BY REFERENCE OBVIOUSLY" -- true by construction: `flattenObjects` calls `GetLevel` fresh on every
+  `Export`, no snapshotting/caching anywhere, so editing level 2222 and re-exporting/re-loading any
+  map that references it always reflects the current row, live.
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
