@@ -38147,12 +38147,41 @@ Founder real-time: "also break up the existing NOCK work into cards." NOCK's own
 completed v0 (SECTION 386-388) is done and Apple'd; its own `NOCK_NORTHSTAR.md` already named
 real, deferred future phases in prose but none had kanban visibility until now.
 
-- [ ] **S416-01**: live-deploy and browser-verify `/admin/nock` against the real, currently-
+- [~] **S416-01**: live-deploy and browser-verify `/admin/nock` against the real, currently-
   running production IDUNA instance — named as a real, honest gap in SECTION 386 itself (v0
   shipped same-day but was never actually verified against a live process; the port is
-  hardcoded and that pass deliberately didn't restart production IDUNA to test against).
-- [ ] **S416-02**: layer position/scale/rotate — the biggest real gap between NOCK v0 and an
-  actual Photoshop-shaped tool (every layer is forced full-canvas today).
+  hardcoded and that pass deliberately didn't restart production IDUNA to test against). Real,
+  partial progress (2026-09-14): confirmed the real, currently-running IDUNA process serves
+  `/health` (200), `/admin/login` (200), and both `/admin/nock/` and its own built static assets
+  correctly enforce `RequireCookieAuth` + `iduna.admin` (401 without a session, not a 500 or an
+  accidental public leak) — the deployed binary's routing is real and healthy. Genuinely NOT done:
+  a full logged-in browser walkthrough needs the founder's own real admin cookie session, which
+  this pass doesn't have and deliberately did NOT try to bypass or self-grant (no attempt to
+  create a throwaway admin account or escalate a local account's permissions) — left open, not
+  silently marked done.
+- [x] **S416-02**: layer position/scale/rotate — the biggest real gap between NOCK v0 and an
+  actual Photoshop-shaped tool (every layer is forced full-canvas today). Real, shipped: `Layer`
+  gets `X`/`Y`/`Scale`/`Rotation` (backward-compatible -- an untransformed layer composites
+  pixel-identical to before), a new `imCompositeTransformed` (resize -> rotate -> position, the
+  real correct order; `-background none` on rotate so corners stay transparent instead of
+  ImageMagick's own default white fill), `Service.SetTransform` + `PATCH
+  .../layers/:name/transform` mirroring `SetOpacity`/`SetVisible`'s own real pattern, and a
+  frontend `LayerTransformPanel` (X/Y inputs, scale/rotation sliders, Apply/Reset -- same "local
+  draft, Apply commits it" shape `LayerEffectsPanel` already established for hue/sat/sharpen).
+  Real, found-live correction during testing: `AddLayer`'s own existing, UNCHANGED v0 behavior
+  (`imFitToCanvas`) fits every imported image to the FULL canvas size before storage -- this
+  feature's own first test draft assumed a small imported square stays small on disk, it doesn't;
+  fixed the test's own premise (not the implementation) once a failing PIXEL-SAMPLED assertion
+  (not just "the API call didn't error") caught it. Deliberately did NOT change `imFitToCanvas`
+  itself (mask application relies on the same same-size assumption; a real, separate, riskier
+  change, not attempted here) -- this transforms whatever the layer file already is, same as any
+  real image editor still lets you scale/move/rotate an already-canvas-sized layer. Real,
+  end-to-end verified: `go build`/`vet` clean, full `go test ./internal/nock/...` +
+  `./internal/http/handlers/...` pass (new test `TestSetTransformPositionsScalesAndRotatesLayer`
+  verifies real ImageMagick output via `convert ... txt:` pixel sampling before/after scale+move),
+  frontend `tsc`+`vite` build clean, `cmd/nock` CLI still builds, new binary built and redeployed
+  against the real running IDUNA process, health-checked green. Apple #19604. Commit IDUNA
+  `e99e98f` (+ `675da11` changelog). session: sess-20260905-0720-ec33e7c5
 - [ ] **S416-03**: NOCK project-switcher — a real per-game namespace (today: one flat `DataDir`,
   flat list of named projects), sequenced whenever a second real game project (GFD) needs its
   own NOCK space.
@@ -38167,9 +38196,12 @@ real, deferred future phases in prose but none had kanban visibility until now.
   in `internal/nock` yet.
 
   session: sess-20260905-0720-ec33e7c5
-- [ ] **S416-01: Live-deploy+browser-verify /admin/nock against real running IDUNA** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **S416-01: Live-deploy+browser-verify /admin/nock against real running IDUNA** Duplicate of
+  the curated card above (same section) — see that entry for the real, current partial status.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S416-02: NOCK: layer position/scale/rotate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S416-02: NOCK: layer position/scale/rotate** Duplicate of the curated card above (same
+  section) — see that entry for the full real, shipped detail. Apple #19604. Commit IDUNA
+  `e99e98f` (+ `675da11` changelog).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S416-04: NOCK: non-destructive adjustments (adjustment layers)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
