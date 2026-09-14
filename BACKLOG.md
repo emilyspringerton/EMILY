@@ -39380,6 +39380,27 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   the first tile with no HEADED BOT, and the level-select overlay renders the real live registry
   list correctly (cursor highlight, correct footer text, real level names/box counts). Apple
   #19502. Commit SHANKPIT `87e5252` (+ `c97a405` changelog).
+- [x] **S459-12: constrain-Y object drag + undo/redo in the NOCK level editor** -- founder
+  real-time, flagged "really important": "i need the blocks to notfly up and down when i drag them
+  around unless i uncheck the constrain z or y or whatever box" + "I ALSO NEED REDO" (founder
+  floated PARENA's own Reflux library, then reconsidered toward "regular redux," then "may not be
+  needed at all we just need redo"). `ShankpitLevelEditor.tsx`'s `Viewport3D`: new `constrainY`
+  prop (checked/constrained by default via a new toolbar checkbox), swaps the object/spawner drag
+  plane from the existing camera-facing "billboard" plane to a horizontal Y-normal plane through
+  the object's own position when true, so dragging a cube glides it along its current height
+  instead of free 3D movement unless explicitly unchecked. Undo/redo: a plain React history-stack
+  (`history`/`future` state + `pushHistory`/`undo`/`redo`), deliberately NOT Redux -- matches
+  NOCK_NORTHSTAR.md's own established "no Redux for a v0 this small" precedent (a real, unilateral
+  scope call, not an explicit founder mandate -- the founder's own last word leaned toward "just
+  need redo," not a specific library). `pushHistory` fires on `addCube`, `deleteSelected`, and the
+  start of every face/move-wall drag gesture (not move-spawner, which isn't persisted level data);
+  Ctrl+Z/Ctrl+Shift+Z plus toolbar Undo/Redo buttons. Real, deliberate, unconfirmed scope
+  boundary: per-keystroke text/number field edits (name/dims/ground-plane/`WallInspector` fields)
+  do NOT push history, to avoid noisy per-keystroke undo entries. Built (`tsc -b && vite build`),
+  linted (`oxlint`, one pre-existing ref-during-render warning on the established `draftRef`
+  mirror pattern, not new), verified the built strings ("Constrain Y while dragging", "Undo (Ctrl")
+  are in the deployed bundle, IDUNA binary rebuilt and redeployed, `/health` verified. Apple
+  #19506. Commit IDUNA `421fa58`.
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
