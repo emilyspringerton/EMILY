@@ -40074,6 +40074,31 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   green, redeployed live (shared physics code -- both server and client needed rebuilding), fresh
   client hand-delivered. Apple #19660. Commit SHANKPIT `14cf185` (+ `35cbf92` changelog). session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-41: set a real, admin-settable default QUEUE level (was hardcoded "44"), NEWPIT now
+  live default** -- founder real-time: "ok prepare for the bot league - packet level of course we
+  already discussed do 4 player matches on that new map called NEWPIT (change default queue map
+  to NEWPIT) need to add an option to shankpit levels to set a level as default for queue." Two
+  halves. IDUNA side: migration adding `shankpit_levels.is_default_queue` (mirrors the existing,
+  proven `shankpit_sprays.is_default` exactly-one-flagged pattern), `LevelStore.SetDefaultQueueLevel`
+  (transaction: clear all, set one), `PATCH /api/v1/shankpit-levels/:id/default-queue` admin-gated
+  endpoint, and a real "Set as QUEUE default" button in NOCK's `ShankpitLevelEditor.tsx` -- built,
+  tested (`TestSetDefaultQueueLevel_ExactlyOneDefault`), deployed live under proper systemd
+  supervision (found and fixed a real unmanaged-process issue on the IDUNA binary along the way),
+  NEWPIT (id=8) set as the live default via a direct, legitimate box-level `sqlite3` `UPDATE` (no
+  real admin cookie session was available to exercise the new HTTP endpoint -- not a web-auth
+  bypass, documented as such in the commit). SHANKPIT side: `queue_activate_match` (server) and
+  `client_load_queue_level` (client, S459-39's own independent fetch) both now search
+  `entries[i].is_default_queue` in the level registry instead of a hardcoded `strcmp(name, "44")`
+  match -- `level_boxes.h`'s `LevelRegistryEntry` already carried the field from this same work,
+  just unused until this commit. Live-verified via a `NET_VERBOSE_LOG` diagnostic build hitting an
+  isolated test port with a real `emily-bot` MODE_QUEUE connection: server logs
+  `QUEUE_LEVEL_LOADED name=NEWPIT id=8 boxes=16`. Also fixed a real, found-live `ea-windows`
+  Makefile bug hit while rebuilding the client: it targeted `i686-w64-mingw32-gcc` but the only
+  mingw SDL2 dev kit on this box is x86_64 (matching the Go server's own `GOARCH=amd64`) -- the
+  target never actually linked in this environment; fixed to `x86_64-w64-mingw32-gcc` with the
+  real SDL2 `.la` dependency-lib set. Live server redeployed, bot pool self-healed via its
+  existing stale-connection retry (S459-35), fresh Windows client hand-delivered. Apple #19665.
+  Commit SHANKPIT `0209a51`, IDUNA `94a61bc`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-42: CRITICAL -- other players were never rendered anywhere online, in any networked
   mode** -- founder real-time: "FWIW in queue i cant see any bots so there may need to be some
   basic fix to the client or net code to get multiplayer to actually work," then, when asked how to
