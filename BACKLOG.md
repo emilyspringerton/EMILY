@@ -39766,30 +39766,51 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
-- [ ] **S459-33: PARENA PNG decoder for sprays/materials -- real DEFLATE inflate built, one
-  codegen bug blocking SHANKPIT wiring** -- founder real-time: "ok finish the png thingy for the
-  sprays do it in parena," the previously-deferred S459-16/S459-23 gap (spray decals and material
-  texture overrides both render as flat-color/procedural placeholders since SHANKPIT's native
-  client has no PNG decoder). Real, substantial progress, NOT complete: `PARENA/stdlib/compress/
-  inflate.prn` is a real, working RFC 1951 DEFLATE decompressor -- bit reader, canonical Huffman
-  construct+decode (puff.c's own real table-free algorithm, deliberately chosen since PARENA's
-  `Vec` has no indexed `set!`, only `push!`/`get`/`len`), all three real block types (stored,
-  fixed Huffman, dynamic Huffman with full HLIT/HDIST/HCLEN + repeat-code parsing), LZ77 back-
-  reference copying. Compiles cleanly end to end (`parena build` + gcc-verified emitted C).
-  Tested against real zlib-generated test vectors (Python's own `zlib.compressobj` at multiple
-  real compression levels, not hand-crafted bitstreams): stored blocks, fixed-Huffman blocks, one
-  dynamic-Huffman case, and long-back-reference repeats all decode byte-for-byte correctly. One
-  further dynamic-Huffman case (natural-language text, zlib level 9) hangs -- root-caused as far
-  as: a standalone Python port of the identical algorithm (same bit reader, same canonical
-  Huffman logic, same block dispatch, line for line) decodes that SAME failing case correctly, so
-  this is a real, still-unfound VS0 C-emitter codegen bug (not an algorithm bug), most likely
-  connected to `inflate-huffman-block`'s own loop state (`pos`/`opos`) getting inferred as C
-  `double` instead of `I32` in the emitted C despite both being initialized from plain `I32`
-  parameters -- every other structurally-identical loop in the file infers `int` correctly;
-  confirmed live but not yet confirmed as the actual root cause of the hang. Deliberately NOT
-  wired into SHANKPIT yet -- real follow-up once this bug is found, not attempted while `inflate()`
-  can still hang on real input. Apple #19599. Commit PARENA `1fc82ae` (+ `ad475fe` changelog).
-  session: sess-20260905-0720-ec33e7c5
+- [x] **S459-33: PARENA PNG decoder for sprays/materials -- real DEFLATE inflate + PNG parsing,
+  root cause found, wired into SHANKPIT** -- founder real-time: "ok finish the png thingy for the
+  sprays do it in parena" (first pass), "please finish shankpit sprays" (this pass) -- the
+  previously-deferred S459-16/S459-23 gap (spray decals rendered as flat-color placeholders since
+  SHANKPIT's native client had no PNG decoder). Real root cause found and fixed for the dynamic-
+  Huffman hang/corruption left open by the prior pass: `loop_body_int_safe` (`src/emit.c`)
+  downgrades a loop var to C `double` whenever it can't prove every `recur` path int-safe --
+  `read-code-lengths`' own `pos`/`prev` bindings hit this (threaded through `get-field` results the
+  checker doesn't see through). Harmless for arithmetic alone, but `vec/push!` picks its box
+  function (`vec_box_i32` vs `vec_box_f64`) from the PUSHED EXPRESSION's own inferred type, while
+  every reader in the file always unboxes as `int *` -- pushing the double-typed `prev` boxed it
+  via `vec_box_f64` while every read unboxed via `vec_box_i32`, a real, live type-confused box read
+  (not a precision issue) that silently corrupted the code-length table on real inputs. Fixed via a
+  new `as-i32` helper (same workaround shape as the file's own existing `vec-i32-at`). Verified
+  against 7 real zlib-generated test vectors including the original failing case, all byte-for-byte
+  correct. Commit PARENA `d403280` (+ changelog).
+
+  Second half built on top: `PARENA/stdlib/image/png.prn` -- real PNG chunk parsing (two-pass IDAT
+  assembly, since `Bytes` has no growth op), zlib-wrapper stripping, and all 4 real PNG defilter
+  types (Sub/Up/Average/Paeth). Real, honest v0 scope: 8-bit depth, non-interlaced, color type 2
+  (RGB) or 6 (RGBA) only -- covers every normal PNG export; anything else returns `ok=0`
+  gracefully rather than corrupting output. Found and worked around one more real emitter
+  restriction (a `let` can't be used directly as another `let`'s own VALUE) via a small extracted
+  helper function, same family as the loop restriction `inflate.prn` already documents. Verified
+  against 5 synthetic fixtures (all 5 filter types, RGB+RGBA) plus a real, live ImageMagick-
+  produced PNG and a real 16-bit PNG correctly rejected. Commit PARENA `877da28` (+ changelog).
+
+  Wired into SHANKPIT: `packages/world/png_decode_gen.c` (checked-in generated C, same convention
+  `packages/simulation/cutscene_effect_mod.c` already set) + a real, minimal, hand-vendored
+  Arena/Vec/Bytes runtime (`parena_runtime.{h,c}` -- a narrower subset of PARENA's own runtime,
+  which unconditionally pulls in SDL2/POSIX networking/tty/hardware headers this package doesn't
+  need). `spray_registry.h`'s new `spray_registry_decode_image` fetches a spray's real PNG via the
+  existing `level_boxes_fetch_url` (binary-safe) against the real, public, unauthenticated
+  `GET .../{id}/image` endpoint, decodes it, and uploads a real GL texture (`ProcTexture`, reusing
+  `proc_tex.c`'s own create/upload). `draw_spray_decals` now textures each decal with the spray's
+  real artwork via a small, bounded per-spray-id texture cache (`spray_tex_for_id`), falling back
+  to the existing hash-color placeholder on any decode/network failure -- never garbage pixels,
+  never a hard failure. Live-verified: fetched the founder's own real, live spray artwork
+  (`he_sees_you`, 256x421 RGBA) over the real public API, decoded it inside a real SDL2/GL context
+  under Xvfb, dumped the resulting GL texture via `glGetTexImage`, and diffed it byte-for-byte
+  against an independent Python zlib+manual-defilter reference decode of the same file -- exact
+  match, all 107,776 pixels. All three build paths verified clean (zero new warnings): Makefile
+  `shank_lobby`, Makefile `shank_server` (unaffected, never includes `spray_registry.h`), Bazel
+  `//apps/lobby:shank_lobby` + `//apps/server:shank_server`. Apple #19626. Commit SHANKPIT
+  `0cbf945` (+ `b0d0da0` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
