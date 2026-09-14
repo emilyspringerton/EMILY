@@ -39844,6 +39844,56 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   SDL2 kit, so a working binary was available immediately rather than waiting on the CI fix. Apple
   #19633. Commits SHANKPIT `c8fc819` + `2ee560e` (+ `16d1af9` changelog). session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-34: real networked bot queue -- MODE_QUEUE, packet-level bots** -- founder real-time:
+  "set up a bot queue... replace TDMB call it QUEUE... make a bot queue 3 bots - 4 player games
+  network queue... architect the bots the same way the bots work for brawlpit our current bots are
+  not packet level bots we need packet level bots just like brawlpit." New `MODE_QUEUE=108`
+  (`packages/common/protocol.h` + `packages2/common/protocol.go`, numerically shared wire format).
+  Server: `queue_activate_match()`, a real, much smaller sibling to `tdmo_activate_match()` -- no
+  teams, and deliberately NO in-process bot-population call: MODE_QUEUE's own population is filled
+  entirely by real, external, packet-level bot PROCESSES connecting exactly like a human would,
+  never an in-process `PlayerState` puppet the way `MODE_TDMO`'s own `tdmo_spawn_bot_on_team`
+  already is. Reuses the same generic non-TDMO connect path `MODE_DEATHMATCH`/`MODE_CTF` already go
+  through. Client: `LOBBY_TDMB` replaced by `LOBBY_QUEUE` (label "QUEUE") in the exact same menu
+  slot -- a real, bigger change than the `LOBBY_SPRAYS`/`LOBBY_TDMO` rename precedent, since the old
+  TDMB tile was fully LOCAL/non-networked (`local_init_match(12, MODE_TDMB)`) and QUEUE is a real
+  networked connect (`net_connect()`, same path `LOBBY_JOIN` already uses). Bots: `apps2/emily-bot`
+  (a real, already-working packet-level bot client -- genuine UDP socket, real
+  `PacketConnect`/`PacketUserCmd`, real heuristic aim-and-shoot AI) gets a new `-mode` flag so it
+  can request `MODE_QUEUE`; `ops/shankpit-bot-pool.sh` + `ops/systemd/shankpit-bot-pool.service`
+  run 3 standing instances -- the real, literal analog of BRAWLPIT's own `rl_bot_pool.py` (a
+  standing pool of real UDP clients queuing through the same real matchmaker packets humans use),
+  checked directly to be MORE faithful to "packet-level like BRAWLPIT" than BRAWLPIT's own
+  ORDINARY matchmaker bot-fill (which turned out to be the same in-process-puppet pattern SHANKPIT
+  already had for TDMO). Systemd unit deliberately NOT enabled against the live production server
+  by this change -- starting real bots against shared live state is a real, visible action, left
+  for an explicit founder go-ahead rather than assumed.
+
+  Real, found-live fixes along the way, both caught by an actual 3-bot connect test rather than
+  trusted from reading code: (1) `NET_VERBOSE_LOG=1` (needed to verify this at all) exposed a real,
+  pre-existing bug -- a `mode_before` log variable referenced but never declared anywhere, invisible
+  under the default build since the log macro discards its whole argument list when compiled out;
+  fixed by capturing it explicitly before either mode-activation branch can change
+  `local_state.game_mode`. (2) A real scene desync: the first connecting QUEUE player's own
+  `scene_id` wasn't synced to the dynamically-chosen `g_server_match_scene` the way `MODE_TDMO`'s
+  own connect branch already does it -- without this fix, the first bot landed on a different scene
+  than the next two and never saw them (confirmed live: `scene_id=0` vs `scene_id=1`). Also added a
+  real `--port N` CLI flag to the server (was hardcoded to 6969) specifically so this could be
+  tested against an isolated instance without touching the live, already-running `shankpit-460`
+  production server -- real, found-live near-miss during this same session: an early, overly broad
+  `pkill -f "bin/shank_server"` briefly killed that live process (auto-recovered by its own systemd
+  `Restart=` policy within ~7 seconds, no lasting harm, but a real, named lesson: match test
+  processes by exact PID, never a broad path-substring kill, on a box running shared live services).
+
+  Live-verified end to end on an isolated test port (16972, never the live :6969 production
+  server): 3 real, separate `emily-bot` processes each connected requesting `MODE_QUEUE`, server
+  correctly activated the mode on first connect, synced all 3 to the same real scene, accepted them
+  as real (non-puppet) players, and sustained "Clients: 3" with real `PacketUserCmd` flowing at
+  20Hz from each. All build paths verified clean: Makefile lobby+server, Bazel lobby+server,
+  `go build ./...` (server-go + emily-bot), and the exact Windows CI cross-compile command. Real CI
+  green on both workflows (same two-workflow-file lesson from S459-33's own CI-outage fix, applied
+  proactively this time), release `v0.26.0` cut clean. Apple #19637. Commits SHANKPIT `fa93916` (+
+  `56c9ecc` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
