@@ -40054,6 +40054,26 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   physics state. All three build paths clean (Makefile, Bazel), CI green, client-only fix (no
   server redeploy needed). Apple #19656. Commit SHANKPIT `6d75c2d` (+ `05b0515` changelog).
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-40: jump teleports player outside walls in nested/embedded levels** -- founder
+  real-time: "i made a level with an embeded level and for some reason when i jump it teleports me
+  outside the walls." Real, found-live bug in `resolve_collision` (`packages/common/physics.h`,
+  the one real, shared collision function both client prediction and server authority call): the
+  per-box loop recomputed `prev_y = p->y - p->vy` fresh for EACH overlapping box, to distinguish
+  "landed on top" from "walked into the side." That approximation only holds for the ORIGINAL
+  per-tick `vy` -- but the landing branch itself zeroes `p->vy` the instant the FIRST overlapping
+  box resolves as a landing. With two or more boxes overlapping the player in the same tick (real,
+  common with tightly-nested "embedded" level geometry -- an inner room's walls sitting close to
+  an outer room's, exactly what was reported), every box checked AFTER the first recomputed
+  `prev_y` from the ALREADY-ZEROED `vy`, i.e. `prev_y = p->y - 0 = p->y` (the CURRENT,
+  already-corrected position, not the true previous one) -- a meaningless comparison that could
+  misclassify a real side-on collision as "was already above the box," skipping the horizontal
+  push-out branch entirely and letting the position from the FIRST box's own resolution stand,
+  even past/outside a wall the SECOND box should have blocked. Fixed by capturing `frame_prev_y`
+  once, before the per-box loop can touch `vy`, so every box judges against the real, same
+  frame-start value. All three build paths clean (Makefile lobby+server, Bazel lobby+server), CI
+  green, redeployed live (shared physics code -- both server and client needed rebuilding), fresh
+  client hand-delivered. Apple #19660. Commit SHANKPIT `14cf185` (+ `35cbf92` changelog). session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
