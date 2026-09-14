@@ -39996,6 +39996,42 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   label). Rebuilt and hand-delivered a fresh Windows client. CI green. Apple #19651. Commits
   SHANKPIT `a1e64c2` (+ `fe3422e` changelog). Still `[~]`, not `[x]`: the UDP 6969 firewall
   question above remains genuinely unconfirmed either way. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-37: weapon reverts to knife on every reconciliation replay** -- founder real-time,
+  playing for real against the now-correctly-routed server (S459-36): "we are still getting
+  reconciliation jitter including gun jitter gun to knife when a gun is equip." Real, precise root
+  cause found in `client_create_cmd` (`apps/lobby/src/main.c`): `cmd.weapon_idx` was assigned
+  AFTER the command was already stored into `client_cmd_hist` (the reconciliation replay buffer
+  `client_reconcile_local_player` reads from) -- every historical command replayed during
+  reconciliation therefore carried `weapon_idx=0` (`WPN_KNIFE`, `memset`'s own zero default)
+  regardless of the real equipped weapon; `shankpit_apply_usercmd_inputs` (net_sim.h)
+  unconditionally applies `cmd->weapon_idx` during that replay, so every reconciliation event
+  snapped the locally-PREDICTED weapon to knife an instant before the next real server snapshot
+  corrected it back -- a real, visible flicker on every single reconciliation (which happens
+  routinely under ordinary network jitter/latency, exactly why this only ever showed up once a
+  real remote client was actually talking to the right server). Fixed by setting `weapon_idx`
+  before the history store instead of after. Checked the rest of the function for the same class
+  of bug -- every other field was already being set before the store; this was the one, isolated
+  instance. Apple #19654 (see S459-38 below for the same commit batch's second feature).
+- [x] **S459-38: QUEUE defaults to the real level "44", falls back to oil tanker** -- founder
+  real-time: "DEFAULT QUEUE TO USE THE LEVEL CALLE 44 (NEW FUNCTIONALITY QUEUEING INTO LEVELS WITH
+  BOTS)" / "default it to the oil tanker if no online levels available."
+  `queue_activate_match` now looks up the real, live IDUNA level registry (`GET /api/v1/
+  shankpit-levels`) for a level named "44" (confirmed live at the time this was written: id=6, 11
+  walls) and, if found, fetches and applies its full export via a new
+  `server_apply_custom_level()` helper -- factored out of `main()`'s own existing `--level` CLI
+  handling so both paths share one real implementation instead of duplicating the box/material
+  array-of-struct unpacking. Matched by NAME (not a hardcoded id), since that's how the founder
+  actually refers to it and an id could legitimately change if the level is ever
+  deleted/recreated. Falls back to `SCENE_OIL_TANKER` -- bypassing the normal `g_dm_rotation`
+  choice entirely, matching the founder's own explicit instruction -- on ANY real failure
+  (registry unreachable, no level named "44," or the export fetch/parse itself failing). Live-
+  verified on an isolated test port before redeploying live: `QUEUE_LEVEL_LOADED name=44 id=6
+  boxes=11` logged, a real bot connect landed in the correct `SCENE_CUSTOM_LEVEL` scene. Redeployed
+  both S459-37 and S459-38 live together; the bot pool self-healed automatically via S459-35's own
+  auto-reconnect fix (no manual restart needed this time) and landed in the level-44 scene.
+  Rebuilt and hand-delivered a fresh Windows client. CI green on both workflows. Apple #19654.
+  Commits SHANKPIT `533f8f3` + `dc413b3` (+ `50d57d9` changelog). session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
