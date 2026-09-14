@@ -39570,6 +39570,41 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   whole scene needs to be upgraded to better lighting") -- a real, separate, larger question left
   for a future founder decision, not silently bundled into this scoped bug fix. Apple #19536.
   Commit SHANKPIT `900283d` (+ `3deec94` changelog).
+- [x] **S459-19: sprays -- registry backend + NOCK "export/set default" UI** -- founder real-time:
+  "can we implement sprays? from the 'projects' tab in nock (the texture editor page) there should
+  be a button export to spray goes to sprays registry same treatment we need a sprays menun in
+  native we need a nock sprays interface right now just to set the default." Earlier, same thread:
+  "WE NEED SPRAYS - SPRAY REGISTRY - CHOOSE SPRAY - T SPRAYS YOUR DECAL ON THE WALL - CREATE
+  SPRAYS FROM THE NOCK TEXTURE GENERATOR" (Apple #19519, logged via `emily observe`). New
+  `shankpit_sprays` table, same real "independent rows, no shared master, real BLOB png_data"
+  shape `nock_textures` already established. `SprayStore`: Create/Get/List/SetDefault/Delete --
+  `SetDefaultSpray` clears every other row's flag inside one transaction, exactly ONE real global
+  default at a time (founder: "just to set the default," a real, deliberate v0 narrowing, not
+  per-player selection persisted server-side yet); the first spray ever created becomes the real
+  default automatically. Same real admin-CRUD-plus-public-registry route split every other NOCK
+  feature this session established. Frontend: the Projects tab's own `ProjectEditor` gained a real
+  "Export to Spray" button (fetches the project's own already-rendered PNG export, posts it
+  straight to the registry); new Sprays tab/page -- a real grid with live thumbnails, "Set as
+  default" (gold-bordered card on the current default), delete. 6 new tests pass, full existing
+  IDUNA suite green, frontend builds clean. Live-verified against the real production database:
+  created a real spray via the real `SprayStore` (confirmed auto-default), confirmed via
+  `GetDefaultSpray`/`ListSprays`, confirmed the real public HTTP endpoints respond correctly
+  (empty list, honest 404 "no default spray set" on a fresh table), deleted the test row with zero
+  residue left. Apple #19539. Commit IDUNA `13871d6` (+ `b322690` changelog).
+
+  Real, honest, explicitly deferred (named, not silently dropped): pricing/a shop (founder: "when
+  we have sprays shop for GFD glow we can configure the price of the sprays or if they are free we
+  will open up spray registry but not right now lets just get it working") -- no pricing column
+  exists anywhere in this schema; the real NATIVE SHANKPIT sprays selection menu (per-player, not
+  just the one global default); the real "T sprays your decal on the wall" mechanism -- a native
+  raycast-and-decal-placement feature that, per this session's own already-established pattern
+  (material texture-override fetch/decode, S459-16), would need a real image decoder that doesn't
+  exist in this codebase yet (`proc_tex.c` only ever generates RGBA procedurally, it doesn't read
+  PNG files) before it could render the ACTUAL uploaded spray artwork on a wall rather than a
+  placeholder. Real, concrete next steps for a future pass: a native sprays list-menu (same
+  text-list UX as `level_select_menu`/`skin_menu`, no image decoding needed just to pick a name),
+  then the raycast-and-place mechanism (reusing `trace_map_boxes`-style ray-vs-box hitscan against
+  `map_geo`), with the real pixel content staying a placeholder until a real PNG decoder lands.
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
