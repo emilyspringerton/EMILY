@@ -39683,6 +39683,15 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   real level) and the decal rendering as a real, visible, correctly-foreshortened quad. All
   temporary debug/test code removed before commit. Apple #19550. Commit SHANKPIT `1c9ca15` (+
   `2b88444` changelog).
+- [x] **S459-24: WASD moves the spawner in the SHANKPIT level editor** -- founder real-time: "in
+  the shankpit level editor can you have wasd move around the spawner?" Camera-relative movement
+  (W is "toward what the camera is looking at," matching every FPS/editor convention, not a fixed
+  world axis), horizontal-only (spawner.y untouched, same "constrain Y" spirit already
+  established for object dragging elsewhere on this page). Forward/right vectors derived by hand
+  from `cameraPositionFrom`'s own existing convention, verified at theta=0. Skips entirely while a
+  text field has focus so it never steals keystrokes from the level-name/dims/material inputs
+  elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
+  changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
