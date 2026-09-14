@@ -39810,7 +39810,18 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   match, all 107,776 pixels. All three build paths verified clean (zero new warnings): Makefile
   `shank_lobby`, Makefile `shank_server` (unaffected, never includes `spray_registry.h`), Bazel
   `//apps/lobby:shank_lobby` + `//apps/server:shank_server`. Apple #19626. Commit SHANKPIT
-  `0cbf945` (+ `b0d0da0` changelog). session: sess-20260905-0720-ec33e7c5
+  `0cbf945` (+ `b0d0da0` changelog).
+
+  Real, found-live follow-up fix, same day: founder real-time: "the decal is being smooshed into a
+  square its not a square sprays should maintain original aspect ratios" -- `draw_spray_decals`
+  always drew a fixed `sz`-by-`sz` square quad regardless of the source PNG's own real dimensions,
+  so a portrait spray (`he_sees_you`, real 256x421) rendered squashed to 1:1. `spray_tex_for_id`
+  now returns the real width/height ratio (from the already-decoded `ProcTexture`, no extra decode
+  work), and the quad scales its shorter axis down from the real half-size instead of using it for
+  both axes -- a failed decode keeps the old square fallback (no real dimensions to preserve).
+  Live-verified under Xvfb: the decal now renders as a real tall rectangle matching the spray's
+  true portrait shape. All three build paths clean. Apple #19630. Commit SHANKPIT `a97ff9a` (+
+  `ab7dfa4` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
