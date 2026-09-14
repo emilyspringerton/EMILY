@@ -39337,15 +39337,17 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   tied to any specific grid rendering), only the static grid-line rendering bound is real,
   separate, still-open native work. Apple #19499 (IDUNA) / #19500 (SHANKPIT). Commits IDUNA
   `e0f735e` (+ `72cfefd`), SHANKPIT `64dc726` (+ `e83e847`).
-- [ ] **S459-09: bound SHANKPIT's static Matrix-floor grid rendering to a custom level's own
+- [x] **S459-09: bound SHANKPIT's static Matrix-floor grid rendering to a custom level's own
   ground-plane footprint** -- explicitly deferred from S459-08 ("DEFER THAT PUT IT IN THE
-  BACKLOG"). `apps/lobby/src/main.c`'s own real `draw_grid()` currently draws an unconditional,
-  infinite (±4000-unit) cyan grid for every scene; a custom level with a disabled or small
-  ground plane should not show that same infinite grid. Real, small, scoped native rendering work
-  -- bound `draw_grid()`'s own draw range to the level's real footprint (or skip entirely) when
-  `phys_scene_id == SCENE_CUSTOM_LEVEL`, leaving every other scene's own rendering untouched. Not
-  started. The magenta-glow footstep trail effect itself needs NO changes here -- confirmed already
-  free, driven by `on_ground` state alone (S459-08).
+  BACKLOG"). `apps/lobby/src/main.c`'s own real `draw_grid()` no longer draws its own real,
+  unconditional, infinite (±4000-unit) cyan grid for `SCENE_CUSTOM_LEVEL` -- bounded to the
+  level's own real footprint (or skipped entirely when the plane is disabled), reusing the exact
+  same `g_custom_level_ground_plane_enabled`/`_squares` + `CUSTOM_LEVEL_GRID_CELL_SIZE` values
+  S459-08's own collision logic already live-verified numerically -- a rendering-only change on
+  top of already-proven values, not new physics. Every other scene's own real, existing infinite
+  grid is completely unchanged. The magenta-glow footstep trail effect itself needed no changes
+  here -- confirmed already free, driven by `on_ground` state alone (S459-08). Apple #19504.
+  Commit SHANKPIT `3c12aa8` (+ `170062d` changelog).
 - [ ] **S459-10: real snapping in the SHANKPIT level editor, with an on/off checkbox** -- founder
   real-time: "after you do that can we add snapping to the shankpit level editor with the
   checkbox to turn snapping on and off? guides not needed in 3d yet we probably will want that
