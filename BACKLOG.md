@@ -39951,6 +39951,29 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   cadence) that resends `PacketConnect` automatically; live-verified recovery within one tick
   interval after redeploy. All builds clean, CI green on both workflows. Apple #19646. Commits
   SHANKPIT `ff9ae11` + `1ff654c` (+ `b103c93` changelog). session: sess-20260905-0720-ec33e7c5
+- [~] **S459-36: real root cause of the whole QUEUE/bots/scoreboard saga -- DNS pointed at the
+  wrong box** -- founder, after being asked to check "pirates vs ninjas" scoreboard jank: "no
+  exactly what i said i queued into there and i see pirates vs ninjas something is wrong... i am
+  in the game doing stuff." The server-side verbose logging deployed for S459-34/35 showed ZERO
+  connections from the founder, ever -- only this sandbox's own 3 local test bots. Root cause,
+  confirmed directly: `s.farthq.com` (the SHANKPIT client's own real `SERVER_HOST` default) and
+  the bare `farthq.com` apex and `www.iduna.farthq.com` all had stale Cloudflare A records
+  pointing at `194.195.120.185` -- a completely different, separate box this session never touched
+  -- while this sandbox's own real public IP is `198.58.107.85` (`iduna.farthq.com` already
+  correctly pointed here, confirming this box IS the intended target). Every SHANKPIT fix/feature
+  shipped this session (S459-33 sprays, S459-34 QUEUE, S459-35 commander/League) was real, verified
+  working ON this box -- just never reachable by the founder's own client, which explains every
+  symptom (wrong scoreboard, no bots) without any of those fixes being wrong. Founder, confirming:
+  "move the servers to this server bro change all the ips - we have been on the wrong server the
+  whole time" / "dont worry about the old one this is the new infrastructure you need to make it
+  work here." Fixed: all three stale A records repointed to `198.58.107.85` via the Cloudflare API
+  (`EMILY/var/cloudflare.md`'s own real token), verified live at Cloudflare's own authoritative
+  nameserver and `1.1.1.1` (this sandbox's own local resolver cache is separately stale -- doesn't
+  affect the founder's own machine). Real, honest, NOT yet confirmed: whether this box's own local
+  firewall (or a separate cloud-provider security-group layer) actually passes real inbound UDP
+  6969 from the open internet -- `sudo-queue/79-check-and-open-firewall-udp-6969-shankpit.sh`
+  queued (checks ufw, opens 6969/udp if ufw is active) but not yet run (needs a human with real
+  sudo). Apple #19648 (via `emily observe`). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
