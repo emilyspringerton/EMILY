@@ -39912,6 +39912,45 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   (`shank_lobby.exe`) with the real `QUEUE` menu tile so the founder can actually join, since their
   existing client predated this feature. Apple #19639. Commits SHANKPIT `0c4c263` (+ `ab506e3`
   changelog). session: sess-20260905-0720-ec33e7c5
+- [x] **S459-35: real fractal commander posture + THE LEAGUE checkpoint registry** -- founder
+  real-time: "WE NEED THE FULL FRACTAL COMMANDER STUFF FOR SHANKPIT" / "THERE WONT ALWAYS BE TEAMS
+  BUT WE WILL BE TRAINING TEAMS SOLDIER COMMANDER FRACTAL HEIRARCHY" / "ALSO WE NEED BOT
+  INFRASTRUCTURE FOR SHANKPIT JUST LIKE WE HAVE FOR BRAWLPIT - THE LEAGUE set up the same registry
+  plumbing for shankpit." Checked first, not assumed: the real, currently-BUILT "fractal commander"
+  anywhere in this monorepo is NOT a multi-level RL hierarchy -- REDGARDEN's own NORTHSTAR.md §26.3
+  states plainly "the full hierarchical-RL version above stays unbuilt -- it needs a restructured,
+  learned training loop." What IS real and live there is `commander_posture_multiplier()`: one
+  flat, rule-based team-wide posture scalar from the live resource race, applied to individual bot
+  patience/aggression; BRAWLPIT's own `commander_posture()` (`packages/common/commander.h`) ports
+  the same pattern for a no-team context. This card is that same real pattern's THIRD port, for
+  SHANKPIT's own real teams (`MODE_TDMO`, `TDMB_BLUE_TEAM`/`TDMB_RED_TEAM`):
+  `packages/simulation/local_game.h`'s new `commander_posture_multiplier(team_id)` -- a team ahead
+  by >= 3 (score) plays PATIENT (higher retreat health threshold, shorter engage range), a team
+  behind by 3 plays AGGRESSIVE (lower retreat threshold, longer engage range), otherwise NEUTRAL --
+  wired into `bot_think`'s own existing health-aware positioning block, gated by the existing
+  `team_mode` check (`MODE_QUEUE`, S459-34, has no teams and always reads NEUTRAL). Verified:
+  `apps/server` and `apps/lobby` both build clean (shared header). The full learned multi-level
+  hierarchy (commander -> commander-soldiers -> soldiers) stays real, named, future work, matching
+  REDGARDEN's own honest status for the identical idea -- not attempted here.
+
+  Second half: `scripts/rl_league.py`, THE LEAGUE checkpoint registry, ported verbatim a second
+  time (BRAWLPIT's own copy -> here), same real "zero game-specific coupling, reuse don't
+  reimplement" precedent that file already documents for its own REDGARDEN origin. Real, honest
+  status named directly in its own header: SHANKPIT has no RL training loop yet (`apps2/emily-bot`
+  is fixed-heuristic only, no gym-shaped packet env like BRAWLPIT's own 1200-line
+  `rl_env_packet.py`), so this registry has nothing to register today -- it makes the PLUMBING
+  real, not the bots learned. A real training loop is separate, substantial, named future work.
+
+  Real, found-live bug, fixed the same pass: while redeploying, discovered a long-running
+  `emily-bot` (session-duration set to years by S459-34's own standing-pool convention) that loses
+  its server-side slot -- e.g. the server process itself restarts -- had no way back in;
+  `sendConnect` only ever fired once, at session start, so the bot kept sending `PacketUserCmd`
+  into a slot the new server process never welcomed, forever, with no visible error in its own log
+  (confirmed live: `welcomed=0` stuck in the server's own diagnostic dump for minutes). Fixed with
+  a real `lastRecvAt` staleness check (5s timeout, comfortably longer than the normal snapshot
+  cadence) that resends `PacketConnect` automatically; live-verified recovery within one tick
+  interval after redeploy. All builds clean, CI green on both workflows. Apple #19646. Commits
+  SHANKPIT `ff9ae11` + `1ff654c` (+ `b103c93` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
