@@ -39698,6 +39698,23 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
+  cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
+  -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
+  blocky/square at box granularity. A true framebuffer gaussian blur/bloom post-process would be
+  real, separate, much larger work (an offscreen render target + a real multi-pass blur shader);
+  added the real, standard, much cheaper alternative instead: `draw_light_glow_billboard`
+  (`packages/render/material_shaders.h`) -- a soft, camera-facing, round glow sprite at each
+  fixture's own position, alpha falling off radially from center (smoothstep + squared for a
+  gentle round fade, no hard edge), additively blended, same "overlay on top of the existing
+  pipeline" technique this file already uses throughout. Own camera-only MVP capture and camera
+  right/up vectors (derived from the live `cam_yaw`/`cam_pitch`, not `material_mvp` -- that one's
+  only valid when the unrelated `g_material_shader_ready` flag is set) so the billboard always
+  faces whoever is rendering. Live-verified via Xvfb against the same gridded test level from
+  S459-31: a real, visible, round white-hot glow now radiates from the IPS panel and fades
+  smoothly outward, overlaying the blockier per-box halo with an actual soft gradient. All three
+  build paths verified clean (Makefile shank_lobby/shank_server, Bazel). Apple #19582. Commit
+  SHANKPIT `602d2e0` (+ `89bd038` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-31: IPS/HPS light fixtures cast real light on nearby walls** -- founder real-time: "ok
   both of the light materials needs to actually cast light - like do you see how the flashlight
   actually lights the wall up outside of the main beam the wall is actually getting light from the
