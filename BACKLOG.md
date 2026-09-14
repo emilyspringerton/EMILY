@@ -40032,6 +40032,28 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   Rebuilt and hand-delivered a fresh Windows client. CI green on both workflows. Apple #19654.
   Commits SHANKPIT `533f8f3` + `dc413b3` (+ `50d57d9` changelog). session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-39: client never loaded level 44's geometry over the network -- infinite fall** --
+  founder real-time: "it seems like it almost worked but it didnt load the level i just fell into
+  the abyss of the sky." Real root cause: S459-38's level-44 loading only ever ran SERVER-side
+  (`queue_activate_match` calls `phys_set_custom_level` in the SERVER's own physics state) --
+  the wire protocol never transmits custom-level geometry at all (`PacketWelcome` only carries a
+  `scene_id` byte, never the level's own registry id or box/material data), so the CLIENT's own
+  physics buffers stayed genuinely empty: `SCENE_CUSTOM_LEVEL` selected a real scene with zero
+  geometry in it, and the player fell straight through with nothing to land on. A real client-side
+  fetch path already existed (`level_select_confirm`, the LOBBY_LEVEL_SELECT local-preview menu)
+  but was never wired into the networked `STATE_GAME_NET` connect path at all. Added
+  `client_load_queue_level()`: on entering `SCENE_CUSTOM_LEVEL` while `net_requested_mode ==
+  MODE_QUEUE`, the client independently looks up the real level named "44" in the live registry
+  and fetches+applies its export -- the same "both sides independently load identical geometry"
+  contract this file's own `--level` doc comment already establishes for the CLI-flag case, just
+  using the same name lookup the server itself uses instead of a shared file path. One-shot, but
+  only latches on real success -- a transient fetch failure retries on the next connect instead of
+  leaving the client permanently geometry-less for the rest of the session. Live-verified via a
+  temporary test hook (added, verified, removed before commit): `g_custom_level_count=12` (11 real
+  walls + 1) confirmed after a direct call, proving the fetch genuinely populates the client's own
+  physics state. All three build paths clean (Makefile, Bazel), CI green, client-only fix (no
+  server redeploy needed). Apple #19656. Commit SHANKPIT `6d75c2d` (+ `05b0515` changelog).
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
