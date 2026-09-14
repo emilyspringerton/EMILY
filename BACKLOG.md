@@ -39974,7 +39974,28 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   firewall (or a separate cloud-provider security-group layer) actually passes real inbound UDP
   6969 from the open internet -- `sudo-queue/79-check-and-open-firewall-udp-6969-shankpit.sh`
   queued (checks ufw, opens 6969/udp if ufw is active) but not yet run (needs a human with real
-  sudo). Apple #19648 (via `emily observe`). session: sess-20260905-0720-ec33e7c5
+  sudo). Apple #19648 (via `emily observe`).
+
+  Real, same-day follow-up: repointing the OLD record wasn't enough on its own -- founder,
+  correctly: "i tried to just rejoin the command but DNS has cashing and shit my bro it doesnt
+  just work like that we need new records that infrastructure never really worked... please use a
+  new DNS like dont try to make the old records work that puts us in a confusing state use new
+  records and point them at the services on THIS SERVER... feel free to set it up here nice so it
+  matches our other services with matchmaking and servers like redgarden and ecowar etc." Found
+  the exact, already-solved precedent: BRAWLPIT hit this identical problem (its own "BPMM-NEVER-
+  WORKED" writeup, `apps/lobby/src/main.c`) and solved it the same way -- a genuinely NEW
+  `<game>.okemily.com` record no client has ever cached, rather than fighting TTL/caching on a
+  record that had been wrong this whole time. Created `shankpit.okemily.com` -> `198.58.107.85`
+  via the Cloudflare API, verified live at the authoritative nameserver and `1.1.1.1`. Confirmed
+  backend health DIRECTLY before making the change, not assumed:
+  `shankpit-server.service`/`shankpit-bot-pool.service` both active (`systemctl --user status`),
+  `shank_server` genuinely bound on `0.0.0.0:6969` not loopback-only (`ss -ulnp`). Updated
+  `apps/lobby/src/main.c`'s own `SERVER_HOST` default to the new hostname (verified baked into the
+  built `.exe` via `strings`), fixed two stale doc references found along the way (README.md's
+  second server-address block had an independently wrong port, 5314; `serverctl.c`'s own TUI
+  label). Rebuilt and hand-delivered a fresh Windows client. CI green. Apple #19651. Commits
+  SHANKPIT `a1e64c2` (+ `fe3422e` changelog). Still `[~]`, not `[x]`: the UDP 6969 firewall
+  question above remains genuinely unconfirmed either way. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
