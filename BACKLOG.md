@@ -39657,6 +39657,32 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   simple column -- a title row (name + Delete button, one flex level) then the spec/shininess
   hint on its own line below, no span asked to truncate inside more than one flex context. Apple
   #19547. Commit IDUNA `480e820` (+ `6e6db5c` changelog).
+- [x] **S459-23: native sprays menu + real T-key decal action** -- founder real-time: "ok when i
+  hit T it started typing into chat - thats not even a functioning feature just remap that key to
+  spray please and ensure there is a spray interface in the client HAVE IT REPLACE TDMO in the
+  shankpit menu." Root cause of the T bug: T opened the real, working chat pane (`g_chat_open`) --
+  just not the feature wanted there. Removed that binding entirely. New
+  `packages/world/spray_registry.h`: native access to IDUNA's real sprays registry, reusing
+  `level_boxes.h`'s own curl-via-popen fetch + JSON-scanner helpers instead of duplicating them.
+  `LOBBY_TDMO` replaced by `LOBBY_SPRAYS` in the exact same menu slot (`MODE_TDMO` itself is
+  untouched, only its menu entry point is gone, same "remove the tile not the feature" precedent
+  `LOBBY_HEADED_BOT`'s own removal set) -- opens a real spray select overlay (same
+  `level_select_*`/`skin_menu_*` state/interaction shape) against the live registry, auto-selects
+  the real default, sets `g_selected_spray_id`/name and returns to the menu (deliberately doesn't
+  start a match -- a spray is a per-player choice, not a level to load). `spray_place_decal`: T
+  raycasts forward via `trace_map` (the exact same hitscan physics.h's own weapon-fire code
+  already uses) and records a real decal (position/normal/scene/spray id) in a bounded ring buffer
+  on hit; `draw_spray_decals` renders each as a small quad oriented to its own real hit normal.
+  REAL, HONEST, NOT YET BUILT: the decal's color is a deterministic hash of the spray's own id, not
+  its real uploaded artwork -- no native PNG decoder exists yet (same real gap S459-16 already
+  named for material texture overrides). Both binaries build clean (zero new warnings). Live-
+  verified under Xvfb: main-menu screenshot confirms SPRAYS sits in TDMO's old slot; opening it
+  against the real, live IDUNA registry lists the founder's own real sprays ("he_sees_you",
+  "he_sees_you_2") with the real default pre-selected and tagged; a debug pass confirmed
+  `spray_place_decal`'s own real raycast hit (correct position/normal/scene/spray id against a
+  real level) and the decal rendering as a real, visible, correctly-foreshortened quad. All
+  temporary debug/test code removed before commit. Apple #19550. Commit SHANKPIT `1c9ca15` (+
+  `2b88444` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
