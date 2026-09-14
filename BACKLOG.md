@@ -39694,6 +39694,25 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-27: real per-face flashlight lighting + multiplayer diffusion** -- founder real-time:
+  "the light should be diffusing around the edges of the walls...not showing a circle on the
+  screen - is it actually shining light into the scene? ... it should be shining real light on the
+  screen for multiplayer." Real root cause, confirmed by reading the code: the old
+  `flashlight_box_boost` added one flat brightness value to all 6 faces of a box uniformly (no
+  face-normal term at all, unlike the sun/moon's own real N.L pipeline), and the beam's own
+  additive cone volume rendered at alpha 0.85 visually dominated the screen -- a view-aligned cone
+  always silhouettes as a circle looking down its own axis, and at that alpha it read as a solid
+  disc masking whatever lighting sat behind it rather than revealing it. Real fixes, live-verified
+  via Xvfb before/after screenshots: `flashlight_face_boost` (genuine per-face N.L term +
+  softened inverse-square-ish falloff, replacing the flat add), `flashlight_sources_gather`
+  (every active, same-scene player's flashlight now lights the world for every other player who
+  can see it, not just the local viewer -- the prior real v0 scope limit; their beam cones are now
+  drawn too), beam cone alpha cut 0.85 -> 0.16 so it reads as a faint dust/atmosphere hint instead
+  of a bright sprite competing with the actually-lit wall. Honest scope note (not overclaimed):
+  this is real per-face dynamic lighting, not a Half-Life-style baked-lightmap engine with true
+  shadow-casting dynamic lights -- that would be a substantially larger project; named here as a
+  possible deeper follow-on if wanted, not started. Apple #19561. Commit SHANKPIT `09fbf3a` (+
+  `5a3868c` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-26: migrate SHANKPIT build system to Bazel** -- founder real-time: "UPGRADE SHANKPIT
   TO BAZEL," matching the real, established Bazel convention already used elsewhere in this
   monorepo (ECOWAR, REDGARDEN, PARENA, MISHRI, FLASH, WEAKNIGHT_BEDROCK_RACERS, PAPERCRAFT). Real,
