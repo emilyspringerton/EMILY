@@ -39893,7 +39893,25 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `go build ./...` (server-go + emily-bot), and the exact Windows CI cross-compile command. Real CI
   green on both workflows (same two-workflow-file lesson from S459-33's own CI-outage fix, applied
   proactively this time), release `v0.26.0` cut clean. Apple #19637. Commits SHANKPIT `fa93916` (+
-  `56c9ecc` changelog). session: sess-20260905-0720-ec33e7c5
+  `56c9ecc` changelog).
+
+  Real, same-day follow-up: founder real-time "we want that for SHANKPIT so we can start making
+  that experience better... we need that bot pool with like 3 bots so i can join up and get into a
+  game." Checked first, not assumed: the live process on the standard `:6969` port was
+  `shankpit-460`'s own separate, stale fork's deployment (`shankpit460-server.service`, frozen
+  since 2026-08-26 -- 902-line `apps/server/src/main.c` vs. this repo's own actively-developed 1271
+  lines, missing all the recent `MODE_TDMO` population work, sprays, lighting, and this same
+  card's own `MODE_QUEUE`). Real, deliberate live cutover: cleanly stopped + disabled the old
+  `shankpit460-server.service`/`shankpit460-emily-bot.service` (kept, not deleted -- a real
+  rollback path), brought up a new `shankpit-server.service` (this repo's own binary, same
+  standard port) and the already-committed `shankpit-bot-pool.service` (3 real `emily-bot`
+  processes requesting `MODE_QUEUE`) in their place. Live-verified post-cutover: 3 real bot
+  connections, all active/welcomed, sustained real traffic on the standard port -- the same
+  host/port the founder's existing client already points at, now served by the actively-developed
+  codebase instead of the stale fork. Also rebuilt and hand-delivered a fresh Windows client
+  (`shank_lobby.exe`) with the real `QUEUE` menu tile so the founder can actually join, since their
+  existing client predated this feature. Apple #19639. Commits SHANKPIT `0c4c263` (+ `ab506e3`
+  changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
