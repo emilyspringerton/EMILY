@@ -40123,6 +40123,82 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   build paths clean (Makefile, Bazel), CI green, redeployed live, fresh client hand-delivered.
   Apple #19663. Commit SHANKPIT `8e6575f` (+ `da3dcc7` changelog). session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-43: real round timer for MODE_QUEUE** -- founder real-time, same message as S459-46
+  below: "same thing as BP bots - we need to add a timer to the game mode." QUEUE had no round
+  timer of its own -- only DM/TDM had one (`SERVER_DM_ROUND_MS` + frag limit, gated to
+  `server_scene_is_dm_map`). Added `SERVER_QUEUE_FRAG_LIMIT=20` / `SERVER_QUEUE_ROUND_MS=4min` and
+  `server_advance_queue_round()` (`apps/server/src/main.c`), wired into the same tick-loop pattern
+  as the existing DM round check. Deliberately does NOT reload the level on round end (unlike DM's
+  map rotation) -- QUEUE always plays the one admin-flagged default level (S459-41), so
+  re-running `queue_activate_match` every round would be a wasted registry round-trip against the
+  same level; just resets kills/deaths/health/shield and continues. Live server redeployed. Apple
+  #19669. Commit SHANKPIT `10a9d7b`. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-44: CRITICAL -- emily-bot's PacketSnapshot decode was reading the wrong bytes
+  entirely, every peer position/health/weapon had been garbage since the bot existed** -- found
+  while building S459-45's observation vector (checked the decode before trusting it as a feature
+  source, per this session's own standing "verify, don't assume" discipline). The decode assumed
+  a legacy 18-byte flat entity (id/scene_id/x/y/z/yaw) starting at buffer offset 2. The real, live
+  wire format -- confirmed via a compiled `sizeof`/`offsetof` probe against this exact build, not
+  guessed from the header alone -- is a 12-byte `NetHeader` + 1 redundant count byte + real
+  64-byte `NetPlayer` entries starting at offset 13. `buf[2]` is actually the low byte of
+  `NetHeader.sequence`, not an entity id -- aim/targeting logic built on `nearest.x/y/z` had
+  effectively been aiming at noise for as long as this bot has existed, and the bot's own
+  self-position correction (same broken offsets, `id == state.myID` branch) was equally corrupt.
+  Fixed in new `apps2/emily-bot/snapshot.go` with a byte-exact unit test
+  (`snapshot_test.go::TestDecodePacketSnapshot_RealWireLayout`) building a synthetic buffer
+  matching the compiled layout and asserting the decoder recovers the real values; a second test
+  confirms a truncated/overclaiming buffer stops safely rather than misparsing past its real end.
+  Also newly decodes health/shield/weapon/state/team_id/is_bot/ammo/kills/deaths/is_shooting/
+  crouching/in_vehicle/reward_feedback/hit_feedback -- none were ever read before. Live-verified:
+  full `go test ./...` green, a real 2-bot UDP session against a rebuilt server shows correct
+  peer counts with no panics. Apple #19669. Commit SHANKPIT `9fa2a32`. session:
+  sess-20260905-0720-ec33e7c5
+- [x] **S459-45: real, hand-engineered 50-100 feature observation vector for SHANKPIT bots** --
+  founder real-time: "hand engineer between 50-100 features for the bots." Built
+  `apps2/emily-bot/observation.go`: 72 real, named features (inside the requested range, no
+  artificial padding) -- 23 self features (health/shield fraction, yaw as sin/cos to avoid the
+  360°->0° wraparound discontinuity a raw-degree feature would create, pitch, 8-wide weapon
+  onehot, ammo fraction, alive/shooting/crouching/vehicle flags, kills/deaths normalized against
+  S459-43's own real frag limit, hit-feedback flag, sniper storm-charge fraction, a tanh-squashed
+  real-time reward signal), a 4-slot nearest-opponent block (10 self-relative features each --
+  bearing expressed relative to the bot's own yaw, not world-absolute, so learned weights
+  generalize across map position/orientation: presence, distance, bearing, elevation, health, a
+  precomputed per-weapon lethality score derived from `protocol.h`'s real `WPN_STATS` table,
+  is_shooting, is_bot, alive), and 9 aggregate/contextual features (visible-enemy count, average
+  enemy health, danger/opportunity counts, kill/death ratio, a tanh-squashed rank estimate, and
+  two team-architected placeholders that read as real zero in FFA, see S459-46). Named, honest
+  gaps documented rather than faked: no geometry/raycast features (the bot never loads level
+  geometry) and no round-timer feature (not on the wire anywhere a client can read it). Full
+  design doc: `SHANKPIT/docs/BOT_TRAINING_NORTHSTAR.md` (registered in
+  `EMILY/context/golden-docs-index.md` as SHANKPIT-BOT-TRAINING-NORTH). Prerequisite fix: S459-44
+  above. Apple #19669. Commit SHANKPIT `9fa2a32`. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-46: reward system design for SHANKPIT bots, FFA-first with team rewards
+  architected** -- founder real-time: "design the reward system for the bots for now these will
+  just be ffa bots we will do new training for teams so i dunno if you want to plan team rewards
+  into the rewards system now? we want the training to be FFA to start lets leave the team
+  complexity out but please plan for it architecturally if it makes sense - so same thing as BP
+  bots." Real find that shaped the whole design: `packages/common/physics.h` already computes a
+  dense, server-authoritative reward signal per player (+150.0 on a confirmed kill,
+  `phys_enter_death_state`; +0.5 per point of damage actually dealt, `katana_apply_damage` --
+  despite the name, every weapon's damage funnels through it) that reaches the wire as
+  `NetPlayer.reward_feedback`, reset the instant it's read -- this had simply never been decoded
+  before S459-44/45, and is far less noisy than any client-side health-delta proxy (health also
+  moves from healing/shield regen). Built `apps2/emily-bot/reward.go`: a 4-tier
+  `computeReward(prev, cur, team)` -- outcome (the real `reward_feedback` signal, scaled, plus an
+  explicit death penalty since the server's own accumulated_reward only credits the attacker, not
+  the victim), low-health disengage shaping (matched to the existing 30% commander-posture
+  retreat threshold, `packages/simulation/local_game.h`, not a new unrelated number), survival
+  (a numerical-stability nudge, two orders of magnitude below a real tick, same rationale as
+  BRAWLPIT's own `REWARD_ALIVE_PER_TICK`), and engagement (a small credit for closing distance on
+  a visibly weaker opponent -- the real fix for a "hide forever" degenerate optimum, framed as a
+  positive pull rather than a standing penalty since QUEUE's continuous respawns mean there's no
+  single per-match terminal "did nothing" case). Team rewards architected, not built: a real,
+  typed `TeamRewardContext{Enabled bool}` parameter threaded through today as a genuine no-op --
+  `team_id` already flows over the same wire field the observation vector reads (S459-44), so a
+  team variant needs no observation-shape change later, only real non-zero values appearing where
+  -1 sits today. Verified with real unit tests: a kill scores positive, a death scores negative,
+  disengaging while low-health scores strictly higher than continuing to engage. Apple #19669.
+  Commit SHANKPIT `9fa2a32`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
