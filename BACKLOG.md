@@ -40199,6 +40199,46 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   -1 sits today. Verified with real unit tests: a kill scores positive, a death scores negative,
   disengaging while low-health scores strictly higher than continuing to engage. Apple #19669.
   Commit SHANKPIT `9fa2a32`. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-47: real crouch/shoot state, dual sniper-storm/katana-dash cooldown tracking, real
+  raycast wall/floor features** -- founder real-time feedback on S459-45's first observation-
+  vector pass: "fix the shortcomings no is crouch or is firing - also no raycast fix all that...
+  also there are 2 different ultimates there is sniper ultimate and there is the weapon 6 dash
+  which is very powerful and can allow insane movement so make sure the features understand that
+  there are 2 different cooldowns and you can activate sniper cooldown and let the cooldown reset
+  and then dash on weapon 6 and if you never shot the sniper projectiles from storm they are still
+  activated - also a state for if storm arrows is active and how many ammos left in it also gun
+  reload state and current equiped gun." Checked directly against `packages/common/physics.h`
+  before building anything, not guessed: `ability_cooldown` is ONE real, shared timer gating FOUR
+  abilities at once (AR ability 260 ticks, shotgun ability 340, katana dash
+  `KATANA_DASH_COOLDOWN`=420, sniper storm activation 480) -- activating any one blocks every
+  other one until it reaches 0. `storm_charges` (cap 5) is a real, genuinely separate, PERSISTENT
+  resource: activating storm grants 5 charges AND starts the shared cooldown in one shot, but the
+  charges then survive independently, staying banked even after the shared cooldown has already
+  reset and been spent again elsewhere -- confirmed the founder's own exact described sequence
+  (activate storm, let the shared cooldown expire, dash on weapon 6, still have unfired storm
+  rounds banked) is this real mechanic, not a misunderstanding. Neither `reload_timer` nor
+  `ability_cooldown` was ever on the wire before this commit -- added both to `NetPlayer`
+  (`packages/common/protocol.h`, struct grew 64->68 bytes, re-verified via a compiled
+  `sizeof`/`offsetof` probe, never hand-guessed) and populated in `server_broadcast()`. The C
+  client needed zero code change (its own decode copies `sizeof(NetPlayer)` directly);
+  `apps2/emily-bot/snapshot.go`'s hand-rolled offsets were recomputed. Four new self features
+  (`SelfStormChargesFrac` now real -- was fabricated to 0 in the first pass -- plus
+  `SelfReloadFrac`/`SelfAbilityCooldownFrac`/`SelfAbilityReady`) and a fifth per-opponent
+  (`IsReloading`, a real vulnerability signal). `SelfIsShooting`/`SelfCrouching` fixed too -- these
+  need no server round-trip at all, the bot already knows its own current button state the
+  instant it decides `buttons` each tick. New `apps2/emily-bot/geometry.go`: fetches the QUEUE
+  default level's real box list (mirrors `apps/lobby`'s own `client_load_queue_level`, S459-39/41)
+  and runs a real AABB slab-method raycast against it, cached once per process -- 5 new geometry
+  features (wall distance ahead/left/right/behind, floor distance below), closing the "no
+  raycast" gap. `ObservationSize`: 72 -> 84 (still inside the requested 50-100 range, no
+  padding). The round-timer wire-field gap stays open by design -- the founder flagged genuine
+  uncertainty about it ("not sure about the round trip timer thing"), not a fix request. 11 unit
+  tests total (`TestSelfDualCooldownFeatures` reproduces the founder's own exact reported
+  scenario; `TestRaycast_SimpleWall` verifies the raycast math independent of any network fetch),
+  full `go test ./...` green, a real 2-bot UDP test against the extended 68-byte wire format shows
+  no panics. Live server + bot pool + a fresh Windows client all redeployed. Apple #19672. Commit
+  SHANKPIT `1c16348`. Doc: `SHANKPIT/docs/BOT_TRAINING_NORTHSTAR.md` §7-8. session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
