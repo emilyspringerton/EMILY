@@ -39630,6 +39630,23 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   already includes the border). Confirmed both theme variable blocks and the real btn/input
   component CSS actually landed in the built bundle. Full existing Go test suite green (backend
   untouched). Apple #19542. Commit IDUNA `1f5942f` (+ `d5537ed` changelog).
+- [x] **S459-21: SHANKPIT level editor toolbar alignment + contrast fix** -- founder real-time,
+  with a screenshot: "ok work on alignment and increase contrast" -> "review the photo its a
+  little jacked up." Root causes found in the real CSS, not guessed: `.project-header` (name,
+  width/height/depth, ground plane, mode toggles, constrain-Y, undo/redo, add cube/object,
+  save/clone/export/delete) had NO `flex-wrap` across a dozen+ controls -- the browser squeezed
+  every child below its own natural content width instead of wrapping, which is what actually
+  produced the cut-off button labels ("Face...", "Add lev...") in the screenshot; `.dims` (the
+  Width/Height/Depth and ground-plane field groups) had NO layout properties at all, so its
+  `<label>` children fell back to broken default inline flow; `--color-muted` was only a
+  60%-opacity mix (genuinely too faint at small sizes -- combined with the materials list's own
+  undefined per-item layout, this is what read as a stray low-contrast line under each material
+  name). Fixed: real `flex-wrap` + gap on `.project-header`/`.dims`/`.mode-toggle`;
+  `--color-muted` bumped 60%->78% opacity (`.hint` 70%->80%); native checkboxes now use daisyUI's
+  real `checkbox`/`checkbox-primary` component; materials list rows restructured as real bordered
+  cards with name/spec stacked and top-aligned so wrapping never collides with the delete button.
+  Build verified clean, full existing suite unaffected (CSS/JSX only). Apple #19545. Commit IDUNA
+  `27e31d7` (+ `23bee99` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
