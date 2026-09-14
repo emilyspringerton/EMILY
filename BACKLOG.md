@@ -39693,6 +39693,23 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-26: migrate SHANKPIT build system to Bazel** -- founder real-time: "UPGRADE SHANKPIT
+  TO BAZEL," matching the real, established Bazel convention already used elsewhere in this
+  monorepo (ECOWAR, REDGARDEN, PARENA, MISHRI, FLASH, WEAKNIGHT_BEDROCK_RACERS, PAPERCRAFT). Real,
+  faithful port of the existing Makefile's own real LOBBY_SRC/SERVER_SRC source lists: one
+  cc_library per package, with a deliberate two-target split for packages/simulation
+  (`:story_ai` alone for the server, a bundled `:simulation` depending on it for the lobby) since
+  the Makefile's own SERVER_SRC lists only story_ai.c while LOBBY_SRC lists three files -- a naive
+  single bundle would have pulled cutscene/typing_lesson into the server binary. server_mode.c and
+  cutscene_effect_mod.c/_test.c confirmed genuinely dead/unreferenced (grepped Makefile, CI
+  workflows, scripts) and deliberately excluded. Verified for real: `bazelisk build
+  //apps/lobby:shank_lobby //apps/server:shank_server` succeeds with only the same pre-existing
+  warnings the Makefile build already has; Bazel-built `shank_lobby` live-verified under Xvfb,
+  rendering the real lobby menu (SPRAYS included) correctly; Bazel-built `shank_server` exhibits
+  identical behavior to the Makefile-built binary. serverctl's own target is included but, like
+  `make bin/serverctl`, can't link in this sandbox (only libncurses6 installed, not the ncurses.h
+  dev header) -- a pre-existing gap, not a migration regression. Apple #19557. Commit SHANKPIT
+  `3dee65f` (+ `a579b61` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-25: fix T spray key silent no-op** -- founder real-time: "ok i appreciate the
   placeholder but it seems like T doesn't actually do anything." Real root cause: S459-23's
   `spray_place_decal` bailed silently whenever `g_selected_spray_id` was still -1, which it stayed
