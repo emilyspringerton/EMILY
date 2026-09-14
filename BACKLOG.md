@@ -40074,6 +40074,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   green, redeployed live (shared physics code -- both server and client needed rebuilding), fresh
   client hand-delivered. Apple #19660. Commit SHANKPIT `14cf185` (+ `35cbf92` changelog). session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-42: CRITICAL -- other players were never rendered anywhere online, in any networked
+  mode** -- founder real-time: "FWIW in queue i cant see any bots so there may need to be some
+  basic fix to the client or net code to get multiplayer to actually work," then, when asked how to
+  debug it: "if you really need to debug it i suppose you could spin up a server and log in with
+  multiple accounts to see if you can see the other people whatever you think." Did exactly that: a
+  real second `shank_lobby` client under Xvfb against the live server (already running with 3 real
+  bots). Root cause found via direct instrumentation, not guessed: `net_process_snapshot` (the one
+  function turning incoming `PacketSnapshot` data into `PlayerState` entries) never set `p->id`
+  ANYWHERE in the client -- every entity's own `PlayerState.id` field silently stayed at its C
+  zero-initialized default forever (`local_init_match`, used only for offline play, already sets it
+  correctly -- this bug was isolated to the networked path specifically). `draw_scene`'s own real
+  "don't draw myself" filter compares this FIELD, not the array index (`if (p->id ==
+  render_p->id) continue;`) -- with every entity's `p->id` stuck at 0, INCLUDING the local player's
+  own entity, every single other connected player (bot or human) satisfied that comparison and got
+  silently skipped from rendering. Real, honest scope: this is NOT QUEUE-specific -- it affects
+  EVERY networked mode (CTF, TDMO, everything shares this exact snapshot-parsing path); QUEUE was
+  just the first mode that actually got a real multi-client test this session. Fixed with one line:
+  `p->id = id`, alongside the existing `p->active`/`p->scene_id` assignments in that same block.
+  Live-verified via a temporary instrumented build (added, verified, fully removed before commit):
+  before the fix, the "draw other players" loop's own real draw-call counter read 0 despite 3 real,
+  active, correctly-positioned bots in the same scene; after the fix, the same counter read 3. All
+  build paths clean (Makefile, Bazel), CI green, redeployed live, fresh client hand-delivered.
+  Apple #19663. Commit SHANKPIT `8e6575f` (+ `da3dcc7` changelog). session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
