@@ -39355,6 +39355,29 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   (BRAWLPIT's own 2D ruler-drag-to-place-alignment-line feature) explicitly NOT ported to 3D yet
   -- founder named this as a real, likely-future need but genuinely undecided on the right 3D
   affordance, not a yes/no scoping call to make here.
+- [x] **S459-11: real in-game level selection interface, HEADED BOT removed from the menu** --
+  founder real-time: "ok i need the level selection interface in shankpit" -> (mid-turn
+  clarification) "delete the headed option from the menu in shankpit move all of the options down
+  and make the level selector the first option in the shankpit menu interface... headed isnt
+  needed.. put level select as the first tile... yea do that." `LOBBY_HEADED_BOT` removed from the
+  main menu entirely (its own `MODE_HEADED_BOT` gameplay mode is untouched, only the menu entry
+  point is gone). `LOBBY_LEVEL_SELECT` is now index 0, labeled "LEVELS" (shortened from "LEVEL
+  SELECT" after live-verifying under Xvfb that the longer label visually overflowed into the
+  adjacent grid column -- a real, found, fixed issue, not just a build check). New real, live
+  in-game level browser: `packages/world/level_boxes.h` gained `level_boxes_fetch_url`/
+  `fetch_registry_list`/`fetch_export`, mirroring `BRAWLPIT/level_registry.h`'s own established
+  technique field-for-field (shell out to the real `curl` CLI, same real, checked reason --
+  libcurl runtime present, no -dev headers). New `level_select_*` overlay in `apps/lobby`,
+  mirroring `skin_menu_*`'s own real open/cursor/scroll interaction shape (keyboard, mouse,
+  render), wired in alongside the existing skin chooser without touching its own code path.
+  Confirming a level fetches its real export, loads it through the existing
+  `phys_set_custom_level` (S459-07/08), and starts a real local match on it. Live-verified end to
+  end, not just compiled: a standalone harness confirmed the fetch functions work against the
+  real running registry (2 real levels, "new" and "TEST", both correctly listed and exported); the
+  actual game client was built, linked, and run under Xvfb -- real screenshots confirm LEVELS is
+  the first tile with no HEADED BOT, and the level-select overlay renders the real live registry
+  list correctly (cursor highlight, correct footer text, real level names/box counts). Apple
+  #19502. Commit SHANKPIT `87e5252` (+ `c97a405` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
