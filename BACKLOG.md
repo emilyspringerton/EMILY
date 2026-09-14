@@ -38211,8 +38211,21 @@ real, deferred future phases in prose but none had kanban visibility until now.
   none exists yet).
 - [ ] **S416-06**: a low-poly 3D modeler — a genuinely separate tool (geometry, not raster
   images), possibly living under the same `/admin/nock`-branded umbrella later.
-- [ ] **S416-07**: PARENA Editor (PE) macro recording — no macro/scripting layer exists anywhere
-  in `internal/nock` yet.
+- [ ] **S416-07**: PARENA Editor (PE) macro recording. **Real correction (2026-09-14)**: this was
+  mis-filed under NOCK — it shared a founder quote with S416-05 but "PE" is `DUNG`, not
+  `internal/nock` (confirmed: no macro/scripting layer exists in `internal/nock`, and it was never
+  meant to). Real scoping pass moved to `DUNG/NORTHSTAR.md`'s own "Real scoping pass: PE macro
+  recording" section: the real hook is already designed and unbuilt (`PARENA/stdlib/editor/
+  events.prn`'s `subscribe`/`EditorEvent`, `plugin.prn`'s `register-command`); the founder's own
+  "written in PARENA" framing means a macro is a real, emitted `.prn` file
+  (`(defn record-<name> [] : Unit ...)`), not a binary format; the one real, still-open design
+  question is playback — DUNG's pipeline compiles `.prn`→Go via `burrow build` at BUILD time, too
+  slow for record-then-replay, so either compile-on-demand (unproven: loading `burrow`-emitted Go
+  as a runtime plugin) or an interpreted `Vec Command` dispatcher (recommended Phase A, sidesteps
+  `burrow`'s still-missing Vec/loop/FFI support) — not chosen yet. Gated behind DUNG's own Phase 2+
+  (`buffer.prn` port), realistically Phase 4+. No code this pass — scoping/re-homing only. Apple
+  #19621. Commits: DUNG `fccef06` + `998f56e`, IDUNA `57f0965` + `5fedb84`. session:
+  sess-20260905-0720-ec33e7c5
 
   session: sess-20260905-0720-ec33e7c5
 - [~] **S416-01: Live-deploy+browser-verify /admin/nock against real running IDUNA** Duplicate of
@@ -38232,7 +38245,9 @@ real, deferred future phases in prose but none had kanban visibility until now.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S416-06: NOCK: low-poly 3D modeler (separate tool)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S416-07: NOCK: PARENA Editor (PE) macro recording** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **S416-07: NOCK: PARENA Editor (PE) macro recording** Duplicate of the curated card above
+  (same section) — see that entry for the real scoping/re-homing detail (now scoped in
+  `DUNG/NORTHSTAR.md`, not NOCK). Apple #19621.
   (sess-20260905-0720-ec33e7c5)
 - [x] **S415-01: Real BRAWLPIT level data format + native runtime loader (blocking Phase 0)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
