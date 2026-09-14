@@ -39696,6 +39696,29 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-29: SHADER_IPS_LIGHT emissive material + lock materials panel delete** -- founder
+  real-time: "can we design a material for an IPS light its going to need a special shader build
+  it in - also take away the ability to delete the materials in the left panel for now i dont want
+  to accidentally delete the IPS light and have to get it hooked back up the the correct shader
+  same with the other materils." Real, native `SHADER_IPS_LIGHT`: a genuinely unlit emissive pass
+  (not an additive highlight over lit color like `SHADER_STANDARD`) -- forces a box's base tint and
+  per-face lit multipliers to full bright before texturing, skipping day/night darkening and ground
+  AO entirely (a light fixture reads as self-lit, not time-of-day-modulated), then a real, soft,
+  fresnel-ish additive GLSL glow on top. New `proctex_make_ips_panel_rgba` gives it its own
+  distinct fine pixel-cell-grid IPS-panel texture instead of silently falling back to brick.
+  Closed a real, found-live gap along the way: `level_boxes.h` already parsed each material's own
+  `shader_name` off the level JSON, but `phys_set_custom_level_materials` silently dropped it
+  before it ever reached the renderer -- now threaded through end to end (both real call sites,
+  apps/lobby and apps/server). NOCK's Materials panel gets a real shader picker (standard/
+  ips_light) on the add form, and the per-material Delete button is removed entirely (not just
+  disabled) so a hooked-up material can't be accidentally orphaned from its shader -- backend
+  delete capability left intact, a real, deliberate "for now." Created the real `ips_light`
+  material (id=5) via the live `MaterialStore`, confirmed via `GET /api/v1/shankpit-materials`; a
+  first pass reusing the brick texture rendered visually identical to a normal wall -- caught via
+  Xvfb screenshot comparison and fixed with the dedicated texture before commit. All three build
+  paths verified clean (Makefile shank_lobby/shank_server, Bazel). Apple #19570. Commits SHANKPIT
+  `0a5bf71` (+ `f7109e9` changelog), IDUNA `8d7f2fa` (+ `5bf17f0` changelog). session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-28: spray decal aim, flashlight close-range clip, realistic daylight** -- three real,
   distinct founder-flagged bugs fixed in one session pass. (1) "the placeholder is glourious heads
   up it kind of goes in a totaly random spot im expecting it to go closer to my crosshairs" --
