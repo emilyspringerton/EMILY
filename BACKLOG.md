@@ -39605,6 +39605,31 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text-list UX as `level_select_menu`/`skin_menu`, no image decoding needed just to pick a name),
   then the raycast-and-place mechanism (reusing `trace_map_boxes`-style ray-vs-box hitscan against
   `map_geo`), with the real pixel content staying a placeholder until a real PNG decoder lands.
+- [x] **S459-20: NOCK gets daisyUI -- two real, colorful stock themes** -- founder real-time: "can
+  we add daisy UI it plugs in to tailwind to make NOCK look nicer? have the style guide for
+  specifically the NOCK TOLLS updated to the default daisy ui colors bright and colorful - the
+  buttons and fields look kind of jank right now" -> "have a light mode and a dark mode both
+  colorful." Installed `daisyui@5.7.37` via Tailwind v4's own `@plugin "daisyui"` CSS directive
+  (no separate `tailwind.config.js` needed). Two real, UNMODIFIED stock daisyUI themes, not
+  hand-tuned colors, per "default daisy ui colors": `cupcake` (light, warm/colorful, `--default`)
+  and `dracula` (dark, vivid purple/pink/cyan/green, `--prefersdark` -- applies automatically from
+  the OS's own color-scheme with zero JS). The real move that makes this apply everywhere for
+  free: `index.css`'s own existing semantic tokens (`--color-bg/panel/line/ink/muted/gold/danger`,
+  already used throughout `App.css` and every NOCK page) now ALIAS daisyUI's real theme CSS
+  variables instead of fixed hex values -- every existing `bg-panel`/`text-gold`/`border-line`
+  class across the whole app re-themes automatically the instant `data-theme` changes, zero
+  per-component work. Bare `<button>`/`<input>`/`<select>` pick up daisyUI's real look via
+  `index.css`'s own element-selector rules for the same reason. A real, explicit manual toggle
+  (`App.tsx`'s `useTheme` hook) layers on top of the OS default, persisted in `localStorage`.
+  Found and fixed one real theme-breaking bug along the way: `.project-list li.active button`
+  hardcoded `text-[#1a1509]` (only correct for cupcake's own primary-content) -- now
+  `text-gold-content`, correct in both themes. New `docs/NOCK_STYLE_GUIDE.md` (linked from
+  `NOCK_NORTHSTAR.md`): the real theme choice/rationale and the one rule for staying themed
+  (never hardcode a color) for any future NOCK page. Build verified clean -- caught and fixed one
+  real error along the way (daisyUI v5 renamed away from `-bordered` modifiers; plain `.input`
+  already includes the border). Confirmed both theme variable blocks and the real btn/input
+  component CSS actually landed in the built bundle. Full existing Go test suite green (backend
+  untouched). Apple #19542. Commit IDUNA `1f5942f` (+ `d5537ed` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
