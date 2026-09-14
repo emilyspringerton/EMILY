@@ -39647,6 +39647,16 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   cards with name/spec stacked and top-aligned so wrapping never collides with the delete button.
   Build verified clean, full existing suite unaffected (CSS/JSX only). Apple #19545. Commit IDUNA
   `27e31d7` (+ `23bee99` changelog).
+- [x] **S459-22: fix materials panel -- lost material names after the alignment pass** -- founder
+  real-time, with a screenshot: "do one more pass on the materials pane of the level editor it
+  lost the names of the materials and still looks a bit off." Real regression from S459-21: the
+  material name `<span>` was nested THREE flex levels deep (`<li>` row > `.material-panel-name`
+  column > name span) with `truncate` applied at the innermost level -- text-overflow truncation
+  needs a definite width from its own box, which a plain inline span blockified only by nested
+  flex contexts didn't reliably get, collapsing the name to invisible. Flattened: `<li>` is now a
+  simple column -- a title row (name + Delete button, one flex level) then the spec/shininess
+  hint on its own line below, no span asked to truncate inside more than one flex context. Apple
+  #19547. Commit IDUNA `480e820` (+ `6e6db5c` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
