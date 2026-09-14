@@ -39698,6 +39698,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [ ] **S459-33: PARENA PNG decoder for sprays/materials -- real DEFLATE inflate built, one
+  codegen bug blocking SHANKPIT wiring** -- founder real-time: "ok finish the png thingy for the
+  sprays do it in parena," the previously-deferred S459-16/S459-23 gap (spray decals and material
+  texture overrides both render as flat-color/procedural placeholders since SHANKPIT's native
+  client has no PNG decoder). Real, substantial progress, NOT complete: `PARENA/stdlib/compress/
+  inflate.prn` is a real, working RFC 1951 DEFLATE decompressor -- bit reader, canonical Huffman
+  construct+decode (puff.c's own real table-free algorithm, deliberately chosen since PARENA's
+  `Vec` has no indexed `set!`, only `push!`/`get`/`len`), all three real block types (stored,
+  fixed Huffman, dynamic Huffman with full HLIT/HDIST/HCLEN + repeat-code parsing), LZ77 back-
+  reference copying. Compiles cleanly end to end (`parena build` + gcc-verified emitted C).
+  Tested against real zlib-generated test vectors (Python's own `zlib.compressobj` at multiple
+  real compression levels, not hand-crafted bitstreams): stored blocks, fixed-Huffman blocks, one
+  dynamic-Huffman case, and long-back-reference repeats all decode byte-for-byte correctly. One
+  further dynamic-Huffman case (natural-language text, zlib level 9) hangs -- root-caused as far
+  as: a standalone Python port of the identical algorithm (same bit reader, same canonical
+  Huffman logic, same block dispatch, line for line) decodes that SAME failing case correctly, so
+  this is a real, still-unfound VS0 C-emitter codegen bug (not an algorithm bug), most likely
+  connected to `inflate-huffman-block`'s own loop state (`pos`/`opos`) getting inferred as C
+  `double` instead of `I32` in the emitted C despite both being initialized from plain `I32`
+  parameters -- every other structurally-identical loop in the file infers `int` correctly;
+  confirmed live but not yet confirmed as the actual root cause of the hang. Deliberately NOT
+  wired into SHANKPIT yet -- real follow-up once this bug is found, not attempted while `inflate()`
+  can still hang on real input. Apple #19599. Commit PARENA `1fc82ae` (+ `ad475fe` changelog).
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
