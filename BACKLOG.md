@@ -40239,6 +40239,53 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   no panics. Live server + bot pool + a fresh Windows client all redeployed. Apple #19672. Commit
   SHANKPIT `1c16348`. Doc: `SHANKPIT/docs/BOT_TRAINING_NORTHSTAR.md` §7-8. session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-48: real packet-level PPO training pipeline working end-to-end, 3 live-production
+  bugs found+fixed** -- founder real-time: "continue adding stuff to make our bot training
+  pipeline real and work." Closed the single biggest gap `docs/BOT_TRAINING_NORTHSTAR.md` named:
+  no packet-level RL training harness existed for SHANKPIT the way `BRAWLPIT/scripts/
+  rl_env_packet.py` does for BRAWLPIT. `gymnasium`/`stable_baselines3` confirmed real,
+  importable, installed in this sandbox -- a real, current change from an earlier session's own
+  claim they weren't available. New `scripts/rl_env_packet.py`: a real `gymnasium.Env` speaking
+  SHANKPIT's actual wire protocol byte-for-byte (`ctypes` structs self-verified via `sizeof` AND
+  a full per-field offset assertion against the real compiled C struct layout, not just overall
+  size); `build_observation`/`compute_reward` are direct, faithful Python ports of
+  `apps2/emily-bot/observation.go`/`reward.go` (same 84-feature vector, same 4-tier reward). Real,
+  deliberate architecture difference from BRAWLPIT: no `PacketResetMatch` needed since QUEUE
+  respawns continuously (no single-match terminal state) -- one episode = one life, `terminated`
+  on the real ALIVE->DEAD transition, `reset()` just waits for the server's own automatic
+  respawn. 26 new network-free unit tests (`scripts/test_rl_env_packet.py`), all passing. Added
+  `--fast-forward` to `apps/server/src/main.c` (mirrors ECOWAR/BRAWLPIT's own identical flag,
+  gating the tick loop's `usleep(16000)`), live-verified at ~500K ticks/sec -- deliberately
+  defaulted OFF in the real training script since a single Python learner can't keep pace with
+  that rate, making the real tick count between reward observations uncontrolled. Found and fixed
+  THREE real, previously-unknown, LIVE-production-impacting bugs while actually running the
+  pipeline against a real server, none of which code review alone had caught: (1) QUEUE connect
+  never actually spawned the player -- `server_handle_packet`'s `MODE_QUEUE` branch set
+  `scene_id` but never called `phys_respawn` (unlike `MODE_TDMO`'s own branch immediately above
+  it), leaving health/state/weapon at zero; (2) `phys_respawn`'s own scene whitelist was missing
+  `SCENE_CUSTOM_LEVEL` -- real, LIVE impact: every QUEUE death->respawn cycle was silently
+  resetting `scene_id` back to `SCENE_GARAGE_OSAKA`, kicking the player OUT of NEWPIT on every
+  single respawn, meaning the standing bot pool has been hitting this on every real death since
+  S459-41 shipped; (3) no void/out-of-bounds death existed anywhere in the codebase -- found live
+  when the first real training run's own client wandered off NEWPIT's geometry and free-fell
+  forever at full health (`y` drifted to roughly -1.6x10^8), stalling that run for 10+ real
+  minutes before diagnosis; fixed with a real, generous `VOID_KILL_Y=-400.0f` threshold in the
+  main tick loop, calling the same `phys_enter_death_state` every real combat death already uses
+  (no attacker, no kill credit) -- a real, general gap affecting every game mode, not just QUEUE.
+  New `scripts/rl_train_packet.py`: a real PPO training script, launching an isolated
+  `shank_server` + real `emily-bot` opponents. **A real training run actually completed** after
+  the void-kill fix: 4096 timesteps, 8 real PPO update iterations (sane, non-NaN
+  `approx_kl`/`entropy_loss`/`value_loss` throughout), checkpoint saved to
+  `var/rl_checkpoints/ppo_shankpit_queue_smoke.zip` and verified to load back via `PPO.load(...)`
+  and produce a real predicted action from a synthetic observation -- a real, working, end-to-end
+  proof of the whole loop. Real, honest, still not done: `THE_LEAGUE`'s own
+  `register_generation_snapshot()` needs 3 real, DISTINCT checkpoints to mean anything --
+  duplicating today's one smoke-test checkpoint into all 3 roles would be fabricated, not real,
+  archetype diversity, so registration is deliberately deferred until real, distinct training
+  runs exist. A round-timer wire field and the Colab notebook both remain open. Live server, bot
+  pool, and a fresh Windows client all redeployed with the three server-side bug fixes. Apple
+  #19677. Commit SHANKPIT `b25f879`. Doc: `SHANKPIT/docs/BOT_TRAINING_NORTHSTAR.md` §9. session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
