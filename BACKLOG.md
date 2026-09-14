@@ -39479,6 +39479,71 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   BY REFERENCE OBVIOUSLY" -- true by construction: `flattenObjects` calls `GetLevel` fresh on every
   `Export`, no snapshotting/caching anywhere, so editing level 2222 and re-exporting/re-loading any
   map that references it always reflects the current row, live.
+- [x] **S459-16: block materials + a real, named native shader registry** -- founder real-time:
+  "i would get a lot of value from being able to change their texture - i think it makes sense to
+  abstract into material first so it cleanly translates into papercraft - so the default material
+  is brick because thats the texture of blocks by default ... we will want materials for concrete
+  and wood and default textures for those procedurally iterate the defaults - we will need the
+  ability to add new materials and set their textures - im sure somehow this is going to need to
+  play with shaders too so build that in from day 1 ... we are trying to actually make this look
+  like a real game" -> "for the materials if you could have a some kind of metal or shiny texture
+  i dunno" -> "build the shaders in to the native and then refer to the shaders from NOCK directly?
+  a shader registry too but for now it will just be like the ffi names or whatever not the real
+  shader code" -> "vs0 are any correct real shaders" (picked over a texture-only v0) -> "build it
+  in we dont have endless iterations." New `shankpit_materials` table (name/shader_name/
+  texture_id?/specular/shininess), seeded brick/concrete/wood/metal. `Wall` gains a `Material` name
+  field (empty -> `DefaultMaterialName` "brick", backward-compat with every existing wall).
+  `Export` embeds the full live materials registry alongside walls. `shader_name` is a real, named
+  reference into SHANKPIT's own compiled-in shader registry
+  (`packages/render/material_shaders.h`) -- NEVER GLSL source in the DB; "standard" is VS0's one
+  real, complete shader (Blinn-Phong specular), validated against a real allowlist. An emissive
+  "flourescent light" material (founder: "if we could make a material and quickly turn it into a
+  flourescent light that would be amazing ... think of that as vs1") is real, named, deliberately
+  deferred VS1 work -- rejected on purpose by that same allowlist, not silently promised.
+
+  Native: 3 new procedural texture generators (concrete/wood/metal) alongside the existing brick
+  one. `level_boxes.h` resolves each wall's own material name to a real index (real bracket-depth-
+  counting array-bounds fix along the way -- the old "last ']' in the buffer" trick was only ever
+  correct by coincidence when the bounded array happened to be the document's own last field;
+  IDUNA's new "materials" field after "walls" broke that coincidence for real levels, fixed for
+  every array this file bounds, not just the new one). `physics.h` carries a small material-
+  shading table + per-box material index, same "index 0 dummy" convention S459-13's own off-by-one
+  fix established. New `packages/render/material_shaders.h`: a real, additive Blinn-Phong
+  specular-highlight shader on top of each box's own existing lit color (untouched), same
+  `gl_shader.c`/`DynamicVBO` foundation weapon 7's own beam already proved -- gained real
+  `glUniform3fv`/`glUniform1f` wrappers along the way (never needed before). Materials below a
+  real specular threshold skip the draw call entirely (brick/concrete/wood cost nothing extra;
+  metal always draws). `draw_map` binds the right procedural texture per box by material name,
+  `SCENE_CUSTOM_LEVEL` only -- every other scene's own existing look is completely unchanged.
+
+  Also fixes a real, separate, found-live bug in `level_select_confirm`: `scene_load` only updates
+  the GLOBAL `local_state.scene_id`, but `draw_scene`'s own per-frame render resync reads the
+  PLAYER ENTITY's own `scene_id` (never touched by `scene_load`, still `SCENE_GARAGE_OSAKA` from
+  spawn) -- so picking a custom level from the in-game menu silently reverted to garage the very
+  next rendered frame. Found live while verifying this feature's own rendering; likely never
+  actually worked in real play before this fix landed.
+
+  Frontend: a material dropdown on the wall inspector, a minimal materials manager panel (add/
+  delete, specular/shininess) -- texture-override picking from NOCK's own texture library is real,
+  named, deferred follow-up (texture_id stays null from this UI). 6 new Go tests pass, full
+  existing IDUNA suite green, both SHANKPIT binaries build clean (zero new warnings). Live-verified
+  against the real production database and real native binaries: a real 4-material test level's
+  export was fed through the real, unmodified `level_boxes.h` parser via `apps/server` (confirmed
+  correct material_idx resolution against live shading params), then rendered through the real
+  lobby client's own real `level_select_confirm()` flow under Xvfb -- screenshot confirms visibly
+  distinct per-material textures, debug pass confirmed the specular gate fires correctly (metal
+  draw=1, brick/concrete/wood draw=0). All temporary test/debug code and the temp level fully
+  reverted/deleted before commit. Apples #19522 (IDUNA)/#19523 (SHANKPIT). Commits IDUNA `3d8e034`
+  (+ `42cb1a8` changelog), SHANKPIT `5a8da61` (+ `9cb8f99` changelog).
+
+  Real, named, deliberately deferred follow-ups (not built this pass): texture-override fetch/
+  decode on the native client (no image codec exists yet -- texture_id is stored and real, just
+  not consumed natively); a VS1 emissive/"flourescent light" shader; SPRAYS (founder real-time,
+  queued separately: "WE NEED SPRAYS - SPRAY REGISTRY - CHOOSE SPRAY - T SPRAYS YOUR DECAL ON THE
+  WALL - CREATE SPRAYS FROM THE NOCK TEXTURE GENERATOR" -- logged via `emily observe`, Apple
+  #19519, not started); real asset compression/caching for textures (founder: "lz4 everything
+  obviously pull it down at match start or whatever ... when the map or level loads" -- matches
+  this monorepo's own standing LZ4-by-default convention, CLAUDE.md, not implemented this pass).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
