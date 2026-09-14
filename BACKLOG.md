@@ -39310,6 +39310,51 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   malformed level file falls back cleanly without crashing, also verified live. Native
   compile-check clean against all real CI source files for both client and server. Apple #19497.
   Commit SHANKPIT `19f8b6c` (+ `87e3650` changelog).
+- [x] **S459-08: real, per-level, configurable ground plane** -- founder real-time direct follow-
+  up: "i want there to be a plane by default that the player collides with - the checkerboard in
+  the level editor - that should constitute the plane for that level - configurable in terms of
+  size... turn on able and off able per level" / "the squares are always the same size" / "so the
+  units needs to be the number of squares in the grid." Real value found and used, not invented:
+  SHANKPIT already has a working "Matrix floor" grid + a magenta-glow footstep trail effect keyed
+  to a real, existing `#define GRID_SIZE 50.0f` (apps/lobby/src/main.c) -- the new
+  `GroundPlaneSquares` field's fixed per-square size matches that exactly, not an arbitrary
+  constant, so a level authored here lines up square-for-square with the real in-game grid.
+  Backend: `Level.GroundPlaneEnabled`/`GroundPlaneSquares`, real persisted fields threaded through
+  Create/Update/Export/Clone, new migration (the original create-table migration was already
+  live, kept untouched). Frontend: checkbox + squares input, a real 3D-viewport grid driven by
+  these fields (divisions === squares, so every cell is exactly one real square -- "always
+  squares"). Native: `g_custom_level_ground_plane_enabled`/`_squares` (physics.h) threaded through
+  `phys_set_custom_level`; `resolve_collision`'s own real, existing "no terrain -> flat floor at
+  y=0 everywhere" fallback made conditional + bounded specifically for `SCENE_CUSTOM_LEVEL` (every
+  other scene's own behavior completely unchanged). Live-verified end to end: backend against the
+  real running IDUNA instance (migration applied, API carries the fields, pre-existing rows
+  correctly backfilled); native collision with temporary in-process `resolve_collision` probes
+  against a real running SHANKPIT server (enabled+in-bounds clamps to floor and grounds the
+  player; enabled+out-of-bounds falls through; disabled falls through everywhere). Deliberately
+  deferred, named directly rather than silently skipped: visual integration with the existing
+  magenta-glow footstep trail effect and bounding the static Matrix-floor grid LINES to the
+  level's own footprint -- the glow itself already comes free (driven by `on_ground` state, not
+  tied to any specific grid rendering), only the static grid-line rendering bound is real,
+  separate, still-open native work. Apple #19499 (IDUNA) / #19500 (SHANKPIT). Commits IDUNA
+  `e0f735e` (+ `72cfefd`), SHANKPIT `64dc726` (+ `e83e847`).
+- [ ] **S459-09: bound SHANKPIT's static Matrix-floor grid rendering to a custom level's own
+  ground-plane footprint** -- explicitly deferred from S459-08 ("DEFER THAT PUT IT IN THE
+  BACKLOG"). `apps/lobby/src/main.c`'s own real `draw_grid()` currently draws an unconditional,
+  infinite (±4000-unit) cyan grid for every scene; a custom level with a disabled or small
+  ground plane should not show that same infinite grid. Real, small, scoped native rendering work
+  -- bound `draw_grid()`'s own draw range to the level's real footprint (or skip entirely) when
+  `phys_scene_id == SCENE_CUSTOM_LEVEL`, leaving every other scene's own rendering untouched. Not
+  started. The magenta-glow footstep trail effect itself needs NO changes here -- confirmed already
+  free, driven by `on_ground` state alone (S459-08).
+- [ ] **S459-10: real snapping in the SHANKPIT level editor, with an on/off checkbox** -- founder
+  real-time: "after you do that can we add snapping to the shankpit level editor with the
+  checkbox to turn snapping on and off? guides not needed in 3d yet we probably will want that
+  but im not sure how that works affordance wise." Real, deferred, not scoped in detail yet --
+  what a 3D snap target actually is (other box faces/edges/corners, the ground-plane grid, or
+  both) and the exact snap-distance/UX are open questions for whenever this is picked up. Guides
+  (BRAWLPIT's own 2D ruler-drag-to-place-alignment-line feature) explicitly NOT ported to 3D yet
+  -- founder named this as a real, likely-future need but genuinely undecided on the right 3D
+  affordance, not a yes/no scoping call to make here.
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
