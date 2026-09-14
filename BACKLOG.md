@@ -38185,8 +38185,27 @@ real, deferred future phases in prose but none had kanban visibility until now.
 - [ ] **S416-03**: NOCK project-switcher — a real per-game namespace (today: one flat `DataDir`,
   flat list of named projects), sequenced whenever a second real game project (GFD) needs its
   own NOCK space.
-- [ ] **S416-04**: non-destructive adjustments — a real adjustment-layer concept instead of
-  baking hue/saturation/sharpen destructively into the stored file.
+- [x] **S416-04**: non-destructive adjustments — a real adjustment-layer concept instead of
+  baking hue/saturation/sharpen destructively into the stored file. Real, shipped: `Layer` gets 6
+  new metadata fields (`Brightness`/`Saturation`/`Hue`/`SharpenRadius`/`SharpenSigma`/
+  `SharpenAmount`), same "0/omitted means unchanged" convention `Scale` (S416-02) already
+  established. `AdjustHueSaturation`/`Sharpen` now SET these as metadata instead of shelling out
+  to ImageMagick against the stored file; `Export`'s composite loop applies them to a disposable
+  working copy fresh every export, before opacity/mask/transform — the layer's own stored PNG is
+  never touched, so re-tuning always starts from the same real original. Real, found-live test
+  rewrite: the old `TestAdjustHueSaturationChangesPixels` asserted the OPPOSITE of the new
+  contract (that the stored file DOES change) — replaced with
+  `TestAdjustHueSaturationIsNonDestructive`/`TestSharpenIsNonDestructive`, verifying via real
+  `convert ... txt:` pixel sampling that the stored file is untouched, the exported output
+  reflects the current adjustment, and re-tuning back to "unchanged" matches the real original
+  (no cumulative drift). Frontend hint text corrected (was claiming "destructive," now correctly
+  non-destructive) — same panel/API request shape, no UI restructuring needed.
+  `docs/NOCK_NORTHSTAR.md` updated (struck from both the "not yet done" and phased-next-steps
+  lists, alongside S416-02). Real, end-to-end verified: `go build`/`vet` clean, full
+  `go test ./internal/nock/...` + `./internal/http/handlers/...` pass, frontend `tsc`+`vite`
+  build clean, new binary built and redeployed against the real running IDUNA process,
+  health-checked green. Apple #19609. Commit IDUNA `b576606` (+ `469e72f` changelog). session:
+  sess-20260905-0720-ec33e7c5
 - [ ] **S416-05**: PARENA backend migration — replace `imagemagick.go` (the one real seam every
   other file already calls through) once PARENA has real image/raster stdlib support (checked:
   none exists yet).
@@ -38203,7 +38222,9 @@ real, deferred future phases in prose but none had kanban visibility until now.
   section) — see that entry for the full real, shipped detail. Apple #19604. Commit IDUNA
   `e99e98f` (+ `675da11` changelog).
   (sess-20260905-0720-ec33e7c5)
-- [ ] **S416-04: NOCK: non-destructive adjustments (adjustment layers)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **S416-04: NOCK: non-destructive adjustments (adjustment layers)** Duplicate of the curated
+  card above (same section) — see that entry for the full real, shipped detail. Apple #19609.
+  Commit IDUNA `b576606` (+ `469e72f` changelog).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **S416-03: NOCK: project-switcher (per-game namespace)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
