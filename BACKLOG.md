@@ -2625,6 +2625,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: flashlight looks good now but overall scene lighting is rudimentary -- it's showing as a circle on s…** — obs `2026-09-14T07:08:07Z`. CURATED: 2026-09-14.
 - [ ] **Founder real-time: 'finish the sprays work.' Confirmed against BACKLOG.md S459-19/20/23/25: the sprays feature itself (…** — obs `2026-09-14T07:21:13Z`. CURATED: 2026-09-14.
 - [ ] **Founder real-time: 'can we design a material for an IPS light its going to need a special shader build it in - also tak…** — obs `2026-09-14T07:47:29Z`. CURATED: 2026-09-14.
+- [ ] **Founder real-time: 'ok finish the png thingy for the sprays do it in parena.' This is the real, previously-deferred S45…** — obs `2026-09-14T08:12:43Z`. CURATED: 2026-09-14.
+- [ ] **Founder real-time: 'panel looks so good, can you do it again for a high pressure sodium light with a flicker like in th…** — obs `2026-09-14T08:04:15Z`. CURATED: 2026-09-14.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
