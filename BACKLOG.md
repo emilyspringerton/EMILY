@@ -39695,6 +39695,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-28: spray decal aim, flashlight close-range clip, realistic daylight** -- three real,
+  distinct founder-flagged bugs fixed in one session pass. (1) "the placeholder is glourious heads
+  up it kind of goes in a totaly random spot im expecting it to go closer to my crosshairs" --
+  `spray_place_decal` raycast from `p->yaw/pitch` (networked PlayerState angles, only synced at
+  tick points) instead of the live `cam_yaw/cam_pitch` that actually drives the camera and
+  crosshair every mouse-motion event; fixed to raycast from the live angles + the same
+  reconciliation offset the camera uses. (2) "when i go up close the light like clips into the
+  wall...it shouldnt disappear because it clips into the wall" plus "pull the flashlight cone
+  farther back into my head...bigger area illuminated" -- the beam cone's far ring sat at a fixed
+  55-unit range regardless of nearby geometry, so up close most of it fell behind the wall and
+  depth-tested away entirely; now clamped to a real forward raycast so it shrinks in length near
+  walls instead of vanishing, and `FLASHLIGHT_HALF_ANGLE_DEG` widened 20->27 for a genuinely bigger
+  footprint (a negative/behind-camera apex offset was tried first for "bigger area" and reverted --
+  doesn't affect footprint at all since radius only depends on half-angle + beam length, and
+  independently reintroduced the same close-range disappearing-beam bug). (3) "our walls are very
+  dark during the day...weird universal lighting that doesnt work because its not real light" --
+  the sun/moon only ever lit faces via a direct N.L term (zero for non-facing faces), compounding
+  with a leftover pre-real-texture box tint (0.28-0.49) and the bound texture's own color into
+  near-total black; fixed with a real sun/moon sky-fill term (direction-independent scattered
+  light, modeling why real outdoor shade is never pitch black) plus brightening the box tint to
+  0.62-0.90 now that it's a GL_MODULATE layer on top of a real texture, not the wall's whole color.
+  All three live-verified via Xvfb before/after screenshots; all temporary debug/test code removed
+  before commit. Apple #19566. Commits SHANKPIT `764a24a`, `ddf4bc3`, `13825e2` (+ `805d616`
+  changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-27: real per-face flashlight lighting + multiplayer diffusion** -- founder real-time:
   "the light should be diffusing around the edges of the walls...not showing a circle on the
   screen - is it actually shining light into the scene? ... it should be shining real light on the
