@@ -39236,20 +39236,39 @@ face-dragging alone needs to be capable of turning a plain cube into arbitrary b
 geometry (a shipping container is the founder's own concrete bar for "good enough"). Broken into
 ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in dependency order:
 
-- [ ] **S459-01: SHANKPIT/NOCK level registry + selection**, mirroring BRAWLPIT's own real
-  checkpoint registry pattern exactly (list/create/select levels, not just one hardcoded scene).
-  Foundational -- every later item needs somewhere real to persist a level to and load it back
-  from, same reason BRAWLPIT's own registry came before its own editing affordances.
-- [ ] **S459-02: New SHANKPIT/NOCK level file format + a real BRAWLPIT-level conversion path**,
-  loading every existing BRAWLPIT level into it, so real, already-built geometry is immediately
-  editable rather than starting from zero.
-- [ ] **S459-03: Choose level dimensions when creating a new level** (registered against S459-01's
-  own registry).
-- [ ] **S459-04: Create a cube primitive** inside a level.
-- [ ] **S459-05: Face-drag editing** -- drag a cube's face to reshape it, no extrude, just moving
+- [x] **S459-01: SHANKPIT/NOCK level registry + selection**, mirroring BRAWLPIT's own real online
+  level editor model exactly (per direct founder follow-up: "so v0 it and start working dont
+  worry about the current levels lets just go full level select brawlpit repo exact model for
+  now") -- BACKEND ONLY, real and live, no frontend browse/select UI built yet. New IDUNA
+  `internal/shankpit.LevelStore` (create/get/list/update/rename/clone/delete/export), admin-gated
+  CRUD at `/admin/nock/api/shankpit-levels` + a public read-only mirror at
+  `/api/v1/shankpit-levels`, field-for-field mirroring `internal/brawlpit.LevelStore`/
+  `brawlpit_levels.go`/`brawlpit_levels_public.go`. 17 new tests, `go build/vet/test ./...` clean,
+  built+deployed+live-verified against the real running server. Apple #19487. Commit IDUNA
+  `bf77dce`.
+- [ ] **S459-02: New SHANKPIT/NOCK level file format + a real BRAWLPIT-level conversion path** --
+  explicitly SKIPPED for this pass per direct founder instruction ("dont worry about the current
+  levels"), not abandoned. A level created via S459-01 already has its own real, working format
+  (SHANKPIT's own native `Wall` shape, see S459-01's own note) -- what's still missing is only the
+  BRAWLPIT-specific import/conversion path, deferred until asked for.
+- [~] **S459-03: Choose level dimensions when creating a new level** -- the S459-01 backend
+  already accepts width/height/depth on `CreateLevel`/the create endpoint, but there is no
+  dedicated create-a-level dimensions UI yet (no frontend at all exists for any of SECTION 459
+  yet) -- real API support, not yet a real user-facing affordance.
+- [~] **S459-04: Create a cube primitive** inside a level -- the S459-01 backend's `UpdateLevel`
+  can append a new default `Wall` to a level's array and it will persist and export correctly
+  (test-proven), but there is no actual "click to add a cube" UI -- backend capability only.
+- [~] **S459-05: Face-drag editing** -- drag a cube's face to reshape it, no extrude, just moving
   existing faces -- and it needs to be capable of getting a plain cube all the way to something
   shipping-container-shaped through that alone, the founder's own real bar for whether this item
-  is actually done.
+  is actually done. The backend math is real and test-proven
+  (`TestFaceDragEditing_ReshapesCubeWithoutMovingOppositeFace`: dragging one face of a `Wall`
+  changes only that face, the opposite face provably doesn't move, verified by adjusting
+  center+size together rather than storing min/max corners) -- but there is no actual drag
+  interaction anywhere; a human cannot do this yet, only a script calling the API can. The real,
+  large remaining piece of all of S459-03/04/05 is the same one thing: an actual 3D editing
+  surface in NOCK's frontend (a WebGL/three.js scene, a viewport, mouse-drag-to-face-hit-testing)
+  -- not scoped or started in this pass.
 
 NEAR-TERM FOLLOW-UP, right after v0 lands (not part of the deferred-later list below): the
 founder named wanting real premades/prefabs "pretty early on" -- save a piece of edited geometry
