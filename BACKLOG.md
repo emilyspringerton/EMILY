@@ -39693,6 +39693,14 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-25: fix T spray key silent no-op** -- founder real-time: "ok i appreciate the
+  placeholder but it seems like T doesn't actually do anything." Real root cause: S459-23's
+  `spray_place_decal` bailed silently whenever `g_selected_spray_id` was still -1, which it stayed
+  at forever unless the player had already explicitly opened the LOBBY_SPRAYS menu once --
+  defeating the whole point of having a "set the default" NOCK sprays admin interface. Fixed by
+  lazily falling back to the registry's own `is_default` entry on first T press. Build verified via
+  the real Makefile (`make bin/shank_lobby`). Apple #19555. Commit SHANKPIT `b30361d` (+ `3a5f3e3`
+  changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
