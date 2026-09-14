@@ -39286,14 +39286,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
 - [ ] **S459-02: New SHANKPIT/NOCK level file format + a real BRAWLPIT-level conversion path** --
   explicitly SKIPPED for this pass per direct founder instruction ("dont worry about the current
   levels"), not abandoned. A level created via S459-01 already has its own real, working format
-  (SHANKPIT's own native `Wall` shape, see S459-01's own note) -- what's still missing is only the
-  BRAWLPIT-specific import/conversion path, deferred until asked for. Real, separate, ALSO-still-
-  open gap directly confirmed while answering the founder's own question (S459-06): the format
-  match alone doesn't mean SHANKPIT can actually LOAD a level made here -- `Export` produces the
-  correct JSON shape, but `SHANKPIT/packages/map/map.c` has no JSON-parsing/loading path into
-  `GameMap` at all yet. That's a real, separate piece of native C work, not part of this ticket's
-  own original BRAWLPIT-conversion scope, but blocking the actual "play a level built in NOCK"
-  end-to-end story just as much -- worth its own real card once picked up.
+  -- what's still missing is only the BRAWLPIT-specific import/conversion path, deferred until
+  asked for.
+- [x] **S459-07: real native level loader, `--level` flag** -- founder real-time direct follow-up
+  ("get the level loading to work"). REAL, FOUND, LIVE CORRECTION to S459-01's own original note
+  (which assumed `packages/map/map.h`'s `Wall` struct was the real target): that struct is used
+  ONLY by `services/game-server/src/server.c`, a real, separate, currently-BROKEN (unrelated
+  pre-existing compile errors -- `ServerState` missing a `vehicles` field the file itself
+  references), NOT-in-CI prototype -- not the real, actual, CI-verified, currently-playable
+  SHANKPIT client (`apps/lobby` + `apps/server`). That real client already has its own compatible
+  static-geometry primitive: `physics.h`'s own `Box{x,y,z,w,h,d}`, selected per-scene via
+  `map_geo`/`map_count`. Real decision point surfaced to the founder directly rather than picked
+  silently: build box geometry into the real client (chosen) vs. fix+use the broken prototype
+  (not chosen) vs. stop for more detail. New `packages/world/level_boxes.h` (a real, small,
+  dependency-free JSON scanner mirroring `BRAWLPIT/level_format.h`'s own established technique)
+  + new `SCENE_CUSTOM_LEVEL`/`phys_set_custom_level` (physics.h) wired into the exact same
+  collision path every other scene already uses + a `--level <path>` flag on both `apps/server`
+  (authoritative) and `apps/lobby` (same flag/load -- the client's own existing generic
+  `draw_map()`/collision already iterate `map_geo` for any scene, so a custom level renders and
+  collides with zero new rendering code). Live-verified end to end against a real running server
+  instance on a throwaway port (confirmed correct name/count/dims parsed, scene switched; the
+  real, live, already-running production server on the real port was never touched); a missing/
+  malformed level file falls back cleanly without crashing, also verified live. Native
+  compile-check clean against all real CI source files for both client and server. Apple #19497.
+  Commit SHANKPIT `19f8b6c` (+ `87e3650` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
@@ -39335,11 +39351,11 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   spawner marker (session-only, deliberately not persisted level data -- same "authoring metadata"
   role BRAWLPIT's own Guides play, just not saved here) so "+ Add cube" spawns wherever it's
   placed instead of always at a fixed default, fixing new cubes landing on top of each other.
-  Also directly answered the founder's own question: no, the native SHANKPIT map loader was never
-  shipped -- the backend's `Export` endpoint produces the correct JSON, but
-  `SHANKPIT/packages/map/map.c` has no JSON-loading path at all yet (that's still S459-02-adjacent
-  open work, distinct from the BRAWLPIT-conversion half of S459-02). Apple #19493. Commit IDUNA
-  `a2d4e3b`.
+  Also directly answered the founder's own question (accurate as of this session -- SHIPPED as
+  S459-07 the same day, see below): at the time of this answer, no native SHANKPIT loader
+  existed; `packages/map/map.c` genuinely has no JSON-loading path, but that turned out to be the
+  wrong file to target -- S459-07 shipped the real loader against the actual playable client's
+  own `physics.h`/`Box` geometry instead. Apple #19493. Commit IDUNA `a2d4e3b`.
 
 NEAR-TERM FOLLOW-UP, right after v0 lands (not part of the deferred-later list below): the
 founder named wanting real premades/prefabs "pretty early on" -- save a piece of edited geometry
