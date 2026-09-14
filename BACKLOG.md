@@ -39420,6 +39420,29 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   including the first (previously always missing) -- debug code and the temporary test port both
   fully reverted before commit (`git diff` confirmed zero leakage). Apple #19509. Commit SHANKPIT
   `06675d5` (+ `42fa52a` changelog).
+- [x] **S459-14: weapon 7 -- flashlight, a real GLSL-shaded cone** -- founder real-time: "can we
+  add a weapon 7 ... a flashlight - use a cone with a shader - at night in shankpit it gets dark."
+  `WPN_FLASHLIGHT=7` (`MAX_WEAPONS` 7->8), a pure utility slot (0 damage, no ammo) --
+  `update_weapons()` early-returns for it before any ammo/reload/attack/ability logic. Key 7 to
+  equip (previously unbound); on while equipped, off when you switch away -- no separate toggle
+  state needed, `current_weapon` was already synced over the network. `draw_flashlight_beam`: a
+  real GLSL vertex+fragment shader (same `gl_shader.c`/`DynamicVBO` foundation
+  `gband_draw_skinned` already proved) rendering a real world-space triangle-fan cone from the
+  local player's eye along their view direction, additively blended; `DynamicVBO`'s fixed
+  pos+normal layout is reused to carry (radial_t, axial_t) per vertex since a light cone has no
+  surface normal, so GL's own barycentric interpolation gives every fragment a real falloff for
+  free. `flashlight_box_boost`: a small additive brightness term wired into `draw_map`'s existing
+  per-box lighting pass (the real, existing `retro_eval_brush_lighting_rgb` pipeline is untouched)
+  -- the actual practical answer to "it gets dark ... need to see," not just a cosmetic cone.
+  Local-viewer-only v0 scope, named honestly in both functions' own doc comments: another player's
+  flashlight doesn't light the world for you yet. Both binaries build clean (zero new warnings).
+  Live-verified under Xvfb: shader compiles+links, key-7 selection holds across frames (ammo HUD
+  correctly disappears), `flashlight_box_boost` computes a correct strong boost (0.79) for a box
+  directly ahead in-cone. Full in-match pixel screenshot (beam + lit box together) was blocked by
+  a test-harness-only issue (a synthetic boot-straight-into-custom-level test fighting
+  `draw_scene`'s own per-frame scene_id resync, which real key-7 gameplay never touches) -- named
+  honestly rather than overclaimed; all temporary test/debug code fully reverted before commit.
+  Apple #19513. Commit SHANKPIT `bd3f74b` (+ `1a3c1d9` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
