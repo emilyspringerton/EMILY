@@ -39696,6 +39696,27 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   text field has focus so it never steals keystrokes from the level-name/dims/material inputs
   elsewhere on the page. Build/lint clean. Apple #19552. Commit IDUNA `5d6b1f2` (+ `2eb14bf`
   changelog).
+- [x] **S459-30: SHADER_HPS_LIGHT flickering sodium-vapor emissive material** -- founder real-time:
+  "panel looks so good, can you do it again for a high pressure sodium light with a flicker like in
+  this video [youtube link]." The linked video couldn't actually be fetched/watched from here
+  (confirmed via WebFetch -- YouTube's watch page returns only static footer boilerplate, no video
+  content or description); said so plainly and built the flicker from well-documented real HPS
+  behavior instead -- a dying/cycling HPS bulb repeatedly strikes, brightens, dims, nearly
+  extinguishes, and restrikes over a few real seconds, a slow semi-chaotic pulse, not a fast
+  strobe. Same real unlit-emissive treatment `SHADER_IPS_LIGHT` (S459-29) established, plus two
+  genuinely new things: a warm amber/orange sodium-vapor color (real HPS lamps emit an almost-
+  monochromatic yellow-orange, the sodium D line at ~589nm) with its own distinct radial "hot
+  center, dimmer edge" bulb texture (`proctex_make_hps_bulb_rgba`, not IPS's own flat panel grid),
+  and a real, animated flicker -- `draw_map`'s own `hps_flicker` sums three sine waves at
+  different, non-harmonic frequencies/phases, computed ONCE per `draw_map` call (not per box, not
+  per fragment), scaled into BOTH the box's base texture tint and the additive glow pass's own
+  intensity uniform so the whole fixture pulses together, not just an overlay glow over a static
+  base. Live-verified via Xvfb: sampled the same pixel across two frames ~1.5s apart, `(82,25,1)`
+  -> `(110,33,1)`, confirming a real ~34% brightness swing, not a static render. Created the real
+  `hps_light` material (id=6) via the live `MaterialStore`, confirmed via
+  `GET /api/v1/shankpit-materials`. All three build paths verified clean (Makefile shank_lobby/
+  shank_server, Bazel). Apple #19574. Commits SHANKPIT `4b64b47` (+ `4e957dc` changelog), IDUNA
+  `50a7e45` (+ `6886b61` changelog). session: sess-20260905-0720-ec33e7c5
 - [x] **S459-29: SHADER_IPS_LIGHT emissive material + lock materials panel delete** -- founder
   real-time: "can we design a material for an IPS light its going to need a special shader build
   it in - also take away the ability to delete the materials in the left panel for now i dont want
