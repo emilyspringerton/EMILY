@@ -39545,6 +39545,31 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   #19519, not started); real asset compression/caching for textures (founder: "lz4 everything
   obviously pull it down at match start or whatever ... when the map or level loads" -- matches
   this monorepo's own standing LZ4-by-default convention, CLAUDE.md, not implemented this pass).
+- [x] **S459-17: fix MaterialsPanel covering the whole SHANKPIT editor screen** -- founder, with a
+  screenshot: "ok the new panel totally covers the screen i deleted it in the element inspector
+  and i could see the editor again." Root cause: `.layout` is a fixed 2-column CSS grid (sidebar +
+  main), and S459-16 rendered `<MaterialsPanel>` as a THIRD top-level grid child (its own
+  `<aside>`) -- grid auto-placement wrapped it onto a full-width new row, covering the level list
+  and 3D editor below it entirely. Fixed by nesting MaterialsPanel's content inside the EXISTING
+  sidebar `<aside>` (below "+ New level") instead of as a grid sibling. Apple #19533. Commit IDUNA
+  `6f2b32e` (+ `43b8990` changelog).
+- [x] **S459-18: fix flashlight beam -- an 8-pixel dot, not a light source** -- founder real-time:
+  "the flashlight shader doesnt seem to be working correctly im expecting it to be a light source"
+  -> "you can see a barley circle of light where the flashlight is supposed to be" -> "jost llike 8
+  pixels." Root cause, found by capturing the cone's own apex vertex through the real camera VP:
+  the apex sat EXACTLY at the camera's own eye position (distance 0), landing at clip-space w=0 --
+  a real, textbook degenerate vertex (undefined for the perspective divide, right at the near-plane
+  focal point). Every triangle in the fan shares that apex, so GPU near-plane clipping collapsed
+  the whole 55-unit cone down to a tiny sliver near screen center. Fixed the same way every real
+  spotlight effect avoids this exact singularity: the apex now starts `FLASHLIGHT_APEX_OFFSET` (1
+  real world unit) in front of the eye, not at it. Live-verified via Xvfb: captured the apex's own
+  clip-space w before the fix (0.000, confirming the diagnosis), then confirmed after the fix the
+  beam renders as a real, large, clearly visible glowing shape. All temporary debug/test code
+  removed before commit. Real, explicitly open, NOT addressed here: whether the base scene's own
+  lighting needs a broader upgrade independent of the flashlight (founder: "im not sure if the
+  whole scene needs to be upgraded to better lighting") -- a real, separate, larger question left
+  for a future founder decision, not silently bundled into this scoped bug fix. Apple #19536.
+  Commit SHANKPIT `900283d` (+ `3deec94` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
