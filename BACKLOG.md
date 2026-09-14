@@ -39251,24 +39251,34 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   levels"), not abandoned. A level created via S459-01 already has its own real, working format
   (SHANKPIT's own native `Wall` shape, see S459-01's own note) -- what's still missing is only the
   BRAWLPIT-specific import/conversion path, deferred until asked for.
-- [~] **S459-03: Choose level dimensions when creating a new level** -- the S459-01 backend
-  already accepts width/height/depth on `CreateLevel`/the create endpoint, but there is no
-  dedicated create-a-level dimensions UI yet (no frontend at all exists for any of SECTION 459
-  yet) -- real API support, not yet a real user-facing affordance.
-- [~] **S459-04: Create a cube primitive** inside a level -- the S459-01 backend's `UpdateLevel`
-  can append a new default `Wall` to a level's array and it will persist and export correctly
-  (test-proven), but there is no actual "click to add a cube" UI -- backend capability only.
-- [~] **S459-05: Face-drag editing** -- drag a cube's face to reshape it, no extrude, just moving
-  existing faces -- and it needs to be capable of getting a plain cube all the way to something
-  shipping-container-shaped through that alone, the founder's own real bar for whether this item
-  is actually done. The backend math is real and test-proven
-  (`TestFaceDragEditing_ReshapesCubeWithoutMovingOppositeFace`: dragging one face of a `Wall`
-  changes only that face, the opposite face provably doesn't move, verified by adjusting
-  center+size together rather than storing min/max corners) -- but there is no actual drag
-  interaction anywhere; a human cannot do this yet, only a script calling the API can. The real,
-  large remaining piece of all of S459-03/04/05 is the same one thing: an actual 3D editing
-  surface in NOCK's frontend (a WebGL/three.js scene, a viewport, mouse-drag-to-face-hit-testing)
-  -- not scoped or started in this pass.
+- [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
+  fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
+  persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
+- [x] **S459-04: Create a cube primitive** inside a level -- real "+ Add cube" button in the same
+  tab, appends a default `Wall` (via `aDefaultWall`) to the level's draft state, visible
+  immediately in the 3D viewport, persisted on Save. Apple #19491. Commit IDUNA `f6e6a64`.
+- [x] **S459-05: Face-drag editing** -- drag a cube's face to reshape it, no extrude, just moving
+  existing faces -- capable of getting a plain cube all the way to something shipping-container-
+  shaped through that alone, the founder's own real bar for whether this item is actually done.
+  Real, working 3D viewport (`Viewport3D` in `ShankpitLevelEditor.tsx`): orbit camera, raycasts
+  against wall meshes to find the hit face, then uses the same closest-point-between-two-lines
+  technique professional 3D gizmos use (Blender/Unity move handles) to project mouse movement onto
+  the hit face's own world axis regardless of camera angle -- the client-side twin of
+  `internal/shankpit`'s own server-side `TestFaceDragEditing_ReshapesCubeWithoutMovingOppositeFace`
+  proof (dragging one face never moves the opposite one). A human can now actually do this end to
+  end: create a level, add a cube, drag a face out, save, reload. Deliberately shipped in the
+  existing React/TypeScript/three.js stack rather than a native PARENA/WASM core -- PARENA has no
+  WASM emit target yet (a real, confirmed gap, not assumed -- came up during NOCK's own earlier
+  S387 texture-generation sandboxing work), and the founder's own explicit real-time direction was
+  to ship something fast now and iterate on it if it's rough ("but fuck it we need something
+  shipped fast" / "whateer ships it the fstest" / "we can make it faster iterate on it if it
+  sucks") rather than block v0 on standing up a whole new PARENA compiler backend first. A native
+  PARENA-core rewrite stays a real, named future direction (see the "HAVE PARENA FILL IN THE GAPS"
+  note below), not attempted here. `tsc -b && vite build`/oxlint clean. Built, deployed (`iduna`
+  restarted, `/health` confirmed), and verified the built bundle actually contains the new UI
+  string before the Go binary embedding it (`go:embed`) was rebuilt -- the exact staleness pitfall
+  a past session already got burned by once (see this repo's own memory notes). Apple #19491.
+  Commit IDUNA `f6e6a64`.
 
 NEAR-TERM FOLLOW-UP, right after v0 lands (not part of the deferred-later list below): the
 founder named wanting real premades/prefabs "pretty early on" -- save a piece of edited geometry
@@ -39325,6 +39335,19 @@ here, roughly in the order the founder raised them):
   this file's own top-level repo table) with its own NORTHSTAR; whether/how a shared level-editor
   investment should serve both is an open question for a real founder decision later, not resolved
   or assumed either way here.
+- A native PARENA-core rewrite of the editor itself ("Path B," a true from-scratch engine: core
+  viewport/editing/undo logic in PARENA, compiled to WASM, rendered via a real GPU binding), named
+  by the founder directly mid-build ("PARENA" / "HAVE PARENA FILL IN THE GAPS") as a genuinely
+  intended future direction, not a rejected idea -- the S459-04/05 frontend shipped in React/
+  TypeScript/three.js instead because PARENA has no WASM emit target at all today (a real,
+  confirmed gap, not assumed -- named directly during NOCK's own earlier S387 texture-generation
+  sandboxing work) and standing up a whole new compiler backend first would have meant no working
+  editor for a long time, which the founder's own explicit real-time direction ("but fuck it we
+  need something shipped fast" / "we can make it faster iterate on it if it sucks") ruled out for
+  now. A real, later PARENA-core swap is not scoped here -- it would need its own real WASM-target
+  scoping pass first, matching this same section's "mods first" cross-cutting design constraint
+  above: whatever the current level format looks like should stay swap-friendly, not architected
+  in a way that locks the editor to the JS implementation forever.
 
 NOT YET DECIDED, real open questions for the actual sprint/card planning pass this section exists
 to feed into (per the founder's own stated next step, not resolved here): what the online/
