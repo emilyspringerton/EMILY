@@ -39401,6 +39401,25 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   mirror pattern, not new), verified the built strings ("Constrain Y while dragging", "Undo (Ctrl")
   are in the deployed bundle, IDUNA binary rebuilt and redeployed, `/health` verified. Apple
   #19506. Commit IDUNA `421fa58`.
+- [x] **S459-13: fix custom-level off-by-one -- first box always silently dropped** -- founder
+  real-time: "we have some kind of off by 1 error for the boxes if i have 2 i only get 1 if i have
+  3 i only get 1." Root cause: every shared `map_geo`/`map_count` consumer in `physics.h`
+  (`draw_map`, `trace_map_boxes`, `phys_sample_ground_height`, `resolve_collision`) deliberately
+  loops from index 1, not 0 -- a real, established convention for the hand-authored scenes, where
+  `map_geo[0]` is always a large floor/under-slab box rendered/traced separately elsewhere so
+  redrawing/retracing it there would be redundant. A NOCK-authored custom level has no such "index
+  0 is a floor slab" box -- every box is real, author-placed geometry -- so that shared convention
+  silently ate the level's first authored box every time (1 box -> 0 visible/collidable, 2 -> 1, 3
+  -> 2, ...). Fixed in `phys_set_custom_level` only, not in any shared per-scene loop (their
+  skip-index-0 contract is real and load-bearing for every OTHER scene): custom-level boxes now
+  copy into buffer index 1 onward, leaving index 0 a real, deliberately zeroed dummy the shared
+  loops were already going to skip anyway; buffers bumped by one slot of headroom
+  (`CUSTOM_LEVEL_MAX_BOXES + 1`). Live-verified, not just compiled: built `apps/server` with a
+  temporary debug harness (2-box and 3-box test level JSON files loaded via `--level`), confirmed
+  `phys_sample_ground_height` now returns the correct top height at every authored box position
+  including the first (previously always missing) -- debug code and the temporary test port both
+  fully reverted before commit (`git diff` confirmed zero leakage). Apple #19509. Commit SHANKPIT
+  `06675d5` (+ `42fa52a` changelog).
 - [x] **S459-03: Choose level dimensions when creating a new level** -- real width/height/depth
   fields on the "SHANKPIT Levels" tab's own new-level create form (`ShankpitLevelEditor.tsx`),
   persisted through S459-01's own backend. Apple #19491. Commit IDUNA `f6e6a64`.
