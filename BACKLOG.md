@@ -39821,7 +39821,29 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   both axes -- a failed decode keeps the old square fallback (no real dimensions to preserve).
   Live-verified under Xvfb: the decal now renders as a real tall rectangle matching the spray's
   true portrait shape. All three build paths clean. Apple #19630. Commit SHANKPIT `a97ff9a` (+
-  `ab7dfa4` changelog). session: sess-20260905-0720-ec33e7c5
+  `ab7dfa4` changelog).
+
+  Real, found-live CI outage, same day: founder real-time: "the build is down... it cant cut a
+  release." Root cause, confirmed via the real GitHub Actions API job log: TWO independently
+  hand-maintained CI workflow files (`.github/workflows/release.yml` AND `tests.yml`, both trigger
+  on push -- why every push produces two "ShankPit Factory" runs) each carry their own separate
+  copy of the exact same explicit Windows-client build command; neither was updated when S459-33
+  added `packages/world/parena_runtime.c` + `png_decode_gen.c` to the Makefile's own `LOBBY_SRC` --
+  `undefined reference to arena_init/arena_alloc/png_decode/arena_free_all` at link time, every run
+  since. Same real class of drift a pre-existing comment in `release.yml` already documented for
+  `gband_mesh_rig.c` (2026-09-10) -- now a real, named, RECURRING pattern (three live incidents),
+  not fixed by unifying the two copies in this pass (real, separate follow-up, named not done).
+  Fixed both files one at a time, watching CI live after each: `release.yml` alone (commit
+  `c8fc819`) only fixed HALF the problem (one of the two duplicate runs went green, the other kept
+  failing with the exact pre-fix argument list) -- found and fixed the second, independent copy in
+  `tests.yml` (commit `2ee560e`), then watched both workflows go green for real via the GitHub API
+  before declaring this done. Confirmed a real GitHub Release was cut (`v0.24.0`, commit `2ee560e`,
+  real Windows client/bots/world build zips attached) -- the repo's first successful release since
+  this outage began. Also hand-delivered a Windows build directly to the founder earlier in this
+  same session (before the CI root cause was found), cross-compiled locally using a vendored MinGW
+  SDL2 kit, so a working binary was available immediately rather than waiting on the CI fix. Apple
+  #19633. Commits SHANKPIT `c8fc819` + `2ee560e` (+ `16d1af9` changelog). session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
