@@ -2618,7 +2618,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok can we add some modest rewards for hitting buttons like movement a and b' -- add a small activit…** — obs `2026-09-13T08:02:01Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: add a 'Hide Disabled' toggle to the NOCK AI Opponents UI so disabling a checkpoint can function as a…** — obs `2026-09-13T17:34:01Z`. CURATED: 2026-09-13.
 - [ ] **Founder real-time: re-enable BRAWLPIT registry checkpoints disabled by NOCK's 'Disable All' (S452) whose elo is above 1…** — obs `2026-09-13T19:33:41Z`. CURATED: 2026-09-13.
-- [ ] **Founder real-time: SHANKPIT NOCK level editor initiative -- wants SHANKPIT built into a Half-Life/Halo-style narrative …** — obs `2026-09-13T23:59:34Z`. CURATED: 2026-09-13.
+- [ ] **Founder real-time: SHANKPIT NOCK level editor initiative -- wants SHANKPIT built into a Half-Life/Halo-style narrative …** — obs `2026-09-13T23:59:34Z`. CURATED: 2026-09-13. See SECTION 459 below for the full scoping pass.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -37413,7 +37413,7 @@ rather than the oldest-still-open one.
   duels") is thematically connected to the exact PvP duel code path this pass deliberately left
   untouched — named here for whoever triages that card next, not acted on in this pass.
   session: sess-20260905-0720-ec33e7c5
-- [ ] **LVL-EDITOR-12331: ok SHANKPIT itself can be the level editor.... like currently there are no textures for a lot of stuff what if we give an in game texture selection tool anc an in game geometry tool mv rotate** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **LVL-EDITOR-12331: ok SHANKPIT itself can be the level editor.... like currently there are no textures for a lot of stuff what if we give an in game texture selection tool anc an in game geometry tool mv rotate** Folded into SECTION 459 below (SHANKPIT NOCK level editor scoping) -- not built yet, see that section for the real, current plan.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **GFD-x-99: manifestation crystals should drop from the KING nms in GFD king worm should have a chance to drop either one** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
@@ -38365,7 +38365,7 @@ BRAWLPIT-RL-NORTH).
   session: sess-20260905-0720-ec33e7c5
 - [ ] **213213: shankpit parity with BRAWLPIT ui ux wise (needs a little love)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-- [ ] **213412: SHANKPIT LEVEL EDITOR** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **213412: SHANKPIT LEVEL EDITOR** Folded into SECTION 459 below (SHANKPIT NOCK level editor scoping) -- not built yet, see that section for the real, current plan.
   (sess-20260905-0720-ec33e7c5)
 - [ ] **43243223: SHANKPIT MODEL EDITOR** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
@@ -39179,6 +39179,143 @@ opponent: "no no no sir its supposed to fight it self and evolve via the league"
   future disable/enable actions go through the audited path instead of raw SQL. Apple #19463.
 
   session: sess-20260905-0720-ec33e7c5
+
+## SECTION 459: SHANKPIT NOCK LEVEL EDITOR — SCOPED, NOT STARTED (2026-09-13/14)
+
+Founder real-time, a real, large, multi-message scoping session (routed via `emily observe` first
+per Principle 18/1a, Apple #19485) -- not yet built, this section is the scoping/triage pass only,
+explicitly requested as such ("i switched you to low mode so you can take direction into the
+backlog and then we will plan into sprints and cards"). Consolidates that direction with two
+already-open, untriaged kanban cards asking for the same real thing (`LVL-EDITOR-12331`,
+`213412: SHANKPIT LEVEL EDITOR`) and builds directly on NOCK's own already-real, already-shipped
+foundation from SECTION 387/388 (procedural texture generation + a real SQLite texture-library
+CRUD, `IDUNA/docs/NOCK_NORTHSTAR.md`) -- the founder's own framing is literally "what we have now
+is the start of an environment to create and manage the textures thats great but we need to get
+the foundations solid first," i.e. this is NOCK's own next real phase, not a separate tool.
+
+THE STORY GOAL (why this matters, not just what to build): SHANKPIT should become an environment
+capable of telling a Half-Life/Halo-style story -- an action FPS where the narrative happens
+around the player rather than through cutscenes: start without the suit on, find a gun, NPC
+dialogue drives the player toward where to go and what's happening, with a specifically named
+opening beat, a long Black-Mesa-style train ride establishing mood while robots are shown being
+assembled and walking around in the background. None of that narrative/scripting work is scoped
+here -- it is the reason the level editor needs to exist at all, named directly so future scoping
+doesn't lose track of why geometry-only v0 is a means to that end, not the end itself.
+
+THE EDITOR GOAL: an ONLINE, collaborative level editor for SHANKPIT, explicitly modeled on
+BRAWLPIT's own real registry pattern (level registry + selection, checkpoint-style versioning) --
+"the brawlpit model but for a level editor... we need basically the affordances of brawlpit for
+3d." The founder named the real prior-art question directly and left it open, not resolved here:
+how id/Valve-era FPS level design actually worked (Half-Life/Black Mesa's own modular
+hallway-and-office kit pieces) as the real reference point for whatever this editor's own
+authoring model becomes -- worth a real look before designing the modular-piece system, not
+assumed to already be understood. The real, named reason "online" specifically (not just a nice-
+to-have): NOCK is meant to become the whole game-studio tools suite going forward, hosted rather
+than local, specifically to get tight feedback loops without needing a powerful personal
+workstation for game dev -- this level editor is one instance of that broader NOCK-as-game-studio
+direction, not a standalone tool that happens to also be a web app.
+
+A CROSS-CUTTING DESIGN CONSTRAINT ON V0 ITSELF, not a v0 feature: "please consider that from the
+beginning some kind of basic mods first parena vibe we are gonna literally need to have scripting
+and stuff to make the game so that its totally programmable where we can make anything we can
+imagine happen on the screen." The scriptable-object/lighting/PARENA-programming items below are
+real, deferred FEATURES -- but the founder is explicitly asking that v0's own underlying
+architecture (the level file format from S459-02 above, above all) be designed with future
+PARENA-mod attachment points in mind from day one, matching this monorepo's own "mods first
+everything" precedent (PAPERCRAFT/ECOWAR/DEADWEIGHT all commit to this from their own first
+NORTHSTAR draft, not as a retrofit), so that adding real scripting later is a real extension of
+the format rather than a breaking rewrite of it. This is a real constraint on HOW S459-01/02 get
+built, not a reason to build scripting itself in v0 -- named here so whoever actually designs the
+level file format sees it before locking in a shape that has nowhere for a future PARENA hook to
+attach.
+
+V0 SCOPE, sharpened directly by the founder mid-scoping to its real, final cut: "thats basically
+the v0 is i can create levels with basic cubes that can be turned into geometry like shipping
+containers" / "we dont even need the textures for the v0" -- no shader/texture step at all in v0,
+face-dragging alone needs to be capable of turning a plain cube into arbitrary box-like level
+geometry (a shipping container is the founder's own concrete bar for "good enough"). Broken into
+ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in dependency order:
+
+- [ ] **S459-01: SHANKPIT/NOCK level registry + selection**, mirroring BRAWLPIT's own real
+  checkpoint registry pattern exactly (list/create/select levels, not just one hardcoded scene).
+  Foundational -- every later item needs somewhere real to persist a level to and load it back
+  from, same reason BRAWLPIT's own registry came before its own editing affordances.
+- [ ] **S459-02: New SHANKPIT/NOCK level file format + a real BRAWLPIT-level conversion path**,
+  loading every existing BRAWLPIT level into it, so real, already-built geometry is immediately
+  editable rather than starting from zero.
+- [ ] **S459-03: Choose level dimensions when creating a new level** (registered against S459-01's
+  own registry).
+- [ ] **S459-04: Create a cube primitive** inside a level.
+- [ ] **S459-05: Face-drag editing** -- drag a cube's face to reshape it, no extrude, just moving
+  existing faces -- and it needs to be capable of getting a plain cube all the way to something
+  shipping-container-shaped through that alone, the founder's own real bar for whether this item
+  is actually done.
+
+NEAR-TERM FOLLOW-UP, right after v0 lands (not part of the deferred-later list below): the
+founder named wanting real premades/prefabs "pretty early on" -- save a piece of edited geometry
+(a shaped cube, once S459-05 gets it to something shipping-container-shaped) as a reusable placed
+piece rather than re-shaping one from scratch every time it's needed again. This is the real,
+concrete mechanism behind the editor goal's own Half-Life/Black Mesa modular-hallway-and-office
+reference above -- a real kit-piece system needs premades to place, reuse, and presumably
+reposition/duplicate, so this should be scoped as S459-06 once v0 (S459-01 through S459-05)
+actually ships, not folded into v0 itself and not pushed out to the same "later" horizon as
+scriptable objects or the model editor below.
+
+NAMED, EXPLICITLY DEFERRED FUTURE SCOPE (real future phases, not silently dropped, not started
+here, roughly in the order the founder raised them):
+- Applying a shader/texture to loaded geometry -- explicitly cut from v0 ("we dont even need the
+  textures for the v0"), but a short reach once v0 lands since NOCK's own real texture library
+  from SECTION 388 already exists to plug into.
+- A spritemap-style authoring affordance -- the founder's own example: a platformer spritemap
+  where the artist just draws a box and the system already knows to render grass on top and
+  proper edge tiles at the boundary, so the artist never hand-places individual tiles. The 3D
+  analog of that (auto-correct materials/edges for a drawn volume) is named as the real long-term
+  goal for authoring speed, explicitly not v0.
+- Full extrude support (deferred specifically because of the added complexity around vertex
+  normals once faces can be pulled into new topology, not just repositioned).
+- Terrain (deferred to v1 or later, not v0 -- "we don't even have to start with terrains we can
+  skip terrains for v1").
+- Scriptable, interactive level objects: ladders, doors, elevators, moving platforms/boxes, and
+  breakable boxes/props ("we are going to want it to become the full level editor with scriptable
+  stuff like ladders and doors and elevators and boxes that move" / "boxes that can be broken") --
+  a real, separate, larger phase past static geometry editing, not attempted in v0. Named directly
+  as PARENA programming ("we are gonna need lighting and stuff parena programming"), matching this
+  monorepo's own established "mods first everything"/dogfooding convention (REDGARDEN/ECOWAR/
+  PAPERCRAFT's own hand-written-host-plus-PARENA-mod-logic-islands precedent) rather than inventing
+  a new, separate scripting language for this editor.
+- Lighting -- named in the same breath as the scripting item above ("we are gonna need lighting
+  and stuff parena programming"), not yet scoped on its own (real-time vs. baked, per-level vs.
+  per-object, whether it's PARENA-scriptable too) -- named here so it isn't lost, not designed.
+- A model editor and animator -- explicitly named as a real, intended future direction for this
+  SAME tool to grow into ("we also want to parlay it into a model editor and animator but thats
+  going to be later"), not a coincidence that `43243223: SHANKPIT MODEL EDITOR` (a separate,
+  already-open, untriaged kanban card) exists alongside this section -- that card is the real
+  future home for this specific direction, to be triaged into its own section once this level
+  editor's own foundation actually lands. The founder's own current best guess on shape, named as
+  a guess, not decided: probably shares underlying libraries with the level editor rather than
+  being a wholly separate codebase, but surfaces as its own separate screen/UI rather than living
+  inside the level-editing view.
+- Scripting character animation -- background NPCs actually walking around (the robots-assembling
+  train-ride beat from the story goal above needs this to be real, not a static tableau). Named
+  directly against GOLDENBAND, this monorepo's own already-real `.gband` animation asset format +
+  sampler + BVH import pipeline (see its own row in this file's top-level repo table) as the real
+  mechanism to build on rather than a new animation system invented from scratch for this editor.
+- A possible relationship to PAPERCRAFT, named by the founder as genuinely uncertain and not
+  decided ("this may or may not tie into papercraft to a certain extent i dunno") -- PAPERCRAFT is
+  its own separate C/SDL2 sandbox iterating SHANKPIT's own lineage forward (see its own row in
+  this file's own top-level repo table) with its own NORTHSTAR; whether/how a shared level-editor
+  investment should serve both is an open question for a real founder decision later, not resolved
+  or assumed either way here.
+
+NOT YET DECIDED, real open questions for the actual sprint/card planning pass this section exists
+to feed into (per the founder's own stated next step, not resolved here): what the online/
+collaborative editing model actually needs technically (concurrent multi-editor conflict handling,
+or simpler single-editor-at-a-time locking to start), what the new level file format actually looks
+like (and the real BRAWLPIT-level-format conversion path), and whether the existing NOCK web GUI
+(SECTION 388's own real Tailwind frontend) is the right home for a 3D geometry editor or whether
+that needs its own real rendering surface.
+
+session: sess-20260905-0720-ec33e7c5
 
 ## SECTION 458: IDUNA — BLOG POST PERMISSIONS SILENTLY BROKEN BY AMBIENT UMASK (2026-09-13)
 
