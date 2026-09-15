@@ -40975,6 +40975,33 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-76: real Elo updates now push back onto already-registered checkpoints** --
+  founder real-time: "im a little concerned that the elos of the generation 0 bots arent going
+  up and down maybe they just havent gotten matches can we make sure the elos are set up to go
+  up and down not just whatever the first elo into the registry is?" Real gap found, not a
+  match-scheduling problem: generation 0 genuinely does get evaluated -- once, by generation 1's
+  own real vs-prior-generation match (`rl_train_packet.py`'s league orchestrator) --
+  `league.record_match_result` is a real, symmetric two-sided Elo update, so it correctly moves
+  BOTH generation 0's and generation 1's own local Elo. But generation 0 was already pushed to
+  the remote registry BEFORE that evaluation ever ran, carrying whatever Elo it had at push time
+  (1500, since it had nothing to compare against yet) -- and until now, IDUNA had no way to push
+  that update back onto an already-registered row at all. A checkpoint's own remote Elo was
+  permanently frozen at its push-time value forever, no matter how many real matches it played
+  afterward. Fixed with two sibling commits: new IDUNA `PATCH /api/v1/shankpit-checkpoints/:id`
+  (`CheckpointStore.UpdateElo`), gated the same way the upload endpoint already is (agent-auth,
+  `shankpit.checkpoints.write` -- an automated training-pipeline write, not a human NOCK action
+  like activate/disable); new `rl_registry.py` `update_checkpoint_elo()` calling it, wired in
+  right after `record_match_result` using `prev_remote_ids` -- a dict that was already being
+  tracked for exactly this purpose but never actually consumed anywhere until now. Live-verified
+  end to end, not just wired: ran a real local training run with an actual registry push against
+  local IDUNA -- confirmed generation 0's own already-registered rows moved from `elo=1500` to
+  real, distinct post-match values (`1484`/`1500`/`1516`) once generation 1's own evaluation
+  matches ran, exactly the "go up and down" behavior that was missing. Test rows disabled and
+  blobs removed afterward -- production ends in the same state it started in. New real
+  regression test (`TestCheckpointStore_UpdateElo_MovesAnAlreadyPushedCheckpoint`) plus an
+  unknown-id error-path test. `go build`/`go test` and `python -m unittest discover` (36 tests)
+  both green. Apple #19759. Commits IDUNA `a2d97a6`, SHANKPIT `efdde29`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
