@@ -40315,6 +40315,32 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   IDUNA redeployed and health-checked; new endpoints verified live (a real, honest empty registry
   today, not faked data). Apple #19683. Commit IDUNA `6819a7d`. session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-50: real remote checkpoint registry client + Colab training script, live-verified
+  end to end** -- founder real-time: "ensure we have the colab training skrip." New
+  `scripts/rl_registry.py` (SHANKPIT): a real client (`authenticate`/`push_checkpoint`/
+  `list_checkpoints`/`download_checkpoint`), a direct port of `BRAWLPIT/scripts/rl_registry.py`,
+  2 new unit tests for the multipart encoder. A new real M2M agent (`SHANKPIT-RL`,
+  `shankpit.checkpoints.write`) was provisioned via `cmd/bootstrap` in a SEPARATE new migration
+  (`202609150030_shankpit_rl_agent.sql` -- S459-49's own migration was already applied/recorded
+  by the time this need was found, never modify an applied migration) -- verified with
+  `--dry-run` first that it would only provision the one new credential, touching nothing else,
+  before running it for real. New `scripts/colab_train.py`: the real "drop into one Colab cell"
+  bootstrap, a direct structural port of `BRAWLPIT/scripts/colab_train.py` (same real
+  `_run`/`_stream`/`_bootstrap_repo`/`_bootstrap_build` shape, including that file's own real
+  Colab-output-visibility fix, S439) -- clones the repo, builds `bin/shank_server`/`bin/emily-bot`,
+  installs `gymnasium`/`stable_baselines3`, runs `rl_train_packet.py`, and pushes the resulting
+  checkpoint to the shared registry when a real agent secret is given. **Live-verified, not just
+  built**: pushed the real S459-48 training checkpoint
+  (`var/rl_checkpoints/ppo_shankpit_queue_smoke.zip`) to the live IDUNA registry, listed it back,
+  and pulled it back byte-identical (SHA256 match) -- the SHANKPIT AI Opponents NOCK tab (S459-49)
+  now shows one real, non-fabricated registered checkpoint today, not an empty placeholder. Real,
+  honest, still not done: `rl_train_packet.py` has no `--resume-from-registry` warm-start or
+  `--num-envs` parallel-rollout support (both real BRAWLPIT features, not yet ported); THE_LEAGUE
+  registration still needs 3 real, distinct archetypes (unchanged from S459-48's own honest
+  status). Per explicit founder instruction ("we dont need a notebook"), no `.ipynb` was built --
+  the drop-in `.py` script is the real deliverable. Apple #19685. Commits: SHANKPIT `84d1340`,
+  IDUNA `551a74d`. Doc: `SHANKPIT/docs/BOT_TRAINING_NORTHSTAR.md` §10. session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
