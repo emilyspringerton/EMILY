@@ -40699,6 +40699,36 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   real, decisive kill counts and Elo movement (1516/1484, etc) came through exactly as before.
   Full `python -m unittest discover` (35 tests) green. Apple #19733. Commit SHANKPIT `00d39af`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-65: fixed jump feeling like it "slams you back to the ground"** -- founder real-time:
+  "the physics are very expressive and lively very fast movement and you can jump pretty high the
+  server may need to be more lenient? it like slams me back on to the ground before i can get
+  much verticality at all", then confirmed horizontal movement felt fine, only vertical/jump was
+  broken ("like the non vertical movement seems fine but i cant accelerate because i cant jump").
+  First checked whether raw packet size/LZ4 compression could be the real cause of a separate
+  "rubberbanding" report -- measured real struct sizes directly (`sizeof(NetHeader)`=12,
+  `sizeof(NetPlayer)`=72), computed realistic snapshot sizes (~300-450 bytes for typical player
+  counts, well under UDP-safe MTU, at ~31Hz per client) and concluded LZ4 would not help here
+  (packed binary floats don't compress well, and per-packet compress/decompress overhead at this
+  frequency likely costs more than it saves) -- named as a real, separate, not-yet-investigated
+  cause. Then found the real, concrete root cause of the jump complaint: client reconciliation's
+  `RECONCILE_HARD_SNAP_DIST` (`apps/lobby/src/main.c`) was 2.0 world units -- any predicted-vs-
+  authoritative position divergence past that threshold skips ALL smoothing
+  (`reconcile_corr_x/y/z`'s own exponential decay) and hard-snaps the camera straight to the
+  server's position, a path meant for genuine desyncs/teleports/bugs, not normal gameplay.
+  Live-measured, not guessed: connected a real diagnostic client (`scripts/rl_env_packet.py`'s
+  own `PacketClient`, no mocks) directly to an isolated dev server and held jump -- a single real
+  jump reaches ~8.65 world units of height within ~300ms (`JUMP_FORCE=0.95`,
+  `GRAVITY_FLOAT=0.025`/tick, `packages/common/physics.h`), over 4x the old threshold, so every
+  real jump's own divergence blew past it almost immediately -- every jump took the harsh,
+  unsmoothed hard-snap path, exactly matching the reported sensation. Fixed:
+  `RECONCILE_HARD_SNAP_DIST` bumped to 12.0 -- real margin above the measured real jump peak, so
+  normal (even fast/expressive) movement stays on the smooth-correction path while a true anomaly
+  (many times a real jump's own displacement) still gets caught. `apps/lobby` builds clean, fresh
+  Windows EA client built (`make ea-windows`) and pushed so CI's own real build/artifact pipeline
+  picks it up -- real, honest limit named: this is an SDL2 GUI client, the actual in-game "feel"
+  needs a human playtest to fully confirm; what's verified here is the real measured jump-height
+  data the new threshold is sized against. Apple #19737. Commit SHANKPIT `af5f82c`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
