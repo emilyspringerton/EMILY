@@ -40948,6 +40948,33 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   tests) and `go test -count=1 ./...` (all packages) both green. Apple #19755. Commit SHANKPIT
   `5f93b86`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-75: added `ANTICHEAT_NORTHSTAR.md` -- real, phased anti-cheat design scoping** --
+  founder real-time: "ok northstar this for anticheat," after a real research conversation on
+  hardware-level USB HID input cheats (ATmega32U4/Arduino-based aimbots that are genuinely
+  indistinguishable from a real mouse at the OS level, since the cheat IS a real HID signal, just
+  PC-side-script-steered). Grounded the plan directly in SHANKPIT's own real, existing
+  architecture, checked not assumed: fully server-authoritative combat
+  (`packages/common/physics.h`'s `update_weapons`/`check_hit_location` -- a hardware cheat can
+  only steer where the crosshair points, never fabricate damage/kills); raw `UserCmd`
+  `yaw`/`pitch` already flowing through `process_user_cmd` at real
+  `CLIENT_USERCMD_HZ`=60Hz (Phase 0 telemetry needs zero new wire protocol); the existing real
+  bot-pool architecture (`emily-bot`/`frozen_policy_bot.py`, genuine connected UDP clients on the
+  same wire protocol a human uses, so a bot-only match is the same match type with different slot
+  fillers, not a new concept); S459-62's own real `is_active_opponent`/`GetActiveOpponent`
+  precedent as directly reusable groundwork for routing one specific suspected player. Captured
+  the founder's own real, independently-converged-on design: silent reroute on suspicion (not
+  proof) into a bot-only match; an escalating bot ladder culminating in sub-human-reaction-time
+  "impossible" bots (a real, physically-grounded, near-unfakeable signal -- no human can
+  out-track a genuine 0ms-reaction opponent, a real, checkable nerve-conduction floor of
+  ~100-120ms, not a guess); a bounded-cost outcome (never an automatic permaban from this system
+  alone) that makes even a false positive safe to run automatically, matching the founder's own
+  "if they aren't cheating they have good scrim partners" framing directly. Real, honest,
+  named-not-solved: screen-reading/CV-only cheats and memory-reading wallhacks are a different
+  threat class this doc doesn't cover; silently diverting one client out of normal matchmaking is
+  real, non-trivial routing work against `queue_activate_match`, not a config flag. Registered in
+  `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
+  written. Apple #19757. Commit SHANKPIT `44e8195`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
