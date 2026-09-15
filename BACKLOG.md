@@ -40729,6 +40729,31 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   needs a human playtest to fully confirm; what's verified here is the real measured jump-height
   data the new threshold is sized against. Apple #19737. Commit SHANKPIT `af5f82c`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-66: fixed a false-positive red kill ring appearing before a real kill** -- founder
+  real-time: "theres some issue with firing the gun like i have to click a bunch of times like
+  double with the sniper it lets me fire double rate of fire and i get 2 red frag indicators the
+  first one is a false positive if i keep shooting it actually frags and i get the second frag
+  indicator." Real root cause traced to `hit_feedback` (the wire field driving
+  `apps/lobby`'s own `>=25` red double-ring kill marker), NOT firing rate at all: nothing in
+  `packages/common/physics.h` (the real online multiplayer path `apps/server` runs) ever reset
+  it back to 0 once a real hit/kill call site set it (10/15/20 for various hits, 30 for a real
+  kill via `phys_enter_death_state`) -- confirmed by grepping every real reference in the file.
+  So a real kill's `hit_feedback=30` stayed on the attacker's own `PlayerState` and kept
+  broadcasting on every snapshot (~31Hz) until their NEXT hit landed, whatever that hit's own
+  real outcome was -- the next shot always showed a stale kill ring first, immediately followed
+  by the real new kill's own ring: exactly "2 red frag indicators, the first one is a false
+  positive." Confirmed this was a genuine, real gap and not an invented theory: found
+  `packages/simulation/local_game.h` (SHANKPIT's own offline/local single-player sim path)
+  already has this EXACT decay pattern (`if (p->hit_feedback > 0) p->hit_feedback--;`) in two
+  places -- the online multiplayer path in `physics.h` simply never got it, a real parity gap
+  between the two simulation paths. Fixed by adding the identical decay alongside the other real
+  per-tick timers already decremented in the same function scope
+  (`attack_cooldown`/`is_shooting`/`ability_cooldown`), so a kill ring now fades over ~30 ticks
+  (~480ms) instead of persisting indefinitely. Both `apps/server` and `apps/lobby` build clean,
+  live production server redeployed via `systemctl --user restart`. Full
+  `python -m unittest discover` (35 tests, unrelated to this C-only change, confirms nothing else
+  broke) green. Apple #19738. Commit SHANKPIT `1e7e90e`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
