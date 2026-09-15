@@ -40840,6 +40840,21 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   GUI client -- the actual in-game feel needs a human playtest to confirm. Apple #19743. Commit
   SHANKPIT `38f114b`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-70: colab_train.py's default now runs ~100 generations instead of ~5** -- founder
+  real-time: "it only goes like 5 generations can you make it go like 100?" Real root cause:
+  generation count isn't a separate knob -- `rl_train_packet.py`'s own main loop runs until
+  `--total-timesteps` is exhausted, producing one generation per `--save-freq`(=4096, its own
+  real default) chunk, so `20000/4096` rounds to exactly the observed 5 generations. New real
+  default: `SHANKPIT_TOTAL_TIMESTEPS=409600` (`100 * 4096`), sized for exactly "100 generations"
+  at the same per-generation training amount, not a round-number guess. Real, honest cost named
+  in the doc comment, not silently traded away: ~100 generations is a genuinely long run
+  (multiple hours) at this box's own live-measured ~4-5 min/generation, well past a typical
+  free-tier Colab session's own idle/hard-cap limits -- `SHANKPIT_RESUME_FROM_REGISTRY=1`
+  (already real and live, S459-54) named as the real mitigation, resuming each role from its own
+  latest pushed registry checkpoint instead of losing progress if the runtime disconnects
+  partway through. Full `python -m unittest discover` (35 tests) green. Apple #19748. Commit
+  SHANKPIT `b6cdad4`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
