@@ -40477,6 +40477,32 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   verified: rebuilt, redeployed the standing bot pool, watched for 20+ real seconds with zero
   retreat-spam (previously logging every ~5s), server `STATUS` confirms all 3 bots active and
   stable. Apple #19698. Commit SHANKPIT `5bb2575`. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-56: northstar/roadmap for bot training -- native inference + multi-main league scoped,
+  not built** -- founder real-time: "northstar this whole thing" (immediately after asking "what
+  about multi main league? multiple fresh policies - lets say 3 start from scratch each with
+  dedicated exploiters"). Added a real §12 to `docs/BOT_TRAINING_NORTHSTAR.md`: a status summary
+  of the full, real, working pipeline (wire capture, 84-feature observations, 5-tier reward
+  including the real multikill spike, the real training env, the real 3-role self-play league
+  orchestrator, the remote registry + NOCK UI, the Colab script) plus two concrete next steps
+  named with real tradeoffs, not just listed. (1) **Native in-game inference**: the standing
+  QUEUE bot pool still runs the old heuristic, never a trained checkpoint — a trained model only
+  ever gets evaluated by a real Python process today. BRAWLPIT's own real precedent
+  (`scripts/export_policy_weights.py` + a hand-rolled MLP forward pass,
+  `packages/common/mlp_policy.h`) is the concrete template, real-named as needing a Go port (not
+  a straight file copy) since SHANKPIT's standing bot pool (`apps2/emily-bot`) is Go, BRAWLPIT's
+  own native inference target is C. (2) **Multi-main league**: a real, legitimate architecture —
+  arguably closer to the actual real AlphaStar league (which ran multiple independent Main
+  agents, not one) than the single-Main league S459-54 just built. Real tradeoffs named
+  explicitly rather than glossed: genuine diversity payoff (independent Main lineages can't all
+  collapse into the same local optimum together), but a real 3x compute cost on a pipeline that
+  already trains roles *sequentially* and already struggled to complete a 2-generation test under
+  real concurrent load on this box (S459-54's own honest report), plus real code changes needed
+  in `rl_league.py`'s `LeagueRole` enum and `sample_for_*` PFSP functions (built around one
+  singular Main today, would need a real `lineage` tag or reworked League Exploiter sampling
+  across every Main). Recommended sequencing, given directly: native inference first — training
+  more diverse Mains before anything ever plays a real game with any of them solves the wrong
+  problem first. Apple #19705. Commit SHANKPIT `f6434a8`. Doc: `SHANKPIT/docs/
+  BOT_TRAINING_NORTHSTAR.md` §12. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
