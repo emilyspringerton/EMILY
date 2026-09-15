@@ -40625,6 +40625,36 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   work together. Full `python -m unittest discover` (35 tests) green. Apple #19723. Commit
   SHANKPIT `164eb53`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-62: QUEUE now uses the registry's active opponent as a real stopgap until a league
+  exists** -- founder real-time: "Setting the active SHANKPIT opponent isn't implemented yet...
+  can we update the QUEUE to use the active opponent until we have a league to queue against?"
+  Two real pieces, both wired: (1) NOCK's `ShankpitAiOpponents.tsx` "Set as opponent" button
+  previously showed a DaisyUI "not implemented" alert -- the backend
+  (`SetActiveOpponent`/`GetActiveOpponent`, `GET .../active`) was already real and working (S459-49),
+  it just had no caller; now wired to `shankpitCheckpoints.activate`, matching BRAWLPIT's own real
+  `AiOpponents.tsx` behavior exactly. (2) the real downstream consumer, `ops/shankpit-bot-pool.sh`
+  -- checks once at startup (not a live re-poll loop; restarting the service picks up a newly-
+  activated opponent, a real, honest v0 boundary rather than hot-swapping bot processes
+  mid-session) whether IDUNA has an active opponent set; if so, downloads it (new `rl_registry.py`
+  `active` CLI subcommand) and launches real `scripts/frozen_policy_bot.py` processes (real PPO
+  inference over the same real UDP wire protocol S459-54's self-play already uses) instead of the
+  heuristic `emily-bot` pool -- falling back to heuristic on any failure (none set, registry
+  unreachable, download failed), never a half-launched pool. Real, honest, named scope: this is a
+  Python-subprocess stopgap, NOT BRAWLPIT's own native in-game C inference (SHANKPIT still has no
+  `has_weights`/native-export concept at all -- stays real, separate, future work per
+  `docs/BOT_TRAINING_NORTHSTAR.md`, not silently promised here). Live-verified end to end, not
+  just wired blindly: activated a low-stakes, already-disabled test checkpoint via the actual Go
+  store logic, confirmed `rl_registry.py active`/`pull` correctly fetched and cached it, ran the
+  bot pool script against an ISOLATED test server (port 17797, not the live QUEUE port 6969, so
+  no real players/bot pool were ever touched) -- a real `frozen_policy_bot.py` process connected,
+  was welcomed by the server, and stayed active for 1000+ ticks. Fully cleaned up afterward
+  (killed the test processes, reverted production's active-opponent flag back to `null`). Both
+  live services (`iduna.service`, `shankpit-bot-pool.service`) redeployed via `systemctl --user
+  restart` and confirmed healthy -- the bot pool's own log now correctly reports "no active
+  opponent set" (its real, honest current state). `go build`/`go test`, `tsc+vite` build, and full
+  `python -m unittest discover` (35 tests) all green; new frontend identifiers confirmed present
+  in `dist/`. Apple #19725. Commits IDUNA `3bd249d`, SHANKPIT `a8823e7`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
