@@ -40341,6 +40341,68 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   the drop-in `.py` script is the real deliverable. Apple #19685. Commits: SHANKPIT `84d1340`,
   IDUNA `551a74d`. Doc: `SHANKPIT/docs/BOT_TRAINING_NORTHSTAR.md` §10. session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-50 follow-up: fixed a real live Colab failure -- colab_train.py never installed a Go
+  toolchain** -- founder ran the real script for the first time and hit `make emily-bot` failing
+  with `go: not found`. Real, found gap: BRAWLPIT's own `colab_train.py` (mirrored for
+  `_bootstrap_build`'s shape) never needed Go at all -- BRAWLPIT is pure C; SHANKPIT's
+  `apps2/emily-bot` is a real Go binary. Added `_ensure_go()`: installs the official upstream Go
+  1.23.4 tarball (matches/exceeds `go.mod`'s own `go 1.21` floor) to `/usr/local`, prepends to
+  PATH -- real, idempotent check-first (skips the download entirely if a `go` binary already
+  satisfies the floor, verified locally: correctly detected and skipped). Apple #19689. Commit
+  SHANKPIT `0a392fa`. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-51: `--fast-forward` now defaults ON (matching BRAWLPIT exactly) + a Fibonacci-scaled
+  survival-streak reward bonus, ported from BRAWLPIT** -- founder real-time: "we need to
+  implement fast forward just like brawlpit," then, after being asked whether the pipeline was
+  "event driven with the discounted reward over time": "give us the survival streak bonus."
+  Checked BRAWLPIT's own `rl_train_packet.py` directly: it hardcodes `--fast-forward`
+  unconditionally on every spawned server, no toggle -- SHANKPIT's own had it default OFF, a real
+  but overly conservative earlier-session choice (worry that the server racing ahead of a
+  single-threaded Python learner would make the small per-tick shaping terms noisy); BRAWLPIT's
+  own live registry (real checkpoints at generation 549 with sane Elo, trained the exact same
+  way) proves this doesn't actually block real learning. Flipped the default to `True` in both
+  `rl_train_packet.py` and `colab_train.py` (kept as an overridable `--no-fast-forward`).
+  Live-verified: a real training run showed `fast_forward=True` and throughput went from ~30fps
+  to ~107fps (~3.5x), no hang. Survival streak: a direct, faithful port of BRAWLPIT's own tier 5
+  (`REWARD_SURVIVAL_STREAK_UNIT`/`_fibonacci`/`SURVIVAL_STREAK_FIB_CAP=14`) into both
+  `scripts/rl_env_packet.py` (wired into `ShankpitQueueEnv.step`'s own real per-life tick
+  counter) and `apps2/emily-bot/reward.go` (kept a faithful mirror, per this session's own
+  established discipline), already carrying BRAWLPIT's own real, found-and-fixed bug: the
+  per-tick value stops being PAID once the streak exceeds the cap, not just clamped there (the
+  original bug paid `fib(cap)` forever past the cap -- a real reward-hacking incentive toward
+  passive stalling). One real, deliberate adaptation: BRAWLPIT scales by damage-percent (Smash-
+  style, climbs 0->300%+); SHANKPIT is health-based (100->0), so the bonus scales by
+  `(100-health)/100` instead -- same real intent, surviving one more tick near death is worth
+  more than surviving one more tick at full health. 8 new tests (7 Python + 1 Go), all passing.
+  Apples #19692. Commits SHANKPIT `91e6090` (fast-forward), `8002c00` (survival streak). session:
+  sess-20260905-0720-ec33e7c5
+- [x] **S459-52: real multikill mechanic -- double/triple/killtacular, reward-aware with an
+  escalating spike** -- founder real-time: "add double kills to SHANKPIT and then make the bot
+  double kill aware in terms of rewards (spike)" / "same for tripple kill" / "same for killtacular
+  (4)" / "make sure double kill has a healthy reward tho" / "and a tripple somewhere in the
+  middle" / "way more rewards for a killtacular" / "im aware that in 4 player pvp killtacular is
+  impossible thats fine implement it still 4 player is just what we are doing right now." Real,
+  standard Halo-style rolling-window multikill tracking: `PlayerState.kill_streak`/
+  `last_kill_time_ms` (`protocol.h`), updated in the one real place every kill funnels through
+  (`phys_enter_death_state`, `physics.h`) -- `MULTIKILL_WINDOW_MS=4000` matches the real,
+  well-known genre convention this naming borrows from. Deliberately NOT reset by the attacker's
+  own death in between (a real kill-RATE streak, not a life streak) -- but reset at both real
+  round-boundary points (`server_advance_dm_rotation`, `server_advance_queue_round`) so a stale
+  streak never carries into a new round. Escalating bonus added directly to the SAME
+  `accumulated_reward` field the base +150 kill credit already uses: double=+75, triple=+250,
+  killtacular=+1000 -- a real, deliberately super-linear ladder (verified live: 1.5x/2.67x/7.66x
+  a single kill's own final scaled reward magnitude), not a flat per-extra-kill increment, so a
+  killtacular reads as a genuinely different-magnitude training event. Because the bonus lands in
+  `accumulated_reward`, it needs NO separate reward-function code to make the bot "aware" of it
+  in terms of rewards -- it reaches the bot automatically through the existing `reward_feedback`
+  tier the instant a multikill lands (documented explicitly in both `rl_env_packet.py` and
+  `reward.go` so this isn't a silent design decision). Wire: `NetPlayer` gained `kill_streak`,
+  struct grew 68->72 bytes (re-verified via a compiled `sizeof`/`offsetof` probe, never guessed)
+  -- the C client needed zero code change (its own decode copies `sizeof(NetPlayer)` directly);
+  `scripts/rl_env_packet.py`'s ctypes struct and `decode_snapshot` updated to match (33 Python
+  tests, including the full offset table, all pass). Live-verified: full `go test ./...` and
+  `python -m unittest` both green, a real 2-bot UDP session against the extended 72-byte wire
+  format shows no panics. Live server + bot pool redeployed. Apple #19693. Commit SHANKPIT
+  `9e17718`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
