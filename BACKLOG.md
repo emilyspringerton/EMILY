@@ -40582,6 +40582,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   every flag name/value is accepted; full `python -m unittest discover` (35 tests) green. Apple
   #19717. Commit SHANKPIT `f1face3`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-60: fixed a real, live bug where every pushed registry checkpoint's Elo stayed 1500
+  forever** -- founder real-time: "ok the elos are not going up and down what was happening last
+  time when that was happening with brawlpit?" Checked the BRAWLPIT precedent first (SECTION 424,
+  "ELOs stuck at 1500 again"): that bug's real root cause was that nothing in
+  `rl_train_packet.py` ever called `record_match_result` at all -- Elo only ever moved when a
+  human ran `rl_evaluate.py` by hand. Confirmed SHANKPIT's own `rl_train_packet.py` (S459-54)
+  already had that exact fix built in from day one (a real per-generation evaluation match +
+  `record_match_result` call, explicitly referencing BRAWLPIT's own lesson in its doc comment) --
+  so this was a different, real bug, not the same one recurring. Queried the actual live Colab
+  training job's registry rows directly (`GET /api/v1/shankpit-checkpoints` against production)
+  and confirmed all 11 checkpoints pushed so far, across 3 real generations and all 3 roles, sat
+  at exactly `elo=1500`. Root cause: the evaluation-match block (the only thing that calls
+  `league.record_match_result` and actually moves a checkpoint's real Elo) ran AFTER the
+  push-to-registry block in the training loop, so every checkpoint reached IDUNA carrying its
+  pre-evaluation, purely-inherited Elo -- the local league's own Elo WAS moving correctly the
+  whole time, it just never reached the remote registry NOCK actually displays (IDUNA has no
+  endpoint to patch a checkpoint's Elo after the fact; `push_checkpoint` is a one-shot POST).
+  Fixed by reordering: run each role's evaluation match first, then read the now-current,
+  post-match Elo for the registry push. Live-verified, not just reordered blindly: ran a real
+  local 2-generation training run end to end (`bin/shank_server` + `bin/emily-bot`, no mocks) --
+  gen 1 vs gen 0 moved Elo `1500->1516/1484` for main/main_exploiter, with the new log line
+  confirming this happens before the (now-correct) push point. Full `python -m unittest discover`
+  (35 tests) green. Apple #19720. Commit SHANKPIT `1a58afb`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
