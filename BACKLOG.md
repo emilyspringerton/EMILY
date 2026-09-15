@@ -40888,6 +40888,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   real C extension) than the numpy-scalar mistake this entry fixes. Full
   `python -m unittest discover` (35 tests) green. Apple #19752. Commit SHANKPIT `ccf9d01`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-73: real, additional measured speedup on `raycast()` -- 34.5% combined with
+  S459-72** -- founder real-time: "ok yea optimize more if you can." `cProfile` after S459-72's
+  numpy fix honestly named `raycast`/`_slab` as the real remaining bottleneck (34% of
+  `build_observation`'s own time). Two real changes: (1) `Wall` now precomputes its own AABB
+  bounds (`lo_x`/`hi_x`/`lo_y`/`hi_y`/`lo_z`/`hi_z`) once at construction instead of every single
+  `raycast()` call recomputing `w.x - w.sx/2` etc from scratch -- a wall's own geometry never
+  changes during a run, but `build_observation` calls `raycast` 5x per tick (4 wall rays + 1
+  floor ray) against the exact same wall list every time; (2) the per-axis slab test is now
+  inlined directly into `raycast()`'s own loop instead of a separate `_slab()` function call per
+  axis -- real Python function-call + tuple pack/unpack overhead on a genuinely hot path
+  (`cProfile`: 1.25M such calls per 50k `build_observation` calls). `_slab` itself is kept as a
+  real, standalone, still-directly-tested reference implementation, not deleted -- just no longer
+  on the hot path. Verified EXACT numerical equivalence, not "close enough": ran 200k
+  random-input trials comparing the old (`_slab`-call-based) and new (inlined) `raycast()` output
+  side by side, zero mismatches across varied wall counts/positions/ray directions/caps -- locked
+  in as a new permanent regression test
+  (`test_matches_slab_reference_on_random_cases`) rather than just a one-off manual check. Real,
+  measured result: `build_observation` dropped from `62.46us/call` (the post-S459-72 number) to
+  `50.75us/call` -- combined with S459-72, a real **34.5% speedup** from the original
+  `77.54us/call` baseline. `cProfile` confirms `raycast`'s own share of `build_observation`'s
+  total time dropped from 34% to 15%. Full `python -m unittest discover` (36 tests, +1 new) and
+  `go test -count=1 ./...` (all packages, unaffected by this Python-only change, sanity checked
+  anyway) both green. Apple #19753. Commit SHANKPIT `2bf8346`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
