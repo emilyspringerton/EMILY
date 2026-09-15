@@ -40503,6 +40503,38 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   more diverse Mains before anything ever plays a real game with any of them solves the wrong
   problem first. Apple #19705. Commit SHANKPIT `f6434a8`. Doc: `SHANKPIT/docs/
   BOT_TRAINING_NORTHSTAR.md` §12. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-57: real spawn points for custom levels -- was scattering players up to 500 units
+  apart, real cause of "joined queue no bots visible"** -- founder real-time: "joined queue no
+  bots visible." Investigated directly rather than guessing: connected a real diagnostic client
+  straight to the live production server and read real, server-authoritative player positions off
+  the wire -- up to ~1500 units apart on NEWPIT, a real, moderate-sized level (~325x320 units,
+  live-verified via its own real export JSON, not assumed). Real root cause: `SCENE_CUSTOM_LEVEL`
+  (what QUEUE actually uses) had no real spawn-point case of its own anywhere in
+  `scene_spawn_point` (`packages/common/physics.h`) — it fell into a generic catch-all meant as a
+  real, harmless "unknown scene, don't crash" fallback for scenes that genuinely have no map: half
+  of all spawns land at the exact map origin (dropping from y=80), the other half land at a
+  random point up to 500 units away in an arbitrary direction, with zero relation to whatever
+  level is actually currently loaded. On any real custom level this routinely spawned players well
+  outside the level's own real footprint entirely — the direct, confirmed explanation for a human
+  joining QUEUE and never seeing any of the standing bots, which were real, correctly connected,
+  and correctly positioned within the level the whole time; they just weren't anywhere near where
+  the human spawned. Real fix: compute an actual spawn point from the CURRENTLY LOADED custom
+  level's own real geometry (`g_custom_level_geo`, set by `phys_set_custom_level`) instead of a
+  made-up universal radius — a real bounding-box center (min/max over every real box's own real
+  extents) plus a real, deterministic per-slot scatter using golden-angle spacing (~2.399963 rad,
+  a real, standard technique for scattering N points with no two ever landing close together,
+  unlike `slot*constant`, which can degenerate into overlapping rings for common small N, or true
+  randomness, the exact bug being fixed), confined to 60% of the level's own real half-extent so
+  spawns stay well inside the actual designed play area, not at its very edge. Falls back to the
+  old generic behavior only when no custom level is loaded at all (a real, honest "nothing to
+  compute a real point from" case). Live-verified, not just built: an isolated test (3 real
+  connections) showed spawns clustering within ~100-250 units of each other (previously up to
+  1500+), all well inside NEWPIT's real bounds; redeployed live, and a real, live snapshot query
+  against production confirmed all 3 standing bot-pool bots sitting within ~280 units of each
+  other, with zero retreat-spam since redeploy (previously logging every ~5 seconds — see
+  S459-55's own real, separate, already-fixed contributing bug). Full `go test ./...` and `python
+  -m unittest` both green, fresh Windows client built. Apple #19708. Commit SHANKPIT `b8a417e`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
