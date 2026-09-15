@@ -40562,6 +40562,26 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   FFA fallback, no-spawner fallback), and full `make server`/`make lobby` builds clean with no new
   warnings. Apple #19712. Commits IDUNA `0731d7e`, SHANKPIT `cc4e2fe`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-59: fixed a real, found-live regression -- `colab_train.py` invoked a CLI
+  `rl_train_packet.py` no longer has** -- founder real-time: "ok where we at with league training
+  is colab skrip ready?" Checked directly rather than assuming S459-50's own script was still
+  correct: `colab_train.py` still called `rl_train_packet.py` with the pre-S459-54 single-agent
+  flags (`--port`/`--opponents`/`--out`), which no longer exist at all after S459-54 rewrote that
+  script into the real 3-role (Main/Main Exploiter/League Exploiter) self-play league orchestrator
+  (`--league-dir`/`--output-dir`/`--registry-url`/`--resume-from-registry`/etc) -- running the
+  Colab cell as it stood would have failed immediately with an argparse error, training nothing;
+  this gap sat unnoticed since S459-54 landed because nothing had actually re-run the Colab cell
+  since. Fixed: rewired `main()` to invoke the real league orchestrator directly, which
+  self-pushes each generation's 3 checkpoints to the shared registry (so the old, now-orphaned
+  post-run `push_checkpoint()` call operating on a `--out` path the new CLI doesn't even produce
+  is gone too), and added `--resume-from-registry` as a real opt-in
+  (`SHANKPIT_RESUME_FROM_REGISTRY=1`) now that it's real and live, correcting this file's own
+  previous "not built yet" doc claim. Live-verified, not just built: ran `rl_train_packet.py` with
+  the exact flag set `colab_train.py` now passes -- it got past argparse cleanly into a real
+  registry `authenticate()` network call, failing only on the intentionally-fake host, proving
+  every flag name/value is accepted; full `python -m unittest discover` (35 tests) green. Apple
+  #19717. Commit SHANKPIT `f1face3`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
