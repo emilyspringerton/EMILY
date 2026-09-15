@@ -40286,6 +40286,35 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   pool, and a fresh Windows client all redeployed with the three server-side bug fixes. Apple
   #19677. Commit SHANKPIT `b25f879`. Doc: `SHANKPIT/docs/BOT_TRAINING_NORTHSTAR.md` §9. session:
   sess-20260905-0720-ec33e7c5
+- [x] **S459-49: real SHANKPIT bot registry affordances on NOCK -- disable, hide disabled,
+  deferred set-default** -- founder real-time: "bring in the bot registry affordances on NOCK all
+  the same - ability to disable - hide disabled - set default (defer this put the button then put
+  like a daisy ui alert not implemented) - for shankpit." Real, shared RL checkpoint registry for
+  SHANKPIT, mirroring `internal/brawlpit/checkpoint_store.go`'s own established registry
+  field-for-field, scoped down: no `weights_*` columns (no SHANKPIT native-inference weight
+  export exists yet, a real, separate, larger piece of future work) and no match-result/Elo-update
+  endpoint (nothing calls it -- S459-48's own `scripts/rl_train_packet.py` doesn't push to a
+  remote registry yet either). New `shankpit_rl_checkpoints` table (one consolidated migration
+  rather than BRAWLPIT's own organic multi-session history), `internal/shankpit/
+  checkpoint_store.go` (9 new tests, all passing), `internal/http/handlers/
+  shankpit_checkpoints.go`, and routes mirroring BRAWLPIT's own exact public/admin-gated split
+  (`GET/POST /api/v1/shankpit-checkpoints[/active|/:id/download]`, `PATCH /admin/nock/api/
+  shankpit-checkpoints/:id/[activate|disable]`). New `frontend/nock/src/ShankpitAiOpponents.tsx`
+  -- a direct port of `AiOpponents.tsx`'s own real "list on the left, act on the right" shape,
+  wired into a new "SHANKPIT AI Opponents" NOCK tab. Disable and Hide Disabled are real and fully
+  wired (identical backend contract to BRAWLPIT's own, including the same per-viewer
+  `localStorage`-persisted hide-disabled preference and "Disable All" bulk action). "Set as
+  opponent" is deliberately deferred per the founder's own explicit instruction: the button
+  exists (so the affordance is visibly present), but clicking it shows a real DaisyUI alert
+  component ("not implemented yet") instead of calling `shankpitCheckpoints.activate` -- which is
+  itself a real, working, already-wired backend endpoint; flipping the one client-side stub to a
+  real call needs no backend work at all. Same real unified-logging discipline as BRAWLPIT's own
+  registry (S453) -- every AI-population-change point emits a real
+  `iduna:shankpit.checkpoint.*` event. Frontend typechecks and builds clean (`tsc -b && vite
+  build`), new component identifiers verified present in the built bundle before deploy. Live
+  IDUNA redeployed and health-checked; new endpoints verified live (a real, honest empty registry
+  today, not faked data). Apple #19683. Commit IDUNA `6819a7d`. session:
+  sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
