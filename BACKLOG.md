@@ -40806,6 +40806,40 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   differencing. Not reattempted this session. Apple #19742. Commits SHANKPIT `7711be0` +
   `36b71ad`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-69: the real fix for jump rubberbanding -- real velocity now on the wire** --
+  founder real-time: "ok now lets fix rubber banding jumps." Per S459-68's own real, named
+  lesson (a velocity ESTIMATE reconstructed from two position samples is unsafe across a
+  changing-acceleration interval like a jump arc), built the actual correct fix this time: put
+  the server's own EXACT velocity on the wire so the client sets it directly, never estimates
+  it. `NetPlayer` (`packages/common/protocol.h`) gained real `vx/vy/vz` float fields -- the struct
+  grew from 72 to 84 bytes, offsets 72/76/80 (real compiler alignment after `kill_streak`'s own 3
+  bytes of padding, verified via a compiled `offsetof`/`sizeof` probe, never guessed).
+  `server_broadcast` (`apps/server/src/main.c`) now copies the server's own real
+  `PlayerState.vx/vy/vz` onto the wire; `client_reconcile_local_player`
+  (`apps/lobby/src/main.c`) now sets `p->vx/vy/vz` directly from that real value before replaying
+  buffered commands, instead of leaving it at whatever the client's own local prediction had
+  accumulated -- the actual structural gap S459-67 correctly NAMED but then fixed the wrong way.
+  Live-verified, not just wired: connected a real diagnostic client to an isolated dev server and
+  jumped -- the real `vy` values now on the wire matched the true physics arc exactly (`0.85` at
+  takeoff, decaying smoothly by gravity every tick, crossing negative right at the apex),
+  confirming this is the server's real state, not an approximation. **Found and fixed a real,
+  independent, PRE-EXISTING bug along the way, not introduced by this change**: `apps2/emily-bot`'s
+  Go decoder (`snapshot.go`) had `netPlayerSize` hardcoded at 68 bytes -- stale since BEFORE
+  `kill_streak` (S459-52) grew the real compiled struct to 72, meaning every snapshot with 2+
+  entities has been decoding every entity after the first with a 4-byte-short stride ever since --
+  the exact same class of "parsing desyncs after the first entity" bug this same file's own doc
+  comment already describes fixing once (S459-44), silently reintroduced. Fixed to the real 84
+  (now including the new `vx/vy/vz`), added the missing `kill_streak`/`vx`/`vy`/`vz` offsets and
+  decode fields it never had. `rl_env_packet.py`'s ctypes `NetPlayer` mirror updated to match
+  exactly (offsetof-verified). Full `go build`/`go test -count=1 ./...` (every package in the
+  module, zero failures) and `python -m unittest discover` (35 tests -- fixed 3 tests that had
+  the old struct size/offsets hardcoded) both green. This is a real wire-protocol change, so both
+  live services were redeployed TOGETHER (`shankpit-server.service` + `shankpit-bot-pool.service`
+  via `systemctl --user restart`) to avoid a client/server protocol mismatch; fresh Windows EA
+  client built. Real, honest limit, same as every prior attempt in this thread: this is an SDL2
+  GUI client -- the actual in-game feel needs a human playtest to confirm. Apple #19743. Commit
+  SHANKPIT `38f114b`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
