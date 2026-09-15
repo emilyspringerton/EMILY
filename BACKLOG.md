@@ -40655,6 +40655,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `python -m unittest discover` (35 tests) all green; new frontend identifiers confirmed present
   in `dist/`. Apple #19725. Commits IDUNA `3bd249d`, SHANKPIT `a8823e7`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-63: `eval_note` field for self-serve Elo diagnostics, no log-paste needed** --
+  founder real-time pushback: "how the fuck is my colab log gonna help it just says training."
+  Fair correction of S459-61's own approach: those real diagnostics (kill counts / captured
+  crash output) only ever reached the training process's own stdout, needing the user to find
+  and paste the right lines out of a live Colab session. Fixed: `_run_evaluation_match` now
+  returns `(score_a, note)` instead of just `score_a` -- `note` is a real, short, human-readable
+  summary (`"vs prior gen: kills 9-13"` on a genuine result, or the captured crash/report-failure
+  reason on a failure) built from the exact same data S459-61's print statements already compute.
+  `rl_train_packet.py`'s main loop collects this per role and pushes it alongside each checkpoint
+  via a new `eval_note` field (new IDUNA migration + `CheckpointStore.Create` parameter + upload
+  endpoint form field), stored and returned by `GET /api/v1/shankpit-checkpoints` -- the SAME
+  registry API this session already queries directly, so a future flat-Elo report can be
+  diagnosed without any access to the user's own training session at all. Live-verified, not just
+  wired: closed a real gap found along the way in S459-60's own original verification (which only
+  ever tested LOCAL elo math via `league.get_elo()`, never the actual `push_checkpoint` ->
+  `Create()` -> stored-row network path) -- ran TWO additional real local training runs with an
+  actual registry push against local IDUNA: gen 1 checkpoints correctly landed at real
+  `elo=1484/1516/1516` in the live database both times (not the old stuck 1500), and on the
+  second run `eval_note` round-tripped correctly through the full API
+  (`note='vs prior gen: kills 9-13'`, etc, stored and returned exactly as sent). Both verification
+  runs' test rows disabled and blobs removed afterward -- production ends in the same state it
+  started in. Full `python -m unittest discover` (35 tests) and `go build`/`go test` both green.
+  Apple #19729. Commits IDUNA `5997351`, SHANKPIT `4ef4b4c`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
