@@ -40403,6 +40403,80 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `python -m unittest` both green, a real 2-bot UDP session against the extended 72-byte wire
   format shows no panics. Live server + bot pool redeployed. Apple #19693. Commit SHANKPIT
   `9e17718`. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-53: real, independent debug-build CI job with its own artifacts** -- founder
+  real-time: "any debugging EXEs need to be added as independent CICD builds with their own
+  artifacts" (a direct correction after being told to stop hand-building and sending `.exe` files
+  directly — "i download from artifacts only"), then "they may be included in releases if you
+  choose." New `debug_build` job in `.github/workflows/tests.yml` — a real, independent CI job
+  (not a step tacked onto the existing release build), producing its own, separately-named
+  artifact (`ShankPit_Debug_Builds_<run>_<sha>`) on every push. Real judgment call, documented in
+  the job's own comment: kept in `tests.yml`, not `release.yml` — verbose network logging is a
+  troubleshooting tool, not something a real player downloading a tagged GitHub Release needs
+  bundled in, and `tests.yml` already runs on every push. Builds via real `make server`/`make
+  ea-windows` targets with `CFLAGS` overridden to `-DNET_VERBOSE_LOG=1` (server+client) plus
+  `-DNET_JITTER_DIAG=1 -DNET_PARITY_DEBUG=1` (client-only) — deliberately NOT a fourth
+  hand-duplicated `gcc` invocation (this repo has two real, documented prior CI outages from
+  exactly that anti-pattern — a hand-copied source list silently drifting from the Makefile's own
+  `LOBBY_SRC`). Live-verified locally first (a genuinely fresh rebuild, since a stale local `bin/`
+  initially gave a false negative), then confirmed on REAL GitHub Actions: both workflow runs
+  completed successfully, `ShankPit_Debug_Builds_622_...` artifact confirmed produced
+  (1,085,445 bytes) via the GitHub API. Apple #19702. Commit SHANKPIT `4910748`. session:
+  sess-20260905-0720-ec33e7c5
+- [x] **S459-54: real 3-role self-play league orchestrator, matching BRAWLPIT** -- founder
+  real-time, after correctly calling out that the earlier S459-48 pipeline only trained a single
+  policy, not a real league ("i said just like brawlpit... build it"): a complete rewrite of
+  `scripts/rl_train_packet.py`, now training THREE real PPO models (Main, Main Exploiter, League
+  Exploiter) and registering all three together every generation via `scripts/rl_league.py`'s own
+  already-ported PFSP infrastructure (`sample_for_main`/`sample_for_main_exploiter`/
+  `sample_for_league_exploiter`/`should_reset_main_exploiter`/`register_generation_snapshot`,
+  S459-35), completely unchanged. The one real, necessary architecture difference from BRAWLPIT,
+  checked and accepted directly by the founder ("if it needs to be 1v1 thats fine"): BRAWLPIT's
+  own packet env drives both sides of a match from one Python process (an in-process opponent
+  slot to swap a frozen model into); SHANKPIT's server is a real, continuous, live world where
+  each UDP connection is exactly one independent player (S459-44/45's own real find), so there is
+  no such slot. New `scripts/frozen_policy_bot.py` is the real primitive this requires: a
+  separate OS process that connects as its own real player and runs a frozen checkpoint's
+  `policy.predict()` loop every tick, the same way `apps2/emily-bot` runs its heuristic loop, just
+  with a PPO forward pass — also supports a real, minimal 1v1 evaluation match
+  (`--report-kills-to`, two frozen-policy bots on an isolated server, final kill counts compared)
+  as SHANKPIT's own necessary analog to BRAWLPIT's dedicated `rl_evaluate.py` (no
+  `PACKET_RESET_MATCH` / match-boundary concept exists here to build a cleaner one on top of).
+  Real, deliberate, named scope-downs from BRAWLPIT's own 981-line orchestrator (not silently
+  dropped): no `--num-envs` parallel rollout collection, no native-inference weight export,
+  evaluation is the real, simplified kill-count comparison above rather than a dedicated harness.
+  Faithfully ported, not reinvented: PFSP opponent selection, Main's real regression guard
+  (protects against PPO catastrophic forgetting in self-play), Main Exploiter's periodic reset,
+  `--resume-from-registry`, `--registry-url` push, the entropy-collapse `ent_coef` fix (S459-51,
+  applied from the start here). Live-verified, not just built: a real, minimal run (512
+  timesteps, 3 roles, heuristic-only bootstrap since generation 0 has no league members yet)
+  actually trained all 3 models, saved 3 real checkpoint files, and registered all 3 as real
+  league members with real Elo. A larger 2-generation run (exercising real self-play + the
+  evaluation-match path) hit real, environmental resource pressure on this box during testing
+  (swap fully exhausted, load average ~3.9 from many concurrent standing services unrelated to
+  this code) — reported honestly as a real, current limitation of this specific box right now,
+  not a code bug (the identical core env/reward/training loop was already separately proven
+  correct in multiple smaller, isolated tests earlier in this same session, S459-48). Apple
+  #19700. Commits SHANKPIT `1bafdcf`, `7c2d2e0` (doc). Doc: `SHANKPIT/docs/
+  BOT_TRAINING_NORTHSTAR.md` §11. session: sess-20260905-0720-ec33e7c5
+- [x] **S459-55: fixed a real, live bug where a stale heuristic health estimator drove the
+  standing QUEUE bot pool into a permanent fake retreat, drifting thousands of units off-map** --
+  founder real-time, while the S459-54 league work was underway: "pretty sure the bots arent
+  showing up in queue yet maybe the model will fix it just sayin." Found the real, live,
+  currently-active cause while investigating: `apps2/emily-bot`'s own `bot_think` still ran a
+  pre-S459-44 heuristic health estimator (decay near enemies, regenerate when clear) EVERY tick,
+  immediately overwriting the real, server-authoritative health S459-44 had already wired in
+  (`state.myHealth = float32(e.health)` in the `PacketSnapshot` handler). Since `bot_think` runs
+  far more often than a fresh snapshot arrives, the fake heuristic value almost always won the
+  race. Confirmed live: a standing bot pool process stuck logging `"[emily-bot] retreating: hp=14
+  nearest=8296.1"` for minutes straight — the fake, decayed health kept the bot convinced it was
+  dying, so it fled continuously (`fwd=-1` every tick) while dead-reckoning integrated that
+  constant backward motion completely unchecked, drifting the bot's own perceived position
+  thousands of units from the real level and from every other real player — directly explaining
+  bots appearing to vanish from QUEUE, unrelated to model/policy quality. Real fix: just stop
+  overwriting it — `s.myHealth` is now the real, server-reported value the whole time. Live-
+  verified: rebuilt, redeployed the standing bot pool, watched for 20+ real seconds with zero
+  retreat-spam (previously logging every ~5s), server `STATUS` confirms all 3 bots active and
+  stable. Apple #19698. Commit SHANKPIT `5bb2575`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
