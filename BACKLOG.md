@@ -40536,6 +40536,32 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   S459-55's own real, separate, already-fixed contributing bug). Full `go test ./...` and `python
   -m unittest` both green, fresh Windows client built. Apple #19708. Commit SHANKPIT `b8a417e`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-58: real, team-tagged spawner points for NOCK levels, FFA fallback** -- founder
+  real-time: "add spawners to nock so we can add spawners for ffa" / "actual make them team based
+  but fall back to ffa" / "call it red team and blue team". Real, author-placed spawn points, a
+  level author can now define explicitly, rather than relying only on S459-57's own computed-
+  scatter fallback. IDUNA: new `Spawner` type (x/y/z/yaw/team) on `internal/shankpit.Level` and
+  `ExportDoc`, team using SHANKPIT's own real, live `TDMB_RED_TEAM=0`/`TDMB_BLUE_TEAM=1` convention
+  (confirmed via grep against `packages/simulation/local_game.h`, not assumed) with -1 as the real
+  FFA/any-team sentinel; new `spawners_json` column (migration
+  `202609150040_shankpit_level_spawners.sql`), wired through
+  `CreateLevel`/`GetLevel`/`ListLevels`/`UpdateLevel`/`CloneLevel`/`Export`; new NOCK editor UI
+  (`ShankpitLevelEditor.tsx`) to place/drag/select/edit/delete team-colored spawner markers
+  (`SpawnerInspector`), deliberately kept separate from the pre-existing, unsaved "new cubes spawn
+  here" authoring marker. SHANKPIT native: `level_boxes.h` parses the level's own real "spawners"
+  export field; `physics.h` stores them (`phys_set_custom_level_spawners`) and
+  `custom_level_pick_spawner` selects a spawner matching the spawning player's own real team_id
+  first, falls back to an FFA-tagged spawner when no team-matching one exists, and returns 0 (no
+  usable spawner at all) so the caller falls back to the already-built S459-57 golden-angle
+  computed-scatter logic -- the real, honest degrade path for a level with zero author-placed
+  spawners. Wired into both `apps/server` and `apps/lobby`'s own real custom-level-load call sites.
+  Live-verified, not just built: `go test ./internal/shankpit/... ./internal/http/handlers/...`
+  green, frontend `tsc+vite` build clean with the new `SpawnerInspector`/spawner identifiers
+  confirmed present in `dist/`, a standalone C smoke test compiled directly against
+  `level_boxes.h`/`physics.h` (5/5 real assertions: spawner JSON parsing, team-match selection,
+  FFA fallback, no-spawner fallback), and full `make server`/`make lobby` builds clean with no new
+  warnings. Apple #19712. Commits IDUNA `0731d7e`, SHANKPIT `cc4e2fe`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
