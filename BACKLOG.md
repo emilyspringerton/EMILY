@@ -40679,6 +40679,26 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   started in. Full `python -m unittest discover` (35 tests) and `go build`/`go test` both green.
   Apple #19729. Commits IDUNA `5997351`, SHANKPIT `4ef4b4c`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-64: fixed the real Colab evaluation-match timeout -- the actual cause of stuck-at-
+  1500 Elo** -- founder real-time: "ok i ran it same elos" (a fresh run, on top of every prior
+  fix). Found directly via the new S459-63 `eval_note` field, no guessing needed this time: the
+  founder's real Colab run showed `CRASH: evaluation match itself failed (... timed out after
+  45.0 seconds)` on EVERY single evaluation match, every generation, all 3 roles. Real root
+  cause: the old 45s patience window (`EVAL_DURATION_SECONDS=30` + a flat 15s margin) never
+  accounted for real subprocess startup cost (`PPO.load()` + torch/`stable_baselines3` import
+  overhead, incurred TWICE, concurrently, by both eval bots) before the 30s match window even
+  starts ticking -- fast and invisible on this dev box's own uncontended CPU, but genuinely
+  enough to blow the deadline on a slower/shared Colab CPU, silently degrading every real
+  evaluation match to "tied" (Elo held exactly, permanently unchanged) run after run -- the true
+  explanation for every prior "same elo" report in this thread, now that S459-60's own real
+  reordering fix and S459-63's own real registry-push path had both already been proven correct.
+  Fixed: new `EVAL_STARTUP_GRACE_SECONDS=90.0` (a real, deliberately generous margin, not a
+  precise measurement) replaces the old flat `+15s` on both eval bots' own subprocess wait
+  timeouts. Live-verified, not just widened blindly: ran a fresh local regression (2 real
+  generations) confirming the larger timeout doesn't mask or slow the normal, fast-path case --
+  real, decisive kill counts and Elo movement (1516/1484, etc) came through exactly as before.
+  Full `python -m unittest discover` (35 tests) green. Apple #19733. Commit SHANKPIT `00d39af`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
