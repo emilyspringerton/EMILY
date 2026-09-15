@@ -40912,6 +40912,42 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `go test -count=1 ./...` (all packages, unaffected by this Python-only change, sanity checked
   anyway) both green. Apple #19753. Commit SHANKPIT `2bf8346`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-74: fixed three real spray bugs -- unreliable placement, stale decals across
+  levels, first-use jitter** -- founder real-time: "its really unreliable to do a spray you have
+  to hit the button over and over... it jitters when you firs use a spray to donload the spray it
+  sprays backwards and when you switch levels the sprays dont disappear they are floating in
+  space where the walls used to be." Three real, distinct bugs, not one: **(1)** `trace_map_boxes`
+  (`packages/common/physics.h`, backs both spray placement AND the flashlight beam's own wall-
+  clamping) was never a real raycast at all -- it only tested whether the segment's fixed FAR
+  ENDPOINT (always exactly `SPRAY_PLACE_RANGE`/`FLASHLIGHT_RANGE` units out) happened to land
+  inside some wall's own AABB volume, never a genuine segment-vs-box intersection. That exactly
+  explains the reported symptom: facing a wall dead-on only ever "hit" at the one specific
+  standoff distance where the fixed-distance endpoint coincidentally fell inside the wall's own
+  real volume; walking alongside it made that point wander in and out by chance. Replaced with a
+  real, closest-hit slab-method segment-vs-AABB test -- the same real algorithm already proven
+  correct in `scripts/rl_env_packet.py`'s own `raycast()`/`_slab()` and S459-73's own verified
+  inlined-C-equivalent math, not reinvented. Live-verified with a direct standalone C probe, not
+  just reasoned about: 8 real standoff distances from 1 to 35 units all now hit reliably at the
+  exact correct wall surface with the correct outward normal; correct misses confirmed when
+  pointed away or genuinely clear of the wall's volume. **(2)** Sprays never got cleared on
+  scene/level change at all, and every custom level shares the exact same `SCENE_CUSTOM_LEVEL`
+  scene_id regardless of which real NOCK level is actually loaded -- so old sprays from a level
+  you'd left kept rendering against geometry that no longer existed, floating in space exactly as
+  reported. Fixed by clearing the decal buffer in `reset_client_render_state_for_net`, the same
+  real connect/reconnect boundary `net_connect()` already uses to re-fetch the currently-loaded
+  level's own real geometry (`g_queue_level_loaded`, S459-39). **(3)**
+  `spray_registry_fetch_list` is a genuinely BLOCKING network call (`level_boxes_fetch_url`,
+  shells out to `curl` via `popen`) that used to fire INLINE the very first time a player ever
+  pressed T (lazy default-select), stalling the main render/input loop for that real network
+  round-trip's own duration -- explaining the reported jitter/"sprays backwards" on exactly that
+  first use, never again afterward. Fixed by resolving the default spray proactively at scene
+  entry (new `client_prefetch_default_spray`, mirroring `client_load_queue_level`'s own already-
+  established S459-39 prefetch pattern) instead of reactively on the player's own first spray
+  input. Both `apps/server` and `apps/lobby` build clean, no new warnings, live production server
+  + bot pool redeployed, fresh Windows EA client built. Full `python -m unittest discover` (36
+  tests) and `go test -count=1 ./...` (all packages) both green. Apple #19755. Commit SHANKPIT
+  `5f93b86`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
