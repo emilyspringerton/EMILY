@@ -40606,6 +40606,25 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   confirming this happens before the (now-correct) push point. Full `python -m unittest discover`
   (35 tests) green. Apple #19720. Commit SHANKPIT `1a58afb`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-61: added real diagnostics to distinguish genuine Elo ties from silent
+  evaluation-match crashes** -- founder real-time: "ok i have 2 gens same elo seems wrong" (this
+  came in AFTER S459-60's reordering fix was already live, so needed a real explanation, not a
+  second guess). Real gap found: `_run_evaluation_match` returned a silent `0.5` for two
+  completely different cases -- a genuine 0-0 tie (both bots fought the full 30s window and
+  neither landed a kill, plausible early in training) and a crashed/unreadable bot report
+  (checkpoint load failure, a Colab-specific environment gap, etc.) -- indistinguishable from the
+  training log alone. Worse: the two `frozen_policy_bot.py` evaluation opponents ran with
+  stdout/stderr fully silenced (`subprocess.DEVNULL`), so a real crash's own traceback was never
+  visible anywhere, on Colab or locally. Fixed: each eval bot's real output is now captured to a
+  log file (closed/flushed once the process exits, read back only on a report-read failure so
+  normal runs pay no extra cost); every evaluation match prints the real kill counts on success,
+  or the captured crash output on failure. Live-verified, not just added blindly: ran a real
+  local 2-generation training run end to end -- the new diagnostic line confirmed real, decisive
+  kill counts (`main_gen1.zip kills=12 vs main_gen0.zip kills=8`, etc.), and Elo correctly moved
+  `1500->1516/1484` for all 3 roles, confirming both S459-60's fix and this new diagnostic
+  work together. Full `python -m unittest discover` (35 tests) green. Apple #19723. Commit
+  SHANKPIT `164eb53`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
