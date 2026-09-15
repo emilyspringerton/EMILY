@@ -40779,6 +40779,32 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   a fresh, forced rebuild diffed against the pre-existing warning set), fresh Windows EA client
   built. Real, honest limit, same as S459-65: this is an SDL2 GUI client -- the actual in-game
   feel needs a human playtest to fully confirm. Apple #19740. Commit SHANKPIT `7e88bdd`.
+  **REVERTED by S459-68 below -- made the actual in-game feel dramatically worse, not better; see
+  that entry for the real root cause.**
+  session: sess-20260905-0720-ec33e7c5
+- [x] **S459-68: reverted S459-67 -- naive velocity finite-differencing made jump feel
+  catastrophically worse** -- founder real-time, after actually testing S459-67: "ok way worse
+  now when i jump i fly way up in the air and then it slams me back down and then is like a
+  portal opens to wherever the aliens from halflife comes from and its like i slam through the
+  wall and glitch around like 16 different directions in 1 second." Real root cause of the
+  regression, understood and named, not just reverted blind: S459-67's finite-difference velocity
+  re-seed averages velocity over the WHOLE interval between two confirmed network positions --
+  a real, valid technique for roughly-constant velocity, but badly wrong across a jump arc where
+  velocity is constantly changing under gravity. Any reconcile interval spanning a meaningful
+  chunk of the arc produced a badly wrong re-seeded `vy`, and re-injecting that wrong value
+  straight into the SHARED DETERMINISTIC physics simulation (not merely a visual smoothing
+  offset, the way `reconcile_corr_x/y/z` already safely is) let the error compound catastrophically
+  instead of just looking a little off. Reverted cleanly via `git revert 7e88bdd` (commit
+  `7711be0`, doc-explanation commit `36b71ad`) -- `apps/lobby` back to the real S459-65 state
+  (which the founder had confirmed was genuinely "a little better," not zero progress), builds
+  clean, no `net_prev_auth` references remain, live production server redeployed via `systemctl
+  --user restart`, fresh Windows EA client built and pushed. Real, honest, NAMED lesson for any
+  future attempt at the underlying residual-jitter problem: velocity is NOT safely reconstructable
+  from two position samples across an arbitrary-length network interval without knowing the real
+  acceleration profile in between -- a real fix needs either putting velocity on the wire
+  (a real protocol change) or a fundamentally different smoothing approach, not two-point finite
+  differencing. Not reattempted this session. Apple #19742. Commits SHANKPIT `7711be0` +
+  `36b71ad`.
   session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
