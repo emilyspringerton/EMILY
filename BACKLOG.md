@@ -40855,6 +40855,17 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   partway through. Full `python -m unittest discover` (35 tests) green. Apple #19748. Commit
   SHANKPIT `b6cdad4`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-71: colab always resumes from the registry when pushing, matching BRAWLPIT exactly**
+  -- founder real-time: "bro i should always have that in the skrip - i said just like brawlpit
+  thas how brawlpit works please fix it." Checked `BRAWLPIT/scripts/colab_train.py` directly
+  rather than guessing: it always passes `--resume-from-registry` unconditionally whenever
+  pushing to the registry, with no separate opt-in flag at all. S459-70's own version gated this
+  behind a new `SHANKPIT_RESUME_FROM_REGISTRY=1` env var -- a real, unjustified deviation from
+  the founder's own original ask, not something BRAWLPIT's own script does. Fixed:
+  `--resume-from-registry` is now unconditional inside the `pushing_to_registry` branch, matching
+  BRAWLPIT's real, established behavior exactly. Full `python -m unittest discover` (35 tests)
+  green. Apple #19750. Commit SHANKPIT `98938d9`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
