@@ -40754,6 +40754,32 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `python -m unittest discover` (35 tests, unrelated to this C-only change, confirms nothing else
   broke) green. Apple #19738. Commit SHANKPIT `1e7e90e`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-67: fixed residual jump "rubberbanding" -- reconciliation never corrected velocity,
+  only position** -- founder real-time, after testing S459-65's own hard-snap threshold fix: "yea
+  i etsted it its possible its a little better not sure not fixed". Real, structural gap found,
+  not a threshold-tuning problem this time: `NetPlayer` (`packages/common/protocol.h`, the actual
+  wire packet) never carries velocity or grounded state at all -- only `x/y/z/yaw/pitch`.
+  `client_reconcile_local_player` resets `p->x/y/z` to the real authoritative position on EVERY
+  reconcile, but has never touched `p->vy` -- the jump-arc replay that follows
+  (`client_apply_cmd_movement`, re-simulating buffered commands via the same deterministic
+  `shankpit_simulate_movement_tick` both client and server share) kept integrating from whatever
+  velocity the client's own LOCAL prediction already had. That local `vy` can silently diverge
+  from the server's real `vy` (any externally-applied impulse the client has no way to predict --
+  knockback, explosions, hit-stun -- plus ordinary float/timing drift during a fast vertical arc),
+  and with no wire field to correct it from, that divergence just kept compounding, reconcile
+  after reconcile, through an entire jump -- the real, structural explanation for an ongoing
+  wobble the one-time hard-snap fix alone couldn't reach. Fixed: re-seed `p->vx/vy/vz` from a
+  real finite-difference estimate between this reconcile's confirmed authoritative position and
+  the PREVIOUS one, using the client's own recorded per-command send timestamps (a real,
+  self-consistent time base, not wall-clock jitter) as the divisor -- a real, standard
+  client-prediction technique, not a guess. Skipped on the very first reconcile of a session (no
+  real prior point yet) or a bogus dt (dropped/reordered ack); reset on connect and on
+  spawn/respawn transitions (`net_prev_auth_valid = 0`) since a teleport is a real discontinuity,
+  not motion to diff a velocity out of. `apps/lobby` builds clean, no new warnings (confirmed via
+  a fresh, forced rebuild diffed against the pre-existing warning set), fresh Windows EA client
+  built. Real, honest limit, same as S459-65: this is an SDL2 GUI client -- the actual in-game
+  feel needs a human playtest to fully confirm. Apple #19740. Commit SHANKPIT `7e88bdd`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-32: soft round glow billboard for IPS/HPS light fixtures** -- founder real-time: "ok
   cool but it looks like a square can you do some gausian blur or something? vinyetting/ i dunno"
   -- S459-31's per-box wall lighting is real per-box FLAT shading, so its own halo is necessarily
