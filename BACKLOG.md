@@ -41038,6 +41038,37 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-81: Story System Phase 1 — real, tested scriptable doors.** Founder real-time,
+  continuing S459-80's own thread: "we need all of it" (after the characters/triggers/ambient-
+  dialogue/sound folds, and after naming HL2-style physics objects as explicitly out of scope --
+  see below). Built the real object-system plumbing end to end, one kind (door), per the
+  NORTHSTAR doc's own Phase 1 plan: `LevelDoor` (`packages/world/level_boxes.h`, `box_index` +
+  `script_path`, parsed from a new `doors` JSON array via the same small-scanner technique
+  walls/spawners already use); `phys_set_custom_level_box_y`/`phys_custom_level_box_pos`
+  (`packages/common/physics.h`) — the real mechanism a door script's decision turns into an
+  actual collision change (relocates the box 1000 units below its authored position when open,
+  restores it when closed); `packages/world/story_doors.h` — real `dlopen`/`dlsym` loading of a
+  compiled `door-tick` script at level load plus once-per-server-tick evaluation, wired into
+  `apps/server/src/main.c` right after `update_projectiles`. Real example script + compile
+  instructions checked in at `examples/story-doors/door_tick.prn`. **Live-verified with a real
+  running server and a real connected UDP test client, not just unit-level**: an "always closed"
+  control script proved the player gets and stays genuinely stuck at the box's real collision
+  boundary (z held exactly at 9.01 for 380 real ticks); the real hysteresis script (opens within
+  3 units, closes past 5) proved the player walks straight through once close enough. `make
+  server`/`lobby`/`emily-bot` build clean; existing Python test suite (36 tests) unaffected.
+  Honest, named gaps carried in the doc's own updated Phase 1 section: no NOCK authoring UI or
+  IDUNA-hosted script compile/storage yet (hand-run `parena build` + `gcc`, local `.so` path --
+  same posture PAPERCRAFT's own committed-generated-`.c` convention already has), no door state
+  on the wire protocol, no client-side visual door movement. **Also, same real-time turn,
+  founder: "object physics interractable like half life 2 pick up a cinder block put it on the
+  other side of a teeter totter [...] movable objects have mass and put forces onto other
+  objects via the mass."** Named explicitly OUT of scope for this doc, not folded in as a sixth
+  object kind: real rigid-body simulation (mass/forces/constraint pivots) is a genuinely
+  different, large engine addition than scripted decision logic — checked directly,
+  `physics.h`'s own collision model is AABB-vs-point for players only, no mass/rigid-body/
+  object-on-object-force concept anywhere in this codebase — deserves its own NORTHSTAR pass,
+  not scoped or built here. Apple #19922. Commit SHANKPIT `4fe7ea0`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-80: STORY_SYSTEM_NORTHSTAR.md — scriptable map objects + level-chaining stories.**
   Founder real-time, multi-turn design thread: "how can we make maps and objects scriptable
   ideally with parena [...] doors, ladders, in game computer screens" -> "via the nock tools" ->
