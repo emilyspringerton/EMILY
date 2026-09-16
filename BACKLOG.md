@@ -5864,6 +5864,39 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Live-verified: coherent upright-humanoid silhouette, not the previous propeller-cross shape.
   REDGARDEN `f6293f4`/`2af8591`/`c8c6f7b`, Apple #12201. GoblinFoxDragon `799296d`/`8441b69`,
   Apple #12202.
+- [x] **S144-08: gbtool real glTF import — quaternion animation + mesh + skeleton.** Founder
+  real-time: "let's start iterating towards nock tools modeler (blender) and golden band we need
+  to be able to import quaternion animations into nock golden band" -> "quaternion models too,
+  potentially" -> scoped via a clarifying question to glTF import including meshes/skeletons
+  (not just animation, and not yet the modeler UI itself). Real gap found: `gbtool` only ever
+  imported BVH (Euler-angle mocap) — `.gband`'s own channel convention had no quaternion
+  representation at all, and `.gskel`/`.gmesh` (which already exist as real C formats/loaders,
+  S144-07) had zero Go-side writer, so nothing could ever populate them from real content. glTF
+  is Blender's own native, quaternion-based export format ("glTF Binary .glb" / "glTF
+  Separate"), so this is the real, direct unlock — complements, doesn't replace, the existing
+  BVH + `export_gband_rig.py` + CI pipeline (`.github/workflows/blender-tools.yml`) from earlier
+  in this section: glTF gets mesh+skeleton+animation from ONE exported file with real
+  quaternions, where the BVH path needs the founder's own Blender-side scripts and only ever
+  carried Euler rotation. New: `tools/gbtool/gltf.go` (stdlib-only GLB/glTF 2.0 reader — no
+  vendored deps), `gskel.go`/`gmesh.go` (the missing Go writers), `import_gltf.go` (topological
+  joint-hierarchy sort, JOINTS_0 remap from the skin's own numbering into `.gskel`'s final joint
+  order, and the new `<joint>.qx/.qy/.qz/.qw` quaternion + `.tx/.ty/.tz` translation channel
+  convention, documented in `format/GBAND_FORMAT.md`). v0 scope named honestly, not silently
+  assumed: first skin/mesh/animation per file only, LINEAR sampler interpolation only, nlerp
+  (lerp + renormalize) not true slerp for quaternion resampling — `gb_blend`'s own runtime
+  interpolation has the same real nlerp-not-slerp limitation, now documented rather than
+  undiscovered. Live-verified end to end, not just self-consistency: a hand-built, spec-
+  conformant synthetic `.glb` (with skin.joints deliberately reversed vs. topological order, to
+  actually exercise the bone-index remap) round-trips through the real CLI (`gbtool import
+  --gltf`) AND the real C runtime loaders (`gskel_init`/`gmesh_init`/`gb_init`, compiled and run
+  directly) with correct hierarchy, bone binding, and quaternion values at every sampled tick.
+  Full suite (C + Go) green via `scripts/build_and_test.sh`. Real, named next phases (not
+  started, not silently dropped): a NOCK-hosted "tools modeler" authoring/browsing UI (the
+  founder's own longer-horizon direction this importer is a first step towards) and a real
+  "animation repository" for `.gband`/`.gskel`/`.gmesh` assets (founder real-time: "need
+  animation repository") — likely mirroring the texture-library pattern NOCK already has
+  (`internal/nock/texture_store.go`), scoped and built when picked up next. Apple #19844.
+  Commit GOLDENBAND `ac45152`. session: sess-20260905-0720-ec33e7c5
 
 ---
 
