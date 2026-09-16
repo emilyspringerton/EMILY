@@ -5864,6 +5864,33 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
   Live-verified: coherent upright-humanoid silhouette, not the previous propeller-cross shape.
   REDGARDEN `f6293f4`/`2af8591`/`c8c6f7b`, Apple #12201. GoblinFoxDragon `799296d`/`8441b69`,
   Apple #12202.
+- [x] **S144-09: NOCK animation repository + drag-and-drop glTF import.** Founder real-time,
+  continuing S144-08's own thread same session: "need animation repository" -> "ok I need to
+  import quaternion assets nock tools drag and drop". S144-08 shipped the pipeline half
+  (`gbtool import --gltf`, CLI-only, local machine); this is the real storage/browse half plus
+  removing the local-tooling requirement entirely for the common case. New IDUNA
+  `nock_animations` table/store/handler (`internal/nock/anim_store.go`,
+  `internal/http/handlers/nock_animations.go`) — same real BLOB-in-SQLite CRUD shape
+  `nock_textures` already established. New `internal/nock/gltf_convert.go`: a real, deliberate
+  PORT (not a shared module — GOLDENBAND and IDUNA are separate repos, same as every other
+  standalone repo in this monorepo) of `gbtool`'s own glTF-to-GOLDENBAND conversion logic
+  directly into the server, so a raw `.glb` dropped in the browser converts to real
+  `.gskel`/`.gmesh`/`.gband` (quaternion channels) bytes server-side — no `gbtool` run needed
+  first. New NOCK "Animations" tab: a real HTML5 drag-and-drop zone posting straight to
+  `POST /admin/nock/api/animations/import-gltf`, browsable list with per-asset download links
+  and rename/clone/delete. Same v0 scope as S144-08's own importer (first skin/mesh/animation,
+  LINEAR only, nlerp not slerp), plus one real server-specific limit named honestly: only a
+  self-contained `.glb` (or `.gltf` with embedded base64 buffers) converts from one dropped
+  file — an external `.bin` sidecar has nothing to resolve against without a second upload; that
+  case still works via `gbtool`'s own CLI, uploaded as pre-converted output through the plain
+  `POST /admin/nock/api/animations` route. Live-verified: new Go test suite (store CRUD,
+  bad-magic rejection, a full synthetic `.glb` round-trip through `ImportGLTFBytes` with
+  deliberately-reversed `skin.joints` order to actually exercise the bone remap, and the real
+  HTTP handler's multipart import + download round-trip) plus the full existing suite all green;
+  `tsc`+`vite build` clean; rebuilt and redeployed the live `iduna` binary (new route strings
+  confirmed present, a live 401 — correctly auth-gated, not 404 — from the running service); new
+  migration confirmed applied against the production DB via direct sqlite schema check. Apple
+  #19851. Commit IDUNA `7bcf574`. session: sess-20260905-0720-ec33e7c5
 - [x] **S144-08: gbtool real glTF import — quaternion animation + mesh + skeleton.** Founder
   real-time: "let's start iterating towards nock tools modeler (blender) and golden band we need
   to be able to import quaternion animations into nock golden band" -> "quaternion models too,
