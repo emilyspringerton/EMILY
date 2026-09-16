@@ -41063,7 +41063,22 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   PARENA editor, S144-09 drag-and-drop animation import). NORTHSTAR only, no code written;
   real phased build order named (scene identity -> object system + one kind -> remaining kinds
   -> story engine). Golden-indexed as SHANKPIT-STORY-NORTH. Apple #19914. Commit SHANKPIT
-  `5dd5817`. session: sess-20260905-0720-ec33e7c5
+  `5dd5817`.
+  **Follow-up, same day — founder: "also scriptable characters state machine dynamic idle look
+  around check watch etc" then "also scriptable player events like hitting a certain hallway
+  loads in the next enemies trigger sounds trigger events like characters falling out of a vent
+  etc."** Both folded into Part 2's existing object-kind model rather than becoming new systems.
+  `character-tick`: a small `CharacterState` enum (Idle/LookAround/CheckWatch/... extensible)
+  driven by the same per-tick evaluation doors/ladders already get, each state mapped to a real
+  `.gband` clip from the NOCK animation repository (S144-09) — named gap: `gb_blend` only nlerps
+  within one clip, so a smooth cross-clip idle transition needs a new blend helper (cosmetic v0
+  gap, not a blocker). Generic `trigger` kind subsumes entrance/exit markers entirely: `on-trigger`
+  returns a `TriggerAction` (`SpawnEnemies` | `PlaySound` | `SpawnCharacterEvent` | `AdvanceStory`
+  | `NoOp`) for the C host to execute — same "script returns data, host executes" discipline
+  `door-tick` already uses, and `AdvanceStory` is what actually makes an "exit marker" real now
+  (Part 3's story engine hooks into that action, not a separate marker kind). Phased build order
+  updated to match (Phase 2 grows `TriggerAction`'s vocabulary only as real content needs it,
+  not speculatively). Apple #19917. Commit SHANKPIT `ac2f47a`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-79: fix conquest broadcast spam in gfd-mud** -- founder real-time: "gfd mud can you
   disable the conquest spam". Real bug found in `server/conquest/conquest.go`'s `Map.TickAll()`:
   it ran `Region.Tick()` for every region on the once-a-minute MUD-compressed "weekly" conquest
