@@ -41040,6 +41040,22 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-85: NOCK UI for writing door scripts (closes the last Phase 1 gap).** Founder
+  real-time: "fill the gap in the designer can't write scripts." S459-82 shipped the real
+  compile/store API (`internal/nock/door_script_compile.go`/`store.go`) but no page pointed a
+  human at it — this adds `DoorScripts`/`DoorScriptRow` (`IDUNA/frontend/nock/src/App.tsx`) plus
+  a `doorScripts` API client (`api.ts`), the exact same real blank-slate-textarea +
+  Create-button + Edit-source/Re-compile/Delete pattern already proven twice this session
+  (S459-77's texture editor, the animation repository's own row component) — pre-filled with a
+  real, working starter door-tick template so Create compiles unedited. Each row shows its own
+  real, public `script_url` (the download route `door_script_compile.go`/
+  `nock_door_scripts_public.go` already serve) with a one-click copy, ready to paste straight
+  into a level's own `doors` array. A map designer can now go from writing PARENA to a working
+  in-game door without touching a terminal. Live-verified: `tsc`+`vite build` clean, new
+  component strings confirmed present in the rebuilt, redeployed `iduna` binary, live 401
+  (correctly auth-gated, not 404) from the running service. No backend changes this pass — the
+  compile pipeline/store/handlers were already shipped and tested in S459-82. Apple #19942.
+  Commit IDUNA `d5ebf85`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-84: real, runnable demo level — hallway with two scripted doors.** Founder
   real-time: "can you build me a demo level with the scriptable stuff like doors set up so I can
   see how to do stuff." `SHANKPIT/examples/story-doors/demo_level/`: a real corridor
