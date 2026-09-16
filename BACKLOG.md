@@ -2629,6 +2629,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'panel looks so good, can you do it again for a high pressure sodium light with a flicker like in th…** — obs `2026-09-14T08:04:15Z`. CURATED: 2026-09-14.
 - [ ] **Founder real-time: 'move the servers to this server bro change all the ips - we have been on the wrong server the whole…** — obs `2026-09-14T20:28:09Z`. CURATED: 2026-09-14.
 - [ ] **Founder real-time: add spawners to NOCK's SHANKPIT level editor -- team-based (Red Team/Blue Team, matching TDMB_RED_TE…** — obs `2026-09-15T02:00:08Z`. CURATED: 2026-09-15.
+- [ ] **Founder real-time: let's start iterating towards NOCK tools modeler (Blender) and GOLDENBAND — need to import quaternio…** — obs `2026-09-16T04:30:21Z`. CURATED: 2026-09-16.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
