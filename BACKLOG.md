@@ -40975,6 +40975,21 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-78: basic 4x MSAA anti-aliasing in the lobby client** -- founder real-time: "shankpit
+  can you add some basic anti aliasing". Real gap found: `apps/lobby/src/main.c`'s legacy
+  fixed-function GL window/context was created with SDL's default attributes -- no multisample
+  framebuffer ever requested, so every polygon edge rendered raw/jagged regardless of GPU
+  capability. Fixed by requesting `SDL_GL_MULTISAMPLEBUFFERS=1`/`SDL_GL_MULTISAMPLESAMPLES=4`
+  before `SDL_CreateWindow` (real, not cosmetic ordering -- on X11/GLX, this box's own real
+  platform, the window's pixel format is chosen at creation time, so setting these after the
+  window exists is a no-op), then checking what the driver actually granted via
+  `SDL_GL_GetAttribute` before calling `glEnable(GL_MULTISAMPLE)` rather than assuming success.
+  Live-verified: `make lobby` builds clean, runs under Xvfb without crashing, and the real
+  fallback path was genuinely exercised (this sandbox's own software GL driver grants 0 sample
+  buffers, and the client correctly logged "MSAA not available from this driver" and kept
+  running rather than silently assuming AA was on). Scoped to `apps/lobby` only (the real,
+  documented `make lobby` target) -- `apps2/lobby` is a separate, older "BUILD 181" client not
+  touched here. Apple #19835. Commit SHANKPIT `b2437f9`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-77: blank-slate PARENA texture editor in NOCK** -- founder real-time: "can we add a
   parena frontend to nock texture generator" -> clarified via question: a blank-slate PARENA
   source editor, not the AI-prompt path and not a syntax-highlighted editor upgrade. Real gap
