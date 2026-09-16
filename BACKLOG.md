@@ -41039,6 +41039,31 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-83: GOLDENBAND gseq — real animation stitching (crossfade sequences).** Founder
+  real-time: "make sure we can stitch animations together like James Bond walk turn raise gun
+  shoot." This is exactly the real, named gap from `SHANKPIT/docs/STORY_SYSTEM_NORTHSTAR.md`'s
+  own Characters section ("`gb_blend` only nlerps between adjacent ticks of the SAME clip -- a
+  smooth cut between two DIFFERENT clips... needs a small new cross-clip blend helper that
+  doesn't exist yet"), now built in GOLDENBAND (`src/gseq.h`/`gseq.c`) since it's a real,
+  reusable data-transform layer above `gband.c`'s own channel-name-blind sampler, not
+  SHANKPIT-specific. `gseq_clip_load` reads a clip's own real channel names out of its manifest
+  (a small, real, bounded scanner scoped to exactly the `"channels": [...]` shape, same
+  deliberate scope `SHANKPIT/packages/world/level_boxes.h`'s own scanner already established --
+  not a general JSON parser). `GSeq` is a real ordered list of clips with one real nlerp
+  crossfade duration between transitions; `GSeqPlayer` tracks real elapsed TIME (not ticks,
+  since different clips in one sequence may have different `tick_rate`) and freezes the outgoing
+  clip at its own real final pose while blending into the new one. Missing channels fall back to
+  the skeleton's own real rest pose, the same documented convention `GSKEL_FORMAT.md` already
+  establishes for a single clip. Live-verified: `tests/test_gseq.c`, 15 real assertions against a
+  real synthetic 2-clip fixture -- pure single-clip sampling, crossfade start/mid/end (mid-
+  transition explicitly checks the blended quaternion is genuinely renormalized to unit
+  magnitude and a real midpoint, not either raw endpoint), missing-channel rest-pose fallback,
+  and non-looping end-of-sequence correctly holding its final pose. Wired into
+  `scripts/build_and_test.sh` -- full suite green. `examples/gseq/README.md` shows the real
+  "walk, turn, raise gun, shoot" API usage the founder's own framing asked for -- named honestly:
+  no real Bond-style character clips exist in this repo yet, so the example is the real, working
+  mechanism with placeholder clip paths, not fake content. Apple #19937. Commit GOLDENBAND
+  `a3b452e`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-82: real PARENA-to-C door script compile pipeline via NOCK.** Founder real-time,
   same day as S459-81: "you know what we are tryna do fill in the gaps" — closes the "via the
   nock tools" gap named at the very start of the whole story-system thread. IDUNA gained the
