@@ -41039,6 +41039,39 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-82: real PARENA-to-C door script compile pipeline via NOCK.** Founder real-time,
+  same day as S459-81: "you know what we are tryna do fill in the gaps" — closes the "via the
+  nock tools" gap named at the very start of the whole story-system thread. IDUNA gained the
+  real, server-side compile+store half: `internal/nock/door_script_compile.go` (real `parena
+  build` + `gcc -shared -fPIC`, same two-real-step shape `internal/nock/procgen.go` already
+  automates for the Java-target texture pipeline, with `validateDoorScriptSource` as the same
+  "explicit second layer of defense" `validateProcTextureSource` already establishes),
+  `door_script_store.go` (CRUD mirroring `texture_store.go` exactly, compile-before-touching-
+  the-row on both create and regenerate), an admin-gated authoring API
+  (`/admin/nock/api/door-scripts`) and a SEPARATE public, read-only download route
+  (`/api/v1/nock-door-scripts/:id/download` — SHANKPIT's own server has no IDUNA login, same
+  posture `shankpit-levels`' own public export route already established), plus a real vendored
+  copy of PARENA's own runtime (`internal/nock/parena_runtime/`, same "vendored per-consuming-
+  repo" convention PAPERCRAFT/ECOWAR/WEAKNIGHT_BEDROCK_RACERS already use). SHANKPIT's
+  `LevelDoor` gained a `script_url` field (`packages/world/level_boxes.h`) alongside the
+  existing `script_path`; `story_doors_init` (`packages/world/story_doors.h`) downloads and
+  locally caches a `script_url` once at level load (reusing the existing `level_boxes_fetch_url`
+  curl-via-popen technique) before `dlopen`, `script_path` staying a real, supported local-dev
+  fallback. **Live-verified as one real, full closed loop, not per-repo in isolation**: compiled
+  a real script through IDUNA's new pipeline, confirmed it byte-identical to a hand-compiled
+  one and runs correctly; inserted it, downloaded it back over real HTTP from the live,
+  redeployed IDUNA (byte-identical again); pointed a real running SHANKPIT server's level at
+  that URL and confirmed the live server-log evidence of the real download+cache+dlopen; then
+  connected a real UDP test client and confirmed it walks straight through the resulting door,
+  exactly matching S459-81's own local-file behavior. `go build/vet/test ./...` (IDUNA) and
+  `make server/lobby/emily-bot` (SHANKPIT) both clean; new Go test suite
+  (`door_script_store_test.go`, `nock_door_scripts_test.go`) compiles real scripts, not fakes.
+  Migration applied live, confirmed via direct sqlite schema check; production DB left clean
+  (test rows inserted and deleted as part of verification). Real, honestly-named remaining gap:
+  the compile/store API exists but there's still no NOCK UI page (textarea + Create button,
+  mirroring the texture/animation ones) for actually writing a door script through it yet.
+  Apple #19932 (IDUNA), #19933 (SHANKPIT). Commits IDUNA `594b9c2`, SHANKPIT `a618b94`/`36d717c`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-81: Story System Phase 1 — real, tested scriptable doors.** Founder real-time,
   continuing S459-80's own thread: "we need all of it" (after the characters/triggers/ambient-
   dialogue/sound folds, and after naming HL2-style physics objects as explicitly out of scope --
