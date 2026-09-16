@@ -40975,6 +40975,26 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-77: blank-slate PARENA texture editor in NOCK** -- founder real-time: "can we add a
+  parena frontend to nock texture generator" -> clarified via question: a blank-slate PARENA
+  source editor, not the AI-prompt path and not a syntax-highlighted editor upgrade. Real gap
+  found: `TextureLibraryRow`'s existing "Edit source" -> "Re-run" flow already let a human hand-
+  edit the PARENA source behind an AI-generated texture, but there was no way to write PARENA
+  from nothing -- the only creation path was `TextureLibraryGenerateForm`, prompt-only, even
+  though the backend's `create` handler (`nock_textures.go`) already accepted a raw `source`
+  field with zero frontend caller. Added `TextureFromSourceForm` (name/width/height/source
+  textarea, a real starter gradient template matching `procgen.go`'s own real pixel-r/g/b
+  contract so Create works unedited) and `textures.createFromSource()`, both hitting the
+  existing `CreateProceduralTexture`/`procgen.go` compile pipeline (Java-target sandboxed PARENA
+  compile, unchanged). Live-verified: the starter source compiles cleanly through the real
+  `parena build` -> `GenTexture.java` pipeline (ran it directly), `go test ./internal/nock/...`
+  and `./internal/http/handlers/...` pass, frontend `tsc`+`vite build` clean, and the new
+  component's own strings confirmed present in the rebuilt, redeployed `iduna` binary. Also
+  found and fixed a real, blocking operational issue along the way: the root disk was at 100%
+  (151M free), which failed the Go build (`link: mapping output file failed: no space left on
+  device`) -- freed ~8GB by clearing safe, regenerable build caches (`bazel clean --expunge`,
+  `go clean -cache`, `pip cache purge`, stale `uv`/`bazel` cache dirs), nothing durable touched.
+  Apple #19821. Commit IDUNA `8a7d229`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-76: real Elo updates now push back onto already-registered checkpoints** --
   founder real-time: "im a little concerned that the elos of the generation 0 bots arent going
   up and down maybe they just havent gotten matches can we make sure the elos are set up to go
