@@ -40975,6 +40975,20 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-79: fix conquest broadcast spam in gfd-mud** -- founder real-time: "gfd mud can you
+  disable the conquest spam". Real bug found in `server/conquest/conquest.go`'s `Map.TickAll()`:
+  it ran `Region.Tick()` for every region on the once-a-minute MUD-compressed "weekly" conquest
+  cadence and returned an entry for ALL regions unconditionally, and `apps2/mud/main.go`'s own
+  tick loop broadcasts one `"[Conquest] X is now controlled by Y."` line per entry to every
+  connected player -- so this was a real, unconditional per-region broadcast every single minute
+  forever, even when nothing changed (an already-held region with no challenger, or a region no
+  one scored in at all). Fixed: `TickAll` now only includes a region in its result when the
+  controller genuinely changed this tick. New regression test
+  (`TestMap_TickAll_OmitsUnchangedRegions`) covers both the already-held-incumbent and
+  nobody-scored cases. `go test ./server/conquest/... ./apps2/mud/...` (GOWORK=off, this repo's
+  own real module isolation) green; `gfd-mud.service` rebuilt and restarted live via
+  `systemctl --user restart`, confirmed healthy. Apple #19837. Commit GoblinFoxDragon `59fabdf`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-78: basic 4x MSAA anti-aliasing in the lobby client** -- founder real-time: "shankpit
   can you add some basic anti aliasing". Real gap found: `apps/lobby/src/main.c`'s legacy
   fixed-function GL window/context was created with SDL's default attributes -- no multisample
