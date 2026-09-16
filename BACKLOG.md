@@ -41040,6 +41040,18 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-84: real, runnable demo level — hallway with two scripted doors.** Founder
+  real-time: "can you build me a demo level with the scriptable stuff like doors set up so I can
+  see how to do stuff." `SHANKPIT/examples/story-doors/demo_level/`: a real corridor
+  (`level.json`), two real, DIFFERENTLY-scripted doors (`door_tick.prn`, the S459-81 hysteresis
+  door; a new `one_way_door.prn` — opens near, stays open forever, same real two-input contract,
+  deliberately different logic to show the contract is the designer's own to define), `build.sh`
+  (real `parena build` + `gcc -shared`), and a `README.md` covering running it, extending it, and
+  switching to NOCK-hosted `script_url` scripts. Live-verified with a real running server and a
+  real connected UDP client walking the whole hallway — both doors correctly opened as the
+  player approached each one, letting them reach the far end of a corridor that was solid wall
+  until each door's own script decided otherwise. Apple #19940. Commit SHANKPIT `e914984`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-83: GOLDENBAND gseq — real animation stitching (crossfade sequences).** Founder
   real-time: "make sure we can stitch animations together like James Bond walk turn raise gun
   shoot." This is exactly the real, named gap from `SHANKPIT/docs/STORY_SYSTEM_NORTHSTAR.md`'s
