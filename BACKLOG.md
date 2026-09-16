@@ -41040,6 +41040,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-86: HUMANNESS_NORTHSTAR.md — realistic scriptable NPCs, grounded in MISHRI.**
+  Founder real-time: "I want to build realistic human like ais for games like the soldiers
+  fighting Gordon in half life or like city dwellers in gta3 or like NPCs in Skyrim that travel
+  I want realistic scriptable humans use mishri Minecraft bot humanness features to help guide
+  development of the framework." Real research pass done first (dedicated Explore agent, not
+  assumed): read MISHRI's own `HumannessLayer.ts` (real timing-noise `delay()`/`reactionDelay()`
+  primitives scaled by fatigue/energy, `smoothTurn()`'s real bezier-eased overshoot-then-correct,
+  Box-Muller Gaussian `imperfectAim()`, a randomized-look-loop perception model with no FOV cone,
+  an 8-state mood enum feeding every primitive, `BehaviorOrchestrator`'s real scored-utility-AI
+  behavior selection, and MISHRI's own real behavioral-contract test suite,
+  `tests/humanness.test.ts`) plus SHANKPIT's own two existing NPC systems (`story_ai.c`'s
+  already-real per-role FOV/hearing perception + `AIMode` combat state machine;
+  `local_game.h`'s `bot_think` deathmatch heuristic) and this session's `character-tick`
+  ambient-NPC design. Scoped `SHANKPIT/docs/HUMANNESS_NORTHSTAR.md`: a shared, plain-C
+  `humanness.h`/`.c` primitives module (reaction delay, aim noise, turn overshoot, mood state)
+  that `story_ai.c` and `character-tick` each call INTO rather than being replaced by — the same
+  real architectural shape MISHRI's own managers already use. Explicitly out of scope, named
+  honestly: chat/typo simulation (SHANKPIT has no chat system, checked directly), `bot_ai.h`'s
+  competitive deathmatch bots (fairness vs. humanness are different design goals), and
+  Skyrim-style multi-day NPC routines (connects to the Story System's own level-chaining work,
+  not built here). Real phased build order named (primitives+tests -> `story_ai.c` integration
+  -> `character-tick` integration -> PARENA-scriptable per-role personality, deferred).
+  NORTHSTAR only, no code written. Golden-indexed as SHANKPIT-HUMANNESS-NORTH. Apple #19945.
+  Commit SHANKPIT `a7332d8`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-85: NOCK UI for writing door scripts (closes the last Phase 1 gap).** Founder
   real-time: "fill the gap in the designer can't write scripts." S459-82 shipped the real
   compile/store API (`internal/nock/door_script_compile.go`/`store.go`) but no page pointed a
