@@ -41036,6 +41036,34 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-80: STORY_SYSTEM_NORTHSTAR.md — scriptable map objects + level-chaining stories.**
+  Founder real-time, multi-turn design thread: "how can we make maps and objects scriptable
+  ideally with parena [...] doors, ladders, in game computer screens" -> "via the nock tools" ->
+  "make a level loading system like half life [...] stories that stitch the levels together
+  [...] same levels to create 2 stories that vary vastly just due to the order of the chapters
+  (novel called crossings)" -> "multiple entrances or exits [...] almost a tree structure but
+  not totally [...] time loops and arbitrary story definition if exit b go here if exit a go
+  here if 2 decisions ago you said a then next time we go c [...] parena scriptable." Scoped
+  into `SHANKPIT/docs/STORY_SYSTEM_NORTHSTAR.md`, grounded in real, checked-not-assumed
+  SHANKPIT architecture: (1) **per-level scene identity** -- every NOCK custom level currently
+  shares one hardcoded `SCENE_CUSTOM_LEVEL` id, the same real root cause behind S459-74's own
+  spray-decal-leak bug this session, blocking anything that needs to name a specific level; (2)
+  **scriptable map objects** (doors/ladders/screens/entrance-exit markers) via a narrow,
+  fixed-contract PARENA-to-C pipeline extending PAPERCRAFT's own real, only precedent
+  (`level_mod.prn`, a plain-C-signature generated function linked into a host) plus SHANKPIT's
+  existing `dlopen`/`dlsym` PoC (`apps/dynmod_poc`); (3) **the story engine**, modeled as a
+  single PARENA decision function `next-chapter(history, exit-taken) -> ChapterRef` over an
+  accumulated choice-history vector -- shown to cover the batteries-included straight-line
+  default, multiple entrances/exits, time loops, "N decisions ago" logic, and the Crossings
+  same-levels-different-order case all as free consequences of one shape, not special-cased.
+  Resolves the C-vs-Java PARENA target question left open from the texture pipeline's own docs
+  (`internal/nock/procgen.go`): C is the right choice here, not a compromise, since these scripts
+  are hand-authored by a trusted NOCK-admin-gated map designer, not LLM-generated. NOCK authoring
+  surface follows the exact pattern already proven twice this session (S459-77 blank-slate
+  PARENA editor, S144-09 drag-and-drop animation import). NORTHSTAR only, no code written;
+  real phased build order named (scene identity -> object system + one kind -> remaining kinds
+  -> story engine). Golden-indexed as SHANKPIT-STORY-NORTH. Apple #19914. Commit SHANKPIT
+  `5dd5817`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-79: fix conquest broadcast spam in gfd-mud** -- founder real-time: "gfd mud can you
   disable the conquest spam". Real bug found in `server/conquest/conquest.go`'s `Map.TickAll()`:
   it ran `Region.Tick()` for every region on the once-a-minute MUD-compressed "weekly" conquest
