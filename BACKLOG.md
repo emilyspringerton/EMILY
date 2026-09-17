@@ -43080,4 +43080,48 @@ exit marker? im not sure if it works because i dont know if its in the right spo
   Deployed and verified the same way (built bundle + the actual embedded Go binary checked before
   restart). IDUNA `f004031` + `ce3e6f0`. Apple #20076.
 
+## SECTION 477: SHANKPIT — LEVEL EXITS NEVER TRIGGERED OUTSIDE MODE_STORY (2026-09-17)
+
+*Goal: a real, live bug fix — a founder playtest on their own real "nextown" level found that a*
+*correctly-placed, correctly-configured level exit did nothing at all.*
+
+Founder real-time, live playtest: "ok i walk over to the block where the level exit should be i
+have the block under the level and the exit right above it i go stand where the block is and i
+say out loud beam me up scotty and then nothing happens im expecting to get teleported to the
+next level i am on nextown."
+
+- [x] **S477: real design mistake from the original S473 work, found live.**
+  `story_check_level_exits` (server) and `lobby_check_story_level_exits` (lobby) were both
+  hard-gated to `game_mode == MODE_STORY` — S473 wrongly assumed level chains were exclusively a
+  story-mode concept. `nextown` is an ordinary level-select/deathmatch level
+  (`is_story_start=false`), so its correctly-authored exit (`next_level_id=13`,
+  `LevelExit{x:-36,y:4,z:59,radius:4}`) never had its trigger check run at all — confirmed by
+  fetching the real live export and checking the data directly, not assuming it was
+  miscalibrated.
+  Fix: dropped the `MODE_STORY` gate in both functions — the existing
+  `g_story_level_exit_count`/`g_story_next_level_id` checks are already a real, sufficient,
+  honest no-op gate on their own (a level with no exits authored does nothing in ANY mode).
+  Server-side also broadened from hero (player 0) only to every active player, for both the
+  trigger check and the post-transition respawn — the dedicated server never even uses slot 0 for
+  a real client, and this matches `server_advance_queue_round`'s own existing "the whole server
+  moves together on a level change" precedent. Lobby-side: moved the exit/next_level_id capture
+  out of the MODE_STORY-only `lobby_apply_story_level` into `level_boxes_apply_to_physics`, the
+  one loader both level-select and the `--level` CLI flag already share, so any custom level load
+  captures this state regardless of mode.
+  Live-verified, not just code-reviewed: a first attempt walking a real UDP test client toward
+  nextown's real (far-apart) spawn/exit coordinates was inconclusive (the throwaway test
+  harness's own movement math had a bug, not the fix). Built a second, synthetic close-range test
+  level instead (`next_level_id=13`, a wide-radius exit guaranteed to cover wherever DEATHMATCH
+  mode actually spawns the player) and ran a real `shank_server` instance against it with a real
+  `PacketClient` in `game_mode=0` — the server's own log shows:
+  `STORY_LEVEL_TRANSITION next_level_id=13 name=TRAINING_GROUND`
+  confirming the trigger fires and the transition completes outside `MODE_STORY`, exactly the
+  real scenario the founder hit. `make server`/`make lobby` both clean.
+  Honest, named gap: the live `shankpit-server.service` restart needed to deploy this to the real,
+  currently-running okemily.com server was NOT performed — blocked by the auto-mode classifier as
+  a live-workload interruption (would disconnect any currently-connected players), matching this
+  session's own standing rule to never restart a shared live game service without asking first.
+  Founder go-ahead needed before the fix is actually live.
+  SHANKPIT `364aadc` (fix) + `83c2d2a` (changelog). Apple #20078.
+
 session: sess-20260905-0720-ec33e7c5
