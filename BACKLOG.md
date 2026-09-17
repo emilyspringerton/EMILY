@@ -43871,3 +43871,45 @@ session: sess-20260905-0720-ec33e7c5
   IDUNA `4e3f377`. Apple #20099.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 491: SHANKPIT/IDUNA — LEVEL EXITS TARGET A SPECIFIC DESTINATION SPAWNER (2026-09-17)
+
+*Goal: founder real-time — "so i figured out we can do buildings like GTA we have an exit point*
+*of the level that is pointed to the level that represents the interior of that building -*
+*exiting that level you can spawn back into the world but how can i specify which spawner the*
+*exit leads to for the seamless experience of exiting the building."*
+
+- [x] **Confirmed, before building, that this genuinely didn't exist**: `next_level_id` chains one
+  level to the next, but the actual respawn (`phys_respawn` → `scene_spawn_for_player` →
+  `custom_level_pick_spawner`) always did team/FFA round-robin selection across ALL of the
+  destination level's spawners — zero connection to which exit was used or where the player came
+  from.
+- [x] **New `LevelExit.target_spawner_id`** (SHANKPIT `level_boxes.h` + IDUNA `LevelExit`/
+  `LevelExitExport`, 0 default = every pre-S491 exit completely unchanged) — when set, overrides
+  the destination level's spawner pick with one exact, author-chosen spawner by its own real id.
+  A building's front-door exit can now target the exact spot standing just outside it.
+- [x] **Real, found-live gap fixed along the way**: `LevelSpawner` never actually parsed its own
+  author-assigned `id` from JSON at all — silently dropped natively since nothing needed it before
+  this (the Go/export side always sent it; the native parser just never read it). Fixed, threaded
+  through `phys_set_custom_level_spawners`' now-5-arg signature and both real call sites
+  (`apps/server`, `apps/lobby`).
+- [x] **New `custom_level_pick_spawner_by_id`** — a minimal, additive sibling to the existing
+  team/FFA picker; honestly returns 0 (never crashes) for a stale/missing target id or the real
+  `target_spawner_id<=0` sentinel, matching every other "pick" function's own established
+  no-match contract.
+- [x] **`story_check_level_exits`/`lobby_check_story_level_exits`** both capture which specific
+  exit fired (not just that *some* exit fired) and, after `phys_respawn`'s own normal full reset
+  (health/state/ammo), surgically override just the resulting position when a target spawner is
+  named and still exists.
+- [x] **New NOCK UI**: `LevelExitInspector` gained a real "Target spawner" dropdown, populated
+  from the DESTINATION level's own live spawner list (a new `targetLevelSpawners` fetch effect,
+  re-runs whenever "Next level" changes) — a designer picks a real, team-labeled spawner by name,
+  never a raw id typed blind.
+- [x] Live-verified: 10/10 new native tests (`apps/tests/test_level_exit_spawner_target.c` —
+  JSON parsing of both new fields, the pick-by-id lookup, honest misses for a stale/zero id) +
+  a new Go round-trip test (`TestExport_CarriesLevelExitTargetSpawnerID`). `make server`/
+  `make lobby` clean, `go build`/`go test ./...` clean (full suite), tsc/vite build clean,
+  deployed live, verified in `dist/` and the deployed binary.
+  SHANKPIT `7287957` (Apple #20100). IDUNA `5942921` (Apple #20101).
+
+session: sess-20260905-0720-ec33e7c5
