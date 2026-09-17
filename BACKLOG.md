@@ -42848,3 +42848,42 @@ explicitly deprioritized for later.
   `make lobby` clean. SHANKPIT `59c83a2` + `41d652e`. Apple #20063.
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 473: SHANKPIT/IDUNA — STORY LEVEL SEQUENCING, PHASE 1 (2026-09-17)
+
+*Goal: replace VOXWORLD's own hardcoded, now-legacy Breach Titan encounter as the direction for*
+*new story content -- define the story as a real sequence of NOCK-authored levels instead.*
+*Full plan in `SHANKPIT/docs2/specs/STORY_LEVEL_SEQUENCING_NORTHSTAR.md`.*
+
+Founder real-time: "lets not work on voxworld this is a legacy world building on it isnt useful ...
+we need a way to string 2 levels together and then once we have that lets get our waypointing
+tools set up ... scriptable interactions ... bake in some good defaults ... with extension points
+for overriding that default behavior via map scripts." Routed via `emily observe`, Apple #20064.
+
+- [ ] **S473-01: `next_level_id` + `is_story_start` on a Level.** IDUNA `internal/shankpit`:
+  nullable `next_level_id` (v0 is a real chain, not a general graph — see NORTHSTAR doc for why),
+  `is_story_start` mirroring `IsDefaultQueue`'s own exact "exactly one level at a time" enforcement
+  shape. Migration, validation, handler wiring, `ExportDoc` resolution, NOCK frontend inspector
+  toggle — the same four-times-proven pattern Doors/NavNodes/Characters already established.
+- [ ] **S473-02: new `LevelExit` scriptable object.** A placed trigger volume (position + radius,
+  same authoring shape as `NavNode`) — the "opposite of a spawner" the founder was reaching for.
+  Same full IDUNA pattern as S473-01's fields, plus a new SHANKPIT-side `LevelExit` parser in
+  `packages/world/level_boxes.h`.
+- [ ] **S473-03: real, live level transition on exit-volume entry.** Server-side proximity check
+  (`MODE_STORY` only — `MODE_QUEUE`/deathmatch have no level-graph semantics), reusing the
+  ALREADY-PROVEN-SAFE `server_apply_custom_level` mid-game level-swap path (the exact mechanism
+  `server_advance_queue_round` already uses every real QUEUE round, not a new primitive) to fetch
+  and apply this level's own `next_level_id` via `level_boxes_fetch_export`, respawning the player
+  at the new level's own `Spawners`.
+- [ ] **S473-04: `MODE_STORY` skips the text cutscene and spawns into the real story-start level.**
+  Match init checks the registry for whichever level holds `is_story_start`; if one exists, fetch +
+  apply it instead of `story_ai_seed_voxworld_encounter`, `story_phase = STORY_PHASE_PLAYING`
+  directly (no `STORY_PHASE_CUTSCENE`). VOXWORLD's own hardcoded path stays untouched for anyone
+  who still runs it directly (no `is_story_start` level authored yet).
+
+Phase 2 (NPC reaction scripts, JSON-first + PARENA escape hatch) is real, scoped in the NORTHSTAR
+doc, and explicitly sequenced AFTER this section closes — not started.
+
+session: sess-20260905-0720-ec33e7c5
