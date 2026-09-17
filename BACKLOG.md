@@ -41042,6 +41042,29 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-100: MODE_QUEUE real match-over intermission (fixes stuck-open matchmaking feel).**
+  Founder real-time: "something with matchmaking for queue in shankpit is down i dunno i think if
+  you start a game it stays open or something when you get 10 kills it resets to 0 like a new
+  game maybe that game is still stuck open." Investigated via a fork. Root cause, confirmed by
+  code read: `server_advance_queue_round` (`apps/server/src/main.c`) fired on the SAME tick a
+  QUEUE round hit `SERVER_QUEUE_FRAG_LIMIT`, silently resetting every player's kills/deaths/
+  health in place with zero match-over state transition and zero notification anywhere —
+  indistinguishable from a match that never actually ends, exactly matching the reported symptom.
+  Ruled out: slot exhaustion from stale/ungraceful disconnects — a real 5s idle-timeout sweep
+  already frees stale slots, so that's not it. Fix: `MODE_QUEUE` now sets the existing
+  `local_state.match_over` flag (already used by `MODE_TDMO`/CTF for their own end-of-match
+  state) and holds a real `SERVER_QUEUE_INTERMISSION_MS` (5s) before actually advancing the
+  round — a genuine, observable "this match ended, a new one is starting" transition instead of
+  an invisible in-place stat reset; auto-clears (no player 'R' keypress needed, unlike team
+  modes) since QUEUE has no single match "owner." `make server`/`make lobby` both build clean.
+  Real, honest gap: full live 20-kill reproduction not completed this pass (would need a real
+  combat bot loop) — the fix itself is a small, isolated state-machine change reviewed by hand
+  against the exact same `match_over` pattern already proven correct for team modes in this same
+  file. **Note:** the commit message says "backlog: ✓ S459-99" — written concurrently with the
+  bullet-hole entry below by a separate fork, before the number collision was caught; this entry
+  (S459-100) is the real, authoritative BACKLOG record for that commit. Apple #19988. Commit
+  SHANKPIT `335bc17`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-99: bullet hole decal example script (NOCK procgen).** Founder: "when you shoot the
   wall it leaves a bullet hole (decal) can we write a parena skript for a basic bullet hole
   (slightly asymetrical)... use sin or cos or something with a multiplier or modulator that let
