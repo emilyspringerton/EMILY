@@ -41042,6 +41042,27 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-103: reconciliation ammo flicker + duplicate kill indicators — fixed at the actual
+  root.** Founder: "reconciliation is like broken ish still when you shoot the ammo flickers its
+  weird" / "i often get 2 kill indicators not sure if the first one the server decided i didnt
+  actually hit the guy or what." Traced the real call chain: `client_reconcile_local_player`'s
+  replay loop (`apps/lobby/src/main.c:8064`) calls `client_apply_cmd_movement` ->
+  `shankpit_simulate_movement_tick` -> `update_entity` -> `update_weapons` for every historical
+  command since the last acked sequence — and `update_weapons` (`packages/common/physics.h:3196`)
+  has real, non-idempotent side effects beyond movement (`p->ammo[w]--`, `hit_feedback--` decay,
+  reload/attack/ability/katana/dash timer ticks), re-applied a SECOND time for commands that
+  already fired once in original prediction and were already resolved authoritatively by the
+  server. Same bug CLASS as two prior narrow patches already in this file (the weapon_idx-flicker
+  fix just above this change, `main.c:8006-8014`, and S459-66's `hit_feedback`-decay fix,
+  `physics.h:3201-3211`) — both fixed one specific non-idempotent field rather than the actual
+  cause. Fixed properly: snapshot every non-movement field `update_weapons` touches
+  (`ammo[]`/`reload_timer`/`attack_cooldown`/`is_shooting`/`hit_feedback`/`recoil_anim`/
+  `storm_charges`/`ability_cooldown`/`katana_slash_timer`/`dash_timer`) before the replay loop,
+  restore after — confirmed safe by tracing that the server-driven fields among these are already
+  set from the authoritative snapshot (`np->`) immediately before reconciliation runs each frame,
+  so the "snapshot" being restored is already the real current authoritative state. `make lobby`
+  builds clean. Apple #19994. Commit SHANKPIT `42f9c46`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-102: SHANKPIT RL Elo distribution — Main Exploiter reset generations stuck at 1500.**
   Founder: "can you look at the shankpit training elos? it doesnt have a nice distribution like
   brawlpit does... the bottom 3 bots still have 1500 that seems wrong... is the league algo
