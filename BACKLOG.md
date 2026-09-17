@@ -41041,6 +41041,33 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-92: NORTHSTAR_MODULAR_BUILDING.md — object library, NOCK multi-tenancy, chunk
+  streaming (real, decided).** Founder real-time, resolving several of this doc's own open
+  questions directly: "can we add a object library? ... i dont want that object to clutter up
+  my levels list - embeddable levels still totally makes sense... but we need simpler
+  affordances for just like objects to put into the world like lamp posts etc" -> "the rigid
+  body physics system to a certain extent is part of the objects system" -> "lets treat
+  papercraft as our sandbox for building those affordances - shankpit is more focused on
+  creating smaller levels that can be stitched together in a story" -> "lets make our nock tools
+  multi tenant - assume that assets built for shankpit should work for papercraft in terms of
+  the data" -> "we are going to need a chunk loading system for papercraft so it works like
+  world of warcraft." Extended `PAPERCRAFT/docs/NORTHSTAR_MODULAR_BUILDING.md` (a real,
+  3-day-old doc already covering most of this) rather than forking a new one. Real,
+  checked-not-assumed grounding: `internal/shankpit`'s own `LevelObject` already lets a level
+  embed another level — embeddable levels aren't the gap, a lighter-weight tier below "level"
+  is; the existing `PC_WO_MAX_OBJECTS=8` structural-vs-Paper-Engine-object split already IS the
+  physics-tier split, not a new system; `internal/nock`'s texture/animation/door-script stores
+  are already game-agnostic, only the level/box store (`internal/shankpit`, a documented
+  copy-paste of `internal/brawlpit`'s own shape) is SHANKPIT-specific, so "multi-tenant NOCK"
+  generalizes an existing pattern rather than inventing one; no true chunk streaming exists
+  anywhere in this monorepo — `GoblinFoxDragon`'s `ProceduralWorldStore` is the real, closest
+  precedent, already what PAPERCRAFT's own current fixed 3×3 window consumes. Added: a real
+  Objects tier (distinct from Levels), a concrete multi-tenant NOCK direction (new
+  `nock_objects` table with a real `game` tenant column, existing per-game level tables left
+  untouched), and a phased world-tier chunk-streaming plan (generalize `ProceduralWorldStore`
+  for authored chunks, then real dynamic load/unload) — SHANKPIT explicitly excluded from
+  streaming, stays Story-System-shaped. NORTHSTAR only, no code. Apple #19964. Commit PAPERCRAFT
+  `1288f71`. session: sess-20260905-0720-ec33e7c5
 - [ ] **S459-91: fix 413 Request Entity Too Large on NOCK uploads (nginx client_max_body_size).**
   Founder real-time: "i tried to import some animations got this Error: 413 Request Entity Too
   Large ... its like a 3mb file." Real cause: nginx's own default `client_max_body_size` is 1MB,
