@@ -41042,6 +41042,40 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-97: SHANKPIT mannequin NPC proof, built on gpose.c (S459-96).** Founder: "yolo an
+  NPC into one of the games." Chose the "shared module in GOLDENBAND, prove it with a SHANKPIT
+  NPC" option (over a PAPERCRAFT-first or browse/compose-tool-first path) via AskUserQuestion.
+  Vendored `gpose.c/.h` + `gseq.c/.h` into SHANKPIT, re-synced a stale vendored `gskel.h` (still
+  at `GSKEL_MAX_JOINTS=64`, missed by S459-93's own fix). New `packages/goldenband/
+  gband_skel_npc.c/.h` — a deliberate sibling to `gband_mesh_rig.c` (untouched, still draws
+  Tyler), loads any mesh+skeleton+clip by name, supports up to 32 independent NPC instances.
+  `apps/lobby/src/main.c` wires init + a dedicated 20000-vert VBO (the mannequin's own 6415
+  triangles exceed Tyler's 4096-vert VBO) + a per-frame draw of one static NPC in
+  `SCENE_VOXWORLD`. Real assets (`mannequin_npc.gskel/.gmesh`, `ual2_standard_rm.gband/.json`)
+  pulled straight from NOCK's live `iduna.db` via `sqlite3 writefile()`. `make lobby` builds
+  clean, zero warnings/errors from any new file. Real, honest gap: full on-screen visual
+  confirmation blocked by this sandbox's own headless GL context limitation (`SDL_GL` extension
+  loading fails here even with `LIBGL_ALWAYS_SOFTWARE=1` despite `glxinfo` showing real GL
+  4.5/llvmpipe support) — the exact same pre-existing constraint that already disables Tyler's
+  own mesh in this environment, not a regression from this change; real visual verification
+  needs a machine with a working GL driver. Apple #19981. Commit SHANKPIT `799ad7d`.
+  session: sess-20260905-0720-ec33e7c5
+- [x] **S459-96: GOLDENBAND gpose.c — general N-joint forward kinematics + mesh skinning.**
+  Founder: "we want animations in game and we want nicer models so we want to at least build the
+  affordances to start building the animations into the games." Confirmed live (dumped both
+  `.gskel` blobs from `iduna.db` and diffed joint-by-joint) that the founder's own imported
+  `Mannequin_F.glb` mesh+skeleton and `UAL2_Standard_RM` mocap clip share the exact same 65-joint
+  industry-standard rig — no retargeting needed. Real gap found: SHANKPIT's existing
+  `gband_mesh_rig.c` hardcodes a 5-joint armature with manually-indexed animation channels (real,
+  working for Tyler's own hand-authored rig, but not reusable for any other skeleton).
+  `GOLDENBAND/src/gpose.h/.c` (new): general, engine-agnostic column-major float[16] forward
+  kinematics + 4-bone-weight mesh skinning for an arbitrary joint count — `gpose_compute_skin_
+  matrices` walks any `GSkel` hierarchy from a pose (e.g. `gseq_player_sample_pose`'s own
+  output), `gpose_skin_mesh` flattens a `GMesh` into a pos+normal triangle list. 4 real,
+  hand-derived unit tests (a 2-joint chain, root rotated 90° about Z, checked against exact
+  expected world position + normal), all passing; wired into `scripts/build_and_test.sh`.
+  Commit GOLDENBAND `de2de96`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-95: NOCK animation repository — accept mesh/skeleton-only glTF imports.** Founder
   uploaded a real rigged mesh (`Mannequin_F.glb`) and hit `Error: 422: {"error":"glTF import
   failed: no animation found in this file..."}` — `nock_animations` was built animation-first
