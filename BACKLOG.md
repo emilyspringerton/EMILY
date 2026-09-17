@@ -43360,16 +43360,19 @@ to exist for pvp ignore that for now seems like an edge case we can work around 
   think." Real, scoped follow-up work, not attempted in this pass: a `kit`/`model` field on
   `LevelCharacter` (Go schema + native export + a NOCK picker UI), consumed at draw time instead
   of the `p->id` cycle for story-authored characters specifically.
-- [ ] **S481c (not started, scoped): characters default ON, OFF in real multiplayer.** Founder's
-  own forward-looking policy, explicitly deferred by the founder themselves for later ("pets that
-  need to exist for pvp" named as a real, ignored-for-now edge case). Not implemented as a
-  mode-based gate in this pass: the boundary between "real competitive multiplayer" and "casual/
-  testing" isn't a clean single line in the current `GameMode` enum — `MODE_DEATHMATCH` is both
-  the live production server's own default boot mode (`--deathmatch`) AND genuinely
-  multiplayer-capable, and S480 (this same day) specifically made characters spawn in non-story
-  modes so the founder could test them via the ordinary level-select menu. A blanket mode-based
-  off-switch risks silently undoing that fix without knowing exactly which modes the founder means
-  by "multiplayer" — needs a real design/scoping pass, not a guess.
+- [x] **S481c — resolved by explicit founder policy, no gate built.** Founder real-time, direct:
+  "either way levels are story mode so never hard code anything to only work in story mode that
+  doesnt make sense - if something is happening in multiplayer and it is bad i will let you know -
+  having characters in multiplayer is totally normal as an idea think about bosses in fortnite
+  etc." This resolves the open question the mode-gate scoping note above was waiting on: there is
+  no blanket "characters off in multiplayer" policy to build — every level IS effectively "story
+  mode" content, characters coexisting with real players in real multiplayer is a normal, intended
+  design (matching Fortnite's own PvE-boss-in-PvP precedent, the founder's own example), and any
+  future correction happens on a real, specific, founder-reported problem, not a preemptive
+  mode-based restriction. Audited the full codebase for any remaining `MODE_STORY`-only gate on a
+  general level feature (doors/characters/exits) — found none; every remaining `MODE_STORY` check
+  is legitimately mode-specific (the real `is_story_start` entry-point selection, cutscene HUD
+  rendering, the legacy VOXWORLD boss encounter) and correctly stays as-is.
 
 ## SECTION 482: IDUNA — REAL WIDGETS: REUSABLE GEOMETRY+DOORS, A SEPARATE REGISTRY FROM LEVELS (2026-09-17)
 
