@@ -42754,3 +42754,51 @@ patrol or something that would be awesome." Routed via `emily observe`, Apple #2
   `f025fd3` + `9627f3d` + `a62de49`. Apples #20060, #20061.
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 471: SHANKPIT — "NO ROBOTS THO": TWO REAL, PRE-EXISTING BUGS FOUND LIVE (2026-09-17)
+
+*Goal: root-cause a real, live founder report against a real screenshot -- S470 shipped and*
+*verified clean in this sandbox (no GL driver, compile+standalone-test only), but the founder's*
+*own real machine showed zero robots at all, just plain box-body shapes.*
+
+Founder real-time, against a real Windows client screenshot: "no robots tho" — two blocky,
+unrecognizable figures instead of any of the 5 robot kits. Follow-up: "no robots tho" (confirming
+neither of my two diagnostic questions — GL log lines, movement pattern — got a robot sighting).
+
+- [x] **S471: two real, STACKED, pre-existing bugs — neither introduced by S470, both only ever
+  surfaced because a real user finally ran the actual distributed client.** The founder's own
+  console log (`S144-02 Stage B: tyler_body asset load failed -- Tyler uses box body`) was the
+  real diagnostic thread: GL extension loading and shader compile both succeeded on their machine
+  (ruling out a driver/compat issue, the leading hypothesis before this line was shared) — only
+  the **asset load** for `tyler_body` (the PLAYER's own body mesh, unrelated to the robot roster)
+  failed.
+  **Root cause #1 (code):** `gband_shader_and_mesh_init` `return`ed immediately on that failure —
+  but that early return sits BEFORE the 5 robot-kit loads, which share only the
+  already-confirmed-working shader/VBO infra with `tyler_body`, not the asset itself. A real
+  control-flow bug present since `tyler_body`'s own S144-02 Stage B introduction, never exercised
+  before because this sandbox's own GL failure happens even earlier (at extension loading, before
+  ever reaching `tyler_body`) — a genuinely different failure point than the founder's real
+  machine hit. Fixed to fall through instead of returning; a `tyler_body` failure now degrades
+  only the player's own visual to a box body, same as the log always said, without taking the
+  independent robot roster down with it.
+  **Root cause #2 (packaging):** checked `release.yml`'s own Bundle Artifacts step directly —
+  `ShankPit_Client_*.zip` has **never** included `assets/` at all, only `ShankPit.exe` + `SDL2.dll`
+  + the construct dump. Every runtime asset load in `apps/lobby/src/main.c` resolves a RELATIVE
+  path under `"assets/goldenband/..."`, so on any real machine running the actually-distributed
+  zip, every one of those loads fails unconditionally — `tyler_body` AND (once root cause #1 is
+  also fixed) all 5 robot kits alike. Real, honest, sobering finding: this has been broken since
+  S144-02 Stage B first shipped a GOLDENBAND-consuming client release — every prior release build
+  (S459-97's mannequin, S467/S468's distinct rendering, S469's multi-kit roster, S470's wave/dance)
+  would have rendered as plain box bodies for anyone actually running the packaged zip, not just
+  this session's own sandbox limitation. Fixed by copying `assets/` into `ShankPit_Client/` before
+  zipping. `ShankPit_World` (dedicated server) and `ShankPit_Bots` (headless bot client)
+  deliberately do NOT get this — checked directly against their own build commands, neither links
+  `packages/goldenband` at all.
+  `make lobby` clean. Real, immediate workaround given to the founder ahead of the next CI-built
+  release: manually copy the repo's own `assets/` folder next to the already-extracted
+  `ShankPit.exe`.
+  SHANKPIT `3ae1f4f` + `d86638f` + `3af9e7d`. Apple #20062.
+
+session: sess-20260905-0720-ec33e7c5
