@@ -42417,4 +42417,39 @@ sync, bone-controller look-at, and lip sync as real follow-up (S461-04).
   (gating those entrances), not a new geometry primitive.
   SHANKPIT `2b2cb55` + `69bcf1e`, IDUNA `006a0c9` + `510d351`. Apple #20034.
 
+---
+
+## SECTION 464: GOLDENBAND — BONE-CONTROLLER LOOK-AT + MULTI-ACTOR FRAME SYNC (2026-09-17)
+
+*Goal: resolve Apple #20015, a real earlier founder observation from this same session*
+*("continue scripted-sequence animation work in GOLDENBAND — multi-actor frame synchronization*
+*... plus procedural bone-controller look-at and phoneme lip-sync layering on top of gseq/gpose")*
+*that AI_SCRIPTED_ANIMATION_NORTHSTAR.md's own follow-up section had named but not yet built.*
+
+- [x] **S464: real, tested engine-layer primitives shipped in GOLDENBAND (the real source repo,
+  not the SHANKPIT vendored copy).** `gpose_look_at` (`GOLDENBAND/src/gpose.c`/`.h`): rotates a
+  caller-specified local axis on one joint to face a world-space target, nlerp-clamped to a max
+  turn angle (the founder's own "up to 30 degrees" example), built on a newly-exposed
+  `gpose_compute_joint_world` (the FK loop `gpose_compute_skin_matrices` already ran internally).
+  New `gsync.c`/`.h`: a real, minimal named arrival barrier for multi-actor frame sync — members
+  report arrival independently (pathfinding speeds vary), `gsync_check_ignition` fires exactly
+  once, the real tick every member has arrived, so a caller resets every one of its own
+  `GSeqPlayer`s to `elapsed=0` simultaneously — deliberately never touches an animation type
+  itself, same engine-agnostic discipline every other GOLDENBAND module holds itself to.
+  10 new tests total (5 each), full `bash scripts/build_and_test.sh` suite green.
+  Vendored into SHANKPIT (`packages/goldenband/gpose.c`/`.h`, new `gsync.c`/`.h`), `gsync.c`
+  added to `LOBBY_SRC` ahead of a real gameplay consumer, same established pattern `gseq.c`
+  already sits in. `make server`/`make lobby` build clean.
+  **Real, honestly not built**: neither primitive is called anywhere in SHANKPIT yet — the
+  original `AI_SCRIPTED_ANIMATION_NORTHSTAR.md` finding still stands unchanged (nothing connects
+  `story_ai.c`'s server-authoritative NPCs to `gband_skel_npc`'s rendering; bots render via
+  `tyler_body`/`draw_player_3rd` instead). Phoneme/audio-driven lip sync checked and correctly
+  deferred: `packages/audio/audio.c` synthesizes every sound as a PCM wavetable at init, no
+  WAV/external-audio-file loader exists anywhere in this codebase — even the founder's own
+  simpler framing (amplitude-envelope-driven jaw movement, not full phoneme classification) has
+  no real voice-line asset to sample from yet. The actual prerequisite is a dialogue-asset
+  pipeline, not a smarter algorithm — named, not attempted.
+  GOLDENBAND `8e8ca0c` + `8e81ea0`, SHANKPIT `52280c6` + `352b78b` + `e10b3cf`. Apples #20037,
+  #20038.
+
 session: sess-20260905-0720-ec33e7c5
