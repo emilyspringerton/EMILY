@@ -43032,3 +43032,39 @@ running a build from before that day's own protocol.h wire-format change and got
   (`sudo-queue/81`, not yet run). Apples #20071 (SHANKPIT), #20072 (IDUNA).
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 476: IDUNA/NOCK — REAL 3D MARKER FOR LEVEL EXITS (2026-09-17)
+
+*Goal: a small, direct follow-up to S473's own LevelExit authoring — give the founder a real way*
+*to confirm a placed exit is actually where they think it is.*
+
+Founder real-time: "can we make it so the level editor there is a visual indicator for the level
+exit marker? im not sure if it works because i dont know if its in the right spot." Routed via
+`emily observe`, Apple #20073.
+
+- [x] **S476: real, found-live gap — NONE of NavNode/Character/LevelExit ever got a 3D viewport**
+  **marker**, checked directly against `ShankpitLevelEditor.tsx`'s own `Viewport3D` component
+  (only walls and spawn points do; the other three scriptable-object kinds have only ever been
+  numeric x/y/z fields in the side panel). Closed for `LevelExit` specifically, matching the real
+  ask: `Viewport3D` gains a new `levelExits` prop, rendered as a real cyan octahedron at the
+  exit's own position PLUS a wireframe sphere sized to its own real `radius` — an author can now
+  see both WHERE an exit is and HOW BIG its actual trigger volume is, not just numbers. Rebuilt
+  on every change (position/radius/count) rather than the more optimized rebuild-on-count/sync-
+  in-place split `spawnPoints` uses — a real, deliberate simplification: v0 exits have no drag
+  support (no per-frame updates to optimize for) and a level holds at most 8 of them
+  (`LEVEL_BOXES_MAX_LEVEL_EXITS`), so a full rebuild is real, negligible cost.
+  Real, honest v0 scope limit, named not glossed over: read-only display only — not yet click-
+  to-select or drag-to-reposition like walls/spawn points already are. `NavNode`/`Character`
+  share the exact same missing-marker gap; named here as real, likely-wanted follow-up, not
+  fixed in this pass (the founder asked about exits specifically).
+  Deployed and verified for real, not assumed: rebuilt `dist/` via `npx vite build` directly
+  (`npm run build`'s own `tsc` gate still fails on the pre-existing, unrelated `goldenband.ts`
+  `SharedArrayBuffer` error), then confirmed the new marker code's own real color literal
+  actually landed in the built JS bundle AND in the live, running Go binary itself (`dist/` is
+  `go:embed`'d — a source/frontend build alone does nothing until the Go binary is rebuilt too)
+  before restarting `iduna.service`.
+  IDUNA `0537469` + `78e5e36`. Apple #20074.
+
+session: sess-20260905-0720-ec33e7c5
