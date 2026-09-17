@@ -43023,13 +43023,16 @@ running a build from before that day's own protocol.h wire-format change and got
   successfully over the local HEC endpoint. 3 new Python unit tests (`push_heartbeat`) + 1 new Go
   regression test (`logs.read` on the real issued JWT). Full existing suites green (34+5 Python,
   full IDUNA `go test ./...`).
-  Real, honest, not yet done: the nginx script is queued, not run (needs the founder's own sudo
-  password) — until then, the training pipeline can push heartbeats from THIS box but not yet
-  from the real external Colab machine where training actually runs. A longer training session
-  (raising `--total-timesteps`) to actually test whether more real training data moves Elo is
-  real, deliberate, separate follow-up — not attempted this pass.
+  **Update (same day): `sudo-queue/81` run by the founder, verified live** — `POST https://
+  okemily.com/services/collector` now returns a real `{"code":0,"text":"Success"}` (200) from
+  the public domain, both nginx server stanzas carry the new `/services/` block, and the script's
+  own re-sync-then-edit commits landed cleanly in `OKEMILY` (`74de215` re-sync, `7f10021` the
+  real proxy addition) — no HTTPS outage, matching the careful, defensive design. The training
+  pipeline can now push heartbeats from the real external Colab machine, not just from this box.
+  Real, honest, still not attempted: a longer training session (raising `--total-timesteps`) to
+  actually test whether more real training data moves Elo — real, deliberate, separate follow-up.
   SHANKPIT `5fc2435` + `58ecc22`, IDUNA `6e2e5f8` + `5cd9b04`, monorepo-root `206ac0823`
-  (`sudo-queue/81`, not yet run). Apples #20071 (SHANKPIT), #20072 (IDUNA).
+  (`sudo-queue/81`), OKEMILY `74de215` + `7f10021`. Apples #20071 (SHANKPIT), #20072 (IDUNA).
 
 session: sess-20260905-0720-ec33e7c5
 
