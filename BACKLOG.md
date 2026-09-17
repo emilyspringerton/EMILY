@@ -42641,3 +42641,55 @@ Founder real-time: "continue filling in the gaps" (generic continuation, routed 
   `screen`/`trigger` remain the honest, named remainder.
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 469: SHANKPIT/GOLDENBAND — REAL, DISTINCT ROBOT NPC CHARACTER KITS (2026-09-17)
+
+*Goal: close S467's own named follow-up — "every story_ai NPC currently shares the one mannequin*
+*look regardless of role" — now that the founder has uploaded real, distinct character assets to*
+*use instead of just the one mannequin.*
+
+Founder real-time, two-part direction: "i just added universal animation library 1 so now we have
+both 1 includes more basic stuff you can use" then, emphatically, "GEORGE LEELA MIKE AND STAN ARE
+ANIMATED ROBOT CHARACTERS WITH MESH RIG AND ANIMATIONS PER BOT." Routed via `emily observe`.
+
+- [x] **S469: `gband_skel_npc`'s "only one character asset loaded at a time" v0 scope, lifted.**
+  Rewrote `gband_skel_npc.c`/`.h` (GOLDENBAND-side, `.c` created fresh there — it only ever
+  vendor-existed in SHANKPIT before) to support multiple simultaneous character kits: a new
+  `GbandSkelNpcKit` struct array, `gband_skel_npc_load_kit`/`gband_skel_npc_kit_ready`, and a
+  `kit_index`-parameterized `gband_skel_npc_draw`, replacing the old single-global-asset design.
+  Per-slot animation players re-initialize automatically on a kit change so a respawned NPC
+  assigned a new look never samples stale clip/skeleton data against the wrong kit. Full
+  GOLDENBAND test suite green (gband/gskel/gmesh/gseq/gpose/gsync + gbtool Go tests).
+  Exported and validated the real assets from IDUNA's live `nock_animations` SQLite table (these
+  are DB-only, never landed on disk upstream) via a compiled GOLDENBAND-side load-and-inspect
+  program before committing to using them, not assumed: Stan/Mike/Leela/George each carry a real,
+  distinct joint count (43/43/17/47) — genuinely different rigs, not one shared skeleton reused
+  four times. UAL1's own `Standard_Idle_Loop`/`Standard_Walk_Loop` clips also exported, giving the
+  founder's original mannequin real, distinct idle/walk clips for the first time (closing S467's
+  own honest "same clip passed for both" caveat as a side effect).
+  Vendored into SHANKPIT (`packages/goldenband/`), real asset files copied into
+  `assets/goldenband/` (28 new files: 4 characters × skel+mesh+idle+walk(+manifests), plus the 2
+  UAL1 clips). `gband_shader_and_mesh_init` now loads all 5 real kits at startup, each degrading
+  individually on load failure (loud `SDL_Log`, never silent). VBO capacity bumped 20000 -> 30000:
+  George's real mesh (23,592 flattened verts) would have exceeded the old capacity and gotten
+  silently dropped by `gl_dynamic_vbo_draw`'s own overflow handling — caught and fixed before it
+  became a live bug, not after. `draw_player_skin_mannequin` now picks a real, ready kit
+  deterministically from `p->id`, cycling past any kit that failed to load.
+  `make lobby` clean. Xvfb smoke test: no crash over 8s (3 BUGGY entities spawned normally, killed
+  only by the test's own timeout). Real, honest limitation named directly rather than glossed
+  over: the new kit-loading code path is itself unreachable in THIS sandbox specifically, because
+  `gl_shader_load_extensions()` already fails first here (no real GL driver — a pre-existing,
+  already-documented environment limit, not a regression introduced by this change) — so runtime
+  GL verification of the new kits isn't possible in this sandbox; compile-time correctness is the
+  real signal available here.
+  Real, honest, named follow-up (unchanged from S467, still true): kit selection is NOT yet
+  `AIRole`-aware — `AIRole` isn't networked to the client at all (`PlayerState` carries no role
+  field; only `story_ai.c`'s server-side `AIController` array knows it) — so `AI_ROLE_GORE_BRUTE`
+  vs `AI_ROLE_STORM_CALLER` don't yet map to specific looks, just to *some* real, ready kit via
+  `p->id`. `AI_SCRIPTED_ANIMATION_NORTHSTAR.md` updated to record this section's own closure.
+  GOLDENBAND `304a08d` + `5f14717`, SHANKPIT `66b9ae3` + `30f0ef2` + `1c498eb` + `9c9fead` +
+  `f63a1f6`. Apples #20057, #20058.
+
+session: sess-20260905-0720-ec33e7c5
