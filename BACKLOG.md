@@ -42329,6 +42329,42 @@ look-at, phoneme/.wav-driven mouth-controller lip sync).
   four is named explicitly in `AI_WAYPOINT_NAV_NORTHSTAR.md` and
   `AI_SCRIPTED_ANIMATION_NORTHSTAR.md`'s own follow-up sections, not silently dropped.
 
-session: sess-20260905-0720-ec33e7c5
+---
 
-  session: sess-20260905-0720-ec33e7c5
+## SECTION 462: SHANKPIT — SOLO / NON-SQUAD ENEMY AI ARCHETYPES (2026-09-17)
+
+*Goal: give non-squad enemies (wild monsters, zombies, lone predators) their own real behavioral*
+*identity — territorial boundaries, distinct sensory profiles, physiological drives — instead of*
+*reusing S461-03's squad-coordinated roster.*
+
+Founder real-time, direct follow-up to the now-closed S461: "When building non-squad-based
+enemies (like wild monsters, zombies, or lone predators), the auto-pilot AI shifts its focus away
+from tactical communication and onto territorial boundaries, distinct sensory profiles, and
+physiological drives." Three archetypes (relentless pursuer, ambush predator, territorial beast —
+the last given as real pseudocode), asymmetric sensory profiles (sound-only echo-locator,
+scent/blood-trail tracker), steering overrides (sine-wave flank-weaving, wander jitter), and a
+utility-based Hunger/Fear/Fatigue drive system. Full design + real audit in `docs2/specs/
+AI_SOLO_ENEMY_NORTHSTAR.md`, golden-indexed as SHANKPIT-AI-SOLO-NORTH.
+
+- [x] **S462: three real solo archetypes shipped.** `AI_ROLE_RELENTLESS_PURSUER` (never kites,
+  never flees — courage 1.0 clears S461-01's flee gate outright), `AI_ROLE_TERRITORIAL_BEAST`
+  (real radius-anchor + leash retreat, new `AI_MODE_LEASH_RETURN` checked unconditionally ahead
+  of combat/flee, real stun immunity while returning via the actual existing
+  `stunned_until_ms`/`stun_immune_until_ms` fields, exits only on real arrival home —
+  `TerritorialAutoPilot::Update`'s own pseudocode followed closely), `AI_ROLE_BLIND_STALKER`
+  ("Ambush Predator" + "Sightless Echo-Locator" combined — `vision_range=8.0` makes it
+  functionally blind, detecting almost entirely via the already-existing `hearing_range` path,
+  zero new perception code needed for that part of the ask). Real sine-wave weaving
+  (`ai_weave_strafe`) for all three, replacing the square-wave strafe alternation every other role
+  uses. Deliberately never squadded (never passed to S461-03's `story_ai_form_squad`). One real
+  spawn of each in `story_ai_seed_voxworld_encounter`, placed clear of the two existing squads.
+  `make server`/`make lobby` build clean. SHANKPIT `06d9401` + `a058298`. Apple #20029.
+  Real, honestly not built, named in the NORTHSTAR doc rather than attempted half-built: the
+  scent/blood-trail breadcrumb tracker (needs a new central array + a "bleeding/sprinting" signal
+  that doesn't exist anywhere in `protocol.h` today), utility-based Hunger/Fear/Fatigue drives (a
+  real FSM-vs-utility-AI architectural fork, not a bolt-on — `humanness.c`'s existing per-instance
+  `energy`/`fatigue` fields named as the natural integration point if pursued), and true wander
+  jitter for idle solo enemies (currently fall into the shared generic patrol fallback every role
+  uses — `ai_run_search`'s own cos/sin orbit pattern named as the real, proven reuse candidate).
+
+session: sess-20260905-0720-ec33e7c5
