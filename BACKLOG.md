@@ -41042,6 +41042,24 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-110: NOCK — fix animation-switching visibility bug + separate Characters/Motion
+  clips views.** Founder: "currently you can attach an animation to a manequin then you cant
+  switch animations is this intentional? ... do i need to import a manequin per animations and
+  attach each one individually? no right?" Confirmed: no, real frontend bug — `AttachAnimation`
+  (`anim_store.go`) is a plain UPDATE with no guard against already having animation data, so the
+  backend always supported re-attaching a different clip onto the same row; the frontend's own
+  "Attach animation" button only rendered when `!a.has_animation`, so once a row had one clip
+  attached there was no way back into the panel. Fixed: button now shows whenever a row has a
+  mesh or rig, relabeled "Switch animation" once one exists, with a real note that picking
+  another clip replaces the current one (mesh/rig untouched). Same thread, founder: "its also
+  weird that the manequin and the animations are in the same list of cards or whatever" — once
+  multi-clip import (S459-109) started creating dozens of bare motion-clip rows per upload, an
+  actual usable character got buried under clip "ingredients" meant to be picked from inside a
+  character's own Attach panel, not browsed as peers. New `isCharacter`/`isBareClip` filter
+  categories ("Characters" / "Motion clips"), Characters as the new default view — the finer
+  Meshes/Rigs/Has animation/Needs animation filters (S459-107) stay available in a second row.
+  `npx tsc --noEmit`/`npm run build` clean, redeployed. Apple #20014. Commit IDUNA `9222d03`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **Cross-repo: disk-space crisis — found, fixed live, and root-caused.** The box hit 99%
   disk usage (2.7GB free) mid-session, silently corrupting an IDUNA binary deploy (a truncated
   write with no error surfaced — `file` showed "current ar archive" instead of a real ELF
