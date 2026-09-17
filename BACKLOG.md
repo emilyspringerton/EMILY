@@ -41042,6 +41042,21 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-98: NOCK_CHARACTER_PIPELINE_NORTHSTAR.md — phased plan.** Founder, after the
+  mesh/rig/animation "soup to nuts" walkthrough: "yes do it." A real sibling doc to
+  `IDUNA/docs/NOCK_NORTHSTAR.md` (texture/2D stays there) tracking Phase 0 (DONE, shipped this
+  session — animation repository + glTF import accepting mesh/skeleton-only assets, S459-95;
+  general N-joint FK+skinning via GOLDENBAND's new `gpose.c`, S459-96; a real SHANKPIT mannequin
+  NPC proof, S459-97), Phase 1 (browse/compose UI — a real Character entity pairing a rigged mesh
+  with compatible clips, a skeleton-compatibility check, an in-browser WebGL preview — none of
+  which exists yet), Phase 2 (generalize the Story System's own real door-script-attachment
+  pattern past doors to any placed object, plus a real map-editor placement UI instead of
+  hand-written level JSON), Phase 3 (rigging tool, then animation tool, then — last, most
+  speculative — a from-scratch modeling tool). Cross-linked from `NOCK_NORTHSTAR.md`'s own
+  "explicitly out of scope" #2/#3 bullets (3D modeler / level editor), registered in
+  `golden-docs-index.md` (`NOCK-CHAR-NORTH`). Apple #19982. Commits: IDUNA `be56c63`, EMILY
+  `d2e57088`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-97: SHANKPIT mannequin NPC proof, built on gpose.c (S459-96).** Founder: "yolo an
   NPC into one of the games." Chose the "shared module in GOLDENBAND, prove it with a SHANKPIT
   NPC" option (over a PAPERCRAFT-first or browse/compose-tool-first path) via AskUserQuestion.
