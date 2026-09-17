@@ -41041,6 +41041,26 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-87: Humanness Phase 1 — real jitter/mood primitives, MISHRI-bar tests.** Founder:
+  "continue" (`HUMANNESS_NORTHSTAR.md`'s own Phase 1). New `packages/simulation/humanness.h`/
+  `.c`, directly modeled on MISHRI's own `HumannessLayer.ts`, no integration into `story_ai.c`/
+  `character-tick` yet (Phase 2/3): `humanness_reaction_delay_ms` (MISHRI's own real fatigue/
+  energy/mood scaling — STARTLED halves, TIRED 1.75x — applied to a caller-supplied base, real
+  ±25% jitter); `humanness_aim_noise` (a real Box-Muller Gaussian, matching MISHRI's own
+  `addNoise()` exactly, scaled by `1-skill` and fatigue/STARTLED); `humanness_smooth_turn_step`
+  (real overshoot-then-settle turning, ~30% chance to overshoot 2-6° before converging,
+  mood-scaled speed); `humanness_tick_mood`/`humanness_get_startled` (MISHRI's own real 8-state
+  mood enum, weighted-toward-NEUTRAL reroll on a real timer, deliberately rescaled from MISHRI's
+  5-20 *minute* window to a real 5-20 *second* one — SHANKPIT encounters are short, not
+  hours-long Minecraft sessions, a named unit choice not a typo). New
+  `packages/simulation/humanness_test.c`: 7 real, MISHRI-bar behavioral-contract assertions
+  (matching `MISHRI/tests/humanness.test.ts`'s own bounds-check-over-real-trials bar, not smoke
+  tests) — reaction delay bounded over 200 trials; STARTLED statistically faster than TIRED
+  (249ms vs 866ms mean, 500 trials); aim noise exactly zero at perfect skill, real zero-mean
+  spread (variance 16.5) at zero skill; smooth-turn genuinely overshoots at least once AND always
+  converges across 100 independent trials; mood-reroll timing and the startled override both
+  exercised directly. `gcc -Wall -Wextra` clean. Apple #19950. Commit SHANKPIT `c369be0`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-86: HUMANNESS_NORTHSTAR.md — realistic scriptable NPCs, grounded in MISHRI.**
   Founder real-time: "I want to build realistic human like ais for games like the soldiers
   fighting Gordon in half life or like city dwellers in gta3 or like NPCs in Skyrim that travel
