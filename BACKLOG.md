@@ -43765,3 +43765,56 @@ session: sess-20260905-0720-ec33e7c5
   worth watching whether the founder still wants it once they've used flight for real level work.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 488: IDUNA/NOCK — MESH EDITING: BOX EXTRUDE (PHASE 1) + CONSTRAIN-Y FIX (2026-09-17)
+
+*Goal: founder real-time — "can we iterate the widget builder? i think this is a decent place to*
+*build our little mini version of blender ... 4 modes object mode, edit mode (select face, select*
+*vertex, select edge) ... move scale extrude ... V S E ... i need box extrude to make floorplans*
+*quickly ship that first but spec the rest i need ramps and shit too."*
+
+- [x] **Real architectural fork surfaced and confirmed before building anything**: SHANKPIT's
+  native collision represents every wall as an axis-aligned box (center+extents) — true
+  vertex/edge dragging into non-rectangular shapes needs a new native mesh-collision
+  representation, a new wire/export format, and migrating every existing level, a genuinely
+  separate multi-week project. Asked the founder directly (AskUserQuestion); chose full
+  arbitrary-mesh as the real destination, then redirected in the same breath: "build box extrude
+  first."
+- [x] **`SHANKPIT/docs2/MESH_EDITING_NORTHSTAR.md`** (new, golden-doc registered as
+  `SHANKPIT-MESH-NORTH`) — Phase 1 (box-based, shippable now) vs. Phase 2+ (real arbitrary mesh,
+  scoped: convex-polyhedra collision candidate, new wire format, level migration, real NOCK
+  vertex/edge tooling) vs. ramps (named real want, smaller than full mesh — a rotated/sloped box,
+  not scoped in detail yet).
+- [x] **Alt+E box extrude, shipped** — the actual priority ("i need box extrude to make floorplans
+  quickly"). Duplicates the selected face into a NEW connected box flush against it (same
+  cross-section, `EXTRUDE_DEFAULT_DEPTH`=2 units deep), auto-selecting the new box's far face so
+  consecutive Alt+E presses chain segments without re-clicking — matches the founder's own worked
+  example ("select a face ... extrude it ... extrude again") exactly, implemented as
+  duplicate-and-chain rather than true mesh topology (honest tradeoff, named in the NORTHSTAR doc,
+  not hidden).
+- [x] **Tab / Alt+3 mode switching** — Tab toggles Object↔Edit, Alt+3 jumps straight to Face
+  select (Alt+1/Alt+2 for Vertex/Edge reserved but inert — Phase 1 is Face-select only, matching
+  the founder's own "if you have to cut a feature i might not miss it" reasoning about edges,
+  extended to vertices for the same underlying box-shape reason).
+- [x] **All new hotkeys Alt-modified** — founder: "hotkeys can be alt driven if need a modifier."
+  Deliberate: bare `E` already means "fly camera up" (S487, shipped the same session) — Alt+E
+  can never collide with it.
+- [x] **Real, separate, found-and-fixed bug**: "constrain Y wile drag has never worked its a
+  nightmare whenever i drag a block it goes above or below the leveel." Root cause was never the
+  horizontal drag-plane math itself (always correct) — `grabOffset` (mesh center minus the exact
+  clicked point on the wall's surface) has a nonzero Y component whenever the click wasn't exactly
+  at the wall's vertical center (true for almost every real click on a tall wall), and re-adding
+  it on top of the plane-locked Y silently drifted the result by up to the wall's own half-height,
+  direction depending on where you clicked. Fixed by forcing Y to the wall's own unchanged
+  `startWall.y` outright when constrain-Y is on, rather than trying to patch the plane math.
+- [x] tsc/`vite build` clean, deployed live, verified the real compiled Tab/Alt+3 handler code and
+  the updated hint text present in both `dist/` and the deployed binary.
+  IDUNA `e3fcb2e`. Apple #20097.
+- [ ] **Named, explicitly NOT built this pass**: Vertex/Edge select modes, a real TransformControls
+  move/scale gizmo (three.js's own colored-XYZ-arrow gizmo, `three/examples/jsm/controls/
+  TransformControls.js` confirmed available as a dependency already — the founder's own explicit
+  "grab one of the 3 arrows green red blue for x y z" ask, not yet wired), shift-click/shift-drag
+  multi-select of faces, and ramps. All real, all named, all deferred to a follow-up pass — see
+  the NORTHSTAR doc's own Phase 1.5/2+ scoping.
+
+session: sess-20260905-0720-ec33e7c5
