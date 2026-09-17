@@ -44030,3 +44030,33 @@ session: sess-20260905-0720-ec33e7c5
   pass values, not yet visually tuned against a real screen.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 494: SHANKPIT — RAGDOLL SPIKE ITERATION 2: MASS + BEND CONSTRAINTS (2026-09-17)
+
+*Goal: founder real-time — "just work on ragdoll physics" / "we are going to need to define*
+*masses for objects im sure for rigid body physics."*
+
+- [x] **Real per-bone mass added**, replacing S484's own uniform `inv_mass=1` — proportional to
+  each joint's own parent-bone length (a thigh genuinely outweighs a finger bone now), with a
+  floor for near-zero-length leaf/stub joints so they never become absurdly light and unstable.
+- [x] **Real bend constraint added** (`BendConstraint`, a one-sided minimum-distance constraint
+  between a joint and its own grandparent — the standard, established PBD bend-resistance
+  technique) — the concrete next step S484 itself named ("angular/joint-limit constraints... are
+  the actual next architecture question").
+- [x] **Live-verified, conclusive, NOT the fix it looked like it would be**: the bend constraint
+  works exactly as designed — directly confirmed, 0/63 constraints violated at the final settled
+  state, real hyperextension/fold-back genuinely prevented. But the whole body still collapses
+  completely flat (every joint at `y=0.000`) by t=0.75s, byte-for-byte unchanged from iteration 1.
+  **Real, hard-won lesson**: a fully-extended limb lying flat on the ground satisfies every
+  distance AND bend constraint simultaneously — neither constraint type has any concept of
+  "orientation relative to gravity/up" at all, only relative distances between points. This is a
+  fundamental ceiling, not a tuning problem: no number or combination of point-distance
+  constraints (equality or one-sided) can ever stop a chain from lying flat.
+- [x] **Phase 2 is now sharply defined, not vague**: a believable ragdoll needs real per-BONE
+  orientation state (not just per-joint position) and real angular/swing-twist joint limits
+  constraining relative rotation between adjacent bones — true rigid-body dynamics with
+  quaternion orientations, a categorically different, larger technique than point-mass PBD can
+  reach by adding more constraints of the same kind. Not an incremental extension of what's built.
+  SHANKPIT `2d11d67`. Apple #20106.
+
+session: sess-20260905-0720-ec33e7c5
