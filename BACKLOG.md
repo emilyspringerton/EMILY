@@ -2635,6 +2635,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continuing the STORY_SYSTEM_NORTHSTAR.md thread: 'object physics interractable like half life 2 pick…** — obs `2026-09-16T21:20:50Z`. CURATED: 2026-09-16.
 - [ ] **Founder real-time: 'make sure we can stitch animations together like James Bond walk turn raise gun shoot' -- built GOL…** — obs `2026-09-16T23:16:55Z`. CURATED: 2026-09-16.
 - [ ] **Founder real-time: 'I want to build realistic human like ais for games like the soldiers fighting Gordon in half life o…** — obs `2026-09-16T23:31:19Z`. CURATED: 2026-09-16.
+- [ ] **Founder real-time, multi-part: wants a NOCK 'object library' distinct from the levels list (lamp posts/curbs shouldn't …** — obs `2026-09-17T01:10:18Z`. CURATED: 2026-09-17.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
