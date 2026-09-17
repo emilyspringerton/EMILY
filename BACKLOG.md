@@ -41041,6 +41041,17 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-89: STORY_SYSTEM_NORTHSTAR.md — scriptable elevators folded in.** Founder
+  real-time: "we need scriptable elevators with doors as NPCs spawners and level stitch points."
+  Not a new object kind — a real composite of `door` + `trigger` (both already scoped) plus one
+  genuinely new primitive: platform movement, generalizing `phys_set_custom_level_box_y`'s
+  already-proven (S459-81) single-axis toggle into a real, multi-stop position interpolation a
+  script controls (`elevator-tick` returning a real `(x, y, z, door-state)` pose per tick, same
+  "script returns data, host executes" discipline every kind already uses). Named the real,
+  deferred design question honestly rather than picking an answer speculatively: a dedicated
+  `elevator` kind bundling door+trigger+pose into one authored object, vs. three separately-
+  placed, script-linked objects a designer wires together by hand. NORTHSTAR only, no code.
+  Apple #19954. Commit SHANKPIT `e4c2a81`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-88: Humanness Phase 2 — wired into story_ai.c's combat FSM.** Founder: "continue"
   (`HUMANNESS_NORTHSTAR.md`'s own phased plan). `story_ai.c`'s combat behavior now routes
   through `humanness.c` (S459-87): `ai_turn_towards` calls `humanness_smooth_turn_step` instead
