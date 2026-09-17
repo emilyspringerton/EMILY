@@ -41042,6 +41042,31 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-105: QUEUE self-heals onto the current default level every round.** Founder: "i
+  messed up the bot pool again i switched the queue level and then tried to join queue and it
+  think it tried to join me into like both levels or something something was wrong." Root cause:
+  `queue_activate_match`'s level fetch-and-apply sequence ran exactly once per server process
+  lifetime; `server_advance_queue_round` (every round after that, including every one since
+  S459-100's own real match-over intermission) deliberately never reloaded the level, on this
+  function's own prior comment's explicit assumption that the admin-flagged default never changes
+  mid-session — false the moment NOCK's level editor lets someone change it live. The client
+  independently re-fetches the current default on its own join path
+  (`client_load_queue_level`), so a mid-session change left the server simulating collision
+  against the OLD level while the client rendered the NEW one — "joined into both levels" (new
+  visuals, old invisible walls). Fixed: factored the fetch-and-apply into
+  `queue_load_default_level()`, called from `queue_activate_match` (unchanged) AND now from
+  `server_advance_queue_round` too, so QUEUE self-heals onto whatever level is CURRENTLY flagged
+  default at the start of every round — reusing S459-100's own real round-boundary for a second
+  purpose. Needed a forward declaration (`server_advance_queue_round` is defined earlier in the
+  file). Live-verified: rebuilt + restarted both `shankpit-server` and `shankpit-bot-pool`,
+  confirmed stable (3 bots connect cleanly, no crashes, 35s+ with zero errors). Also confirmed
+  (separately, `rl_registry.fetch_default_queue_level`) the training pipeline from S459-104
+  correctly picks up the founder's newly-created `TRAINING_GROUND` level (id=13, 5 walls, a real
+  tiny arena — the founder's own earlier "maybe we need a tiny level for training" idea, already
+  acted on) via a fresh live fetch, not a stale cached one. `make server`/`make lobby` build
+  clean, full `python -m unittest` suite (36 tests) green. Apple #19999. Commit SHANKPIT
+  `e090ba4`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-104: SHANKPIT RL training now uses the queue's default level + JWT auto-refresh.**
   Founder, after pushing back on this session's own Elo investigation: "maybe we need a tiny
   level for training" → "DEFAULT FOR QUEUE SHOULD SET TRAINING LEVEL HAVE THE TRAINING LEVEL
