@@ -43181,4 +43181,49 @@ inside `ShankpitLevelEditor.tsx`, not its own screen.
   S478c screen are live), but the game server restart needs the same explicit founder go-ahead
   this session already established for that service (live-workload interruption).
 
+## SECTION 479: IDUNA/NOCK — DOOR AFFORDANCE + REAL EMBEDDED-LEVEL RENDERING + COMPOSED-OBJECT MATERIAL FIX (2026-09-17)
+
+*Goal: real, live gaps found right after S478, surfaced together as one founder message — a*
+*"how do I do X" question that turned out to have a real, mature existing feature, plus two real*
+*bugs in that same feature.*
+
+Founder real-time: "how do we build reusable rooms? assuming we can build them as levels...
+how do i add a door still no affordances for me to add doors. when you embed a level currently it
+doesnt render the level it would be nice if we could actually render the level also the embeded
+levels dont respect materials at least visually." Routed via `emily observe`, Apple #20081.
+
+- [x] **Reusable rooms — already exists, explained directly, not built from scratch.** S459-15's
+  "Objects" feature ("a map is a composition of levels," a real level-references-another-level-
+  as-a-placed-object mechanism, recursively flattened server-side into one flat wall list) IS the
+  answer — a level built once can already be placed repeatedly as a reusable room/base. No new
+  code needed for this part; the two real bugs below were making it look broken/incomplete.
+- [x] **S479a: composed level objects now carry their own material through on export** —
+  `flattenObjects`' own `Wall{}` literal (level_store.go) never copied the child wall's own
+  `Material` field, only X/Y/Z/SX/SY/SZ/R/G/B/Friction — a field missed when this literal was
+  first written (S459-15), not a design choice. Every wall contributed by a composed object
+  silently fell back to the default material regardless of what it was actually authored with.
+  New `TestExport_ComposedObjectCarriesMaterial`.
+- [x] **S479b: door-with-no-script affordance** — the level editor's door dropdown only ever
+  offered "(not a door)" or an existing real script, with no way to reach `script_id=0` — even
+  though the native loader has fully supported unscripted doors (real built-in proximity
+  open/close) since a separate fix earlier the same day (`doorsForExport` leaves `ScriptURL`
+  empty at `script_id=0`). Someone with zero PARENA door scripts written — a very real starting
+  state — genuinely could not add a door at all. Added an explicit "Door, no script (built-in
+  open/close)" option.
+- [x] **S479c: real embedded-level geometry rendering in the editor** — object placement
+  previously only ever rendered an empty orange wireframe footprint box (the child level's own
+  width/height/depth). New `useReferencedLevelWalls` hook fetches the direct child level's real
+  wall list (cached by id); `Viewport3D`'s object-mesh effect now also builds real, r/g/b-colored
+  wall meshes inside a `contentGroup` offset by `-height/2` so the child's own local floor (y=0)
+  lands exactly at the object's placed y — mirrors `flattenObjects`' own server-side transform
+  math via three.js's ordinary parent/child transform inheritance, no manual matrix work needed.
+  Real, named v0 scope limit: only the DIRECT child's own walls render, not further-nested
+  grandchild objects (matches this feature's own preexisting "ground plane not composed"
+  precedent rather than reimplementing `flattenObjects`' cycle/depth guards client-side for a
+  preview-only view).
+  `npx tsc -b` shows only the pre-existing, unrelated `goldenband.ts` `SharedArrayBuffer` error;
+  `npx vite build` clean. Deployed and live-verified (`iduna.service` restarted, new door-option
+  text confirmed present in the rebuilt embedded Go binary). IDUNA `249f783`+`f119a39`+`8ac0537`+
+  `7ec4e44`. Apple #20083.
+
 session: sess-20260905-0720-ec33e7c5
