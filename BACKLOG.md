@@ -41042,6 +41042,19 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-107: NOCK Animations tab — filterable Mesh/Rig/Animation views (discoverability
+  fix).** Founder: "ensure we have menus for any new affordances i dont see the animations
+  browser or rig browser or anything like that not sure what is needed but you describe some
+  stuff im not seeing anywhere." Live-checked first, not assumed: grepped the actual deployed JS
+  bundle directly and confirmed the Animations tab + attach-animation panel (S459-106) WERE
+  already live — a real discoverability gap, not an undeployed feature. Root cause: one unified
+  "Animations" tab (a row is any real combination of mesh/rig/animation) doesn't read as separate
+  "browsers" the way the ask expected. Fix: a real filter row (All / Meshes / Rigs / Animations /
+  Needs animation), each with a live count, over the same data — a real "rig browser"/"animation
+  browser" as a view, not a second page or data model. Filter-aware empty state. `npx tsc
+  --noEmit`/`npm run build` clean, confirmed the new labels landed in the rebuilt bundle,
+  redeployed. Apple #20005. Commit IDUNA `97ddc40`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-106: NOCK — attach an animation to an existing mesh/rig, filling a promised gap.**
   Founder: "build fill in the gaps" — quoting NOCK's own animation-library copy back, which
   already promised "you can add animations to it later, either by uploading a separate file with
