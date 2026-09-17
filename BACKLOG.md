@@ -43474,4 +43474,41 @@ Founder real-time, pasted the real Colab traceback: "colab training is muffed up
   directly explains the symptom and coincides exactly with when it started (right after the
   earlier same-day logging fix).
 
+  **Update (same day), founder correctly, repeatedly pushed back**: "that didnt fix it at all,"
+  "bro what the fuck are you talking about," "did you forget how to use git?," "run the exact
+  colab skript... show to me that it pushes to the repo" — the fast-forward log fix and the
+  save-freq fix were both real, but neither was the actual thing breaking training.
+
+  Found the real bug by finally reproducing the EXACT real config locally instead of an isolated
+  single-client test — real `--save-freq`, real `--registry-url` push to okemily.com,
+  `--heuristic-opponents 1`, the real `TRAINING_GROUND` level. This hit the real
+  `TimeoutError: no live respawn snapshot within timeout` locally for the first time all session.
+  Root cause, found by dumping raw packet bytes instead of guessing further: `NetPlayer`
+  (`protocol.h`) grew from 84 to 88 bytes when `anim_override` (S470) was added — the exact same
+  class of bug this codebase has already hit and fixed TWICE before (S459-44, S459-69), each time
+  because a hand-maintained wire-format mirror wasn't updated when the real compiled C struct
+  grew. This time it recurred in BOTH real mirrors at once: `rl_env_packet.py`'s own Python
+  `ctypes` `NetPlayer` class AND `apps2/emily-bot/snapshot.go`'s own `netPlayerSize` constant —
+  the latter a genuinely **production-relevant** bug, not training-only (`emily-bot` is also a
+  real live QUEUE fallback bot outside training).
+
+  With a stale, 4-byte-too-small stride, `decode_snapshot` correctly parses the FIRST entity in
+  any multi-entity snapshot but reads every entity AFTER it from the wrong offset — garbage
+  id/state/position. A real training client, which almost always connects as the SECOND
+  participant (behind a heuristic bot or self-play opponent, exactly matching real production
+  config), could therefore never find ITSELF among a snapshot's own entities. A lone-client smoke
+  test — exactly what every earlier reproduction attempt this session used — could never have
+  caught this: with only one entity in the snapshot, there's nothing for the stale stride to
+  misalign against.
+
+  Fixed all three wire-format consumers, plus their own stale self-checking assertions (which
+  should have caught this and didn't, because they were updated to the SAME wrong number).
+  Live-verified conclusively: the identical repro (real server + real heuristic bot + a real
+  second connecting client) fails with the exact reported error before this fix, and succeeds
+  immediately after, zero other changes. `go test ./apps2/emily-bot/...` (13 tests) and
+  `python -m unittest discover` (39 tests) both green. A full real production-config end-to-end
+  run (real registry push) confirmed training progressing well past the point it always failed
+  before.
+  SHANKPIT `aa57dda` (fix) + `e0c7dec` (changelog). Apple #20091.
+
 session: sess-20260905-0720-ec33e7c5
