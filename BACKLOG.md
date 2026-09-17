@@ -42302,12 +42302,32 @@ look-at, phoneme/.wav-driven mouth-controller lip sync).
   weapon/ability logic. Two real squads seeded for the VOXWORLD encounter (melee/mid-range
   cluster; ranged/flank pair). `make server`/`make lobby` build clean. SHANKPIT `dd76739` +
   `55a5d46`. Apple #20024.
-- [ ] **S461-04: scripted animation composition (SHANKPIT + GOLDENBAND)** — movement-hook marker +
+- [x] **S461-04: scripted animation composition (SHANKPIT + GOLDENBAND)** — movement-hook marker +
   locked-scripted-animation + on-end handoff back to `AI_MODE_SCRIPTED`'s existing mode (already a
   real `AIMode` value with no real behavior wired to it yet — worth checking first whether this is
   already a partially-built hook); matched-name multi-actor frame sync; bone-controller look-at
   layered over `gpose.c`'s existing real FK/skinning; phoneme/audio-driven mouth controller. Real,
   largest phase, likely wants its own NORTHSTAR.md in GOLDENBAND given it spans two repos.
+  Done (real v0 slice, rest scoped not built): real audit first found GSeq
+  (`packages/goldenband/gseq.c`) already provides real sequence-stitching+crossfade — mechanically
+  covers most of "chain clip A into clip B" already — and that `gband_skel_npc.c` (the module that
+  would actually play a clip on an AI) is a single hardcoded decorative demo mannequin with zero
+  connection to any `story_ai.c` AI; story bots actually render via the existing
+  `draw_player_3rd`/`tyler_body` path every player already uses. Shipped `AI_MODE_SCRIPTED` for
+  real: `story_ai_trigger_scripted` sends an AI to a marker (S461-02's arrival steering), a new
+  per-tick guard skips `AI_MODE_SCRIPTED` entirely in mode-decision so combat/investigate/flee
+  perception can't interrupt it, holds for a real duration, then hands back to `previous_mode`
+  (On End Sequence). Client-side clip selection, multi-actor frame sync, bone-controller look-at,
+  and phoneme/audio lip sync all named as real, not-yet-built follow-up (none attempted
+  half-built) in new `docs2/specs/AI_SCRIPTED_ANIMATION_NORTHSTAR.md`, golden-indexed as
+  SHANKPIT-AI-ANIM-NORTH. `make server`/`make lobby` build clean. SHANKPIT `d0f8197` + `43243cd`.
+  Apple #20026.
+
+  **S461 four-phase plan complete** (S461-01 through -04 all shipped real v0s this session):
+  arrival steering, waypoint/cover A* pathfinding + `AI_MODE_FLEE`, persistent squad leader
+  system, and scripted-sequence movement-hook/hold/handoff. Remaining real surface for any of the
+  four is named explicitly in `AI_WAYPOINT_NAV_NORTHSTAR.md` and
+  `AI_SCRIPTED_ANIMATION_NORTHSTAR.md`'s own follow-up sections, not silently dropped.
 
 session: sess-20260905-0720-ec33e7c5
 
