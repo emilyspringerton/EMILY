@@ -41042,6 +41042,28 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-94: fix SHANKPIT CI build failure — missing humanness.c in workflow build lists.**
+  Founder: "can we check the shankpit build in github." Found via the real GitHub Actions API
+  (`gh` not installed, used the read-only `GITHUB_TOKEN` from `EMILY/var/emily-secrets.env`
+  directly) that CI had been red since S459-87/88 (Humanness Phase 1/2): `.github/workflows/
+  release.yml` and `tests.yml` each carry their own separate, hand-copied `gcc`/
+  `x86_64-w64-mingw32-gcc` build commands (NOT driven by the real `Makefile`), and neither got
+  `packages/simulation/humanness.c` added when the Makefile did — `undefined reference to
+  humanness_tick_mood`/`humanness_smooth_turn_step`/`humanness_reaction_delay_ms`/
+  `humanness_state_init`/`humanness_aim_noise` at both the Windows client and Linux server link
+  steps, in both workflows. This is the THIRD real recurrence of the exact same bug class
+  (`gband_mesh_rig`, then `png_decode`/`parena_runtime`, now `humanness`) — both files' own
+  comments already named "hand-maintained copies of one build command is the actual root cause"
+  without fixing it; still not unified in this pass (a real `make ea-windows` target already
+  exists and uses the Makefile's own `$(LOBBY_SRC)` directly, immune to this bug class, but
+  bundles a full EA dist package this CI step doesn't want — reusing it without auditing the
+  release artifact naming/upload steps first is a real, separate risk not taken under an urgent
+  build-fix). Live-verified locally with the EXACT same commands CI runs, not assumed: the
+  Linux server link succeeded, and a full `x86_64-w64-mingw32-gcc` Windows cross-compile (this
+  box's own cached `sdl2_mingw` devel kit) produced a real, working `ShankPit.exe`. Pushed, then
+  polled the real GitHub Actions API until the live run finished — confirmed `completed`/
+  `success`, not assumed. Apple #19973. Commit SHANKPIT `5850891`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-93: raise GSKEL_MAX_JOINTS 64 → 128 — real 65-joint rig hit the old cap.** Founder
   real-time, live bug report: "Error: 422: {\"error\":\"glTF import failed: skin has 65 joints,
   exceeds GSKEL_MAX_JOINTS (64)\"}" — a real, common full-body-plus-hands rig (individual finger
