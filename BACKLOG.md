@@ -43849,3 +43849,25 @@ session: sess-20260905-0720-ec33e7c5
   IDUNA `7515bd4`. Apple #20098.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 490: IDUNA/NOCK — BASIC FLAT CUBES/LAYERS LIST (2026-09-17)
+
+*Goal: founder real-time — "can we get a super basic layers interface in the right column right*
+*now theres no way to find a lost cube if you put it inside a big cube etc ... it doesnt really*
+*need to be heirarchical ... i just need a list of the cubes and the ability to name them would*
+*be nice ... when you click a cube in the right panel it selects it in the scene."*
+
+- [x] **Shipped exactly as scoped, deliberately flat** — a new "Cubes (N)" list in the level
+  editor's side-pane, one button per wall (its own `name`, falling back to `Cube #<id>`),
+  reusing the exact same `setSelected`/`setSelectedSpawnPoint(null)` pair every other list
+  (Spawners/Objects/Waypoints) already uses — clicking a row selects that wall in the 3D scene
+  and opens `WallInspector` exactly as if clicked directly.
+- [x] New optional `name` field: `ShankpitWall.name` (frontend) + Go `Wall.Name`
+  (`json:"name,omitempty"`), edited via a new Name input at the top of `WallInspector`. Confirmed
+  safe to ride along in `ExportDoc.Walls` (the same `Wall` struct reused verbatim for the native
+  client) — `level_boxes.h`'s own hand-rolled JSON scanner only extracts keys it explicitly looks
+  up, silently ignoring anything else, the same purely-additive precedent Material/Friction
+  already established. No native/wire-format changes needed.
+  IDUNA `4e3f377`. Apple #20099.
+
+session: sess-20260905-0720-ec33e7c5
