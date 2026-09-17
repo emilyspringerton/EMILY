@@ -43818,3 +43818,34 @@ session: sess-20260905-0720-ec33e7c5
   the NORTHSTAR doc's own Phase 1.5/2+ scoping.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 489: IDUNA/NOCK — WASD MOVES THE SPAWNER, SPAWNER IS THE CAMERA PIVOT (2026-09-17)
+
+*Goal: founder real-time, direct redesign of the same-day S487 fly-camera work — "wasd should*
+*actually move the spawner where the cubes pop out of by default we rotate around that point and*
+*if we move that point it should move the camera rotate point and wasd should move the spawner*
+*and the camera - zooming all the way in you should always see the cube spawner."*
+
+- [x] **Unified the spawner and the camera orbit pivot.** S487 gave WASD a free-standing camera
+  target, independent of the spawner marker — real and requested at the time, but the founder's
+  own same-day follow-up asked for them to be the same point. Now every render frame sets
+  `cam.target` to the spawner's own current position (`spawnerRef.current`), regardless of what
+  moved it (WASD, a mouse-drag on the marker, or the numeric X/Y/Z inputs) — moving the spawner
+  walks the camera's view through the level, and orbiting/zooming always happens around wherever
+  the spawner (and therefore the next placed cube) currently is.
+- [x] **W/A/S/D switched from full-3D-forward to horizontal-only** (camera azimuth/theta,
+  ignoring pitch/phi) — deliberate: the spawner is a build-on-the-floor marker for sketching
+  floorplans (the founder's own stated real use case for S488's box extrude), so tilting into the
+  ground/sky whenever the camera looks up or down would fight that. This is exactly the same math
+  the original, pre-S487 arrow-key spawner nudge already used — continuous/held now instead of
+  discrete-per-press. Q/E still move it vertically, Shift still 3x's the speed.
+- [x] **"Zooming all the way in you should always see the cube spawner" falls out for free** —
+  no extra code needed once `target` always equals the spawner's position: `onWheel`'s existing
+  zoom-radius floor (`Math.max(2, ...)`) puts the camera right next to it, never past it.
+- [x] Middle-mouse-drag orbit and every left-click object interaction (select/drag/face-reshape/
+  Alt+E extrude) are completely untouched.
+- [x] tsc/`vite build` clean, deployed live, verified the new "move the yellow spawner marker"
+  hint-text literal present in both `dist/` and the deployed binary.
+  IDUNA `7515bd4`. Apple #20098.
+
+session: sess-20260905-0720-ec33e7c5
