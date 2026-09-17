@@ -42543,3 +42543,53 @@ tick loop."
   multiplayer play, not just local single-player.
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 467: SHANKPIT/GOLDENBAND — REAL, DISTINCT AI-DRIVEN CHARACTER RENDERING (2026-09-17)
+
+*Goal: answer, concretely, "can we animate and model end to end?" and close the real gap found*
+*while answering it — a genuinely new model can only be animated through gband_skel_npc, which*
+*was a single frozen demo, not connected to any AI.*
+
+Founder real-time, direct follow-up to S466: "continue fill in the gaps can we animate and model
+end to end?" Routed via `emily observe`, Apple #20046.
+
+- [x] **S467: real audit first, correcting a claim made mid-investigation** — checked
+  `gband_mesh_rig.c` (what `SKIN_TYLER`/every player+bot actually renders through today) directly
+  rather than trusting an earlier doc's own description: it's hardcoded to reject any skeleton
+  with `joint_count != 5` (`MAX_JOINTS 5`, asserted at load time) — real, working, but NOT the
+  general pipeline. `gpose.c`'s own general, arbitrary-joint-count engine is only used by
+  `gband_skel_npc.c` (the founder's own imported mannequin), which before this pass was a single
+  static demo instance at a fixed position, one frozen clip, zero AI connection. **Answer to the
+  literal question**: model-and-animate end to end is real today only for Tyler's own 5-joint
+  rig; a genuinely differently-shaped new model needs `gband_skel_npc`, which this section makes
+  real.
+  Shipped: `gband_skel_npc` gained real idle/walk clip switching (GOLDENBAND `16c13f1` +
+  `ef4b5ba`, adopting `gband_mesh_rig.c`'s own proven movement-delta pattern — both idle/walk
+  `GSeqPlayer`s always advance, only which is sampled changes, no crossfade, matching the already-
+  shipped behavior exactly rather than inventing a new one). New `SKIN_MANNEQUIN`
+  (`draw_player_skin_mannequin`, mirroring `draw_player_skin_tyler`'s exact facing/world-space-
+  baking pattern, falling back to `SKIN_TYLER` on asset-load failure) forced onto `is_bot` players
+  in `MODE_STORY`/`MODE_STORY_CAVE` via `draw_player_3rd`'s existing `forced_skin` mechanism (same
+  real mechanism TDMB/CTFB already use for team skins) — excluded from the player-facing cosmetic
+  menu (`skin_menu_row_count`), not player-selectable. The old S459-97 static demo call (one
+  frozen mannequin at a fixed `(4,0,4)`) removed — superseded by real per-NPC draws, now driven by
+  live, AI-controlled position (real as of S466).
+  Real, honest, not overclaimed: only one real clip (`ual2_standard_rm.gband`) has ever been
+  imported for this rig, passed for both idle and walk — no fake "two clips" claim, swapping in a
+  genuine second clip is the whole remaining change once one's imported. `make server`/
+  `make lobby` build clean; full GOLDENBAND test suite green; Xvfb smoke-test showed no crash —
+  this sandbox has no real GL driver (software swrast missing GL3 entry points), so the actual
+  shader/skinning render OUTPUT is not visually verified in this pass, named honestly rather than
+  claimed.
+  `AI_SCRIPTED_ANIMATION_NORTHSTAR.md`'s own "nothing connects story_ai's NPCs to gband_skel_npc
+  rendering" architectural fork — explicitly left unresolved when that doc was written — is now
+  closed. Real, named follow-up: every story_ai NPC currently shares the one mannequin look
+  regardless of role; giving different roles their own distinct model needs `gband_skel_npc`'s
+  "only one character asset loaded at a time" v0 scope lifted to support multiple simultaneous
+  assets.
+  GOLDENBAND `16c13f1` + `ef4b5ba`, SHANKPIT `86124cd` + `4e8f850` + `bd19b32`. Apples #20049,
+  #20050.
+
+session: sess-20260905-0720-ec33e7c5
