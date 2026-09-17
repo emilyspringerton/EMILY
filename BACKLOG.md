@@ -43514,4 +43514,68 @@ Founder real-time, pasted the real Colab traceback: "colab training is muffed up
   before.
   SHANKPIT `aa57dda` (fix) + `e0c7dec` (changelog). Apple #20091.
 
+## SECTION 484: SHANKPIT/GOLDENBAND — RAGDOLL/RIGID-BODY PHYSICS + KEYFRAME-IMITATION RL (2026-09-17)
+
+*Goal: founder real-time — "can we add ragdoll and rigid body physics including stuff with*
+*mass? can we make the models based on the manequin we have for multiplayer? Once we have rigid*
+*body physics what is needed to fill in the gaps for the goldenband animation library in terms*
+*of the olaf style train against keyframes to train a real robot how to walk via a simulated*
+*environment"*
+
+Grounded directly against the existing `EMILY/docs/hq-specs/HQ-SPEC-SIM-100-springerton-seam-golden-band.md`
+master spec (§8 Build Sequence) rather than scoped from scratch — this ask IS that spec's own
+not-yet-started steps 2-7, with rigid-body/mass physics as the load-bearing prerequisite
+underneath step 3 (the reward compiler needs real physics to grade a policy against).
+
+- [x] **Confirmed the mannequin is already the real multiplayer model, no new asset needed.**
+  `gband_skel_npc.c`/`gpose.c` already do general N-joint FK+skinning over an arbitrary `GSkel`
+  (not hardcoded like `gband_mesh_rig.c`'s Tyler-only 5-joint rig), and `mannequin_npc.gskel`/
+  `.gmesh` is already a real, selectable multiplayer player skin (`SKIN_MANNEQUIN`, routed
+  through `gband_skel_npc_draw` in `apps/lobby/src/main.c`) — not NPC-only. Ragdoll bodies attach
+  onto this existing skeleton data, no new model pipeline needed.
+- [x] **PBD ragdoll spike, throwaway, not shippable** (`SHANKPIT/tools/ragdoll_spike/main.c`) —
+  validated whether a determinism-friendly (SIM-100 §2: "same clip + same seed + same tick =
+  bit-identical pose") position-based solver is even viable on this engine's real skeleton data
+  before writing any design doc. FKs the real `mannequin_npc.gskel` rest pose (65 joints), builds
+  one point-mass body per joint + 64 parent-child distance constraints, runs Verlet/PBD at
+  SHANKPIT's real 64Hz tick rate with gravity + a ground plane.
+  Found and fixed two real bugs in the first cut: a Verlet ground-clamp velocity spike (clamped
+  `pos.y` without also clamping `prev_pos.y`, producing an implied-velocity teleport next tick)
+  and a sign error in the distance-constraint correction for body B (pushed the constraint apart
+  instead of together — verified by hand-deriving the PBD update against
+  `C(pa,pb)=|pa-pb|-restLen`). Both together produced full NaN blowup by tick 16 before the fix.
+  **Real, conclusive result**: once fixed, the sim is numerically stable — no NaN/divergence,
+  converges by t=0.5s — at the real 65-joint/64-constraint scale and real tick rate. PBD is a
+  viable foundation, answering the spike's own question yes. But it converges to every joint
+  flat at `y=0`: pure distance constraints never stop a knee/elbow folding backward, since
+  bending doesn't violate a bone-length constraint. **Real, named next requirement: angular/
+  joint-limit constraints, not per-bone collision shapes or mass tuning, are the actual next
+  architecture question** for a believable ragdoll.
+- [ ] **Not started: real angular/joint-limit constraint design** — the concrete next spike/
+  design question this session's own spike surfaced. Needs a per-joint limit representation
+  (swing/twist cone, hinge range, etc.) layered onto the existing distance-constraint PBD loop.
+- [ ] **Not started: per-bone mass/inertia model** — spike used uniform inv_mass=1 per joint;
+  real ragdoll behavior (a head should swing differently than a torso) needs mass estimated from
+  bone length/a assumed capsule radius, or authored per-rig.
+- [ ] **Not started: per-bone collision shapes** — spike has no self-collision or environment
+  collision on individual bones at all (only a flat ground-plane clamp on every point).
+- [ ] **Not started: HQ-SPEC-SIM-100 §8 step 2 closure verification** — confirm SHANKPIT samples
+  `.gband` clips at its own fixed 64-tick rate with bit-identical replay (gpose/gseq already
+  exist; the spec's own determinism claim for this step has not been explicitly verified/closed).
+- [ ] **Not started: reward compiler v0 (§8 step 3)** — the real, named gap for "train a robot to
+  walk via keyframe imitation." Nothing today compares a simulated pose against a `.gband`
+  reference clip. Needs DeepMimic/AMP-lineage reward terms (pose tracking, velocity tracking,
+  end-effector tracking, root-motion tracking — all named in HQ-SPEC-SIM-100 §4) plus a training
+  backbone adapter. SHANKPIT's own physics is single-instance CPU, no GPU-parallel batched sim
+  (Isaac Lab/MJX/Genesis — still an open decision per SIM-100 §9); the existing
+  `rl_train_packet.py` CPU-parallel-via-many-real-UDP-servers harness is a real, cheaper,
+  explicitly reversible v0 candidate training backbone instead of standing up a GPU sim cold.
+- [ ] **Not started: §8 steps 4-7** — GameEvolutionEngine reward/DR-profile proposal hookup,
+  physics-driven NPCs shipping (Path A), hardware-in-the-loop bench, retarget feasibility
+  tooling. Sequential, all downstream of step 3 landing.
+
+Founder was asked (AskUserQuestion) how to start given the size of this ask (full NORTHSTAR doc
+vs. a throwaway prototype vs. reward-compiler-only scoping first) — chose the prototype-first
+path, which produced the spike above. SHANKPIT `3fdbe30` (spike + changelog). Apple #20093.
+
 session: sess-20260905-0720-ec33e7c5
