@@ -42592,4 +42592,52 @@ end to end?" Routed via `emily observe`, Apple #20046.
   GOLDENBAND `16c13f1` + `ef4b5ba`, SHANKPIT `86124cd` + `4e8f850` + `bd19b32`. Apples #20049,
   #20050.
 
+---
+
+## SECTION 468: SHANKPIT/NOCK — REAL "CHARACTER" SCRIPTABLE-OBJECT KIND (2026-09-17)
+
+*Goal: close STORY_SYSTEM_NORTHSTAR.md Phase 2's own "character" kind — the one the founder named*
+*directly, twice, as the reason to keep filling in level-editor gaps — now that its two real*
+*prerequisites (S466: story_ai live on the server; S467: distinct AI-driven rendering) are both*
+*real.*
+
+Founder real-time: "continue filling in the gaps" (generic continuation, routed via
+`emily observe`, Apple #20051) — read as confirming the already-named "characters" direction
+(Apple #20039) now that the blocking prerequisites are closed.
+
+- [x] **S468: real end-to-end character authoring — a NOCK level author places a specific
+  `AIRole` at a specific position, and it spawns, ticks, and renders for real.** New
+  `internal/shankpit.Character` (`role` + `x/y/z` — the simplest of the four scriptable object
+  kinds shipped this session, no cross-reference to resolve at all, unlike Door's `wall_id` or
+  NavNode's `neighbor_ids`), `characters_json` column, threaded through the full store + a new
+  "Characters (story_ai NPCs)" level-editor panel (10-role dropdown, `AI_ROLE_OPTIONS`, from
+  Rift Hound through Blind Stalker).
+  New SHANKPIT-side `LevelCharacter` parser (`packages/world/level_boxes.h`), wired into
+  `server_apply_custom_level` — **gated strictly to `MODE_STORY`/`MODE_STORY_CAVE`**, with a real
+  safety analysis done before wiring, not assumed: `story_ai_reset` deactivates every player slot
+  `1..MAX_CLIENTS-1`, which would silently disconnect real connected humans if this ran during a
+  live `MODE_QUEUE` round — confirmed safe because this function's other real call site
+  (`queue_load_default_level`, via `server_advance_queue_round`) is itself gated on
+  `game_mode == MODE_QUEUE`, so the new branch can never fire from that path; the one-time
+  `--level` CLI flag call site runs before the tick loop's own `recvfrom` polling starts, so no
+  real player can have connected yet there either.
+  **Live-verified end to end**: a hand-written test level JSON with 2 authored characters
+  (`TERRITORIAL_BEAST`, `BLIND_STALKER`) loaded via `--story --level`, correctly reset the
+  VOXWORLD encounter's own 6 NPCs, spawned exactly the 2 authored characters at their authored
+  positions/roles, and both ticked and genuinely moved (distance-to-player values changing every
+  real second).
+  5 new IDUNA backend tests, `go build`/`test ./...` clean, frontend type-checks clean,
+  `make server`/`make lobby` clean. Deployed and live-verified: `iduna.service` restarted,
+  `characters_json` confirmed on the live DB schema, export endpoint confirmed backward-
+  compatible. `STORY_SYSTEM_NORTHSTAR.md`'s own Phase 2 entry updated — `character` done,
+  `ladder`/`screen`/`trigger` remain real, named follow-up.
+  SHANKPIT `ba8774b` + `4aabee2` + `bfdd2e2`, IDUNA `5c09699` + `b7c00ff`. Apples #20054, #20055.
+
+  **This closes the four-part "level editor scriptable object" arc this session ran end to end**:
+  doors (S463) → waypoint/cover nodes (S465) → the dedicated-server AI gap that would have made
+  characters meaningless (S466) → distinct AI-driven rendering (S467) → characters (S468). All
+  four scriptable object kinds S459's own original Phase 1/2 list named — door, waypoint (a real
+  addition beyond that original list, S461's own follow-up), character — are now real; `ladder`/
+  `screen`/`trigger` remain the honest, named remainder.
+
 session: sess-20260905-0720-ec33e7c5
