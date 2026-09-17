@@ -42368,3 +42368,53 @@ AI_SOLO_ENEMY_NORTHSTAR.md`, golden-indexed as SHANKPIT-AI-SOLO-NORTH.
   uses — `ai_run_search`'s own cos/sin orbit pattern named as the real, proven reuse candidate).
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 463: SHANKPIT/NOCK — REAL DOOR AUTHORING IN THE LEVEL EDITOR (2026-09-17)
+
+*Goal: close the last real gap in the Story System Phase 1 door pipeline — a level author could*
+*write and compile a PARENA door script but had no way to attach one to a placed wall.*
+
+Founder real-time, rapid burst: "build out the scriptable ai" / "the level editor needs script" /
+"how do i put doors in my levels?" / "how do i have rooms like offices?" / "how do i have
+buildings enterable geometry" — following "i gave a lot of direction today and the systems arent
+built." Routed via `emily observe`, Apple #20031. Checked Apple #20015 first (a real earlier
+observation from this same session, predating this turn's visible context: "continue
+scripted-sequence animation work in GOLDENBAND — multi-actor frame sync... Northstar it first") —
+confirmed still real and tracked, not dropped: `SHANKPIT/docs2/specs/
+AI_SCRIPTED_ANIMATION_NORTHSTAR.md`'s own "not yet built" section already names multi-actor frame
+sync, bone-controller look-at, and lip sync as real follow-up (S461-04).
+
+- [x] **S463: real door-authoring UI, wired end to end.** `ShankpitLevel` (both the IDUNA DB row
+  and the frontend type) had zero `doors` concept anywhere in the stack before this — checked
+  directly, not assumed. New `IDUNA/internal/shankpit.Door` (`wall_id` + `script_id`,
+  `doors_json` column, migration `202609170001`), threaded through Create/Get/List/Update/Clone.
+  New `doorsForExport`: a door's `wall_id` resolves to that wall's real 0-based POSITION in the
+  exported `walls[]` array (matching `level_boxes.h`'s own parser, which indexes into `boxes[]`
+  by position, not by any stored id) and `script_id` resolves to the real absolute
+  `nock-door-scripts` download URL. A door referencing a deleted wall is silently skipped at
+  export, matching this system's existing "an author's own stale reference mustn't break the
+  level" discipline. Real, deliberate scope limit (matching `flattenObjects`' own established
+  precedent for ground planes): a door can only attach to one of a level's own ROOT walls, never
+  a wall from a nested composed object.
+  Frontend: `WallInspector` gets a real "Door script" dropdown on the selected cube's own
+  inspector panel — a wall IS a door exactly when it has a script attached, no separate toggle to
+  fall out of sync — backed by a new `useDoorScriptList` hook. Wall deletion cascades to remove
+  any door attached to it.
+  4 new backend tests (unknown wall_id rejected, `MaxDoors` bound, real box_index/script_url
+  resolution, stale-wall-reference graceful skip). `go build`/`test ./...` clean; frontend
+  type-checks clean on every changed file. **Deployed and live-verified**: `iduna.service`
+  restarted on the new binary, `doors_json` confirmed present on the live `var/iduna.db` schema,
+  public list/export endpoints confirmed backward-compatible against a real existing level (empty
+  `doors` array omitted via `omitempty`, no crash, no schema mismatch).
+  Docs: `SHANKPIT/docs/STORY_SYSTEM_NORTHSTAR.md`'s own Phase 1 entry updated with this real
+  follow-up; `packages/world/level_boxes.h`'s header comment corrected (no longer says NOCK
+  authoring is "deferred future work" — it's real now).
+  **Rooms/offices/enterable-buildings answered directly, no new engine work needed**: SHANKPIT's
+  existing `LevelBox` wall-placement system already supports arbitrary room geometry (walls with
+  gaps for entrances) — this section's own door work is the piece that was actually missing
+  (gating those entrances), not a new geometry primitive.
+  SHANKPIT `2b2cb55` + `69bcf1e`, IDUNA `006a0c9` + `510d351`. Apple #20034.
+
+session: sess-20260905-0720-ec33e7c5
