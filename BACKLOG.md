@@ -43070,4 +43070,14 @@ exit marker? im not sure if it works because i dont know if its in the right spo
   before restarting `iduna.service`.
   IDUNA `0537469` + `78e5e36`. Apple #20074.
 
+  **Update (same day), direct founder follow-up**: "we need the ability to turn it on and off
+  visually in the map editor" — also asked directly whether the marker shows in the real
+  SHANKPIT game client ("if that is what you did"). Answered honestly: no — checked the actual
+  `apps/lobby`/`apps/server` C code directly, nothing there renders an exit indicator; S476 only
+  ever touched the NOCK editor's own web preview. New `showLevelExits` checkbox next to the
+  "Level exits" panel (defaults on), a cheap visibility-only `THREE.Group.visible` flip kept
+  deliberately separate from the marker-rebuild effect so toggling it never re-creates geometry.
+  Deployed and verified the same way (built bundle + the actual embedded Go binary checked before
+  restart). IDUNA `f004031` + `ce3e6f0`. Apple #20076.
+
 session: sess-20260905-0720-ec33e7c5
