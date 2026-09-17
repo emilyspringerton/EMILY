@@ -41042,6 +41042,26 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-108: NOCK Animations tab — real in-browser 3D preview.** Founder: "can we add a 3d
+  scene like the shankpit level editor for the animations models viewer?" New
+  `frontend/nock/src/AnimationViewer.tsx` — the first real JS/TS binary parser for GOLDENBAND's
+  `.gskel`/`.gmesh`/`.gband` formats (every prior consumer was Go or C). Byte layouts mirror
+  `gbtool`'s own Go writer exactly; verified byte-exact against the real stored data via a
+  standalone Node script (not just TypeScript compiling) — joint count (65), vertex/index counts,
+  computed-vs-actual file size matching exactly (header+data layout), channel names/count all
+  correct. Builds a real `THREE.Bone`/`Skeleton`/`SkinnedMesh` using the asset's own stored
+  inverse-bind matrices (not recomputed ones), and a real `THREE.AnimationClip` from `.gband`
+  channels with rest-pose fallback for any tick/component a clip doesn't cover (matching
+  `gseq.c`'s own documented convention) — `THREE.AnimationMixer` does the actual per-frame
+  skinning, not a second hand-rolled implementation of `gpose.c`'s own math. Reuses the same real
+  Three.js foundation `ShankpitLevelEditor.tsx` already established (container-ref +
+  `WebGLRenderer` + rAF render loop), plus `three`'s own bundled `OrbitControls` addon. Real
+  fallback rendering: mesh-only draws unskinned, rig-only draws a wireframe skeleton (line per
+  bone-to-parent) so a bare-rig row still shows something. Play/pause + scrub slider once a real
+  clip exists; auto-frames the camera to whatever actually got built. New "Preview" button on any
+  card with a mesh or rig. `npx tsc --noEmit`/`npm run build` clean, redeployed. Apple #20007.
+  Commit IDUNA `84304af`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-107: NOCK Animations tab — filterable Mesh/Rig/Animation views (discoverability
   fix).** Founder: "ensure we have menus for any new affordances i dont see the animations
   browser or rig browser or anything like that not sure what is needed but you describe some
