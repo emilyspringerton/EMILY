@@ -42693,3 +42693,64 @@ ANIMATED ROBOT CHARACTERS WITH MESH RIG AND ANIMATIONS PER BOT." Routed via `emi
   `f63a1f6`. Apples #20057, #20058.
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 470: SHANKPIT/GOLDENBAND — WAVE-THEN-DANCE AMBIENT GREET FOR ALL 5 ROBOTS (2026-09-17)
+
+*Goal: turn the founder's own S469 robot roster from ambient background NPCs into ones that*
+*genuinely react to the player — "take it as far as you can" — using only the animation assets*
+*that actually exist today, named honestly where they don't.*
+
+Founder real-time: "for story mode with the breech titan lets get all the robots in there and
+have them walking around different waypoints or whatever take it as far as you can like if you
+can get them to wave to the player when the player gets close and then dance before resuming
+patrol or something that would be awesome." Routed via `emily observe`, Apple #20059.
+
+- [x] **S470: real, end-to-end wave-then-dance ambient behavior, live in the actual Breach Titan
+  encounter.** Checked the live asset library directly before designing anything: George/Stan/
+  Mike/Leela each have a real per-character `_Hello` greeting gesture but no distinct per-
+  character dance clip; the mannequin has the inverse gap (a real `UAL1_Standard_Dance_Loop` but
+  no `_Hello`-equivalent). Rather than fabricate a "dance" that doesn't exist, both gaps are named
+  honestly in code comments and this entry: George/Stan/Mike/Leela reuse their own real Hello clip
+  for both the wave and the dance phase (a real double-wave flourish, not an invented asset); the
+  mannequin gets a real dance but stands in idle during the wave phase. All 5 clip cross-checks
+  (`skeleton_hash` against each character's already-live Idle clip) matched before use.
+  GOLDENBAND's `gband_skel_npc_load_kit`/`gband_skel_npc_draw` gained optional per-kit greet/dance
+  clip slots and an `anim_override` parameter (`GBAND_SKEL_NPC_ANIM_AUTO/GREET/DANCE`), falling
+  back to idle when a kit has no real clip for the requested gesture rather than drawing nothing.
+  New SHANKPIT-side `AI_ROLE_WANDERING_BOT` (never enters combat/investigate/search/flee — a real
+  decision-loop bypass, same class of special case `AI_ROLE_STORY_ALLY` already gets) and new
+  `AI_MODE_GREET`, a locked state driven by `ai_run_greet`: stop, face the player, wave (~1.8s),
+  dance (~2.8s), resume patrol, 9s cooldown before it can re-trigger. A new networked
+  `PlayerState.anim_override` field (1 byte/player/snapshot on the wire) carries which gesture is
+  playing from `story_ai.c` (server-authoritative, the only writer) to the render side
+  (`draw_player_skin_mannequin`, the only reader) — the same class of gap S467/S469's own "AIRole
+  isn't networked" caveat already named, closed here for this one specific signal rather than the
+  general case.
+  `story_ai_seed_voxworld_encounter` now spawns 5 `AI_ROLE_WANDERING_BOT` NPCs as 5 back-to-back
+  `story_ai_spawn_enemy` calls — S469's own `p->id`-based kit-cycling mathematically guarantees 5
+  consecutive slot ids land on all 5 distinct real robot kits exactly once each, so "all the
+  robots" is a real, structural guarantee, not a hopeful roll of the dice. Placed on the player's
+  own entry side of the arena, each patrolling a short 2-point loop (not verified against real
+  wall/prop geometry — same honest caveat the nav graph's own comment already carries).
+  **Real verification, not just "compiles":** a standalone state-machine test drove
+  `story_ai_tick` directly against a synthetic `ServerState`/hero through the full AUTO → GREET →
+  DANCE → AUTO → cooldown → re-GREET cycle. It caught and fixed two real bugs before any of this
+  shipped: (1) `last_greet_ms == 0` was indistinguishable from "cooldown still active" for a bot's
+  very first greet whenever the encounter's own uptime clock hadn't yet passed the 9s cooldown
+  window since boot — fixed with an explicit "never greeted" sentinel, same convention
+  `wait_until_ms` already uses elsewhere in this file; (2) `anim_override` was being read from the
+  OLD `greet_phase` before that tick's own phase transition was applied, a real one-tick lag on
+  every wave→dance switch — fixed by reordering the transition ahead of the read. Also
+  live-verified: `./bin/shank_server --story` ran 6 real seconds under continuous `story_ai_tick`
+  with all 14 story NPCs active, no crash. `make lobby`/`make server` clean.
+  Real, honest, side finding fixed while here: a **5th real recurrence** of this repo's own
+  known CI-drift bug class (`packages/goldenband/gseq.c`/`gpose.c`/`gsync.c`/`gband_skel_npc.c`
+  were in the Makefile's own `LOBBY_SRC` since S464/S467 but never made it into `tests.yml`/
+  `release.yml`'s hand-copied Windows build source lists) — fixed proactively in both files before
+  it broke a real CI run, per the standing lesson the prior four recurrences already documented.
+  GOLDENBAND `622aaa7` + `7724cd2`, SHANKPIT `0b12648` + `fe328f3` + `fc4a09c` + `393ab18` +
+  `f025fd3` + `9627f3d` + `a62de49`. Apples #20060, #20061.
+
+session: sess-20260905-0720-ec33e7c5
