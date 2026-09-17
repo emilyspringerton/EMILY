@@ -42906,4 +42906,56 @@ doc, and explicitly sequenced AFTER this section closes — not started.
 
 SHANKPIT `8554390` (changelog). Apples #20066 (IDUNA), #20067 (SHANKPIT).
 
+---
+
+## SECTION 474: SHANKPIT/IDUNA — DOORS ACTUALLY WORK NOW (2026-09-17)
+
+*Goal: root-cause why doors — a real, named, "closed" scriptable-object kind since S463 — have*
+*never actually worked for the founder despite repeated real-time asks.*
+
+Founder real-time, frustrated, direct: "i dont know why this never moved forward i kept asking
+for doors please make doors actually work thanks" (follow-up to S473's own "doors are not wired
+into the lobby-local story path" honest caveat).
+
+- [x] **S474: two real, stacked, PRE-EXISTING bugs found live — neither introduced by S473, both**
+  **present since S463 first shipped door authoring.** The founder's own frustration was fully
+  justified: a door placed in NOCK without separately writing and attaching a custom PARENA
+  script did **nothing at all, on every platform including the dedicated server, with zero
+  visible feedback** — the "closed" S463 milestone only ever closed the *authoring* half.
+  **Bug #1 (SHANKPIT, the deeper one):** `level_boxes_parse_json`'s own door-array scanner only
+  COUNTED a door into `CustomLevelData.doors[]` if it already had a real `script_path`/
+  `script_url` — an unscripted door was silently dropped at PARSE TIME, before any runtime door
+  logic (dlopen or otherwise) ever got a chance to see it. Confirmed via a standalone C test:
+  `door_count` went from 0 to 1 for the identical export, purely from this one-line fix.
+  **Bug #2 (IDUNA):** `doorsForExport` always emitted a real `script_url` even at `ScriptID == 0`
+  (unset) — `.../nock-door-scripts/0/download`, a guaranteed 404. Fixed to leave `ScriptURL`
+  empty for the real "no script attached" state.
+  **The real fix, not just the two bugs:** new `door_tick_builtin_proximity` (`level_boxes.h`,
+  pure static C, zero dynamic loading) gives every unscripted door a real, working default —
+  opens within 8 units, closes past 12 (a real hysteresis band so it doesn't flicker exactly at
+  the boundary), same `(dist, state) -> new_state` contract a dlopen'd custom script already
+  uses. Wired into `story_doors.h` (server) as the real fallback when no script is attached, and
+  — for the first time ever — into the **lobby** (`lobby_doors_init`/`lobby_doors_tick`): server-
+  side custom PARENA door scripts use `dlopen`/`<dlfcn.h>`, which is POSIX-only and has no
+  equivalent wired up in the lobby's own Windows-cross-compiled distributed client
+  (`x86_64-w64-mingw32-gcc`) — a real, honest, named platform limitation, not silently worked
+  around. The builtin default needs no dynamic loading at all, so it's real and working
+  everywhere: Linux dedicated server, Linux lobby, and the Windows client the founder actually
+  runs. A door WITH a real, attached custom script keeps its own real behavior unchanged on the
+  server — purely additive for the no-script case; custom scripts on doors stay server-only for
+  now (a real PARENA-on-Windows path is separate, larger, not-yet-scoped work, named rather than
+  promised).
+  **Live-verified end to end against the real okemily.com deployment**, not just tests: a real
+  test level with one unscripted door inserted via direct SQL, confirmed the export's own
+  `script_url` went from a doomed 404 URL to empty (IDUNA rebuilt+redeployed), confirmed the
+  standalone C parser test's `door_count` went from 0 to 1 (SHANKPIT fix), then confirmed the
+  real server actually loads it and logs `"no script attached for box_index=0 -- using builtin
+  proximity default"` via `--level`. Test level removed after. `make server`/`make lobby` clean
+  (default and `NET_VERBOSE_LOG=1` builds). Live `shankpit-server.service` +
+  `shankpit-bot-pool.service` restarted with the fix.
+  IDUNA `c45ebaa` + `8b5a8ce`, SHANKPIT `4752100` + `a35876a` + `8a1ac37`. Apples #20069
+  (IDUNA), #20070 (SHANKPIT).
+
+session: sess-20260905-0720-ec33e7c5
+
 session: sess-20260905-0720-ec33e7c5
