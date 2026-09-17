@@ -42262,9 +42262,25 @@ look-at, phoneme/.wav-driven mouth-controller lip sync).
   marker placement, sequencing) and GOLDENBAND (the actual animation sampling/blend layer).
 
 **Phased plan (none of these four phases started — this section is scoping only):**
-- [ ] **S461-01: tactical pathing** — a real, tagged node network (reuse SHANKPIT's existing
+- [x] **S461-01: tactical pathing** — a real, tagged node network (reuse SHANKPIT's existing
   `AIPatrolPoint`/`behavior_hint` shape as the template, per story_ai.h line 43-47, rather than a
   new format) + A* over it, plus a real `IsCover`/`CoverDirection` query wired into `AI_MODE_FLEE`.
+  Done: founder direction, direct follow-up ("we are going to need a waypoint system in the
+  levels and maps northstar it") confirmed grid/waypoint over navmesh — the only real option
+  anyway, SHANKPIT has zero wall-collision/navmesh-bake infrastructure (grep-confirmed). New
+  `packages/simulation/ai_nav.c/.h`: up to 32 nodes, real A* over authored edges, a real
+  direction-tested cover query (not just nearest-cover-tile). Wired into `AI_MODE_FLEE`
+  (previously a dead enum value, zero behavior) — health<30 + courage<0.7 triggers real
+  A*-to-cover-then-hold, falls back to a repulsion vector when a scene has no authored graph.
+  Deliberately terminal once triggered (no health-regen system exists anywhere in this codebase —
+  named explicitly, not a missed case). One real graph authored: SCENE_VOXWORLD's encounter
+  (6-node loop + chord, 2 cover nodes, `cover_dir` flagged as a first unverified-against-geometry
+  pass). Full design + phased follow-up (per-scene authoring, NOCK level-editor waypoint tooling,
+  cover_dir verification) in `docs2/specs/AI_WAYPOINT_NAV_NORTHSTAR.md`, golden-indexed as
+  SHANKPIT-AI-NAV-NORTH. Fixed all 4 hand-copied CI source lists (Makefile×2, release.yml×2,
+  tests.yml×2) for the new file in the same pass — 4th real recurrence of this repo's known
+  build-list-drift bug, caught before a CI failure this time. `make server`/`make lobby` build
+  clean. SHANKPIT `f53860b` + `26d2783`. Apple #20022.
 - [x] **S461-02: seek/arrival steering** — replace `ai_move_towards`'s constant-speed model with
   real distance-scaled arrival, smallest and lowest-risk of the four, good candidate to land first.
   Done: `ai_move_towards` gained a `slow_radius` param — linear speed falloff (floored 0.15) once
