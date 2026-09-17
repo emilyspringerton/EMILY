@@ -43152,21 +43152,33 @@ shininess — but friction was never added to it, and the frontend `MaterialsPan
 (update/delete API calls already exist in `api.ts`, just never wired to a button) and lives nested
 inside `ShankpitLevelEditor.tsx`, not its own screen.
 
-- [ ] **S478a: global friction tuning bump** — raise `FRICTION`/`STOP_SPEED` in
+- [x] **S478a: global friction tuning bump** — raise `FRICTION`/`STOP_SPEED` in
   `packages/common/physics.h` so stopping/landing is stickier everywhere, independent of the
-  material work below (ships immediately, real, standalone improvement).
-- [ ] **S478b: `friction` becomes a real per-material property, not a dead per-box field** — new
+  material work below (ships immediately, real, standalone improvement). Doubled: 0.15→0.30 /
+  0.1→0.15. SLIDE_FRICTION (crouch-slide) deliberately untouched.
+- [x] **S478b: `friction` becomes a real per-material property, not a dead per-box field** — new
   IDUNA migration adding `friction` to `shankpit_materials`, threaded through the Go `Material`
   struct + create/update handlers, `LevelBoxMaterial.friction` in `level_boxes.h`'s JSON parser,
   a new friction array param on `phys_set_custom_level_materials`, and a new per-player
   `ground_friction` resolved in `resolve_collision`'s landing branches from whichever box/material
   the player is actually standing on, consumed by `apply_friction` instead of the flat global
   constant. `LevelBox.friction` (the old per-box field) stays parsed-but-ignored — real, deliberate
-  consistency with how shader/specular/shininess already work per-material, not per-box.
-- [ ] **S478c: standalone "SHANKPIT Materials" screen** — new top-level NOCK tab (not nested under
+  consistency with how shader/specular/shininess already work per-material, not per-box. Seeded
+  brick/concrete=0.30, wood=0.34, metal=0.14 (metal deliberately slicker). Live-verified with a
+  standalone C test (two synthetic materials, friction 0.02 vs 0.90): resolve_collision resolves
+  ground_friction correctly per box, apply_friction produces a dramatically different
+  velocity-decay curve (0.81 vs 0.00 speed retained after 5 ticks).
+- [x] **S478c: standalone "SHANKPIT Materials" screen** — new top-level NOCK tab (not nested under
   the level editor), full CRUD (edit/delete wired to the already-existing API calls, not just
   add), a texture picker sourced from the real texture library (`textures.list()`), and the new
   friction field from S478b. The level editor keeps its per-wall material-*assignment* dropdown
   (legitimately level-scoped) but the actual define/edit/delete-a-material surface moves out.
+  Deployed and live-verified: IDUNA migration applied on restart (GET /api/v1/shankpit-materials
+  returns real friction values), new tab text confirmed present in the rebuilt embedded Go binary.
+  Commits: IDUNA `495cb1e`+`0d31d53`+`a767550`+`0399a79`; SHANKPIT `b6243e7`+`9cab4d3`. Apple #20080.
+  Honest, named gap: the live `shankpit-server.service` restart needed to deploy S478a/b's native
+  physics changes was NOT performed in this pass — `iduna.service` was restarted (S478b backend/
+  S478c screen are live), but the game server restart needs the same explicit founder go-ahead
+  this session already established for that service (live-workload interruption).
 
 session: sess-20260905-0720-ec33e7c5
