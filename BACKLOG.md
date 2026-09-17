@@ -41042,6 +41042,25 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-99: bullet hole decal example script (NOCK procgen).** Founder: "when you shoot the
+  wall it leaves a bullet hole (decal) can we write a parena skript for a basic bullet hole
+  (slightly asymetrical)... use sin or cos or something with a multiplier or modulator that let
+  me generate multiple versions by teaking a parameter." Real, working `internal/nock/examples/
+  bullet_hole.prn` — a single `asym-seed` parameter drives both a wobble's amplitude character
+  and frequency (no `atan2` on the Java compile target, so asymmetry comes from perturbing radius
+  with a sum of two seed-derived cosines); verified -0.9/0.0/0.9 render visibly different hole
+  shapes. Real, live-caught mid-build fix: founder asked "it needs transparent edges too no?" —
+  NOCK's procgen pipeline has no alpha channel anywhere (`Main.java`'s own PPM writer is RGB
+  only); founder's own follow-up ("something something photoshop blend mode") named the real fix
+  — paint the background pure white, composite with Multiply at draw time
+  (`glBlendFunc(GL_DST_COLOR, GL_ZERO)` in-engine, or `-compose Multiply` for a static test),
+  which makes the background vanish on any wall with zero alpha-channel work. Verified live via a
+  real ImageMagick composite. 2 new regression tests, `go:embed`'d straight from the shipped
+  `.prn` so the test and the asset can't drift apart. `go build`/`go test ./internal/nock/...`
+  clean. Real, honest, not done: no actual in-game "spawn a decal on wall hit" code path exists
+  yet in SHANKPIT/PAPERCRAFT — this asset is ready for that, not proof it's wired up. Apple
+  #19986. Commit IDUNA `90cb8cf`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-98: NOCK_CHARACTER_PIPELINE_NORTHSTAR.md — phased plan.** Founder, after the
   mesh/rig/animation "soup to nuts" walkthrough: "yes do it." A real sibling doc to
   `IDUNA/docs/NOCK_NORTHSTAR.md` (texture/2D stays there) tracking Phase 0 (DONE, shipped this
