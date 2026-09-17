@@ -41042,6 +41042,33 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-104: SHANKPIT RL training now uses the queue's default level + JWT auto-refresh.**
+  Founder, after pushing back on this session's own Elo investigation: "maybe we need a tiny
+  level for training" → "DEFAULT FOR QUEUE SHOULD SET TRAINING LEVEL HAVE THE TRAINING LEVEL
+  OUTPUT IN THE COLAB SKRIP SO WE CAN SEE ITS WORKING" → "NO training should have already been on
+  a custom level i had asked for that i didnt realize it didnt get built like that." Real, found
+  gap: `rl_train_packet.py` never wired the same `is_default_queue` level flag `apps/server/src/
+  main.c`'s own `queue_activate_match` already uses — training always ran on the hardcoded
+  `--deathmatch` scene rotation, so flagging a level "default for queue" in NOCK's SHANKPIT level
+  editor had zero effect on training. BRAWLPIT had the real equivalent already (S431-01, its own
+  `--level` wired through) — SHANKPIT never got it. Fixed: new `rl_registry.py`
+  `fetch_default_queue_level()` (public `GET /api/v1/shankpit-levels`, finds `is_default_queue`,
+  downloads its real export), wired into every `_spawn_server` call (all 3 role servers + eval
+  server) via a module-level path, printed as a plain `TRAINING_LEVEL` line so it's visible in
+  the Colab log per the founder's own explicit ask. Also, founder: "can you build token
+  refreshing in whenever it checks in new models can you have it refresh the token it expires and
+  then we train a bunch that never gets checked in" — the registry JWT (1hr-lived) was obtained
+  once at startup; now proactively refreshed every 45 minutes inside the generation loop, so a
+  long training run can't silently outlive its own auth and keep training for real while every
+  push to the registry fails for the rest of the run. Live-verified end to end: fetched the real
+  live `FORTRESS` level (id=9, 27 walls) from the running IDUNA instance; a verbose-logging debug
+  build of `shank_server` confirmed `CUSTOM_LEVEL_LOADED name=FORTRESS boxes=27` /
+  `SCENE_SELECTED scene=SCENE_CUSTOM_LEVEL` with `--level` pointed at the fetched file. Also fixed
+  a real regression this same session's own earlier `--resume-from-registry` default-flip
+  introduced (the old hard "needs --registry-url" error now just disables resume for a
+  registry-less local run instead of aborting it). Full `python -m unittest` suite (36 tests)
+  green. Apple #19996. Commit SHANKPIT `7c54f76`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-103: reconciliation ammo flicker + duplicate kill indicators — fixed at the actual
   root.** Founder: "reconciliation is like broken ish still when you shoot the ammo flickers its
   weird" / "i often get 2 kill indicators not sure if the first one the server decided i didnt
