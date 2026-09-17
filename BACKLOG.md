@@ -43327,4 +43327,89 @@ select interface... which is what the levels menu already is."
   Illustrator's own real alt-drag contract. `npx tsc -b`/`npx vite build` clean. Deployed live.
   IDUNA `f2a128d` (feature) + `ea763c1` (dist) + `cab8daa` (changelog). Apple #20086.
 
+## SECTION 481: IDUNA/SHANKPIT — CHARACTER SYSTEM CLARITY: MARKER, KIT SELECTION, MULTIPLAYER DEFAULT (2026-09-17)
+
+*Goal: founder confusion about the character adder turned into one real, shipped fix and two real,*
+*scoped-for-later architecture gaps found directly in code.*
+
+Founder real-time: "i dont understand how the character adder works for adding a character to a
+level - whats the deal with the roles that configures the AI brain that it uses? how cam i see the
+character in the level editor? also dp i add different characters? i understand roles but it seems
+weird to add a character and just set the role like how do i get a robot vs a humanoid? it should
+be more configurable than that i think - and the default is CHARACTERS ON - and then if we are in
+multiplayer THEN turn the characters off - unless we end up adding characters like pets that need
+to exist for pvp ignore that for now seems like an edge case we can work around later." Routed via
+`emily observe`, Apple #20087.
+
+- [x] **S481a: real 3D marker for characters in the level editor** — NavNode/Character shared the
+  exact same missing-marker gap LevelExit had before S476: only walls/spawn points/level exits
+  ever got a real 3D marker, a placed character was numeric x/y/z fields only. New magenta capsule
+  marker (roughly a real player's own collision profile) in `Viewport3D`. Also fixed a stale hint
+  in the Characters panel that still claimed MODE_STORY-only (wrong since S480). `npx tsc -b`/
+  `npx vite build` clean, deployed live. IDUNA `1f7ef9d` (feature) + `6b08de2` (dist).
+- [x] **Answered directly, not built: "what do roles do?"** Role (`AIRole` enum) is purely a
+  combat/behavior archetype (Rift Hound, Sniper-style Storm Caller, Guard, etc.) — confirmed by
+  reading `story_ai.h`'s own enum, none of its 11 values describe visual appearance at all.
+- [ ] **S481b (not started, scoped): per-character visual kit selection.** Real, found-live
+  confirmation, not assumption: `draw_player_skin_mannequin` (apps/lobby/src/main.c) picks one of
+  5 fixed "robot" kits (mannequin/Stan/Mike/Leela/George — the comment above it literally says
+  "the 5 robot kits") via `kits[(p->id + i) % 5]`, a round-robin keyed by connection order, with
+  zero relationship to the character's authored role or any author intent. `tyler_body` (the one
+  real humanoid model) only ever appears as an emergency fallback if the robot-kit system fails to
+  load, never as a deliberate choice. Founder direct: "it should be more configurable than that i
+  think." Real, scoped follow-up work, not attempted in this pass: a `kit`/`model` field on
+  `LevelCharacter` (Go schema + native export + a NOCK picker UI), consumed at draw time instead
+  of the `p->id` cycle for story-authored characters specifically.
+- [ ] **S481c (not started, scoped): characters default ON, OFF in real multiplayer.** Founder's
+  own forward-looking policy, explicitly deferred by the founder themselves for later ("pets that
+  need to exist for pvp" named as a real, ignored-for-now edge case). Not implemented as a
+  mode-based gate in this pass: the boundary between "real competitive multiplayer" and "casual/
+  testing" isn't a clean single line in the current `GameMode` enum — `MODE_DEATHMATCH` is both
+  the live production server's own default boot mode (`--deathmatch`) AND genuinely
+  multiplayer-capable, and S480 (this same day) specifically made characters spawn in non-story
+  modes so the founder could test them via the ordinary level-select menu. A blanket mode-based
+  off-switch risks silently undoing that fix without knowing exactly which modes the founder means
+  by "multiplayer" — needs a real design/scoping pass, not a guess.
+
+## SECTION 482: IDUNA — REAL WIDGETS: REUSABLE GEOMETRY+DOORS, A SEPARATE REGISTRY FROM LEVELS (2026-09-17)
+
+*Goal: a direct founder correction of the earlier S479-follow-up door-composition approach —*
+*"levels used as reusable door prefabs" was the wrong primitive; build the real one instead.*
+
+Founder real-time: "i still dont know how to add a door - there is the ability to make a cube a
+door but its not clear how to then make that work in the world i keep asking for an actual object
+viewer i dont want to make doors be levels please - make widget or something hey are both objects
+but widgets just dont show up in the levels menu and the geometry of the widget shows up not the
+geometry of the underlying level under the widget - there should be no ground plane and no
+dimension in the widget - a level is a dimension - a widget is just a widget."
+
+- [x] **S482a: `shankpit_widgets` table + `WidgetStore`** — real CRUD (Create/Get/List/Update/
+  Delete), mirroring `LevelStore`'s own shape but deliberately minimal: walls+doors only, no
+  width/height/depth, no ground plane, no spawners/nav nodes/characters/level exits/
+  next_level_id/story flags, and no Objects of its own. A real, separate table, not a flag on
+  `shankpit_levels`, precisely because a Widget is not a Level.
+- [x] **S482b: `LevelObject.RefWidgetID`** — exactly one of `RefLevelID`/`RefWidgetID` is ever
+  set (new `validateObjects` rule + test). `flattenObjects` gains a widget branch composing a
+  widget's walls/doors into the parent's export via the exact same transform math a level-
+  referencing object already uses, but never recurses (real v0 scope limit — a widget has no
+  Objects of its own). New `TestExport_ComposedWidgetObject` verifies both walls and a door
+  survive composition with the correct final positions/`box_index`. 8 new widget tests + 2 new
+  composition/validation tests, `go build`/`go test ./...` clean (full suite).
+- [x] **S482c: standalone "SHANKPIT Widgets" NOCK tab** — its own smaller 3D editor (object-mode
+  select-and-drag only, no face-reshape — dimensions edited numerically via the reused
+  `WallInspector`, exported directly from `ShankpitLevelEditor.tsx` rather than forked). The
+  level editor's own Objects panel gains a real, separate widget picker alongside the existing
+  level picker; `plane_visible`/`plane_solid` are hidden entirely for a widget-referencing object
+  (meaningless — no ground plane at all).
+- [x] **S482d: the actual "object viewer"** — placed widget objects now render their real
+  geometry with ZERO wireframe bounding box (a widget has no dimension to size one from),
+  directly at the object's placed x/y/z. This is what the founder had been asking for repeatedly
+  across the last several messages, delivered for the one case (widgets) that structurally
+  needed it most.
+  `npx tsc -b` shows only the pre-existing, unrelated `goldenband.ts` `SharedArrayBuffer` error;
+  `npx vite build` clean. Deployed live: `iduna.service` restarted, migration confirmed applied
+  (table exists in the live DB), admin endpoint reachable (401 without auth as expected).
+  IDUNA `45f7051` (backend) + `3df80b4` (frontend) + `24f12ef` (dist) + `0f2b4e3` (changelog).
+  Apple #20088.
+
 session: sess-20260905-0720-ec33e7c5
