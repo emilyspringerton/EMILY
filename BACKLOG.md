@@ -42205,4 +42205,79 @@ session: sess-20260905-0720-ec33e7c5
   `go build -o ~/.local/bin/iduna .`, `iduna.service` restarted, `/health` confirmed. Commit
   a18f3e0, Apple #19459.
 
+---
+
+## SECTION 461: SHANKPIT — NPC AI SENSOR/PATHING/SQUAD + SCRIPTED ANIMATION COMPOSITION (2026-09-17)
+
+*Goal: close the real gaps between SHANKPIT's existing `story_ai.c`/`.h` NPC AI and GOLDENBAND's*
+*existing single-clip NPC animation, and a Half-Life-style auto-pilot + `scripted_sequence`*
+*design the founder dropped in two real-time messages, scoped against what's actually already*
+*built rather than treated as a from-scratch spec.*
+
+Founder real-time, two messages (routed via `emily observe`, Apples #20016 + follow-up): (1) a
+full auto-pilot AI architecture — sensory tick interval, vision-cone dot-product + LOS raycast,
+hearing ring buffer, FSM/behavior-tree brain, A*-over-tagged-node tactical pathing with cover
+queries, seek/arrival steering, and a Half-Life-style Squad Leader system with dynamic role
+reassignment on member death; (2) direct follow-up asking how to compose animations, then a
+Half-Life `scripted_sequence` breakdown — single-character movement-hook-then-locked-animation
+chaining with `On End Sequence` handoff, multi-character frame synchronization via matched entity
+names + wait-then-simultaneous-ignition, and realism layering (neck/torso bone-controller
+look-at, phoneme/.wav-driven mouth-controller lip sync).
+
+**Real audit against what's already built, not a blind reimplementation:**
+
+- **Sensor layer — already real and close to the ask.** `packages/simulation/story_ai.c`'s
+  `ai_gather_perception` (line 309) already does per-tick vision + hearing perception feeding
+  `AIController.last_seen_ms`/`last_known_x,y,z`/`last_heard_ms` (`story_ai.h` lines 62-64) — the
+  founder's "LastKnownNoiseLocation" concept already exists under a different name. `vision_range`/
+  `vision_fov_deg`/`hearing_range` are already real per-instance fields (`story_ai.h` lines 67-69).
+  Not yet confirmed: whether the FOV check is a real dot-product cone test or a simpler angle
+  check, and whether hearing is a true world-broadcast ring buffer vs. a per-tick distance check —
+  worth a real read-through, not an assumption, before writing new code here.
+- **FSM brain — already real and matches the founder's own state diagram almost 1:1.**
+  `AIMode` (`story_ai.h` lines 14-24: DISABLED/PUPPET/PATROL/INVESTIGATE/COMBAT/SEARCH/FLEE/
+  ALLY_FOLLOW/SCRIPTED) plus `ai_run_patrol`/`ai_run_investigate`/`ai_run_search`/`ai_run_combat`/
+  `ai_run_ally_follow` (story_ai.c lines 344-573) are a real, live hierarchical FSM already,
+  role-differentiated per `AIRole` (5 roles incl. S181-05's storm-caller/bombardier). No new FSM
+  needed — this ask is already done.
+- **Real gap #1 — tactical pathing.** `ai_move_towards` (story_ai.c line 107) is a direct
+  turn-then-move-straight-at-target with no node network, no A*, no obstacle avoidance, and no
+  cover-seeking. The founder's `IsCover`/`CoverDirection`-tagged node query for low-health retreat
+  does not exist in any form. Real, unbuilt work.
+- **Real gap #2 — steering/arrival.** No speed-scale-down-near-waypoint (arrival) behavior;
+  movement is constant-speed turn+move, which is why story_ai.c's existing move code reads as
+  simple rather than a real steering engine. Real, unbuilt work, smaller than gap #1 (pure math,
+  no new data structures).
+- **Real gap #3 — squad leader / dynamic role reassignment.** `AIWorldBlackboard` (story_ai.h
+  lines 88-97) already tracks `alert_level`/`active_attackers`/`active_flankers`/last-known-player
+  position as real *shared* state — real squad awareness already exists — but there is no Squad
+  object, no leader, and no dynamic role promotion on a squad member's death. Real, unbuilt work,
+  builds on top of the existing blackboard rather than replacing it.
+- **Real gap #4 — scripted animation composition, none of it exists.** GOLDENBAND's
+  `gband_skel_npc.c`/`.h` (real, confirmed by direct read) does exactly one thing per NPC
+  instance: load one mesh+skeleton, loop exactly one animation clip forever, independent per-slot
+  clock. No movement-hook markers, no locked-scripted-state handoff, no multi-actor name-matched
+  frame sync, no bone-controller look-at layered over a base clip, no phoneme/audio-driven mouth
+  controller. This is the largest real gap of the two messages and touches both SHANKPIT (trigger/
+  marker placement, sequencing) and GOLDENBAND (the actual animation sampling/blend layer).
+
+**Phased plan (none of these four phases started — this section is scoping only):**
+- [ ] **S461-01: tactical pathing** — a real, tagged node network (reuse SHANKPIT's existing
+  `AIPatrolPoint`/`behavior_hint` shape as the template, per story_ai.h line 43-47, rather than a
+  new format) + A* over it, plus a real `IsCover`/`CoverDirection` query wired into `AI_MODE_FLEE`.
+- [ ] **S461-02: seek/arrival steering** — replace `ai_move_towards`'s constant-speed model with
+  real distance-scaled arrival, smallest and lowest-risk of the four, good candidate to land first.
+- [ ] **S461-03: squad leader system** — a real `Squad` struct grouping same-faction
+  `AIController`s already in range of each other, dynamic role fields (flank/suppress/rush)
+  layered on top of the existing `AIWorldBlackboard` rather than replacing it, re-evaluated on a
+  member's death.
+- [ ] **S461-04: scripted animation composition (SHANKPIT + GOLDENBAND)** — movement-hook marker +
+  locked-scripted-animation + on-end handoff back to `AI_MODE_SCRIPTED`'s existing mode (already a
+  real `AIMode` value with no real behavior wired to it yet — worth checking first whether this is
+  already a partially-built hook); matched-name multi-actor frame sync; bone-controller look-at
+  layered over `gpose.c`'s existing real FK/skinning; phoneme/audio-driven mouth controller. Real,
+  largest phase, likely wants its own NORTHSTAR.md in GOLDENBAND given it spans two repos.
+
+session: sess-20260905-0720-ec33e7c5
+
   session: sess-20260905-0720-ec33e7c5
