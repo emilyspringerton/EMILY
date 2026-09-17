@@ -41042,6 +41042,28 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-95: NOCK animation repository — accept mesh/skeleton-only glTF imports.** Founder
+  uploaded a real rigged mesh (`Mannequin_F.glb`) and hit `Error: 422: {"error":"glTF import
+  failed: no animation found in this file..."}` — `nock_animations` was built animation-first
+  class, requiring `gband_data`/`tick_rate`/`duration_ticks`/`num_channels`/`content_hash` on
+  every row. Founder: "please make it nice im not really from the industry... i have this
+  manequin im guessing its a rigged mesh? so we need like 3 things meshes rigs and rigged
+  meshes?" — a bare mesh, bare rig, or rigged-mesh-with-no-baked-animation is real and legitimate
+  on its own, matching GOLDENBAND's real three-part `.gmesh`/`.gskel`/`.gband` asset model.
+  Real SQLite recreate-copy-swap migration (`202609170200_nock_animations_optional_gband.sql`)
+  made the animation-only columns nullable; `anim_store.go`'s `Animation`/`AnimationSummary`
+  switched to `*int` for those fields plus a new `HasAnimation` bool; `CreateAnimation` now
+  validates "at least one of mesh, skeleton, or animation" instead of requiring gband;
+  `gltf_convert.go`'s `ImportGLTFBytes` builds the manifest/GBandData only when animation data
+  exists. NOCK frontend (`App.tsx`/`api.ts`) updated with plain-language mesh/rig/animation
+  explanation text per the founder's own explicit non-industry framing, nullable TS fields, new
+  `has_animation` badge. Real regression tests added: mesh/skeleton-only `CreateAnimation`,
+  all-empty rejection, and a full HTTP `import-gltf` round trip with a mesh-only `.glb` (the exact
+  shape of the original bug) now returning 201 instead of 422 — `go test
+  ./internal/nock/... ./internal/http/handlers/...` passes. Live-verified: rebuilt + redeployed
+  the `iduna` binary, migration applied live against the real DB, confirmed the pre-existing
+  `UAL2_Standard_RM` row (id=1) survived unchanged. Apple #19977. Commit IDUNA `7abfc4d`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-94: fix SHANKPIT CI build failure — missing humanness.c in workflow build lists.**
   Founder: "can we check the shankpit build in github." Found via the real GitHub Actions API
   (`gh` not installed, used the read-only `GITHUB_TOKEN` from `EMILY/var/emily-secrets.env`
