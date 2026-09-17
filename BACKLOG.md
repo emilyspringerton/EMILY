@@ -42493,4 +42493,53 @@ NORTHSTAR.md`'s own Phase 2 list).
   item to just the built-in, non-custom scenes (`SCENE_CUSTOM_LEVEL` no longer needs it).
   SHANKPIT `016f850` + `86063c0` + `7dea6f5`, IDUNA `7714a66` + `2c53194`. Apples #20042, #20043.
 
+---
+
+## SECTION 466: SHANKPIT — story_ai_tick WIRED INTO THE DEDICATED SERVER (2026-09-17)
+
+*Goal: before building the "character" scriptable-object kind (NOCK-placeable NPCs), verify the*
+*AI system it would depend on is actually live on the real multiplayer server — it wasn't.*
+
+Founder real-time, direct follow-up to S465, choosing explicitly among three options after a
+real, found blocker was surfaced (not guessed past): "Wire story_ai_tick into the server's own
+tick loop."
+
+- [x] **S466: real, found-live gap closed — every S461/S462/S465 NPC behavior this session
+  built was lobby-binary-only, never live on the dedicated multiplayer server, under any game
+  mode.** Confirmed by grep, not assumed: `story_ai_tick` was only ever called from
+  `local_update`, itself only invoked by `apps/lobby/src/main.c`'s own local single-player input
+  path. Worse, `MODE_STORY` wasn't even reachable on the dedicated server — `parse_server_mode`
+  recognized `--tdm`/`--tdmo`/`--deathmatch` only, no `--story` flag existed at all.
+  Two real, distinct blockers found and fixed: (1) `story_ai_tick` simply wasn't called in the
+  server's own tick loop — added unconditionally (it already self-gates on
+  `game_mode == MODE_STORY && story_phase == STORY_PHASE_PLAYING`), placed before the per-player
+  movement loop so AI-set `in_fwd`/`in_strafe`/`yaw` are in place before
+  `shankpit_simulate_movement_tick` (already generic across real players and bots — no separate
+  movement-application step needed). (2) `local_init_match` always starts `MODE_STORY` in
+  `STORY_PHASE_CUTSCENE`, advanced only by `g_story_cutscene_done` — real, honest "client
+  renderer only" state (`cutscene.h`: "Client-side only — no network state"), which a headless
+  server would never set, leaving `story_phase` stuck forever. Fixed with a new
+  `g_shankpit_is_server` flag (each binary defines its own copy, same convention
+  `g_story_cutscene_done` already uses) — the server skips straight to `PLAYING`; the lobby's own
+  local single-player cutscene is unchanged. Added `--story`/`--story-cave` to
+  `parse_server_mode` so this is actually reachable at all.
+  **Live-verified**: a debug build (`-DSTORY_AI_DEBUG=1`) run with `--story` showed all 9 story
+  AI roles (including this session's own S462 solo archetypes) spawn, tick every second, and
+  genuinely move — each NPC's own distance-to-player value changes tick over tick, confirming
+  real movement via `shankpit_simulate_movement_tick`, not just AI decision-making with no
+  physical effect.
+  Real, deliberate scope limit: `story_boss_tick`/`story_swarm_tick`/`mechanism_tick`/
+  `story_cave_endure_tick` (VOXWORLD's own specific, single-"hero"-targeted boss-fight content)
+  stay lobby-only — this fix covers the general, NOCK-placeable `story_ai` NPC system, not that
+  specific encounter. Real, pre-existing limitation named honestly, not fixed here:
+  `ai_gather_perception` and the boss/swarm systems all target `players[0]` specifically — a real
+  multiplayer `MODE_STORY` session with more than one connected human would currently only have
+  NPCs react to whichever player is in slot 0. A real, separate, bigger follow-up if genuinely
+  needed.
+  `make server`/`make lobby` build clean. SHANKPIT `57b27b3` + `77d901a`. Apple #20045.
+  **This retroactively makes S461/S462/S465's own NPC AI systems live on the real multiplayer
+  server for the first time** — the actual prerequisite for "character" (the next scriptable
+  object kind, `STORY_SYSTEM_NORTHSTAR.md`'s own Phase 2 list) to mean anything in real
+  multiplayer play, not just local single-player.
+
 session: sess-20260905-0720-ec33e7c5
