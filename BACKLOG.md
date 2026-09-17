@@ -43579,3 +43579,98 @@ vs. a throwaway prototype vs. reward-compiler-only scoping first) — chose the 
 path, which produced the spike above. SHANKPIT `3fdbe30` (spike + changelog). Apple #20093.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 485: SHANKPIT — REFLUX PUB/SUB + REUSABLE INTERACT BUTTONS + BUTTON-DOORS (2026-09-17)
+
+*Goal: founder real-time — "we need buttons - how am i gonna put a button on a wall next to a*
+*door to open a door?"*
+
+Follow-up direction, same thread, escalating into a real architecture decision: "we need a
+reusable button that can be put in different places... i dont want those to be totally different
+code paths unless there is a good reason... part of the theory of fun is the world reacts to you
+... in a situation with zombies maybe the zombies cant hit the button and opening and closing
+doors and trapping enemies inside of offices or something is a core gameplay mechanic" — then,
+naming proximity sensors and Half-Life-style gaze triggers as siblings of the same idea: "we need
+proximity sensors too... mainly proximity detection will be to queue events that drive the story
+... half life would script certain scripted sequences to only trigger when the player actually
+looks at the subject" — then the real architectural instruction: "i want to follow the pub sub
+model... now is the time that we have to integrate with PARENA... we need to use the same pub sub
+mod as ECOWAR" → "bring in the ecowar pub sub mod" → "but keep all of the code in shankpit" →
+"parena files next to their gen output we have bazel macros to do that." Founder's own worked
+example of the design goal: "the bridge listens for a button the button has no idea the bridge
+exists" — real inversion of control, not RPC-style `raise_bridge()` calls.
+
+- [x] **Abandoned an earlier, narrower in-session design** (a Door with a direct
+  `ControlsWallID` pointing at another wall it toggles) the instant the founder's own IoC framing
+  landed — that design has the button/door know about each other directly, exactly the coupling
+  the founder explicitly rejected. Named here so the abandoned direction doesn't get silently
+  re-proposed later.
+- [x] **REFLUX ported natively into SHANKPIT** (`packages/reflux/reflux_runtime.h/.c`) — a real,
+  checked-against-source port of ECOWAR's own proven cross-mod pub/sub primitive (`EMILY/
+  BACKLOG.md` SECTION 380/381): a single, shared, append-only `RefluxAction{action_type,a,b,c}`
+  ring buffer (capacity 256) any dispatcher can append to and any subscriber can poll from its
+  own persistent cursor. Same real, checked-first constraint ECOWAR's own doc names: VS0 (PARENA's
+  current compiler) has no function pointers/closures, so a true push-callback subscriber table
+  isn't buildable at the language level — polling a shared log, tracking cursor state
+  HOST-side, is the honest, real, working shape. Same API/ABI as ECOWAR's own runtime (so PARENA's
+  existing, already-engine-agnostic `stdlib/reflux/reflux.prn` needs zero changes to eventually
+  target SHANKPIT's own host functions) — own log, zero cross-repo dependency, per the founder's
+  own explicit "keep all of the code in shankpit."
+- [x] **First real dispatcher: reusable interact buttons** (`packages/simulation/
+  story_buttons.h`, new `LevelButton{box_index, button_id}` in `level_boxes.h`) — a button knows
+  nothing about what it controls; pressing one (real, edge-triggered `BTN_USE` interact, already
+  wired end to end from an existing F-key binding through to `p->in_use`/`p->use_was_down` for
+  CTFB flag pickup — buttons are its first NEW consumer, not a new input system) dispatches
+  `REFLUX_ACTION_BUTTON_PRESSED(button_id, player_id, 0)` and stops. Deliberately interact-driven,
+  not walk-up proximity — founder's own reasoning: "a door that is open and closable gives you
+  more agency... the zombies cant hit the button." Real, free consequence of this choice, not a
+  separately-built check: `story_ai`-simulated NPCs never send a `UserCmd` at all, so an
+  interact-driven button is automatically player-only.
+- [x] **First real subscriber: button-controlled doors** — new `LevelDoor.subscribe_button_id`
+  (default -1, every pre-S485 door completely unchanged). A door with this set ignores
+  distance-to-player entirely and instead polls the shared REFLUX log for matching
+  `BUTTON_PRESSED` actions, toggling open↔closed on each one (real agency — a toggle, not
+  hysteresis). Wired into both the dedicated server (`story_doors_tick`) AND local single-player
+  (`lobby_doors_tick`) — REFLUX has no `dlopen` dependency at all (pure static C), so unlike
+  scripted PARENA door scripts (POSIX/dlfcn-only, server-only), button-controlled doors work in
+  the lobby build too. The button-press dispatcher itself runs unconditionally across every game
+  mode (not gated to one), per S481c's own already-resolved "levels are never story-mode-only"
+  policy.
+- [x] **Live-verified**, `apps/tests/test_reflux_buttons.c`, 13/13 green: a press dispatches
+  exactly one correctly-payloaded action; a subscribed door opens purely from that dispatch even
+  with the player moved far away (proving it's REFLUX-driven, not proximity); a genuinely
+  unrelated control door (subscribe_button_id=-1) is completely unaffected by the same press
+  (regression proof); a second press toggles the door back closed (real agency, not a one-shot
+  latch); holding the interact key down does not re-fire every tick (real edge-trigger
+  discipline). `make server`/`make lobby` both clean, zero new warnings.
+  SHANKPIT `41589f1`. Apple #20094.
+- [ ] **Not started: proximity sensors** (`REFLUX_ACTION_PROXIMITY_ENTER`/`_EXIT` — action-type
+  constants reserved in `reflux_runtime.h` now, no dispatcher built yet). Founder's own two real,
+  named use cases: fake "motion detector" doors (a sensor that opens a door without a button) and
+  — the real emphasis — non-timer story/ambience triggers ("stuff exploding out of a vent")
+  firing when a player enters a specific zone, not on a clock.
+- [ ] **Not started: gaze/look-at triggers** (`REFLUX_ACTION_LOOK_AT` — action-type constant
+  reserved, no dispatcher built yet). Founder's own named precedent: Half-Life's
+  `scripted_sequence`, which only fires once the player is actually looking at the subject —
+  needs a facing-direction dot-product check against a subject point plus a real dwell timer
+  (not instant-fire on the first frame of looking).
+- [ ] **Not started: a real PARENA-scripted REFLUX reactor contract.** Today's button→door
+  toggle is a built-in C default (matching `door_tick_builtin_proximity`'s own established "no
+  script needed" precedent) — real, working, but not yet an actual PARENA extension point. The
+  founder's own larger ask ("now is the time... we need to start building our engine so that we
+  use parena more... i will need to be able to script the AIs around and do all kinds of stuff
+  with scripted sequences of animations") needs a real, fixed reactor contract (mirroring
+  `door_tick`'s own `(dist, state) -> state` shape, something like
+  `reflux_reactor_tick(matched_count, state) -> state`), dlopen'd the same way scripted doors
+  already are, PLUS the `.prn` source checked in next to its generated output via PARENA's real
+  `bazel/parena_compile.bzl`'s `parena_compile_c` macro (confirmed real and existing, not yet a
+  SHANKPIT consumer — `PARENA/bazel/parena_compile.bzl`).
+- [ ] **Not started: EDUVM-inspired primitives, PARENA-native, not EDUVM itself.** Founder,
+  explicit: "i was tempted to say bring in EDUVM but i think no we need parena." Named worked
+  example of the actual design principle wanted (not a literal feature to build): a raised bridge
+  is not a `raise_bridge()` RPC call — it's a bridge mesh/rig with its own basic animation that
+  subscribes to a button's REFLUX event, with zero knowledge the button exists. Whatever EDUVM
+  affordances get ported forward should be re-expressed as real REFLUX subscribers, not
+  direct-call primitives.
+
+session: sess-20260905-0720-ec33e7c5
