@@ -42802,3 +42802,49 @@ neither of my two diagnostic questions — GL log lines, movement pattern — go
   SHANKPIT `3ae1f4f` + `d86638f` + `3af9e7d`. Apple #20062.
 
 session: sess-20260905-0720-ec33e7c5
+
+---
+
+## SECTION 472: SHANKPIT — ROBOT FACING WAS TYLER_BODY'S OWN CONVENTION (2026-09-17)
+
+*Goal: root-cause a second, distinct real live-playtest finding, now that S471 got the founder to*
+*an actual visible robot for the first time.*
+
+Founder real-time, live report: "ok awesome i found a robot looks great seems like we may have
+the locomotion going in reverse (animations look good but it looks like he should be going the
+other way (hes moving bakwards i think) and then he went outside the voxworld wall so the other
+ones must be outside the wall he didnt wave to me lets worry about that least for now" — read as:
+fix the facing/locomotion-direction bug now, the wall-boundary issue and wave-verification are
+explicitly deprioritized for later.
+
+- [x] **S472: real, found root cause — `draw_player_skin_mannequin`'s facing formula was copied
+  verbatim from `draw_player_skin_tyler` without re-verifying it applied to a different asset
+  family.** `draw_player_skin_tyler`'s own comment documents a real, deliberate, live-screenshot-
+  verified calibration: `tyler_body`'s BVH-imported bind pose happens to rest facing -Z, a full
+  180 degrees different from the box body's own +Z-authored convention every OTHER model in this
+  file uses (`glRotatef(180.0f - draw_yaw, 0,1,0)`) — so `facing_rad = -draw_yaw * DEG2RAD` (no
+  offset) is the correct, asset-specific formula for `tyler_body` alone, not a general rule. When
+  `gband_skel_npc_draw`'s facing was first wired (S467), this exact formula was copied over
+  without re-deriving it for the new asset family: the 5 robot kits are glTF-imported (a different
+  pipeline from `tyler_body`'s BVH import), and glTF/Mixamo-style rigs conventionally rest facing
+  +Z — the box body's own convention, not `tyler_body`'s special case. Switched to
+  `(180.0f - draw_yaw) * DEG2RAD` to match. This matches the founder's own exact symptom: the walk
+  *animation* plays correctly (leg-cycling is orientation-independent, sampled in local bone
+  space) while the character's baked world-facing was 180 degrees off from its real movement
+  heading, reading as walking backwards.
+  Real, honest limitation: NOT visually re-verified (this sandbox still has no real GL driver, the
+  same reason this exact bug survived every prior S467-S470 pass unnoticed) — applied uniformly to
+  all 5 kits on the strength of "one shared glTF import pipeline," not confirmed frame-by-frame
+  per kit the way `tyler_body`'s own fix was. Needs the founder's own live confirmation, including
+  whether this happens to have been correct for some kit before and is now wrong for that one.
+  Two real findings deliberately NOT acted on this pass, per explicit founder instruction to
+  deprioritize: (1) wandering bots patrolling outside the VOXWORLD arena's own wall — S470's own
+  commit already named exact patrol coordinates as "not verified against real wall/prop placement"
+  since no wall-collision data exists anywhere in SHANKPIT to check against; this live report is
+  the first real confirmation that guess was wrong, not yet re-tuned. (2) whether the greet/wave
+  behavior itself actually fires — the founder's own bot wandered off before getting the chance,
+  so S470's wave/dance logic remains functionally unconfirmed by a real human, separate from
+  whether it's correctly implemented.
+  `make lobby` clean. SHANKPIT `59c83a2` + `41d652e`. Apple #20063.
+
+session: sess-20260905-0720-ec33e7c5
