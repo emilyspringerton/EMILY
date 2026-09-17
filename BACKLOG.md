@@ -43913,3 +43913,58 @@ session: sess-20260905-0720-ec33e7c5
   SHANKPIT `7287957` (Apple #20100). IDUNA `5942921` (Apple #20101).
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 492: SHANKPIT/IDUNA — CHARACTER AUTHORING AUDIT: WANDERING BOT + REAL GAPS NAMED (2026-09-17)
+
+*Goal: founder real-time — "how can we start building affordances to put characters into the*
+*levels from the design side? ... i can place a character and choose a role but i have no*
+*control over what that is as the designer ... how do i stat to have different characters like*
+*walking around the city and stuff - even just standing there and having their head turn and*
+*look at you and they can say something or whatever."*
+
+- [x] **Real audit done first, not guessed**: the exact behavior described (stand/patrol,
+  turn to face the player, wave/dance, never combat) already exists natively as
+  `AI_ROLE_WANDERING_BOT` (`packages/simulation/story_ai.h`, `ai_run_greet`) — but was
+  unreachable from NOCK on THREE independent layers: (1) `AI_ROLE_OPTIONS`
+  (`frontend/nock/src/api.ts`) never listed it; (2) IDUNA's Go `validateCharacters` range check
+  stopped one enum value short and would have rejected a save outright even if hand-authored; (3)
+  SHANKPIT's own native character-spawn range check (`apps/server` AND `apps/lobby`,
+  independently) had the identical off-by-one, silently skipping the character at level load
+  (`CUSTOM_LEVEL_CHARACTER_SKIPPED reason=invalid_role`). All three fixed together — this role is
+  now genuinely placeable and will genuinely spawn.
+  SHANKPIT `d73d001` (Apple #20102). IDUNA `1d30f7b` (Apple #20103).
+- [x] New `TestCreateLevel_AcceptsWanderingBotRole` (Go) confirms the fix without loosening the
+  real -1/999 rejection boundary. `go build`/`go test ./...` clean, `make server`/`make lobby`
+  clean, tsc/vite build clean, deployed live, verified in `dist/` and the deployed binary.
+- [ ] **Real, deeper gap named, NOT built this pass: visual appearance has zero designer
+  control.** `Role` (behavior) and which character MODEL renders (Mannequin/Stan/Mike/Leela/
+  George) are completely decoupled today — the model is picked purely by connection-slot
+  round-robin (`kits[(p->id + i) % 5]`, `apps/lobby/src/main.c`), with no path from a NOCK
+  Character's own authored data to which kit it renders as. This is the real, deeper gap behind
+  the founder's own "i have no control over what that is as the designer." A real fix needs
+  either (a) a client-side lookup from player slot back to the loaded level's own `characters[]`
+  array by matching spawn order (fragile — depends on client and server slot-assignment staying
+  in lockstep, the same class of implicit-convention fragility that has already caused the
+  NetPlayer wire-struct-drift bug three separate times this session) or (b) a new, explicit wire
+  signal naming which kit a given player slot should render as (more robust, touches
+  `protocol.h`/`NetPlayer` — the exact struct that keeps drifting). Confirmed the multiplayer
+  network client DOES already independently fetch the same level export the server used
+  (`apps/lobby/src/main.c:7462`), so a level-data-based lookup is architecturally possible either
+  way — this is a real design decision worth a dedicated pass, not a blind hack.
+- [ ] **Real, deeper gap named, NOT built this pass: "walking around the city" (real patrol
+  authoring) doesn't exist.** `AIPatrolPoint patrol[8]`/`patrol_count`
+  (`packages/simulation/story_ai.h`) is a real, working native concept, but has ZERO connection to
+  NOCK's level JSON/export format (`level_boxes.h` has no patrol-point parsing at all) — a
+  Wandering Bot placed via NOCK today can only ever stand still (a real, honest, already-useful
+  minimum bar per the founder's own "even just standing there" framing), never actually patrol.
+  Needs: a new `patrol` field on `Character`/`LevelCharacter` (both sides), native JSON parsing,
+  and a real NOCK UI to place patrol points (likely following the existing nav-node numeric-list
+  pattern, or a real 3D-click placement — a genuine design choice).
+- [ ] **Real, deeper gap named, NOT built this pass: no speech/dialogue system exists anywhere in
+  this codebase.** The founder's own "say something or whatever" was explicitly hedged, not a
+  hard requirement. `anim_override` (gesture only) is the only "reaction" primitive that exists;
+  a real caption/one-shot-text system would be the smallest honest version, real audio/lip-sync a
+  much larger, already-named-elsewhere gap (`AI_SCRIPTED_ANIMATION_NORTHSTAR.md`'s own "largest
+  gap" section).
+
+session: sess-20260905-0720-ec33e7c5
