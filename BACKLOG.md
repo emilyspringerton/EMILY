@@ -41042,6 +41042,45 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-102: SHANKPIT RL Elo distribution — Main Exploiter reset generations stuck at 1500.**
+  Founder: "can you look at the shankpit training elos? it doesnt have a nice distribution like
+  brawlpit does... the bottom 3 bots still have 1500 that seems wrong... is the league algo
+  good? can you check against brawlpit?" Algorithm itself confirmed sound — `SHANKPIT/scripts/
+  rl_league.py` is a verbatim port of BRAWLPIT's own. Real root cause, confirmed via a direct
+  query of `shankpit_rl_checkpoints`: `main_exploiter` stuck at exactly 1500 for 40.2% of rows
+  (47/117) vs ~27% for `main`/`league_exploiter` — matching the 1-in-5 rate
+  `--reset-every-n-generations` fires at. Main Exploiter's periodic network reset correctly
+  registers a fresh 1500 entrant (`inherit_elo_from_role=False`), but the evaluation loop
+  unconditionally skipped rating ANY role in `reset_roles` ("no prior generation to evaluate
+  against yet"), so every reset generation's checkpoint got pushed permanently stuck at its
+  blind starting Elo. Fixed (`rl_train_packet.py`): a reset generation now evaluates against
+  `best_checkpoint_path[MAIN]` (the current best Main — the real, natural opponent for an
+  exploiter role) instead of skipping. **Real correction mid-investigation**: an initial fix
+  attempt flipped `--resume-from-registry` to default-on (S459-71 had only fixed the
+  `colab_train.py` wrapper, not the underlying script) — the founder correctly pushed back
+  ("it does resume from registry... it starts at the generation at the top of the registry") that
+  resume was already working in their actual usage, so that default-flip shipped as a real
+  defensive robustness improvement, not the primary explanation; the reset-eval gap above is the
+  actual, confirmed, currently-active cause. Full `python -m unittest` suite (36 tests) green.
+  Apple #19992. Commit SHANKPIT `d143f29`.
+  session: sess-20260905-0720-ec33e7c5
+- [x] **S459-101: fix frozen_policy_bot.py crashing on a dropped UDP snapshot ("no bots in my
+  game").** Founder real-time: "no bots in my game." Root cause: the live `shankpit-bot-pool`
+  systemd service had crashed all 3 real self-play bots (journal: `TypeError: 'NoneType' object
+  is not iterable`, `rl_env_packet.py`'s `build_observation`'s own `for p in peers` line) — a
+  dropped/not-yet-ready UDP snapshot (normal, frequent) left `entities` reassigned to `None`
+  right before the guard that should have skipped it, so the NEXT loop iteration's
+  `build_observation` call used that stale `None` as `peers` and crashed the whole process.
+  Fixed: only replace `entities`/`me` when a snapshot actually arrived, so a missed packet keeps
+  the last known-good state instead of nulling it out. Separately found and fixed (with the
+  founder's explicit go-ahead each time, since these are live shared services): the actual
+  `shankpit-server.service` (UDP :6969) had also stopped ~43 min earlier — likely a real, found
+  self-inflicted regression from this same session's own earlier NPC-testing cleanup (a broad
+  `pkill -f "bin/shank_server"` substring match, the exact rule this session's own memory already
+  names: "never broad pkill -f for test cleanup, it can hit live shared services") — restarted
+  both `shankpit-server` and `shankpit-bot-pool`, confirmed stable (no crash) for 2+ minutes live.
+  Commit SHANKPIT `2a138b6`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-100: MODE_QUEUE real match-over intermission (fixes stuck-open matchmaking feel).**
   Founder real-time: "something with matchmaking for queue in shankpit is down i dunno i think if
   you start a game it stays open or something when you get 10 kills it resets to 0 like a new
