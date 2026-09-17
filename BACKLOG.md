@@ -43258,4 +43258,66 @@ levels dont respect materials at least visually." Routed via `emily observe`, Ap
 
   IDUNA `01d11a6` (fix+test) + `c432725` (changelog). Apple #20084.
 
+## SECTION 480: SHANKPIT/IDUNA — CHARACTERS OUTSIDE MODE_STORY + MATERIALS TEXTURE PICKER FIX (2026-09-17)
+
+*Goal: two real, live gaps found in the same founder message cluster — a materials-screen bug*
+*(S478c follow-up) and a real safety-gated feature (characters) that needed careful, not blind,*
+*loosening.*
+
+Founder real-time: "choosing a texture for a material from the textures interface doesnt work it
+just defaults to the brick look" / "can we make the characters stuff work outside of story mode?
+story mode as we know it will be like half life where it just starts and you can save on whatever
+level you are on.... theres no way for me to test the story mode unless we were to build a level
+select interface... which is what the levels menu already is."
+
+- [x] **S480a: materials texture picker now actually renders.** A material's own `texture_id`
+  (S459-16) was never applied ANYWHERE — not just the native client (a real, separate,
+  already-documented limitation: `proc_tex.c` has no image decoder at all) but the NOCK editor's
+  own web preview either, which only ever colored a wall via its flat r/g/b, full stop, regardless
+  of texture assignment. New `applyWallTexture` loads the real image via the texture library and
+  applies it as the wall material's diffuse map when the resolved material has a `texture_id`,
+  restoring r/g/b tint otherwise. Wired into both root walls and S479c's embedded-object content
+  walls. Also fixed a real, minor texture-map GPU resource leak on mesh rebuild along the way
+  (`Material.dispose()` doesn't dispose an assigned `.map`). `npx tsc -b`/`npx vite build` clean.
+- [x] **S480b: NOCK-authored characters now spawn outside MODE_STORY.** Real root cause:
+  `server_apply_custom_level`'s character-spawning was hard-gated to MODE_STORY/MODE_STORY_CAVE
+  for a genuine safety reason — the full `story_ai_reset` it called deactivates every player slot
+  `1..MAX_CLIENTS-1` unconditionally, which would silently disconnect real connected humans (or
+  the QUEUE bot pool) if it ever ran during a live MODE_QUEUE round. That risk is real, but it
+  argues for a safer reset outside MODE_STORY, not for characters never spawning there at all.
+  New `story_ai_despawn_all_characters` walks `g_story_ai`'s own active entries and deactivates
+  ONLY the specific slots each `AIController` itself spawned into (via its own `player_id`),
+  leaving every other slot — human or otherwise-bot — completely untouched. MODE_STORY/
+  MODE_STORY_CAVE keep the original full reset, unchanged. `story_ai_tick` already runs
+  unconditionally in the server's own tick loop, confirmed by reading the call site — no separate
+  gate to remove there.
+  Live-verified: a synthetic level with one authored character, loaded via `--level` in the
+  default DEATHMATCH mode, produces `CUSTOM_LEVEL_CHARACTERS_SPAWNED count=1` in the server log.
+  `make server`/`make lobby` both clean.
+  Real, named, deliberate scope limit: the lobby (single-player) build's own direct level-select
+  path (`level_select_confirm`) still only calls `level_boxes_apply_to_physics` directly, not the
+  character+nav-graph-loading wrapper — characters DO already work there via the S477-broadened
+  exit-transition path, just not yet on a direct level pick. Not fixed in this pass.
+  Commits: SHANKPIT `d98e741` (characters) + `605fb81` (changelog); IDUNA `e1f191e` (texture) +
+  `cc27f4b` (dist). Apple #20085.
+  Honest, named gap: `shank_server` was rebuilt but the live `shankpit-server.service` restart to
+  actually deploy S480b was NOT performed — same standing rule this session already established
+  (live-player-facing restart, needs explicit founder go-ahead). IDUNA's texture/character-viewer
+  fix IS live (`iduna.service` restarted).
+
+- [ ] **S480c (not started, scoped for later): STORY MODE overhaul.** Founder real-time, same
+  cluster: "STORY actually needs to go away thats a legacy level that i do not have the ability to
+  edit in my level editor - we need actually an interface in levels for 'STORY MODE ENTRY POINT'
+  the only thing that will be different about that level from any other level is a fade in from
+  black ... when it starts it will fade from black wiith a guasian blur it un blurs and reverse
+  black fades and it says 'SHANKPIT' and you are in the world and the title fades - then there can
+  optionally be a second title text that pops up over the world saying the location like in half
+  life." The underlying flag (`is_story_start`, S473) already exists and already has editor UI
+  ("Set as STORY start," S476/477-era) — this item is about (1) retiring the legacy hardcoded
+  VOXWORLD story level/intro-cutscene path entirely, (2) building the real fade-from-black +
+  gaussian-blur-unblur + "SHANKPIT" title-card + reverse-fade intro sequence for whichever level
+  is flagged `is_story_start`, and (3) an optional Half-Life-style location title card. Real,
+  deliberate design decision (not this pass): a visual-sequence feature, not a mechanical gate
+  fix like S480b — needs its own scoping pass before implementation.
+
 session: sess-20260905-0720-ec33e7c5
