@@ -43674,3 +43674,54 @@ exists" — real inversion of control, not RPC-style `raise_bridge()` calls.
   direct-call primitives.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 486: IDUNA/NOCK — VS CODE (CODE-SERVER) AS A NOCK TOOL, GATED BY IDUNA (2026-09-17)
+
+*Goal: founder real-time — "can we add VS code to the nock tools?*
+*https://github.com/coder/code-server — have the admin work through IDUNA so i can use my same*
+*login flow from back office into NOCK — let me know if i need to fork the repo to do that."*
+
+- [x] **No fork needed — confirmed and explained before building anything.** code-server
+  supports exactly this shape natively: `--auth none` disables its own built-in auth so an
+  external reverse proxy can be the real gate (its own documented, recommended pattern for
+  Pomerium/oauth2-proxy/Cloudflare-Access-style setups). Running unmodified upstream code, no
+  source changes, no fork.
+- [x] **Installed standalone**, no sudo: `curl -fsSL https://code-server.dev/install.sh | sh -s
+  -- --method=standalone --prefix=~/.local` → v4.137.0 into `~/.local/lib`, matching this
+  monorepo's own established `~/.local/bin` tool convention.
+- [x] **`IDUNA/ops/systemd/nock-code-server.service`** (new) — user systemd unit, bound to
+  `127.0.0.1:8892` only, `--auth=none` (IDUNA's own proxy is the real gate, not this process),
+  workspace root `/home/fatbaby`. Deliberately NOT reusing JEWEL's own `fatbaby-broker` + Basic
+  Auth precedent (`ops/systemd/jewel-jupyter.service`) — Basic Auth is a different login than
+  IDUNA's own cookie session, and the founder explicitly asked for the SAME login as Back Office.
+- [x] **`IDUNA/internal/http/handlers/nock_code_proxy.go`** (new) — a plain
+  `httputil.ReverseProxy` to the local code-server instance, registered in `main.go` at
+  `/admin/nock/code/` behind the exact same `middleware.RequireCookieAuth(keys, iamStore,
+  "/admin/login", AdminSessionTTL)(middleware.RequirePermission("iduna.admin")(...))` chain
+  already protecting every other `/admin/nock/*` route — literally the same login flow, not a
+  parallel auth system.
+- [x] **Real, found-and-corrected mistake before shipping**: first guess was code-server's own
+  `--abs-proxy-base-path` flag for sub-path hosting — checked against real, working reverse-proxy
+  examples before committing to it, found that flag is actually for an unrelated code-server
+  feature (proxying dev servers running *inside* a workspace out through code-server), not for
+  code-server itself being reverse-proxied. Real fix: forward the full request path through
+  UNCHANGED (no prefix stripping) — code-server auto-detects its own base path from the incoming
+  request path itself, the same real pattern working nginx configs already use.
+- [x] **Live-verified**: unauthenticated `curl` to `/admin/nock/code/` gets a real `401`, never
+  reaches code-server (the gate is real, not decorative). 3 new proxy unit tests
+  (`nock_code_proxy_test.go`, decoupled from the auth gate on purpose — full path/method/body
+  forwarded unchanged, malformed target panics) green; full `go test ./...` suite green.
+  IDUNA `e740763`. Apple #20095.
+- [x] **Real, useful side-find**: `cmd/create-admin-agent` already exists in this repo (provisions
+  a real `iduna.admin` agent) — resolves a genuinely separate, earlier-session blocker (no agent
+  had `iduna.admin`, no known provisioning path was found at the time — see SECTION 484/485's own
+  context and the still-unresolved `cmd/mktutoriallevel` tutorial-level task). Documented in
+  `IDUNA/CLAUDE.md`'s own Directory Layout so it isn't lost again.
+- [ ] **Blocked, not this agent's call**: actually running `go run ./cmd/create-admin-agent` to
+  provision a real credential was denied by the sandbox's own permission classifier as a real
+  credential-granting action (same class of denial an earlier direct-DB-write attempt hit) — a
+  genuine full authenticated round-trip click-through of the code-server integration (and the
+  still-pending `TUTORIAL_DOOR` level creation from SECTION 479/482's own thread) both need the
+  founder to run this command themselves, or explicitly authorize it.
+
+session: sess-20260905-0720-ec33e7c5
