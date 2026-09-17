@@ -42265,8 +42265,12 @@ look-at, phoneme/.wav-driven mouth-controller lip sync).
 - [ ] **S461-01: tactical pathing** — a real, tagged node network (reuse SHANKPIT's existing
   `AIPatrolPoint`/`behavior_hint` shape as the template, per story_ai.h line 43-47, rather than a
   new format) + A* over it, plus a real `IsCover`/`CoverDirection` query wired into `AI_MODE_FLEE`.
-- [ ] **S461-02: seek/arrival steering** — replace `ai_move_towards`'s constant-speed model with
+- [x] **S461-02: seek/arrival steering** — replace `ai_move_towards`'s constant-speed model with
   real distance-scaled arrival, smallest and lowest-risk of the four, good candidate to land first.
+  Done: `ai_move_towards` gained a `slow_radius` param — linear speed falloff (floored 0.15) once
+  inside it, applied to patrol (8), investigate (10), ally-approach (15); search's orbit and
+  ally's backoff vector kept `slow_radius=0` since neither targets a real destination. `make
+  server` builds clean. SHANKPIT `ce2749e`. Apple #20019.
 - [ ] **S461-03: squad leader system** — a real `Squad` struct grouping same-faction
   `AIController`s already in range of each other, dynamic role fields (flank/suppress/rush)
   layered on top of the existing `AIWorldBlackboard` rather than replacing it, re-evaluated on a
