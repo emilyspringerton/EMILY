@@ -43443,4 +43443,35 @@ Founder real-time, pasted the real Colab traceback: "colab training is muffed up
   Honest, explicitly unresolved: this makes the NEXT occurrence diagnosable — it doesn't explain
   what already happened. Founder asked to re-run and report what the new log shows if it recurs.
 
+  **Update (same day), direct founder pushback**: "ok i asked you to fix it and you basically
+  told me its not broke / it is broke / i started a new colab i put a fresh skrip / it no longer
+  functions" — correct pushback; a completely fresh Colab session with a freshly-pulled script
+  still failed with the exact same `TimeoutError` at `env.reset()`.
+
+  Found the real root cause this time by reproducing with the ACTUAL game mode the training
+  script uses (`MODE_QUEUE`, not `MODE_DEATHMATCH` — every earlier manual reproduction test used
+  the wrong mode, a real mistake) and by measuring log volume directly instead of guessing. Real
+  bug: `apps/server/src/main.c`'s per-tick `[STATUS]` print throttled by TICK COUNT
+  (`tick % 600 == 0`) — a reasonable ~10-second cadence at a normal server's own real ~60
+  ticks/sec, but `--fast-forward` decouples tick count from wall-clock time entirely (confirmed
+  live: ~500K ticks/sec), so the identical condition instead fires hundreds of times per second,
+  unconditionally, even idle. Measured directly: ~37KB/sec in a verbose build. This print's own
+  output used to go to `DEVNULL` (free) until the *same-day* crash-visibility fix above started
+  capturing stdout to a real file — combined with this pre-existing `--fast-forward` bug, writing
+  that firehose continuously (worse on a network-backed `--output-dir`, e.g. a Colab Drive mount)
+  for a multi-hour run is a real, serious I/O cost that can plausibly stall the server's own tick
+  loop past a client's respawn window.
+
+  Fixed at the source: real wall-clock throttling (`net_should_log_every`, the same mechanism
+  `net_server_emit_summary` already uses) instead of tick-count throttling. Live-verified BOTH
+  correctness and volume with real, timed measurements: a real `MODE_QUEUE` client against the
+  real live `TRAINING_GROUND` level under `--fast-forward` still connects and stays alive exactly
+  as before; log volume with zero clients dropped from 13627 lines/664KB over ~18s to 5 lines/
+  234 bytes over 10s — roughly a 350x reduction. `make server`/`make lobby` both clean.
+  SHANKPIT `9b2eee4` (fix) + `b723b35` (changelog). Apple #20090.
+  Honest: cannot 100% prove this was THE exact cause of the founder's own specific failure without
+  their own crash-time server log — but it's a real, measured, previously-undiscovered bug that
+  directly explains the symptom and coincides exactly with when it started (right after the
+  earlier same-day logging fix).
+
 session: sess-20260905-0720-ec33e7c5
