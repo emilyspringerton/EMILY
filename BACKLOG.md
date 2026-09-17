@@ -43124,4 +43124,49 @@ next level i am on nextown."
   Founder go-ahead needed before the fix is actually live.
   SHANKPIT `364aadc` (fix) + `83c2d2a` (changelog). Apple #20078.
 
+  **Update (same day)**: founder said "ok deploy" — `shankpit-server.service` restarted, now
+  running the fixed binary live.
+
+## SECTION 478: SHANKPIT/IDUNA — PLATFORM FRICTION TUNING + PER-MATERIAL FRICTION + STANDALONE MATERIALS SCREEN (2026-09-17)
+
+*Goal: real parkour-feel bug found live right after S477's exit-teleport fix, plus a real*
+*architecture gap in the already-existing S459-16 materials registry.*
+
+Founder real-time: "how hard would it be to increase the friction some at the edges of blocks by
+default so its a little easier to stick to platforms? right now the physics are so slippery it can
+be unreasonably hard to parkour" → confirmed "both" (global bump AND real per-material friction) →
+"do we need to make friction per material? i think we need a separate materials config screen it
+doesnt really make sense under the levels on the left side bar in the level editor - like how can
+i change the texture for a material and possibly even update the shader for a material." Routed
+via `emily observe`, Apple #20079.
+
+Real, found-live investigation before touching code: there is no literal "edge" concept in the
+physics at all — ground friction is one single global constant (`FRICTION` in
+`packages/common/physics.h`) applied uniformly to every grounded player, regardless of surface.
+Separately, `LevelBox.friction` (per-box, parsed from NOCK's own export JSON) is read but was
+never actually consumed by collision — named honestly in `level_boxes.h`'s own doc comment since
+S459-16. A real materials registry already exists end-to-end (S459-16: `shankpit_materials` DB
+table, `internal/http/handlers/shankpit_materials.go` full CRUD, native
+`phys_set_custom_level_materials` + per-box `material_idx` resolution) for shader/specular/
+shininess — but friction was never added to it, and the frontend `MaterialsPanel` is add-only
+(update/delete API calls already exist in `api.ts`, just never wired to a button) and lives nested
+inside `ShankpitLevelEditor.tsx`, not its own screen.
+
+- [ ] **S478a: global friction tuning bump** — raise `FRICTION`/`STOP_SPEED` in
+  `packages/common/physics.h` so stopping/landing is stickier everywhere, independent of the
+  material work below (ships immediately, real, standalone improvement).
+- [ ] **S478b: `friction` becomes a real per-material property, not a dead per-box field** — new
+  IDUNA migration adding `friction` to `shankpit_materials`, threaded through the Go `Material`
+  struct + create/update handlers, `LevelBoxMaterial.friction` in `level_boxes.h`'s JSON parser,
+  a new friction array param on `phys_set_custom_level_materials`, and a new per-player
+  `ground_friction` resolved in `resolve_collision`'s landing branches from whichever box/material
+  the player is actually standing on, consumed by `apply_friction` instead of the flat global
+  constant. `LevelBox.friction` (the old per-box field) stays parsed-but-ignored — real, deliberate
+  consistency with how shader/specular/shininess already work per-material, not per-box.
+- [ ] **S478c: standalone "SHANKPIT Materials" screen** — new top-level NOCK tab (not nested under
+  the level editor), full CRUD (edit/delete wired to the already-existing API calls, not just
+  add), a texture picker sourced from the real texture library (`textures.list()`), and the new
+  friction field from S478b. The level editor keeps its per-wall material-*assignment* dropdown
+  (legitimately level-scoped) but the actual define/edit/delete-a-material surface moves out.
+
 session: sess-20260905-0720-ec33e7c5
