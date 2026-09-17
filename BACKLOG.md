@@ -41041,6 +41041,24 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [ ] **S459-91: fix 413 Request Entity Too Large on NOCK uploads (nginx client_max_body_size).**
+  Founder real-time: "i tried to import some animations got this Error: 413 Request Entity Too
+  Large ... its like a 3mb file." Real cause: nginx's own default `client_max_body_size` is 1MB,
+  silently rejecting any upload past that BEFORE it ever reaches IDUNA — including NOCK's own
+  real glTF/`.glb` animation import (`IDUNA/internal/http/handlers/nock_animations.go`'s
+  `importGLTF` route, itself already capped at a real 64MB via `http.MaxBytesReader`). Fixed in
+  `OKEMILY/ops/nginx-okemily.conf` (both server blocks, set to 64M to match IDUNA's own real
+  cap). **Not yet live** — deliberately a narrow, `sed`-based in-place fix
+  (`sudo-queue/80-fix-okemily-413-upload-limit.sh`), not a wholesale `cp` of the repo file over
+  the live one: checked directly first, the repo's own copy has diverged from live (it also
+  carries real, intentional, already-written-but-undeployed JEWEL/SARENA_NOTEBOOK location
+  blocks from 2026-08-26/28) — `OKEMILY/CLAUDE.md`'s own documented 2026-07-18 outage happened
+  from exactly this kind of blind divergent-file copy, so this fix stays scoped to only the one
+  real, new directive, on the live file as it stands today, leaving the JEWEL/SARENA deploy
+  question for a separate, deliberate decision. **Needs the founder to run** (requires
+  interactive `sudo`, not available to Claude Code in this environment):
+  `bash sudo-queue/80-fix-okemily-413-upload-limit.sh`. Apple #19961. Commit OKEMILY `8a2a597`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-90: Humanness — correct a wrong S459-88 claim + wire the second live AI system.**
   Founder: "continue." On closer inspection, S459-88's own claim ("`story_ai_tick` has no call
   site anywhere in `apps/server/src/main.c`") was **wrong** — it IS called live, from
