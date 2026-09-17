@@ -43412,4 +43412,35 @@ dimension in the widget - a level is a dimension - a widget is just a widget."
   IDUNA `45f7051` (backend) + `3df80b4` (frontend) + `24f12ef` (dist) + `0f2b4e3` (changelog).
   Apple #20088.
 
+## SECTION 483: SHANKPIT — RL TRAINING: SURFACE REAL SERVER CRASH/STARTUP FAILURES (2026-09-17)
+
+*Goal: a real, live-blocking founder bug report — Colab training's very first env.reset() failed*
+*with zero diagnostic context anywhere in the log.*
+
+Founder real-time, pasted the real Colab traceback: "colab training is muffed up" —
+`TimeoutError: no live respawn snapshot within timeout` on gen 0's very first
+`model.learn(...)` call, no other error context anywhere.
+
+- [x] **Investigated, could not reproduce locally.** Fetched the real, live `TRAINING_GROUND`
+  level (id=13, the current `is_default_queue` level) export and ran a local `bin/shank_server`
+  with the exact same `--deathmatch --fast-forward --level` flags `_spawn_server` uses — a real
+  UDP client connected and got a valid alive snapshot within ~1 second, no crash, no hang. The
+  level has zero characters/doors/exits authored, so today's earlier S477/S478/S480 server-side
+  changes were confirmed no-ops against it. Root cause of the founder's own actual failure
+  remains unknown.
+- [x] **Real, separate, found-live gap fixed along the way:** `_spawn_server`
+  (`scripts/rl_train_packet.py`) redirected stdout/stderr to `subprocess.DEVNULL`
+  unconditionally — the exact same class of bug S459-61 already found and fixed for the two eval
+  bots ("these two bots used to run with stdout/stderr silenced entirely... a real crash... was
+  invisible, indistinguishable in the log from a genuine 0-0 tie"), left unfixed for the server
+  itself. A crashed/failed-to-start server was completely invisible — just an opaque downstream
+  30-second `TimeoutError`. Now captures to a real log file (`output_dir/server_<port>.log`) and
+  checks for an early process exit right after the startup grace period, raising an immediate,
+  loud `RuntimeError` with the log's own tail instead. Live-verified both paths (real server →
+  real non-empty log; `SERVER_BIN` pointed at `/bin/false` → the new `RuntimeError` fires with
+  the real exit code). `test_rl_registry.py` still 5/5.
+  SHANKPIT `4cff907` (fix) + `5ae4ff6` (changelog). Apple #20089.
+  Honest, explicitly unresolved: this makes the NEXT occurrence diagnosable — it doesn't explain
+  what already happened. Founder asked to re-run and report what the new log shows if it recurs.
+
 session: sess-20260905-0720-ec33e7c5
