@@ -41042,6 +41042,23 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-93: raise GSKEL_MAX_JOINTS 64 → 128 — real 65-joint rig hit the old cap.** Founder
+  real-time, live bug report: "Error: 422: {\"error\":\"glTF import failed: skin has 65 joints,
+  exceeds GSKEL_MAX_JOINTS (64)\"}" — a real, common full-body-plus-hands rig (individual finger
+  bones easily push a real rig past 64) tripped the old cap on its very first real use, not a
+  hypothetical. The original 64 was picked back when the only real rig in this repo had 5 bones
+  ("comfortably above any skeleton this v0 pass anticipates") — that headroom didn't hold.
+  Raised to 128 (16KB per `GSkel` at 128 bytes/joint, still trivially stack-allocatable) —
+  updated everywhere the cap is mirrored: `GOLDENBAND/src/gskel.h` (source of truth),
+  `GOLDENBAND/tools/gbtool/gskel.go`, `GOLDENBAND/README.md`,
+  `GOLDENBAND/tools/blender_export/create_ant_armature.py`'s own doc comment, and IDUNA's own
+  `internal/nock/gltf_convert.go` mirror (the server-side NOCK compile path this exact bug
+  report came through). New real regression test in IDUNA
+  (`TestEncodeGSkel_65Joints`): builds the exact real 65-joint case that failed and confirms it
+  now encodes cleanly. Live-verified: `bash scripts/build_and_test.sh` (GOLDENBAND) and
+  `go test ./internal/nock/...` (IDUNA) both green; rebuilt and redeployed the live `iduna`
+  binary, confirmed healthy. Apple #19968 (GOLDENBAND), #19969 (IDUNA). Commits GOLDENBAND
+  `26eef7d`, IDUNA `79b573b`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-92: NORTHSTAR_MODULAR_BUILDING.md — object library, NOCK multi-tenancy, chunk
   streaming (real, decided).** Founder real-time, resolving several of this doc's own open
   questions directly: "can we add a object library? ... i dont want that object to clutter up
