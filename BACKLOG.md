@@ -42287,10 +42287,21 @@ look-at, phoneme/.wav-driven mouth-controller lip sync).
   inside it, applied to patrol (8), investigate (10), ally-approach (15); search's orbit and
   ally's backoff vector kept `slow_radius=0` since neither targets a real destination. `make
   server` builds clean. SHANKPIT `ce2749e`. Apple #20019.
-- [ ] **S461-03: squad leader system** — a real `Squad` struct grouping same-faction
+- [x] **S461-03: squad leader system** — a real `Squad` struct grouping same-faction
   `AIController`s already in range of each other, dynamic role fields (flank/suppress/rush)
   layered on top of the existing `AIWorldBlackboard` rather than replacing it, re-evaluated on a
   member's death.
+  Done: persistent squads (not per-tick proximity clustering, which would flicker roles) formed
+  once at encounter-spawn via new `story_ai_form_squad`, same hand-authoring convention as patrol
+  points/the S461-01 nav graph. `ai_squad_reevaluate` runs once/tick: compacts out dead/inactive
+  members, re-derives roles from survivor order — leader promotion (position 0) and flank/suppress
+  recycling both fall out of that one loop, matching the founder's own spec ("the Squad class
+  instantly re-evaluates and promotes ... to change their auto-pilot state dynamically").
+  `ai_squad_apply_role_bias` layers positioning bias on top of the existing per-role combat AI
+  (FLANK_LEFT/RIGHT push strafe, SUPPRESS holds ground while still firing) without touching
+  weapon/ability logic. Two real squads seeded for the VOXWORLD encounter (melee/mid-range
+  cluster; ranged/flank pair). `make server`/`make lobby` build clean. SHANKPIT `dd76739` +
+  `55a5d46`. Apple #20024.
 - [ ] **S461-04: scripted animation composition (SHANKPIT + GOLDENBAND)** — movement-hook marker +
   locked-scripted-animation + on-end handoff back to `AI_MODE_SCRIPTED`'s existing mode (already a
   real `AIMode` value with no real behavior wired to it yet — worth checking first whether this is
