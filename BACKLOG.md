@@ -42862,28 +42862,48 @@ we need a way to string 2 levels together and then once we have that lets get ou
 tools set up ... scriptable interactions ... bake in some good defaults ... with extension points
 for overriding that default behavior via map scripts." Routed via `emily observe`, Apple #20064.
 
-- [ ] **S473-01: `next_level_id` + `is_story_start` on a Level.** IDUNA `internal/shankpit`:
-  nullable `next_level_id` (v0 is a real chain, not a general graph — see NORTHSTAR doc for why),
-  `is_story_start` mirroring `IsDefaultQueue`'s own exact "exactly one level at a time" enforcement
-  shape. Migration, validation, handler wiring, `ExportDoc` resolution, NOCK frontend inspector
-  toggle — the same four-times-proven pattern Doors/NavNodes/Characters already established.
-- [ ] **S473-02: new `LevelExit` scriptable object.** A placed trigger volume (position + radius,
+- [x] **S473-01: `next_level_id` + `is_story_start` on a Level.** IDUNA `internal/shankpit`:
+  nullable `next_level_id` (v0 is a real chain, not a general graph — see NORTHSTAR doc for why;
+  DB-validated must-reference-a-real-level + rejects self-reference), `is_story_start` mirroring
+  `IsDefaultQueue`'s own exact "exactly one level at a time" enforcement shape (new
+  `SetStoryStartLevel` + `PATCH .../story-start`). Migration, validation, handler wiring,
+  `ExportDoc` resolution, NOCK frontend inspector toggle — the same four-times-proven pattern
+  Doors/NavNodes/Characters already established. 9 new tests. IDUNA `5f54191` + `af4edac` +
+  `a9a4997`.
+- [x] **S473-02: new `LevelExit` scriptable object.** A placed trigger volume (position + radius,
   same authoring shape as `NavNode`) — the "opposite of a spawner" the founder was reaching for.
   Same full IDUNA pattern as S473-01's fields, plus a new SHANKPIT-side `LevelExit` parser in
-  `packages/world/level_boxes.h`.
-- [ ] **S473-03: real, live level transition on exit-volume entry.** Server-side proximity check
-  (`MODE_STORY` only — `MODE_QUEUE`/deathmatch have no level-graph semantics), reusing the
-  ALREADY-PROVEN-SAFE `server_apply_custom_level` mid-game level-swap path (the exact mechanism
-  `server_advance_queue_round` already uses every real QUEUE round, not a new primitive) to fetch
-  and apply this level's own `next_level_id` via `level_boxes_fetch_export`, respawning the player
-  at the new level's own `Spawners`.
-- [ ] **S473-04: `MODE_STORY` skips the text cutscene and spawns into the real story-start level.**
-  Match init checks the registry for whichever level holds `is_story_start`; if one exists, fetch +
-  apply it instead of `story_ai_seed_voxworld_encounter`, `story_phase = STORY_PHASE_PLAYING`
-  directly (no `STORY_PHASE_CUTSCENE`). VOXWORLD's own hardcoded path stays untouched for anyone
-  who still runs it directly (no `is_story_start` level authored yet).
+  `packages/world/level_boxes.h` (standalone-verified against the real, live okemily.com registry
+  endpoint before any engine logic was wired on top). SHANKPIT `94bc4e0`.
+- [x] **S473-03: real, live level transition on exit-volume entry.** Server-side (`story_check_
+  level_exits`) AND lobby-side (`lobby_check_story_level_exits`, local single-player) proximity
+  checks — `MODE_STORY` only, full 3D distance, a real 3s debounce against the new level's own
+  spawn point landing back inside an exit radius — reusing the ALREADY-PROVEN-SAFE
+  `server_apply_custom_level`/`lobby_apply_story_level` mid-game level-swap path (the exact
+  mechanism `server_advance_queue_round` already uses every real QUEUE round, not a new
+  primitive) to fetch and apply `next_level_id`, respawning the player at the new level's own
+  `Spawners`. SHANKPIT `792229b` + `ea850d8`.
+- [x] **S473-04: `MODE_STORY` skips the text cutscene and spawns into the real story-start
+  level.** Both the dedicated server (`main()`, positioned to still let `--level` win if given,
+  matching that flag's own "deliberately the LAST word" doc comment) and the lobby (new
+  `lobby_start_story_mode`, factored out of two previously-duplicated MODE_STORY entry points)
+  check the registry for whichever level holds `is_story_start`; if one exists, fetch + apply it
+  instead of the legacy VOXWORLD path (boss explicitly disabled, `story_phase =
+  STORY_PHASE_PLAYING` directly, no `STORY_PHASE_CUTSCENE`). VOXWORLD's own hardcoded path stays
+  untouched when no `is_story_start` level is authored — **live-verified both ways**: a real test
+  level inserted+flagged via direct SQL against the live IDUNA DB confirmed
+  `STORY_START_LEVEL_LOADED` fires and overrides VOXWORLD (verbose server build), then removed
+  and re-confirmed the fallback path runs unchanged. `make server`/`make lobby` clean.
+  SHANKPIT `792229b` + `ea850d8`.
+
+Real, honest, not-yet-covered: MODE_STORY_CAVE was not extended with the same story-start/exit-
+trigger wiring this pass (VOXWORLD's own MODE_STORY only) — named future follow-up, not silently
+assumed covered. Doors are not wired into the lobby-local story path (door scripting is
+server-only, checked directly, not a regression — the lobby build never had this before either).
 
 Phase 2 (NPC reaction scripts, JSON-first + PARENA escape hatch) is real, scoped in the NORTHSTAR
 doc, and explicitly sequenced AFTER this section closes — not started.
+
+SHANKPIT `8554390` (changelog). Apples #20066 (IDUNA), #20067 (SHANKPIT).
 
 session: sess-20260905-0720-ec33e7c5
