@@ -42452,4 +42452,45 @@ sync, bone-controller look-at, and lip sync as real follow-up (S461-04).
   GOLDENBAND `8e8ca0c` + `8e81ea0`, SHANKPIT `52280c6` + `352b78b` + `e10b3cf`. Apples #20037,
   #20038.
 
+---
+
+## SECTION 465: SHANKPIT/NOCK — REAL WAYPOINT/COVER NODE AUTHORING (2026-09-17)
+
+*Goal: close AI_WAYPOINT_NAV_NORTHSTAR.md's own named "NOCK level-editor authoring" gap — the*
+*only way to get a real S461-01 waypoint/cover graph into a running server was hardcoded C.*
+
+Founder real-time: "we are going to need a waypoint system in the levels and maps northstar it"
+(earlier this session) / "continue filling in the gaps in our level editor scriptable env
+characters etc" (Apple #20039, direct follow-up confirming/broadening the S463 door-authoring
+work to keep going, naming "characters" as the next scriptable-object kind per `STORY_SYSTEM_
+NORTHSTAR.md`'s own Phase 2 list).
+
+- [x] **S465: real end-to-end waypoint/cover authoring, mirroring S463's door-authoring pattern.**
+  New `internal/shankpit.NavNode` (`x/y/z`, `is_cover`, `cover_dir_x/z`, `neighbor_ids`),
+  `nav_nodes_json` column, threaded through Create/Get/List/Update/Clone. New
+  `navNodesForExport` resolves each node's own real `NeighborIDs` into 0-based array positions
+  in the exported `nav_nodes[]` array — matching a new SHANKPIT-side `LevelNavNode` parser
+  (`packages/world/level_boxes.h`) that indexes into the nodes it just parsed the same way the
+  existing wall parser already does for `box_index`. Real, deliberate scope limit matching
+  Door's own "root walls only": nav nodes are a root-level-only concern, never flattened through
+  composed objects.
+  New `story_ai_load_nav_graph` (`packages/simulation/story_ai.c`/`.h`) loads the parsed graph
+  via flat parallel arrays (zero `CustomLevelData` dependency, same separation the existing
+  spawner-unpacking code already established) into `g_story_nav`, wired into
+  `server_apply_custom_level` right after `story_doors_init` — a NOCK-authored
+  `SCENE_CUSTOM_LEVEL` load now gets a real waypoint/cover graph instead of an empty one.
+  Frontend: a new "Waypoint / cover nodes" panel in `ShankpitLevelEditor.tsx` — add a node at
+  the spawner marker, edit position/cover/cover-direction numerically (same v0 scope
+  `ObjectInspector` already established, not 3D-dragged), link neighbors via a checklist
+  (linking is symmetric, no separate "connect mode" needed). Deleting a node cascades to remove
+  it from every other node's own neighbor list.
+  6 new backend tests (unknown-neighbor rejection, `MaxNavNodes`/`MaxNavNeighbors` bounds, real
+  position resolution with deliberately non-sequential ids, stale-reference graceful skip). `go
+  build`/`test ./...` clean, frontend type-checks clean, `make server`/`make lobby` clean.
+  **Deployed and live-verified**: `iduna.service` restarted, `nav_nodes_json` confirmed on the
+  live DB schema, export endpoint confirmed backward-compatible against a real existing level.
+  `AI_WAYPOINT_NAV_NORTHSTAR.md` updated — this narrows its own "per-scene authoring" follow-up
+  item to just the built-in, non-custom scenes (`SCENE_CUSTOM_LEVEL` no longer needs it).
+  SHANKPIT `016f850` + `86063c0` + `7dea6f5`, IDUNA `7714a66` + `2c53194`. Apples #20042, #20043.
+
 session: sess-20260905-0720-ec33e7c5
