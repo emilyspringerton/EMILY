@@ -41041,6 +41041,29 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-88: Humanness Phase 2 — wired into story_ai.c's combat FSM.** Founder: "continue"
+  (`HUMANNESS_NORTHSTAR.md`'s own phased plan). `story_ai.c`'s combat behavior now routes
+  through `humanness.c` (S459-87): `ai_turn_towards` calls `humanness_smooth_turn_step` instead
+  of a flat clamp-lerp (real mood-scaled speed, genuine occasional overshoot — signature grew an
+  `AIController*`, NULL-safe, all 8 call sites updated); every role's `target_yaw` gets a real
+  `humanness_aim_noise` term derived from `aim_error_deg` — a real, found-live gap: that field
+  was set per role in `ai_assign_role_defaults` but never actually consumed anywhere before this
+  change, dead data since it was added; every role's `next_attack_ms` cooldown now goes through
+  `humanness_reaction_delay_ms` instead of a fixed constant. `AIController` gained
+  `HumannessState humanness` + `turn_overshooting`, initialized on spawn, ticked once per AI per
+  frame. `Makefile` was missing `humanness.c` from both `LOBBY_SRC`/`SERVER_SRC` (`story_ai.c`
+  compiles into both) — added to both. **Real, honest, found-live gap this phase surfaced, not
+  caused, not fixed here**: `story_ai_tick`/`story_ai_spawn_enemy`/`story_ai_reset` have no call
+  site anywhere in `apps/server/src/main.c` — story mode's own AI compiles into the live server
+  binary but is never actually invoked by it today; wiring story mode into the live game loop is
+  separate, real, not-yet-scoped work. Live-verified the honest way available given that gap:
+  new `packages/simulation/story_ai_humanness_test.c` spawns a real enemy and runs 3000 real
+  `story_ai_tick` calls directly, asserting genuine yaw movement, 117 real jittered attack
+  cycles over that window, and consecutive attack-cooldown gaps that genuinely vary (proving
+  `humanness_reaction_delay_ms` is actually live). `gcc -Wall -Wextra` clean on `make
+  server`/`lobby`/`emily-bot`; Phase 1's own `humanness_test.c` and the full Python test suite
+  (36 tests) both still pass unaffected. Apple #19952. Commit SHANKPIT `d28d840`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-87: Humanness Phase 1 — real jitter/mood primitives, MISHRI-bar tests.** Founder:
   "continue" (`HUMANNESS_NORTHSTAR.md`'s own Phase 1). New `packages/simulation/humanness.h`/
   `.c`, directly modeled on MISHRI's own `HumannessLayer.ts`, no integration into `story_ai.c`/
