@@ -43226,4 +43226,36 @@ levels dont respect materials at least visually." Routed via `emily observe`, Ap
   text confirmed present in the rebuilt embedded Go binary). IDUNA `249f783`+`f119a39`+`8ac0537`+
   `7ec4e44`. Apple #20083.
 
+  **Update (same day), direct founder follow-up**: "we need an actual object builder building a
+  door as a level doesnt make any sense i need an actual door that is a door so i know what
+  direction to stick it on stuff etc - we can clone doors and edit the geometry etc just like
+  objects but its too weird" — plus a screenshot showing the real problem: a door authored as its
+  own small "level" then placed as an Object, with the level shrunk so the object ends up outside
+  the parent's own floor grid.
+
+  Root cause, confirmed directly in code: a door could previously only ever survive in the SAME
+  level it was authored on — `flattenObjects` never carried a composed object's own doors through
+  at all (only walls/materials/friction), so the founder's own natural instinct (author a reusable
+  "door room" once, place it as an Object anywhere, the exact same way every other reusable
+  structure already works) could never actually carry a working door. Confirmed via
+  `AskUserQuestion`: extend the existing recursive flattening rather than build a separate
+  first-class Door object type.
+
+  Fix: `flattenObjects` now returns a second value, `[]composedDoorRef` — doors expressed as an
+  index into the `[]Wall` the same call returns (a real Door ID is meaningless mid-flatten since a
+  wall's own final position in the combined `walls[]` isn't known until `Export` finishes
+  appending every object's contribution). `Export` translates these into real final `box_index`
+  values and merges with the level's own root doors via a new shared `doorExportFor` helper
+  (extracted from `doorsForExport` so the `ScriptID==0` → empty `ScriptURL` handling can't drift
+  between the two paths). New `TestExport_ComposedObjectCarriesDoor`. `go build`/`go test ./...`
+  clean (full suite). Deployed live (`iduna.service` restarted, health check passed).
+
+  Also gave the founder concrete, grounded dimension/orientation guidance directly in chat rather
+  than leaving it implicit: a door has no shape of its own — it's a wall block that moves 1000
+  units straight down when open, not a swinging panel — so it must be sized to actually plug the
+  gap you want it to open (≥2 wide, ≥7 tall given `PLAYER_HEIGHT=6.47`, depth matching wall
+  thickness); there is no orientation/facing concept, it opens by proximity alone.
+
+  IDUNA `01d11a6` (fix+test) + `c432725` (changelog). Apple #20084.
+
 session: sess-20260905-0720-ec33e7c5
