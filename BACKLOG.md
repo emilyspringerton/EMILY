@@ -43320,4 +43320,11 @@ select interface... which is what the levels menu already is."
   deliberate design decision (not this pass): a visual-sequence feature, not a mechanical gate
   fix like S480b — needs its own scoping pass before implementation.
 
+  **Update (same day), direct founder follow-up**: "if I hold ALT and im in object mode and i
+  grab and drag a cube it needs to clone that cube just like in illustrator." Implemented in
+  `Viewport3D`'s `onPointerDown` (object-mode wall-grab branch): holding Alt clones the hit wall
+  (new id) and immediately drags the CLONE — the original stays exactly where it was, matching
+  Illustrator's own real alt-drag contract. `npx tsc -b`/`npx vite build` clean. Deployed live.
+  IDUNA `f2a128d` (feature) + `ea763c1` (dist) + `cab8daa` (changelog). Apple #20086.
+
 session: sess-20260905-0720-ec33e7c5
