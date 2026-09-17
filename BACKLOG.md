@@ -43968,3 +43968,65 @@ session: sess-20260905-0720-ec33e7c5
   gap" section).
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 493: SHANKPIT/IDUNA — ENCLOSED/INDOOR LIGHTING + REAL SCREEN-SPACE BLOOM (2026-09-17)
+
+*Goal: founder real-time, from a real in-game screenshot — "can we get some more realistic*
+*lighting? theres not much difference between having lights on and not having lights - its*
+*still basically illuminated in this totally enclosed level ... there should be more difference*
+*between light and dark and we should see like the lighting kind of move a bit with the glow*
+*effect of the hps light."*
+
+- [x] **Real root cause found before touching anything**: `retro_lighting_eval_surface_rgb`
+  (SHANKPIT `packages/render/retro_lighting.c`) adds a real, physically-motivated sun/moon
+  "scattered sky" fill term to every wall face unconditionally — correct outdoors, but applied
+  even to a windowless interior with zero real sky exposure, swamping the real per-fixture
+  (HPS/IPS) point-light contrast the level author actually placed. `RETRO_LIGHTING_INTERIOR_FLAT`
+  already existed as a defined enum value but was never actually selected anywhere in the
+  codebase — a real, found-live "defined but orphaned" gap, not a new design.
+- [x] **New per-level `enclosed` flag, full stack**: SHANKPIT `CustomLevelData.enclosed` (real
+  JSON key) drives a real switch in `level_boxes_apply_to_physics` — the ONE shared level-load
+  path covering local single-player, the `--level` CLI flag, AND the network multiplayer client's
+  own QUEUE-level fetch, all three in one place — to `RETRO_LIGHTING_INTERIOR_FLAT` when set. Real
+  safety net: leaving an enclosed level for a built-in outdoor scene resets the preset back, so
+  the world doesn't stay stuck dim. IDUNA: new `Level.Enclosed`/`ExportDoc.Enclosed` + a dedicated
+  `SetEnclosed` method/`PATCH /:id/enclosed` endpoint, deliberately NOT threaded through
+  `CreateLevel`/`UpdateLevel`'s own already-large (14-param) positional signature — would have
+  meant touching 60+ real existing call sites across the test suite alone; mirrors
+  `SetDefaultQueueLevel`/`SetStoryStartLevel`'s own low-blast-radius shape, just non-exclusive
+  (any number of levels independently enclosed or not). New checkbox in NOCK next to Ground Plane,
+  applies immediately.
+- [x] **Real screen-space bloom, shipped alongside** (founder chose "build both together now"
+  when asked to sequence): new `SHANKPIT/packages/render/bloom.h/.c` — the "glow" that already
+  existed (`draw_light_glow_billboard`) was a camera-facing sprite at each fixture's own position,
+  not true bloom. Real technique: FBO scene render → luminance-threshold bright-pass extract (own
+  GLSL shader, naturally picks up already-bright HPS/IPS emissive surfaces and their existing
+  per-frame flicker with zero extra wiring) → 2-pass separable Gaussian blur (quarter-res, a real
+  deliberate glow-radius/perf tradeoff) → additive composite onto the real frame. New FBO GL
+  extension loading, same hand-loaded `SDL_GL_GetProcAddress` convention `gl_shader.c` already
+  established (Windows-cross-compile portability). Handles `SDL_WINDOW_RESIZABLE`.
+  **Real bug found and fixed in an early draft**: `gl_shader.h` has no vec2-uniform-setter helper,
+  and the first cut called mismatched-arity setters (`gl_uniform1f`/`gl_uniform3fv`) against the
+  blur shader's own real `vec2` uniform — a silent `GL_INVALID_OPERATION` no-op that would have
+  left the blur direction permanently `(0,0)`, i.e. a "blur" that samples the same texel 5 times
+  and never actually blurs anything. Fixed with two real scalar uniforms instead.
+- [x] Deliberately whole-frame (HUD/weapon-viewmodel/overlay bloom too — a real, accepted
+  tradeoff given this game's own existing neon/retro-CRT aesthetic, not an oversight) — wraps the
+  existing `draw_scene` call site with zero changes to its own body.
+- [x] **Live-verified**: 6/6 new native tests (`test_level_enclosed_lighting.c`) + a new Go
+  round-trip test (`TestSetEnclosed_TogglesIndependentlyPerLevel`) + `bloom.c` compiles clean
+  under `-Wall` standalone. `bloom_init`'s own failure path confirmed live under Xvfb's own
+  llvmpipe software GL (lacks the needed shader entry points in this sandbox, a real,
+  pre-existing, already-documented limitation elsewhere in this codebase) — the binary ran the
+  full test duration with zero crash, exactly the intended honest degradation. `go build`/
+  `go test ./...` clean (full suite), `make server`/`make lobby` clean, tsc/vite build clean,
+  deployed live, verified the migration applied to the real live database (`enclosed` column
+  confirmed via direct query) and the new endpoint correctly 401s unauthenticated.
+  SHANKPIT `5fb83a6` (Apple #20104). IDUNA `59e5d21` (Apple #20105).
+- [ ] **Honest, named limitation**: actual bloom visual quality (glow radius/intensity/color
+  tuning) could not be judged in this sandbox (no display, and the available software GL renderer
+  doesn't support the shader path at all) — needs the founder's own real-GPU verification before
+  calling the tuning itself final; the threshold/blur-radius constants are real, working, first-
+  pass values, not yet visually tuned against a real screen.
+
+session: sess-20260905-0720-ec33e7c5
