@@ -41042,6 +41042,33 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-106: NOCK — attach an animation to an existing mesh/rig, filling a promised gap.**
+  Founder: "build fill in the gaps" — quoting NOCK's own animation-library copy back, which
+  already promised "you can add animations to it later, either by uploading a separate file with
+  the same rig" but had no actual affordance for it. New `AnimStore.AttachAnimation`
+  (`internal/nock/anim_store.go`) — a targeted UPDATE onto the SAME row (not a clone, so
+  attaching an animation to "the mannequin" still IS the mannequin afterward), new `POST
+  /admin/nock/api/animations/{id}/attach-animation` (dispatched by Content-Type: multipart for a
+  fresh glTF upload, JSON `{"source_id": N}` to reuse an existing library row), and a real "Attach
+  animation" panel on any mesh/skel-only card in the frontend (pick an existing clip with
+  same-rig/different-rig labeled inline, or drop a fresh file). New `skeleton_hash` column checks
+  rig compatibility before merging. **Real bug found and fixed mid-build**: backfilling this hash
+  for the two real, already-imported assets this session had confirmed by hand (joint-by-joint
+  diff) share the same 65-joint rig made them hash DIFFERENT — hashing the full encoded `.gskel`
+  (rest_translation/rest_rotation/inverse_bind included) picks up per-joint float values that can
+  legitimately vary between two exports of "the same" rig without affecting whether an animation
+  clip's channels actually apply correctly. Fixed: new `topologyHash` hashes only joint name +
+  parent index — the real, correct compatibility signal (`gpose.c`'s own FK only needs matching
+  joint count/order/hierarchy). Real regression test
+  (`TestTopologyHash_IgnoresRestPoseDifferences`) proves same-topology-different-rest-pose hashes
+  equal, and an actual topology change hashes different. 12 new/updated tests (store-level
+  attach + mismatch rejection, a full HTTP round trip via both the JSON and multipart paths, the
+  topology-hash regression test), all passing. `go build/vet/test ./...`, `tsc --noEmit`,
+  `npm run build` all clean. Live-verified: migration applied against the real `iduna.db` (both
+  existing rows survived), rebuilt + redeployed the `iduna` binary, backfilled `skeleton_hash` for
+  the two real rows (`UAL2_Standard_RM`, `Mannequin_F`) using the corrected hash — now correctly
+  match. Apple #20002. Commit IDUNA `edb1b98`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-105: QUEUE self-heals onto the current default level every round.** Founder: "i
   messed up the bot pool again i switched the queue level and then tried to join queue and it
   think it tried to join me into like both levels or something something was wrong." Root cause:
