@@ -41041,6 +41041,30 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **S459-90: Humanness — correct a wrong S459-88 claim + wire the second live AI system.**
+  Founder: "continue." On closer inspection, S459-88's own claim ("`story_ai_tick` has no call
+  site anywhere in `apps/server/src/main.c`") was **wrong** — it IS called live, from
+  `packages/simulation/local_game.h:1767` (`local_update`, gated on `STORY_PHASE_PLAYING`);
+  the earlier grep only searched `main.c` directly and missed the shared header both
+  `apps/server` and `apps/lobby` actually link it through. Corrected the record in
+  `HUMANNESS_NORTHSTAR.md` rather than leaving the wrong claim standing. Separately, real and
+  found along the way: story mode has a SECOND, genuinely different live enemy-AI system —
+  `story_swarm_tick` (also in `local_game.h`), the real system for `STORY_PHASE_SWARM` (the
+  enemy wave after the boss fight opens a rift), completely distinct from `story_ai.c`'s own
+  `STORY_PHASE_PLAYING` system S459-88 already wired. `story_swarm_tick` had NO turn smoothing
+  at all (an instant `atan2` snap) and a flat, unjittered 850ms attack cooldown — now routes
+  through `humanness_smooth_turn_step`/`humanness_reaction_delay_ms` via a new, real,
+  index-parallel `g_story_swarm_humanness`/`g_story_swarm_overshoot` array (kept separate from
+  `StoryEnemy` itself, which lives in the shared wire-protocol header `packages/common/
+  protocol.h` — giving `common` a real dependency on `simulation` would invert this repo's own
+  established layering). Live-verified with a new, direct integration test
+  (`packages/simulation/story_swarm_humanness_test.c`): spawns a real swarm enemy, confirms
+  turning is genuinely incremental/smoothed across the first several real ticks (not an instant
+  snap), confirms 13 real attacks landed with genuinely varying cooldown gaps. `gcc -Wall
+  -Wextra` clean on `make server`/`lobby`/`emily-bot`; Phase 1's own `humanness_test.c`, S459-88's
+  own `story_ai_humanness_test.c`, and the full Python suite (36 tests) all still pass. **Net
+  result**: both of story mode's real, live enemy-AI systems now have real jitter/mood behavior.
+  Apple #19958. Commit SHANKPIT `1e66937`. session: sess-20260905-0720-ec33e7c5
 - [x] **S459-89: STORY_SYSTEM_NORTHSTAR.md — scriptable elevators folded in.** Founder
   real-time: "we need scriptable elevators with doors as NPCs spawners and level stitch points."
   Not a new object kind — a real composite of `door` + `trigger` (both already scoped) plus one
