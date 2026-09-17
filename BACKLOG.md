@@ -41042,6 +41042,43 @@ ordered, card-sized sub-items (the real "plan it into sprints and cards" ask) in
   `EMILY/context/golden-docs-index.md` (`SHANKPIT-ANTICHEAT-NORTH`). NORTHSTAR only, no code
   written. Apple #19757. Commit SHANKPIT `44e8195`.
   session: sess-20260905-0720-ec33e7c5
+- [x] **Cross-repo: disk-space crisis — found, fixed live, and root-caused.** The box hit 99%
+  disk usage (2.7GB free) mid-session, silently corrupting an IDUNA binary deploy (a truncated
+  write with no error surfaced — `file` showed "current ar archive" instead of a real ELF
+  binary). Diagnosed: two live, actively-open log files accounted for the overwhelming majority —
+  `EMILY/var/logs/observation-watcher.log` (25.8GB) and `REDGARDEN/var/logs/matchmaker-bots.log`
+  (15.2GB), both confirmed via `lsof` to be held open by running processes. Truncated both in
+  place (`: > file`, the same safe technique `logrotate --copytruncate` uses on a live writer —
+  confirmed safe here since both units use `StandardOutput=append:...`, real O_APPEND, no
+  stale-offset risk), freeing 40GB (99% → 73% used, 2.7GB → 42GB free) with founder approval.
+  Also cleared ~20 superseded pre-migration IDUNA DB backups (~450MB) and the Go build cache
+  (fully regenerable). Root-caused REDGARDEN's own contribution (see S459-109-adjacent commit
+  below) rather than just treating the symptom. Founder then: "kill both and stop the observation
+  watcher" — stopped `emily-system.service` (Emily Prime's own core RSI/task-dispatch loop) and
+  `redgarden-matchmaker-bots.service` (REDGARDEN's live 10v10 R&D matchmaker, `:7778`) cleanly via
+  `systemctl --user stop`, confirmed the underlying PIDs actually exited (not just the service
+  wrapper). **Both remain stopped as of this entry** — restart is a founder-level decision, not
+  assumed back on. REDGARDEN commit `d95518b` (Apple #20010).
+  session: sess-20260905-0720-ec33e7c5
+- [x] **S459-109: NOCK — multi-clip glTF import (every real animation clip, not just the
+  first).** Founder: "like this one animation actually has 76 animations im assuming we can blend
+  them together with kinematics and stuff but i need a way to view the individual tricks" →
+  confirmed directly: "yea this is a universal animations library" (Quaternius's real, public-
+  domain "Universal Animation Library"). Real, silent data-loss gap: `ImportGLTFBytes`/
+  `convertGLTF` only ever converted `doc.Animations[0]` (a real, documented v0 scope), so a
+  genuine multi-clip file had every clip past the first silently discarded on import. New
+  `ImportGLTFBytesAllClips` converts every animation in the file (skipping, not failing on, a
+  clip that doesn't convert), returning the primary asset (mesh+skeleton+first clip, unchanged)
+  plus one `AdditionalClip` per real remaining clip, named from the glTF's own real
+  `animation.name` field. Handler creates one row per additional clip (`sanitizedClipName`
+  handles real glTF names containing characters — spaces, etc — `internal/nock`'s own stricter
+  row-name pattern doesn't allow), returns an `additional_clips` summary in the import response;
+  frontend shows a real "this file had N clips, imported all of them" notice. 2 new regression
+  tests (a real 2-named-animation glTF fixture, package-level and full HTTP-handler-level). `go
+  build/vet/test`, `tsc`/`npm build` all clean. Live-verified end to end (deploy was interrupted
+  mid-session by the disk-space crisis above, redeployed after that was resolved) — confirmed
+  healthy, all 3 existing real animation rows survived. Apple #20012. Commit IDUNA `3343d34`.
+  session: sess-20260905-0720-ec33e7c5
 - [x] **S459-108: NOCK Animations tab — real in-browser 3D preview.** Founder: "can we add a 3d
   scene like the shankpit level editor for the animations models viewer?" New
   `frontend/nock/src/AnimationViewer.tsx` — the first real JS/TS binary parser for GOLDENBAND's
