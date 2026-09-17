@@ -43725,3 +43725,43 @@ session: sess-20260905-0720-ec33e7c5
   founder to run this command themselves, or explicitly authorize it.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 487: IDUNA/NOCK — LEVEL EDITOR CAMERA: FLY (WASD+QE) + MIDDLE-MOUSE ORBIT (2026-09-17)
+
+*Goal: founder real-time — "i need to figure out how im going to actually build the levels - for*
+*example hallways - i dont have a good way to move around in the level builder i am stuck*
+*rotating around one axis and i cant even move that axis if i touch any of the objects they move*
+*so i cant actually move my camera around when i get all up inside of the geometry i have to zoom*
+*out move the camera hope its good zoom back in if its not good zoom back out adjust the camera*
+*and zoom back in like maybe i can get wasd to move around and the middle mouse can adjust the*
+*camera so i dont accidentally click stuff keep left click adjust as we have it now we just need*
+*the extra affordances to do inside level work."*
+
+- [x] **Real root cause found**: `Viewport3D`'s orbit camera only ever engaged as left-click's own
+  fallback when the raycast missed every object — the instant the camera is near or inside
+  geometry (exactly "all up inside of the geometry"), almost every left-click hits a wall instead
+  of empty space, so orbit became unreachable precisely when it was most needed. Not a rotation-
+  axis bug (phi/theta both already worked) — a reachability bug.
+- [x] **WASD+QE fly camera** — moves `camStateRef`'s own `target` continuously while held (full
+  3D forward direction including pitch, so looking down a hallway and pressing W actually flies
+  into it), Shift for 3x speed, a `window blur` safety valve so an alt-tab mid-flight can't leave
+  the camera moving forever (same class of guard `onPointerUp`'s pointer-capture release already
+  provides for mouse drags).
+- [x] **Middle-mouse-drag orbits unconditionally** — before any raycast/object-hit check at all,
+  so it can never accidentally grab a wall/spawner/spawn point even when surrounded by geometry.
+  Left-click's existing select/drag/face-reshape behavior is completely untouched, per the
+  founder's own explicit "keep left click adjust as we have it now."
+  - [x] **Real, necessary collision found and resolved**: WASD was already globally bound to
+    nudge the spawner marker — a genuine collision with camera flight on the same keys (not two
+    features that could coexist on WASD). Moved the spawner nudge to arrow keys instead, same
+    math/feel, freeing WASD for its far more universally-expected job (camera navigation).
+- [x] tsc (edited file clean) + `vite build` clean, deployed live, verified the new `ArrowUp`
+  string literal (survives minification, unlike mangled identifier names like `FLY_SPEED`)
+  present in both `dist/` and the deployed binary — per this session's own established
+  "don't just trust the build succeeded" verification discipline.
+  IDUNA `341e396`. Apple #20096.
+- [ ] **Named, not built this pass**: a real pan affordance (middle-mouse currently only orbits,
+  no drag-to-pan) — WASD flight likely covers most of what pan would have been used for, but
+  worth watching whether the founder still wants it once they've used flight for real level work.
+
+session: sess-20260905-0720-ec33e7c5
