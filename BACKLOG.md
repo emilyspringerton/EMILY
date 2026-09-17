@@ -42958,4 +42958,77 @@ into the lobby-local story path" honest caveat).
 
 session: sess-20260905-0720-ec33e7c5
 
+---
+
+## SECTION 475: SHANKPIT/IDUNA — RL TRAINING: FIRST-TO-5 EVAL + PERSISTENT HEARTBEAT (2026-09-17)
+
+*Goal: root-cause the founder's real concern that SHANKPIT's own RL bots "arent getting smarter"*
+*after ~50-60 real training generations, using real, live evidence — not a guess.*
+
+Founder real-time, a real multi-message thread: "after 50 generations of training something is
+wrong the bots arent getting smarter - do we have proper round end rewards? is this 1 v 1 or
+what?... can we have more debugging in the heartbeat? like when main chooses an opponent log it
+log the results log the elo of the winner go up elo of the loser go down something is wrong
+training isnt working i dont think check the rewards" / "or maybe queue is broken? expecting to
+queue into a match with 3x the model chosen as opponent in the shankpit ai enemy list" / "are you
+really sure that the bots first to 1 is a good idea?... i think first to 1 may not be as good as
+like first to 5" / "like we didnt turn brawlpit down to stock 1" / "first to 5 is roughly
+equivalent to 5 stock" / "if a bot goes down 4 times in a row and then reverse all kills thats a
+strong signal i dunno" / "theres a reason why esports tournoments are never best of 1". Routed via
+`emily observe`, Apples #20068/#20065 (the queue-restart half of this same thread was handled
+separately, live, same session — `shankpit-server.service`/`shankpit-bot-pool.service` were
+running a build from before that day's own protocol.h wire-format change and got restarted).
+
+- [x] **S475: real, evidence-based investigation first, then two real, targeted fixes — not a**
+  **blind reward-function rewrite.** Pulled the live IDUNA checkpoint registry directly rather
+  than guessing: 548 real checkpoints, generations 0-60. Confirmed the founder's own suspicion
+  with real numbers: Main's Elo is genuinely flat-to-declining across the whole run (1363 at
+  generation 60, DOWN from the 1500 starting point; generations 50-57 bounce 1325-1558 with no
+  real trend), `score_a` flipping 1.0/0.0/1.0 between ADJACENT generations, real match results
+  like "kills 9-13"/"3-7"/"5-11". Confirmed directly, not assumed: training IS genuinely 1v1 (an
+  explicit prior founder decision, "if it needs to be 1v1 thats fine", each self-play opponent an
+  isolated OS process on its own isolated dedicated server — the "3x the model" the founder saw
+  is a real, but SEPARATE, system: `shankpit-bot-pool.service`'s own standing live-queue bot pool,
+  unrelated to the isolated training loop). No obvious bug found in the reward function itself
+  (already real, already had one prior bug fixed — an unbounded-stalling exploit ported
+  pre-fixed from BRAWLPIT). Most likely real cause of the flat Elo, named honestly rather than
+  fixed blind: `--total-timesteps` defaults to 200,000 (`--save-freq` 4096/generation) — a very
+  small budget for a 3D shooter's real combat dynamics, consistent with undertrained rather than
+  broken.
+  **Fix 1 — first-to-5 evaluation** (the founder's own explicit ask, confirmed across several
+  messages): `frozen_policy_bot.py` now periodically rewrites its own `--report-kills-to` file
+  throughout a session (new `--report-interval`, atomic temp+rename) instead of only at the very
+  end; `_run_evaluation_match` polls both bots' live reports and terminates the match the instant
+  either side reaches `EVAL_KILLS_TO` (5, matching BRAWLPIT's own real 5-stock convention) rather
+  than always waiting out a fixed window — `EVAL_DURATION_SECONDS` is now a real safety cap for
+  the two-passive-policies case, not the primary stopping condition.
+  **Fix 2 — persistent heartbeat logging**: new `rl_registry.push_heartbeat` pushes a real,
+  structured event to IDUNA's unified logging backend (`POST /services/collector`, Splunk-HEC-
+  shaped) at 6 real call sites — opponent chosen (both real self-play and heuristic-bootstrap),
+  every eval result (reset-generation/normal/PFSP-feedback, success and failure), and every
+  generation registration — so a run's own real history survives an ephemeral Colab session's own
+  stdout. A real, deliberate no-op if `IDUNA_HEC_TOKEN` isn't set, same graceful-degradation
+  discipline the file's own `registry_jwt` path already uses.
+  **Real infra this needed to actually work, found and fixed in the same pass, not deferred**:
+  (a) `IDUNA_HEC_TOKEN` was never configured — the ingest endpoint itself was disabled; generated
+  a real token, deployed. (b) nginx never routed `/services/*` to IDUNA at all on the public
+  domain — `sudo-queue/81` (re-syncs the known-diverged live config first, per this repo's own
+  hard-learned 2026-07-18 outage lesson, before a targeted, idempotent insertion — queued, not yet
+  run, needs the founder's own sudo). (c) the webmaster's own local admin account was missing
+  `logs.read` (had `devportal.access` only) — `/portal/logs` would have 403'd even after
+  everything else worked; fixed directly (IDUNA commit).
+  Live-verified end to end: a real evaluation match against two real checkpoints
+  (`active_348`/`active_525`) correctly polled, correctly fell through to the safety-cap path
+  when neither reached 5 kills (2-0 after ~30s), and its heartbeat event reached IDUNA
+  successfully over the local HEC endpoint. 3 new Python unit tests (`push_heartbeat`) + 1 new Go
+  regression test (`logs.read` on the real issued JWT). Full existing suites green (34+5 Python,
+  full IDUNA `go test ./...`).
+  Real, honest, not yet done: the nginx script is queued, not run (needs the founder's own sudo
+  password) — until then, the training pipeline can push heartbeats from THIS box but not yet
+  from the real external Colab machine where training actually runs. A longer training session
+  (raising `--total-timesteps`) to actually test whether more real training data moves Elo is
+  real, deliberate, separate follow-up — not attempted this pass.
+  SHANKPIT `5fc2435` + `58ecc22`, IDUNA `6e2e5f8` + `5cd9b04`, monorepo-root `206ac0823`
+  (`sudo-queue/81`, not yet run). Apples #20071 (SHANKPIT), #20072 (IDUNA).
+
 session: sess-20260905-0720-ec33e7c5
