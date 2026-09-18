@@ -44424,3 +44424,67 @@ session: sess-20260905-0720-ec33e7c5
   regressions. PARENA `8add60d`. Apple #20121.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 502: PARENA — LLVM BITWISE OPS + SELF-HOST BOXED-I32 SCOPE (2026-09-18)
+
+*Goal: founder real-time: "continue parena self host and llm."*
+
+- [x] **LLVM: real `bit-and`/`bit-or`/`bit-xor`/`shl`/`shr` operator parity closed.** Same
+  table-comparison discipline that already found `mod`/`!=` missing (SECTION 501): `src/emit.c`
+  has five real bitwise operators (added for `lz4.prn`'s own byte-level token-header packing)
+  that `src/emit_llvm.c`'s `ARITH_TABLE` never had. Genuinely, honestly INTEGER-ONLY — no real
+  ISA has a bitwise instruction over a float bit pattern — `f64_op` is a real `NULL` sentinel,
+  checked EXPLICITLY at the dispatch site (a double operand is now a real, honest compile error,
+  not undefined behavior from a `NULL` `%s` format). `shr` lowers to `ashr` (sign-preserving),
+  matching this v0's own signed I32 semantics. Verified the same way as `mod`/`!=`: real `llc-18`
+  lowering to x86_64 assembly, linked and RAN (`pack(x,y)=(x<<4)|(y&15)`, confirmed correct). 6
+  new assertions (52 total). PARENA `a5bd31d`.
+- [x] **Self-hosting: new boxed-I32 binding-kind scope** — the real, precisely-named next step
+  from SECTION 501's own honest correction. `ArenaKind` gained a third variant, `BoxedI32`,
+  reusing the EXISTING scope-threading mechanism (already passed into every function that needed
+  this) rather than adding a new parameter to dozens of signatures. `emit-let-bindings` now
+  registers a binding as `BoxedI32` whenever `emit-let-value` just boxed it (a real, precisely-
+  scoped `let-value-is-boxed-i32?` predicate: binary-op, or/and/not, scalar `get-field`, or
+  `vec/len` shapes only). `emit-binary-op` (confirmed directly to handle BOTH arithmetic AND
+  comparison — `binary-op-symbol?` includes `=`/`<`/`>`/`<=`/`>=` alongside `+`/`-`/`*`/`/`) now
+  routes both operands through a new `emit-binary-op-operand`, unboxing (`(int)(intptr_t)name`) a
+  bare symbol found registered as `BoxedI32`, leaving every other position (general call
+  arguments, Ok/Err/Some payloads, struct-literal field values — which genuinely want the boxed
+  form as-is) completely unchanged.
+- [x] **Two real, live gcc-level bugs found and fixed along the way**, both caught by actually
+  gcc-compiling the result, not trusted from a clean `parena build` exit code:
+  1. A genuine LIVE INSTANCE of the exact struct-literal-codegen compiler bug SECTION 498 found
+     (but didn't fix) — the new `LetBindingsResult` struct was structurally identical to a
+     pre-existing `ParamInfo` struct (same two field names, same two field types), confirmed live
+     via a real `incompatible types when returning type 'ParamInfo' but 'LetBindingsResult' was
+     expected` gcc error. Worked around (not fixed at the compiler level) by renaming the fields.
+  2. A `match` expression stored in an intermediate `let` binding before being matched on broke
+     this emitter's own Some-payload type-hint resolution (a real `get-field: 'void' isn't a
+     registered defstruct type` error, even with a correct `deref`) — fixed by matching DIRECTLY
+     on the call expression, the same proven-working shape `resolve-arena-ref` already used.
+- [x] **Real, honest, NOT fully closed, found by re-running the true self-compile diagnostic, not
+  assumed from the isolated fix working**: `lx-advance`'s own actual `c` (bound from `(lx-peek
+  lx)`, a PLAIN CALL) is deliberately NOT covered — a plain call's real return representation
+  depends on the callee's real return type (I32 → boxed; `vec/new` → real `Vec`; a struct-
+  returning function like `new-lexer` → a real, unboxed struct, confirmed live: this file's own
+  `int lx = new_lexer(src);` is ALSO a real, separate, unfixed type bug), and this narrow emitter
+  has no return-type registry to distinguish them generically. Real, measured, small, HONEST
+  result: total real-gcc-error count on the whole self-compile output moved from **227 to 226**
+  — not a large jump, because most of the remaining 226 trace to this SAME untouched gap
+  (`parse-i32`/`is-valid-i32-text?`/`split`/`lx-advance` each have MULTIPLE independent reasons
+  to fail). What IS real and verified, via a dedicated compile-and-run proof (`classify`): a
+  binary-op/bool-expr/get-field/`vec/len`-shaped boxed let-value now correctly unboxes for
+  comparison/arithmetic.
+  9 new assertions. Full local suite (347) + all `test-selfhost-*` + `test-emit-llvm` (52/52)
+  clean, zero regressions. PARENA `e0a40fd`. Apple #20123.
+- [ ] **Real, precisely-named, sharper next step**: a plain-call return-type registry (function
+  name → {I32-boxed, real-struct-name, Vec, void*, ...}), populated as each `defn` is processed
+  (this file already walks every top-level form once for the struct/enum pre-pass), consulted by
+  both `let-value-is-boxed-i32?` (widen to plain calls to a KNOWN-I32-returning function) and
+  `let-binding-c-type-prefix` (fix the `int lx = new_lexer(src)` struct-type bug the same
+  registry would resolve). Not started. `stdlib/array.prn`'s own `zeros` also remains unfixed
+  (separate reason: a multi-form `let` body needing `do`-block-style statement sequencing,
+  itself entirely unsupported). LLVM's own Vec/Result/Option/pattern-matching coverage remains
+  the real, large, still-unstarted next milestone.
+
+session: sess-20260905-0720-ec33e7c5
