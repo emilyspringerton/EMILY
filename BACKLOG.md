@@ -44060,3 +44060,55 @@ session: sess-20260905-0720-ec33e7c5
   SHANKPIT `2d11d67`. Apple #20106.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 495-496: SHANKPIT — RAGDOLL ITERATION 3 (FRICTION) + ORIENTATION-PHYSICS NORTHSTAR (2026-09-18)
+
+*Goal: founder real-time chain — "we may as well see how far we can push the engine while we are*
+*building it it impacts the kinds of stories we can tell" → "and then what does it look like to*
+*take it all the way to robotics? do we have to build cad in? do we need to model actual real*
+*world component capabilities?" → "but if the character falls over theres no way its going to*
+*look human like when they get up its going to be horiffic and synthetic probably i dunno id like*
+*to see where this takes us."*
+
+- [x] **S495 — real, cheap hypothesis tested before committing to full orientation physics**:
+  added `GROUND_FRICTION` to the ragdoll spike (kills horizontal implied-velocity on ground
+  contact — previously only vertical was killed, so a grounded joint could slide sideways forever
+  under a constraint correction's own pull). Result, real and measured, not guessed: Y-flatness
+  completely unchanged (still every joint at `y=0.000` by t=0.75s), but lateral spread tightened
+  substantially (fingertip spread ~0.6-0.7 → ~0.3-0.5 units) — a splayed "starfish" becomes a
+  compact pile. Real, partial progress, doesn't touch the underlying ceiling.
+- [x] **Real, corrected framing, reached mid-conversation**: lying flat after falling is NOT
+  actually the bug — that's genuinely what an unconscious body does, and matches every real
+  game's own ragdoll behavior. The real, specific problem is the symmetric, poker-straight shape,
+  since nothing resists a joint straightening TOWARD full extension (only resists over-folding
+  past it, or sliding after ground contact).
+- [x] **S496 — `docs2/RAGDOLL_ORIENTATION_NORTHSTAR.md`** (golden-doc registered as
+  `SHANKPIT-RAGDOLL-ORIENT-NORTH`), the founder's own explicit choice ("Scope full per-bone
+  orientation physics") over a cheaper "ragdoll for death only + authored get-up blend" scope.
+  Real v0 design: **swing-axis constraints derived from rest-pose geometry** — the rest pose's own
+  `(P→G) × (P→J)` cross product gives a real, joint-specific bending-plane normal with ZERO new
+  `.gskel` metadata needed. Twist constraints (rotation around a bone's own long axis) named
+  honestly as a real v1 gap — fundamentally unobservable from point positions alone, needs real
+  per-bone orientation state. Phased: hips/knees/elbows/shoulders first, fingers/spine/collision
+  shapes deferred.
+- [x] **Directly answered two real, adjacent founder questions in the same doc, not deferred**:
+  - *"horrific and synthetic" recovery* — confirmed, not disputed: a physics-only recovery policy
+    (task-success reward only, no reference to imitate) is a well-documented real RL failure mode.
+    `HQ-SPEC-SIM-100` §4's own Reward Compiler (imitation reward against a real `.gband` reference
+    clip) is the actual fix — "the animator's clip is the spec; physics is the implementation; the
+    policy is the compiled artifact" (SIM-100 §1) is the literal, pre-existing answer. Named two
+    real recovery paths: an authored "stand up" clip blend via GOLDENBAND's own real `gseq`
+    stitching (cheap, ships now, doesn't adapt to fall direction) vs. a trained recovery policy
+    (the real GOLDENBAND/SIM-100 destination, needs the still-not-started reward-compiler
+    pipeline).
+  - *Robotics/CAD* — grounded directly in `HQ-SPEC-SIM-100` §3's own real, already-specified
+    actuator-metadata requirement (torque limits, velocity limits, gear backlash per joint) and
+    §6's real graduated actuation ladder/biometric-approval gate. Does NOT require full CAD inside
+    the simulator — requires the real NUMBERS CAD/motor-datasheet work produces, sourced from
+    whichever real hardware a team actually specs. This doc's own swing/twist joint-limit work is
+    named as genuinely shared groundwork with that eventual need, not game-only throwaway work.
+  SHANKPIT `fe0fc2d`. Apple #20107.
+- [ ] **Not started**: Phase 1 itself (swing-axis constraints on major joints) — this section
+  scopes it, doesn't build it yet.
+
+session: sess-20260905-0720-ec33e7c5
