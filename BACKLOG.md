@@ -44556,7 +44556,8 @@ algorithmic shadow war; "if they don't see it, it isn't real"). Scoped per Princ
 
 - [x] **S504-01: scoping pass — NORTHSTAR (capability audit vs SHANKPIT, critical read, V0 cut, phases).** BIG_O 24e83bd (local repo; no upstream yet).
 - [x] **S504-02: B0 repo hygiene — upstream created by founder, pushed, root CLAUDE.md row, golden-index, transcript ingested + real README (BIG_O ac426fe). Apple #20150. CI/release workflow lands with B1 (first code).**
-- [ ] **S504-03: B1 Attention/Heat rules module (PARENA scalar → C+Java, headless tests, parity vectors, text-sim playable).**
+- [x] **S504-03: B1 Attention/Heat rules module (PARENA scalar → C+Java, headless tests, parity vectors, text-sim playable).**
+  — Done 2026-09-18: PARENA witness_rules.prn (PARENA 41d33ec) -> C (+Java compiles unchanged), spec docs/B1_WITNESS_RULES.md, oracle+property tests (1.5M checks ASan/UBSan) + 3083 parity vectors, crew sim core (<=3 players, 16 NPCs, seeded), bigo_sim run/play, 12 scenarios + replay determinism, CI with auto-releases (v0.4.0 green). BIG_O 20fe46c/af953cf/332b5fc. Apple #20154. Open founder Qs: 'seen acting together' = same zone vs explicit joint action; compromising a witness costs decorum?; decorum recovery cap/cooldown?
 - [ ] **S504-04: B2 day slice — harvest level + scripted vector fauna on SHANKPIT (NOCK), level-chain exit to night.**
 - [ ] **S504-05: B3 night slice — hub level, witness/perception primitive (REFLUX LOOK_AT/PROXIMITY dispatch), humanness-lite NPCs, thought-police NPC.**
 - [ ] **S504-06: B4 lab — data model + menu UI, harvested-sample → splice loop.**
