@@ -44562,6 +44562,6 @@ algorithmic shadow war; "if they don't see it, it isn't real"). Scoped per Princ
 - [ ] **S504-06: B4 lab — data model + menu UI, harvested-sample → splice loop.**
 - [ ] **S504-07: B5 shadow war — deterministic batched sim server, bot pool, league reuse (DEADWEIGHT/BRAWLPIT pipeline), IDUNA game scope + guests.**
 - [ ] **S504-08: B6 integration + V0 bar — full day→night→lab→war turn, CI releases from first commit, live-verified vs bot.**
-- Founder decisions: (a) DECIDED 2026-09-18: multiplayer from day 1, up to 3 players, CO-OP first (one crew, one onboarding); adversarial 'separate corporations' deferred (needs up to 3 onboardings; later a mode without onboarding) — NORTHSTAR §7; (b) desktop-first §3.4 — still assumed, not confirmed; (c) upstream repo DONE (emilyspringerton/BIG_O), design transcript ingested (BIG_O ac426fe, Apple #20150).
+- Founder decisions: (a) DECIDED 2026-09-18: multiplayer from day 1, up to 3 players, CO-OP first (one crew, one onboarding); adversarial 'separate corporations' deferred (needs up to 3 onboardings; later a mode without onboarding) — NORTHSTAR §7; (b) desktop-first §3.4 — still assumed, not confirmed; (a2) onboarding (founder 2026-09-18): skipped for adversarial, optional for co-op, thin skippable stub only until more systems exist — NORTHSTAR §7; (c) upstream repo DONE (emilyspringerton/BIG_O), design transcript ingested (BIG_O ac426fe, Apple #20150).
 
 session: sess-20260918-1725-497f394f
