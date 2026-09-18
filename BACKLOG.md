@@ -44282,3 +44282,58 @@ session: sess-20260905-0720-ec33e7c5
   MSSQL rows into a Postgres/Oracle-shaped sink.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 500: IDUNA — EMILY INFRASTRUCTURE PLAY NORTHSTAR (2026-09-18)
+
+*Goal: founder real-time: "we want to allow for the possibility of a big infrastructure play -*
+*one prong is specializing in migrating LARGE organizations off of MS SQL into cloud or ORCL or*
+*even potentially on prem but its more of a cloud play" + "businesses -lines hardened workstation*
+*replacement" + "Zero trust IAM system to prevent security risks from internal agents (agents*
+*never get real keys)" + "and the big one is the DB migration play."*
+
+- [x] **New `IDUNA/docs/EMILY_INFRASTRUCTURE_PLAY_NORTHSTAR.md`** (registered
+  `EMILY-INFRA-PLAY-NORTH`), three business lines named and honestly graded by real maturity:
+  1. **Hardened workstation / "Citrix killer"** — vision only; real but partial technical seeds
+     in `PITVIPER`/`DUNG`/`SAND`, no remote-streaming/session-broker layer exists anywhere.
+  2. **Zero-trust IAM for agents** — IDUNA's own already-tracked story
+     (`IDUNA/docs/EMILY_FOR_BUSINESS_NORTHSTAR.md`, S243-02); cross-referenced rather than
+     duplicated. The "agents never get real keys" claim confirmed accurate at the real, checked
+     level that doc already established (scoped `permissions[]`, no role inheritance, secret
+     rotation logged never in plaintext) — real internal capability, not yet a sellable external
+     product (same named gaps that doc already found: multi-tenancy, self-serve onboarding,
+     continuous posture verification, compliance attestation).
+  3. **MS SQL migration play ("the big one")** — least product-shaped, MOST technically real:
+     grounded directly in this week's actual shipped engineering (SECTIONS 498/499/207-10 —
+     `project-mssql!`/`tsql` projector, `database/mssql-util.prn` type-transpile,
+     `RedisStreamSink`/`RedisStreamConsumer` zero-downtime consumer-group cutover). Real, honest,
+     largest named gap: **no CDC (change-data-capture) mechanism** for a live, changing production
+     MSSQL source — everything built so far transpiles already-extracted VALUES, not ongoing
+     CHANGES. Also named: no schema-migration tooling, no customer-facing tooling/UI at all.
+- [x] **Applied critical review to pasted AI-generated pitch content, not rubber-stamped** (same
+  discipline `LO/NORTHSTAR.md`'s own S208-01 review and `DEADWEIGHT/NORTHSTAR.md`'s own critical
+  pass already established for external specs):
+  - Corrected a real overclaim: "PARENA... never touches the stack... eliminates buffer
+    overflows" is NOT what `PARENA/NORTHSTAR.md` actually establishes — the real, checked
+    guarantee is compile-time region-typed memory safety (prevents use-after-free/dangling-
+    reference bugs, no GC/manual-free needed), a real and still-strong claim, just a narrower and
+    more defensible one than the pasted version.
+  - Declined to restate specific unverified "confirmed incident" security claims (a named Google
+    TIG case, a specific breach timeline) as established fact — referenced the real, general,
+    well-known trend (AI-assisted/autonomous attack tooling is a real, growing concern) instead.
+  - Honored the founder's own explicit `(needs check for hallucination)` flag on the pasted
+    "Ad-Garbage Phone OS" idea directly: named a real, concrete technical doubt (modern mobile
+    OS app sandboxing doesn't give an outside layer control over another app's own bundled ad
+    SDK telemetry the way the pitch describes) and left it as unresolved/speculative, not a
+    committed fourth pillar.
+- [x] **Per explicit founder instruction** ("dont write that in the northstar"), the
+  acquisition-exit motivation behind the cloud-focused framing was deliberately left out of the
+  written doc — the real, stated business reasons for the cloud-first choice are what's written
+  instead.
+  IDUNA `cc451a0`. Apple #20117.
+- [ ] **Open questions, named for the founder, not resolved here**: priority/resourcing across
+  the three lines; CDC architecture choice (custom reader vs. an existing tool, possibly via the
+  same `tsql`-shell-out convention already established); first real pilot target; how a DB-
+  migration offering relates to `EMILY_FOR_BUSINESS`'s own existing license terms (services
+  engagement vs. licensed product). None started.
+
+session: sess-20260905-0720-ec33e7c5
