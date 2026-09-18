@@ -44504,16 +44504,22 @@ with releases on the first commit — CLEAN BUILDS FIRST."*
 Scoping doc: `DEADWEIGHT/docs/VS0_SCOPING.md` (+ `CARD_MODE_RULES.md`, `WIRE_PROTOCOL.md`). Supersedes NORTHSTAR's
 D1-D6 ordering for VS0 only: card mode ships first, backpack mode (D1) is VS1.
 
-- [ ] **S503-01: scoping pass + contracts (VS0_SCOPING / CARD_MODE_RULES / WIRE_PROTOCOL), golden-indexed.**
-- [ ] **S503-02: clean-build skeleton + CI + auto-release on first commit** (C core + tests under ASan/UBSan,
+- [x] **S503-01: scoping pass + contracts (VS0_SCOPING / CARD_MODE_RULES / WIRE_PROTOCOL), golden-indexed.**
+  — Done 2026-09-18: scoping docs, golden-indexed (DEADWEIGHT-VS0). DEADWEIGHT 0a2c4f2. Apple #20136.
+- [x] **S503-02: clean-build skeleton + CI + auto-release on first commit** (C core + tests under ASan/UBSan,
   mingw Windows cross-build, Bazel APK à la KARAMBIT, minor-bump GitHub Release).
-- [ ] **S503-03: card-mode rules in PARENA** (`stdlib/deadweight/card_rules.prn`, scalar-only, dual-emitted to C
+  — Done 2026-09-18: clean-build skeleton + CI + auto-minor releases (v0.1.0..v0.7.0, green). DEADWEIGHT ffc7345, CI fixes b3245a5/a2078aa. Apple #20136.
+- [x] **S503-03: card-mode rules in PARENA** (`stdlib/deadweight/card_rules.prn`, scalar-only, dual-emitted to C
   and Java, cross-target parity vectors) — no FFI added to any emitter.
-- [ ] **S503-04: C match core + `dw_server` (TCP, multi-match, `--fast-forward`, `--port`) + headless tests.**
-- [ ] **S503-05: bot pool of 3 heuristic archetype bots (`dw_bot`) queued into the real matchmaker; server never
+  — Done 2026-09-18: PARENA card_rules.prn -> C+Java, 1610 parity vectors, no FFI added. PARENA 6c39bce. Apple #20136.
+- [x] **S503-04: C match core + `dw_server` (TCP, multi-match, `--fast-forward`, `--port`) + headless tests.**
+  — Done 2026-09-18: protocol codec, match core, dw_server, dw_client; sanitizer server survived 2,800+ matches. DEADWEIGHT ec2466f/9cf7fb5/2967967/5827742. Apple #20132.
+- [x] **S503-05: bot pool of 3 heuristic archetype bots (`dw_bot`) queued into the real matchmaker; server never
   pairs the last waiting bot with another bot so a human can always join.**
-- [ ] **S503-06: IDUNA — `game='deadweight'` scope, `DEADWEIGHT-BOTS` + `DEADWEIGHT-RL` M2M agents, guest-account
+  — Done 2026-09-18: 3 heuristic bots + exact-PID pool script; last-bot reservation verified (~5ms human match). DEADWEIGHT 94a5441. Apple #20133. Also IDUNA auth/results wiring db80201 + AUTH frame (0x06).
+- [x] **S503-06: IDUNA — `game='deadweight'` scope, `DEADWEIGHT-BOTS` + `DEADWEIGHT-RL` M2M agents, guest-account
   provider (name-only), game-scoped checkpoint registry (generalize brawlpit-checkpoints, don't fork it).**
+  — Done 2026-09-18: IDUNA game scope, guests, agents, game-scoped registry (2 migrations, NOT deployed; needs next IDUNA deploy + bootstrap for agent secrets). IDUNA 281ef1a. Gap: guest->email upgrade not built.
 - [ ] **S503-07: Android app VS0** (Bazel/rules_android, hand-written Java TCP client + card UI, PARENA-generated
   `CardRules.java`, plain-JVM-testable core, real APK from CI).
 - [ ] **S503-08: training league** (packet-level env over the real wire protocol, fast-forward server, BRAWLPIT's
