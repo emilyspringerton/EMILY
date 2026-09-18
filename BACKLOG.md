@@ -44520,10 +44520,12 @@ D1-D6 ordering for VS0 only: card mode ships first, backpack mode (D1) is VS1.
 - [x] **S503-06: IDUNA — `game='deadweight'` scope, `DEADWEIGHT-BOTS` + `DEADWEIGHT-RL` M2M agents, guest-account
   provider (name-only), game-scoped checkpoint registry (generalize brawlpit-checkpoints, don't fork it).**
   — Done 2026-09-18: IDUNA game scope, guests, agents, game-scoped registry (2 migrations, NOT deployed; needs next IDUNA deploy + bootstrap for agent secrets). IDUNA 281ef1a. Gap: guest->email upgrade not built.
-- [ ] **S503-07: Android app VS0** (Bazel/rules_android, hand-written Java TCP client + card UI, PARENA-generated
+- [x] **S503-07: Android app VS0** (Bazel/rules_android, hand-written Java TCP client + card UI, PARENA-generated
   `CardRules.java`, plain-JVM-testable core, real APK from CI).
-- [ ] **S503-08: training league** (packet-level env over the real wire protocol, fast-forward server, BRAWLPIT's
+  — Done 2026-09-18: Android VS0: plain-JVM core (197 checks), programmatic thumb-zone UI, guest-auth hook, AUTH frame, real-server integration test; APK 104KB, INTERNET only. NOT verified on a device (touch feel/rotation) or against live IDUNA auth. DEADWEIGHT 959ec06/6ce399c/ab9df90.
+- [x] **S503-08: training league** (packet-level env over the real wire protocol, fast-forward server, BRAWLPIT's
   `rl_league.py` 3-role PFSP + Elo ported, registry push) — smoke-tested, real training run is Colab follow-up.
+  — Done 2026-09-18: training league: rl_league port (46 upstream tests), Python rules port matching 1610 vectors, wire env, registry client, 3-role dw_train (dry-run against real dw_server, 20 real matches); real PPO NOT run (no gymnasium/sb3 here, Colab follow-up). DEADWEIGHT 9b6d72d..8bf9ac0.
 - [ ] **S503-09: Windows headless client + SDL2 card client** (VS0 = cross-compiled headless client in CI; SDL2 UI
   is VS0.5).
 - [ ] **S503-10: NOCK card-art textures** (procgen via NOCK CLI/HTTP; no new PARENA FFI).
