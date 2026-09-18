@@ -44555,13 +44555,13 @@ session: sess-20260918-1725-497f394f
 algorithmic shadow war; "if they don't see it, it isn't real"). Scoped per Principle 19: `BIG_O/NORTHSTAR.md`.*
 
 - [x] **S504-01: scoping pass — NORTHSTAR (capability audit vs SHANKPIT, critical read, V0 cut, phases).** BIG_O 24e83bd (local repo; no upstream yet).
-- [ ] **S504-02: B0 repo hygiene — founder creates upstream `BIG_O` GitHub repo (agent token is read-only, 404 today); push; root CLAUDE.md row; golden-index (done with this section).**
+- [x] **S504-02: B0 repo hygiene — upstream created by founder, pushed, root CLAUDE.md row, golden-index, transcript ingested + real README (BIG_O ac426fe). Apple #20150. CI/release workflow lands with B1 (first code).**
 - [ ] **S504-03: B1 Attention/Heat rules module (PARENA scalar → C+Java, headless tests, parity vectors, text-sim playable).**
 - [ ] **S504-04: B2 day slice — harvest level + scripted vector fauna on SHANKPIT (NOCK), level-chain exit to night.**
 - [ ] **S504-05: B3 night slice — hub level, witness/perception primitive (REFLUX LOOK_AT/PROXIMITY dispatch), humanness-lite NPCs, thought-police NPC.**
 - [ ] **S504-06: B4 lab — data model + menu UI, harvested-sample → splice loop.**
 - [ ] **S504-07: B5 shadow war — deterministic batched sim server, bot pool, league reuse (DEADWEIGHT/BRAWLPIT pipeline), IDUNA game scope + guests.**
 - [ ] **S504-08: B6 integration + V0 bar — full day→night→lab→war turn, CI releases from first commit, live-verified vs bot.**
-- Founder decisions pending: (a) shared-world multiplayer per NORTHSTAR §3.1, (b) desktop-first §3.4, (c) create upstream repo.
+- Founder decisions: (a) DECIDED 2026-09-18: multiplayer from day 1, up to 3 players, CO-OP first (one crew, one onboarding); adversarial 'separate corporations' deferred (needs up to 3 onboardings; later a mode without onboarding) — NORTHSTAR §7; (b) desktop-first §3.4 — still assumed, not confirmed; (c) upstream repo DONE (emilyspringerton/BIG_O), design transcript ingested (BIG_O ac426fe, Apple #20150).
 
 session: sess-20260918-1725-497f394f
