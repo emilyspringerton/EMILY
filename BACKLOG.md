@@ -44244,3 +44244,41 @@ session: sess-20260905-0720-ec33e7c5
   latent bug for any future struct pair that ISN'T structurally identical.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 499: PARENA — T-SQL TYPE-TRANSPILE PRIMITIVES (2026-09-18)
+
+*Goal: founder real-time, precise engineering requirements handed off before logging off: "We*
+*need a zero-copy data-type transpile layer written in PARENA to handle incoming MS SQL bytes*
+*before duplicating them asynchronously." Real follow-on to SECTION 498's `project-mssql!`/*
+*durable-queue work — once MSSQL data flows into a fanout pipeline, the Postgres/Oracle-shaped*
+*sinks on the other end need T-SQL's own type text converted, not forwarded as-is.*
+
+- [x] **New `stdlib/database/mssql-util.prn`**, three real, well-known T-SQL-to-Postgres/Oracle
+  friction points, applied CRITICALLY, not rubber-stamped (same discipline `LO/NORTHSTAR.md`'s
+  own S208-01 already established for a pasted spec):
+  - `mssql-uniqueidentifier-to-uuid` — strips T-SQL's own `{}`-wrapped `UNIQUEIDENTIFIER` literal
+    syntax when present (Postgres/Oracle's own UUID text form has no braces). Total function,
+    never fails; unbracketed or partially-bracketed input passes through unchanged.
+  - `mssql-datetime2-to-timestamp` — truncates `DATETIME2`'s 7-digit fractional-second precision
+    down to Postgres/Oracle's 6, deliberately TRUNCATES rather than rounds (rounding could roll a
+    value into the next second — a worse correctness surprise than a truncated-but-monotonic
+    one, verified with a real test case where truncation and rounding would disagree).
+  - `mssql-bit-to-boolean-token` — one real, deliberate, documented departure from the founder's
+    own literal spec wording: SQL Server's `BIT` is genuinely tri-state (0/1/NULL), so rather
+    than silently defaulting anything-not-"1" to `FALSE` (a real, quiet correctness risk for the
+    financial/SEC signal pipeline this ultimately feeds — Operational Health Is Not Optional,
+    `THE_EMILY_WAY.md` Principle 15), a genuinely invalid value returns a real
+    `InvalidBitValue` error instead.
+- [x] **Real, live-verified "zero-copy" claim**, not just asserted: the common case (input
+  already in the target shape) returns the SAME original `String` value with zero allocation —
+  proven via a direct pointer-identity assertion in `tests/test_database_mssql_util.c`, not just
+  a text-equality check. 8/8 real assertions pass (`make test-database-mssql-util`).
+- [x] **Zero `#target`/FFI** — pure `string.prn`-only string manipulation, portable across every
+  PARENA emission target in principle; same already-known `let`/`Result`/`defenum` boundary as
+  every other such file for `BURROW`'s current v0 Go target (not a new gap this file introduces).
+  PARENA `2eb148d`. Apple #20115.
+- [ ] **Not started**: this module isn't wired into `project-mssql!`/the Redis Streams fanout
+  pipeline yet — real, separate follow-up once a real consumer actually needs to transpile live
+  MSSQL rows into a Postgres/Oracle-shaped sink.
+
+session: sess-20260905-0720-ec33e7c5
