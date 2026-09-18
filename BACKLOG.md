@@ -26033,6 +26033,38 @@ uploads curated `var/` state to a real, live GCS bucket.
   stateless/lower-stakes processes first (`dashboard`/`newssite`), data-critical ones last
   (`secwatch`/`eps-reconciler`) per `THE_EMILY_WAY.md` Principle 15 (Operational Health Is Not
   Optional). Blocked on everything above.
+- [x] **S207-10 (S498, 2026-09-18): durable-queue decision, resolving S207-04's own PVC-vs-Phase-2
+  branch.** Founder real-time: "lets focus on getting PRRJECT_FATBABY off the box first... i want
+  to aim to do a cut over with ZERO DOWNTIME i dont want to miss a single 15 second polling
+  window... the challenge is storing the data on kubernetes we have to use volumes or whatever...
+  part of the kubes plan was to switch to a queue so we can have a durable queue to work from for
+  fanout to other stores like mysql... i want to use parena but that probably doesnt really make
+  sense unless it does i have no idea." Real, direct answers given: **PARENA's role stays IaC
+  generation only** (S207-08's own already-shipped `stdlib/k8s`/`stdlib/helm`) — rewriting the
+  pipeline itself in PARENA was considered and rejected, no payoff for code that already works.
+  **Storage/queue**: a durable queue (Redis Streams on **GCP Memorystore for Redis, Standard
+  tier, HA**, not self-hosted on a bare PVC) sidesteps the "do we need a volume" question for the
+  event stream entirely — Memorystore is managed, no in-cluster failover logic to build. New
+  `internal/eventsink/redis_stream_sink.go` (`RedisStreamSink`, implements the existing
+  `EventSink` interface) + `redis_stream_consumer.go` (`RedisStreamConsumer`, real consumer
+  groups) — real, live-verified against an in-process, real-protocol Redis (miniredis/v2, 5 new
+  tests), including direct proof of the exact property the zero-downtime cutover design rests on:
+  a new consumer joining an existing group picks up precisely the remaining, un-acked work, zero
+  gap, zero duplication. Documented the real split between producer-side cutover safety
+  (`secwatch`/`prwatch-body` polling external APIs — idempotent `Event.ID` dedup, no queue
+  primitive involved) and consumer-side cutover safety (`processor`/future sinks — the real
+  consumer-group mechanism). Full writeup in `docs/northstar/KUBERNETES_MIGRATION.md`'s own new
+  section. **Real, honest, not yet done**: no live Memorystore instance provisioned, no `cmd/`
+  process actually wired to publish/consume via these types yet, and **GKE cluster health
+  unconfirmed this pass** — the last real audit (`k9s-99-001` above) found zero working compute
+  nodes for 32+ hours; this session had no live `gcloud`/`kubectl` credentials to re-check, a
+  real, concrete blocker before S207-05/S207-07 can proceed. `go build`/`go vet`/`go test ./...`
+  all clean. PRRJECT_FATBABY `202e934`. Apple #20113.
+- [ ] **Real, immediate next step, named not started**: re-confirm GKE cluster node health (needs
+  live `gcloud auth login`, not available in this sandbox), then wire ONE real pipeline process
+  (matching Phase 5.0's own "prove one service first" discipline) to actually publish via
+  `RedisStreamSink` and consume via `RedisStreamConsumer`, before repeating across the rest of the
+  17-process inventory.
 - [x] **S207-08: real Kubernetes + Helm primitives in the PARENA stdlib, cross-repo.** Founder
   real-time: "write kubernetes primitives into the stdlib and write helm support into parena both
   in the stdlib and also into DUNG and project BURROW" → "helm primatives". `PARENA/stdlib/k8s/
