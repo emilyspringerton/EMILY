@@ -44154,3 +44154,61 @@ session: sess-20260905-0720-ec33e7c5
   constraints) that a real recovery policy needs underneath it first.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 498: PARENA — MSSQL PRIMITIVE + UNIX SOCKETS + RAW/L2 RECV (2026-09-18)
+
+*Goal: founder real-time: "we need to put in PARENA primatives for MSSQL and double down on all*
+*the unix socket stuff and raw socket stuff."*
+
+- [x] **New `stdlib/net/unixsocket.prn`** — real AF_UNIX `SOCK_STREAM` primitives (`unix-listen`/
+  `unix-accept`/`unix-connect`/`unix-read`/`unix-write`/`unix-close`), mirroring `net/tcp.prn`'s
+  own already-established shape. Checked reality first: genuinely zero AF_UNIX support existed
+  anywhere in this stdlib before this file (`net/tcp.prn`/`net/udp.prn` are AF_INET-only,
+  `net/rawsocket.prn`/`net/l2socket.prn` are AF_INET/AF_PACKET raw sockets).
+- [x] **Real bug found and fixed by this file's own end-to-end test, not a hypothetical**: the
+  first draft of `unixsocket_listen_impl` tried to detect a stale socket file via a
+  `connect()`-based liveness probe before unlinking it — but when the path WAS genuinely live,
+  that probe itself created a real, completed connection sitting in the live listener's own
+  `accept(2)` backlog, immediately abandoned, corrupting real FIFO accept order. Caught live by
+  `tests/test_net_unixsocket.c`'s own "second listen on a live path, then immediately
+  connect+accept+read/write" sequence (the real client's write silently went unread — the accept
+  paired with the abandoned probe instead). Fixed by removing the probe entirely: `bind(2)` either
+  succeeds or reports `AddressInUse`, honestly — no automatic stale-socket recovery, a real, named
+  v0 scope cut (a caller that knows a path is stale unlinks it itself first).
+- [x] **`raw-ip4-recv` (net/rawsocket.prn) + `l2-recv` (net/l2socket.prn)** — real, previously
+  explicitly-named "write-only" gap closed (both files' own header comments said so directly
+  before this pass). Reads back on the SAME socket a caller already sent from — distinct from
+  `pentest/pcap.prn`'s own separate promiscuous-capture path. Real, privilege-gated the same way
+  the existing send-side primitives already are; one new, privilege-INdependent test assertion
+  added to each (`tests/test_net_rawsocket.c`/`tests/test_net_l2socket.c`).
+- [x] **`project-mssql!` (stdlib/log/projector.prn)** — shells out to FreeTDS's real `tsql` CLI,
+  same "shell out to the dialect's own CLI" convention the existing SQLite/MySQL/PostgreSQL
+  projectors already use (a real, deliberate alternative to a heavier `libsybdb`/db-lib FFI bind).
+  Real, load-bearing difference named, not glossed over: `tsql` has no `-e`/`-c` one-shot-SQL flag
+  (SQL piped via stdin + a literal `GO` batch terminator instead — new `run-sql-via-stdin`
+  helper); T-SQL has no `CREATE TABLE IF NOT EXISTS` (new, separate `events-table-ddl-mssql`
+  using T-SQL's own real `IF OBJECT_ID(...) IS NULL` idiom, `VARCHAR(MAX)` in place of deprecated
+  `TEXT`); every new caller-controlled connection parameter (server/user/password/database) is
+  individually shell-quoted, a real, deliberate fix for a genuinely NEW command-injection surface
+  the two pre-existing MySQL/PostgreSQL projectors don't fully close for their own (narrower)
+  argument sets.
+- [x] **Real, live verification, not just unit tests**: obtained a real `tsql` binary in this
+  sandbox WITHOUT root (`apt-get download freetds-bin` + `dpkg-deb -x`, no install needed) and
+  confirmed live that the real, complete constructed command against a genuinely unreachable host
+  fails fast with a real "Connection refused" in well under a second, never hangs. All four
+  modules compile clean through `parena build` + `gcc -Wall -Wextra -pedantic -Werror`; `make
+  test-net-unixsocket`/`test-net-rawsocket`/`test-net-l2socket`/`test-log-projector` all green.
+  `sudo-queue/82-install-freetds-bin.sh` makes `tsql` a real, permanent, system-wide binary for
+  future sessions (this session's own root-free extraction only persisted in `/tmp`).
+  PARENA `257e6aa`. Apple #20111.
+- [ ] **Not started / real, named gaps**: `SOCK_DGRAM` AF_UNIX (a genuinely different API shape);
+  MSSQL DDL+INSERT round trip against an actual live MSSQL server (this sandbox has none reachable
+  — same honest status as this file's own pre-existing MySQL/PostgreSQL gaps); a real, separate,
+  pre-existing PARENA compiler bug found INCIDENTALLY while debugging the above (not fixed this
+  pass, out of scope for today's ask): `{:field val}` struct-literal codegen picks the wrong
+  struct type for `net/tcp.prn`'s `tcp-listen`/`net/unixsocket.prn`'s `unix-listen` (boxes as
+  `TcpStream`/`UnixStream` instead of the declared `TcpListener`/`UnixListener`) — harmless today
+  only because both pairs happen to be structurally identical single-`fd`-field structs; a real,
+  latent bug for any future struct pair that ISN'T structurally identical.
+
+session: sess-20260905-0720-ec33e7c5
