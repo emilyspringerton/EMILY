@@ -115,6 +115,12 @@ from where the last one ended rather than a blank slate.
 
 See `EMILY/docs/THE_EMILY_WAY.md` principle 11 for the full AGI loop rationale.
 
+## CONSTRUCT File Generation (standing instruction, monorepo Principle 21)
+
+EMILY auto-generates CONSTRUCT files on each release via CI. A CONSTRUCT is a deterministic plaintext snapshot of all repo source files with file metadata — used for reproducible builds, audit trails, and offline source access. 
+
+See the main `CLAUDE.md`'s "Principle 21: CONSTRUCT Files" section for the full rationale and shared implementation patterns. The generation is automatic in CI; no manual work needed.
+
 ## README Reality — SAGA reconciliation (standing instruction, monorepo-wide)
 
 Founder real-time, 2026-09-18: if a change of yours **substantially changes the claim of this project's core README**,
