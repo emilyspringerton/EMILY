@@ -44394,5 +44394,33 @@ session: sess-20260905-0720-ec33e7c5
   `shl`/`shr`, also present in the C reference, not checked this pass); LLVM's Vec/Result/Option/
   pattern-matching coverage (the real, large, still-unstarted next milestone named in
   `docs/LLVM_BACKEND_NORTHSTAR.md`).
+- [x] **Same-day continuation ("continue working on PARENA self host"): closed the
+  struct-literal-shape gap for `lx-advance` specifically** — two widenings, both found necessary
+  by actually gcc-compiling the result: (1) a struct literal wrapped in a single-form `let` is
+  now recognized as a defn's own whole body (previously only a bare, unwrapped struct literal
+  was); (2) `get-field-shaped?` added to `loop-binding-value-shaped?` so `if-value-shaped?`'s own
+  branch check accepts a struct-field-read branch (`lx-advance`'s real `:line` field). 4 new
+  assertions + a real compile-and-run proof (`advance-like`, new
+  `tests/integration/driver_let_struct.c`).
+- [x] **Important, honest correction, found WHILE verifying `lx-advance` fully closed, not before
+  claiming it**: its own real `(= c 10)` condition compares a LET-BOUND I32 (`c`, boxed as
+  `char *` per this emitter's own uniform convention) directly against a literal — a real,
+  confirmed `-Werror=comparison between pointer and integer` gcc failure, a separate,
+  NOT-yet-fixed structural gap (this emitter has no binding-kind scope tracking which locals are
+  boxed I32 vs. raw). This was invisible to the `#error`-count diagnostic this whole effort has
+  used as its primary progress metric, since `selfhost/emit.prn` confidently emits
+  real-looking-but-broken C here rather than refusing the shape. Directly gcc-compiling the WHOLE
+  self-compile output (not just grepping `#error`) found **227 real gcc errors** — a large
+  fraction traceable to this same root cause (`stdlib/string.prn`'s own `parse-i32`/
+  `is-valid-i32-text?`/`split` all hit variations too) — versus the **3 `#error` directives** the
+  narrower diagnostic reports. Both numbers are real; they answer different questions
+  (does the emitter honestly refuse an unsupported shape, vs. does the real stdlib actually
+  compile cleanly — the real bar true self-hosting needs). `NORTHSTAR.md` now makes this
+  distinction explicit rather than leaving the two conflated. Real, precisely-named next step: a
+  new boxed-I32 binding-kind scope, parallel to the existing `ArenaBinding`/arena-kind scope, not
+  started. `stdlib/array.prn`'s own `zeros` also remains unfixed (separate reason: a multi-form
+  `let` body needing `do`-block-style statement sequencing, itself entirely unsupported).
+  Full local suite (347) + all `test-selfhost-*` + `test-emit-llvm` (43/43) clean, zero
+  regressions. PARENA `8add60d`. Apple #20121.
 
 session: sess-20260905-0720-ec33e7c5
