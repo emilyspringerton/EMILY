@@ -344,6 +344,19 @@ same as any other completed task, per Principle 3 (Apple Before Mark-Done). This
 about the OTHER case: a big ask with no such explicit "planning only" framing, where scoping it
 is a real, necessary FIRST step, not the whole job.
 
+### 20. README Reality — the README is the claim; keep it true (SAGA)
+
+Founder, 2026-09-18: *if a change substantially changes the claim of a project's core README, per SAGA protocols update the
+README to reflect current reality — especially when adding a meaningful and genuinely interesting piece of kit.*
+
+SAGA (HQ-SPEC-DOC-102; `EMILY/docs/SAGA_SYSTEM_AUDIT_2026-07-18.md`) reconciles **intent ↔ claim ↔ reality**. A project's
+core `README.md` is its public claim. When work moves reality (a capability added/removed, status changed from planned to
+shipped, build/run steps changed, a claim now stale or false, or a new tool/engine capability/protocol/pipeline/game system
+worth showing off), the README is updated **in the same unit of work**: fix or delete stale lines (including "not built yet"
+notes that are now built), verify new claims by running them, mark anything untested as untested, and mention it in the
+CHANGELOG entry. Ordinary fixes and small features that leave the README's claims true do not need it. The same wording is a
+standing section in every monorepo `CLAUDE.md` ("README Reality — SAGA reconciliation").
+
 ---
 
 ## The Feedback Loop
