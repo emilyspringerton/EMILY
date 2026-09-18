@@ -44546,3 +44546,22 @@ session: sess-20260918-1725-497f394f
   — Status 2026-09-18: (a) DONE except external reachability: one-tap PLAY VS BOT shipped (v0.12.0), dw_server + 3-bot pool live as user units on 0.0.0.0:6980, live human-vs-bot match verified via the box's public IP; TCP 6980 firewall needs founder to run sudo-queue/83 (+ Linode Cloud Firewall if attached). (b) DONE: PARENA hybrid NN+heuristic brain (bot_brain.prn, PARENA 073329d; DEADWEIGHT 3d7f27e; Apple #20146), deployed to the live pool; weights are DISTILLED from heuristics, not RL-trained (Colab league run is the real follow-up). Apple #20145 (observe).
 
 session: sess-20260918-1725-497f394f
+
+## SECTION 504: BIG_O — "A SHANKPIT STORY" (FOUNDER PIVOT, 2026-09-18)
+
+*Founder real-time (obs Apple #20148): new game BIG_O — hard sci-fi social-stealth management sandbox on the SHANKPIT engine
+(day: harvest genetic data in a vector-infested wasteland; night: blend into a paranoid corporate night-society, get
+"canceled" for acknowledging the apocalypse; basement: off-books cloning lab + pheromone-commanded vector army in an
+algorithmic shadow war; "if they don't see it, it isn't real"). Scoped per Principle 19: `BIG_O/NORTHSTAR.md`.*
+
+- [x] **S504-01: scoping pass — NORTHSTAR (capability audit vs SHANKPIT, critical read, V0 cut, phases).** BIG_O 24e83bd (local repo; no upstream yet).
+- [ ] **S504-02: B0 repo hygiene — founder creates upstream `BIG_O` GitHub repo (agent token is read-only, 404 today); push; root CLAUDE.md row; golden-index (done with this section).**
+- [ ] **S504-03: B1 Attention/Heat rules module (PARENA scalar → C+Java, headless tests, parity vectors, text-sim playable).**
+- [ ] **S504-04: B2 day slice — harvest level + scripted vector fauna on SHANKPIT (NOCK), level-chain exit to night.**
+- [ ] **S504-05: B3 night slice — hub level, witness/perception primitive (REFLUX LOOK_AT/PROXIMITY dispatch), humanness-lite NPCs, thought-police NPC.**
+- [ ] **S504-06: B4 lab — data model + menu UI, harvested-sample → splice loop.**
+- [ ] **S504-07: B5 shadow war — deterministic batched sim server, bot pool, league reuse (DEADWEIGHT/BRAWLPIT pipeline), IDUNA game scope + guests.**
+- [ ] **S504-08: B6 integration + V0 bar — full day→night→lab→war turn, CI releases from first commit, live-verified vs bot.**
+- Founder decisions pending: (a) shared-world multiplayer per NORTHSTAR §3.1, (b) desktop-first §3.4, (c) create upstream repo.
+
+session: sess-20260918-1725-497f394f
