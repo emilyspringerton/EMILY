@@ -44526,9 +44526,15 @@ D1-D6 ordering for VS0 only: card mode ships first, backpack mode (D1) is VS1.
 - [x] **S503-08: training league** (packet-level env over the real wire protocol, fast-forward server, BRAWLPIT's
   `rl_league.py` 3-role PFSP + Elo ported, registry push) — smoke-tested, real training run is Colab follow-up.
   — Done 2026-09-18: training league: rl_league port (46 upstream tests), Python rules port matching 1610 vectors, wire env, registry client, 3-role dw_train (dry-run against real dw_server, 20 real matches); real PPO NOT run (no gymnasium/sb3 here, Colab follow-up). DEADWEIGHT 9b6d72d..8bf9ac0.
-- [ ] **S503-09: Windows headless client + SDL2 card client** (VS0 = cross-compiled headless client in CI; SDL2 UI
+- [x] **S503-09: Windows headless client + SDL2 card client** (VS0 = cross-compiled headless client in CI; SDL2 UI
   is VS0.5).
-- [ ] **S503-10: NOCK card-art textures** (procgen via NOCK CLI/HTTP; no new PARENA FFI).
+  — Done 2026-09-18: Windows/Linux SDL2 client dw_gui (menu/queue/match/end, bitmap font, AUTH via --token) + headless selftest playing a full match vs real dw_server+bot; CI gui job, release ships dw_gui_windows.zip. NOT verified: real window feel, Windows exe never run, connect blocks on dead host, no IDUNA guest-login flow in GUI. DEADWEIGHT df227c8. Apple #20143.
+- [x] **S503-10: NOCK card-art textures** (procgen via NOCK CLI/HTTP; no new PARENA FFI).
+  — Done 2026-09-18: NOCK-built card art (9 faces, back, kind/hull/energy icons) via art/build_art.sh, wired into Android CardView with shape fallback; APK 277KB. Kind/hull/energy icons not yet on screens; not seen on a device. DEADWEIGHT ccd7a1e. Apple #20141.
 - [ ] **S503-11 (VS1): backpack-battler mode** — D1 core loop per `docs/PHASE_D1_CORE_LOOP.md`, protocol `mode=1`.
+
+session: sess-20260918-1725-497f394f
+- [ ] **S503-12: deploy dw_server + 3-bot pool on the box (systemd user units exist, uninstalled) — needs founder go-ahead + public port/firewall/nginx decision; then IDUNA deploy + bootstrap for agent secrets, then live authed-play test.**
+- [ ] **S503-13: on-device Android verification (touch feel, rotation), wire kind/hull/energy icons, GUI guest-login flow, first real Colab PPO run.**
 
 session: sess-20260918-1725-497f394f
