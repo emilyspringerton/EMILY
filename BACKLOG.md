@@ -44337,3 +44337,62 @@ session: sess-20260905-0720-ec33e7c5
   engagement vs. licensed product). None started.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 501: PARENA — SELF-HOST vec/ SUPPORT + LLVM mod/!= PARITY (2026-09-18)
+
+*Goal: founder real-time: "work on PARENA self host and PARENA LLVM."*
+
+- [x] **Self-hosting: closed `selfhost/emit.prn`'s `vec/`-qualified-call exclusion**, previously
+  documented in `NORTHSTAR.md` as a real, PERMANENT limitation. Checked directly against the real
+  C reference (`src/emit.c`'s own `mangle_call_name`) rather than trusting the prior header
+  comment, and found it was real over-conservatism, not an actual architectural requirement:
+  `vec` is a hardcoded runtime pseudo-module with no corresponding `.prn` file whose own exported
+  names could ever collide with it, so the C reference just skips its own bare-segment-stripping
+  fallback for `vec/`-prefixed names and mangles the full text (`vec/new` → `vec_new`) — no
+  disambiguation registry ever needed for this specific case. Ported that, plus two additional
+  real, narrow fixes found by actually gcc-compiling the result (not trusted on `parena build`'s
+  clean exit code alone): `vec/len` (a real, raw C `int` return) now gets the same
+  `emit-i32-boxed` treatment every other raw-int expression already gets; a `vec/new` let-binding
+  now declares its own local as a real `Vec` (a genuine struct-by-value return) instead of this
+  file's otherwise-uniform `char *` — a real type mismatch the generic plain-call path would
+  otherwise silently produce.
+- [x] **Independent, pre-existing test-harness bug found and fixed along the way**, confirmed via
+  `git stash` to reproduce identically on the UNMODIFIED baseline (not caused by the vec/ fix):
+  `tests/test_selfhost_emit.c`'s 8 compile+run helpers sized their temp-file path buffers to fit
+  EXACTLY a 6-digit PID template, silently truncating the `.c` extension whenever the real process
+  PID was 7 digits (as it genuinely was this session) — producing a confusing `file format not
+  recognized; treating as linker script` `ld` error unrelated to any real logic bug. Fixed by
+  widening all 8 buffers generously instead of exact-fitting a literal.
+- [x] **Real, measured progress via the true self-compile bootstrap diagnostic**
+  (`parena-selfhost` — the self-hosted compiler itself, not the original C one — compiling
+  `selfhost/lexer.prn` and its own real dependency chain): `#error` directive count dropped from
+  **11 to 3**. 3 new real assertions (a structural check plus a real compile-and-run proof via new
+  `tests/integration/driver_vec_let.c`). Full local suite (347) + all `test-selfhost-*` targets +
+  `test-emit-llvm` (43/43, confirming zero cross-contamination) all clean.
+  PARENA `af3bf2c`.
+- [x] **LLVM: real `mod`/`!=` operator parity closed**. Checked `src/emit_llvm.c`'s own
+  `ARITH_TABLE`/`CMP_TABLE` directly against `src/emit.c`'s own full, real binary-op set rather
+  than assuming parity, and found both entirely missing — real, previously-fixed gaps in the C
+  reference emitter (`!=` found live building PAPERCRAFT, `mod` found live in `firefly.prn`) that
+  had never been checked against the newer LLVM backend. Added `{"mod","srem","frem"}` and
+  `{"!=","ne","one"}` — zero new dispatch logic needed, both tables were already fully generic.
+- [x] **Independently verified beyond the C test suite**: obtained a real `llc-18` binary in this
+  sandbox WITHOUT root (`apt-get download llvm-18` + `dpkg-deb -x`, the same technique this doc's
+  own earlier AVR work already established), lowered the actual generated IR to real x86_64
+  assembly, linked and RAN it. Found and fixed a real driver-side ABI bug in the same class the
+  existing AVR work already documented (`Bool` lowers to `i1`, returned in `AL` with the upper
+  register bits left unspecified — a driver declaring `int` instead of `unsigned char` reads
+  garbage). Confirmed genuinely correct at runtime: `is-even(7)=1`, `is-even(8)=0`,
+  `is-even(-7)=-1` (correct C-style truncating remainder for a negative operand),
+  `differs(3,5)=1`, `differs(5,5)=0`. 8 new assertions (43 total). `make test-emit-llvm`: 43/43.
+  PARENA `fbc0618`. Apple #20119.
+- [ ] **Real, named, not-yet-started gaps**: self-hosting's own remaining 3 `#error`s (a struct-
+  literal-shape gap in `lx-advance`, one more distinct let-binding shape in `tokenize`); `vec/
+  push!`/`vec/set-at!` (void-returning) as a let-binding value specifically (not hit by any
+  currently-real case, needs `do`-block support — itself entirely unsupported — before it could
+  even be constructed in valid code); LLVM's own bitwise operators (`bit-and`/`bit-or`/`bit-xor`/
+  `shl`/`shr`, also present in the C reference, not checked this pass); LLVM's Vec/Result/Option/
+  pattern-matching coverage (the real, large, still-unstarted next milestone named in
+  `docs/LLVM_BACKEND_NORTHSTAR.md`).
+
+session: sess-20260905-0720-ec33e7c5
