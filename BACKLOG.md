@@ -44538,3 +44538,8 @@ session: sess-20260918-1725-497f394f
 - [ ] **S503-13: on-device Android verification (touch feel, rotation), wire kind/hull/energy icons, GUI guest-login flow, first real Colab PPO run.**
 
 session: sess-20260918-1725-497f394f
+
+- [ ] **S503-14: founder real-time — (a) app one-tap: open → PLAY VS BOT → queued into a bot match, verified working; (b) bot brain upgrade: hand-written neural net + heuristic hybrid, in PARENA if possible (REDGARDEN's earlier gaussian-vector-style brain is the reference; heuristic is acceptable meanwhile).**
+  (a) sub-items: auto-queue on WELCOME + auto default name + default host okemily.com (DEADWEIGHT), deploy dw_server + 3-bot pool as user systemd units, sudo-queue firewall script for TCP 6980 (needs founder to run), live check from the box. (b) sub-items: survey REDGARDEN/PARENA `stdlib/nn.prn` + BRAWLPIT export_policy_weights blob format; PARENA scalar/`I32` MLP forward pass emitted to C; heuristic prior blended with net logits over the 5-action masked space; trained via lane E league, weights loaded by dw_bot.
+
+session: sess-20260918-1725-497f394f
