@@ -44488,3 +44488,39 @@ session: sess-20260905-0720-ec33e7c5
   the real, large, still-unstarted next milestone.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 503: DEADWEIGHT — VS0 (ANDROID-FIRST, CARD MODE, MULTIPLAYER + BOTS FROM DAY ONE) (2026-09-18)
+
+*Goal: founder real-time (obs via `emily observe`, Apple #20124): "start building vs0 of that product as an
+android app the emily way... straight java via PARENA and whatever java wrappers... ship quick... multiplayer first
+always — 1v1, not a sandbox, so bots from day one in a bot pool (3 bots in the regular pool so bots fight to test
+servers and the founder can join to manually test) — same game servers train the bots in a separate league using
+fast-forward PFSP with the 3 roles (BRAWLPIT is the 1-for-1 reference) — 2 modes: a card game and the full
+backpack battler (card game first, no inventory system yet) — android app primarily + windows app; write in PARENA,
+translate to C and Java; first game loop may be C (needed to train bots) — NO FFI added to PARENA's Java target,
+no syscalls, no new security surface — use IDUNA/NOCK/the model+checkpoint registry — multitenant by default — CI/CD
+with releases on the first commit — CLEAN BUILDS FIRST."*
+
+Scoping doc: `DEADWEIGHT/docs/VS0_SCOPING.md` (+ `CARD_MODE_RULES.md`, `WIRE_PROTOCOL.md`). Supersedes NORTHSTAR's
+D1-D6 ordering for VS0 only: card mode ships first, backpack mode (D1) is VS1.
+
+- [ ] **S503-01: scoping pass + contracts (VS0_SCOPING / CARD_MODE_RULES / WIRE_PROTOCOL), golden-indexed.**
+- [ ] **S503-02: clean-build skeleton + CI + auto-release on first commit** (C core + tests under ASan/UBSan,
+  mingw Windows cross-build, Bazel APK à la KARAMBIT, minor-bump GitHub Release).
+- [ ] **S503-03: card-mode rules in PARENA** (`stdlib/deadweight/card_rules.prn`, scalar-only, dual-emitted to C
+  and Java, cross-target parity vectors) — no FFI added to any emitter.
+- [ ] **S503-04: C match core + `dw_server` (TCP, multi-match, `--fast-forward`, `--port`) + headless tests.**
+- [ ] **S503-05: bot pool of 3 heuristic archetype bots (`dw_bot`) queued into the real matchmaker; server never
+  pairs the last waiting bot with another bot so a human can always join.**
+- [ ] **S503-06: IDUNA — `game='deadweight'` scope, `DEADWEIGHT-BOTS` + `DEADWEIGHT-RL` M2M agents, guest-account
+  provider (name-only), game-scoped checkpoint registry (generalize brawlpit-checkpoints, don't fork it).**
+- [ ] **S503-07: Android app VS0** (Bazel/rules_android, hand-written Java TCP client + card UI, PARENA-generated
+  `CardRules.java`, plain-JVM-testable core, real APK from CI).
+- [ ] **S503-08: training league** (packet-level env over the real wire protocol, fast-forward server, BRAWLPIT's
+  `rl_league.py` 3-role PFSP + Elo ported, registry push) — smoke-tested, real training run is Colab follow-up.
+- [ ] **S503-09: Windows headless client + SDL2 card client** (VS0 = cross-compiled headless client in CI; SDL2 UI
+  is VS0.5).
+- [ ] **S503-10: NOCK card-art textures** (procgen via NOCK CLI/HTTP; no new PARENA FFI).
+- [ ] **S503-11 (VS1): backpack-battler mode** — D1 core loop per `docs/PHASE_D1_CORE_LOOP.md`, protocol `mode=1`.
+
+session: sess-20260918-1725-497f394f
