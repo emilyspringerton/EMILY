@@ -44547,6 +44547,10 @@ session: sess-20260918-1725-497f394f
 
 session: sess-20260918-1725-497f394f
 
+- [x] **S503-15 (founder real-time 2026-09-18): card-corpus/mechanics expansion -- Haiku-drafted proposal + meta prompt, graded; review + metaprompt engineering pass + v2 meta prompt.**
+  Haiku's v1 proposal graded C- (triangle direction inverted, ids>=9 break `card-kind`, "no wire changes" false -- hand 4->5 touches match.h/protocol/clients/bot obs+actions, fractional energy, Spark strictly dominates Tier-0 Burst, 100-match validation can't resolve its own thresholds); v1 meta prompt critiqued (12 failures) and rewritten as v2 (ground-truth injection, Tier A/B/C blast-radius, separate adversarial reviewer, no invented metrics). Docs: `DEADWEIGHT/docs/card_expansion/` (`PROPOSAL_REVIEW.md`, `METAPROMPT_ENGINEERING_PASS.md`, `METAPROMPT_v2.md`, originals kept as `HAIKU_*_v1.md`). Honest: v2 NOT yet run against a model. Open follow-ups: build `scripts/card_audit.py` (dominance sweep, G2), card-set flag for server/bot/env (G3), first Tier A round.
+  session: sess-20260918-1725-497f394f
+
 ## SECTION 504: BIG_O — "A SHANKPIT STORY" (FOUNDER PIVOT, 2026-09-18)
 
 *Founder real-time (obs Apple #20148): new game BIG_O — hard sci-fi social-stealth management sandbox on the SHANKPIT engine
