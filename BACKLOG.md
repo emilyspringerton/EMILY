@@ -44539,7 +44539,10 @@ session: sess-20260918-1725-497f394f
 
 session: sess-20260918-1725-497f394f
 
-- [ ] **S503-14: founder real-time — (a) app one-tap: open → PLAY VS BOT → queued into a bot match, verified working; (b) bot brain upgrade: hand-written neural net + heuristic hybrid, in PARENA if possible (REDGARDEN's earlier gaussian-vector-style brain is the reference; heuristic is acceptable meanwhile).**
+- [x] **S503-14 (partial — see status): founder real-time — (a) app one-tap: open → PLAY VS BOT → queued into a bot match, verified working; (b) bot brain upgrade: hand-written neural net + heuristic hybrid, in PARENA if possible (REDGARDEN's earlier gaussian-vector-style brain is the reference; heuristic is acceptable meanwhile).**
   (a) sub-items: auto-queue on WELCOME + auto default name + default host okemily.com (DEADWEIGHT), deploy dw_server + 3-bot pool as user systemd units, sudo-queue firewall script for TCP 6980 (needs founder to run), live check from the box. (b) sub-items: survey REDGARDEN/PARENA `stdlib/nn.prn` + BRAWLPIT export_policy_weights blob format; PARENA scalar/`I32` MLP forward pass emitted to C; heuristic prior blended with net logits over the 5-action masked space; trained via lane E league, weights loaded by dw_bot.
+
+session: sess-20260918-1725-497f394f
+  — Status 2026-09-18: (a) DONE except external reachability: one-tap PLAY VS BOT shipped (v0.12.0), dw_server + 3-bot pool live as user units on 0.0.0.0:6980, live human-vs-bot match verified via the box's public IP; TCP 6980 firewall needs founder to run sudo-queue/83 (+ Linode Cloud Firewall if attached). (b) DONE: PARENA hybrid NN+heuristic brain (bot_brain.prn, PARENA 073329d; DEADWEIGHT 3d7f27e; Apple #20146), deployed to the live pool; weights are DISTILLED from heuristics, not RL-trained (Colab league run is the real follow-up). Apple #20145 (observe).
 
 session: sess-20260918-1725-497f394f
