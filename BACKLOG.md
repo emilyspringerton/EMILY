@@ -44112,3 +44112,45 @@ session: sess-20260905-0720-ec33e7c5
   scopes it, doesn't build it yet.
 
 session: sess-20260905-0720-ec33e7c5
+
+## SECTION 497: SHANKPIT — GET-UP ORACLE: REVERSED-FALL .gband REFERENCE CLIP (2026-09-18)
+
+*Goal: founder real-time: "fuck it play the death animation backwards - let the robot learn how*
+*to just pop back up itll still be horiffic but in a different way" → founder's own immediate*
+*correction, before any code shipped: "my bro the rag doll doesnt need to stand up if its not*
+*rigid body it wont fall over - reversing the death animation was supposed to be the oracle that*
+*the RL learns against to be able to stand back up after falling over."*
+
+- [x] **Real mis-scope caught and corrected before shipping**: the first plan treated "play the
+  fall backward" as a literal, directly-playable get-up animation for the point-mass spike. The
+  founder's own correction is right: the spike has no rigid-body/orientation state, so nothing in
+  it actually "falls over" in a sense that makes kinematic reverse-playback alone a usable
+  recovery motion. The real, always-intended design: the reversed recording becomes an imitation-
+  reward reference clip (`HQ-SPEC-SIM-100` §4's Reward Compiler) that a future REAL rigid-body
+  recovery policy trains against, not something played back directly.
+- [x] **`tools/ragdoll_spike/main.c` now records + writes a real `.gband` oracle clip**: every
+  tick of the existing forward-fall sim is captured into a recording buffer; after the sim
+  completes, the buffer is walked backward and written out as a real `.gband` binary + manifest
+  (`tools/ragdoll_spike/output/getup_oracle.gband(.json)`, gitignored — generated, not source).
+  Position-only channels (`<joint>.tx/.ty/.tz`, 65 joints × 3 = 195 channels), honestly named as
+  such since this spike has no orientation state yet (matches the NORTHSTAR's own named v1 gap).
+- [x] **Verified against GOLDENBAND's own real reader, not just the writer's own claim**: loaded
+  the written file via `gb_init`, `gb_verify` reports a matching content hash (PASS),
+  `duration_ticks=192`, `num_channels=195`. Confirmed the actual arc: joint0's y goes from 0.000
+  (fall's settled/lying pose) at tick 0 to 7.987 (original standing rest-pose height) at the final
+  tick — a real lying-to-standing shape, not just a claim.
+- [x] **`docs2/RAGDOLL_ORIENTATION_NORTHSTAR.md` updated** with the corrected framing as a third
+  real recovery path (alongside the existing authored-blend and trained-policy paths), plus a new
+  "get-up oracle clip — real, verified artifact" subsection documenting the concrete numbers above.
+- [x] **Directly answers the founder's separate, adjacent point** ("most importantly we need a
+  roll over animation"): NOT needed for this specific mechanism, since the reversed clip retraces
+  whatever orientation the character actually fell into, not a fixed assumed "flat on back"
+  starting pose. A roll-over animation is still a real, separate need for any OTHER recovery path
+  that assumes a fixed starting pose (e.g. an authored blend triggered without knowing fall
+  orientation) — named, not dismissed.
+  SHANKPIT `ab474aa`. Apple #20109.
+- [ ] **Not started**: the actual training/reward-compiler pipeline this oracle clip would feed
+  (SIM-100 §8 steps 3+), and Phase 1 of the orientation-physics NORTHSTAR itself (swing-axis
+  constraints) that a real recovery policy needs underneath it first.
+
+session: sess-20260905-0720-ec33e7c5
