@@ -44579,6 +44579,8 @@ session: sess-20260918-1725-497f394f
 session: sess-20260918-1725-497f394f
 - [ ] **S504-14 (founder real-time 2026-09-19, "phone first"): wire the world sim into the phone.** Done (BIG_O): header/Map/Status show clock, weather, zombie counts; alerts + Dr. Thorne A1M1 brief arrive as messages (detail view), Thorne contact. Interim: client runs world locally, not server-fed. Open: server-owned world, sky/weather rendering, zombies as world objects, decorum readout, Camera screenshot, Notes text entry.
 session: sess-20260918-1725-497f394f
+- [ ] **S504-15 (founder real-time 2026-09-19, obs Apple #20179): configurable skybox that changes with weather; make it look nice.** Done (BIG_O): bigo_sky.h/bigo_skycfg.h (procedural sky, per-weather profiles, config file + F9 reload, toxic example), client integration, preview tool, unit test. Not run live (needs server). Open: sun-lit world geometry / real lighting, sky in the phone's Camera photo, per-area skyboxes, moon phases, mod-supplied skybox packs.
+session: sess-20260918-1725-497f394f
 - [ ] **S504-04: B2 day slice — harvest level + scripted vector fauna on SHANKPIT (NOCK), level-chain exit to night.**
 - [ ] **S504-05: B3 night slice — hub level, witness/perception primitive (REFLUX LOOK_AT/PROXIMITY dispatch), humanness-lite NPCs, thought-police NPC.**
 - [ ] **S504-06: B4 lab — data model + menu UI, harvested-sample → splice loop.**
