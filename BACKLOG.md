@@ -44574,6 +44574,8 @@ session: sess-20260918-1725-497f394f
 session: sess-20260918-1725-497f394f
 - [x] **S504-13 (founder real-time 2026-09-19, obs Apples #20175/#20176): world sim — day/night clock, weather (GFD mud logic), day zombies + harvest, PARENA + REFLUX powered for mod makers.** Done: PARENA world_rules.prn + world_alerts_mod.prn (PARENA), host world/reflux (BIG_O), scenarios 30-35, docs/B2_WORLD.md. Open: decorum heals +1/min (weakens carry-over), zombies as world objects, mod->host command log, client wiring.
 session: sess-20260918-1725-497f394f
+- [ ] **S504-14 (founder real-time 2026-09-19, "phone first"): wire the world sim into the phone.** Done (BIG_O): header/Map/Status show clock, weather, zombie counts; alerts + Dr. Thorne A1M1 brief arrive as messages (detail view), Thorne contact. Interim: client runs world locally, not server-fed. Open: server-owned world, sky/weather rendering, zombies as world objects, decorum readout, Camera screenshot, Notes text entry.
+session: sess-20260918-1725-497f394f
 - [ ] **S504-04: B2 day slice — harvest level + scripted vector fauna on SHANKPIT (NOCK), level-chain exit to night.**
 - [ ] **S504-05: B3 night slice — hub level, witness/perception primitive (REFLUX LOOK_AT/PROXIMITY dispatch), humanness-lite NPCs, thought-police NPC.**
 - [ ] **S504-06: B4 lab — data model + menu UI, harvested-sample → splice loop.**
