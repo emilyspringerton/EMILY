@@ -44585,3 +44585,5 @@ session: sess-20260918-1725-497f394f
 
 - [x] **S505-01 (founder real-time 2026-09-18, obs Apple #20159): README Reality (SAGA) directive in every monorepo CLAUDE.md** — when a change substantially changes a project's core README claim (esp. adding a genuinely interesting piece of kit), update the README to current reality in the same unit of work, per SAGA (HQ-SPEC-DOC-102). Added to all 43 `CLAUDE.md` files (root + every repo) as a standing section, and canonicalized as `THE_EMILY_WAY.md` Principle 20. 42 pushed; `redgarden-deploy` is a detached-HEAD deploy checkout so its commit is local only. Note for later: the README-vs-reality audit of existing repos (many READMEs are likely stale) is NOT done — that is a separate SAGA-style pass if wanted. Apple posted.
 session: sess-20260918-1725-497f394f
+- [ ] **S504-11 (founder real-time 2026-09-19): fix HUD font glyph gaps — packages/common/hud_text.h (vendored PAPERCRAFT strok…**
+
