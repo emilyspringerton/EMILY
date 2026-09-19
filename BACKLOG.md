@@ -44561,6 +44561,8 @@ session: sess-20260918-1725-497f394f
   session: sess-20260918-1725-497f394f
 - [x] **S503-19 (founder real-time 2026-09-19): Windows GUI fixes -- "use the okemily domain and port", "i cant actually read any of the card text ... it has to always be there ... dont make the card bigger on hover", "cards with no effect ... just wont have text".** `DEADWEIGHT/apps/gui/main.c`: default host/port now okemily.com:6980 (d18d3a4); every card (hand + last-round reveals) permanently shows its wrapped effect text at 2x (1x fallback if it does not fit), hand is a 2x2 grid, window 480x956, added `& ' ; $ =` glyphs that rendered as `?`, no placeholder on effectless cards (31a598c, 68e5291, 3112bff). Verified by rendering the headless selftest frames and reading them; NOT run on Windows itself. No hover enlargement by explicit founder direction.
   session: sess-20260918-1725-497f394f
+- [x] **S503-20 (founder real-time 2026-09-19): "i need the full COLAB TRAINING SKRIP ... push to the new DEADWEIGHT model repository" -- closes S503-12.** `training/colab_train.py` was already the BRAWLPIT-shaped single cell; what was missing was the registry. Rebuilt + restarted live IDUNA (old binary predated S503-06), ran `cmd/bootstrap` (DEADWEIGHT-BOTS/SERVER/RL provisioned, existing secrets untouched; DB + binary backed up in scratch/var), verified a real 3-role push and a real resume against okemily.com. Secret: IDUNA/var/agent-secrets.env `IDUNA_SECRET_DEADWEIGHT_RL`. Honest: not run inside Colab; the IDUNA build included the uncommitted nock_animations WIP (founder chose that); six 512-step `colab-test` smoke checkpoints are in the registry.
+  session: sess-20260918-1725-497f394f
 
 ## SECTION 504: BIG_O — "A SHANKPIT STORY" (FOUNDER PIVOT, 2026-09-18)
 
