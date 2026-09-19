@@ -44557,6 +44557,9 @@ session: sess-20260918-1725-497f394f
 - [ ] **S503-17 (founder design 2026-09-19, NOT in the S503-16 ship): pre-match DRAFT.** At matchmaking each player drafts a deck: each pick shows 2 corpus cards, choose a card and multiplicity 1/2/3 from bucket state machines (ten 1-ofs, five 2-ofs, one 3-of => 16 picks, 23-card deck); full buckets grey out; after a game re-queue with the same deck or redraft; bots always redraft (PFSP: each generation drafts + plays its own deck). Needs: draft protocol (new frames/state), server deck lists in `dw_match_init`, bot/RL drafting policy, Android draft UI, IDUNA deck record.
   session: sess-20260918-1725-497f394f
 
+- [x] **S503-18 (founder real-time 2026-09-19): "can we get a colab training skrip like we have for brawlpit?"** `DEADWEIGHT/training/colab_train.py` (port of BRAWLPIT's: one cell, pipe-and-reprint subprocess output, force-update checkout, `scripts/build_training.sh` lean server build, registry preview, always `--resume-from-registry` when a registry is set) + `dw_train.py --resume-from-registry` (newest checkpoint per role, non-fatal registry errors) + notebook + README. Verified locally: first real MaskablePPO 2-generation 3-role league against the real dw_server and a resume from real weights (2 new tests). Honest: never run ON Colab; live IDUNA (okemily.com) 404s on /api/v1/game-checkpoints/deadweight and has no DEADWEIGHT-RL secret -- migrations exist in IDUNA/migrations/truestore/ awaiting deploy + bootstrap (S503-12), so the script trains locally and warns until then.
+  session: sess-20260918-1725-497f394f
+
 ## SECTION 504: BIG_O — "A SHANKPIT STORY" (FOUNDER PIVOT, 2026-09-18)
 
 *Founder real-time (obs Apple #20148): new game BIG_O — hard sci-fi social-stealth management sandbox on the SHANKPIT engine
