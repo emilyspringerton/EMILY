@@ -44619,3 +44619,5 @@ session: sess-20260918-1725-497f394f
 session: sess-20260918-1725-497f394f
 - [ ] **S504-11 (founder real-time 2026-09-19): fix HUD font glyph gaps — packages/common/hud_text.h (vendored PAPERCRAFT strok…**
 
+- [ ] **S504-LAB: BIG_O: Lab screen has zero server-side backend (SPLICE/clone UI is a client-only mockup, no lab_trait/splice logic anywhere server-side)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
