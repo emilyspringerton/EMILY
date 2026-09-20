@@ -44623,3 +44623,5 @@ session: sess-20260918-1725-497f394f
   (sess-20260920-1908-24cb3558)
 - [ ] **S504-PHEROMONE: BIG_O: Pheromone command tools missing -- zombie_tick's has_target is hardcoded 0, no player-driven targeting/command mechanic exists** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **S504-DISPATCH: BIG_O: The Men's dispatch loop / Corporate Service Call missing -- the resolved/memory-wipe rule exists but nothing decides when to send The Men or escalates to Regulators at max heat** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
