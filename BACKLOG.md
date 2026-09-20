@@ -44619,7 +44619,7 @@ session: sess-20260918-1725-497f394f
 session: sess-20260918-1725-497f394f
 - [ ] **S504-11 (founder real-time 2026-09-19): fix HUD font glyph gaps — packages/common/hud_text.h (vendored PAPERCRAFT strok…**
 
-- [ ] **S504-LAB: BIG_O: Lab screen has zero server-side backend (SPLICE/clone UI is a client-only mockup, no lab_trait/splice logic anywhere server-side)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [ ] **S504-LAB: BIG_O: Lab screen has zero server-side backend (SPLICE/clone UI is a client-only mockup, no lab_trait/splice logic anywhere server-side)** Added via the IDUNA kanban interface. Progress (2026-09-20, founder real-time: "build out all of the cloning facility simulation tech we want to simulate real lab equipment as much as possible", Apple #20227, session sess-20260920-1908-24cb3558): the simulation CORE is now real and tested — `core/lab_sim.c`, headless centrifuge/PCR-thermocycler/sequencer/CRISPR-splice-bench/repressor-kill-switch/breeding-genetic-drift/embryo-incubation pipeline, 17 statistical tests, wired into BUILD.bazel, see `BIG_O/NORTHSTAR.md` §9. Still open: no `BP_APP_LAB` UI wiring, no server-side lab packet handling, no persistence, no PARENA rules-module version, no bridge from day-phase harvest into a `LabSample` — all named in NORTHSTAR.md §9's own deferral list.
   (sess-20260920-1908-24cb3558)
 - [ ] **S504-PHEROMONE: BIG_O: Pheromone command tools missing -- zombie_tick's has_target is hardcoded 0, no player-driven targeting/command mechanic exists** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
