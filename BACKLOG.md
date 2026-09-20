@@ -44621,3 +44621,5 @@ session: sess-20260918-1725-497f394f
 
 - [ ] **S504-LAB: BIG_O: Lab screen has zero server-side backend (SPLICE/clone UI is a client-only mockup, no lab_trait/splice logic anywhere server-side)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **S504-PHEROMONE: BIG_O: Pheromone command tools missing -- zombie_tick's has_target is hardcoded 0, no player-driven targeting/command mechanic exists** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
