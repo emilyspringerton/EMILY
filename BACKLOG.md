@@ -45141,3 +45141,47 @@ session: sess-20260920-1908-24cb3558
 IDUNA commit `28c61a2` (Apple #20274), DEADWEIGHT commit `3b0b6fd` (Apple #20275).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 513: DEADWEIGHT — OFFICIAL BRAND & STYLE GUIDE v1 (FOUNDER REAL-TIME)
+
+*Goal: founder asked to "reverse-engineer your previous art generation scripts and the lore*
+*we've established" into a comprehensive Markdown Brand & Style Guide (aesthetic/lore pillar,*
+*visual language with real hex codes, tone-of-voice glossary, a Do Not Do list) — "fully*
+*embracing" a brutalist corporate terminal / 90s hacker aesthetic. Also shared two reference*
+*images for FUTURE (explicitly revenue-gated) cutscene/title-screen art direction, floating the*
+*idea that EmilyOS ("the Ledger") could be visually represented as a spacesuit-clad pilot figure.*
+
+- [x] **Corrected the premise before writing anything**: no Python art-generation script exists
+  anywhere in this repo — checked directly (`find . -name "*.py"` under DEADWEIGHT only turns up
+  the RL training pipeline). The real, live art pipeline is Bash + IDUNA's `cmd/nock` CLI +
+  ImageMagick (`art/build_art.sh`, `art/recipes/lib.sh`) — every hex code in the new guide is
+  pulled from there, verbatim, not invented.
+- [x] **Named a real, live tension instead of papering over it**: the GUI chrome
+  (`apps/gui/main.c` — flat rects, hand-rolled bitmap font, zero gradients) already genuinely IS
+  the "brutalist corporate terminal" pitch, shipped, today. The card-art pipeline is a different,
+  more illustrated register (per-kind gradients, bronze/silver/gold tier rims). Documented both
+  honestly as Section 2A/2B rather than pretending they're already unified; named reconciling them
+  (flattening card art to match the chrome) as a real, scoped, NOT-done follow-up.
+  `DEADWEIGHT/docs/BRAND_STYLE_GUIDE.md`.
+- [x] **Canon lore + glossary, cross-checked against real shipped copy** — Runner infiltrating
+  IDUNA's corporate defense mainframe; glossary (Network Breach/Proxy/Abort & Extract/Hunter-
+  Killer/Root Access Override/Runner) checked term-by-term against actual UI strings: 2 of 6
+  already match exactly (Proxy = "BURNED PROXIES", Abort & Extract = the literal button label from
+  S510), 2 named as real, scoped copy-only renames not done in this pass (Match → Network Breach,
+  bot tag → Corporate Defense System/Hunter-Killer).
+- [x] **"Do Not Do" list**: no fantasy elements, no shiny mobile-game buttons, no tutorial
+  pop-ups, no cute subtitles, no exclamation points in system copy, no player avatars, no rounded
+  UI geometry.
+- [x] **Future art direction, explicitly marked not-current-scope**: described the two reference
+  images in terms of reusable qualities (cel-shaded linework, cool-exterior/warm-interior light
+  contrast) rather than treating them as literal templates to copy; captured the founder's own new
+  EmilyOS-as-"the Ledger" spacesuit-pilot idea as a real, recorded creative decision point for a
+  future cutscene/title-screen budget — no code or asset work follows from this section.
+- [x] Registered as a golden doc (`DEADWEIGHT-BRAND`, `EMILY/context/golden-docs-index.md`) and
+  synced into `GOLDEN_DOCS` per the standing instruction (also picked up unrelated drift in 3
+  already-tracked files since the last sync).
+
+DEADWEIGHT commit `e4b66d1` (Apple #20277), EMILY commits `76c5b21f` (golden-index),
+GOLDEN_DOCS commit `817b7b6` (resync).
+
+session: sess-20260920-1908-24cb3558
