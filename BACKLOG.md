@@ -45094,6 +45094,11 @@ session: sess-20260920-1908-24cb3558
 
 ## SECTION 512: DEADWEIGHT — ZERO-FRICTION BOOT, LORE NAMES, VERIFIED TICKET GRANT (FOUNDER REAL-TIME)
 
+*⚠️ This section's own ticket-refresh design (rolling 24h window) was REVERSED same-week by*
+*SECTION 515 — exec flagged a real retention risk. The rolling window is no longer live; a fixed*
+*UTC calendar-day reset is. Left as-written below as an honest record of what was believed and*
+*shipped at the time, not rewritten — see SECTION 515 for the correction and why.*
+
 *Goal: founder, real-time, four immediate corrections for the Itch launch: "The current client UI*
 *and auth flow have too much friction... We need to strip out developer-facing connection inputs,*
 *auto-generate guest identities, and ensure the 20-ticket daily grant is actually functioning for*
@@ -45217,5 +45222,40 @@ session: sess-20260920-1908-24cb3558
 
 DEADWEIGHT commits `7fc0cc3` (button fix), `1baa115` (docs), Apple #20280.
 GOLDEN_DOCS commit `78ae38c` (resync).
+
+session: sess-20260920-1908-24cb3558
+
+## SECTION 515: IDUNA — REVERT TICKET REFRESH TO FIXED UTC MIDNIGHT (EXEC REAL-TIME)
+
+*Goal: exec, real-time, reversing SECTION 512's own same-week rolling-24h-window design: "hey exec*
+*say i did it wrong we need it to be tickets at utc midnight." Real reasoning given, not just a*
+*preference flip: a rolling per-player window (reset = 24h after THIS player's own last top-up)*
+*drifts their reset time later every day they log in late and skip a day — log in Tuesday 9pm,*
+*Wednesday 7pm reads as "wait 2 hours" and the player churns instead, then Thursday 11pm resets*
+*the clock again. A fixed UTC calendar-day reset is the same real moment for every player and*
+*never drifts — "It's a new day, my proxies refreshed" instead of an arbitrary moving wall.*
+*Routed through `emily observe -s info` (Apple #20281).*
+
+- [x] **Reverted the comparison** in `topUpTicketsIfDue` (`IDUNA/internal/http/handlers/
+  game_online.go`): `date(last_ticket_topup_at) < date('now')` (SQLite's UTC calendar date)
+  instead of `last_ticket_topup_at < datetime('now', '-1 day')` (a strict rolling 24h countdown).
+  Same lazy-on-activity-UPSERT shape SECTION 512 already used — no new cron/daemon, still can't
+  miss a day.
+- [x] **Test replaced, not just edited**: SECTION 512's own regression test
+  (`TestDailyTopUp_RollingWindowNotUTCMidnight`) asserted exactly the behavior being reversed here
+  — deleting it and writing a new one that pins down the fixed-UTC-date semantics is the honest
+  move, not leaving a test whose name and assertions now describe a lie.
+  `TestDailyTopUp_FixedUTCMidnightNotRollingWindow`: same UTC calendar day never tops up
+  regardless of balance; any earlier UTC calendar date always does — both checks wall-clock-
+  independent (`datetime('now','start of day')` / `datetime('now','-1 day')`), not "N hours ago,"
+  since an hours-ago offset's relationship to a real UTC midnight depends on what time the test
+  suite happens to run.
+- [x] **Redeployed production** (backed up binary + DB first, same protocol as every prior
+  same-session redeploy) and live-verified the new binary responds.
+- [x] **README.md corrected** — S512's own bullet claiming a live-verified rolling window is
+  updated in place to describe the real, current fixed-UTC-midnight behavior and name the
+  reversal, rather than left stale.
+
+IDUNA commit `e2ee156` (Apple #20282), DEADWEIGHT commit `190bf7c` (README correction).
 
 session: sess-20260920-1908-24cb3558
