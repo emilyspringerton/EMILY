@@ -44969,12 +44969,15 @@ session: sess-20260920-1908-24cb3558
   `https://okemily.com`. **Live-verified with the actual shipped binary, zero override flags**:
   real TLS 1.2 handshake, real cert verification, real guest account registered against
   production. Full `scripts/build.sh --gui` suite green. DEADWEIGHT commit `ce236f1`. Apple #20263.
-- [x] **Honest, named gap: Windows/mingw cross-build has no TLS.** No mingw-w64 mbedTLS package
-  exists in apt; a real cross-compile needs mbedTLS vendored from source + a CMake mingw build,
-  and this sandbox has no way to run a compiled `.exe` to verify a real handshake regardless —
-  shipping unverified crypto for an untestable platform was a deliberate call not to rush, not an
-  oversight. README updated with the honest split (Linux/Windows-GUI real TLS vs. Windows `.exe`
-  still plaintext-only). Real, scoped follow-up, not done here.
+- [x] **UPDATE (same day, SECTION 510b below): Windows/mingw cross-build now has real TLS too.**
+  Cross-compiled mbedTLS from source for mingw (no CMake needed — its own plain Makefile supports
+  CC/AR overrides), embedded a real CA bundle directly into the binary (Windows has no
+  single-file system bundle at a fixed path). Along the way found and fixed a real bug: PARENA's
+  own TLS FFI block had been accidentally nested inside `net/tcp.prn`'s Linux/macOS-only
+  `#ifndef _WIN32` guard, silently compiling out on Windows entirely. `dw_gui.exe` now builds
+  clean with real TLS linked in, valid `PE32+`, zero undefined symbols, 146 real embedded CA
+  certs confirmed. **Still honestly not runtime-verified** — no Wine/Windows environment in this
+  sandbox to execute the `.exe`. See SECTION 510b.
 - [x] **Ops: found and fixed a real deploy gap before generating any inventory** — the live
   production IDUNA binary predated every commit from today's S508/S508c/S508d economy work (built
   07:06 UTC; code landed 11:34–14:06). Backed up the binary + DB, rebuilt from current source,
@@ -44988,11 +44991,56 @@ session: sess-20260920-1908-24cb3558
   committed; `.gitignore` updated to catch this pattern going forward). One code consumed by a
   real, live redemption test against production (removed from the shipped file before handoff) to
   confirm the batch is genuinely usable, not just inserted rows — 499 remain. Apple #20264.
-- [ ] **Not done**: the Windows `.exe` package itself — blocked on the TLS cross-build gap named
-  above. The Linux/GUI build is real, tested, and production-ready right now.
+- [x] **The Windows `.exe` package itself — done, see SECTION 510b.** Built, real TLS linked,
+  zipped with `SDL2.dll` + an honest README, sent to the founder for real Windows testing.
 
 **Unrelated, same-turn**: declined a request for an undefined "HOUSE secret" (no such credential
 exists anywhere in the real agent-secrets system) — see SECTION 509's own header for the adjacent
 TypeSafe-skill decline in the same turn.
+
+session: sess-20260920-1908-24cb3558
+
+## SECTION 510b: DEADWEIGHT — WINDOWS TLS CROSS-BUILD, REAL BINARY SHIPPED (SAME DAY, CONTINUATION)
+
+*Goal: close SECTION 510's own named Windows TLS gap. User said "continue" with no further*
+*detail — picked this as the clearest, highest-value open item from the immediately prior turn.*
+
+- [x] **Real internet access used to get real mbedTLS source** (`curl` from GitHub — this
+  sandbox has genuine outbound HTTPS, not just the earlier apt-mirror path), matching the exact
+  Debian package version (2.28.8) already proven working on Linux, for consistency.
+- [x] **Cross-compiled mbedTLS for `x86_64-w64-mingw32` from source** — no CMake needed, mbedTLS's
+  own plain `Makefile` supports `CC`/`AR` overrides directly. Confirmed real Windows PE object
+  format (`pe-x86-64`) before trusting the build.
+- [x] **Found and fixed a real, load-bearing bug**: PARENA's own TLS FFI block
+  (`tls_connect_impl` etc.) had been placed immediately after `tcp_close_impl`, inside
+  `net/tcp.prn`'s own `#ifndef _WIN32` guard — meaning it silently compiled OUT ENTIRELY on any
+  Windows target, backwards from the intent (mbedTLS's networking layer IS genuinely
+  cross-platform; PARENA's raw POSIX socket code is the one that's Linux/macOS-only). Moved it
+  out to its own independent `#ifdef PARENA_WITH_TLS` gate. A first mechanical (line-number-based
+  Python) attempt at this move corrupted the file's comment structure — caught immediately via a
+  brace/`#if`-`#endif` balance check, reverted via `git checkout`, redone correctly with precise
+  string-anchored edits and a balance check before proceeding further each time.
+- [x] **Replaced raw POSIX `poll()` with `mbedtls_net_poll`** (`<poll.h>` doesn't exist on
+  Windows at all) — mbedTLS's own already-cross-platform idle-wait primitive.
+- [x] **Real embedded CA bundle**: new `PARENA_TLS_CA_BUNDLE_EMBEDDED` runtime option (PARENA
+  side) + `scripts/gen_ca_bundle.sh`/checked-in `core/runtime/ca_bundle_data.h` (DEADWEIGHT
+  side) — Windows has no single-file system CA bundle at a fixed path the way Linux does, so the
+  real trust store is compiled directly into the `.exe`.
+- [x] **`scripts/build.sh --gui --windows` wired up** (`MBEDTLS_MINGW_DIR` env override, same
+  convention as `SDL2_MINGW`), auto-detects and links real TLS when present, builds without it
+  (clean-failing `https://` calls, never silent plaintext) otherwise.
+- [x] **Verified as far as genuinely possible without a Windows runtime**: valid `PE32+` GUI
+  binary, zero undefined symbols at link time, real mbedTLS handshake symbols present, 146 real
+  `-----BEGIN CERTIFICATE-----` markers confirmed embedded via `strings` (proves the CA bundle
+  embedding worked correctly, not just "some bytes got compiled in"). **Explicitly, honestly NOT
+  runtime-verified** — no Wine/Windows environment exists in this sandbox to execute the `.exe`
+  and prove a live handshake the way the Linux build already is.
+- [x] **Packaged and delivered**: `dw_gui.exe` + `SDL2.dll` + an honest status README zipped and
+  sent directly to the founder (`SendUserFile`) for real Windows testing — the actual, concrete
+  next step to close the runtime-verification gap.
+- [x] `docs/WINDOWS_TLS_BUILD.md` (full reproduction steps) + `README.md` both updated with the
+  honest Linux-verified/Windows-compiled-but-untested split.
+
+PARENA commit `169e7e5` (Apple #20265), DEADWEIGHT commit `08ac75c` (Apple #20266).
 
 session: sess-20260920-1908-24cb3558
