@@ -45484,3 +45484,48 @@ session: sess-20260920-1908-24cb3558
   (sess-20260920-1908-24cb3558)
 - [ ] **21312343124: QR CODE GENERATOR - IDUNA INTEGRATED ALLOW US TO UPDATE A URL ON IDUNA BACKEND qr.okemily.com** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+
+## SECTION 522-523: DEADWEIGHT — CLAIM ACCOUNT SPEC + 25-TICKET GRANT + ADMIN NAV + DESIGN PASS (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-21: a full 4-part spec for the Itch launch auth funnel (Claim Account
+client UI + modal, IDUNA claim backend, 25-ticket Protofounder grant, IDUNA Back Office nav
+cleanup) — plus, mid-turn: "/design also the interface is rough like what are the 2 text boxes at
+the bottom? no labels can they change their name if they want? why is it left aligned if i full
+screen it didnt used to be like that can we do a legibility and usability pass?" Routed through
+`emily observe -s info` first (Apple #20299).
+
+- [x] **25-ticket cap** (was 20, S516) — `grandfatherDailyCap` bumped, single source of truth for
+  both initial grant and daily top-up. Full test suite updated (14+ hardcoded assertions) and
+  green. Live-verified: a fresh guest gets 25.
+- [x] **Claim Account backend, audited against the founder's own 4-point spec** — email
+  uniqueness, guest-only via `player_credentials` row check, bcrypt hash, `player_id` never
+  changes. All 4 already satisfied by the existing `guest-upgrade` endpoint (built in an earlier
+  session) — no new endpoint needed despite the spec's `/auth/claim_guest` suggestion, since the
+  existing one already does exactly this. Live-verified including a 409 on re-claiming an
+  already-claimed account.
+- [x] **Claim Account client UI, built to spec**: `is_guest` tracked from IDUNA's real
+  `account_state` (not "no email typed"), a real bordered brutalist modal (new `S_CLAIM` screen)
+  with labeled EMAIL/PASSWORD fields + SUBMIT, button only shown for a real guest, permanent
+  "CONNECTION SECURED" confirmation once claimed. Live-verified via real screenshots: button →
+  modal → typed input → submit → secured state, full round trip against production.
+- [x] **IDUNA Back Office nav cleanup** — "Game Claim Codes" standalone link replaced with a
+  single "DEADWEIGHT" entry (`/admin/deadweight`), two client-side tabs: Claim Codes (unchanged)
+  and a new Players tab (real account_state/founder/tickets per player — a direct, no-shell way
+  to confirm claims are landing).
+- [x] **Design pass, reproduced-then-fixed, not assumed**: unlabeled text boxes → fixed by the
+  new labeled modal above. Fullscreen/maximize leaving content pinned top-left instead of
+  centered → reproduced with a real Xvfb window resize (not just launching already-wide) before
+  fixing; SDL2's logical-size letterbox doesn't reliably recompute on a live resize for this
+  renderer — forcing `SDL_RenderSetLogicalSize` again on `SDL_WINDOWEVENT_RESIZED` fixed it,
+  verified with real before/after screenshots. Found in the process: the bitmap font (the real
+  Adafruit GLCD table) never had `@` or `*` glyphs, so a typed email and the password mask both
+  rendered as `?` — added both glyphs, verified live.
+- [ ] **Answered, not built**: "can they change their name?" — no, confirmed directly (not
+  guessed): Claim Account only ever links an email, no display-name-change path exists anywhere
+  in this client or IDUNA. Told the founder plainly; real, scoped follow-up if wanted, not
+  silently added or silently ignored.
+
+IDUNA commits `b69bd65`, `c2264a7` (Apples #20301). DEADWEIGHT commits `a9fdd65`, `7c9db61`
+(Apple #20303).
+
+session: sess-20260920-1908-24cb3558
