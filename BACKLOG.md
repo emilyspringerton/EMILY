@@ -45091,3 +45091,53 @@ session: sess-20260920-1908-24cb3558
 IDUNA commit `d7197eb` (Apple #20270), DEADWEIGHT commit `754ae57` (Apple #20271).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 512: DEADWEIGHT — ZERO-FRICTION BOOT, LORE NAMES, VERIFIED TICKET GRANT (FOUNDER REAL-TIME)
+
+*Goal: founder, real-time, four immediate corrections for the Itch launch: "The current client UI*
+*and auth flow have too much friction... We need to strip out developer-facing connection inputs,*
+*auto-generate guest identities, and ensure the 20-ticket daily grant is actually functioning for*
+*new players, rather than defaulting to the hard paywall." Mid-turn clarification: the ticket*
+*refresh must be a rolling 24h window from each player's OWN last grant, not synced to UTC*
+*midnight, "just so it doesnt make all the players log on at exactly midnight." Routed through*
+*`emily observe -s info` (Apple #20276).*
+
+- [x] **Remove Host/Port/Name UI**: the menu no longer shows any of the three — players never see
+  an IP, a port, or a username prompt. Production `dw_server`/IDUNA addresses stay real hardcoded
+  defaults (`okemily.com`), still overridable via `--host`/`--port`/`--iduna-url` for developers
+  only, never surfaced in the release UI.
+- [x] **Real boot loading screen**: SDL window/renderer creation moved to BEFORE the blocking
+  IDUNA bootstrap call (previously the window didn't exist yet at that point, so there was
+  physically nowhere to paint a loading frame) — real "ESTABLISHING CONNECTION..." screen now
+  renders and presents before the network call blocks, then straight to the Main Menu (or the
+  Draft Hub, if an active run resumes) with zero intermediate connection/login screens.
+- [x] **Auto-generated guest names**: IDUNA's `guest-register` now assigns a lore-friendly name
+  (`Runner-A7B2`, `Cipher-6KHK`, ...) when `display_name` is empty instead of 400ing — the client
+  never collects or sends one. A "Claim Account" affordance (existing link-email flow, relabeled)
+  is where a player later attaches a real identity.
+- [x] **Found the real shape of the ticket-grant issue**: the backend logic (`topUpTicketsIfDue`)
+  was already correct — verified live against production BEFORE touching anything (`curl` straight
+  to `guest-register` returned `tickets:20`). The actual friction was client-side (no loading
+  screen, a forced username prompt, Host/Port boxes) — fixed those instead of a nonexistent
+  backend bug. Live-verified end to end post-fix: a real fresh boot against local IDUNA AND
+  production both return a real auto-generated name and a real `tickets:20`, not a stale/cached
+  value.
+- [x] **Ticket refresh confirmed rolling, not UTC-midnight** (mid-turn founder clarification):
+  `topUpTicketsIfDue` already gates on `last_ticket_topup_at < now - 1 day`, a real per-player
+  rolling window — never changed, since it was already correct, but locked in with a new
+  regression test (`TestDailyTopUp_RollingWindowNotUTCMidnight`) proving 23h since a player's own
+  last top-up never grants early, no matter how many UTC day boundaries fall inside that window.
+- [x] **Streamlined menu**: shows the real name + `TICKETS: N/20`; DRAFT button already routed
+  correctly (start a fresh draft if no active run, straight to the Draft Hub if one exists,
+  matching "Play Button... routes to the Draft Picker OR the Intrusion Hub") from S510's own work
+  — no changes needed there, just verified it already satisfied this ask.
+- [x] **Real, found-live deploy gap caught and fixed mid-task**: the production IDUNA binary was
+  still ~2 hours stale (predating even the S510 draft-run work, let alone this pass) — a live
+  client probe against `https://okemily.com` 400'd on an empty `display_name` because of this.
+  Rebuilt + restarted `iduna.service` (backed up binary + DB first) before re-verifying; same
+  "binary predates the code" class of gap caught twice earlier in this same session, worth a
+  standing reminder rather than assuming a prior redeploy stays fresh forever.
+
+IDUNA commit `28c61a2` (Apple #20274), DEADWEIGHT commit `3b0b6fd` (Apple #20275).
+
+session: sess-20260920-1908-24cb3558
