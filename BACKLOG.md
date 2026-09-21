@@ -243,6 +243,20 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
 
+- [x] **Founder real-time: "we need to fix SHANKPIT PFSP pipeline it dont work"** — Live-reproduced
+  the real `TimeoutError: no live respawn snapshot within timeout` running the actual training
+  pipeline (`scripts/rl_train_packet.py` + real `shank_server` + real `emily-bot`), not guessed.
+  Ruled out the 2026-09-17 wire-mirror byte-size bug (`aa57dda`) via a fresh compiled
+  `sizeof(NetPlayer)` probe -- still correctly 88 bytes everywhere, not the cause this time. Real
+  root cause: under real CPU contention (a concurrent PPO process starving the bot/server's own
+  scheduling), a client idle-timed-out server-side could have one more in-flight `PACKET_USERCMD`
+  land before its own reconnect logic noticed -- `ensure_slot_for_sender()` let that bare USERCMD
+  silently mint a permanent, never-`send_welcome()`'d phantom slot instead of being dropped. Fixed
+  in `apps/server/src/main.c` (only `PACKET_CONNECT` may allocate a new slot now); verified
+  deterministically (not timing-dependent) that a stray USERCMD from an unconnected sender now
+  produces zero slot activity. `go build ./...` clean, 13 Go tests + 39 Python tests green. Obs
+  `2026-09-21T10-25-55Z`. Apple #20246, SHANKPIT commit `2958de4`. session: sess-20260920-1908-24cb3558
+
 - [x] **SHANKPIT story horror mechanics — TYLER S10 lore** — Mechanism Reader HUD [Apple #1071, 2026-06-17]
   (Goetia Hz + site taxonomy), boss question-state phase (33% trigger, 10% damage, zero-taxonomy
   reading, observation point resolution), S10E07/E08 cutscene slides (al-Waqfa, al-idrak
