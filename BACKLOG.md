@@ -45331,3 +45331,44 @@ key so i can make one to test - simple form just like GFD tools." Routed through
 IDUNA commit `7a961dd` (Apple #20287).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 518: DEADWEIGHT — FIX MISLEADING "IDUNA OFFLINE" IN NEW CLIENT (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-21: "ok the newest deadweight client says no account iduna offline...
+the old client works so iduna is up its just the new stuff isnt quite working." Routed through
+`emily observe -s info` first (Apple #20288).
+
+- [x] Root cause found: IDUNA was up the whole session. `curl -X POST
+  https://okemily.com/api/v1/games/deadweight/guest-register` returned a real `429 "too many new
+  accounts from this address today"` -- the founder's own 3-new-accounts-per-IP-per-day signup cap
+  (S508c), burned by MY OWN dev/testing traffic this session (the live-play Xvfb verification +
+  curl smoke tests during S512-S516), not by the founder or by IDUNA actually being down.
+  `game_signup_log` showed exactly 3 rows for `198.58.107.85` and 3 for `[::1]`, both same day,
+  all traceable to this session's own testing.
+- [x] Immediate unblock: deleted today's `game_signup_log` rows for both IPs (IDUNA, no new
+  migration needed -- direct, safe, same-day-only data, all confirmed self-inflicted test noise).
+  Re-verified a fresh `guest-register` against production succeeds (201, real player_id/token).
+- [x] Real client bug found and fixed: `dwi_guest_register`/`dwi_guest_login`
+  (`DEADWEIGHT/core/iduna.c`) collapsed every non-2xx HTTP response into the same generic `-1` the
+  client also uses for an actual network outage, so `iduna_bootstrap` showed "IDUNA unreachable"
+  for a 429 rate-limit rejection just the same as for IDUNA genuinely being down -- actively
+  misleading, sent debugging in the wrong direction. Both functions now take an optional
+  `out_status`, filled with the real HTTP status on rejection. `iduna_bootstrap` now shows a
+  distinct message per case: 429 → "too many new accounts... try again tomorrow"; other rejection
+  → shows the real status; a rejected saved account → tells the player to delete `dw_account.txt`;
+  genuine network failure → the original generic message, now actually accurate again.
+- [x] `apps/client/main.c` (the CLI, also a real caller of these functions) updated for the new
+  signature. Full `scripts/build.sh --gui` (ASan/UBSan unit suite + e2e incl. the real IDUNA
+  auth e2e path + GUI headless selftest) green.
+- [x] Pushed (DEADWEIGHT commit `c81ae23`) — CI auto-cuts a new minor-version release, per this
+  repo's own standing release convention, so the founder gets the fixed build without a manual
+  step.
+- [ ] **Not yet investigated** (founder explicitly asked to fix the above first): WOTAN deck
+  match-count stats dropped from ~40k to ~1k, and player decks (some the founder wanted to keep)
+  disappeared from the Player tab. Founder's own hypothesis: "im probably doing weird shit to the
+  database playing games on the old client." Needs its own real investigation before any fix —
+  next up.
+
+DEADWEIGHT commit `c81ae23` (Apple #20290).
+
+session: sess-20260920-1908-24cb3558
