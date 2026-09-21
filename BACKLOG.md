@@ -44920,3 +44920,23 @@ env var a throwaway-instance tool reads, not just the obvious one.
   #20260, DEADWEIGHT commit `13ed318`.
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 509: TYPESAFE SKILL — LOGGED, NOT INSTALLED (FOUNDER REAL-TIME, 2026-09-21)
+
+- [ ] **Founder real-time: asked to install the third-party "TypeSafe" Claude Code skill/plugin**
+  (`typesafe-ai/skills` marketplace, an AI judgment/classification API product — "System One
+  models"/"Jev" — for turning natural language and app state into typed judgments code can
+  consume) and use it on this project going forward. Read the real `SKILL.md` content directly
+  before acting (`https://raw.githubusercontent.com/typesafe-ai/skills/main/skills/typesafe-ai/SKILL.md`)
+  — not obviously malicious, a legitimate-looking product-integration skill — but found no
+  concrete engineering need for it anywhere in current DEADWEIGHT/IDUNA work, and flagged that
+  "use it whenever working on this project" would be a broad standing directive to pull in an
+  external product with no task actually driving it. Asked the founder for the real use case;
+  answer: "log the skill into the backlog and keep moving for now." **Not installed** — logged
+  only, per the founder's own explicit instruction. Revisit only when a real feature genuinely
+  calls for an AI-judgment primitive (e.g. matchmaking quality scoring, chat moderation, deck-
+  archetype classification were named as illustrative examples, not committed scope) — install via
+  `claude plugin marketplace add typesafe-ai/skills` then `claude plugin install
+  typesafe@typesafe-ai` at that point, not before. Obs `2026-09-21T15-11-11Z`. Apple #20261.
+
+session: sess-20260920-1908-24cb3558
