@@ -45300,3 +45300,34 @@ session: sess-20260920-1908-24cb3558
 IDUNA commit `3b77bad` (Apple #20284), DEADWEIGHT commit `2afc6d6` (README).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 517: IDUNA — GAME CLAIM CODES BACK OFFICE TOOL (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-21: "ok give me iduna back office tools to craft a DEADWEIGHT Premium
+key so i can make one to test - simple form just like GFD tools." Routed through
+`emily observe -s info` first (Apple #20285).
+
+- [x] Audited: `cmd/gen-claim-codes` already generates the exact code format `redeem()` expects
+  (`claimCodeRe`, 5x5 dash-grouped), but it's a CLI requiring a shell — no web form existed.
+- [x] Added `GameClaimCodesHandler`/`GameClaimCodesPageHandler`
+  (`internal/http/handlers/game_claim_codes_page.go`) — a simple form at
+  `/admin/game-claim-codes`, same cream/gold ceremony style as the GFD admin pages. Game dropdown
+  populated live from `games.Registry` (not hardcoded). Defaults to founder=true/tickets=0 (a
+  Premium key — the founder's own stated use case) with count/tickets/tier still editable for
+  batch/other-tier generation. Same `INSERT INTO game_claim_codes` and code-alphabet as
+  `cmd/gen-claim-codes`, so a code minted here is indistinguishable from a CLI-minted one. Lists
+  the last 50 codes per game with used/unused status.
+- [x] Wired into `main.go` (`iduna.admin`-gated, same `RequireCookieAuth` chain as every other
+  admin route) and linked from the Back Office overview nav.
+- [x] Verified with a real smoke test (in-memory sqlite, real migrations applied, generate → list
+  round-trip, code format checked against `redeem()`'s own `claimCodeRe`) before deploy — deleted
+  after passing (a one-off addition to a package that otherwise lives in `_test.go` files would
+  have needed a rename to fit that convention, not worth it for a throwaway check). Full
+  `go test ./...` green.
+- [x] Deployed to production (`iduna.service` restarted, confirmed `active`); live-verified the
+  route returns the same 401-gated response as every other unauthenticated admin tool (not a
+  404 — proves it's wired, not just compiled).
+
+IDUNA commit `7a961dd` (Apple #20287).
+
+session: sess-20260920-1908-24cb3558
