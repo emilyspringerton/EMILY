@@ -45185,3 +45185,37 @@ DEADWEIGHT commit `e4b66d1` (Apple #20277), EMILY commits `76c5b21f` (golden-ind
 GOLDEN_DOCS commit `817b7b6` (resync).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 514: DEADWEIGHT — DESKTOP-FIRST PIVOT + LIVE-PLAYED THE REAL CLIENT (FOUNDER REAL-TIME)
+
+*Goal: founder correction on S513's own brand guide — the brutalist/gradient split is Windows*
+*desktop client vs. Android app specifically, not a general "chrome vs. card art" tension. Android*
+*is being fully abandoned for now ("expect a full rewrite of that code in terms of the visuals...*
+*that product is going away for now we are going all in on the desktop clients"), for the Itch.io*
+*launch and a subsequent Steam launch (signed up, waiting on tax paperwork). Also asked, real-time:*
+*"please spin up the client yourself on the desktop i bet you can and i bet you can even play*
+*some." Routed through `emily observe -s info` (Apple #20279).*
+
+- [x] **Corrected `BRAND_STYLE_GUIDE.md`**: reframed Section 2A/2B from "chrome vs. card art
+  tension to reconcile" to "the real desktop brand vs. a paused/shelved Android product" — the
+  Android gradient/tier-rim art is documented for the record only, explicitly marked not worth
+  further art budget while that product is on hold.
+- [x] **README.md / CLAUDE.md updated for the real platform decision** — "Built Android-first" is
+  gone from the README's own opening pitch; a real "Platform" note up top states desktop-first,
+  names the Itch.io launch and the Steam launch now in progress (signed up, pending tax
+  paperwork), and that Android's current visuals are being retired, not carried forward whenever
+  Android itself returns.
+- [x] **Actually spun up and played the real client** — not a claim, a real session: Xvfb virtual
+  X display, real `dw_server` + a 3-bot pool + `dw_gui` all launched together, real synthetic
+  mouse input via `xdotool` (no-root `.deb` extraction, same pattern as earlier mbedTLS work this
+  session) clicking through the real menu and playing real rounds against a real bot — not the
+  `--selftest` harness. Screenshots captured as real evidence in the guide (Section 6).
+- [x] **Found and fixed a real, live bug in the process**: the PRACTICE button's label
+  ("PRACTICE  (RANDOM DECK, FREE)") overflowed its box and read truncated at the usual text scale
+  — never caught by the automated selftest since it only checks structural/functional state, not
+  visual layout. `button()` now drops to a smaller scale when a label won't fit.
+
+DEADWEIGHT commits `7fc0cc3` (button fix), `1baa115` (docs), Apple #20280.
+GOLDEN_DOCS commit `78ae38c` (resync).
+
+session: sess-20260920-1908-24cb3558
