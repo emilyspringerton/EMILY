@@ -45044,3 +45044,50 @@ session: sess-20260920-1908-24cb3558
 PARENA commit `169e7e5` (Apple #20265), DEADWEIGHT commit `08ac75c` (Apple #20266).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 511: DEADWEIGHT — REAL TICKET-CONSUMING DRAFT RUNS + DRAFT HUB (FOUNDER REAL-TIME)
+
+*Goal: founder pasted the full Itch.io launch plan (free 25-ticket/day guest cap, $15 Premium*
+*redeem-code soft upsell, hard pivot to $15 minimum the following Wednesday) and asked to "ensure*
+*we are all ready for this plan," specifically: "we need the actual ui for the ticket system and*
+*the ticket system ready to go ensure it shows how many tickets that user has and that draft runs*
+*consume tickets," plus a full Draft Hub spec (DRAFT/PRACTICE buttons, draft_active/wins/losses/*
+*deck state machine, boot-time resume routing, Abort & Extract cash-out with a scaled ticket*
+*reward table). Routed through `emily observe -s info` (Apple #20267) before implementing.*
+
+- [x] **Found the real gap**: the ticket UI already existed (`TICKETS: N`, DRAFT button gated on
+  `tickets > 0`), but it was purely cosmetic — nothing server-side ever actually decremented a
+  balance on draft entry, and the existing Uncapped Draft Run's 3-loss auto-end never granted any
+  tickets back despite the founder's own reward table. Neither gap was safe to ship into a real
+  money launch.
+- [x] **IDUNA**: converted `draft-run/start` from DEADWEIGHT-SERVER-agent-only (never actually
+  wired into `dw_server`'s poll loop) to player-token-direct auth — same trust level as
+  `redeem`/`guest-upgrade`, since every action here only ever touches the calling player's own
+  balance/run row. Added `GET /draft-run` (state), `POST /draft-run/deck` (persist), `POST
+  /draft-run/abort` (voluntary cash-out), and a shared `cashOutDraftRun` + `draftRunReward` table
+  (0 tickets <6 wins, up to +18 at 25+, matching every band the founder gave). New migration adds
+  `game_draft_runs.deck`. Full test coverage including an end-to-end reward-table check through
+  the real HTTP path. `go test ./...` green.
+- [x] **DEADWEIGHT wire protocol**: new `DW_C_DRAFT_RESUME` message so a reconnecting client can
+  submit an IDUNA-persisted deck instead of redrafting — `dw_server` re-validates the deck's real
+  draft legality (`dw_draft_deck_valid`: exactly ten 1-ofs/five 2-ofs/one 3-of, valid card ids)
+  rather than trusting an arbitrary client-submitted array (closes a real cheat vector: a hacked
+  client could otherwise hand it 23 copies of the best card). Full C test suite (ASan+UBSan) green,
+  including new protocol round-trip and deck-validity tests.
+- [x] **DEADWEIGHT GUI**: DRAFT button now really spends the ticket via IDUNA before connecting.
+  New **Draft Hub screen** — win count, 3 "Burned Proxy" loss indicators, deck list, Resume
+  Uplink, Abort & Extract — reached both mid-run (from the match-end screen) and on a cold boot
+  with an active run (real `draft_active` resume routing). Windows cross-build (`dw_gui.exe`,
+  real TLS) also verified clean.
+- [x] **Named honestly, not done**: the Android client's own Draft Hub (`DraftModel.java`) was
+  not touched this pass — out of scope for what could be verified in this sandbox (no Android SDK
+  here per KARAMBIT/SPIDERBEETLE's own prior finding); called out explicitly in
+  `DEADWEIGHT/README.md` rather than left silently stale. A fresh-draft-then-Hub-before-queueing
+  flow (matching the founder's literal "route to SCREEN_DRAFT_HUB after the last pick" wording)
+  was also deliberately deferred — the existing, well-tested auto-queue-after-drafting path was
+  kept as-is to avoid destabilizing it; the Hub is reachable immediately after that match ends
+  instead.
+
+IDUNA commit `d7197eb` (Apple #20270), DEADWEIGHT commit `754ae57` (Apple #20271).
+
+session: sess-20260920-1908-24cb3558
