@@ -44713,3 +44713,77 @@ session: sess-20260920-1908-24cb3558
   worth automating, not attempted this pass.
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 508: DEADWEIGHT — STEAM F2P LAUNCH PREP (FOUNDER PIVOT, 2026-09-21)
+
+*Goal: founder real-time pasted a 4-phase plan — Steam silent auth (zero-friction shadow-account*
+*onboarding via `ISteamUser::GetAuthSessionTicket`), a Main Menu with a ticket-gated Draft mode*
+*(paid) + a free Practice mode, client card-battler UI wiring, and server-side ticket enforcement*
+*+ P2P fallback matchmaking. Explicit correction on the auth backend: "IDUNA INTEGRATED WOTAN*
+*INTEGRATED THE STEAM WILL HANDLE THE ACCOUNTS WE INTEGRATE WITH IT" — routes through IDUNA (the*
+*real central trust authority), never the pasted plan's own "Wotan IAM" (WOTAN is the static*
+*esports-hub site, not an IAM service).*
+
+**Architecture corrections found while scoping (real, from reading the actual code, not assumed):**
+- DEADWEIGHT already has a real, live, tested IDUNA integration (`core/iduna.c/.h`,
+  `docs/IDUNA_CONTRACT.md`, guest accounts, agent auth, match-result reporting, checkpoint
+  registry) — Phase 1 is a real, small extension of an existing pattern, not new infrastructure.
+- The pasted plan's `PACKET_ARENA_PLAY_CARD_SLOT` doesn't need to be invented — the real wire
+  opcode is `DW_C_PLAY` (`core/protocol.h`) with an `int8_t slot` field, already implemented and
+  tested.
+- The pasted plan's "poll the simulation's card_battler state" is the wrong mental model for a
+  networked client: the client never touches `card_battler.c` directly (that's server-only). The
+  4-card hand is already real-time wire-visible via the server-pushed `round_start.hand[4]`
+  message — Phase 3's hand UI should be event-driven off that message, not a poll loop.
+- **Real missing state-sync gaps, confirmed by reading `core/protocol.h`'s `round_start` payload**:
+  no wire field carries per-slot redraw-cooldown-remaining, and no wire field carries
+  `ArenaHero.npc_controlled`. Both need a real, small wire-protocol addition (a new byte/field on
+  `round_start`, protocol version bump) before the client can render either — not yet done.
+- Draft mode itself (separate queue, 16-pick 23-card draft) is already fully built and shipped —
+  Phase 2's ticket gate sits in front of an existing flow, not a new one.
+
+**Phase 1 (Steam silent auth) — backend DONE, client blocked on an external dependency:**
+- [x] **IDUNA: `provider="steam"` shadow-account auth + a generic Draft-ticket ledger.** New
+  `POST /api/v1/games/{game}/steam-login` (validates via Steam's own Web API
+  `ISteamUserAuth/AuthenticateUserTicket` — plain HTTPS, no SDK needed server-side), shadow
+  account + 1 starter ticket on first login, `game_player_tickets` table, `GET .../tickets`
+  (public read) + `POST .../tickets/consume` (atomic, `DEADWEIGHT-SERVER`-agent-only). 5 new
+  tests, `go build ./...` clean. Apple #20248, IDUNA commit `5a0abd8`.
+- [x] **DEADWEIGHT: client-side call functions.** `core/iduna.c/.h` gained
+  `dwi_steam_login`/`dwi_ticket_balance`/`dwi_ticket_consume` against the above routes; new
+  `dw_json_int` helper in `core/http.c/.h`. Full `scripts/build.sh` suite (ASan/UBSan + 4 e2e
+  scenarios) green. Apple #20249, DEADWEIGHT commit `86d3925`.
+- [ ] **Blocked on a real external dependency, not sandbox work**: obtaining the actual hex auth
+  ticket needs the real Steamworks SDK (`ISteamUser::GetAuthSessionTicket`) — proprietary,
+  Valve-partner-gated, genuinely not present in this sandbox (same class of gap as
+  MJOLNIR/SPIDERBEETLE's own honestly-named Android SDK absence). Also blocked on the founder's
+  own Steamworks partner account issuing a real Steam App ID (`DEADWEIGHT_STEAM_APPID` env) +
+  Steam Web API publisher key (`STEAM_WEB_API_KEY` on IDUNA) — both human-only steps. Wiring the
+  real SDK call into `apps/gui/main.c`'s boot sequence once those exist is the concrete remaining
+  step; the call-site function (`dwi_steam_login`) is already there waiting for a real ticket.
+
+**Phase 2 (Main Menu) — not started:**
+- [ ] Lobby UI: primary `DRAFT (Cost: 1 Ticket)` button (checks `dwi_ticket_balance`; 0 tickets →
+  Steam Microtransaction overlay, itself a further Steamworks-SDK dependency not yet scoped),
+  secondary `PRACTICE (Random Deck)` button (bypasses ticket check, existing `DW_MODE_CARD` random
+  queue), persistent ticket counter pulled from the steam-login/tickets response.
+
+**Phase 3 (client card-battler UI) — not started, real wire-protocol gaps named above block two
+of the four sub-items:**
+- [ ] Hand UI: render `round_start.hand[4]` (already wire-visible) — real, buildable today.
+- [ ] Input: `1`-`4` keys → `DW_C_PLAY{slot}` (already the real wire message) — real, buildable
+  today.
+- [ ] Redraw-cooldown UI: needs a new wire field (not yet added — see gap above).
+- [ ] Hero `npc_controlled` lock/tooltip: needs a new wire field (not yet added — see gap above).
+
+**Phase 4 (server-side match management) — not started:**
+- [ ] Ticket enforcement: `dw_server` calls `dwi_ticket_consume` before allocating a Draft match
+  instance (the IDUNA-side primitive exists; the `dw_server`-side call site does not yet).
+  Client-side-only enforcement (Phase 2's button check) is spoofable — this server-side check is
+  the real enforcement point, same "server reports, client never does" trust boundary
+  `dwi_report` already establishes for match results.
+- [ ] P2P fallback matchmaking under >90% CPU load: real, substantial new scope, no existing
+  precedent in this codebase to extend (REDGARDEN/ECOWAR's matchmaker pattern is dedicated-server
+  only) — needs its own design pass before implementation.
+
+session: sess-20260920-1908-24cb3558
