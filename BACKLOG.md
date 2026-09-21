@@ -45386,3 +45386,48 @@ the old client works so iduna is up its just the new stuff isnt quite working." 
 DEADWEIGHT commits `c81ae23` (Apple #20290), `d0f1a4a` (Apple #20292).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 520: DEADWEIGHT — REDEEM CODES BROKEN + TICKET DISPLAY BUGS (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-21, first live economy testing against v0.54.0 (the first release
+with working TLS, S519): "it works kinda ... the ticket is not consumed i can start a draft open
+a new client and it correctly resumes - but really the ticket should be gone but its not so you
+can start a new draft and boom same account 1 ticket 2 drafts also note abort and extract needs
+affordances for won tickets (you won n tickets) but something to fix right away codes do not work
+currently to unlock premium." Routed through `emily observe -s info` first (Apple #20293).
+
+- [x] **Urgent, fixed: redeem codes never worked.** `A.redeem_code` was `char[24]` (23 usable
+  chars) but a real claim code is 29 chars (`XXXXX-XXXXX-XXXXX-XXXXX-XXXXX`, IDUNA's own
+  `claimCodeRe`) — the input field's own `field_cap()` bound truncated every real code before it
+  was ever sent, so `redeem()` correctly rejected the mangled string every single time. Bumped to
+  `char[40]`. Verified server-side `redeem()` itself was never broken (direct curl against
+  production succeeds both before and after this fix — minted a real Premium test key via the
+  `game-claim-codes` admin tool and redeemed it end to end).
+- [x] **"1 ticket 2 drafts" — investigated, not a real double-spend.** Direct DB inspection of a
+  real test player's `game_draft_runs`/`game_player_tickets` showed the server-side economy
+  charging correctly: 4 sequential `draft-run/start` calls, 4 real ticket deductions, zero
+  double-spend. The real bug is client-side display staleness: `to_menu()` never called
+  `refresh_tickets()`, so the shown balance froze at whatever it was before a match/draft run
+  until the next full client restart — exactly matching "the ticket is not consumed" as an
+  observed symptom. Fixed: refreshes on every path back to the menu now.
+- [x] **Related real bug found while fixing the above**: the S_END "continue to hub" click
+  handler hardcoded `A.hub_active = 1` immediately AFTER calling `refresh_draft_hub()` — stomping
+  the real state that call had just fetched from the server. Finishing a draft's 3rd loss
+  (which correctly auto-cashes-out and ends the run server-side) still showed the Hub as if a run
+  were active. Now trusts the real state and routes to the menu (with a fresh ticket balance)
+  once the run has genuinely ended.
+- [x] Removed a stale hardcoded "TICKETS: N/20" display cap (leftover from before S516's real
+  3-tier cap existed — actively misleading for a Premium/founder account, which would show
+  "9999/20") and a SECOND, separate, always-on "NO ACCOUNT (IDUNA OFFLINE)" menu label that never
+  used the real error reason (same class of bug S517 already fixed in `iduna_bootstrap`'s own
+  `A.err` — this was an untouched second copy of the same wrong assumption).
+- [ ] **Noted, not fixed (founder flagged as lower priority)**: "Abort & Extract" already shows a
+  "won N tickets" message (`do_draft_abort`'s own `redeem_msg`, pre-existing), but the natural
+  3-loss draft-end path has no equivalent — the client has no server response carrying the
+  just-earned reward amount for that path. Needs a small server API addition (e.g.
+  `draft-run/state` or the match-result flow returning the last cash-out's reward), real,
+  scoped follow-up work, not done here.
+
+DEADWEIGHT commit `2bf928e` (Apple #20295).
+
+session: sess-20260920-1908-24cb3558
