@@ -44838,3 +44838,60 @@ game and are not being built.**
   only) — needs its own design pass before implementation.
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 508c: DEADWEIGHT — TIERED ECONOMY + UNCAPPED DRAFT RUNS (FOUNDER PIVOT, 2026-09-21, SAME DAY)
+
+*Goal: founder real-time correction on the Draft economy — "if a player drafts a god-tier deck...*
+*and has the skill to pilot it to 30 wins before taking 3 losses, you should let them... Uncapped*
+*Draft Runs: Play until you drop 3 matches." Plus a second, partially overlapping "Context*
+*Override" spec: `account_tier` (alpha/premium/free daily-cap tiers), a real guest-to-email*
+*upgrade path, and a `claim_codes` reward system. Deliberate, named deviation: did NOT build the*
+*spec's own generic, non-game-scoped `/api/auth/guest`/`/api/auth/register` namespace — it would*
+*duplicate identity on the shared `players` table and break the existing per-game token isolation*
+*guarantee; extended the already-real, tested, game-scoped auth system instead (see SECTION 508's*
+*own architecture-corrections note for the same recurring theme).*
+
+- [x] **IDUNA: tiered ticket economy.** `topUpTicketsIfDue` replaces S508b's flat +1/day —
+  tier_alpha=20/tier_premium=5/tier_free=1 caps (`defaultAccountTier="tier_alpha"`, a one-line
+  flip to `"tier_free"` on 2026-09-30 per the founder's own explicit plan), GREATEST-not-overwrite
+  semantics so a claim-code-boosted balance is never reduced (a real, named correction to the
+  literal "set to cap" ask). `game_claim_codes` gained an optional tier grant.
+- [x] **IDUNA: Uncapped Draft Run tracking.** New `game_draft_runs`/`game_draft_run_results`
+  tables, `POST .../draft-run/start` (agent-gated, idempotent free resume of an active run, spends
+  1 ticket only to start fresh), `matchResult` advances win/loss for mode=2 matches and
+  auto-finalizes + posts to `GET .../draft-runs/leaderboard` at exactly 3 losses — live-tested past
+  12 wins with zero cap enforced. Draws count toward neither wins nor losses (a named design
+  choice, not yet founder-confirmed).
+- [x] **IDUNA + DEADWEIGHT: guest-to-email upgrade ("Link Email, Save Progress").** New
+  `guest-upgrade`/`email-login` routes keep the SAME `player_id` in place (unlike the existing
+  generic `PlayerEmailAuthHandler`, which always mints a new one) — tickets/stats/founder-flag
+  carry over automatically, live-verified. GUI gained a real "LINK EMAIL" text-input flow.
+- [x] **IDUNA: 24h/IP signup cap** (3 accounts/IP/day) via a new `game_signup_log` table.
+- [x] **DEADWEIGHT: found and fixed a real, load-bearing bug** — `DwMatchReport` had no `mode`
+  field, and `dwi_report` hardcoded `"mode":0` on every match-result POST. Every historical draft
+  match ever reported to IDUNA was silently misreported as card mode; fixed by threading the real
+  `mt->mode` through `apps/server/main.c` → `dwi_report`. Directly load-bearing for the new
+  Uncapped Draft Run tracking above, which reads this same field.
+  11 new IDUNA tests, `go build ./...` clean, full `scripts/build.sh --gui` suite (ASan/UBSan +
+  4 e2e + GUI/draft selftests + FX demo) green. IDUNA commit `92fba52`, DEADWEIGHT commit
+  `8bad85b`, Apples #20255/#20256.
+- [ ] **Real, open gap**: `dwi_draft_run_start` is not yet called from `dw_server`'s poll loop — a
+  synchronous call there would block the whole single-threaded event loop for up to the HTTP
+  timeout. Needs a new async job type (`J_DRAFT_RUN_START`), same worker-thread pattern
+  `J_VERIFY`/`J_REPORT` already use. Until this lands, Draft mode queues without actually spending
+  a ticket or tracking a run server-side end to end — the IDUNA primitive is real and tested, the
+  server-side call site is not yet wired.
+- [ ] **Real, open gap**: hand UI rendering + `1`-`4` key input (SECTION 508b's own carried-over
+  item) — still not done, still genuinely buildable today, not blocked on anything.
+
+**Incident, same session, unrelated to the feature work above**: while live-testing the new IDUNA
+endpoints, ran `cmd/bootstrap` against a throwaway SQLite DB but left `IDUNA_ROOT` pointed at the
+real checkout, causing it to overwrite the real, live, shared `IDUNA/var/agent-secrets.env` for
+all 20 production agents. Real DB untouched. Founder approved full remediation: `cmd/bootstrap
+-rotate` against the real DB (verified live via a real `/api/v1/auth/agent` call), then restarted
+the 5 affected live systemd consumers (REDGARDEN ×2, redgarden-stable, ECOWAR, GFD MUD), updating
+each one's own per-repo secret copy first. Verified clean post-restart, zero auth errors. Apple
+#20257. Memory saved (`throwaway_instance_full_isolation.md`) so a future session isolates every
+env var a throwaway-instance tool reads, not just the obvious one.
+
+session: sess-20260920-1908-24cb3558
