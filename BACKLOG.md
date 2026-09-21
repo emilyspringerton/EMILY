@@ -44894,4 +44894,29 @@ each one's own per-repo secret copy first. Verified clean post-restart, zero aut
 #20257. Memory saved (`throwaway_instance_full_isolation.md`) so a future session isolates every
 env var a throwaway-instance tool reads, not just the obvious one.
 
+## SECTION 508d: DEADWEIGHT — GUEST/BASE IDENTITY STATE + DASHED CLAIM CODES (SAME DAY)
+
+*Goal: founder re-pasted a tier/guest-auth/redeem-code spec that substantially overlapped SECTION*
+*508c (already shipped) under different names. Reconciled rather than duplicated: real deltas*
+*only — a derived (not stored) Guest/Base identity axis kept separate from `account_tier`, a new*
+*claim-code format, and OS clipboard paste support. Also, mid-thread, the founder asked for an*
+*undefined "HOUSE secret" with no context — declined; no such credential exists anywhere in*
+*IDUNA's real agent-secrets system, and secrets aren't handed out on a bare request regardless.*
+
+- [x] **IDUNA: derived Guest/Base account_state**, zero schema migration per the founder's own
+  explicit instruction ("Compute this dynamically... If a `player_id` has no corresponding row in
+  `player_credentials`, they are a Guest. If they have credentials, they are Base... zero new
+  columns"). New `accountState()` live-query helper, surfaced on every login/verify/upgrade
+  response. `account_tier` (ticket caps) untouched, confirmed a separate axis.
+- [x] **IDUNA: claim codes reformatted** — 5 blocks of 5 capital-letters-and-numbers, dash-
+  separated (`DF4XT-QMBGT-F7D49-XXXXX-XXXXX`, 29 chars), replacing the plain 12-char format.
+  `cmd/gen-claim-codes` gained a `-tier` flag (the `tier` column existed since S508c but was never
+  actually settable from the CLI). Redeem endpoint is paste-tolerant (strips all whitespace,
+  re-groups a dashless 25-char paste). Migration `202609211600_claim_code_widen_for_dashed_format.sql`.
+  4 new tests, live-verified via a real `gen-claim-codes` run. Apple #20259, IDUNA commit `e90c4a4`.
+- [x] **DEADWEIGHT: OS clipboard paste (Ctrl+V) for every menu text field** — SDL2 doesn't wire
+  this in automatically; added explicit handling via `SDL_GetClipboardText()`, shared with typing
+  through a new `append_to_field()` helper. Full `scripts/build.sh --gui` suite green. Apple
+  #20260, DEADWEIGHT commit `13ed318`.
+
 session: sess-20260920-1908-24cb3558
