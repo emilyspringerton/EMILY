@@ -44660,3 +44660,38 @@ golden-index — this section is the real, checked accounting of that work.
   live boot test + real eval coverage per upstream's own PR bar, open a real PR (not untracked
   work on `main`); Phase D remove the stray `iduna.db` from IDUNA git + two founder-level open
   decisions (upstream tracking, fallback-provider behavior).
+
+session: sess-20260920-1908-24cb3558
+
+## SECTION 507: GOLDEN_DOCS — FULL SNAPSHOT REPO + SYNC (2026-09-21)
+
+*Goal: founder real-time — "created [emilyspringerton/GOLDEN_DOCS] first i need you to build the*
+*golden docs and emily context build as full as you can make it and then upload it to this repo*
+*THEN i need that repo updated whenever golden docs get updated make it so through automations or*
+*just in claude files i really dont care maybe just claude files for now to save tokens and put*
+*into the backlog to automate it more."*
+
+- [x] **Built and pushed the full snapshot.** New repo `emilyspringerton/GOLDEN_DOCS`: every doc
+  listed in `EMILY/context/golden-docs-index.md` (234 docs, real content, mirroring each doc's
+  own repo-relative path under `docs/`) plus core EMILY context files (`golden-docs-index.md`
+  itself, `full-system-context.md`, the sprawl memo, `golden-repos.json`, `mjolnir-context.md`,
+  the monorepo's own root `CLAUDE.md`, `EMILY/docs/ECOSYSTEM_CONTINUITY_REPORT.md`) under
+  `context/`. 239 files total, each sha256+size hashed in a generated `MANIFEST.md`. Cloned
+  locally to `/home/fatbaby/GOLDEN_DOCS` as a real, persistent checkout, same as every other repo
+  in this monorepo.
+- [x] **Sync mechanism: CLAUDE.md files, not CI automation** — per the founder's own explicit
+  "maybe just claude files for now to save tokens." Added a standing instruction to the monorepo's
+  own root `CLAUDE.md` ("GOLDEN_DOCS Sync"): whenever a golden doc (or `golden-docs-index.md`
+  itself, or the other context files above) is added, removed, or meaningfully edited, resync
+  `GOLDEN_DOCS` in the same unit of work — same spirit as the existing README Reality convention.
+  `GOLDEN_DOCS/CLAUDE.md` itself carries the real regeneration script (a Python one-liner that
+  re-reads `golden-docs-index.md`, re-copies every listed doc, regenerates `MANIFEST.md`).
+- [ ] **Not built: real CI-triggered automation.** A workflow (in `EMILY`'s own
+  `.github/workflows/`, or a scheduled job) that detects a golden-doc change across watched repos
+  and runs the resync automatically, instead of depending on Claude Code remembering to do it
+  manually per the CLAUDE.md instruction above. Deliberately deferred, per the founder's own
+  explicit sequencing ("just claude files for now to save tokens ... put into the backlog to
+  automate it more") — named here as the real next step once the manual version has proven itself
+  worth automating, not attempted this pass.
+
+session: sess-20260920-1908-24cb3558
