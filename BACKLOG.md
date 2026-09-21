@@ -44940,3 +44940,59 @@ session: sess-20260920-1908-24cb3558
   typesafe@typesafe-ai` at that point, not before. Obs `2026-09-21T15-11-11Z`. Apple #20261.
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 510: DEADWEIGHT — REAL TLS, PRODUCTION DEPLOY, PREMIUM KEY INVENTORY (SAME DAY)
+
+*Goal: founder real-time — mint 500 real Premium claim codes and package a release client*
+*pointed at production, "no local debug server hardcoded in the config." Then, mid-task,*
+*"use PARENA to build the TLS" for the client, which had none.*
+
+- [x] **Real, correctness-critical pushback given and accepted**: hand-rolling TLS crypto in
+  PARENA (an immature DSL with zero cryptographic primitives) was rejected outright — TLS bugs
+  are catastrophic even from expert teams with decades of audit history; reimplementing it in a
+  compiler that's never handled anything more security-sensitive than card-game rules would very
+  likely ship broken, exploitable "security." Real, audited mbedTLS bound via FFI instead, same
+  "wrap a real library, never reimplement it" discipline this monorepo already applies elsewhere.
+- [x] **PARENA: `net/tls.prn` + `runtime/parena_runtime.h`'s new `PARENA_WITH_TLS` block** — real
+  mbedTLS FFI, hardcoded-required certificate verification (never a caller-controlled toggle),
+  a small runtime-managed handle table (PARENA has no I64/pointer scalar type). `libmbedtls-dev`
+  obtained without root this session via the same `apt-get download`+`dpkg-deb -x` workaround
+  `sudo-queue/82`'s own freetds-bin script established; permanent install queued
+  (`sudo-queue/89-install-libmbedtls-dev.sh`). Live-verified twice — a standalone harness (proved
+  verification genuinely REJECTS a wrong hostname, not just "a handshake completed"), then for
+  real through the actual `.prn`→C→linked pipeline against `https://okemily.com`. PARENA commits
+  `593f6ec`, `61c4505` (a real, found-live glibc feature-macro conflict fix). Apple #20262.
+- [x] **DEADWEIGHT: `core/http.c` gained a real `https://` path** wired to PARENA's TLS FFI —
+  fails clean (never silently downgrades to plaintext) if a binary wasn't built with
+  `PARENA_WITH_TLS`. Client's IDUNA URL default fixed from `http://localhost:8080` (a genuine
+  shipping bug — nothing on a real player's machine listens there) to the real production
+  `https://okemily.com`. **Live-verified with the actual shipped binary, zero override flags**:
+  real TLS 1.2 handshake, real cert verification, real guest account registered against
+  production. Full `scripts/build.sh --gui` suite green. DEADWEIGHT commit `ce236f1`. Apple #20263.
+- [x] **Honest, named gap: Windows/mingw cross-build has no TLS.** No mingw-w64 mbedTLS package
+  exists in apt; a real cross-compile needs mbedTLS vendored from source + a CMake mingw build,
+  and this sandbox has no way to run a compiled `.exe` to verify a real handshake regardless —
+  shipping unverified crypto for an untestable platform was a deliberate call not to rush, not an
+  oversight. README updated with the honest split (Linux/Windows-GUI real TLS vs. Windows `.exe`
+  still plaintext-only). Real, scoped follow-up, not done here.
+- [x] **Ops: found and fixed a real deploy gap before generating any inventory** — the live
+  production IDUNA binary predated every commit from today's S508/S508c/S508d economy work (built
+  07:06 UTC; code landed 11:34–14:06). Backed up the binary + DB, rebuilt from current source,
+  restarted via `systemctl --user restart iduna.service` (real health-check gate, clean pass),
+  live-verified the new routes actually work through the public domain before touching anything
+  else. Apple #20264.
+- [x] **500 real Premium claim codes generated against the now-current production database**
+  (`tickets=10, founder=true, tier=tier_premium` — the established "$15 Founder pack" shape from
+  SECTION 508's own earlier scoping) via `cmd/gen-claim-codes`, output to `batch_1_keys.txt`
+  (gitignored — real, sellable inventory, same sensitivity class as an agent secret, never
+  committed; `.gitignore` updated to catch this pattern going forward). One code consumed by a
+  real, live redemption test against production (removed from the shipped file before handoff) to
+  confirm the batch is genuinely usable, not just inserted rows — 499 remain. Apple #20264.
+- [ ] **Not done**: the Windows `.exe` package itself — blocked on the TLS cross-build gap named
+  above. The Linux/GUI build is real, tested, and production-ready right now.
+
+**Unrelated, same-turn**: declined a request for an undefined "HOUSE secret" (no such credential
+exists anywhere in the real agent-secrets system) — see SECTION 509's own header for the adjacent
+TypeSafe-skill decline in the same turn.
+
+session: sess-20260920-1908-24cb3558
