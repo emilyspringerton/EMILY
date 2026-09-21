@@ -45480,3 +45480,5 @@ DEADWEIGHT commit `6cf5378` (Apple #20298).
 session: sess-20260920-1908-24cb3558
 - [ ] **82821821: we need the randomized ticket numbers i dont want to type ticket numbers if i dont want to (sometimes i do want to and i use it like jira projects but sometimes its too much cognitive load this is an** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **12421: automate the process of taking screenshots at each part of the deadweight onboarding** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
