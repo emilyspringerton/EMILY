@@ -45431,3 +45431,50 @@ currently to unlock premium." Routed through `emily observe -s info` first (Appl
 DEADWEIGHT commit `2bf928e` (Apple #20295).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 521: DEADWEIGHT — PRODUCTION NEVER REPORTED MATCHES TO IDUNA (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-21, mid-draft: "currently in a draft i won 1 lost 1 and the
+scoreboard is not updating." Routed through `emily observe -s info` first (Apple #20296).
+
+- [x] **Root cause found — not a display bug.** Direct DB query: `game_matches` had ZERO rows
+  for `deadweight`, ever, in its entire history. `dw-server.service` has run with `--no-auth` and
+  no `--iduna-url` since it was first deployed — a stale VS0-era default ("IDUNA guest auth isn't
+  deployed yet") left unchanged long after S512 actually shipped real guest auth. Without
+  `--iduna-url`, `dw_server` never configures an IDUNA client at all, so its match-result
+  reporting worker thread (a real, already-correct background thread) has had nothing to report
+  with. `game_matches`/ELO stats/the Draft Hub's win-loss counter have been completely dark in
+  production since launch, not just since today.
+- [x] Real M2M credentials for this already existed and were unused: `DEADWEIGHT-SERVER`/
+  `DEADWEIGHT-BOTS` IDUNA agents (`config/agents.json`, `deadweight.match.write`/
+  `deadweight.bot.play` perms), created 2026-09-18, secrets already sitting in
+  `IDUNA/var/agent-secrets.env`, never wired into the actual running service.
+- [x] Provisioned `~/.config/deadweight/server.secret`/`bots.secret` (outside the repo — same
+  S518 lesson about not letting live config sit where dev hygiene can touch it), updated
+  `dw.env`'s `DW_SERVER_ARGS`/`DW_BOT_ARGS` to pass `--iduna-url`/`--agent-secret-file`, rebuilt
+  (production binaries were also stale, from 2026-09-19, predating unrelated fixes already in
+  source) and redeployed via `scripts/deploy_user.sh`.
+- [x] **De-risked before touching production**: proved the connect→auth→verify→draft pipeline
+  works under the new config using a throwaway `dw_server` instance + a real bot with real IDUNA
+  credentials (completed a full draft against real production IDUNA) before flipping the live
+  service — this was a real, meaningful blast-radius concern (6 concurrent bots keep matchmaking
+  alive; getting this wrong would have broken queueing for every player, a worse regression than
+  what was being fixed).
+- [x] **Verified live, end to end, after the flip**: minted a fresh test account via the real
+  API, started a real draft run (ticket spend confirmed), played one real match through
+  `dw_client` against the live bot pool, confirmed `game_draft_runs.losses` went 0→1 for that
+  exact match. Also confirmed `mode` now correctly reports 2 (draft) vs 0 (card) per match, not
+  hardcoded — that specific bug was from the stale Sep-19 binary, fixed by the redeploy alone.
+- [x] Fixed `ops/systemd/dw.env.example` and `scripts/deploy_user.sh` so a **fresh** deploy can't
+  regress this again (both still pointed at the old `--no-auth` default and the old S518
+  in-repo match-log path).
+- [x] README updated (capability status change: match reporting/ELO/draft tracking, "never
+  worked" → "working," verified).
+- [ ] **Known, accepted, unrecoverable loss**: the founder's own in-progress draft run (started
+  21:35:01, still active) has real wins/losses played before the fix landed (~21:49 UTC) that
+  were never recorded and cannot be recovered. The run itself is intact and will track correctly
+  from this point forward — no further action needed, just an honest limitation.
+
+DEADWEIGHT commit `6cf5378` (Apple #20298).
+
+session: sess-20260920-1908-24cb3558
