@@ -44762,19 +44762,70 @@ session: sess-20260920-1908-24cb3558
   real SDK call into `apps/gui/main.c`'s boot sequence once those exist is the concrete remaining
   step; the call-site function (`dwi_steam_login`) is already there waiting for a real ticket.
 
-**Phase 2 (Main Menu) — not started:**
-- [ ] Lobby UI: primary `DRAFT (Cost: 1 Ticket)` button (checks `dwi_ticket_balance`; 0 tickets →
-  Steam Microtransaction overlay, itself a further Steamworks-SDK dependency not yet scoped),
-  secondary `PRACTICE (Random Deck)` button (bypasses ticket check, existing `DW_MODE_CARD` random
-  queue), persistent ticket counter pulled from the steam-login/tickets response.
+## SECTION 508b: DEADWEIGHT — ITCH.IO SURVIVAL LAUNCH (FOUNDER PIVOT, 2026-09-21, SAME DAY)
 
-**Phase 3 (client card-battler UI) — not started, real wire-protocol gaps named above block two
-of the four sub-items:**
+*Goal: founder real-time, pasting executive advice mid-thread: Steam's Net-30 payout means a*
+*Steam-only launch can't generate cash inside a 30-day survival window. Dual-track plan: pay the*
+*Steam Direct fee today (human-only, starts the 30-day clock, no further Steam SDK work) while*
+*launching on Itch.io THIS WEEK as the real cash-generating bridge. New orders, superseding*
+*SECTION 508's own Phase 2/3 scope below: "Skip Phase 1 (Steam Auth) entirely for now — wire the*
+*Main Menu (Phase 2) to use IDUNA's existing authentication," add a Redeem Code box (Itch sells*
+*$15/$5 key packs, delivered as pre-generated claim codes crediting tickets + a Founder cosmetic*
+*flag), a daily free ticket to keep the matchmaking queue alive, then Phase 3's protocol patch.*
+
+- [x] **IDUNA: redeem-code endpoint + daily free-ticket grant.** `POST /api/v1/games/{game}/redeem`
+  (atomic claim, real player token only), `game_claim_codes` table, `players.is_founder` column,
+  new `cmd/gen-claim-codes` CLI (500 random 12-char codes for Itch's key-upload feature — no
+  0/O/1/I, avoids customer transcription errors). Daily freebie (`grantDailyFreebieIfDue`) is a
+  lazy on-activity UPSERT hooked into every real auth entry point, not a cron daemon — deliberate,
+  named interpretation of "cron/check" (no new systemd timer that can silently stop running).
+  3 new tests, live-verified end to end against a real running instance (generated codes,
+  redeemed one over real HTTP, confirmed the DB updated correctly). Apple #20251, IDUNA commit
+  `8f029bf`.
+- [x] **DEADWEIGHT: Main Menu wired to IDUNA's existing guest auth (Phase 2 done, via guest
+  accounts, not Steam).** `apps/gui/main.c` auto-registers/logs-in on boot (`--account FILE`,
+  default `dw_account.txt`), fills the existing token/AUTH flow unmodified. Menu redesigned:
+  `TICKETS: N` + `FOUNDER` badge top-right, `DRAFT (COST: 1 TICKET)` / `PRACTICE (RANDOM DECK,
+  FREE)` buttons (client-side ticket gate only — see the still-open Phase 4 item below for real
+  enforcement), Redeem Code text box + button (`dwi_redeem`, new). `--selftest`/`--fx-demo`
+  explicitly skip the new network bootstrap so CI stays fast/offline — confirmed no regression.
+  Live-verified against real IDUNA + `dw_server` binaries: real account creation (tickets=1 daily
+  freebie), a second boot reuses the same account with no double-grant, a real `/redeem` call
+  credited 7 tickets + the founder flag. Full `scripts/build.sh --gui` suite green. Apple #20252,
+  DEADWEIGHT commit `6d6b972`.
+- [x] **Real architecture correction, not silently patched over**: the Phase 3 orders below
+  (`redraw_cooldown_remaining`, `npc_controlled`) describe a DIFFERENT game —
+  `ArenaHero`/`arena_npc_hero_tick`/`card_battler.c` exist only in
+  `GoblinFoxDragon/apps2/battlegrounds_gui`, confirmed by a repo-wide grep, not anywhere in
+  DEADWEIGHT. DEADWEIGHT has no hero/NPC-piloted unit at all, and its hand refill
+  (`core/match.c`) is instant/round-synchronous at round resolution, not a real-time per-slot
+  cooldown timer — there is no real game mechanic for either named field to represent here. Not
+  built; flagged instead of inventing dead wire bytes to satisfy a mismatched checklist.
+- [ ] **Not done, real remaining Itch-launch scope**: hand UI rendering (`round_start.hand[4]`,
+  already wire-visible) and `1`-`4` key input (`DW_C_PLAY{slot}`, already the real wire message)
+  — both genuinely buildable today, deferred only for time/turn scope, not blocked on anything.
+- [ ] **Ticket enforcement remains the real, open gap**: `dw_server` doesn't yet call
+  `dwi_ticket_consume` before allocating a Draft match — Draft currently queues without spending a
+  ticket server-side. The Main Menu's client-side gate (0 tickets → button disabled) is real UX
+  but not real enforcement; a modified client could bypass it. Same "server reports, client never
+  does" trust boundary `dwi_report` already establishes — this is the correct fix point, still not
+  built (carried over from SECTION 508's own Phase 4 below).
+- [ ] Itch.io page build-out, key-pack listing/pricing copy, and the actual Itch build upload —
+  none of this is code; real, human-only next steps once the client is feature-complete enough to
+  ship.
+
+session: sess-20260920-1908-24cb3558
+
+**Phase 2 (Main Menu) — DONE, see SECTION 508b above** (superseded/completed there: IDUNA guest
+auth instead of Steam, since SECTION 508b explicitly deferred Steam auth past the Itch launch).
+
+**Phase 3 (client card-battler UI) — real wire-protocol gaps found to be a mismatched-game
+architecture error, see SECTION 508b's own correction above. Hand UI + input are still real,
+open, buildable-today work (not blocked); the cooldown/hero items are not applicable to this
+game and are not being built.**
 - [ ] Hand UI: render `round_start.hand[4]` (already wire-visible) — real, buildable today.
 - [ ] Input: `1`-`4` keys → `DW_C_PLAY{slot}` (already the real wire message) — real, buildable
   today.
-- [ ] Redraw-cooldown UI: needs a new wire field (not yet added — see gap above).
-- [ ] Hero `npc_controlled` lock/tooltip: needs a new wire field (not yet added — see gap above).
 
 **Phase 4 (server-side match management) — not started:**
 - [ ] Ticket enforcement: `dw_server` calls `dwi_ticket_consume` before allocating a Draft match
