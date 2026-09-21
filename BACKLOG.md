@@ -45259,3 +45259,44 @@ session: sess-20260920-1908-24cb3558
 IDUNA commit `e2ee156` (Apple #20282), DEADWEIGHT commit `190bf7c` (README correction).
 
 session: sess-20260920-1908-24cb3558
+
+## SECTION 516: IDUNA — 3-TIER TICKET CAP, ZERO-MANUAL-INTERVENTION CUTOVER (FOUNDER REAL-TIME)
+
+*Goal: founder, real-time, full spec for DEADWEIGHT's Itch launch economy: Premium ($15 Override*
+*Code = unlimited), Protofounders (grandfathered by account creation date = 20/day), Late Free*
+*(registered on/after a fixed cutoff = 1/day) — with the explicit objective that "the transition*
+*next week requires zero manual server intervention." Four numbered rules given: track*
+*`account_created_date`; a fixed `GRANDFATHER_CUTOFF_DATE` constant; lazy-refresh logic keyed off*
+*`is_founder` first, then the cutoff comparison; Claim Account must preserve `player_id`/creation*
+*date; redeeming the $15 code must instantly flip `is_founder` and reflect Unlimited with no*
+*restart. Asked to "audit the C/Go backend against these four rules and commit." Routed through*
+*`emily observe -s info` (Apple #20283).*
+
+- [x] **Rule 1, audited — no new column needed**: `players.registered_at` (added 2026-06-20,
+  `DATETIME DEFAULT CURRENT_TIMESTAMP`) already IS `account_created_date`. Adding a second,
+  differently-named column with identical semantics would just create a sync-risk between two
+  timestamps that must always agree — used the real, existing one instead.
+- [x] **Rule 2 implemented**: `grandfatherCutoff = 2026-09-30T00:00:00Z` (matches the date already
+  named in the `defaultAccountTier` TODO this replaces — not a freshly recomputed "next Wednesday"
+  from today, which would have silently shortened the already-communicated grandfather window by
+  a week). New `effectiveDailyCap(isFounder, registeredAt)`: founder → 9999, `registeredAt <
+  cutoff` → 20, else → 1 — replaces the old manually-flipped `defaultAccountTier`/`tierCaps`
+  machinery entirely. `topUpTicketsIfDue` now joins `players` for `is_founder`/`registered_at`
+  instead of reading a stored `tier` column. GREATEST semantics kept (never lowers a balance
+  already above the computed cap, same real reason as before — never claw back a redeemed
+  balance).
+- [x] **Rule 3, audited and confirmed already correct**: `guestUpgrade` ("Claim Account") only
+  ever `INSERT`s into `player_credentials` and updates `players.email` for the SAME `player_id` —
+  never creates a new player row, never touches `registered_at`. Pinned down with an explicit
+  regression test (before/after comparison) rather than left as an assumption.
+- [x] **Rule 4 implemented**: `redeem()`'s founder branch now bumps the ticket balance to 9999
+  (GREATEST, same transaction) right after flipping `is_founder`, so the SAME redeem response the
+  client already reads carries the Unlimited balance back — no separate refresh call, no restart,
+  confirmed via `TestRedeem_GrantsTicketsAndFounderFlagOnce` asserting `9999` in the response.
+- [x] New test coverage: `TestDailyTopUp_ThreeTierRule` (table-driven, all 4 real branches
+  including founder overriding a Late-Free registration date), full suite green, production
+  redeployed and live-verified.
+
+IDUNA commit `3b77bad` (Apple #20284), DEADWEIGHT commit `2afc6d6` (README).
+
+session: sess-20260920-1908-24cb3558
