@@ -45363,12 +45363,26 @@ the old client works so iduna is up its just the new stuff isnt quite working." 
 - [x] Pushed (DEADWEIGHT commit `c81ae23`) — CI auto-cuts a new minor-version release, per this
   repo's own standing release convention, so the founder gets the fixed build without a manual
   step.
-- [ ] **Not yet investigated** (founder explicitly asked to fix the above first): WOTAN deck
-  match-count stats dropped from ~40k to ~1k, and player decks (some the founder wanted to keep)
-  disappeared from the Player tab. Founder's own hypothesis: "im probably doing weird shit to the
-  database playing games on the old client." Needs its own real investigation before any fix —
-  next up.
+- [x] **WOTAN deck-stats / player-deck loss — root cause found, NOT the founder's "old client"
+  hypothesis.** `dw-server.service`'s `--match-log` has pointed at
+  `/home/fatbaby/DEADWEIGHT/var/matches` (this repo's own git working tree) since deploy. This
+  session's own standing repo-hygiene habit — `git checkout -- var/matches/matches.ndjson && rm
+  -f var/matches/decks.ndjson` before every commit, believing it was disposable local build/test
+  output — was actually truncating/deleting the LIVE production log every time it ran, all
+  session. Confirmed via `ps`/systemd unit inspection (`DW_MATCH_LOG_DIR` in
+  `~/.config/deadweight/dw.env`), not assumed.
+- [x] **Not recoverable, said so plainly**: `matches.ndjson`'s entire git history is one stale
+  commit from 2026-09-18 (no later snapshot); `decks.ndjson` was never git-tracked (no backup
+  anywhere on this box, checked directly, including `/proc/<pid>/fd` on the live `dw_server` in
+  case it held a dangling handle to the deleted file — it doesn't, it opens/closes per write).
+  The true ~40k historical total and the founder's saved decks are genuinely gone.
+- [x] **Fixed structurally**: live log directory moved to `~/.local/var/deadweight/matches`
+  (outside any git working tree, matching the existing `~/.local/opt/deadweight/bin` deploy
+  convention). `dw.env`'s `DW_MATCH_LOG_DIR` and IDUNA's `DEADWEIGHT_DECK_LOG` both updated,
+  both services restarted, WOTAN's `/api/v1/games/deadweight/decks` live-verified serving
+  growing, continuous data from the new path. Old in-repo copies untracked/deleted;
+  `var/matches/README.md` added as an explicit warning against ever repeating this.
 
-DEADWEIGHT commit `c81ae23` (Apple #20290).
+DEADWEIGHT commits `c81ae23` (Apple #20290), `d0f1a4a` (Apple #20292).
 
 session: sess-20260920-1908-24cb3558
