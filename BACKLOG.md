@@ -44627,3 +44627,36 @@ session: sess-20260918-1725-497f394f
   (sess-20260920-1908-24cb3558)
 - [ ] **S504-EXPANSION: BIG_O: Framing/blame-shifting, espionage tech tree gadgets, HANA, underground society/Bio-Slurry, TYLER crossover -- none built, correctly still expansion/proposed scope per docs, not urgent** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+
+## SECTION 506: OPENEXECUTIVE — IDUNA + VERTEX INTEGRATION (2026-09-20/21)
+
+Founder real-time (relayed via the IDUNA kanban thread, 2026-09-21): "we are integrating open
+executive into iduna via converting over to vertex from anthropic for the open executive haiku
+has been working on it without the emily way but hes a good boy can you help fill in process and
+write the northstar than come up with the next steps." Claude Haiku 4.5 forked
+`SenteLabsAI/OpenExecutive` (external, real, Apache 2.0 multi-agent virtual-executive system) to
+`emilyspringerton/OpenExecutive` and made a first real pass at wiring it to IDUNA + migrating its
+LLM backbone to Google Vertex/Gemini (2026-09-20), without going through Backlog First/Apple/
+golden-index — this section is the real, checked accounting of that work.
+
+- [x] **S506-01 (this session, Apple #20232, session sess-20260920-1908-24cb3558): fill in Emily Way
+  process + write NORTHSTAR + next steps for OpenExecutive.** Done: relocated the repo off a
+  `/tmp` clone to `OpenExecutive/` (git history + untracked files verified intact); relocated a
+  misplaced integration doc out of `DEADWEIGHT/` to `OpenExecutive/docs/IDUNA_INTEGRATION.md` and
+  corrected its false "✅ Ready to deploy" status header; added `OpenExecutive` to the root
+  `CLAUDE.md` repo table; wrote `OpenExecutive/NORTHSTAR.md` (this doc's own real critical review:
+  2 confirmed bugs blocking the Gemini path — wrong JWT key algorithm (EC vs RSA against IDUNA's
+  real ES256/EC keys, confirmed in `IDUNA/internal/auth/jwt/jwks.go`) and wrong tool-schema shape
+  (Anthropic `input_schema` vs an OpenAI-style `type:function` wrapper, confirmed against the
+  existing `translator.py`'s own `_anthropic_tools_to_openai`) — plus zero wiring yet (no
+  `GEMINI_*`/`IDUNA_*` config fields, `GeminiVertexProvider` never registered in
+  `providers/registry.py`, `IDUNAAuthMiddleware` applied to no route, `google-cloud-aiplatform`/
+  `pyjwt` undeclared in `pyproject.toml`) and IDUNA-side process debt (a stray committed empty
+  `iduna.db`, one commit bundling unrelated changes) found and named, not fixed in this pass, per
+  the founder's own explicit scope ("fill in process and write the northstar... come up with the
+  next steps" — not "implement it"); golden-index entry `OPENEXEC-NORTH` added.
+  Next (named in `OpenExecutive/NORTHSTAR.md` §5, none started): Phase A fix the 2 bugs + system-
+  prompt/caching handling; Phase B wire config/provider-registry/auth-middleware/deps; Phase C
+  live boot test + real eval coverage per upstream's own PR bar, open a real PR (not untracked
+  work on `main`); Phase D remove the stray `iduna.db` from IDUNA git + two founder-level open
+  decisions (upstream tracking, fallback-provider behavior).
