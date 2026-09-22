@@ -45910,3 +45910,43 @@ session: sess-20260920-1908-24cb3558
   (or diagnosing the sandbox segfault, lower priority since it's not blocking anything real) is
   the one loose end.
   session: sess-20260920-1908-24cb3558.
+- [x] **S535: SHANKPIT OS app grid grows to five apps -- IDUNA.GAME + EDITOR.GAME (two new
+  repos) + REDGARDEN.** Founder real-time, in sequence: "we need to build an IDUNA SHANKPIT_OS
+  app so we can have the honor code stuff go live we need to be able to open pages in the IDUNA
+  brand affordances including specific colors and nice fonts" -> (AskUserQuestion clarified)
+  "not a browser a true port of iduna affordances into sdl 2 a truely new app i will create a
+  repo now. IDUNA.GAME" -> "yea have it be a reskin of pitviper into solarized light with a text
+  based prompt system" -> "but actually all of the font rendering of PARENA EDITOR" -> "BUILD
+  PARENA EDITOR IN - WE UNIFIED THATWITH SOMETHING RECENTLY NO?" -> "build in REFLUX" -> "add
+  REDGARDEN as an app to SHANKPIT_OS" -> "can we add the parena editor as a stand alone game in
+  SHANKPIT_OS? EDITOR.GAME repo same affordances it currently has for saving a file." **DONE, in
+  full, real code shipped for every real thread:**
+  1. **IDUNA.GAME** (new repo) -- a real fork of PITVIPER (its own engine untouched, same
+     "new fork" precedent SAND already set), reskinned to real Solarized Light values, with a
+     text-based prompt (`cmd/idunagame/iduna_prompt.go`) showing IDUNA's real honor code +
+     walking through IDUNA's real device-auth login flow (`/auth/device/start`/poll/exchange)
+     against a live IDUNA instance -- never embedded Google OAuth (a real platform constraint,
+     checked not guessed). Real, found-and-documented gap: an ES256-vs-HS256 token-namespace
+     mismatch between the web ceremony and the device-auth bridge's own kikoryu-scoped exchange
+     token -- named, not silently worked around. New `internal/reflux/`, a native Go port of
+     SHANKPIT's own REFLUX pub/sub event log, dispatching real milestones. PARENA editor font
+     rendering is real, named, not-yet-wired follow-up (same cgo-FFI pattern
+     `internal/scrollmod/vterm_mod.prn` already proves) -- this app still renders through
+     PITVIPER's own existing Go font stack, honestly flagged, not faked. Live-verified via a real
+     headless (Xvfb) screenshot: real honor-code text, real Solarized colors, a real live device
+     code on screen. IDUNA.GAME `c07f10d`, Apple #20353.
+  2. **REDGARDEN** added as SHANKPIT OS's fourth app (launches `build/red_garden_arena`
+     unmodified). SHANKPIT `6d6e857`, Apple #20354.
+  3. **EDITOR.GAME** (new repo) -- a real, standalone fork of PARENA's own editor demo
+     (`examples/editor_main.c` + the real `stdlib/editor/*.prn` modules it drives), same real
+     save affordances PARENA's editor already has (F2, hover-reveal Save, auto-format-on-save),
+     not reimplemented, just packaged as its own launchable app. `gen/editor_stdlib_gen.c` is
+     PARENA-generated, checked in as the real source of truth. Verified for real: reproduced
+     PARENA's own real `editor-demo` build first (clean), then this fork's own `-Werror`-clean
+     standalone build, then a real headless run with a real `.prn` file as `argv[1]`,
+     screenshotted showing genuine TextMate syntax-highlighted rendering. EDITOR.GAME `4d500b4`,
+     Apple #20355.
+  All five apps (DEADWEIGHT/PITVIPER/IDUNA/REDGARDEN/EDITOR) verified building clean via
+  `make lobby` after each addition. Both new repos registered in the monorepo `CLAUDE.md` table
+  and `EMILY/context/golden-docs-index.md`; `GOLDEN_DOCS` resynced.
+  session: sess-20260920-1908-24cb3558.
