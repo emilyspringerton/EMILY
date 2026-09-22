@@ -45722,3 +45722,5 @@ session: sess-20260920-1908-24cb3558
   (sess-20260920-1908-24cb3558)
 - [x] **T78784143: verify T-prefix fix live** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **123213213213213213312214432: add CODE to IDUNA left menu link to the vs code subdomain** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
