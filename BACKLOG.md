@@ -2650,6 +2650,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'make sure we can stitch animations together like James Bond walk turn raise gun shoot' -- built GOL…** — obs `2026-09-16T23:16:55Z`. CURATED: 2026-09-16.
 - [ ] **Founder real-time: 'I want to build realistic human like ais for games like the soldiers fighting Gordon in half life o…** — obs `2026-09-16T23:31:19Z`. CURATED: 2026-09-16.
 - [ ] **Founder real-time, multi-part: wants a NOCK 'object library' distinct from the levels list (lamp posts/curbs shouldn't …** — obs `2026-09-17T01:10:18Z`. CURATED: 2026-09-17.
+- [ ] **Founder real-time: scale bots in the live queue match from 4 to 40** — obs `2026-09-22T16:08:03Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: continue -- build the DJ-room server (seat occupancy, join/leave, whose-turn broadcast), the next re…** — obs `2026-09-22T15:51:18Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: resolve MIXFORGE DJ-room architecture question -- build it with PARENA compiled to WASM (browser-bas…** — obs `2026-09-22T15:48:39Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: pivot MIXFORGE into a multiplayer DJ-room game (up to 4 DJs, each with a virtual DJ table, queueing …** — obs `2026-09-22T15:45:46Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: continue dogfooding SHANKPIT's core engine into PARENA, and go full WASM with PARENA as a compiler t…** — obs `2026-09-22T15:41:07Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
