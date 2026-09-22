@@ -45731,9 +45731,29 @@ session: sess-20260920-1908-24cb3558
   against live IDUNA: real session tag, real sign+verify, two real releases published and
   downloaded back correctly for both platforms. Test rows deleted after. DEADWEIGHT `7046100`,
   Apple #20319. Golden doc registered (APP-RELEASE-SIGNING). session: sess-20260920-1908-24cb3558.
+- [x] **S529: SHANKPIT_OS_NORTHSTAR.md — close item 4, BRAWLPIT player identity.** Founder
+  real-time: "continue working on SHANKPIT_OS." Picked the one open item in that doc's own
+  "genuinely new work" list that's real, unblocked, independent of the still-open shell-surface
+  decision (Option A/B/C), and directly actionable given this session's own just-built precedent
+  (the identical big_o pattern from S528's own follow-on card). **DONE.** New `brawlpit` row in
+  IDUNA's `internal/games.Registry` (`brawlpit.play` permission only, deliberately isolated from
+  the existing, separate, M2M-only `brawlpit.checkpoints.write`) + one migration -- rides the
+  exact same generic guest-register/guest-login/guest-upgrade API DEADWEIGHT and BIG_O already
+  use. Generalized the BIG_O-specific signup page into a reusable
+  `GameSignupPageHandler{Game,Title,Tagline}` (`html/template`, contextually auto-escaped) so
+  `/play/big_o` and `/play/brawlpit` share one implementation instead of two near-identical
+  copies. 5 new/updated tests, table-driven over both games. Live-verified end to end in
+  production for BOTH games (real account created/logged-in/email-linked per game, test data
+  cleaned up after). `SHANKPIT_OS_NORTHSTAR.md` updated to mark this item closed, naming what's
+  still open (neither game's own native client calls this API yet). IDUNA `d6ab897`, Apple
+  #20332; SHANKPIT `88f0954`.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **2321312: TERMS OF SERVICE AND PRIVACT POLICY FOR IDUNA SHANKPIT OS AND WOTAN AND DEADWEIGHT** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
-- [ ] **64346231: test auto-id live verify S528-autoid** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **64346231: test auto-id live verify S528-autoid** Not real work -- a disposable card created
+  and deleted (kanban #426) purely to live-verify the blank-id auto-generation fix (card
+  82821821). Deleting the kanban card row doesn't retract this BACKLOG.md line (only the "done"
+  move does that); found and cleaned up by hand while working the next priority-queue item.
   (sess-20260920-1908-24cb3558)
 - [x] **T78784143: verify T-prefix fix live** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
