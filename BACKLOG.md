@@ -45814,7 +45814,23 @@ session: sess-20260920-1908-24cb3558
 - [x] **HITL-01: Steamworks account + $100 Direct fee** — Create Steam developer account at
   store.steampowered.com/about/sell. $100 USD Direct fee. Required before S19-05 EA launch.
   Unblocks: SHANKPIT Steam Early Access (S19-05).
-- [ ] **T13806138: ECOWAR/NOCK level-building game: AI+human co-op/competitive level authoring, teams fight in each other's levels, slow league (human) + fast bot-only league, NOCK editor needs multi-tenancy -- scope in** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [~] **T13806138: ECOWAR/NOCK level-building game: AI+human co-op/competitive level authoring,
+  teams fight in each other's levels, slow league (human) + fast bot-only league, NOCK editor
+  needs multi-tenancy -- scope in.** Founder real-time (2026-09-22, continuing this card): "you
+  build a map your army fites their army in your map then in their map etc slow and fast
+  leagues." Scoped and Phase 1 shipped -- see `ECOWAR/docs/NORTHSTAR_MAP_LEAGUE.md`. Real, found-
+  first finding: ECOWAR already has seeded deterministic procedural map generation (S370-02); the
+  real gap was the matchmaker always randomizing the seed, no player preference. **Phase 1 DONE**:
+  a queuing client (`apps/arena --map-seed N`) can now supply its own real map seed, honored by
+  the matchmaker (new `FindMatchMsg` payload on `PACKET_FIND_MATCH`, fully backward compatible),
+  live-verified end to end (matchmaker log confirms the exact requested seed used, not random).
+  ECOWAR `5ee8aed`/`4272da3`/`01cba38`, Apple #20357. **Real, phased, not-yet-built**: Phase 2
+  (home-and-away 2-leg series, "your map then their map" made literal, real aggregate scoring
+  needed), Phase 3 (slow/human vs. fast/bot-only league split, a second matchmaker+bot-pool
+  deployment, same `REDGARDEN/CLAUDE.md` "two full independent deployments" precedent), Phase 4
+  (persistent IDUNA-backed map ownership -- ECOWAR has no player identity/`games.Registry` entry
+  today, real separate onboarding work). NOCK multi-tenancy (from the card's own original text)
+  not addressed this pass -- real, separate, still open.
   (sess-20260920-1908-24cb3558)
 - [x] **S533: REDGARDEN RL checkpoint model repositories, git-lfs.** Founder real-time (as part of
   a larger GFD/REDGARDEN unification batch, see S534 below): "...model repositories etc (model
