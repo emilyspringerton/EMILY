@@ -45595,3 +45595,37 @@ session: sess-20260920-1908-24cb3558
   Phase 3 WOTAN pattern → Phase 4 client integration) and 3 open questions (lives direction, repo
   name, SHANKPIT's own license — checked, SHANKPIT currently has no LICENSE file at all) in the
   doc. Golden doc registered (SLOWBOT-NORTH). Apple #20309. session: sess-20260920-1908-24cb3558.
+
+- [x] **S526: SHANKPIT OS — NORTHSTAR scoping pass for the platform pivot.** Founder real-time,
+  verbatim: "shankpit is the product - deadspace [deadweight] is just a menu... our interface is
+  an operating system... brawlpuit (smash like guy) can be a menu item... we built the interface
+  out of the EmilyOs affordances guide... our os is a game." **DONE (scoping only, no code) —**
+  `SHANKPIT/docs/SHANKPIT_OS_NORTHSTAR.md`. Real capability audit: the NOCK level editor is real,
+  fast, browser-based and works (used directly this session) but every write route is
+  `iduna.admin`-gated — "users author levels easily" currently means admins only, opening it to
+  real players is real, new permission-model work (a narrower `nock.author`-class permission,
+  ownership/moderation/rate-limits, none of which exist for an internal admin tool). SHANKPIT
+  already has a MORE complete identity story than DEADWEIGHT — a real, coded Google OAuth flow
+  (`shankpit_auth.go`) vs. DEADWEIGHT's guest-first model — but it's dark in production, checked
+  directly: no `GOOGLE_CLIENT_ID`/`SECRET` configured in the live IDUNA env, same human-only GCP
+  Console gate already named for IDUNA_PRO/JEWEL. Found a real, load-bearing architectural seam:
+  SHANKPIT's own auth/queue/ticket handlers (`shankpit_auth.go`/`shankpit_queue.go`/
+  `shankpit_ticket.go`) predate and sit entirely outside IDUNA's newer generic per-game
+  `games.Registry` tenant system that DEADWEIGHT and the just-scoped SLOWBOT_LEAGUE use — named,
+  not resolved, since it decides where all future integration work goes. BRAWLPIT has **zero**
+  player-facing IDUNA identity today, checked directly — only M2M checkpoint-upload auth exists.
+  The EmilyOS affordances guide (`EmilyOS/docs/legacy-archive/gui-v0.1-design-capture.md` — tile-
+  based "interface IS the filesystem," fixed non-white palette, intent-declared interaction, no
+  ambient animation) is real and already the cited UX foundation for `DUNG` elsewhere in this
+  monorepo, but applied to zero game clients so far. **Named, deliberately did not pick, the
+  single biggest open question**: what the "shell" technically IS — (A) a browser web shell
+  leaning on NOCK's own existing React/Vite stack, (B) SHANKPIT's own native SDL2 client becoming
+  a literal app-launching shell (no precedent for this pattern anywhere in the monorepo), or (C)
+  identity/content-graph unification only, no literal embedding, games keep launching as their
+  own separate native processes. All three laid out with real tradeoffs; guessing past this one
+  risks real, expensive rework. Explicitly confirmed this does NOT invalidate `SLOWBOT_LEAGUE`'s
+  own technical findings (PFSP/Elo math, live checkpoint-578 anchor, `games.Registry` mechanics)
+  — only its *position* (menu item inside SHANKPIT, not a peer product) changes. 4 priority-
+  ordered open questions for the founder (shell surface first — it blocks real scoping of
+  everything else). Golden doc registered (SHANKPIT-OS-NORTH). Apple #20311. session:
+  sess-20260920-1908-24cb3558.
