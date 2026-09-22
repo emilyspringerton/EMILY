@@ -2735,6 +2735,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (1) increase default ground friction so platforming/parkour is less slippery -- global tuning bump. …** — obs `2026-09-17T15:17:48Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time, live playtest bug report: walked to a placed level exit on the 'nextown' level (block positioned cor…** — obs `2026-09-17T14:46:11Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time, clarifying S476: the level exit 3D marker should have an on/off visibility toggle in the NOCK level …** — obs `2026-09-17T14:28:22Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'start the bot fill on shankpit queue lobby' -- checked live state before acting: shankpit-bot-pool.…** — obs `2026-09-22T20:15:28Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: add a visual indicator for the level exit marker in the NOCK level editor's 3D viewport -- currently…** — obs `2026-09-17T14:22:16Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: big follow-up burst on the NOCK level editor's own interactivity/tooling gaps -- (1) how to author s…** — obs `2026-09-17T12:49:24Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: for STORY mode (Breach Titan encounter), spawn all 5 robot NPC kits (mannequin/Stan/Mike/Leela/Georg…** — obs `2026-09-17T11:34:45Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'i just added universal animation library 1 so now we have both 1 includes more basic stuff you can …** — obs `2026-09-17T11:19:42Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
