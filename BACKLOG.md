@@ -45703,3 +45703,5 @@ session: sess-20260920-1908-24cb3558
   against live IDUNA: real session tag, real sign+verify, two real releases published and
   downloaded back correctly for both platforms. Test rows deleted after. DEADWEIGHT `7046100`,
   Apple #20319. Golden doc registered (APP-RELEASE-SIGNING). session: sess-20260920-1908-24cb3558.
+- [ ] **2321312: TERMS OF SERVICE AND PRIVACT POLICY FOR IDUNA SHANKPIT OS AND WOTAN AND DEADWEIGHT** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
