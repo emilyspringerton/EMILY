@@ -46227,3 +46227,25 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
 - [ ] **Follow-up: `retro_lighting.c` weather integration.** Phase 1's sky visuals are weather-aware
   but `RETRO_LIGHTING_DYNAMIC`'s scene ambient/sun/moon/fog still reads the old, weather-blind
   `retro_sky_eval_*` functions -- a storm currently darkens the sky dome but not the walls.
+- [x] **CI/validation pass: fix SHANKPIT CI + real headless screenshot validation.** Founder
+  real-time: "great work now lets focus on getting shankpit cicd passing then lets validate all
+  the work with screenshots!" Two real, distinct bugs found and fixed, both root-caused via the
+  real GitHub Actions API job log / a standalone local repro before trusting either fix:
+  - **CI source-list drift (6th documented recurrence of this repo's own named bug class)** +
+    a latent oversized `parena_runtime.h` (unconditional `#include <SDL2/SDL_ttf.h>`, never
+    referenced by either package, first ever exercised by phase 1/1c's `world_rules.c`/
+    `reflux_mod.c`) -- fixed at the source in both `release.yml`/`tests.yml` and the two
+    `parena_runtime.h` files. SHANKPIT 29694a0. CI confirmed green (run 35775920586/...486,
+    first green run since the failures began). Apple #20424.
+  - **A real, silent `SDL_CreateWindow` failure** when no MSAA-capable GLX visual exists (this
+    exact sandbox: Xvfb + llvmpipe) -- unchecked NULL window meant every GL call silently
+    no-op'd for the process's whole life (100% CPU, zero crash, zero visible output),
+    misattributed for this repo's whole history in this sandbox to "llvmpipe missing shader
+    entry points." Fixed with a real MSAA-off retry. SHANKPIT 03700e5. Apple #20427.
+  - **Verified live**: real Xvfb screenshots (menu, a STORY mode cutscene, live 3D VOXWORLD
+    boss-encounter gameplay with phase 1's cloud-covered sky genuinely visible) where every
+    prior attempt was pure black. Honest scope: only phase 1 (sky/weather) has a render path to
+    screenshot at all -- phases 2/3/5/6/7 (witness_sim, npc_archetype, zombie_values, pheromone,
+    phone, witness_ai, LevelZone) are simulation-side only, no client draw path exists yet for
+    any of them, so there is nothing visual to screenshot for that work (named, not glossed
+    over). session: sess-20260920-1908-24cb3558.
