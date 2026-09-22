@@ -46092,10 +46092,19 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   live consumer -- phases 6/7 still need a SHANKPIT-side UI/server wiring). SHANKPIT `4d5d1c2`/
   `221fea9`, Apple #20401.
   session: sess-20260920-1908-24cb3558.
-- [ ] **Phase 5: pheromone command tools + The Men's dispatch loop.** `day/packages/common/
-  bigo_pheromone.h` + BIG_O's `server_tick_witness`/`server_tick_dispatch` -- real, live-verified
-  in BIG_O, needs a new wire packet (matching `PC_PACKET_PHEROMONE_THROW`) in
-  `packages/common/protocol.h` and server-side porting.
+- [x] **Phase 5: pheromone command tools + The Men's dispatch loop.** `packages/common/
+  pheromone.h` -- a verbatim port of BIG_O's marker/targeting/steering primitive, renamed away
+  from `Bigo*`. Verified with all 8 of BIG_O's own real tests. `PACKET_PHEROMONE_THROW = 11`
+  reserved in `packages/common/protocol.h`, matching that file's own "reserved, not yet
+  implemented" precedent (BEDWARS packets 8/9); no struct defined -- that file's own
+  `RacingTelemetry` comment warns direct struct-casts don't match the real padded wire layout, so
+  packets are parsed by hand at the real call site. Real, checked finding, not a deferral by
+  choice: **The Men's dispatch loop itself can't be ported yet** -- `server_tick_witness`/
+  `server_tick_dispatch` operate on a live `ServerNpc` array SHANKPIT's server has no equivalent
+  of (`story_ai.c`'s `AIController` is a different, combat-AI concept, same finding phase 2 made).
+  Same real blocker as phases 2/3's own primitives: no consumer until phase 7 builds a live NPC
+  entity layer. SHANKPIT `0471fc0`/`05186a8`, Apple #20404.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **Phase 6: the phone -- events and messages.** Founder: "the phone in story mode
   everything", "all the events and messages on the phone." `day/packages/common/bigo_phone.h` +
   the already-PARENA `world_alerts_mod.prn` (reacts to REFLUX-logged world events, raises phone
