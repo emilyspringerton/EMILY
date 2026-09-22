@@ -45629,3 +45629,34 @@ session: sess-20260920-1908-24cb3558
   ordered open questions for the founder (shell surface first — it blocks real scoping of
   everything else). Golden doc registered (SHANKPIT-OS-NORTH). Apple #20311. session:
   sess-20260920-1908-24cb3558.
+
+- [x] **S527: SHANKPIT Apps page — first concrete execution step of the SHANKPIT OS pivot.**
+  Founder real-time, resolving `SHANKPIT_OS_NORTHSTAR.md`'s open shell-surface question with a
+  concrete example: "we need the games bundlable into shankpit... all of their interfaces will
+  remain the same... we do it with GFD GUI BATTLEGROUNDS" then "SHANKPIT ADD A SECOND PAGE OF THE
+  MENU FOR APPS." **DONE.** New second lobby page (`apps/lobby/src/main.c`): a small "APPS >"
+  toggle button next to the title, independent of the main button grid (own hit-test, own rect —
+  never collides with the grid's own double-click-to-activate/single-click-to-rename timing).
+  `lobby_menu_count`/`_label`/`_entry_id` made page-aware; GAMES page (`lobby_page==0`) behavior
+  completely untouched. "Interfaces remain the same" taken literally: `lobby_launch_app` spawns
+  the target game's own real, unmodified binary as a child process (`fork`/`execl` POSIX,
+  `CreateProcess` Windows cross-build) — SHANKPIT never reimplements another game's UI or regains
+  control of its window, same relationship a taskbar has to what it launches. DEADWEIGHT is the
+  first (only) app entry. `lobby_app_binary_path` documents the real, honest current path search:
+  a `bundled/` dir next to the SHANKPIT binary for real releases (not populated yet — real,
+  separate packaging/CI follow-up), falling back to this monorepo's own sibling-repo dev layout
+  so launching actually works today in this real dev environment. **Found and fixed my own bug
+  before shipping**: the dev-fallback path had one `..` too many
+  (`../../../DEADWEIGHT/build/dw_gui` resolves to `/home/DEADWEIGHT/...`, outside the monorepo
+  entirely — traced `SDL_GetBasePath`'s own real return shape by hand rather than assumed, fixed
+  to `../../`). Clean gcc build (zero new warnings on any changed line), `go test ./...` green
+  (Go side untouched). **Live GL screenshot verification was not possible in this sandbox** —
+  confirmed real and pre-existing, not caused by this change: the ORIGINAL, unmodified binary
+  also renders solid black under this sandbox's Xvfb+softpipe GL setup (git-stash A/B tested
+  directly), unlike DEADWEIGHT's SDL_Renderer-based client — this exact codebase's own CHANGELOG
+  already names this class of limitation elsewhere ("a real, named limitation of this sandbox").
+  Verified the actually-new logic for real instead: a standalone harness built from the exact same
+  `lobby_app_binary_path`/`fork`/`execl` code, run from the real `bin/` directory, found the real
+  path and successfully executed the real `dw_gui --version`, printing its real version string
+  end to end. README updated (new "Apps page" section, honest about what's verified vs. not-yet-
+  built). SHANKPIT `d8024a4`. Apple #20314. session: sess-20260920-1908-24cb3558.
