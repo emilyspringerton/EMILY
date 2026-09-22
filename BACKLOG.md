@@ -46226,9 +46226,21 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
     `LevelZone` Go type/DB migration/API params in `level_store.go`) and no NOCK editor UI --
     zones can only be authored via hand-written JSON until that lands; real, separate follow-up,
     not guessed at. SHANKPIT fe13b0f, session: sess-20260920-1908-24cb3558. Apple #20415.
-  - [ ] **7d: `AI_ROLE_*` roster cutover decision.** What happens to `story_ai.c`'s existing,
-    already-live roster and the real NOCK levels built against it -- replace, park alongside, or
-    fold in as BIG_O's own "Guard"-class encounters. Not decided.
+  - [x] **7d: `AI_ROLE_*` roster cutover -- "replace outright"** (founder decision, asked
+    directly given the real, named risk: orphans already-built level content, no migration
+    plan). Narrowly scoped: MODE_STORY's VOXWORLD scene had exactly one real content-spawn call
+    site (`story_ai_seed_voxworld_encounter`) -- swapped for `witness_ai_seed_voxworld_encounter`
+    (4 citizens + 2 zombies), old function (175 lines) deleted outright. `story_ai.c`'s general
+    `AI_ROLE_*`/`LevelCharacter`/NOCK-authoring spawn path and the VOXWORLD boss fight both stay
+    fully untouched (real, general, cross-mode infrastructure vs. this one encounter's own
+    content). `witness_ai_tick` wired into both real per-tick loops; Makefile gained
+    `witness_ai.c` + 5 dependencies -- its first real build-graph consumer. Verified live:
+    `make lobby`/`make server` clean, 15 unit checks still pass, `go test ./...` clean, and a
+    real Xvfb run shows `[WITNESS] voxworld encounter seeded: 4 citizens, 2 zombies (1 HUNTING)`
+    firing correctly with the boss fight/HUD unaffected. Honest gap: no visual confirmation of an
+    actual bot model on screen yet (camera-aiming under scripted Xvfb input impractical in the
+    time available), no distinct citizen/zombie visual model. SHANKPIT 2645ebc,
+    session: sess-20260920-1908-24cb3558. Apple #20441.
   - [ ] **7e: day/night/lab turn structure.** The actual game-loop content (harvest -> blend-in
     -> lab) that makes this "BIG_O replaces STORY" rather than primitives sitting beside the old
     mode. Depends on 7a-7d landing enough real content first. Not started.
