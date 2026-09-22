@@ -45565,7 +45565,13 @@ IDUNA commits `b69bd65`, `c2264a7` (Apples #20301). DEADWEIGHT commits `a9fdd65`
 (Apple #20303).
 
 session: sess-20260920-1908-24cb3558
-- [ ] **123214231: we need a big_o account creation interface off of iduna** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **123214231: we need a big_o account creation interface off of iduna** Added via the IDUNA kanban interface. **DONE.**
+  New public `/play/big_o` page on IDUNA (BIG_O has no native client yet) driving the existing
+  generic per-game guest-register/guest-login/guest-upgrade API (`internal/games.Registry`) --
+  a new `big_o` registry row (`big_o.play` permission only) plus one migration, no new tables.
+  3 new tests. Live-verified end to end in production. IDUNA commit `ca2565e`, Apple #20329.
+  This card's own bare-digit id predates the T-prefix fix (card 82821821), same archive quirk.
+  (sess-20260920-1908-24cb3558)
   (sess-20260920-1908-24cb3558)
 
 - [x] **S524: DREXIT — a door that is also a level exit, first class in the SHANKPIT level
