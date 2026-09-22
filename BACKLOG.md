@@ -45968,3 +45968,5 @@ session: sess-20260920-1908-24cb3558
   session: sess-20260920-1908-24cb3558.
 - [ ] **T78008777: DEADWEIGHT app-release registry: add GitHub Actions secrets (EINHORN_APP_RELEASES_GPG_PRIVATE_KEY, APP_RELEASES_CI_SECRET) -- human-only GitHub Settings step, CI silently no-ops every green build unti** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **T29918005: PAPERCRAFT fixed room cameras: founder decision needed -- PAPERCRAFT-native v0 (fast, no NOCK dependency) vs full NOCK level-editor pipeline (bigger, wires real widget into NOCK 3D editor) -- founder ** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
