@@ -45830,7 +45830,7 @@ session: sess-20260920-1908-24cb3558
   until `git remote add origin <url>` is run inside a checkpoint dir, a founder call on where
   that repo should live. REDGARDEN `018f185`/`f9cea25`, Apple #20344.
   session: sess-20260920-1908-24cb3558.
-- [ ] **S534: GFD × REDGARDEN affordance unification -- heroes/sub-heroes, FFXI-class content,
+- [~] **S534: GFD × REDGARDEN affordance unification -- heroes/sub-heroes, FFXI-class content,
   skillchains, PFSP autocurriculum + colab fast-league play.** Founder real-time, verbatim:
   "continue to unify the GFD and redgarden affordances do not touch redgarden iterate on those
   affordances on the forked redgarden in GFD MUD GUI add heroes for each FFXI class to REDGARDEN
@@ -45853,7 +45853,16 @@ session: sess-20260920-1908-24cb3558
      founder-level decision (sync the fork forward / pin a frozen REDGARDEN build / give GFD a
      real native arena server) blocking exactly this kind of GUI-side content work -- porting 21
      more FFXI job kits onto a fork that may not even be the thing serving live matches risks real
-     wasted work. Not started this pass; needs that decision first, not a guess.
+     wasted work. **Architecture decision resolved same session:** founder chose "sync the fork
+     forward." Done -- `protocol.h`/`arena_game.c`/`arena_game.h` + 7 new PARENA mod host pairs
+     synced to REDGARDEN's current state; checked via a real 3-way merge against the actual
+     fork-point commit first (found GFD's copies had accumulated zero independent content of
+     their own, so a straight sync was safe, not a risky hand-merge); `build.yml`'s MUD GUI
+     client link line fixed to include the new mod sources (previously would have failed to
+     link). Verified for real: full native link (SDL2+GL) succeeds end to end, zero errors.
+     GoblinFoxDragon `9f5d867`/`55879bc`, Apple #20346. The actual 21-remaining-FFXI-job hero-kit
+     content pass itself is real, separate follow-up work -- Warrior is still the only job ported
+     into `arena_game.c`'s slot machinery -- not attempted in the same pass as the sync.
   2. **PFSP in REDGARDEN's own AI pipeline** -- checked directly: **already real and shipped**,
      not new work. `REDGARDEN/scripts/rl_league.py` implements a full AlphaStar-style league
      (Main/Main Exploiter/League Exploiter roles, `pfsp_weight`/`pfsp_sample`, real hard-favoring
