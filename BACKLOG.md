@@ -2745,6 +2745,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue filling in the gaps in our level editor scriptable env characters etc' -- confirms/broaden…** — obs `2026-09-17T08:16:13Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time, rapid burst (SHANKPIT NOCK level editor): 'build out the scriptable ai' / 'the level editor needs sc…** — obs `2026-09-17T06:41:42Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: dismissed the Section-5-blocker question ('no we need engine work') -- explicit direction to stay on…** — obs `2026-09-17T06:29:12Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time (SHANKPIT, direct follow-up to the now-closed S461 squad-based auto-pilot AI): a full solo/non-squad …** — obs `2026-09-17T05:50:00Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time (SHANKPIT, direct follow-up to S461-01 tactical pathing): asked grid/waypoint pathfinding (Half-Life …** — obs `2026-09-17T05:37:07Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time (SHANKPIT, follow-up to the auto-pilot AI design): asked how to compose animations, then dropped a Ha…** — obs `2026-09-17T05:31:49Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: dropped a detailed NPC auto-pilot AI design for SHANKPIT bots — sensor layer (0.1s tick, vision-cone…** — obs `2026-09-17T05:31:07Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: continue scripted-sequence animation work in GOLDENBAND — multi-actor frame synchronization (Half-Li…** — obs `2026-09-17T05:30:01Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
