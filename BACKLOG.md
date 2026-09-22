@@ -2740,6 +2740,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: big follow-up burst on the NOCK level editor's own interactivity/tooling gaps -- (1) how to author s…** — obs `2026-09-17T12:49:24Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: for STORY mode (Breach Titan encounter), spawn all 5 robot NPC kits (mannequin/Stan/Mike/Leela/Georg…** — obs `2026-09-17T11:34:45Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: 'i just added universal animation library 1 so now we have both 1 includes more basic stuff you can …** — obs `2026-09-17T11:19:42Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'continue filling in the gaps' -- generic continuation signal, no new specific direction. Given S466…** — obs `2026-09-17T11:01:14Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'continue fill in the gaps can we animate and model end to end?' -- direct follow-up to S466 (story_…** — obs `2026-09-17T10:45:44Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'continue filling in the gaps in our level editor scriptable env characters etc' -- confirms/broaden…** — obs `2026-09-17T08:16:13Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time, rapid burst (SHANKPIT NOCK level editor): 'build out the scriptable ai' / 'the level editor needs sc…** — obs `2026-09-17T06:41:42Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: dismissed the Section-5-blocker question ('no we need engine work') -- explicit direction to stay on…** — obs `2026-09-17T06:29:12Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
