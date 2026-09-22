@@ -68,6 +68,7 @@
 | EMILY-CYCLE-LOG | EMILY/emily-memory/cycle-log.md | 1 | 3000 | Rolling log of RSI cycle outcomes; last 100 entries; Emily Prime cross-cycle continuity |
 | EINHORN-API | EMILY/docs/api.yaml | 2 | 3000 | OpenAPI 3.0.3 full system API surface: emily-agent :8086, IDUNA :8080, GPT-2 :8088/:8679 |
 | SHANKPIT-BEDWARS | SHANKPIT/docs2/specs/BEDWARS_SPEC.md | 2 | 3000 | BedWars game mode full spec: beds, generators, shop, island layout, wire protocol, Milestone 7 prerequisite chain |
+| SHANKPIT-CAPTCHA-FPS | SHANKPIT/docs2/specs/CAPTCHA_FPS_PHYSICS_DOGFOOD_NORTHSTAR.md | 2 | 3000 | Dogfood SHANKPIT physics into PARENA + browser-FPS CAPTCHA product: real capability audit (emit_ts.c is scalar-only, no defstruct/loop/Vec), 5-phase plan, bot-vs-human humanness-signal gap named |
 | GPT2-GAME-AI | gpt2-alpine-c/docs/GAME_AI_NORTHSTAR.md | 2 | 3000 | GPT-2 as game policy network; 6-milestone track: state serializer → replay logger → fine-tune → bot policy → self-play → BedWars MOBA AI |
 | SHANKPIT-AI | SHANKPIT/docs2/SHANKPIT_AI_ARCHITECTURE.md | 2 | 4000 | Full AI architecture: C evolution bots (BotGenome/evolve_bot), emily-bot (heuristic + GPT-2 policy), Dragonfly world backend |
 | DNS-MMO-NORTHSTAR | GoblinFoxDragon/docs2/MMO_NORTHSTAR.md | 1 | 4000 | DragonsNShit MMO product northstar: 7 systems (identity, item provenance, guilds, economy, travel, World Crisis, skills); IDUNA schema; 8-milestone roadmap |
