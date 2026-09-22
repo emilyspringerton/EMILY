@@ -46075,9 +46075,18 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   `Makefile`/`BUILD.bazel` yet (no live consumer -- phase 7). SHANKPIT `03ad5e3`/`ae3a068`, PARENA
   `7c34d18`/`b92c949`, Apple #20398.
   session: sess-20260920-1908-24cb3558.
-- [ ] **Phase 4: lab simulation.** `core/lab_sim.c` (17 tests, plain C, cloning-facility equipment
-  pipeline) -- real and proven in BIG_O; needs a SHANKPIT-side UI (the phone, phase 6) and server
-  wiring, neither of which exist in either repo yet.
+- [x] **Phase 4: lab simulation.** `packages/simulation/lab_sim.{h,c}` -- a verbatim port of
+  BIG_O's cloning-facility equipment pipeline (centrifuge, PCR, sequencer, CRISPR splice bench,
+  repressor install, breeding/genetic drift, embryo incubation). Deliberately kept plain C, not
+  PARENA (a real, checked, different judgment call than phase 3's formulas): heavy `expf`/`powf`
+  float math and RNG throughout, none of which fits PARENA's scalar/no-RNG model. Verified with 7
+  tests covering every equipment function's real contract, a representative subset of BIG_O's own
+  17 -- found and fixed a real bug in this test's own first draft (a genetic-drift-never-decreases
+  check bred against a fixed low-drift partner, which pulls the average down; fixed to match
+  BIG_O's own real test methodology). Deliberately not wired into `Makefile`/`BUILD.bazel` yet (no
+  live consumer -- phases 6/7 still need a SHANKPIT-side UI/server wiring). SHANKPIT `4d5d1c2`/
+  `221fea9`, Apple #20401.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **Phase 5: pheromone command tools + The Men's dispatch loop.** `day/packages/common/
   bigo_pheromone.h` + BIG_O's `server_tick_witness`/`server_tick_dispatch` -- real, live-verified
   in BIG_O, needs a new wire packet (matching `PC_PACKET_PHEROMONE_THROW`) in
