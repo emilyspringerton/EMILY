@@ -46056,11 +46056,20 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   real consumer exists -- that's phase 7). SHANKPIT `b776d9d`/`a8e38c4`, PARENA `e729a72`/
   `53d2af2`, Apple #20395.
   session: sess-20260920-1908-24cb3558.
-- [ ] **Phase 3: humanness AI-brain extensions.** `core/npc_archetype.c` (citizen/Men vigilance)
-  and `core/zombie_values.c` (zombie mood/hunger/decay) are plain C in BIG_O today. Per "use parena
-  duh": real candidates for conversion to `.prn` rules modules (matching `witness_rules.prn`'s own
-  discipline) rather than a plain-C port, since this is designer-tunable decision logic -- needs a
-  real per-module judgment call.
+- [x] **Phase 3: humanness AI-brain extensions.** `packages/simulation/npc_archetype.{h,c}`
+  (citizen/The Men archetype-differentiated vigilance, a thin layer over SHANKPIT's own
+  already-native `humanness.c` -- diffed clean against BIG_O's own copy) + `zombie_values.{h,c}`
+  (zombie hunger/aggression/decay vocabulary, deliberately separate from the human mood enum). Per
+  "use parena duh": the two pure scalar decision formulas (effective vigilance, effective
+  alertness) moved to a new `PARENA/stdlib/shankpit/ai_brain_rules.prn`; everything stateful/
+  time-driven (mood ticking, RNG-jittered timers) stayed host C, matching
+  `humanness_tick_mood`'s own precedent. Found and fixed a real naming collision along the way
+  (`zombie_effective_alertness` wanted by both the PARENA export and the host wrapper). Verified
+  against BIG_O's own real test assertions (`npc_archetype_test.c`, `zombie_values_test.c`) to
+  confirm the PARENA move didn't change behavior -- all pass. Deliberately not wired into
+  `Makefile`/`BUILD.bazel` yet (no live consumer -- phase 7). SHANKPIT `03ad5e3`/`ae3a068`, PARENA
+  `7c34d18`/`b92c949`, Apple #20398.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **Phase 4: lab simulation.** `core/lab_sim.c` (17 tests, plain C, cloning-facility equipment
   pipeline) -- real and proven in BIG_O; needs a SHANKPIT-side UI (the phone, phase 6) and server
   wiring, neither of which exist in either repo yet.
