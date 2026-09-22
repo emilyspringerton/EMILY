@@ -45545,3 +45545,20 @@ IDUNA commits `b69bd65`, `c2264a7` (Apples #20301). DEADWEIGHT commits `a9fdd65`
 session: sess-20260920-1908-24cb3558
 - [ ] **123214231: we need a big_o account creation interface off of iduna** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+
+- [x] **S524: DREXIT — a door that is also a level exit, first class in the SHANKPIT level
+  editor.** Founder real-time: "can we spawn a door that is also an exit via the widget system
+  can you just build that in as a first class citizen to the shankpit level editor call it a
+  DREXIT." **DONE.** No new server-side type — widgets are structurally walls+doors only (no
+  `level_exits`, since a level exit needs the LEVEL's own `next_level_id`, which a reusable
+  geometry piece can't own). Real, buildable "first class citizen": a single button in the
+  Selected Cube inspector (`IDUNA/frontend/nock/src/ShankpitLevelEditor.tsx`) composes the two
+  existing primitives in one click — attaches a script-free door to the selected wall (if it
+  doesn't have one yet) and drops a `LevelExit` centered on that exact wall position. Toggling it
+  off drops the paired exit, leaves the door. "Is this wall a DREXIT" is computed (door + exit at
+  the same x/y/z), not a stored flag. New `TestExport_CarriesDrexit` verifies the exact round-trip
+  shape end to end. Found and fixed a pre-existing, unrelated `goldenband.ts` `tsc -b` build
+  break along the way (silently blocking every NOCK frontend build, including this one). Rebuilt
+  `dist/`, verified the new bundle is actually embedded in the binary, deployed to production
+  (backup taken, health check green). IDUNA `b2391b0`, Apple #20308. session:
+  sess-20260920-1908-24cb3558.
