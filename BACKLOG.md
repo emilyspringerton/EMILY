@@ -2710,6 +2710,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: BIG_O sky — build a configurable skybox that changes with weather (data-driven palettes + per-weathe…** — obs `2026-09-19T03:21:59Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: DEADWEIGHT needs a colab training skrip like BRAWLPIT's (one-cell bootstrap, streamed output, regist…** — obs `2026-09-19T02:23:02Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: BIG_O world systems (day/night clock, weather, zombie spawner) should all be PARENA + REFLUX powered…** — obs `2026-09-19T02:11:41Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: BIG_O — also add weather systems to the sim; look at GFD mud for basic weather sim logic** — obs `2026-09-19T02:11:08Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: BIG_O — iterate toward the day-cycle zombie sandbox using SHANKPIT's 'nextown' level; then 'we are p…** — obs `2026-09-19T01:25:56Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT round limit 8 -> 100 and round timer doubled (20s -> 40s)** — obs `2026-09-19T00:22:15Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT -- no python scripts, stop being clinical; just propose a BUNCH of fun card/mechanic idea…** — obs `2026-09-18T23:41:03Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT card corpus/mechanics expansion -- Haiku drafted a proposal + meta prompt; reviewed both,…** — obs `2026-09-18T23:26:52Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
