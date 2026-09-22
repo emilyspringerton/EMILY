@@ -45976,3 +45976,5 @@ session: sess-20260920-1908-24cb3558
   (sess-20260920-1908-24cb3558)
 - [ ] **T48839675: MIXFORGE DJ-room pivot: resolve room-engine architecture question (reuse SHANKPIT lobby engine as a new SHANKPIT OS app vs new lightweight web room UI) before Phase 5 (media/stream.prn) scoping starts** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **T46478755: MIXFORGE DJ-room: build a real room server (seat occupancy, join/leave, whose-turn broadcast) -- the next real multiplayer-state slice after room.prn's turn-order rule + web/index.html proof (commit a** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
