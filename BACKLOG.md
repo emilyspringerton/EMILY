@@ -46158,9 +46158,14 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
     AI, zombie `has_target` always 0 (no perception system), no resolution/memory-wipe loop.
     Standalone, no Makefile entry yet. SHANKPIT ec578fc, session: sess-20260920-1908-24cb3558.
     Apple #20411.
-  - [ ] **7c: zone-authoring feature.** `packages/world/level_boxes.h` has NO zone-trigger
-    concept today -- witness-sim's whole premise depends on knowing which zone a player stands
-    in. Real NOCK level-editor + IDUNA-widget-schema work, its own scoping pass. Not started.
+  - [x] **7c: zone-authoring feature (engine side).** `packages/world/level_boxes.h` gained
+    `LevelZone` (author-placed spherical trigger volume tagging a region with a `witness_sim.h`
+    zone), JSON parsing, and `level_boxes_zone_for_position` query (7 checks,
+    `level_boxes_zone_test.c`). `witness_ai_sync_zones` wires it live into the phase 7b population
+    loop (8 checks, `witness_ai_test.c`). **Real, named remaining gap:** no IDUNA round-trip (no
+    `LevelZone` Go type/DB migration/API params in `level_store.go`) and no NOCK editor UI --
+    zones can only be authored via hand-written JSON until that lands; real, separate follow-up,
+    not guessed at. SHANKPIT fe13b0f, session: sess-20260920-1908-24cb3558. Apple #20415.
   - [ ] **7d: `AI_ROLE_*` roster cutover decision.** What happens to `story_ai.c`'s existing,
     already-live roster and the real NOCK levels built against it -- replace, park alongside, or
     fold in as BIG_O's own "Guard"-class encounters. Not decided.
