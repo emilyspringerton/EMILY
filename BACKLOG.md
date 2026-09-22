@@ -4786,10 +4786,6 @@ The Apple is the proof. The commit is the custody. The push is the delivery.
 
 ### Tier 1 — Unblocks revenue
 
-- [ ] **HITL-01: Steamworks account + $100 Direct fee** — Create Steam developer account at
-  store.steampowered.com/about/sell. $100 USD Direct fee. Required before S19-05 EA launch.
-  Unblocks: SHANKPIT Steam Early Access (S19-05).
-
 - [ ] **HITL-02: Stripe account + GFD_STRIPE_PORTAL_URL** — Create/verify Stripe account.
   Set GFD_STRIPE_PORTAL_URL in wp-config.php on the GFD WordPress server.
   Also set: GFD_S3_BUCKET, GFD_S3_KEY, GFD_S3_SECRET in wp-config.php.
@@ -45724,3 +45720,6 @@ session: sess-20260920-1908-24cb3558
   (sess-20260920-1908-24cb3558)
 - [ ] **123213213213213213312214432: add CODE to IDUNA left menu link to the vs code subdomain** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [x] **HITL-01: Steamworks account + $100 Direct fee** — Create Steam developer account at
+  store.steampowered.com/about/sell. $100 USD Direct fee. Required before S19-05 EA launch.
+  Unblocks: SHANKPIT Steam Early Access (S19-05).
