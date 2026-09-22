@@ -46040,12 +46040,22 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   founder instruction). SHANKPIT `b126690`/`2ed91ec`, PARENA `d360756`/`d6327e7`, EMILY golden-index
   `4d85dbd2`, Apple #20391.
   session: sess-20260920-1908-24cb3558.
-- [ ] **Phase 2: witness/attention rules.** Port `core/witness_rules.c` (already PARENA --
-  `PARENA/stdlib/big_o/witness_rules.prn`) the same way `world_rules.prn` was: a new
-  `PARENA/stdlib/shankpit/witness_rules.prn` domain, generated into `packages/simulation/`, wired
-  into `story_ai.c`'s own `AIMode`/`AIRole` state machine as a real mechanic (Heat/Decorum, witness
-  escalation DENIAL->SILENCING->ENGAGE). Needs its own scoping pass for how BIG_O's separate
-  `Sim`-based model maps onto `story_ai.c`'s existing state machine rather than a blind port.
+- [x] **Phase 2: witness/attention rules.** Real, checked-first correction to this item's own
+  original plan: wiring into `story_ai.c`'s `AIMode`/`AIRole` state machine (as written above) is
+  a category error -- `story_ai.c` is hostile combat AI, BIG_O's witness system is a different NPC
+  concept (ambient citizens/The Men reacting to being witnessed), no "citizen" slot exists there.
+  Landed instead as a standalone, tested primitive: `packages/simulation/witness_sim.{h,c}` (a
+  faithful, renamed port of BIG_O's `core/sim.{h,c}` -- witness escalation, per-player Decorum,
+  costume x zone trespass, crew attribution, hunt persistence) backed by PARENA-generated
+  `witness_rules.c` (new `PARENA/stdlib/shankpit/witness_rules.prn` domain, copied from
+  `stdlib/big_o/witness_rules.prn`). Verified against BIG_O's own canonical scenarios, not just
+  "it compiles": 3 of BIG_O's real `scenarios/*.txt` test scripts (`01_lone_witness_denial`,
+  `02_five_witness_silencing`, `04_decorum_is_per_player`) replayed as direct C assertions, plus a
+  hunt-persists-through-loslost check -- all pass. Deliberately not wired into `Makefile`/
+  `BUILD.bazel` yet (matches `cutscene_effect_mod.c`'s own precedent: no build-graph entry until a
+  real consumer exists -- that's phase 7). SHANKPIT `b776d9d`/`a8e38c4`, PARENA `e729a72`/
+  `53d2af2`, Apple #20395.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **Phase 3: humanness AI-brain extensions.** `core/npc_archetype.c` (citizen/Men vigilance)
   and `core/zombie_values.c` (zombie mood/hunger/decay) are plain C in BIG_O today. Per "use parena
   duh": real candidates for conversion to `.prn` rules modules (matching `witness_rules.prn`'s own
