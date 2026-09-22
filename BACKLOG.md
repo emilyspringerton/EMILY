@@ -603,6 +603,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **CRITICAL correction, arrived mid-build: 'to be clear we need to keep both and i…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:25:20Z.
 - [ ] **Founder real-time, direct go-ahead: 'add that feature to the cli whatever affor…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:23:14Z.
 - [ ] **Founder real-time, concrete content-correction request: 'i need to gen lil wayn…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:22:23Z.
+- [ ] **Flicker investigation results: real Playwright/Chromium MutationObserver watchi…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:49:13Z.
+- [ ] **Founder real-time, major pivot: 'nope you are context limited use appleas and g…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:47:29Z.
+- [ ] **Founder real-time: 'livereload is fixed but flicker is not' -- confirms polling…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:45:08Z.
+- [ ] **Founder real-time, confirming format + one more detail to include: 'as a blog p…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:43:30Z.
+- [ ] **Founder real-time: 'can we please use the full promptoverse thread from start t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:43:21Z.
+- [ ] **Founder real-time, expanding the systemd request: 'ensure all our systemd jobs …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:08:04Z.
+- [ ] **Founder real-time: 'ensure our new cron jobs like the thumbnail job are install…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:07:25Z.
+- [ ] **Founder real-time, final detail: 'but section by section not snapping all 3 sec…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:06:43Z.
+- [ ] **MAJOR CLARIFICATION on the earlier 'flicker' mystery: founder, real-time: 'ok t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:06:24Z.
+- [ ] **Decision: NOT firing the remaining 5 FFXI garage-gang generations right now -- …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:05:15Z.
+- [ ] **Founder real-time: 'northstar it' -- wants a NORTHSTAR doc for the LEGO/bricks.…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:19:30Z.
+- [ ] **Founder real-time, personal context for the LEGO/bricks.json initiative: 'for m…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:19:17Z.
+- [ ] **Founder real-time, more LEGO-initiative context (still deferred, logged): 'and …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:19:07Z.
+- [ ] **Founder real-time, MAJOR new initiative (fundamentally different scale from oth…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:18:41Z.
+- [ ] **Founder real-time, REPEATED (standalone this time, taken as confirmed go-ahead)…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:18:04Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1344,21 +1359,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
-- [ ] **Flicker investigation results: real Playwright/Chromium MutationObserver watching both the index page (35s + a separate…** — obs `2026-08-18T04:49:13Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, major pivot: 'nope you are context limited use appleas and git to dive deeper into the promptoverse …** — obs `2026-08-18T04:47:29Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'livereload is fixed but flicker is not' -- confirms polling now works (not static), but visual flic…** — obs `2026-08-18T04:45:08Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, confirming format + one more detail to include: 'as a blog post' (confirmed) and 'we upgraded our wh…** — obs `2026-08-18T04:43:30Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'can we please use the full promptoverse thread from start to end as a counter argument to LLMs are …** — obs `2026-08-18T04:43:21Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, expanding the systemd request: 'ensure all our systemd jobs for mission critical proceesxses (all of…** — obs `2026-08-18T05:08:04Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'ensure our new cron jobs like the thumbnail job are installable to systemd via cli and are actually…** — obs `2026-08-18T05:07:25Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, final detail: 'but section by section not snapping all 3 sections in at once' -- when a single poll …** — obs `2026-08-18T05:06:43Z`. CURATED: 2026-08-18.
-- [ ] **MAJOR CLARIFICATION on the earlier 'flicker' mystery: founder, real-time: 'ok the live reload kind of snaps a bunch in …** — obs `2026-08-18T05:06:24Z`. CURATED: 2026-08-18.
-- [ ] **Decision: NOT firing the remaining 5 FFXI garage-gang generations right now -- the background drain from the duck reque…** — obs `2026-08-18T05:05:15Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'northstar it' -- wants a NORTHSTAR doc for the LEGO/bricks.json birthday-gift initiative, matching …** — obs `2026-08-18T05:19:30Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, personal context for the LEGO/bricks.json initiative: 'for my daughter' / 'for her birthday' -- this…** — obs `2026-08-18T05:19:17Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, more LEGO-initiative context (still deferred, logged): 'and then later we will need to use promptove…** — obs `2026-08-18T05:19:07Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, MAJOR new initiative (fundamentally different scale from other asks -- logged, explicitly NOT attemp…** — obs `2026-08-18T05:18:41Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, REPEATED (standalone this time, taken as confirmed go-ahead): 'feel free to create a whole sprite ge…** — obs `2026-08-18T05:18:04Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: rapid burst — (1) 'northstar it' confirmed for the LEGO minifigure→brick-order initiative; (2) speci…** — obs `2026-08-18T05:25:19Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, offering expanded scope: 'feel free to create a whole sprite generation subsystem for promptoverse i…** — obs `2026-08-18T05:15:21Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, potential real bug: 'we are still failing to refresh our token' / 'also are all of our token calls g…** — obs `2026-08-18T05:11:25Z`. CURATED: 2026-08-18.
