@@ -45860,9 +45860,21 @@ session: sess-20260920-1908-24cb3558
      their own, so a straight sync was safe, not a risky hand-merge); `build.yml`'s MUD GUI
      client link line fixed to include the new mod sources (previously would have failed to
      link). Verified for real: full native link (SDL2+GL) succeeds end to end, zero errors.
-     GoblinFoxDragon `9f5d867`/`55879bc`, Apple #20346. The actual 21-remaining-FFXI-job hero-kit
-     content pass itself is real, separate follow-up work -- Warrior is still the only job ported
-     into `arena_game.c`'s slot machinery -- not attempted in the same pass as the sync.
+     GoblinFoxDragon `9f5d867`/`55879bc`, Apple #20346. **Content pass started:** Monk (Combo/
+     Backhand Blow/Asuran Fists, real H2H weapon skills from `server/skillchain.
+     CanonicalWeaponSkills`) ported as the second job, same slot-machinery pattern Warrior
+     established, wired into all 4 real per-hero switch sites, routes through
+     `apply_weapon_skill_damage` for real skillchain interop with Warrior. Deliberately
+     fork-local -- lands only in `GoblinFoxDragon`, REDGARDEN's own repo stays untouched going
+     forward, per the sync-forward resolution above. Also fixed a real, pre-existing gap found
+     along the way: Michael was missing from the hero name/ability-name/description/tags tables.
+     Full native link verified, zero errors. GoblinFoxDragon `d9b4ace`/`07f640b`, Apple #20348.
+     **20 jobs remain** (server/job.go's real 22-job roster minus Warrior+Monk now shipped):
+     WHM, BLM, RDM, THF, PLD, DRK, BST, BRD, RNG, SAM, NIN, DRG, SMN, BLU, COR, PUP, DNC, SCH,
+     GEO, RUN -- each needs its own real weapon-skill-or-spell kit pass, same real per-job
+     scoping Warrior/Monk each got, not a batch-generate. Real, separate follow-up work,
+     continued incrementally, not attempted all at once (regression risk scales with how many
+     land in one unverified pass).
   2. **PFSP in REDGARDEN's own AI pipeline** -- checked directly: **already real and shipped**,
      not new work. `REDGARDEN/scripts/rl_league.py` implements a full AlphaStar-style league
      (Main/Main Exploiter/League Exploiter roles, `pfsp_weight`/`pfsp_sample`, real hard-favoring
