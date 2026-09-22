@@ -46127,9 +46127,34 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   PARENA `f17b4eb`/`d0b7f11`, Apple #20407.
   session: sess-20260920-1908-24cb3558.
 - [ ] **Phase 7: MODE_STORY content cutover.** Replace SHANKPIT's existing story-mode content/
-  roster with BIG_O's day/night/lab loop. Blocked on phases 2-6 landing enough real content to cut
-  over to; `story_ai.c`'s existing `AI_ROLE_*` roster (Rift Hound, Shambler Trooper, etc.) is a
-  real, separate asset a witness-rules integration should account for, not silently orphan.
+  roster with BIG_O's day/night/lab loop. Checked this session and found far bigger than phases
+  1-6 combined -- `story_ai.c` is 1418 live lines wired across 3 apps, and real NOCK-authored
+  levels already exist in the live registry built against its `AI_ROLE_*` roster (Rift Hound,
+  Shambler Trooper, etc. -- a real, separate asset, not silently orphaned). Broken into sub-phases
+  rather than attempted blind in one shot (Principle 19), see
+  `SHANKPIT/docs2/specs/BIGO_ENGINE_MERGE_NORTHSTAR.md` §2i for the full breakdown.
+  - [x] **7a: witness/zombie live-event glue.** `packages/simulation/witness_live.h`/
+    `witness_live_test.c`, ported verbatim from BIG_O's `core/witness_live.h` (`bigo_*` ->
+    `witness_live_*`). Wires a zombie's live mood (`zombie_values.h`, phase 3) into
+    `witness_rules.c`'s own pure decision function (`npc_next_state`, phase 2) -- the real answer
+    to the "no live entity array" blocker phases 2/3/5 each named; even BIG_O's own original
+    stayed a pure, zero-`ServerNpc`-dependency header, so this is the same real amount of "live"
+    BIG_O itself ever built. Verified: faithful replay of all 8 of BIG_O's own real assertions,
+    zero behavior drift. Standalone primitive, no Makefile entry yet (7b is the real consumer).
+    SHANKPIT commit (pending), session: sess-20260920-1908-24cb3558. Apple #20409.
+  - [ ] **7b: live NPC population/tick loop.** The actual `ServerNpc`-shaped array 7a's caller
+    needs -- reuses `story_ai_spawn_enemy`'s own existing "bot occupies a real `PlayerState`
+    slot" convention (`MAX_CLIENTS`=70), not a new concept. Spawns witness-sim citizens/
+    zombie-mood NPCs into that convention and ticks them each server frame. Not started.
+  - [ ] **7c: zone-authoring feature.** `packages/world/level_boxes.h` has NO zone-trigger
+    concept today -- witness-sim's whole premise depends on knowing which zone a player stands
+    in. Real NOCK level-editor + IDUNA-widget-schema work, its own scoping pass. Not started.
+  - [ ] **7d: `AI_ROLE_*` roster cutover decision.** What happens to `story_ai.c`'s existing,
+    already-live roster and the real NOCK levels built against it -- replace, park alongside, or
+    fold in as BIG_O's own "Guard"-class encounters. Not decided.
+  - [ ] **7e: day/night/lab turn structure.** The actual game-loop content (harvest -> blend-in
+    -> lab) that makes this "BIG_O replaces STORY" rather than primitives sitting beside the old
+    mode. Depends on 7a-7d landing enough real content first. Not started.
 - [ ] **Follow-up: server-authoritative day/night sync.** Phase 1's clock currently ticks off
   client-local wall-clock time in `apps/lobby`; not yet ticked server-side nor broadcast in a
   snapshot packet, so two clients would see two different times of day.
