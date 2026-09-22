@@ -618,6 +618,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time, more LEGO-initiative context (still deferred, logged): 'and …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:19:07Z.
 - [ ] **Founder real-time, MAJOR new initiative (fundamentally different scale from oth…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:18:41Z.
 - [ ] **Founder real-time, REPEATED (standalone this time, taken as confirmed go-ahead)…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:18:04Z.
+- [ ] **Founder real-time: rapid burst — (1) 'northstar it' confirmed for the LEGO mini…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:25:19Z.
+- [ ] **Founder real-time, offering expanded scope: 'feel free to create a whole sprite…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:15:21Z.
+- [ ] **Founder real-time, potential real bug: 'we are still failing to refresh our tok…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:11:25Z.
+- [ ] **Founder real-time: 'figure it out' -- explicit permission to proceed on judgmen…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:11:04Z.
+- [ ] **Founder real-time, unclear referent (logged, will clarify at the status checkpo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:10:13Z.
+- [ ] **Founder real-time, major new separate task: 'translate the largest claudemd fil…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:09:53Z.
+- [ ] **Founder real-time: 'find claire northstar' -- likely 'find Claude northstar', s…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:09:07Z.
+- [ ] **Founder real-time, generalizing the CLAUDE.md documentation instruction: 'ensur…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:08:59Z.
+- [ ] **Founder real-time, clarifying the FFXI batch: 'FFXI i guess is the style im not…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:02:31Z.
+- [ ] **Founder real-time, new independent request: 'do a run of all the heroes from th…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:02:08Z.
+- [ ] **Founder real-time: 'topic pages should also live reload' -- likely referring to…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T05:01:18Z.
+- [ ] **Founder real-time: 'then do the rest in mixed LIFO FIFO depending on build orde…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:57:57Z.
+- [ ] **Founder real-time, sequencing correction: 'write them as heroes into the TYLER …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:57:43Z.
+- [ ] **Founder real-time, gameplay requirement: 'give them uinque b abilities like up …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:57:29Z.
+- [ ] **Founder real-time, further hint: 'and particle effects' -- wants particle effec…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:56:08Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1359,21 +1374,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
-- [ ] **Founder real-time: rapid burst — (1) 'northstar it' confirmed for the LEGO minifigure→brick-order initiative; (2) speci…** — obs `2026-08-18T05:25:19Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, offering expanded scope: 'feel free to create a whole sprite generation subsystem for promptoverse i…** — obs `2026-08-18T05:15:21Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, potential real bug: 'we are still failing to refresh our token' / 'also are all of our token calls g…** — obs `2026-08-18T05:11:25Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'figure it out' -- explicit permission to proceed on judgment without more clarifying questions. Int…** — obs `2026-08-18T05:11:04Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, unclear referent (logged, will clarify at the status checkpoint): 'add that as an emily os metainstr…** — obs `2026-08-18T05:10:13Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, major new separate task: 'translate the largest claudemd files to traditional chinese to compress to…** — obs `2026-08-18T05:09:53Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'find claire northstar' -- likely 'find Claude northstar', searching for a NORTHSTAR-style doc speci…** — obs `2026-08-18T05:09:07Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, generalizing the CLAUDE.md documentation instruction: 'ensure claire.md metainstructions are added t…** — obs `2026-08-18T05:08:59Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, clarifying the FFXI batch: 'FFXI i guess is the style im not sure how nano banana is gonna handle it…** — obs `2026-08-18T05:02:31Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, new independent request: 'do a run of all the heroes from the gang in the garage as FFXI style rende…** — obs `2026-08-18T05:02:08Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'topic pages should also live reload' -- likely referring to subject pages (topic/subject used inter…** — obs `2026-08-18T05:01:18Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'then do the rest in mixed LIFO FIFO depending on build order ask emily prime to prioritize as a rol…** — obs `2026-08-18T04:57:57Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, sequencing correction: 'write them as heroes into the TYLER hero bible first' / 'then add lore' -- b…** — obs `2026-08-18T04:57:43Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, gameplay requirement: 'give them uinque b abilities like up b and b (whatever our b is for parisol u…** — obs `2026-08-18T04:57:29Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, further hint: 'and particle effects' -- wants particle effects too as part of the pixel art characte…** — obs `2026-08-18T04:56:08Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, technique hint: 'use shaders' -- likely: apply a pixelation/color-quantization shader at render time…** — obs `2026-08-18T04:56:00Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, tooling hint: 'use google apis to get intellgence from the images if necessary' -- if needed, use Go…** — obs `2026-08-18T04:55:53Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'can we add pixel art to the brawlpit engine? use the 5 pixel art generated (or skip baseball man if…** — obs `2026-08-18T04:55:47Z`. CURATED: 2026-08-18.
