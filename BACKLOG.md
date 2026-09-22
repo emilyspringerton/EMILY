@@ -45869,10 +45869,16 @@ session: sess-20260920-1908-24cb3558
      forward, per the sync-forward resolution above. Also fixed a real, pre-existing gap found
      along the way: Michael was missing from the hero name/ability-name/description/tags tables.
      Full native link verified, zero errors. GoblinFoxDragon `d9b4ace`/`07f640b`, Apple #20348.
-     **20 jobs remain** (server/job.go's real 22-job roster minus Warrior+Monk now shipped):
-     WHM, BLM, RDM, THF, PLD, DRK, BST, BRD, RNG, SAM, NIN, DRG, SMN, BLU, COR, PUP, DNC, SCH,
-     GEO, RUN -- each needs its own real weapon-skill-or-spell kit pass, same real per-job
-     scoping Warrior/Monk each got, not a batch-generate. Real, separate follow-up work,
+     Thief ported as the third job (Wasp Sting/Gust Slash/Mercy Stroke, real dagger weapon
+     skills) -- R (Mercy Stroke, THF's real iconic finisher) is a genuine execute
+     (`execute_scale_damage`) composed with `apply_weapon_skill_damage`, simultaneously scaling
+     up against a low-HP target AND opening/closing a real skillchain, a composition this
+     roster's execute and skillchain systems hadn't combined before. Full native link verified,
+     zero errors. GoblinFoxDragon `cb0d9ca`/`91431e0`, Apple #20349.
+     **19 jobs remain** (server/job.go's real 22-job roster minus Warrior+Monk+Thief now
+     shipped): WHM, BLM, RDM, PLD, DRK, BST, BRD, RNG, SAM, NIN, DRG, SMN, BLU, COR, PUP, DNC,
+     SCH, GEO, RUN -- each needs its own real weapon-skill-or-spell kit pass, same real per-job
+     scoping every job so far got, not a batch-generate. Real, separate follow-up work,
      continued incrementally, not attempted all at once (regression risk scales with how many
      land in one unverified pass).
   2. **PFSP in REDGARDEN's own AI pipeline** -- checked directly: **already real and shipped**,
