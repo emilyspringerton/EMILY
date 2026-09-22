@@ -45505,7 +45505,20 @@ session: sess-20260920-1908-24cb3558
   `xdotool`/`libxdo3` from `.deb` locally if not already on `PATH`. DEADWEIGHT `7b26b52`
   (script+screenshots+README), Apple #20305. session: sess-20260920-1908-24cb3558.
   (sess-20260920-1908-24cb3558)
-- [ ] **21312343124: QR CODE GENERATOR - IDUNA INTEGRATED ALLOW US TO UPDATE A URL ON IDUNA BACKEND qr.okemily.com** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **21312343124: QR CODE GENERATOR - IDUNA INTEGRATED ALLOW US TO UPDATE A URL ON IDUNA BACKEND qr.okemily.com** Added via the IDUNA kanban interface. **DONE.**
+  New `qr_codes` table + `/admin/qr` admin page (list/create/retarget/delete, live QR previews)
+  + `/admin/qr/api/codes` CRUD (`iduna.admin`) + public `/q/{slug}` redirect and
+  `/q/{slug}.png` live-rendered image (`github.com/skip2/go-qrcode`, pure Go, no external
+  `qrencode` process). The real point: every QR image only ever encodes IDUNA's own stable
+  `/q/{slug}` redirect URL, so PATCHing `target_url` retargets every already-printed copy
+  instantly with zero reprinting -- a static "URL to QR" generator wouldn't satisfy "update a
+  url on IDUNA backend" at all. `qr.okemily.com` itself is real, deliberately deferred DNS/nginx
+  infra (human-only step, same class as WOTAN-DNS-001) -- works today at `okemily.com/q/{slug}`.
+  11 new tests. Live-verified end to end in production (create → real PNG → 302 redirect →
+  retarget → same slug now redirects to the new target). IDUNA commit `5643c6a`, Apple #20326.
+  This card's own line was archived by hand -- its bare-digit id predates the `T`-prefix fix
+  from card 82821821, so it hit the exact same "no real BACKLOG.md line to archive" bug.
+  (sess-20260920-1908-24cb3558)
   (sess-20260920-1908-24cb3558)
 
 ## SECTION 522-523: DEADWEIGHT — CLAIM ACCOUNT SPEC + 25-TICKET GRANT + ADMIN NAV + DESIGN PASS (FOUNDER REAL-TIME)
