@@ -46241,9 +46241,20 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
     actual bot model on screen yet (camera-aiming under scripted Xvfb input impractical in the
     time available), no distinct citizen/zombie visual model. SHANKPIT 2645ebc,
     session: sess-20260920-1908-24cb3558. Apple #20441.
-  - [ ] **7e: day/night/lab turn structure.** The actual game-loop content (harvest -> blend-in
-    -> lab) that makes this "BIG_O replaces STORY" rather than primitives sitting beside the old
-    mode. Depends on 7a-7d landing enough real content first. Not started.
+  - [x] **7e: day/night turn boundary (real, narrow slice, not the full turn structure).**
+    Checked first: `lab_sim.c` (phase 4) has zero UI/interaction model -- building one is a real,
+    separate, much bigger scoping pass, not attempted here. Landed instead: composed two
+    already-shipped, never-instantiated systems -- `day_night_clock` (phase 1, ticking
+    cosmetically since phase 1) and `phone.h`/`world_alert_bridge` (phase 6, tested in isolation
+    only) -- into MODE_STORY's first real, player-visible day/night signal: a phone-notification
+    banner (DAYBREAK/NIGHTFALL/STORM WARNING). Explicitly NOT the phone app UI (no home grid/
+    Messages list/input). Verified: `make lobby`/`make server` clean, unit tests unchanged,
+    `go test ./...` clean, real Xvfb run shows no crash/regression. Honest gap: the banner's own
+    on-screen appearance was never directly observed live (a full day/weather cycle takes up to
+    24 real minutes, too slow for this session's verification window) -- the underlying pipeline
+    is proven correct separately (`world_alert_bridge_test.c`, unchanged). **Lab remains entirely
+    unstarted** -- the real, honest, biggest remaining piece of "day/night/lab." SHANKPIT b917533,
+    session: sess-20260920-1908-24cb3558. Apple #20444.
   - [x] **7d design input: "the men carry pagers."** Founder real-time, 2026-09-22 -- design
     direction for The Men's dispatch mechanic (the still-undecided 7d roster cutover / the
     resolution loop `witness_ai.c` names as not-yet-built). Documented into `BIG_O/NORTHSTAR.md`
@@ -46253,6 +46264,14 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
     could notice (on-theme with the Attention/Heat framing), and a possible future
     intercept/jam/steal interaction. Documentation only, no code. BIG_O commit (pending),
     session: sess-20260920-1908-24cb3558. Apple #20413 (observation).
+- [ ] **Follow-up: the lab (third leg of "day/night/lab").** `lab_sim.c` (phase 4) has real, tested
+  simulation logic (centrifuge, PCR, sequencer, CRISPR splice/repressor, clone breeding,
+  incubation) but zero UI or interaction model -- nothing calls it from any real game state. A
+  real, separate scoping pass of its own (what's the actual player interaction -- a phone app? a
+  physical lab scene? something else), not guessed at or half-built under phase 7e.
+- [ ] **Follow-up: real phone app UI.** Phase 6's own named gap, still open after 7e's banner --
+  no home grid, no Messages list, no input to open it. 7e's banner is a real, narrow substitute
+  for one specific signal, not a step toward the full UI.
 - [ ] **Follow-up: server-authoritative day/night sync.** Phase 1's clock currently ticks off
   client-local wall-clock time in `apps/lobby`; not yet ticked server-side nor broadcast in a
   snapshot packet, so two clients would see two different times of day.
