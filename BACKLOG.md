@@ -46162,6 +46162,15 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   - [ ] **7e: day/night/lab turn structure.** The actual game-loop content (harvest -> blend-in
     -> lab) that makes this "BIG_O replaces STORY" rather than primitives sitting beside the old
     mode. Depends on 7a-7d landing enough real content first. Not started.
+  - [x] **7d design input: "the men carry pagers."** Founder real-time, 2026-09-22 -- design
+    direction for The Men's dispatch mechanic (the still-undecided 7d roster cutover / the
+    resolution loop `witness_ai.c` names as not-yet-built). Documented into `BIG_O/NORTHSTAR.md`
+    §11 item 6: a pager is the real, in-fiction answer to "how does a Man know to respond" --
+    wraps `server_tick_dispatch`'s existing nearest-idle-Man assignment rather than replacing it.
+    Opens (named, not built): real dispatch latency, a world-observable buzz/cue a sharp player
+    could notice (on-theme with the Attention/Heat framing), and a possible future
+    intercept/jam/steal interaction. Documentation only, no code. BIG_O commit (pending),
+    session: sess-20260920-1908-24cb3558. Apple #20413 (observation).
 - [ ] **Follow-up: server-authoritative day/night sync.** Phase 1's clock currently ticks off
   client-local wall-clock time in `apps/lobby`; not yet ticked server-side nor broadcast in a
   snapshot packet, so two clients would see two different times of day.
