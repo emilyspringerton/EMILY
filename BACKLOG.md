@@ -45985,3 +45985,12 @@ session: sess-20260920-1908-24cb3558
   (sess-20260920-1908-24cb3558)
 - [ ] **T94858758: MIXFORGE DJ-room: scope PARENA/stdlib/media/stream.prn (Phase 5) -- the real remaining blocker before anyone can actually hear what gets queued in the room server (commit aa818ae)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [x] **Founder real-time: "scale SHANKPIT queue bot pool down to 12"** (from 40, itself an
+  earlier same-day founder real-time scale-up from 4). Edited
+  `SHANKPIT/ops/systemd/shankpit-bot-pool.service` (both the repo-tracked file and the deployed
+  `~/.config/systemd/user` copy -- found and caught up a real gap where the repo file was still
+  at the original S459-34 count of 3, the 4→40 scale-up having only ever been applied live, never
+  committed), restarted `shankpit-bot-pool.service`, live-verified exactly 12 bot processes
+  (`frozen_policy_bot.py` against active-opponent checkpoint 578, per S459-62's stopgap) running
+  on `127.0.0.1:6969`. SHANKPIT `04720e9`/`b1e330c`, Apple #20384.
+  session: sess-20260920-1908-24cb3558.
