@@ -45966,3 +45966,5 @@ session: sess-20260920-1908-24cb3558
   `make lobby` after each addition. Both new repos registered in the monorepo `CLAUDE.md` table
   and `EMILY/context/golden-docs-index.md`; `GOLDEN_DOCS` resynced.
   session: sess-20260920-1908-24cb3558.
+- [ ] **T78008777: DEADWEIGHT app-release registry: add GitHub Actions secrets (EINHORN_APP_RELEASES_GPG_PRIVATE_KEY, APP_RELEASES_CI_SECRET) -- human-only GitHub Settings step, CI silently no-ops every green build unti** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
