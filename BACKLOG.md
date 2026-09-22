@@ -46300,3 +46300,41 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
     phone, witness_ai, LevelZone) are simulation-side only, no client draw path exists yet for
     any of them, so there is nothing visual to screenshot for that work (named, not glossed
     over). session: sess-20260920-1908-24cb3558.
+- [x] **"full 21 smart phone app parity with costume changes and add the men."** Real phone app
+  UI (home grid + 5 of 11 apps with real content, 6 generic-but-navigable), costume selection
+  wired live into witness_sim decorum via a hardcoded VOXWORLD lab-trespass circle, The Men
+  archetype spawned for the first time with a distinct mannequin kit. 12/12 unit checks, verified
+  live via a real Xvfb run with synthetic X11 input (home grid + WARDROBE screen both actually
+  rendered on screen). SHANKPIT `5f3d4aa`, Apple #20447. session: sess-20260920-1908-24cb3558.
+- [x] **CI fix: 7th recurrence of the hand-copied-build-list bug class.** release.yml/tests.yml's
+  Windows-client and Linux-server gcc invocations were missing the whole witness_ai family (8
+  files) added in phases 7d/7e -- confirmed live via the real GitHub Actions API job log (run
+  35794065741). Fixed both files; CI confirmed green on the next push (runs 35796301008/49).
+  SHANKPIT `c1c7cda`, Apple #20448. session: sess-20260920-1908-24cb3558.
+- [x] **"is shankpit BAZEL? ensure shankpit uses BAZEL."** Checked directly: a real `bazel build`
+  failed outright (`fatal error: humanness.h: No such file or directory`) -- BUILD.bazel was
+  never kept in sync with the Makefile past phase 1 of this merge. Installed bazelisk (no bazel
+  binary existed in this sandbox), iteratively fixed 6 BUILD.bazel files against a real build
+  until `bazel build //apps/lobby:shank_lobby //apps/server:shank_server` and `bazel build --
+  //... -//apps/server:serverctl` both succeed clean (serverctl's own ncurses-dev gap is real,
+  pre-existing, already documented, not a Bazel regression). Ran both real Bazel-built binaries
+  directly to confirm parity with the plain Makefile build. SHANKPIT `5cd4de3`, Apple #20449.
+  session: sess-20260920-1908-24cb3558.
+- [x] **"cannon - add wheelbarrow for carrying whole zombies or citizens back to your lab."**
+  Real carry mechanic (E to pick up/drop, one at a time), cargo trails the hero each tick, real
+  delivery (despawn + live counter) on walking it into the same hardcoded lab circle the costume
+  mechanic already introduced. No literal wheelbarrow prop/model -- named, honest scope cut.
+  16/16 unit checks pass. SHANKPIT `ea061e8`, Apple #20451. session: sess-20260920-1908-24cb3558.
+- [ ] **Founder real-time, queued, not yet started (2026-09-22):** four more asks landed in
+  quick succession after the wheelbarrow work above; logged via `emily observe` (Apple #20452)
+  rather than built blind, per Principle 19 (each is cross-repo/unscoped enough to need a real
+  investigation pass first) -- user dismissed a sequencing question, so these sit queued awaiting
+  explicit next-instruction on order:
+  1. Add the full cyberscape from the historic construct in the PAPERCRAFT repo.
+  2. 2 new vehicles via the new PARENA physics.
+  3. Incorporate the NPCs and tech tree progression into BIG_O.
+  4. Every agent in the system, including the player, can "feel" when an agent notices them via
+     uniquely tracked awareness vectors (a real design escalation of witness_sim's own existing
+     noticed()/conspicuousness() mechanic -- BIG_O/NORTHSTAR.md's own §8e item 3 already names
+     the closest existing primitive).
+  session: sess-20260920-1908-24cb3558.
