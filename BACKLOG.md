@@ -588,6 +588,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time, new but separate feature request: 'ok there are like these m…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:28:18Z.
 - [ ] **Founder real-time, narration/color, not a new instruction: 'i started making a …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:26:56Z.
 - [ ] **Founder real-time, clarifying the mashup nomination widget example: 'i mean on …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:26:26Z.
+- [ ] **Founder real-time, UI detail for mashup nomination widget: 'on the supercar pag…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:25:54Z.
+- [ ] **Founder real-time: 'build out mashup nomination as a social tool' -- narrows th…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:23:17Z.
+- [ ] **Founder real-time, concrete infra direction for social features: 'you should be…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:22:46Z.
+- [ ] **Founder real-time: 'build out the social features' -- direct go-ahead to build …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:22:33Z.
+- [ ] **Founder real-time: 'ok but where is the funnel? like in the footer or the heade…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:01:01Z.
+- [ ] **Founder asking again 'where is my pinup power mtg card on promptoverse?' -- rec…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:19:44Z.
+- [ ] **Founder real-time, continuing the crossover-style-family idea (logged, staying …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:18:44Z.
+- [ ] **Founder real-time, generalizing the crossover-style idea (logged, staying on li…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:18:40Z.
+- [ ] **Founder real-time, another style idea (logged, staying on live-reload fix): 'Fi…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:18:36Z.
+- [ ] **Founder real-time, new taxonomy idea (logged, not acted on -- staying on the li…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:18:11Z.
+- [ ] **Founder real-time, frustrated: 'LIVE RELOAD STILL BROKEN WTF BRO' -- correctly …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:31:11Z.
+- [ ] **Founder real-time, further clarifying the variants design (matches what's being…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:26:03Z.
+- [ ] **CRITICAL correction, arrived mid-build: 'to be clear we need to keep both and i…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:25:20Z.
+- [ ] **Founder real-time, direct go-ahead: 'add that feature to the cli whatever affor…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:23:14Z.
+- [ ] **Founder real-time, concrete content-correction request: 'i need to gen lil wayn…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:22:23Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1329,21 +1344,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
-- [ ] **Founder real-time, UI detail for mashup nomination widget: 'on the supercar page you can pull up a search tag auto comp…** — obs `2026-08-18T03:25:54Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'build out mashup nomination as a social tool' -- narrows the 'build out social features' ask to a s…** — obs `2026-08-18T03:23:17Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, concrete infra direction for social features: 'you should be able to get iduna gcloud logins working…** — obs `2026-08-18T03:22:46Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'build out the social features' -- direct go-ahead to build S176-27 (Reddit-style voting for candida…** — obs `2026-08-18T03:22:33Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'ok but where is the funnel? like in the footer or the header or something a login button?' -- real …** — obs `2026-08-18T04:01:01Z`. CURATED: 2026-08-18.
-- [ ] **Founder asking again 'where is my pinup power mtg card on promptoverse?' -- reconfirms the root-cause diagnosis: it IS …** — obs `2026-08-18T04:19:44Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, continuing the crossover-style-family idea (logged, staying on live-reload fix): 'use existing subje…** — obs `2026-08-18T04:18:44Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, generalizing the crossover-style idea (logged, staying on live-reload fix): 'all the crossover style…** — obs `2026-08-18T04:18:40Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, another style idea (logged, staying on live-reload fix): 'Final Fantasy crossover style' -- another …** — obs `2026-08-18T04:18:36Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, new taxonomy idea (logged, not acted on -- staying on the live-reload fix per 'prioritize above all …** — obs `2026-08-18T04:18:11Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, frustrated: 'LIVE RELOAD STILL BROKEN WTF BRO' -- correctly calling out that the subject/style-page …** — obs `2026-08-18T04:31:11Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, further clarifying the variants design (matches what's being built): 'if the subject and style tag e…** — obs `2026-08-18T04:26:03Z`. CURATED: 2026-08-18.
-- [ ] **CRITICAL correction, arrived mid-build: 'to be clear we need to keep both and i think for seo reasons we should condens…** — obs `2026-08-18T04:25:20Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, direct go-ahead: 'add that feature to the cli whatever affordance makes sense to get that functional…** — obs `2026-08-18T04:23:14Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, concrete content-correction request: 'i need to gen lil wayne papercraft with a red hoodie instead o…** — obs `2026-08-18T04:22:23Z`. CURATED: 2026-08-18.
 - [ ] **Flicker investigation results: real Playwright/Chromium MutationObserver watching both the index page (35s + a separate…** — obs `2026-08-18T04:49:13Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, major pivot: 'nope you are context limited use appleas and git to dive deeper into the promptoverse …** — obs `2026-08-18T04:47:29Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'livereload is fixed but flicker is not' -- confirms polling now works (not static), but visual flic…** — obs `2026-08-18T04:45:08Z`. CURATED: 2026-08-18.
