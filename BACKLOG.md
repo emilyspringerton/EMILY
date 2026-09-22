@@ -2700,6 +2700,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue S504 -- picked up the next deferred item from NORTHSTAR.md S8c (live NPC entity system), si…** — obs `2026-09-20T22:35:51Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: BIG_O S504 -- bring in GOLDENBAND animations (mannequin + animation library, all characters share th…** — obs `2026-09-20T21:37:39Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: continue SHANKPIT/PAPERCRAFT unification (S504-10) — meet in the middle on physics, bring in sprint,…** — obs `2026-09-20T21:15:41Z`. CURATED: 2026-09-22.
+- [ ] **Founder: S504-10 — starting day-cycle zombie sandbox integration. SHANKPIT just shipped nextown level (UDP 6971, AI_ROL…** — obs `2026-09-20T19:08:44Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: BIG_O PAPERCRAFT-based client still fails live; pivot to SHANKPIT side, get zombie sandbox (nextown …** — obs `2026-09-20T00:09:34Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT SDL2 client -- clash animations (Blitz/Block/Bypass + Lock/Sabotage/Flank/Scan/Siphon var…** — obs `2026-09-19T23:28:16Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT retheme -- triangle becomes Offense(Red)>Operations(Yellow)>Defense(Blue)>Offense; Operat…** — obs `2026-09-19T22:52:41Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: build out WOTAN with DEADWEIGHT draft data -- unauthenticated deck browser (drafted decks + win rate…** — obs `2026-09-19T22:32:03Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
