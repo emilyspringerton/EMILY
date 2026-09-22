@@ -45480,7 +45480,21 @@ DEADWEIGHT commit `6cf5378` (Apple #20298).
 session: sess-20260920-1908-24cb3558
 - [ ] **82821821: we need the randomized ticket numbers i dont want to type ticket numbers if i dont want to (sometimes i do want to and i use it like jira projects but sometimes its too much cognitive load this is an** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
-- [ ] **12421: automate the process of taking screenshots at each part of the deadweight onboarding** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **12421: automate the process of taking screenshots at each part of the deadweight onboarding** Added via the IDUNA kanban interface. **DONE.** New
+  `DEADWEIGHT/scripts/onboarding_screenshots.sh` — drives the real `dw_gui` binary (not
+  `--selftest`'s dummy video driver) under a real Xvfb X server via `xdotool` mouse clicks
+  computed from the client's own logical layout (`W=480 H=956`), captures each real screen with
+  ImageMagick `import`: guest menu, Claim Account modal, matchmaking queue, a live match, and the
+  win/loss end screen — `DEADWEIGHT/docs/onboarding_screenshots/`. Live-verified end to end
+  against a throwaway local `dw_server` (`--no-auth`, disposable match-log, never touches
+  production) and real guest auth against local IDUNA (25 Protofounder tickets shown correctly,
+  matching S522/S523). Two real bugs found and fixed while building this: a wrong logical-coord
+  click landed on DRAFT instead of PRACTICE (burned a real ticket + left a stray draft-run row on
+  the test account, both cleaned up); repeat runs each registered a brand-new guest, burning
+  IDUNA's 3/day/IP signup rate limit within two runs — fixed by caching one guest account across
+  runs (`DEADWEIGHT/build/onboarding_shot_deps/`, gitignored). No root needed — extracts
+  `xdotool`/`libxdo3` from `.deb` locally if not already on `PATH`. DEADWEIGHT `7b26b52`
+  (script+screenshots+README), Apple #20305. session: sess-20260920-1908-24cb3558.
   (sess-20260920-1908-24cb3558)
 - [ ] **21312343124: QR CODE GENERATOR - IDUNA INTEGRATED ALLOW US TO UPDATE A URL ON IDUNA BACKEND qr.okemily.com** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
