@@ -46105,11 +46105,22 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   Same real blocker as phases 2/3's own primitives: no consumer until phase 7 builds a live NPC
   entity layer. SHANKPIT `0471fc0`/`05186a8`, Apple #20404.
   session: sess-20260920-1908-24cb3558.
-- [ ] **Phase 6: the phone -- events and messages.** Founder: "the phone in story mode
-  everything", "all the events and messages on the phone." `day/packages/common/bigo_phone.h` +
-  the already-PARENA `world_alerts_mod.prn` (reacts to REFLUX-logged world events, raises phone
-  message ids). A real, standalone UI feature SHANKPIT has no equivalent of today -- needs its own
-  scoping pass (what renders it, HUD toggle, message content).
+- [x] **Phase 6: the phone -- events and messages.** Founder, twice: "the phone in story mode
+  everything", "all the events and messages on the phone." Went further than phases 2/3/5's own
+  "correct primitive, no consumer" pattern: `packages/common/phone.h` (verbatim port of BIG_O's
+  real smartphone state machine, 11 apps, notification anti-spam) + `PARENA/stdlib/shankpit/
+  world_alerts_mod.prn` (REFLUX subscriber deciding phone messages from world events) +
+  `REFLUX_ACTION_PHASE_CHANGED`/`WEATHER_CHANGED` added to `reflux_runtime.h` + new
+  `packages/simulation/world_alert_bridge.{h,c}` composing all of it plus phase 1's
+  `day_night_clock` into one real, live pipeline -- without editing any already-shipped file.
+  Verified end to end, not just compiled: `world_alert_bridge_test.c` runs a real `DayNightClock`
+  through an actual DAWN->DAY transition and a forced STORM, confirms the message round-trips
+  through the real REFLUX log and lands on the real `Phone` struct with the exact ids
+  `world_alerts_mod` specifies. Named, honest remaining gap: nothing renders on screen yet (no 2D
+  UI path in `apps/lobby`, no input binding to open the phone) -- real, separate client-rendering
+  work, tracked as a follow-up rather than a new phase number. SHANKPIT `ad648a7`/`071ea14`,
+  PARENA `f17b4eb`/`d0b7f11`, Apple #20407.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **Phase 7: MODE_STORY content cutover.** Replace SHANKPIT's existing story-mode content/
   roster with BIG_O's day/night/lab loop. Blocked on phases 2-6 landing enough real content to cut
   over to; `story_ai.c`'s existing `AI_ROLE_*` roster (Rift Hound, Shambler Trooper, etc.) is a
