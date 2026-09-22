@@ -45529,3 +45529,5 @@ IDUNA commits `b69bd65`, `c2264a7` (Apples #20301). DEADWEIGHT commits `a9fdd65`
 (Apple #20303).
 
 session: sess-20260920-1908-24cb3558
+- [ ] **123214231: we need a big_o account creation interface off of iduna** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
