@@ -45787,6 +45787,19 @@ session: sess-20260920-1908-24cb3558
   integration test proving `Create()` really wires into `GitSync`. Deployed to production,
   health check green. IDUNA `46d579f`, Apple #20340.
   session: sess-20260920-1908-24cb3558.
+- [x] **S532: Port QR registry to IDUNA_PRO + CarePyre Community Tools business card generator.**
+  Founder real-time: "in carepyre if there is a resume configured can we generate some business
+  card tools powered by the qr code stuff port it to IDUNAPRO." **DONE.** Ported IDUNA's
+  `qr.go`/`qr_page.go` field-for-field into `IDUNA_PRO`. New `BusinessCardHandler`
+  (`community-tools.access`-gated): if the caller has a real resume configured (`basics.name`
+  non-empty), upserts one deterministic QR code per user (`card-<uid>`) pointing at a new public
+  `GET /card/{uid}.vcf` -- a real RFC-6350 vCard 3.0 document rendered live from their saved
+  resume, properly escaped; scanning offers "Add Contact" on real phones. 17 new tests. Live-
+  verified end to end against a fully-isolated throwaway boot (never touched real production,
+  per `IDUNA_PRO/CLAUDE.md`'s own documented past incident/fix): register -> resume save ->
+  business-card create -> real QR PNG -> 302 redirect -> real downloadable vCard. Deployed to
+  production, health check green. IDUNA_PRO `d906147`, Apple #20342.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **2321312: TERMS OF SERVICE AND PRIVACT POLICY FOR IDUNA SHANKPIT OS AND WOTAN AND DEADWEIGHT** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
 - [x] **64346231: test auto-id live verify S528-autoid** Not real work -- a disposable card created
