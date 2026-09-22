@@ -45748,6 +45748,30 @@ session: sess-20260920-1908-24cb3558
   still open (neither game's own native client calls this API yet). IDUNA `d6ab897`, Apple
   #20332; SHANKPIT `88f0954`.
   session: sess-20260920-1908-24cb3558.
+- [x] **S530: PITVIPER on SHANKPIT OS Apps page + PARENA-powered GPG key-gen mod.** Founder
+  real-time (via a clarifying AskUserQuestion on which SHANKPIT_OS item to work next): "add
+  pitviper as an app on the second page of shankpit os" / "build in the gpg key generation
+  affordances - build in parena editor to manage the text fields unify" / "PARENA POWERED".
+  **DONE (2 of 3 parts; 3rd named as real follow-up, not built).**
+  (1) New `APP_PITVIPER` entry in SHANKPIT's `apps/lobby/src/main.c` Apps page, mirroring the
+  existing DEADWEIGHT app-launcher case exactly. Real build verified (`make lobby`); path
+  resolution (`../../PITVIPER/pitviper`) confirmed via the same real normpath arithmetic already
+  verified for DEADWEIGHT's own entry; PITVIPER itself rebuilt fresh. SHANKPIT `d62707f`.
+  (2) New `PARENA/stdlib/pitviper/gpg_mod.prn` — shells out to the real `gpg` binary
+  (`process/run-capture`) rather than reimplementing OpenPGP (no PARENA crypto stdlib module
+  implements RSA/OpenPGP — checked directly). `is-safe-key-field?` is a real, fail-closed
+  shell-injection guard, checked before any command is built. Compiled + verified for real
+  (`make test-pitviper-gpg-mod`, `-Werror` clean, all pass); the actual `gpg
+  --quick-generate-key` happy path hand-verified out of band against a scratch `GNUPGHOME` (real
+  key generated, keyring deleted after, this box's own real keyring never touched). PARENA
+  `199bed7`, STDLIB.md entry 59.
+  (3) "PARENA editor to manage the text fields unify" — named as real, separate, not-yet-started
+  follow-up (`PITVIPER/docs/NORTHSTAR.md` Milestone 6): `stdlib/editor/*.prn` already exists as
+  the real substrate; the concrete next step is wiring PITVIPER's Go host to consume it via the
+  same FFI pattern `vterm_mod.prn` already established for wheel-scroll — not attempted this
+  pass since it's a first-of-its-kind PARENA-editor-in-Go-host integration, not a same-session
+  add-on. PITVIPER `4ffd429`. Apple #20334.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **2321312: TERMS OF SERVICE AND PRIVACT POLICY FOR IDUNA SHANKPIT OS AND WOTAN AND DEADWEIGHT** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
 - [x] **64346231: test auto-id live verify S528-autoid** Not real work -- a disposable card created
