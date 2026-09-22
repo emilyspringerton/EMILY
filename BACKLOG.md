@@ -45801,3 +45801,5 @@ session: sess-20260920-1908-24cb3558
 - [x] **HITL-01: Steamworks account + $100 Direct fee** — Create Steam developer account at
   store.steampowered.com/about/sell. $100 USD Direct fee. Required before S19-05 EA launch.
   Unblocks: SHANKPIT Steam Early Access (S19-05).
+- [ ] **T13806138: ECOWAR/NOCK level-building game: AI+human co-op/competitive level authoring, teams fight in each other's levels, slow league (human) + fast bot-only league, NOCK editor needs multi-tenancy -- scope in** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
