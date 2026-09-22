@@ -45562,3 +45562,36 @@ session: sess-20260920-1908-24cb3558
   `dist/`, verified the new bundle is actually embedded in the binary, deployed to production
   (backup taken, health check green). IDUNA `b2391b0`, Apple #20308. session:
   sess-20260920-1908-24cb3558.
+
+- [x] **S525: SLOWBOT_LEAGUE — NORTHSTAR scoping pass for the "Slow Bot League."** Founder
+  real-time (verbatim in Apple/CLAUDE.md repo-table entry): separate repo + separate training
+  script for an Elo/PFSP league where humans play against and train a persistent bot pool seeded
+  from SHANKPIT's own currently-queued/active training checkpoint, on a separate server from the
+  live queue (queue stays untouched), with a totally separate IDUNA tenant (guest-auth/Claim
+  Account/match-entries slurped from DEADWEIGHT's own pattern, separate admin codes-gen tab),
+  lives-based match scoring (not continuous respawn), 25 match-entries/day, WOTAN stats in a
+  separate leaderboard section like DEADWEIGHT's own. **DONE (scoping only, no code) —**
+  `SLOWBOT_LEAGUE/NORTHSTAR.md` (new local repo, `45b1ef9`, no GitHub upstream yet). Real
+  capability audit found most of the "totally separate tenant" ask already exists and is
+  generic, not new work: `IDUNA/internal/games/games.go`'s `Registry` (one new row + a migration
+  grants a real separate permission set = the real analog of "separate product key" — its own
+  doc comment says so), guest-auth/Claim Account (`game_online.go`, already `game`-parameterized
+  throughout), the admin codes-gen page (`GameClaimCodesHandler`, already reads `games.Registry`
+  — only its route/title are DEADWEIGHT-specific from this session), and
+  `SHANKPIT/scripts/rl_league.py`'s own game-agnostic PFSP+Elo math (ported verbatim from
+  BRAWLPIT already, real, working, standard Elo K=32). Confirmed the exact "currently queued bot"
+  anchor live: `GET /api/v1/shankpit-checkpoints/active` → checkpoint 578, Elo 1564, gen 9,
+  `league_exploiter_gen9.zip` — this is the real Slow Bot League gen-0 seed. Named real,
+  genuinely new work: a lives-based SHANKPIT game mode (checked `apps/server/src/main.c` directly
+  — `MODE_QUEUE` today is continuous-respawn FFA, no elimination mode exists anywhere), a second
+  server process (mirrors `shankpit-zombie.service`'s own "same binary, different mode, different
+  port" precedent), and a WOTAN leaderboard-section pattern — checked `WOTAN/` directly, it's
+  static marketing pages only, **no leaderboard pattern exists for ANY game yet, including
+  DEADWEIGHT** — so this is being built from scratch, not copied. Surfaced one real, unresolved
+  ambiguity rather than guessing: the founder's own lives-assignment rule ("top player 3 lives...")
+  could mean a skill-based Elo handicap (strongest gets MOST lives — the opposite direction a
+  fairness handicap usually runs) or a fixed slot-order assignment with no relation to skill.
+  Phased plan (Phase 0 tenant+server skeleton → Phase 1 lives mode → Phase 2 training script →
+  Phase 3 WOTAN pattern → Phase 4 client integration) and 3 open questions (lives direction, repo
+  name, SHANKPIT's own license — checked, SHANKPIT currently has no LICENSE file at all) in the
+  doc. Golden doc registered (SLOWBOT-NORTH). Apple #20309. session: sess-20260920-1908-24cb3558.
