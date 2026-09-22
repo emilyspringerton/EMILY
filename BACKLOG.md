@@ -46142,10 +46142,17 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
     BIG_O itself ever built. Verified: faithful replay of all 8 of BIG_O's own real assertions,
     zero behavior drift. Standalone primitive, no Makefile entry yet (7b is the real consumer).
     SHANKPIT commit (pending), session: sess-20260920-1908-24cb3558. Apple #20409.
-  - [ ] **7b: live NPC population/tick loop.** The actual `ServerNpc`-shaped array 7a's caller
-    needs -- reuses `story_ai_spawn_enemy`'s own existing "bot occupies a real `PlayerState`
-    slot" convention (`MAX_CLIENTS`=70), not a new concept. Spawns witness-sim citizens/
-    zombie-mood NPCs into that convention and ticks them each server frame. Not started.
+  - [x] **7b: live NPC population/tick loop.** `packages/simulation/witness_ai.h`/`.c`/
+    `witness_ai_test.c`. Reuses `story_ai_spawn_enemy`'s own existing "bot occupies a real
+    `PlayerState` slot" convention (`MAX_CLIENTS`=70), not a new concept -- independent of
+    `story_ai.c`'s own `g_story_ai` bookkeeping. Composes witness_sim (phase 2) + npc_archetype
+    (phase 3) + zombie_values (phase 3) + witness_live (phase 7a) into one real, live pipeline.
+    Verified end to end against a real `ServerState`: 6/6 checks pass (DORMANT raises nothing,
+    forced-HUNTING + 1 witness -> DENIAL, detection radius correctly gates near/far citizens, 5
+    witnesses -> SILENCING, vigilance write-back verified exact). Named scope cuts: no movement
+    AI, zombie `has_target` always 0 (no perception system), no resolution/memory-wipe loop.
+    Standalone, no Makefile entry yet. SHANKPIT ec578fc, session: sess-20260920-1908-24cb3558.
+    Apple #20411.
   - [ ] **7c: zone-authoring feature.** `packages/world/level_boxes.h` has NO zone-trigger
     concept today -- witness-sim's whole premise depends on knowing which zone a player stands
     in. Real NOCK level-editor + IDUNA-widget-schema work, its own scoping pass. Not started.
