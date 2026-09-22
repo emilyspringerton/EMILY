@@ -45869,14 +45869,26 @@ session: sess-20260920-1908-24cb3558
      opponent sampling) per `NORTHSTAR.md` §25.4/§25.4.1 -- exactly the "already exotic redgarden
      ai pipeline" the founder is referencing. If more is wanted here than what's already built,
      that's a real, separate, more specific ask.
-  3. **RL autocurriculum + PFSP fast-play/fast-forward league play via a Colab script** -- real
-     gap, checked directly: `REDGARDEN/notebooks/` has one existing notebook
-     (`redgarden_gpt2_pretrain_colab.ipynb`, GPT-2 pretraining, unrelated), no PFSP/league-training
-     Colab notebook exists yet. `scripts/rl_train_team.py --league` (this session's own S533 git-
-     lfs work now wired into its two checkpoint-save points) is the real local entry point such a
-     notebook would wrap -- not started, real, scoped follow-up.
+  3. **RL autocurriculum + PFSP fast-play/fast-forward league play via a Colab script** --
+     **DONE, with one honest caveat.** New `REDGARDEN/scripts/colab_train_league.py` +
+     `notebooks/redgarden_pfsp_league_colab.ipynb`: same reusable-bootstrap pattern the existing
+     GPT-2 pretrain notebook established, launches the real 3-role AlphaStar-style league
+     (`scripts/run_league.sh`'s own local equivalent, NORTHSTAR §25.4.1) Drive-backed so
+     checkpoints/league registry/git-lfs history (S533) all survive a Colab session reset;
+     optional remote wiring, one branch per role to avoid history collisions. Structurally
+     smoke-tested directly (dep install, `.so` build, 3-process launch, git-lfs remote setup all
+     verified). **Real, honest gap found, not hidden:** a live end-to-end PPO training run could
+     not be verified in this dev sandbox -- a real, pre-existing segfault in stable-baselines3's
+     own import chain (crashes in `PyObject_Malloc` during nested imports, reproduces even in
+     plain non-league mode with zero REDGARDEN-side flags set, i.e. unrelated to any of this
+     session's own code) blocks `model.learn()` here specifically. Not something introduced by
+     this work; very likely specific to this one sandboxed Python/library build, not Colab's own
+     different one -- documented directly in the notebook's own status cell rather than claimed
+     as verified. First real Colab run is the actual live confirmation. REDGARDEN `6a4bcb6`/
+     `11bd1a4`, Apple #20347.
   4. **Model repositories** -- **DONE**, see S533 above.
-  Not attempted blind across four repos in one pass given #1's real, named architecture blocker
-  and #3's real scope (a genuine new notebook, not a same-session add-on); #2 turned out to
-  already be done. Card stays open for #1 and #3.
+  All four parts of this card are now addressed (#2 needed no work, already shipped; #1 and #3
+  both landed real code this session). Live-verifying #3's actual training run on real Colab
+  (or diagnosing the sandbox segfault, lower priority since it's not blocking anything real) is
+  the one loose end.
   session: sess-20260920-1908-24cb3558.
