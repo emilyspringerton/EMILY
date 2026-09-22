@@ -45475,7 +45475,23 @@ scoreboard is not updating." Routed through `emily observe -s info` first (Apple
 DEADWEIGHT commit `6cf5378` (Apple #20298).
 
 session: sess-20260920-1908-24cb3558
-- [ ] **82821821: we need the randomized ticket numbers i dont want to type ticket numbers if i dont want to (sometimes i do want to and i use it like jira projects but sometimes its too much cognitive load this is an** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **82821821: we need the randomized ticket numbers i dont want to type ticket numbers if i dont want to (sometimes i do want to and i use it like jira projects but sometimes its too much cognitive load this is an** Added via the IDUNA kanban interface. **DONE.**
+  `POST /api/v1/kanban/cards` no longer rejects a blank `backlog_item_id` — leaving it empty
+  (web form, or `emily kanban add <title>` with no id arg) now auto-generates a real, unique
+  `T########` ticket number server-side (`generateRandomBacklogItemID`,
+  `IDUNA/internal/http/handlers/kanban.go`), while explicitly typing one (Jira-style prefix, a
+  real `S202-27` section ref) still works exactly as before — both halves of the founder's own
+  ask ("sometimes i do want to and i use it like jira projects but sometimes its too much
+  cognitive load"). `T`-prefixed, not a bare digit string, on purpose: found and fixed a real,
+  live bug along the way — `internal/backlog`'s item-id regex requires an id to start with a
+  letter (this card's own id, `82821821`, hit it directly: moving this very card to "done"
+  silently failed to archive its BACKLOG.md line, logged "has no real BACKLOG.md line to
+  archive"), so a bare-digit auto-generated id would have permanently broken its own future
+  "mark done"/auto-cleanup path the moment it shipped. Live-verified end to end against
+  production: `emily kanban add "..."` → `T78784143` assigned, card moved to done, BACKLOG.md
+  line correctly archived+checked. `IDUNA`/`emily.cli` commits carry the details. This card's own
+  line was archived by hand (its pre-fix bare-digit id can't self-archive) rather than silently
+  left dangling.
   (sess-20260920-1908-24cb3558)
 - [x] **12421: automate the process of taking screenshots at each part of the deadweight onboarding** Added via the IDUNA kanban interface. **DONE.** New
   `DEADWEIGHT/scripts/onboarding_screenshots.sh` — drives the real `dw_gui` binary (not
