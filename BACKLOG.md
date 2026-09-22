@@ -45660,3 +45660,46 @@ session: sess-20260920-1908-24cb3558
   path and successfully executed the real `dw_gui --version`, printing its real version string
   end to end. README updated (new "Apps page" section, honest about what's verified vs. not-yet-
   built). SHANKPIT `d8024a4`. Apple #20314. session: sess-20260920-1908-24cb3558.
+
+- [x] **S528: App-release registry — GPG signing + emily-session build provenance.** Founder
+  real-time, verbatim: "we need an app repository in IDUNA signed in github somehow with emily
+  session new for the build before each build and we can use session tokens in the app binaries
+  figure out how to sign them with gpg keys or something." **DONE.** New IDUNA
+  `internal/apps.ReleaseStore` + `/api/v1/app-releases` (mirrors SHANKPIT's own RL checkpoint
+  registry field-for-field: SQLite metadata + on-disk blob, one `is_latest` row per
+  `(app_slug, platform)`) — backs SHANKPIT's new Apps page (S527). Real RSA4096 GPG key
+  generated (`EINHORN_INDUSTRIAL App Releases <releases@okemily.com>`, key id
+  `A9BEEFEC4DF16C2E`, expires 2028-09-21) — public half committed
+  (`IDUNA/docs/einhorn-app-releases-public.asc`), private half gitignored
+  (`var/gpg-releases/*.DO_NOT_COMMIT`), pending one real human-only step (adding it as a GitHub
+  Actions secret — see `IDUNA/docs/APP_RELEASE_SIGNING.md`). `session_tag` reuses `emily session
+  new`'s own existing tag format as a free, cheap per-build provenance nonce (a deliberate second
+  use of that command's tag *shape*, not a claim a CI build is an LLM session — confirmed it needs
+  no network access, runs standalone in a CI runner). `github_commit_sha`/`github_run_url` record
+  real CI provenance. New least-privilege agent `APP-RELEASES-CI` (`apps.releases.write` only —
+  nothing else, so a leaked CI secret can only publish a release). **Found and fixed two real
+  migration bugs before shipping**, caught by checking the live DB directly rather than trusting a
+  green migration run: a permission-ID collision with the existing `deadweight.play` row (my
+  `INSERT IGNORE` silently no-op'd on the primary-key conflict — chose a genuinely free ID
+  instead), and a missing `agents` table row (`config/agents.json` alone only feeds
+  `cmd/bootstrap`'s permission-grant/secret-provisioning steps — the agent row itself has to
+  already exist, same real gap the `202609181810_deadweight_agents_and_stats.sql` migration
+  already solved correctly and mine initially missed; fixed by adding the same real
+  `INSERT IGNORE INTO agents` pattern). Confirmed no existing agent secret was touched (diffed
+  `DEADWEIGHT-SERVER`'s live secret byte-for-byte against its already-running systemd config).
+  **Live-verified end to end**: real agent-JWT auth, a real `dw_gui` binary GPG-signed and
+  uploaded via multipart form, downloaded back byte-for-byte identical, `gpg --verify` reported
+  "Good signature." 6 new Go tests, full `go test ./...` green (one confirmed-pre-existing,
+  order-dependent flaky kanban-git test, passes clean in isolation). Deployed to production,
+  health check green. IDUNA `5cd6002`, Apple #20318.
+  — **DEADWEIGHT CI wired** (the real first consumer): new `gui` job step, main-push only, runs
+  `emily session new` (public sibling-repo checkout, same pattern this file already uses for
+  PARENA), signs both platform artifacts, publishes to the new registry with real GitHub
+  provenance. Guarded to a clean, logged no-op (never a failure) until its two secrets exist.
+  Found and fixed two more real bugs before committing (wrong `emily.cli` repo name/build path —
+  checked `scripts/build.sh` directly rather than guessed; a missing closing quote on a
+  `TOKEN="$(...)"` assignment, bisected down from a misleading two-lines-later `bash -n` error
+  rather than papered over) — verified by actually running the exact extracted CI step end to end
+  against live IDUNA: real session tag, real sign+verify, two real releases published and
+  downloaded back correctly for both platforms. Test rows deleted after. DEADWEIGHT `7046100`,
+  Apple #20319. Golden doc registered (APP-RELEASE-SIGNING). session: sess-20260920-1908-24cb3558.
