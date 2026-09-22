@@ -573,6 +573,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time, reopening the deferred mashup/ontology work (S176-29): 'i th…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:12:45Z.
 - [ ] **Founder real-time: 'ensure our semantics blog post is prioritized' -- resolves …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T01:04:43Z.
 - [ ] **Founder real-time, mashup/article-dedup thread, further confirming nuance (no d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:59:42Z.
+- [ ] **Founder real-time, immediately following approval to build article-normalizatio…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:59:25Z.
+- [ ] **Founder real-time, mashup discovery thread: 'duck wearing a tuxedo is the same …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:58:46Z.
+- [ ] **Founder real-time, mashup discovery — further confirming example (feature alrea…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:58:21Z.
+- [ ] **Founder real-time, mashup discovery — final scoping answer via AskUserQuestion:…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:57:47Z.
+- [ ] **Founder real-time, mashup discovery — critical correction to my in-progress des…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:57:19Z.
+- [ ] **Founder real-time, mashup discovery follow-up: word-order variants of the same …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:55:27Z.
+- [ ] **Founder real-time, mashup discovery follow-up: mashup detection must be dynamic…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:52:26Z.
+- [ ] **Founder real-time: native mashup discovery - e.g. querying 'Fractal Raccoon' sh…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:52:02Z.
+- [ ] **Founder real-time, backup tooling scoping answered via AskUserQuestion: (1) new…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:37:39Z.
+- [ ] **Founder real-time: (1) copy the whole style-discovery pattern (marble bag, rare…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T00:36:00Z.
+- [ ] **Founder real-time: (1) 'ok we built a sick gallery plugin can we backlog extrac…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:17:49Z.
+- [ ] **Founder real-time direction 'you should be able to get iduna gcloud logins work…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:30:22Z.
+- [ ] **Founder real-time, new but separate feature request: 'ok there are like these m…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:28:18Z.
+- [ ] **Founder real-time, narration/color, not a new instruction: 'i started making a …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:26:56Z.
+- [ ] **Founder real-time, clarifying the mashup nomination widget example: 'i mean on …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T03:26:26Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1314,21 +1329,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
-- [ ] **Founder real-time, immediately following approval to build article-normalization dedup: 'president wearing a tuxedo may…** — obs `2026-08-18T00:59:25Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, mashup discovery thread: 'duck wearing a tuxedo is the same subject as a duck wearing a tuxedo' -- t…** — obs `2026-08-18T00:58:46Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, mashup discovery — further confirming example (feature already deferred, S176-29): 'duck tuxedo' !==…** — obs `2026-08-18T00:58:21Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, mashup discovery — final scoping answer via AskUserQuestion: deferred entirely for now, not building…** — obs `2026-08-18T00:57:47Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, mashup discovery — critical correction to my in-progress design: pure lexical/word-bag matching is w…** — obs `2026-08-18T00:57:19Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, mashup discovery follow-up: word-order variants of the same hybrid subject (e.g. 'Dragon Fox' and 'F…** — obs `2026-08-18T00:55:27Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, mashup discovery follow-up: mashup detection must be dynamic/retroactive - a subject like 'Fractal R…** — obs `2026-08-18T00:52:26Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: native mashup discovery - e.g. querying 'Fractal Raccoon' should surface that mashup as a cross-link…** — obs `2026-08-18T00:52:02Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, backup tooling scoping answered via AskUserQuestion: (1) new GCS bucket in the existing project-d24a…** — obs `2026-08-18T00:37:39Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: (1) copy the whole style-discovery pattern (marble bag, rare tier, pity, GPT-2 brainstorm, promote) …** — obs `2026-08-18T00:36:00Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: (1) 'ok we built a sick gallery plugin can we backlog extracting it from promptoverse?' -- wants the…** — obs `2026-08-18T03:17:49Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time direction 'you should be able to get iduna gcloud logins working' -- checked: GOOGLE_CLIENT_ID is not…** — obs `2026-08-18T03:30:22Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, new but separate feature request: 'ok there are like these meta tags like SURREAL that are not yet c…** — obs `2026-08-18T03:28:18Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, narration/color, not a new instruction: 'i started making a supercar mashup in that prompt but it wa…** — obs `2026-08-18T03:26:56Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, clarifying the mashup nomination widget example: 'i mean on the iduna page you can create the john w…** — obs `2026-08-18T03:26:26Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, UI detail for mashup nomination widget: 'on the supercar page you can pull up a search tag auto comp…** — obs `2026-08-18T03:25:54Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'build out mashup nomination as a social tool' -- narrows the 'build out social features' ask to a s…** — obs `2026-08-18T03:23:17Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time, concrete infra direction for social features: 'you should be able to get iduna gcloud logins working…** — obs `2026-08-18T03:22:46Z`. CURATED: 2026-08-18.
@@ -38432,7 +38432,6 @@ bazel too."
 - [x] **S417-04: BRAWLPIT: native level-browser UI screen (fetch/pick/load online levels)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
 
-
 ## SECTION 418: NOCK — GUIDE-BASED SNAPPING FOR THE BRAWLPIT LEVEL EDITOR (2026-09-13)
 
 Founder real-time (routed via `emily observe`, Apple #19321): full requirements doc, "NOCK —
@@ -38472,7 +38471,6 @@ snapping (revisit only if guides prove insufficient); automatic guide generation
 snapping on by default before an author creates a guide; live mirroring.
 
   session: sess-20260905-0720-ec33e7c5
-
 
 ## SECTION 419: BRAWLPIT — PACKET-LEVEL RL TRAINING PIPELINE (2026-09-13)
 
@@ -38560,7 +38558,6 @@ BRAWLPIT-RL-NORTH).
   (sess-20260905-0720-ec33e7c5)
 - [ ] **43243223: SHANKPIT MODEL EDITOR** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260905-0720-ec33e7c5)
-
 
 ## SECTION 421: BRAWLPIT — SELECT AN OPPONENT FROM THE CHECKPOINT REGISTRY (2026-09-13)
 
