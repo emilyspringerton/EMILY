@@ -2660,6 +2660,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: the adversarial/GAIL discriminator work needs a new 'super slow league' matchmaker mode where bots a…** — obs `2026-09-22T15:36:23Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: GAIL-style adversarial discriminator training needs to be scoped specifically to SLOWBOT_LEAGUE's SL…** — obs `2026-09-22T15:36:03Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: explore adversarial learning (GAN-style discriminator predicting human vs bot) to make SLOWBOT_LEAGU…** — obs `2026-09-22T15:35:34Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time (remote control, refined): BIG_O tech becomes first-class SHANKPIT engine tech, not a launchable app …** — obs `2026-09-22T16:41:38Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time (remote control): port BIG_O tech into SHANKPIT repo -- all of it, lighting, systems, all of it -- br…** — obs `2026-09-22T16:40:25Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: dogfood all of SHANKPIT's physics into PARENA -- new product idea, a CAPTCHA that spawns an in-brows…** — obs `2026-09-22T15:32:48Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: add GPG key generation as the same kind of in-app affordance to the IDUNA app in SHANKPIT (IDUNA.GAM…** — obs `2026-09-22T15:30:26Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: build affordances to generate keys into the SHANKPIT client itself (IDUNA app in SHANKPIT / IDUNA.GA…** — obs `2026-09-22T15:27:38Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
