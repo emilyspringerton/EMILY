@@ -2725,6 +2725,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue working on PARENA self host' -- continuing the self-hosting effort. Last real, named, not-…** — obs `2026-09-18T08:22:09Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: 'work on PARENA self host and PARENA LLVM' -- continue PARENA's self-hosting effort (selfhost/*.prn)…** — obs `2026-09-18T06:49:55Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: wants a NORTHSTAR capturing a bigger infrastructure-play business direction with three lines: (1) ha…** — obs `2026-09-18T06:30:38Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time (before logging off): precise engineering requirements for a new PARENA module database/mssql-util.pr…** — obs `2026-09-18T06:25:20Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: continue the kubernetes migration work, focused first on getting PRRJECT_FATBABY off the box. Requir…** — obs `2026-09-18T05:59:00Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'we need to put in PARENA primatives for MSSQL and double down on all the unix socket stuff and raw …** — obs `2026-09-18T04:48:21Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: corrected the ragdoll get-up plan — the point-mass spike isn't rigid body so it can't 'fall over' in…** — obs `2026-09-18T04:27:33Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time, SHANKPIT characters: (1) confusion about how the character adder works -- clarified: Role (AIRole en…** — obs `2026-09-17T16:37:34Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
