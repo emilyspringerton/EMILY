@@ -2705,6 +2705,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: DEADWEIGHT SDL2 client -- clash animations (Blitz/Block/Bypass + Lock/Sabotage/Flank/Scan/Siphon var…** — obs `2026-09-19T23:28:16Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: DEADWEIGHT retheme -- triangle becomes Offense(Red)>Operations(Yellow)>Defense(Blue)>Offense; Operat…** — obs `2026-09-19T22:52:41Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: build out WOTAN with DEADWEIGHT draft data -- unauthenticated deck browser (drafted decks + win rate…** — obs `2026-09-19T22:32:03Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT draft mode as its own queue alongside random (current mode renamed random; constructed la…** — obs `2026-09-19T21:42:43Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: told DEADWEIGHT session to stop (after GUI card-text readability fix 31a598c)** — obs `2026-09-19T04:40:19Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: BIG_O sky — build a configurable skybox that changes with weather (data-driven palettes + per-weathe…** — obs `2026-09-19T03:21:59Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT needs a colab training skrip like BRAWLPIT's (one-cell bootstrap, streamed output, regist…** — obs `2026-09-19T02:23:02Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: BIG_O world systems (day/night clock, weather, zombie spawner) should all be PARENA + REFLUX powered…** — obs `2026-09-19T02:11:41Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
