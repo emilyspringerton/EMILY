@@ -45978,3 +45978,5 @@ session: sess-20260920-1908-24cb3558
   (sess-20260920-1908-24cb3558)
 - [ ] **T46478755: MIXFORGE DJ-room: build a real room server (seat occupancy, join/leave, whose-turn broadcast) -- the next real multiplayer-state slice after room.prn's turn-order rule + web/index.html proof (commit a** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **T94858758: MIXFORGE DJ-room: scope PARENA/stdlib/media/stream.prn (Phase 5) -- the real remaining blocker before anyone can actually hear what gets queued in the room server (commit aa818ae)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
