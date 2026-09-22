@@ -45772,6 +45772,21 @@ session: sess-20260920-1908-24cb3558
   pass since it's a first-of-its-kind PARENA-editor-in-Go-host integration, not a same-session
   add-on. PITVIPER `4ffd429`. Apple #20334.
   session: sess-20260920-1908-24cb3558.
+- [x] **S531: Model repository git-lfs integration, per-game on/off (on by default).** Founder
+  real-time: "we need to integrate the model repository with git lfs and each model repository
+  should have a git integration that can be turned off (on by default)." **DONE.** New
+  `IDUNA/internal/modelgit.Syncer` -- syncs every newly-created RL checkpoint blob
+  (`shankpit_rl_checkpoints`, and the shared `brawlpit_rl_checkpoints` table used by
+  BRAWLPIT+DEADWEIGHT) into that game's real sibling repo checkout, git-lfs-tracked,
+  fire-and-forget. Extracted `internal/gitsync.PushWithRetry` from `apples.go`'s own
+  production-proven Apples-git-sync idiom into its own leaf package so `modelgit` could reuse it
+  without an import cycle; `kanban.go`'s own call site now uses the same extracted function
+  (zero behavior change). Per-game toggle via `<GAME>_MODEL_GIT_DISABLED` (on by default --
+  `Syncer{}` zero value is enabled by construction). 9 new tests, including a real end-to-end
+  git+lfs+push+fresh-clone round trip against a throwaway local repo, and a `CheckpointStore`
+  integration test proving `Create()` really wires into `GitSync`. Deployed to production,
+  health check green. IDUNA `46d579f`, Apple #20340.
+  session: sess-20260920-1908-24cb3558.
 - [ ] **2321312: TERMS OF SERVICE AND PRIVACT POLICY FOR IDUNA SHANKPIT OS AND WOTAN AND DEADWEIGHT** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
 - [x] **64346231: test auto-id live verify S528-autoid** Not real work -- a disposable card created
