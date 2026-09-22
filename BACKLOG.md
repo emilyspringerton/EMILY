@@ -46004,3 +46004,67 @@ session: sess-20260920-1908-24cb3558
   (`frozen_policy_bot.py` against active-opponent checkpoint 578, per S459-62's stopgap) running
   on `127.0.0.1:6969`. SHANKPIT `04720e9`/`b1e330c`, Apple #20384.
   session: sess-20260920-1908-24cb3558.
+
+## SECTION 536: BIG_O ENGINE MERGE — BIG_O'S TECH BECOMES FIRST-CLASS SHANKPIT TECH (FOUNDER REAL-TIME, REMOTE CONTROL)
+
+Founder real-time (remote control), in sequence: "port the BIG_O thech into the shankpit repo -
+all of it the lighting the systems all of it - bring it clean into shankpit upgrading the current
+engine to support tese new features use parena duh" -> "BIG_O replaces shankpit STORY" -> "first
+class citizen" -> "not an app the tech comes into the repo" -> "do not add a licens to SHANKPIT"
+-> "parena powered bring in reflux into shankpit" -> "the shaders the way the sun and moon look
+the phone in story mode everything" -> "all the events and messages on the phone". Per THE_EMILY_
+WAY Principle 19 (big, unscoped ask): investigated both repos, cut a real phase 1, phased the rest
+here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_MERGE_NORTHSTAR.md
+(golden doc BIGO-ENGINE-MERGE-NORTH).
+
+- [x] **Phase 1: day/night+weather clock, weather-aware sky, PARENA-powered REFLUX.**
+  `packages/simulation/day_night_clock.{h,c}` + PARENA-generated `world_rules.c` (new
+  `PARENA/stdlib/shankpit/world_rules.prn` domain, copied from BIG_O's own, logic identical) --
+  real day/night+weather clock, a deliberate v0 cut of BIG_O's own `World` (no zombie population/
+  `Sim` coupling, since SHANKPIT has no equivalent player model yet). `packages/render/
+  sky_weather.{h,c}` + `sky_weather_cfg.h` + `assets/skybox/default.cfg` (ported from BIG_O's
+  `bigo_sky.h`/`bigo_skycfg.h`, renamed, split into a real `.c`/`.h` pair) -- replaces
+  `retro_sky.c`'s fixed fast-orbit dome with a real weather-aware sky (4 weather states, clouds,
+  rain, lightning, screen grading), wired into `apps/lobby/src/main.c`. `retro_sky.c`/`.h` stay in
+  place -- `retro_lighting.c`'s scene ambient/fog still reads them, a named follow-up. REFLUX
+  becomes genuinely PARENA-powered: `packages/reflux/reflux_mod.c` (PARENA-generated from the
+  already-real `PARENA/stdlib/reflux/reflux.prn`) + `reflux_mod_host.h`, wired to SHANKPIT's own
+  already-correct `reflux_host_*` contract (S485) -- ECOWAR's own identical, already-shipped
+  precedent. Verified: `make lobby`/`make server` both build clean; `day_night_clock_test.c` (6
+  checks) and `reflux_mod_test.c` (6 checks) both pass. No `LICENSE` file added to SHANKPIT (explicit
+  founder instruction). SHANKPIT `b126690`/`2ed91ec`, PARENA `d360756`/`d6327e7`, EMILY golden-index
+  `4d85dbd2`, Apple #20391.
+  session: sess-20260920-1908-24cb3558.
+- [ ] **Phase 2: witness/attention rules.** Port `core/witness_rules.c` (already PARENA --
+  `PARENA/stdlib/big_o/witness_rules.prn`) the same way `world_rules.prn` was: a new
+  `PARENA/stdlib/shankpit/witness_rules.prn` domain, generated into `packages/simulation/`, wired
+  into `story_ai.c`'s own `AIMode`/`AIRole` state machine as a real mechanic (Heat/Decorum, witness
+  escalation DENIAL->SILENCING->ENGAGE). Needs its own scoping pass for how BIG_O's separate
+  `Sim`-based model maps onto `story_ai.c`'s existing state machine rather than a blind port.
+- [ ] **Phase 3: humanness AI-brain extensions.** `core/npc_archetype.c` (citizen/Men vigilance)
+  and `core/zombie_values.c` (zombie mood/hunger/decay) are plain C in BIG_O today. Per "use parena
+  duh": real candidates for conversion to `.prn` rules modules (matching `witness_rules.prn`'s own
+  discipline) rather than a plain-C port, since this is designer-tunable decision logic -- needs a
+  real per-module judgment call.
+- [ ] **Phase 4: lab simulation.** `core/lab_sim.c` (17 tests, plain C, cloning-facility equipment
+  pipeline) -- real and proven in BIG_O; needs a SHANKPIT-side UI (the phone, phase 6) and server
+  wiring, neither of which exist in either repo yet.
+- [ ] **Phase 5: pheromone command tools + The Men's dispatch loop.** `day/packages/common/
+  bigo_pheromone.h` + BIG_O's `server_tick_witness`/`server_tick_dispatch` -- real, live-verified
+  in BIG_O, needs a new wire packet (matching `PC_PACKET_PHEROMONE_THROW`) in
+  `packages/common/protocol.h` and server-side porting.
+- [ ] **Phase 6: the phone -- events and messages.** Founder: "the phone in story mode
+  everything", "all the events and messages on the phone." `day/packages/common/bigo_phone.h` +
+  the already-PARENA `world_alerts_mod.prn` (reacts to REFLUX-logged world events, raises phone
+  message ids). A real, standalone UI feature SHANKPIT has no equivalent of today -- needs its own
+  scoping pass (what renders it, HUD toggle, message content).
+- [ ] **Phase 7: MODE_STORY content cutover.** Replace SHANKPIT's existing story-mode content/
+  roster with BIG_O's day/night/lab loop. Blocked on phases 2-6 landing enough real content to cut
+  over to; `story_ai.c`'s existing `AI_ROLE_*` roster (Rift Hound, Shambler Trooper, etc.) is a
+  real, separate asset a witness-rules integration should account for, not silently orphan.
+- [ ] **Follow-up: server-authoritative day/night sync.** Phase 1's clock currently ticks off
+  client-local wall-clock time in `apps/lobby`; not yet ticked server-side nor broadcast in a
+  snapshot packet, so two clients would see two different times of day.
+- [ ] **Follow-up: `retro_lighting.c` weather integration.** Phase 1's sky visuals are weather-aware
+  but `RETRO_LIGHTING_DYNAMIC`'s scene ambient/sun/moon/fog still reads the old, weather-blind
+  `retro_sky_eval_*` functions -- a storm currently darkens the sky dome but not the walls.
