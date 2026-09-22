@@ -2685,6 +2685,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder/exec real-time correction: reversed S512's rolling 24h ticket-refresh window back to a FIXED UTC calendar-day r…** — obs `2026-09-21T18:02:46Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: corrected the DEADWEIGHT brand guide's platform framing -- brutalist=desktop client, gradient/illust…** — obs `2026-09-21T17:58:24Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: requested a DEADWEIGHT Official Brand & Style Guide (aesthetic/lore pillar, visual language w/ real …** — obs `2026-09-21T17:42:33Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'the men cary pagers - northstar it' -- design direction for BIG_O's 'The Men' dispatch mechanic (th…** — obs `2026-09-22T17:58:36Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT client had too much friction for Itch launch -- 4 corrections requested: (1) remove Host/…** — obs `2026-09-21T17:30:21Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT Itch launch plan (free stress test w/ guest 25 tickets, $15 Premium redeem code soft upse…** — obs `2026-09-21T16:26:37Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: asked to install the third-party 'TypeSafe' Claude Code skill/plugin (typesafe-ai/skills marketplace…** — obs `2026-09-21T15:11:11Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: DEADWEIGHT economy redesign, superseding parts of S508b. Corrected model: 1 Draft Ticket buys an UNC…** — obs `2026-09-21T11:44:40Z`. CURATED: 2026-09-22.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
