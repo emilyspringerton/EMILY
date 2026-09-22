@@ -45972,3 +45972,5 @@ session: sess-20260920-1908-24cb3558
   (sess-20260920-1908-24cb3558)
 - [ ] **T55034838: CAPTCHA-FPS: emit_ts.c needs real defstruct + fixed-array support before any SHANKPIT physics can compile to browser TS -- Phase 1 of docs2/specs/CAPTCHA_FPS_PHYSICS_DOGFOOD_NORTHSTAR.md, scalar-only ** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260920-1908-24cb3558)
+- [ ] **T05242783: CAPTCHA-FPS: emit_llvm.c needs real defstruct + fixed-array support before any SHANKPIT physics can compile to wasm32/native -- Phase 1 of docs2/specs/CAPTCHA_FPS_PHYSICS_DOGFOOD_NORTHSTAR.md (retarge** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260920-1908-24cb3558)
