@@ -2834,6 +2834,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: add a directive to ALL monorepo CLAUDE.md files — if a change substantially changes the claim of a p…** — obs `2026-09-18T22:37:00Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: BIG_O — ingest the new raw conversations (docs/source/continuation-raw.txt + docs/a1m1.md mission br…** — obs `2026-09-18T22:31:43Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: BIG_O multiplayer decision — build multiplayer from day 1: up to 3 players in a shared world, CO-OP …** — obs `2026-09-18T20:28:07Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: PIVOT — new game BIG_O: 'A SHANKPIT Story': hard sci-fi social-stealth management sandbox on the SHA…** — obs `2026-09-18T20:03:21Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT wants app open -> one button -> queued into a bot match (ensure works). Bot brain: heuris…** — obs `2026-09-18T19:07:30Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: start DEADWEIGHT VS0 as Android app via PARENA->Java (+C for Windows/bot training). Multiplayer-firs…** — obs `2026-09-18T17:25:29Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: 'continue working on PARENA self host' -- continuing the self-hosting effort. Last real, named, not-…** — obs `2026-09-18T08:22:09Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: 'work on PARENA self host and PARENA LLVM' -- continue PARENA's self-hosting effort (selfhost/*.prn)…** — obs `2026-09-18T06:49:55Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
