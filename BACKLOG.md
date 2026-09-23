@@ -2799,6 +2799,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ACTUALLY USE PARENA EDITOR FOR THE TERMINAL (supersedes the earlier 'pull stuff from pitviper, no go…** — obs `2026-09-23T21:24:33Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: PARENA POWER EVERYTHING (reinforcing the monorepo's own standing 'mods first everything'/'use parena…** — obs `2026-09-23T21:24:14Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: pull stuff from pitviper but no go code on the front end (clarifying the just-logged 'terminal inter…** — obs `2026-09-23T21:23:39Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: adding the terminal interface to BIGO (third ask in this rapid-fire burst, after party-system-parity…** — obs `2026-09-23T21:23:14Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: integrate GFD subsystem affordances for economy and socials (in addition to the just-logged party-sy…** — obs `2026-09-23T21:22:58Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: continue -- add full party system parity, use the GFD server subsystems (as a reference/source for B…** — obs `2026-09-23T21:22:15Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT Itch launch plan (free stress test w/ guest 25 tickets, $15 Premium redeem code soft upse…** — obs `2026-09-21T16:26:37Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: asked to install the third-party 'TypeSafe' Claude Code skill/plugin (typesafe-ai/skills marketplace…** — obs `2026-09-21T15:11:11Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
