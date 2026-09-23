@@ -2784,6 +2784,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: need an 'app repository' in IDUNA (a real registry for the bundled SHANKPIT-launchable app binaries,…** — obs `2026-09-22T09:26:52Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time, resolving SHANKPIT_OS_NORTHSTAR's open Q1 (shell surface): 'we need the games bundlable into shankpi…** — obs `2026-09-22T09:14:43Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time, strategic pivot: SHANKPIT is the canonical platform/product, not a standalone game -- 'shankpit is t…** — obs `2026-09-22T07:08:21Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: (1) DREXIT -- a door-that-is-also-an-exit widget, first-class citizen in the SHANKPIT level editor. …** — obs `2026-09-22T06:39:06Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: full DEADWEIGHT Itch launch auth-funnel spec -- Claim Account UI (button gated on real Guest state, …** — obs `2026-09-21T22:56:17Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: tested v0.54.0 live -- 3 economy/UI findings: draft ticket not visibly consumed (start draft, open n…** — obs `2026-09-21T20:11:45Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: newest DEADWEIGHT client says 'no account IDUNA offline' but IDUNA is up (old client works); also WO…** — obs `2026-09-21T19:18:55Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: give me iduna back office tools to craft a DEADWEIGHT Premium key so i can make one to test - simple…** — obs `2026-09-21T18:46:36Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
