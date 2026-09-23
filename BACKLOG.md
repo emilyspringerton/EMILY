@@ -46339,3 +46339,101 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
      noticed()/conspicuousness() mechanic -- BIG_O/NORTHSTAR.md's own §8e item 3 already names
      the closest existing primitive).
   session: sess-20260920-1908-24cb3558.
+- [x] **"BIG_O basic food system pickup and use (cargo) add cherries and other packman inspired
+  items 16 items total."** 17 real items (16 + cake, see below), `food_items.h` + `food_pickup.
+  {h,c}` -- 17 hand-placed world spots ringing the VOXWORLD lab-zone landmark, phone `BP_APP_
+  CARGO`'s real "use selected item" eat handler (heal derived from points, not a second hand
+  table). 11 standalone assertions + phone cargo test additions, all passing. SHANKPIT `3a21aaa`,
+  Apple #20458. session: sess-20260920-1908-24cb3558.
+- [x] **"ADD CAKE... and if the cake gets smashed it flies everywhere and causes a big distraction
+  and distracts from heavy zombie usage" + "add a 'lost and found' in the office where random
+  stuff can randomly be there."** Cake landed as the food system's 17th item; smashing it (via
+  the cargo eat handler) triggers `witness_ai_smash_cake`, halving live citizen vigilance for
+  `WITNESS_AI_DISTRACTION_MS`. Lost and Found sub-spot (`-150,-260`, r=12, well clear of every
+  other landmark) rolls a real xorshift32 item on a restock cooldown. Birthday parties/weddings
+  explicitly deferred -- a separate, much bigger, unscoped world-event ask, not silently folded
+  in. SHANKPIT `3a21aaa`/`4b26535`, Apple #20458. session: sess-20260920-1908-24cb3558.
+- [x] **"ok add giant zombie bugs (feral AI units) they need a totally unique value system vector
+  based deliberately non human 64 layer hand written llm" -> "use parena" -> "if they eat a
+  strong zombie they get stronger if they eat a fast zombie they get faster" -> "men are the
+  custodians of the keys for the giant zombie feral ai bugs (USE TRAPX ROGUE SWARM DOCTRINE)."**
+  `PARENA/stdlib/shankpit/giant_bug_brain.prn` (PARENA `ca68ac9`) -- the real "64 layer hand
+  written llm" reinterpretation: 8 real, hand-picked-weight decision units over 8 deliberately
+  alien senses, sharing nothing with humanness.h's mood enum or zombie_values.h's own fields.
+  `giant_bug_values.{h,c}` -- real, permanent strength/speed growth on eating a zombie (aggression
+  -> strength proxy, inverse reaction-delay -> speed proxy, both real, already-live
+  zombie_values.h fields, not invented). `witness_ai_bug_command_authorized` -- the real "Men hold
+  the key" gate: a spawned bug only hunts/eats while >=1 live The Men NPC is active. Visual: "use
+  the robot rigs and meshes and animations (evil versions of the other ones we already have but
+  BIG)" -- reuses the existing leela kit (same one regular zombies use), scaled 2.5x in place and
+  tinted dark red, no new art. "Neuralbiological interface"/"c;oning based" folded in as fictional
+  framing only (ties to lab_sim.c's own cloning theme), not a new mechanical system. TRAPX Rogue
+  Swarm Doctrine named as a real, deliberately NOT-modeled follow-up -- GTA7's own separate
+  faction-doctrine system, not guessed at without checking that repo first (see queued list
+  below). 3 new witness_ai_test.c assertions (spawn/role, unauthorized-blocks-eating,
+  authorized-eats-and-grows) + 6 standalone giant_bug_values_test.c assertions, all passing. Also
+  wired the previously-uncommitted food system into all three real build systems (Makefile/CI/
+  Bazel) in the same pass -- verified via a real `bazelisk build` (both targets clean) and `make
+  lobby`/`make server`. SHANKPIT `4b26535`, Apple #20459. session: sess-20260920-1908-24cb3558.
+- [ ] **Founder real-time, queued, not yet started (2026-09-22/23):** an enormous wishlist landed
+  in two more messages while the giant-bug work above was in flight; logged via `emily observe`
+  (Apple #20460) per Principle 1a/18 rather than built blind or guessed at -- none of this has
+  been scoped, let alone started:
+  1. Los Hermanos Minguinos -- 8-bit hand-meshed character (founder can model in Blender; no
+     export given yet, so any interim mesh here would be a guess, not a real asset).
+  2. Catastrophe Crow low-poly mesh -- founder can model in Blender; same real gap.
+  3. A hallucinated (no reference given) low-poly penguin mesh, explicitly requested as a
+     placeholder ("just hallucinate one for us").
+  4. Giant alien-bug eggs, Godzilla-90s-movie-style, underground -- disturbing them spawns more
+     Giant Zombie Bugs (Leeroy-Jenkins-style aggro pull). Real, direct follow-up to the giant bug
+     work above, not started.
+  5. Tiny face-hugging spore units that turn citizens into a new human/bug/AI hybrid breed,
+     cyber-bionetic, tying into the lab's own cloning interfaces/affordances (lab_sim.c, phase 4
+     -- still has zero UI/interaction model, its own already-named blocking gap above).
+  6. Re-custodianizable special medals (Olympic-medal-styled), John-Wick-coin-style hard currency
+     required to unlock deep faction content -- e.g. trading one medal to Confetti Corporation's
+     COO unlocks her faction's missions, triggering an NDA dialogue beat referencing a cold line
+     TYLER learned from HANA in the Neverland season (TYLER/HANA cross-repo reference, not
+     invented here).
+  7. Matters of law handled by a "regulators" faction/system -- undefined beyond the name.
+  8. Citizens get unique backstories and react to trauma differently, including reacting when the
+     player fires guns (they run/scatter) -- a real, meaningful extension of npc_archetype.h's
+     current flat vigilance/arrogance model.
+  9. Generic floating "sprite" AI agent avatars + a PARENA-defined dependency-injection framework
+     for embodying arbitrary agents (of the founder's choosing) as tool-callable players in the
+     world -- a real, general agent-embodiment interface, not a single character.
+  10. Taser stun guns with ejectable cables + a realistic, identifiable glitter/confetti effect.
+  11. Chainsaws to saw zombies in half; pulls DEADWEIGHT's backpack-battler mechanics into
+      SHANKPIT wholesale, reimagined as a full space-PvP league (humans + bots, medal entry fee,
+      medal prizes, "KARBAKERY" branding mentioned) -- a real, separate DEADWEIGHT-repo-sized
+      scoping pass, not a SHANKPIT-only add.
+  12. Pedal-powered go-kart -- flywheel + clutch + lever-throw transmission (bumper keybinds,
+      matching the D-pad's own real button layout), zip-tie crafting-recipe requirement so it's
+      audibly janky by design.
+  13. Crafting provenance drawn from legacy IDUNA platform architecture discussions -- real
+      cross-repo research needed before this is even scoped, not just implemented.
+  14. Fertilizer/herbicide items that tune zombie-growth difficulty up or down per area.
+  15. A car-vending minigame: Spy-Hunter-style float-calculated weapon/stat outcomes, DEADWEIGHT-
+      ultimates-style tech trees per car type, multi-stage BRAWLPIT-engine minigames (one per car
+      type), PARENA's own texture-gen engine for the car textures, a TIPJAR-archetype "save the
+      cows" gameshow mode with a breakout-style shooting minigame.
+  16. Hand-generated blocky white utility vans for The Men -- rigid, sharp hand-vertex mesh,
+      UPS-truck/box-truck silhouette, matching the "buggy batmobile" hand-mesh precedent already
+      in this repo.
+  17. Secret lava bases with volcanoes and lava walls, plus real shaders for all of it.
+  18. Full feature parity between WEAKNIGHT_BEDROCK_RACERS and the rest of this ecosystem
+      (bots/AI/level/NOCK builder), PLUS a genuinely new racetrack-design mechanic: unlimited-
+      ammo rocket-launcher-style voxel destruction for ~30 seconds, then interpolate a real
+      racetrack from the resulting destructible-terrain shape.
+  19. Emotes via the UAL library (the same animation library GOLDENBAND's kits already use).
+  20. Hatchets as a common zombie drop item.
+  21. A trapdoor door-script -- "EDU VM powered," surfacing a "philosopher's orb" affordance on
+      the BIG_O smart phone; GFD/SHANKPIT lineage feature, not yet located/audited in this repo.
+  22. The GFD Giza Plateau level, ported via PARENA.
+  23. Salvageable tech scraps, collectible from exploded cars/spaceships (a real crafting-
+      material loop feeding items 11/15 above).
+  24. In-game keys that unlock buildings via key-aware door scripts; a keyholder can open a door
+      for keyless co-op teammates to run in through ("shoulder surfing") -- a real, genuine
+      extension of BIG_O's own existing lab-zone/costume trespass mechanic (witness_sim.h's
+      `zone_access`), not a brand new system.
+  session: sess-20260920-1908-24cb3558.
