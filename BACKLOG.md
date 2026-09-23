@@ -46828,3 +46828,25 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   `README.md` status update, `CHANGELOG.md`; `GOLDEN_DOCS` resynced. BIG_O `055cbc9`, GOLDEN_DOCS
   `6f82fd4`, Apple #20560.
   session: sess-20260923-1030-4a526255.
+- [x] **Real per-NPC arrogance variety -- PANIC and ENGAGE can finally fire live
+  (`BIG_O/NORTHSTAR.md` §22, closes §11 item 5).** Founder direction, continued ("continue").
+  Every human NPC spawned with a hardcoded `arrogance = 50`. Checked the real thresholds in
+  `core/witness_rules.c` directly: `panic_arrogance_max()` is 15, `engage_arrogance_min()` is 70
+  -- a uniform 50 sits strictly between both, so `witness_state`'s own real decision function
+  could only ever return `WS_SILENCING` or `WS_CATATONIC`/DENIAL for every human NPC in this
+  world, no matter what happened. `WS_PANIC` and `WS_ENGAGE` were mathematically unreachable in
+  live play -- a structural dead branch, not a rare edge case. `server_spawn_npcs` now rolls
+  `server_roll100()` (the same seeded server RNG `server_tick_decorum` already uses -- no new RNG
+  added) per human NPC's arrogance instead, giving a real, uniform 0..99 spread. No new design
+  decision needed: the range and mechanism both already existed in this codebase. New scratch
+  `#include main.c` harness confirms: a real spawn gives 4 humans genuinely varied arrogance
+  values, not a repeated 50; an arrogance-10 NPC reaches real `WS_PANIC` on a single witness; an
+  arrogance-85 NPC reaches real `WS_ENGAGE` on a zombie event with enough witnesses; and, as a
+  control, the real old fixed value of 50 is confirmed to only ever reach `WS_SILENCING` --
+  directly proving the bug this pass closes, not just asserting the fix in isolation. 4/4 real
+  assertions pass. `bazel test //...` 36/36 green (zero regressions). Real
+  `scripts/build_day.sh`/`scripts/build_client.sh` both clean, zero new warnings. `scripts/
+  build.sh` ASan/UBSan rules path clean. No README change -- this is an internal correctness fix
+  with no prior README claim to correct (checked). `BIG_O/NORTHSTAR.md` §22, `CHANGELOG.md`;
+  `GOLDEN_DOCS` resynced. BIG_O `34e36ff`, GOLDEN_DOCS `ec4753f`, Apple #20561.
+  session: sess-20260923-1030-4a526255.
