@@ -2809,6 +2809,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: DEADWEIGHT pivoting to Steam F2P launch prep. Detailed 4-phase plan pasted: Phase 1 Steam silent aut…** — obs `2026-09-21T10:47:44Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: SHANKPIT PFSP pipeline is broken ("it dont work") — founder shared OpenExecutive's own AI-executive …** — obs `2026-09-21T10:25:55Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: build a DEADWEIGHT browser client using PARENA's real TypeScript emitter (emit_ts.c) -- dogfood the …** — obs `2026-09-21T08:45:55Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: 'get it up in IDUNA asap' -- following the OpenExecutive NORTHSTAR scoping pass, implemented Phase A…** — obs `2026-09-21T01:01:10Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: integrate OpenExecutive (forked SenteLabsAI/OpenExecutive) into IDUNA via M2M auth, migrate its LLM …** — obs `2026-09-21T00:06:45Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: integrate openexecutive into iduna using parena when possible ship fast google creds from environment** — obs `2026-09-20T23:42:33Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: continue S504 -- picked up the next deferred item from NORTHSTAR.md S8c (live NPC entity system), si…** — obs `2026-09-20T22:35:51Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: BIG_O S504 -- bring in GOLDENBAND animations (mannequin + animation library, all characters share th…** — obs `2026-09-20T21:37:39Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
