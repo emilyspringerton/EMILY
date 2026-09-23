@@ -2759,6 +2759,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (SHANKPIT/BIG_O session, queued not yet built): (1) add the full cyberscape from the historic constru…** — obs `2026-09-22T23:17:43Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: 'the men cary pagers - northstar it' -- design direction for BIG_O's 'The Men' dispatch mechanic (th…** — obs `2026-09-22T17:58:36Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time (remote control, refined): BIG_O tech becomes first-class SHANKPIT engine tech, not a launchable app …** — obs `2026-09-22T16:41:38Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time (remote control): port BIG_O tech into SHANKPIT repo -- all of it, lighting, systems, all of it -- br…** — obs `2026-09-22T16:40:25Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: scale SHANKPIT QUEUE bot pool down to 12 (from 40)** — obs `2026-09-22T16:16:45Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: scale bots in the live queue match from 4 to 40** — obs `2026-09-22T16:08:03Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: continue -- build the DJ-room server (seat occupancy, join/leave, whose-turn broadcast), the next re…** — obs `2026-09-22T15:51:18Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: resolve MIXFORGE DJ-room architecture question -- build it with PARENA compiled to WASM (browser-bas…** — obs `2026-09-22T15:48:39Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
