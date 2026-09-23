@@ -46801,3 +46801,30 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   warnings. `BIG_O/NORTHSTAR.md` §20, `README.md` status update, `CHANGELOG.md`; `GOLDEN_DOCS`
   resynced. BIG_O `53adbb1`, GOLDEN_DOCS `2f823b8`, Apple #20557.
   session: sess-20260923-1030-4a526255.
+- [x] **LOS-loss/elimination resolution -- hunts finally end on their own (`BIG_O/NORTHSTAR.md`
+  §21, closes §11 item 1).** Founder direction, continued ("continue"). Real, live-found gap
+  named back on 2026-09-20 (§11's own doc comment): `server_tick_witness` only ever escalated a
+  human NPC's `witness_state`, never de-escalated it -- once a human reached SILENCING/ENGAGE, the
+  only real way out was The Men's own dispatch loop resolving to DENIAL (`resolved=1`, memory
+  wipe). If the underlying zombie itself de-escalated out of HUNTING/FRENZIED, left witness range,
+  or despawned before a Man arrived, the hunt persisted forever with nothing left to witness --
+  `core/sim.c`'s own `sim_eliminate` (`resolved=2`, "target eliminated/gone") already modeled
+  exactly this second resolution path in the offline scenario harness, just never wired live.
+  New second pass inside `server_tick_witness`: any human currently SILENCING/ENGAGE is checked
+  against every currently-active, currently-witnessable zombie within `BIGO_WITNESS_DETECTION_
+  RADIUS`; if none qualify, the hunt resolves via `bigo_witness_next_state_for_event(...,
+  resolved=2)` -- the exact same real, already-tested `npc_next_state` function, just a call site
+  that was never exercised live before. Deliberately generalized beyond literal "killed": mood
+  decay, moving out of range, and despawn (e.g. eaten by a giant bug) all resolve the same way,
+  since none of them leave anything left to witness. A responder already en route stands down on
+  its own next tick via `server_tick_dispatch`'s own pre-existing "target resolved some other
+  way" check -- unchanged, no new coupling needed. New scratch `#include main.c` harness proves
+  the real escalation, persistence-while-still-witnessable, resolution on mood decay/range/
+  despawn, and correct non-resolution when a DIFFERENT zombie is still witnessable in range --
+  6/6 real assertions pass, ASan/UBSan clean. `bazel test //...` 36/36 green (zero regressions).
+  Real `scripts/build_day.sh`/`scripts/build_client.sh` both clean, zero new warnings. `scripts/
+  build.sh` ASan/UBSan rules path clean. Corrected a stale README claim in the same pass ("no
+  zombie-elimination/LOS-loss resolution path is wired yet"). `BIG_O/NORTHSTAR.md` §21,
+  `README.md` status update, `CHANGELOG.md`; `GOLDEN_DOCS` resynced. BIG_O `055cbc9`, GOLDEN_DOCS
+  `6f82fd4`, Apple #20560.
+  session: sess-20260923-1030-4a526255.
