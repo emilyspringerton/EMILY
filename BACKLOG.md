@@ -2779,6 +2779,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue work on ECOWAR as a map-building game -- build a map, your army fights their army in your m…** — obs `2026-09-22T14:34:37Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: add REDGARDEN as a launchable app in SHANKPIT OS's lobby grid (same pattern as DEADWEIGHT/PITVIPER/I…** — obs `2026-09-22T14:15:28Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: unify GFD battlegrounds_gui + REDGARDEN + mud_gui + mud affordances into one hero system. Heroes + s…** — obs `2026-09-22T11:30:25Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: integrate the model repository (RL checkpoint stores -- SHANKPIT's own shankpit_rl_checkpoints, and …** — obs `2026-09-22T11:09:38Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: add PITVIPER as an app on the second page (Apps) of SHANKPIT OS; also 'build in the gpg key generati…** — obs `2026-09-22T10:57:05Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: need an 'app repository' in IDUNA (a real registry for the bundled SHANKPIT-launchable app binaries,…** — obs `2026-09-22T09:26:52Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time, resolving SHANKPIT_OS_NORTHSTAR's open Q1 (shell surface): 'we need the games bundlable into shankpi…** — obs `2026-09-22T09:14:43Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time, strategic pivot: SHANKPIT is the canonical platform/product, not a standalone game -- 'shankpit is t…** — obs `2026-09-22T07:08:21Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
