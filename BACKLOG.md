@@ -46682,3 +46682,48 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   `README.md` status update, `CHANGELOG.md`; `GOLDEN_DOCS` resynced (BIG_O-NORTH is a registered
   golden doc, meaningfully edited). BIG_O `b255c6f`, GOLDEN_DOCS `344ff0b`, Apple #20551.
   session: sess-20260923-1030-4a526255.
+- [x] **Regulator dispatch: BIG_O's first real player death/respawn mechanic
+  (`BIG_O/NORTHSTAR.md` §18 Phase B).** Founder direction, continued ("continue"). Answered the 4
+  real, open questions Phase A's own NORTHSTAR entry queued, each with real reasoning instead of a
+  guess: (1) Regulator dispatch-eligibility -- a new, separate `ServerRegulator[]` array, not a
+  `PC_NPC_ROLE_REGULATOR`, same "growing `PC_NPC_MAX` is a wire-protocol change" reasoning
+  `g_giant_bugs[]` already established in phase 3 (Regulators target a player slot, not another
+  NPC, so they don't even fit The Men's own dispatch shape); (2) what a kill resets -- position
+  (to the real, existing lab-zone circle, "the basement prints a new body" per
+  `docs/DESIGN_DIGEST.md` §11) and Decorum only, reset to a clean `decorum_start()`; XP/level/
+  inventory/samples/clones are explicitly untouched, a real, honest, named v1 scope cut, not an
+  oversight; (3) Bio-Slurry -- still deliberately not built. Checked again before writing
+  anything: no earning mechanism exists anywhere in this repo. The clone-restore in this pass is
+  real but currently free, and `server_kill_player`'s own log line says so explicitly every single
+  time rather than silently dropping the gap; (4) respawn placement -- the real, existing lab-zone
+  landmark (already reused by wheelbarrow delivery and the live `ZONE_LAB` decorum check), no new
+  authoring needed; no respawn cooldown built, a real, honest, deliberately small v1. **What
+  shipped:** `server_dispatch_regulator` fires exactly once, reusing `server_tick_decorum`'s own
+  existing one-time `decorum_cancelled_logged` marker as the trigger (real reuse, not a new hook),
+  with a real double-dispatch guard. Regulators spawn from a real, arbitrary v1 dispatch point
+  (same "no real landmark exists yet, name it and move on" precedent the giant-bug spawn already
+  set) and chase the target's own LIVE position via `pheromone_step_toward` -- the exact same
+  real reuse The Men's own existing zombie-hunt dispatch loop already established -- at 9.0
+  units/sec, deliberately faster than The Men's own 6.0, matching "silent, John-Wick-lethal"
+  (`docs/DESIGN_DIGEST.md` §11) versus "professionals responding to a call." On arrival,
+  `server_kill_player` -- BIG_O's first player damage/death mechanic of any kind, the exact gap
+  phase 5's eat-to-heal named as a real blocker, now resolved by Decorum getting there first
+  instead of food. A real, deliberate mercy: the hunt stands down safely (no kill) if the target's
+  Decorum recovers back out of `BAND_CANCELLED` before arrival, or if the target disconnects
+  mid-hunt -- same "resolved some other way, stand down" precedent The Men's own zombie-hunt
+  dispatch loop already uses. **Verified, not just compiled:** a new scratch `#include main.c`
+  integration harness (same precedent this whole reverse-port thread has used throughout) drives
+  the real, unmodified `server_dispatch_regulator`/`server_tick_regulators`/`server_kill_player`/
+  `server_tick_decorum` end to end: reaching real `BAND_CANCELLED` dispatches exactly one
+  Regulator targeting the right player; a second CANCELLED tick doesn't double-dispatch; the
+  Regulator closes real distance over real, bounded time steps and arrives; the kill respawns the
+  player at the real lab zone with decorum cleanly reset; a target whose decorum recovers before
+  arrival is left alone; a disconnected target's hunt stands down safely with no crash on the
+  freed slot -- 7/7 real assertions pass. `bazel test //...` 36/36 green (zero regressions);
+  `scripts/build.sh` ASan/UBSan clean; `scripts/build_client.sh` clean (no client changes needed --
+  server-only, no visual yet, same precedent every phase in this thread has used); real server
+  binary boot/tick/shutdown re-verified against an isolated port/paths. Real, honest, deliberately
+  not built: the Bio-Slurry economy, any client-side Regulator visual, a respawn cooldown -- all
+  named, not silently dropped. `BIG_O/NORTHSTAR.md` §18 Phase B, `README.md` status update,
+  `CHANGELOG.md`; `GOLDEN_DOCS` resynced. BIG_O `a06defa`, GOLDEN_DOCS `e2b3897`, Apple #20553.
+  session: sess-20260923-1030-4a526255.
