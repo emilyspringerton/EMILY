@@ -2794,6 +2794,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: corrected the DEADWEIGHT brand guide's platform framing -- brutalist=desktop client, gradient/illust…** — obs `2026-09-21T17:58:24Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: requested a DEADWEIGHT Official Brand & Style Guide (aesthetic/lore pillar, visual language w/ real …** — obs `2026-09-21T17:42:33Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: DEADWEIGHT client had too much friction for Itch launch -- 4 corrections requested: (1) remove Host/…** — obs `2026-09-21T17:30:21Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: REFLUX POWER EVERYTHING (8th message in this rapid-fire burst -- reinforces using the already-real, …** — obs `2026-09-23T21:24:53Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: PORT PARENA EDITOR SPOTLIGHT PLUGIN INTO BIGO (further detail on the just-logged 'use PARENA editor …** — obs `2026-09-23T21:24:42Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: ACTUALLY USE PARENA EDITOR FOR THE TERMINAL (supersedes the earlier 'pull stuff from pitviper, no go…** — obs `2026-09-23T21:24:33Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: PARENA POWER EVERYTHING (reinforcing the monorepo's own standing 'mods first everything'/'use parena…** — obs `2026-09-23T21:24:14Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: pull stuff from pitviper but no go code on the front end (clarifying the just-logged 'terminal inter…** — obs `2026-09-23T21:23:39Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
