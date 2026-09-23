@@ -46855,3 +46855,38 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   with no prior README claim to correct (checked). `BIG_O/NORTHSTAR.md` §22, `CHANGELOG.md`;
   `GOLDEN_DOCS` resynced. BIG_O `34e36ff`, GOLDEN_DOCS `ec4753f`, Apple #20561.
   session: sess-20260923-1030-4a526255.
+- [x] **"The Men carry pagers" -- real dispatch latency (`BIG_O/NORTHSTAR.md` §23, closes §11 item
+  6's dispatch-latency bullet).** Founder direction, continued ("continue"). §11 item 6
+  (2026-09-22: "the men cary pagers") named the mechanic's exact insertion point but left it
+  entirely unbuilt: `server_tick_dispatch`'s own "nearest idle The Men NPC assigned" step was
+  instant and omniscient -- a Man started closing distance the same tick he was assigned, no
+  in-fiction "message has to reach him first" delay at all. `ServerNpc` gains
+  `pager_buzz_until_ms` (valid only while `has_dispatch_target` is set): on assignment it's set to
+  `now_ms + BIGO_PAGER_LATENCY_MS` (a new 3000ms constant) and the Man does not call
+  `pheromone_step_toward` at all until that clock elapses -- a real "message sent -> Man notices
+  the buzz -> responds" gap, replacing instant dispatch. A hunt resolving some other way mid-buzz
+  (LOS-loss/§21's own resolution path, decorum recovery, target disconnect) correctly clears
+  `pager_buzz_until_ms` alongside `has_dispatch_target` together -- no stale timer survives a
+  stand-down. `server_spawn_npcs` explicitly zeroes the new field, matching
+  `has_dispatch_target`'s own existing init line. Real but partial answer on the mechanic's own
+  "world-observable cue" bullet: a new `S536-PAGER` log line fires at buzz-start (naming
+  responder, target, exact latency) and buzz-end (responder now moving), but that's an
+  operator/debug signal, not the originally-named "buzz/beep, a lit pager on a Man's belt" a
+  player could actually notice in the world -- no snapshot field, no client rendering, no sound.
+  Named honestly as still open in NORTHSTAR, not conflated with the log line. New scratch
+  `#include main.c` harness (v0's real roster only has 1 The Men NPC, so a second was constructed
+  directly from a real zombie slot for the mid-buzz stand-down case, same "construct the real
+  boundary case directly" precedent `arrogance_verify.c` already used) proves: assignment sets a
+  real, correctly-valued buzz timer rather than dispatching instantly; the Man's position is
+  provably unchanged mid-buzz; once the latency elapses the timer clears and the Man is provably
+  moving; and a second, independently-constructed hunt that resolves mid-buzz correctly clears
+  both `has_dispatch_target` and `pager_buzz_until_ms` together -- 5/5 real assertions pass,
+  ASan/UBSan clean. `bazel test //...` 36/36 green (zero regressions). Real
+  `scripts/build_day.sh`/`scripts/build_client.sh` both clean, zero new warnings (one
+  pre-existing, unrelated `strncpy` truncation warning in `load_mods_manifest` predates this
+  pass). `scripts/build.sh` ASan/UBSan rules path clean. No README change -- checked directly, no
+  prior claim of instant dispatch existed to correct. `BIG_O/NORTHSTAR.md` §23 (item 6's dispatch-
+  latency bullet struck through and marked closed; the world-observable-cue and intercept/jam/
+  steal bullets stay open, honestly re-described); `CHANGELOG.md`; `GOLDEN_DOCS` resynced. BIG_O
+  `6bb0ea0`, GOLDEN_DOCS `e9d48f6`, Apple #20563.
+  session: sess-20260923-1030-4a526255.
