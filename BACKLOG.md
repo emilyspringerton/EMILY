@@ -46549,3 +46549,40 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   built (`BIG_O/NORTHSTAR.md` §15): no wheelbarrow prop/model, no client input wiring (server-side
   only), no network broadcast. BIG_O `1635851`, Apple #20545.
   session: sess-20260920-1908-24cb3558.
+- [x] **Reverse port phase 5: 17-item food/cargo system goes live in the real BIG_O day server
+  (real cargo, no heal yet).** Founder direction, continued ("continue"). Re-investigated §12's
+  health-system blocker before writing code (Principle 19) and found it bigger than originally
+  scoped: not just a missing `PlayerSlot` health field, but no player damage source anywhere in
+  BIG_O at all (checked directly -- only destructible world-object fragment HP exists; giant bugs
+  eat zombie NPCs, never players; no PvP, no fall damage). An "eat to heal" packet would have had
+  zero observable effect, so it's named and deferred honestly rather than faked with a debug
+  self-damage command. Landed the real, buildable half instead: `day/packages/common/
+  bigo_food_items.h` (byte-for-byte port of SHANKPIT's own 17-item data table -- 8 classic
+  Pac-Man fruits + Ms. Pac-Man's 3 + 5 BIG_O-original + BIRTHDAY CAKE -- names/points/derived heal
+  formula unchanged, no live caller yet). Two new forked PARENA mods, `PARENA/stdlib/big_o/
+  item_drop_mod.prn`/`inventory_mod.prn` -- forked from the shared PAPERCRAFT originals, NOT a
+  shared edit (editing those in place would have silently made PAPERCRAFT's own world start
+  dropping food items too, matching the same "renamed into this repo's own module namespace"
+  precedent walkie_rules.prn/giant_bug_brain.prn already set). WOOD-material world-object
+  destruction (a real, previously-named "no drop yet" gap in the original PAPERCRAFT mod) now
+  drops one of the 17 food items, deterministically (`object-index mod 17`, no RNG); food items
+  get a real 20-per-slot stack cap so 8 pickups don't fill all of `PC_INVENTORY_SLOTS`. Reuses the
+  existing GTA3-style destruction-drop + walk-over pickup pipeline completely unchanged -- only
+  the mod decision logic and one new `PC_ITEM_FOOD_BASE` constant are new. Checked SHANKPIT's own
+  "cake distraction" claim directly: SHANKPIT never built one either, BIRTHDAY CAKE is just item
+  #17 in the same table, so nothing was actually deferred there. **Verified, not just compiled**:
+  `item_drop_mod_test`/`inventory_mod_test` extended (new food-id ranges + mod-17 wraparound), new
+  `bigo_food_items_test` (7 assertions). A new scratch integration harness (same `#include main.c`
+  precedent `wheelbarrow_verify.c` established in phase 4) drives the real, unmodified
+  `on_papercraft_item_for_object_destroyed` + `try_add_item_to_inventory` end to end: WOOD
+  destruction deterministically drops the right food item, lands in a real inventory slot, a
+  second identical pickup stacks instead of burning a second slot, a different food item takes its
+  own slot, PAPER/METAL drops unchanged -- 5/5 real assertions pass. `bazel test //...` 36/36
+  green (zero regressions); `scripts/build.sh` ASan/UBSan path clean; real server binary
+  boot/tick/shutdown re-verified against an isolated port/paths, no regression. Real, honest,
+  deliberately not built (`BIG_O/NORTHSTAR.md` §16): eat-to-heal (blocked on the real damage-source
+  gap above, a genuinely separate design decision -- giant bugs attacking players? zombie NPC
+  aggression? PvP? -- not guessed at here), a Lost-and-Found-style restock landmark (not needed,
+  the mod-17 trick already gives real variety through the existing pipeline). BIG_O `178d90b`,
+  PARENA `b63ff74`, Apple #20547.
+  session: sess-20260923-1030-4a526255.
