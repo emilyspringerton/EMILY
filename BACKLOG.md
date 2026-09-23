@@ -2769,6 +2769,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: asked whether Doom is public domain and floated 'DOOMCAPCHA' as a name for the CAPTCHA-FPS product** — obs `2026-09-22T15:39:29Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: the adversarial/GAIL discriminator work needs a new 'super slow league' matchmaker mode where bots a…** — obs `2026-09-22T15:36:23Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: GAIL-style adversarial discriminator training needs to be scoped specifically to SLOWBOT_LEAGUE's SL…** — obs `2026-09-22T15:36:03Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: explore adversarial learning (GAN-style discriminator predicting human vs bot) to make SLOWBOT_LEAGU…** — obs `2026-09-22T15:35:34Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: dogfood all of SHANKPIT's physics into PARENA -- new product idea, a CAPTCHA that spawns an in-brows…** — obs `2026-09-22T15:32:48Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: add GPG key generation as the same kind of in-app affordance to the IDUNA app in SHANKPIT (IDUNA.GAM…** — obs `2026-09-22T15:30:26Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: build affordances to generate keys into the SHANKPIT client itself (IDUNA app in SHANKPIT / IDUNA.GA…** — obs `2026-09-22T15:27:38Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: continue - add priority kanban cards for any founder-blocked work found this session** — obs `2026-09-22T15:26:04Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -46626,4 +46631,54 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   real remaining gaps are narrower (CARGO has no SELECT-to-eat interaction wired, and cake-smash
   needs the QUIET-decorum witness path live in `day/` first) and correctly still blocked on the
   same two things phase 5 already named. BIG_O `6add552` (`BIG_O/NORTHSTAR.md` §17), Apple #20549.
+  session: sess-20260923-1030-4a526255.
+- [x] **Live Decorum tracking: the QUIET-observation witness path goes live for the first time
+  (BIG_O/NORTHSTAR.md §18 Phase A).** Founder direction, continued ("continue"). This was the
+  biggest remaining gap this whole reverse-port thread kept surfacing (phase 6's own conclusion):
+  BIG_O's stated signature mechanic ("if they don't see it, it isn't real") had only ever been
+  proven in the headless scenario-sim, never in the real live server. Before writing code, asked
+  the one real, standing design question this needed (Principle 19 -- "cancelled = fail state" is
+  this game's own core lose-condition, not mine to invent unilaterally): what should actually
+  happen to a player who hits CANCELLED in a persistent multiplayer world? **Founder, real-time:
+  "the regulators are called in - the uberplumbers and they delete you with acid and foam."**
+  Checked this against the existing design docs before writing anything, per this repo's own
+  established discipline -- it's not a new invention, it matches real, already-written canon
+  almost exactly: `docs/DESIGN_DIGEST.md` §11 already specifies "at maximum heat replace 'police'
+  with a Corporate Service Call: silent, John-Wick-lethal Regulators who 'cap the line,'" and a
+  somatic-clone germline restore-point (Regulators/Plumbers clean the scene, the basement lab
+  prints a new body, costs Bio-Slurry) is the already-canonical death resolution -- a respawn-
+  with-cost, not a hard game-over, fitting a persistent world. Split into two genuinely separate
+  systems rather than build both blind: **Phase A (built this pass)** is real Decorum tracking --
+  all the hard logic already existed, tested, and compiled into the live `day/` binary
+  (`core/witness_rules.c`'s own `zone_access`/`conspicuousness`/`noticed`/`decorum_*`), just never
+  called; this is real wiring, not new rules logic. **Phase B (named, NOT built)** is Regulator
+  dispatch + a real player-kill mechanic + clone respawn + a whole new Bio-Slurry economy -- each
+  a genuinely new subsystem (BIG_O has zero player damage/death of any kind, zero Regulator NPC
+  type, zero Bio-Slurry resource anywhere in code), with its own real open questions named in
+  NORTHSTAR.md §18 rather than guessed at. **What Phase A shipped:** `PcPlayerState` gains real,
+  server-authoritative `costume`/`decorum` fields; new packet `PC_PACKET_COSTUME_SET` fires from
+  Wardrobe's phone SELECT (`BP_FX_COSTUME_SET`, costume's first time leaving the client).
+  `server_tick_decorum` fires the real observe check once per zone-entry transition (matching
+  `core/sim.c`'s own `sim_enter`-drives-`sim_observe` precedent, not a continuous per-tick reroll
+  that would crash Decorum in under a second at 20Hz) -- 2 of the rules module's 5 zones are
+  actually placed in this world so far (public + the lab, reusing the wheelbarrow's own existing
+  delivery circle, zero new landmark authoring), using each nearby Citizen/The-Men NPC's real
+  `npc_brain_effective_vigilance` and a new, real, seeded server RNG (the live day server had none
+  of any kind before this). Reaching `BAND_CANCELLED` logs a real, honest, one-time marker instead
+  of faking a consequence -- same "name it, don't fake it" discipline phase 5's eat-to-heal
+  blocker already used. Client STATUS screen now shows real costume/decorum/band live instead of
+  a stale placeholder -- also caught and fixed a small, already-wrong doc comment there ("rules
+  core is not linked to this client") that had been false since the client was first built.
+  **Verified, not just compiled:** `bigo_phone_test` extended (costume-select effect + no-op
+  re-select of an already-worn costume); a new scratch `#include main.c` harness (same precedent
+  `wheelbarrow_verify.c`/`food_verify.c` already established) drives the real, unmodified
+  `spawn_player`/`server_tick_decorum`/`server_player_zone` end to end -- wrong costume in the
+  real lab zone witnessed by a real nearby NPC drops decorum by an exact, real
+  `decorum_after`-computed amount, staying in the same zone doesn't re-trigger it, the correct
+  costume causes zero loss, passive regen fires on the real cadence, repeated violations correctly
+  reach `BAND_CANCELLED` -- 6/6 real assertions pass. `bazel test //...` 36/36 green (zero
+  regressions); `scripts/build.sh` ASan/UBSan clean; `scripts/build_client.sh` clean; real server
+  binary boot/tick/shutdown re-verified against an isolated port/paths. `BIG_O/NORTHSTAR.md` §18,
+  `README.md` status update, `CHANGELOG.md`; `GOLDEN_DOCS` resynced (BIG_O-NORTH is a registered
+  golden doc, meaningfully edited). BIG_O `b255c6f`, GOLDEN_DOCS `344ff0b`, Apple #20551.
   session: sess-20260923-1030-4a526255.
