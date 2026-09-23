@@ -2754,6 +2754,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'add walkie talkie voice coms asterisk based (we have a real asterisk server) parena powered.' Check…** — obs `2026-09-23T00:41:45Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: enormous new BIG_O/SHANKPIT feature wishlist dropped while giant-zombie-bug work was in flight -- Lo…** — obs `2026-09-23T00:39:12Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: 'add TRAPX doctrine field offices and party stores' -- direct ask against GTA7 (TRAPX doctrine as a …** — obs `2026-09-23T00:51:27Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: 'add walkie talkie voice coms asterisk based (we have a real asterisk server) parena powered.' Check…** — obs `2026-09-23T00:41:45Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: enormous new BIG_O/SHANKPIT feature wishlist dropped while giant-zombie-bug work was in flight -- Lo…** — obs `2026-09-23T00:39:12Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time (SHANKPIT/BIG_O session, queued not yet built): (1) add the full cyberscape from the historic constru…** — obs `2026-09-22T23:17:43Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: 'the men cary pagers - northstar it' -- design direction for BIG_O's 'The Men' dispatch mechanic (th…** — obs `2026-09-22T17:58:36Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time (remote control, refined): BIG_O tech becomes first-class SHANKPIT engine tech, not a launchable app …** — obs `2026-09-22T16:41:38Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
