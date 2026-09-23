@@ -46437,3 +46437,23 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
       extension of BIG_O's own existing lab-zone/costume trespass mechanic (witness_sim.h's
       `zone_access`), not a brand new system.
   session: sess-20260920-1908-24cb3558.
+- [x] **"add walkie talkie voice coms asterisk based (we have a real asterisk server) parena
+  powered."** Checked first: "the real asterisk server" is CarePyre's own live, production PBX
+  (real Twilio trunk, real customer voicemail/call-recording) -- not a sandbox, so this stayed
+  additive-only (Principle 19: investigate, cut a real V0, phase the rest). Real V0 shipped:
+  `PARENA/stdlib/shankpit/walkie_rules.prn` (team-channel-extension assignment, same-team-
+  always/cross-team-if-close hearing gate) + `packages/simulation/walkie_talkie.{h,c}` host
+  wrapper (per-player team/push-to-talk state), 6 passing assertions. Real, additive Asterisk
+  config templates (`PARENA/ops/asterisk/pjsip_shankpit_walkie.conf`/
+  `extensions_shankpit_walkie.conf` -- own PJSIP context/extension range 2999/3000-3008/3999,
+  never touches CarePyre's own phone/Twilio config) + a queued deploy script
+  (`sudo-queue/90-shankpit-walkie-asterisk-deploy.sh`) -- written but deliberately NOT run;
+  deploying to a live PBX serving real customer calls needs an explicit go-ahead, not a
+  unilateral reload. **Real, honest, named gap:** this is channel/permission decision logic
+  only, not audio transport -- `packages/audio/audio.c` has zero microphone capture, codec, or
+  SIP/RTP client code anywhere in this repo; building real voice is a genuinely large, separate
+  follow-up (a new SIP/RTP client dependency), not attempted here. Standalone primitive,
+  deliberately not yet wired into Makefile/CI/Bazel (no live consumer yet, same precedent
+  phases 2/3/5 of this same merge already established). SHANKPIT `d2796f0`, PARENA `8f0210f`/
+  `28d3015`, sudo-queue `c8ed0bacd`, Apple #20462 (Apple #20461 observation).
+  session: sess-20260920-1908-24cb3558.
