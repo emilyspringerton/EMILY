@@ -46586,3 +46586,39 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   the mod-17 trick already gives real variety through the existing pipeline). BIG_O `178d90b`,
   PARENA `b63ff74`, Apple #20547.
   session: sess-20260923-1030-4a526255.
+  **Correction (phase 6, below): the "SHANKPIT never built a cake distraction either" claim above
+  was checked more carefully in phase 6 and found wrong -- SHANKPIT DOES have a real
+  `witness_ai_smash_cake`. See phase 6's own entry for the corrected, real reason it isn't ported.**
+- [x] **Reverse port phase 6: correct 2 wrong claims from this thread + fix a real item-name
+  display gap.** Founder direction, continued ("continue"). Before starting §12 item 4
+  ("full phone-app UI parity"), re-checked its own premise against the live code (Principle 19)
+  and found two earlier claims in this same reverse-port thread wrong -- corrected, not silently
+  overwritten, same discipline phase 1's `http_client.h` correction already used. **Correction 1:**
+  §12 claimed "no on-screen UI either" -- false. `draw_bigo_phone`
+  (`day/apps/client/src/main.c`, landed `c25f81e` 2026-09-20, predates this whole reverse-port
+  thread) already renders all 11 phone apps including Wardrobe's real costume list. **Correction
+  2:** phase 5 claimed SHANKPIT never built a cake distraction -- false. SHANKPIT's
+  `packages/simulation/witness_ai.c` has a real `witness_ai_smash_cake` that halves nearby witness
+  vigilance, triggered live via `phone.h`'s own `BP_FX_SMASH_CAKE`. The real reason it isn't
+  ported to BIG_O: `core/witness_live.h`'s own doc comment already names that BIG_O's live day
+  server only wires the LOUD-event half of the witness system (hunting/frenzied zombies), not the
+  QUIET-observation/decorum half cake-smash needs -- a real, separate, pre-existing gap, just
+  misattributed as "SHANKPIT doesn't have it" instead of "BIG_O isn't wired for it yet." Also
+  confirmed SHANKPIT's own real eat-to-heal wiring (`apps/lobby/src/main.c`) targets a
+  CLIENT-LOCAL `PlayerState.health` field with no server authority -- copying that shape into
+  BIG_O verbatim would regress every other stat here (XP/level/inventory/position are all
+  server-authoritative), so phase 5's "needs a real damage-source design decision" conclusion
+  stands, now confirmed rather than assumed. **Real, small, honest fix found adjacent to this (a
+  pre-existing bug, not caused by this thread):** `day/apps/client/src/main.c`'s own
+  `PC_ITEM_TABLE` (CARGO screen item names) only covered `PC_ITEM_NONE`/`PC_ITEM_SCRAP` -- every
+  found weapon already showed "Unknown Item," and phase 5's new food items would have too. Added
+  the 6 real weapon names; food items route through a new `pc_item_name()` branch into
+  `bigo_food_items.h`'s own `food_item_name()` instead of a second hand-duplicated table.
+  **Verified live** against the real, unmodified `pc_item_name()` via a scratch `#include main.c`
+  harness built against the real client binary (SDL2/GL linked) -- 7/7 assertions pass.
+  `scripts/build_client.sh` clean; `bazel test //...` 36/36 green, zero regressions. Net result:
+  §12 item 4 is much closer to done than scoped -- rendering and the app roster already exist; the
+  real remaining gaps are narrower (CARGO has no SELECT-to-eat interaction wired, and cake-smash
+  needs the QUIET-decorum witness path live in `day/` first) and correctly still blocked on the
+  same two things phase 5 already named. BIG_O `6add552` (`BIG_O/NORTHSTAR.md` §17), Apple #20549.
+  session: sess-20260923-1030-4a526255.
