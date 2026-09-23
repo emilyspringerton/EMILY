@@ -2789,6 +2789,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: tested v0.54.0 live -- 3 economy/UI findings: draft ticket not visibly consumed (start draft, open n…** — obs `2026-09-21T20:11:45Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: newest DEADWEIGHT client says 'no account IDUNA offline' but IDUNA is up (old client works); also WO…** — obs `2026-09-21T19:18:55Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: give me iduna back office tools to craft a DEADWEIGHT Premium key so i can make one to test - simple…** — obs `2026-09-21T18:46:36Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: real 3-tier ticket economy spec for DEADWEIGHT Itch launch -- Premium ($15 Override Code, is_founder…** — obs `2026-09-21T18:22:32Z`. CURATED: 2026-09-23.
+- [ ] **Founder/exec real-time correction: reversed S512's rolling 24h ticket-refresh window back to a FIXED UTC calendar-day r…** — obs `2026-09-21T18:02:46Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: corrected the DEADWEIGHT brand guide's platform framing -- brutalist=desktop client, gradient/illust…** — obs `2026-09-21T17:58:24Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: requested a DEADWEIGHT Official Brand & Style Guide (aesthetic/lore pillar, visual language w/ real …** — obs `2026-09-21T17:42:33Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT client had too much friction for Itch launch -- 4 corrections requested: (1) remove Host/…** — obs `2026-09-21T17:30:21Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
