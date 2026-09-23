@@ -2751,6 +2751,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: dropped a detailed NPC auto-pilot AI design for SHANKPIT bots — sensor layer (0.1s tick, vision-cone…** — obs `2026-09-17T05:31:07Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time: continue scripted-sequence animation work in GOLDENBAND — multi-actor frame synchronization (Half-Li…** — obs `2026-09-17T05:30:01Z`. CURATED: 2026-09-22.
 - [ ] **Founder real-time (SHANKPIT/BIG_O session, queued not yet built): (1) add the full cyberscape from the historic constru…** — obs `2026-09-22T23:17:43Z`. CURATED: 2026-09-22.
+- [ ] **Founder real-time: 'add walkie talkie voice coms asterisk based (we have a real asterisk server) parena powered.' Check…** — obs `2026-09-23T00:41:45Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: enormous new BIG_O/SHANKPIT feature wishlist dropped while giant-zombie-bug work was in flight -- Lo…** — obs `2026-09-23T00:39:12Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
