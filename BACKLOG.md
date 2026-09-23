@@ -46761,3 +46761,33 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   this thread carries. `BIG_O/NORTHSTAR.md` §19, `README.md` status update, `CHANGELOG.md`;
   `GOLDEN_DOCS` resynced. BIG_O `b361532`, GOLDEN_DOCS `da25a34`, Apple #20556.
   session: sess-20260923-1030-4a526255.
+- [x] **Cake-smash distraction goes live -- Cargo's SELECT finally does something
+  (`BIG_O/NORTHSTAR.md` §20).** Founder direction, continued ("continue"). Checked
+  `BP_APP_CARGO`'s own real switch statement first, not assumed: it had no `case` at all --
+  SELECT on the Cargo app had done nothing since the phone was built. Re-investigated the
+  "cake-smash distraction (blocked on zones EXEC/GENERATOR/VAULT)" note this thread's own §17
+  correction left standing and found the real blocker already resolved: SHANKPIT's own
+  `witness_ai_smash_cake` doesn't touch zones at all (checked directly) -- the real blocker was
+  BIG_O's live day server having no QUIET-observation witness path at all, which §18 Phase A
+  already fixed. `BP_FX_ITEM_USE` (arg = inventory slot) now fires from Cargo's SELECT; new
+  `PC_PACKET_ITEM_USE`/`PcItemUsePacket` (same "sender resolved from source address" convention
+  `PcCostumeSetPacket` already uses). `papercraft_inventory.h` gained
+  `pc_try_remove_item_from_inventory` -- a real, symmetric counterpart to the existing add
+  function, decrementing a stacked slot and clearing it back to `PC_ITEM_NONE`/0 at zero, never a
+  ghost entry. The server handler only acts on food-range item ids -- a non-food slot
+  (weapons/scrap) is a real, honest no-op, since Cargo has no defined "use" behavior for gear
+  that's equipped via Loadout instead. `server_smash_cake`/`server_distraction_active` are a
+  faithful, verbatim port of SHANKPIT's own `witness_ai.c` functions -- a global, non-spatial
+  "is a distraction active right now" flag halving every nearby NPC's effective vigilance in
+  `server_tick_decorum`'s own `noticed()` check for 8 real seconds (matching SHANKPIT's own
+  constant exactly). Every other food item is consumed with a real, honest log line and no
+  effect -- eat-to-heal remains real, separate, deliberately not built (no player HP/damage pool
+  exists beyond the Regulator kill/respawn binary). `papercraft_inventory_test.c` gained 7 new
+  assertions (real remove-path coverage); `bigo_phone_test.c` gained 1 (Cargo SELECT fires the
+  real effect). New scratch `#include main.c` harness proves the real
+  smash/distraction/vigilance-halving/non-food-no-op/bounds-safety paths end to end against the
+  real, unmodified server, 7/7 pass, ASan/UBSan clean. `bazel test //...` 36/36 green (zero
+  regressions); real `scripts/build_day.sh`/`scripts/build_client.sh` both clean, zero new
+  warnings. `BIG_O/NORTHSTAR.md` §20, `README.md` status update, `CHANGELOG.md`; `GOLDEN_DOCS`
+  resynced. BIG_O `53adbb1`, GOLDEN_DOCS `2f823b8`, Apple #20557.
+  session: sess-20260923-1030-4a526255.
