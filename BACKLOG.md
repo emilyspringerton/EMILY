@@ -2829,6 +2829,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: BIG_O — iterate toward the day-cycle zombie sandbox using SHANKPIT's 'nextown' level; then 'we are p…** — obs `2026-09-19T01:25:56Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: DEADWEIGHT round limit 8 -> 100 and round timer doubled (20s -> 40s)** — obs `2026-09-19T00:22:15Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: DEADWEIGHT -- no python scripts, stop being clinical; just propose a BUNCH of fun card/mechanic idea…** — obs `2026-09-18T23:41:03Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT card corpus/mechanics expansion -- Haiku drafted a proposal + meta prompt; reviewed both,…** — obs `2026-09-18T23:26:52Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT Android app connects and lets me lock in a card, but crashes on lock-in; need to SRE it** — obs `2026-09-18T22:47:41Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: add a directive to ALL monorepo CLAUDE.md files — if a change substantially changes the claim of a p…** — obs `2026-09-18T22:37:00Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: BIG_O — ingest the new raw conversations (docs/source/continuation-raw.txt + docs/a1m1.md mission br…** — obs `2026-09-18T22:31:43Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: BIG_O multiplayer decision — build multiplayer from day 1: up to 3 players in a shared world, CO-OP …** — obs `2026-09-18T20:28:07Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
