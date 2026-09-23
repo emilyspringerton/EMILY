@@ -2804,6 +2804,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue -- add full party system parity, use the GFD server subsystems (as a reference/source for B…** — obs `2026-09-23T21:22:15Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: DEADWEIGHT Itch launch plan (free stress test w/ guest 25 tickets, $15 Premium redeem code soft upse…** — obs `2026-09-21T16:26:37Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: asked to install the third-party 'TypeSafe' Claude Code skill/plugin (typesafe-ai/skills marketplace…** — obs `2026-09-21T15:11:11Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT economy redesign, superseding parts of S508b. Corrected model: 1 Draft Ticket buys an UNC…** — obs `2026-09-21T11:44:40Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT pivoting to an Itch.io 'survival launch' bridge before Steam (executive advice: Steam Dir…** — obs `2026-09-21T11:19:06Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: DEADWEIGHT pivoting to Steam F2P launch prep. Detailed 4-phase plan pasted: Phase 1 Steam silent aut…** — obs `2026-09-21T10:47:44Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: SHANKPIT PFSP pipeline is broken ("it dont work") — founder shared OpenExecutive's own AI-executive …** — obs `2026-09-21T10:25:55Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: build a DEADWEIGHT browser client using PARENA's real TypeScript emitter (emit_ts.c) -- dogfood the …** — obs `2026-09-21T08:45:55Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
