@@ -46460,3 +46460,25 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   phases 2/3/5 of this same merge already established). SHANKPIT `d2796f0`, PARENA `8f0210f`/
   `28d3015`, sudo-queue `c8ed0bacd`, Apple #20462 (Apple #20461 observation).
   session: sess-20260920-1908-24cb3558.
+- [x] **Reverse port phase 1: walkie-talkie channel/hearing logic, brought back into BIG_O.**
+  Founder direction, continued: "continue bringing shankpit stuff back into big_o (look at recent
+  shankpit commits and bring it back into big_o)." Checked first per Principle 19 rather than
+  porting SHANKPIT's four post-merge-only features (phone parity, food system, wheelbarrow, giant
+  bugs, walkie-talkie) blind: walkie-talkie was the one clean, self-contained fit -- new
+  `PARENA/stdlib/big_o/walkie_rules.prn` (logic identical to SHANKPIT's own, renamed into this
+  repo's own `big-o/` namespace) generates `day/packages/simulation/walkie_rules.c`; new
+  `day/packages/common/bigo_walkie_talkie.h` (pure, header-only, caller owns state -- matches
+  BIG_O's own `bigo_pheromone.h` precedent rather than SHANKPIT's hidden-global-state version).
+  5/5 real assertions pass against the live PARENA-compiled logic. `bazel test //...` verified
+  34/34 green (picked up a same-day upstream fix for an unrelated `http_client.h` build bug found
+  mid-pass, named then corrected once the fix landed). Real, honest finding: BIG_O's v0
+  single-shared-crew model (NORTHSTAR.md §7) has no team concept, so this primitive has no live
+  consumer yet -- same "correct primitive, no consumer" pattern phases 2/3/5 of the original merge
+  already established, just running in reverse. Food system, wheelbarrow, and giant zombie bugs
+  investigated and queued in `BIG_O/NORTHSTAR.md` §12 as separate follow-ups (real structural
+  mismatches found: no player-health system and no hand-authored pickup-spot mechanism in BIG_O's
+  persisted world, unlike SHANKPIT's hardcoded MODE_STORY landmark model) rather than forced
+  through; giant zombie bugs named as the next-best-fitting candidate (extends `zombie_values.h`,
+  which BIG_O already has natively). PARENA `634e2fa`/`06e74a8`, BIG_O `fa237b6`→`10744e5`,
+  Apple #20540.
+  session: sess-20260920-1908-24cb3558.
