@@ -46498,3 +46498,24 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   real, separate phase 3 follow-up work, named in `BIG_O/NORTHSTAR.md` §13, not attempted here.
   PARENA `1b83d5c`/`0b2f34e`, BIG_O `2396f67`, Apple #20542.
   session: sess-20260920-1908-24cb3558.
+- [x] **Reverse port phase 3: giant zombie bugs go live in the real BIG_O day server.** Founder
+  direction, continued ("continue"). Checked first: phase 2's own named next step ("grow the
+  roster") would change `PcNpcState[PC_NPC_MAX]`'s own wire snapshot size -- a real protocol
+  change, not a cheap one. SHANKPIT's own live `witness_ai.c` wiring already made the same call
+  for the same reason (a separate array, not a new `PC_NPC_ROLE_*`) -- this phase copies that same
+  shape rather than the riskier roster-growth path. New `ServerGiantBug g_giant_bugs[]` in
+  `day/apps/server/src/main.c`, `server_spawn_giant_bugs`, `server_giant_bug_command_authorized`
+  (the real "Men hold the key" gate, ported verbatim from SHANKPIT's
+  `witness_ai_bug_command_authorized`), `server_tick_giant_bugs` (eats a nearby zombie NPC when
+  authorized, identical eat-radius/authorization logic to SHANKPIT's own live version). Wired into
+  the real tick/spawn loop; `scripts/build_day.sh` extended. **Live-verified against the real
+  running binary** (isolated port/save-dir/world-file/damage-file; pointed at the real, shared,
+  already-running worldapi on `:7070` read-only, same as PAPERCRAFT/WEAKNIGHT_BEDROCK_RACERS' own
+  live instances; killed cleanly via `timeout`, confirmed no lingering process): real log output
+  confirms a spawn and a real eat event (`strength=1.00 speed=1.13`) with correct math on live
+  data -- a freshly-spawned zombie's 0.0 aggression correctly contributes zero strength gain while
+  its still-finite reaction delay correctly contributes positive speed gain. `bazel test //...`
+  35/35 green; `scripts/build.sh` (real CI ASan/UBSan path) also clean. Real, honest, deliberately
+  not built (`BIG_O/NORTHSTAR.md` §14): bug movement, network broadcast/client visual, eaten-NPC
+  despawn broadcast, TRAPX Rogue Swarm Doctrine. BIG_O `8dbfc3e`, Apple #20543.
+  session: sess-20260920-1908-24cb3558.
