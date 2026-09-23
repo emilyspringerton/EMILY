@@ -2774,6 +2774,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: add GPG key generation as the same kind of in-app affordance to the IDUNA app in SHANKPIT (IDUNA.GAM…** — obs `2026-09-22T15:30:26Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: build affordances to generate keys into the SHANKPIT client itself (IDUNA app in SHANKPIT / IDUNA.GA…** — obs `2026-09-22T15:27:38Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: continue - add priority kanban cards for any founder-blocked work found this session** — obs `2026-09-22T15:26:04Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: ship the latest version of DEADWEIGHT with the UI upgrades and working code** — obs `2026-09-22T15:05:42Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: how do we set up fixed cameras in certain rooms in PAPERCRAFT engine - need a camera widget added to…** — obs `2026-09-22T15:03:42Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: continue work on ECOWAR as a map-building game -- build a map, your army fights their army in your m…** — obs `2026-09-22T14:34:37Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: add REDGARDEN as a launchable app in SHANKPIT OS's lobby grid (same pattern as DEADWEIGHT/PITVIPER/I…** — obs `2026-09-22T14:15:28Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time: unify GFD battlegrounds_gui + REDGARDEN + mud_gui + mud affordances into one hero system. Heroes + s…** — obs `2026-09-22T11:30:25Z`. CURATED: 2026-09-23.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
