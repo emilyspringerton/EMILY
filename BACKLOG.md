@@ -46482,3 +46482,19 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   which BIG_O already has natively). PARENA `634e2fa`/`06e74a8`, BIG_O `fa237b6`→`10744e5`,
   Apple #20540.
   session: sess-20260920-1908-24cb3558.
+- [x] **Reverse port phase 2: giant zombie bug value system, brought back into BIG_O.** Founder
+  direction, continued ("continue"). New `PARENA/stdlib/big_o/giant_bug_brain.prn` (logic
+  identical to SHANKPIT's own, renamed into this repo's own `big-o/` namespace) generates
+  `core/giant_bug_brain.c` -- the real 8-input/8-hidden-unit/64-weight feedforward net. New
+  `core/giant_bug_values.{h,c}` (alien sense vocabulary -- hunger/swarm_density/heat_scent/
+  molt_pressure/ground_vibration/pain/hive_signal/light_aversion; real, permanent strength/speed
+  growth on `giant_bug_eat_zombie`, derived from already-live `zombie_values.h` fields). Ported
+  with zero adaptation -- BIG_O's `ZombieState` and SHANKPIT's copy are field-for-field identical
+  (SHANKPIT's was ported FROM this repo in phase 3 of the original merge). 6/6 real assertions
+  pass; full `bazel test //...` is 35/35 green, zero regressions. `scripts/gen_rules.sh` extended.
+  Real, honest finding: no live consumer yet -- BIG_O's live `ServerNpc` array (`PC_NPC_MAX=8`) is
+  already fully populated (3 Citizens, 1 The Men, 4 zombies), so growing the roster, wiring the
+  "Men hold the key" authorization gate, and visual reuse (2.5x-scaled tinted leela kit) are all
+  real, separate phase 3 follow-up work, named in `BIG_O/NORTHSTAR.md` §13, not attempted here.
+  PARENA `1b83d5c`/`0b2f34e`, BIG_O `2396f67`, Apple #20542.
+  session: sess-20260920-1908-24cb3558.
