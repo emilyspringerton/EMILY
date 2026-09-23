@@ -46732,3 +46732,32 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   named, not silently dropped. `BIG_O/NORTHSTAR.md` §18 Phase B, `README.md` status update,
   `CHANGELOG.md`; `GOLDEN_DOCS` resynced. BIG_O `a06defa`, GOLDEN_DOCS `e2b3897`, Apple #20553.
   session: sess-20260923-1030-4a526255.
+- [x] **First client visual for giant bugs and Regulators, plus a pop-star Top Regulator
+  (`BIG_O/NORTHSTAR.md` §19).** Founder direction, continued ("continue"). Closed the "server
+  logic first, client visual later" gap both reverse-port phase 3 (giant bugs) and Phase B
+  (Regulator dispatch) deferred on purpose -- neither `g_giant_bugs[]` nor `g_regulators[]` ever
+  entered a snapshot packet, checked directly, not assumed. `PcGiantBugState`/`PcRegulatorState`
+  (position-only, no yaw/role) added to `PcSnapshotPacket` via their own dedicated
+  `PC_GIANT_BUG_MAX`/`PC_REGULATOR_MAX` arrays -- `PcNpcState`'s own shared array is already full
+  at 8/8 (3 Citizens/1 The Men/4 zombies). `bigo_npc_visual.h` gained
+  `bigo_giant_bug_visual_color` (reuses the same zombie kit regular zombies use, dark-red tint,
+  real 2.5x scale via a translate/scale/translate-back around the draw call -- SHANKPIT's own
+  "evil versions... BIG, no new art" precedent) and `bigo_regulator_visual_color` (mannequin kit,
+  stark clinical white -- coldest tint of any role, matching "uberplumbers... acid and foam").
+  **Founder real-time, mid-pass: "and the top regulator is a pop singer dancing werewolf ninja
+  John Wick."** Logged first (`emily observe`, Apple #20555) per Principle 1a, then checked before
+  building anything: no werewolf/ninja/John-Wick asset exists anywhere in this repo's vendored
+  GOLDENBAND assets -- the real, full boss character is asset-blocked, named future work, same
+  precedent as this section's own queued Los Hermanos Minguinos/Catastrophe Crow items. What IS
+  real and already vendored, unused until now: the mannequin kit's own `GBAND_SKEL_NPC_ANIM_DANCE`
+  clip. `bigo_top_regulator_visual_color` gives regulator array index 0 (a real, honest,
+  client-only visual convention -- `ServerRegulator` has no rank/boss field server-side, not a
+  real boss mechanic) a hot-pink tint and the real dance clip instead of idle/walk. `bigo_npc_
+  visual_test.c` gained 6 new assertions (11/11 total, all real, direct pure-function coverage).
+  `bazel test //...` 36/36 green (zero regressions, no new Bazel target needed); real
+  `scripts/build_day.sh`/`scripts/build_client.sh` both clean, zero new warnings; `scripts/
+  build.sh` ASan/UBSan clean. Honest, named limit: actual on-screen appearance not independently
+  visually re-verified -- no live GL driver in this sandbox, same limit every visual feature in
+  this thread carries. `BIG_O/NORTHSTAR.md` §19, `README.md` status update, `CHANGELOG.md`;
+  `GOLDEN_DOCS` resynced. BIG_O `b361532`, GOLDEN_DOCS `da25a34`, Apple #20556.
+  session: sess-20260923-1030-4a526255.
