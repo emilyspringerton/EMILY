@@ -46524,3 +46524,23 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   not built (`BIG_O/NORTHSTAR.md` §14): bug movement, network broadcast/client visual, eaten-NPC
   despawn broadcast, TRAPX Rogue Swarm Doctrine. BIG_O `8dbfc3e`, Apple #20543.
   session: sess-20260920-1908-24cb3558.
+- [x] **Reverse port phase 4: wheelbarrow carry mechanic goes live in the real BIG_O day server.**
+  Founder direction, continued ("continue"). Re-checked §12's original "no authored landmark"
+  blocker -- SHANKPIT's own version doesn't use real level authoring either, it reuses one
+  hardcoded circle "well clear of the NPC spawn footprint," same discipline every other live-server
+  landmark here already uses. New hardcoded lab-zone circle at (30,0) r=6, well clear of the NPC
+  spawn circle and the giant-bug spawn point. New wire packet `PC_PACKET_WHEELBARROW_TOGGLE` (15) +
+  `PcWheelbarrowTogglePacket` (header-only, sender resolved from source address, same
+  `PC_PACKET_INTERACT` lookup). `server_wheelbarrow_toggle` (drop if carrying, else pick up nearest
+  carryable Citizen/Zombie NPC in reach -- The Men never carryable) + `server_tick_wheelbarrow`
+  (trails cargo behind its carrier's real position/yaw, delivers into the lab circle). Tracks WHICH
+  player is carrying, unlike SHANKPIT's own fixed-hero version, since this repo's live server has
+  no such convention. **Live-verified via a real scratch integration harness** that `#include`s
+  `main.c` directly and calls the real, unmodified functions end to end, bypassing only the
+  socket/ticket layer (same precedent pheromone/dispatch already used): pickup, drop, delivery +
+  despawn + counter increment, and safe stand-down on carrier disconnect -- 4/4 real assertions
+  pass. Full real server binary re-run to confirm no startup/tick/shutdown regression. `bazel test
+  //...` 35/35 green; `scripts/build.sh` ASan/UBSan path clean. Real, honest, deliberately not
+  built (`BIG_O/NORTHSTAR.md` §15): no wheelbarrow prop/model, no client input wiring (server-side
+  only), no network broadcast. BIG_O `1635851`, Apple #20545.
+  session: sess-20260920-1908-24cb3558.
