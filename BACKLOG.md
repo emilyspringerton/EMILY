@@ -47943,6 +47943,19 @@ observe`, not yet scoped/built -- see the open items below).
   vegetable-themed. New `TestMinestroneStats`; full `server/food` suite (14/14),
   `go build`/`go vet ./...` clean. GoblinFoxDragon `01abf7f`, Apple #20697.
   session: sess-20260923-1030-4a526255.
-- [ ] **BIG_O: add the ARPANET.** Founder real-time, no further spec given yet -- genuinely
-  unscoped (a lore/world reference? a literal network-simulation mechanic? something else?).
-  Needs a scoping pass, not a guess.
+- [x] **BIG_O: add the ARPANET.** Genuinely unscoped as given -- asked directly rather than
+  guessed, confirmed "a retro terminal/BBS app on the phone." `BP_APP_ARPANET`: 5 static text
+  nodes styled after the real historical ARPANET's own IMP host numbering, reusing
+  `BP_APP_MESSAGES`'s own list<->detail toggle pattern (same `p->detail` flag) and
+  `BP_APP_NOTES`'s static-string-table content shape -- deliberately not live networking like
+  `BP_APP_GFD`, this is archival/read-only, no new wire packet. One node quietly nods to TYLER's
+  new same-session character (The Auditor) without requiring that canon to make sense standalone.
+  `bigo_phone_test.c` extended (list/detail/back-navigation); `scripts/build_day.sh`/
+  `scripts/build_client.sh` both clean. No real GL driver in this sandbox (standing, repeatedly-
+  documented BIG_O limitation) -- verified via the standalone logic test, not a screenshot.
+  `NORTHSTAR.md` S33 added; README's running status + app-count corrected. BIG_O `ada2986`,
+  Apple #20698.
+  session: sess-20260923-1030-4a526255.
+
+**SECTION 539 is now fully closed** -- minestrone shipped to SHANKPIT/PARENA/BIG_O/GFD, and the
+ARPANET shipped to BIG_O as a real, working retro terminal app.
