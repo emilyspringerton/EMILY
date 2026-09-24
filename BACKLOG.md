@@ -47322,3 +47322,47 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   -- none of these needed solving for this pass, none were. PARENA `2479e81`, BIG_O `4ba8deb`,
   GOLDEN_DOCS `ff78a6e`, Apple #20602.
   session: sess-20260923-1030-4a526255.
+- [x] **Post-quantum crypto primitive -- real ML-DSA-44, closes the SSH-keygen thread.** Founder
+  real-time, in sequence: "add real SSH key generation" -> (checked GFD's real SSH server first:
+  Go's `golang.org/x/crypto/ssh` v0.24.0 has zero post-quantum public-key auth algorithms
+  registered, confirmed via a real grep) -> "upgrade to quantum safe encryption" -> "scope a real
+  ML-DSA/Dilithium implementation" -> "write it in PARENA". PARENA's own STDLIB.md already has a
+  standing policy directly on point (hand-rolled crypto is a well-known way to introduce real,
+  serious vulnerabilities, so this explicitly does not attempt it) -- independently validated the
+  same judgment before any code was written: FFI-bind a real, vendored, independently-verified
+  implementation, never reimplement lattice arithmetic in PARENA itself. Real, checked, not-
+  assumed finding along the way: `crypto/ed25519.prn` (same PARENA directory) is a non-working
+  stub (calls a never-implemented `sodium_ed25519_keygen`, and its own shape violates the real
+  `#target` scalar/String/Bytes-only rule) -- `crypto/mldsa.prn` is PARENA's first real, actually-
+  working crypto binding, designed correctly from the start to avoid repeating that bug class.
+
+  Vendored `runtime/mldsa/` -- the official `pq-crystals/dilithium` reference (CC0/public domain)
+  for ML-DSA-44 (Dilithium mode 2, FIPS 204) -- verified multiple independent ways (pristine-vs-
+  vendored self-test equivalence, an independent SHAKE128/SHAKE256 cross-check against Python's
+  own OpenSSL-backed `hashlib`, one real, harmless upstream `_GNU_SOURCE`-ordering bug found and
+  fixed). New `stdlib/crypto/mldsa.prn` (`mldsa-keygen`/`mldsa-sign`/`mldsa-verify`), gated behind
+  a new `PARENA_WITH_MLDSA` opt-in matching `PARENA_WITH_TLS`'s own established shape. New
+  `bytes-slice` (`stdlib/bytes.prn`) -- the real, additive primitive needed to split ML-DSA
+  keygen's single concatenated `pubkey||seckey` output into a real `KeyPair` struct, since a
+  `#target` body can only return one plain scalar/String/Bytes value, never construct a struct
+  directly.
+
+  Verified end to end, not just compiled: new `make test-mldsa` (`tests/test_mldsa.c`) drives the
+  real, generated PARENA call chain -- correctly-sized non-degenerate keys, sign->verify
+  roundtrip, tampered-signature/tampered-message/cross-key rejection, hedged/randomized-signing
+  non-determinism (two signatures over the same message are never byte-identical, both still
+  verify). Clean under `gcc -Wall -Wextra -Werror -fsanitize=address,undefined` -- zero warnings,
+  zero memory errors. `bytes-slice` also gained 7 new assertions in `tests/test_bytes.c`. Fixed a
+  real `-Wcomment` warning in `parena_runtime.h`'s own doc comment (a literal `*/` substring
+  inside prose, same bug class `bigo_hoverboard.h` already found once).
+
+  Documented into `BIG_O/NORTHSTAR.md` §29 (the section this whole thread's own doc comments had
+  already been referencing by number), closing §25's queued SSH-keygen item with a cross-link.
+  `PARENA/STDLIB.md`/`README.md` updated per SAGA README Reality (a new, genuinely working crypto
+  capability). Real, honest, deliberately NOT built: no live consumer anywhere -- GFD's real SSH
+  server has no post-quantum public-key algorithm registered, and BIG_O has no SSH surface of its
+  own to secure; no display/registration UI for a generated public key; no official NIST ACVP KAT
+  byte-vector cross-check (no OpenSSL dev headers available in this sandbox to build the official
+  generator -- a real, honestly-named gap, not silently treated as fully certified). PARENA
+  `1b9200d`, BIG_O `fa7592a`/`e43178e`, GOLDEN_DOCS `67aa41f`, Apple #20621.
+  session: sess-20260923-1030-4a526255.
