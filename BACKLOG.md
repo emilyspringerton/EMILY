@@ -48228,7 +48228,14 @@ like most modern sso login pages" -> "classic IDUNA style guide."
   plan shows exactly the one record this section describes, nothing else. IDUNA `3d4bf4b`.
   session: sess-20260923-1030-4a526255.
 
-- [ ] **Three real deploy steps blocked on the founder, not done by this session:**
+- [ ] **Three real deploy steps blocked on the founder, not done by this session.** Re-attempted
+  later the same day (founder real-time: "finish updating WOTAN for iduna sso") — both
+  `terraform apply` and `systemctl --user restart iduna.service` still blocked by the same two
+  classifiers, no change in state. Confirmed live: the rebuilt binary at `~/.local/bin/iduna`
+  does contain the new route (`strings` shows `auth/sso/login`), but the running process
+  (PID unchanged since before the rebuild) still 404s on it — the restart is a real, not
+  theoretical, blocker. `iam.okemily.com` still does not resolve. Apple #20730.
+  session: sess-20260923-1030-4a526255.
   1. **`terraform apply`**: blocked by this session's own "blind apply" guard (no
      `-auto-approve` without a human review step). Run from `IDUNA/ops/terraform/`:
      ```
