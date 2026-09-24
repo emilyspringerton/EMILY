@@ -47779,6 +47779,24 @@ foundation to build on rather than a new identity system.
     match_token` are the minimal test hook; bot/GUI/web still need their own Phase 3 wiring.
     `scripts/build.sh --gui` clean. DEADWEIGHT `b053fe9`, Apple #20664.
     session: sess-20260923-1030-4a526255.
-  - [ ] **Phase 3 -- client UI wiring.** A "duel accepted -> queue for this duel" affordance in
-    the native SDL2 client, the web client, and WOTAN -- three separate, independently-
-    committable sub-items, same pattern SECTION 537's other items already used.
+  - **Phase 3 -- client UI wiring.** A "duel accepted -> queue for this duel" affordance in the
+    native SDL2 client, the web client, and WOTAN -- three separate, independently-committable
+    sub-items, same pattern SECTION 537's other items already used.
+    - [x] **Phase 3a -- native SDL2 client.** DUELS tab (`apps/gui/main.c`'s `S_SOCIAL` screen)
+      shows a green PLAY button on any accepted duel with a live (unexpired) `match_token`;
+      clicking it (`social_play_duel()`) connects and queues card-mode with that token attached
+      via the same `do_connect()`/`DW_S_WELCOME` path an ordinary PLAY already uses --
+      `A.pending_match_token` is single-use, cleared right after its one send so a later requeue
+      never resends it. `DwDuel` (`core/iduna.h`/`.c`) gained a `match_token` field. Live-verified
+      end to end, not just unit-tested: a real compiled `dw_gui` under Xvfb, driven by real
+      `xdotool` mouse clicks through Main Menu -> FRIENDS & DUELS -> DUELS tab (screenshotted
+      showing the PLAY button) -> PLAY, against a real `dw_server` and a real `dw_client` CLI
+      partner queued first on the same token -- the resulting match was specifically
+      GUI-vs-partner (screenshotted mid-match), not a FIFO stranger pairing. `scripts/build.sh
+      --gui` clean, no regressions. DEADWEIGHT `9afdda5`, Apple #20676.
+      session: sess-20260923-1030-4a526255.
+    - [ ] **Phase 3b -- web client.** `web/src/social.ts`/`client.ts` need to read `match_token`
+      off an accepted duel and pass it through `encodeQueue` (or equivalent) the same way the
+      native client now does.
+    - [ ] **Phase 3c -- WOTAN.** `friends.html` currently only manages the invite lifecycle; needs
+      either a "copy token" affordance or a deep link into a client that can consume it.
