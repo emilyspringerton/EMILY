@@ -3259,6 +3259,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue' -- proceeding to Phase 2 of the ECOWAR Map Editor epic (ECOWAR-MAPEDIT-NORTH): ECOWAR car…** — obs `2026-08-27T23:48:20Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time, concrete cross-repo gameplay ask (arrived mid-Phase-1 of the ECOWAR Map Editor epic, a real, perfect…** — obs `2026-08-27T23:29:53Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'go' -- starting Phase 1 of the ECOWAR Map Editor epic (ECOWAR-MAPEDIT-NORTH): Arena API v0, documen…** — obs `2026-08-27T23:25:37Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, major new epic (long, rapid-fire burst, ECOWAR + PARENA cross-repo): 'ok all in on the ecowar map ed…** — obs `2026-08-27T23:18:50Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue whatever you think figure it out' -- explicit delegation of judgment on both open threads …** — obs `2026-08-27T23:09:24Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued licensing/strategy thread: 'i dunno' -> 'i dunno if we can bundle gcc for licensing' -> 's…** — obs `2026-08-27T23:08:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, reconsidering priority mid-implementation: 'i think we need to finsh th parena self hosted compiler …** — obs `2026-08-27T23:08:02Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, rapid-fire UI spec for the PARENA editor (converged after several revisions in the same burst): 'a s…** — obs `2026-08-27T23:04:53Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
