@@ -2999,6 +2999,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: requested geo-restricting the CarePyre mail server to US/Mexico/Canada, initially asking about Cloud…** — obs `2026-09-07T11:15:59Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: asked about WOTAN onboarding + splitting a new IDUNA_PRO instance + multi-tenant changes; confirmed …** — obs `2026-09-07T11:05:47Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: pivoted to getting PITVIPER building for Android with SSH client capability (bash/zsh access from ph…** — obs `2026-09-06T02:09:35Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: admin should be able to provision a mailbox for a user in one step and have that user's webmail just…** — obs `2026-09-05T21:34:44Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: approved CarePyre console redesign prototype, requested implementation into production console.html …** — obs `2026-09-05T21:24:02Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: sending from webmail to gmail doesn't work, receiving does. Real root cause found live: Linode block…** — obs `2026-09-05T21:13:09Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: minimal custom webmail in the console (found via a real question: non-admin console login had no way…** — obs `2026-09-05T20:54:33Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: set up provisioning URL from the console for users under my sip, make the sip phone register with ju…** — obs `2026-09-05T20:17:48Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
