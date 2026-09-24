@@ -3229,6 +3229,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: generalize last pa…** — obs `2026-08-29T01:20:38Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: a first real step …** — obs `2026-08-29T00:29:39Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: real interact dama…** — obs `2026-08-29T00:15:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: improve the design of the WOTAN platform, use the BRAWLPIT aesthetic / neon brutalist look, clean/re…** — obs `2026-09-24T19:40:10Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: real non-cube base…** — obs `2026-08-28T23:48:07Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: real client-side d…** — obs `2026-08-28T23:29:49Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" (after S206-01..15 fully closed; asked the user which thread next via AskUserQuestion -- …** — obs `2026-08-28T22:59:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Last real item on NORTHSTAR.md's scope list: the embedded PA…** — obs `2026-08-28T22:46:19Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -48095,3 +48100,37 @@ to join the shankpit zombie zerver game (just call the app zombies)."
 
 Apple #20710 covers the ZOMBIES button + bot-pool resize, Apple #20711 covers the crash fix.
 **SECTION 541 is now fully closed.**
+
+## SECTION 542: WOTAN VISUAL REDESIGN — BRAWLPIT NEON BRUTALIST (FOUNDER REAL-TIME)
+
+Founder real-time: "improve the design of the WOTAN platform use the brawlpit aesthetic the neon
+brutalist look but make it clean and readable and friendly the shankpit menu color pallette" /
+"attaching an example of a shankpit style art direction with IDUNA undertones use this as inspo
+use this platform." Attached image was actually a screenshot of the DEADWEIGHT itch.io storefront
+(marketing copy, not a mockup) — flagged the mismatch to the founder, who confirmed via
+AskUserQuestion: "color match the color scheme and match the art direction" (its purple/black
+scheme was intentional inspo).
+
+- [x] **New shared design system + applied across all 5 live WOTAN pages.** New
+  `WOTAN/css/wotan-theme.css`: CSS custom properties for a near-black violet background
+  (`--bg: #0b0518`), violet primary accent (`--violet`/`--violet-bright`), a gold "IDUNA
+  undertone" secondary accent (`--gold`/`--gold-bright`), cyan/orange/red/blue/green utility
+  colors, Space Grotesk display font, plus shared topbar/nav (`aria-current="page"` active
+  state)/card/button/badge/form-input component styles. Applied to `index.html`, `decks.html`,
+  `store.html`, `profile.html`, `friends.html` in place of each page's own copy-pasted
+  `:root`/base `<style>` block. `decks.html`'s existing Offense/Operations/Defense card-type
+  coloring rides the same CSS variables unchanged (its JS only ever referenced them by
+  name/class, never a hardcoded hex, so the recolor was a pure CSS-layer change, no JS touched).
+  Deliberately no light-mode variant — neon-brutalist is dark-only by design, not an oversight.
+  One real bug found and fixed during centralization: `store.html`'s JS emits a bare
+  `class="badge"` (no `.pending`/`.accepted`/`.declined` modifier) for "Owned"/"Equipped"
+  states — the new shared `.badge` base is unstyled without a modifier by design, so added a
+  page-local color override. Verified with real headless (Playwright/Chromium) screenshots of
+  all 5 pages served locally before shipping — checked for readability, contrast, and no
+  unstyled elements, not just "the CSS parses." `README.md`/`CLAUDE.md` updated per SAGA README
+  Reality (new design-system section + a "Look" blurb). WOTAN commit pending (this same
+  session), Apple #20714.
+  session: sess-20260923-1030-4a526255.
+
+**SECTION 542 is now fully closed** once the WOTAN commit lands and is deployed via
+`~/wotan-deploy.sh`.
