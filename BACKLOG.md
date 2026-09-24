@@ -3284,6 +3284,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue' -- resuming PARENA editor Thread B (terminal/editor toggle unifying PITVIPER), the next s…** — obs `2026-08-27T20:45:03Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'ok im on ecowar client - it says ecowar now and does not join redgarden match it says failed to joi…** — obs `2026-08-27T20:36:16Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'ensure parena ci uploads construct artifacts... 2 additional artifacts one targz the other zip of t…** — obs `2026-08-27T20:28:57Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'finish updating WOTAN for iduna sso' -- re-attempted the two blocked infra steps (terraform apply f…** — obs `2026-09-24T22:14:34Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, actively playing the ECOWAR client: 'im getting a weird bug on cart my mana is stuck at like almost …** — obs `2026-08-27T20:19:14Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'it launches 10 v 10 instead of 1 v 1' -- real bug, the ECOWAR matchmaker (commit a508a08) or arena …** — obs `2026-08-27T20:16:41Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'also its still named redgarden' -- the ECOWAR client's own window title/branding wasn't actually re…** — obs `2026-08-27T20:16:35Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'i dont see the card interface in the ecowar client' -- real bug report, the 16-card system (commit …** — obs `2026-08-27T20:16:26Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
