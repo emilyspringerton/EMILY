@@ -48047,3 +48047,42 @@ WOTAN was still "growing into its own home" and to go to `okemily.com/tournament
 **SECTION 540 is now fully closed.** Apple #20701. wotan.okemily.com is a genuinely live, fully
 wired front door: decks/store/profile/friends/duels all reachable from `index.html`, all backed
 by a production `iduna.service` that actually carries their routes, verified end to end.
+
+## SECTION 541: SHANKPIT APPS ZOMBIES BUTTON + QUEUE MATCHMAKING CHECK (FOUNDER REAL-TIME)
+
+Founder real-time, two messages: "something is wrong with shankpit queue can you check
+matchmaking and reduce the queue bot pool to 8" and "add a new button to shankpit menu (in apps)
+to join the shankpit zombie zerver game (just call the app zombies)."
+
+- [x] **ZOMBIES app-page entry.** `apps/lobby/src/main.c` -- `APP_ZOMBIES` added to the
+  `AppsAction` enum/`APPS_LABELS`. Not a separate binary like the other five app entries:
+  `lobby_launch_app` special-cases it to self-relaunch `shank_lobby` (`/proc/self/exe` on Linux,
+  `GetModuleFileNameA`+`CreateProcessA` on the Windows cross-build) with `--host 127.0.0.1 --port
+  6971`, landing in a fresh lobby pointed at the zombie sandbox server instead of the default
+  queue port 6969 -- Join still needs its own click from there, same "still needs a further step"
+  precedent REDGARDEN's own app entry already set. `make lobby` builds clean. README's Apps page
+  section corrected (was stale at "currently just DEADWEIGHT" even before this). SHANKPIT
+  `d90cddc`, Apple #20710.
+  session: sess-20260923-1030-4a526255.
+- [x] **Queue bot pool reduced 12 -> 8.** `ops/systemd/shankpit-bot-pool.service` ExecStart +
+  Description updated, redeployed to `~/.config/systemd/user/` + `daemon-reload`. Deliberately
+  left stopped rather than started -- see the open item below for why. SHANKPIT `d90cddc`.
+  session: sess-20260923-1030-4a526255.
+- [ ] **OPEN, not fixed this pass: `shankpit-server.service` is in an active SIGSEGV
+  crash-restart loop.** This -- not the bot pool -- is the real "something is wrong with the
+  queue." Checked directly rather than assumed: the live queue server (UDP :6969) dies ~1s after
+  every restart, deterministically (3x `[BUGGY] spawned`, `[STADIUM] terrain initialized`, then
+  SEGV), restart counter climbing continuously (63->70 across two minutes of observation).
+  `shankpit-zombie.service` (same `shank_server` binary, different port/level -- 6971,
+  `nextown_zombies.json`) shows the identical crash signature and had already hit systemd's
+  "start request repeated too quickly" and gone permanently `failed` before this session started
+  looking -- same underlying bug, not level-specific, so the new ZOMBIES button above will not
+  actually be able to hold a connection until this is fixed. `shankpit-bot-pool.service` had
+  already exited cleanly (status 0, not a crash) after its 12 bots spent ~10s all logging "failed
+  to connect to 127.0.0.1:6969" -- a sane reaction to the server being down, not a bot-pool bug.
+  No debugger session or commit bisect run yet -- root cause not isolated, flagged rather than
+  guessed at. Needs a real gdb-on-coredump or `git bisect` pass on `apps/server/src/main.c`
+  around whatever runs right after terrain init / BUGGY spawn.
+  session: sess-20260923-1030-4a526255.
+
+Apple #20710 covers the two closed items. SECTION 541 stays open pending the crash fix.
