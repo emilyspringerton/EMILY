@@ -3039,6 +3039,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: console.okemily.com added (subdomain live) -- needs to be the customer self-serve portal where they …** — obs `2026-09-03T03:57:42Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: build the kanban board into IDUNA_PRO as a core human/agent interop affordance -- 'we will probably …** — obs `2026-09-03T03:47:41Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: IDUNA_PRO extensibility model -- how do customers extend IDUNA_PRO for their own game/product logins…** — obs `2026-09-03T03:43:05Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continuing the IDUNA_PRO thread: 'so we use our IDUNA to manage the free trials for emily for busine…** — obs `2026-09-03T03:30:53Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: multi-tenant IDUNA as a platform, IDUNA_PRO under Emily for Business -- free trial self-serve tenant…** — obs `2026-09-03T03:29:46Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: Emily for Business multi-tenancy architecture direction -- IDUNA multi-tenant via DB-per-install, ne…** — obs `2026-09-03T03:24:17Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: refine EMILY_FOR_BUSINESS license -- name it 'The Emily License v0', make explicit that Emily for Bu…** — obs `2026-09-03T03:20:13Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: EMILY_FOR_BUSINESS repo created; wants a source-available license that also protects/licenses the pr…** — obs `2026-09-03T03:16:13Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
