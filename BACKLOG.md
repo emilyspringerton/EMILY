@@ -47795,8 +47795,21 @@ foundation to build on rather than a new identity system.
       GUI-vs-partner (screenshotted mid-match), not a FIFO stranger pairing. `scripts/build.sh
       --gui` clean, no regressions. DEADWEIGHT `9afdda5`, Apple #20676.
       session: sess-20260923-1030-4a526255.
-    - [ ] **Phase 3b -- web client.** `web/src/social.ts`/`client.ts` need to read `match_token`
-      off an accepted duel and pass it through `encodeQueue` (or equivalent) the same way the
-      native client now does.
+    - [x] **Phase 3b -- web client.** DUELS panel (`web/src/main.ts`) renders a "Play" button on
+      any accepted duel with a live `match_token`; clicking it (`playDuel()`) queues with that
+      token attached -- immediately if the client is already `'ready'`, or deferred via a
+      `pendingMatchToken` consumed on the next `onState('ready')` if clicked before WELCOME
+      arrives (mirrors Phase 3a's single-use `A.pending_match_token` pattern, adapted to the web
+      client's async connect). `encodeQueue()` (`web/src/proto.ts`) gained an optional
+      `matchToken` param encoding the same purely-additive 33-byte wire form
+      `core/protocol.c` already decodes. `DeadweightClient` gained `queue(sameDeck?, matchToken?)`
+      + `getState()`. `Duel` (`web/src/social.ts`) gained `match_token`/`match_token_expires_at`.
+      Live-verified end to end, not just `tsc`-checked: a real headless Chrome (CDP-driven, not a
+      DOM mock) loaded the real compiled `web/dist/main.js` through the real `ws-tcp-bridge.js`
+      against a real `dw_server`, clicked the actual rendered Play button, and paired with a real
+      `dw_client` CLI partner on the same token -- confirmed from both sides' own logs (browser:
+      `MATCH_FOUND vs PARTNER`; partner: `match 1 vs WebPlayer`). `tsc` strict clean. DEADWEIGHT
+      `e16dbfa`, Apple #20677.
+      session: sess-20260923-1030-4a526255.
     - [ ] **Phase 3c -- WOTAN.** `friends.html` currently only manages the invite lifecycle; needs
       either a "copy token" affordance or a deep link into a client that can consume it.
