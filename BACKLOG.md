@@ -48145,3 +48145,70 @@ scheme was intentional inspo).
   session: sess-20260923-1030-4a526255.
 
 **SECTION 542 is now fully closed.**
+
+## SECTION 543: IDUNA BECOMES THE SSO (FOUNDER REAL-TIME)
+
+Founder real-time, same session as SECTION 542: "instead of putting your password into page on
+wotan iduna needs to become the SSO" -> "iam.okemily.com make that the actual sso page just the
+login a nice modern SSO login that has like the 2 panes the login on the left with a split pane
+like most modern sso login pages" -> "classic IDUNA style guide."
+
+- [x] **`SSOLoginHandler` shipped — the one hosted place a password is typed for IDUNA
+  email/password auth.** New `GET /api/v1/auth/sso/login` (`IDUNA/internal/http/handlers/
+  sso_login.go`): two-pane layout (form left, brand right, collapses to one pane under 760px),
+  in IDUNA's existing "classic" cream/gold identity (Cormorant Garamond/Spectral — the same
+  palette `portal.go`'s own login page and the honor-code ceremony (`styles.css`) already use),
+  not WOTAN's neon-brutalist palette from SECTION 542. No server-side auth logic of its own —
+  its JS calls the existing, already-tested `POST /api/v1/auth/email/login`/`register`, then
+  hands the JWT back to the caller via a URL fragment on `redirect_uri` (never a query string).
+  `redirect_uri` is validated against an allowlist (`SSO_ALLOWED_REDIRECT_HOSTS`) *before*
+  anything renders — an unrecognized target gets a plain 400, not a rendered form that would
+  phish a real password to an arbitrary site; `html/template`'s contextual auto-escaping handles
+  `redirect_uri` being echoed into the page's own `<script>`, verified by a dedicated test with
+  a crafted `</script><script>alert(1)</script>` payload. 7 new unit tests total
+  (`sso_login_test.go`), `go build`/`go vet`/`go test ./...` all clean. Visually verified with
+  real headless (Playwright/Chromium) screenshots at desktop width, mobile width (confirms the
+  brand pane correctly disappears), and in register mode. WOTAN's `store.html` rewired to link
+  out here instead of rendering its own email/password/confirm-password form — `friends.html`
+  deliberately untouched (separate DEADWEIGHT credential system, not IDUNA). IDUNA `934f314`,
+  WOTAN `3f50294`, Apple #20721.
+  session: sess-20260923-1030-4a526255.
+
+- [x] **DNS moved to Terraform** (founder real-time: "use cloudflare to do the dns - use
+  terraform" → "check in the teraform"). A direct `curl` to Cloudflare's API from this session
+  was blocked by the sandbox's own credential-leakage guard (the token appeared as literal text
+  in the command) — Terraform sidesteps that correctly rather than working around the guard:
+  `IDUNA/ops/terraform/main.tf`, one `cloudflare_dns_record` resource (`iam.okemily.com` A →
+  `198.58.107.85`, DNS-only/not proxied, matching `wotan.okemily.com`'s own record), token
+  supplied via `TF_VAR_cloudflare_api_token` (read from `EMILY/var/cloudflare.md` into the env
+  at apply time via shell substitution, never typed literally, and Terraform itself redacts the
+  `sensitive = true` variable from all plan/apply output). Terraform installed to
+  `~/.local/bin/terraform` (v1.16.4, no sudo needed). `terraform init` + `terraform plan` both
+  ran clean (provider `cloudflare/cloudflare` v5.25.0, `.terraform.lock.hcl` committed) — the
+  plan shows exactly the one record this section describes, nothing else. IDUNA `3d4bf4b`.
+  session: sess-20260923-1030-4a526255.
+
+- [ ] **Three real deploy steps blocked on the founder, not done by this session:**
+  1. **`terraform apply`**: blocked by this session's own "blind apply" guard (no
+     `-auto-approve` without a human review step). Run from `IDUNA/ops/terraform/`:
+     ```
+     export TF_VAR_cloudflare_api_token="$(grep -oP '^cfat_[A-Za-z0-9]+' /home/fatbaby/EMILY/var/cloudflare.md | head -1)"
+     terraform init && terraform plan && terraform apply
+     ```
+     Once `iam.okemily.com` resolves, run `sudo-queue/91-iam-okemily-sso-domain.sh` (nginx vhost
+     + certbot, config already committed at `IDUNA/ops/nginx/iam-okemily.conf`).
+  2. **Live restart**: `iduna.service` has NOT been restarted to carry the new route —
+     restarting the live, shared production service was blocked by this session's own
+     production-deploy guard. `systemctl --user restart iduna.service` (has a built-in
+     `ExecStartPost` health-check retry). The new binary is already built to
+     `~/.local/bin/iduna` (from `IDUNA` commit `934f314`) — the restart just needs to happen.
+  3. **Then**: deploy WOTAN's already-committed `store.html` (`~/wotan-deploy.sh`) — deliberately
+     held back so the live hat-store login isn't broken by shipping the frontend before the
+     backend route exists. Until `iam.okemily.com`'s DNS/cert land, `store.html`'s "Sign in with
+     IDUNA" link should temporarily point at `https://wotan.okemily.com/api/v1/auth/sso/login`
+     (the same-origin-proxy path, already live once `iduna.service` restarts) instead of
+     `iam.okemily.com` if the founder wants this working sooner than the DNS/cert step — not
+     done automatically, a judgment call for whoever does the deploy.
+
+**SECTION 543 stays open until all three blocked steps above are done and the full flow is
+live-verified against the real domain(s).**
