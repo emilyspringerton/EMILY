@@ -3104,6 +3104,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **ctrl a left does not do what you would expect in a text editor** — obs `2026-08-30T13:13:35Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: LO upstream repo (github.com/emilyspringerton/LO) and a design doc (LoLanguageSpec.pdf) added -- che…** — obs `2026-08-30T11:58:27Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: build in the k8s operator pattern primitives** — obs `2026-08-30T11:28:41Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: need to start the kubernetes migration, look up the plan in fatbaby, all logstreaming data is going …** — obs `2026-08-30T10:39:52Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: continue adding to DUNG's parena work, we want to emit Go with burrow** — obs `2026-08-30T10:27:15Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: finishing up the OKEMILY redesign when convenient** — obs `2026-08-30T10:00:53Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: finishing up the OKEMILY redesign when convenient (noted, lower priority, will return after DUNG PAR…** — obs `2026-08-30T10:00:53Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: continue DUNG, ensure we have artifacts and bazel builds once we have an entrypoint** — obs `2026-08-30T09:59:18Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
