@@ -2929,6 +2929,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (ECOWAR): the win condition itself should be mod-driven, not hardcoded host C -- 'even the win con sh…** — obs `2026-09-11T23:01:15Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time (ECOWAR, with a reference screenshot of Spore's planet/Civilization-stage globe view): wants the map …** — obs `2026-09-11T22:28:51Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time (mid-task, ECOWAR Living Map): cards should tie into the Living Map -- a card that gives Frontier Vil…** — obs `2026-09-11T21:22:01Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: multi-tenant game-platform-as-a-service — build DEADWEIGHT as a tenant of a gaming equivalent of Emi…** — obs `2026-09-11T19:35:55Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: cross-repo game-engine abstraction — survey SHANKPIT, REDGARDEN, ECOWAR, BRAWLPIT, PAPERCRAFT, WEAKN…** — obs `2026-09-11T19:28:04Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: DEADWEIGHT — new upstream repo has a captured Gemini transcript doc (misleadingly named 'LeetCode Sk…** — obs `2026-09-11T19:12:36Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: check BRAWLPIT matchmaking (server + bot pool, currently only need a bot pool of 1) -- fix if broken…** — obs `2026-09-11T00:46:25Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, blue-sky platform thinking (long thread): (1) IDUNA_PRO needs to become genuinely multi-tenant -- it…** — obs `2026-09-11T00:03:40Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
