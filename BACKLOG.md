@@ -3009,6 +3009,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (rapid sequence): for CPP-124433/CPP-2144333 (CarePyre portal/console), pivoted architecture mid-buil…** — obs `2026-09-05T05:18:18Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: what is the proper SRE way to get Asterisk running, it's gotta go on the same IDUNA box, do we just …** — obs `2026-09-05T05:07:07Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: web kanban showed 30 items in priority after moving a bunch to cruise, suspected a caching bug, aske…** — obs `2026-09-05T04:50:15Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: farthq.com Nanode is disposable/reusable for Stalwart mail hosting - asked how to provision/command-…** — obs `2026-09-05T04:20:19Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (multi-message thread, kanban CPMAIL-114/144): weigh Linode vs Google Cloud for the Stalwart sovereig…** — obs `2026-09-05T03:35:07Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: write up a plan for standing up a Stalwart email server in Google Cloud** — obs `2026-09-05T02:14:18Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build a SIP phone Android app for CarePyre using PARENA, keep it in the CarePyre repo for now** — obs `2026-09-05T02:11:37Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build a TYLER video gallery page adapting the Reading Room's design; deployed live to okemily.com/ty…** — obs `2026-09-05T02:10:15Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
