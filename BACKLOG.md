@@ -3304,6 +3304,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue working on self hosted parena compiler' -- continuing after emit-params type fix, next rea…** — obs `2026-08-27T17:35:30Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'continue working on self hosted parena compiler' -- continuing after the emit.prn crash fix, next r…** — obs `2026-08-27T17:12:47Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'continue working on self hosted parena compiler' -- continuing PARENA self-hosting compiler work, n…** — obs `2026-08-27T16:50:00Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue on welf hosted parena compiler' (typo for self hosted) -- continuing PARENA self-hosting c…** — obs `2026-08-27T14:59:04Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'keep working on self hosted parena compiler' -- next real increment: wire the new test-selfhost-lex…** — obs `2026-08-27T14:15:02Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue' -- next real increment: selfhost/emit.prn, the real fourth domain of the self-hosted PARE…** — obs `2026-08-27T13:26:32Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue' (typo 'contginue', same established shorthand) -- next real increment: selfhost/region.pr…** — obs `2026-08-27T13:04:24Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue' (repeated 'clnt'/'clntinue' typo pattern, this session's own established shorthand) -- ne…** — obs `2026-08-27T12:31:03Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
