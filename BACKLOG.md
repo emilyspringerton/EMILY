@@ -47969,3 +47969,49 @@ observe`, not yet scoped/built -- see the open items below).
 
 **SECTION 539 is now fully closed** -- minestrone shipped to SHANKPIT/PARENA/BIG_O/GFD, and the
 ARPANET shipped to BIG_O as a real, working retro terminal app.
+
+## SECTION 540: WOTAN IS THE FRONT DOOR (FOUNDER REAL-TIME, S537 THREAD CONTINUED)
+
+Founder real-time, 2026-09-24: "oh finish shipping the new WOTAN stuff wotan.okemily.com should
+be the front door to the online social tournament site." Logged via `emily observe` before
+scoping. Investigated first (Principle 19): S537's own CHANGELOG entries already named the real
+gap -- "the IDUNA build carrying these routes is committed/pushed but not yet deployed to
+`iduna.service`" and `friends.html`/`profile.html` were committed to WOTAN but never actually
+rsynced to `/var/www/wotan`. "Finish shipping" meant closing exactly that gap, not new feature
+work; "front door" meant `index.html`'s own framing had the pointer backwards (told visitors
+WOTAN was still "growing into its own home" and to go to `okemily.com/tournaments.html` instead).
+
+- [x] **Deploy IDUNA's social routes to production.** Confirmed via commit timestamps that the
+  running `iduna.service` binary (built 01:05 UTC) predated both `70b6b06` (06:06 UTC) and
+  `2716c8e` (12:04 UTC) -- every `friends.html`/`profile.html` call would have 404'd against the
+  real service. `go test ./...` clean (30+ packages), rebuilt, `systemctl --user restart
+  iduna.service` -- health check passed clean. Confirmed `friend-requests`/`duels` now 401
+  (auth required) instead of 404 (route missing). Also incidentally deployed the device-auth
+  `time.Time` fix (`5f3c89b`) that was separately named "NOT yet deployed... needs a human
+  restart" earlier the same day. IDUNA `b5ac93a`.
+  session: sess-20260923-1030-4a526255.
+- [x] **Deploy WOTAN's own committed-but-undeployed pages + reframe as the front door.**
+  `~/wotan-deploy.sh` rsynced `friends.html`/`profile.html` to `/var/www/wotan` for the first
+  time. `index.html` rewritten: dropped the "Under construction" badge and the "old page is
+  still at okemily.com/tournaments.html" framing, now `Live`, leads with Player Profiles/
+  Friends & Duels, and points outward to `okemily.com/tournaments.html` only for content that's
+  genuinely still only there (REDGARDEN leaderboard, hero stats, GFD Battlegrounds demo).
+  README updated per SAGA README Reality. WOTAN `fc2c7b1`.
+  session: sess-20260923-1030-4a526255.
+- [x] **Live end-to-end verification against real production** (closes the "not yet live-tested"
+  gap named in S537's own CHANGELOG). Two real throwaway DEADWEIGHT accounts
+  (`WotanE2eA`/`WotanE2eB`, `@example.test` emails) registered, upgraded to email/password, and
+  logged in through `wotan.okemily.com`'s own `/api/` proxy; a real friend request sent and
+  accepted; a real duel challenged and accepted, minting a real `match_token`; `GET .../players/
+  {id}/profile` confirmed the new friend count. All via curl against the actual live stack, not
+  a fixture -- the same call chain `friends.html` itself makes.
+  session: sess-20260923-1030-4a526255.
+- [x] **OKEMILY: point `tournaments.html` at the new front door.** Added a banner linking to
+  `wotan.okemily.com` -- the page keeps its own distinct live content and isn't going away, it
+  just isn't the entry point anymore, reversing the direction `index.html` used to point in.
+  Deployed via `~/okemily-deploy.sh`, live-verified. OKEMILY `0f89682`.
+  session: sess-20260923-1030-4a526255.
+
+**SECTION 540 is now fully closed.** Apple #20701. wotan.okemily.com is a genuinely live, fully
+wired front door: decks/store/profile/friends/duels all reachable from `index.html`, all backed
+by a production `iduna.service` that actually carries their routes, verified end to end.
