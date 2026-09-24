@@ -2914,6 +2914,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: major new direction — GFD job/spell system overhaul. Universal 'everything is a spell' model (cost/c…** — obs `2026-09-12T15:41:21Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: continue SSH Transport & Identity spec rollout — next stage (Stage 5: §3 identity binding + key mana…** — obs `2026-09-12T15:04:33Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: continue SSH Transport & Identity spec rollout — next stage (Stage 4: §2 SSH listener, high port, no…** — obs `2026-09-12T14:44:33Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: pasted a full 'SSH Transport & Identity' implementation spec for GoblinFoxDragon's MUD (telnet -> SS…** — obs `2026-09-12T06:14:13Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (via IDUNA kanban priority queue, card GFD-124433): GFD needs per-job leveling -- when a level 10 WAR…** — obs `2026-09-12T05:51:34Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: NOCK is being re-scoped as a texture generator+manager first -- needs real CRUD, SQLite persistence …** — obs `2026-09-12T05:35:51Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: loves the SHANKPIT procedural textures, wants NOCK to get a procedural-texture-generation API writte…** — obs `2026-09-12T05:13:36Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: wants to build NOCK -- a custom creative-tools suite (texture/image editor with Photoshop-equivalent…** — obs `2026-09-12T04:54:52Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
