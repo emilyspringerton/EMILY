@@ -3234,6 +3234,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: real client-side d…** — obs `2026-08-28T23:29:49Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "continue" (after S206-01..15 fully closed; asked the user which thread next via AskUserQuestion -- …** — obs `2026-08-28T22:59:48Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Last real item on NORTHSTAR.md's scope list: the embedded PA…** — obs `2026-08-28T22:46:19Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: instead of putting your password into a page on WOTAN, IDUNA needs to become the SSO -- i.e. stop ta…** — obs `2026-09-24T19:52:51Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: a real, minimal ma…** — obs `2026-08-28T22:30:31Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: trick/skate input …** — obs `2026-08-28T22:20:06Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "c" (continue) -- keep building PAPERCRAFT. Next real, appropriately-sized increment: persistence ac…** — obs `2026-08-28T22:13:36Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment (Phase 2, following…** — obs `2026-08-28T21:54:50Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
