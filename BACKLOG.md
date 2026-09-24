@@ -3069,6 +3069,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: we need document management asap** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: vs0 in papercraft** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: we can render the parena editor native in papercraft and bootstrap that into emily os** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued: start porting SARENA_NOTEBOOK's rendering to WebGL** — obs `2026-08-30T16:27:24Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued: basically build the PARENA editor (stdlib/editor/*.prn) into SARENA_NOTEBOOK** — obs `2026-08-30T16:27:12Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued: dogfood the LO language features (variables/let etc.) needed to power this** — obs `2026-08-30T16:26:56Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued: power the JEWEL word processor via LO** — obs `2026-08-30T16:26:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build a word processor into JEWEL, reusing SARENA_NOTEBOOK's own infrastructure, to power a GUI word…** — obs `2026-08-30T16:25:32Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
