@@ -3279,6 +3279,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ok im in shankpit 460 -- its kind of working? i dunno its super weird maybe the bots ai is messed u…** — obs `2026-08-27T21:21:45Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time correction: 'no double click on nerd tree should open a new window it just doesnt actually open the r…** — obs `2026-08-27T21:13:48Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'it seems like double clicking a file in the nerd tree in parena editor does not work' + 'it just sa…** — obs `2026-08-27T21:05:28Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ok i dropped a large file onto parena editor and it crashed ensure we are doing streaming and windo…** — obs `2026-08-27T20:56:27Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'can we update longma so its written in pure parena? (our fork)' -- new request to rewrite the longm…** — obs `2026-08-27T20:50:12Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue' -- resuming PARENA editor Thread B (terminal/editor toggle unifying PITVIPER), the next s…** — obs `2026-08-27T20:45:03Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ok im on ecowar client - it says ecowar now and does not join redgarden match it says failed to joi…** — obs `2026-08-27T20:36:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ensure parena ci uploads construct artifacts... 2 additional artifacts one targz the other zip of t…** — obs `2026-08-27T20:28:57Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
