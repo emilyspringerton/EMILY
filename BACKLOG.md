@@ -47124,3 +47124,77 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   matchmaker). GoblinFoxDragon `279092f` (source), `92116f7` (rebuilt binaries, undeployed), Apple
   #20595.
   session: sess-20260923-1030-4a526255.
+- [x] **Air ships -- wedge-shaped hover skateboards, per-board PARENA physics
+  (`BIG_O/NORTHSTAR.md` §26).** Founder real-time: "continue add air ships like wedge shaped
+  hover skateboards they have different physics per board and they can be programmed in parena
+  friction and gravity etc can be tuned." Three real board types (SPEEDSTER/TANK/GLIDER, new
+  `PARENA/stdlib/big_o/hoverboard_rules.prn`), each a pure lookup of four tuned constants
+  (acceleration, friction, top speed, gravity scale). New `day/packages/common/
+  bigo_hoverboard.h`: frame-rate-independent exponential-drag momentum model
+  (`powf(friction, dt)`) -- each board's own natural equilibrium velocity comfortably exceeds its
+  own `max_speed` cap, so the explicit clamp (not friction) governs top speed, while friction
+  shapes deceleration feel. New wire packet `PC_PACKET_HOVERBOARD_TOGGLE`; `PcPlayerState` gains
+  `mounted_board`. Server branches horizontal movement + gravity scale on mount state, resets
+  momentum on any real mount-state change. Client renders a wedge mesh per mounted player; **V**
+  cycles mount state, guarded off while the GFD chat terminal has text-input focus.
+
+  `bigo_hoverboard_test.c` (6 assertions) + a real scratch `#include main.c` integration harness
+  (ASan/UBSan clean) both pass -- caught and fixed a real friction-model bug this way: an initial
+  per-TICK (not per-SECOND) decay made every board converge far below its own tuned max speed at
+  60Hz, caught by the test's own real convergence assertion. `bazel test //day/packages/...`
+  32/32 green. Real server+client builds clean (one real `-Wcomment` warning found and fixed
+  properly). `NORTHSTAR.md` §26; `CHANGELOG.md`; `README.md` (SAGA README Reality -- new,
+  genuinely interesting piece of kit). Named, not-fixed gap: the slide-jump trick's on-foot speed
+  formula doesn't yet account for a mounted player. BIG_O `a2d9219`, PARENA `c7fa311`, Apple
+  #20598.
+  session: sess-20260923-1030-4a526255.
+- [x] **Real GFD integration -- BIG_O joins the live cross-server chat bridge
+  (`BIG_O/NORTHSTAR.md` §27).** Founder real-time: "continue with the big_o gfd integration via
+  the phone app." Two real, consequential decisions checked with the founder before building
+  (both via `AskUserQuestion`, both answered): (1) a real live connection, not the rest of §25's
+  queued list; (2) once a real, existing, LIVE GFD<->EINHORN_SURVIVAL chat bridge was found
+  (`GoblinFoxDragon/docs2/CHAT_BRIDGE_TO_EINHORN_SURVIVAL_SPEC.md`, IDUNA's real `POST/GET
+  /api/v1/chat/messages`), joining THAT bridge as a third real participant rather than a bespoke
+  raw-TCP connection into GFD's own telnet port -- more consistent with the rest of the monorepo,
+  reaches EINHORN_SURVIVAL (live Minecraft) too, but needs a real new IDUNA M2M agent and touches
+  two other live, community-facing systems, so this was surfaced and confirmed rather than
+  decided unilaterally.
+
+  **IDUNA**: new `sender_source` `"bigo_server"` + channel `"big_o"`
+  (`internal/http/handlers/chat_messages.go`), new real M2M agent `BIGO-SERVER`
+  (`config/agents.json` + `migrations/truestore/202609240100_bigo_server_agent.sql` -- no special
+  permission needed, `RequireAuth` is the only real gate on this route). Live-verified: `go run
+  ./cmd/bootstrap` against the real running DB (secret provisioned, every other agent's own
+  credential confirmed untouched), `iduna.service` rebuilt + restarted (health-checked clean),
+  then a real `curl` auth->POST->GET round trip against the live server succeeded before any
+  BIG_O code touched it. 2 new tests.
+
+  **BIG_O**: new `day/packages/common/bigo_gfd_bridge.h` -- one persistent background poller
+  `pthread` (auth once, `GET .../chat/messages` every 5s) + one detached `pthread` per outbound
+  send (`POST`, fire-and-forget), so the server's own single-threaded 60Hz UDP tick loop never
+  blocks on IDUNA. A minimal, brace-depth-aware JSON-array walker on top of `http_client.h`'s own
+  scalar extractors (IDUNA's response is an array of objects; `http_client.h` only ever finds the
+  first occurrence of a field). A mutex-protected ring buffer hands decoded lines to the main tick
+  loop. The existing `PC_PACKET_CHAT_SAY` handler gains one additive step (also posts to the
+  bridge, named from the player's own real, stable, IDUNA-backed `player_id`, not the ephemeral
+  slot index); a new `server_tick_gfd_bridge()` relays anything not from `bigo_server` itself
+  (`gfd_server`/`einhorn_survival`/`mud`/`battlegrounds` all included) to every connected player,
+  tagged `[GFD]`/`[MC]`/`[MUD]`/`[BG]`. Client special-cases the bridge's own sender-slot sentinel
+  (255, hardcoded literal, deliberately not linking the whole bridge header) to render the
+  already-formatted line as-is.
+
+  `bigo_gfd_bridge_test.c` (hermetic, no network: JSON-array walking incl. a literal `{`/`}`
+  inside a real chat body, source tagging, ring-buffer push/drain + overflow, disabled-bridge
+  no-op) + **a real, live end-to-end run against the actual running IDUNA**: the real, freshly-
+  built server binary, real `IDUNA_SECRET_BIGO_SERVER` credential, real authentication, real
+  historical multi-source chat correctly polled/parsed/tagged from all three other live bridge
+  participants (including surviving adversarial-looking real test content -- a literal
+  `` ``` drop al;ll tables `` string -- with zero crashes), the earlier `curl` self-post correctly
+  seen and skipped. `bazel test //day/packages/...` 33/33 green, real server+client builds clean
+  (one real `-Wformat-truncation` false positive found and fixed properly, not suppressed).
+  `BIG_O/NORTHSTAR.md` §27; `CHANGELOG.md` (BIG_O + IDUNA); `README.md`; `GOLDEN_DOCS` resynced.
+  Real, honest, not built: no real in-game player chained a keypress through this end to end yet
+  (needs a real connect-ticket flow, deliberately not stood up just for this check); no rate
+  limiting (a real, shared, already-named gap across all bridge participants, not BIG_O's alone to
+  solve). IDUNA `718999e`+`de55624`, BIG_O `8bf93d5`, GOLDEN_DOCS `ba2c657`, Apple #20600.
+  session: sess-20260923-1030-4a526255.
