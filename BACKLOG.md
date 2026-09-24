@@ -3254,6 +3254,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue' -- proceeding on own judgment again, doing another pass to find safe, valuable, non-colli…** — obs `2026-08-28T03:32:55Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'continue' (third time in a row after I asked for direction) -- proceeding on my own judgment per th…** — obs `2026-08-28T03:13:45Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: PARENA editor is slow opening large files -- 'we dont want to load the whole thing into memory... ho…** — obs `2026-08-28T02:29:27Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: continue working on PARENA self-hosted (VS0 compiler bootstrap) -- removing C FFI when possible, i.e…** — obs `2026-08-28T00:40:37Z`. CURATED: 2026-09-24.
+- [ ] **GFD Battlegrounds (apps2/battlegrounds_gui) sync check: the 3-repo 'bacon puck intangible movement speed' ask (2026-08-…** — obs `2026-08-28T00:03:19Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue' -- proceeding to Phase 2 of the ECOWAR Map Editor epic (ECOWAR-MAPEDIT-NORTH): ECOWAR car…** — obs `2026-08-27T23:48:20Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, concrete cross-repo gameplay ask (arrived mid-Phase-1 of the ECOWAR Map Editor epic, a real, perfect…** — obs `2026-08-27T23:29:53Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'go' -- starting Phase 1 of the ECOWAR Map Editor epic (ECOWAR-MAPEDIT-NORTH): Arena API v0, documen…** — obs `2026-08-27T23:25:37Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
