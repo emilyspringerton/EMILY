@@ -2949,6 +2949,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time follow-up: (1) editor Upload button was hard to find in the right sidebar -- 'i cant see the button m…** — obs `2026-09-10T01:33:37Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: pivot — make PARENA run on an Arduino (AVR native target), add an Upload button to the real PARENA e…** — obs `2026-09-10T01:19:27Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'continue' -- continue Community Tools resume/CV builder work (SECTION 334) into the real frontend: …** — obs `2026-09-09T20:50:08Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'we want to build a tool to maintain and verify resume data' -> 'build it as a separate app using a …** — obs `2026-09-09T20:16:51Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue' -- continue building out PARENA hardware interfaces beyond UART/Serial Phase 1 (HW-001/HW…** — obs `2026-09-09T00:40:41Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: PARENA CI build is down/failing on the macOS editor build job; founder suggests possibly switching t…** — obs `2026-09-08T23:58:43Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: write Season 6 Episode 0 (S06E00), the first episode of the season after NEVER_LAND resets without a…** — obs `2026-09-08T11:28:32Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: next TYLER season after NEVER_LAND is arbitrarily designated Season 6.** — obs `2026-09-08T11:28:12Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
