@@ -47371,3 +47371,45 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   generator -- a real, honestly-named gap, not silently treated as fully certified). PARENA
   `1b9200d`, BIG_O `fa7592a`/`e43178e`, GOLDEN_DOCS `67aa41f`, Apple #20621.
   session: sess-20260923-1030-4a526255.
+- [x] **The lab goes live -- real server wiring for core/lab_sim.c's centrifuge station.** Founder
+  real-time: "continue working on BIG_O until it is feature complete." Closed the real, named
+  gap standing since NORTHSTAR.md §9 (2026-09-20): `core/lab_sim.c`'s real, tested equipment
+  pipeline (centrifuge/PCR/sequencer/CRISPR-splice/repressor-install/breed/incubate) had zero UI
+  or server wiring anywhere -- "nothing calls it from any real game state." Deliberately narrow
+  per Principle 19: only the centrifuge station is wired live, matching every other phase in this
+  thread's own "one real piece landed, the rest named" discipline.
+
+  New `day/packages/common/bigo_lab.h` -- `LabCrewState` (one real, global, crew-shared sample
+  inventory, matching NORTHSTAR.md §7's "one crew, one basement" v0 model), a real
+  `bigo_lab_seed_starter_samples` (3 wild-harvest samples at server startup, an honest placeholder
+  for the not-yet-built day-harvest bridge), and a real, bounds-checked `bigo_lab_centrifuge`
+  calling the real, unmodified `centrifuge_spin`. New wire packets `PC_PACKET_LAB_CENTRIFUGE`
+  (client->server) and `PC_PACKET_LAB_UPDATE` (server->ALL active players -- real, shared crew
+  state, the deliberate opposite of `PcInventoryUpdatePacket`'s own private-to-one-owner
+  convention). `day/apps/server/src/main.c` gained a real `g_lab` global, `send_lab_update_to`/
+  `broadcast_lab_update` (sent on WELCOME catch-up and after every mutation), and a new packet
+  handler. `scripts/build_day.sh` now compiles `core/lab_sim.c` for the first time.
+
+  Verified end to end, not just compiled: `bazel test //...` 41/41 green (up from 33, new
+  `bigo_lab_test`, 5 real assertions, plus a `_Static_assert` guarding the wire-format constant
+  from silently drifting from the host constant). A real, live scratch integration harness
+  (`lab_verify.c`, `#include main.c`, same precedent every phase in this thread uses) drives the
+  real, unmodified `g_lab` global end to end, including opening a real UDP socket pair to confirm
+  every `PcLabUpdatePacket` field round-trips exactly, not just in memory. The real
+  `bigo_day_server` binary boots against the live shared worldapi, reaches full `Listening on UDP`
+  state, and runs 8 real seconds with the new lab state active -- no crash. ASan/UBSan clean.
+  `scripts/build.sh`'s own separate ASan/UBSan `core/` scenario path unaffected (4619 parity
+  vectors, 26 scenarios). One real bug caught early (not via a build failure): a first-draft
+  `bigo_lab.h` used the wrong relative-include depth reaching for `core/lab_sim.h` -- caught by
+  directly testing both candidate path depths with `test -f` before ever compiling.
+
+  `NORTHSTAR.md` §30, `README.md` updated per SAGA README Reality, `GOLDEN_DOCS` resynced. Real,
+  honest, deliberately NOT built: no client UI/input wiring (`BP_APP_LAB`'s own pre-existing
+  client-only mockup is untouched, a genuinely different, simpler data model -- real, separate,
+  next follow-up, same "server logic first" precedent wheelbarrow/pheromone/dispatch already
+  used); PCR/sequencer/splice/repressor/breed/incubate remain real, tested, unconsumed
+  `core/lab_sim.c` primitives with no packet of their own; no day-harvest bridge; no persistence;
+  no per-crew ownership model (any connected player can run the centrifuge, matching v0's "one
+  crew" model, not a new gap); no REFLUX publish. BIG_O `4d8edfc`/`778a189`, GOLDEN_DOCS
+  `731c311`, Apple #20625.
+  session: sess-20260923-1030-4a526255.
