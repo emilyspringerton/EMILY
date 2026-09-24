@@ -3079,6 +3079,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, correction: SHITHUB's IAM should be IDUNA-powered (not PARENA) -- though PARENA involved too somehow…** — obs `2026-08-30T16:02:47Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: SHITHUB and SHITLAB upstream repos already created; put the main git GUI in SHITHUB, PARENA-powered …** — obs `2026-08-30T16:02:39Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: as a dogfooding NORTHSTAR for the LO Rails-like framework, stand up 'SHITHUB' -- our own self-hosted…** — obs `2026-08-30T15:59:38Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: make LO batteries-included -- write a Rails-like framework stdlib in LO+PARENA as a dogfooding NORTH…** — obs `2026-08-30T15:57:35Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, clarifying earlier note-versioning ask: IDUNA is the intended storage backend for note version histo…** — obs `2026-08-30T15:44:08Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add PARENA stdlib for date/time formatting, using the same 'magic reference time' layout string conv…** — obs `2026-08-30T15:41:57Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add PARENA primitives for managing versions of notes, plug into PAPERCRAFT -- like an iCloud-style b…** — obs `2026-08-30T15:40:28Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: turn 'the mag book' into a PARENA playground** — obs `2026-08-30T15:36:04Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
