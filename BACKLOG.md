@@ -47853,3 +47853,28 @@ foundation to build on rather than a new identity system.
       session: sess-20260923-1030-4a526255.
     - [ ] **Phase 3c -- WOTAN.** `friends.html` currently only manages the invite lifecycle; needs
       either a "copy token" affordance or a deep link into a client that can consume it.
+
+## SECTION 538: TYLER SUPPORTING CHARACTER: THE AUDITOR (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-24: "north star a scietist coop player from the local government energy
+agency / he is secretly the guild leader of the hacing faction of uncompromised academics v for
+vendetta but overly wholesome" + a reference photo (eccentric elder scientist, wild white hair,
+suspenders, circuit-board pin badge, mid-lecture). Asked which project this was for (no repo
+named); founder clarified: "NPC character like alex from half liffe" (TYLER, co-op-ally register,
+not a protagonist). Followed immediately by a second founder real-time addition: "he is an
+astronomy expert and unix expert favorite food ministrone" plus a separate, unrelated ask folded
+into the same message -- "add ministrone to shankpit and bigo" (SECTION 539 below).
+
+- [x] **New character: The Auditor, founder of the Uncompromised.** `TYLER/characters/
+  the_auditor.md` -- a Grid Compliance Inspector (Regional Energy Authority) whose decade-plus
+  compliance dataset independently tracked the Amon/Beleth/Vassago/Zagan/Stolas frequency table
+  (`TYLER/README.md` SIII) years before The Field went public; secretly the Convener of the
+  Uncompromised, a wholesome hacktivist guild of academics/engineers/public employees who mirror
+  suppressed research for free rather than owning or weaponizing it like the seven established
+  Faction Dossier factions do. Deliberately kept OUT of README.md SIV's Faction Dossiers table --
+  same "standalone function documented inside its own character file" precedent
+  `characters/exchange_student.md` already set for CEDAR, not a new dossier entry. Astronomy
+  expertise, Unix systems administration, and minestrone (his signature dish + the guild's potluck
+  tradition) folded in from the founder's follow-up note. `README.md` SIX gained a matching
+  Supporting Characters entry. TYLER `cb80a63`, Apple #20688.
+  session: sess-20260923-1030-4a526255.
