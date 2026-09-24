@@ -47882,6 +47882,18 @@ foundation to build on rather than a new identity system.
       seeded value, and a real trusted click resolves `writeText()` successfully (button shows
       "Copied!"). WOTAN `61bfbce`, Apple #20690.
       session: sess-20260923-1030-4a526255.
+    - [x] **Phase 3c follow-up: diagnosed + cleared a stalled background verification run.**
+      Founder asked to check on a backgrounded `duel_wotan_phase3c_e2e.sh` run. Root cause: the
+      scratch CDP harness hardcoded its Chrome debug port with no timeout on any CDP round-trip,
+      so a not-fully-reaped prior run's Chrome could collide with a rerun and hang forever with no
+      self-recovery (task `bcud2ohkw`, already cleared earlier the same day by exact-PID kill).
+      Confirmed directly (ps/ss) nothing was actually still stuck at the time of this pass,
+      randomized the harness's port to prevent recurrence, then re-ran fresh: real headless
+      Chrome against the currently-deployed `friends.html` (MD5-confirmed identical to
+      `/var/www/wotan/friends.html`) rendered the match_token + Copy button and a real trusted
+      click resolved `writeText()` -- reconfirms Phase 3c still works against what's live today,
+      not just what was true at first verification. WOTAN `c1c6a5e`, Apple #20703.
+      session: sess-20260923-1030-4a526255.
 
     **SECTION 537 Duel Phase 2 is now fully closed**: Phase 1 (IDUNA mint+expose match_token),
     Phase 2 (DEADWEIGHT server-side same-token pairing), and Phase 3a/3b/3c (native SDL2, web,
