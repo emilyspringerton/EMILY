@@ -3054,6 +3054,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **blog post about how gary is now contributing to the redgarden upstream via pull requests from codex - his work may be k…** — obs `2026-09-02T20:57:55Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: BusinessWire scraping is blocked on this box's datacenter IP being flagged by anti-bot systems (real…** — obs `2026-09-02T16:42:47Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: add BusinessWire as a PR data source alongside PRNewswire, tag both as content type 'pressreleases' …** — obs `2026-09-02T15:31:15Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: get PAPERCRAFT working with controller input and a 'punch' action to test punching destructables; al…** — obs `2026-09-02T15:05:51Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: publish an updated Terms of Service and Privacy Policy.** — obs `2026-09-02T14:40:02Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: ensure admin events (suspend/unsuspend) and ALL login paths to the IDUNA backend are wired into the …** — obs `2026-09-02T13:32:11Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build SHITHUB using LO -- build a real, Rails-like 'batteries included' web framework directly into …** — obs `2026-09-02T00:34:04Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add LAMBDA to LO, glyph 🐪 (camel)** — obs `2026-08-30T17:32:25Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
