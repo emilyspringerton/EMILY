@@ -48068,21 +48068,25 @@ to join the shankpit zombie zerver game (just call the app zombies)."
   Description updated, redeployed to `~/.config/systemd/user/` + `daemon-reload`. Deliberately
   left stopped rather than started -- see the open item below for why. SHANKPIT `d90cddc`.
   session: sess-20260923-1030-4a526255.
-- [ ] **OPEN, not fixed this pass: `shankpit-server.service` is in an active SIGSEGV
-  crash-restart loop.** This -- not the bot pool -- is the real "something is wrong with the
-  queue." Checked directly rather than assumed: the live queue server (UDP :6969) dies ~1s after
-  every restart, deterministically (3x `[BUGGY] spawned`, `[STADIUM] terrain initialized`, then
-  SEGV), restart counter climbing continuously (63->70 across two minutes of observation).
-  `shankpit-zombie.service` (same `shank_server` binary, different port/level -- 6971,
-  `nextown_zombies.json`) shows the identical crash signature and had already hit systemd's
-  "start request repeated too quickly" and gone permanently `failed` before this session started
-  looking -- same underlying bug, not level-specific, so the new ZOMBIES button above will not
-  actually be able to hold a connection until this is fixed. `shankpit-bot-pool.service` had
-  already exited cleanly (status 0, not a crash) after its 12 bots spent ~10s all logging "failed
-  to connect to 127.0.0.1:6969" -- a sane reaction to the server being down, not a bot-pool bug.
-  No debugger session or commit bisect run yet -- root cause not isolated, flagged rather than
-  guessed at. Needs a real gdb-on-coredump or `git bisect` pass on `apps/server/src/main.c`
-  around whatever runs right after terrain init / BUGGY spawn.
+- [x] **Root-caused and fixed the SIGSEGV crash-restart loop.** Founder confirmed live ("yes
+  shankpit queue no longer works") and asked to debug it. Reproduced under gdb
+  (`gdb --batch -ex run -ex "bt full" --args ./bin/shank_server --deathmatch`): SIGSEGV inside
+  `vfprintf`, `s=0x0`, called from `witness_ai_tick -> witness_sim_tick`. Root cause:
+  `witness_sim.c`'s ~20 `fprintf(s->out, ...)` calls all assumed `WitnessSim.out` was always a
+  valid `FILE*`, but `witness_ai_reset` (the only place that sets it) is never called from either
+  `apps/server/src/main.c` or `apps/lobby/src/main.c` -- only `witness_sim_test.c` calls it,
+  always with `stdout`. The 2026-09-20 BIG_O engine merge wired `witness_ai_tick` into the
+  dedicated server's tick loop unconditionally; its 1s-gated `witness_sim_tick` call crashed on
+  the NULL sink the first time that gate opened, on any mode/level, story or not -- same bug hit
+  both `shankpit-server.service` and `shankpit-zombie.service` (same binary). Fixed with a
+  null-safe `sim_log()`/`SIM_LOG` helper replacing all 23 call sites -- makes
+  `witness_ai_tick`'s own "safe no-op outside story mode" doc comment actually true instead of
+  adding new behavior. Verified: `make server` clean; `shank_server` ran well past the crash
+  point directly in both configs (previously ~1s to SEGV, 100% reproducible); the real
+  `shankpit-server.service` + `shankpit-zombie.service` + `shankpit-bot-pool.service` (8 bots)
+  all restarted and held stable 30+s with zero crashes and all 8 bots connecting cleanly
+  (previously 100% "failed to connect"). SHANKPIT `702234b`, Apple #20711.
   session: sess-20260923-1030-4a526255.
 
-Apple #20710 covers the two closed items. SECTION 541 stays open pending the crash fix.
+Apple #20710 covers the ZOMBIES button + bot-pool resize, Apple #20711 covers the crash fix.
+**SECTION 541 is now fully closed.**
