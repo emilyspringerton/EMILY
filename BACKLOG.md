@@ -2984,6 +2984,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: build screen sharing + super basic chat into IDUNA Pro (explicitly: don't NORTHSTAR it, just kanban …** — obs `2026-09-07T20:53:55Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: continue adding APIs to PAPERCRAFT's PARENA mod surface toward Roblox API parity -- specifically, wa…** — obs `2026-09-07T19:25:06Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: BRAWLPIT multiplayer has never worked for the founder specifically -- asked for a reasonable pivot p…** — obs `2026-09-07T19:05:28Z`. CURATED: 2026-09-24.
+- [ ] **Continuation (autonomous, delegated 'whatever you think'): implement in-match rendering of the free WOTAN hat picker on…** — obs `2026-09-07T18:52:46Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: schedule a mid-day movers-watcher run at 10:20am ET in addition to the existing 9:45am run.** — obs `2026-09-07T17:38:47Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build GAUNTLET v0 for the FatBaby content pipeline -- (1) all auto-generated articles need disclaime…** — obs `2026-09-07T16:49:05Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build the CarePyre admin app -- white-label IDUNA_PRO's console/branding first (general capability, …** — obs `2026-09-07T16:30:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build a multi-organization provider-cluster trust model for IDUNA_PRO/CarePyre -- clustered orgs can…** — obs `2026-09-07T16:09:29Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
