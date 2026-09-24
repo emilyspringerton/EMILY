@@ -47935,10 +47935,14 @@ observe`, not yet scoped/built -- see the open items below).
   2026-09-23 "17-item" historical snapshot deliberately left as-is, not retroactively rewritten.
   BIG_O `a6fc2ce`, Apple #20696.
   session: sess-20260923-1030-4a526255.
-- [ ] **GFD (GoblinFoxDragon): add minestrone.** Founder real-time, not yet investigated -- GFD is
-  a separate Go/Dragonfly-Bedrock-protocol codebase, not a fork of SHANKPIT's C food_items.h, so
-  this needs its own real investigation (does GFD have any existing item/food concept at all?)
-  before scoping, same as SHANKPIT/BIG_O got above.
+- [x] **GFD (GoblinFoxDragon): add minestrone.** Investigated first: GFD's food system
+  (`server/food/food.go`) is a separate, real, pre-existing FFXI-inspired Go stat-buff registry --
+  no relation to SHANKPIT/BIG_O's C `food_items.h`, and no hardcoded item count anywhere
+  (`Registry.All()` derives from the slice), so this was a pure addition. MINESTRONE:
+  VIT+3/MND+4/HP+35, 25-min duration -- same register as the existing Crab Soup but
+  vegetable-themed. New `TestMinestroneStats`; full `server/food` suite (14/14),
+  `go build`/`go vet ./...` clean. GoblinFoxDragon `01abf7f`, Apple #20697.
+  session: sess-20260923-1030-4a526255.
 - [ ] **BIG_O: add the ARPANET.** Founder real-time, no further spec given yet -- genuinely
   unscoped (a lore/world reference? a literal network-simulation mechanic? something else?).
   Needs a scoping pass, not a guess.
