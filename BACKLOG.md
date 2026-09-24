@@ -3029,6 +3029,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: priority then cruise continuing — pulling BPMM-x-123 (BRAWLPIT social lobby mode)** — obs `2026-09-04T21:52:59Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: priority then cruise continuing — pulling BPMM-1202020 (BRAWLPIT 1v1 matchmaking with bot pool)** — obs `2026-09-04T21:47:39Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: priority then cruise — pulling GFD-994001 (GFD core game loop performance tuning)** — obs `2026-09-04T21:41:25Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add attack speed (delay) to GFD items -- individually per weapon, not per item type; found and fixed…** — obs `2026-09-04T06:14:12Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: GFD item builder needs a big GUI to manage items (resolves ITEM_BUILDER_NORTHSTAR.md Phase 2's CLI-v…** — obs `2026-09-04T05:19:53Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: BRAWLPIT physics.h readability pass -- reduce gauntlet of ifs, stop reusing turnip_cooldown for non-…** — obs `2026-09-04T04:58:51Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: sudo queue scripts ran** — obs `2026-09-04T03:31:28Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: Ally Cat Security should be an in-universe TRAPX security contractor (GTA7) selling anti-K9 tech and…** — obs `2026-09-04T01:35:06Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
