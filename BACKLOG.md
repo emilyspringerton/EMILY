@@ -3274,6 +3274,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'continue' -- picking the next real increment from the queued PARENA editor bug list: mouse-wheel sc…** — obs `2026-08-27T21:48:48Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time, rapid succession: 'we need a widget at the bottom to open settings' -> 'figure out the basic setting…** — obs `2026-08-27T21:30:57Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'ok if i double click on parena construct in parena editor it crashes this is a 2 mb txt file we ene…** — obs `2026-08-27T21:28:27Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ok parena editor nerd tree needs to scroll with mouse wheel if im hovering over nerd tree vs hoveri…** — obs `2026-08-27T21:27:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued SHANKPIT-460 live testing feedback (same session as 'its kind of working... bots ai messed…** — obs `2026-08-27T21:23:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ok im in shankpit 460 -- its kind of working? i dunno its super weird maybe the bots ai is messed u…** — obs `2026-08-27T21:21:45Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time correction: 'no double click on nerd tree should open a new window it just doesnt actually open the r…** — obs `2026-08-27T21:13:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'it seems like double clicking a file in the nerd tree in parena editor does not work' + 'it just sa…** — obs `2026-08-27T21:05:28Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
