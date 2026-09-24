@@ -2904,6 +2904,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: full weapon-skill leveling design -- per-weapon-type skill levels (like fishing/mining skill-gain-on…** — obs `2026-09-12T22:36:06Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: guest login must not allow claiming a name that collides (case-insensitively) with an existing SSH-b…** — obs `2026-09-12T22:22:20Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: GFD guest-mode messaging is stale -- says 'SSH-bound identity... coming soon' but SSH is live. Updat…** — obs `2026-09-12T21:48:53Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: update SKATEBOARD README with links to the crypto whitepapers, and add a dated 'Superseded -- Septem…** — obs `2026-09-12T21:06:58Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add AlphaStar-style league training (Main Agent / Main Exploiter / League Exploiter) to REDGARDEN's …** — obs `2026-09-12T20:43:45Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: BP (BRAWLPIT) level registry -- build now. Design: publish/fetch/version as core primitives from day…** — obs `2026-09-12T18:48:10Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: GFD SSH login shows guest/no-persistence warning even though login worked -- character not saving** — obs `2026-09-12T18:02:57Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: full monorepo product audit across all 63 repos (product/60s-no-install/friction/broken), report to …** — obs `2026-09-12T17:11:03Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
