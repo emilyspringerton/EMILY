@@ -47708,12 +47708,22 @@ foundation to build on rather than a new identity system.
     back the same token and a decline carries none. `go build`/`vet`/`test ./...` clean. IDUNA
     `2716c8e`, Apple #20662.
     session: sess-20260923-1030-4a526255.
-  - [ ] **Phase 2 -- DEADWEIGHT: protocol bump + same-token queue pairing.** `QUEUE` gains an
-    optional match-token field (protocol version bump, forced clean break via the existing
-    `proto=3` HELLO check); `try_pair_mode()` gains a same-token-first branch ahead of
-    `oldest_queued()`, falling back to normal FIFO if the token is absent or the partner hasn't
-    queued yet. Server-side only, unit/e2e-tested against the existing harness -- no client UI
-    changes in this sub-item.
+  - [x] **Phase 2 -- DEADWEIGHT: same-token queue pairing.** Built, then corrected live: `QUEUE`
+    gained the optional match-token field WITHOUT a proto bump after all -- checking the real
+    codec found it's a purely additive length variant (0/1/33 bytes, same shape `same_deck` itself
+    already uses), so an old client that never sends the new form is unaffected; the original
+    scoping's assumption of a forced version bump wasn't needed once the wire format was actually
+    inspected. `try_pair_mode()` gained `find_token_pair()`, checked before normal FIFO/bot logic.
+    A real design bug was found and fixed along the way, not just the happy path: a lone
+    token-holder queuing into a busy queue was getting FIFO-matched with a stranger before their
+    duel partner connected -- `oldest_queued()` now excludes any match_token-carrying connection
+    from ordinary pairing entirely. Verified via new `test_protocol.c` coverage AND a live e2e
+    scratch test driving real `dw_server`+`dw_client` over real TCP that specifically proves a
+    token-holder isn't swept into a stranger's match while waiting (not just that two token-holders
+    alone would pair, which FIFO would do anyway). `dw_client --match-token` + `DwRunOpts.
+    match_token` are the minimal test hook; bot/GUI/web still need their own Phase 3 wiring.
+    `scripts/build.sh --gui` clean. DEADWEIGHT `b053fe9`, Apple #20664.
+    session: sess-20260923-1030-4a526255.
   - [ ] **Phase 3 -- client UI wiring.** A "duel accepted -> queue for this duel" affordance in
     the native SDL2 client, the web client, and WOTAN -- three separate, independently-
     committable sub-items, same pattern SECTION 537's other items already used.
