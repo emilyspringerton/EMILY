@@ -3064,6 +3064,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Real finding while scoping PAPERCRAFT editor wiring: PAPERCRAFT's own CLAUDE.md establishes mods as I32-scalar-only at …** — obs `2026-08-30T16:51:22Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: build word processing/spell-check/autocomplete first, as VS1-2 phase goals** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: make it compile, view the AST (lesser priority), and edit -- super simple** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: i mean we need the equivalent of vs code but ours is a little spicier, PARENA powered, built in BLUE…** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: like the web emily os** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: we need document management asap** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: vs0 in papercraft** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: we can render the parena editor native in papercraft and bootstrap that into emily os** — obs `2026-08-30T16:38:48Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
