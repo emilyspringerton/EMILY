@@ -47695,8 +47695,20 @@ foundation to build on rather than a new identity system.
   gains a same-token-first branch ahead of `oldest_queued()` -- two connections presenting the same
   token pair immediately regardless of arrival order, falling back to normal FIFO if the token
   isn't present or the partner hasn't queued yet.
-  **Phased, not one giant slice:** (1) IDUNA: migration + token minting/exposure on duel accept;
-  (2) DEADWEIGHT: protocol bump + `try_pair_mode()` same-token pairing, server-side only, unit-
-  tested against the existing e2e harness; (3) client UI wiring ("duel accepted -> queue with this
-  duel" affordance) in the native SDL2 client, the web client, and WOTAN -- three separate,
-  independently-committable sub-items, same pattern SECTION 537's other items already used.
+  **Phased, not one giant slice:**
+  - [x] **Phase 1 -- IDUNA: mint + expose the match_token.** `duelRespond`'s accept path mints a
+    random 32-hex-char token (`crypto/rand`, 15-min TTL), stored on `duel_challenges`; `GET duels`
+    surfaces it identically to both participants while unexpired, never on a decline. New additive
+    migration `202609240400_duel_match_tokens.sql`. New test coverage confirms both sides read
+    back the same token and a decline carries none. `go build`/`vet`/`test ./...` clean. IDUNA
+    `2716c8e`, Apple #20662.
+    session: sess-20260923-1030-4a526255.
+  - [ ] **Phase 2 -- DEADWEIGHT: protocol bump + same-token queue pairing.** `QUEUE` gains an
+    optional match-token field (protocol version bump, forced clean break via the existing
+    `proto=3` HELLO check); `try_pair_mode()` gains a same-token-first branch ahead of
+    `oldest_queued()`, falling back to normal FIFO if the token is absent or the partner hasn't
+    queued yet. Server-side only, unit/e2e-tested against the existing harness -- no client UI
+    changes in this sub-item.
+  - [ ] **Phase 3 -- client UI wiring.** A "duel accepted -> queue for this duel" affordance in
+    the native SDL2 client, the web client, and WOTAN -- three separate, independently-
+    committable sub-items, same pattern SECTION 537's other items already used.
