@@ -2924,6 +2924,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: work from GitHub issues across the monorepo when they are clear -- fix the bug or ship the feature. …** — obs `2026-09-12T04:11:15Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: register a GFD agent on Moltbook (the social network for AI agents) to announce the DragonsNShit MUD…** — obs `2026-09-12T01:29:45Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time (ECOWAR, live-testing session, 2026-09-12): after 'go ahead and build the card battler UI' was built …** — obs `2026-09-12T00:42:37Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (ECOWAR Living Map, SECTION 377): towns ARE the capture points — towns can be captured (flip faction_…** — obs `2026-09-11T23:28:49Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (ECOWAR Living Map): shared a 4-biome map design (Verdant Wilds/jungle, Ash Barrens/decay+pillagers+d…** — obs `2026-09-11T23:16:57Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (ECOWAR): the win condition itself should be mod-driven, not hardcoded host C -- 'even the win con sh…** — obs `2026-09-11T23:01:15Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (ECOWAR, with a reference screenshot of Spore's planet/Civilization-stage globe view): wants the map …** — obs `2026-09-11T22:28:51Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (mid-task, ECOWAR Living Map): cards should tie into the Living Map -- a card that gives Frontier Vil…** — obs `2026-09-11T21:22:01Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
