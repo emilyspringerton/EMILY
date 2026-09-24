@@ -2979,6 +2979,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: pasted PARENA cybersecurity-primitives proposal (pcap/struct/sysaudit/asn1-dns-x509) — checked reali…** — obs `2026-09-07T22:07:39Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time (work from kanban): picked up card #93, 'kanban search (filter)' -- the admin web UI already had a cl…** — obs `2026-09-07T21:51:31Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time (work from kanban): picked up FB-12343 -- as soon as a press release is tickerized, publish a real si…** — obs `2026-09-07T21:43:05Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: work on LO.** — obs `2026-09-07T21:01:32Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: run a full SAGA audit session (claims-without-code + code-without-documentation) across the hot repo…** — obs `2026-09-07T20:56:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build screen sharing + super basic chat into IDUNA Pro (explicitly: don't NORTHSTAR it, just kanban …** — obs `2026-09-07T20:53:55Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: continue adding APIs to PAPERCRAFT's PARENA mod surface toward Roblox API parity -- specifically, wa…** — obs `2026-09-07T19:25:06Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: BRAWLPIT multiplayer has never worked for the founder specifically -- asked for a reasonable pivot p…** — obs `2026-09-07T19:05:28Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
