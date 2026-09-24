@@ -3294,6 +3294,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, further spotlight design detail: 'for example adding a calculator to the ctrl t should be just a plu…** — obs `2026-08-27T19:56:43Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time, rapid clarification of the quick-open ask: 'thats going to be a magic spotlight feature' -> 'so make…** — obs `2026-08-27T19:56:23Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'can we start building out the textmate features? like quick open via ctrl+t windows/linux or cmd+t …** — obs `2026-08-27T19:55:52Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'can we add a new button to the bottom of the parena editor to toggle between terminal and editor? u…** — obs `2026-08-27T19:55:26Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue ensuring ecowar build is passing' -- switching focus to ECOWAR repo CI/build status** — obs `2026-08-27T19:49:48Z`. CURATED: 2026-09-24.
+- [ ] **ECOWAR card art: queued all 16 real Prompt-o-verse generations (one per card, matching each card's real TYLER hero sour…** — obs `2026-08-27T19:37:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'start working on ecowar in the redgarden repo -- we need separate bot pool, 1v1 separate matchmakin…** — obs `2026-08-27T19:21:05Z`. CURATED: 2026-09-24.
+- [ ] **REDGARDEN backlog work: investigated S202-16 (shankpit-460 single-binary ask) -- found the live bot is actually a separ…** — obs `2026-08-27T19:19:52Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
