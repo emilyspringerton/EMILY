@@ -2884,6 +2884,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'finish the sprays work.' Confirmed against BACKLOG.md S459-19/20/23/25: the sprays feature itself (…** — obs `2026-09-14T07:21:13Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: flashlight looks good now but overall scene lighting is rudimentary -- it's showing as a circle on s…** — obs `2026-09-14T07:08:07Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: (1) build SHANKPIT's native PNG decoder in PARENA (for real material texture overrides and spray dec…** — obs `2026-09-14T06:51:44Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: re-enable BRAWLPIT registry checkpoints disabled by NOCK's 'Disable All' (S452) whose elo is above 1…** — obs `2026-09-13T19:33:41Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add a 'Hide Disabled' toggle to the NOCK AI Opponents UI so disabling a checkpoint can function as a…** — obs `2026-09-13T17:34:01Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ok can we add some modest rewards for hitting buttons like movement a and b' -- add a small activit…** — obs `2026-09-13T08:02:01Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'can we start recording the match results with the actual outcomes?' -- closes S421-04: build a real…** — obs `2026-09-13T07:49:59Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ensure that the client actually uses that model (download it when the game starts or something and …** — obs `2026-09-13T07:19:37Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
