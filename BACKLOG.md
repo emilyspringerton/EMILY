@@ -47075,3 +47075,42 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   `CHANGELOG.md`; `README.md`; `GOLDEN_DOCS` resynced. `PARENA/stdlib/big_o/chat_rules.prn` in the
   PARENA repo. BIG_O `df5b1fd`, PARENA `b651aee`, GOLDEN_DOCS `76e3e44`, Apple #20590.
   session: sess-20260923-1030-4a526255.
+- [x] **GoblinFoxDragon: fix legacy-gear reconnect-persistence bug, add Swampville "The Missing
+  Pants" quest.** Founder real-time (Apple #20594): "GFD the gear doesn not get persisted (legs
+  if i buy leather legs they do not persist) the sword does ... turn it into a quest in swampville
+  the missing pants but make the pants in the game actually work (legs)". Checked directly, not
+  guessed: `resolveEquipEntry` (`apps2/mud/equip_persist.go`), the read half
+  `loadEquipmentFromIDUNA` calls once at connect time, only ever checked `itemdefReg` -- it never
+  mirrored `cmdEquip`'s own, separate itemIL legacy-item fallback (that function's own doc comment
+  names these explicitly: "If the registry has no entry for this item, restrictions are skipped
+  (legacy items)"). Every armor piece the "scout" vendor sells in Swampville
+  (leather-legs/body/helm/feet/hands/belt, bone-earring, iron-earring, cotton-cape, bronze-ring,
+  bronze-sword, iron-sword, bronze-shield, iron-shield) is itemIL-only, never registered in
+  `itemdefReg` at all (confirmed via a real script diffing every vendor item ID against
+  `data/items.json`'s own nameKey-derived registry keys) -- so all thirteen equipped fine
+  in-session but silently vanished on the very next reconnect, while "sword" (a real, separate
+  `itemdefReg` entry, id 3) always survived, matching the founder's own exact report. Fixed by
+  mirroring `cmdEquip`'s own fallback inside `resolveEquipEntry`, fixing every legacy item's
+  persistence at once, not just legs; also backfilled all thirteen items' missing
+  `itemDisplayName` entries (they fell back to raw hyphenated IDs in every player-facing message
+  before this).
+
+  Added "The Missing Pants" to `server/quest/quest.go`'s `StarterQuests` (6th starter quest,
+  Scout/Swampville giver, 3 Slime Oil -> real, now-actually-persistent Leather Legs reward) --
+  wraps the real fix in fiction rather than treating "turn it into a quest" as separate,
+  unconnected flavor work.
+
+  2 new `resolveEquipEntry` tests (legacy-itemIL-fallback across every itemIL entry;
+  registry-still-takes-priority-over-itemIL precedence) + 1 new quest test (`missing-pants` turn-
+  in hands back `leather-legs`) + 2 existing quest-count/ForNPC assertions updated for the new
+  6th quest. `GOWORK=off go build ./...` and `go test ./...` both clean across every
+  GoblinFoxDragon module (`apps2/mud`, `server/quest`, and everything else -- zero regressions).
+  Real, honest, deliberately NOT done this pass: the `mud`/`server-go` binaries were rebuilt and
+  committed (matching this repo's own established "chore: rebuild+redeploy" convention -- see
+  `f129ec5` and its own precedents), but the live, currently-running processes (pid 1040/1042,
+  playable right now on :2323/:6970) were NOT restarted -- redeploying is a separate,
+  live-service-affecting action held pending explicit confirmation, not silently taken (same
+  caution [[redgarden_matchmaker_restarts]] already established for a different repo's shared
+  matchmaker). GoblinFoxDragon `279092f` (source), `92116f7` (rebuilt binaries, undeployed), Apple
+  #20595.
+  session: sess-20260923-1030-4a526255.
