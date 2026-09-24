@@ -2964,6 +2964,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: dooittt — implement real shell functions (name() { ... }) for parenash, the single largest remaining…** — obs `2026-09-08T07:39:51Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: keep working on EmilyOS busybox/shell — extending parenash with elif support and ${VAR:-default} par…** — obs `2026-09-08T07:33:01Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: continue — extending parenash (the PARENA shell v0) with if/then/else/fi conditionals, the concrete …** — obs `2026-09-08T07:25:20Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add IDUNA online accounts + social features (profiles, friends, friendly challenges/duels) for DEADW…** — obs `2026-09-24T05:58:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: let's write our own PARENA-powered busybox (a real, native multi-call replacement for Alpine's busyb…** — obs `2026-09-08T07:02:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: iterate on PARENA self-host (continuing the whole-body #target/inline-c FFI work already shipped) — …** — obs `2026-09-08T06:38:12Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time / third-party: Linode (Akamai Cloud Support) confirmed SMTP port restrictions have been lifted for th…** — obs `2026-09-08T04:05:50Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: start work on an installable Alpine-based Raspberry Pi distro, placed in the EmilyOS repo.** — obs `2026-09-08T03:59:37Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
