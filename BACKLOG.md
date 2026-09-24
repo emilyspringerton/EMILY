@@ -2989,6 +2989,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: build GAUNTLET v0 for the FatBaby content pipeline -- (1) all auto-generated articles need disclaime…** — obs `2026-09-07T16:49:05Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: build the CarePyre admin app -- white-label IDUNA_PRO's console/branding first (general capability, …** — obs `2026-09-07T16:30:16Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: build a multi-organization provider-cluster trust model for IDUNA_PRO/CarePyre -- clustered orgs can…** — obs `2026-09-07T16:09:29Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build true server-authoritative fog of war for ECOWAR -- scoped only per founder's own 'hold the bui…** — obs `2026-09-07T13:24:13Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: NPC/creep AI needs a hybrid vector-model + heuristic brain (north star, self-corrected from an initi…** — obs `2026-09-07T13:20:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: make the ECOWAR map 9x bigger with more nodes to capture** — obs `2026-09-07T13:07:26Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: keep grinding on ECOWAR -- it should be a dense and robust experience like an RTS** — obs `2026-09-07T12:50:37Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: extend provider role model to SIP provisioning (mail-accounts.provision treatment mirrored as sip-ac…** — obs `2026-09-07T11:57:35Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
