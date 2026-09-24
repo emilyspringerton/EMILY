@@ -3159,6 +3159,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "TYLER BOOK 0 pls into manuscripts" -- read the full content of ___.md: a real, complete manuscript …** — obs `2026-08-30T02:04:51Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "we need it to go in manuscripts" -> "TYLER BOOK 0 pls into manuscripts" -- found three real, litera…** — obs `2026-08-30T02:04:12Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "continue tyler series x check for ___.md in tyler repo" -- the '___.md' filename appears to be a li…** — obs `2026-08-30T02:03:49Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "ok continue" -- resuming after the hold. Finishing the TYLER Series X x07 episode draft: committing…** — obs `2026-08-30T02:00:19Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "hold" -- session-boundary/stop directive, received mid-task (drafting TYLER Series X episode x07). …** — obs `2026-08-30T02:00:02Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "you know i hate calls" -- direct feedback against the multi-call GPT-2 render methodology (5 sequen…** — obs `2026-08-30T01:58:52Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue tyler series x" -- switching domains to TYLER (scripted TV series repo). Checking TYLER's …** — obs `2026-08-30T01:57:40Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "ok now a fatbaby newswire announce parena and papercraft" -- wants a FATBABY_NEWSWIRE press release…** — obs `2026-08-30T01:49:10Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
