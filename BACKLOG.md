@@ -47903,3 +47903,42 @@ into the same message -- "add ministrone to shankpit and bigo" (SECTION 539 belo
   tradition) folded in from the founder's follow-up note. `README.md` SIX gained a matching
   Supporting Characters entry. TYLER `cb80a63`, Apple #20688.
   session: sess-20260923-1030-4a526255.
+
+## SECTION 539: MINESTRONE THE FOOD ITEM (FOUNDER REAL-TIME, S538 THREAD CONTINUED)
+
+Founder real-time, 2026-09-24, same message as S538's astronomy/Unix/minestrone follow-up: "add
+ministrone to shankpit and bigo." Followed by two further real-time additions in the same thread:
+"add ministrone to GFD too" and, separately, "add the arpanet to big_o" (both logged via `emily
+observe`, not yet scoped/built -- see the open items below).
+
+- [x] **SHANKPIT: MINESTRONE, 18th food item.** `packages/common/food_items.h` -- same pattern as
+  FOOD_CAKE (item 17): `FOOD_ITEM_COUNT` 17->18, new enum/name/points entry (1600 points, heal
+  16), no special-case interaction. New pickup spot in `food_pickup_seed_voxworld()`
+  (`packages/simulation/food_pickup.c`), next to the cake. `food_pickup_test.c` (18 distinct
+  items) and `phone_test.c` re-verified passing; `shank_lobby` rebuilds clean. Rebased past
+  concurrent remote commits (walkie-talkie/GEMINI.md work) with a clean, non-overlapping merge.
+  SHANKPIT `0dbba89`, Apple #20694.
+  session: sess-20260923-1030-4a526255.
+- [x] **PARENA: mirror the count bump for BIG_O's own mod.** `stdlib/big_o/item_drop_mod.prn`'s
+  `item-drop-food-count` 17->18, regenerated `BIG_O/day/packages/simulation/item_drop_mod.c` via
+  `parena build` -- a minimal one-line diff (the WOOD-drop modulo formula is already
+  item-count-generic). PARENA `eab6d02`, Apple #20695.
+  session: sess-20260923-1030-4a526255.
+- [x] **BIG_O: MINESTRONE, 18th food item (mirrors SHANKPIT).** `day/packages/common/
+  bigo_food_items.h` -- byte-for-byte mirror of SHANKPIT's addition. `PC_ITEM_FOOD_BASE` range
+  8..24 -> 8..25 (`papercraft_protocol.h`). Same real, named, pre-existing gap as every other food
+  item here: real pickable/stackable cargo, no live heal consumer yet (BIG_O has no player health
+  field or damage source). `bigo_food_items_test.c` (18 items) and `item_drop_mod_test.c` (mod-18
+  wraparound) re-verified passing -- caught and fixed a real bug in the first-draft wraparound
+  test's own arithmetic (`35 mod 18 = 17`, not `0`) before committing, not just assumed correct.
+  `scripts/build_day.sh`/`scripts/build_client.sh` both clean. `NORTHSTAR.md` S32 added; S16's own
+  2026-09-23 "17-item" historical snapshot deliberately left as-is, not retroactively rewritten.
+  BIG_O `a6fc2ce`, Apple #20696.
+  session: sess-20260923-1030-4a526255.
+- [ ] **GFD (GoblinFoxDragon): add minestrone.** Founder real-time, not yet investigated -- GFD is
+  a separate Go/Dragonfly-Bedrock-protocol codebase, not a fork of SHANKPIT's C food_items.h, so
+  this needs its own real investigation (does GFD have any existing item/food concept at all?)
+  before scoping, same as SHANKPIT/BIG_O got above.
+- [ ] **BIG_O: add the ARPANET.** Founder real-time, no further spec given yet -- genuinely
+  unscoped (a lore/world reference? a literal network-simulation mechanic? something else?).
+  Needs a scoping pass, not a guess.
