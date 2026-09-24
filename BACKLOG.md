@@ -3089,6 +3089,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continued: make the USB/FLASH work in either parena or burrow** — obs `2026-08-30T15:07:28Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time, continued FLASH/parenify thread: write USB primitives into PARENA stdlib** — obs `2026-08-30T15:06:54Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: run FLASH from Git Bash inside PITVIPER on Windows, use PARENA, get it working -- 'we forked it'** — obs `2026-08-30T15:06:01Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, FLASH naming clarification: our own fork is renamed 'FLASH' (doesn't match upstream image-builder-rp…** — obs `2026-08-30T14:58:46Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued FLASH/HypriotOS/EmilyOS-Pi thread: build PARENA into the distro** — obs `2026-08-30T14:55:32Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued FLASH/HypriotOS thread: EmilyOS for the Raspberry Pi, Bazel-powered** — obs `2026-08-30T14:55:21Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continued FLASH/HypriotOS: real upstream repo is https://github.com/emilyspringerton/image-builder-r…** — obs `2026-08-30T14:55:04Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: forked HypriotOS's Docker Raspberry Pi write tool as 'FLASH' -- get it working with our own Raspberr…** — obs `2026-08-30T14:51:03Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
