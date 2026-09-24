@@ -47508,11 +47508,17 @@ foundation to build on rather than a new identity system.
   duel eligibility) against real SQLite migrations, not mocks. `go build`/`vet`/`test ./...`
   clean across the whole IDUNA module. IDUNA `70b6b06`, Apple #20634.
   session: sess-20260923-1030-4a526255.
-- [ ] **WOTAN: profile.html + friends.html pages.** Consume the routes above via WOTAN's own
-  existing `/api/` nginx proxy pattern (same as `store.html`/`decks.html`) -- a public profile
-  view (no login) and an authenticated friends page (send/accept/decline requests, list friends,
-  challenge to a duel), reusing `store.html`'s own IDUNA email/password login flow to resolve a
-  player token.
+- [x] **WOTAN: profile.html + friends.html pages.** Public `profile.html` (no login, player-ID
+  lookup) and `friends.html` (logs in with a DEADWEIGHT per-game account -- `email-login`, a
+  different credential system from `store.html`'s IDUNA login -- to send/accept/decline friend
+  requests, list/remove friends, challenge a friend to a duel, accept/decline incoming duels).
+  Linked from `index.html`. Verified: JS syntax clean, headless-Chrome screenshots of both pages
+  render correctly, manual field-by-field contract check against `game_social.go`'s real JSON
+  shapes (endpoint field names cross-checked one by one, not assumed). Not yet live end to end --
+  same real, named blocker as the IDUNA backend item above (routes aren't deployed yet). WOTAN
+  `46e3ab0`, DEADWEIGHT `7324cdd` (NORTHSTAR/CHANGELOG only, no DEADWEIGHT code), GOLDEN_DOCS
+  `abff9bb`, Apple #20635.
+  session: sess-20260923-1030-4a526255.
 - [ ] **DEADWEIGHT: wire the web client (`web/src/client.ts`) to real IDUNA accounts.** The
   literal, real client-side gap named above -- guest-register/login on connect, persist/send the
   resulting player token, surface identity in the UI. Closes "online accounts for DEADWEIGHT" for
