@@ -3149,6 +3149,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (further clarifying the entity-system ask): the real driver is being able to pick up the scrap/debris…** — obs `2026-08-30T02:53:56Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time (follow-up to the list-inventory/PARENA-UI ask): PAPERCRAFT needs an entity system -- a general conce…** — obs `2026-08-30T02:53:12Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: PAPERCRAFT needs a list-based (text) inventory UI first, before the graphical inventory+crafting int…** — obs `2026-08-30T02:52:53Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "can we build the tyler phone mechanics into papercraft as PARENA mod api first development using th…** — obs `2026-08-30T02:25:55Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "can we build the tyler phone mechanics into papercraft as PARENA mod api first development using th…** — obs `2026-08-30T02:23:37Z`. CURATED: 2026-09-24.
+- [ ] **Found real, concrete 'og main SHANKPIT storyline' content: SHANKPIT/docs2/specs/TYLER_PILOT_COLD_OPEN.md (the very firs…** — obs `2026-08-30T02:22:47Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue the next book based on the real og main SHANKPIT storyline" -- wants TYLER BOOK 2 grounded…** — obs `2026-08-30T02:21:22Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "use the 1978 architecture doc in engine" -- found engine/1978_architecture.md, a rich technical/lor…** — obs `2026-08-30T02:09:47Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
