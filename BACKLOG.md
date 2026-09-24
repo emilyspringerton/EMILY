@@ -47640,7 +47640,28 @@ foundation to build on rather than a new identity system.
   is structurally identical to the already-shipped `append_to_claim_field`/`S_CLAIM` code, so this
   is a test-harness limitation, not a suspected app bug. DEADWEIGHT `3902cab`, Apple #20654.
   session: sess-20260923-1030-4a526255.
-- [ ] **Duel Phase 2: accepted duel -> live match.** Needs a real per-game match-start mechanism;
-  for DEADWEIGHT specifically, likely reuses the existing ticket/queue path. Open design question
-  not yet resolved: does accepting page/notify the other player in real time, or stay pull/poll-
-  only (this codebase's established default absent a push channel to game clients)?
+- [ ] **Duel Phase 2: accepted duel -> live match.** Investigated (Principle 19) before scoping:
+  DEADWEIGHT's matchmaker (`apps/server/main.c`'s `try_pair_mode()`/`oldest_queued()`) is pure
+  FIFO -- no concept anywhere of "pair me with player X specifically," and the `QUEUE` wire message
+  (`protocol.h`) carries only an optional `same_deck` byte, no player/match identity. Checked for
+  reuse first: no existing private-match/invite-code/targeted-pairing pattern anywhere in the
+  monorepo (REDGARDEN/ECOWAR/SHANKPIT/BRAWLPIT all FIFO too, confirmed via `game_social.go`'s own
+  doc comment and a direct grep) -- this is genuinely new, not a port. Also confirmed: DEADWEIGHT
+  has zero server-to-client push channel (poll/connect-then-blocking-TCP only); IDUNA does have
+  FCM push (`push_tokens.go`, used by MJOLNIR) and an SSE user-event stream (`stream.go`), but
+  neither is wired to DEADWEIGHT or duels today -- resolves the open design question from this
+  item's original scoping: **stay pull/poll-only for V0**, wiring push is real, separate, deferred
+  work, not silently built in.
+  **Real, scoped mechanism (extends the existing FIFO pairer, not a rewrite):** a protocol version
+  bump (the existing `proto=3` HELLO check exists precisely to force clean breaks like this) adds
+  an optional match-token field to `QUEUE`; IDUNA's `duelRespond` accept path mints a short-lived
+  shared token on the `duel_challenges` row (same TTL-expiry pattern as SHANKPIT's
+  `ShankpitMatchedTTL`), exposed to both players via the existing `GET duels`; `try_pair_mode()`
+  gains a same-token-first branch ahead of `oldest_queued()` -- two connections presenting the same
+  token pair immediately regardless of arrival order, falling back to normal FIFO if the token
+  isn't present or the partner hasn't queued yet.
+  **Phased, not one giant slice:** (1) IDUNA: migration + token minting/exposure on duel accept;
+  (2) DEADWEIGHT: protocol bump + `try_pair_mode()` same-token pairing, server-side only, unit-
+  tested against the existing e2e harness; (3) client UI wiring ("duel accepted -> queue with this
+  duel" affordance) in the native SDL2 client, the web client, and WOTAN -- three separate,
+  independently-committable sub-items, same pattern SECTION 537's other items already used.
