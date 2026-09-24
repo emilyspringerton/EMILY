@@ -3184,6 +3184,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder ran 37-papercraft-server-firewall.sh, asking if ufw needs a restart -- no, ufw allow applies live, no restart n…** — obs `2026-08-29T21:03:12Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "ok well can we double check the firewall?" -- wants server-side firewall (ufw) state actually confi…** — obs `2026-08-29T20:57:38Z`. CURATED: 2026-09-24.
 - [ ] **Founder shared the real papercraft_client.log content: 'Fetching real 3x3 city chunk grid from worldapi okemily.com:707…** — obs `2026-08-29T20:56:06Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: TYLER character 'the Auditor' (created this session) also astronomy expert + Unix expert, favorite f…** — obs `2026-09-24T17:05:47Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: character concept — NORTHSTAR character, a scientist co-op player from a local government energy age…** — obs `2026-09-24T17:02:18Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "ok im on windows and i dont have eaasy access to command line can you add some logging into the cli…** — obs `2026-08-29T20:49:08Z`. CURATED: 2026-09-24.
+- [ ] **Found the real root cause of the continued connection failure: the deployed IDUNA binary (~/.local/bin/iduna, built 202…** — obs `2026-08-29T20:44:34Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "ok that doesnt work either" -- PLAY_ONLINE.bat (v0.3.0) still fails to connect. Investigating wheth…** — obs `2026-08-29T20:41:42Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
