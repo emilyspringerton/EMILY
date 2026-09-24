@@ -47029,3 +47029,44 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   `GOLDEN_DOCS` resynced. `PARENA/stdlib/big_o/party_rules.prn` in the PARENA repo. BIG_O
   `5b03341`, PARENA `ccb1652`, GOLDEN_DOCS `5074e24`, Apple #20583.
   session: sess-20260923-1030-4a526255.
+- [x] **The GFD terminal, phase 1 -- real "say" chat via a new phone app (`BIG_O/NORTHSTAR.md`
+  §25).** Founder real-time, six more messages logged in order per Principle 1a (Apples
+  #20584-#20588): "the GFD subsystem affordances should be via the GFD app on the BIG_O phone
+  (mini terminal interface)" -> "add real SSH key generation" -> "add the iduna app from
+  IDUNA.GAME" -> "ensure GFD uses https use DEADWEIGHT primatives as example" -> "ensure big_o
+  uses https rather" -> "ensure bazaar functions in big_o for cargo". Same Principle-19 judgment
+  as §24's own burst: landed the one concretely-scoped, already-investigated piece -- the GFD
+  phone app itself, with GFD's own real `server/chat/chat.go` "say" channel wired through it end
+  to end -- and named the rest as real, honestly-queued follow-ups with actual investigation
+  notes, not guesses (SSH keygen, the IDUNA app, GFD/BIG_O HTTPS, Bazaar/cargo economy -- see
+  `BIG_O/NORTHSTAR.md` §25's own "Queued" section).
+
+  New `PARENA/stdlib/big_o/chat_rules.prn` (say range/length decisions, faithfully matching
+  `chat.go`'s own real `inRadius()`/`Deliver()` rules), generated to
+  `day/packages/simulation/chat_rules.c`. New `day/packages/common/bigo_chat.h` (thin host
+  wrapper, no persistent state of its own -- chat has none to own, unlike party's roster array).
+  Two new wire packets, `PC_PACKET_CHAT_SAY`/`PC_PACKET_CHAT_RECV` (21/22) -- a deliberate
+  departure from `PcPhoneMessagePacket`'s own fixed-id-table convention (chat is genuinely free
+  text, which that can't express), following `PcRejectPacket`'s own real fixed-char-buffer
+  precedent instead. `day/packages/common/bigo_phone.h` gains an eleventh app, `BP_APP_GFD` -- the
+  first phone app in this file to break the pure D-pad-menu model: real free-text input
+  (`term_input`) and a real 6-line scrollback (`term_lines`), a new `BP_FX_CHAT_SEND` effect (the
+  host reads the actual text via `bigo_phone_term_take()`, since an int `arg` can't carry free
+  text). Client wiring reuses `run_login_screen`'s own already-established `SDL_TEXTINPUT`
+  pattern, scoped to exactly when the GFD app is open; RETURN sends, ESCAPE exits, BACKSPACE
+  deletes (all three special-cased out of the generic WASD/arrow/space D-pad mapping, which would
+  otherwise swallow those same keys as navigation). Server gains a real radius-broadcast handler
+  (real `PlayerSlot` positions, real distance-cm, sender always hears their own say, matching
+  `chat.go`'s own real semantics).
+
+  `bigo_chat_test.c` (new Bazel target, 6 assertions, `_Static_assert`s the 96-byte wire buffer
+  against `papercraft_protocol.h` so the two headers can't silently drift apart) + a real scratch
+  `#include main.c` integration harness (`chat_verify.c`, ASan/UBSan clean, real distances against
+  real `g_slots[]`) both pass. `bazel test //day/packages/...` 31/31 green. Real
+  `scripts/build_day.sh`/`scripts/build_client.sh` both clean (one real `-Wformat-truncation`
+  warning found and fixed with a correctly-sized buffer, not suppressed). No REFLUX publish for
+  chat events yet (same "log/wire-only" gap §24's own party events and §23's own pager cue
+  already carry, honestly named, not conflated with what shipped). `BIG_O/NORTHSTAR.md` §25;
+  `CHANGELOG.md`; `README.md`; `GOLDEN_DOCS` resynced. `PARENA/stdlib/big_o/chat_rules.prn` in the
+  PARENA repo. BIG_O `df5b1fd`, PARENA `b651aee`, GOLDEN_DOCS `76e3e44`, Apple #20590.
+  session: sess-20260923-1030-4a526255.
