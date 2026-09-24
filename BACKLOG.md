@@ -2994,6 +2994,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: make the ECOWAR map 9x bigger with more nodes to capture** — obs `2026-09-07T13:07:26Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: keep grinding on ECOWAR -- it should be a dense and robust experience like an RTS** — obs `2026-09-07T12:50:37Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: extend provider role model to SIP provisioning (mail-accounts.provision treatment mirrored as sip-ac…** — obs `2026-09-07T11:57:35Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build HIPAA operational framework into CarePyre -- providers can create participant email accounts (…** — obs `2026-09-07T11:41:04Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: build GDPR into IDUNA_PRO multi-tenant with data exporting and data delete request pipeline; cookie …** — obs `2026-09-07T11:37:32Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: requested geo-restricting the CarePyre mail server to US/Mexico/Canada, initially asking about Cloud…** — obs `2026-09-07T11:15:59Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: asked about WOTAN onboarding + splitting a new IDUNA_PRO instance + multi-tenant changes; confirmed …** — obs `2026-09-07T11:05:47Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: pivoted to getting PITVIPER building for Android with SSH client capability (bash/zsh access from ph…** — obs `2026-09-06T02:09:35Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
