@@ -2849,6 +2849,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, SHANKPIT/NOCK cluster of asks: (1) how to build reusable rooms as levels? (2) no UI affordance in th…** — obs `2026-09-17T15:34:05Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: (1) increase default ground friction so platforming/parkour is less slippery -- global tuning bump. …** — obs `2026-09-17T15:17:48Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time, live playtest bug report: walked to a placed level exit on the 'nextown' level (block positioned cor…** — obs `2026-09-17T14:46:11Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: ensure bazaar functions in BIG_O for cargo (economy via the Cargo phone app)** — obs `2026-09-24T00:18:59Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: ensure BIG_O uses https rather [than plain UDP for non-gameplay traffic]** — obs `2026-09-24T00:17:12Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: ensure GFD uses https, use DEADWEIGHT primitives as example** — obs `2026-09-24T00:17:08Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add the iduna app from IDUNA.GAME** — obs `2026-09-24T00:16:45Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add real SSH key generation** — obs `2026-09-24T00:16:33Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
