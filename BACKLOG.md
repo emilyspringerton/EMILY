@@ -3179,6 +3179,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "also this version is non interavctive the previous version i could move forward" -- v0.7.0 (10s thr…** — obs `2026-08-29T21:30:55Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "ok its happening less but still happening i think our ping is really bad im really doing a lot ofer…** — obs `2026-08-29T21:28:51Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "ok it works kinda this is huge we got past the login screen we are in the world - the first issue i…** — obs `2026-08-29T21:21:06Z`. CURATED: 2026-09-24.
+- [ ] **Founder's new [http] log pinpoints the REAL root cause: WSA error 10093 = WSANOTINITIALISED. getaddrinfo() is called fr…** — obs `2026-08-29T21:14:41Z`. CURATED: 2026-09-24.
+- [ ] **Founder reports the exact SAME failure again after firewall confirmed open externally (8080/7070 both confirmed reachab…** — obs `2026-08-29T21:04:56Z`. CURATED: 2026-09-24.
+- [ ] **Founder ran 37-papercraft-server-firewall.sh, asking if ufw needs a restart -- no, ufw allow applies live, no restart n…** — obs `2026-08-29T21:03:12Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "ok well can we double check the firewall?" -- wants server-side firewall (ufw) state actually confi…** — obs `2026-08-29T20:57:38Z`. CURATED: 2026-09-24.
+- [ ] **Founder shared the real papercraft_client.log content: 'Fetching real 3x3 city chunk grid from worldapi okemily.com:707…** — obs `2026-08-29T20:56:06Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
