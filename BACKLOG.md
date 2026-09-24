@@ -47524,10 +47524,21 @@ foundation to build on rather than a new identity system.
   `46e3ab0`, DEADWEIGHT `7324cdd` (NORTHSTAR/CHANGELOG only, no DEADWEIGHT code), GOLDEN_DOCS
   `abff9bb`, Apple #20635.
   session: sess-20260923-1030-4a526255.
-- [ ] **DEADWEIGHT: wire the web client (`web/src/client.ts`) to real IDUNA accounts.** The
-  literal, real client-side gap named above -- guest-register/login on connect, persist/send the
-  resulting player token, surface identity in the UI. Closes "online accounts for DEADWEIGHT" for
-  real, not just server-side.
+- [x] **DEADWEIGHT: wire the web client (`web/src/client.ts`) to real IDUNA accounts.** New
+  `web/src/account.ts` (guest-register/guest-login refresh/guest-upgrade "link email", mirroring
+  `apps/gui/main.c`'s own shipped account flow) + `client.ts`'s `connect()` now takes a real token
+  into `HELLO` (was always `''`) + `index.html`/`main.ts` UI (IDUNA URL field, account status,
+  Link Email form). Closes the real, previously-honest "No IDUNA auth" gap in `web/README.md`.
+  Live-verified against the real running IDUNA: a fresh guest account is real and a second
+  bootstrap call correctly reuses the same `player_id` via `guest-login`. Real, honest, not
+  verified this pass: an auth-required `dw_server` actually accepting a real web-client token over
+  `HELLO` -- IDUNA's real per-IP daily signup cap was hit by this session's own repeated test
+  registrations, and bypassing it (even locally, even for testing) was correctly refused by this
+  session's own permission guardrails as a security-weakening action; `encodeHello`'s wire format
+  itself is unchanged, already-proven code. Also still missing: CORS on IDUNA's
+  `/api/v1/games/` routes for a real cross-origin browser deployment. `tsc` clean. DEADWEIGHT
+  `8ccc373`, Apple #20637.
+  session: sess-20260923-1030-4a526255.
 - [ ] **DEADWEIGHT: in-game friends/duel UI.** A bigger, separate lift than the web client account
   wiring above (native C client `apps/client/main.c` + the TS web client both need UI, not just an
   API call) -- deliberately scoped as its own item rather than bundled in blind.
