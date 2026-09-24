@@ -47622,11 +47622,24 @@ foundation to build on rather than a new identity system.
   IDUNA's new routes aren't deployed, and this session's signup rate cap was already spent on the
   account-wiring item above. DEADWEIGHT `4490a70`, Apple #20639.
   session: sess-20260923-1030-4a526255.
-- [ ] **DEADWEIGHT: in-game friends/duel UI -- native SDL2 client half.** `apps/gui/main.c` (the
-  real, primary, shipped VS0 desktop client) still has no friends/duel UI at all -- a bigger,
-  separate lift than the web client above: needs its own bitmap-font-rendered screen/menu state
-  using the same HTTP helper pattern `dwi_guest_register`/`dwi_draft_run_state`/etc. already
-  establish, not a port of the web panel's DOM-based approach.
+- [x] **DEADWEIGHT: in-game friends/duel UI -- native SDL2 client half.** `apps/gui/main.c` (the
+  real, primary, shipped VS0 desktop client) gets a new `S_SOCIAL` screen (3 tabs: FRIENDS/
+  REQUESTS/DUELS; add-friend-by-ID field; per-row accept/decline/remove/challenge buttons),
+  reachable from the Main Menu once an account is claimed, using the same bitmap-font/`click()`/
+  `key()`/`SDL_TEXTINPUT`-gating pattern every other screen already establishes. New
+  `core/iduna.c`/`.h`: 9 `dwi_*` functions against IDUNA's S537 routes. A genuinely new primitive
+  was needed first -- the client's JSON helpers only ever read a single named field, never a list
+  of objects -- so `dw_json_array_at()` was added to `core/http.c`/`.h` (quote/brace-tracked array
+  walk, supports a bare top-level array via `key=NULL`). Verified two ways: a standalone unit test
+  against a controlled fake IDUNA (10/10 assertions incl. multi-item and bare-array parsing cases,
+  ASan/UBSan clean), and a live Xvfb+xdotool screenshot pass of the actual compiled `dw_gui`
+  binary (menu button, all 3 tabs with correct data and correct conditional button visibility).
+  Full `scripts/build.sh --gui` suite green, no regressions. Honest gap: keyboard text entry into
+  the add-friend field wasn't visually confirmed -- `xdotool type --window` under a WM-less Xvfb
+  doesn't reliably establish real X11 input focus the way mouse clicks do; the underlying dispatch
+  is structurally identical to the already-shipped `append_to_claim_field`/`S_CLAIM` code, so this
+  is a test-harness limitation, not a suspected app bug. DEADWEIGHT `3902cab`, Apple #20654.
+  session: sess-20260923-1030-4a526255.
 - [ ] **Duel Phase 2: accepted duel -> live match.** Needs a real per-game match-start mechanism;
   for DEADWEIGHT specifically, likely reuses the existing ticket/queue path. Open design question
   not yet resolved: does accepting page/notify the other player in real time, or stay pull/poll-
