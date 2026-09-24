@@ -3164,6 +3164,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "you know i hate calls" -- direct feedback against the multi-call GPT-2 render methodology (5 sequen…** — obs `2026-08-30T01:58:52Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "continue tyler series x" -- switching domains to TYLER (scripted TV series repo). Checking TYLER's …** — obs `2026-08-30T01:57:40Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "ok now a fatbaby newswire announce parena and papercraft" -- wants a FATBABY_NEWSWIRE press release…** — obs `2026-08-30T01:49:10Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "awesome it works we are getting a lot of connection lost can we get it to be more forgiving for low…** — obs `2026-08-30T01:07:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder ran 40-restart-papercraft-server-for-ping-feature.sh. Verifying the live server picked up the ping/RTT feature …** — obs `2026-08-30T01:02:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- no new PAPERCRAFT feedback yet on v0.10.0. Implementing the real RTT/ping counter foll…** — obs `2026-08-30T00:43:22Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time (after being asked a SHANKPIT scoping question): "work on papercraft we can log in but there is no in…** — obs `2026-08-30T00:29:40Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: "continue" -- resuming Emily Way work per Backlog First protocol after S206-56 (ecosystem podcast) c…** — obs `2026-08-30T00:01:12Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
