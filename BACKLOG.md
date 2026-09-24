@@ -46827,7 +46827,14 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   simulation logic (centrifuge, PCR, sequencer, CRISPR splice/repressor, clone breeding,
   incubation) but zero UI or interaction model -- nothing calls it from any real game state. A
   real, separate scoping pass of its own (what's the actual player interaction -- a phone app? a
-  physical lab scene? something else), not guessed at or half-built under phase 7e.
+  physical lab scene? something else), not guessed at or half-built under phase 7e. **Note
+  (2026-09-24): this bullet is specifically about SHANKPIT's own ported `packages/simulation/
+  lab_sim.c` copy, still untouched -- BIG_O's OWN, separate `core/lab_sim.c` got real server
+  wiring (centrifuge, `g_lab`) in BIG_O/NORTHSTAR.md §30, then a real client phone-app cutover
+  (`BP_APP_LAB` now shows the real crew sample list and sends the real centrifuge packet, no more
+  base/trait/clone mockup) in §34, Apple #20737. Same answer to "what's the actual player
+  interaction" this bullet asks -- a phone app -- just proven out in BIG_O first, not yet
+  reverse-ported into SHANKPIT's own copy.**
 - [ ] **Follow-up: real phone app UI.** Phase 6's own named gap, still open after 7e's banner --
   no home grid, no Messages list, no input to open it. 7e's banner is a real, narrow substitute
   for one specific signal, not a step toward the full UI.
