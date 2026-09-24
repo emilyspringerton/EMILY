@@ -47474,3 +47474,53 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   `657f6da`/`61247bf`, IDUNA `5f3c89b`/`93df52f`, GOLDEN_DOCS `63ce768`, Apple #20629 (IDUNA fix)
   and #20631 (BIG_O feature).
   session: sess-20260923-1030-4a526255.
+
+## SECTION 537: ONLINE ACCOUNTS + SOCIAL FEATURES (PROFILES/FRIENDS/DUELS) FOR DEADWEIGHT + WOTAN (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-24: "add iduna online accounts / add social features / profiles /
+friends / friendly challenges (duels) / for DEADWEIGHT / WOTAN". Investigated first (Principle
+19): IDUNA's per-game online-services layer (`game_online.go`) already gives DEADWEIGHT full
+guest-register/login/upgrade/email-login accounts server-side, but DEADWEIGHT's own web client
+(`web/src/client.ts`) never calls any of it today (`--no-auth server`, confirmed live in the
+code) -- "online accounts" is a real, present gap on the client side, not the server side. No
+"friends"/"profile"/"duel" concept existed anywhere in the codebase before this (the closest
+precedent, `BRAWLPIT/docs/BP_SOCIAL_LOBBY_NORTHSTAR.md`, is a different feature -- a pre-match
+presence room, not a friends graph). `players`/`player_game_stats`/`game_player_stats` schema
+comments already anticipated a cross-game "WOTAN profile" read, confirming this is the right
+foundation to build on rather than a new identity system.
+
+- [x] **IDUNA backend: friends, public profiles, and friendly-challenge (duel) primitives.** New
+  routes under `/api/v1/games/{game}/...` (`internal/http/handlers/game_social.go`, dispatched
+  from the existing `GameOnlineHandler.ServeHTTP` switch, reusing `draftPlayerClaims`'s own
+  existing "authenticated human player for this game" resolution rather than a new auth path):
+  `GET players/{id}/profile` (public, no auth -- display_name/rating/wins/losses/draws/matches/
+  friend_count, same join shape as the existing `stats()`), `POST`/`GET friend-requests` +
+  `{id}/accept`/`decline`, `GET friends` + `DELETE friends/{id}`, `POST`/`GET duels` +
+  `{id}/accept`/`decline`. Friendship has no separate table -- an accepted `friend_requests` row
+  IS the friendship (one source of truth, no dual-write/dual-delete invariant). A reverse-pending
+  request auto-accepts on a mutual ask instead of leaving two dangling rows pointed at each other.
+  Duels require an existing friendship (matches the founder's own "friendly challenges" pairing)
+  and are honestly V0-scoped to the invite lifecycle only (pending/accepted/declined) -- turning
+  an accepted duel into a live match instance needs each game's own real match-start mechanism
+  (DEADWEIGHT's ticket/queue system) and is real, named, deferred work below, not silently
+  punted. New migration `202609240300_friends_and_duels.sql`; new `game_social_test.go` drives
+  the full real lifecycle (mutual-accept, decline, non-recipient-can't-respond, unfriend revokes
+  duel eligibility) against real SQLite migrations, not mocks. `go build`/`vet`/`test ./...`
+  clean across the whole IDUNA module. IDUNA `70b6b06`, Apple #20634.
+  session: sess-20260923-1030-4a526255.
+- [ ] **WOTAN: profile.html + friends.html pages.** Consume the routes above via WOTAN's own
+  existing `/api/` nginx proxy pattern (same as `store.html`/`decks.html`) -- a public profile
+  view (no login) and an authenticated friends page (send/accept/decline requests, list friends,
+  challenge to a duel), reusing `store.html`'s own IDUNA email/password login flow to resolve a
+  player token.
+- [ ] **DEADWEIGHT: wire the web client (`web/src/client.ts`) to real IDUNA accounts.** The
+  literal, real client-side gap named above -- guest-register/login on connect, persist/send the
+  resulting player token, surface identity in the UI. Closes "online accounts for DEADWEIGHT" for
+  real, not just server-side.
+- [ ] **DEADWEIGHT: in-game friends/duel UI.** A bigger, separate lift than the web client account
+  wiring above (native C client `apps/client/main.c` + the TS web client both need UI, not just an
+  API call) -- deliberately scoped as its own item rather than bundled in blind.
+- [ ] **Duel Phase 2: accepted duel -> live match.** Needs a real per-game match-start mechanism;
+  for DEADWEIGHT specifically, likely reuses the existing ticket/queue path. Open design question
+  not yet resolved: does accepting page/notify the other player in real time, or stay pull/poll-
+  only (this codebase's established default absent a push channel to game clients)?
