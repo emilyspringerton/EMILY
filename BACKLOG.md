@@ -3239,6 +3239,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment: trick/skate input …** — obs `2026-08-28T22:20:06Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "c" (continue) -- keep building PAPERCRAFT. Next real, appropriately-sized increment: persistence ac…** — obs `2026-08-28T22:13:36Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: "continue" -- keep building PAPERCRAFT. Next real, appropriately-sized increment (Phase 2, following…** — obs `2026-08-28T21:54:50Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'make sure to tie parena mods deep in as we go' -- reinforces the standing 'mods first everything' p…** — obs `2026-08-28T20:50:43Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: decided to spin up PAPERCRAFT as a real NEW repo right away, grounded in the same SHANKPIT_CONSTRUCT…** — obs `2026-08-28T17:46:43Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: named the skateboard repo's own pre-existing NORTHSTAR.md project 'Papercraft' -- 'papercraft' -> 't…** — obs `2026-08-28T17:45:19Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: GTA7 (TRAPX doctrine Paper plugin) needs jail tracking -- 'make sure that gta7 we are tracking when …** — obs `2026-08-28T17:11:30Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: WEAKNIGHT_BEDROCK_RACERS NORTHSTAR pivot to racer-first, built on the pre-EINHORN-pivot ('pure fartc…** — obs `2026-08-28T16:58:57Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
