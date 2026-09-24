@@ -2939,6 +2939,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'iterate ensuring the product is complete once its good ensure we are cutting auto releases.' Comple…** — obs `2026-09-10T06:33:33Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time follow-through complete: KARAMBIT v0 shipped, real APK builds. Real PARENA decision logic (parena/sca…** — obs `2026-09-10T04:18:23Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time research note (not an active task): investigating file descriptors 3+ / Unix domain sockets / shared …** — obs `2026-09-10T04:13:32Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, new repo: 'im having a hard time figuring out if my raspberry pi is booting and connecting to the ne…** — obs `2026-09-10T03:47:29Z`. CURATED: 2026-09-24.
+- [ ] **Continuation of the LLVM backend work (user said only 'continue' again, no new direction -- picked the next natural, bo…** — obs `2026-09-10T03:39:10Z`. CURATED: 2026-09-24.
+- [ ] **Continuation of the LLVM backend work (no new founder message this round -- user said only 'continue', so picked the mo…** — obs `2026-09-10T03:27:54Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue working on LLVM we want to do both plans first the clang rout then the direct AVR route st…** — obs `2026-09-10T02:36:17Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'can you please disable the mac editor builds i dont like seeing the red in the ci' -- disabled PARE…** — obs `2026-09-10T02:00:22Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
