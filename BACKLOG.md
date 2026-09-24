@@ -3049,6 +3049,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (via kanban priority queue): intake a 'MIXFORGE legacy conversation' into a real NORTHSTAR built on o…** — obs `2026-09-03T01:58:50Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: redirected from the IDUNA account-scoping investigation to continue working from the priority kanban…** — obs `2026-09-03T01:00:43Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: set up a PAPERCRAFT/IDUNA account for garybifrost@gmail.com (gary, the real person behind the garyre…** — obs `2026-09-02T22:14:51Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: confirmed the actual bug -- gets logged out of PAPERCRAFT if logged in long enough. Diagnosing why g…** — obs `2026-09-02T21:45:11Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: review REDGARDEN's upstream-merged PING_SYSTEM_NORTHSTAR.md (written by Codex with no repo context),…** — obs `2026-09-02T20:58:19Z`. CURATED: 2026-09-24.
+- [ ] **blog post about how gary is now contributing to the redgarden upstream via pull requests from codex - his work may be k…** — obs `2026-09-02T20:57:55Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: BusinessWire scraping is blocked on this box's datacenter IP being flagged by anti-bot systems (real…** — obs `2026-09-02T16:42:47Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add BusinessWire as a PR data source alongside PRNewswire, tag both as content type 'pressreleases' …** — obs `2026-09-02T15:31:15Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
