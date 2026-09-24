@@ -3289,6 +3289,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'it launches 10 v 10 instead of 1 v 1' -- real bug, the ECOWAR matchmaker (commit a508a08) or arena …** — obs `2026-08-27T20:16:41Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'also its still named redgarden' -- the ECOWAR client's own window title/branding wasn't actually re…** — obs `2026-08-27T20:16:35Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'i dont see the card interface in the ecowar client' -- real bug report, the 16-card system (commit …** — obs `2026-08-27T20:16:26Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'there is a cloudflare token somewhere look around i never have to manually do dns stuff anymore' --…** — obs `2026-09-24T22:28:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, confirming the spotlight/mod architecture: 'like that is going to be a feature where you can drop in…** — obs `2026-08-27T19:57:24Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, further spotlight design detail: 'for example adding a calculator to the ctrl t should be just a plu…** — obs `2026-08-27T19:56:43Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, rapid clarification of the quick-open ask: 'thats going to be a magic spotlight feature' -> 'so make…** — obs `2026-08-27T19:56:23Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'can we start building out the textmate features? like quick open via ctrl+t windows/linux or cmd+t …** — obs `2026-08-27T19:55:52Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
