@@ -3269,6 +3269,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, same large-file-crash thread: 'tryna open a md file with nerd tree it opened the window3 and just be…** — obs `2026-08-27T22:48:09Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'parena repo build is fail' -- flagging PARENA CI. Already caught mid-fix: CI run 33122004706 (commi…** — obs `2026-08-27T22:23:54Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time, same binary-file thread: 'for context this is a bat file it fosho i could edit with parena editor' -…** — obs `2026-08-27T22:23:20Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'wttf is with this looks like a binary file parena editor does not open binary files/' -> 'why not?'…** — obs `2026-08-27T22:18:47Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: opening a large file in PARENA editor still crashes -- 'we need to open a pointer and read some into…** — obs `2026-08-27T22:14:04Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue' -- picking the next real increment from the queued PARENA editor bug list: mouse-wheel sc…** — obs `2026-08-27T21:48:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, rapid succession: 'we need a widget at the bottom to open settings' -> 'figure out the basic setting…** — obs `2026-08-27T21:30:57Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'ok if i double click on parena construct in parena editor it crashes this is a 2 mb txt file we ene…** — obs `2026-08-27T21:28:27Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
