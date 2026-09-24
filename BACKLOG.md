@@ -47544,9 +47544,19 @@ foundation to build on rather than a new identity system.
   `/api/v1/games/` routes for a real cross-origin browser deployment. `tsc` clean. DEADWEIGHT
   `8ccc373`, Apple #20637.
   session: sess-20260923-1030-4a526255.
-- [ ] **DEADWEIGHT: in-game friends/duel UI.** A bigger, separate lift than the web client account
-  wiring above (native C client `apps/client/main.c` + the TS web client both need UI, not just an
-  API call) -- deliberately scoped as its own item rather than bundled in blind.
+- [x] **DEADWEIGHT: in-game friends/duel UI -- web client half.** New `web/src/social.ts` +
+  a "Friends & Duels" panel in `index.html`/`main.ts` (add friend by Player ID, accept/decline
+  requests, list/remove friends, challenge/accept/decline duels), shown once an account is
+  bootstrapped, for any account (guest or linked). `tsc` strict clean, JS syntax-checked,
+  headless-Chrome screenshot of the page shell. Not live-clicked-through against a real server --
+  IDUNA's new routes aren't deployed, and this session's signup rate cap was already spent on the
+  account-wiring item above. DEADWEIGHT `4490a70`, Apple #20639.
+  session: sess-20260923-1030-4a526255.
+- [ ] **DEADWEIGHT: in-game friends/duel UI -- native SDL2 client half.** `apps/gui/main.c` (the
+  real, primary, shipped VS0 desktop client) still has no friends/duel UI at all -- a bigger,
+  separate lift than the web client above: needs its own bitmap-font-rendered screen/menu state
+  using the same HTTP helper pattern `dwi_guest_register`/`dwi_draft_run_state`/etc. already
+  establish, not a port of the web panel's DOM-based approach.
 - [ ] **Duel Phase 2: accepted duel -> live match.** Needs a real per-game match-start mechanism;
   for DEADWEIGHT specifically, likely reuses the existing ticket/queue path. Open design question
   not yet resolved: does accepting page/notify the other player in real time, or stay pull/poll-
