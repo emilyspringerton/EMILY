@@ -46958,9 +46958,13 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   2. Catastrophe Crow low-poly mesh -- founder can model in Blender; same real gap.
   3. A hallucinated (no reference given) low-poly penguin mesh, explicitly requested as a
      placeholder ("just hallucinate one for us").
-  4. Giant alien-bug eggs, Godzilla-90s-movie-style, underground -- disturbing them spawns more
-     Giant Zombie Bugs (Leeroy-Jenkins-style aggro pull). Real, direct follow-up to the giant bug
-     work above, not started.
+  4. ~~Giant alien-bug eggs, Godzilla-90s-movie-style, underground -- disturbing them spawns more
+     Giant Zombie Bugs~~ **Half-closed 2026-09-24, see BIG_O/NORTHSTAR.md §36.** Eggs exist near
+     the lab and hatching them spawns real bugs into the same live array/snapshot path (no new
+     wire protocol needed), real 60s cooldown, real live scratch-harness-verified. The
+     "Leeroy-Jenkins-style aggro pull" half is NOT built -- giant bugs have no movement/player-
+     targeting model anywhere in this codebase yet, named honestly rather than invented blind; a
+     real, separate, bigger follow-up if wanted. BIG_O `51f16ea`, Apple #20740.
   5. Tiny face-hugging spore units that turn citizens into a new human/bug/AI hybrid breed,
      cyber-bionetic, tying into the lab's own cloning interfaces/affordances (lab_sim.c, phase 4
      -- still has zero UI/interaction model, its own already-named blocking gap above).
