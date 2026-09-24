@@ -47856,8 +47856,23 @@ foundation to build on rather than a new identity system.
       `MATCH_FOUND vs PARTNER`; partner: `match 1 vs WebPlayer`). `tsc` strict clean. DEADWEIGHT
       `e16dbfa`, Apple #20677.
       session: sess-20260923-1030-4a526255.
-    - [ ] **Phase 3c -- WOTAN.** `friends.html` currently only manages the invite lifecycle; needs
-      either a "copy token" affordance or a deep link into a client that can consume it.
+    - [x] **Phase 3c -- WOTAN.** WOTAN has no game client of its own to queue a match into, so
+      `friends.html`'s `loadDuels()` renders the live `match_token` on an accepted duel as a
+      monospace box with a "Copy token" button (`navigator.clipboard.writeText`) -- the real
+      audience WOTAN can serve directly, `dw_client --match-token TOK`, plus a note that the
+      native SDL2 (Phase 3a) and browser (Phase 3b) clients already read the same token from IDUNA
+      and show their own Play button. Live-verified with a real headless Chrome (CDP) against the
+      actual, unmodified `friends.html` (served same-origin against a fake IDUNA, matching
+      production's real nginx `/api/` proxy topology): token box + button render with the exact
+      seeded value, and a real trusted click resolves `writeText()` successfully (button shows
+      "Copied!"). WOTAN `61bfbce`, Apple #20690.
+      session: sess-20260923-1030-4a526255.
+
+    **SECTION 537 Duel Phase 2 is now fully closed**: Phase 1 (IDUNA mint+expose match_token),
+    Phase 2 (DEADWEIGHT server-side same-token pairing), and Phase 3a/3b/3c (native SDL2, web,
+    WOTAN) are all shipped and live-verified. An accepted duel between two friends now produces a
+    real, working, specifically-paired match in either real DEADWEIGHT client, with WOTAN able to
+    hand the raw token to a CLI player too.
 
 ## SECTION 538: TYLER SUPPORTING CHARACTER: THE AUDITOR (FOUNDER REAL-TIME)
 
