@@ -46899,11 +46899,15 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   1. Add the full cyberscape from the historic construct in the PAPERCRAFT repo.
   2. 2 new vehicles via the new PARENA physics.
   3. Incorporate the NPCs and tech tree progression into BIG_O.
-  4. Every agent in the system, including the player, can "feel" when an agent notices them via
-     uniquely tracked awareness vectors (a real design escalation of witness_sim's own existing
-     noticed()/conspicuousness() mechanic -- BIG_O/NORTHSTAR.md's own §8e item 3 already names
-     the closest existing primitive).
-  session: sess-20260920-1908-24cb3558.
+  4. ~~Every agent in the system, including the player, can "feel" when an agent notices them via
+     uniquely tracked awareness vectors~~ **Closed 2026-09-24, see BIG_O/NORTHSTAR.md §35.** New
+     `bigo_awareness.h` (direction/8-point-compass/intensity math) + `PC_PACKET_AWARENESS_PING` +
+     a bottom-left HUD readout, fired from `server_tick_decorum`'s own existing noticed()/
+     conspicuousness() check (§8e item 3's closest existing primitive, as named here). Player-only
+     for now, not literally "every agent" (no NPC has a HUD of its own yet) -- named honestly in
+     NORTHSTAR.md §35 as a real, separate, bigger design. `bazel test //...` 42/42 green, a real
+     live UDP round trip verified. BIG_O `4998090`, Apple #20738.
+  session: sess-20260920-1908-24cb3558 (items 1-3 still open; item 4 closed sess-20260923-1030-4a526255).
 - [x] **"BIG_O basic food system pickup and use (cargo) add cherries and other packman inspired
   items 16 items total."** 17 real items (16 + cake, see below), `food_items.h` + `food_pickup.
   {h,c}` -- 17 hand-placed world spots ringing the VOXWORLD lab-zone landmark, phone `BP_APP_
