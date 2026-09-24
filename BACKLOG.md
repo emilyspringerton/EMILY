@@ -2854,6 +2854,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ensure GFD uses https, use DEADWEIGHT primitives as example** — obs `2026-09-24T00:17:08Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: add the iduna app from IDUNA.GAME** — obs `2026-09-24T00:16:45Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: add real SSH key generation** — obs `2026-09-24T00:16:33Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: ensure walkies function somehow, make it unit tested -- The Men should have their own channel, robot…** — obs `2026-09-24T00:33:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add air ships -- wedge-shaped hover skateboards, different physics per board, PARENA-tunable frictio…** — obs `2026-09-24T00:31:25Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, clarifying S476: the level exit 3D marker should have an on/off visibility toggle in the NOCK level …** — obs `2026-09-17T14:28:22Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: add a visual indicator for the level exit marker in the NOCK level editor's 3D viewport -- currently…** — obs `2026-09-17T14:22:16Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: big follow-up burst on the NOCK level editor's own interactivity/tooling gaps -- (1) how to author s…** — obs `2026-09-17T12:49:24Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
