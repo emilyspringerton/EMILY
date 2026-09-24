@@ -3114,6 +3114,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue work on DUNG** — obs `2026-08-30T09:10:54Z`. CURATED: 2026-09-24.
 - [ ] **still getting the reconnection issue ** — obs `2026-08-30T08:42:56Z`. CURATED: 2026-09-24.
 - [ ] **testing** — obs `2026-08-30T07:04:39Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'make sure we are testing with the backlog when we dev DUNG its big' -- a real, concrete testing dir…** — obs `2026-08-30T06:27:38Z`. CURATED: 2026-09-24.
+- [ ] **Founder shared: https://raw.githubusercontent.com/emilyspringerton/EMILY/refs/heads/main/BACKLOG.md -- likely the real …** — obs `2026-08-30T06:26:30Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'we may need to start building the v16 rednderer' -- connects to the real, already-recorded S189-63 …** — obs `2026-08-30T06:26:17Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, ambiguous but real design signal: 'and whatever the browser is doing to make this file viewable is l…** — obs `2026-08-30T06:25:37Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, real-time design burst: 'okok so lets start building emily os into papercraft i want the DUNG native…** — obs `2026-08-30T06:25:10Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
