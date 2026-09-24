@@ -2859,6 +2859,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, clarifying S476: the level exit 3D marker should have an on/off visibility toggle in the NOCK level …** — obs `2026-09-17T14:28:22Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: add a visual indicator for the level exit marker in the NOCK level editor's 3D viewport -- currently…** — obs `2026-09-17T14:22:16Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: big follow-up burst on the NOCK level editor's own interactivity/tooling gaps -- (1) how to author s…** — obs `2026-09-17T12:49:24Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: GFD (GoblinFoxDragon) gear doesn't persist for legs slot -- buy+equip leather legs, they revert to m…** — obs `2026-09-24T00:43:14Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: for STORY mode (Breach Titan encounter), spawn all 5 robot NPC kits (mannequin/Stan/Mike/Leela/Georg…** — obs `2026-09-17T11:34:45Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'i just added universal animation library 1 so now we have both 1 includes more basic stuff you can …** — obs `2026-09-17T11:19:42Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue filling in the gaps' -- generic continuation signal, no new specific direction. Given S466…** — obs `2026-09-17T11:01:14Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'continue fill in the gaps can we animate and model end to end?' -- direct follow-up to S466 (story_…** — obs `2026-09-17T10:45:44Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
