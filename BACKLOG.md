@@ -48128,9 +48128,10 @@ scheme was intentional inspo).
   page-local color override. Verified with real headless (Playwright/Chromium) screenshots of
   all 5 pages served locally before shipping — checked for readability, contrast, and no
   unstyled elements, not just "the CSS parses." `README.md`/`CLAUDE.md` updated per SAGA README
-  Reality (new design-system section + a "Look" blurb). WOTAN commit pending (this same
-  session), Apple #20714.
+  Reality (new design-system section + a "Look" blurb). WOTAN `7a67897`, Apple #20714. Deployed
+  via `~/wotan-deploy.sh` and live-verified against `wotan.okemily.com` directly (not just the
+  filesystem copy) — `curl`'d `index.html` and `css/wotan-theme.css` from the real domain, both
+  200, theme CSS MD5-identical to the committed file.
   session: sess-20260923-1030-4a526255.
 
-**SECTION 542 is now fully closed** once the WOTAN commit lands and is deployed via
-`~/wotan-deploy.sh`.
+**SECTION 542 is now fully closed.**
