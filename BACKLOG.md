@@ -2874,6 +2874,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: dropped a detailed NPC auto-pilot AI design for SHANKPIT bots — sensor layer (0.1s tick, vision-cone…** — obs `2026-09-17T05:31:07Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: continue scripted-sequence animation work in GOLDENBAND — multi-actor frame synchronization (Half-Li…** — obs `2026-09-17T05:30:01Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time, multi-part: wants a NOCK 'object library' distinct from the levels list (lamp posts/curbs shouldn't …** — obs `2026-09-17T01:10:18Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: upgrade the BIG_O SSH key generation work to quantum-safe (post-quantum) encryption instead of class…** — obs `2026-09-24T01:30:28Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'I want to build realistic human like ais for games like the soldiers fighting Gordon in half life o…** — obs `2026-09-16T23:31:19Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'make sure we can stitch animations together like James Bond walk turn raise gun shoot' -- built GOL…** — obs `2026-09-16T23:16:55Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, continuing the STORY_SYSTEM_NORTHSTAR.md thread: also want scriptable characters (idle/look-around/c…** — obs `2026-09-16T20:51:39Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, multi-turn design thread: scriptable map objects (doors/ladders/computer screens) authored via NOCK …** — obs `2026-09-16T20:47:56Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
