@@ -2844,6 +2844,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue the kubernetes migration work, focused first on getting PRRJECT_FATBABY off the box. Requir…** — obs `2026-09-18T05:59:00Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: 'we need to put in PARENA primatives for MSSQL and double down on all the unix socket stuff and raw …** — obs `2026-09-18T04:48:21Z`. CURATED: 2026-09-23.
 - [ ] **Founder real-time: corrected the ragdoll get-up plan — the point-mass spike isn't rigid body so it can't 'fall over' in…** — obs `2026-09-18T04:27:33Z`. CURATED: 2026-09-23.
+- [ ] **Founder real-time, SHANKPIT characters: (1) confusion about how the character adder works -- clarified: Role (AIRole en…** — obs `2026-09-17T16:37:34Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, SHANKPIT audio: wants to design soundscapes with strong directional/physics-based audio (R6 Siege-st…** — obs `2026-09-17T15:39:27Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, SHANKPIT/NOCK cluster of asks: (1) how to build reusable rooms as levels? (2) no UI affordance in th…** — obs `2026-09-17T15:34:05Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: (1) increase default ground friction so platforming/parkour is less slippery -- global tuning bump. …** — obs `2026-09-17T15:17:48Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time, live playtest bug report: walked to a placed level exit on the 'nextown' level (block positioned cor…** — obs `2026-09-17T14:46:11Z`. CURATED: 2026-09-24.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
