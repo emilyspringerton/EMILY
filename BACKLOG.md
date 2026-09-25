@@ -3654,6 +3654,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新的大範圍構想: 「we are going o need to build our own in house php 5 or 7 or whatever」+「with parena compiled…** — obs `2026-08-20T19:45:47Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,明確授權: 「i dont know」+「figure it out」——把剛才『PARENA 編譯成 Go 模組 vs Go 呼叫進 PARENA』這個架構問題完全授權交給我判斷,之後真的動手做 TI…** — obs `2026-08-20T19:44:49Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,開放式架構思考: 「maybe parena compiles into go modules? or go calles into parena mayybe both」——思考 fatbaby 修復…** — obs `2026-08-20T19:44:43Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「yes fatbaby is mission critical」+「but fix it with parena if possible」——確認 S189-41 發現的 fatbaby 下游問題(…** — obs `2026-08-20T19:44:25Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補完自我更新機制細節: 「it receives and validates an updated as a mod plugin」+「and it compiles it and swaps it i…** — obs `2026-08-20T19:43:24Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充自我更新構想: 「like it has parena compiler built in」——具體化剛才的自動更新問題:PITVIPER 內建 PARENA 編譯器本身,讓它能自己拉新的 PARE…** — obs `2026-08-20T19:43:02Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新問題: 「can we make the pitviper client self updating with parena?」——詢問能否讓 PITVIPER client 自動更新,而且用 PAR…** — obs `2026-08-20T19:42:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充: 「or at least use the bdd framework」——放寬/概括前一則指示,重點是 BDD(行為驅動開發)風格測試,firefly/gomega 只是實現方式之一。沒有新範圍。** — obs `2026-08-20T19:41:41Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
