@@ -49364,6 +49364,29 @@ Scope for this section:
 `CheckpointsWritePerm`/`CheckpointBlobDir`/`TicketsWritePerm` for `d2` — waits on D4, a real
 placeholder bot, per `NORTHSTAR.md`'s own "Deferred" section; not a gap, a named future phase).
 
+- [x] **Follow-up, founder real-time (2026-09-25): "can we add windows client to deadweight 2
+  artifact releases."** Routed via `emily observe` first (Apple #20868), then implemented: new
+  `scripts/build.sh --windows` flag (mingw cross-compile of `dw2_client.exe`, matching
+  DEADWEIGHT's own `--windows` convention) + a new CI `windows` job (mingw-w64 +
+  SDL2-devel-2.28.5-mingw, same tarball DEADWEIGHT's CI already downloads) that attaches
+  `dw2_client_windows_x86_64.exe` + `SDL2.dll` to every GitHub Release alongside the three
+  existing Linux binaries, plus a `D2_Client_Windows_<build>.zip` workflow artifact
+  (exe+dll+PLAY.bat+CONSTRUCT). Genuinely simpler than DEADWEIGHT's own Windows build: D2's
+  `core/http.h` is plain-HTTP-only (no `PARENA_WITH_TLS` anywhere in this repo), so no mbedTLS
+  cross-compile is needed — just SDL2 + winsock via `core/net.h`'s existing `_WIN32` shim (already
+  Windows-ready, ported from DEADWEIGHT verbatim). Structurally verified locally: a real
+  `x86_64-w64-mingw32-gcc` build against a real local SDL2-mingw tree (reused from shankpit-460's
+  own), zero warnings under this repo's `-Wall -Wextra -Werror`, `file` confirms a genuine `PE32+`
+  binary, and the full `scripts/build.sh --windows` run (every existing Linux smoke test plus the
+  new cross-compile) passed clean end to end. Honestly **not** runtime-tested on actual Windows —
+  no Wine in this sandbox — flagged explicitly in new `docs/WINDOWS_CLIENT_BUILD.md` rather than
+  glossed over. Scoped to the client only, matching the literal ask: `dw2_server`/`dw2_local` stay
+  Linux-only, and the new Windows binary isn't wired into the IDUNA app-release signing loop yet
+  (named, cheap follow-on, not done this pass — those two secrets aren't provisioned yet anyway).
+  Updated `DEADWEIGHT_2/CLAUDE.md`/`README.md` and the root `CLAUDE.md`'s own D2 row to drop the
+  now-stale "no Windows build surface" claim (SAGA/README-Reality). `DEADWEIGHT_2@e350941`,
+  `MONOREPO@cb5bb8d6b`, Apple #20870.
+
 session: sess-20260923-1030-4a526255
 
 ---
