@@ -3389,6 +3389,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: reconnect -- 'GFD first then if so' (ambiguous -- possibly: build/verify in GFD battlegrounds_gui fi…** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: reconnect feature may need real IDUNA logins (not just self-minted connect tickets) to identify who …** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: add a reconnect feature to REDGARDEN (rejoin an in-progress match after disconnect)** — obs `2026-08-25T20:59:14Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: set up REDGARDEN auto-releases (non-pre-production/real releases), matching the pattern already used…** — obs `2026-08-25T20:52:40Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: REDGARDEN build-templates feature -- UI affordances undecided, chat/command-based selection is fine …** — obs `2026-08-25T20:37:11Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: REDGARDEN -- choosing a build (tech-tree/item-template) could let you auto-buy at the shop** — obs `2026-08-25T20:30:04Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: REDGARDEN -- experiment with tech trees as item templates** — obs `2026-08-25T20:30:04Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: start tracking GFD Battlegrounds player stats, surfaced on WOTAN** — obs `2026-08-25T20:30:04Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
