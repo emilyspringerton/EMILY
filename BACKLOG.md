@@ -3644,6 +3644,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,確認真實根因 + 修復方向: 「fix it on the render side somehow」+「do an initial templating passs or something」+「usi…** — obs `2026-08-20T19:57:35Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,回報真實 render bug: 「you have been writing a lot of blog posts with html tags raw in the render somehow」…** — obs `2026-08-20T19:57:10Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新 stdlib 需求: 「add linked list to te stdlib」——要求把 linked list 加進 PARENA stdlib(vec/map 已有,linked list …** — obs `2026-08-20T19:56:17Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,語言設計問題: 「fo we need structs to help us with composable tests and fakes?」——問 PARENA 是否需要 defstruct(一般記…** — obs `2026-08-20T19:55:34Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,持續連結: 「this has to do with templates and the meta norn loop and tehe zero points theorems」——把 PHP 樣板語…** — obs `2026-08-20T19:49:52Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,PHP 構想再延伸: 「our in house PHP implementation that includes PARENA can be written in PARENA」——構想自建的 in-…** — obs `2026-08-20T19:49:20Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,連結既有概念: 「this ties intop our norn zero opoints meta loop」——把 PHP/PARENA 內嵌構想連結到既有的 NORN(HQ-SPEC 系列 re…** — obs `2026-08-20T19:46:45Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充: 「like php is the ultimate template langiageuage」——延伸剛才的玩笑構想,PHP 本身作為『終極樣板語言』的角度來看待 PARENA-in-PHP …** — obs `2026-08-20T19:46:37Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
