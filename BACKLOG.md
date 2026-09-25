@@ -48616,3 +48616,45 @@ CICD binaries for all the apps even tho we dont have the signing set up yet."
 
 **SECTION 545 stays open on the code-signing follow-up — the actual "apps don't work" ask is
 fully closed and live-verified.**
+
+## SECTION 546: DEADWEIGHT_2 — THE BACKPACK BATTLER, SPUN INTO ITS OWN REPO (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "find the backpack battler plans in the founding deadweight docs -
+build DEADWEIGHT_2 (upstream repo created) do not add unlicense." Routed via `emily observe`
+first (obs `2026-09-25T08-35-01Z`, Apple #20794) per `EMILY/docs/THE_EMILY_WAY.md` Principle 18.
+
+- [x] **D0/D1: repo hygiene + the real core loop, local-only.** Found the plan in `DEADWEIGHT/
+  NORTHSTAR.md` (the V0 item/Ultimate/tournament cut), `DEADWEIGHT/docs/SPEC_REVIEW.md` (every
+  resolved rule this build implements: authored-not-computed fragment tables, hull%-then-cargo-
+  value tiebreak, one-to-many-legal/many-to-one-inert energy routing, the N/E/S/W port-bit
+  rotation convention), and `DEADWEIGHT/docs/PHASE_D1_CORE_LOOP.md` (the exact phase scope: local-
+  only, zero networking/accounts/UI-polish, one human vs. one fixed dummy grid). Cloned the
+  founder's pre-created empty `DEADWEIGHT_2` upstream. Built for real, not just scoped: `core/`
+  (6x6 triple-bitmask grid, a 7-item V0 catalog reproducing SPEC_REVIEW's own Titanium
+  Beam-halves/Aether Ore-quarters worked examples verbatim, energy routing, Back-EMF closed-loop
+  meltdown, live mid-fight Panic Cut, hull%/cargo-value win condition), `apps/local/main.c` (SDL2
+  debug shell + headless `--selftest`), `tests/test_core_loop.c` (headless, ASan+UBSan, 53
+  checks — placement legality, rotation math, Panic Cut incl. a neighbor-blocked cut failing
+  clean, a genuine hand-built 4-cell closed loop shattering on the exact predicted tick (Φ growth
+  1.35x/tick, 10→13.5→18.2→24.6→33.2, crossing the 2.5x shatter threshold on tick 4 exactly as
+  hand-derived), one-to-many/many-to-one verified by exact charge counts not just "no crash," a
+  500-seed fuzz pass). One real bug caught by ASan/UBSan during this build, not shipped: the
+  initial energy-routing implementation excluded the WRONG port direction when forwarding through
+  a conductor/splitter (`~opposite(incoming_dir)` instead of `~incoming_dir`), which would have
+  sent energy back out the port it just arrived on instead of onward — caught and fixed before
+  any test ever ran green, verified against hand-traced expected values for the ring/splitter/
+  many-to-one scenarios. `NORTHSTAR.md`/`CLAUDE.md`/`README.md`/`CHANGELOG.md` written; real
+  simplifications named, not hidden (single combined Back-EMF loop tracker, fixed dummy opponent
+  not a bot, no on-screen screenshot verification — Xvfb/background-process flakiness in this
+  sandbox, headless `--selftest` through the real render path used instead). Registered as
+  `DEADWEIGHT2-NORTH` in `EMILY/context/golden-docs-index.md` and as a new row in the root
+  `/home/fatbaby/CLAUDE.md` repo table. **No Unlicense added** — explicit founder instruction,
+  named in both `CLAUDE.md` and `NORTHSTAR.md` so a future session doesn't add it by habit
+  (`SKULDMARK`/`SPIDERBEETLE`'s own convention deliberately NOT followed here). Apple #20796.
+  session: sess-20260923-1030-4a526255.
+
+- [ ] **D2-D5: server-authoritative 1v1, a real client, a real bot, PARENA integration.** Named,
+  phased, not started — see `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section. D2 needs its
+  own IDUNA `game='deadweight_2'` scope + M2M agent identity (never reusing DEADWEIGHT's or
+  ECOWAR's) and the guest-account provider work DEADWEIGHT's own NORTHSTAR already scoped in
+  detail.
