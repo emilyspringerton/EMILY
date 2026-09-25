@@ -48956,9 +48956,8 @@ precedent).
   clean end to end before this checkbox was flipped, not just trusting the doc's own claims).
   Commits `DEADWEIGHT_2@60bd4c7` (the V0 itself, pushed directly by the founder — no session
   trailer, no CHANGELOG entry), `DEADWEIGHT_2@899fdce` (backfilled the missing CHANGELOG entry).
-  **Real gap, named not hidden: no Apple was filed for the V0 itself** — `emily apples post` isn't
-  available in the sandbox that did this BACKLOG/golden-docs-index cleanup pass; a real Apple for
-  SECTION 548 landing is still open follow-up, not done here.
+  **Gap closed**: Apple #20828 filed (`emily apples post`, from a sandbox with real IDUNA access)
+  during the post-incident full-repo sync that found this gap. session: sess-20260923-1030-4a526255
 
 ## SECTION 550: WOTAN — BASIC SHANKPIT MATCH TRACKING (FOUNDER REAL-TIME)
 
@@ -49030,9 +49029,9 @@ Two real, separable asks:
   `cannon/*.prn`/`*_gen.c` are committed, generated artifacts (regenerate via new
   `DEADWEIGHT_2/scripts/generate_cannon.sh` only when a `.llll` source changes) — ordinary
   `scripts/build.sh`/CI never needs a sibling LO/PARENA checkout. Full design in
-  `DEADWEIGHT_2/docs/LO_CANNON_PROGRAMMING.md`. Commit `DEADWEIGHT_2@11f5933`. **Real gap, named
-  not hidden: no Apple was filed for this landing** — `emily apples post` isn't available in the
-  sandbox that built this; a real Apple for this section is still open follow-up.
+  `DEADWEIGHT_2/docs/LO_CANNON_PROGRAMMING.md`. Commit `DEADWEIGHT_2@11f5933`. **Gap closed**:
+  Apple #20829 filed during the post-incident full-repo sync that found this gap.
+  session: sess-20260923-1030-4a526255
 - [x] **LO's execution model: bidirectional (left-to-right AND bottom-to-top, resolving
   simultaneously), homoiconic (code is data, Lisp's own real precedent), visualized as a matrix
   of emojis / a dominoes-like crossroads layout.** Apple #20816. Real, rigorous design pass
