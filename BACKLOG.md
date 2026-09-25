@@ -3469,6 +3469,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: log EMEB/EARL/ECCR/ECGL/AOPO (acronyms from an unrelated third-party LinkedIn post about a different…** — obs `2026-08-25T01:26:32Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'we also need to be logging the speeds of the grep invocations so we can do stats on improvements or…** — obs `2026-08-25T00:51:58Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'so we need to all in on making that guy faster' + 'its ok that its slower if its logging the data t…** — obs `2026-08-25T00:51:21Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: build DEADWEIGHT_2 (upstream repo already created empty) implementing the backpack battler (Dark Sec…** — obs `2026-09-25T08:35:01Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'so we can study how claude code works so we can make it faster' -- confirms the real goal: log real…** — obs `2026-08-25T00:44:34Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'and then as a way to figure out how to make faster for claude' + 'we need to start logging grep inv…** — obs `2026-08-25T00:44:26Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'ok we need to make a grep router that can route between regular grep and turbo grep depending on if…** — obs `2026-08-25T00:44:15Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'find all of the technical bottlenecks before we move to hacks' -- stop doing ad-hoc point fixes, pr…** — obs `2026-08-25T00:40:41Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
