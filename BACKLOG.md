@@ -3769,6 +3769,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人:「and vault integration for password management」→「its built into iduna already」——真實查證確認 IDUNA 已有真實 Vault 系統(internal…** — obs `2026-08-20T14:40:25Z`. CURATED: 2026-09-25.
 - [ ] **創辦人具體點名,連續多則:「backtrack」→「or whatever the newest swiss army knife bootable linux」(即 Kali Linux,BackTrack 的後繼者,真實、業界標準的滲…** — obs `2026-08-20T14:38:43Z`. CURATED: 2026-09-25.
 - [ ] **創辦人即時指令:「std libs for full pen test tools」——PARENA stdlib 新增滲透測試工具套件。比照本 session 已建立的判斷,FFI 綁定真實、標準、合法的既有工具(nmap 掃描、真實 …** — obs `2026-08-20T14:38:24Z`. CURATED: 2026-09-25.
+- [ ] **創辦人即時指令,PARENA networking stdlib 延續:「also we need any networking primatives for a vpn and beyond」+「also our domains are…** — obs `2026-08-20T14:35:09Z`. CURATED: 2026-09-25.
+- [ ] **創辦人:「we need to build a FIRE TTS model into pitviper」→ AskUserQuestion 確認是真實、具體的 F5-TTS(SWivid/F5-TTS,2024 真實開源 flow-ma…** — obs `2026-08-20T14:32:43Z`. CURATED: 2026-09-25.
+- [ ] **創辦人真實新方向,大規模、獨立於目前 PARENA/PITVIPER 工作:「and then also github is a single point of failure」→「we need to start building ou…** — obs `2026-08-20T14:29:30Z`. CURATED: 2026-09-25.
+- [ ] **創辦人即時指令,PARENA stdlib 延續:「PARENA should help address mempry issues」(呼應 region 型別系統本身就是記憶體安全的核心賣點,已經是 PARENA 的既有定位,非新套件)…** — obs `2026-08-20T14:23:48Z`. CURATED: 2026-09-25.
+- [ ] **創辦人揭示 PITVIPER 真正的整體願景:「basically i am extending my IDE which is actually this VPS」——PITVIPER 不只是終端機模擬器,而是把這台 VPS 本身當成「…** — obs `2026-08-20T14:19:15Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
