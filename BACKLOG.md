@@ -45517,6 +45517,21 @@ algorithmic shadow war; "if they don't see it, it isn't real"). Scoped per Princ
 - [x] **S504-02: B0 repo hygiene — upstream created by founder, pushed, root CLAUDE.md row, golden-index, transcript ingested + real README (BIG_O ac426fe). Apple #20150. CI/release workflow lands with B1 (first code).**
 - [x] **S504-03: B1 Attention/Heat rules module (PARENA scalar → C+Java, headless tests, parity vectors, text-sim playable).**
   — Done 2026-09-18: PARENA witness_rules.prn (PARENA 41d33ec) -> C (+Java compiles unchanged), spec docs/B1_WITNESS_RULES.md, oracle+property tests (1.5M checks ASan/UBSan) + 3083 parity vectors, crew sim core (<=3 players, 16 NPCs, seeded), bigo_sim run/play, 12 scenarios + replay determinism, CI with auto-releases (v0.4.0 green). BIG_O 20fe46c/af953cf/332b5fc. Apple #20154. Open founder Qs: 'seen acting together' = same zone vs explicit joint action; compromising a witness costs decorum?; decorum recovery cap/cooldown?
+- [x] **S504-19 (founder real-time 2026-09-25, "start working on the real BIG_O stealth gameplay"): live Decorum closes two named gaps — gear conspicuousness + two more zones.** §18 Phase A shipped live Decorum but named two real gaps rather than guessing: gear/token hardcoded 0 (so `DA_CARRY_GEAR` could never fire) and only `ZONE_PUBLIC`/`ZONE_LAB` live-placed of the rules module's 5 zones. This closes the `DA_CARRY_GEAR` gap and two of the three missing zones — the direct next buildable slice, not new design. `server_tick_decorum` (`day/apps/server/src/main.c`, BIG_O) now derives `gear` from the already-live `s->current_weapon` (any slot beyond the universal-baseline `PC_WPN_KNIFE` is conspicuous field gear) and selects `DA_CARRY_GEAR` vs. `DA_WRONG_COSTUME` via the exact rule `core/sim.c`'s own already-tested `sim_observe` already uses — ported verbatim, not invented. `server_player_zone` gains `ZONE_EXEC` (−30,0) and `ZONE_GENERATOR` (0,−30), same hardcoded-circle landmark precedent `ZONE_LAB` already set; 4 of 5 zones now live (`ZONE_VAULT` still needs a real stolen-token mechanic, named not guessed at). Also fixed a real, pre-existing doc-comment misplacement found while editing this function (`server_tick_decorum`'s own doc comment had drifted above the neighboring `server_tick_bug_eggs`). Verified via a scratch ASan+UBSan integration harness (`#include main.c` precedent, not committed): 8/8 assertions — new zones resolve correctly; correct costume + carried gear now takes a real `DA_CARRY_GEAR` hit (80→65) instead of being invisible to Decorum; wrong-costume/baseline-knife (`DA_WRONG_COSTUME`, 80→60) and correct-costume/baseline-knife (zero loss) behavior is unchanged, regression-checked. `scripts/build_day.sh` clean; `scripts/build.sh` (witness-rules oracle/parity 1,520,403 checks + 26 crew-sim scenarios, untouched by this pass) re-run clean, zero regressions. Real, honest limitation: no `emily`/`bazel` CLI, no IDUNA network reachability in this sandbox — Apple filing/`emily observe` and `bazel test //...` could not be run (the touched file isn't part of the bazel graph regardless, per `scripts/build_day.sh`'s own plain-gcc build). README.md/NORTHSTAR.md §37/CHANGELOG.md updated same unit of work. Still open, named (`docs/A1M1_PLAN.md`): the Sector-2 level, interactables, the shoulder-surf mechanic itself, supervisor/peer NPCs, server-authoritative mission state, bot crew slots — each its own real, separate, larger scope, not attempted blind here per Principle 19.
+session: session_017CFGuvrYzYdfF4Wm5kkpGm.
+
+- [x] **S504-20 (founder real-time 2026-09-25, "continue"): the shoulder-surf mechanic — a real, generic stolen-token loop for ZONE_VAULT.** S504-19 above closed `ZONE_EXEC`/`ZONE_GENERATOR` but deliberately left `ZONE_VAULT` unplaced, needing a real "stolen token" mechanic. This closes it with `DESIGN_DIGEST.md` §4's own named mechanic ("shoulder-surfing codes and PINs") — the same one `docs/A1M1_PLAN.md` gap #4 names — built as a real, generic world mechanic rather than tied to a specific mission, since no dedicated Supervisor NPC/terminal object exists live yet (that's A1M1's own real, separate, still-deferred scope). New `PC_BTN_SHOULDER_SURF` held button (BIG_O: C on keyboard, X on controller); `server_tick_shoulder_surf` grants `PlayerSlot.has_vault_token` after a real, continuous 3-second hold within a tight 4.0-unit radius of any live Citizen/The-Men NPC — releasing the button or losing proximity to every valid target resets the streak to 0 (can't be done walking through a room with the button held). `ZONE_VAULT` gets the same hardcoded-circle landmark treatment `ZONE_EXEC`/`ZONE_GENERATOR` used; `server_tick_decorum`'s own `zone_access` call now passes the real token instead of a hardcoded 0 — all 5 rules-module zones are finally live. Verified via a scratch ASan+UBSan integration harness (not committed, same `#include main.c` precedent): 13/13 assertions — the new zone resolves correctly, no-target/broken-hold cases never grant a token, a continuous hold grants exactly one token at the threshold (not before), the granted token actually unlocks `ZONE_VAULT` through the real, unmodified `zone_access()` (still correctly denied for `COS_STREET`, matching the B1 table), and a full S504-19 regression check confirms the gear/zone Decorum path is undisturbed. `scripts/build_day.sh` clean; `scripts/build_client.sh` also compiled clean this pass (SDL2/GL dev packages installed successfully this time) — the new keyboard/controller bindings build without warning, though on-screen feel is unverified (no live GL driver in this sandbox). `scripts/build.sh` re-run clean, zero regressions. Real, honest, deliberately not built: any client HUD affordance for the hold itself; witness-risk for the act of shoulder-surfing (the generated PARENA rules oracle wasn't touched this pass); a dedicated Supervisor NPC/terminal/Act I Mission 1 content; token loss/expiry on death. See BIG_O NORTHSTAR.md §38, CHANGELOG.md, README.md.
+session: session_017CFGuvrYzYdfF4Wm5kkpGm.
+
+- [x] **S504-18 (founder real-time 2026-09-25, "continue"): live `ServerAvian` flock — closes the Act II beacon loop.** `day/apps/server/src/main.c` (BIG_O): new `g_avians[3]` real, server-authoritative flock (separate array from `g_npcs[]`, matching `g_giant_bugs[]`'s own convention), `server_spawn_avians`/`server_tick_avians` wired into the real per-tick loop. Each bird runs all three `core/avian_live.h` "observing the observer" channels against the live NPC population, ticks real flock coordination among the other live birds, and — the first live consumer of `avian_beacon_strength` anywhere in this repo — calls `zombie_get_agitated()` on nearby zombies once a bird's beacon fires, closing `docs/DESIGN_DIGEST.md`'s own Act II "acoustic beacons pull feral hordes" mechanic. `scripts/build_day.sh` updated, compiles clean. Real, honest limitation named: this server hard-requires a reachable `worldapi` at startup with no bypass, unavailable in this sandbox, so live server log output couldn't be captured — the underlying functions are the same ones already unit-tested and passing. See BIG_O NORTHSTAR.md §33, CHANGELOG.md.
+session: sess-20260923-1030-4a526255.
+
+- [x] **S504-17 (founder real-time 2026-09-25 follow-up): "integrate them deeply into the other AI interactions in terms of observing the observer" — avian coalition wired into the other live AI systems.** New `core/avian_live.h` (BIG_O, pure header-only glue, matching `core/witness_live.h`'s convention): the coalition watches OTHER watchers, not the player directly — a Citizen's/The Men's own effective vigilance spiking (`core/npc_archetype.h`), a human witness_state escalating past DENIAL (`core/witness_rules.h`, the literal "archive the archivist" mechanic tying back to TYLER's Eastwind Owls), and the same loud zombie events `core/witness_live.h` already gates on (reused directly). `bigo_avian_meta_witness_rank()` distills all three into one 0..3 corroboration score, named as the future input to `avian_beacon_strength`'s urgency, not yet consumed. 8 real tests (`core/avian_live_test.c`), all pass (gcc `-DPARENA_NO_GRAPHICS`; SDL2 unavailable in this sandbox). One real correction found and documented: `witness_rules.c`'s `escalation_rank()` is a non-monotonic decorum-penalty grouping, not a severity order (COMPROMISED and UNAWARE share a rank) — checked against the generated source, raw `WS_*` ordinal used instead. Still no live `ServerAvian` entity/server tick wiring — BIG_O/NORTHSTAR.md §32 names what's deferred. See BIG_O NORTHSTAR.md §32, CHANGELOG.md.
+session: sess-20260923-1030-4a526255.
+
+- [x] **S504-16 (founder real-time 2026-09-25): "BIG_O add the birds (use TYLER)" — avian coalition value module + TYLER reconciliation.** NORTHSTAR.md §6/§31 and `docs/DESIGN_DIGEST.md`'s Act II section both already flagged the same open item ("cross-repo canon exists: TYLER/ already has Hana, 'Bird Correction', Layer 4 / custody; reconcile before hardening") — this closes it. TYLER's Eastwind Owls (`TYLER/README.md` — purely archival, "their inability to destroy records is a feature, not a bug") + TYLER's own recurring "BIRD CORRECTION PENDING" end-log line are adopted as the in-fiction lineage/name for BIG_O's Act II avian coalition. New `core/avian_values.h`/`.c` (BIG_O): coalition's own value vocabulary (vigilance/coordination/exposure), ROOSTING/SCOUTING/SIGNALING/MOBBING mood arc, real `avian_beacon_strength()` output (the "acoustic beacon pulling feral hordes" from DESIGN_DIGEST) — same "own math, no shared code with sibling value modules" convention `core/zombie_values.h` established. 8 real tests (`core/avian_values_test.c`), all pass (gcc; `bazel` unavailable in this sandbox). One real bug found+fixed: `avian_get_alerted` was pushing its own re-eval timer forward on every call, starving mood re-evaluation under a sustained sighting. Not yet wired into `witness_rules.c`/`zombie_values.c` or any live server entity — NORTHSTAR.md §31 names the integration boundary and remaining Act II campaign work explicitly, not silently dropped. BIG_O NORTHSTAR.md §31, DESIGN_DIGEST.md, CHANGELOG.md updated same unit of work.
+session: sess-20260923-1030-4a526255.
+
 - [ ] **S504-10 (founder real-time 2026-09-19, obs Apple #20173): day-cycle zombie sandbox — fork PAPERCRAFT systems into BIG_O first, then bring in SHANKPIT to modernize the engine in both directions.** Sub-items: (a) copy selected PAPERCRAFT sandbox systems (weapons arsenal, modular building, dynmod/mod loader, mapeditor) into BIG_O as a BIG_O-owned fork; (b) load SHANKPIT's `nextown` NOCK level (IDUNA id 12, 333x333 town) + `AI_ROLE_RELENTLESS_PURSUER` zombies as the day sandbox; (c) reconcile SHANKPIT<->PAPERCRAFT<->BIG_O engine deltas, port improvements each direction. Feeds S504-04 (B2).
   — SHANKPIT/PAPERCRAFT unification: Phase 1 DONE (2026-09-20, commit 130ce3a). Created unified level_loader.h (NOCK JSON ↔ SHANKPIT/PAPERCRAFT abstraction layer) + level_load_from_iduna() for fetching levels from IDUNA shankpit_levels API. Unblocks BIG_O day/ client to load nextown from NOCK registry (no longer locked to PAPERCRAFT chunk streaming). Full unification plan published (SHANKPIT_PAPERCRAFT_UNIFICATION_PLAN.md): Phase 2 (render unification), Phase 3 (NOCK for PAPERCRAFT). See artifact KsDcW1qkGhNZx3LArFAaa2.
   — Phase 1b DONE (2026-09-20, BIG_O e308cdb/24ee0be): wired level_loader into day/apps/client/src/main.c (new `--level-id` flag, `draw_level_walls()`), verified LIVE against local IDUNA level 12 (nextown: 80 walls/1 spawner/1 exit, matching curl exactly) both via a standalone fetch and via the real compiled client binary. Found and fixed 4 real bugs that were silently blocking this the whole time: (1) level_load_from_iduna hit the editor-facing `/api/v1/shankpit-levels/:id` route (404s) instead of the real, working `/export` route; (2) the JSON parser required a top-level `"id"` field the real export never sends; (3) the wall/spawner/exit field loops had no fallback for unrecognized keys (a wall's real `"friction"`/`"id"` fields stalled parsing past the first wall); (4) `http_client.h` had zero `Transfer-Encoding: chunked` support at all — IDUNA sends chunked responses (Go net/http default without explicit Content-Length), so raw hex chunk-size lines were reaching the JSON parser. Added `http_headers_has_chunked_encoding`/`http_dechunk` to http_client.h (both Windows and POSIX branches), plus `level_loader_test`/new `http_client_test` wired into BUILD.bazel (previously not built by any cc_test target). Default (no `--level-id`) PAPERCRAFT chunk-grid path re-verified unchanged (9 chunks/9486 blocks against local worldapi). README status corrected per SAGA. Known, named, not-yet-closed gaps: materials/shaders not parsed (walls render flat-shaded), server-side is untouched (client-only fetch, no collision from the level yet), zombies still come from the existing abstract world-sim counter, not real 3D entities spawned from the level.
@@ -48926,9 +48941,60 @@ a bluff plays against) needing a real, reviewed design before code, matching thi
 established "critical review, name a real V0 cut" discipline (`DEADWEIGHT/NORTHSTAR.md`'s own
 precedent).
 
-- [ ] **A real, reviewed design doc + a buildable V0 slice** — not the whole vision at once. Not
-  started. See `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section for how D1/D2 were originally
-  scoped this same way.
+- [x] **A real, reviewed design doc + a buildable V0 slice.** Done. Full design + rejected-
+  alternatives writeup in `DEADWEIGHT_2/docs/COMBAT_REDESIGN.md`: combat restructured into fixed
+  5-tick rounds; each round-break runs a server-authoritative "Surge Timing" reaction-window skill
+  check (`DW2_S_ROUND_BREAK`/`DW2_C_ROUND_CALL`/`DW2_S_ROUND_RESULT`, new additive wire messages)
+  graded PERFECT/GOOD/MISS/NONE against a seeded, both-sides-identical target; each call also
+  carries a hidden Overcharge/Brace bluff, revealed only after both sides commit, with an
+  asymmetric payoff table amplified further when the calling ship is behind on hull% (the comeback
+  lever) — wired into `dw2_ship_tick` via a new `dmg_mult` field, the only change to existing D1
+  combat rules. Live-verified, not just unit-tested: a `scripts/build.sh` smoke test over the real
+  wire protocol shows one well-timed Overcharge call turning an otherwise-exact tie (two identical
+  loadouts) into a win three ticks early; 43 new unit checks (96 total, 0 failures) pin the grading
+  windows and payoff table exactly. Re-verified independently this session (`scripts/build.sh` run
+  clean end to end before this checkbox was flipped, not just trusting the doc's own claims).
+  Commits `DEADWEIGHT_2@60bd4c7` (the V0 itself, pushed directly by the founder — no session
+  trailer, no CHANGELOG entry), `DEADWEIGHT_2@899fdce` (backfilled the missing CHANGELOG entry).
+  **Real gap, named not hidden: no Apple was filed for the V0 itself** — `emily apples post` isn't
+  available in the sandbox that did this BACKLOG/golden-docs-index cleanup pass; a real Apple for
+  SECTION 548 landing is still open follow-up, not done here.
+
+## SECTION 550: WOTAN — BASIC SHANKPIT MATCH TRACKING (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "add shankpit to WOTAN (we need to formalize shankpit matches and
+logins etc if you have an iduna account you have a shankpit account ok we have keys for shankpit
+and bigo i think so those will be for premium ok? for now we need basic shankpit match tracking)."
+Not routed through `emily observe -s info` first — this sandbox has no live IDUNA/emily-agent
+instance to POST an observation against, so the direction is logged here directly instead
+(Principle 18's intent honored; the CLI mechanics aren't reachable from this session). Real Apple
+also not filed for the same reason — no live `emily apples post`/IDUNA endpoint reachable here;
+flagging for a follow-up Apple/observation post once a session with live service access picks
+this back up.
+
+Three real, separable asks, one basic pass done:
+
+- [x] **Basic SHANKPIT match tracking, surfaced on WOTAN.** Checked first, not assumed: SHANKPIT
+  match tracking already existed — `IDUNA/internal/http/handlers/players.go`'s
+  `handleSessionEnd` already writes kills/deaths/sessions to the `players` table under the
+  existing `shankpit.match.write` permission (S156-04) — it just had no WOTAN-facing read yet,
+  the same gap REDGARDEN's `matches.html` closed first for REDGARDEN. Added
+  `ShankpitLeaderboardHandler` (`IDUNA/internal/http/handlers/shankpit_leaderboard.go`, public
+  `GET /api/v1/shankpit/leaderboard`, same trust level/shape as `RedgardenLeaderboardHandler`) and
+  `WOTAN/shankpit.html` (basic kills/deaths/K-D/sessions table, unauthenticated, linked from every
+  page's nav). `GOWORK=off go build ./...` clean in IDUNA; the WOTAN page wasn't screenshotted in
+  a real browser this pass (no headless Chrome in this sandbox) — same honest gap `friends.html`
+  already carries.
+- [x] **"If you have an IDUNA account you have a SHANKPIT account."** Checked, not built: already
+  true, no code change needed — SHANKPIT never introduced a separate game-scoped account model
+  (unlike DEADWEIGHT's `players` rows keyed by `game`); every IDUNA `players` row already carries
+  the `kills`/`deaths`/`sessions` columns SHANKPIT writes to. Documented in `WOTAN/CLAUDE.md` and
+  `WOTAN/README.md` rather than silently assumed.
+- [ ] **SHANKPIT and BIG_O premium keys.** Founder named these as real, existing artifacts ("we
+  have keys for shankpit and bigo i think") intended for a premium tier — not investigated or
+  built this pass; explicitly out of scope for "basic... for now." Needs a follow-up pass to
+  locate the actual keys (likely `EMILY/var/` or a `BIG_O`/`SHANKPIT` env file) and scope what
+  "premium" gates before any code changes.
 
 ## SECTION 549: LO — GAMEPLAY INTEGRATION + STDLIB GAPS + 2D BIDIRECTIONAL EXECUTION MODEL (FOUNDER REAL-TIME)
 
@@ -48941,14 +49007,32 @@ dominos like crossroads setup) its like lisp the actual programming language is 
 
 Two real, separable asks:
 
-- [ ] **LO stdlib gaps + a real gameplay integration ("cannon programming").** Founder said
+- [x] **LO stdlib gaps + a real gameplay integration ("cannon programming").** Done. Founder said
   "DEADWEIGHT," but the concrete "cannon" idea maps far more literally onto **D2's** Railgun/
   energy-routing weapon-fire decision logic (`core/combat.h`'s `dw2_ship_tick`) than onto
   DEADWEIGHT proper (a card game with nothing cannon-shaped) — flagged for founder confirmation,
-  not assumed silently. Held pending SECTION 548's combat redesign landing first, if confirmed
-  against D2: wiring a new weapon-decision hook into code that's about to be restructured would
-  be wasted/conflicting work. The LO stdlib-gap audit itself has no such dependency and can start
-  independently. Not started.
+  not assumed silently, same reading `DEADWEIGHT_2/docs/LO_CANNON_PROGRAMMING.md` and
+  `NORTHSTAR.md`'s own SECTION 548 independently reach too. Held for SECTION 548's combat redesign
+  to land first (it did), then built: `dw2_ship_tick`'s weapon-fire check is now a real, compiled
+  LO program (`cannon/cannon_decision.llll` → `.prn` → PARENA-generated C, `core/cannon.{h,c}`),
+  not a hardcoded rule — packs SECTION 548's own `behind` signal plus whether a shot would be
+  lethal into one real, naturally-4-valued state, matching LO's own real mod-4 arithmetic ceiling
+  (`LO/NORTHSTAR.md`'s own DUNG-integration precedent, checked directly, not assumed). Shipped
+  decision is FIRE in all 4 states — byte-identical to the rule it replaces, verified: every
+  existing hand-derived D2 smoke-test tick count is unchanged. A second, real, standalone-tested
+  example program (`cannon_bank_on_safe_lead.llll`) proves the mechanism can express real
+  conditional strategy without being wired live, since holding fire has no compensating mechanical
+  payoff in this V0 — a real, honestly-discovered failure mode (could stall a match against an
+  unarmed opponent forever), named in the doc rather than glossed over. **LO stdlib-gap audit:
+  real, honest finding — LO's own already-named gaps (matrices, PCRE matching) turned out
+  unrelated to this feature; zero new LO stdlib work was needed to build it**, closing that half
+  of this item too. `core/parena_runtime.{h,c}` vendored unmodified from PARENA (public domain).
+  `cannon/*.prn`/`*_gen.c` are committed, generated artifacts (regenerate via new
+  `DEADWEIGHT_2/scripts/generate_cannon.sh` only when a `.llll` source changes) — ordinary
+  `scripts/build.sh`/CI never needs a sibling LO/PARENA checkout. Full design in
+  `DEADWEIGHT_2/docs/LO_CANNON_PROGRAMMING.md`. Commit `DEADWEIGHT_2@11f5933`. **Real gap, named
+  not hidden: no Apple was filed for this landing** — `emily apples post` isn't available in the
+  sandbox that built this; a real Apple for this section is still open follow-up.
 - [x] **LO's execution model: bidirectional (left-to-right AND bottom-to-top, resolving
   simultaneously), homoiconic (code is data, Lisp's own real precedent), visualized as a matrix
   of emojis / a dominoes-like crossroads layout.** Apple #20816. Real, rigorous design pass
@@ -48966,3 +49050,83 @@ Two real, separable asks:
   `parena build` only, not `burrow build`, same already-documented no-`let` reason). Five open
   questions named explicitly, not guessed at. See `LO/NORTHSTAR.md`'s own cross-link and
   `LO/README.md`'s "design only, not implemented" status line.
+
+## SECTION 550: EMILYOS — GAME DOMAIN, FOR REAL: BOOTS INTO SHANKPIT'S LOBBY (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "set up EMILY OS so that it boots into shankpit and then the new
+windows that pop up for apps - handle that with like x or whatever." **Not routed through a live
+`emily observe` call** — this session had no reachable IDUNA/emily-agent instance to post an
+observation against (an isolated, ephemeral sandbox with only git repo access); logged directly
+into BACKLOG.md instead, per Principle 18's own fallback framing, rather than fabricating an
+Apple ID or observation timestamp that wouldn't correspond to a real filed record. **No Apple was
+filed for the same reason** — `emily apples post` needs a live IDUNA this session doesn't have;
+named here as an honest gap rather than silently skipped, matching S537/S545's own "found, not
+worked around" convention. Whoever next has live `emily`/IDUNA access should file the completion
+Apple retroactively citing this section + the EmilyOS commit.
+
+Clarified with the founder first (two real ambiguities, not guessed at): "EMILY OS" meant the
+actual `EmilyOS` Go policy-kernel repo (not `SHANKPIT_OS`, a separate, already-scoped, distinct
+effort — see `SHANKPIT/docs/SHANKPIT_OS_NORTHSTAR.md`, golden doc `SHANKPIT-OS-NORTH` — about
+SHANKPIT becoming the games-ecosystem shell, the opposite direction from this ask); and the ask
+is genuinely about machine boot/X11/window-manager configuration, delivered as checked-in config
+files this session can write and commit, not a live machine this sandbox has no access to.
+
+- [x] **`internal/domain` (new): the GAME domain, implemented for the first time.**
+  `docs/legacy-archive/10.md` named a "game domain" (`DOMAIN_START`/`DOMAIN_STOP` on
+  `domain:game`, gated by the `GameDomainOnly` posture verdict) since EmilyOS's own Milestone 3 —
+  but nothing had ever actually launched one; the generic `verb dispatch` CLI handler was a no-op
+  placeholder for every verb, GAME included. `internal/domain/game.go`'s `Run`/`Stop` launch a
+  configured command as its own process group and track it via a pidfile; `emilyos game
+  start`/`game stop` (new CLI subcommands) dispatch `GAME` (posture NORMAL→GAME) then
+  `DOMAIN_START` on `domain:game` — the first real exercise of the `GameDomainOnly` gate in this
+  codebase — and always revert posture to NORMAL on exit, error, or denial, so a failed launch
+  can't strand `cap.net=FORCE_OFF` indefinitely. A SIGTERM/SIGINT relay was added after finding,
+  live, that Go's default signal disposition would otherwise let `systemctl stop` kill the
+  process before that revert ever ran. Live-verified end to end in this sandbox (posture
+  transitions, audit hash chain, both the `game stop`-initiated and direct-SIGTERM stop paths);
+  `go test ./...` passes including new `internal/domain/game_test.go`.
+- [x] **Packaged kiosk launcher answers "handle the popup windows with X" literally.**
+  `packaging/domains/game/` (`start.sh`, `xinitrc`, `openbox/rc.xml`, `openbox/menu.xml`) boots
+  an X session on a configurable VT running `openbox` (a minimal floating window manager) then
+  SHANKPIT's own lobby (`shank_lobby`, SHANKPIT's `make lobby` target). Checked directly in the
+  SHANKPIT repo, not assumed: `apps/lobby/src/main.c`'s `lobby_launch_app` `fork()`+`execl()`s
+  DEADWEIGHT/PITVIPER/IDUNA.GAME/EDITOR.GAME/REDGARDEN as genuinely separate SDL2 processes, each
+  its own top-level X11 window — with no window manager running at all, X11 gives a window like
+  that zero decoration and no way to move, focus, or close it. openbox's `rc.xml` gives the lobby
+  window itself a borderless "desktop" and every popup app window real decorations, Alt+Tab, and
+  Alt+F4-to-close, plus a `Ctrl+Alt+BackSpace` escape hatch. `packaging/systemd/
+  emilyos-game.service` (opt-in, shipped disabled) wires this to boot via a dedicated user on
+  tty1, with a first-cut CPU/memory budget toward Doc 10's own G2 ("deterministic resource
+  budget"). Verified clean via `systemd-analyze verify` (with the `emilyos` binary present).
+  `build-deb.sh`/`control` updated to stage and softly recommend the new pieces.
+- [x] **Follow-up same day: the X11/openbox layer itself, live-verified, not left as
+  written-but-untested.** Installed `Xvfb`/`openbox`/`xdotool`/`x11-utils`/`xterm`/`shellcheck`
+  in this sandbox (no live SHANKPIT build, but a real openbox binary and a real, if headless, X
+  server) and ran the actual packaged config, not a re-derivation of it. Found and fixed two real
+  bugs neither well-formedness checking nor a read-through would have caught: (1) `openbox
+  --menu <file>` is not a real CLI flag — openbox rejected it and exited immediately; the menu
+  path now lives in `rc.xml`'s own `<menu><file>` element, confirmed against openbox's own
+  shipped default config. (2) An `<application>` rule-ordering bug: openbox applies matching
+  rules cumulatively in file order, so the `class="*"` wildcard (listed second) silently
+  overrode the `class="shank_lobby"` rule's `decor`/`maximized` settings; reordering the
+  wildcard first fixed it. Live-confirmed after the fix (real `_NET_WM_STATE`/`_NET_FRAME_
+  EXTENTS` checks via `xprop`/`obxprop`, not just visual impression): the lobby-class window is
+  genuinely borderless+maximized full-screen, a popup-app-class window keeps real decorations,
+  Alt+F4 closes only the focused popup, `Ctrl+Alt+BackSpace` exits the session, and the real
+  `xinitrc` script's own crash-relaunch loop and openbox-death exit condition both work as
+  designed. `shellcheck -s sh` clean on both shell scripts. See `docs/KIOSK_BOOT.md`'s "Bugs
+  found and fixed by live-testing" section for the full account.
+- [ ] **Real, named, still-open gap: SHANKPIT's actual lobby binary, and real (non-headless)
+  hardware.** A plain `xterm -class shank_lobby` stood in for the real `shank_lobby` binary (its
+  actual WM_CLASS has not been checked with `xprop`/`obxprop` against a genuine compiled build),
+  and Xvfb stood in for a real GPU-backed console X server (no VT switch, no DRM/KMS, no real
+  input devices) — `start.sh`'s own `startx ... -- vt1` invocation and the systemd unit's
+  `PAMName=login`/`TTYPath=/dev/tty1` console-ownership mechanics remain unexercised for the same
+  reason. Also still flags a small, pre-existing, unrelated gap found along the way: `build-deb.sh`
+  has apparently never actually staged EmilyOS's own main `emilyos.service` unit despite
+  `postinst` referencing it — named, not fixed, to avoid scope creep on an unrelated issue.
+
+**SECTION 550 stays open on the real-hardware/real-SHANKPIT-binary boot test only — both the
+policy-kernel half AND the X11/window-manager half of the ask are now live-verified (the latter
+against a real openbox binary on a real, if headless, X server, with two real bugs found and
+fixed along the way); see `EmilyOS/docs/KIOSK_BOOT.md` for the complete picture.**
