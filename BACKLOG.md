@@ -3484,6 +3484,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, exploratory: 'is there a way we can physically build memory to expect lz4 compression? compression a…** — obs `2026-08-25T00:08:10Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'you can have the unicorn explain things in the blog post using pure parena to explain technical con…** — obs `2026-08-24T23:54:55Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'you can use the math and stats in parena to help you if that helps' -- suggests using PARENA's own …** — obs `2026-08-24T23:54:22Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'ok keep crunching on that - once we have a good candidate run that report i asked for so you can ve…** — obs `2026-08-24T23:54:18Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'and it should be a smoke test on some of our corporate communications' -- extends unagent-lint scop…** — obs `2026-08-24T23:49:27Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, clarifying unagent-lint use case: 'we also want to translate it with unagent lint all of the things …** — obs `2026-08-24T23:49:18Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, meta-comment: 'its nice that you are logging my profanity into apples as context' -- confirms verbat…** — obs `2026-08-24T23:48:58Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'dont put that down in a suspicious way' + 'doublespeek corporaatify it' + 'say we have a foothold i…** — obs `2026-08-24T23:48:22Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
