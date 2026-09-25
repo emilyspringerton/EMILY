@@ -48375,4 +48375,27 @@ like most modern sso login pages" -> "classic IDUNA style guide."
   `redirect_uri`. WOTAN Apple #20753.
   session: sess-20260923-1030-4a526255.
 
+- [x] **Addendum, founder real-time: "ok now make it work for Friends and Duels."** `friends.html`
+  still had its own DEADWEIGHT email/password form after `store.html` was cut over above — a real
+  gap, not an oversight, since DEADWEIGHT friends/duels turned out to need a genuinely different
+  bridge: their endpoints require a game-scoped player token (`player_id`/`game`/`permissions`
+  claims, `game_online.go`'s `playerToken`), which the generic SSO JWT (no such claims) fails
+  outright even though both authenticate the same underlying `players` row. New IDUNA endpoint,
+  `POST /api/v1/games/{game}/sso-exchange`: takes an already-valid generic SSO token, and if a
+  real `players` row exists for that identity scoped to this game, mints a real `playerToken` for
+  it — no new player ever created, an unlinked identity gets a real 404. Proven end to end by
+  `TestSSOExchange_GenericSSOTokenBecomesAUsableGamePlayerToken` (real round trip: guest-register
+  → guest-upgrade → generic SSO login → exchange → the exchanged token actually authenticates
+  against the real `friendsList` endpoint, plus a sanity check that the raw SSO token does NOT
+  already work) and a negative-case test. `friends.html` rewired to the same "Sign in with IDUNA"
+  link pattern as `store.html`, then exchanges the token before storing it. `iduna.service`
+  restarted (PID 239364, 2026-09-25T04:25:39Z) and `~/wotan-deploy.sh` run — both by the founder,
+  same production-deploy/live-service restriction as above. Live-verified: `wotan.okemily.com/
+  friends.html` has zero password fields, and the full redirect chain (`iam.okemily.com/
+  ?redirect_uri=.../friends.html`) returns a clean `200`. One honest gap: the actual browser
+  click-through was not screenshotted (no headless Chrome in this sandbox) — the backend round
+  trip is real-tested, the frontend is Node-syntax-checked only. IDUNA `50655f5`, WOTAN `48ac697`,
+  Apples #20759–#20762.
+  session: sess-20260923-1030-4a526255.
+
 **SECTION 543 is now fully closed.**
