@@ -48678,8 +48678,35 @@ first (obs `2026-09-25T08-35-01Z`, Apple #20794) per `EMILY/docs/THE_EMILY_WAY.m
   (`SKULDMARK`/`SPIDERBEETLE`'s own convention deliberately NOT followed here). Apple #20796.
   session: sess-20260923-1030-4a526255.
 
-- [ ] **D2-D5: server-authoritative 1v1, a real client, a real bot, PARENA integration.** Named,
-  phased, not started — see `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section. D2 needs its
-  own IDUNA `game='deadweight_2'` scope + M2M agent identity (never reusing DEADWEIGHT's or
-  ECOWAR's) and the guest-account provider work DEADWEIGHT's own NORTHSTAR already scoped in
-  detail.
+- [x] **D2: server-authoritative 1v1.** New `apps/server/main.c` (`dw2_server`) — single `poll()`
+  loop, TCP, embedded FIFO matchmaking queue. Real, found-live correction to this item's own
+  original plan (`DEADWEIGHT_2/NORTHSTAR.md`'s prior text): no reusable matchmaker binary exists
+  — `DEADWEIGHT/apps/matchmaker` doesn't exist (DEADWEIGHT's own `dw_server` queues in-process),
+  and REDGARDEN/ECOWAR's own matchmaker speaks an incompatible UDP wire protocol + process-per-
+  match model. `dw2_server` follows DEADWEIGHT's own actual precedent instead. New
+  `core/protocol.{h,c}` wire codec (packing phase — `PLACE`/`PANIC_CUT`/`READY`, timed — then a
+  real-time server-clock-driven tick loop, `PANIC_CUT` still legal live mid-combat) and
+  `core/net.h`/`http.{h,c}`/`iduna.{h,c}` (ported from DEADWEIGHT, trimmed to what this game
+  needs). IDUNA: `internal/games.Registry["deadweight_2"]`
+  (`deadweight_2.play`+`deadweight_2.match.write`), a new `DEADWEIGHT2-SERVER` M2M agent — its
+  own identity, never reusing DEADWEIGHT's or ECOWAR's (`ECOWAR-BOTS`'s own precedent) — and
+  migration `202609250900_deadweight2_agents_and_permissions.sql`; no new tables needed
+  (`game_guest_credentials`/`game_player_stats`/`game_matches` already game-scoped) and guest-
+  account auth needed zero new IDUNA handler code (`internal/games` is already generic — same
+  real conclusion `big_o`'s own migration already reached). Deliberately no
+  `deadweight_2.bot.play`/`DEADWEIGHT2-BOTS` agent yet — minting a bot identity before D4 has a
+  bot to hold it would be speculative scope. New `tools/dw2_test_client.c` + a `scripts/build.sh`
+  smoke test, all ASan+UBSan clean: a real loadout (Generator+Conductor+Railgun+Bulwark) beats an
+  empty grid in a real match over the actual TCP wire protocol in exactly 21 ticks (hand-
+  derivable: 10 energy/tick against a 30 charge threshold fires every 3rd tick). Also verified
+  directly against raw wire bytes (not just the C test client, to rule out a client-side bug
+  masking a server one): an illegal overlapping placement rejects clean, a Panic Cut on an
+  unsplittable item (Railgun) rejects clean, a match where neither side ever sends `READY` still
+  force-starts combat at the pack deadline, and a mid-packing disconnect resolves as a real
+  forfeit for the survivor. New `.github/workflows/ci.yml` (build+test on push; no auto-release
+  yet — this repo has never shipped a binary, real separate scope). `NORTHSTAR.md`/`CLAUDE.md`/
+  `README.md` updated per SAGA reconciliation. Apple #20802, commits DEADWEIGHT_2@6c1ba0c,
+  IDUNA@cec4405. session: sess-20260923-1030-4a526255.
+
+- [ ] **D3-D5: a real client, a real bot, PARENA integration.** Named, phased, not started — see
+  `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section.
