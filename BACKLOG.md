@@ -3659,6 +3659,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充自我更新構想: 「like it has parena compiler built in」——具體化剛才的自動更新問題:PITVIPER 內建 PARENA 編譯器本身,讓它能自己拉新的 PARE…** — obs `2026-08-20T19:43:02Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新問題: 「can we make the pitviper client self updating with parena?」——詢問能否讓 PITVIPER client 自動更新,而且用 PAR…** — obs `2026-08-20T19:42:56Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,補充: 「or at least use the bdd framework」——放寬/概括前一則指示,重點是 BDD(行為驅動開發)風格測試,firefly/gomega 只是實現方式之一。沒有新範圍。** — obs `2026-08-20T19:41:41Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,SAND 補充細節(尚未動工,記錄供未來實作參考): 「building the SAND editor」+「use ginkgo and gomega」——要求 SAND 的測試套件使用 Ginkgo…** — obs `2026-08-20T19:41:35Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「continuing hammering on PARENA」——確認要求回到 PARENA defenum 實作,fatbaby 管線健康檢查做完最後一步(確認 dashboard/newssit…** — obs `2026-08-20T19:41:13Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充要求: 「fix the acronyum」+「make it self referential if you can」——要求把 SAND 做成一個真正、完整的縮寫(不只是鬆散片段),且盡量做成自…** — obs `2026-08-20T19:37:48Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充命名邏輯: 「S EXPRESSION AND NOT DUMBSHIT」——確認 SAND 這個名字的由來跟『S-expression』(PARENA 自己的核心語法,呼應 NORTHSTAR.m…** — obs `2026-08-20T19:37:22Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,推翻剛發布的命名: 「just call it the SAND editor」——在 Tyler 的『Naming JEWEL』文章才剛發布上線幾分鐘後,創辦人再次改名,這次不再強調甲蟲主題,直接要求…** — obs `2026-08-20T19:37:09Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
