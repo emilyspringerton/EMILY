@@ -3364,6 +3364,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'update all our readmes with the newest everything significant not the cross repo updates unless the…** — obs `2026-08-26T01:16:58Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'can we build out the gta7 historical based railroad tech tree powered by real minecraft rails' -- a…** — obs `2026-08-26T00:17:15Z`. CURATED: 2026-09-25.
 - [ ] **CORRECTION to the test_arena_replay segfault finding I just posted/committed (REDGARDEN S202-10, Apple #16044/#16046): …** — obs `2026-08-26T00:05:23Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, kanban layer fully scoped now (4 messages in a row elaborating the same ask -- reprioritizing ahead …** — obs `2026-08-26T00:04:03Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, kanban layer clarification (continuing the ask logged moments ago): 'it allows us to drag from backl…** — obs `2026-08-26T00:03:43Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'ok lets build a kanban layer on top of our sprints that lets us assign priority for the next open d…** — obs `2026-08-26T00:03:09Z`. CURATED: 2026-09-25.
+- [ ] **REDGARDEN: tests/test_arena_replay segfaults (core dumped), confirmed PRE-EXISTING via a real git-stash bisect (crashes…** — obs `2026-08-26T00:02:14Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'add a rig for an ant hero' -- landed mid-session while finishing Duck's Smoke Bomb (S202-10). Read …** — obs `2026-08-25T23:53:22Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
