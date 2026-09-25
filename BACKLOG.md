@@ -3379,6 +3379,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: GTA7 redvine networking -- consider building a VM into GTA7 if that helps, PARENA-powered** — obs `2026-08-25T21:37:04Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: GTA7 -- add real wired networking via redstone ('redvine'?), deliberately very slow (dial-up or slow…** — obs `2026-08-25T21:36:45Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: GTA7 railroad tech tree -- use Minecraft's native rail system (rails/carts/etc) for the actual railr…** — obs `2026-08-25T21:36:11Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: GTA7 -- teach the history of railroads through a tech-tree unlock system (build out tech trees, unlo…** — obs `2026-08-25T21:35:41Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: update SHANKPIT (or SHANKPIT-460, unclear which) to add Capture The Flag game mode with bot support** — obs `2026-08-25T21:08:28Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: check SHANKPIT/GFD/TYLER specifically for existing construct (full-text manifest) builds, and constr…** — obs `2026-08-25T21:06:42Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: ensure all core repos have a separate 'construct'-only build -- a concatenated plain-text dump artif…** — obs `2026-08-25T21:06:26Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: SHANKPIT-460 -- link/bundle as a single binary instead of separate client/server/bot executables** — obs `2026-08-25T21:02:43Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
