@@ -48906,14 +48906,32 @@ dominos like crossroads setup) its like lisp the actual programming language is 
 
 Two real, separable asks:
 
-- [ ] **LO stdlib gaps + a real gameplay integration ("cannon programming").** Founder said
+- [x] **LO stdlib gaps + a real gameplay integration ("cannon programming").** Done. Founder said
   "DEADWEIGHT," but the concrete "cannon" idea maps far more literally onto **D2's** Railgun/
   energy-routing weapon-fire decision logic (`core/combat.h`'s `dw2_ship_tick`) than onto
   DEADWEIGHT proper (a card game with nothing cannon-shaped) — flagged for founder confirmation,
-  not assumed silently. Held pending SECTION 548's combat redesign landing first, if confirmed
-  against D2: wiring a new weapon-decision hook into code that's about to be restructured would
-  be wasted/conflicting work. The LO stdlib-gap audit itself has no such dependency and can start
-  independently. Not started.
+  not assumed silently, same reading `DEADWEIGHT_2/docs/LO_CANNON_PROGRAMMING.md` and
+  `NORTHSTAR.md`'s own SECTION 548 independently reach too. Held for SECTION 548's combat redesign
+  to land first (it did), then built: `dw2_ship_tick`'s weapon-fire check is now a real, compiled
+  LO program (`cannon/cannon_decision.llll` → `.prn` → PARENA-generated C, `core/cannon.{h,c}`),
+  not a hardcoded rule — packs SECTION 548's own `behind` signal plus whether a shot would be
+  lethal into one real, naturally-4-valued state, matching LO's own real mod-4 arithmetic ceiling
+  (`LO/NORTHSTAR.md`'s own DUNG-integration precedent, checked directly, not assumed). Shipped
+  decision is FIRE in all 4 states — byte-identical to the rule it replaces, verified: every
+  existing hand-derived D2 smoke-test tick count is unchanged. A second, real, standalone-tested
+  example program (`cannon_bank_on_safe_lead.llll`) proves the mechanism can express real
+  conditional strategy without being wired live, since holding fire has no compensating mechanical
+  payoff in this V0 — a real, honestly-discovered failure mode (could stall a match against an
+  unarmed opponent forever), named in the doc rather than glossed over. **LO stdlib-gap audit:
+  real, honest finding — LO's own already-named gaps (matrices, PCRE matching) turned out
+  unrelated to this feature; zero new LO stdlib work was needed to build it**, closing that half
+  of this item too. `core/parena_runtime.{h,c}` vendored unmodified from PARENA (public domain).
+  `cannon/*.prn`/`*_gen.c` are committed, generated artifacts (regenerate via new
+  `DEADWEIGHT_2/scripts/generate_cannon.sh` only when a `.llll` source changes) — ordinary
+  `scripts/build.sh`/CI never needs a sibling LO/PARENA checkout. Full design in
+  `DEADWEIGHT_2/docs/LO_CANNON_PROGRAMMING.md`. Commit `DEADWEIGHT_2@11f5933`. **Real gap, named
+  not hidden: no Apple was filed for this landing** — `emily apples post` isn't available in the
+  sandbox that built this; a real Apple for this section is still open follow-up.
 - [x] **LO's execution model: bidirectional (left-to-right AND bottom-to-top, resolving
   simultaneously), homoiconic (code is data, Lisp's own real precedent), visualized as a matrix
   of emojis / a dominoes-like crossroads layout.** Apple #20816. Real, rigorous design pass
