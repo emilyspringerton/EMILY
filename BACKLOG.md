@@ -49651,20 +49651,24 @@ scoping pass, per this repo's own spec-before-implementation convention.
 
 **Real, checked-not-assumed current state**: the Android client
 (`android/src/main/java/industrial/einhorn/deadweight/`, ~2100 lines) has the wire protocol,
-session/transport, draft model, and a PARENA-generated scalar `CardRules.java` — but **no
-rendering/UI layer exists at all** (no Activity/View/Canvas code). "Parity" is not a reskin; it's
-building the Android UI from zero against the desktop's brutalist SDL2 renderer
-(`apps/gui/main.c`) as the reference. The old NOCK/ImageMagick gradient card-art pipeline
-(`art/build_art.sh`) is retired, not revived — the target look is the desktop's flat-rect/2px-
-frame/bitmap-font style, ported to Canvas.
+session/transport, draft model, PARENA-generated scalar `CardRules.java`, **and — correction,
+found on closer read after this section was first filed; the initial pass wrongly said no UI
+existed — a real, working `MainActivity`/`CardView`/`BarView` screen flow** (standard widgets for
+menu/queue/draft/match, `CardView` drawing the old NOCK `card_<id>.png` art). "Parity" was
+therefore a re-render of an already-functional client, not a from-zero build. The old NOCK/
+ImageMagick gradient card-art pipeline (`art/build_art.sh`) is retired, not revived — the target
+look is the desktop's flat-rect/2px-frame/bitmap-font style, ported to Canvas.
 
 **Open question, not guessed at**: no "key unlock" feature exists anywhere in this repo's docs,
 protocol, or either client today. Needs a real founder answer (Ultimates/cosmetic unlock
 progression? an IDUNA account/license-key entitlement gate? something else?) before that piece
 is scoped or built.
 
-- [ ] Phase 1 (critical path): Android Canvas-based renderer replicating desktop's palette/2px-
-  frame/bitmap-font style (port constants from `apps/gui/main.c`); real Activity/View/draw loop.
+- [x] Phase 1 (critical path): ported `apps/gui/main.c`'s `Col` palette (`Theme.java`) and 5x7
+  bitmap `FONT` table (`PixelFont.java`) verbatim; re-rendered `CardView`/`BarView` in that style,
+  retired NOCK PNG art from the live render path, re-themed `MainActivity`'s widget colors.
+  `DEADWEIGHT@f0ec008`. **Not build-verified** — no Android SDK/Bazel toolchain in this sandbox;
+  reviewed by hand against existing call sites, not run on a device/emulator. Apple pending.
 - [ ] Phase 2: extend `scripts/gen_rules.sh` to emit `FxRules.java` from
   `PARENA/stdlib/deadweight/fx_rules.prn` (same PARENA-driven decision layer Windows/browser
   already share) and wire it into the new Android renderer's round-resolution timeline.
