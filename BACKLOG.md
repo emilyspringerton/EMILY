@@ -3744,6 +3744,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,擴大回報範圍(同一串 htop 討論延伸): 「i think we are missing some interprative interpolation tech or something」+「i …** — obs `2026-08-20T16:37:53Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time回報真實 bug: 「htop doesnt animate at all on pitviper」——htop 在 PITVIPER 裡完全不會動畫更新,比之前「text is kind of craz…** — obs `2026-08-20T16:37:37Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,收斂優先權: 「keep crunching on PARENA」+「especially the PITVIPER integration」——在剛才一連串快速發散的指示(crystal glyph …** — obs `2026-08-20T16:36:12Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time (REDGARDEN): pasted a Windows RedGarden.exe console log -- connects to the live bot-pool matchmaker (…** — obs `2026-09-25T22:28:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新指示: 「add imagemagic all those apis to PARENA stdlib」——要求把類似 ImageMagick 的影像處理 API(resize/crop/conver…** — obs `2026-08-20T16:36:01Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充縮圖處理細節: 「you can just slam the images down to tiny」+「crop them if you can」——針對剛才的 promptoverse thum…** — obs `2026-08-20T16:35:51Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time回報真實 bug: 「you can prompt it for new shit but it wasnt working earlier」——回報 promptoverse 的 prompt/生成新內…** — obs `2026-08-20T16:35:43Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新指示: 「use the thumbnail creation pipeline to create like a fibonacci scale of little compressed versi…** — obs `2026-08-20T16:35:43Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
