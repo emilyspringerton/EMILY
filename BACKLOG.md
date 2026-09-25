@@ -3719,6 +3719,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder確認: 對剛才發現的 vterm.Screen.Resize() 真實 out-of-bounds crash 風險(scrollRegTop/scrollRegBot 在 resize 後沒有跟著更新,垂直縮小視窗時可能索…** — obs `2026-08-20T16:54:31Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,把先前針對 vterm/ncurses 修復的『make it a mod』指示,擴大成一條通用政策: 「make all improvements as api mod plugin surface …** — obs `2026-08-20T16:52:45Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,補充更具體的重現條件: 「yea when you scale pitviper window vertical it breaks it」——確認稍早 S189-32 記錄的『放大視窗後畫面不重繪』真…** — obs `2026-08-20T16:52:31Z`. CURATED: 2026-09-25.
+- [ ] **已完成: FATBABY_NEWSWIRE 新聞稿「PARENA Eats the Codebase From the Outside In」發布到 OKEMILY blog(https://okemily.com/blog/parena…** — obs `2026-08-20T16:47:43Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,提高優先權: 「prioritize the press release about PARENA and the stdlib and the philosophy and BAZEL and the…** — obs `2026-08-20T16:46:06Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,延伸 todo affordance 想法: 「havhave like y pull tup the special slash command that chats into your own pe…** — obs `2026-08-20T16:45:20Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,肯定目前運作模式: 「like when i chat right now i can take notes」+「thats cool」+「pave the cow pats」(=pave the co…** — obs `2026-08-20T16:44:38Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新指示: 「we need to build todo affordances into GFD nmnud gui」(推測 nmnud = mud 打字錯誤)——要求在 GoblinFoxDragon…** — obs `2026-08-20T16:44:30Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
