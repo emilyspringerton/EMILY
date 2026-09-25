@@ -3499,6 +3499,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, narrowing 'all of GNAT': 'the ones that serve our mission of memory management' -- scopes to GNAT/Ad…** — obs `2026-08-24T23:43:56Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, full plan: 'do some tests against the corpus of our full mono repo... system tools and then with our…** — obs `2026-08-24T23:40:31Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'ensure we are on turbo sed awk and grep on our path' -- direct instruction to PATH-swap system sed/…** — obs `2026-08-24T23:40:24Z`. CURATED: 2026-09-25.
+- [ ] **Phase D2 (DEADWEIGHT_2 server-authoritative 1v1) completed autonomously during /loop continuation: dw2_server live-veri…** — obs `2026-09-25T10:06:38Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: naming the formatter 'prnfmt' (twice, with 'comeon bro' impatience) rather than just 'parena fmt' --…** — obs `2026-08-24T23:37:36Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time burst: 'actually you can write php as a template in parena' -> 'it wont all compile' -> 'if those fea…** — obs `2026-08-24T23:36:02Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'but build it out iteratively' + 'parenaphp' -- confirms plan (VS0 = PHP subset, grow iteratively) a…** — obs `2026-08-24T23:35:41Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, scoping DOWN the templating burst: 'we start as a subset of php' -- VS0 target clarified: a PHP-subs…** — obs `2026-08-24T23:35:00Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
