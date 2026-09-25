@@ -49212,16 +49212,20 @@ dispatching:
   also the natural place auto-release and IDUNA-product-code parity meet (same CI release job).
 
 Scope for this section:
-- [ ] **Auto-release CI for D2** — add a `version` job (auto-bump MINOR, tag `vX.Y.0`, same
-  scheme as D1's `.github/workflows/ci.yml`), stamp the version into the existing build, and add
-  a `release` job (`gh release create` with `dw2_client`/`dw2_server`/`dw2_local` binaries +
-  `D2_CONSTRUCT.txt` attached, collision-safe names kept) gated on green `main` pushes. Concurrency
-  group matching D1's (parallel-push tag race already bit D1 once, 2026-09-18 — avoid repeating
-  it here).
-- [ ] **IDUNA app-release signing/publish step** wired into the same release job — GPG-sign +
-  `POST /api/v1/app-releases` with `app_slug="d2"`, matching D1's step verbatim (including its
-  clean no-op-if-secrets-absent gate — the two secrets it needs aren't provisioned for D2 either
-  yet, same as D1).
+- [x] **Auto-release CI for D2** — `version` job (auto-bump MINOR, tag `vX.Y.0`, same scheme as
+  D1's `.github/workflows/ci.yml`, same parallel-push-race-safe concurrency group) + a `release`
+  job (`gh release create` with `dw2_client`/`dw2_server`/`dw2_local` binaries + `D2_CONSTRUCT.txt`
+  attached, collision-safe names) gated on green `main` pushes. Live-verified, not just merged:
+  two real tags/releases exist (`v0.1.0`, then `v0.2.0` off the very next green push), each with
+  all 4 expected assets, confirmed directly against the GitHub API. Apple #20835, commits
+  `DEADWEIGHT_2@ddbbade` (CI itself), `DEADWEIGHT_2@1a04697` (CHANGELOG). session:
+  sess-20260923-1030-4a526255
+- [x] **IDUNA app-release signing/publish step** wired into the same release job — GPG-sign +
+  `POST /api/v1/app-releases` with `app_slug="d2"`, matching D1's step verbatim including its
+  clean no-op-if-secrets-absent gate (the two secrets aren't provisioned for D2 yet, same as D1 —
+  confirmed this is a clean skip-and-exit-0, not a silent failure, by reading the step's own guard
+  clause in `ci.yml`). Apple #20835/#20836, commit `DEADWEIGHT_2@ddbbade`. session:
+  sess-20260923-1030-4a526255
 - [x] **`SteamAppID` parity field** added to IDUNA's `Registry["d2"]` entry (env-gated
   `D2_STEAM_APPID`, defaults empty/unset — same "404s until a real Steamworks App ID exists"
   honesty D1's own row already documents). Apple #20832. `d2` entry's comment block extended to
@@ -49235,8 +49239,17 @@ Scope for this section:
   D1's own row comment already gives the real reason these wait (no bot/checkpoint/draft-economy
   server exists yet to consume them); minting them now would be dead config, not infra. Revisit
   when D4 (real placeholder bot, `NORTHSTAR.md`'s own "Deferred" section) actually lands.
-- [ ] Golden-doc / README / CHANGELOG / Apple bookkeeping for whatever lands, per standing
-  protocol, in the same units of work.
+- [x] Golden-doc / README / CHANGELOG / Apple bookkeeping — confirmed already in place from the
+  units of work above, no new golden doc needed (no new NORTHSTAR/architecture doc this pass):
+  `DEADWEIGHT_2/README.md`'s own "CI / releases" section and `CHANGELOG.md`'s 2026-09-25 entry
+  already describe the live auto-release + IDUNA signing behavior accurately; Apples #20835/#20836
+  filed. This checklist item itself was the one piece of bookkeeping still open (BACKLOG.md's own
+  checkboxes above hadn't been flipped to `[x]` despite the work being done and Appled) — closed
+  now.
+
+**SECTION 551 fully closed except for one real, deliberately-deferred item** (`BotPerm`/
+`CheckpointsWritePerm`/`CheckpointBlobDir`/`TicketsWritePerm` for `d2` — waits on D4, a real
+placeholder bot, per `NORTHSTAR.md`'s own "Deferred" section; not a gap, a named future phase).
 
 session: sess-20260923-1030-4a526255
 
