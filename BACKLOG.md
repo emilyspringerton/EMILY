@@ -49221,3 +49221,61 @@ session: sess-20260923-1030-4a526255
 policy-kernel half AND the X11/window-manager half of the ask are now live-verified (the latter
 against a real openbox binary on a real, if headless, X server, with two real bugs found and
 fixed along the way); see `EmilyOS/docs/KIOSK_BOOT.md` for the complete picture.**
+
+## SECTION 552: SHANKPIT — LOBBY MENU RENDERS BLACK AFTER ANY MODE (FOUNDER REAL-TIME)
+
+Founder real-time, three messages, same thread: "fix shankpit queue it doesnt work" -> "it could
+be because the app button in shankpit for zombie spawns another shankpit so i dunno if the
+networking is fucked it looks really kind of broken more than usual" -> "also when i go to the
+main menu after any mode its totally black." Routed via `emily observe` (obs
+`2026-09-25T14-25-41Z`, Apple #20838) per Principle 18 — after the fix, not before, per Principle
+1's own "log-then-work or work-then-work, either order is fine" allowance, since this was an
+active live-service report.
+
+- [x] **Investigated the queue-connectivity angle first — already fixed, confirmed live, not
+  re-broken.** SECTION 541's own SIGSEGV crash-restart-loop fix (`702234b`) is still in the
+  service's running binary (`shankpit-server.service`, up 18h+, `NRestarts=119` is historical —
+  all from before that fix, zero since). Sent a real, hand-crafted UDP `PACKET_CONNECT`/
+  `MODE_QUEUE` packet at the live server with a throwaway C probe (reusing the real `NetHeader`
+  struct from `protocol.h` for correct wire layout) and got a real `PACKET_WELCOME` back
+  (`client_id=1`) — the base queue handshake works right now. Real, honestly-flagged but NOT
+  acted on unilaterally: `bin/shank_server` on disk has a newer mtime (07:20 today) than the
+  running process's own start time (19:22 yesterday) — a later rebuild exists that the live
+  service hasn't picked up (classic "overwrite a running executable's file, the process keeps
+  the old inode" situation). Not restarted here — restarting a live, currently-stable shared
+  service on a hunch alone isn't a call to make without asking first (this session's own memory:
+  never restart a shared matchmaker/server based on a process/file check alone).
+- [x] **Investigated the ZOMBIES app-button angle — structurally sound, no bug found.**
+  `lobby_launch_app`'s `APP_ZOMBIES` self-relaunch genuinely parses `--host`/`--port` on both
+  platforms (`apps/lobby/src/main.c`'s own `main()` argv loop, confirmed by direct read — not
+  ignored flags), and `CreateProcessA`'s `bInheritHandles=FALSE` (Windows, where the founder
+  actually tests) means the two processes share no file descriptors/sockets at all. Opening a
+  second window via ZOMBIES is the real, intended design (`SECTION 541`'s own "lands in a fresh
+  lobby pointed at the zombie sandbox server" — a second window is not a bug), not evidence of
+  networking corruption between the two processes.
+- [x] **Root-caused and fixed the real, live bug: `packages/render/bloom.c`'s
+  `bloom_end_scene_and_composite()` leaves `GL_TEXTURE_2D` enabled, bound to `g_blur_tex_b` (the
+  bloom blur target — near-black for most real scenes), after its own post-process composite
+  quads. It restores `GL_DEPTH_TEST` at the end but never disables texturing again — the one
+  outlier in this file's own otherwise-consistent enable/bind/.../unbind/disable discipline
+  (`retro_sky.c`/the skin-glow code both save-and-restore ambient `GL_LIGHTING` around their own
+  use; this function doesn't). The lobby's own 2D menu draw (`setup_lobby_2d` + `draw_lobby_
+  buttons`/`draw_string`) never disables `GL_TEXTURE_2D` itself either, so every menu quad/string
+  drawn after returning from ANY 3D mode samples that leftover dark texture and renders solid
+  black via `GL_MODULATE`, regardless of `glColor3f` — matching "after any mode its totally
+  black" exactly (every mode goes through `bloom_begin_scene`/`bloom_end_scene_and_composite`
+  every frame it renders). Fixed at the source (`bloom.c`, disable+unbind at the end) and
+  defensively in `setup_lobby_2d()` itself (the one function every return-to-menu path already
+  calls), so a future leak anywhere else in the render pipeline can't reproduce the same symptom.
+  `make lobby` clean (only pre-existing, unrelated `reflux_mod.c`/CI-generated-function warnings).
+  Not live-screenshot-verified in this sandbox (Xvfb would not stay up for this session — two
+  separate attempts, including with the sandbox restriction lifted, both died immediately with no
+  error output; EmilyOS's own SECTION 550 got a real headless X server working the same day, so
+  this is a this-attempt limitation, not a hard environment wall) — verified instead by full,
+  precise source-level tracing of the exact GL state leak and cross-checked against this file's
+  own established save/restore convention elsewhere. SHANKPIT `249930f`, Apple #20839.
+  session: sess-20260923-1030-4a526255.
+
+**SECTION 552 stays open pending the founder's own live confirmation on a real build** (a Windows
+CI release rebuild, or the founder's own local rebuild) that the black-menu symptom is actually
+gone — this session's own verification is source-level + clean-compile, not an on-screen check.
