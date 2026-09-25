@@ -48409,3 +48409,76 @@ like most modern sso login pages" -> "classic IDUNA style guide."
   session: sess-20260923-1030-4a526255.
 
 **SECTION 543 is now fully closed.**
+
+## SECTION 544: DEADWEIGHT CLAIM-ACCOUNT FALLBACK + CREATE-ACCOUNT PAGE (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25, same thread as SECTION 543: "ok i created an account and went to
+the friends page it says i dont have an account for that game and when i go to the game client and
+try to claim an account it says email already taken - on the client if there is an account it
+should try to log you in with the email and password - also it should let me create a deadweight
+account right there with a button have a new page for that that works with the same logic for
+picking names on the client port it right into TS with PARENA (abstract into parena if not
+already)".
+
+- [x] **Claim-account "email already taken" now falls back to a real login, on both DEADWEIGHT
+  clients.** The reported dead end (IDUNA's own S543 addendum unscoped-identity-claiming fix
+  handles the ROOT cause; this handles the CLIENT UX for the 409 case that still legitimately
+  happens — e.g. reinstalling/switching machines onto an already-linked email). Web
+  (`DEADWEIGHT/web/src/account.ts`): new `ApiError` (carries the real HTTP status) +
+  `claimOrLogin()` — tries `linkEmail`, and on a 409 specifically, retries as `loginWithEmail`
+  with the same credentials, switching the active session to the pre-existing identity (never a
+  server-side merge — the abandoned fresh guest session is simply unused, not deleted). Wired into
+  `main.ts`'s link-email button. Native C GUI (`apps/gui/main.c`'s `do_link_email`): `dwi_guest_
+  upgrade` gained an `out_status` param (matching `dwi_guest_register`'s own existing convention)
+  so the 409 case is distinguishable; on 409, falls back to `dwi_email_login` with the same
+  credentials. Both real, live-verified: `npm run build` (tsc) clean, `scripts/build.sh --gui`
+  full clean build (GUI selftest + draft selftest + FX demo all still pass). DEADWEIGHT commit
+  pending (see below).
+  session: sess-20260923-1030-4a526255.
+
+- [x] **New "Create Account" page — real, working, on the DEADWEIGHT web client.** One button
+  (name + email + password) does `guestRegister(name)` then `claimOrLogin(...)` in a single
+  action, instead of the existing two-step "guest-boot with an auto name, link email later" flow —
+  `web/src/account.ts`'s new `registerAndClaim`, wired into a new "Create Account" box in
+  `web/index.html` + `main.ts`'s new `createAccount()` (refactored `start()`'s own tail into a
+  shared `enterGame()` so both paths reach the same connected state). Live client-side name
+  feedback via a real, checked-in PARENA module.
+  session: sess-20260923-1030-4a526255.
+
+- [x] **New PARENA module: `PARENA/stdlib/deadweight/account_rules.prn`** — `is-valid-display-name`
+  (1-16 chars, no control bytes), mirroring IDUNA's own server-side `cleanDisplayName` exactly.
+  Real, verified for the **C target**: `parena build stdlib/string.prn stdlib/deadweight/
+  account_rules.prn -o core/account_rules.c` (wired into `DEADWEIGHT/scripts/gen_rules.sh`),
+  compiles clean under DEADWEIGHT's own `-Wall -Wextra -Werror`, ASan/UBSan-clean standalone test
+  harness (8 real assertions incl. exact-16/17-char boundary, control byte, DEL, empty). Checked
+  in (`core/account_rules.c`/`.h`) and ready for a future native C GUI "Create Account" screen —
+  not yet wired into `apps/gui/main.c`'s own UI (a real, named, separate follow-up: a new SDL2
+  screen, same shape as the existing `S_CLAIM` modal, is its own real lift not attempted this
+  pass).
+  session: sess-20260923-1030-4a526255.
+
+- [ ] **Real, previously-undiscovered PARENA compiler gap: the TypeScript emitter cannot emit
+  `stdlib/string.prn`, or anything that depends on it, AT ALL.** Founder asked for the name-picking
+  logic to be "port[ed] right into TS with PARENA" — attempted exactly that (`parena build stdlib/
+  string.prn stdlib/deadweight/account_rules.prn -o AccountRules.ts`) and hit a hard emitter
+  error: `emit_ts: defn: unsupported parameter shape (v0 only understands plain (name :
+  I32|F64|Bool|String) params -- no Arena/region annotations)`. Isolated: `string.prn`'s own
+  `length`/`char-at` are declared `(s : String @ Region)` (needed for the C target's real
+  region-safety verification) — confirmed by building `stdlib/string.prn` ALONE to `.ts`, which
+  fails the identical way. `src/emit_ts.c`'s own doc comment on `emit_ts_defn` says region
+  annotations "make the whole concept a real no-op for this target" (TypeScript is
+  garbage-collected) — but the current code hard-*rejects* the annotation instead of treating it
+  as the no-op its own reasoning describes. Real, structural consequence: PARENA's real, only
+  string-handling stdlib module (`string.prn`) cannot be used in ANY TypeScript-emitted build
+  today, not just this one. Worked around here by hand-writing `isValidDisplayName` directly in
+  `web/src/account.ts` (verified byte-for-byte parity against the real PARENA/C output via 8
+  matching test vectors), named honestly in its own doc comment as a manual mirror, not a
+  PARENA-generated file, with a pointer back to this item. Real, scoped follow-up for whoever picks
+  this up: teach `emit_ts_defn` (`PARENA/src/emit_ts.c` around line 422) to accept the `(name :
+  Type @ Region)` 5-child param shape by simply resolving the `Type` node and ignoring the `@
+  Region` suffix, matching its own already-stated design intent — then regenerate `web/src/
+  generated/AccountRules.ts` for real and delete the hand-written copy in `account.ts`.
+  session: sess-20260923-1030-4a526255.
+
+**SECTION 544 stays open on the last item (the real PARENA TS-emitter fix) — everything else is
+closed.**
