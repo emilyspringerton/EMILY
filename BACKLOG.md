@@ -3674,6 +3674,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,持續重申方向: 「keep hammering on parena stdlib」+「marching to self hgosted」(=self-hosted)+「and the editor」——…** — obs `2026-08-20T19:33:47Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新研究任務: 「look into the exotic auttocurriculum stuff」+「our training pipeline for REDGARDEN」+「add any mi…** — obs `2026-08-20T19:32:55Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,確認方向: 「keep pushing on defenum」——確認繼續 PARENA mod-surface API 下一個真正阻礙:defenum(讓 editor/events.prn 的 Ed…** — obs `2026-08-20T19:32:00Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,標記為 critical bug,明確要求立即中斷手上工作切換過去: 「there is a copy paste bug - like i can copy the text out but when…** — obs `2026-08-20T18:00:33Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,結構安排: 「into a followup naming blog post if the other one is already done」+「not sure if the tone mixes…** — obs `2026-08-20T17:17:48Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充生成鏈細節: 「chain the feedback on the 4 seeds on the fib up to whatever is roughly 250」——確認生成長度沿費波那契數列遞…** — obs `2026-08-20T17:15:26Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充 GPT-2 生成參數: 「pon a fib for characters returned」(推測=put on a fibonacci for characters returned)+「4 …** — obs `2026-08-20T17:15:15Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,推翻先前命名: 「IRONCLAD sucks have tyler name it」——否決 IRONCLAD 這個名字,明確要求由 TYLER(角色/劇本引擎)來命名,不是我直接選。「call ou…** — obs `2026-08-20T17:15:06Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
