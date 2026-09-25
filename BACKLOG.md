@@ -3724,6 +3724,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,延伸 todo affordance 想法: 「havhave like y pull tup the special slash command that chats into your own pe…** — obs `2026-08-20T16:45:20Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,肯定目前運作模式: 「like when i chat right now i can take notes」+「thats cool」+「pave the cow pats」(=pave the co…** — obs `2026-08-20T16:44:38Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新指示: 「we need to build todo affordances into GFD nmnud gui」(推測 nmnud = mud 打字錯誤)——要求在 GoblinFoxDragon…** — obs `2026-08-20T16:44:30Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新指示: 「then do a FATBABY NEWSWIRRE press release to the blog about PARENA」——要求在 #target/mod-surface 這波…** — obs `2026-08-20T16:43:34Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補完流程最後一步: 「and then main line the mod on by default once we know it works」——確認完整流程:先做成可關閉的 mod → 驗證確實…** — obs `2026-08-20T16:43:00Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充架構方向: 「make it a mod」+「we can turn on」+「to fix it first」——連起來讀是:vterm/tmux/ncurses 渲染修復不要直接寫死進 PITV…** — obs `2026-08-20T16:42:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,叮嚀: 「dont broke what currently works doing weird shit」——提醒現在做的 #target/inline-c 新功能不能破壞既有已經在跑的東西,呼應本 …** — obs `2026-08-20T16:42:47Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,再次重申優先權: 「again mod surface」+「parena」——確認現在正在做的 PARENA emit.c #target/inline-c FFI 機制(mod-surface API…** — obs `2026-08-20T16:42:40Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
