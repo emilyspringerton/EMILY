@@ -3519,6 +3519,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, clarifying obs 23:29:xxZ ('build the parena apis as that'): 'but they will apply to SARENA_NOTEBOOK'…** — obs `2026-08-24T23:30:37Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'so build the parena apis as that' -- build PARENA's own APIs (editor/plugin surface?) using the sam…** — obs `2026-08-24T23:30:24Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, SARENA_NOTEBOOK: 'that is the same affordance' -- confirming TYLER title cards and the notebook's ti…** — obs `2026-08-24T23:30:15Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time (2026-09-25): 'use the art direction from DEADWEIGHT 1 and use the actual real deadweight 1 sound eff…** — obs `2026-09-25T11:03:20Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK UI inspiration: 'look at the tyler episodes' + 'they have all these weird title card…** — obs `2026-08-24T23:30:13Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK UI framing: 'whatever parena native title card ui you want' -- gives creative latitu…** — obs `2026-08-24T23:30:09Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK note-rendering mechanism: 'if you want to do a note you put some parena code to rend…** — obs `2026-08-24T23:29:58Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK: 'there should be note rendering built in' -- markdown/text-note rendering alongside…** — obs `2026-08-24T23:29:50Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
