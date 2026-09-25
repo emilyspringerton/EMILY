@@ -48537,3 +48537,57 @@ already)".
 
 **SECTION 544 stays open on the last item (the real PARENA TS-emitter fix) — everything else is
 closed.**
+
+## SECTION 545: SHANKPIT OS APPS SHIP IN EVERY RELEASE (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "the shankpit os apps dont work - can we get it building with the
+CICD binaries for all the apps even tho we dont have the signing set up yet."
+
+- [x] **Root cause found and fixed: `release.yml` never built or bundled any of the five
+  SHANKPIT OS apps.** `apps/lobby/src/main.c`'s `lobby_launch_app` has spawned DEADWEIGHT,
+  PITVIPER, IDUNA.GAME, REDGARDEN, and EDITOR.GAME as real child processes since S537, looking
+  first at `<the running exe's own dir>/bundled/<name>.exe` (`lobby_app_binary_path`) — that path
+  search has existed the whole time, but nothing ever populated it, so every app button in the
+  lobby's APPS page failed with "`<name>` not found (not bundled yet)". Fixed: `release.yml`
+  checks out all five (real, separate, public `emilyspringerton/*` repos) and cross-compiles each
+  for Windows using the same `x86_64-w64-mingw32` toolchain + SDL2 mingw kit already fetched for
+  `ShankPit.exe` itself, plus a newly-added SDL2_ttf mingw kit (PITVIPER/IDUNA.GAME/EDITOR.GAME
+  all link it — confirmed via `objdump`, not assumed). Go setup bumped `1.21`→`1.22`
+  (PITVIPER/IDUNA.GAME's own `go.mod` requirement — a newer SDK still builds this repo's own
+  older-declared module fine). Results land in `ShankPit_Client_*.zip`'s own `bundled/` dir
+  alongside `SDL2.dll`/`SDL2_ttf.dll`.
+  session: sess-20260923-1030-4a526255.
+
+- [x] **Two real, live-found regressions caught and fixed along the way, not just written and
+  assumed.** (1) An **eighth** recurrence of this exact workflow file's own well-documented
+  hand-copied-source-list drift bug class (see the "Build Windows Client" step's own seven prior
+  incident comments): `packages/simulation/day_night_clock.c`/`world_rules.c` were added to the
+  Makefile's `SERVER_SRC` by this session's own earlier day/night-sync commit (`0782136`) but
+  never made it into either `release.yml`'s or `tests.yml`'s own hand-copied "Build Linux Server"
+  step — confirmed live via the real GitHub Actions API job log (run `36076944183`,
+  `undefined reference to day_night_clock_tick/day_night_clock_init`) that this had been silently
+  breaking every push since. (2) EDITOR.GAME's `gen/editor_full.c` is git-ignored/local-only (its
+  own Makefile generates it via `cat gen/editor_stdlib_gen.c examples/editor_main.c`, never
+  committed) — an initial local dry run of the new CI step passed because it reused an
+  already-generated copy already sitting on this sandbox's own disk from an earlier, unrelated
+  `make` run, not a true fresh-checkout repro; caught by re-testing against a genuinely fresh
+  `git clone --depth 1` of all five sibling repos, fixed by reproducing that exact Makefile rule
+  inline in the CI step.
+  session: sess-20260923-1030-4a526255.
+
+- [x] **Live-verified against the real, actual GitHub Release, not just CI going green.**
+  `v0.124.0` (run `36107895675`, commit `838f6d0`): `ShankPit_Client` zip jumped from ~3.1MB to
+  31.7MB; downloaded the real artifact and `unzip -l`'d it directly — `bundled/dw_gui.exe`,
+  `idunagame.exe`, `pitviper.exe`, `editor-game.exe`, `red_garden_arena.exe`, `SDL2.dll`, and
+  `SDL2_ttf.dll` are all genuinely present at the exact path `lobby_app_binary_path` looks for.
+  SHANKPIT `5f32707`/`250edf8`/`838f6d0`, Apple #20788.
+  session: sess-20260923-1030-4a526255.
+
+- [ ] **Real, known, deliberately out-of-scope follow-up: no code signing.** Named explicitly by
+  the founder ("even tho we dont have the signing set up yet") as not this fix's job. These five
+  binaries (plus `ShankPit.exe` itself, already unsigned before this change) will show a Windows
+  SmartScreen / macOS Gatekeeper "unknown publisher" warning on first run. Real, separate,
+  not-yet-scoped follow-up whenever code-signing infrastructure exists.
+
+**SECTION 545 stays open on the code-signing follow-up — the actual "apps don't work" ask is
+fully closed and live-verified.**
