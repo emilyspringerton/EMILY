@@ -3434,6 +3434,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, more additions to the minimal-distro included-package list: 'build in ada and gnat' + 'build in gcc'…** — obs `2026-08-25T09:48:35Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, concrete package/scope list for the minimal distro: 'make it super small to start whatever can be le…** — obs `2026-08-25T09:47:22Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, gives concrete design guidance for the distro pivot: 'we use gnu tools for the load bearing walls li…** — obs `2026-08-25T09:47:17Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, major scope escalation: 'oh yea cool lets build our own installable distro' -> 'EmilyOS for real as …** — obs `2026-08-25T09:46:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'do more work on the EmilyOS GRANT-FS REVOKE-FS with parena mods for arch linux.' Continues the earl…** — obs `2026-08-25T09:44:12Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, expands the MAC-address task into real tooling: 'build tools for generating realistic manufacturer s…** — obs `2026-08-25T09:41:22Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'change my mac address.' Real sysadmin request, needs sudo (queued like other privileged ops). Flagg…** — obs `2026-08-25T09:40:31Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time reinforcement: 'SYNACK' -- TCP three-way handshake reference, confirms wanting genuinely real, workin…** — obs `2026-08-25T09:40:15Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
