@@ -3344,6 +3344,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'make bacon buck w instead of a toggle have it turn into sghadow step use the targeting system you h…** — obs `2026-08-26T04:30:04Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'when you hit w on abraham and you are moving dont have it blow the cooldown and do nothing have it …** — obs `2026-08-26T04:09:48Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'via parena mods' (confirming the ignite effect should route through the PARENA mod layer -- it alre…** — obs `2026-08-26T03:59:33Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'make it so that the fireball ignites the enemies it touches making them have burning too' -- add a …** — obs `2026-08-26T03:56:29Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time (continuing to refine the new hero feature): 'someone that has a toggle have their toggle switch betw…** — obs `2026-08-26T03:25:36Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time (new feature, arrived mid-Abraham-fix): 'switch the targeted ability to another hero who has a trash …** — obs `2026-08-26T03:25:18Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'why does gary work but abraham doesnt' -> 'at least on the auto attack side' -> 'fuck it have the f…** — obs `2026-08-26T03:23:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'set up server side logging from the client or someghing' -> 'i cant read shit off a screen to you' …** — obs `2026-08-26T03:22:19Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
