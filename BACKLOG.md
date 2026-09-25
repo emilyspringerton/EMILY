@@ -3649,6 +3649,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,PHP 構想再延伸: 「our in house PHP implementation that includes PARENA can be written in PARENA」——構想自建的 in-…** — obs `2026-08-20T19:49:20Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,連結既有概念: 「this ties intop our norn zero opoints meta loop」——把 PHP/PARENA 內嵌構想連結到既有的 NORN(HQ-SPEC 系列 re…** — obs `2026-08-20T19:46:45Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,補充: 「like php is the ultimate template langiageuage」——延伸剛才的玩笑構想,PHP 本身作為『終極樣板語言』的角度來看待 PARENA-in-PHP …** — obs `2026-08-20T19:46:37Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,PHP 構想繼續發散(玩笑性質): 「like maklike make themn m write parena inline in the php files」+「thats hilarious」—…** — obs `2026-08-20T19:46:32Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,PHP 構想延伸(仍在探索階段): 「the parena compiler and also we can make some bullshit so parena runs on php but h…** — obs `2026-08-20T19:46:15Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新的大範圍構想: 「we are going o need to build our own in house php 5 or 7 or whatever」+「with parena compiled…** — obs `2026-08-20T19:45:47Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,明確授權: 「i dont know」+「figure it out」——把剛才『PARENA 編譯成 Go 模組 vs Go 呼叫進 PARENA』這個架構問題完全授權交給我判斷,之後真的動手做 TI…** — obs `2026-08-20T19:44:49Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,開放式架構思考: 「maybe parena compiles into go modules? or go calles into parena mayybe both」——思考 fatbaby 修復…** — obs `2026-08-20T19:44:43Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
