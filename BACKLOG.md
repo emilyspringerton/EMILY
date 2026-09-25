@@ -3399,6 +3399,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: no ambient/global fog of war -- just give Duck a 'smoke bomb' ability (localized vision-blocking eff…** — obs `2026-08-25T20:19:09Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: fog-of-war ability should be added to REDGARDEN hero 'Duck' (clarifies the fog-of-war-as-an-ability …** — obs `2026-08-25T20:19:05Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: REDGARDEN -- add fog of war as a hero ability (relates to the existing King All-Seeing buff's own 'n…** — obs `2026-08-25T20:18:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: REDGARDEN hero 'Cart' -- add AOE circle indicators, make his abilities more impactful/powered-up ver…** — obs `2026-08-25T20:16:32Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: add a passive to 'tree' -- when close enough to auto-attack a tree, auto-attacks it and slowly regen…** — obs `2026-08-25T20:08:04Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: GoblinFoxDragon (GFD) needs copy/paste bindings, matching the same pattern already implemented in PI…** — obs `2026-08-25T19:51:00Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: DragonsNShit (GFD) web player still shows a black screen -- emscripten build/integration isn't worki…** — obs `2026-08-25T19:49:55Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: GoblinFoxDragon (DragonsNShit) needs automated pre-release releases in CI, matching the existing pat…** — obs `2026-08-25T19:48:16Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
