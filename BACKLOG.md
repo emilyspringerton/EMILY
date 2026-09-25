@@ -3524,6 +3524,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, SARENA_NOTEBOOK UI framing: 'whatever parena native title card ui you want' -- gives creative latitu…** — obs `2026-08-24T23:30:09Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, SARENA_NOTEBOOK note-rendering mechanism: 'if you want to do a note you put some parena code to rend…** — obs `2026-08-24T23:29:58Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, SARENA_NOTEBOOK: 'there should be note rendering built in' -- markdown/text-note rendering alongside…** — obs `2026-08-24T23:29:50Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK render targets sequencing: HTML first, 'SDL native second' -- SDL2-based native rend…** — obs `2026-08-24T23:29:13Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, elaborating SARENA_NOTEBOOK (obs 23:28:29Z): 'build our libplot shit into it' + 'html first' -- plot…** — obs `2026-08-24T23:29:10Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, new project idea: 'super bare bones jupyter replacement gui parena compile and run whatever the back…** — obs `2026-08-24T23:28:29Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, elaborating the Erlang-scheduler northstar just logged (obs 2026-08-24T23:13:18Z): 'our game will ha…** — obs `2026-08-24T23:14:10Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, clarifying the federated-process-operation architecture just decided (obs 2026-08-24T23:13:12Z): 'no…** — obs `2026-08-24T23:13:18Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
