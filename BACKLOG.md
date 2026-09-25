@@ -3704,6 +3704,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,確認方向: 「continue with the mod surface into pitviper」——確認繼續 mod-surface API 的下一個真正阻礙:函式型別參數(handler : (…** — obs `2026-08-20T17:06:40Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,補充: 「just make up the color scheme whatever is standard for that style syntaxes」——語法高亮的配色不用特別設計,採用該語系…** — obs `2026-08-20T16:59:19Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新功能需求: 「make sure we are set up to do full syntax highlighting in pitviper start with PARENA syntax」—…** — obs `2026-08-20T16:59:13Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: add a Windows client build to DEADWEIGHT_2 (D2)'s artifact releases** — obs `2026-09-25T20:25:52Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新的具體回報: 「also the color changing in claude is only sometimes firing」——Claude Code 在 PITVIPER 裡的顏色變化(A…** — obs `2026-08-20T16:58:42Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充視覺參考: 「like its an old web dev trick」+「or even in photoshop」——澄清剛才的字元陰影想法是指經典的 CSS text-shadow 雙層陰影…** — obs `2026-08-20T16:57:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新的視覺打磨想法: 「use shaders to add crisp white and dark grey shgadows to the tops and bottoms of the lette…** — obs `2026-08-20T16:57:50Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,字型辨識自問自答,已解決: 「but im still not seeing what im guessing is the jet brains font unless this is the jet…** — obs `2026-08-20T16:57:19Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
