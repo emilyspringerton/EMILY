@@ -3639,6 +3639,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充範圍: 「under pentest where it makes sense」——確認藍牙/WiFi API 應該放在 stdlib/pentest/ 底下(呼應既有 wireless.prn =…** — obs `2026-08-20T20:11:07Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新 stdlib 需求(文字有點破碎): 「build alkl of the clipper apis into the stdlib btlte wifi all of it」+「into the …** — obs `2026-08-20T20:10:58Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 「continue marching towards our stated goals」——確認繼續往 mod-surface API 完整可編譯的方向推進,下一個目標是 defstruct(稍早已確…** — obs `2026-08-20T20:09:38Z`. CURATED: 2026-09-25.
+- [ ] **Founder確認優先權: pentest stdlib 優先於 linked list 和 blog renderer 升級。開始建置 stdlib/pentest/*。** — obs `2026-08-20T20:00:36Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,根因確認完畢(讀完 IDUNA/internal/blog/render.go 全文): toParagraphs() 是刻意設計的『窮人版 markdown』——依空行分段包 <p>,並對每段內容整段…** — obs `2026-08-20T19:58:14Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,確認真實根因 + 修復方向: 「fix it on the render side somehow」+「do an initial templating passs or something」+「usi…** — obs `2026-08-20T19:57:35Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,回報真實 render bug: 「you have been writing a lot of blog posts with html tags raw in the render somehow」…** — obs `2026-08-20T19:57:10Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新 stdlib 需求: 「add linked list to te stdlib」——要求把 linked list 加進 PARENA stdlib(vec/map 已有,linked list …** — obs `2026-08-20T19:56:17Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
