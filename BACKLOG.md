@@ -3414,6 +3414,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continued backlog-first session (chmod workaround for IDUNA agent secrets applied, Apples now filing…** — obs `2026-08-25T17:18:19Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, building out the golden-repo-status tool spec: 'we already have a tool for checking that status that…** — obs `2026-08-25T15:41:58Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, valuable tooling request: 'we need a tool to poll all our golden repo statuses at the end of a work …** — obs `2026-08-25T15:40:18Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, additional request: 'can we build paruna mod apis into emily cxcli?' (PARENA mod APIs into emily.cli…** — obs `2026-08-25T15:40:12Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, urgent: 'SHANKPIT build is down.' Likely connects to the earlier flagged discrepancy (S189-09's fitn…** — obs `2026-08-25T15:39:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, extends the just-shipped S189-01 damage log: 'add kills and item purchases and node captures and unc…** — obs `2026-08-25T15:35:52Z`. CURATED: 2026-09-25.
+- [ ] **CONFIRMED via direct investigation, severe finding: the NVIDIA-8K press-release bug is a symptom of a real, currently-o…** — obs `2026-08-25T15:34:34Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, additional related request: 'also add a parena ticker plugin that ensures that the press release con…** — obs `2026-08-25T15:31:09Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
