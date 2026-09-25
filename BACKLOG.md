@@ -3694,6 +3694,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,加強前一則: 「i use that shit in my main workflow now」——確認 PITVIPER 已經是創辦人日常主要工作流程的一部分,提高『不能弄壞』的重要性。持續遵守,現有…** — obs `2026-08-20T17:09:54Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,務實提醒: 「i still need pitviper to work」——提醒 PARENA 重寫的長期願景不能犧牲 PITVIPER 現有的真實可用性,呼應稍早『dont broke what c…** — obs `2026-08-20T17:09:48Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,補充範圍: 「before rewriting」+「if we have crazy deps for pitviper」——確認『wrap all the deps in parena modules…** — obs `2026-08-20T17:09:41Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新要求: 「wrap all the deps in parena modules」——要求把相依套件包裝成真正的 PARENA module。先確認現況:VS0 目前是否真的處理 (module ..…** — obs `2026-08-20T17:09:30Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,節奏/魄力提醒: 「1 step forward 2 steps back」+「consider 2 steps forward」+「2 steps frward」——鼓勵不要只走保守的一小步又退回去,…** — obs `2026-08-20T17:09:05Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,授權範圍擴大: 「fill in any parena implementation gaps as needed as you work iteratively minding deps」+「itic…** — obs `2026-08-20T17:08:51Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,澄清規模,大幅縮小: 「right into effing PARENA in examples」+「built with bazel」+「of course」——確認『port it』其實是指:把剛才…** — obs `2026-08-20T17:08:31Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,推進指令: 「you have a working implementation port it」——要求把現有『可運作的實作』(推測指 PITVIPER 現有的 Go/SDL2/vterm 實作)真的…** — obs `2026-08-20T17:08:20Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
