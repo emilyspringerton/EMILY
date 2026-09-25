@@ -3479,6 +3479,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'do any fixes from the report' -- applying the smallest, bounded, safe fix (the one cosmetic gcc war…** — obs `2026-08-25T00:15:37Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'is turbogrep actually faster?' -- answered directly: NO, ~430x SLOWER (~12.8s vs ~0.03s per run), a…** — obs `2026-08-25T00:13:50Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'we need stats' -- wants proper statistical treatment on the turbogrep timing numbers, reinforcing t…** — obs `2026-08-25T00:11:33Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'ok once the report is ready do a blog post going over it as tyler and the unicorn' -- confirms next…** — obs `2026-08-25T00:09:56Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'but what about LZ8 where its not actually errorless and we build in quantum error correction' -- co…** — obs `2026-08-25T00:09:35Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, exploratory: 'is there a way we can physically build memory to expect lz4 compression? compression a…** — obs `2026-08-25T00:08:10Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'you can have the unicorn explain things in the blog post using pure parena to explain technical con…** — obs `2026-08-24T23:54:55Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'you can use the math and stats in parena to help you if that helps' -- suggests using PARENA's own …** — obs `2026-08-24T23:54:22Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
