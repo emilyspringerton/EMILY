@@ -49187,9 +49187,14 @@ Scope for this section:
   `POST /api/v1/app-releases` with `app_slug="d2"`, matching D1's step verbatim (including its
   clean no-op-if-secrets-absent gate — the two secrets it needs aren't provisioned for D2 either
   yet, same as D1).
-- [ ] **`SteamAppID` parity field** added to IDUNA's `Registry["d2"]` entry (env-gated
+- [x] **`SteamAppID` parity field** added to IDUNA's `Registry["d2"]` entry (env-gated
   `D2_STEAM_APPID`, defaults empty/unset — same "404s until a real Steamworks App ID exists"
-  honesty D1's own row already documents).
+  honesty D1's own row already documents). Apple #20832. `d2` entry's comment block extended to
+  explain why `SteamAppID` is safe to add now (env toggle, no server dependency) while
+  `BotPerm`/`CheckpointsWritePerm`/`CheckpointBlobDir`/`TicketsWritePerm` stay deferred. Confirmed
+  `game_online.go`'s `steamLogin` consumes `games.Config` generically (keyed by slug), so no
+  further wiring needed. `go build ./...`/`go test ./...` clean from `/home/fatbaby/IDUNA`.
+  session: sess-20260923-1030-4a526255
 - [ ] **Named, explicitly deferred, not done this pass** (flagged to the founder, not silently
   dropped): `BotPerm`/`CheckpointsWritePerm`/`CheckpointBlobDir`/`TicketsWritePerm` for `d2` —
   D1's own row comment already gives the real reason these wait (no bot/checkpoint/draft-economy
