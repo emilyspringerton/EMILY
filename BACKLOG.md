@@ -48784,8 +48784,77 @@ first (obs `2026-09-25T08-35-01Z`, Apple #20794) per `EMILY/docs/THE_EMILY_WAY.m
   token"` — the fine-grained PAT itself isn't scoped for repo administration, regardless of what
   the user's own role shows. Needs either the founder renaming it directly
   (github.com/emilyspringerton/DEADWEIGHT_2/settings) or a token with the Administration repo
-  permission. Not started: local dir rename, git remote URL update, root `/home/fatbaby/CLAUDE.md`
-  repo table row, IDUNA `games.go` Registry key + `config/agents.json` + a **new** migration
-  (IDUNA is live — PID confirmed running — so the existing, possibly-already-applied
-  `202609250900_deadweight2_agents_and_permissions.sql` gets left as-is and renamed via a fresh
-  migration, never edited in place).
+  permission. **Everything not requiring GitHub admin is done**: IDUNA `games.go` Registry key
+  (`deadweight_2`→`d2`) + `config/agents.json` (`DEADWEIGHT2-SERVER`→`D2-SERVER`) + a **new**
+  migration (`202609251200_rename_deadweight2_to_d2.sql` — IDUNA is live, so the original
+  `202609250900_...` migration was left as-is and superseded by a fresh one, never edited in
+  place, `IDUNA@c5b16dc`); `DEADWEIGHT_2`'s own `core/iduna.c`/`core/iduna.h`/
+  `apps/server/main.c` updated to match (`DEADWEIGHT_2@ed7be54`); root `/home/fatbaby/CLAUDE.md`
+  repo table row updated to note the in-progress rename (`470cdb7eb`). **Still blocked, needs the
+  founder**: the actual GitHub repo rename, and (held until then, so push/pull never breaks) the
+  local directory rename + git remote URL update.
+
+## SECTION 547: WOTAN — REAL FRONTEND DAY 0 (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "build wotan in fron[t end] day 0" → "build in wotan stats and
+game replays in browser use emojis for the different items and stuff like we do for
+okemily.com/live-match.html." Routed via `emily observe` (obs `2026-09-25T10-46-42Z`, Apple
+#20808) per `EMILY/docs/THE_EMILY_WAY.md` Principle 18. `WOTAN` currently has only a placeholder
+`index.html` (matching `OKEMILY/tournaments.html`'s own design system) — `OKEMILY/tournaments.html`
+stays the live page until this repo actually replaces it.
+
+- [ ] **Day 0: in-browser match stats + replay viewer, emoji-coded items.** Real scope: pull real
+  match data from IDUNA (`game_matches`/`game_player_stats`, already game-scoped — see
+  `IDUNA/internal/games/games.go`), render it in the browser with an emoji per item/unit type
+  (matching `okemily.com/live-match.html`'s own established visual convention — read that page's
+  actual markup/JS before building, don't guess the pattern), and a real replay view (not just a
+  box score) for at least one game with real, structured match data available. Not started.
+
+## SECTION 548: D2 COMBAT REDESIGN — MID-ROUND SKILL CHECK, COMEBACK MECHANICS, BLUFF (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "like a mini game in between ship auto battler rounds to give a
+real time skill check" → "and make the games swingy and give comeback mechanics and bluff
+straregies." Routed via `emily observe` (obs `2026-09-25T10-46-42Z`, Apple #20808) per Principle
+18. Reads as targeting **D2** specifically ("ship auto battler" — D2 is the one with ships;
+DEADWEIGHT proper is a card game) — flagged for founder confirmation, not assumed silently.
+
+**Real, named tension with D2's current architecture**: D2 combat today is continuous, real-time,
+server-clock-driven ticks (`dw2_ship_tick`, one tick ≈ one second, `DW2_MATCH_TIMEOUT_TICKS`=30),
+not discrete rounds — "between rounds" implies restructuring combat into distinct phases, a real
+combat-model change, not a bolt-on. Comeback mechanics and bluff strategies are real game-design
+work (what mechanically constitutes "behind," what a losing player gets, what hidden information
+a bluff plays against) needing a real, reviewed design before code, matching this repo's own
+established "critical review, name a real V0 cut" discipline (`DEADWEIGHT/NORTHSTAR.md`'s own
+precedent).
+
+- [ ] **A real, reviewed design doc + a buildable V0 slice** — not the whole vision at once. Not
+  started. See `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section for how D1/D2 were originally
+  scoped this same way.
+
+## SECTION 549: LO — GAMEPLAY INTEGRATION + STDLIB GAPS + 2D BIDIRECTIONAL EXECUTION MODEL (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "add in LO programming to actual gameplay of DEADWEIGHT add
+stdlibs to LO whatever is needed that is missing" → "like cannon programming or something" →
+"make LO work both left to right and bottom to top (a programming language that goes 2
+directions and can resolve at the same time) (imagine programming a matrix of emojis or like a
+dominos like crossroads setup) its like lisp the actual programming language is data." Routed via
+`emily observe` (obs `2026-09-25T10-46-42Z`, Apple #20808) per Principle 18.
+
+Two real, separable asks:
+
+- [ ] **LO stdlib gaps + a real gameplay integration ("cannon programming").** Founder said
+  "DEADWEIGHT," but the concrete "cannon" idea maps far more literally onto **D2's** Railgun/
+  energy-routing weapon-fire decision logic (`core/combat.h`'s `dw2_ship_tick`) than onto
+  DEADWEIGHT proper (a card game with nothing cannon-shaped) — flagged for founder confirmation,
+  not assumed silently. Held pending SECTION 548's combat redesign landing first, if confirmed
+  against D2: wiring a new weapon-decision hook into code that's about to be restructured would
+  be wasted/conflicting work. The LO stdlib-gap audit itself has no such dependency and can start
+  independently. Not started.
+- [ ] **LO's execution model: bidirectional (left-to-right AND bottom-to-top, resolving
+  simultaneously), homoiconic (code is data, Lisp's own real precedent), visualized as a matrix
+  of emojis / a dominoes-like crossroads layout.** A foundational rewrite of LO's whole execution
+  semantics — real, current state per `LO/NORTHSTAR.md`: upstream pre-created, a critical review
+  of the source spec doc done, no compiler code written yet, so nothing existing to break. Needs
+  a real design pass (grammar/evaluation-order semantics for two simultaneously-resolving axes is
+  a genuinely hard, unprecedented design problem — worth getting right before code) before
+  implementation. Not started.
