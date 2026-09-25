@@ -3589,6 +3589,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新需求: 「ensure PARENA has a separate deterministic construct build」——要求 PARENA 要有一個獨立、確定性(reproducible)…** — obs `2026-08-20T20:41:49Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 「stdlibs missing first into stdlibs」+「obviously parena clis is a prereq for all continued work」+「con…** — obs `2026-08-20T20:39:27Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 「the rotation i still weird with the gbuggy」——旋轉問題不只直升機,buggy(沙灘車/越野車)也有同樣的旋轉異常。併入同一個 SHANKPIT 載具旋轉 …** — obs `2026-08-20T20:38:47Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「also the rotation is sweird」——直升機旋轉行為也有問題,併入同一個 SHANKPIT 直升機改進待辦。現在批次更新 BACKLOG.md。** — obs `2026-08-20T20:38:42Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充 SHANKPIT 直升機具體細節: 「we enneeed those dope hot drops」(想要很酷的空降/hot drop 機制)+「i dont have the ability …** — obs `2026-08-20T20:38:35Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「with PARENAS」——確認 SHANKPIT 直升機改進、GOLDENBAND/Bedrock Racers 迷你摩托車/卡丁車都要用 PARENA 做。回到 LONGMA csv.prn …** — obs `2026-08-20T20:38:27Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,批量新任務: 「continue marching towards our stated goals」(重申)→「be sure to clone down and check out longma i…** — obs `2026-08-20T20:38:20Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,重要修正: 「but implemented pure PARENA」——澄清 CSV/LONGMA 功能不是 FFI 綁定既有 Go 二進位檔(不是 pentest/gfd 那種『呼叫外部真實工具』模…** — obs `2026-08-20T20:33:03Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
