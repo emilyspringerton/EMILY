@@ -3439,6 +3439,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, expands the MAC-address task into real tooling: 'build tools for generating realistic manufacturer s…** — obs `2026-08-25T09:41:22Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'change my mac address.' Real sysadmin request, needs sudo (queued like other privileged ops). Flagg…** — obs `2026-08-25T09:40:31Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time reinforcement: 'SYNACK' -- TCP three-way handshake reference, confirms wanting genuinely real, workin…** — obs `2026-08-25T09:40:15Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'build stdlibs into parena for low level networking.' New PARENA stdlib task -- sockets/TCP/UDP-leve…** — obs `2026-08-25T09:39:53Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, reverses build-order priority immediately after the GFD mod-surface fork launched: 'it should be pre…** — obs `2026-08-25T09:32:34Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, architectural framing for the GFD PARENA mod-surface work: 'but it should all be events with parena …** — obs `2026-08-25T09:31:32Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, unifies the two parallel threads: 'but bring it into GFD totally as parena' / 'parena mods.' The day…** — obs `2026-08-25T09:31:18Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, final detail on day/night thread: 'including the lighting' -- the SHANKPIT day/night port should car…** — obs `2026-08-25T09:31:07Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
