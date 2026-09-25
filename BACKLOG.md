@@ -3354,6 +3354,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'i want the bazel migration done now' -- starting the REDGARDEN build-system migration to Bazel (S20…** — obs `2026-08-26T03:11:05Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time (live, urgent): 'theres some issue with fireball its not casting' -> 'like i get the cast target thin…** — obs `2026-08-26T02:51:44Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time (live, urgent, multi-message burst): 'continue' -> 'redgarden build is down' -> 'there may be more re…** — obs `2026-08-26T02:43:19Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: REDGARDEN -- build WoW-style raid frames for hover-casting (Doc Wheel and other hover-aware abilitie…** — obs `2026-08-26T02:10:48Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: REDGARDEN hero Abraham -- give him a real targetable, slow-moving projectile fireball that travels a…** — obs `2026-08-26T01:51:53Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: worried they don't remember the password/key used to encrypt existing IDUNA GCS backups, floated re-…** — obs `2026-08-26T01:41:27Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: upload the WHOLE /home/fatbaby home directory to Google Cloud Storage, double-encrypted like the exi…** — obs `2026-08-26T01:40:27Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: reiterating a real, already-documented REDGARDEN gap -- the RL inference engine (autocurriculum trai…** — obs `2026-08-26T01:38:04Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
