@@ -3714,6 +3714,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,收斂最終優先權: 「but fix the glyph issues first」+「with PARENA」+「so do that mod work」——在這一串 vim/tmux/scroll 診…** — obs `2026-08-20T16:56:08Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,關鍵澄清,排除 GFD bar 假設: 「usually when the screen is full it scrolls not in pitviper」+「in ssh」——確認情境是純 SSH…** — obs `2026-08-20T16:55:50Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,更多細節: 「also when i am typing commands the pane doesnt scroll」+「we are in tmux」——確認情境是 tmux 裡面用 vim,底部…** — obs `2026-08-20T16:55:35Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充更精確的症狀描述: 「i cant see the command si type they are like below the window」——確認不是『看不到』而是『渲染位置跑到視窗可視範圍…** — obs `2026-08-20T16:55:20Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新的具體 vim 渲染回報: 「vim works except i cant see the part where its telling me quit without saving or what…** — obs `2026-08-20T16:55:09Z`. CURATED: 2026-09-25.
+- [ ] **Founder確認: 對剛才發現的 vterm.Screen.Resize() 真實 out-of-bounds crash 風險(scrollRegTop/scrollRegBot 在 resize 後沒有跟著更新,垂直縮小視窗時可能索…** — obs `2026-08-20T16:54:31Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,把先前針對 vterm/ncurses 修復的『make it a mod』指示,擴大成一條通用政策: 「make all improvements as api mod plugin surface …** — obs `2026-08-20T16:52:45Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充更具體的重現條件: 「yea when you scale pitviper window vertical it breaks it」——確認稍早 S189-32 記錄的『放大視窗後畫面不重繪』真…** — obs `2026-08-20T16:52:31Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
