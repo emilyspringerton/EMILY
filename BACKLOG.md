@@ -48980,15 +48980,34 @@ files this session can write and commit, not a live machine this sandbox has no 
   tty1, with a first-cut CPU/memory budget toward Doc 10's own G2 ("deterministic resource
   budget"). Verified clean via `systemd-analyze verify` (with the `emilyos` binary present).
   `build-deb.sh`/`control` updated to stage and softly recommend the new pieces.
-- [ ] **Real, named, not-yet-closed gap: never run against a real X server or a real SHANKPIT
-  build.** This sandbox has no display and no SHANKPIT checkout built. The `internal/domain` +
-  CLI + systemd-unit layer is live-verified; the X11/openbox layer (including the `class=
-  "shank_lobby"` WM_CLASS match, which assumes SDL2's default naming) is written but genuinely
-  untested — see `docs/KIOSK_BOOT.md`'s own honest-gaps section for the full list (also flags a
-  small, pre-existing, unrelated gap found along the way: `build-deb.sh` has apparently never
-  actually staged EmilyOS's own main `emilyos.service` unit despite `postinst` referencing it —
-  named, not fixed, to avoid scope creep on an unrelated issue).
+- [x] **Follow-up same day: the X11/openbox layer itself, live-verified, not left as
+  written-but-untested.** Installed `Xvfb`/`openbox`/`xdotool`/`x11-utils`/`xterm`/`shellcheck`
+  in this sandbox (no live SHANKPIT build, but a real openbox binary and a real, if headless, X
+  server) and ran the actual packaged config, not a re-derivation of it. Found and fixed two real
+  bugs neither well-formedness checking nor a read-through would have caught: (1) `openbox
+  --menu <file>` is not a real CLI flag — openbox rejected it and exited immediately; the menu
+  path now lives in `rc.xml`'s own `<menu><file>` element, confirmed against openbox's own
+  shipped default config. (2) An `<application>` rule-ordering bug: openbox applies matching
+  rules cumulatively in file order, so the `class="*"` wildcard (listed second) silently
+  overrode the `class="shank_lobby"` rule's `decor`/`maximized` settings; reordering the
+  wildcard first fixed it. Live-confirmed after the fix (real `_NET_WM_STATE`/`_NET_FRAME_
+  EXTENTS` checks via `xprop`/`obxprop`, not just visual impression): the lobby-class window is
+  genuinely borderless+maximized full-screen, a popup-app-class window keeps real decorations,
+  Alt+F4 closes only the focused popup, `Ctrl+Alt+BackSpace` exits the session, and the real
+  `xinitrc` script's own crash-relaunch loop and openbox-death exit condition both work as
+  designed. `shellcheck -s sh` clean on both shell scripts. See `docs/KIOSK_BOOT.md`'s "Bugs
+  found and fixed by live-testing" section for the full account.
+- [ ] **Real, named, still-open gap: SHANKPIT's actual lobby binary, and real (non-headless)
+  hardware.** A plain `xterm -class shank_lobby` stood in for the real `shank_lobby` binary (its
+  actual WM_CLASS has not been checked with `xprop`/`obxprop` against a genuine compiled build),
+  and Xvfb stood in for a real GPU-backed console X server (no VT switch, no DRM/KMS, no real
+  input devices) — `start.sh`'s own `startx ... -- vt1` invocation and the systemd unit's
+  `PAMName=login`/`TTYPath=/dev/tty1` console-ownership mechanics remain unexercised for the same
+  reason. Also still flags a small, pre-existing, unrelated gap found along the way: `build-deb.sh`
+  has apparently never actually staged EmilyOS's own main `emilyos.service` unit despite
+  `postinst` referencing it — named, not fixed, to avoid scope creep on an unrelated issue.
 
-**SECTION 550 stays open on the real-hardware/real-display boot test — the policy-kernel half of
-the ask is fully closed and live-verified; see `EmilyOS/docs/KIOSK_BOOT.md` for the complete
-picture.**
+**SECTION 550 stays open on the real-hardware/real-SHANKPIT-binary boot test only — both the
+policy-kernel half AND the X11/window-manager half of the ask are now live-verified (the latter
+against a real openbox binary on a real, if headless, X server, with two real bugs found and
+fixed along the way); see `EmilyOS/docs/KIOSK_BOOT.md` for the complete picture.**
