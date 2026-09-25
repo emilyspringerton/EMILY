@@ -3359,6 +3359,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: worried they don't remember the password/key used to encrypt existing IDUNA GCS backups, floated re-…** — obs `2026-08-26T01:41:27Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: upload the WHOLE /home/fatbaby home directory to Google Cloud Storage, double-encrypted like the exi…** — obs `2026-08-26T01:40:27Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: reiterating a real, already-documented REDGARDEN gap -- the RL inference engine (autocurriculum trai…** — obs `2026-08-26T01:38:04Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: REDGARDEN hero He Xiangu (Wotan hero stats page, 'xehingu') is hard to get value out of -- founder's…** — obs `2026-08-26T01:37:54Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'ensure our iduna swagger spec is fully updated wherever it lives' -- arrived mid-README-refresh-pas…** — obs `2026-08-26T01:22:48Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'update all our readmes with the newest everything significant not the cross repo updates unless the…** — obs `2026-08-26T01:16:58Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'can we build out the gta7 historical based railroad tech tree powered by real minecraft rails' -- a…** — obs `2026-08-26T00:17:15Z`. CURATED: 2026-09-25.
+- [ ] **CORRECTION to the test_arena_replay segfault finding I just posted/committed (REDGARDEN S202-10, Apple #16044/#16046): …** — obs `2026-08-26T00:05:23Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
