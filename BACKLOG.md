@@ -3549,6 +3549,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: wants grep/sed/awk (and the Bash tool's use of them in this session) replaced with PARENA-native 'tu…** — obs `2026-08-23T16:02:47Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time(一批,累積記錄):(1) 問能否把 REDGARDEN 演化成基本的幾何編輯器,取代 Blender 做低多邊形編輯,甚至含自動綁骨;能否把小數運算卸載到 GPU,並用類似量子計算的方式偵測誤差;提到用…** — obs `2026-08-21T14:07:57Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 詢問 REDGARDEN 挖洞藏東西機制(S189-56b,尚未開工)進度 → 'via mods' → 'via parena' → 'buying a shovel lets you dig th…** — obs `2026-08-21T10:49:17Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'continue adding all the posix stuff that is reasonable into stdlib' → 'but real parena backed' → 'n…** — obs `2026-08-21T10:34:57Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'write the fatbaby newswire pr' / 'as a blog post' / 'okemily blog' / 'check okemily blog' -- 發布 PAR…** — obs `2026-08-21T10:17:05Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time(針對 ci-status 工具的里程碑意義):「file a press release」→「parena tool in production toolchain」——這是 PARENA 第一個真正進…** — obs `2026-08-21T10:02:42Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time(緊接著上一則版本號政策的具體化):「start pushing the artifacts to releases in github」→「for parena」→「anand pitviper」(an…** — obs `2026-08-21T09:37:14Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time:「whenever a build passes release it as a minor version」→「like a . bump」→「i will handle big bumpos to …** — obs `2026-08-21T09:37:00Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
