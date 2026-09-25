@@ -1,3 +1,7 @@
+## 2026-09-25
+
+- BACKLOG: close SECTION 543 (IDUNA-as-SSO for WOTAN, fully live-verified) and the SHANKPIT server-authoritative day/night sync follow-up (sess-20260923-1030-4a526255)
+
 ## 2026-09-21
 
 - S506: filled in Emily Way process for OpenExecutive (forked SenteLabsAI/OpenExecutive, IDUNA+Vertex integration) -- wrote NORTHSTAR.md with critical review finding 2 confirmed bugs + zero wiring, relocated repo off /tmp, registered golden-doc (sess-20260920-1908-24cb3558)
