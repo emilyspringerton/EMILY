@@ -3334,6 +3334,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, real CI break follow-up + new large direction: 'also the build is still fail' (my earlier CI fix, cc…** — obs `2026-08-26T16:30:44Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'continue working on parena editor' (third occurrence, direct continuation) -- real keyboard-driven …** — obs `2026-08-26T16:18:57Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'continue working on parena editor' (second occurrence, direct continuation) -- real SDL2_ttf text r…** — obs `2026-08-26T16:09:32Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'continue working on parena editor' -- direct continuation of the earlier 'pur[e] parena editor port…** — obs `2026-08-26T15:53:38Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'deploy it into our weights and continue' -- deploy the just-completed 2026-08-25/26 autocurriculum …** — obs `2026-08-26T14:58:35Z`. CURATED: 2026-09-25.
+- [ ] **IDUNA has been restarted and the kanban layer is now live -- created the 3 kanban cards that were blocked earlier this …** — obs `2026-08-26T06:04:40Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'use fatbaby proxy broker instead' -> 'build the features you need into that' -- pivot JEWEL's basic…** — obs `2026-08-26T05:37:25Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'work on the pur parena editor port of pitviper in the parena repo' -- start real implementation of …** — obs `2026-08-26T05:37:25Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
