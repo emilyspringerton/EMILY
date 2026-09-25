@@ -48876,9 +48876,24 @@ a bluff plays against) needing a real, reviewed design before code, matching thi
 established "critical review, name a real V0 cut" discipline (`DEADWEIGHT/NORTHSTAR.md`'s own
 precedent).
 
-- [ ] **A real, reviewed design doc + a buildable V0 slice** — not the whole vision at once. Not
-  started. See `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section for how D1/D2 were originally
-  scoped this same way.
+- [x] **A real, reviewed design doc + a buildable V0 slice.** Done. Full design + rejected-
+  alternatives writeup in `DEADWEIGHT_2/docs/COMBAT_REDESIGN.md`: combat restructured into fixed
+  5-tick rounds; each round-break runs a server-authoritative "Surge Timing" reaction-window skill
+  check (`DW2_S_ROUND_BREAK`/`DW2_C_ROUND_CALL`/`DW2_S_ROUND_RESULT`, new additive wire messages)
+  graded PERFECT/GOOD/MISS/NONE against a seeded, both-sides-identical target; each call also
+  carries a hidden Overcharge/Brace bluff, revealed only after both sides commit, with an
+  asymmetric payoff table amplified further when the calling ship is behind on hull% (the comeback
+  lever) — wired into `dw2_ship_tick` via a new `dmg_mult` field, the only change to existing D1
+  combat rules. Live-verified, not just unit-tested: a `scripts/build.sh` smoke test over the real
+  wire protocol shows one well-timed Overcharge call turning an otherwise-exact tie (two identical
+  loadouts) into a win three ticks early; 43 new unit checks (96 total, 0 failures) pin the grading
+  windows and payoff table exactly. Re-verified independently this session (`scripts/build.sh` run
+  clean end to end before this checkbox was flipped, not just trusting the doc's own claims).
+  Commits `DEADWEIGHT_2@60bd4c7` (the V0 itself, pushed directly by the founder — no session
+  trailer, no CHANGELOG entry), `DEADWEIGHT_2@899fdce` (backfilled the missing CHANGELOG entry).
+  **Real gap, named not hidden: no Apple was filed for the V0 itself** — `emily apples post` isn't
+  available in the sandbox that did this BACKLOG/golden-docs-index cleanup pass; a real Apple for
+  SECTION 548 landing is still open follow-up, not done here.
 
 ## SECTION 549: LO — GAMEPLAY INTEGRATION + STDLIB GAPS + 2D BIDIRECTIONAL EXECUTION MODEL (FOUNDER REAL-TIME)
 
