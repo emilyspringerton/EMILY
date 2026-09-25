@@ -3559,6 +3559,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time(MJOLNIR/Firebase 佈建過程中的旁白):「i guess we need to get you a github token」——目前沒有具體、可執行的後續指示(沒說要拿來做什麼、哪個 r…** — obs `2026-08-21T07:51:43Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time(緊接著上一則 MJOLNIR build 訊息):「provision our firebase shit pls via cli」——要求透過 CLI(gcloud/firebase CLI)佈建 F…** — obs `2026-08-21T07:50:33Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 「can you use your gcloud cloud cli prouess to get mjolnir building」——要求用 gcloud CLI 讓 MJOLNIR (Andro…** — obs `2026-08-21T07:50:25Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time:「dont just add node...unless thats exactly what you should do」/「node needs to be written in prn」——語意不…** — obs `2026-08-20T23:13:20Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time:「ghost of lincol,n」→「great president」→「and all the rest」——連結到既有、尚未開始的 S179-04(LEGO minifigure → 真實 Br…** — obs `2026-08-20T23:11:39Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time:「instead of calling out to c for all of the pentest tools」+「can we enqueueu the dep stdlibs」——目標是讓 pe…** — obs `2026-08-20T21:54:03Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time:「gontinue building SAND editor」→「deps first」→「cli first」→「tests」→「first」→「ladybug first」——確認優先序:SAND …** — obs `2026-08-20T21:38:14Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time(批次):「docker APIS」/「parena underneath」/「into EMILY os」/「PARENA」/「mod plugin surface first」/「then the i…** — obs `2026-08-20T21:33:29Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
