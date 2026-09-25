@@ -49416,7 +49416,22 @@ active live-service report.
   precise source-level tracing of the exact GL state leak and cross-checked against this file's
   own established save/restore convention elsewhere. SHANKPIT `249930f`, Apple #20839.
   session: sess-20260923-1030-4a526255.
+- [x] **Deployed both fixes to the live sandbox `shankpit-server.service`, not just committed —
+  founder real-time authorized the restart directly ("unblock it yourself yolo roll it"), the
+  exact go-ahead this section itself was withholding pending someone's word.** Rebuilt
+  `bin/shank_server` (`make server`, only the same pre-existing `reflux_mod.c` warnings, nothing
+  new), then `systemctl --user restart shankpit-server.service` + `shankpit-bot-pool.service`
+  (both real, installed user units, `Restart=on-failure` — not a raw `pkill`). Live-verified
+  post-restart: a UDP `MODE_QUEUE` probe that needs the FD_CLOEXEC fix's own underlying
+  connectivity path healthy got a real `PACKET_WELCOME` back immediately; all 8
+  `frozen_policy_bot.py` bots in `shankpit-bot-pool.service` cleanly reconnected and repopulated
+  queue slots 1-8; server log shows a clean fresh boot, zero crashes. Confirms the
+  networking/FD-leak half of the founder's report end to end, live, not just at the source level.
+  Apple #20866.
 
-**SECTION 552 stays open pending the founder's own live confirmation on a real build** (a Windows
-CI release rebuild, or the founder's own local rebuild) that the black-menu symptom is actually
-gone — this session's own verification is source-level + clean-compile, not an on-screen check.
+**SECTION 552 now stays open on one narrower, real thing only: the bloom black-menu fix's own
+on-screen pixel confirmation.** The networking/FD_CLOEXEC half is fully live-verified (bullet
+above). The bloom fix is still only source-level + clean-compile verified — this sandbox has no
+working GPU-backed display (two separate Xvfb attempts died immediately, confirmed earlier in
+this section), so an actual on-screen "is the lobby menu black or not" check still needs either a
+real Windows CI release rebuild or the founder's own local machine.
