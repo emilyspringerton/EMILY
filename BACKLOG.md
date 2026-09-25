@@ -3339,6 +3339,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **IDUNA has been restarted and the kanban layer is now live -- created the 3 kanban cards that were blocked earlier this …** — obs `2026-08-26T06:04:40Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'use fatbaby proxy broker instead' -> 'build the features you need into that' -- pivot JEWEL's basic…** — obs `2026-08-26T05:37:25Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'work on the pur parena editor port of pitviper in the parena repo' -- start real implementation of …** — obs `2026-08-26T05:37:25Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'call it JEWEL' -- renaming the PARENA Jupyter notebook portal item (currently 'SARENA_NOTEBOOK' in …** — obs `2026-08-26T05:09:48Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'work on our parena JUPYTER backend just use basic auth to protect it for now until we get google oa…** — obs `2026-08-26T05:08:13Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'make bacon buck w instead of a toggle have it turn into sghadow step use the targeting system you h…** — obs `2026-08-26T04:30:04Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'when you hit w on abraham and you are moving dont have it blow the cooldown and do nothing have it …** — obs `2026-08-26T04:09:48Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'via parena mods' (confirming the ignite effect should route through the PARENA mod layer -- it alre…** — obs `2026-08-26T03:59:33Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
