@@ -3489,6 +3489,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, clarifying unagent-lint use case: 'we also want to translate it with unagent lint all of the things …** — obs `2026-08-24T23:49:18Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, meta-comment: 'its nice that you are logging my profanity into apples as context' -- confirms verbat…** — obs `2026-08-24T23:48:58Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'dont put that down in a suspicious way' + 'doublespeek corporaatify it' + 'say we have a foothold i…** — obs `2026-08-24T23:48:22Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, confirms French is real: 'just in french' + 'the biggest ada firm is in france' (AdaCore, GNAT's own…** — obs `2026-08-24T23:46:47Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: confirmed casio-calculator-watch as a real goal (';p'). Then: 'be sure to include the full ADA GNAT …** — obs `2026-08-24T23:46:39Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'allowing us to run shankpit on a casio calculator watch?' -- extreme-embedded-target framing for 'd…** — obs `2026-08-24T23:45:38Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'wouldnt that speed up a lot of things like games that might not always need real rng?' -- answered …** — obs `2026-08-24T23:45:28Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'like we can turn rng off at compile time if you think about it' -- extends the compile-time-flag id…** — obs `2026-08-24T23:45:19Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
