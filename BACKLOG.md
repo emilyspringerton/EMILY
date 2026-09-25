@@ -48839,12 +48839,25 @@ okemily.com/live-match.html." Routed via `emily observe` (obs `2026-09-25T10-46-
 `index.html` (matching `OKEMILY/tournaments.html`'s own design system) — `OKEMILY/tournaments.html`
 stays the live page until this repo actually replaces it.
 
-- [ ] **Day 0: in-browser match stats + replay viewer, emoji-coded items.** Real scope: pull real
-  match data from IDUNA (`game_matches`/`game_player_stats`, already game-scoped — see
-  `IDUNA/internal/games/games.go`), render it in the browser with an emoji per item/unit type
-  (matching `okemily.com/live-match.html`'s own established visual convention — read that page's
-  actual markup/JS before building, don't guess the pattern), and a real replay view (not just a
-  box score) for at least one game with real, structured match data available. Not started.
+- [x] **Day 0: in-browser match stats + replay viewer, emoji-coded items.** Done — Apple #20817.
+  Built `WOTAN/matches.html`: a real leaderboard (IDUNA's already-public `leaderboard` endpoint),
+  a recent-matches list, and a genuine round-by-round replay stepper (Prev/Next/Play/Last, round
+  slider, full round log), styled per `okemily.com/live-match.html`'s spectator-dashboard
+  convention. Picked **DEADWEIGHT** over D2/big_o/brawlpit by checking `game_matches` directly
+  (312,771 real rows for deadweight, zero for every other `games.Registry` entry). Real-engine
+  replay, not a reconstruction: new `DEADWEIGHT/tools/replay_dump.c` replays a `matches.ndjson`
+  record through the actual `core/match.c` (300/300 clean on the most recent live matches); new
+  `IDUNA/internal/matchlog` + `internal/http/handlers/match_replay.go`
+  (`GET /api/v1/games/deadweight/matches[/{id}[/replay]]`, public/rate-limited) shell out to it.
+  Cards render as emoji by kind/keyword (7 emoji cover the full 105-card catalog). Live-verified
+  end to end: real API round-trip + real headless-Chromium screenshots (desktop+phone) against
+  the deployed page, zero console errors, hull bars updating correctly through replayed rounds.
+  `dw-server`/`dw-bot` (the live matchmaker services) were never touched or restarted.
+  See `WOTAN/NORTHSTAR.md` for full rationale and named deferred work (other games, richer replay
+  controls, per-card visual polish, the ~3% legacy-replay gap, phone-width table density, the
+  2000-match in-memory recency window). Commits: WOTAN `792d3af`, IDUNA `d344d31`, DEADWEIGHT
+  `7c4c155`, EMILY `aae86c55` (golden-index), GOLDEN_DOCS `12e65c1` (resync).
+  session: sess-20260923-1030-4a526255
 
 ## SECTION 548: D2 COMBAT REDESIGN — MID-ROUND SKILL CHECK, COMEBACK MECHANICS, BLUFF (FOUNDER REAL-TIME)
 
