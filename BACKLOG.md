@@ -3459,6 +3459,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, continuing the PITVIPER-tmux-scroll pivot: 'api first' / 'fix with parena.' Reinforces wanting the f…** — obs `2026-08-25T08:51:25Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, immediately after the PITVIPER tmux-scrolling bug report: 'using parena' / 'mod surface first.' Ambi…** — obs `2026-08-25T08:50:54Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time pivot: 'can we get pitviper to work with tmux pane scrolling? doesnt work when i try to scroll back u…** — obs `2026-08-25T08:50:29Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: confirmed 'secondtree' Linux account (uid 1001, created 2026-08-22 during boot/maintenance, never lo…** — obs `2026-08-25T08:38:01Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, fragments during the live intrusion-detection pass: 'start building ptraece in parena' / 'ptrace' / …** — obs `2026-08-25T08:36:37Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, rapid burst during the security scoping session: (1) 'i want you to do intrusion detection on this s…** — obs `2026-08-25T08:35:23Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: reports unexpected logouts — 'some weird stuff has been happening where i get logged out when i shou…** — obs `2026-08-25T08:34:16Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: wants assurance the system is secure — scope unspecified (which repo/service, and what kind of secur…** — obs `2026-08-25T08:32:41Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
