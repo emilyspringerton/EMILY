@@ -49468,3 +49468,63 @@ above). The bloom fix is still only source-level + clean-compile verified — th
 working GPU-backed display (two separate Xvfb attempts died immediately, confirmed earlier in
 this section), so an actual on-screen "is the lobby menu black or not" check still needs either a
 real Windows CI release rebuild or the founder's own local machine.
+
+---
+
+## SECTION 553: IDUNA — REVEAL TRAINING KEYS IN THE BACK OFFICE (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "in the IDUNA BACKOFFICE i need an interface for the training keys
+it needs to reveal them to me like an admin in carepyre can summon the email password out of the
+void." Routed via `emily observe` first (Apple #20871).
+
+- [x] **Investigated the actual CarePyre precedent before building anything** (Principle 19):
+  `IDUNA_PRO/internal/mailaccounts` reveals mailbox passwords because they're stored reversibly
+  (AES-256-GCM) at rest specifically so they CAN be shown again later — a deliberate, documented
+  reversal of that repo's own earlier "never persist a generated password" stance. IDUNA's own
+  agent M2M secrets are architecturally different: `internal/store` hashes them one-way
+  (SHA-256(agentID+plaintext)) by original design (`cmd/create-admin-agent`'s own doc comment:
+  "prints the plaintext secret once — it's never retrievable again") — there is no ciphertext to
+  decrypt, so CarePyre's exact mechanism doesn't transplant directly.
+- [x] **Found the real, actual plaintext record and confirmed it's what "training keys" means.**
+  `cmd/bootstrap` writes every provisioned/rotated agent secret to `var/agent-secrets.env`
+  (`export IDUNA_SECRET_<NAME>=<value>`) — the ONE place the plaintext still exists. Confirmed
+  this is genuinely what training scripts use: `SHANKPIT/scripts/rl_registry.py`/`colab_train.py`
+  authenticate against IDUNA's `/api/v1/auth/agent` using exactly this secret (e.g.
+  `IDUNA_SECRET_SHANKPIT_RL`) when kicking off a Colab training run — the founder currently has no
+  way to get that value onto a fresh Colab runtime except reading this file directly.
+- [x] **Shipped**: new `internal/agentsecrets` package (`ReadAll`/`Lookup`/`WriteMerged`), a
+  careful port of `cmd/bootstrap`'s own merge-safe env-file logic — deliberately kept as a
+  separate copy rather than refactoring `bootstrap` itself to share it (a named tradeoff:
+  `bootstrap` is a fragile, one-shot provisioning tool with its own prior incident, S141-04, where
+  a naive overwrite of this exact file once destroyed several agents' only recorded plaintext; not
+  worth risking under this pass's time budget). New "Reveal secret" button on `/admin/agents`
+  (POST, not GET, to keep a plaintext secret out of browser history/referrer/proxy logs). Rotating
+  a secret via the existing `/admin/agents/{id}/secret` action now ALSO writes the new plaintext
+  into `agent-secrets.env` (best-effort — never blocks the real rotation on a write failure), so a
+  freshly-rotated secret stays revealable going forward.
+- [x] **Real, honest limitation surfaced in the UI itself, not glossed over**: this only works for
+  a secret provisioned via `cmd/bootstrap` or rotated via this same admin UI since this feature
+  landed. An older secret rotated some other way genuinely can't be recovered — the 404 says so
+  with an actionable next step ("Generate Secret" to rotate it, which makes it revealable from
+  then on) rather than failing silently or pretending success.
+- [x] **Audit trail, not a silent capability**: the reveal action itself is logged
+  (`iduna:admin.agent.secret_reveal`, agent_id + operator_id) — never the plaintext value, the
+  same "never log the raw credential" discipline `secret_rotate`'s own existing event already
+  follows.
+- [x] **Tested**: 5 new `internal/agentsecrets` tests (including a direct regression test
+  replaying the exact S141-04 incident shape — a second write that only touches one agent must
+  never destroy another agent's already-recorded plaintext) + 4 new `admin_test.go` cases
+  (not-configured 404, no-recorded-plaintext 404, a real reveal + its audit event, and a full
+  rotate-then-reveal round trip). `go build`/`go vet`/`go test ./...` all clean.
+- [ ] **Not done this pass, named**: the live, running IDUNA process (the central trust authority
+  every other service in this monorepo depends on) has NOT been rebuilt/restarted with this
+  change — unlike SHANKPIT's own live sandbox server (SECTION 552 above), IDUNA is far too
+  critical and far too shared a service to restart on this session's own authority alone,
+  matching this session's own standing rule (never restart a shared live service based on a
+  process check alone — ask first) at its highest-stakes application yet. Founder needs to
+  rebuild+restart the live IDUNA process (or approve doing so) before "Reveal secret" actually
+  appears in the real, live Back Office.
+
+`IDUNA@2c9f731`, Apple #20872.
+
+session: sess-20260923-1030-4a526255
