@@ -3564,6 +3564,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time:「instead of calling out to c for all of the pentest tools」+「can we enqueueu the dep stdlibs」——目標是讓 pe…** — obs `2026-08-20T21:54:03Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time:「gontinue building SAND editor」→「deps first」→「cli first」→「tests」→「first」→「ladybug first」——確認優先序:SAND …** — obs `2026-08-20T21:38:14Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time(批次):「docker APIS」/「parena underneath」/「into EMILY os」/「PARENA」/「mod plugin surface first」/「then the i…** — obs `2026-08-20T21:33:29Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「sudo scripts 19 and 20 ran」——已驗證兩者真的成功(dpkg 確認 libsdl2-ttf-dev/fonts-noto-color-emoji/fonts-jetbrai…** — obs `2026-08-20T21:30:46Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time(批次): antigravity/gemini CLI 相關——「please help me getting antigravity cli working」/「adapt start and run…** — obs `2026-08-20T21:15:58Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「continue marching towards our goals with all 200 legions」+「please help me getting antigravity cli w…** — obs `2026-08-20T21:14:24Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time (batch): 完成 beetle 改名後,founder 追加要求把 PARENA 的 BDD 測試框架(firefly/firefly-ladybug/firefly-gomega alias/s…** — obs `2026-08-20T21:09:21Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time (batch): 「how can we start posting to moltbook safely?」/「do we need a relay server for openclaw or so…** — obs `2026-08-20T21:06:36Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
