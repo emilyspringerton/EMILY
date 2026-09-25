@@ -3424,6 +3424,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, concrete bug details: 'from the press release page' / 'its a prnerswire' (PRNewswire source) / 'it l…** — obs `2026-08-25T15:25:54Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time bug report: 'there is a bug on one of the press releases.' No specifics given yet (which release, wha…** — obs `2026-08-25T15:25:40Z`. CURATED: 2026-09-25.
 - [ ] **Continuing backlog: dispatched S189-07 (crystal-simulation-seeds-GFD-MUD-world) to a fork -- different GFD subsystem (a…** — obs `2026-08-25T14:10:22Z`. CURATED: 2026-09-25.
+- [ ] **test check from worktree fork** — obs `2026-08-25T14:00:55Z`. CURATED: 2026-09-25.
+- [ ] **Continuing backlog: picked S189-10/S187-03 (IDUNA Back Office Drive slurp feature) as the next parallel-safe item -- di…** — obs `2026-08-25T13:54:21Z`. CURATED: 2026-09-25.
+- [ ] **Continuing backlog per founder's 'continue backlog' instruction. Picked S189-01 (damage log for REDGARDEN + GFD Battleg…** — obs `2026-08-25T13:49:12Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, urgent: 'redgarden build is down' (repeated twice). Also: JSON/YAML PARENA stdlib fork failed -- hit…** — obs `2026-08-25T13:25:19Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'ensure we have stdlibs for json parsing and yaml parsing.' New PARENA stdlib request. Checking curr…** — obs `2026-08-25T10:00:52Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
