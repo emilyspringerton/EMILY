@@ -49638,3 +49638,40 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: DEADWEIGHT — ANDROID CLIENT FULL PARITY WITH DESKTOP (FOUNDER REAL-TIME, REVERSES S513 SHELVING)
+
+Founder real-time, 2026-09-25: bring the DEADWEIGHT Android client to full feature parity with
+the Windows/Linux desktop client, sharing the same art and rendering approach, including full
+"key unlock" features and copy/paste, using PARENA to abstract logic. This directly reverses
+`DEADWEIGHT/docs/BRAND_STYLE_GUIDE.md`'s own S513 same-day decision to shelve Android and stop
+spending art/visual budget on it. That doc has been annotated in place with the reversal;
+`DEADWEIGHT/docs/ANDROID_PARITY_NORTHSTAR.md` (new, registered as a golden doc) is the real
+scoping pass, per this repo's own spec-before-implementation convention.
+
+**Real, checked-not-assumed current state**: the Android client
+(`android/src/main/java/industrial/einhorn/deadweight/`, ~2100 lines) has the wire protocol,
+session/transport, draft model, and a PARENA-generated scalar `CardRules.java` — but **no
+rendering/UI layer exists at all** (no Activity/View/Canvas code). "Parity" is not a reskin; it's
+building the Android UI from zero against the desktop's brutalist SDL2 renderer
+(`apps/gui/main.c`) as the reference. The old NOCK/ImageMagick gradient card-art pipeline
+(`art/build_art.sh`) is retired, not revived — the target look is the desktop's flat-rect/2px-
+frame/bitmap-font style, ported to Canvas.
+
+**Open question, not guessed at**: no "key unlock" feature exists anywhere in this repo's docs,
+protocol, or either client today. Needs a real founder answer (Ultimates/cosmetic unlock
+progression? an IDUNA account/license-key entitlement gate? something else?) before that piece
+is scoped or built.
+
+- [ ] Phase 1 (critical path): Android Canvas-based renderer replicating desktop's palette/2px-
+  frame/bitmap-font style (port constants from `apps/gui/main.c`); real Activity/View/draw loop.
+- [ ] Phase 2: extend `scripts/gen_rules.sh` to emit `FxRules.java` from
+  `PARENA/stdlib/deadweight/fx_rules.prn` (same PARENA-driven decision layer Windows/browser
+  already share) and wire it into the new Android renderer's round-resolution timeline.
+- [ ] Phase 3: copy/paste — scope real surfaces (deck-code/draft-loadout export-import is the
+  only plausible candidate found); implement via Android `ClipboardManager`.
+- [ ] Phase 4: "key unlock" — blocked on founder clarification above; not started.
+- [ ] Apple, CHANGELOG (DEADWEIGHT), commit + push each phase with `session:` trailer per repo
+  protocol.
+
+session: sess-2026-09-25-android-parity
