@@ -3474,6 +3474,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'and then as a way to figure out how to make faster for claude' + 'we need to start logging grep inv…** — obs `2026-08-25T00:44:26Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'ok we need to make a grep router that can route between regular grep and turbo grep depending on if…** — obs `2026-08-25T00:44:15Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'find all of the technical bottlenecks before we move to hacks' -- stop doing ad-hoc point fixes, pr…** — obs `2026-08-25T00:40:41Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: '.69 to .66 improvement is something' -- correcting: that tiny delta was noise, the fast path wasn't…** — obs `2026-08-25T00:35:46Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'THEN FIGURE OUT HOW TO MAKE IT FASTER' -- wants the remaining ~23x perf gap (regex engine itself, r…** — obs `2026-08-25T00:31:44Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'do any fixes from the report' -- applying the smallest, bounded, safe fix (the one cosmetic gcc war…** — obs `2026-08-25T00:15:37Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'is turbogrep actually faster?' -- answered directly: NO, ~430x SLOWER (~12.8s vs ~0.03s per run), a…** — obs `2026-08-25T00:13:50Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'we need stats' -- wants proper statistical treatment on the turbogrep timing numbers, reinforcing t…** — obs `2026-08-25T00:11:33Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
