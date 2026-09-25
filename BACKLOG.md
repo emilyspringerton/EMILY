@@ -3319,6 +3319,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, actively using the editor: 'ctrl a to select all backspace does not work' (Ctrl+A select-all was nev…** — obs `2026-08-27T04:55:22Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: raised 3 real Windows platform-integration concerns (taskbar pin+relaunch after close, drag-file-ont…** — obs `2026-08-27T04:47:36Z`. CURATED: 2026-09-24.
 - [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: macOS dylib bundling for the release edi…** — obs `2026-08-27T04:39:21Z`. CURATED: 2026-09-24.
+- [ ] **Founder real-time: 'make sure we support .md syntax highlighting' -- building a real Markdown TextMate grammar (stdlib/…** — obs `2026-08-27T04:24:21Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: real mouse-driven selection (click-to-po…** — obs `2026-08-27T04:03:58Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'continue' -- next real increment: real Ctrl+Y redo, the direct complement to the just-shipped Ctrl+…** — obs `2026-08-27T03:57:21Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'continue working on parena editor' -- next real increment: real Ctrl+Z undo. VS0's own 'every buffe…** — obs `2026-08-27T03:14:18Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'continue' (repeated, this session's own ongoing PARENA editor thread) -- picking the next real incr…** — obs `2026-08-27T01:28:02Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
