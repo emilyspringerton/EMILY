@@ -3579,6 +3579,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 「also we need kubernetetes to work on reaspberry pi too」——RPi Arch distro 再加需求:要能跑 Kubernetes(推測輕量版如…** — obs `2026-08-20T20:51:34Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 「for raspberrypi model 2 b or whatever the totally ubiquitios oen is」+「we need it installable with a…** — obs `2026-08-20T20:51:28Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 「we ineed the installable arch」+「built on PARENA」——重申 Arch-based 可安裝發行版構想,且要求整個發行版建置在 PARENA 之上。真實、大…** — obs `2026-08-20T20:51:05Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「we need the installable arch emily os」——把先前的樹莓派/Arch Linux 發行版構想重新框成『可安裝的 Arch-based Emily OS』。記錄併入…** — obs `2026-08-20T20:50:54Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充+簡化: 「feel free to ship a parena fversion of longma to our repo」→「to our forked repo」→「with bazel」→…** — obs `2026-08-20T20:50:22Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,大量新指示: 「add bazel and makefile primatives incliding tries and merkel tries all of it to make buioildi…** — obs `2026-08-20T20:48:07Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,澄清: 「imean parena」+「expand hthe standard libs to make it possible」——確認 SKULDMARK 相關功能要做成 PARENA stdli…** — obs `2026-08-20T20:42:30Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「using skuldmark」——確定性建置構想再補充,可能是用 SKULDMARK(25 字元金融工具識別碼格式,含 checksum)風格的識別碼方案做建置產物的版本/指紋標記。具體結合方式待…** — obs `2026-08-20T20:42:06Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
