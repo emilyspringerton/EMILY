@@ -3429,6 +3429,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Continuing backlog per founder's 'continue backlog' instruction. Picked S189-01 (damage log for REDGARDEN + GFD Battleg…** — obs `2026-08-25T13:49:12Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, urgent: 'redgarden build is down' (repeated twice). Also: JSON/YAML PARENA stdlib fork failed -- hit…** — obs `2026-08-25T13:25:19Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'ensure we have stdlibs for json parsing and yaml parsing.' New PARENA stdlib request. Checking curr…** — obs `2026-08-25T10:00:52Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time burst on release/distribution: 'there is a popular tool on github to install software called bin' -> …** — obs `2026-08-25T09:53:35Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'there is a popular tool on github to install software called bin.' Likely relevant to the EmilyOS i…** — obs `2026-08-25T09:50:40Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, more additions to the minimal-distro included-package list: 'build in ada and gnat' + 'build in gcc'…** — obs `2026-08-25T09:48:35Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, concrete package/scope list for the minimal distro: 'make it super small to start whatever can be le…** — obs `2026-08-25T09:47:22Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, gives concrete design guidance for the distro pivot: 'we use gnu tools for the load bearing walls li…** — obs `2026-08-25T09:47:17Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
