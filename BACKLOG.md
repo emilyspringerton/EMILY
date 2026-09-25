@@ -3509,6 +3509,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'and everything in between' -- closes the templating-survey burst (obs 23:37-23:39Z: handlebars, leg…** — obs `2026-08-24T23:34:44Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'and whatever people use now' -- rounds out the templating survey to include modern engines too (JSX…** — obs `2026-08-24T23:34:41Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'whatever the fuck people used to use' -- broadening the templating reference list beyond Handlebars…** — obs `2026-08-24T23:34:32Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'handlebars' -- naming Handlebars.js as a specific template-engine reference/inspiration for PARENA'…** — obs `2026-08-24T23:34:29Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, PARENA-web vision: 'like make php jealous' (echoes NORTHSTAR's own earlier 'just build it right in y…** — obs `2026-08-24T23:34:27Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, scope escalation: 'so i guess we are going to parenaify ok emily' + 'build in the templating stuff' …** — obs `2026-08-24T23:34:20Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, clarifying obs 23:34:xxZ: 'it parses our backlog to show the sprints and sub items' -- confirms the …** — obs `2026-08-24T23:33:47Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'can we make a parena backed tool to view the graph of our sprints?' -- wants a PARENA-built visuali…** — obs `2026-08-24T23:33:42Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
