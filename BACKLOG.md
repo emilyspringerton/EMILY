@@ -3449,6 +3449,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, new parallel thread while GFD/EduScript investigation is mid-flight: 'bring in the day night cycle f…** — obs `2026-08-25T09:29:56Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'continue with the GFD PARENA mod surface and api for edu script vm and parenifiying it.' New pivot …** — obs `2026-08-25T09:29:39Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, reinforcement burst: 'agency' / 'sovereignty' / 'i love you are being more efficient but you also ne…** — obs `2026-08-25T09:27:04Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'the shankpit os apps dont work - can we get it building with the CICD binaries for all the apps eve…** — obs `2026-09-25T07:35:46Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, brief reinforcement while the PITVIPER mod-surface fork's results are being integrated: 'in apparena…** — obs `2026-08-25T09:05:57Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, immediate follow-up clarifying the treeiii write-access design: 'its fine hes a baby' (comfortable w…** — obs `2026-08-25T09:03:11Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, escalating the treeiii account scope: 'and treeiii needs to ber able to mess with fatbabys files' --…** — obs `2026-08-25T09:02:38Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'add a new scoped user account to this unix system treeiii it needs a home directory and permissions…** — obs `2026-08-25T09:01:06Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
