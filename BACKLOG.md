@@ -3764,6 +3764,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人真實回報,連續多則:「somehow claud code renders weird in pitviper」→「like the text is kind of crazy randomly updating」→「i think…** — obs `2026-08-20T15:57:53Z`. CURATED: 2026-09-25.
 - [ ] **創辦人真實回報:「the wasm mud gui is still a blank screen」——本 session 稍早完成的 GFD web(WASM)client 工作(WebSocket relay + nginx wss …** — obs `2026-08-20T15:55:55Z`. CURATED: 2026-09-25.
 - [ ] **Stalwart Mail Server 研究(創辦人:「start doing the research into STALWART email servers」,無法即時上網查證,依既有知識提供基於訓練資料的真實摘要,標註可能過時):…** — obs `2026-08-20T15:00:45Z`. CURATED: 2026-09-25.
+- [ ] **Google Cloud Shell API 已在 project-d24a71e9-2daf-4b2d-917 上啟用(gcloud services enable cloudshell.googleapis.com,確認成功)。創辦人…** — obs `2026-08-20T14:54:54Z`. CURATED: 2026-09-25.
+- [ ] **創辦人:「where we at with that google terminal based ide? i literally need you to do it」→ AskUserQuestion 確認為 Google Cloud …** — obs `2026-08-20T14:53:25Z`. CURATED: 2026-09-25.
+- [ ] **創辦人:「and vault integration for password management」→「its built into iduna already」——真實查證確認 IDUNA 已有真實 Vault 系統(internal…** — obs `2026-08-20T14:40:25Z`. CURATED: 2026-09-25.
+- [ ] **創辦人具體點名,連續多則:「backtrack」→「or whatever the newest swiss army knife bootable linux」(即 Kali Linux,BackTrack 的後繼者,真實、業界標準的滲…** — obs `2026-08-20T14:38:43Z`. CURATED: 2026-09-25.
+- [ ] **創辦人即時指令:「std libs for full pen test tools」——PARENA stdlib 新增滲透測試工具套件。比照本 session 已建立的判斷,FFI 綁定真實、標準、合法的既有工具(nmap 掃描、真實 …** — obs `2026-08-20T14:38:24Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
