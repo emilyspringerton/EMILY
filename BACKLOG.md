@@ -48994,3 +48994,83 @@ Two real, separable asks:
   `parena build` only, not `burrow build`, same already-documented no-`let` reason). Five open
   questions named explicitly, not guessed at. See `LO/NORTHSTAR.md`'s own cross-link and
   `LO/README.md`'s "design only, not implemented" status line.
+
+## SECTION 550: EMILYOS — GAME DOMAIN, FOR REAL: BOOTS INTO SHANKPIT'S LOBBY (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "set up EMILY OS so that it boots into shankpit and then the new
+windows that pop up for apps - handle that with like x or whatever." **Not routed through a live
+`emily observe` call** — this session had no reachable IDUNA/emily-agent instance to post an
+observation against (an isolated, ephemeral sandbox with only git repo access); logged directly
+into BACKLOG.md instead, per Principle 18's own fallback framing, rather than fabricating an
+Apple ID or observation timestamp that wouldn't correspond to a real filed record. **No Apple was
+filed for the same reason** — `emily apples post` needs a live IDUNA this session doesn't have;
+named here as an honest gap rather than silently skipped, matching S537/S545's own "found, not
+worked around" convention. Whoever next has live `emily`/IDUNA access should file the completion
+Apple retroactively citing this section + the EmilyOS commit.
+
+Clarified with the founder first (two real ambiguities, not guessed at): "EMILY OS" meant the
+actual `EmilyOS` Go policy-kernel repo (not `SHANKPIT_OS`, a separate, already-scoped, distinct
+effort — see `SHANKPIT/docs/SHANKPIT_OS_NORTHSTAR.md`, golden doc `SHANKPIT-OS-NORTH` — about
+SHANKPIT becoming the games-ecosystem shell, the opposite direction from this ask); and the ask
+is genuinely about machine boot/X11/window-manager configuration, delivered as checked-in config
+files this session can write and commit, not a live machine this sandbox has no access to.
+
+- [x] **`internal/domain` (new): the GAME domain, implemented for the first time.**
+  `docs/legacy-archive/10.md` named a "game domain" (`DOMAIN_START`/`DOMAIN_STOP` on
+  `domain:game`, gated by the `GameDomainOnly` posture verdict) since EmilyOS's own Milestone 3 —
+  but nothing had ever actually launched one; the generic `verb dispatch` CLI handler was a no-op
+  placeholder for every verb, GAME included. `internal/domain/game.go`'s `Run`/`Stop` launch a
+  configured command as its own process group and track it via a pidfile; `emilyos game
+  start`/`game stop` (new CLI subcommands) dispatch `GAME` (posture NORMAL→GAME) then
+  `DOMAIN_START` on `domain:game` — the first real exercise of the `GameDomainOnly` gate in this
+  codebase — and always revert posture to NORMAL on exit, error, or denial, so a failed launch
+  can't strand `cap.net=FORCE_OFF` indefinitely. A SIGTERM/SIGINT relay was added after finding,
+  live, that Go's default signal disposition would otherwise let `systemctl stop` kill the
+  process before that revert ever ran. Live-verified end to end in this sandbox (posture
+  transitions, audit hash chain, both the `game stop`-initiated and direct-SIGTERM stop paths);
+  `go test ./...` passes including new `internal/domain/game_test.go`.
+- [x] **Packaged kiosk launcher answers "handle the popup windows with X" literally.**
+  `packaging/domains/game/` (`start.sh`, `xinitrc`, `openbox/rc.xml`, `openbox/menu.xml`) boots
+  an X session on a configurable VT running `openbox` (a minimal floating window manager) then
+  SHANKPIT's own lobby (`shank_lobby`, SHANKPIT's `make lobby` target). Checked directly in the
+  SHANKPIT repo, not assumed: `apps/lobby/src/main.c`'s `lobby_launch_app` `fork()`+`execl()`s
+  DEADWEIGHT/PITVIPER/IDUNA.GAME/EDITOR.GAME/REDGARDEN as genuinely separate SDL2 processes, each
+  its own top-level X11 window — with no window manager running at all, X11 gives a window like
+  that zero decoration and no way to move, focus, or close it. openbox's `rc.xml` gives the lobby
+  window itself a borderless "desktop" and every popup app window real decorations, Alt+Tab, and
+  Alt+F4-to-close, plus a `Ctrl+Alt+BackSpace` escape hatch. `packaging/systemd/
+  emilyos-game.service` (opt-in, shipped disabled) wires this to boot via a dedicated user on
+  tty1, with a first-cut CPU/memory budget toward Doc 10's own G2 ("deterministic resource
+  budget"). Verified clean via `systemd-analyze verify` (with the `emilyos` binary present).
+  `build-deb.sh`/`control` updated to stage and softly recommend the new pieces.
+- [x] **Follow-up same day: the X11/openbox layer itself, live-verified, not left as
+  written-but-untested.** Installed `Xvfb`/`openbox`/`xdotool`/`x11-utils`/`xterm`/`shellcheck`
+  in this sandbox (no live SHANKPIT build, but a real openbox binary and a real, if headless, X
+  server) and ran the actual packaged config, not a re-derivation of it. Found and fixed two real
+  bugs neither well-formedness checking nor a read-through would have caught: (1) `openbox
+  --menu <file>` is not a real CLI flag — openbox rejected it and exited immediately; the menu
+  path now lives in `rc.xml`'s own `<menu><file>` element, confirmed against openbox's own
+  shipped default config. (2) An `<application>` rule-ordering bug: openbox applies matching
+  rules cumulatively in file order, so the `class="*"` wildcard (listed second) silently
+  overrode the `class="shank_lobby"` rule's `decor`/`maximized` settings; reordering the
+  wildcard first fixed it. Live-confirmed after the fix (real `_NET_WM_STATE`/`_NET_FRAME_
+  EXTENTS` checks via `xprop`/`obxprop`, not just visual impression): the lobby-class window is
+  genuinely borderless+maximized full-screen, a popup-app-class window keeps real decorations,
+  Alt+F4 closes only the focused popup, `Ctrl+Alt+BackSpace` exits the session, and the real
+  `xinitrc` script's own crash-relaunch loop and openbox-death exit condition both work as
+  designed. `shellcheck -s sh` clean on both shell scripts. See `docs/KIOSK_BOOT.md`'s "Bugs
+  found and fixed by live-testing" section for the full account.
+- [ ] **Real, named, still-open gap: SHANKPIT's actual lobby binary, and real (non-headless)
+  hardware.** A plain `xterm -class shank_lobby` stood in for the real `shank_lobby` binary (its
+  actual WM_CLASS has not been checked with `xprop`/`obxprop` against a genuine compiled build),
+  and Xvfb stood in for a real GPU-backed console X server (no VT switch, no DRM/KMS, no real
+  input devices) — `start.sh`'s own `startx ... -- vt1` invocation and the systemd unit's
+  `PAMName=login`/`TTYPath=/dev/tty1` console-ownership mechanics remain unexercised for the same
+  reason. Also still flags a small, pre-existing, unrelated gap found along the way: `build-deb.sh`
+  has apparently never actually staged EmilyOS's own main `emilyos.service` unit despite
+  `postinst` referencing it — named, not fixed, to avoid scope creep on an unrelated issue.
+
+**SECTION 550 stays open on the real-hardware/real-SHANKPIT-binary boot test only — both the
+policy-kernel half AND the X11/window-manager half of the ask are now live-verified (the latter
+against a real openbox binary on a real, if headless, X server, with two real bugs found and
+fixed along the way); see `EmilyOS/docs/KIOSK_BOOT.md` for the complete picture.**
