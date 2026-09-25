@@ -3464,6 +3464,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, rapid burst during the security scoping session: (1) 'i want you to do intrusion detection on this s…** — obs `2026-08-25T08:35:23Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: reports unexpected logouts — 'some weird stuff has been happening where i get logged out when i shou…** — obs `2026-08-25T08:34:16Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: wants assurance the system is secure — scope unspecified (which repo/service, and what kind of secur…** — obs `2026-08-25T08:32:41Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: investigate the external-AI hallucination artifact (Martin Robson LinkedIn post name-collision + Goo…** — obs `2026-08-25T01:32:46Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'keep crunching on the turbogrep stuff are we faster yet' -- confirmed still ~8x slower than real gr…** — obs `2026-08-25T01:27:36Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: log EMEB/EARL/ECCR/ECGL/AOPO (acronyms from an unrelated third-party LinkedIn post about a different…** — obs `2026-08-25T01:26:32Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'we also need to be logging the speeds of the grep invocations so we can do stats on improvements or…** — obs `2026-08-25T00:51:58Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'so we need to all in on making that guy faster' + 'its ok that its slower if its logging the data t…** — obs `2026-08-25T00:51:21Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
