@@ -49430,6 +49430,16 @@ placeholder bot, per `NORTHSTAR.md`'s own "Deferred" section; not a gap, a named
   (`DEADWEIGHT_2@7fd44c6`) and this time actually watched the next real run (`36188587095`) go
   green end to end, then confirmed the real GitHub Release directly: `v0.3.0` carries all 6 assets
   including `dw2_client_windows_x86_64.exe` (446900 bytes) and `SDL2.dll`. Apple #20874.
+  **Second correction, same day, founder real-time: "bundle it like deadweight 1 with sdl2 and
+  everything."** The exe+DLL-as-two-loose-files shape above technically worked but wasn't what was
+  asked for. Downloaded DEADWEIGHT's actual live `dw_gui_windows.zip` (v0.69.0) and `unzip -l`'d it
+  to confirm the real target shape, not assumed: a flat zip, no folder prefix, exactly 3 files
+  (`dw_gui.exe`, `SDL2.dll`, `PLAY.bat`). Rewrote the `windows` CI job to build one
+  `dw2_client_windows.zip` in that exact layout and attach it directly to the release in place of
+  the two loose files (`DEADWEIGHT_2@6b21ad6`). Verified live end to end, not just re-asserted:
+  watched the next CI run (`36196037534`) go green, then downloaded the real
+  `v0.5.0`/`dw2_client_windows.zip` release asset and `unzip -l`'d THAT too — 3 files, flat, `SDL2.dll`
+  byte-identical in size (2500096 bytes) to DEADWEIGHT's own. Apple #20881.
 
 session: sess-20260923-1030-4a526255
 
