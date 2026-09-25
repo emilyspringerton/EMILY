@@ -3709,6 +3709,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充視覺參考: 「like its an old web dev trick」+「or even in photoshop」——澄清剛才的字元陰影想法是指經典的 CSS text-shadow 雙層陰影…** — obs `2026-08-20T16:57:56Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新的視覺打磨想法: 「use shaders to add crisp white and dark grey shgadows to the tops and bottoms of the lette…** — obs `2026-08-20T16:57:50Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,字型辨識自問自答,已解決: 「but im still not seeing what im guessing is the jet brains font unless this is the jet…** — obs `2026-08-20T16:57:19Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: IDUNA Back Office needs an admin interface to reveal training keys in plaintext (like CarePyre's own…** — obs `2026-09-25T20:32:59Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,重要設計限制,補進 S189-27: 「im still just seeing the bare bones font which i love i want that to be defautlt …** — obs `2026-08-20T16:56:50Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,收斂最終優先權: 「but fix the glyph issues first」+「with PARENA」+「so do that mod work」——在這一串 vim/tmux/scroll 診…** — obs `2026-08-20T16:56:08Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,關鍵澄清,排除 GFD bar 假設: 「usually when the screen is full it scrolls not in pitviper」+「in ssh」——確認情境是純 SSH…** — obs `2026-08-20T16:55:50Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,更多細節: 「also when i am typing commands the pane doesnt scroll」+「we are in tmux」——確認情境是 tmux 裡面用 vim,底部…** — obs `2026-08-20T16:55:35Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
