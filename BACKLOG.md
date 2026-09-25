@@ -3669,6 +3669,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充: 「full disclousures as usual」——要求新的 TINA 自動發布規則沿用既有的完整揭露/免責聲明慣例(呼應既有的『TINA: CAMELS — What We Won't…** — obs `2026-08-20T19:35:53Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新自動化需求: 「and start publishing TINA stories based on press releases that come through on the same day …** — obs `2026-08-20T19:35:47Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,新任務: 「check all the fatbaby data pipelines」+「make sure they are healthy and collecting press releases…** — obs `2026-08-20T19:35:29Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,再次確認: IRONCLAD 維持被否決,不會使用。已經改用 GPT-2 生成 + TYLER 實際命名的方案,不受影響,繼續照計畫寫部落格文章。** — obs `2026-08-20T19:34:31Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「do the blog post on the new editor name」+「make it good」——確認 GPT-2 生成的 4 個結果已經全部跑完(不是真正的甲蟲名候選,而是這個 f…** — obs `2026-08-20T19:34:23Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,持續重申方向: 「keep hammering on parena stdlib」+「marching to self hgosted」(=self-hosted)+「and the editor」——…** — obs `2026-08-20T19:33:47Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新研究任務: 「look into the exotic auttocurriculum stuff」+「our training pipeline for REDGARDEN」+「add any mi…** — obs `2026-08-20T19:32:55Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,確認方向: 「keep pushing on defenum」——確認繼續 PARENA mod-surface API 下一個真正阻礙:defenum(讓 editor/events.prn 的 Ed…** — obs `2026-08-20T19:32:00Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
