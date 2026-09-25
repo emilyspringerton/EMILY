@@ -48895,6 +48895,42 @@ precedent).
   available in the sandbox that did this BACKLOG/golden-docs-index cleanup pass; a real Apple for
   SECTION 548 landing is still open follow-up, not done here.
 
+## SECTION 550: WOTAN — BASIC SHANKPIT MATCH TRACKING (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "add shankpit to WOTAN (we need to formalize shankpit matches and
+logins etc if you have an iduna account you have a shankpit account ok we have keys for shankpit
+and bigo i think so those will be for premium ok? for now we need basic shankpit match tracking)."
+Not routed through `emily observe -s info` first — this sandbox has no live IDUNA/emily-agent
+instance to POST an observation against, so the direction is logged here directly instead
+(Principle 18's intent honored; the CLI mechanics aren't reachable from this session). Real Apple
+also not filed for the same reason — no live `emily apples post`/IDUNA endpoint reachable here;
+flagging for a follow-up Apple/observation post once a session with live service access picks
+this back up.
+
+Three real, separable asks, one basic pass done:
+
+- [x] **Basic SHANKPIT match tracking, surfaced on WOTAN.** Checked first, not assumed: SHANKPIT
+  match tracking already existed — `IDUNA/internal/http/handlers/players.go`'s
+  `handleSessionEnd` already writes kills/deaths/sessions to the `players` table under the
+  existing `shankpit.match.write` permission (S156-04) — it just had no WOTAN-facing read yet,
+  the same gap REDGARDEN's `matches.html` closed first for REDGARDEN. Added
+  `ShankpitLeaderboardHandler` (`IDUNA/internal/http/handlers/shankpit_leaderboard.go`, public
+  `GET /api/v1/shankpit/leaderboard`, same trust level/shape as `RedgardenLeaderboardHandler`) and
+  `WOTAN/shankpit.html` (basic kills/deaths/K-D/sessions table, unauthenticated, linked from every
+  page's nav). `GOWORK=off go build ./...` clean in IDUNA; the WOTAN page wasn't screenshotted in
+  a real browser this pass (no headless Chrome in this sandbox) — same honest gap `friends.html`
+  already carries.
+- [x] **"If you have an IDUNA account you have a SHANKPIT account."** Checked, not built: already
+  true, no code change needed — SHANKPIT never introduced a separate game-scoped account model
+  (unlike DEADWEIGHT's `players` rows keyed by `game`); every IDUNA `players` row already carries
+  the `kills`/`deaths`/`sessions` columns SHANKPIT writes to. Documented in `WOTAN/CLAUDE.md` and
+  `WOTAN/README.md` rather than silently assumed.
+- [ ] **SHANKPIT and BIG_O premium keys.** Founder named these as real, existing artifacts ("we
+  have keys for shankpit and bigo i think") intended for a premium tier — not investigated or
+  built this pass; explicitly out of scope for "basic... for now." Needs a follow-up pass to
+  locate the actual keys (likely `EMILY/var/` or a `BIG_O`/`SHANKPIT` env file) and scope what
+  "premium" gates before any code changes.
+
 ## SECTION 549: LO — GAMEPLAY INTEGRATION + STDLIB GAPS + 2D BIDIRECTIONAL EXECUTION MODEL (FOUNDER REAL-TIME)
 
 Founder real-time, 2026-09-25: "add in LO programming to actual gameplay of DEADWEIGHT add
