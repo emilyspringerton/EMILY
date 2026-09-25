@@ -3514,6 +3514,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, scope escalation: 'so i guess we are going to parenaify ok emily' + 'build in the templating stuff' …** — obs `2026-08-24T23:34:20Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, clarifying obs 23:34:xxZ: 'it parses our backlog to show the sprints and sub items' -- confirms the …** — obs `2026-08-24T23:33:47Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 'can we make a parena backed tool to view the graph of our sprints?' -- wants a PARENA-built visuali…** — obs `2026-08-24T23:33:42Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time (2026-09-25, mid-session, rapid-fire): (1) build WOTAN's real frontend day-0 -- in-browser game stats…** — obs `2026-09-25T10:46:42Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK: 'same functionality as jupyter but its going to have a compiler you know?' -- empha…** — obs `2026-08-24T23:31:08Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, clarifying obs 23:29:xxZ ('build the parena apis as that'): 'but they will apply to SARENA_NOTEBOOK'…** — obs `2026-08-24T23:30:37Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'so build the parena apis as that' -- build PARENA's own APIs (editor/plugin surface?) using the sam…** — obs `2026-08-24T23:30:24Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, SARENA_NOTEBOOK: 'that is the same affordance' -- confirming TYLER title cards and the notebook's ti…** — obs `2026-08-24T23:30:15Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
