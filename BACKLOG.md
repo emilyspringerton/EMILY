@@ -3759,6 +3759,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充規格細節: PITVIPER GUI IDE 元件用「sepia 色調」調色盤,終端機本體維持純黑不動(創辦人:「use that popular sepia ish theme for color…** — obs `2026-08-20T16:27:44Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 要求 PITVIPER 的 affordances(GUI popout 面板/widget)要套用 EmilyOS 的 styleguide** — obs `2026-08-20T16:26:58Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: PITVIPER 仍然看不到 compacting 對話的顏色閃爍動畫和 loading bar（可能是另一種自訂 glyph 動畫，跟先前修好的 Braille spinner bug 是同類但不同…** — obs `2026-08-20T16:21:05Z`. CURATED: 2026-09-25.
+- [ ] **創辦人補充:「i think tmux with claude code is causing some of the display weirdness idunno the colors dump out sometimes」——PI…** — obs `2026-08-20T16:14:37Z`. CURATED: 2026-09-25.
+- [ ] **創辦人補充精確診斷:「all the claude little star animations are ?」「in PITVIPER」——確認先前回報的「Claude Code 動畫渲染異常」根因跟稍早修好的 box-drawing 問…** — obs `2026-08-20T16:11:36Z`. CURATED: 2026-09-25.
+- [ ] **創辦人真實回報,連續多則:「somehow claud code renders weird in pitviper」→「like the text is kind of crazy randomly updating」→「i think…** — obs `2026-08-20T15:57:53Z`. CURATED: 2026-09-25.
+- [ ] **創辦人真實回報:「the wasm mud gui is still a blank screen」——本 session 稍早完成的 GFD web(WASM)client 工作(WebSocket relay + nginx wss …** — obs `2026-08-20T15:55:55Z`. CURATED: 2026-09-25.
+- [ ] **Stalwart Mail Server 研究(創辦人:「start doing the research into STALWART email servers」,無法即時上網查證,依既有知識提供基於訓練資料的真實摘要,標註可能過時):…** — obs `2026-08-20T15:00:45Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
