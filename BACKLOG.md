@@ -3529,6 +3529,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, new project idea: 'super bare bones jupyter replacement gui parena compile and run whatever the back…** — obs `2026-08-24T23:28:29Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, elaborating the Erlang-scheduler northstar just logged (obs 2026-08-24T23:13:18Z): 'our game will ha…** — obs `2026-08-24T23:14:10Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, clarifying the federated-process-operation architecture just decided (obs 2026-08-24T23:13:12Z): 'no…** — obs `2026-08-24T23:13:18Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, architecture decision (resolves the deferred EduScript/PARENA question from earlier this session): t…** — obs `2026-08-24T23:13:12Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'i think there is a mistake' / 'the parena work' -- flagging a possible error somewhere in the PAREN…** — obs `2026-08-24T23:02:19Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, escalation: 'prime directive of this thread is that milestone and then a fatbaby pr about it once cl…** — obs `2026-08-24T22:58:00Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: prioritization -- 'turbo tools first tho' -- turbo-sed/turbo-grep/turbo-awk (PARENA-native, PATH-rep…** — obs `2026-08-24T22:57:27Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: sequencing clarification on the SAND-plugin/vim-highlighting ask (obs 2026-08-24T22:56:57Z) -- 'mod …** — obs `2026-08-24T22:57:04Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
