@@ -48931,3 +48931,25 @@ Two real, separable asks:
   `parena build` only, not `burrow build`, same already-documented no-`let` reason). Five open
   questions named explicitly, not guessed at. See `LO/NORTHSTAR.md`'s own cross-link and
   `LO/README.md`'s "design only, not implemented" status line.
+
+## SECTION 550: SHANKPIT LEADERBOARD ON WOTAN — BASIC MATCH TRACKING (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "add shankpit to WOTAN (we need to formalize shankpit matches and
+logins etc if you have an iduna account you have a shankpit account ok we have keys for shankpit
+and bigo i think so those will be for premium ok? for now we need basic shankpit match tracking)."
+Routed per Principle 18.
+
+- [x] **WOTAN `shankpit.html` — basic SHANKPIT kill/death/session leaderboard, reading a new
+  public `GET /api/v1/shankpit/leaderboard` endpoint.** `IDUNA@ad60175` adds
+  `internal/http/handlers/shankpit_leaderboard.go` (public, unauthenticated, rate-limited,
+  sourcing directly from the `players` table's existing `kills`/`deaths`/`sessions` columns —
+  the same columns `players.go`'s `handleSessionEnd` already writes on every real SHANKPIT match,
+  so "IDUNA account = SHANKPIT account" needed no schema/account change, only this read). WOTAN's
+  own `shankpit.html` + nav wiring already existed on disk, checked and confirmed real (not a
+  stub) before this pass — only the backend endpoint it calls was missing; it's the piece that
+  makes the page functional rather than a permanent loading spinner. Go tests added
+  (`shankpit_leaderboard_test.go`: ordering by kills, K/D-with-zero-deaths edge case, GET-only)
+  and pass; `go build ./...` and `go vet ./internal/http/handlers/...` both clean.
+- [ ] **SHANKPIT and BIG_O premium keys.** Named by the founder in the same message ("those will
+  be for premium") but explicitly out of scope for "basic match tracking" — not started, no
+  design done yet on what a premium tier gates or how a key is redeemed/verified.
