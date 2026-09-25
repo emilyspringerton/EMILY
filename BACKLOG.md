@@ -48718,5 +48718,69 @@ first (obs `2026-09-25T08-35-01Z`, Apple #20794) per `EMILY/docs/THE_EMILY_WAY.m
   `README.md` updated per SAGA reconciliation. Apple #20802, commits DEADWEIGHT_2@6c1ba0c,
   IDUNA@cec4405. session: sess-20260923-1030-4a526255.
 
-- [ ] **D3-D5: a real client, a real bot, PARENA integration.** Named, phased, not started — see
-  `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section.
+- [x] **D2 (folded): `dw2_client`, a real interactive client + Principle 21 CONSTRUCT generation.**
+  Founder real-time: "continue D2" → "just call it D2" (originally scoped as a separate D3 in
+  `NORTHSTAR.md`, folded back into D2 rather than treated as its own phase — this doc's line above
+  renamed from the original "D3-D5" accordingly). `apps/client/main.c` (`dw2_client`): a real
+  interactive SDL2 client speaking `core/protocol.h`'s actual wire protocol end to end — connect,
+  auto-queue, pack a grid against a live opponent (cursor-based, same controls as `apps/local`),
+  then real-time combat driven by `dw2_server`'s own tick clock (`PANIC_CUT` still legal live,
+  addressed by placement index since the protocol never reveals a live grid mid-combat — a real,
+  protocol-forced simplification, not an oversight). Optional IDUNA guest auth (`--iduna-url`,
+  `--guest-file` persists the identity across relaunches) or `--token`. `--selftest`/`--empty-grid`
+  drive the exact same `try_place`/`try_cut`/`send_ready` code paths headlessly; wired into
+  `scripts/build.sh` as a second real wire-protocol smoke match alongside the existing
+  `tools/dw2_test_client.c` protocol-edge-case test (kept, unchanged — still the only tool
+  exercising illegal-placement/cut-reject/pack-deadline/forfeit paths). Two real bugs found and
+  fixed live, the same "verify via literal bytes/behavior" discipline that caught D2's own
+  `MATCH_FOUND` payload-size bug: (1) the connect handshake sent an `AUTH` message unconditionally
+  whenever a token was in hand, which broke a `--no-auth` server (`HELLO` alone already gets
+  `WELCOME`; the now-unexpected trailing `AUTH` hits `apps/server/main.c`'s own
+  `DW2_ERR_BAD_STATE` path and the connection closes) — fixed with a short (500ms) probe: a
+  `WELCOME` within it means no-auth already succeeded and `AUTH` is never sent, silence means the
+  server is sitting in `S_NEEDAUTH` (the wire protocol gives no other signal) so `AUTH` goes out
+  then; (2) the fix's own return-value check was then found inverted
+  (`recv_msg_blocking`'s `-1`-on-timeout read as truthy), silently skipping the `AUTH` send
+  against a genuinely auth-required server — found and fixed live against a real
+  `--iduna-url`-configured server (IDUNA unreachable, `--auth-fail-open` not set, so it correctly
+  fails closed with a clean `DW2_ERR_AUTH` reject instead of hanging or crashing). Also, same unit
+  of work: Principle 21 CONSTRUCT generation (`scripts/generate_construct.sh`, git-ls-files based,
+  ported from DEADWEIGHT's own, locally verified byte-for-byte deterministic) wired into CI —
+  generated, determinism-verified, and copied into each real client's own zip bundle
+  (`D2_Client_<build>.zip`, `D2_Local_<build>.zip`, SHANKPIT's own `release.yml` pattern: "set it
+  up like SHANKPIT where the construct is emitted in the clients") before upload, plus a standalone
+  copy in both `.zip` and `.gz` (an explicit, deliberate exception to this monorepo's LZ4-by-
+  default convention, per that same founder real-time instruction: "AND separate as a zip and a
+  gz"). Every artifact filename carries a `build_<run number>_<short sha>` tag (SHANKPIT's own
+  convention) so consecutive CI runs never collide under a generic name (founder real-time:
+  "ensure the releases dont have generic names that will collide when you download the different
+  versions"). One real CI-only bug found and fixed (couldn't be caught locally — this sandbox has
+  no `zip` binary and no passwordless sudo to install one): the first CONSTRUCT commit referenced
+  `build/dw2_client` in its client-bundling step before the client binary itself existed in that
+  commit, failing the "Bundle clients + construct" CI step (run `36125145132`, `bb6befd`,
+  conclusion=failure) — resolved by landing the client and CONSTRUCT work together; confirmed
+  green on a real GitHub-hosted runner, not just locally (run `36125356490`, `7409251`,
+  conclusion=success). `NORTHSTAR.md`/`README.md`/`CLAUDE.md`/`CHANGELOG.md` updated per SAGA
+  reconciliation; all "D3" labels in code/build-script output renamed to "D2" throughout. Apple
+  #20806, commits DEADWEIGHT_2@bb6befd, DEADWEIGHT_2@7409251. session:
+  sess-20260923-1030-4a526255.
+
+- [ ] **D4/D5: a real bot, PARENA integration.** Named, phased, not started — see
+  `DEADWEIGHT_2/NORTHSTAR.md`'s own "Deferred" section. (Real art + EOSUI Option C chrome for
+  `dw2_client` also deferred there, pending `EOSUI-NORTH`.)
+
+- [ ] **Repo rename: DEADWEIGHT_2 → D2.** Founder real-time: "just call it D2, disambiguate it
+  from DEADWEIGHT, D2 is the official studio name" — confirmed via clarifying question: rename the
+  actual GitHub repo (and local directory), updating every cross-reference across the monorepo
+  including IDUNA's `deadweight_2` game slug. **Blocked on GitHub permissions**: the
+  `GITHUB_TOKEN` in `EMILY/var/emily-secrets.env` shows `admin: true` in the repo's own
+  `permissions` object via `GET /repos/emilyspringerton/DEADWEIGHT_2`, but
+  `PATCH .../DEADWEIGHT_2 {"name":"D2"}` is rejected: `"Resource not accessible by personal access
+  token"` — the fine-grained PAT itself isn't scoped for repo administration, regardless of what
+  the user's own role shows. Needs either the founder renaming it directly
+  (github.com/emilyspringerton/DEADWEIGHT_2/settings) or a token with the Administration repo
+  permission. Not started: local dir rename, git remote URL update, root `/home/fatbaby/CLAUDE.md`
+  repo table row, IDUNA `games.go` Registry key + `config/agents.json` + a **new** migration
+  (IDUNA is live — PID confirmed running — so the existing, possibly-already-applied
+  `202609250900_deadweight2_agents_and_permissions.sql` gets left as-is and renamed via a fresh
+  migration, never edited in place).
