@@ -49133,4 +49133,76 @@ files this session can write and commit, not a live machine this sandbox has no 
 **SECTION 550 stays open on the real-hardware/real-SHANKPIT-binary boot test only — both the
 policy-kernel half AND the X11/window-manager half of the ask are now live-verified (the latter
 against a real openbox binary on a real, if headless, X server, with two real bugs found and
+
+---
+
+## SECTION 551: DEADWEIGHT_2 (D2) — SHIPPED-PRODUCT PARITY WITH DEADWEIGHT (D1) (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25 (routed via `emily observe -s info`, Apple #20831 filed,
+`session: sess-20260923-1030-4a526255`): "continue getting D2 into the state D1 is in we need a
+full shipped product into the artifacts work until its done make it like D1 copy all the things
+ai repos the tokens (product codes) in iduna the tickets everything work until you are done
+ensure we have auto release we still dont have it it needs to be auto release first then all the
+rest." Explicit priority order given: **auto-release first**, then the rest. Dispatched to
+multiple parallel agents per founder instruction ("use many agents handle it").
+
+Gap audit against `DEADWEIGHT/.github/workflows/ci.yml` (D1's real, live, working pattern) before
+dispatching:
+- D2's `ci.yml` builds+tests+bundles CONSTRUCT as plain workflow artifacts only — its own header
+  comment already says so explicitly: "No GitHub Releases/tags yet -- CI build artifacts only;
+  real, separate, not-yet-decided scope if binary releases are wanted later." That decision is
+  made now: yes.
+- D1 auto-bumps a MINOR version tag on every green `main` push, cuts a non-prerelease GitHub
+  Release via `gh release create`, and (gated cleanly on two not-yet-provisioned secrets) signs
+  + publishes each build to IDUNA's app-release registry (`POST /api/v1/app-releases`,
+  `app_slug="deadweight"`, `IDUNA/docs/APP_RELEASE_SIGNING.md`). D2 has neither.
+- IDUNA's own `internal/games/games.go` `Registry["d2"]` only has `PlayPerm`/`MatchWritePerm`
+  today; `deadweight`'s own row also carries `BotPerm`/`CheckpointsWritePerm`/
+  `CheckpointBlobDir`/`TicketsWritePerm`/`SteamAppID`. **Named, not blindly copied**: the `d2`
+  row's own doc comment already explains why those are deliberately absent — "D4 (a real
+  placeholder bot) is a separate, not-yet-built phase... this is when d2.bot.play actually get
+  minted, not before" — and D1's `TicketsWritePerm`/ticket economy (`dwi_ticket_balance`/
+  `dwi_draft_run_start`/`dwi_redeem` in `DEADWEIGHT/core/iduna.c`) is specifically wired to D1's
+  card-mode Black-Market draft-pack loop, a system D2 (the real-time backpack battler) does not
+  have and was never scoped to have — D2's own `core/iduna.h` already says so in its own header
+  comment ("no friends/duels/steam/draft-run/redeem -- this game has none of those systems yet,
+  and speculative bindings for endpoints nothing calls would be scope creep, not infra"). Minting
+  unused IDUNA permission strings for systems D2 doesn't have would contradict that considered,
+  already-documented call, not extend it — flagged for the founder rather than force-added.
+  `SteamAppID` is the one field that's genuinely zero-risk parity (env-gated, defaults empty,
+  same mechanism D1 already uses) and is in scope.
+- The literal, concrete "tokens (product codes) in iduna" ask maps onto something real and
+  already precedented: IDUNA's app-release registry keys each signed binary by `app_slug` — D1
+  uses `app_slug="deadweight"`; D2 needs the equivalent `app_slug="d2"` publish step, which is
+  also the natural place auto-release and IDUNA-product-code parity meet (same CI release job).
+
+Scope for this section:
+- [ ] **Auto-release CI for D2** — add a `version` job (auto-bump MINOR, tag `vX.Y.0`, same
+  scheme as D1's `.github/workflows/ci.yml`), stamp the version into the existing build, and add
+  a `release` job (`gh release create` with `dw2_client`/`dw2_server`/`dw2_local` binaries +
+  `D2_CONSTRUCT.txt` attached, collision-safe names kept) gated on green `main` pushes. Concurrency
+  group matching D1's (parallel-push tag race already bit D1 once, 2026-09-18 — avoid repeating
+  it here).
+- [ ] **IDUNA app-release signing/publish step** wired into the same release job — GPG-sign +
+  `POST /api/v1/app-releases` with `app_slug="d2"`, matching D1's step verbatim (including its
+  clean no-op-if-secrets-absent gate — the two secrets it needs aren't provisioned for D2 either
+  yet, same as D1).
+- [ ] **`SteamAppID` parity field** added to IDUNA's `Registry["d2"]` entry (env-gated
+  `D2_STEAM_APPID`, defaults empty/unset — same "404s until a real Steamworks App ID exists"
+  honesty D1's own row already documents).
+- [ ] **Named, explicitly deferred, not done this pass** (flagged to the founder, not silently
+  dropped): `BotPerm`/`CheckpointsWritePerm`/`CheckpointBlobDir`/`TicketsWritePerm` for `d2` —
+  D1's own row comment already gives the real reason these wait (no bot/checkpoint/draft-economy
+  server exists yet to consume them); minting them now would be dead config, not infra. Revisit
+  when D4 (real placeholder bot, `NORTHSTAR.md`'s own "Deferred" section) actually lands.
+- [ ] Golden-doc / README / CHANGELOG / Apple bookkeeping for whatever lands, per standing
+  protocol, in the same units of work.
+
+session: sess-20260923-1030-4a526255
+
+---
+
+**SECTION 550 stays open on the real-hardware/real-SHANKPIT-binary boot test only — both the
+policy-kernel half AND the X11/window-manager half of the ask are now live-verified (the latter
+against a real openbox binary on a real, if headless, X server, with two real bugs found and
 fixed along the way); see `EmilyOS/docs/KIOSK_BOOT.md` for the complete picture.**
