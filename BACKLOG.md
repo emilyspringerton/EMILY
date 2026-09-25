@@ -3604,6 +3604,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,新基礎設施需求: 「bring BAZEL as the build system for all projects that PARENAS tocuches」——要求 Bazel 成為所有跟 PAR…** — obs `2026-08-20T20:27:15Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,重申: 「all the wood behind PARENAS cli arrow」——全力投入 PARENA CLI(domain 5)。真實查證發現:domain 5『CLI Runner』的字面…** — obs `2026-08-20T20:25:26Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,優先權再次改變: 「PARENA cli first」+「we need to constantly add and requeue dependencies into the stdlib」+「tha…** — obs `2026-08-20T20:24:41Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,重要澄清,WOTAN 其實是既有系統: 「all in on n WOTAN as the brand for all the vs for the IDUNA digital polity」+「bui…** — obs `2026-08-20T20:24:27Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,確認方向+新概念: 「continue marching towards our stated goals (shipping custom game map modes to REDGARDEN)」—…** — obs `2026-08-20T20:23:57Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,排序: 「GFD first the fps liobby」——日夜機制功能性差異工作,GFD 的 FPS lobby 先做,SHANKPIT 之後。記錄排序,commit 規劃文件。** — obs `2026-08-20T20:22:51Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補完日夜循環功能細節: 「different shit happens day vs knighht night like wc3」+「shankpit has it visually but the …** — obs `2026-08-20T20:22:46Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 「implemented into PARENAS as a plugin first redgarden feature」——確認地圖編輯器/mod-api 應該是 REDGARDEN 的第一個真正…** — obs `2026-08-20T20:22:09Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
