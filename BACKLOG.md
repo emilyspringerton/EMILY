@@ -3609,6 +3609,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,排序: 「GFD first the fps liobby」——日夜機制功能性差異工作,GFD 的 FPS lobby 先做,SHANKPIT 之後。記錄排序,commit 規劃文件。** — obs `2026-08-20T20:22:51Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,補完日夜循環功能細節: 「different shit happens day vs knighht night like wc3」+「shankpit has it visually but the …** — obs `2026-08-20T20:22:46Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: 「implemented into PARENAS as a plugin first redgarden feature」——確認地圖編輯器/mod-api 應該是 REDGARDEN 的第一個真正…** — obs `2026-08-20T20:22:09Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充: 「use it as a reference」——SHANKPIT 既有的日夜循環實作(如果有)要當作參考範本,用在其他地方(推測含 REDGARDEN)建置類似系統時參考。併入前一則記錄,現在…** — obs `2026-08-20T20:21:55Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新任務: 「build day night cycle into a mod」+「shankpit day night cycle」——要求把日夜循環系統做成一個 mod(對應 SHANKPIT)。真實…** — obs `2026-08-20T20:21:48Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,改變順序: 「except probbably mostly the same」(軟化剛才的 WC3-反向比喻)+「except PARENA」(強調要用 PARENA)+「plan any missi…** — obs `2026-08-20T20:21:40Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,設計色彩: 「like the reverse of warcraft 3」——形容『自訂模式』構想:WC3 的世界編輯器讓一個 RTS 引擎孕育出 DOTA(MOBA);REDGARDEN 反過來,本…** — obs `2026-08-20T20:21:28Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充: 「ship redgarden map editor」+「allowing building custom modes」——確認要出貨 REDGARDEN 的地圖編輯器,且要能讓玩家/建置者自訂…** — obs `2026-08-20T20:20:53Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
