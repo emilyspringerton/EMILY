@@ -48799,6 +48799,37 @@ first (obs `2026-09-25T08-35-01Z`, Apple #20794) per `EMILY/docs/THE_EMILY_WAY.m
   founder**: the actual GitHub repo rename, and (held until then, so push/pull never breaks) the
   local directory rename + git remote URL update.
 
+- [x] **D2 art + audio: DEADWEIGHT's real brand palette/bitmap font/procedural sfx engine.**
+  Founder real-time: "use the art direction from DEADWEIGHT 1 and use the actual real deadweight
+  1 sound effects for the D2 game." Routed via `emily observe` (obs `2026-09-25T11-03-20Z`, Apple
+  #20814) per Principle 18. Investigated DEADWEIGHT's real assets directly rather than assuming:
+  no sample audio files exist anywhere in that repo (`git ls-files | grep -i wav\|ogg\|mp3`
+  returns nothing) — DEADWEIGHT's own `apps/gui/sfx.h` names it exactly: "no sample files, no
+  SDL_mixer, no soundfonts," its real sound effects ARE a procedural synth engine. Its real,
+  current, canonical art direction is `docs/BRAND_STYLE_GUIDE.md`'s brutalist terminal identity
+  (flat hex palette, hard 2px frames, zero gradients, a hand-rolled 5x7 bitmap font) — not the
+  paused/shelved Android gradient card art. Ported both into D2 as new, standalone files: `core/
+  palette.h` (the real brand hex values — D2's own existing Offense/Operations/Defense kind
+  colors already matched this palette exactly, independently, before this file existed, both
+  inheriting the same `DEADWEIGHT/NORTHSTAR.md` lineage), `core/font.{h,c}` (D2's first real text
+  renderer, closing a named gap — `NORTHSTAR.md`: "the SDL window itself is deliberately
+  bare-minimum, colored rectangles only" — the same glyph table, adapted to take an explicit
+  `SDL_Renderer*`/raw RGB bytes instead of an implicit static global), `core/sfx.{h,c}` (the
+  engine ported near-verbatim, dw2_-prefixed; the cue set newly composed for D2's own real events
+  since none of DEADWEIGHT's own card-scenario cues apply — `DW2_SFX_WEAPON_FIRE` for the Railgun
+  is the literal "cannon" cue, plus `DW2_SFX_PANIC_CUT`, `DW2_SFX_SHATTER` for a Back-EMF loop
+  burnout, hull/armor deltas, match result). Live-verified, not just compiled: a standalone
+  offline-render smoke test exercises all 15 cues and confirms each produces real, non-silent
+  (peak > 0.001), non-clipping (peak <= 1.0) audio. **Integration into `apps/local/main.c`/
+  `apps/client/main.c` deliberately held**: a concurrent background agent was actively mid-edit on
+  those exact files (plus `core/combat.{h,c}`/`core/protocol.{h,c}`/`apps/server/main.c`) doing
+  the separate D2 combat-redesign pass (SECTION 548) — confirmed live via `git status` showing
+  real, substantial uncommitted changes there, not assumed; wiring render/sfx calls in
+  concurrently would risk actual file corruption from two processes editing the same file, not
+  just a later merge conflict. Real follow-up, not forgotten: wire `dw2_text`/`dw2_sfx_play` calls
+  into both D2 apps once SECTION 548 lands. Apple #20815, commits `DEADWEIGHT_2@12f362f`,
+  `DEADWEIGHT_2@9dc14e5`. session: sess-20260923-1030-4a526255.
+
 ## SECTION 547: WOTAN — REAL FRONTEND DAY 0 (FOUNDER REAL-TIME)
 
 Founder real-time, 2026-09-25: "build wotan in fron[t end] day 0" → "build in wotan stats and
@@ -48855,11 +48886,20 @@ Two real, separable asks:
   against D2: wiring a new weapon-decision hook into code that's about to be restructured would
   be wasted/conflicting work. The LO stdlib-gap audit itself has no such dependency and can start
   independently. Not started.
-- [ ] **LO's execution model: bidirectional (left-to-right AND bottom-to-top, resolving
+- [x] **LO's execution model: bidirectional (left-to-right AND bottom-to-top, resolving
   simultaneously), homoiconic (code is data, Lisp's own real precedent), visualized as a matrix
-  of emojis / a dominoes-like crossroads layout.** A foundational rewrite of LO's whole execution
-  semantics — real, current state per `LO/NORTHSTAR.md`: upstream pre-created, a critical review
-  of the source spec doc done, no compiler code written yet, so nothing existing to break. Needs
-  a real design pass (grammar/evaluation-order semantics for two simultaneously-resolving axes is
-  a genuinely hard, unprecedented design problem — worth getting right before code) before
-  implementation. Not started.
+  of emojis / a dominoes-like crossroads layout.** Apple #20816. Real, rigorous design pass
+  completed — **no compiler code written, matching this item's own "design-only counts as done"
+  scoping.** Real correction made first: this item's premise ("no compiler code written yet") was
+  stale by the time this landed — LO's Phase 0/1 compiler and qi's Phase 2a lexer are real and
+  shipped, so the design in `LO/LO_2D_NORTHSTAR.md` is a strict additive superset, not a rewrite.
+  Chosen model: a checkerboard grid resolved by worklist fixed-point iteration over a dependency
+  graph (confluent — any resolution order reaches the same result, which is what makes
+  "simultaneous" a true claim, not hand-waved nondeterminism), with shared "junction" cells
+  requiring both axes to independently agree via an EQ-check (agree → resolves; disagree →
+  compile-time "dominoes don't fit" error, never a runtime guess). Four full hand-derived worked
+  examples, including a real junction-mismatch case. Honest `.prn` mapping named (needs a new
+  compile-time elaboration pass, the one genuinely new piece of engineering here; reaches
+  `parena build` only, not `burrow build`, same already-documented no-`let` reason). Five open
+  questions named explicitly, not guessed at. See `LO/NORTHSTAR.md`'s own cross-link and
+  `LO/README.md`'s "design only, not implemented" status line.
