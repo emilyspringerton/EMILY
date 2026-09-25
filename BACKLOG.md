@@ -45552,7 +45552,20 @@ D1-D6 ordering for VS0 only: card mode ships first, backpack mode (D1) is VS1.
   — Done 2026-09-18: Windows/Linux SDL2 client dw_gui (menu/queue/match/end, bitmap font, AUTH via --token) + headless selftest playing a full match vs real dw_server+bot; CI gui job, release ships dw_gui_windows.zip. NOT verified: real window feel, Windows exe never run, connect blocks on dead host, no IDUNA guest-login flow in GUI. DEADWEIGHT df227c8. Apple #20143.
 - [x] **S503-10: NOCK card-art textures** (procgen via NOCK CLI/HTTP; no new PARENA FFI).
   — Done 2026-09-18: NOCK-built card art (9 faces, back, kind/hull/energy icons) via art/build_art.sh, wired into Android CardView with shape fallback; APK 277KB. Kind/hull/energy icons not yet on screens; not seen on a device. DEADWEIGHT ccd7a1e. Apple #20141.
-- [ ] **S503-11 (VS1): backpack-battler mode** — D1 core loop per `docs/PHASE_D1_CORE_LOOP.md`, protocol `mode=1`.
+- [x] **S503-11 (VS1): backpack-battler mode** — D1 core loop per `docs/PHASE_D1_CORE_LOOP.md`, protocol `mode=1`.
+  **Resolved via a different, better path than originally scoped, not implemented as literally
+  written**: rather than bolting D1 onto `dw_server` as a second `mode=1` inside DEADWEIGHT's own
+  wire protocol, the founder later (2026-09-25) redirected this exact mechanic into its own
+  standalone repo — `DEADWEIGHT_2`/D2, `EMILY/BACKLOG.md` SECTION 546 — reasoning that card mode
+  and the backpack battler are different enough games (turn-based vs. spatial-packing-into-
+  real-time-combat) to keep DEADWEIGHT's own VS0 wire surface stable rather than growing a second
+  mode into it (`DEADWEIGHT_2/NORTHSTAR.md`'s own opening section states this explicitly). D2 has
+  since shipped past what this line even asked for: the full D1 core loop, a real
+  server-authoritative 1v1 (SECTION 546), a round-break combat redesign (SECTION 548), a compiled
+  LO weapon-fire decision (SECTION 549), and auto-release CI + IDUNA app-release signing at parity
+  with DEADWEIGHT (SECTION 551, closed this session). Leaving this line checked-and-annotated
+  rather than deleted so the backlog's own history stays honest about the pivot. No DEADWEIGHT
+  code changes from this note — bookkeeping only.
 
 session: sess-20260918-1725-497f394f
 - [ ] **S503-12: deploy dw_server + 3-bot pool on the box (systemd user units exist, uninstalled) — needs founder go-ahead + public port/firewall/nginx decision; then IDUNA deploy + bootstrap for agent secrets, then live authed-play test.**
