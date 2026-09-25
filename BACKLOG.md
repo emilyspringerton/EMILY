@@ -3729,6 +3729,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充架構方向: 「make it a mod」+「we can turn on」+「to fix it first」——連起來讀是:vterm/tmux/ncurses 渲染修復不要直接寫死進 PITV…** — obs `2026-08-20T16:42:56Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,叮嚀: 「dont broke what currently works doing weird shit」——提醒現在做的 #target/inline-c 新功能不能破壞既有已經在跑的東西,呼應本 …** — obs `2026-08-20T16:42:47Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,再次重申優先權: 「again mod surface」+「parena」——確認現在正在做的 PARENA emit.c #target/inline-c FFI 機制(mod-surface API…** — obs `2026-08-20T16:42:40Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,重要澄清,可能降低整批 bug 回報的可信度: 「im on an old version maybe we fixed it」——創辦人意識到自己本地跑的 PITVIPER 可能是舊版本,稍早這一整串…** — obs `2026-08-20T16:42:34Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,再補充: 「yea vim in tmux no worky good in pitviper」——vim 在 tmux 裡於 PITVIPER 中運作不良,持續同一條 tmux/ncurses 渲染問…** — obs `2026-08-20T16:42:28Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充: 「im not sure if its cause i am messing with the size of the window」——對剛才的『放大視窗後畫面不重繪』回報自己也不確定是否是自…** — obs `2026-08-20T16:41:51Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time回報,可能是即時阻斷性問題: 「i tried to expand the screen and now nothing is redrawing」——創辦人剛才嘗試放大/調整 PITVIPER 視窗大小…** — obs `2026-08-20T16:41:44Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,再次確認: 「yea tmux with the ncurses stuff or something is rough」——維持同一條線索(tmux/ncurses 在 PITVIPER 裡體驗不佳)…** — obs `2026-08-20T16:41:22Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
