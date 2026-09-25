@@ -3664,6 +3664,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time,補充要求: 「fix the acronyum」+「make it self referential if you can」——要求把 SAND 做成一個真正、完整的縮寫(不只是鬆散片段),且盡量做成自…** — obs `2026-08-20T19:37:48Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,補充命名邏輯: 「S EXPRESSION AND NOT DUMBSHIT」——確認 SAND 這個名字的由來跟『S-expression』(PARENA 自己的核心語法,呼應 NORTHSTAR.m…** — obs `2026-08-20T19:37:22Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time,推翻剛發布的命名: 「just call it the SAND editor」——在 Tyler 的『Naming JEWEL』文章才剛發布上線幾分鐘後,創辦人再次改名,這次不再強調甲蟲主題,直接要求…** — obs `2026-08-20T19:37:09Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,關鍵澄清,大幅提高可行性: 「build the go parena plugins」——確認架構跟 editor/plugin.prn 完全一樣的模式:不是要 PARENA 本身憑空長出 HTTP/J…** — obs `2026-08-20T19:36:24Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,擴大範圍: 「a true TINA desk engine」+「in PARENA」——要求把 TINA 自動發布規則做成一個真正的『TINA desk engine』(類似交易桌分析引擎的概念),而…** — obs `2026-08-20T19:36:09Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,補充: 「full disclousures as usual」——要求新的 TINA 自動發布規則沿用既有的完整揭露/免責聲明慣例(呼應既有的『TINA: CAMELS — What We Won't…** — obs `2026-08-20T19:35:53Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新自動化需求: 「and start publishing TINA stories based on press releases that come through on the same day …** — obs `2026-08-20T19:35:47Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time,新任務: 「check all the fatbaby data pipelines」+「make sure they are healthy and collecting press releases…** — obs `2026-08-20T19:35:29Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
