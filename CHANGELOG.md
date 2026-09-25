@@ -1,4 +1,5 @@
 ## 2026-09-25
+- BACKLOG: close SECTION 543 addendum -- WOTAN friends.html SSO + IDUNA sso-exchange bridge, live-verified (sess-20260923-1030-4a526255)
 
 - BACKLOG: close SECTION 543 (IDUNA-as-SSO for WOTAN, fully live-verified) and the SHANKPIT server-authoritative day/night sync follow-up (sess-20260923-1030-4a526255)
 
