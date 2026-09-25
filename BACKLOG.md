@@ -3539,6 +3539,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: wants PATH symlink magic to replace system sed/awk/grep with turbo-sed/turbo-grep/turbo-awk (PARENA-…** — obs `2026-08-24T22:55:07Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: wants turbo-sed/turbo-grep/turbo-awk to be actual tool names (likely PARENA stdlib/tooling, continui…** — obs `2026-08-24T22:54:45Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time: turbo-sed turbo-grep turbo-awk** — obs `2026-08-24T22:54:33Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: continuing to hammer on parena** — obs `2026-08-24T22:54:28Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, extended thread during the compiler-fix work (2026-08-23 ~17:15-17:25Z): 'we need to start building …** — obs `2026-08-23T17:12:57Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, new thread during PARENA compiler work (2026-08-23 ~17:1X-17:2X): 'sqlite light cache' / 'we can cac…** — obs `2026-08-23T17:07:31Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time: 'ensure we have stdlibs for fourier transforms' -- wants an FFT stdlib package for PARENA. Not scope…** — obs `2026-08-23T17:04:30Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, continuing the REDGARDEN mapeditor burst (2026-08-23 ~16:18Z): 'parena mods' / 'wc3' / 'its really h…** — obs `2026-08-23T16:16:47Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
