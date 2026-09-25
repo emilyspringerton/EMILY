@@ -3419,6 +3419,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, extends the just-shipped S189-01 damage log: 'add kills and item purchases and node captures and unc…** — obs `2026-08-25T15:35:52Z`. CURATED: 2026-09-25.
 - [ ] **CONFIRMED via direct investigation, severe finding: the NVIDIA-8K press-release bug is a symptom of a real, currently-o…** — obs `2026-08-25T15:34:34Z`. CURATED: 2026-09-25.
 - [ ] **Founder real-time, additional related request: 'also add a parena ticker plugin that ensures that the press release con…** — obs `2026-08-25T15:31:09Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, clarifying the press-release bug location: 'on the news site on the press releasses page' -- confirm…** — obs `2026-08-25T15:29:54Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, confirms mod-surface-first pattern applies to this fix too: 'mod api first then fix'. Same establish…** — obs `2026-08-25T15:26:04Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time, concrete bug details: 'from the press release page' / 'its a prnerswire' (PRNewswire source) / 'it l…** — obs `2026-08-25T15:25:54Z`. CURATED: 2026-09-25.
+- [ ] **Founder real-time bug report: 'there is a bug on one of the press releases.' No specifics given yet (which release, wha…** — obs `2026-08-25T15:25:40Z`. CURATED: 2026-09-25.
+- [ ] **Continuing backlog: dispatched S189-07 (crystal-simulation-seeds-GFD-MUD-world) to a fork -- different GFD subsystem (a…** — obs `2026-08-25T14:10:22Z`. CURATED: 2026-09-25.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
