@@ -49582,3 +49582,59 @@ void." Routed via `emily observe` first (Apple #20871).
 `IDUNA@2c9f731`, Apple #20872.
 
 session: sess-20260923-1030-4a526255
+
+---
+
+## SECTION 554: REDGARDEN — apps/arena WINDOWS CLIENT: FILE LOGGING + "NO GUI AFTER DRAFT" (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25 (routed via `emily observe -s info`, Apple #20882 filed,
+`session: sess-20260923-1030-4a526255`): pasted a real Windows `RedGarden.exe` console
+transcript — connects to the live bot-pool matchmaker (`198.58.107.85:7778`), queues, gets
+matched, and drafts `hero_id=4` successfully (a real `SDL_MOUSEBUTTONDOWN` click on the draft
+screen resolved correctly, so the SDL window did render and receive real input — this was NOT a
+"window never opened" failure). The process then exits straight to `PLAY.bat`'s own `pause`
+("Press any key to continue") with no further output and no visible battle GUI. Founder: "it said
+some more stuff the first time" (an earlier run had more output, not captured) — asked to (1) add
+file-based logging matching `PAPERCRAFT/apps/client/src/main.c`'s own precedent (added
+2026-08-29, `freopen("papercraft_client.log", ...)` on stdout+stderr, unbuffered, for the
+identical pain point: a Windows console closes before a fast failure can ever be read) and (2)
+investigate why the actual battle GUI never appears after a successful draft pick.
+
+Real code read already done (not guessed at): `REDGARDEN/apps/arena/src/main.c`'s `main()`
+(line 2692) has no file-logging yet. `SDL_Init`/`SDL_CreateWindow`/`SDL_GL_CreateContext`/
+`load_gl_functions()` (lines 2774-2802) are all error-checked with `fprintf(stderr, ...); return
+1;` on failure — since the pasted log shows the draft click resolving via a real mouse event,
+every one of those must have already succeeded, ruling out "window/GL init failed" as the cause.
+The real suspect is whatever happens right after `net_send_pick(hero_id)` (line 3292,
+`net_picked = 1` at 3293) — the client's own phase machine (`net_phase`, `ARENA_PHASE_DRAFT` ->
+presumably `ARENA_PHASE_WAITING`/a playing phase, server message handling around line 843-851)
+transitioning into the actual match view. A prior, already-fixed bug in this exact area is on
+record (line 1006-1014's own comment: `net_send_pick` used to be fire-and-forget and could die on
+the server's 60s no-progress timeout if the first send was lost) — the resend-on-timeout fix for
+that is already in place, so this is either a different bug in the same neighborhood, or a
+Windows-specific crash with no error message printed (which the new file logging should help
+surface, but may not fully root-cause without a real Windows/GPU test machine — name that
+limitation honestly if it's the wall hit, matching this repo's own documented culture, e.g.
+PAPERCRAFT's WSA-10093 writeup).
+
+**Explicit caution (matches standing memory: never restart a shared live matchmaker based on a
+process check alone; ask first)**: `198.58.107.85:7778` is the live, real bot-pool matchmaker —
+do not restart/touch that live service. All local build/test verification must run against a
+local test server (`scripts/test_arena.sh`/`test_10_bots.sh`'s own pattern), never by repeatedly
+hammering the live production endpoint.
+
+- [ ] Add PAPERCRAFT-style file-based logging to `REDGARDEN/apps/arena/src/main.c`'s `main()`:
+  `freopen(..., "w", stdout)` / `freopen(..., "a", stderr)` + unbuffered, as early as possible
+  (before argv parsing, matching PAPERCRAFT's own placement and its own documented WSA-10093
+  lesson about Winsock-before-first-network-call ordering — check whether an equivalent ordering
+  trap exists here too).
+- [ ] Investigate the post-pick silent-exit / no-battle-GUI issue via real code tracing (the
+  `net_phase`/`net_picked` state machine and whatever server message is expected to move the
+  client out of `ARENA_PHASE_DRAFT`) plus a real local mingw cross-compile + local-server test
+  pass (matching `REDGARDEN/.github/workflows/ci.yml`'s own Windows cross-build job). Fix any
+  concrete bug found; if the true root cause needs a real Windows/GPU machine to confirm, say so
+  plainly rather than guessing.
+- [ ] Standard bookkeeping: Apple, CHANGELOG, README Reality pass if this changes any claim in
+  `REDGARDEN/README.md`, commit + push with `session:` trailer.
+
+session: sess-20260923-1030-4a526255
