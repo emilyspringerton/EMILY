@@ -49391,6 +49391,15 @@ placeholder bot, per `NORTHSTAR.md`'s own "Deferred" section; not a gap, a named
   Updated `DEADWEIGHT_2/CLAUDE.md`/`README.md` and the root `CLAUDE.md`'s own D2 row to drop the
   now-stale "no Windows build surface" claim (SAGA/README-Reality). `DEADWEIGHT_2@e350941`,
   `MONOREPO@cb5bb8d6b`, Apple #20870.
+  **Correction, same day**: the first real CI run of this job (`36186353945`) actually FAILED —
+  the "structurally verified locally" claim above was locally-true but didn't transfer to a clean
+  runner: the `windows` job installed mingw-w64 + the SDL2-mingw cross tree but never native
+  `libsdl2-dev`, and `scripts/build.sh --windows` still runs the full native Linux suite (`dw2_local`
+  via `pkg-config sdl2`) before appending the cross-compile — it passed in this sandbox only
+  because `libsdl2-dev` was already installed from unrelated earlier work, masking the gap. Fixed
+  (`DEADWEIGHT_2@7fd44c6`) and this time actually watched the next real run (`36188587095`) go
+  green end to end, then confirmed the real GitHub Release directly: `v0.3.0` carries all 6 assets
+  including `dw2_client_windows_x86_64.exe` (446900 bytes) and `SDL2.dll`. Apple #20874.
 
 session: sess-20260923-1030-4a526255
 
