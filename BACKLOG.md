@@ -3899,6 +3899,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Smoke-testing the new apple signature after deploying signAppleBody -- this observation's own auto-filed apple should c…** — obs `2026-08-20T06:59:32Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, general guidance for this session's rapid-fire work: 'lets not bike shed too much but do try to make…** — obs `2026-08-20T06:58:24Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, self-flagged as uncertain: 'we need to do log streaming and then like idempotent commands or somethi…** — obs `2026-08-20T06:58:11Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, restating/confirming the Drive-ingest ask concretely: ensure a page exists in IDUNA's admin Back Off…** — obs `2026-08-20T06:57:49Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, NEW STANDING ORDER: all Apples must be signed with an anchor emoji (⚓) and a UTF-8 snowman (☃) going…** — obs `2026-08-20T06:57:09Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, stream-of-consciousness: 'i could just upload it but i need to find the mouse' / 'hmm' -- reads as f…** — obs `2026-08-20T06:56:24Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'double click enforced check emily os' -- read as: the Ingest action should require a double-click (…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, scoping the Drive-ingest ask further: UI affordances needed are (1) list the files (from IDUNA's exi…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
