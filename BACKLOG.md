@@ -4144,6 +4144,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'we dont necessarily need separate pages for the 2 different mediums -- like renaissance oil paintin…** — obs `2026-08-17T21:10:18Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, converges the plan: 'what we have is good for baseball cards but we need a second category, vastly d…** — obs `2026-08-17T21:09:46Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'now we need to add a level -- stained glass is top level -- right now its all baseball cards but it…** — obs `2026-08-17T21:09:22Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ensure there is a link to the new tool from the okemily footer like we have wotan login etc' -- add…** — obs `2026-08-17T21:01:49Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'if you got some data but are now rate limited just proceed with what you have and circle back for t…** — obs `2026-08-17T20:53:38Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, four-part direction, same burst: (1) 'give me an emily cli key command to set my github key into the…** — obs `2026-08-17T20:50:07Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'prompt-o-verse will be the upstream git repo i cant create it we need to get you a git service acco…** — obs `2026-08-17T20:45:24Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'focusing on fun ideas for new ai users' -- recalibrates the 20-prompt list away from a dry historic…** — obs `2026-08-17T20:44:29Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
