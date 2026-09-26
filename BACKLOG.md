@@ -4154,6 +4154,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time context led to a major empirical success: tested Vertex AI's Gemini image generation endpoint (aiplat…** — obs `2026-08-17T20:40:48Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'i think we can get a god API key for google cloud to let us provision users or service accounts to …** — obs `2026-08-17T20:38:53Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'need to circle back to see if the google cloud has sorted itself out or what -- one of the main way…** — obs `2026-08-17T20:37:47Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time (result of empirical test): tested the existing OAuth-personal Gemini CLI credential directly -- conf…** — obs `2026-08-17T20:37:38Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'gemini api key is so hard to get i tried for like 2 hours the other day' -- real, demonstrated fric…** — obs `2026-08-17T20:37:12Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'lets see if we can use nano banana api to go from top level to the gen data' -- proposing a concret…** — obs `2026-08-17T20:35:06Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ensure all is ingested and planned and then iterate' -- closing signal on the Prompt-o-verse real-t…** — obs `2026-08-17T20:33:55Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, refining the graph-via-shared-tags idea: 'there are third level prompts that are going to more natur…** — obs `2026-08-17T20:32:41Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
