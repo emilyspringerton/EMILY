@@ -3829,6 +3829,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, real bug report on the just-shipped GFD web work: 'web GFD is a blank screen.' Confirms the honest l…** — obs `2026-08-20T10:47:15Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, camp/minion balance tuning ask: 'more minions spawned early game and after they spawn' -- likely wan…** — obs `2026-08-20T10:46:37Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, more King visual elaboration: 'and spells or something' / 'more threatening' -- Kings should have vi…** — obs `2026-08-20T10:46:28Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'the 4 kings need health bars and name tags' -- direct, scoped follow-up to the Four Kings rendering…** — obs `2026-08-20T10:46:17Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, final elaboration on the Flow upkeep-tax bounty: 'so if the winning team gets careless there can be …** — obs `2026-08-20T10:46:02Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, confirming: 'as a come back mechanism' -- matches my own read of the Flow-upkeep-tax ask (bounty-sty…** — obs `2026-08-20T10:45:57Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, new economy mechanic for REDGARDEN + GFD Battlegrounds: 'also add an upkeep tax on flow... the more …** — obs `2026-08-20T10:45:53Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, ping-system design refinement, ties into an EXISTING built system: 'and especially if im winning im …** — obs `2026-08-20T10:44:52Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
