@@ -4204,6 +4204,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指示:continue——team_size=10 smoke test還在背景跑(5分鐘上限,測試真實fps),同時繼續處理其他backlog項目** — obs `2026-08-15T18:47:57Z`. CURATED: 2026-09-26.
 - [ ] **創辦人決策(AskUserQuestion):啟動全新team_size=10訓練(大工程,推薦先確認範圍)——先調查scripts/rl_train_team.py/rl_env_team.py對team_size=10的支援程度,再評…** — obs `2026-08-15T18:33:44Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示:確保最先進(frontier)模型用在REDGARDEN 10v10 bot對戰——先調查現況(記憶:先前RL checkpoint都是team_size=3訓練的,10v10 pool之前是hard-gated no-o…** — obs `2026-08-15T18:24:29Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:檢查目前long running訓練狀態(之前的200K autocurriculum已於昨晚完成,35% win rate,已report過)** — obs `2026-08-15T18:23:57Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:continue(繼續backlog隊列工作)** — obs `2026-08-15T18:23:49Z`. CURATED: 2026-09-26.
+- [ ] **自我修正:剛才Apple #13608跟REDGARDEN commit都誤稱這是'首次'真正end-to-end --autocurriculum訓練——實際上2026-08-11已經跑過一次(500K timesteps,75% wi…** — obs `2026-08-14T23:39:45Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:CONTINUE——動手修復S166-01/S160-05(1104筆/11檔ticker的source_document_persisted誤標問題,兩處程式碼修復:event修正+docindex去重邏輯)** — obs `2026-08-14T22:37:29Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:'I need one in Engrish PRS'——理解為要一份英文版(please)的部落格文章(剛發布的Four Kings/North文章是繁體中文)** — obs `2026-08-14T22:34:19Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
