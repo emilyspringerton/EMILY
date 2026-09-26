@@ -3774,6 +3774,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人真實新方向,大規模、獨立於目前 PARENA/PITVIPER 工作:「and then also github is a single point of failure」→「we need to start building ou…** — obs `2026-08-20T14:29:30Z`. CURATED: 2026-09-25.
 - [ ] **創辦人即時指令,PARENA stdlib 延續:「PARENA should help address mempry issues」(呼應 region 型別系統本身就是記憶體安全的核心賣點,已經是 PARENA 的既有定位,非新套件)…** — obs `2026-08-20T14:23:48Z`. CURATED: 2026-09-25.
 - [ ] **創辦人揭示 PITVIPER 真正的整體願景:「basically i am extending my IDE which is actually this VPS」——PITVIPER 不只是終端機模擬器,而是把這台 VPS 本身當成「…** — obs `2026-08-20T14:19:15Z`. CURATED: 2026-09-25.
+- [ ] **創辦人即時指令,連續多則,PITVIPER 字形渲染主題延續:「ensure pitviper can render all utf8 characters」+「import a nice font like fira pro」+「i t…** — obs `2026-08-20T14:17:34Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指令:「build all emojis into pitviper」——延續剛才的 box-drawing 字形修復。真實架構限制:PITVIPER 目前的字形系統是單色、程式化畫線的點陣圖(8x13,box-drawing …** — obs `2026-08-20T14:01:34Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指令:「add testing to the stdlib」——PARENA 自己的測試框架(比照 Go testing 套件的極簡精神),讓 PARENA 程式(含未來的 stdlib 套件本身)可以寫真正的單元測試。緊接在 …** — obs `2026-08-20T13:56:22Z`. CURATED: 2026-09-26.
+- [ ] **創辦人重大轉向指令,連續多則:「i think PARENA can save it」(針對 PITVIPER tmux/字形 bug)→「all in on PARENA stdlibs and only build out the o…** — obs `2026-08-20T13:34:40Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指令:「give pitviper quality of life improvements inspired by photoshop keybindings」→「like for zoom and stuff」→「anyth…** — obs `2026-08-20T13:18:39Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
