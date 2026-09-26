@@ -4124,6 +4124,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (1) develop a new tool to expand styles by prompting GPT-2 with a comma-separated style list like 'p…** — obs `2026-08-17T23:17:17Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: add Whiteboard, Paper-craft, Anime, Kawaii as top-level hardcoded promptoverse styles to potentially…** — obs `2026-08-17T22:48:05Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (1) make the promptoverse gallery home page live-update when new nodes are published, same as live-m…** — obs `2026-08-17T22:37:50Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: subject pages work but the images are broken links** — obs `2026-08-17T22:22:56Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: promptoverse should keep a local variable estimating retry backoff across invocations -- if 2-3 runs…** — obs `2026-08-17T22:11:27Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: when draining the promptoverse queue we need a longer wait between requests** — obs `2026-08-17T22:05:27Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (1) queue has duplicates not getting deduped, new promptoverse add inputs always fail because drainQ…** — obs `2026-08-17T21:56:15Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (1) emily promptoverse add should dedupe -- not re-prompt for a style already generated for a subjec…** — obs `2026-08-17T21:50:45Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
