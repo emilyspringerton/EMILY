@@ -3859,6 +3859,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **GFD-web research complete (Explore agent). Key findings: a real Emscripten WASM build of the actual GFD GUI client alre…** — obs `2026-08-20T09:58:37Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, priority clarification: 'so to be clear get the 4 kings working in whatever version you fork first.'…** — obs `2026-08-20T09:58:23Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, further ECOWAR/hard-fork clarification: 'we want to hard fork the GFD version interface wise and we …** — obs `2026-08-20T09:57:44Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, rationale for the ECOWAR HARD FORK: 'in order to maintain easy hackability' -- forking into a fully …** — obs `2026-08-20T09:57:06Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, escalating the ECOWAR scoping (SECTION 176, NORTHSTAR.md §29): 'build ECOWAR' / 'separate lobby' / '…** — obs `2026-08-20T09:56:59Z`. CURATED: 2026-09-26.
+- [ ] **CI sweep complete across all 12 repos with GitHub Actions: 3 real failures found -- BRAWLPIT (f27f221a), SHANKPIT mainl…** — obs `2026-08-20T09:56:59Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, more build-failure reports, less certain: 'the build is failing for mainline shankpit?' (uncertain) …** — obs `2026-08-20T09:56:37Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, two build failures surfacing from the 'check all the recent builds' instruction: 'the build is faili…** — obs `2026-08-20T09:56:25Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
