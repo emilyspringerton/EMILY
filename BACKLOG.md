@@ -4199,6 +4199,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ho' (garbled/truncated keystroke, no clear new content -- consistent with this session's ongoing pa…** — obs `2026-08-15T20:10:19Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示:continue(打字'cuntinue')——10v10訓練持續背景跑(~12%),繼續backlog隊列其他項目** — obs `2026-08-15T19:22:47Z`. CURATED: 2026-09-26.
 - [ ] **自我修正:先前估計team_size=10訓練約27分鐘完成是錯的——那是用純rollout collection的313fps估算,沒算進PPO policy update時間。實測完整訓練速度是51 timesteps/sec,500…** — obs `2026-08-15T19:04:41Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:while true do continue——重申標準'持續運作'模式,不停下等許可,繼續backlog隊列(10v10訓練背景跑著,同時處理其他項目)** — obs `2026-08-15T18:56:49Z`. CURATED: 2026-09-26.
+- [ ] **發現真bug:emily backlog curate把過長observation摘要截斷時,沒有考慮UTF-8字元邊界,在中間切斷一個多位元組中文字元,導致BACKLOG.md出現無效UTF-8 byte序列(offset ~14357…** — obs `2026-08-15T18:53:00Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:continue——team_size=10 smoke test還在背景跑(5分鐘上限,測試真實fps),同時繼續處理其他backlog項目** — obs `2026-08-15T18:47:57Z`. CURATED: 2026-09-26.
+- [ ] **創辦人決策(AskUserQuestion):啟動全新team_size=10訓練(大工程,推薦先確認範圍)——先調查scripts/rl_train_team.py/rl_env_team.py對team_size=10的支援程度,再評…** — obs `2026-08-15T18:33:44Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:確保最先進(frontier)模型用在REDGARDEN 10v10 bot對戰——先調查現況(記憶:先前RL checkpoint都是team_size=3訓練的,10v10 pool之前是hard-gated no-o…** — obs `2026-08-15T18:24:29Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
