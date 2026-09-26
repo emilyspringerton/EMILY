@@ -4249,6 +4249,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, refining SKULDMARK ask: tickerize as early in the pipeline as possible** — obs `2026-08-14T01:59:32Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: integrate SKULDMARK (25-char instrument identifier format) into all intake operations** — obs `2026-08-14T01:59:22Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, clarifying: nav items stale except 'Stocks on the Move' -- same pattern as S24-06 (prwatch-body dead…** — obs `2026-08-14T01:59:08Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: ALL top level navigation items currently seem stale** — obs `2026-08-14T01:58:47Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: ensure all fatbaby (PRRJECT_FATBABY) operations are tip top** — obs `2026-08-14T01:58:38Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:58:15Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:45:59Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: asking status + wants the okemily blog-manifest URL surfaced now** — obs `2026-08-14T01:21:37Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
