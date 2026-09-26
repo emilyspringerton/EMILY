@@ -3969,6 +3969,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: validate the CarePyre mesh-network research (CarePyre's real source material so far is a single ReLU…** — obs `2026-08-20T03:44:50Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: Flow currency could double as the currency for a poker tournament platform — founder recalls this wa…** — obs `2026-08-20T03:42:05Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: consider building GFD economy management tools into IDUNA Back Office (same pattern as the Prompt-o-…** — obs `2026-08-20T03:41:45Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: data point / possible bug — some GFD accounts appear to already have Flow currency; founder recalls …** — obs `2026-08-20T03:41:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (ecowar cards continued, clarifying) the weighted marble-bag + Fibonacci-pity mechanic applies to BO…** — obs `2026-08-20T03:40:48Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (ecowar continued) resource speed-up mechanic — after ~2 minutes, a catch-up/acceleration effect kic…** — obs `2026-08-20T03:39:44Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (ecowar cards continued) card draw needs to be rolling/non-depleting like Clash Royale's deck cycle …** — obs `2026-08-20T03:39:28Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
