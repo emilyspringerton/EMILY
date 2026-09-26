@@ -4024,6 +4024,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **MAJOR CLARIFICATION on the earlier 'flicker' mystery: founder, real-time: 'ok the live reload kind of snaps a bunch in …** — obs `2026-08-18T05:06:24Z`. CURATED: 2026-09-26.
 - [ ] **Decision: NOT firing the remaining 5 FFXI garage-gang generations right now -- the background drain from the duck reque…** — obs `2026-08-18T05:05:15Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, clarifying the FFXI batch: 'FFXI i guess is the style im not sure how nano banana is gonna handle it…** — obs `2026-08-18T05:02:31Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, new independent request: 'do a run of all the heroes from the gang in the garage as FFXI style rende…** — obs `2026-08-18T05:02:08Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'topic pages should also live reload' -- likely referring to subject pages (topic/subject used inter…** — obs `2026-08-18T05:01:18Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'then do the rest in mixed LIFO FIFO depending on build order ask emily prime to prioritize as a rol…** — obs `2026-08-18T04:57:57Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, sequencing correction: 'write them as heroes into the TYLER hero bible first' / 'then add lore' -- b…** — obs `2026-08-18T04:57:43Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, gameplay requirement: 'give them uinque b abilities like up b and b (whatever our b is for parisol u…** — obs `2026-08-18T04:57:29Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
