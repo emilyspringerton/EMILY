@@ -3779,6 +3779,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指令:「add testing to the stdlib」——PARENA 自己的測試框架(比照 Go testing 套件的極簡精神),讓 PARENA 程式(含未來的 stdlib 套件本身)可以寫真正的單元測試。緊接在 …** — obs `2026-08-20T13:56:22Z`. CURATED: 2026-09-26.
 - [ ] **創辦人重大轉向指令,連續多則:「i think PARENA can save it」(針對 PITVIPER tmux/字形 bug)→「all in on PARENA stdlibs and only build out the o…** — obs `2026-08-20T13:34:40Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指令:「give pitviper quality of life improvements inspired by photoshop keybindings」→「like for zoom and stuff」→「anyth…** — obs `2026-08-20T13:18:39Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指令,延續同一 thread:「then crunch on PARENA until we can dog food it into pitviper to fix our issue」+「SSH is going to be…** — obs `2026-08-20T13:17:59Z`. CURATED: 2026-09-26.
+- [ ] **Gemini CLI Vertex AI 設定進度:.bashrc 已加入 GOOGLE_GENAI_USE_VERTEXAI/GOOGLE_CLOUD_PROJECT(project-d24a71e9-2daf-4b2d-917,與 p…** — obs `2026-08-20T13:16:47Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指令,兩則:(1)「we can do some fancy stuff like v8 with our compiler i bet to make it groovy」——V8 風格 JIT 編譯的構想,套用在 PAREN…** — obs `2026-08-20T13:03:06Z`. CURATED: 2026-09-26.
+- [ ] **創辦人持續澄清「map builder affordances」的真正需求:「like the actual affordances of how the actual editor interface gets build and th…** — obs `2026-08-20T12:41:59Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指令:「can we build map builder affordances into the stdlib if thats a thing?」經 AskUserQuestion 確認為關卡/世界地圖編輯器(terrain…** — obs `2026-08-20T12:40:23Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
