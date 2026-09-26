@@ -4129,6 +4129,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: when draining the promptoverse queue we need a longer wait between requests** — obs `2026-08-17T22:05:27Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (1) queue has duplicates not getting deduped, new promptoverse add inputs always fail because drainQ…** — obs `2026-08-17T21:56:15Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (1) emily promptoverse add should dedupe -- not re-prompt for a style already generated for a subjec…** — obs `2026-08-17T21:50:45Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (1) update emily.cli README with all commands including promptoverse; (2) 'added' timestamps showing…** — obs `2026-08-17T21:42:18Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'cancel previous requests for a run of swimsuit models and do a run of racially ambiguous swimsuit m…** — obs `2026-08-17T21:34:35Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'if taxonomies have at least 2 leaf nodes make the taxonomy tag like a duck wearing a tuxedo clickab…** — obs `2026-08-17T21:33:47Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'run gen requestws fifo so duck is after the previous request' -- real infrastructure gap: emily pro…** — obs `2026-08-17T21:29:44Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'then do a run of a duck wearing a tuxedo' -- new Subject, same benign whimsical register as prior d…** — obs `2026-08-17T21:27:06Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
