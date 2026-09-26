@@ -3869,6 +3869,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Four Kings investigation complete (Explore agent, thorough, file:line-verified). VERDICT: real bug, not deploy-lag or d…** — obs `2026-08-20T09:55:52Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, TOP PRIORITY override: 'top priority right now is to figure out the 4 kings situation and get GFD we…** — obs `2026-08-20T09:55:29Z`. CURATED: 2026-09-26.
 - [ ] **SHANKPIT bot investigation, final synthesis (grounded in real code, not speculation): found select_ctf_bot_intent() (pa…** — obs `2026-08-20T09:55:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, refining the SHANKPIT bot hypothesis: 'but maybe there is some level of understanding i dont know wh…** — obs `2026-08-20T09:54:45Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, more detail on the SHANKPIT bot issue, converging on a real hypothesis: 'they need to get a bit more…** — obs `2026-08-20T09:54:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, scoping the AI cross-pollination experiment: 'mainline shankpit is ok to experiment on, we have 460 …** — obs `2026-08-20T09:53:42Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, two new threads: (1) bug report -- 'the shankpit bots are really twitchy and weird.' (2) exploratory…** — obs `2026-08-20T09:53:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, alternative hypothesis for the Four Kings discrepancy: 'maybe its an issue of documentation' -- i.e.…** — obs `2026-08-20T09:52:08Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
