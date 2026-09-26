@@ -3999,6 +3999,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: third piece queued -- 'claude as a blog post what do you think about promptoverse as a art generatio…** — obs `2026-08-20T03:10:41Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, big new ask arriving mid-Ada-module-work: 'as TYLER do a product update in the voice of a legendary …** — obs `2026-08-20T03:09:42Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'do a module of emily os in ravenscar32 ada' -- new, distinct ask from the fallthrough bugfix work j…** — obs `2026-08-20T03:07:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, SHANKPIT story mode spec consolidated: advance the entities fought in story mode using REDGARDEN's s…** — obs `2026-08-19T01:46:21Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'continue on shankpit story mode' / 'advance the entities fought in story mode' -- new direction, se…** — obs `2026-08-19T01:45:39Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, refining the cross-client-login ask from the previous observation: specifically 'unify' SHANKPIT's o…** — obs `2026-08-19T00:24:56Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, DragonsNShit graphics quality thread: (1) core ask -- iterate DragonsNShit's interface/graphics qual…** — obs `2026-08-19T00:24:16Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ok have tyler and the gang in a podcast as a blog post do a deep dive on promptoverse stats - subje…** — obs `2026-08-18T22:14:34Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
