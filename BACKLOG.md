@@ -3909,6 +3909,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: for the Google Doc/Drive attachment (mentioned earlier, then explicitly tabled) -- founder now says …** — obs `2026-08-20T06:53:47Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, additional requirement on the PITVIPER-on-Windows ask: copy/paste has to work on Windows too (separa…** — obs `2026-08-20T06:53:11Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, resolving the Windows-path worry from the prior clarification: 'git bash figures it out' -- founder'…** — obs `2026-08-20T06:53:05Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, further constraint on the PITVIPER SSH ask: it has to work on Windows too, not just Linux. Combined …** — obs `2026-08-20T06:52:55Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, clarifying the PITVIPER SSH ask: have it use the regular/default ssh key location (~/.ssh, standard …** — obs `2026-08-20T06:52:48Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, priority override ('above all else'): get PITVIPER SSH working. Prior BACKLOG entry (S127 area, SECT…** — obs `2026-08-20T06:52:44Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: flagged that the other Claude session (PID 2584, reboot-recovery session running in tmux pts/1, star…** — obs `2026-08-20T06:52:35Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: wants any data-science infrastructure needed exposed as real IDUNA APIs, backed by Python or whateve…** — obs `2026-08-20T04:46:25Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
