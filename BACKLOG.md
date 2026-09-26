@@ -3819,6 +3819,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'clone me down skootz' -- confirmed PARENA repo exists (emilyspringerton/PARENA). Checking if 'skoot…** — obs `2026-08-20T11:03:50Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'PARENA' -> 'upstream in github.' Clarifies (doesn't contradict) the AskUserQuestion answer: build P…** — obs `2026-08-20T11:03:42Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, PARENA resolved: 'New -- build it from scratch' (AskUserQuestion). PARENA is a new language+native-A…** — obs `2026-08-20T11:03:29Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, PARENA now sounds like build-from-scratch, not an existing found project -- contradicts earlier 'LAN…** — obs `2026-08-20T11:00:51Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'parena is the native API does that make sense' -- clarifies PARENA is a native (C-level?) scripting…** — obs `2026-08-20T11:00:36Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, PARENA characterization: 'its like EDU scripts scary older sister' -- colorful description suggestin…** — obs `2026-08-20T10:59:41Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, more PARENA direction: 'then northstar that bitch and build it pure before we have to think about ho…** — obs `2026-08-20T10:59:34Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, clear sequencing directive: 'backlog doump sprint plan everything' -> 'then crunch on only PARENA' -…** — obs `2026-08-20T10:58:55Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
