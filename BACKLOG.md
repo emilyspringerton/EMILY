@@ -3934,6 +3934,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, urgent ('we need it yesterday'): GFD GUI client (with login) needs a web build — WASM or similar, fo…** — obs `2026-08-20T04:08:02Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: noting they need to go find/locate the invented-language spec themselves (action item for founder, n…** — obs `2026-08-20T04:07:19Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: self-corrected — METALVERSE isn't a new subdirectory/repo after all, it's a conceptual name for the …** — obs `2026-08-20T04:07:12Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (Construct/multiverse continued) most game clients don't have real logins yet, they self-mint connec…** — obs `2026-08-20T04:06:20Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (Construct/multiverse portal continued) arcade cabinets as the in-world affordance to jump between d…** — obs `2026-08-20T04:06:01Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (naming continued) acknowledges 'the construct' will collide with existing stack vocabulary but want…** — obs `2026-08-20T04:05:35Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: naming resolved — 'osaka garage' (mentioned earlier re: PITVIPER/multiverse portal) is being renamed…** — obs `2026-08-20T04:05:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (poker tournaments continued) poker tournaments can be built into the GFD MUD GUI client, same as th…** — obs `2026-08-20T04:04:45Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
