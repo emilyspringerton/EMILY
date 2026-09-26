@@ -3884,6 +3884,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, resolving the Google-login-vs-service-account fork from my last question: 'i guess we need per agent…** — obs `2026-08-20T08:01:15Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'did we figure out how to set up iduna google logins once im logged in with fran?' Checked, not buil…** — obs `2026-08-20T07:49:57Z`. CURATED: 2026-09-26.
 - [ ] **Answering two founder real-time questions with real findings, not guesses: (1) MJOLNIR SSH capability -- confirmed zero…** — obs `2026-08-20T07:16:36Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, confirming (not changing) existing behavior: 'to be clear pitviper needs to launch its own window no…** — obs `2026-08-20T07:12:07Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'oh that was on a different gcp i think' -- the Firebase console setup may be under a different GCP …** — obs `2026-08-20T07:10:09Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, Firebase thread continued: 'for the record i started setting it up on the console' / 'but i dont kno…** — obs `2026-08-20T07:09:55Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time question: 'also the human blocked firebase stuff - dont you have extended gcloud capabilities now tha…** — obs `2026-08-20T07:09:40Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time question: does MJOLNIR have SSH capabilities? Logged per Principle 18, checking MJOLNIR's codebase ne…** — obs `2026-08-20T07:09:12Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
