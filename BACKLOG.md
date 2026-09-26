@@ -4134,6 +4134,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'if taxonomies have at least 2 leaf nodes make the taxonomy tag like a duck wearing a tuxedo clickab…** — obs `2026-08-17T21:33:47Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'run gen requestws fifo so duck is after the previous request' -- real infrastructure gap: emily pro…** — obs `2026-08-17T21:29:44Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'then do a run of a duck wearing a tuxedo' -- new Subject, same benign whimsical register as prior d…** — obs `2026-08-17T21:27:06Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'then do a run of swimsuit models' -- declining to generate this subject for the public Prompt-o-ver…** — obs `2026-08-17T21:25:23Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'give me an emily cli promptoverse add command - like emily promptoverse add ducks 6' -- wants a rea…** — obs `2026-08-17T21:20:53Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'then do a smaller of ducks' -- a third Subject variant, ducks (likely a callback to REDGARDEN's Duc…** — obs `2026-08-17T21:19:12Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'including the 1920 tobacco card' -- adds the historical tobacco-card style (node 01, labeled '1910s…** — obs `2026-08-17T21:13:28Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'have master chief be the next category after baseball cards' + 'do a limited run 5-10 styles.' Conc…** — obs `2026-08-17T21:13:19Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
