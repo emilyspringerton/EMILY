@@ -3804,6 +3804,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'build system' -- confirms Bazel as PARENA's build system specifically. Logged per Principle 18. No …** — obs `2026-08-20T11:46:25Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'continue PARENA build it with BAZEL' -- wants PARENA development to continue, with Bazel as the bui…** — obs `2026-08-20T11:46:18Z`. CURATED: 2026-09-26.
 - [ ] **SHANKPIT CI STILL shows failure on the fix commit (3506e55) at the same 'Build Windows Client' step, despite the fix be…** — obs `2026-08-20T11:42:13Z`. CURATED: 2026-09-26.
+- [ ] **MJOLNIR CI investigation: confirmed this is NOT an independent code bug -- it's the exact same, already-known Firebase …** — obs `2026-08-20T11:34:48Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, PARENA stdlib extension: 'can we build scipy and numpy into the standard language of PARENA?' -> 'wh…** — obs `2026-08-20T11:30:15Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, emphatic repeat: 'FIX THE BRAWLPIT BUILD TOO' (all caps) -- second time asking (first was 'fix the b…** — obs `2026-08-20T11:21:59Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'design the standard librry' -- concrete PARENA stdlib design task, NORTHSTAR.md already flagged thi…** — obs `2026-08-20T11:19:55Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'iterate' -- wants a new installment in the 'Building at Infinity' series after I read the existing …** — obs `2026-08-20T11:19:39Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
