@@ -4044,6 +4044,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, further clarifying the variants design (matches what's being built): 'if the subject and style tag e…** — obs `2026-08-18T04:26:03Z`. CURATED: 2026-09-26.
 - [ ] **CRITICAL correction, arrived mid-build: 'to be clear we need to keep both and i think for seo reasons we should condens…** — obs `2026-08-18T04:25:20Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, direct go-ahead: 'add that feature to the cli whatever affordance makes sense to get that functional…** — obs `2026-08-18T04:23:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, concrete content-correction request: 'i need to gen lil wayne papercraft with a red hoodie instead o…** — obs `2026-08-18T04:22:23Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, fragment (unclear, logged not acted on, staying on live-reload verification): 'ok we need a forced f…** — obs `2026-08-18T04:22:08Z`. CURATED: 2026-09-26.
+- [ ] **Founder asking again 'where is my pinup power mtg card on promptoverse?' -- reconfirms the root-cause diagnosis: it IS …** — obs `2026-08-18T04:19:44Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, continuing the crossover-style-family idea (logged, staying on live-reload fix): 'use existing subje…** — obs `2026-08-18T04:18:44Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, generalizing the crossover-style idea (logged, staying on live-reload fix): 'all the crossover style…** — obs `2026-08-18T04:18:40Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
