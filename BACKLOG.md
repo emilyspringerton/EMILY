@@ -3954,6 +3954,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'and check all' — message appears cut off/incomplete, not enough context to act on yet** — obs `2026-08-20T03:58:50Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (HUD config interface continued) founder thinks the underlying plumbing for a GUI-configurable HUD/l…** — obs `2026-08-20T03:57:29Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (GFD HUD continued) buffs need to be positioned above the combat log, not just 'right side tiles' — …** — obs `2026-08-20T03:57:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (GFD graphics continued, important correction) use the ORIGINAL 'Duck, Reportedly Telekinetic' FFXI-…** — obs `2026-08-20T03:56:42Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (GFD graphics continued) scope also includes spell visual styles / overall game artistry, not just e…** — obs `2026-08-20T03:55:51Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue expanding GFD's MUD_GUI client graphics too — same FFXI 'Duck, Reportedly Telekinetic' refe…** — obs `2026-08-20T03:55:48Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (multi-seat Fibonacci pricing continued) unsure exactly where that doc lives — 'it's in some wiki so…** — obs `2026-08-20T03:54:25Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (PITVIPER/lobbies continued) human-only lobbies should exist as their own queue type; non-native bot…** — obs `2026-08-20T03:54:04Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
