@@ -3914,6 +3914,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, priority override ('above all else'): get PITVIPER SSH working. Prior BACKLOG entry (S127 area, SECT…** — obs `2026-08-20T06:52:44Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: flagged that the other Claude session (PID 2584, reboot-recovery session running in tmux pts/1, star…** — obs `2026-08-20T06:52:35Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: wants any data-science infrastructure needed exposed as real IDUNA APIs, backed by Python or whateve…** — obs `2026-08-20T04:46:25Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: wants an Emiree gear-status analysis over the last 16 days, analyzing git commits and Apples as a ti…** — obs `2026-08-20T04:45:10Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: naming resolved — METALVERSE is now what the founder is calling the GFD FPS lobby client (apps2/batt…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: suggests trying the broker proxy (fatbaby-broker.service, :8679) instead of hitting gpt2-serve direc…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: retry the fine-tuned Emily GPT-2 generation for a follow-up brainstorming blog post — wait up to 4 m…** — obs `2026-08-20T04:41:59Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (email integration continued) weighing the real tradeoff — either build real privacy guards around a…** — obs `2026-08-20T04:21:18Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
