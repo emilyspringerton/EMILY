@@ -4139,6 +4139,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'then do a smaller of ducks' -- a third Subject variant, ducks (likely a callback to REDGARDEN's Duc…** — obs `2026-08-17T21:19:12Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'including the 1920 tobacco card' -- adds the historical tobacco-card style (node 01, labeled '1910s…** — obs `2026-08-17T21:13:28Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'have master chief be the next category after baseball cards' + 'do a limited run 5-10 styles.' Conc…** — obs `2026-08-17T21:13:19Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, thought-out-loud through an alternative and rejected it, confirming current approach: considered 'co…** — obs `2026-08-17T21:12:01Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, confirms the plan (no change): 'for SEO taxonomy pages we want the leaf nodes like we have now' + 't…** — obs `2026-08-17T21:11:03Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'we dont necessarily need separate pages for the 2 different mediums -- like renaissance oil paintin…** — obs `2026-08-17T21:10:18Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, converges the plan: 'what we have is good for baseball cards but we need a second category, vastly d…** — obs `2026-08-17T21:09:46Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'now we need to add a level -- stained glass is top level -- right now its all baseball cards but it…** — obs `2026-08-17T21:09:22Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
