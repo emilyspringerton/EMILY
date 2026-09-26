@@ -4014,6 +4014,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, offering expanded scope: 'feel free to create a whole sprite generation subsystem for promptoverse i…** — obs `2026-08-18T05:15:21Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, potential real bug: 'we are still failing to refresh our token' / 'also are all of our token calls g…** — obs `2026-08-18T05:11:25Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'figure it out' -- explicit permission to proceed on judgment without more clarifying questions. Int…** — obs `2026-08-18T05:11:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, unclear referent (logged, will clarify at the status checkpoint): 'add that as an emily os metainstr…** — obs `2026-08-18T05:10:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, major new separate task: 'translate the largest claudemd files to traditional chinese to compress to…** — obs `2026-08-18T05:09:53Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'find claire northstar' -- likely 'find Claude northstar', searching for a NORTHSTAR-style doc speci…** — obs `2026-08-18T05:09:07Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, generalizing the CLAUDE.md documentation instruction: 'ensure claire.md metainstructions are added t…** — obs `2026-08-18T05:08:59Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, expanding the systemd request: 'ensure all our systemd jobs for mission critical proceesxses (all of…** — obs `2026-08-18T05:08:04Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
