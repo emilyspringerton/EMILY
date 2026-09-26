@@ -4209,6 +4209,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **自我修正:剛才Apple #13608跟REDGARDEN commit都誤稱這是'首次'真正end-to-end --autocurriculum訓練——實際上2026-08-11已經跑過一次(500K timesteps,75% wi…** — obs `2026-08-14T23:39:45Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示:CONTINUE——動手修復S166-01/S160-05(1104筆/11檔ticker的source_document_persisted誤標問題,兩處程式碼修復:event修正+docindex去重邏輯)** — obs `2026-08-14T22:37:29Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示:'I need one in Engrish PRS'——理解為要一份英文版(please)的部落格文章(剛發布的Four Kings/North文章是繁體中文)** — obs `2026-08-14T22:34:19Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示片段:'tie a bow as a blog test'+'blog post rather'(打字模糊,大寫可能是語音輸入)——理解為:把最近完成的工作包裝成一篇部落格文章。挑選主題:Four Kings/redgard…** — obs `2026-08-14T22:31:20Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:CONTINUE——訓練持續正常(135168/200000),轉向動手修復 S166-01/S160-05(已完整診斷,1104筆/11檔ticker,兩處程式碼修復)** — obs `2026-08-14T22:31:02Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示片段:'okn9indon the 4 kings'(疑似'ok on the 4 kings'打字錯誤)——含義不明確,查詢相關脈絡中** — obs `2026-08-14T21:34:07Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示補充串:(1) especially Live/Breaking等即時頁面要優先確保當前內容 (2) ALL newswires都要涵蓋,不只PR Newswire (3) also skuldmark(這次修復也要考慮SK…** — obs `2026-08-14T21:23:20Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示補充:確保所有fatbaby top-level nav項目都有當前內容——重申並擴大先前nav過舊的要求,不只是earnings widget一項** — obs `2026-08-14T21:23:09Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
