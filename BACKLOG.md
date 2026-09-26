@@ -3964,6 +3964,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (mod surface continued) new architectural idea — both GFD clients (lobby + battlegrounds_gui/FPS) mi…** — obs `2026-08-20T03:52:21Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (mod surface continued) especially prioritize the FPS 'edu edition' client (apps2/battlegrounds_gui)…** — obs `2026-08-20T03:52:13Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: standing MO for GFD — all game expansions/features must be built as mod-API-first (mod surface exist…** — obs `2026-08-20T03:51:37Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: validate the CarePyre mesh-network research (CarePyre's real source material so far is a single ReLU…** — obs `2026-08-20T03:44:50Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: Flow currency could double as the currency for a poker tournament platform — founder recalls this wa…** — obs `2026-08-20T03:42:05Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
