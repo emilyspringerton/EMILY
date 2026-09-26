@@ -3824,6 +3824,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, PARENA characterization: 'its like EDU scripts scary older sister' -- colorful description suggestin…** — obs `2026-08-20T10:59:41Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, more PARENA direction: 'then northstar that bitch and build it pure before we have to think about ho…** — obs `2026-08-20T10:59:34Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, clear sequencing directive: 'backlog doump sprint plan everything' -> 'then crunch on only PARENA' -…** — obs `2026-08-20T10:58:55Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, new thread, excited/all-caps: 'LANGUAGE SPEC FOUND' -> 'PARENA UPSTREAM' -> 'ITS AN EDITOR AND A LAN…** — obs `2026-08-20T10:55:19Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: sudo-queue/18 has been run ('good call just ran it assume its fixed until you hear otherwise'). Logg…** — obs `2026-08-20T10:55:19Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, real bug report on the just-shipped GFD web work: 'web GFD is a blank screen.' Confirms the honest l…** — obs `2026-08-20T10:47:15Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, camp/minion balance tuning ask: 'more minions spawned early game and after they spawn' -- likely wan…** — obs `2026-08-20T10:46:37Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, more King visual elaboration: 'and spells or something' / 'more threatening' -- Kings should have vi…** — obs `2026-08-20T10:46:28Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
