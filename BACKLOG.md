@@ -3864,6 +3864,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **CI sweep complete across all 12 repos with GitHub Actions: 3 real failures found -- BRAWLPIT (f27f221a), SHANKPIT mainl…** — obs `2026-08-20T09:56:59Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, more build-failure reports, less certain: 'the build is failing for mainline shankpit?' (uncertain) …** — obs `2026-08-20T09:56:37Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, two build failures surfacing from the 'check all the recent builds' instruction: 'the build is faili…** — obs `2026-08-20T09:56:25Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, two more details on GFD web exposure: 'use the regular iduna styleguide' (visual design should match…** — obs `2026-08-20T09:56:03Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'right into the footer' -- continuing the GFD-web-exposure ask, sounds like a link/embed for GFD's w…** — obs `2026-08-20T09:55:54Z`. CURATED: 2026-09-26.
+- [ ] **Four Kings investigation complete (Explore agent, thorough, file:line-verified). VERDICT: real bug, not deploy-lag or d…** — obs `2026-08-20T09:55:52Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, TOP PRIORITY override: 'top priority right now is to figure out the 4 kings situation and get GFD we…** — obs `2026-08-20T09:55:29Z`. CURATED: 2026-09-26.
+- [ ] **SHANKPIT bot investigation, final synthesis (grounded in real code, not speculation): found select_ctf_bot_intent() (pa…** — obs `2026-08-20T09:55:13Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
