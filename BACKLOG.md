@@ -4254,6 +4254,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:58:15Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:45:59Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: asking status + wants the okemily blog-manifest URL surfaced now** — obs `2026-08-14T01:21:37Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue (keep working the backlog queue)** — obs `2026-08-14T01:21:08Z`. CURATED: 2026-09-26.
+- [ ] **Self-correction: commit 7bcde2b's message claims the HITL-11 SECTION 5 items were marked [x] -- they were not, and corr…** — obs `2026-08-14T01:20:27Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: ensure we are updating clare.md/claire.md files per the new EMILY northstar per recent updates** — obs `2026-08-14T01:18:12Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: iterate (continue normal backlog picking now that queue is clear)** — obs `2026-08-14T01:16:39Z`. CURATED: 2026-09-26.
+- [ ] **Process sync done: rebuilt+restarted processor and prwatch-body (were running pre-XBRL-fix binaries). Apple #13387. Als…** — obs `2026-08-14T01:12:56Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
