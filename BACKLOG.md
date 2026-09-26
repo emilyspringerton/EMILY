@@ -4149,6 +4149,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, four-part direction, same burst: (1) 'give me an emily cli key command to set my github key into the…** — obs `2026-08-17T20:50:07Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'prompt-o-verse will be the upstream git repo i cant create it we need to get you a git service acco…** — obs `2026-08-17T20:45:24Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'focusing on fun ideas for new ai users' -- recalibrates the 20-prompt list away from a dry historic…** — obs `2026-08-17T20:44:29Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'hallucinate 20 top level prompts and build it out' -- scaling VS0 MVP up from 6 to 20 real top-leve…** — obs `2026-08-17T20:44:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ok vs0 mvp it i want to see the output' -- greenlighting Prompt-o-verse VS0 for real: run the disco…** — obs `2026-08-17T20:43:33Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time context led to a major empirical success: tested Vertex AI's Gemini image generation endpoint (aiplat…** — obs `2026-08-17T20:40:48Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'i think we can get a god API key for google cloud to let us provision users or service accounts to …** — obs `2026-08-17T20:38:53Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'need to circle back to see if the google cloud has sorted itself out or what -- one of the main way…** — obs `2026-08-17T20:37:47Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
