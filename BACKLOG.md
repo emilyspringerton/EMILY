@@ -4069,6 +4069,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'build out mashup nomination as a social tool' -- narrows the 'build out social features' ask to a s…** — obs `2026-08-18T03:23:17Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, concrete infra direction for social features: 'you should be able to get iduna gcloud logins working…** — obs `2026-08-18T03:22:46Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'build out the social features' -- direct go-ahead to build S176-27 (Reddit-style voting for candida…** — obs `2026-08-18T03:22:33Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (1) 'ok we built a sick gallery plugin can we backlog extracting it from promptoverse?' -- wants the…** — obs `2026-08-18T03:17:49Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'livereload seems broken - prioritize that fix' -- upgrades the earlier uncertain report to a priori…** — obs `2026-08-18T01:44:37Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, session-limit closing instruction: 'we are near our session limit do a full product launch press rel…** — obs `2026-08-18T01:36:01Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, possible live bug report (uncertain): 'live reload seems broken not sure fi it is' -- concerning the…** — obs `2026-08-18T01:35:32Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, new feature idea then explicit deferral: 'for example each of the tree speaking untanslated french g…** — obs `2026-08-18T01:31:39Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
