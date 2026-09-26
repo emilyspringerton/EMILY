@@ -3809,6 +3809,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, emphatic repeat: 'FIX THE BRAWLPIT BUILD TOO' (all caps) -- second time asking (first was 'fix the b…** — obs `2026-08-20T11:21:59Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'design the standard librry' -- concrete PARENA stdlib design task, NORTHSTAR.md already flagged thi…** — obs `2026-08-20T11:19:55Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'iterate' -- wants a new installment in the 'Building at Infinity' series after I read the existing …** — obs `2026-08-20T11:19:39Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, correcting the earlier title: 'building at infinity rather' -- means the real existing post 'Buildin…** — obs `2026-08-20T11:19:29Z`. CURATED: 2026-09-26.
+- [ ] **Checked for 'Building the Plane Through Stillness' -- not found. Searched all 175 blog posts (title/slug/full record) a…** — obs `2026-08-20T11:15:52Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'read building the plane through stillness on the okemily blog' -- a specific existing blog post ref…** — obs `2026-08-20T11:15:26Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, reacting to the self-hosting note: 'not c' / 'silly.' Read as emphasis/confirmation, not a correctio…** — obs `2026-08-20T11:15:19Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ok but after we have a compiler we also need to write parena in parena' -- a real, well-understood …** — obs `2026-08-20T11:15:09Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
