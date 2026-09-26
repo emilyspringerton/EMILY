@@ -4099,6 +4099,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, ontology thread, final confirming example: 'disney owning rapunzel icecream in 2026 may not at all b…** — obs `2026-08-18T01:03:13Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, ontology thread, closing the Rapunzel content-warning example: 'thats a highly time context sensitiv…** — obs `2026-08-18T01:02:59Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, ontology thread, concrete supporting example: 'the rapunzel icecream query triggered a content warni…** — obs `2026-08-18T01:02:41Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, ontology thread continued (now written up, not just logged): 'identifying zero points in terms of wh…** — obs `2026-08-18T01:02:20Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'and then also blog posted about' -- fragment, appears cut off mid-thought. Likely continuing the pa…** — obs `2026-08-18T01:00:16Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, mashup/article-dedup thread, further confirming nuance (no design change, S176-29 stays deferred): '…** — obs `2026-08-18T00:59:42Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, immediately following approval to build article-normalization dedup: 'president wearing a tuxedo may…** — obs `2026-08-18T00:59:25Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, mashup discovery thread: 'duck wearing a tuxedo is the same subject as a duck wearing a tuxedo' -- t…** — obs `2026-08-18T00:58:46Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
