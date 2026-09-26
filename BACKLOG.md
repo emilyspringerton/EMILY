@@ -3989,6 +3989,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: build ecowar as its own separate binary, same model as the other REDGARDEN-family games (online matc…** — obs `2026-08-20T03:31:52Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: comb TRAPX/EMILY/REDGARDEN wikis and docs to develop a comprehensive 'ecowar' RTS model as a new nor…** — obs `2026-08-20T03:30:39Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: enqueue all pending real-time direction into BACKLOG.md as real sprint items, then check whether sta…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: finish the EmilyOS Ravenscar Ada module** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: GFD FPS world-building batch — ~80% of buildings should be solid/collidable like GTA3, start a destr…** — obs `2026-08-20T03:29:45Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: pull the skate culture northstar from SKATEBOARD repo and build it into the GFD FPS client's vast ci…** — obs `2026-08-20T03:27:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: fifth blog post queued -- 'a report as a discussion between emily prime and claude about expanding t…** — obs `2026-08-20T03:16:17Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, consolidating remaining fragments on the GFD-port/mod-surface thread (item 5) and a graphics follow-…** — obs `2026-08-20T03:14:46Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
