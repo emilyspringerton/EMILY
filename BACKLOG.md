@@ -4174,6 +4174,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: Prompt-o-verse — 'the affordance is the gallery/playground to give humans an interface.' Clarifies t…** — obs `2026-08-17T20:21:50Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: Prompt-o-verse mission stated most plainly yet — 'the main mission is to categorize all information.…** — obs `2026-08-17T20:21:32Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: Prompt-o-verse addition — a 'weird/meta' category of surreal transformation prompts (example given: …** — obs `2026-08-17T20:20:57Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: new northstar concept 'Prompt-o-verse' — reframe of Google's 'organize the world's information' miss…** — obs `2026-08-17T20:19:47Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:34:42Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T12:25:26Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T11:38:51Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: continue (standing reaffirmation, no new substantive content)** — obs `2026-08-17T11:17:50Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
