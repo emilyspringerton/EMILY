@@ -4244,6 +4244,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, new thread: 'we are going to publish our data' + direct question 'how big is our data' -- answering …** — obs `2026-08-14T02:00:22Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, SKULDMARK/DB thread, more fragments arriving ('projections', 'also') -- likely referencing S20's exi…** — obs `2026-08-14T02:00:17Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, SKULDMARK/DB thread, final detail: not picky about which DB (mongo/postgres/mysql/whatever) -- just …** — obs `2026-08-14T02:00:06Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, SKULDMARK thread cont'd: use database tech for fast SKULDMARK-keyed API queries -- flagged as roadma…** — obs `2026-08-14T02:00:00Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, emphatic reiteration of the SKULDMARK-into-intake ask ('SKULDMARK thet bitch') -- same thread, no ne…** — obs `2026-08-14T01:59:38Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, refining SKULDMARK ask: tickerize as early in the pipeline as possible** — obs `2026-08-14T01:59:32Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: integrate SKULDMARK (25-char instrument identifier format) into all intake operations** — obs `2026-08-14T01:59:22Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, clarifying: nav items stale except 'Stocks on the Move' -- same pattern as S24-06 (prwatch-body dead…** — obs `2026-08-14T01:59:08Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
