@@ -4094,6 +4094,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, two terse fragments during the LLM-judgment mashup build, meaning not fully certain: 'fractal datase…** — obs `2026-08-18T01:13:40Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, finalizing scope for LLM-judgment mashup detection: 'as we dont have any free claude credits to use'…** — obs `2026-08-18T01:13:28Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, continuing the ontology-solved-by-LLM-query thread: 'lean on claude' / 'or gemini api for now' -- sp…** — obs `2026-08-18T01:13:09Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, reopening the deferred mashup/ontology work (S176-29): 'i think the ontology problem could be solved…** — obs `2026-08-18T01:12:45Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ensure our semantics blog post is prioritized' -- resolves the earlier ambiguous fragment ('and the…** — obs `2026-08-18T01:04:43Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, ontology thread, final confirming example: 'disney owning rapunzel icecream in 2026 may not at all b…** — obs `2026-08-18T01:03:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, ontology thread, closing the Rapunzel content-warning example: 'thats a highly time context sensitiv…** — obs `2026-08-18T01:02:59Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, ontology thread, concrete supporting example: 'the rapunzel icecream query triggered a content warni…** — obs `2026-08-18T01:02:41Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
