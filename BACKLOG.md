@@ -3929,6 +3929,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: use Prompt-o-verse to generate textures for the destructible city being built in GFD's FPS 'lobby ed…** — obs `2026-08-20T04:17:56Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (accounts/funnel continued) build toward a feedback loop — get logins working on Prompt-o-verse firs…** — obs `2026-08-20T04:12:08Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (EmilyOS continued) exploring whether EmilyOS is 'the bare metal of our stack' — same framing patter…** — obs `2026-08-20T04:09:33Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (GFD web client repo continued) floats EmilyOS as a possible alternate home for the web client, but …** — obs `2026-08-20T04:09:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (GFD web client continued) delegates exact repo placement to Claude's judgment — 'build that into wh…** — obs `2026-08-20T04:08:44Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, urgent ('we need it yesterday'): GFD GUI client (with login) needs a web build — WASM or similar, fo…** — obs `2026-08-20T04:08:02Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: noting they need to go find/locate the invented-language spec themselves (action item for founder, n…** — obs `2026-08-20T04:07:19Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: self-corrected — METALVERSE isn't a new subdirectory/repo after all, it's a conceptual name for the …** — obs `2026-08-20T04:07:12Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
