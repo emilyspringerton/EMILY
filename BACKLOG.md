@@ -4084,6 +4084,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, walking back the marble-bag concern: 'maybe i just need to be patient' -- lowers urgency on the Rena…** — obs `2026-08-18T01:24:47Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, real concern about the marble-bag weighted-random selection: 'i dont understand why our marble bag i…** — obs `2026-08-18T01:24:42Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, NEW feature request (separate from the in-progress mashup work, queued for after): 'emily promptover…** — obs `2026-08-18T01:23:39Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, excited about the render-side payoff: 'can you imagine displaying the mashups at the buttom of the s…** — obs `2026-08-18T01:17:43Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'also we are going to need the exact same everything for hybrid styles' -- mirror the LLM-judgment m…** — obs `2026-08-18T01:17:29Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, design note tying two deferred/in-progress threads together: 'social features will give us an escape…** — obs `2026-08-18T01:16:00Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'it should run once an hour to detect hybrids' -- concrete scheduling requirement for the LLM-judgme…** — obs `2026-08-18T01:15:54Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, further extending the graph-context idea (exploratory, not blocking current build): 'especially as t…** — obs `2026-08-18T01:15:33Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
