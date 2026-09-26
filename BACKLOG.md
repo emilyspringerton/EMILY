@@ -4034,6 +4034,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, tooling hint: 'use google apis to get intellgence from the images if necessary' -- if needed, use Go…** — obs `2026-08-18T04:55:53Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'can we add pixel art to the brawlpit engine? use the 5 pixel art generated (or skip baseball man if…** — obs `2026-08-18T04:55:47Z`. CURATED: 2026-09-26.
 - [ ] **Flicker investigation results: real Playwright/Chromium MutationObserver watching both the index page (35s + a separate…** — obs `2026-08-18T04:49:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, major pivot: 'nope you are context limited use appleas and git to dive deeper into the promptoverse …** — obs `2026-08-18T04:47:29Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'livereload is fixed but flicker is not' -- confirms polling now works (not static), but visual flic…** — obs `2026-08-18T04:45:08Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, confirming format + one more detail to include: 'as a blog post' (confirmed) and 'we upgraded our wh…** — obs `2026-08-18T04:43:30Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'can we please use the full promptoverse thread from start to end as a counter argument to LLMs are …** — obs `2026-08-18T04:43:21Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, fragment (logged, unclear scope): 'updating the vs0 description at the top' -- possibly the index pa…** — obs `2026-08-18T04:38:26Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
