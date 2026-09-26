@@ -3919,6 +3919,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: suggests trying the broker proxy (fatbaby-broker.service, :8679) instead of hitting gpt2-serve direc…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: retry the fine-tuned Emily GPT-2 generation for a follow-up brainstorming blog post — wait up to 4 m…** — obs `2026-08-20T04:41:59Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (email integration continued) weighing the real tradeoff — either build real privacy guards around a…** — obs `2026-08-20T04:21:18Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (privacy/scope continued) email integration should be treated as a queryable source for now (on-dema…** — obs `2026-08-20T04:21:02Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: explicit privacy boundary — do NOT automatically log email contents into Apples or anywhere else. Ap…** — obs `2026-08-20T04:20:50Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: emailed the invented-language spec to emilyspringerton@gmail.com — once email read access works (app…** — obs `2026-08-20T04:20:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (email integration continued) wants a real 'emily key gmail-smtp' (or similar) CLI command to secure…** — obs `2026-08-20T04:19:39Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (email integration continued) offers to provide a password and use SMTP instead of the existing OAut…** — obs `2026-08-20T04:18:52Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
