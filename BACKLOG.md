@@ -3794,6 +3794,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: PARENA stdlib planning wraps up with the previously-flagged 'net -- not designed' gap now resolved f…** — obs `2026-08-20T12:06:12Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, same PARENA thread: "SDL2 is built in" (sdl2 ships as a built-in/core-tier stdlib package, no import…** — obs `2026-08-20T12:05:54Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: PARENA stdlib expansion continues -- "also the stdlibs we need for the editor" (parena/plugin, paren…** — obs `2026-08-20T12:05:07Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: PARENA STDLIB — "do any remaining dependency planning." Concrete gap: expr's bindings:&Map and awk's…** — obs `2026-08-20T12:03:19Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: PARENA regex should span multiple engine packages (regex/nfa linear-guarantee, regex/pcre full Perl-…** — obs `2026-08-20T12:00:59Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: PARENA stdlib should include elite-level regex support -- "also ensure we have like elite elite elit…** — obs `2026-08-20T11:59:09Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ok where are the build artifacts?' -> 'for PARENA?' -> 'i see a bazel build.' Real gap found: PAREN…** — obs `2026-08-20T11:55:24Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'add any mor stdlib we think we will need for the vs0 of the mod api for GFD look at that northstar …** — obs `2026-08-20T11:53:40Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
