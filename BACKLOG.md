@@ -4159,6 +4159,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'lets see if we can use nano banana api to go from top level to the gen data' -- proposing a concret…** — obs `2026-08-17T20:35:06Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'ensure all is ingested and planned and then iterate' -- closing signal on the Prompt-o-verse real-t…** — obs `2026-08-17T20:33:55Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, refining the graph-via-shared-tags idea: 'there are third level prompts that are going to more natur…** — obs `2026-08-17T20:32:41Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, confirming the collapse: 'so any top level prompt can probably be expressed via a third level featur…** — obs `2026-08-17T20:32:08Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: concrete example of gap detection -- 'we identify the third level labeled gen output and we identify…** — obs `2026-08-17T20:31:56Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, resolving the tension just raised: 'or its a way to fill in data that the gen data does not randomly…** — obs `2026-08-17T20:31:22Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, self-questioning mid-thought: 'all the photos in the unreal [engine] style, those top level prompts …** — obs `2026-08-17T20:31:10Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: Prompt-o-verse data-model refinement -- the expanded/tier-2 description shouldn't be stored as one l…** — obs `2026-08-17T20:30:03Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
