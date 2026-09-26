@@ -3904,6 +3904,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, stream-of-consciousness: 'i could just upload it but i need to find the mouse' / 'hmm' -- reads as f…** — obs `2026-08-20T06:56:24Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'double click enforced check emily os' -- read as: the Ingest action should require a double-click (…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, scoping the Drive-ingest ask further: UI affordances needed are (1) list the files (from IDUNA's exi…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'make her fran' -- unclear referent, logging verbatim per Principle 18 rather than guessing. Possibl…** — obs `2026-08-20T06:54:33Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, resolving the Google Doc/Drive access ask: the account needs to log in with Google (OAuth), and foun…** — obs `2026-08-20T06:54:22Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: for the Google Doc/Drive attachment (mentioned earlier, then explicitly tabled) -- founder now says …** — obs `2026-08-20T06:53:47Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, additional requirement on the PITVIPER-on-Windows ask: copy/paste has to work on Windows too (separa…** — obs `2026-08-20T06:53:11Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, resolving the Windows-path worry from the prior clarification: 'git bash figures it out' -- founder'…** — obs `2026-08-20T06:53:05Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
