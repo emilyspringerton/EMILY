@@ -4224,6 +4224,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指示補充:同時檢查有沒有新的模型(model checkpoints)產出** — obs `2026-08-14T20:50:33Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示:檢查 REDGARDEN 的 exotic training(noisy-gestalt/autocurriculum等)是否真的在跑——先完成手上 SKULDMARK 收尾(已接近完成),再處理這個** — obs `2026-08-14T20:50:26Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示:then continue** — obs `2026-08-14T20:50:14Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:確認要修——立即開始調查 chat bridge 的 key 錯誤** — obs `2026-08-14T20:32:26Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:Minecraft 端 chat bridge 出錯,顯示需要一組 key,founder 認為這不合理('i think thats bullshit')——立即調查** — obs `2026-08-14T20:32:19Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:continue(打字片段'tinue'/'bitch'/'continue'——催促繼續,無新實質內容)** — obs `2026-08-14T20:30:58Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:優先確保發布成功,以防之後遇到 rate limit——現在立即動手寫並發布繁中/梵文/英譯三語 teaser 文章** — obs `2026-08-14T02:06:26Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示補充:teaser 文章要包含梵文版與英文譯文(確認'a translation'是英文)——單篇文章內含三語言區塊:繁中優先、梵文、英文譯文** — obs `2026-08-14T02:06:17Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
