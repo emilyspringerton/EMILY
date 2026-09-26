@@ -4089,6 +4089,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, design note tying two deferred/in-progress threads together: 'social features will give us an escape…** — obs `2026-08-18T01:16:00Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'it should run once an hour to detect hybrids' -- concrete scheduling requirement for the LLM-judgme…** — obs `2026-08-18T01:15:54Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, further extending the graph-context idea (exploratory, not blocking current build): 'especially as t…** — obs `2026-08-18T01:15:33Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, closing remark on the graph-context idea: 'it can probably detect consistency or context issues' -- …** — obs `2026-08-18T01:14:47Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, refining the LLM-judgment mashup query design: 'especially if we ocasionally feed in the full graph …** — obs `2026-08-18T01:14:39Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, two terse fragments during the LLM-judgment mashup build, meaning not fully certain: 'fractal datase…** — obs `2026-08-18T01:13:40Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, finalizing scope for LLM-judgment mashup detection: 'as we dont have any free claude credits to use'…** — obs `2026-08-18T01:13:28Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, continuing the ontology-solved-by-LLM-query thread: 'lean on claude' / 'or gemini api for now' -- sp…** — obs `2026-08-18T01:13:09Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
