@@ -3894,6 +3894,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'but it better not be the only way to paste something in pitviper' -- confirms middle-mouse-paste is…** — obs `2026-08-20T07:03:35Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, further clipboard requirement: middle-mouse paste (X11-primary-selection-style: select text with the…** — obs `2026-08-20T07:02:59Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, copy-paste caveat: 'if copy paste has any quirks because of how terminal interrupts work etc' -- fla…** — obs `2026-08-20T07:02:51Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, refining the PITVIPER README scope: 'do go crazy detail on how to drive the terminal in the readme' …** — obs `2026-08-20T07:02:28Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ensure we are ready to go build passing installable client just like we have for all our games pitv…** — obs `2026-08-20T07:02:14Z`. CURATED: 2026-09-26.
+- [ ] **Smoke-testing the new apple signature after deploying signAppleBody -- this observation's own auto-filed apple should c…** — obs `2026-08-20T06:59:32Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, general guidance for this session's rapid-fire work: 'lets not bike shed too much but do try to make…** — obs `2026-08-20T06:58:24Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, self-flagged as uncertain: 'we need to do log streaming and then like idempotent commands or somethi…** — obs `2026-08-20T06:58:11Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
