@@ -4109,6 +4109,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, mashup discovery — critical correction to my in-progress design: pure lexical/word-bag matching is w…** — obs `2026-08-18T00:57:19Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, mashup discovery follow-up: word-order variants of the same hybrid subject (e.g. 'Dragon Fox' and 'F…** — obs `2026-08-18T00:55:27Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, mashup discovery follow-up: mashup detection must be dynamic/retroactive - a subject like 'Fractal R…** — obs `2026-08-18T00:52:26Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: native mashup discovery - e.g. querying 'Fractal Raccoon' should surface that mashup as a cross-link…** — obs `2026-08-18T00:52:02Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, continuing the governance/access-control thread for future account-gated features: 'iduna gated' (no…** — obs `2026-08-18T00:42:52Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, policy decision for the future account-gated proposal/voting system: 'all promotion approvals run th…** — obs `2026-08-18T00:42:16Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, further clarifying the account-gated features cluster (voting): topic proposal and tag proposal shou…** — obs `2026-08-18T00:41:47Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
