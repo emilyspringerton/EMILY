@@ -3879,6 +3879,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, completing the slurp-button workflow spec: 'enqueues it in the background' / 'regular resiliency pat…** — obs `2026-08-20T09:51:22Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, CORRECTING my prior 'per agent directories = stick with service account' reading: 'the back office s…** — obs `2026-08-20T09:50:53Z`. CURATED: 2026-09-26.
 - [ ] **Research complete on the chess/Osaka-Garage/METALVERSE ask (Explore agent, read-only, no code changed). Key findings: (…** — obs `2026-08-20T09:50:24Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, major new feature ask: chess. 'also chess' / 'metalverse vs0 bots from osaka garage in FGD into 1v1 …** — obs `2026-08-20T08:01:23Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, pushing back on S187-04 being marked too-vague-to-scope: 'but i had also specified idempotent and lo…** — obs `2026-08-20T08:01:18Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, resolving the Google-login-vs-service-account fork from my last question: 'i guess we need per agent…** — obs `2026-08-20T08:01:15Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'did we figure out how to set up iduna google logins once im logged in with fran?' Checked, not buil…** — obs `2026-08-20T07:49:57Z`. CURATED: 2026-09-26.
+- [ ] **Answering two founder real-time questions with real findings, not guesses: (1) MJOLNIR SSH capability -- confirmed zero…** — obs `2026-08-20T07:16:36Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
