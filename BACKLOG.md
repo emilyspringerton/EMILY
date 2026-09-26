@@ -4019,6 +4019,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'find claire northstar' -- likely 'find Claude northstar', searching for a NORTHSTAR-style doc speci…** — obs `2026-08-18T05:09:07Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, generalizing the CLAUDE.md documentation instruction: 'ensure claire.md metainstructions are added t…** — obs `2026-08-18T05:08:59Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, expanding the systemd request: 'ensure all our systemd jobs for mission critical proceesxses (all of…** — obs `2026-08-18T05:08:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'ensure our new cron jobs like the thumbnail job are installable to systemd via cli and are actually…** — obs `2026-08-18T05:07:25Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, final detail: 'but section by section not snapping all 3 sections in at once' -- when a single poll …** — obs `2026-08-18T05:06:43Z`. CURATED: 2026-09-26.
+- [ ] **MAJOR CLARIFICATION on the earlier 'flicker' mystery: founder, real-time: 'ok the live reload kind of snaps a bunch in …** — obs `2026-08-18T05:06:24Z`. CURATED: 2026-09-26.
+- [ ] **Decision: NOT firing the remaining 5 FFXI garage-gang generations right now -- the background drain from the duck reque…** — obs `2026-08-18T05:05:15Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, clarifying the FFXI batch: 'FFXI i guess is the style im not sure how nano banana is gonna handle it…** — obs `2026-08-18T05:02:31Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
