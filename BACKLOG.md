@@ -4054,6 +4054,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **MAJOR FINDING, real root cause of the recurring live-reload complaints: setInterval/insertNewCards/GALLERY_POLL_MS exis…** — obs `2026-08-18T04:18:05Z`. CURATED: 2026-09-26.
 - [ ] **MTG crossover result: 'Pinup Power' did NOT carry over -- the generated card got an unrelated fictional name ('Kirads F…** — obs `2026-08-18T04:17:10Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, rapid burst: 'but we need the context to shmerar over from the Tops cards how do we do that?' -- rea…** — obs `2026-08-18T04:16:40Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, reframing 'Pinup Power' from bug to feature: 'how can we generate more pinup power content?' -- two …** — obs `2026-08-18T04:13:48Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, real bug report: 'check promptoverse for pinup girl - 2 different tops cards have settled on the the…** — obs `2026-08-18T04:13:20Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, more GFD/Waynizm context (still deferred, not acted on): 'use the lil wayne stained glass output for…** — obs `2026-08-18T04:10:49Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, more GFD worldbuilding fragments arriving mid live-reload-emergency, still not acted on per the expl…** — obs `2026-08-18T04:08:52Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, unrelated GFD worldbuilding request arriving during the live-reload emergency: 'Add Waynizm as a rel…** — obs `2026-08-18T04:08:47Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
