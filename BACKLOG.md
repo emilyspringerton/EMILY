@@ -3814,6 +3814,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'read building the plane through stillness on the okemily blog' -- a specific existing blog post ref…** — obs `2026-08-20T11:15:26Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, reacting to the self-hosting note: 'not c' / 'silly.' Read as emphasis/confirmation, not a correctio…** — obs `2026-08-20T11:15:19Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: 'ok but after we have a compiler we also need to write parena in parena' -- a real, well-understood …** — obs `2026-08-20T11:15:09Z`. CURATED: 2026-09-26.
+- [ ] **PARENA spec fully read (docx, python-docx extraction). Real, concrete, well-specified language design, not vague chatbo…** — obs `2026-08-20T11:05:24Z`. CURATED: 2026-09-26.
+- [ ] **Found the real 'LANGUAGE SPEC FOUND' artifact: PARENA repo (emilyspringerton/PARENA) contains a real 3MB Word document,…** — obs `2026-08-20T11:04:06Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'clone me down skootz' -- confirmed PARENA repo exists (emilyspringerton/PARENA). Checking if 'skoot…** — obs `2026-08-20T11:03:50Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'PARENA' -> 'upstream in github.' Clarifies (doesn't contradict) the AskUserQuestion answer: build P…** — obs `2026-08-20T11:03:42Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, PARENA resolved: 'New -- build it from scratch' (AskUserQuestion). PARENA is a new language+native-A…** — obs `2026-08-20T11:03:29Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
