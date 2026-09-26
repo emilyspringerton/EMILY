@@ -3784,6 +3784,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指令,兩則:(1)「we can do some fancy stuff like v8 with our compiler i bet to make it groovy」——V8 風格 JIT 編譯的構想,套用在 PAREN…** — obs `2026-08-20T13:03:06Z`. CURATED: 2026-09-26.
 - [ ] **創辦人持續澄清「map builder affordances」的真正需求:「like the actual affordances of how the actual editor interface gets build and th…** — obs `2026-08-20T12:41:59Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指令:「can we build map builder affordances into the stdlib if thats a thing?」經 AskUserQuestion 確認為關卡/世界地圖編輯器(terrain…** — obs `2026-08-20T12:40:23Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指令(延續同一 PARENA thread):「and matplotlib」——比照先前 numpy/scipy/pandas 對應套件(array/linalg/stats/dataframe)的模式,新增 matplotl…** — obs `2026-08-20T12:34:41Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, dense burst, same PARENA/PITVIPER thread: "we need the building blocks for the sql drivers" -> "we c…** — obs `2026-08-20T12:29:10Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, AskUserQuestion resolved 'something currently broken in PITVIPER' -- "pitviper is weird right now it…** — obs `2026-08-20T12:24:35Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: resolves NORTHSTAR's own previously-open 'editor shell: Electron/Tauri/GTK/SDL2+ImGui/ncurses+Tree-s…** — obs `2026-08-20T12:22:24Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: Erlang-scope AskUserQuestion resolved 'OTP ergonomics only' -- gen-server/supervisor/ETS-style stdli…** — obs `2026-08-20T12:15:16Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
