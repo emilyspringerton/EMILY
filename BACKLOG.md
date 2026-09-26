@@ -4029,6 +4029,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'then do the rest in mixed LIFO FIFO depending on build order ask emily prime to prioritize as a rol…** — obs `2026-08-18T04:57:57Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, sequencing correction: 'write them as heroes into the TYLER hero bible first' / 'then add lore' -- b…** — obs `2026-08-18T04:57:43Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time, gameplay requirement: 'give them uinque b abilities like up b and b (whatever our b is for parisol u…** — obs `2026-08-18T04:57:29Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, further hint: 'and particle effects' -- wants particle effects too as part of the pixel art characte…** — obs `2026-08-18T04:56:08Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, technique hint: 'use shaders' -- likely: apply a pixelation/color-quantization shader at render time…** — obs `2026-08-18T04:56:00Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, tooling hint: 'use google apis to get intellgence from the images if necessary' -- if needed, use Go…** — obs `2026-08-18T04:55:53Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: 'can we add pixel art to the brawlpit engine? use the 5 pixel art generated (or skip baseball man if…** — obs `2026-08-18T04:55:47Z`. CURATED: 2026-09-26.
+- [ ] **Flicker investigation results: real Playwright/Chromium MutationObserver watching both the index page (35s + a separate…** — obs `2026-08-18T04:49:13Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
