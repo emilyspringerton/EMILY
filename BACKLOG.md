@@ -4234,6 +4234,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **創辦人即時指示補充:部落格預告文語言規格——先繁體中文版,再梵文版。維持先前'SKULDMARK 要先整合完才發預告'的排序,這裡先記錄語言規格,不視為覆寫排序指示** — obs `2026-08-14T02:04:13Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示補充:sprint 規劃項目本身也要用繁體中文寫** — obs `2026-08-14T02:02:05Z`. CURATED: 2026-09-26.
 - [ ] **創辦人即時指示:確保目前所有項目都進 backlog 並完成 sprint 規劃(不是零散的 raw observation)** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:之後所有 thinking 都改用繁體中文** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-09-26.
+- [ ] **創辦人即時指示:接近本次 session 額度上限,先暫停開新的大型實作(SKULDMARK go module 跨 repo 接線),優先把目前所有零散指示做成真正的 backlog sprint 規劃** — obs `2026-08-14T02:01:57Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, final detail: SKULDMARK integration should be v1 (real/complete), not v0 (stub) -- moving to actual …** — obs `2026-08-14T02:01:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, sequencing correction: SKULDMARK has to be integrated first, before the blog tease/open-release anno…** — obs `2026-08-14T02:00:58Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time, tying threads together: SKULDMARK is the ID scheme for the open data release** — obs `2026-08-14T02:00:50Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
