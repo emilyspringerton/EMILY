@@ -3959,6 +3959,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue expanding GFD's MUD_GUI client graphics too — same FFXI 'Duck, Reportedly Telekinetic' refe…** — obs `2026-08-20T03:55:48Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (multi-seat Fibonacci pricing continued) unsure exactly where that doc lives — 'it's in some wiki so…** — obs `2026-08-20T03:54:25Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: (PITVIPER/lobbies continued) human-only lobbies should exist as their own queue type; non-native bot…** — obs `2026-08-20T03:54:04Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (PITVIPER multiverse portal continued) the portal should let players queue up for different REDGARDE…** — obs `2026-08-20T03:53:21Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (PITVIPER continued) proposing PITVIPER as THE multiverse portal — a unified hub/launcher tying toge…** — obs `2026-08-20T03:52:27Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (mod surface continued) new architectural idea — both GFD clients (lobby + battlegrounds_gui/FPS) mi…** — obs `2026-08-20T03:52:21Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: (mod surface continued) especially prioritize the FPS 'edu edition' client (apps2/battlegrounds_gui)…** — obs `2026-08-20T03:52:13Z`. CURATED: 2026-09-26.
+- [ ] **Founder real-time: standing MO for GFD — all game expansions/features must be built as mod-API-first (mod surface exist…** — obs `2026-08-20T03:51:37Z`. CURATED: 2026-09-26.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
