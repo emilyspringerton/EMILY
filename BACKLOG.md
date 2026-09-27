@@ -49638,3 +49638,47 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+
+## SECTION 555: SOUND ENGINEERING — PARENA stdlib/audio → jivetalking (Bazel) → NOCK Sounds + Booth → SHANKPIT (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-27: "nock and shankpit engine need sound engineering primatives we need a
+way to upload and record in nock as well as pass filters around we have a fork of jivetalking
+PARENAIFY our fork BAZEL first then eat it with PARENA into NOCK all of it" → mid-work: "it needs to
+emulate an MPC and a pioneer mixer and 4 CDJS". Logged directly (the `emily` CLI is not installed in
+the cloud container this ran in, so no `emily observe`/Apple was filed from here — file one on the
+next box-side cycle). Branch `claude/charming-einstein-f0ofcc` in every repo below.
+
+- [x] **PARENA `stdlib/audio`** (`09a2b7d`): `dsp.prn` (RBJ biquads/TDF-II, dynamics gain computers,
+  BS.1770 K-weighting + R128 gating, loudnorm), `mixer4.prn` (DJM-style 4ch), `deck.prn` (CDJ-style),
+  `sampler.prn` (MPC-style), `jive_rules.prn` (jivetalking adaptive.go line-for-line). Scalar subset
+  → compiles to C/TS/Java. New `math/{sin,tan,exp,pow,log10,abs}`; C target now lowers all `math/*`
+  to libm. TS emitter `_`-prefixes never-read params. Tests + CI: `test-audio-dsp` (BS.1770
+  coefficients to 1e-9, sine sweeps), `test-audio-dj`, `test-audio-jive-rules` (18k vectors from
+  jivetalking's original Go, 0 mismatches).
+- [x] **jivetalking fork** (`00db341`): adaptive.go delegates every scalar decision to PARENA-generated C
+  via cgo (`internal/parena`); original Go frozen as a parity oracle — bit-identical configs over
+  200k randomized measurement sets. Bazel: MODULE.bazel (rules_go + gazelle go_deps, ffmpeg-statigo
+  via out-of-submodule BUILD), `.github/workflows/bazel.yml`.
+- [ ] **jivetalking Bazel build not yet run anywhere**: `bcr.bazel.build` is blocked (403) by the
+  cloud container's egress policy; the new `bazel.yml` CI job is the first real run — check it and
+  fix what it finds.
+- [x] **IDUNA NOCK** (`c2af8f9`): sound library + validated shareable filter chains (migration
+  `202609270001_nock_sounds.sql`, `internal/nock/sound_store.go`, admin API, public
+  `/api/v1/nock-sound-filters/<name>`); **Sounds** tab (upload, mic record, chain editor, Auto
+  (jivetalking), render + save with provenance, save/clone/copy/import chains); **Booth** tab (4
+  CDJ-style decks in 3-1|mixer|2-4 layout, DJM-style mixer, MPC-style 4x16 pads with swing/note
+  repeat/choke, AudioWorklet). DSP = TS from PARENA (`scripts/gen_nock_audio.sh`). Verified: Go
+  handler tests on real migrations, `npm run test:audio` (22 checks), built worklet in headless
+  Chromium, UI smoke in Chromium with stubbed API + fake mic.
+- [ ] **NOCK Sounds/Booth live click-through on the real IDUNA** (admin login, real upload/record,
+  real chain save → SHANKPIT fetch) — not done from the cloud container.
+- [x] **SHANKPIT** (`1b3b576`): `packages/audio/audio_dsp_gen.c` (PARENA C) + `audio_chain.c` (runs NOCK
+  chains; `SHANKPIT_SOUND_CHAIN=<name>` master chain over the SDL mix). `make test-audio-chain` (CI):
+  C runner == NOCK TS runner bit-for-bit. Lobby links; mingw compile checked.
+- [ ] Follow-ups named, not built: key lock/time-stretch for decks (MASTER TEMPO is tracked, not
+  applied); beat detection (BPM is manual/tap); spectral analysis in the browser so NOCK's Auto chain
+  can use jivetalking's spectrum-driven rules (HPF/de-esser/lowpass); per-voice/per-sound chains in
+  SHANKPIT (only a master chain today); MIDI controller mapping for the Booth.
+
+session: sess-20260927-1020-014j5hnh
