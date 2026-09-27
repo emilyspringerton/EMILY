@@ -49684,7 +49684,12 @@ the record instead (file the Apple from the box when convenient). Branch
   game can't run.
 - [ ] S555-09 Floating-base get-up policy trained against the rigid ragdoll's reversed oracle
   (contact-rich balance; SIM-100 §8 step 5); neural policy + GPU backbone adapter.
-- [ ] S555-10 Seed the live NOCK robot registry with GOLDENBAND `assets/robots/ur*` (needs a Back
-  Office session; per the "registry doubles as documentation" rule) and add more vendors' data.
+- [x] S555-10a Git -> registry sync (founder real-time: "build in the affordances that slurp it
+  into the database"): `RobotStore.SyncFromGit` via IDUNA startup (`NOCK_ROBOTS_GIT_DIR`), the
+  NOCK "Sync from git" button, and `nock robots-sync`. The live registry fills itself once the
+  GOLDENBAND + IDUNA branches are merged and deployed on the box (the checkout it reads is
+  `/home/fatbaby/GOLDENBAND`, and it only reads — never pulls).
+- [ ] S555-10b More vendors' data (KUKA/Franka/ABB — their sites were unreachable from the cloud
+  sandbox).
 
 session: sess-20260927-1025-5b0d7c3e
