@@ -4294,6 +4294,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: at some point ensure the CANNON/siege-minion feature (REDGARDEN NORTHSTAR §20.4, already flagged as …** — obs `2026-08-13T22:34:32Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: ECOWAR should also incorporate bot/hero MOBA elements from the arena side, not purely the original c…** — obs `2026-08-13T22:32:56Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: ECOWAR needs a fully separate client too -- 'separate everything' (mode, matchmaking, client), not s…** — obs `2026-08-13T22:31:57Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: ECOWAR should be a genuinely separate game mode with separate matchmaking (its own queue/port), not …** — obs `2026-08-13T22:31:46Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: ECOWAR game mode should incorporate REDGARDEN's original deck-building mechanic from the vertical-sl…** — obs `2026-08-13T22:31:40Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants a new REDGARDEN game mode called ECOWAR (likely realizing the legacy design doc's 'Ecosystem W…** — obs `2026-08-13T22:31:02Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: check on a previous long-running REDGARDEN AI training run that was in progress before the reboot --…** — obs `2026-08-13T22:30:21Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: all REDGARDEN shop items except Blink Dagger and Donkey (legacy) need a big Flow price increase** — obs `2026-08-13T22:27:40Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
