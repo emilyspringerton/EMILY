@@ -50638,3 +50638,33 @@ ask -- see below).
 commits: MIXFORGE@d562542 (+1e5dbda, 7ad9100), IDUNA@03641fb (+eec96d8)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 562: MIXFORGE — ONE JITTERED RETRY + REAL UNIFIED FRONT DOOR (FOUNDER REAL-TIME)
+
+Founder real-time, direct follow-up to S561: "can we give a jitter retry like when it denies have
+it retry have all the logs show in the client what is happening", then "dont have it retry more
+than once", then "it still doesnt work not unified ensure deploy".
+
+- [x] **One real, jittered retry on download failure.** `downloadWithRetry` in
+  `server/room_server.mjs` — exactly one retry after a random delay (uniform in
+  `[MIXFORGE_RETRY_BASE_MS, MIXFORGE_RETRY_MAX_MS]`, default 1.5-6s), never more, per the
+  founder's own explicit correction. Broadcasts a real `download_retry` message for both the
+  failing first attempt and, if the retry also fails, the final attempt — the room's client log
+  now shows the real step-by-step sequence instead of one opaque `queue_failed`.
+  `room_server_test.mjs` extended with real assertions on the exact sequence (test script
+  overrides the backoff env vars to stay fast); live-verified against a real, guaranteed-to-fail
+  `youtube.com` video id, confirming exactly one retry.
+- [x] **Found live, checked first, confirmed NOT a deploy bug**: the room server was already
+  running the latest code when the founder reported "it still doesnt work not unified ensure
+  deploy." The real issue: `mixforge.okemily.com/` (the bare domain) still served the original
+  standalone `room.wasm` compiler-pipeline proof as `index.html`, with `room.html` merely one of
+  three links buried below it — a real UX gap, not a regression in anything already shipped.
+  Fixed: that original proof moved to `web/wasm-proof.html` (preserved as-is, still linked from
+  `room.html`'s own hub trail), `index.html` replaced with a plain instant redirect to
+  `room.html`. Live-verified via a fresh headless-Chromium visit to the bare domain landing
+  directly on `room.html` with the Start Audio button and room seats present, no extra click.
+  Apple #21120.
+
+commits: MIXFORGE@e5b8a05 (+d87dec8)
+
+session: sess-20260923-1030-4a526255
