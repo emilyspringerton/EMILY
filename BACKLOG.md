@@ -4284,6 +4284,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: reprioritize -- after finishing the current task (newssite PR-indexing fix), do the all-repos status…** — obs `2026-08-13T22:46:55Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: check whether we're saving price-action data against stocks-on-the-move (movers-watcher) yet** — obs `2026-08-13T22:44:24Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: newssite's SEC filings display is 'a garbled mess' -- needs cleanup for accessibility while keeping …** — obs `2026-08-13T22:43:22Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: PITVIPER detail -- should be installable as a terminal client the same way SHANKPIT/GFD/REDGARDEN ga…** — obs `2026-08-13T22:42:02Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: PITVIPER detail -- needs a hotkey that SSHes into iduna.farthq.com using the local ~/.ssh profile (r…** — obs `2026-08-13T22:41:30Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: get PITVIPER working (memory conflicts on current state -- reboot runbook says remote was fixed 2026…** — obs `2026-08-13T22:41:12Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: need to get 'HX' set up with a GitHub upstream (repo name/scope unclear, needs clarification when pi…** — obs `2026-08-13T22:41:12Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants EMILY's initial README/git commit (the original ~24-line scope) checked, all repos surveyed, a…** — obs `2026-08-13T22:40:35Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
