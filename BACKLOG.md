@@ -50226,3 +50226,43 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: MIXFORGE GOES LIVE AT mixforge.okemily.com (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-27 (routed via `emily observe -s info`, Apple #21053 filed,
+`session: sess-20260923-1030-4a526255`): "lets get MIXFORGE live mixforge.okemily.com write the
+terraform for it and then give me the command to run."
+
+- [x] **DNS: `cloudflare_dns_record.mixforge` added to `IDUNA/ops/terraform/main.tf`** — same
+  DNS-only A-record pattern as the existing `cloudflare_dns_record.iam`, `terraform validate`
+  clean. Apple #21057. Not yet applied — needs the founder's own `TF_VAR_cloudflare_api_token`
+  (`EMILY/var/cloudflare.md`) and `terraform apply`.
+- [x] **App-level deploy: nginx vhost + running systemd unit.** New
+  `MIXFORGE/ops/nginx/mixforge-okemily.conf` (static `web/index.html`/`dj.html`/`multiplayer.html`,
+  `/ws` proxied to the room server) and `MIXFORGE/ops/systemd/mixforge-room-server.service` —
+  enabled and running now (`systemctl --user status mixforge-room-server` confirms it, listening
+  on `127.0.0.1:8973`). Apple #21056.
+- [x] **Found and fixed a real bug that would have broken this in production**:
+  `web/multiplayer.html` hardcoded `ws://127.0.0.1:8973`, which only ever worked when the
+  browser and the server were the same machine — a browser hitting the real domain would have
+  tried (and failed) to open a websocket to its own localhost. Changed to a relative
+  `wss://<host>/ws` URL; bound `room_server.mjs` to `127.0.0.1` explicitly (was `0.0.0.0` by
+  `ws`'s own default) so nginx is the real gate, same split `jewel-jupyter.service`/
+  `sarena-notebook.service` already establish elsewhere in this monorepo.
+- [x] **Landed mid-merge with a concurrent session's real work**: another Claude session shipped
+  a genuine 4-deck DJ mixer + 16-pad MIDI sampler (`web/dj.html`, PARENA DSP compiled to
+  `dsp.wasm`, 49/49 tests) to MIXFORGE's `origin/main` while this was in flight. Merged cleanly:
+  reconciled a `CHANGELOG.md` conflict (chronological ordering), resolved a modify/delete
+  conflict on the old empty `README` (deleted it — their new `README.md` is the real one now,
+  folded this section's own deploy details into it), added a `multiplayer.html` link to
+  `index.html`'s hub page (it only linked to `dj.html`), and repointed the nginx vhost's default
+  document at the hub page rather than assuming which feature to land on. Both test suites
+  (`web/dsp_test.mjs` 49/49, `server/room_server_test.mjs`) re-verified passing post-merge.
+- [ ] **Remaining, founder-only step**: `terraform apply` (Cloudflare token) then
+  `sudo-queue/92-mixforge-okemily-domain.sh` (nginx site enable + `certbot --nginx -d
+  mixforge.okemily.com`) — both need real credentials/sudo this session doesn't have. Commands
+  given directly to the founder in-session, not re-derived here.
+
+commits: MIXFORGE@97445b9 (merge), IDUNA@62fdf74, MONOREPO@6c151df46 (sudo-queue/92)
+
+session: sess-20260923-1030-4a526255
