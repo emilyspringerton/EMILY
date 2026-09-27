@@ -49638,3 +49638,33 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: PARENA/JEWEL — LEAGUE STANDINGS CLI + NOTEBOOK PLOTS (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-27 (`session: sess-20260927-1032-6afa7ade`; `emily observe` not available in the cloud
+sandbox this ran in, so it was logged here directly): pasted an LLM-generated proposal for a
+PARENA-written Jupyter kernel (`jewel_kernel.prn`: ZMQ in `#target`, `parena build --shared` +
+`dlopen`, a shared arena across cells, `gym`/`syllabus`/`stream`/WebGPU modules) and a pure-PARENA
+port of `DEADWEIGHT/training/colab_train.py`. Checked against the real repos first: `--shared`,
+`dlopen`, the `#target "c" arg` syntax, and the `gym`/`syllabus`/`stream` stdlib modules don't
+exist, `dw_server` takes none of the training flags, and the real training (`dw_train.py`, SB3
+PPO) stays Python whatever the launcher is written in. So the proposals were not built as
+written. Founder then said "all of it" to the two grounded alternatives:
+
+- [x] `parena standings <game>`: RL league ELO standings from IDUNA's public
+  `/api/v1/game-checkpoints/<game>` (`PARENA/stdlib/league/standings.prn` +
+  `tools/standings_host.c`, ci-status's two-stage build). `make test-standings` (in CI) runs it
+  against a local fake registry. **Open:** run it once against live okemily.com, which this
+  sandbox's proxy blocks.
+- [x] JEWEL rich output: cells' image/SVG/HTML files go back as `display_data`; the SARENA
+  frontend renders them; `PARENA/stdlib/jewel/display.prn` provides `save-file` + `line-plot-svg`.
+  Found and fixed along the way: JEWEL's import resolver compiled design-only `stdlib/vec.prn`,
+  so every cell importing `io` (or anything importing `vec`) had never compiled, and `io.prn`
+  was missing its real `(import array)`.
+- [ ] Deploy: pull JEWEL + PARENA on the box, `make build` PARENA, restart
+  `jewel-jupyter.service`, and run `JEWEL/examples/plot_cell.prn` live.
+- [ ] `stdlib/log.prn` (`log/info`, JEWEL's advertised print path) no longer compiles: its
+  variadic `(args : &Any ...)` params are rejected by the current emitter. Found while testing, and
+  it was already broken before this work.
+- [ ] Float-to-string in `stdlib/string.prn`, so `line-plot-svg` can take F64 series (loss curves)
+  directly instead of I32.
