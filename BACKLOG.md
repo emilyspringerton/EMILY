@@ -4289,6 +4289,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: get PITVIPER working (memory conflicts on current state -- reboot runbook says remote was fixed 2026…** — obs `2026-08-13T22:41:12Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: need to get 'HX' set up with a GitHub upstream (repo name/scope unclear, needs clarification when pi…** — obs `2026-08-13T22:41:12Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: wants EMILY's initial README/git commit (the original ~24-line scope) checked, all repos surveyed, a…** — obs `2026-08-13T22:40:35Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time, resolving the CLAIRE population question via AskUserQuestion: build a real but auditable log capturi…** — obs `2026-08-13T22:35:31Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: at some point ensure a full process sync (unspecified scope -- likely referring to the monorepo-wide…** — obs `2026-08-13T22:34:32Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: at some point ensure the CANNON/siege-minion feature (REDGARDEN NORTHSTAR §20.4, already flagged as …** — obs `2026-08-13T22:34:32Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: ECOWAR should also incorporate bot/hero MOBA elements from the arena side, not purely the original c…** — obs `2026-08-13T22:32:56Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: ECOWAR needs a fully separate client too -- 'separate everything' (mode, matchmaking, client), not s…** — obs `2026-08-13T22:31:57Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
