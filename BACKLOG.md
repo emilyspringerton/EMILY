@@ -4269,6 +4269,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Answer: yes, movers-watcher has been saving real structured price-action data (market_movers_snapshot events -- price, …** — obs `2026-08-14T00:54:19Z`. CURATED: 2026-09-27.
 - [ ] **Fixed the real SEC-filings-display bug (garbled mess = leaked Inline-XBRL ix:header content, 6.5% of a real Costco 10-Q…** — obs `2026-08-14T00:53:14Z`. CURATED: 2026-09-27.
 - [ ] **PITVIPER: fixed the real compile error (terminal.Close type mismatch). Also flagged the founder's other 2 PITVIPER asks…** — obs `2026-08-14T00:46:01Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: 'ok iterate on core product work focusing on unblkoccked revenue' -- investigated S135-03 (blocked, …** — obs `2026-08-14T00:17:46Z`. CURATED: 2026-09-27.
+- [ ] **Finding: S135-03 (EDIS WooCommerce sticker listing, backlog claims 'Emily Prime can create products via EDIS API') is n…** — obs `2026-08-14T00:04:51Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: 'then iterate' / 'while true continue' -- keep working continuously without stopping for permission …** — obs `2026-08-13T23:46:10Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants 12 MORE blog posts, unique authors (distinct from the first 12 batch: Paimon/Unicorn/TINA/K9/G…** — obs `2026-08-13T23:45:50Z`. CURATED: 2026-09-27.
+- [ ] **Finding: gpt2 generation has now failed 3 consecutive attempts (40 tokens/10min timeout, 12 tokens/15min timeout, 6 tok…** — obs `2026-08-13T23:27:23Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
