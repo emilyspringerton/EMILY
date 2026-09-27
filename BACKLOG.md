@@ -49638,3 +49638,31 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: NOCK — VIDEO EDITOR WITH UPLOADS FROM ANY PHONE (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-27: "blue ocean we need a nock video editor that can take uploads from
+any phone via nock." Not routed via `emily observe` first — the `emily` CLI isn't installed in this
+cloud session; logged here directly instead. Frame-break: "capture on any device, author in NOCK" —
+a short-lived capability link makes any phone an input device with no app and no login; video is
+the first consumer. Built in IDUNA (NOCK lives there); design + limits in
+`IDUNA/docs/NOCK_NORTHSTAR.md` "Video editor + phone uploads".
+
+- [x] **S555-01 Engine** — `internal/nock/video_store.go` + migration `202609270100_nock_videos.sql`:
+  clips on disk (ffprobe-validated, rotation-aware, background 720p H.264 proxy + thumbnail),
+  capability-token phone upload links (expiry, cap, revoke, atomic slot reservation), EDL timelines
+  with an ffmpeg normalize-then-concat render; restart recovery. 8 tests against real ffmpeg.
+- [x] **S555-02 HTTP** — `handlers/nock_videos.go`: admin API under `/admin/nock/api/video*`
+  (`iduna.admin`), public `/nock/upload/:token` mobile page (streaming multipart, nonce CSP,
+  no-referrer). 2 httptest tests incl. phone→library→render→download.
+- [x] **S555-03 NOCK UI** — **Video** tab (`frontend/nock/src/VideoEditor.tsx`): QR phone link,
+  clip library, mark in/out, timeline reorder/trim, render, preview + download. Playwright
+  walkthrough (iPhone viewport uploading a rotated HEVC `.MOV` + an H.264 `.mp4`; desktop cut + render)
+  against the real handlers in a local harness.
+- [ ] **S555-04 Deploy** — install ffmpeg on the IDUNA host, set `NOCK_VIDEO_DIR`/`NOCK_VIDEO_MAX_MB`,
+  raise nginx `client_max_body_size` (+ `proxy_request_buffering off`) for `/nock/upload/` and
+  `/admin/nock/api/videos`, restart IDUNA. Human step (live shared service).
+- [ ] **S555-05 Real-phone check** — scan the QR with a real iPhone and a real Android; confirm
+  camera-roll upload, HEVC proxy playback, portrait render.
+- [ ] **S555-06 Next editor slice (unscoped)** — transitions, titles, music bed/audio mixing,
+  filmstrip scrubber, clip retention/quota, export render into NOCK asset libraries.
