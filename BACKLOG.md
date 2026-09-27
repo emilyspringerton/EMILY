@@ -50425,3 +50425,51 @@ building a real NOCK feature, merged into `main` in fork order and pushed as one
   rather than quietly letting it pass.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 559: SHANKPIT — REMAINING ABANDONED CLAUDE BRANCHES MERGED (FOUNDER REAL-TIME)
+
+Founder real-time: "ok ensure the other shankpit abandoned claude branches are merged in" — the
+same real gap S558 already fixed for IDUNA's PRs, now for SHANKPIT's own unmerged `claude/*`
+branches (found via `git branch -r`, none showing up in `git log --oneline master`).
+
+- [x] **`claude/happy-dijkstra-gh5k1x` — real weather fog, no PR ever opened.** Merged `291b708`.
+  Weather profiles' `fog` value now drives real GL_EXP2 world fog (Koschmieder 2%-contrast
+  density), not just a sky tint. New `packages/render/sky_weather_fog_test.c` — compiled and run
+  directly (not wired into the Makefile/CI by the original branch), passes.
+- [x] **`claude/sweet-hamilton-yii3h9` — Giant Zombie Bug pain/attack/flee combat, no PR.** Merged
+  `6e316e2`. Real, found-live detail: an earlier PR #309 had already merged an OLDER tip of this
+  same branch; 2 further commits pushed on top of it afterward were the actual unmerged leftover.
+  `witness_ai_test` grew to 37 checks, all pass (compiled and run directly).
+- [x] **`claude/charming-einstein-f0ofcc` — PARENA sound-engineering primitives + NOCK filter
+  chains, no PR.** Merged `9f5570c`. The largest merge: Makefile/`.github/workflows/tests.yml`/
+  CHANGELOG.md/README.md all conflicted. README's conflict was git giving up on a full-file diff
+  against a since-heavily-rewritten current README (this branch's own base predated months of
+  later rewrites) — resolved by keeping the CURRENT README entirely and adding only this branch's
+  own new bullet, not reverting other real changes. `make test-audio-chain` (new): the C runner
+  matches IDUNA NOCK's own TypeScript filter-chain render bit-for-bit over 24,000 samples.
+  `make server`/`make lobby` and the already-landed physics/fog tests re-verified unaffected after
+  all 3 merges. Apple #21099.
+- [ ] **`claude/epic-franklin-683eoh` — EDITOR.GAME in-process widget, has an OPEN PR (#310) that
+  was never actually merged — NOT merged, real regression found.** The branch's own commit message
+  already admitted it was unverified ("no bazel binary and no display exist in the sandbox this
+  was built in"); attempting the merge for real confirmed why: `make lobby` fails to LINK
+  (`undefined reference to editor_widget_overlay_*`) because `apps/lobby/src/editor_widget_bridge.c`
+  (which the branch's own `main.c` change now calls) was never added to the plain Makefile's
+  `LOBBY_SRC`, and doing so isn't a one-line fix — EDITOR.GAME's own `runtime/parena_runtime.c`
+  defines `arena_init`/`arena_alloc`/`arena_strdup`/`arena_free_all`, the SAME symbol names
+  SHANKPIT's own already-linked `packages/world/parena_runtime.c` defines (a real, deliberately
+  minimal vendored subset, not swappable for EDITOR.GAME's full one — it's missing the SDL2/POSIX
+  symbols the editor's own stdlib needs). A real fix needs: (1) a new Makefile rule compiling
+  EDITOR.GAME's `gen/editor_full.c` + `runtime/parena_runtime.c` as separate object files with a
+  `-D` symbol-rename (same technique EDITOR.GAME's own Makefile already uses for `src/arena.c` vs
+  its own runtime), (2) `-lSDL2_ttf` added to the lobby link (available on this box, not currently
+  linked), (3) a real path reconciliation — the branch's `MODULE.bazel` assumes `../EDITOR.GAME`
+  (true for this box's own local layout) while `.github/workflows/release.yml` already checks out
+  EDITOR.GAME at a DIFFERENT path (`os_apps/EDITOR.GAME`, for the separate OS-apps-bundling job)
+  and the main `tests.yml` CI job doesn't check it out at all yet — so even a locally-working
+  Makefile fix would go red in real CI without a workflow change too. This is a real, separate,
+  bounded piece of build-system integration work, not a one-line branch merge — held back rather
+  than merging a build regression into `master`. Not yet scoped into its own item; flag for a
+  dedicated pass if wanted.
+
+session: sess-20260923-1030-4a526255
