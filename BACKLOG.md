@@ -4331,6 +4331,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time (same TNT thread, GTA7 party stores): also add an extensive potion selection to party store stock** — obs `2026-08-10T08:44:17Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: increase party store TNT sell chance by ~90000% (i.e. massively multiply the drop/sell probability o…** — obs `2026-08-10T08:43:59Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: check every repo in the monorepo for abandoned work sitting in branches with merge conflicts. Full s…** — obs `2026-09-27T13:49:17Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: ensure the new NOCK tools are all deployed** — obs `2026-09-27T14:14:11Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
