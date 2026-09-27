@@ -50492,6 +50492,13 @@ branches (found via `git branch -r`, none showing up in `git log --oneline maste
   context rather than trusting the diff blindly. `frontend/nock/dist` rebuilt from source
   (`tsc -b && vite build` clean); `go build ./...` and `go test ./...` both clean, including the
   branch's own new `internal/nock`/`internal/http/handlers` tests. Companion to SHANKPIT's own
-  5-branch sweep above.
+  5-branch sweep above. Deployed live (binary rebuilt, `iduna.service` stopped/swapped/restarted,
+  `/health` OK). Honest, found-live gap: the branch's own CHANGELOG claimed testing "against
+  GOLDENBAND's real UR5e artifacts," but those are IDUNA's own `internal/nock/testdata/` fixtures
+  -- the live `/home/fatbaby/GOLDENBAND` checkout has no `robots/*.grobot.json` at all (confirmed:
+  startup git-sync logs "no robots/*.grobot.json under GOLDENBAND," `robots-list` returns `[]`).
+  The registry/upload/sync machinery is real and works; there's just no real datasheet-sourced
+  robot data seeded into GOLDENBAND yet -- a separate, not-yet-scoped follow-up, not a defect in
+  this merge.
 
 session: sess-20260923-1030-4a526255
