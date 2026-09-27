@@ -50450,27 +50450,30 @@ branches (found via `git branch -r`, none showing up in `git log --oneline maste
   matches IDUNA NOCK's own TypeScript filter-chain render bit-for-bit over 24,000 samples.
   `make server`/`make lobby` and the already-landed physics/fog tests re-verified unaffected after
   all 3 merges. Apple #21099.
-- [ ] **`claude/epic-franklin-683eoh` — EDITOR.GAME in-process widget, has an OPEN PR (#310) that
-  was never actually merged — NOT merged, real regression found.** The branch's own commit message
-  already admitted it was unverified ("no bazel binary and no display exist in the sandbox this
-  was built in"); attempting the merge for real confirmed why: `make lobby` fails to LINK
-  (`undefined reference to editor_widget_overlay_*`) because `apps/lobby/src/editor_widget_bridge.c`
-  (which the branch's own `main.c` change now calls) was never added to the plain Makefile's
-  `LOBBY_SRC`, and doing so isn't a one-line fix — EDITOR.GAME's own `runtime/parena_runtime.c`
-  defines `arena_init`/`arena_alloc`/`arena_strdup`/`arena_free_all`, the SAME symbol names
-  SHANKPIT's own already-linked `packages/world/parena_runtime.c` defines (a real, deliberately
-  minimal vendored subset, not swappable for EDITOR.GAME's full one — it's missing the SDL2/POSIX
-  symbols the editor's own stdlib needs). A real fix needs: (1) a new Makefile rule compiling
-  EDITOR.GAME's `gen/editor_full.c` + `runtime/parena_runtime.c` as separate object files with a
-  `-D` symbol-rename (same technique EDITOR.GAME's own Makefile already uses for `src/arena.c` vs
-  its own runtime), (2) `-lSDL2_ttf` added to the lobby link (available on this box, not currently
-  linked), (3) a real path reconciliation — the branch's `MODULE.bazel` assumes `../EDITOR.GAME`
-  (true for this box's own local layout) while `.github/workflows/release.yml` already checks out
-  EDITOR.GAME at a DIFFERENT path (`os_apps/EDITOR.GAME`, for the separate OS-apps-bundling job)
-  and the main `tests.yml` CI job doesn't check it out at all yet — so even a locally-working
-  Makefile fix would go red in real CI without a workflow change too. This is a real, separate,
-  bounded piece of build-system integration work, not a one-line branch merge — held back rather
-  than merging a build regression into `master`. Not yet scoped into its own item; flag for a
-  dedicated pass if wanted.
+- [x] **DONE (2026-09-27): `claude/epic-franklin-683eoh` — EDITOR.GAME in-process widget, merged
+  + the real regression fixed for real.** Had an open GitHub PR (#310) never actually merged; the
+  branch's own commit message already admitted it was unverified ("no bazel binary and no display
+  exist in the sandbox this was built in"), and merging it for real confirmed why: `make lobby`
+  failed to LINK (`undefined reference to editor_widget_overlay_*`). Fixed in a same-day follow-up
+  commit: new Makefile rules compile EDITOR.GAME's `gen/editor_full.c` + `runtime/
+  parena_runtime.c` as separate objects with a `-D` rename (`arena_init`/`arena_alloc`/
+  `arena_strdup`/`arena_free_all`/`vec_i32_at` -> `edg_*` — the last one a second, initially-missed
+  collision found via `nm -g` on both object files: PARENA's C emitter generates `vec_i32_at` as a
+  plain global per translation unit, and SHANKPIT's own `packages/world/png_decode_gen.c` happens
+  to generate one too), `-lSDL2_ttf` added to the lobby link, and BOTH `.github/workflows/
+  tests.yml` and `release.yml` updated (checkout EDITOR.GAME as a new sibling, fetch SDL2_ttf's
+  mingw devel kit where missing, generate+compile+link the same 5 objects) — reproduced each
+  workflow's own exact hand-copied shell commands locally before trusting them, same discipline
+  those files' own extensive prior-outage comments already establish. Verified for real: `make
+  lobby` builds and stays up 5+ seconds under headless Xvfb with no crash; EDITOR.GAME's own
+  `examples/editor_widget_test.c` (the real API surface the bridge calls) passes headlessly; `make
+  ea-windows` (mingw cross-compile, new `EDITOR_GAME_OBJS_WIN`) produces a real, working PE32+
+  `.exe` — confirmed EDITOR.GAME's own C has zero mingw portability issues. `make server`/
+  `test-physics`/`test-audio-chain` re-verified unaffected. SHANKPIT `f15f7b1` (merge) + `146c880`
+  (fix). Honest, not fixed: `apps/lobby/BUILD.bazel`'s own Bazel path has the identical
+  `arena_init`/`vec_i32_at` collision (EDITOR.GAME's own `BUILD.bazel` `editor_widget` cc_library
+  exports the plain, unrenamed symbols) — out of scope here since this repo's real, CI-verified
+  build path is the Makefile (confirmed by reading `.github/workflows/*.yml` directly, not
+  assumed); the Bazel side was already marked unverified by its own author and stays that way.
 
 session: sess-20260923-1030-4a526255
