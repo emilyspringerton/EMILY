@@ -45670,21 +45670,26 @@ session: sess-20260905-0720-ec33e7c5
 - [x] New `TestCreateLevel_AcceptsWanderingBotRole` (Go) confirms the fix without loosening the
   real -1/999 rejection boundary. `go build`/`go test ./...` clean, `make server`/`make lobby`
   clean, tsc/vite build clean, deployed live, verified in `dist/` and the deployed binary.
-- [ ] **Real, deeper gap named, NOT built this pass: visual appearance has zero designer
-  control.** `Role` (behavior) and which character MODEL renders (Mannequin/Stan/Mike/Leela/
-  George) are completely decoupled today — the model is picked purely by connection-slot
-  round-robin (`kits[(p->id + i) % 5]`, `apps/lobby/src/main.c`), with no path from a NOCK
-  Character's own authored data to which kit it renders as. This is the real, deeper gap behind
-  the founder's own "i have no control over what that is as the designer." A real fix needs
-  either (a) a client-side lookup from player slot back to the loaded level's own `characters[]`
-  array by matching spawn order (fragile — depends on client and server slot-assignment staying
-  in lockstep, the same class of implicit-convention fragility that has already caused the
-  NetPlayer wire-struct-drift bug three separate times this session) or (b) a new, explicit wire
-  signal naming which kit a given player slot should render as (more robust, touches
-  `protocol.h`/`NetPlayer` — the exact struct that keeps drifting). Confirmed the multiplayer
-  network client DOES already independently fetch the same level export the server used
-  (`apps/lobby/src/main.c:7462`), so a level-data-based lookup is architecturally possible either
-  way — this is a real design decision worth a dedicated pass, not a blind hack.
+- [x] **DONE (2026-09-27): visual appearance designer control, option (b) — a new, explicit wire
+  field.** Founder real-time: "i don't see the robots tools in IDUNA" surfaced this exact
+  still-open gap. Built option (b) from this bullet's own two named designs, not option (a) — the
+  spawn-order client lookup was confirmed fragile in non-`MODE_STORY` levels (S480) where real
+  players and NPCs share the same slot pool, making "the Nth spawned NPC" non-deterministic;
+  option (b) is correct in every mode. New `AIKit` enum (`story_ai.h`), `LevelCharacter.kit` /
+  `story_ai_spawn_enemy(..., kit, ...)`, `PlayerState.forced_kit` + `NetPlayer.forced_kit` (the
+  new wire field landed in a byte that was previously pure padding — `sizeof(NetPlayer)` stays 88,
+  the first field addition to this struct with zero wire-size cost, verified via a real compiled-C
+  offsetof/sizeof probe, not assumed). `draw_player_skin_mannequin` checks it first, above both the
+  witness_ai role table and the round-robin fallback. IDUNA: `Character.Kit`/`CharacterExport.Kit`,
+  range-validated, a new "Kit (visual model)" dropdown in NOCK's `CharacterInspector`. `AIKitAuto`/
+  `AI_KIT_AUTO` (0) preserves every pre-existing character's exact current look — no migration
+  needed. Verified: SHANKPIT `make server`/`make lobby` clean, `story_ai_humanness_test` +
+  `apps/tests/test_netcode.c`'s struct-layout checks pass, `scripts/rl_env_packet.py`'s ctypes wire
+  mirror updated and reverified (34/34 tests). IDUNA `go build`/`vet`/`test ./...` clean (4 new
+  tests), `tsc -b && vite build` clean, confirmed in the rebuilt `dist/`. SHANKPIT `d567232`
+  (Apple #21095), IDUNA `1548de9` (Apple #21096). Honest, not deployed: this sandbox has no access
+  to the live `iduna.service` (no systemd/D-Bus) — code is on `main`, the running production
+  binary was not rebuilt/restarted this session.
 - [ ] **Real, deeper gap named, NOT built this pass: "walking around the city" (real patrol
   authoring) doesn't exist.** `AIPatrolPoint patrol[8]`/`patrol_count`
   (`packages/simulation/story_ai.h`) is a real, working native concept, but has ZERO connection to
