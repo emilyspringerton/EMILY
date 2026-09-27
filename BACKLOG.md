@@ -50475,5 +50475,23 @@ branches (found via `git branch -r`, none showing up in `git log --oneline maste
   exports the plain, unrenamed symbols) — out of scope here since this repo's real, CI-verified
   build path is the Makefile (confirmed by reading `.github/workflows/*.yml` directly, not
   assumed); the Bazel side was already marked unverified by its own author and stays that way.
+- [x] **IDUNA's own abandoned `claude/*` branches audited too** (founder real-time: "look for
+  abandoned iduna claude cloude branches too"). 4 pushed `claude/*` branches found via
+  `git branch -r`; 3 (`charming-einstein-f0ofcc`, `charming-wozniak-ya3uy3`, `cool-wright-s0y42o`)
+  were already merged (`git merge-base --is-ancestor` true against `main`). The 4th,
+  `determined-mccarthy-f5ou9d` (NOCK robot registry: `internal/nock/robot_store.go`,
+  `nock_robots` handler/migration, a "Robots" NOCK tab, `cmd/nock robots-sync`/`robots-list`),
+  pushed 2026-09-27 with zero PRs ever opened — genuinely abandoned. Its own straight two-dot
+  diff against `main` looked like it deleted the Video/Sounds/Booth/Animator work, but that was
+  a stale-base artifact (its merge-base was 16 commits behind `main`, from before those features
+  landed), not a real conflict — a real 3-way merge confirmed the branch only adds the robot
+  registry. Merged (`047300e`), resolving 6 conflicting files (CHANGELOG.md, CLAUDE.md,
+  `cmd/nock/main.go`, `App.css`, `App.tsx`, `api.ts`) by keeping both sides' real, independent
+  work — two of the conflicts had git matching coincidentally-identical closing lines
+  (`created_at`/`updated_at`/`}`) across two unrelated TS interfaces, caught by reading the full
+  context rather than trusting the diff blindly. `frontend/nock/dist` rebuilt from source
+  (`tsc -b && vite build` clean); `go build ./...` and `go test ./...` both clean, including the
+  branch's own new `internal/nock`/`internal/http/handlers` tests. Companion to SHANKPIT's own
+  5-branch sweep above.
 
 session: sess-20260923-1030-4a526255
