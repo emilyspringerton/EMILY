@@ -46299,6 +46299,9 @@ session: session_017CFGuvrYzYdfF4Wm5kkpGm.
 - [x] **S504-20 (founder real-time 2026-09-25, "continue"): the shoulder-surf mechanic — a real, generic stolen-token loop for ZONE_VAULT.** S504-19 above closed `ZONE_EXEC`/`ZONE_GENERATOR` but deliberately left `ZONE_VAULT` unplaced, needing a real "stolen token" mechanic. This closes it with `DESIGN_DIGEST.md` §4's own named mechanic ("shoulder-surfing codes and PINs") — the same one `docs/A1M1_PLAN.md` gap #4 names — built as a real, generic world mechanic rather than tied to a specific mission, since no dedicated Supervisor NPC/terminal object exists live yet (that's A1M1's own real, separate, still-deferred scope). New `PC_BTN_SHOULDER_SURF` held button (BIG_O: C on keyboard, X on controller); `server_tick_shoulder_surf` grants `PlayerSlot.has_vault_token` after a real, continuous 3-second hold within a tight 4.0-unit radius of any live Citizen/The-Men NPC — releasing the button or losing proximity to every valid target resets the streak to 0 (can't be done walking through a room with the button held). `ZONE_VAULT` gets the same hardcoded-circle landmark treatment `ZONE_EXEC`/`ZONE_GENERATOR` used; `server_tick_decorum`'s own `zone_access` call now passes the real token instead of a hardcoded 0 — all 5 rules-module zones are finally live. Verified via a scratch ASan+UBSan integration harness (not committed, same `#include main.c` precedent): 13/13 assertions — the new zone resolves correctly, no-target/broken-hold cases never grant a token, a continuous hold grants exactly one token at the threshold (not before), the granted token actually unlocks `ZONE_VAULT` through the real, unmodified `zone_access()` (still correctly denied for `COS_STREET`, matching the B1 table), and a full S504-19 regression check confirms the gear/zone Decorum path is undisturbed. `scripts/build_day.sh` clean; `scripts/build_client.sh` also compiled clean this pass (SDL2/GL dev packages installed successfully this time) — the new keyboard/controller bindings build without warning, though on-screen feel is unverified (no live GL driver in this sandbox). `scripts/build.sh` re-run clean, zero regressions. Real, honest, deliberately not built: any client HUD affordance for the hold itself; witness-risk for the act of shoulder-surfing (the generated PARENA rules oracle wasn't touched this pass); a dedicated Supervisor NPC/terminal/Act I Mission 1 content; token loss/expiry on death. See BIG_O NORTHSTAR.md §38, CHANGELOG.md, README.md.
 session: session_017CFGuvrYzYdfF4Wm5kkpGm.
 
+- [x] **S504-21 (founder real-time 2026-09-25, "continue"): real MOBBING movement — birds actually dive.** `day/apps/server/src/main.c` `server_tick_avians` (BIG_O): a MOBBING bird now steps toward the nearest witnessable zombie in range at 7.0 units/sec via `bigo_pheromone.h`'s own `pheromone_step_toward`, closing NORTHSTAR.md §6's "dive-bombing/harassing" framing — previously a cosmetic mood label only. ROOSTING/SCOUTING/SIGNALING birds still hold their perch on purpose. `scripts/build_day.sh` compiles clean; same real `worldapi`-dependency limitation as S504-18 for live-log capture. See BIG_O NORTHSTAR.md §34.
+session: sess-20260923-1030-4a526255.
+
 - [x] **S504-18 (founder real-time 2026-09-25, "continue"): live `ServerAvian` flock — closes the Act II beacon loop.** `day/apps/server/src/main.c` (BIG_O): new `g_avians[3]` real, server-authoritative flock (separate array from `g_npcs[]`, matching `g_giant_bugs[]`'s own convention), `server_spawn_avians`/`server_tick_avians` wired into the real per-tick loop. Each bird runs all three `core/avian_live.h` "observing the observer" channels against the live NPC population, ticks real flock coordination among the other live birds, and — the first live consumer of `avian_beacon_strength` anywhere in this repo — calls `zombie_get_agitated()` on nearby zombies once a bird's beacon fires, closing `docs/DESIGN_DIGEST.md`'s own Act II "acoustic beacons pull feral hordes" mechanic. `scripts/build_day.sh` updated, compiles clean. Real, honest limitation named: this server hard-requires a reachable `worldapi` at startup with no bypass, unavailable in this sandbox, so live server log output couldn't be captured — the underlying functions are the same ones already unit-tested and passing. See BIG_O NORTHSTAR.md §33, CHANGELOG.md.
 session: sess-20260923-1030-4a526255.
 
@@ -50227,7 +50230,7 @@ hammering the live production endpoint.
 
 session: sess-20260923-1030-4a526255
 
-## SECTION 555: MIXFORGE GOES LIVE AT mixforge.okemily.com (FOUNDER REAL-TIME)
+## SECTION 557: MIXFORGE GOES LIVE AT mixforge.okemily.com (FOUNDER REAL-TIME)
 
 Founder real-time, 2026-09-27 (routed via `emily observe -s info`, Apple #21053 filed,
 `session: sess-20260923-1030-4a526255`): "lets get MIXFORGE live mixforge.okemily.com write the
@@ -50266,3 +50269,64 @@ terraform for it and then give me the command to run."
 commits: MIXFORGE@97445b9 (merge), IDUNA@62fdf74, MONOREPO@6c151df46 (sudo-queue/92)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: DEADWEIGHT — ANDROID FULL PARITY WITH THE DESKTOP CLIENT (REVERSES S513 SHELVING) (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: bring the shelved Android client back to full feature and visual
+parity with the desktop (Windows/Linux SDL2) client — same art and rendering approach, "use PARENA
+to abstract stuff", plus copy/paste support and a "key unlock" feature set. Scoped in
+`DEADWEIGHT/docs/ANDROID_PARITY_NORTHSTAR.md` (4 phases). **Logged late**: the phase 1 session's
+parity doc said this was "flagged in EMILY/BACKLOG.md", but no entry ever landed here — added
+2026-09-27 by the phase 2 session, which found the gap. (No `emily` CLI in that cloud container,
+so no `emily observe`/Apple could be filed from it — hand-logged here instead.)
+
+- [x] **Phase 1 — brutalist rendering port** (2026-09-25, DEADWEIGHT f0ec008, merged as
+  emilyspringerton/DEADWEIGHT#1): desktop `Col` palette -> `Theme.java`, 5x7 bitmap `FONT` ->
+  `PixelFont.java`, `CardView`/`BarView` re-rendered, NOCK PNG art retired from the live render
+  path. First shipped unverified against real `android.*` APIs; 2026-09-27 compile-checked clean
+  against the Maven Central `com.google.android:android:4.1.1.4` API stubs (still not run on a
+  device/emulator).
+- [x] **Phase 2 — PARENA-driven fx parity** (2026-09-27): `fx_rules.prn` now has a third target,
+  `android/.../generated/FxRules.java` (`scripts/gen_rules.sh`, combined build with
+  `card_rules.prn`, same as the TS target). `core/FxTimeline.java` is a line-for-line port of
+  `web/src/fx.ts`'s `computeTimeline`; `FxView.java` plays the reveal (brutalist, fx.c's own labels
+  and colours, stage strip, crit flash/shake); `MainActivity` shows it in the match screen and holds
+  the result screen until the final reveal finishes (desktop behaviour). Verified: 9,941 C->Java fx
+  parity vectors + 27 FxTimeline scenario checks (`//android:fx_parity_test`, in CI), stale-vector
+  guard in `scripts/build.sh`, IntegrationTest computes a timeline for every real ROUND_RESULT from
+  a live `dw_server`+`dw_bot`, full `scripts/build.sh` BUILD CLEAN. HONEST: no audio on Android, no
+  particles/ships; energy-delta and new-status stages are the same named wire-protocol gap the
+  browser client has; `FxView` never rendered on a device/emulator (compile-checked only).
+- [ ] **Phase 3 — copy/paste.** Only plausible surface found: draft deck export/import (deck
+  codes). Needs a deck-code format decision first (none exists on any client today).
+- [ ] **Phase 4 — "key unlock".** BLOCKED on a founder answer: (a) Ultimates/cosmetic unlock
+  progression, (b) IDUNA account/license-key entitlement gate, or (c) something else. Nothing
+  named "key unlock" exists anywhere in DEADWEIGHT today.
+- [ ] **On-device verification** of phases 1-2 (touch feel, rotation, FxView timing on a real
+  GPU) — needs a real device or emulator; not available in cloud sandboxes.
+- [x] **README reconciliation**: DEADWEIGHT README + CLAUDE.md updated 2026-09-27 to say Android
+  is back in scope (both still said "shelved" after phase 1).
+
+session: sess-2026-09-27-android-parity-p2
+
+## SECTION 556: SHANKPIT LEADERBOARD ON WOTAN — BASIC MATCH TRACKING (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: "add shankpit to WOTAN (we need to formalize shankpit matches and
+logins etc if you have an iduna account you have a shankpit account ok we have keys for shankpit
+and bigo i think so those will be for premium ok? for now we need basic shankpit match tracking)."
+Routed per Principle 18.
+
+- [x] **WOTAN `shankpit.html` — basic SHANKPIT kill/death/session leaderboard, reading a new
+  public `GET /api/v1/shankpit/leaderboard` endpoint.** `IDUNA@ad60175` adds
+  `internal/http/handlers/shankpit_leaderboard.go` (public, unauthenticated, rate-limited,
+  sourcing directly from the `players` table's existing `kills`/`deaths`/`sessions` columns —
+  the same columns `players.go`'s `handleSessionEnd` already writes on every real SHANKPIT match,
+  so "IDUNA account = SHANKPIT account" needed no schema/account change, only this read). WOTAN's
+  own `shankpit.html` + nav wiring already existed on disk, checked and confirmed real (not a
+  stub) before this pass — only the backend endpoint it calls was missing; it's the piece that
+  makes the page functional rather than a permanent loading spinner. Go tests added
+  (`shankpit_leaderboard_test.go`: ordering by kills, K/D-with-zero-deaths edge case, GET-only)
+  and pass; `go build ./...` and `go vet ./internal/http/handlers/...` both clean.
+- [ ] **SHANKPIT and BIG_O premium keys.** Named by the founder in the same message ("those will
+  be for premium") but explicitly out of scope for "basic match tracking" — not started, no
+  design done yet on what a premium tier gates or how a key is redeemed/verified.
