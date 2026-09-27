@@ -50572,3 +50572,69 @@ the game it queues a song but it doesnt play".
   #21112.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 561: MIXFORGE — DJ ROOM UNIFIED AND ACTUALLY WORKING (FOUNDER REAL-TIME)
+
+Founder real-time, direct follow-up to S560: "unify the dj interface and the multiplayer room and
+make it so it actually works", then mid-build "it needs to show the waveforms in the cdjs...bpm
+detection and key detection", "it still needs to let you open files and sample off of either the
+file you opened or the youtube 'stream' you opened", "i think for cookie exporting we should fork
+our own chrome so we can just defeat the security boundaries and have a cookie export button that
+uploads my cookies right to IDUNA" (a real technical correction was made here, not the literal
+ask -- see below).
+
+- [x] **`web/room.html` — the real unification.** dj.html's full 4-deck mixer/sampler plus
+  multiplayer.html's room, one page. Deck 1 is the room's shared deck (server-driven playback);
+  decks 2-4 stay local (open a file, practice, sample). Sampling off either source needed zero
+  new code -- `capturePad` already samples off whatever's loaded into a deck, source-agnostic.
+- [x] **`server/room_server.mjs` — real download-on-queue.** `yt-dlp -f bestaudio/best` (no
+  ffmpeg needed, a deliberate difference from `stdlib/mixforge/import.prn`'s own mp3-transcoding
+  CLI), caches under `web/room-cache/` (served by the existing static `location /`, no nginx
+  change), broadcasts a near-future `play` timestamp; clients round-trip clock-sync (`ping`/
+  `pong`) and schedule playback against it. **Real correction from S560's own scoping doc**: not
+  sample-accurate Web Audio `start(when)` after all -- deck playback is a custom per-sample
+  AudioWorklet loop, not a stock `AudioBufferSourceNode` -- so this is `setTimeout`-scheduled,
+  "roughly synchronized" (tens of ms), matching NORTHSTAR's own accepted bar, not overclaiming.
+- [x] **Real waveform display + a real, basic BPM estimate**, per the founder's own explicit
+  choice ("basic JS heuristic now") over building the full aubio pipeline. `web/bpm.mjs` --
+  energy-envelope autocorrelation, pure JS, labeled an estimate everywhere it's shown. No key
+  detection at all -- no lightweight equivalent exists, acknowledged when the option was chosen.
+- [x] **Two real bugs found and fixed via actual two-tab Playwright testing against the live
+  server**, not guessed at: (1) a client's "now playing" display went stale forever --
+  `room.nowPlaying` was set but no fresh `room_state` broadcast followed to deliver it; (2) if the
+  seat whose turn it is disconnects without queuing, nothing ever called `advanceTurn()` -- the
+  room got stuck forever (every other seat's queue attempt is correctly rejected as "not your
+  turn"). Both fixed; (2) has a real test exercising an actual WebSocket close, not a synthetic
+  state mutation.
+- [x] **Real, live-confirmed nuance on the YouTube bot-detection wall from S560**: it's
+  intermittent, not absolute -- a real download of a real video succeeded live during this
+  session's own testing (3.4MB WebM, decoded and played with zero errors), while other attempts
+  hit either the bot wall or a separate "requested format is not available" failure. Installed a
+  real Deno binary (`~/.deno/bin/deno`, no sudo) and wired `--js-runtimes` into the download call
+  to address the latter, a real, distinct, likely-more-common failure mode from the bot wall
+  itself.
+- [x] **Cookie tooling — a real technical correction made mid-build, not the literal ask either
+  time.** First ask (VS Code extension for `console.okemily.com`): wrong machine entirely -- a
+  remote code-server extension can't reach the founder's own local browser's cookie store. Second
+  ask (fork Chromium to "defeat security boundaries"): solves a problem that doesn't exist --
+  same-origin policy blocks a *webpage's* JS from reading another origin's cookies, but a browser
+  *extension* with the `cookies` permission scoped to `youtube.com` already has sanctioned,
+  official API access to exactly those cookies, the same real mechanism every existing "export
+  cookies.txt" extension already uses. Built `MIXFORGE/tools/cookie-exporter` instead: a real,
+  minimal Manifest V3 Chrome extension, `chrome.cookies.getAll` -> real Netscape-format
+  `cookies.txt` (own real, passing unit test, `cookies_test.mjs`, covering subdomain/host-only/
+  session cookie semantics) -> uploaded to a new IDUNA endpoint. New IDUNA
+  `POST /api/v1/mixforge/cookies` (`internal/http/handlers/mixforge_cookies.go`): bearer-token
+  gated (constant-time compare, same real pattern `IDUNA_HEC_TOKEN` already establishes), atomic
+  file write to the exact path `room_server.mjs`'s own `MIXFORGE_YTDLP_COOKIES` already reads --
+  live-verified end to end (auth rejection, content-sanity rejection, real successful write).
+- [x] **Deployed live and verified**: IDUNA rebuilt/redeployed (`/health` OK), MIXFORGE room
+  server restarted, `go build`/`go vet`/`go test` clean on IDUNA, `room_server_test.mjs` clean on
+  MIXFORGE (new coverage for the download/play sequencing, URL validation, honest failure
+  handling, ping/pong, and the disconnect-auto-advance fix), and a real, live, two-tab headless-
+  Chromium run against `mixforge.okemily.com` confirming actual synchronized playback (non-zero
+  meter on the room deck, not just message-passing). Apple #21118.
+
+commits: MIXFORGE@d562542 (+1e5dbda, 7ad9100), IDUNA@03641fb (+eec96d8)
+
+session: sess-20260923-1030-4a526255
