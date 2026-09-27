@@ -49638,3 +49638,46 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: NOCK — ANIMATOR + RIG REMAPPING PRIMITIVES ("TOTAL BLENDER REPLACEMENT") (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-27: "continue to evolve NOCK tools into a total blender replacement we
+need a way to animate in NOCK also we need the primatives for remapping a mesh onto a new rig".
+Logged by hand: this cloud session has no `emily` CLI, so there's no `emily observe`/Apple.
+Picks up `IDUNA/docs/NOCK_CHARACTER_PIPELINE_NORTHSTAR.md` Phase 3 item 2 (animation tool) and
+adds the rig-remapping primitives imported assets need. Shipped in IDUNA `19cacd5` on branch
+`claude/confident-mccarthy-z2d7uk`.
+
+- [x] Go core (`IDUNA/internal/nock`):
+  - GOLDENBAND decode/encode + math kit (`rig.go`);
+  - automatic bone map across Mixamo/Unreal/Rigify/Biped with overrides (`rig_bonemap.go`);
+  - mesh re-skin onto a new rig by bone map / proximity / auto, with optional fit (`rig_remap.go`);
+  - world-space clip retarget (`rig_retarget.go`);
+  - KeyframeDoc bake + derive-from-clip (`keyframes.go`);
+  - store operations (`anim_rig.go`).
+  16 new tests. (IDUNA 19cacd5)
+- [x] HTTP routes (`nock_animator.go`): keyframes GET/POST, bone-map, remap-mesh, retarget.
+  Migration `202609270001` (`keyframes_json`). (IDUNA 19cacd5)
+- [x] CLI: `nock rig-map | rig-remap-mesh | rig-retarget | anim-bake | anim-keys`. (IDUNA 19cacd5)
+- [x] UI: `Animator.tsx` (pose mode + dope sheet) and `RigTools.tsx` (bone-map review, remap,
+  retarget), wired into the character library. Driven end to end in headless Chromium.
+  (IDUNA 19cacd5)
+- [x] Verified on BIG_O's real 65-joint mannequin vs a Mixamo-named copy:
+  - bone map 65/65 correct;
+  - retarget within 0.05°;
+  - name remap weight-exact;
+  - proximity weights 71% dominant-joint agreement.
+  (IDUNA 19cacd5)
+- [ ] Deploy: the live IDUNA needs a rebuild + restart to pick up the migration and the new
+  embedded UI. Not done from this sandbox.
+- [ ] Weight-paint tool (seed its "auto weights" from `rig_remap.go`'s envelope), skeleton
+  builder (Phase 3 item 1).
+- [ ] Animator next steps: graph editor (Bezier handles), IK / foot locking, rest-pose matching
+  for T-pose↔A-pose retargets, stitching authored clips into `gseq` sequences.
+- [ ] Investigate BIG_O `zombie_walk`'s own 7-tick ~170° upper-arm glitch (ticks 44–50).
+  Suspect: `IDUNA/internal/nock/gltf_convert.go` `resampleQuat` lerps quaternion keys with no
+  hemisphere alignment. Re-import from the source glb to confirm before changing the importer.
+- [ ] Decide whether to delete the orphaned `IDUNA/frontend/nock/src/AnimationEditor.tsx` (never
+  imported by App.tsx; the animator supersedes it).
+
+session: cloud-session_017UqhysUqwFHHUbLPFQrKYi
