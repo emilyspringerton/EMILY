@@ -45687,9 +45687,11 @@ session: sess-20260905-0720-ec33e7c5
   `apps/tests/test_netcode.c`'s struct-layout checks pass, `scripts/rl_env_packet.py`'s ctypes wire
   mirror updated and reverified (34/34 tests). IDUNA `go build`/`vet`/`test ./...` clean (4 new
   tests), `tsc -b && vite build` clean, confirmed in the rebuilt `dist/`. SHANKPIT `d567232`
-  (Apple #21095), IDUNA `1548de9` (Apple #21096). Honest, not deployed: this sandbox has no access
-  to the live `iduna.service` (no systemd/D-Bus) — code is on `main`, the running production
-  binary was not rebuilt/restarted this session.
+  (Apple #21095), IDUNA `1548de9` (Apple #21096). **Correction (Apple #21097)**: this box is NOT a
+  sandbox (founder, real-time) — the earlier "can't reach the live iduna.service" note was a
+  self-inflicted `XDG_RUNTIME_DIR` mismatch, not a real limitation. `iduna.service` is confirmed
+  live on this box; rebuilt the binary, verified the new "Mannequin" kit-dropdown string is
+  embedded, stopped/replaced/restarted the service, confirmed healthy. Deployed to production.
 - [ ] **Real, deeper gap named, NOT built this pass: "walking around the city" (real patrol
   authoring) doesn't exist.** `AIPatrolPoint patrol[8]`/`patrol_count`
   (`packages/simulation/story_ai.h`) is a real, working native concept, but has ZERO connection to
