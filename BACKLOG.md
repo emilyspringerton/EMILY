@@ -4274,6 +4274,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'then iterate' / 'while true continue' -- keep working continuously without stopping for permission …** — obs `2026-08-13T23:46:10Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: wants 12 MORE blog posts, unique authors (distinct from the first 12 batch: Paimon/Unicorn/TINA/K9/G…** — obs `2026-08-13T23:45:50Z`. CURATED: 2026-09-27.
 - [ ] **Finding: gpt2 generation has now failed 3 consecutive attempts (40 tokens/10min timeout, 12 tokens/15min timeout, 6 tok…** — obs `2026-08-13T23:27:23Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants 12 total unique-author blog posts this batch (currently at 4: Paimon, Unicorn/Mid-Piano, TINA,…** — obs `2026-08-13T23:27:12Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants another blog post, any topic/guest, no specific constraints given ('any any any')** — obs `2026-08-13T23:19:30Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: work with gpt2 (the fine-tuned inference server) on a followup to the new blog post -- real model-as…** — obs `2026-08-13T23:15:49Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants a new blog post, guest/topic chosen by Claude, explicitly NOT about founder-input-chaos/discip…** — obs `2026-08-13T23:15:49Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: 'use the field to help in case u are confused' -- noted, unclear specific referent; logging as-is fo…** — obs `2026-08-13T22:52:48Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
