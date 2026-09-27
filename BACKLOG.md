@@ -49660,9 +49660,10 @@ next box-side cycle). Branch `claude/charming-einstein-f0ofcc` in every repo bel
   via cgo (`internal/parena`); original Go frozen as a parity oracle — bit-identical configs over
   200k randomized measurement sets. Bazel: MODULE.bazel (rules_go + gazelle go_deps, ffmpeg-statigo
   via out-of-submodule BUILD), `.github/workflows/bazel.yml`.
-- [ ] **jivetalking Bazel build not yet run anywhere**: `bcr.bazel.build` is blocked (403) by the
-  cloud container's egress policy; the new `bazel.yml` CI job is the first real run — check it and
-  fix what it finds.
+- [x] **jivetalking Bazel build green in CI** (run 36314525832, commit `6344cd5`): `bazel build
+  --config=release //...`, `bazel test //...` (incl. the 200k-case PARENA parity test) and the
+  Bazel-built binary's `--version` smoke all pass. First run failed on `@platforms` visibility inside
+  the ffmpeg `new_local_repository` -- fixed by selecting on a main-repo `//bazel:arm64`.
 - [x] **IDUNA NOCK** (`c2af8f9`): sound library + validated shareable filter chains (migration
   `202609270001_nock_sounds.sql`, `internal/nock/sound_store.go`, admin API, public
   `/api/v1/nock-sound-filters/<name>`); **Sounds** tab (upload, mic record, chain editor, Auto
