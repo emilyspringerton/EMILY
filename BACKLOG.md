@@ -49638,3 +49638,27 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: PARENA — PYTHON-FREE TRAINING PATH: BACKPROP, WEBASSEMBLY, WGSL (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-27 (cloud session, `session: sess-20260927-cloud-01ND3qA5`; the
+`emily` CLI isn't installed in this container, so `emily observe`/Apple filing were not run —
+file both from the box): pasted a design, apparently from Gemini, for "PARENA replaces PyTorch
++ Gymnasium + Syllabus" (Pi Zero camera feed → iPhone browser WASM → WebGPU training). Checked
+against the repo: no backward pass anywhere in stdlib, PARENA has no WGSL/WASM emitter, the
+pasted syntax doesn't parse, and region analysis doesn't give thread safety. Agreed a smaller
+three-step plan instead; founder: "do all of it".
+
+- [x] Step 1 — `PARENA/stdlib/nn_train.prn`: 2-layer MLP with hand-written backprop + SGD.
+  `make test-nn-train` (added to CI): finite-difference gradient check on every parameter,
+  XOR learned, bit-identical reruns.
+- [x] Step 2 — the same generated C built with Emscripten (`PARENA/examples/wasm_train/`,
+  `make wasm-train`, new `wasm_train` CI job): XOR trains in WebAssembly; params match gcc to
+  6e-15. Fixed `runtime/parena_runtime.h`'s `forkpty` Emscripten break at the source.
+- [x] Step 3 — hand-written WGSL first-layer matmul, checked against PARENA `hidden-pre` in
+  headless Chromium (SwiftShader): 8192 outputs, max rel err 4.6e-7.
+- [ ] Run the page on a real iPhone (Safari WebGPU) and record the numbers.
+- [ ] Move training itself onto the GPU (batched, JS-driven async steps), CPU path as reference.
+- [ ] Unboxed F64 parameter buffer (each `vec/set-at!` currently allocates a new arena cell).
+- [ ] Curriculum hook (`next-capture-tier`, scalar, from the earlier Syllabus discussion) — not
+  started; waiting on which repo the Pi/iPhone rig lives in.
