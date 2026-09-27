@@ -4336,6 +4336,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: IDUNA has abandoned pull requests, bring them in and fix the conflicts** — obs `2026-09-27T15:16:32Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: port more of the deadweight graphics into parena, need full java parity including the launcher title…** — obs `2026-09-27T15:40:55Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: 'ensure the shankpit rigid body stuff landed i dont see the robots tools in IDUNA' -- checking merge…** — obs `2026-09-27T21:10:58Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: 'ok ensure the other shankpit abandoned claude branches are merged in' -- merging remaining abandone…** — obs `2026-09-27T21:46:39Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
