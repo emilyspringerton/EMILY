@@ -45276,14 +45276,23 @@ underneath step 3 (the reward compiler needs real physics to grade a policy agai
   bending doesn't violate a bone-length constraint. **Real, named next requirement: angular/
   joint-limit constraints, not per-bone collision shapes or mass tuning, are the actual next
   architecture question** for a believable ragdoll.
-- [ ] **Not started: real angular/joint-limit constraint design** — the concrete next spike/
-  design question this session's own spike surfaced. Needs a per-joint limit representation
-  (swing/twist cone, hinge range, etc.) layered onto the existing distance-constraint PBD loop.
-- [ ] **Not started: per-bone mass/inertia model** — spike used uniform inv_mass=1 per joint;
-  real ragdoll behavior (a head should swing differently than a torso) needs mass estimated from
-  bone length/a assumed capsule radius, or authored per-rig.
-- [ ] **Not started: per-bone collision shapes** — spike has no self-collision or environment
-  collision on individual bones at all (only a flat ground-plane clamp on every point).
+- [x] **DONE (2026-09-27, S496 `docs2/RAGDOLL_ORIENTATION_NORTHSTAR.md`): real angular/joint-limit
+  constraint design + per-bone mass/inertia model, v1.** GOLDEN BAND `grb` (XPBD rigid bodies,
+  quaternion orientation, ball joints with swing-cone+twist limits, hinges with limits, ground
+  contact) vendored into `packages/goldenband/`; `packages/simulation/rigid_ragdoll.c` rigs the
+  real `mannequin_npc.gskel` as 17 rigid capsules with Winter/Dempster segment masses (70 kg), not
+  bone-length guesses. `make test-physics`: falls, settles, holds every limit, bit-identical
+  reruns. Landed on SHANKPIT master as `6204ea9` (session sess-20260923-1030-4a526255) after being
+  found abandoned on an unmerged, no-PR branch (`claude/determined-mccarthy-f5ou9d`, session
+  sess-20260927-1025-5b0d7c3e) — founder real-time: "ensure the shankpit rigid body stuff landed."
+  Apple #21092. Also vendored: `grobot` (real industrial robot datasheet rigs, UR3e/UR5e/UR10e)
+  and `grl` (DeepMimic-lineage imitation reward compiler, SIM-100 §4/§8 step 3 v0) — answers "we
+  need to get goldenband rigged up with real robot data from industrial data sheets" + "the rl
+  animations pipeline" with real numbers, not just a plan. See the NORTHSTAR doc for full detail,
+  what's still open (limb-vs-limb/level collision, live-gameplay wiring, a trained get-up policy),
+  and the robotics/CAD answer.
+- [ ] **Not started: per-bone collision shapes** — `grb` v0 has ground-plane contact only, no
+  limb-vs-limb or limb-vs-level collision yet.
 - [ ] **Not started: HQ-SPEC-SIM-100 §8 step 2 closure verification** — confirm SHANKPIT samples
   `.gband` clips at its own fixed 64-tick rate with bit-identical replay (gpose/gseq already
   exist; the spec's own determinism claim for this step has not been explicitly verified/closed).
