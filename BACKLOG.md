@@ -50299,17 +50299,45 @@ so no `emily observe`/Apple could be filed from it — hand-logged here instead.
   a live `dw_server`+`dw_bot`, full `scripts/build.sh` BUILD CLEAN. HONEST: no audio on Android, no
   particles/ships; energy-delta and new-status stages are the same named wire-protocol gap the
   browser client has; `FxView` never rendered on a device/emulator (compile-checked only).
+- [x] **Phase 1B — menu/title-screen parity + zero-friction auth** (2026-09-27, founder
+  real-time: "port more of the deadweight graphics into parena we need full java parity including
+  the launcher title screen it should look just like our windows app", DEADWEIGHT@2b1e2da). Phase
+  1 re-themed `CardView`/`BarView` but left `MainActivity`'s login/menu screen on raw
+  `EditText`/`Button`/`TextView`, requiring manual name/host/port/IDUNA-URL entry — a different
+  app from the desktop's own zero-friction `draw_boot()`/`draw_menu()`, not just wrong colors.
+  New `PixelLabel.java`/`BrutButton.java` (menu-screen equivalents of `text()`/`button()`).
+  Found and fixed a real gap: `Config.DEFAULT_IDUNA_URL` was `""` — Android never had a real
+  IDUNA account/tickets by default, unlike the desktop client's own S508d fix months ago; now
+  `https://okemily.com`. Ported `iduna_bootstrap()`'s real zero-friction flow (auto guest-
+  register/login at launch, no manual fields), extended `GuestAuth.java` with
+  `tickets`/`isGuest`/`redeem()`/`upgrade()`/`emailLogin()` mirroring
+  `dwi_redeem`/`dwi_guest_upgrade`/`dwi_email_login` exactly (including the real 409-login-
+  fallback behavior). Verified: `javac --release 8` against the real
+  `com.google.android:android:4.1.1.4` stub jar (Phase 1's own method) — clean. `CoreTest`'s
+  real `guestAuth()` case (a live `com.sun.net.httpserver.HttpServer` fake IDUNA, plain JVM) —
+  228 checks, 0 failures, confirming the `GuestAuth` rewrite didn't regress anything. Bazel
+  wasn't installed in this sandbox to re-run `//android:core_test`/`fx_parity_test`, but neither
+  imports anything this pass touched (checked directly). HONEST, named, not hidden: Claim
+  Account is a native `AlertDialog` with theme-colored fields, not a fully custom modal; FRIENDS
+  & DUELS has no Android version at all (a whole new feature, not a redraw) — left out rather
+  than shipped as a dead button.
+- [ ] **Phase 1C — remaining screens** (queue/lobby/draft/match-end/social) still render via
+  `MainActivity`'s own `text()`/`button()` `android.widget.*` helpers — theme-colored but still
+  host-widget chrome (rounded corners, ripple, system font), a real visible gap from the desktop
+  client's fully brutalist equivalents. Not started.
 - [ ] **Phase 3 — copy/paste.** Only plausible surface found: draft deck export/import (deck
   codes). Needs a deck-code format decision first (none exists on any client today).
 - [ ] **Phase 4 — "key unlock".** BLOCKED on a founder answer: (a) Ultimates/cosmetic unlock
   progression, (b) IDUNA account/license-key entitlement gate, or (c) something else. Nothing
   named "key unlock" exists anywhere in DEADWEIGHT today.
-- [ ] **On-device verification** of phases 1-2 (touch feel, rotation, FxView timing on a real
-  GPU) — needs a real device or emulator; not available in cloud sandboxes.
+- [ ] **On-device verification** of phases 1-2-1B (touch feel, rotation, FxView timing, real IDUNA
+  login on a real GPU/network) — needs a real device or emulator; not available in cloud
+  sandboxes.
 - [x] **README reconciliation**: DEADWEIGHT README + CLAUDE.md updated 2026-09-27 to say Android
-  is back in scope (both still said "shelved" after phase 1).
+  is back in scope (both still said "shelved" after phase 1). Re-reconciled 2026-09-27 (phase 1B)
+  for the new real zero-friction IDUNA accounts on Android.
 
-session: sess-2026-09-27-android-parity-p2
+session: sess-2026-09-27-android-parity-p2, sess-20260923-1030-4a526255
 
 ## SECTION 556: SHANKPIT LEADERBOARD ON WOTAN — BASIC MATCH TRACKING (FOUNDER REAL-TIME)
 
