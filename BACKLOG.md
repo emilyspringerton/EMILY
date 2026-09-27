@@ -49638,3 +49638,42 @@ hammering the live production endpoint.
   `REDGARDEN/README.md`, commit + push with `session:` trailer.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 555: DEADWEIGHT — ANDROID FULL PARITY WITH THE DESKTOP CLIENT (REVERSES S513 SHELVING) (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-25: bring the shelved Android client back to full feature and visual
+parity with the desktop (Windows/Linux SDL2) client — same art and rendering approach, "use PARENA
+to abstract stuff", plus copy/paste support and a "key unlock" feature set. Scoped in
+`DEADWEIGHT/docs/ANDROID_PARITY_NORTHSTAR.md` (4 phases). **Logged late**: the phase 1 session's
+parity doc said this was "flagged in EMILY/BACKLOG.md", but no entry ever landed here — added
+2026-09-27 by the phase 2 session, which found the gap. (No `emily` CLI in that cloud container,
+so no `emily observe`/Apple could be filed from it — hand-logged here instead.)
+
+- [x] **Phase 1 — brutalist rendering port** (2026-09-25, DEADWEIGHT f0ec008, merged as
+  emilyspringerton/DEADWEIGHT#1): desktop `Col` palette -> `Theme.java`, 5x7 bitmap `FONT` ->
+  `PixelFont.java`, `CardView`/`BarView` re-rendered, NOCK PNG art retired from the live render
+  path. First shipped unverified against real `android.*` APIs; 2026-09-27 compile-checked clean
+  against the Maven Central `com.google.android:android:4.1.1.4` API stubs (still not run on a
+  device/emulator).
+- [x] **Phase 2 — PARENA-driven fx parity** (2026-09-27): `fx_rules.prn` now has a third target,
+  `android/.../generated/FxRules.java` (`scripts/gen_rules.sh`, combined build with
+  `card_rules.prn`, same as the TS target). `core/FxTimeline.java` is a line-for-line port of
+  `web/src/fx.ts`'s `computeTimeline`; `FxView.java` plays the reveal (brutalist, fx.c's own labels
+  and colours, stage strip, crit flash/shake); `MainActivity` shows it in the match screen and holds
+  the result screen until the final reveal finishes (desktop behaviour). Verified: 9,941 C->Java fx
+  parity vectors + 27 FxTimeline scenario checks (`//android:fx_parity_test`, in CI), stale-vector
+  guard in `scripts/build.sh`, IntegrationTest computes a timeline for every real ROUND_RESULT from
+  a live `dw_server`+`dw_bot`, full `scripts/build.sh` BUILD CLEAN. HONEST: no audio on Android, no
+  particles/ships; energy-delta and new-status stages are the same named wire-protocol gap the
+  browser client has; `FxView` never rendered on a device/emulator (compile-checked only).
+- [ ] **Phase 3 — copy/paste.** Only plausible surface found: draft deck export/import (deck
+  codes). Needs a deck-code format decision first (none exists on any client today).
+- [ ] **Phase 4 — "key unlock".** BLOCKED on a founder answer: (a) Ultimates/cosmetic unlock
+  progression, (b) IDUNA account/license-key entitlement gate, or (c) something else. Nothing
+  named "key unlock" exists anywhere in DEADWEIGHT today.
+- [ ] **On-device verification** of phases 1-2 (touch feel, rotation, FxView timing on a real
+  GPU) — needs a real device or emulator; not available in cloud sandboxes.
+- [x] **README reconciliation**: DEADWEIGHT README + CLAUDE.md updated 2026-09-27 to say Android
+  is back in scope (both still said "shelved" after phase 1).
+
+session: sess-2026-09-27-android-parity-p2
