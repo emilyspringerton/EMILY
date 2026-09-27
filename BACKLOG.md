@@ -4279,6 +4279,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: work with gpt2 (the fine-tuned inference server) on a followup to the new blog post -- real model-as…** — obs `2026-08-13T23:15:49Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: wants a new blog post, guest/topic chosen by Claude, explicitly NOT about founder-input-chaos/discip…** — obs `2026-08-13T23:15:49Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: 'use the field to help in case u are confused' -- noted, unclear specific referent; logging as-is fo…** — obs `2026-08-13T22:52:48Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: the 'Building at Infinity' blog post should be written as the Paimon persona (REDGARDEN hero)** — obs `2026-08-13T22:52:19Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants another 'Building at Infinity' blog post (existing series/title, check okemily.com blog for pr…** — obs `2026-08-13T22:51:41Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: reprioritize -- after finishing the current task (newssite PR-indexing fix), do the all-repos status…** — obs `2026-08-13T22:46:55Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: check whether we're saving price-action data against stocks-on-the-move (movers-watcher) yet** — obs `2026-08-13T22:44:24Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: newssite's SEC filings display is 'a garbled mess' -- needs cleanup for accessibility while keeping …** — obs `2026-08-13T22:43:22Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
