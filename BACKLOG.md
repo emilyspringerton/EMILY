@@ -4259,6 +4259,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ensure we are updating clare.md/claire.md files per the new EMILY northstar per recent updates** — obs `2026-08-14T01:18:12Z`. CURATED: 2026-09-26.
 - [ ] **Founder real-time: iterate (continue normal backlog picking now that queue is clear)** — obs `2026-08-14T01:16:39Z`. CURATED: 2026-09-26.
 - [ ] **Process sync done: rebuilt+restarted processor and prwatch-body (were running pre-XBRL-fix binaries). Apple #13387. Als…** — obs `2026-08-14T01:12:56Z`. CURATED: 2026-09-26.
+- [ ] **TIPJAR/BRAWLPIT build checked thoroughly -- was never actually broken (fresh clone + gcc build both pass clean, exit 0)…** — obs `2026-08-14T01:12:00Z`. CURATED: 2026-09-27.
+- [ ] **CANNON: re-investigated for real, found a different blocker than what NORTHSTAR §20.4 named (structures blocker resolve…** — obs `2026-08-14T01:09:25Z`. CURATED: 2026-09-27.
+- [ ] **Correction to the earlier 'emily backlog curate silently drops valid observations' finding (obs 2026-08-13T22:59:14Z, A…** — obs `2026-08-14T01:05:44Z`. CURATED: 2026-09-27.
+- [ ] **Fixed the entity-graph observation-writer collision bug (Apple #13374, PRRJECT_FATBABY commit c0e1932) -- the same clas…** — obs `2026-08-14T01:04:35Z`. CURATED: 2026-09-27.
+- [ ] **Both manifest asks done: (1) live blog manifest text file at https://okemily.com/blog-manifest.txt (all 156 posts conca…** — obs `2026-08-14T01:00:36Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
