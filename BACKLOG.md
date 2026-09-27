@@ -4264,6 +4264,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Correction to the earlier 'emily backlog curate silently drops valid observations' finding (obs 2026-08-13T22:59:14Z, A…** — obs `2026-08-14T01:05:44Z`. CURATED: 2026-09-27.
 - [ ] **Fixed the entity-graph observation-writer collision bug (Apple #13374, PRRJECT_FATBABY commit c0e1932) -- the same clas…** — obs `2026-08-14T01:04:35Z`. CURATED: 2026-09-27.
 - [ ] **Both manifest asks done: (1) live blog manifest text file at https://okemily.com/blog-manifest.txt (all 156 posts conca…** — obs `2026-08-14T01:00:36Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time, refining the manifest ask: wants a single text file served LIVE on the okemily.com server containing…** — obs `2026-08-14T00:56:52Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: wants a manifest file indexing all repos' files, built as a GitHub Actions artifact (workflow_dispat…** — obs `2026-08-14T00:55:23Z`. CURATED: 2026-09-27.
+- [ ] **Answer: yes, movers-watcher has been saving real structured price-action data (market_movers_snapshot events -- price, …** — obs `2026-08-14T00:54:19Z`. CURATED: 2026-09-27.
+- [ ] **Fixed the real SEC-filings-display bug (garbled mess = leaked Inline-XBRL ix:header content, 6.5% of a real Costco 10-Q…** — obs `2026-08-14T00:53:14Z`. CURATED: 2026-09-27.
+- [ ] **PITVIPER: fixed the real compile error (terminal.Close type mismatch). Also flagged the founder's other 2 PITVIPER asks…** — obs `2026-08-14T00:46:01Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
