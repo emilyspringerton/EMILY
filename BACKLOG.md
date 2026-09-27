@@ -4314,6 +4314,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: processify the gpt2-alpine-c serve.py + broker manual restarts (give them real systemd units instead…** — obs `2026-08-13T22:00:00Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: fully sync with --rebase, new file in EMILY and root MONOREPO repos** — obs `2026-08-13T22:00:00Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: a new GitHub upstream repo has been created for 'autocurriculum' (possible codename or separate name…** — obs `2026-08-11T12:32:47Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time (GPT-2 item-name-generation thread, methodology detail): prompt the GPT-2 model with 2 current/existi…** — obs `2026-08-11T12:26:40Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: write a blog post on this session's recent updates, in-character as Pizza (REDGARDEN hero)** — obs `2026-08-11T12:21:40Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time (same items thread): use GPT-2 (gpt2-alpine-c) to generate NEW original item names for future item pa…** — obs `2026-08-11T12:18:22Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time (same GOLDENBAND thread): also audit the system for other similar 'quick win' instant/snap-style abil…** — obs `2026-08-11T12:16:52Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time (new, distinct thread from items/AD-AP -- GOLDENBAND animation): use GOLDENBAND (the .gband animation…** — obs `2026-08-11T12:16:45Z`. CURATED: 2026-09-27.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
