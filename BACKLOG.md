@@ -50331,3 +50331,50 @@ Routed per Principle 18.
 - [ ] **SHANKPIT and BIG_O premium keys.** Named by the founder in the same message ("those will
   be for premium") but explicitly out of scope for "basic match tracking" — not started, no
   design done yet on what a premium tier gates or how a key is redeemed/verified.
+
+## SECTION 558: IDUNA'S 3 ABANDONED PULL REQUESTS MERGED (FOUNDER REAL-TIME)
+
+Founder real-time, 2026-09-27 (routed via `emily observe -s info`, Apple #21061 filed,
+`session: sess-20260923-1030-4a526255`): "IDUNA has abandoned pull requests bring them in fix
+the conflicts."
+
+All 3 open IDUNA PRs, each forked from the same 2026-09-25 commit and each independently
+building a real NOCK feature, merged into `main` in fork order and pushed as one integration
+(commit `IDUNA@796ff8b`); GitHub auto-closed all three as merged.
+
+- [x] **PR #18 — glTF → SHANKPIT widget importer bridge.** Apple #21062. Real conflicts:
+  CHANGELOG.md, a stale dist bundle rename/delete (deferred to a full rebuild), and a genuine Go
+  redeclaration — this PR's `gltf_widget_test.go` and the already-merged keyframe-animator PR's
+  `rig_test.go` each defined their own package-level `near(a,b,...)` test helper with different
+  signatures; renamed the glTF-side one to `gltfNear`.
+- [x] **PR #20 — NOCK video editor with phone uploads.** Apple #21063. Real conflicts:
+  CHANGELOG.md, App.css (two independent additive CSS blocks whose shared closing brace got
+  matched as common context by git's diff and had to be split back apart), dist/index.html.
+  App.tsx and main.go auto-merged cleanly.
+- [x] **PR #21 — NOCK sound engineering (library, filter chains, Booth).** Apple #21064. The
+  largest merge: 7 conflicting files, including two places in api.ts where git's diff matched an
+  unrelated shared tail (a closing brace, or `created_at`/`updated_at`/`}`) between two entirely
+  different interfaces/objects as common context — the losing side's tail had to be manually
+  restored. Found and fixed a real migration filename collision: this PR's
+  `202609270001_nock_sounds.sql` shared its exact timestamp prefix with the already-merged
+  `202609270001_nock_animations_keyframes.sql` (different filenames, no overwrite, no functional
+  conflict since they touch disjoint tables — renamed to `202609270002_nock_sounds.sql` anyway).
+- [x] **Full frontend rebuild, not a hand-merged bundle.** Ran `tsc -b && vite build` against the
+  fully-merged source rather than trying to reconcile any of the 3 PRs' own built JS bundles —
+  one fresh, consistent `dist/`. `npm run test:audio` (22 DSP checks) run via `npx tsx` since
+  this sandbox's Node (v20.20.2) predates `--experimental-strip-types`; all pass.
+- [x] **Live-deployed.** `go build`/`vet`/`test ./...` all clean; rebuilt the real binary,
+  restarted `iduna.service`, verified the new Video/Sounds/Booth tabs' routes respond correctly
+  (401 unauthenticated, 404 for an unknown public sound-filter name) with no crashes from the 3
+  independently-added route groups.
+- [x] **GOLDEN_DOCS resync** for the 2 golden docs these PRs touched (`NOCK_NORTHSTAR.md`,
+  `NOCK_CHARACTER_PIPELINE_NORTHSTAR.md`) — partial, scoped to just these two, not a full
+  re-copy of every golden doc (`GOLDEN_DOCS@f567fd1`).
+- **Honest note, not omitted**: an earlier isolated-boot smoke test (meant to verify the merge
+  doesn't panic on startup) used the wrong env var (`IDUNA_DB_PATH` instead of the real
+  `SQLITE_PATH`) and ran against the live `var/iduna.db` instead of a scratch one. Harmless —
+  it only ran the new PRs' purely-additive/idempotent migrations a little early (confirmed via
+  `schema_migrations`), and the live service was never interrupted — but flagging the mistake
+  rather than quietly letting it pass.
+
+session: sess-20260923-1030-4a526255
