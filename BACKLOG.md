@@ -50526,3 +50526,49 @@ branches (found via `git branch -r`, none showing up in `git log --oneline maste
   this merge.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 560: MIXFORGE — LIVE SITE ACTUALLY WORKS, PHASE 5 SCOPED (FOUNDER REAL-TIME)
+
+Founder real-time, direct follow-up to S557 (mixforge.okemily.com going live): "ok we have the
+affordances but it doesnt actually work yet start audio button etc does not work", then "ok now
+the game it queues a song but it doesnt play".
+
+- [x] **Real bug found and fixed: zero JS ever executed on the live site.** `dj.html`/`index.html`/
+  `multiplayer.html` all load their logic via `<script type="module">` importing `engine.mjs`/
+  `demo_content.mjs`. Stock nginx `mime.types` has no `.mjs` entry, so nginx served them as
+  `application/octet-stream` — browsers refuse to run a module script without a declared JS MIME
+  type, so the HTML/CSS rendered fine (the "affordances") but not one line of JS on the page ever
+  ran. Fixed via a scoped `location ~ \.mjs$ { default_type application/javascript; }` block —
+  `sudo-queue/93-mixforge-mjs-mime-fix.sh` (founder-run) patched the live vhost in place
+  (idempotent, doesn't clobber certbot's SSL additions) and the checked-in
+  `MIXFORGE/ops/nginx/mixforge-okemily.conf` got the same fix. Verified with a completely fresh
+  headless-Chromium load (Playwright, no cache): clicking Start Audio now creates the
+  `AudioContext`, fetches+instantiates `dsp.wasm` (43 PARENA exports @ 44100 Hz), loads the
+  `AudioWorklet`, and removes the startup overlay — zero errors. Also found and fixed real
+  repo/live nginx config drift while in there: certbot's earlier `--nginx` run had added an SSL
+  server block + HTTP→HTTPS redirect block directly to the live file that was never folded back
+  into the checked-in copy. MIXFORGE@b260e4c.
+- [x] **User's follow-up report ("queues a song but doesn't play") confirmed as a real, existing,
+  already-honestly-documented gap, not a new bug.** `multiplayer.html`'s room only ever proved
+  seat occupancy + turn order + queue authorization (`room_server.mjs`'s own header comment
+  already said so: "no audio sync... a queued URL is broadcast and forgotten, not stored"). Real
+  playback lives entirely in the separate, single-player `dj.html` (confirmed working above), not
+  the room.
+- [x] **Phase 5 scoped, per explicit user choice ("Scope Phase 5 now" over a quick stopgap or
+  leaving it as-is).** Real, load-bearing finding: `stdlib/media/stream.prn` (PARENA's own
+  resolved design, `STDLIB.md` §28) is for a differently-shaped problem — one native process
+  fanning ONE outbound stream to MULTIPLE external destinations (a Twitch/YouTube-style relay),
+  not several already-connected browser tabs playing one already-downloaded file in sync. Same
+  reframe this repo's own 4-deck mixer already proved live (shipped real crossfade on Web Audio +
+  PARENA-WASM without ever needing the still-design-only `media/audio.prn`). Real architecture
+  scoped instead in `MIXFORGE/NORTHSTAR.md`: server-side download-on-queue reusing the
+  already-shipped `mixforge import` CLI (shell out, don't reimplement), nginx static-serves the
+  cached file, clients round-trip clock-sync and use Web Audio's sample-accurate `start(when)` —
+  zero new PARENA stdlib domain required. Named, not hidden: a real download-latency delay before
+  playback starts, no mid-song late-join seek yet, per-client download instead of a relay
+  fan-out, and the licensing stakes (already named for the room pivot) going up again with a real
+  server-side cached copy. Resolves open kanban triage items `T48839675`/`T94858758`. No playback
+  code shipped yet — scoping pass only, per explicit user direction. MIXFORGE@7ad9100. Apple
+  #21112.
+
+session: sess-20260923-1030-4a526255
