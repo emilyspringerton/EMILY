@@ -50747,3 +50747,70 @@ commits: MIXFORGE@3ea08c7 (+9bde69e)
 apple: #21143
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 566: MIXFORGE — REAL BAZEL BUILD (FOUNDER REAL-TIME)
+
+Founder real-time: "ensure we have BAZEL for mixforge."
+
+- [x] Added `.bazelversion`/`MODULE.bazel`/`BUILD.bazel` + `scripts/bazel_*.sh`, same
+  `rules_shell` + "hermetic test / non-hermetic run-wrapper" split MISHRI's own Bazel setup
+  already established. `bazel test //:dsp_test` runs the 49-check DSP kernel + rendered-audio
+  suite hermetically (dsp_test.mjs/engine.mjs import nothing beyond Node built-ins) against the
+  checked-in `web/dsp.wasm`. `bazel run //:build-wasm`/`//:room-install`/`//:room-server`/
+  `//:serve-web` wrap the real, non-hermetic PARENA+LLVM wasm build, `npm install`, `npm start`,
+  and the dev web server.
+- [x] Verified live, not assumed: both `bazel test //:dsp_test` and `bazel run //:build-wasm`
+  (the full `parena` -> LLVM IR -> wasm32 -> `wasm-ld` pipeline, 49/49 checks) actually ran
+  green. Found and fixed a real, live, unrelated bug along the way while doing so: the
+  checked-out `../PARENA/parena` binary predated a same-day `emit_llvm.c` fix
+  `stdlib/mixforge/{mixer,sampler}.prn` themselves needed — `make build` in PARENA picked it up.
+
+commits: MIXFORGE@87b5d9b (+97b8201)
+apple: #21139
+
+session: sess-20260923-1030-4a526255
+
+## SECTION 567: MIXFORGE EDITOR — PARENA-WASM NON-LINEAR EDITING + MPC CLIP CAPTURE IN NOCK (FOUNDER REAL-TIME)
+
+Founder real-time, several messages folded into one pass: "continue integration... evolve
+multiplayer via shared components" (prior session) → "ensure NOCK tools video editor is PARENA
+wasm powered and shares components with MIXFORGE's shared components... ensure we have full non
+linear video editing for the video and audio clips via nock tools we need a full documentary
+editing booth" → "keep the mixforge branding in nock call it the MIXFORGE EDITOR" → "ensure we
+have BAZEL for mixforge" (S566 above) → "the mpc should work off of video streams to pull clips
+in addition to the traditional import and manual snip workflow." Clarified live: "MIXFORGE PSX"
+(not found anywhere in the codebase after a thorough search) turned out to be a dictation
+artifact for "MIXFORGE's" — confirmed by the founder ("i guess its just PX nut PSX").
+
+Per Principle 19: "full non-linear video editing" as a category covers far more than what got
+built (multi-track compositing, titles, color grading, speed ramps) — scoped to a specific,
+real, honest slice instead. See `IDUNA/docs/NOCK_NORTHSTAR.md`'s own new "MIXFORGE EDITOR"
+section for the full account.
+
+- [x] New PARENA module `stdlib/video/nle.prn` (crossfade curves, fade envelope, MPC
+  pad-capture window math), compiled to `frontend/nock/src/video/nle.wasm` via the exact
+  pipeline MIXFORGE's own `build_dsp_wasm.sh` established. 14/14 kernel checks pass live.
+- [x] Real, literal component sharing with MIXFORGE (not just a same-named pattern): NOCK's
+  `video/nleEngine.ts`'s `instantiateDsp` and `video/waveform.ts` are direct ports of
+  `MIXFORGE/web/engine.mjs`/`waveform.mjs` — MIXFORGE's own files are completely untouched.
+- [x] Real non-linear editing: `Segment` gained `TransitionMS`/`FadeInMS`/`FadeOutMS` (optional,
+  backward-compatible), clamped (not rejected) in `validateEDL`, computed identically by a live
+  client-side scrubbable preview (`TimelinePreview.tsx`) and a new server-side ffmpeg
+  `xfade`/`acrossfade`/`fade` render path (`renderWithTransitions`) — the two are checked by
+  hand to use the exact same offset/duration accumulation math.
+- [x] New third clip-acquisition path: an MPC-style pad row in the clip viewer (quick-grab
+  "last N seconds" pads + a press-and-hold mark-in/mark-out pad) captures straight off a
+  playing stream onto the timeline, through the same `onAdd` path upload/manual-snip already use.
+- [x] Branding: the NOCK tab is now labeled "MIXFORGE EDITOR" (internal tab id unchanged).
+- [x] Verified: `go build/vet/test ./internal/nock/...` clean (3 new tests — 2 are real,
+  ffmpeg-gated tests that honestly skip in this sandbox, no ffmpeg installed here, same
+  pre-existing constraint the file's other real-media tests already lived with); `tsc -b && vite
+  build` clean, rebuilt `dist/` committed (go:embed'd).
+- [ ] Not yet done, named honestly, not silently skipped: a full logged-in browser walkthrough
+  of the new preview/pad-capture UI (needs the founder's own real admin session, same standing
+  limitation already named for `/admin/nock` generally — deliberately not bypassed).
+
+commits: PARENA@a6c91fd, IDUNA@5579ad4
+apples: #21147 (IDUNA), #21148 (PARENA)
+
+session: sess-20260923-1030-4a526255
