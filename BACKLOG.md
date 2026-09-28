@@ -50907,3 +50907,36 @@ commits: IDUNA@5d0552a, SHANKPIT@1e3b5c4
 apples: #21156 (observation), #21160 (IDUNA completion), #21161 (SHANKPIT completion)
 
 session: sess-20260923-1030-4a526255
+
+### Follow-up: the above was NOT the real fix — founder confirmed it was still broken
+
+Founder, twice: "shankpit levels still a blank screen" / "it doesnt work for me still." Routed
+through `emily observe` (Apple #21162). The rebuild/restart and screenshot tests above were real
+and worth doing, but didn't touch the actual bug — proven by the fact the new screenshot test
+itself passed clean against the "broken" state. Rather than keep guessing, asked the founder for
+their actual browser console output — got the real error immediately: `Uncaught Error: THREE.
+WebGLRenderer: Error creating WebGL context` (their browser has hardware acceleration disabled /
+sandboxed). Reproduced for real by launching Chromium with `--disable-webgl` against production.
+
+- [x] Root cause: `/admin/nock` has no `ErrorBoundary` anywhere, so `THREE.WebGLRenderer`
+  throwing (six components construct one the same way: `ShankpitLevelEditor`, `ShankpitWidgets`,
+  `Robots`, `Animator`, `AnimationEditor`, `AnimationViewer`) unmounts the ENTIRE app, not just
+  the one tab using it.
+- [x] Fixed for real: new `src/webglSupport.ts` guards all six construction sites (readable
+  fallback message instead of a crash); new `src/TabErrorBoundary.tsx` wraps the whole
+  tab-content switch as real defense-in-depth (any future per-tab crash now only blanks that
+  tab).
+- [x] Live-verified against the actual reported condition: rebuilt+redeployed `iduna.service`,
+  reproduced the founder's exact scenario with `--disable-webgl` against production, confirmed
+  `SHANKPIT Levels` now renders fully (level list + inspectors + cube list) with a clear
+  fallback message where the 3D viewport would be, zero uncaught errors, other tabs still work
+  afterward.
+- [x] `ux_screenshot_test.mjs` now runs its full 17-tab sweep twice — WebGL on and off — since
+  the original WebGL-on-only version never would have caught this; 34/34 checks pass. Named
+  honestly in NORTHSTAR/README: the first version of this test had a real, specific gap, not a
+  vague "could be more thorough" caveat.
+
+commits: IDUNA@e7d70be
+apples: #21162 (observation), #21165 (completion)
+
+session: sess-20260923-1030-4a526255
