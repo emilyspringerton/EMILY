@@ -51116,13 +51116,34 @@ fork this session).
   live post-redeploy. Real, honest, named remaining gap: this covers the setup/menu screen's
   chrome, not yet the in-match HUD/card layout, the oversized title treatment, or per-kind ship
   shapes.
+- [x] Follow-up (2026-09-28, same day, founder real-time: "continue to ensure DEADWEIGHT is pixel
+  for pixel the windows version") -- closed every gap named above, verified against a real, live,
+  playing match this time (throwaway `dw_server`+`dw_bot`+bridge on private ports, driven end to
+  end with Playwright/headless Chrome through the actual compiled client): huge left-aligned title
+  matching `text_c(...,5,...)`'s own treatment with a demoted subtitle line; real proportional
+  hull bars (green above 1/3 hull else red, matching `hull_bar()` exactly) and energy pip rows for
+  BOTH sides plus armor/vault with correct Merkle-Blindness hidden-sentinel handling; `ROUND N/MAX`
+  via PARENA-compiled `rules.maxRounds()`; hand cards rebuilt with `card_box()`'s real colored-
+  header-BLOCK layout; and a real interaction-model fix -- checked `apps/gui/main.c`'s `click()`
+  directly and found it only ever *selects* a card/PASS, never submits until LOCK IN, unlike the
+  browser client's old immediate-submit-on-click behavior (now fixed to match exactly, including
+  `PASS *`/`PASSED` label states and `DW_REJ_ALREADY_LOCKED`'s special no-reset case). Found and
+  fixed a real bug (`fx.ts`'s ship fill used the wrong color, `#202432` UI-panel instead of `fx.c`'s
+  own distinct `#3C404E`) and corrected a wrong claim in the prior pass's own doc (the desktop
+  client was never actually kind-differentiated by ship SHAPE, only by color -- `fx.ts` already
+  matched the real 11-point polygon exactly; the earlier "gap" note was simply wrong). Verified via
+  ImageMagick-sampled exact hex matches (hull green, all three kind header colors, Lock In's
+  enabled-green fill) against a real live match, then redeployed to
+  `https://wotan.okemily.com/DEADWEIGHT/` for real (curl + a live headless-Chrome screenshot
+  confirmed the new title/layout serving in production). Full account:
+  `DEADWEIGHT/docs/NATIVE_WASM_CLIENT_NORTHSTAR.md`.
 
 commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609, DEADWEIGHT@2e3c857, DEADWEIGHT@b28b4dc,
 DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, DEADWEIGHT@55f238a, DEADWEIGHT@81363a2, DEADWEIGHT@fe8f716,
-DEADWEIGHT@1a54ec1, WOTAN@a098606, WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43, WOTAN@cfe3cf2,
-WOTAN@2c72141, WOTAN@50afe97, SHANKPIT@492be5d
+DEADWEIGHT@1a54ec1, DEADWEIGHT@10f8bc3, WOTAN@a098606, WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43,
+WOTAN@cfe3cf2, WOTAN@2c72141, WOTAN@50afe97, WOTAN@f3cd9f6, SHANKPIT@492be5d
 apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185
 (completion), #21190 (completion), #21191 (completion), #21193 (observation), #21195
-(completion), #21196 (completion), #21199 (completion)
+(completion), #21196 (completion), #21199 (completion), #21210 (observation), #21211 (completion)
 
 session: sess-20260923-1030-4a526255
