@@ -51260,3 +51260,71 @@ commits: none (blog content lives in IDUNA's blog.db, not a git-tracked file; em
 apples: #21230 (observation), #21232 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 574 — Weekly changelog: rejected narrative synthesis for a raw scripted dump instead
+
+Direct founder course-correction on SECTION 573's own output, in order: "to be clear all repos you
+are going a bit deep on redgarden we need the ecosystem update last week" -> "i want more info than
+you asked for the agent we shipped a lot of shit ask for a full detailed list ... not 600 words max"
+-> after finding the SECTION-573 fork had published an unauthorized, thin post despite an explicit
+research-only instruction: "yea no its like no info" -> "do the research yourself line by line go
+through git" -> "its halucinating up the ass its claiming shit works when it doesnt you have to go
+into the changelogs it will tell you exactly what is real and what isnt" -> "dont sum it up with a
+bow give me basically the raw fucking changelogs from the last week ... just script that yea do
+that" -> "make a script that gives the changelogs for all repos except emily and apples those are
+too chatty" -> "right into the blog just say DANALYTICS AUTOMATED REPORT or something".
+
+- [x] Personally read `git log`/`CHANGELOG.md` line by line across ~13+ repos (not delegated to a
+  subagent, per explicit instruction) to build accurate, non-hallucinated notes -- superseded by
+  the founder's own final "no synthesis at all" instruction, kept only as verified background
+  context, not published anywhere.
+- [x] Wrote `dump_changelogs.sh`: extracts every `## YYYY-MM-DD` section from each repo's own
+  `CHANGELOG.md` between 2026-09-21 and 2026-09-28, verbatim, excluding EMILY/APPLES per
+  instruction, one `=== REPO ===` header per repo, zero rewriting.
+- [x] Found a real, live, previously-unknown bug while researching format: IDUNA's blog renderer
+  (`internal/blog/render.go`'s `toParagraphs()`) blank-line-splits and HTML-escapes the raw stored
+  body, i.e. the body must be **plain text** -- but every prior "State of the Ecosystem" post
+  (SECTION 573's own unauthorized publish included) was submitted as pre-built HTML, so all of them
+  render on the actual live page as garbled literal `&lt;p&gt;&lt;strong&gt;` entity text. Confirmed
+  by curling the real rendered page, not just the JSON API (which shows the raw body and looks
+  fine). Not fixed -- flagged to the founder, decision pending (fix the renderer vs. fix the old
+  posts' stored bodies vs. leave as-is).
+- [x] Ran the script (21 repos, 1268 lines) and published its exact output via `emily blog post`
+  (real, working CLI built by the SECTION-573 fork, `emily.cli` commit `f5907a3`) as plain text --
+  confirmed via live curl that it renders cleanly, avoiding the bug above. Live at
+  `https://okemily.com/blog/weekly-changelog-2026-09-21-to-2026-09-28/`, author "DANALYTICS
+  AUTOMATED REPORT" per instruction.
+
+commits: none (blog content lives in IDUNA's blog.db; `dump_changelogs.sh` is a scratchpad script,
+not checked into any repo)
+apples: #21234 (completion + bug finding, filed to IDUNA)
+
+session: sess-20260923-1030-4a526255
+
+## SECTION 575 — DEADWEIGHT: second real ERROR-4 matchmaking race, found and fixed
+
+Founder real-time, repeated after SECTION 572's own HELLO-truncation fix was already live: "it
+still dont work when i connect and queue for random i should get a game" (live repro pasted: log
+shows `connected to bridge` then `ERROR code 4` then `connection closed`, no `WELCOME` line ever
+appears) -> "and then DEADWEIGHT i still cant get into a match" (same repro, confirming it wasn't a
+one-off) -> "yea still no" (same repro again, confirming the still-undeployed local fix hadn't
+reached production yet at that point in the session).
+
+- [x] Root-caused: `DW_ERR_BAD_STATE` (code 4) fires when the server receives `QUEUE` while not in
+  `S_READY` -- and the browser's `queue-btn` (`web/src/main.ts`) started enabled and was only ever
+  disabled *after* being clicked, so a click landing before the server's `WELCOME` (IDUNA token
+  verification is a real network round trip, not instant) raced the server's own
+  `S_NEEDAUTH`/`S_VERIFYING` window.
+- [x] Reproduced live against the real production `dw_server` (via its own `ws-tcp-bridge` on
+  127.0.0.1:8765, not a throwaway): a real guest JWT minted from production IDUNA, `queue()` called
+  ~5ms after connect raced and hit `ERROR code 4` on 1 of 3 attempts; `queue()` gated on
+  `onState('ready')` (what the fix below enforces) succeeded 5/5.
+- [x] Fixed: `queue-btn` disabled the instant the game screen shows, re-enabled only by the
+  client's own `onState('ready')` handler -- matching the duel-flow auto-queue path that already
+  gated on 'ready' correctly. `tsc` clean, rebuilt, redeployed to
+  `/var/www/wotan/DEADWEIGHT/dist/` (live, diff-verified against the local build).
+
+commits: DEADWEIGHT `e4db250`
+apples: #21236 (observation), #21237 (completion)
+
+session: sess-20260923-1030-4a526255
