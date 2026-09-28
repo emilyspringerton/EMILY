@@ -1,3 +1,7 @@
+## 2026-09-28
+
+- SECTION 572: DEADWEIGHT prod URL-field removal + real matchmaking auth-truncation bugfix, verified live (sess-20260923-1030-4a526255)
+
 ## 2026-09-25
 - BACKLOG: close SECTION 543 addendum -- WOTAN friends.html SSO + IDUNA sso-exchange bridge, live-verified (sess-20260923-1030-4a526255)
 
