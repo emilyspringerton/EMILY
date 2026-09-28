@@ -50406,6 +50406,32 @@ so no `emily observe`/Apple could be filed from it — hand-logged here instead.
 - [x] **README reconciliation**: DEADWEIGHT README + CLAUDE.md updated 2026-09-27 to say Android
   is back in scope (both still said "shelved" after phase 1). Re-reconciled 2026-09-27 (phase 1B)
   for the new real zero-friction IDUNA accounts on Android.
+- [x] **"Eat more with PARENA" audit** (2026-09-28, founder real-time: "the android app eat more
+  with parena", worked as a background fork alongside the parent session's own browser-client
+  pixel-parity pass). Full account: `docs/ANDROID_PARITY_NORTHSTAR.md`'s own new dated section.
+  Checked `PARENA/src/emit_java.c` directly (399 lines, still v0/scalar-defn-only — no new
+  capability since the S511 audit). Found `account_rules.prn` (added 2026-09-25) had never
+  actually been tried against the Java emitter — its own header comment still said "Android is
+  shelved," stale since S555 reversed that. Confirmed it fails on Java the same way it already
+  failed on TS (`String @ Region` param, a real PARENA compiler gap, not fixed here). Found and
+  fixed a real, separate, live duplication: "password needs 8+ characters" was hand-copied
+  identically into `apps/gui/main.c`, `MainActivity.java`, and `web/src/account.ts` — split the
+  region-free scalar half of `account_rules.prn` into a new `account_rules_scalar.prn`
+  (PARENA@5090468) targeting C+Java+TS, added a new `min-password-len`/`is-valid-password-length`
+  pair, wired into both `apps/gui/main.c` and `MainActivity.java` (DEADWEIGHT@8e6bfb0). Also fixed:
+  `core/account_rules.c` was generated on 2026-09-25 but never linked into `dw_gui`'s build at
+  all — added to `GUI_SRC` for the first real time. Checked `PixelFont`/`Theme`/`BrutButton`/
+  `DraftModel`/`MatchModel`/`GuestAuth` for further candidates — found none with a clean, honest
+  PARENA-Java fit right now, documented why rather than inventing busywork. Verified: new C test
+  (7 checks), new `AccountRulesScalarTest.java` (254 checks, `//android:account_scalar_test`),
+  full existing suite green (`ParityTest` 24,097/0, `FxParityTest` 9,941 vectors/9,968 checks/0,
+  `CoreTest` 228/0, `scripts/build.sh --gui`'s full e2e+selftest suite), `javac --release 8` clean
+  against the real Android stub jar. `web/src/account.ts`'s own swap intentionally left for
+  whoever next touches `web/` (a concurrent workstream owned it this session) — the generated
+  `web/src/generated/AccountRulesScalar.ts` already exists and compiles clean.
+
+commits: PARENA@5090468, DEADWEIGHT@8e6bfb0
+apples: #21209 (observation), #21215 (PARENA completion), #21216 (DEADWEIGHT completion)
 
 session: sess-2026-09-27-android-parity-p2, sess-20260923-1030-4a526255
 
