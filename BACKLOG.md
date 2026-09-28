@@ -50979,3 +50979,57 @@ commits: DEADWEIGHT@55900fb
 apples: #21168 (observation), #21170 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 572 — DEADWEIGHT native WASM client: wire-protocol codec (founder-corrected from Emscripten)
+
+Founder real-time (Apple #21166, then correction Apple #21169: "do not use emscripten it doesnt
+work it needs to be native wasm like mixforge"), continuing SECTION 571's own thread ("we need to
+get DEADWEIGHT at parity with windows for the android and wasm (new) client... eat the codebase...
+WASM version needs to work with IDUNA sso seamlessly wotan.okemily.com/DEADWEIGHT for the
+client"). Full account: `DEADWEIGHT/docs/NATIVE_WASM_CLIENT_NORTHSTAR.md` (golden doc
+`DEADWEIGHT-NATIVE-WASM-NORTH`). Android-parity half of the same founder ask tracked separately
+under SECTION 555 (`docs/ANDROID_PARITY_NORTHSTAR.md`, Phase 1C, worked as a parallel background
+fork this session).
+
+- [x] First attempt (Emscripten): got the entire real desktop SDL2 client (`apps/gui/main.c` +
+  `core/*.c`, unmodified game logic) compiling and running via `emcc -sUSE_SDL=2` -- genuine,
+  verified, 774KB `.wasm` + 193KB glue `.js`. Found and fixed one real, kept-regardless
+  portability bug: `core/runtime/parena_runtime.h`'s PTY host glue (`forkpty`) had only a Windows/
+  POSIX split, no Emscripten branch (no process model in a wasm sandbox at all). Founder rejected
+  the Emscripten approach itself, not this fix.
+- [x] Pivoted to native wasm32-unknown-unknown: plain `clang -target wasm32-unknown-unknown
+  -nostdlib` + `wasm-ld`, zero Emscripten SDK/JS runtime -- the same backend MIXFORGE's own
+  `web/room.wasm`/`web/dsp.wasm` already use one step later in their pipeline (those compile
+  PARENA source through `parena build`; DEADWEIGHT's client logic is hand-written C, so this
+  compiles it directly).
+- [x] `apps/wasm/` (new): wraps `core/protocol.c` (compiled in completely unmodified -- "eat the
+  codebase," not a third reimplementation alongside the existing `core/protocol.c`/`web/src/
+  proto.ts` pair) with named setters/getters for every message type in `docs/WIRE_PROTOCOL.md`.
+  Real, found bug from the first pass of this proof: hand-computed `DwMsg` union struct offsets
+  from JS silently landed in the wrong field once 4-byte union alignment padding was accounted
+  for -- fixed by never exposing raw memory to JS, only real named C field accessors.
+- [x] `scripts/build_wasm_native.sh` (new, mirrors `MIXFORGE/scripts/build_dsp_wasm.sh`'s shape) +
+  `tests/test_wasm_protocol.mjs` (new): 9/9 checks pass -- round-trips through the module's own
+  encode/decode, plus independent hand-crafted-wire-bytes decode checks (WELCOME, MATCH_FOUND,
+  MATCH_END, ERROR) cross-referenced directly against `docs/WIRE_PROTOCOL.md`'s byte layout, not
+  just this module's own output. Output: `web-wasm/generated/dw_protocol.wasm`, 15.9KB.
+- [x] `docs/WASM_DEPLOY_NORTHSTAR.md` (SECTION 571's own doc) corrected in place: its "Emscripten
+  build" mentions were written before this correction landed; noted honestly rather than
+  silently rewritten.
+- [x] README.md / CLAUDE.md updated (SAGA reconciliation) to describe the native wasm client and
+  the founder-mandated Emscripten rejection.
+- [ ] Rendering: extend the existing `web/src/fx.ts`/`main.ts` brutalist Canvas2D renderer to call
+  this wasm module's codec instead of `web/src/proto.ts`'s hand-port.
+- [ ] Networking: wire the wasm module's encode/decode into a real `WebSocket` connection through
+  the existing `web/bridge/ws-tcp-bridge.js`.
+- [ ] IDUNA SSO: reuse WOTAN's already-live `iam.okemily.com` redirect + `/api/v1/games/
+  deadweight/sso-exchange` pattern (`WOTAN/friends.html`'s own real, verified precedent) rather
+  than `web/src/account.ts`'s separate guest-only bootstrap.
+- [ ] `wotan.okemily.com/DEADWEIGHT` hosting once the above land (WOTAN's existing static-site
+  deploy pipeline is a real, simpler fit than SECTION 571's own GKE/Terraform pipeline, which is
+  blocked on a non-functional cluster).
+
+commits: DEADWEIGHT@<pending>
+apples: #21166 (observation), #21169 (correction observation), #21173 (completion)
+
+session: sess-20260923-1030-4a526255
