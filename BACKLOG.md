@@ -51073,11 +51073,30 @@ fork this session).
   honest gap: `curl .../DEADWEIGHT/ws` -> `404` on the live site -- `sudo-queue/94` (nginx location
   + `dw-ws-bridge.service`) genuinely needs sudo this sandbox doesn't have, so the page loads but
   can't reach a match server until someone with sudo runs it.
+- [x] 2026-09-28, founder ran `sudo-queue/94` for real: `dw-ws-bridge.service` confirmed
+  installed/running/correctly proxying to `dw_server` on `:6969`, but `/DEADWEIGHT/ws` still
+  404'd. Diagnosed rather than assumed-fine: `94`'s nginx-edit anchored its insertion on the last
+  closing brace in the whole file, which lands inside certbot's own appended port-80-redirect
+  server block instead of the real HTTPS-serving one (a bare server-level `return 301` there
+  swallows every request before any location inside it is reached) -- diagnosed purely from
+  behavioral evidence (http 301 vs https 404, the bridge's own independent health, nginx reload/
+  journal timestamps), since the live vhost file is root:root mode 640 and unreadable without
+  sudo. Wrote and unit-tested `sudo-queue/95-fix-deadweight-ws-nginx-location.sh`: idempotent,
+  brace-counting removal of any existing (possibly misplaced) block plus re-insertion anchored to
+  the already-live `/api/` location's own matching closing brace instead of a whole-file rfind --
+  verified against a synthetic fixture reproducing the exact suspected live layout (correct
+  relocation, second run is a no-op). Also, mid-investigation, found and fixed a real, live,
+  unrelated incident on the same box: `iduna.service` was being OOM-killed and restart-looping
+  (12.4Gi/15Gi used, swap 100% full), which was independently breaking the same `/api/` proxy
+  DEADWEIGHT's SSO exchange depends on. Founder direction: scale `shankpit-bot-pool.service`
+  8->4 (`SHANKPIT@492be5d`) -- memory freed 352Mi->2.8Gi, swap 495Mi(full)->266Mi, `iduna.service`
+  stable since. `95` itself still needs the same real sudo this sandbox doesn't have.
 
 commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609, DEADWEIGHT@2e3c857, DEADWEIGHT@b28b4dc,
-DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, DEADWEIGHT@55f238a, WOTAN@a098606, WOTAN@a776842,
-WOTAN@1459b4d, WOTAN@529bd43, WOTAN@cfe3cf2
+DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, DEADWEIGHT@55f238a, DEADWEIGHT@81363a2, WOTAN@a098606,
+WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43, WOTAN@cfe3cf2, WOTAN@2c72141, SHANKPIT@492be5d
 apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185
-(completion), #21190 (completion), #21191 (completion)
+(completion), #21190 (completion), #21191 (completion), #21193 (observation), #21195
+(completion), #21196 (completion)
 
 session: sess-20260923-1030-4a526255
