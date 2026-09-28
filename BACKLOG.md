@@ -51027,16 +51027,24 @@ fork this session).
   `tests/test_wasm_protocol.mjs` (new): 9/9 checks pass -- round-trips through the module's own
   encode/decode, plus independent hand-crafted-wire-bytes decode checks (WELCOME, MATCH_FOUND,
   MATCH_END, ERROR) cross-referenced directly against `docs/WIRE_PROTOCOL.md`'s byte layout, not
-  just this module's own output. Output: `web-wasm/generated/dw_protocol.wasm`, 15.9KB.
+  just this module's own output. Output: `web/dist/generated/dw_protocol.wasm`, 15.9KB.
 - [x] `docs/WASM_DEPLOY_NORTHSTAR.md` (SECTION 571's own doc) corrected in place: its "Emscripten
   build" mentions were written before this correction landed; noted honestly rather than
   silently rewritten.
 - [x] README.md / CLAUDE.md updated (SAGA reconciliation) to describe the native wasm client and
   the founder-mandated Emscripten rejection.
-- [ ] Rendering: extend the existing `web/src/fx.ts`/`main.ts` brutalist Canvas2D renderer to call
-  this wasm module's codec instead of `web/src/proto.ts`'s hand-port.
-- [ ] Networking: wire the wasm module's encode/decode into a real `WebSocket` connection through
-  the existing `web/bridge/ws-tcp-bridge.js`.
+- [x] Rendering + Networking: `web/src/wasmProto.ts` (new) is a drop-in, wasm-backed replacement
+  for `web/src/proto.ts` (identical exported functions/types) -- `web/src/client.ts` now imports
+  it instead of the old hand-written TS codec, `main.ts`'s `start()` awaits
+  `wasmProto.initWasmProto()` before connecting. `web/src/fx.ts`/`main.ts`'s existing brutalist
+  Canvas2D renderer and `web/bridge/ws-tcp-bridge.js` both needed zero changes -- they already
+  only depended on the `ServerFrame` shapes, which `wasmProto.ts` reproduces exactly. Verified two
+  ways: `bridge/test_wasm_proto_parity.mjs` (new, 14 checks -- byte/object-identical output vs.
+  `proto.ts`, kept as the independent oracle, not deleted) and a full re-run of the existing real
+  end-to-end harness (`bridge/e2e_test.mjs`, previously proven 2026-09-21 against the old codec):
+  a complete real match, 7 rounds, against a live `dw_bot`/`dw_server` over the real WS-TCP
+  bridge, 0 failures, through the exact compiled `dist/client.js`/`dist/wasmProto.js` a browser
+  would load.
 - [ ] IDUNA SSO: reuse WOTAN's already-live `iam.okemily.com` redirect + `/api/v1/games/
   deadweight/sso-exchange` pattern (`WOTAN/friends.html`'s own real, verified precedent) rather
   than `web/src/account.ts`'s separate guest-only bootstrap.
@@ -51044,7 +51052,7 @@ fork this session).
   deploy pipeline is a real, simpler fit than SECTION 571's own GKE/Terraform pipeline, which is
   blocked on a non-functional cluster).
 
-commits: DEADWEIGHT@629be4b
-apples: #21166 (observation), #21169 (correction observation), #21173 (completion)
+commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609
+apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185 (completion)
 
 session: sess-20260923-1030-4a526255
