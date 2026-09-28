@@ -51210,3 +51210,51 @@ apples: #21166 (observation), #21169 (correction observation), #21173 (completio
 #21224 (observation), #21226 (completion), #21227 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 573 — Weekly product update published to the OKEMILY blog, in TYLER's voice
+
+Founder real-time: "go through git for the last week and write a full product update via
+changelogs to the IDUNA OKEMILY blog" -> "in the voice of TYLER" -> "so dive deep into the
+backstory of that repo".
+
+- [x] Read `TYLER/CLAUDE.md`/`README.md` and the two prior real, live "State of the Ecosystem"
+  blog posts (`var/blog.db`, already an established recurring series) to ground the voice in real
+  precedent rather than inventing a new one: a "garage transcript" format hosted by TYLER
+  (precise, real-numbers-only, corrects embellishment) with a recurring cast of REDGARDEN's six
+  original "mundane object" heroes -- The Duck, The Unicorn, The Ghost, The Frog, The Tree, The
+  Pizza (confirmed real via `REDGARDEN/docs/HEROES_VS0.md` and `packages/simulation/
+  arena_ai_bridge.c`'s own `arena_hero_name()` switch -- also found TYLER himself is a real,
+  separate playable hero, #182, "an exact reskin of DOTA's OG Meepo").
+- [x] Read `CHANGELOG.md` entries dated 2026-09-21 through 2026-09-28 across SHANKPIT, BIG_O,
+  MIXFORGE, PARENA, DEADWEIGHT_2, WOTAN, REDGARDEN, GoblinFoxDragon, ECOWAR, and IDUNA (~1100 lines
+  of real changelog text) to build the actual content, not invented filler. Picked five real,
+  verifiable threads: DEADWEIGHT's native-wasm production auth-truncation bugfix (this session's
+  own work, SECTION 572); BIG_O's real 0-to-shipped-game week (Decorum/vault-heist mechanics, the
+  Regulators player-death mechanic -- "they delete you with acid and foam" -- and a real, honest
+  "no werewolf/ninja/pop-star asset exists" note on the Top Regulator boss, which shipped as a
+  hot-pink-tinted mannequin reusing an existing dance clip instead); the cross-repo "minestrone"
+  coincidence (SHANKPIT + BIG_O + GoblinFoxDragon all got the same food item the same day off one
+  founder message) plus GoblinFoxDragon's real "Missing Pants" quest, which literally wraps a real
+  gear-persistence bugfix in in-fiction lore; and MIXFORGE's real, live co-play bug fixed today
+  (a client joining mid-song got silent audio; a separate dead-peer/ghost-seat reap added
+  alongside it).
+- [x] Pulled a fresh, live hero-leaderboard snapshot (`GET /api/v1/redgarden/hero-leaderboard`) for
+  the closing bit rather than reusing stale numbers from the prior posts: The Duck and The Unicorn
+  are now statistically tied for dead last of 30 (33.59% vs. 33.56%, 1164 and 1174 real matches
+  respectively) -- a real reversal of the prior post's "Duck climbs off the bottom." Also found and
+  named a real, small, live bug along the way: `OKEMILY/tournaments.html`'s own `HERO_NAMES`
+  display array is stale (documented in its own code comment as needing a manual bump) and two
+  real heroes -- hero_id 28/29, Warrior and Cart -- have no name at all on the public leaderboard
+  page, confirmed by cross-referencing `arena_ai_bridge.c`'s real `arena_hero_name()` switch.
+- [x] Built `emily.cli`'s `cmd/blog.go` (`emily blog post`) for the first time this session --
+  real, reusable infra replacing the prior convention of a one-off hand-minted curl call for every
+  post -- and used it to publish. Live at
+  `https://okemily.com/blog/state-of-the-ecosystem-a-coin-flip-for-last-place/`, confirmed via a
+  direct API read-back (author "Tyler", real body) and a live `curl` 200 against the actual public
+  URL.
+
+commits: none (blog content lives in IDUNA's blog.db, not a git-tracked file; emily.cli's own
+`cmd/blog.go` was pre-existing, not written this pass)
+apples: #21230 (observation), #21232 (completion)
+
+session: sess-20260923-1030-4a526255
