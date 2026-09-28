@@ -51045,14 +51045,32 @@ fork this session).
   a complete real match, 7 rounds, against a live `dw_bot`/`dw_server` over the real WS-TCP
   bridge, 0 failures, through the exact compiled `dist/client.js`/`dist/wasmProto.js` a browser
   would load.
-- [ ] IDUNA SSO: reuse WOTAN's already-live `iam.okemily.com` redirect + `/api/v1/games/
-  deadweight/sso-exchange` pattern (`WOTAN/friends.html`'s own real, verified precedent) rather
-  than `web/src/account.ts`'s separate guest-only bootstrap.
-- [ ] `wotan.okemily.com/DEADWEIGHT` hosting once the above land (WOTAN's existing static-site
-  deploy pipeline is a real, simpler fit than SECTION 571's own GKE/Terraform pipeline, which is
-  blocked on a non-functional cluster).
+- [x] IDUNA SSO: `web/src/sso.ts` (new) + `account.ts`'s new `loginWithSso` reuse WOTAN's
+  already-live `iam.okemily.com` redirect + `/api/v1/games/deadweight/sso-exchange` pattern
+  (`WOTAN/friends.html`'s own real, verified precedent), alongside (not replacing)
+  `web/src/account.ts`'s existing guest-only bootstrap. Verified against the real local IDUNA
+  instance: a deliberately bad token returned a real `401` (`ApiError`), byte-identical to a raw
+  `curl` to the same endpoint -- proves the request reaches the real endpoint with the right
+  method/header shape. Not click-through-tested in a real browser (no headless Chrome in this
+  sandbox) and no local IDUNA identity existed with a DEADWEIGHT account linked to test the
+  success path.
+- [x] `wotan.okemily.com/DEADWEIGHT` hosting: code-complete, not yet live. Built
+  `DEADWEIGHT/ops/systemd/dw-ws-bridge.service` (loopback-only `ws-tcp-bridge.js` against the real
+  live `dw_server` on `:6980` -- live-verified by hand, sent a raw WS frame, got a real relayed
+  byte response back), `WOTAN/ops/nginx-wotan.conf`'s new `/DEADWEIGHT/ws` location (terminates
+  `wss://`, proxies to the loopback bridge), and `WOTAN/DEADWEIGHT/` (the actual built client
+  bundle -- `index.html`/`dist`/the compiled `.wasm`/`src/generated/cards.json` -- a plain copy of
+  this repo's own `web/`, matching WOTAN's no-build-step convention), linked from all 7 WOTAN
+  pages' nav ("Play"). Live-verified before committing: served the copied tree with a plain HTTP
+  server, confirmed every asset path resolves, then fetched the `.wasm` over that real HTTP
+  connection and instantiated it (98 exports). Real, honest remaining gap: `sudo-queue/
+  94-deadweight-wotan-ws-bridge.sh` and `~/wotan-deploy.sh` haven't actually been run on the live
+  box -- this sandbox has no passwordless sudo (confirmed live). `wotan.okemily.com/DEADWEIGHT`
+  isn't reachable until both run.
 
-commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609
-apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185 (completion)
+commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609, DEADWEIGHT@2e3c857, DEADWEIGHT@b28b4dc,
+DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, WOTAN@a098606, WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43
+apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185
+(completion), #21190 (completion)
 
 session: sess-20260923-1030-4a526255
