@@ -50373,10 +50373,25 @@ so no `emily observe`/Apple could be filed from it — hand-logged here instead.
   Account is a native `AlertDialog` with theme-colored fields, not a fully custom modal; FRIENDS
   & DUELS has no Android version at all (a whole new feature, not a redraw) — left out rather
   than shipped as a dead button.
-- [ ] **Phase 1C — remaining screens** (queue/lobby/draft/match-end/social) still render via
-  `MainActivity`'s own `text()`/`button()` `android.widget.*` helpers — theme-colored but still
-  host-widget chrome (rounded corners, ripple, system font), a real visible gap from the desktop
-  client's fully brutalist equivalents. Not started.
+- [x] **Phase 1C — queue/lobby/draft/match-end screens** (2026-09-28, DEADWEIGHT@939627f, part
+  of the founder's broader "get DEADWEIGHT at parity with windows for the android and wasm
+  client... all the ui all the affordances" ask, Apple #21166/#21183). `renderQueue`/`renderLobby`/
+  `renderDraft`/`renderEnd` rebuilt on `PixelLabel`/`BrutButton` (Phase 1B's own primitives)
+  instead of stock `android.widget.*` — matches `apps/gui/main.c`'s `draw_queue()`/`draw_draft()`/
+  `draw_end()` content and layout (queue now shows the real waiting count from `S_QUEUED`, received
+  but never displayed before). `renderMatch`'s PASS/LOCK IN buttons untouched (Phase 1's own
+  scope already). Two real, named gaps left un-built rather than silently reskinned as done: no
+  Android Draft Hub screen (win/loss-streak state + RESUME UPLINK/ABORT & EXTRACT — new stateful
+  feature work, not a reskin) and no Friends & Duels screen (already named in Phase 1B, unchanged).
+  Verified: `javac --release 8` clean against the real `com.google.android:android:4.1.1.4` stub
+  jar (re-fetched this session). Bazel re-checked, still unavailable in this sandbox — but found a
+  working full JDK here Phase 1B didn't (`EINHORN_SURVIVAL/jdk25`; `.local/opt/jdk-21` has a
+  broken `libjli.so`), so **all four** plain-JVM test mains were actually run directly (not just
+  compile-checked): `CoreTest` 228/0, `ParityTest` 24,097 vectors/0 failures, `core.FxParityTest`
+  9,941 vectors/9,968 checks/0 failures, `IntegrationTest` (real match + real draft flow against
+  the live `build/dw_server`/`build/dw_bot` binaries) 0 failures — a higher verification bar than
+  any prior phase reached here. Still never run on an actual device/emulator (none exists in this
+  sandbox, same limitation every phase has named).
 - [ ] **Phase 3 — copy/paste.** Only plausible surface found: draft deck export/import (deck
   codes). Needs a deck-code format decision first (none exists on any client today).
 - [ ] **Phase 4 — "key unlock".** BLOCKED on a founder answer: (a) Ultimates/cosmetic unlock
