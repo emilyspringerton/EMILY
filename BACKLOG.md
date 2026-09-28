@@ -50725,3 +50725,24 @@ commits: MIXFORGE@1991bae (+a859ade)
 apple: #21133
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 565: MIXFORGE — 808 ADDED TO MPC PAD SLOT 6 (FOUNDER REAL-TIME)
+
+Founder real-time: "add an 808 to the mpc for https://mixforge.okemily.com/dj.html slot 6".
+Slot 6 (1-indexed UI label) = pad index 5 in the 16-pad sampler — the first of the pads that
+`demo_content.mjs`'s `makeKit()` had left empty for beat-synced deck captures, right after the
+existing 5-voice kit (kick/snare/hat/clap/pluck).
+
+- [x] Added `eight0eightInto()` to `web/demo_content.mjs`: a synthesized classic 808-style sub
+  kick/bass — fast pitch drop (220Hz -> ~52Hz over ~ the first tens of ms), 1.5s exponential
+  decay, tanh saturation for the warm/driven "808" character. Wired in as `makeKit()`'s 6th
+  voice (`{ name: "808", oneShot: true }`), landing at pad index 5.
+- [x] Verified clean synthesis directly (peak 0.875, no NaNs, no clipping) and ran the full
+  `dsp_test.mjs` suite (49/49 still pass — pad-count-agnostic, no test needed updating).
+- [x] Live-verified via Playwright against `mixforge.okemily.com/dj.html`: pad 6 now shows
+  label "808"; clicking it fires a real `note-on -> pad 6` with zero console errors.
+
+commits: MIXFORGE@3ea08c7 (+9bde69e)
+apple: #21143
+
+session: sess-20260923-1030-4a526255
