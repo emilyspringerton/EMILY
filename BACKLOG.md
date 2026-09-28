@@ -50668,3 +50668,38 @@ than once", then "it still doesnt work not unified ensure deploy".
 commits: MIXFORGE@e5b8a05 (+d87dec8)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 563: MIXFORGE — SHARED COMPONENTS, NOT A THIRD DUPLICATE PAGE (FOUNDER REAL-TIME)
+
+Founder real-time, direct correction of S561's approach: "continue integration leave the current
+dj.html that is a useful tool evolve multiplayer via shared components that do different shit on
+the multiplayer - it needs to do everything it does on dj.html in addition to aquiring new tracks
+via the yt download and you can play from either your mp3s or the web". S561's `room.html` had
+solved the functional problem (unified room that actually plays audio) but by forking `dj.html`'s
+whole script near-verbatim into a third page — real, correctly-named duplication debt.
+
+- [x] **Extracted 5 real shared ES modules** out of that duplicated logic: `web/waveform.mjs`
+  (peak-overview render + playhead paint), `web/mixforge-engine.mjs` (dsp.wasm + AudioWorklet
+  boot boilerplate), `web/midi.mjs` (Web MIDI device enumeration/binding), `web/sampler.mjs`
+  (16-pad grid, beat-synced capture UI, keyboard bindings), `web/deck-strip.mjs` (one channel
+  strip's full DOM + wiring + setDeckAudio/loadDemo/loadFile/syncDeck/BPM-estimate). All five
+  verified with `node --check`.
+- [x] **`dj.html` received zero edits** — stays exactly the standalone solo 4-deck tool it was,
+  per the founder's explicit "leave the current dj.html."
+- [x] **`multiplayer.html` rebuilt on the shared modules** as the real unified room: everything
+  `dj.html` does (4-deck mix, waveforms, BPM estimate, 16-pad MIDI sampler) plus its own
+  room-only logic layered on top (WebSocket turn state, YouTube track acquisition via
+  `server/room_server.mjs`, clock-synced playback scheduling) — and plays from either a local
+  file loaded into any deck or the room's web-acquired track, per the founder's explicit ask.
+- [x] **`room.html` retired** (`git rm`) now that `multiplayer.html` is the real thing;
+  `index.html`'s front-door redirect repointed at `multiplayer.html`; `wasm-proof.html`'s link
+  trail and `README.md` updated to match (README Reality).
+- [ ] Not yet re-verified live via a fresh Playwright pass against the deployed domain after this
+  refactor (prior session's Playwright verification was against the now-retired `room.html`) —
+  flagged honestly, not claimed done; next session should confirm `multiplayer.html` boots and
+  plays end-to-end on `mixforge.okemily.com` the same way `room.html` was previously verified.
+
+commits: MIXFORGE@2237981 (+e5b8a05)
+apple: #21126
+
+session: sess-20260923-1030-4a526255
