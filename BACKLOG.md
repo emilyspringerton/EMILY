@@ -51166,13 +51166,46 @@ fork this session).
   `https://wotan.okemily.com/DEADWEIGHT/` for real (curl + a live headless-Chrome screenshot
   confirmed the new title/layout serving in production). Full account:
   `DEADWEIGHT/docs/NATIVE_WASM_CLIENT_NORTHSTAR.md`.
+- [x] 2026-09-28, founder real-time: "we dont need IDUNA base URL or WebSocket bridge URL - we
+  arent setting up for multi server right this second its just the one server - also i dunno if
+  its the wrong url or what but the actual game still doesnt work - hitting connect then random
+  should get me into a game" + "dont make it a dev build this is production" + `/design` "make
+  DEADWEIGHT affordances nice keeping the art direction... elite... hacker aesthetic". Removed the
+  `iduna-url`/`bridge-url` text inputs from `index.html` entirely -- both endpoints are now
+  hardcoded in `main.ts` (`resolveIdunaUrl`/`resolveBridgeUrl`: same-origin `/api/` +
+  `/DEADWEIGHT/ws` in production, `localhost:8080`/`:8765` only for local dev). Removed the
+  dev-build subtitle and "VS0.5-web, not a shipped client" disclaimer, replaced with the real
+  brand tagline "Dark Sector: Hold Battles". Added the brand guide's own named-but-never-built
+  motifs (Section 2A): full-screen scanline/CRT post-process, dashed borders for pending
+  friend/duel state, a terminal caret -- deliberately no drop shadows/glows/gradients on chrome,
+  which that doc's Do-Not-Do list rules out. **Real bug found and fixed, not just the requested
+  cleanup**: tested the live matchmaking flow against the real production stack for the first
+  time (every prior verification pass in this repo's history used a `--no-auth` throwaway
+  server) and found the actual cause of "connect then random doesnt get me into a game" -- HELLO's
+  inline token field is capped at 200 bytes (`DW_MAX_TOKEN`), but a real IDUNA ES256 player JWT is
+  ~400-500 bytes; `client.ts` stuffed the full token into `encodeHello()` anyway, silently
+  truncating it to garbage, and the real auth-required `dw_server` correctly rejected it with
+  `ERROR 2` before ever sending `WELCOME`. The wire protocol already names the right fix
+  (`docs/WIRE_PROTOCOL.md`'s AUTH row, `DW_MAX_AUTH_TOKEN=900`) and the C/wasm side already
+  exported it (`set_auth`/`set_auth_token_byte`), but neither TypeScript codec (`proto.ts` nor its
+  wasm-backed drop-in `wasmProto.ts`) ever called it -- added `encodeAuth()` to both, updated
+  `client.ts` to send HELLO token-less then AUTH separately, added a byte-parity check with a
+  realistic 557-byte JWT fixture. Verified against real production (not a throwaway): minted a
+  real guest JWT via the live `guest-register` endpoint, connected `DeadweightClient` straight to
+  `wss://wotan.okemily.com/DEADWEIGHT/ws`, got a real `WELCOME(authRequired=true)` -> `AUTH` ->
+  `QUEUED` -> real `MATCH_FOUND` against a live bot from the production pool. Separately confirmed
+  (not this session's own fix -- already resolved live between checks) that the `/DEADWEIGHT/ws`
+  nginx 404 named in the entry above is also now fixed: `curl` returns a real `101 Switching
+  Protocols`, not `404`, and `sudo-queue/95` is no longer a live blocker.
 
 commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609, DEADWEIGHT@2e3c857, DEADWEIGHT@b28b4dc,
 DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, DEADWEIGHT@55f238a, DEADWEIGHT@81363a2, DEADWEIGHT@fe8f716,
-DEADWEIGHT@1a54ec1, DEADWEIGHT@10f8bc3, WOTAN@a098606, WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43,
-WOTAN@cfe3cf2, WOTAN@2c72141, WOTAN@50afe97, WOTAN@f3cd9f6, SHANKPIT@492be5d
+DEADWEIGHT@1a54ec1, DEADWEIGHT@10f8bc3, DEADWEIGHT@4fbc882, DEADWEIGHT@ba7c364, DEADWEIGHT@b6c334c,
+DEADWEIGHT@36b4f03, WOTAN@a098606, WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43, WOTAN@cfe3cf2,
+WOTAN@2c72141, WOTAN@50afe97, WOTAN@f3cd9f6, WOTAN@08b2f98, WOTAN@08cdd1e, SHANKPIT@492be5d
 apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185
 (completion), #21190 (completion), #21191 (completion), #21193 (observation), #21195
-(completion), #21196 (completion), #21199 (completion), #21210 (observation), #21211 (completion)
+(completion), #21196 (completion), #21199 (completion), #21210 (observation), #21211 (completion),
+#21224 (observation), #21226 (completion), #21227 (completion)
 
 session: sess-20260923-1030-4a526255
