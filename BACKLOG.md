@@ -4342,6 +4342,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: NOCK's video editor should be PARENA-wasm powered and share components with MIXFORGE's shared-compon…** — obs `2026-09-28T02:42:29Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: add an 808 to the MPC for mixforge.okemily.com/dj.html slot 6** — obs `2026-09-28T02:56:20Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: coplay/room feature in MIXFORGE doesn't actually function -- opening 2 tabs shows 'connected' but ro…** — obs `2026-09-28T03:48:53Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: SHANKPIT levels page is down, showing just a blank screen -- also asking to add UX/screenshot testin…** — obs `2026-09-28T03:59:32Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
