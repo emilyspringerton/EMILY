@@ -51393,3 +51393,57 @@ commits: DEADWEIGHT `7c834a2`
 apples: #21266 (observation), #21267 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 578 — DEADWEIGHT: real SDL layer for wasm — fx.c/sfx.c compile unmodified to the browser
+
+Founder real-time: "ok awesome we're in" (DEADWEIGHT matchmaking confirmed working) then "now we
+need to fix the animations and sound effects they should exactly match the windows client" — after
+scoping revealed the real, honest gap (`web/src/fx.ts` was a genuine, simplified, hand-written
+Canvas2D/Web Audio re-interpretation of `apps/gui/fx.c`/`sfx.c`, not a port), the founder redirected
+mid-task: "write an sdl layer for wasm for when we dont have SDL abstract our shit so we can use
+PARENA to write the same exact logic."
+
+- [x] Built a real "SDL layer for wasm": `apps/wasm/fx/SDL.h` declares the 5 real SDL calls
+      `apps/gui/fx.c` actually makes (all its own primitive wrappers — `setc`/`frect`/`fline`/
+      `fcircle`/`fring`/`fpoly` — funnel through exactly these), implemented as wasm imports.
+- [x] `apps/gui/fx.c` + `apps/gui/sfx.c` now compile **completely unmodified** to
+      `web/dist/generated/dw_fx.wasm` (`scripts/build_wasm_fx.sh`, the same native
+      `clang -target wasm32-unknown-unknown -nostdlib` backend `scripts/build_wasm_native.sh`
+      already established for the wire codec — no Emscripten).
+- [x] `web/src/fxWasm.ts` implements the 5 SDL imports via Canvas2D, plus `FxHost`'s own
+      pre-existing text/text_w/card callback seam — Windows fills the identical calls via real
+      SDL2 (`apps/gui/main.c`). Same C source, two hosts.
+- [x] Audio needed no new abstraction: `sfx.c`'s own pre-existing offline-render API
+      (`sfx_offline_begin`/`sfx_render`, already used by `tests/test_sfx.c`/`dw_gui --fx-demo`'s
+      WAV dump) is pulled every frame and scheduled into Web Audio, sample-accurately gapless.
+- [x] `apps/wasm/fx/math_shim.c`: sinf/cosf/expf/logf/fmodf/powf/tanhf/exp2f (this freestanding
+      target has no libm) + a real `%d`/`%s` snprintf — verified to ~1e-6 against a real libm
+      (`tests/test_wasm_math_shim.c`, 7761 checks, run by the build script before every wasm build).
+- [x] `apps/wasm/fx/parena_runtime.h`: a minimal stub replacing PARENA's real 3240-line runtime
+      (sockets/SDL2/mbedTLS/ptys) its C emitter always prepends as a fixed template — checked
+      directly, neither `fx_rules.c` nor `card_rules.c`'s own generated bodies call anything from it.
+- [x] Closed a second, separately named honest gap while wiring this in: `main.ts` now defers each
+      round's animation until the next `ROUND_START` confirms the real energy delta/post-round
+      status, porting `apps/gui/main.c`'s own `fx_finish_round`/`pend_valid`/`rs_energy` pattern
+      into `fx_wasm.c`'s `wasm_fx_energy_estimate` rather than re-deriving it in TypeScript.
+- [x] Live-verified in real headless Chrome (Playwright) against the live production backend: a
+      real match, a real `ROUND_RESULT`, `#fx-canvas` painting real non-background pixels (ships,
+      a Lock-keyword targeting-bracket clash, kind-colored glow — screenshotted), zero console
+      errors. A direct Node-level module test separately confirmed 130k+ real SDL draw calls
+      across a full Blitz timeline and real non-silent synthesized audio (peak ~82% of scale).
+- [x] Full native build/test suite (`scripts/build.sh`) stays green — `fx.c`/`sfx.c`/`core/*`
+      sources were never touched, only compiled a second time for a second target.
+- [x] Deployed to `wotan.okemily.com/DEADWEIGHT/` (dist bundle + `index.html`'s canvas resize).
+- [x] `web/README.md` + `docs/ANIMATION_AND_AUDIO.md` updated (README Reality).
+
+**Honest, named, deliberately deferred scope**: only `fx_draw_arena` (the clash/ship/particle/
+card-flip timeline, self-contained within `fx.c`'s own arena band) is wired in this pass.
+`fx_draw_overlay` (redline border, full virtual screen), `fx_draw_status_panel`/
+`fx_draw_disabled_card` (burn/regen embers, EMP look — absolute full-screen HUD coordinates the
+DOM-based hull bars here don't share) aren't called yet; wiring them needs `#fx-canvas` to grow
+into a full-screen overlay, a real follow-up, not silently dropped.
+
+commits: DEADWEIGHT `1b1298c`
+apples: #21270 (observation), #21272 (redirect observation), #21274 (completion)
+
+session: sess-20260923-1030-4a526255
