@@ -50704,3 +50704,23 @@ commits: MIXFORGE@2237981 (+e5b8a05)
 apple: #21126
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 564: MIXFORGE — COOKIE EXPORTER EXTENSION NOW HAS REAL CI (FOUNDER REAL-TIME)
+
+Founder real-time: "check the claude cloude iduna cookie extension work ensure the extension
+builds in cicd". Checked first: `tools/cookie-exporter/` (the Chrome extension built in S561 to
+get past YouTube's bot-detection) was real and correct, but MIXFORGE had **no CI/CD at all** —
+zero `.github/workflows/` — so "does it build" had never actually been checked by anything.
+
+- [x] Added `.github/workflows/cookie-exporter-ci.yml` — hermetic, no `npm install` (the
+  extension has zero dependencies): validates `manifest.json` is real Manifest V3 with every
+  referenced file present, `node --check`s every JS/MJS file, runs `cookies_test.mjs`'s real
+  Netscape-cookie-format assertions, then zips the unpacked extension into a distributable
+  artifact and uploads it as a build artifact.
+- [x] Verified every step locally first, then confirmed live on GitHub Actions, not just
+  assumed: run `36368798087` against commit `a859ade` — `completed` / `success`.
+
+commits: MIXFORGE@1991bae (+a859ade)
+apple: #21133
+
+session: sess-20260923-1030-4a526255
