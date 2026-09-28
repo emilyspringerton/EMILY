@@ -50865,3 +50865,44 @@ commits: MIXFORGE@8476481
 apples: #21152 (observation), #21155 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 569 — "SHANKPIT levels is down, blank screen" + real UX screenshot testing
+
+Founder real-time: "shankpit levels is down its just a blank screen can we add some ux screenshot
+testing." Routed through `emily observe` first (Apple #21156).
+
+Two real, separate surfaces are both named "SHANKPIT Levels" in this monorepo — investigated
+both rather than guessing which one:
+
+- [x] `/admin/nock`'s own "SHANKPIT Levels" tab (IDUNA). Found a real, standing structural risk:
+  the React app has no `ErrorBoundary`, so an uncaught render error in ANY tab blanks the WHOLE
+  app, not just that tab. Also found the live `iduna` binary hadn't been rebuilt since
+  2026-09-27 23:40 — predating both this session's earlier work (S492 kit feature, the risky
+  6-branch abandoned-branch merge sweep) and this session's own later MIXFORGE EDITOR commit.
+  Rebuilt from current HEAD (`go build/test ./...` clean) and redeployed via `systemctl --user
+  restart iduna.service`.
+- [x] `shank_lobby`'s own native `LOBBY_LEVEL_SELECT` ("LEVELS") menu overlay (SHANKPIT). Built
+  and ran the real binary under headless Xvfb, drove it with a real synthetic XTEST Enter
+  keypress (no `xdotool` needed — `python3-xlib` already available), confirmed it renders
+  correctly right now.
+- [x] Could not reproduce a persistent blank screen against current HEAD on either surface —
+  named honestly, not glossed over. Most likely explanation: the founder hit the stale
+  pre-restart IDUNA binary, or a since-resolved transient state.
+- [x] Shipped the actual, standing-value ask regardless of root-cause uncertainty — real,
+  reusable UX screenshot testing for both surfaces, so a recurrence gets caught automatically:
+  - `IDUNA/frontend/nock/scripts/ux_screenshot_test.mjs` (`npm run test:ux-screenshots`) — real
+    Playwright, logs in through the real `/admin/login` form using a new dedicated agent
+    (`SCREENSHOT-CI`, provisioned via the existing `cmd/create-admin-agent` tool, same mechanism
+    EDDY/HOUSE/BOOTS already use — no cookie forging), clicks through all 17 real nav tabs
+    against production, screenshots each, fails on any near-empty `#root` or uncaught page
+    error. Ran live against production: all 17 tabs pass.
+  - `SHANKPIT/scripts/ux_screenshot_test.sh` (`make ux-screenshot-test`) — real headless Xvfb +
+    synthetic XTEST input, screenshots the lobby boot screen and the LEVELS overlay, fails if
+    either is suspiciously close to solid black. Ran live: both pass.
+- [x] Both repos' README/CHANGELOG/NORTHSTAR updated with the real findings and the new testing
+  capability, per SAGA reconciliation.
+
+commits: IDUNA@5d0552a, SHANKPIT@1e3b5c4
+apples: #21156 (observation), #21160 (IDUNA completion), #21161 (SHANKPIT completion)
+
+session: sess-20260923-1030-4a526255
