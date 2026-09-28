@@ -51091,12 +51091,38 @@ fork this session).
   DEADWEIGHT's SSO exchange depends on. Founder direction: scale `shankpit-bot-pool.service`
   8->4 (`SHANKPIT@492be5d`) -- memory freed 352Mi->2.8Gi, swap 495Mi(full)->266Mi, `iduna.service`
   stable since. `95` itself still needs the same real sudo this sandbox doesn't have.
+- [x] 2026-09-28, founder direction: "get it pixel for pixel parity with the windows client
+  everything needs to work there first." Checked directly rather than assumed-fine: the browser
+  client's actual CSS/colors had never been brought into line with
+  `DEADWEIGHT/docs/BRAND_STYLE_GUIDE.md` at all -- generic `system-ui` sans-serif font (the
+  guide's single most explicit rule: never a humanist sans), `border-radius` on every input/
+  button/panel (the guide's own named Do-Not-Do: hard rectangles only), and invented hex colors
+  that matched neither `apps/gui/main.c`'s `Col`/`KIND_COL` constants nor `fx.c`'s own separate,
+  brighter `C3` animation palette. Fixed for real: exact hex from `main.c` for UI colors, exact
+  hex from `fx.c`'s own `C3` constants for animation colors (checked by reading `fx.c` directly,
+  not assumed from the static-UI palette), `border-radius: 0` everywhere, borderless solid-fill
+  buttons + white-framed inputs (matching the real reference screenshots
+  `docs/img/s513_desktop_menu.png`/`s513_desktop_match.png`), Google Fonts "Silkscreen" (a genuine
+  pixel webfont, explicitly allowed by the brand guide) as the primary font, all-caps UI chrome
+  scoped to exclude card names/keywords (which stay natural-case on the desktop too, confirmed in
+  `main.c`). `main.ts`'s `KIND_COLORS`/`KIND_NAMES` made byte-exact to `main.c`'s own arrays.
+  Verified for real: `npm run build` clean; a real headless Chrome (`ms-playwright`'s
+  `chrome-linux64`, already cached in this sandbox -- no install needed) screenshotted the actual
+  live page at `https://wotan.okemily.com/DEADWEIGHT/` after a real redeploy
+  (`~/wotan-deploy.sh`); rendered pixels sampled with ImageMagick confirmed **exact** hex matches
+  (not just visual similarity): body bg `srgb(18,20,28)`=`#12141C`, warn border
+  `srgb(255,200,60)`=`#FFC83C`, input border `srgb(255,255,255)`=`#FFFFFF`, button fill
+  `srgb(32,36,50)`=`#202432`. Also confirmed `applyProductionDefaults()` still works correctly
+  live post-redeploy. Real, honest, named remaining gap: this covers the setup/menu screen's
+  chrome, not yet the in-match HUD/card layout, the oversized title treatment, or per-kind ship
+  shapes.
 
 commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609, DEADWEIGHT@2e3c857, DEADWEIGHT@b28b4dc,
-DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, DEADWEIGHT@55f238a, DEADWEIGHT@81363a2, WOTAN@a098606,
-WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43, WOTAN@cfe3cf2, WOTAN@2c72141, SHANKPIT@492be5d
+DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, DEADWEIGHT@55f238a, DEADWEIGHT@81363a2, DEADWEIGHT@fe8f716,
+DEADWEIGHT@1a54ec1, WOTAN@a098606, WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43, WOTAN@cfe3cf2,
+WOTAN@2c72141, WOTAN@50afe97, SHANKPIT@492be5d
 apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185
 (completion), #21190 (completion), #21191 (completion), #21193 (observation), #21195
-(completion), #21196 (completion)
+(completion), #21196 (completion), #21199 (completion)
 
 session: sess-20260923-1030-4a526255
