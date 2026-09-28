@@ -4359,6 +4359,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: DEADWEIGHT matchmaking confirmed working live ("ok awesome we're in"). New ask: fix web client anima…** — obs `2026-09-28T20:23:46Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time (mid-task redirect): DEADWEIGHT web fx/audio parity -- instead of hand-porting apps/gui/fx.c/sfx.c lo…** — obs `2026-09-28T20:26:41Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: DEADWEIGHT web client bug -- card text doesn't show when card is revealed, and health/hull display d…** — obs `2026-09-28T22:23:02Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: DEADWEIGHT web client -- (1) use a cookie to persist guest account identity across sessions, (2) gen…** — obs `2026-09-28T23:39:46Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
