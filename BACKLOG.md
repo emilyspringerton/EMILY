@@ -4356,6 +4356,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: DEADWEIGHT still broken in production - connect then queue for random does not start a game. Client …** — obs `2026-09-28T13:21:03Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: update the okemily.com footer/nav menu -- WOTAN link should go to the old site (tournaments.html), a…** — obs `2026-09-28T13:28:28Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: DEADWEIGHT still broken after the queue-btn fix -- now reports 'queue random button greyed out, conn…** — obs `2026-09-28T19:46:21Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: DEADWEIGHT matchmaking confirmed working live ("ok awesome we're in"). New ask: fix web client anima…** — obs `2026-09-28T20:23:46Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
