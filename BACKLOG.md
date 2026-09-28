@@ -4338,6 +4338,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'ensure the shankpit rigid body stuff landed i dont see the robots tools in IDUNA' -- checking merge…** — obs `2026-09-27T21:10:58Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: 'ok ensure the other shankpit abandoned claude branches are merged in' -- merging remaining abandone…** — obs `2026-09-27T21:46:39Z`. CURATED: 2026-09-27.
 - [ ] **Founder real-time: scope MIXFORGE Phase 5 (stdlib/media/stream.prn, real-time synchronized DJ-room audio playback) now …** — obs `2026-09-27T23:11:42Z`. CURATED: 2026-09-27.
+- [ ] **Founder real-time: continue MIXFORGE integration but correct architecture — leave dj.html exactly as the useful standal…** — obs `2026-09-28T00:34:02Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
