@@ -51448,3 +51448,61 @@ commits: DEADWEIGHT `1b1298c`
 apples: #21270 (observation), #21272 (redirect observation), #21274 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 579 — DEADWEIGHT: real card text on reveal + hull bar on death (found live, shared fx_draw_card_box)
+
+Founder real-time bug report: "it says [...] now when i join it doesnt let me hit the queue random
+button" was S577's own bug (already fixed); this session's NEW report, after that fix confirmed
+working: "it doesnt show the card text on the cards when you reveal it also doesnt work right like
+i can get killt and it doesnt show my health go to the bottom go to the bottom check against the
+windows client for exactly how it should work abstract it into PARENA so we can share more of the
+code to avoid client desync issues like this."
+
+- [x] Root-caused bug 1 against `apps/gui/main.c`: `fx_draw_arena`'s card-flip drawing called back
+      into `web/src/fxWasm.ts`'s `js_draw_card`, a deliberate wasm-only stub (colour box + id label,
+      "no card art assets wired through the wasm boundary yet") -- the web client never drew real
+      card text on the reveal at all.
+- [x] Fixed by moving `apps/gui/main.c`'s own `card_box()` logic (name/cost-power/kind-keyword/
+      wrapped rules text, from `core/card_text.h`) into a new, real `fx_draw_card_box()` in
+      `apps/gui/fx.c` -- compiled into BOTH the native SDL2 client and the wasm client. `fx.c`'s own
+      clash-flip animation now calls it directly; `FxHost.card`/`js_draw_card`/`CardMeta`/the
+      `cardLookup` param are gone entirely, not left as unused scaffolding.
+- [x] Closed a second gap the same fix surfaced: `fx_draw_arena` now actually implements its own
+      idle "LAST ROUND (N)" reveal panel (or "PICK A CARD OR PASS") -- previously a second,
+      hand-duplicated copy of this drawing lived ONLY in `apps/gui/main.c`'s `draw_match()`, which
+      the wasm client had no equivalent of at all (canvas just went blank between rounds).
+- [x] Root-caused bug 2 against `apps/gui/main.c`: the web client's DOM hull/armor/vault bars
+      (`renderBars()`) only ever refreshed on `ROUND_START` -- but the round that ends a match is
+      never followed by another one, so a lethal hit's own hull change never reached the screen.
+- [x] Fixed via a new `applyFinalMeters()` called from `main.ts`'s `onMatchEnd`, pushing the final
+      round's real post-round hull/armor/vault immediately -- mirrors `apps/gui/main.c`'s own
+      `fx_targets(0)` call at `DW_S_MATCH_END` exactly.
+- [x] Found and fixed a THIRD, real bug live verifying the first fix (not introduced by this
+      paragraph's own claim): the freestanding wasm build's hand-written `snprintf`
+      (`apps/wasm/fx/math_shim.c`, documented as only ever needing `%d`/`%s`/literals) silently
+      mis-parsed `%.*s` (precision given as an argument) into the literal text `.*s`, corrupting
+      every card's name/text on the wasm client only (native SDL2 links real glibc snprintf, so it
+      never showed there). Fixed with a manual bounded-copy helper (`cb_copyn`) instead of teaching
+      the shim a new format feature only two call sites needed.
+- [x] `core/card_text.c` (card name/keyword/rules-text data, previously native-only) now also
+      compiled into the wasm build (`scripts/build_wasm_fx.sh`).
+- [x] Verified: full native `scripts/build.sh --gui` green (29-scenario `dw_gui --fx-demo`
+      included, native screenshots confirmed real wrapped card text); `tsc` clean; a direct
+      Node-level `dw_fx.wasm` module test confirms real card name/keyword/rules-text strings reach
+      the draw calls (no `.*s`); two real matches played to completion against the live production
+      bot pool (`wotan.okemily.com`) -- both showed correct reveal text throughout and ended with
+      the DOM hull bar correctly reading `YOU 0/20` at match end, zero console errors either time.
+- [x] Caught and fixed live during this pass, not a silent workaround: a manual `dist/` deploy via
+      `rsync -a` had clobbered the production directory's own `o+rx` permissions (archive mode
+      preserves the restrictive source perms), 404ing the entire site for `www-data`/nginx for a
+      few minutes until the very first live-verification attempt caught it -- fixed immediately,
+      and the redeploy afterward explicitly re-applied `o+rx`/`o+r`.
+
+**Honest note**: bug 2's fix (`applyFinalMeters`) is a mechanical, faithful port of an
+already-tested Windows pattern reusing `renderBars()`'s own existing DOM-update code -- confirmed
+correct both by code review and by two full live matches reaching real match-end.
+
+commits: DEADWEIGHT `fec3204`
+apples: #21281 (observation), #21285 (completion)
+
+session: sess-20260923-1030-4a526255
