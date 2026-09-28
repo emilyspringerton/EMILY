@@ -50815,3 +50815,52 @@ commits: PARENA@a6c91fd, IDUNA@5579ad4
 apples: #21147 (IDUNA), #21148 (PARENA)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 568 — MIXFORGE co-play: mid-song late-join + dead-peer ghost seats, actually fixed
+
+Founder real-time: "can we make the coplay stuff actually function in mixforge it doesnt
+actually work if i open 2 tabs it says connected but the room music doesnt play in tab 2."
+Routed through `emily observe` first (Apple #21152).
+
+Reproduced live before guessing at a fix: a real two-tab Playwright run against the deployed
+`mixforge.okemily.com` room showed both new tabs joining with `queue disabled: true` — the
+room already had stale occupied seats (including `currentTurn`) from earlier testing, with no
+way for either fresh tab to ever queue a track. Root-caused to two real, separate bugs in
+`server/room_server.mjs`:
+
+- [x] **The actual reported bug** — a client joining after a track had already started playing
+  only ever received `room_state`'s inert `nowPlaying` text field, never a real `play` message,
+  so `multiplayer.html`'s `handlePlay()` never ran for it (this was already named as a deferred
+  limitation in the `Room` class's own header comment — "no mid-song late join" — but the
+  founder's report makes clear it needs to actually work, not just be documented). Fixed: the
+  connection handler now unicasts a real `{type:"play",...}` to a joining client whenever
+  `room.nowPlaying` is set; `handlePlay()` now computes `elapsedSec` into the track from the
+  same `startAtServerTimeMs`/`clockOffsetMs` math it already used for synchronized starts, and
+  seeks there instead of always restarting from 0 — honestly logs and skips playback if the
+  track already finished before they joined, rather than replaying stale audio.
+- [x] **Found live while reproducing the above, not guessed at** — dead WebSocket peers (a
+  crashed tab, a dropped network, a sleeping laptop — anything that skips a clean close frame)
+  occupied their seat forever, since nothing but a real `close` event ever freed one; if that
+  seat held `currentTurn`, no one could ever queue again. This is exactly what polluted the live
+  room during the repro above. Fixed with the standard `ws` heartbeat pattern: ping every client
+  every 30s (a 4th, test-only-overridable `heartbeatMs` arg on `startServer`), `terminate()`
+  anyone who didn't pong since the last ping — reuses the existing `close` handler for seat-free
+  + turn-handoff, no separate cleanup path to keep in sync.
+- [x] Real tests added to `server/room_server_test.mjs`: a client joining mid-song gets a real
+  `play` message carrying the original `startAtServerTimeMs` (not just text); a simulated dead
+  peer gets reaped and its seat freed within ~2 heartbeat intervals. Full suite passes
+  (43 assertions). `web/room_smoke_test.mjs` (room.wasm turn-order kernel) still passes
+  unaffected.
+- [x] Live-verified end to end: restarted `mixforge-room-server.service` (picks up the fix,
+  clears the ghost-seat state it had accumulated), confirmed a fresh join lands on a clean
+  `{seat:0, currentTurn:0}` room, then ran a full simulation of the exact reported repro
+  (tab 1 queues+plays, tab 2 joins 3s later) proving tab 2 now receives a real `play` message
+  with enough info to seek to the correct in-progress position.
+- [x] `NORTHSTAR.md`'s "Real, honest simplifications" section and `README.md`'s "Status and
+  limits" section updated — both previously named "no mid-song late-join seek" as a real,
+  accepted gap; both now say it's fixed, with the real test/verification named.
+
+commits: MIXFORGE@8476481
+apples: #21152 (observation), #21155 (completion)
+
+session: sess-20260923-1030-4a526255
