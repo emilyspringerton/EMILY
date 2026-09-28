@@ -51345,3 +51345,48 @@ commits: OKEMILY `c3f6684`
 apples: #21239 (observation), #21240 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 577 — DEADWEIGHT: third matchmaking bug — silent auth-timeout close + exhausted signup cap
+
+Founder real-time, after the SECTION 575 fix went live: "it says ... now when i join it doesnt
+let me hit the queue random button its greyed out and it doesnt say connection closed at first
+it says that after some initial few seconds"
+
+The queue-btn race fix (SECTION 575) was correct and stayed correct -- the button properly
+stayed disabled. But that fix unmasked a second, deeper, independent problem: once queuing
+correctly waits for `ready`, a connection that never *reaches* ready just hangs, and here it
+never reached ready for two compounding real reasons:
+
+1. IDUNA's guest-signup cap (`maxSignupsPerIPPerDay = 3`, by design, anti-abuse) was already
+   exhausted on the founder's own testing IP -- their own repeated retries across the last two
+   bug reports each minted a fresh guest account instead of reusing a stored one, burning through
+   the daily cap. `bootstrapAccount()` kept throwing, so `main.ts`'s `start()` fell through to
+   `client.connect(name, '')` -- an empty token, against a server that requires real auth.
+2. Server-side, `apps/server/main.c`'s `expire_timers()` closed a connection stuck in
+   `S_NEEDAUTH`/`S_VERIFYING`/`S_CONNECTED` past `HELLO_TIMEOUT_MS` (10s) via a raw `conn_close()`
+   -- no ERROR frame at all. Silent. Indistinguishable from a network failure, on every client
+   (web, GUI, Android), not just this one.
+
+- [x] Root-caused live: confirmed via direct `curl` against IDUNA (`429 too many new accounts
+      from this address today`) and `sqlite3` against `IDUNA/var/iduna.db`'s `game_signup_log`
+      table -- two real founder IPs (`174.210.226.137`, `198.58.107.85`) each at exactly 3/3
+      signups today.
+- [x] Fixed `expire_timers()` to `send_error(i, DW_ERR_AUTH)` before closing, instead of a silent
+      `conn_close()`.
+- [x] Fixed `main.ts`'s `start()` catch block to also `log()` the bootstrap failure into the
+      visible `#log` panel (previously only `#account-status`, which never made it into any of
+      the founder's own bug-report pastes -- the actual reason was invisible every time).
+- [x] Live-verified against real production, both directions: a deliberately tokenless connect
+      now gets `[ERROR] code 2` at the 10s mark (previously silent); a real guest token still
+      connects -> WELCOME -> ready -> QUEUED normally.
+- [x] Redeployed: `dw_server` rebuilt + `scripts/deploy_user.sh` (systemd unit restarted, e2e
+      suite green -- 24681+336148+806381+38710+... checks, 0 failures), web client rebuilt +
+      rsynced to `/var/www/wotan/DEADWEIGHT/dist/`.
+- [x] Reset today's `game_signup_log` counters for the founder's own testing IPs (and my own
+      127.0.0.1 test artifacts) so the very retries that surfaced this bug don't keep blocking
+      them from playing now that it's fixed.
+
+commits: DEADWEIGHT `7c834a2`
+apples: #21266 (observation), #21267 (completion)
+
+session: sess-20260923-1030-4a526255
