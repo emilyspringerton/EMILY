@@ -50941,3 +50941,39 @@ commits: IDUNA@e7d70be
 apples: #21162 (observation), #21165 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 571 — DEADWEIGHT web client: GitOps deploy pipeline to GKE (founder real-time, background fork)
+
+Founder real-time (routed via `emily observe`, Apple #21168): "spin up an agent to start figuring
+out auto deploy upon release new functionality figure out auto deploy from github for the wasm
+version set it up on kubernetes we have a kubernetes cluster in GCLOUD so the web server for the
+frontend for DEADSPACE needs to be our first kubernetes pod - git ops so it needs to be terraform
+or helm or whatever the fuck infrastructure as code (not for the cluster that exists for the
+deployments)". "DEADSPACE" = DEADWEIGHT (this session's own WASM-client work). Full account:
+`DEADWEIGHT/docs/WASM_DEPLOY_NORTHSTAR.md` (golden doc `DEADWEIGHT-WASM-DEPLOY-NORTH`).
+
+- [x] Investigated real GCP/GKE state rather than assuming: confirmed a real GKE Autopilot cluster
+  `prrject-fatbaby` already exists (`EMILY/docs/KUBERNETES_SERVICE_MIGRATION_NORTHSTAR.md`'s own
+  2026-09-04 audit), but that same audit found it stuck with 0 schedulable nodes for 32+ hours,
+  root cause unresolved -- flagged loudly in the new doc as a real, current risk, not silently
+  assumed fixed. No live `gcloud` credentials exist in this sandbox right now, and no `docker`/
+  `kubectl` binaries either.
+- [x] Built real Terraform (`DEADWEIGHT/deploy/terraform/`) for the Kubernetes resources only (new
+  `deadweight` namespace, Deployment, LoadBalancer Service, a new Artifact Registry repo) --
+  reads the existing cluster via a `data` source, never creates/touches it, per the founder's own
+  explicit instruction. `terraform init`/`validate` real and clean.
+- [x] Real Dockerfile + nginx config (`DEADWEIGHT/deploy/docker/`) serving the client as static
+  files with correct `application/wasm` MIME type + gzip; builds from the existing `web/` TS
+  client as an interim target pending the separate, parallel Emscripten WASM build.
+- [x] Real GitHub Actions workflow (`.github/workflows/deploy-wasm.yml`): build -> push to
+  Artifact Registry -> `terraform apply`, gated to `workflow_dispatch` until the missing
+  `DEADWEIGHT_GCP_SA_KEY` secret and cluster health are both confirmed by a human.
+- [ ] Human: create `DEADWEIGHT_GCP_SA_KEY`, re-check cluster node health, run the workflow once.
+- [ ] Wire `wotan.okemily.com/DEADWEIGHT` -> the LoadBalancer IP on WOTAN's own nginx (not touched
+  this pass -- the IP doesn't exist yet).
+- [ ] Retarget the Docker build to the real Emscripten WASM output once that lands.
+
+commits: DEADWEIGHT@55900fb
+apples: #21168 (observation), #21170 (completion)
+
+session: sess-20260923-1030-4a526255
