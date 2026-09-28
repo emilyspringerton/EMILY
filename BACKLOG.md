@@ -4350,6 +4350,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: (1) reprioritize -- finish DEADWEIGHT browser client to pixel-for-pixel parity with the Windows clie…** — obs `2026-09-28T07:44:25Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: continue ensuring DEADWEIGHT is pixel-for-pixel parity with the Windows client (browser/wasm client …** — obs `2026-09-28T10:35:54Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: continue to ensure DEADWEIGHT is pixel for pixel the windows version also the android app eat more w…** — obs `2026-09-28T10:35:54Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: DEADWEIGHT WASM client - remove IDUNA base URL / WebSocket bridge URL config fields from UI (single …** — obs `2026-09-28T12:20:57Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
