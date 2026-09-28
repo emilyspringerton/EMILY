@@ -51029,7 +51029,7 @@ fork this session).
   deploy pipeline is a real, simpler fit than SECTION 571's own GKE/Terraform pipeline, which is
   blocked on a non-functional cluster).
 
-commits: DEADWEIGHT@<pending>
+commits: DEADWEIGHT@629be4b
 apples: #21166 (observation), #21169 (correction observation), #21173 (completion)
 
 session: sess-20260923-1030-4a526255
