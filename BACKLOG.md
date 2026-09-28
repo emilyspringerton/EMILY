@@ -4345,6 +4345,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: SHANKPIT levels page is down, showing just a blank screen -- also asking to add UX/screenshot testin…** — obs `2026-09-28T03:59:32Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: SHANKPIT levels STILL a blank screen after the previous fix attempt (IDUNA binary rebuild/restart + …** — obs `2026-09-28T04:21:56Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: get DEADWEIGHT to platform parity with Windows for Android and WASM (new) clients -- eat the codebas…** — obs `2026-09-28T04:40:39Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time correction: do not use Emscripten for the DEADWEIGHT WASM client -- founder says it doesn't work, wan…** — obs `2026-09-28T04:48:08Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: set up auto-deploy from GitHub for the new DEADWEIGHT WASM client onto the existing GCloud Kubernete…** — obs `2026-09-28T04:46:33Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
