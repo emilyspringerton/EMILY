@@ -4344,6 +4344,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: coplay/room feature in MIXFORGE doesn't actually function -- opening 2 tabs shows 'connected' but ro…** — obs `2026-09-28T03:48:53Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: SHANKPIT levels page is down, showing just a blank screen -- also asking to add UX/screenshot testin…** — obs `2026-09-28T03:59:32Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: SHANKPIT levels STILL a blank screen after the previous fix attempt (IDUNA binary rebuild/restart + …** — obs `2026-09-28T04:21:56Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: get DEADWEIGHT to platform parity with Windows for Android and WASM (new) clients -- eat the codebas…** — obs `2026-09-28T04:40:39Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
