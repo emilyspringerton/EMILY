@@ -51065,12 +51065,18 @@ fork this session).
   server, confirmed every asset path resolves, then fetched the `.wasm` over that real HTTP
   connection and instantiated it (98 exports). Real, honest remaining gap: `sudo-queue/
   94-deadweight-wotan-ws-bridge.sh` and `~/wotan-deploy.sh` haven't actually been run on the live
-  box -- this sandbox has no passwordless sudo (confirmed live). `wotan.okemily.com/DEADWEIGHT`
-  isn't reachable until both run.
+  box -- this sandbox has no passwordless sudo (confirmed live).
+- [x] `~/wotan-deploy.sh` run for real (`/var/www/wotan` is directly writable by this user, no
+  sudo needed for the rsync itself) -- `https://wotan.okemily.com/DEADWEIGHT/` is genuinely live,
+  curl-verified: the page, its compiled JS, and the wasm module all return `200`. Real, final,
+  honest gap: `curl .../DEADWEIGHT/ws` -> `404` on the live site -- `sudo-queue/94` (nginx location
+  + `dw-ws-bridge.service`) genuinely needs sudo this sandbox doesn't have, so the page loads but
+  can't reach a match server until someone with sudo runs it.
 
 commits: DEADWEIGHT@629be4b, DEADWEIGHT@0005609, DEADWEIGHT@2e3c857, DEADWEIGHT@b28b4dc,
-DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, WOTAN@a098606, WOTAN@a776842, WOTAN@1459b4d, WOTAN@529bd43
+DEADWEIGHT@67aa7aa, DEADWEIGHT@9254bd2, DEADWEIGHT@55f238a, WOTAN@a098606, WOTAN@a776842,
+WOTAN@1459b4d, WOTAN@529bd43, WOTAN@cfe3cf2
 apples: #21166 (observation), #21169 (correction observation), #21173 (completion), #21185
-(completion), #21190 (completion)
+(completion), #21190 (completion), #21191 (completion)
 
 session: sess-20260923-1030-4a526255
