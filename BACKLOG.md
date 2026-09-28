@@ -4348,6 +4348,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time correction: do not use Emscripten for the DEADWEIGHT WASM client -- founder says it doesn't work, wan…** — obs `2026-09-28T04:48:08Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: set up auto-deploy from GitHub for the new DEADWEIGHT WASM client onto the existing GCloud Kubernete…** — obs `2026-09-28T04:46:33Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: (1) reprioritize -- finish DEADWEIGHT browser client to pixel-for-pixel parity with the Windows clie…** — obs `2026-09-28T07:44:25Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: continue ensuring DEADWEIGHT is pixel-for-pixel parity with the Windows client (browser/wasm client …** — obs `2026-09-28T10:35:54Z`. CURATED: 2026-09-28.
+- [ ] **Founder real-time: continue to ensure DEADWEIGHT is pixel for pixel the windows version also the android app eat more w…** — obs `2026-09-28T10:35:54Z`. CURATED: 2026-09-28.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
