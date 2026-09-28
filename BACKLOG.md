@@ -51328,3 +51328,19 @@ commits: DEADWEIGHT `e4db250`
 apples: #21236 (observation), #21237 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 576 — OKEMILY footer nav: MIXFORGE + DEADWEIGHT product links
+
+Founder real-time: "update the menu on okemily.com wotan goes to the old site add MIXFORGE and
+DEADWEIGHT links right to those products."
+
+- [x] Checked first: `index.html`'s footer WOTAN link already pointed at `/tournaments.html` (the
+  old page) -- no change needed on that half of the ask.
+- [x] Added `mixforge.okemily.com` and `wotan.okemily.com/DEADWEIGHT/` links next to it, both
+  live-verified (200) before adding. Deployed via `okemily-deploy.sh`, confirmed live on
+  `https://okemily.com/`.
+
+commits: OKEMILY `c3f6684`
+apples: #21239 (observation), #21240 (completion)
+
+session: sess-20260923-1030-4a526255
