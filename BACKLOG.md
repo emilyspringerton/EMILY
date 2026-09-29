@@ -51951,3 +51951,83 @@ commits: EDGE.GAME `44a722c`; PARENA `6e2cba0`
 apples: #21342 (completion, PARENA), #21343 (completion, EDGE.GAME)
 
 session: sess-20260923-1030-4a526255
+
+### S584 cont. — Relay rewritten in native PARENA+C (Node.js removed); PARENA gets its first LLVM FFI hatch
+
+Founder asked for the actual IDE feedback loop next (top pane compile/upload/files/save buttons
+"like shankpit", bottom pane the code editor, a non-blocking socket to editor events, a debug mode
+for direct pin access via an uploaded harness, v0 bar = "blink a light from your end"). Mid-build,
+caught and corrected a real mistake: the relay server had been built in Node.js. Founder real-time,
+in sequence: "we can run sarena from one of the raspberry pis but we need the serial to work
+first" (confirms a Pi runs PARENA-editor/notebook tooling, gated on serial) → "oh you need server
+streaming events for that too like buffered obviously" + "i need you to be able to tell me if the
+pi booted" (the real, concrete events-channel ask) → "what the fuck are you doing" → "write it in
+PARENA in what world are we using node for any part of this stack?" → "all of the node stuff gets
+ported to PARENA" → "make sure we are using REFLUX for the pub sub" → "also the spotlight bar
+should be included too this is a real IDE" → "why is the server JS? PARENA emits TS what the fuck
+is happening i leave you for 1 second and you choose node for a backend?" → "the backend is
+written in PARENA and you can dog food burrow into golang if you really need to but i think C on
+the server is ok i dont know" → "parena really needs to just emit the fucking LLVM code for the
+server I think i think we eat that tech debt and we get parena binaries going for the server
+obviously the windows client is C." A real, consequential architecture fork (ship on PARENA's
+already-working C emitter today, vs. pause to build LLVM-target FFI+sockets first) was resolved via
+AskUserQuestion — founder chose to build the LLVM path.
+
+- [x] `PARENA/src/emit_llvm.c` — new `#target {:llvm (inline-llvm "...")}` FFI hatch + a new
+      top-level `(llvm-extern "declare ...")` form. Checked directly first: this target had **zero
+      FFI mechanism of any kind** (confirmed in its own error text: "v0 has no external
+      FFI/math-primitive table yet") — a pure scalar-arithmetic target cannot power a server.
+      LLVM's SSA requirement means this hatch's convention is genuinely different from `:c`'s/
+      `:java`'s own arbitrary-statement splice: the inline text is one instruction's own
+      right-hand side for a non-void return (prefixed `%result = `, followed by a real `ret`), or
+      a bare statement for void. `#target` maps can now carry `:c` and `:llvm` keys at once. Fixed
+      `emit_java.c`/`emit_ts.c` to skip `llvm-extern` at the top level (both previously
+      hard-errored on any unrecognized form). 19 new assertions (`tests/test_emit_llvm.c`,
+      71/71); `make test`: 347/347, zero regressions. Real, live, end-to-end proof beyond
+      structural checks: a hand-written `.prn` calling libc's real `abs()` compiled through
+      `parena build` → real `llc -mtriple=x86_64-pc-linux-gnu` → linked via `clang` → executed,
+      correct result (42), exit 0.
+- [x] `PARENA/stdlib/reflux/reflux.prn` — real, existing, multi-repo REFLUX pub/sub log (same
+      ring-buffer API/ABI as SHANKPIT's/IDUNA.GAME's own ports) gets a second `:llvm` key on each
+      of its 6 functions (zero redesign — already pure I32/Unit scalar) + 6 new `llvm-extern`
+      declarations. New `PARENA/stdlib/net/tcp_llvm.prn` — a small, LLVM-target-only module
+      (`tcp-listen-raw`/`tcp-accept-raw`/`tcp-close-raw`, raw fd lifecycle only) since
+      `net/tcp.prn`'s own higher-level String/Result/Arena-typed wrappers can't reach this target
+      (no Region/struct/String support in LLVM v0) — reuses `net/tcp.prn`'s own already-working C
+      impl functions via `llvm-extern` rather than reimplementing sockets a second time.
+- [x] `EDGE.GAME/server/relay.js` (Node/HTTP) deleted entirely. `build/edge_relay` is now a real,
+      native binary: the two new PARENA/LLVM modules above, lowered to x86_64 object code via
+      `llc`, linked against a thin hand-written C host (`server/relay_main.c`) for the
+      select()/NDJSON plumbing PARENA's scalar-only v0 can't express (no struct/array/String
+      support) — same "PARENA owns the decision/log, hand-written C owns raw syscalls/buffers"
+      split every other PARENA-mod-island in this monorepo already uses. Both the cabinet port and
+      the operator port now speak plain TCP + NDJSON (the old HTTP operator API is gone — PARENA
+      has no HTTP-server stdlib).
+- [x] New events channel on the operator port, backed by the real REFLUX log: `events_since`
+      (buffered catch-up) and `events_subscribe` (live push on every new dispatch, no polling) —
+      directly answers "you need server streaming events for that too like buffered obviously."
+      `EDGE.GAME/pi/boot_announce.sh` + `pi/edge-boot-announce.service` directly answer "i need you
+      to be able to tell me if the pi booted" — a plain bash `/dev/tcp` one-shot (no
+      curl/python/nc dependency needed on a fresh Pi image), dispatching
+      `REFLUX_ACTION_PI_BOOTED`, live-verified against the real relay binary (not just written and
+      assumed correct).
+- [x] `EDGE.GAME/scripts/test_e2e.sh` rewritten for the new TCP+NDJSON-everywhere protocol: 12/12
+      checks pass (the original 3 routing decisions + generic ack + wrong-token rejection, plus 6
+      new checks for the events channel), `-Wall -Wextra -pedantic -Werror` clean throughout.
+- [x] `EDGE.GAME/NORTHSTAR.md` — logged founder message 7 verbatim; new "Phase 1.5" phased-plan
+      entry for this whole thread; corrected a real, found-live mistake in the existing Phase 2
+      section (the embeddable editor-widget lifecycle only exists in `EDITOR.GAME`'s fork, not
+      PARENA's own copy as previously claimed — the two forks have diverged, neither has both real
+      capabilities); recorded the founder's own new Phase 2 requirement that the Spotlight overlay
+      must be included ("this is a real IDE"); marked open question 3 (transport) resolved.
+- [x] Real, honest, still not done: the actual IDE feedback loop itself (embedded editor widget +
+      button bar + non-blocking socket wired into its own main loop) is still Phase 2, genuinely
+      not started this pass — this thread ended up being entirely about the relay's own
+      implementation language, not the GUI. The pin-debug harness ("blink a light from your end")
+      is also not started. Both named directly in NORTHSTAR.md as the real next steps, not
+      silently implied done.
+
+commits: PARENA `8db24cf`; EDGE.GAME `f54b68d` (local-only repo, no remote configured)
+apples: #21349 (completion, PARENA), #21350 (completion, EDGE.GAME)
+
+session: sess-20260923-1030-4a526255
