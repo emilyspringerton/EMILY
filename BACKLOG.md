@@ -4373,6 +4373,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time, EDGE.GAME architecture clarification: the Android-tablet/payment paste IS a real EDGE.GAME component…** — obs `2026-09-29T07:00:51Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time (EDGE.GAME): build the initial IDE feedback loop v0 -- open game -> top pane 4 buttons (compile/uploa…** — obs `2026-09-29T07:33:31Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time (EDGE.GAME/PARENA): mid-build correction sequence -- relay server was being built in Node.js, founder…** — obs `2026-09-29T08:04:51Z`. CURATED: 2026-09-29.
+- [ ] **Founder real-time: reports possible damage-calculation bug in DEADWEIGHT card match (played red seat vs bot yellow/mirr…** — obs `2026-09-29T10:19:49Z`. CURATED: 2026-09-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
