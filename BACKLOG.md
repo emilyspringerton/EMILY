@@ -52225,3 +52225,39 @@ commits: IDUNA `093496a`, DEADWEIGHT `37e8c55`, WOTAN `f2b82d3`
 apples: #21384 (info), #21386 (completion, IDUNA)
 
 session: sess-20260923-1030-4a526255
+
+### S584 cont. 7 — IDUNA: GameOnlineHandler wired into unified logging + real live SSE stream
+
+Founder real-time: "we need to be logging the username changes and stuff make sure we are using
+log streaming like in fatbaby user reflux for the logging if we arent already - add it to the
+iduna unified logging we never started using that."
+
+- [x] Found a real, confirmed gap: `IDUNA/internal/http/handlers/game_online.go` (every game's
+      guest/steam/email/SSO account lifecycle, including the just-shipped `set-display-name`) had
+      zero emission into IDUNA's unified logging backend (`var/eventlog/`) — unlike
+      `GoogleAuthHandler`/`LocalAuthHandler`/`AdminHandler`/etc., which already do. `main.go`
+      constructed it with no `EventLog` at all.
+- [x] Added `EventLog userlog.EventLog` (optional, fire-and-forget, reuses the existing
+      `emitAuthEvent` helper verbatim) and emits at every real account-lifecycle success point:
+      `iduna:games.guest_register`, `.email_linked`, `.email_login`, `.sso_login`, `.steam_login`,
+      and — the explicit ask — `.display_name_change` (carries both `old_display_name` and
+      `new_display_name`). Wired `EventLog: unifiedLog` on construction in `main.go`.
+- [x] Investigated "log streaming like in fatbaby [reflux]": PRRJECT_FATBABY's real pattern is an
+      SSE dashboard (`internal/server/sse.go`) polling a sequence-numbered event store. IDUNA
+      already has exactly this, ported faithfully as `UserEventStreamHandler` (`stream.go`) — but
+      it was wired ONLY to a separate, narrower "IDUNA local users" log
+      (`/api/v1/stream/user-events`), never to the unified log. Added
+      `GET /services/search/stream`, reusing `UserEventStreamHandler` against the unified store,
+      gated by the same `logs.read` permission as `/services/search/jobs`.
+- [x] New tests: `TestGameOnlineHandler_EmitsAccountLifecycleEventsIntoUnifiedLog`,
+      `TestStreamRequiresPermission`, `TestStreamDeliversAlreadyIngestedEvent` (a real event
+      ingested via `/services/collector` arrives over the new stream). `go build/test ./...`
+      clean. Binary rebuilt, `iduna.service` restarted, live-verified end to end — a real
+      register → sso-exchange → set-display-name against the running server landed both
+      `iduna:games.sso_login` and `iduna:games.display_name_change` (correct old/new names) in
+      the real `var/eventlog/events/*.ndjson` file.
+
+commits: IDUNA `dd6953b`
+apples: #21390 (info), #21389 (completion, IDUNA)
+
+session: sess-20260923-1030-4a526255
