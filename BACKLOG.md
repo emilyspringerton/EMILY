@@ -51716,3 +51716,76 @@ commits: IDUNA `34cdc8a`; OKEMILY `e8aabdb`; monorepo (sudo-queue) `98a88126c`
 apples: #21314/#21316 (observation), #21317 (completion, IDUNA)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 584 — EDGE.GAME: new repo, arcade cabinet edge environment (NORTHSTAR + real traffic_router module)
+
+Founder real-time, three messages: (1) "we are building an arcade cabinet the idea is its an
+online game and the server can flash lights on the cabinet we need help to develop and debug so
+you need a windows native interface with the real hardware attached therefore we will build
+EDGE.GAME... we need full control of my windows computer so you can help debug the parena USB
+upload code etc help with the serial debugging etc there will be a server obviously that there
+will be an API to the api needs to be able to give arbitrary write commands to the native windows
+platform also it will need to be 2 way communication obviosly so we can actually debug." (2) In
+response to being asked how to actually get real hardware access (Claude Code Remote Control was
+offered as one option): "no remote control we make the binary here package it as a game for the
+interface - rip the buttons out of shankpit or whatever / write a parena i dont care / i run the
+game and then the game gives you access / the game connects to the server you run commands through
+the server - if you need a new tool we need to ship a new binary and i will download install and
+run it." (3) Pasted a Gemini-style tutorial (`Use code with caution` boilerplate) naming the real
+physical topology (Windows PC + Adafruit Feather + Raspberry Pi + Arduino Nano via a level shifter)
+and a `traffic_router` PARENA module sketch.
+
+- [x] New repo `EDGE.GAME` (local, no upstream yet — founder creates it), `NORTHSTAR.md` scoping
+      pass: the resolved access model (no Remote Control — binary built here, founder runs it, the
+      running binary is the access point via an outbound connection to a server), the real
+      physical topology from the founder's own pasted design, and a real capability audit —
+      checked directly, not assumed: `PARENA/docs/AVR_ARDUINO_NORTHSTAR.md`'s own real,
+      live-verified `avr-gcc`/`avrdude` pipeline already covers the Arduino Nano's firmware side
+      (the literal "PARENA USB upload code" from the founder's first message, already built);
+      SHANKPIT's `apps/lobby/src/main.c` has real, working `SDL_GameController` input ("rip the
+      buttons out of shankpit" is real, not aspirational); DEADWEIGHT_2's CI has a real, proven
+      Windows mingw+SDL2 cross-compile recipe; the one genuinely new gap is Windows COM-port I/O
+      (`stdlib/hw/serial.prn` is POSIX-only) — routed around the same way every PARENA-mod-island
+      repo in this monorepo already does (hand-written host owns the syscalls, PARENA owns
+      decision logic). "Arbitrary write commands" read literally and scoped narrowly: a raw-byte
+      debug write to the serial link, explicitly NOT a remote-shell/process-execution surface on
+      the founder's Windows machine (a materially different, higher-risk feature nobody asked
+      for). Three open questions named for the founder (exact Feather chip family, what the Pi
+      actually runs, transport choice) rather than guessed at.
+- [x] `PARENA/stdlib/edge_game/traffic_router.prn` — the cabinet's real routing decision logic
+      (`RouteTarget`: `ToWindows`/`ToPi`/`ToNano`/`ToPiAndNano`), pure, no I/O, deliberately not
+      cross-compiled toward the AVR targets (Region/Arena machinery isn't AVR-runtime-safe).
+      Corrected from the founder's own pasted tutorial's `.prn` code, which did not compile as
+      given — real, concrete mistakes found and fixed before anything shipped: a comma-separated
+      flat param list (real syntax needs one paren pair per parameter), `Void` as a return type
+      (`Unit` is the real no-value type — confirmed 102 real uses of `Unit` vs. 0 of `Void`
+      anywhere in the stdlib), `(get msg source)` for struct field access (the real accessor is
+      `(get-field msg :source)` — `get` is the unrelated Map/BSTree lookup function), `==` for
+      equality (the real operator is bare `=` — 1245 real uses vs. 1 stray `==`), and
+      `io/write-string` treated as a console-print call (its real signature writes to an open
+      `FileHandle` with an explicit `dest : Arena @ Region` — real file I/O, matched instead by
+      keeping this module I/O-free by design). One more found only by actually running the
+      compiler: a zero-field `defenum` variant constructs as a bare symbol, never a zero-arg call
+      form — confirmed directly in `src/emit.c` (the call-form dispatch's `find_enum_variant`
+      branch only handles `field_count >= 1`), reproduced with a minimal 2-function isolated test
+      before touching the real module. Named as a real, minor compiler DX gap (PARENA still
+      correctly refuses the bad program, just late and confusingly) — not filed as a fix, out of
+      scope here. 4/4 real assertions pass (`make test-traffic-router`), strict-clean
+      (`-Wall -Wextra -pedantic -Werror`) on the emitted C.
+- [x] Registered: root `CLAUDE.md` repo table (new `EDGE.GAME` row), `EMILY/context/
+      golden-docs-index.md` (`EDGE-GAME-NORTH`), `GOLDEN_DOCS` resynced (new `docs/EDGE.GAME/
+      NORTHSTAR.md`, refreshed `MANIFEST.md`/context files — also picked up unrelated drift
+      already sitting in `BIG_O/NORTHSTAR.md` and `EMILY/emily-memory/cycle-log.md` since the
+      last resync, expected behavior of a full re-copy).
+
+**Honest, named, not started**: Phase 1 (the actual wire protocol + a minimal client/server
+verifiable slice), Phase 2 (real Win32 serial I/O — genuinely blocked on the founder's real
+hardware + a Windows machine), Phase 3 (real Nano cabinet-light firmware beyond the existing
+`blink.prn` demo), Phase 4 (the actual SHANKPIT-lobby-style button UI port), Phase 5 (CI Windows
+cross-compile + release artifact). See `EDGE.GAME/NORTHSTAR.md`'s own phased plan.
+
+commits: PARENA `424925c`; EDGE.GAME `15a76b0` (local, no upstream); monorepo `bbdb4b8ef`; EMILY
+`1e1aa860`; GOLDEN_DOCS `93f1336`
+apples: #21311/#21321 (observation), #21323 (completion, PARENA)
+
+session: sess-20260923-1030-4a526255
