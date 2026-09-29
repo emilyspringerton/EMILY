@@ -51901,3 +51901,52 @@ commits: EDGE.GAME `0091eae`, `03c22a2` (local, no upstream); GOLDEN_DOCS `0c733
 apples: #21330 (completion, EDGE.GAME)
 
 session: sess-20260923-1030-4a526255
+
+### S584 — Android production arm resolved + PARENA Java FFI hatch
+
+Founder pasted a second AI-generated tutorial (Android-tablet kiosk payments). Asked directly
+whether it was part of EDGE.GAME or separate; founder's answer, verbatim: "its a separate
+component of EDGE.GAME we have an android tablet that is actually talks to the whole system too -
+so its like kubernetes with like 2 raspi bs an edge node raspi w or 2 a ada feather roting all of
+the hardware and maybe an arduino or 2 as a slave for more peripherals - like the android is going
+to handle the main brain of the actual kiosk - the windows environment is our dev platform the
+android platform is our execution platform the feather will be the interface to either either usb
+to the windows computer or usb OTG adapter to the android tablet."
+
+- [x] `EDGE.GAME/NORTHSTAR.md` — new "Production topology: Android as the execution platform"
+      section: Windows stays dev/debug, Android tablet is the real production "brain," the Feather
+      is dual-mode (USB to Windows or USB-OTG to Android, not simultaneous), 2 Raspberry Pis as an
+      "edge node" layer (literal-vs-informal kubernetes framing left open, not guessed at), 1-2
+      more Arduino slave boards. Payment processing (Stripe/Square/PayPal/Tap-to-Pay, per the
+      pasted material) named but deliberately NOT scoped into any phase with code — real money is
+      a materially different risk class, gated on its own explicit founder go-ahead and processor
+      choice. New capability audit entries: MJOLNIR is the real Android-skeleton precedent but has
+      no Android SDK/`gradlew` in this sandbox (same gap SPIDERBEETLE already found); PARENA's
+      Java emitter stays v0/scalar-only; IDUNA's own inventory doc independently confirms the real
+      Pi/Feather hardware. New Phases A1-A4 + 2 new open questions (5-6).
+- [x] Founder follow-up, verbatim: "usb to serial code goes in parena" — resolved directly, not
+      just documented. Checked `src/emit_java.c` first: it had **no FFI mechanism of any kind**
+      (only a hardcoded `java.lang.Math` table) — calling any real external Java API was
+      categorically impossible on this target before today. Added
+      `#target {:java (inline-java "...")}`, mirroring `emit.c`'s own long-standing `:c` hatch
+      exactly (`find_target_java_src`/`emit_target_java_defn`). 8 new assertions in
+      `tests/test_emit_java.c`, 43/43 total pass, including the honest failure case (a `#target`
+      map with only `:c`, no `:java`, is a real named error).
+- [x] `PARENA/stdlib/hw/usb_serial.prn` — first real consumer: `usb-serial-is-connected`/
+      `-write-byte`/`-read-byte` (real `:java` FFI against a static bridge field the app sets
+      after its own real permission/open ceremony — that ceremony is genuinely inexpressible in
+      this v0's scalar-only scope, stays hand-written Kotlin by design) + `usb-serial-baud-for-
+      board` (pure scalar, no FFI, reusing the per-board baud table `AVR_ARDUINO_NORTHSTAR.md`
+      already established). New `make test-usb-serial-java` Makefile target: real `parena build`
+      CLI emits the Java, a real `javac` (this sandbox has none on PATH, used
+      `EINHORN_SURVIVAL/jdk25`) compiles it against a hand-written `UsbSerialBridge` stub (no
+      Android SDK/`usb-serial-for-android` jar here — named honestly), 8/8 runtime assertions
+      pass. Skips cleanly, not a failure, when no `javac` is found at all.
+- [x] Real, honest, still not done: the actual Android app (Phase A1 hasn't started), the real
+      `UsbManager` permission/open ceremony itself, and verification against the real Android SDK
+      / real library. Named directly in NORTHSTAR.md, not silently implied solved.
+
+commits: EDGE.GAME `44a722c`; PARENA `6e2cba0`
+apples: #21342 (completion, PARENA), #21343 (completion, EDGE.GAME)
+
+session: sess-20260923-1030-4a526255
