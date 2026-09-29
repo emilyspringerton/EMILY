@@ -51791,3 +51791,73 @@ commits: PARENA `424925c`; EDGE.GAME `15a76b0` (local, no upstream); monorepo `b
 apples: #21311/#21321 (observation), #21323 (completion, PARENA)
 
 session: sess-20260923-1030-4a526255
+
+### S584 follow-up — Feather confirmed, 3-board AVR profiles, Upload-button fix, IDE/git/theme scope
+
+Founder real-time, rapid follow-ups: (1) "feather 32u4 we are going to need to be able to control
+that and the nano - there is a regular arduino around here too so the different usb speeds needs
+to be accounted for"; (2) "integrate the PARENA EDITOR (check EDITOR.GAME and PARENA examples)...
+shankpit style emily OS affordances... IDUNA color pallette... solarized... but the buttons need
+to be high contrast... use the shankpit menu system... i need a basic IDE to start with - a code
+thingy a compile an upload - its already there but it doesnt work - thats the first task... make
+the full pipeline for edge.game work... live take control of my coding window like we are a pair
+programming partner... you will just use the server as an affordance"; (3) "it needs git
+affordances like the source code will be on the windows computer but the compiler is actually
+built into the game"; (4) "think of it like vs code but its a game."
+
+- [x] Confirmed Feather = 32u4 (ATmega32u4, AVR family — existing `avr-gcc`/`avrdude` pipeline
+      applies directly). Real, named per-board profiles built and tested for all three real
+      boards (Uno/new-Nano, old-bootloader Nano, Feather 32u4) — checked directly against
+      avrdude's own `-c '?'`/`-p '?'` listings and a real `avr-gcc -mmcu=atmega32u4` compile, not
+      assumed: the 32u4 needs `avr109`+57600 baud+a real "1200-baud touch" reset (new
+      `PARENA/tools/avr_touch_reset.py`, verified against a real pty) neither classic-bootloader
+      board needs. Caught and fixed a real, distinct bug before shipping: reusing the Uno/Nano's
+      own `blink_main.c` unmodified for the Feather would have toggled the wrong pin (PB5 vs. the
+      32u4's real PC7) at the wrong speed (16MHz-tuned delay math vs. the Feather's real 8MHz
+      clock) — confirmed via `avr-objdump` disassembly, not just re-reading the C. New
+      `examples/avr/blink_main_feather.c`, new `avr-nano-old-bootloader-upload`/
+      `avr-feather-blink-hex`/`avr-feather-blink-upload` Makefile targets.
+- [x] Fixed the actual, explicitly-prioritized "first task": PARENA's own editor
+      (`examples/editor_main.c`, shared ancestor of `EDITOR.GAME`) had a real, confirmed,
+      previously-documented-but-unfixed bug — the Upload button always flashed the hardcoded
+      `examples/avr/blink.prn` regardless of what `.prn` file the editor actually had open. New
+      `AVR_PRN_SOURCE` Makefile variable (all three upload targets now read it instead of a
+      literal path) + `compile_and_upload_avr(Arena *, const char *current_file)` now passes the
+      real open file through, shell-quoted (new `shell_quote_single` helper, unit-tested against
+      spaces/embedded-quotes via a real shell round-trip — the first place in this file that
+      interpolates a variable path into a `system()` call) + reads `EDGE_AVR_UPLOAD_TARGET` for
+      board-profile selection. Found and named, not fixed (separate repo, separate scope):
+      `EDITOR.GAME`'s own forked copy has the identical pre-fix bug, but worse — zero `avr-*`
+      Makefile targets at all, a hard `make` failure, not just the wrong file. `make
+      editor-demo-smoke` (real Xvfb headless run) still boots and runs its event loop cleanly;
+      `-Wall -Wextra -pedantic -Werror` clean throughout.
+- [x] Consolidated the IDE/git/theme scope expansion into `EDGE.GAME/NORTHSTAR.md`'s own new
+      "EDGE.GAME as an IDE" section rather than building all of it blind in one pass: reusing
+      `EDITOR.GAME`'s own already-real embeddable widget lifecycle (`editor_widget_create`/
+      `_dispatch_event`/`_render_frame`/`_present`/`_tick_autosave`/`_shutdown`, built 2026-09-25
+      specifically so it could be hosted inside a compositor) rather than forking the editor a
+      second time; a bundled Windows-native `parena.exe`+AVR-toolchain distribution ("the compiler
+      is actually built into the game") named as real, separate, Windows-only-verifiable work this
+      sandbox cannot itself produce or test; git identified as the real code-sync mechanism behind
+      "pair programming... through the server" (the relay stays a pure command channel — compile/
+      upload/read-output — while git handles seeing/proposing actual code changes, not a new
+      custom live-buffer-patch protocol); and a theme design that is pure application of
+      already-written specs, not invention — `IDUNA.GAME/cmd/idunagame/main.go`'s own exact
+      Solarized values, `EmilyOS/docs/legacy-archive/gui-v0.1-design-capture.md`'s own
+      already-written "button tiles always darker than the background, fixed non-white palette"
+      rule (confirming "high contrast buttons" is already the spec, not a deviation from it), and
+      `SHANKPIT/apps/lobby/src/main.c`'s own real button-grid/controller-input code. Phased plan
+      and open questions updated accordingly (7 phases now, one new open question on the git
+      remote's own real shape).
+
+**Honest, named, not started** (updated): Phase 1 (wire protocol + minimal client/server slice),
+Phase 2 (embed the IDE widget + bundle the Windows toolchain — needs a real Windows machine/CI
+runner to verify, not just Linux), Phase 3 (the actual theme + menu shell), Phase 4 (git
+affordances + the pair-programming command surface), Phase 5 (real Win32 serial I/O — genuinely
+blocked on real hardware), Phase 6 (real cabinet-light firmware), Phase 7 (CI Windows cross-compile
++ release). See `EDGE.GAME/NORTHSTAR.md`'s own updated phased plan.
+
+commits: PARENA `e42c40a`; EDGE.GAME `e9277d7` (local, no upstream); GOLDEN_DOCS `a517111`
+apples: #21324/#21325 (observation), #21327 (completion, PARENA)
+
+session: sess-20260923-1030-4a526255
