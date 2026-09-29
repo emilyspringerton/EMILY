@@ -51861,3 +51861,40 @@ commits: PARENA `e42c40a`; EDGE.GAME `e9277d7` (local, no upstream); GOLDEN_DOCS
 apples: #21324/#21325 (observation), #21327 (completion, PARENA)
 
 session: sess-20260923-1030-4a526255
+
+### S584 — Phase 1: real client/server wire protocol, verified end to end
+
+Founder: "continue" (proceeding with the NORTHSTAR's own Phase 1, as offered).
+
+- [x] `EDGE.GAME/server/relay.js` — plain TCP + NDJSON (not WebSocket, avoiding a framing library
+      in C once cross-compiled for Windows), holds one live cabinet connection (authenticated by a
+      client token), exposes an authenticated HTTP API for the operator to send a command and get
+      the response back synchronously.
+- [x] `EDGE.GAME/client/edge_client.c` — connects, authenticates, and answers a real `route`
+      command by calling `route_for_source()`, the ACTUAL compiled decision logic from Phase 0's
+      `PARENA/stdlib/edge_game/traffic_router.prn` (vendored `traffic_router_gen.c` +
+      `runtime/parena_runtime.{h,c}`, same convention `parena new`'s own scaffold uses) — not just
+      an echo, proving Phase 0 and Phase 1 genuinely fit together rather than each merely
+      compiling alone. Portable POSIX/Winsock sockets from the start, ready for the later mingw
+      cross-compile.
+- [x] `make test-e2e` — a real, reproducible, no-hardware-needed proof: starts both processes,
+      sends real commands through the actual HTTP→TCP→compiled-decision path, checks each reply.
+      6/6 checks pass: cabinet-connected status, all three real routing decisions (source 1 fans
+      out to Pi+Nano, sources 2/3 relay to Windows — matching Phase 0's own already-tested
+      behavior), a generic ack for an unrelated command type, and operator-token rejection (401).
+      Confirmed clean process shutdown, no leftover state.
+- [x] Found and fixed a real, non-obvious build gotcha along the way: the shared PARENA runtime
+      (`runtime/parena_runtime.h`) must be the very first `#include` in any file that pulls it in
+      (directly or via a generated `_gen.c`) — it defines `_POSIX_C_SOURCE` internally, which only
+      takes effect if set before glibc's own headers are first touched. `edge_client.c`'s
+      original include order (plain `<stdio.h>` etc. before `traffic_router_gen.c`) broke this,
+      producing a wall of "implicit declaration" errors under `-Wall -Wextra -pedantic -Werror`;
+      fixed by matching `PARENA/tests/test_traffic_router.c`'s own correct ordering. Also fixed a
+      real bash nested-double-quote bug in the first draft of `scripts/test_e2e.sh` (caught by
+      `bash -n` before it shipped) by pulling URLs into their own plain variables instead of
+      interpolating them inside an already-double-quoted `$(...)` command substitution.
+
+commits: EDGE.GAME `0091eae`, `03c22a2` (local, no upstream); GOLDEN_DOCS `0c7338a`
+apples: #21330 (completion, EDGE.GAME)
+
+session: sess-20260923-1030-4a526255
