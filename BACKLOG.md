@@ -4361,6 +4361,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: DEADWEIGHT web client bug -- card text doesn't show when card is revealed, and health/hull display d…** — obs `2026-09-28T22:23:02Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: DEADWEIGHT web client -- (1) use a cookie to persist guest account identity across sessions, (2) gen…** — obs `2026-09-28T23:39:46Z`. CURATED: 2026-09-28.
 - [ ] **Founder real-time: add an opening scene (surveillance-van documentary-crew framing, Tyler/Hana, The Contractor, The Arc…** — obs `2026-09-29T00:22:43Z`. CURATED: 2026-09-29.
+- [ ] **Founder real-time: MIXFORGE -- add a client-side record button that records the mix, lets you download it, or save it t…** — obs `2026-09-29T00:44:29Z`. CURATED: 2026-09-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
