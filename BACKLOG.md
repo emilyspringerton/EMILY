@@ -52111,3 +52111,49 @@ commits: EDGE.GAME `c093626` (local-only repo, no remote configured)
 apples: #21357 (completion, EDGE.GAME)
 
 session: sess-20260923-1030-4a526255
+
+### S584 cont. 4 — DEADWEIGHT: match-end banner/rings/explosion SFX, and a stale-deploy bug found
+
+Founder pasted a real match log ("I played red and he played yellow ... it seems like it didnt
+actually do damage"); investigated `core/match.c` + `PARENA/stdlib/deadweight/card_rules.prn`
+directly rather than guessing — every number traced correctly to the existing rules (Flank's
+triangle-plus-keyword-bonus stacking, and armor banked from prior rounds silently absorbing a
+winning matchup). Not a bug, but a real legibility gap: the log never showed armor. Founder then
+asked, same thread: "also it still doesnt say at the end oof the game if you won or lost it needs
+to have particle effects like explosions if you loose with apporpriate old school ship explosion
+noises ... if you win make it hive you a ring and have gold bullion particles exploding off of it
+show how many rings you have ... show the rings in the interface next to the utc clock have a
+very simple icon like a battery indicator".
+
+- [x] `web/src/main.ts`'s round-start log line now prints armor/energy/credits for BOTH players
+      (`meterLabel()`), not just your own — the exact information that would have made the
+      "dealt 0" result self-explanatory from the log alone.
+- [x] `apps/gui/sfx.h`/`.c`: new `SFX_EXPLOSION` (old-school boom/growl/debris/rumble) and
+      `SFX_VICTORY` (resolving chord + bell arpeggio) cues, wired into `apps/gui/fx.c`'s existing
+      `fx_match_end()` alongside its already-built win/loss particle burst (gold coins/ring vs.
+      red shards/smoke) that had no sound at all before this. `tests/test_sfx.c`: 191 checks green.
+- [x] `web/index.html`/`main.ts`: a prominent `#end-banner` (VICTORY/DEFEAT/DRAW, colored) — the
+      desktop client's own `S_END` screen already drew this (`text_c` scale 6); the browser client
+      never had an equivalent, only a small `#status` line. A `#rings-badge` next to the UTC clock
+      shows this player's total match wins — reused IDUNA's existing `game_player_stats.wins` via
+      the already-public `players/{id}/stats` endpoint (`social.getProfile()`), no new backend
+      state, no new endpoint.
+- [x] Real, found-live process bug (not introduced this pass): `WOTAN/DEADWEIGHT/`'s checked-in
+      `dist/` had silently drifted behind DEADWEIGHT's own source by several already-"shipped"
+      features (the whole fxWasm engine, round timer, UTC clock — `dist/fxWasm.js`/`dist/
+      generated/dw_fx.wasm` didn't even exist there) despite DEADWEIGHT's own CHANGELOG claiming
+      they were deployed. Root cause: `wotan-deploy.sh` rsyncs `--delete` FROM the `WOTAN` git
+      checkout, so an earlier ad hoc direct-to-`/var/www/wotan` deploy was silently reverted the
+      next time that script ran for anything unrelated. Fixed by redeploying through the checkout
+      properly and verifying live via a byte-for-byte `diff` against the fresh local build, not
+      just an HTTP 200 — named in both repos' CHANGELOGs so it isn't repeated.
+- [x] Verified: full native `scripts/build.sh` green (1.27M+ ASan+UBSan checks, 0 failures);
+      `tsc` clean; `dw_fx.wasm`/`dw_protocol.wasm` rebuilt via their existing scripts. Not
+      independently live-browser-verified (a local Playwright run hit IDUNA's CORS policy on
+      cross-origin guest-register from a bare `http.server` origin — a pre-existing, already-
+      documented local-dev-flow gap, not something this pass caused or fixed).
+
+commits: DEADWEIGHT `49f5d29`, WOTAN `2597ce5`
+apples: #21362 (info/investigation), #21364 (info/follow-up), #21366 (completion, DEADWEIGHT)
+
+session: sess-20260923-1030-4a526255
