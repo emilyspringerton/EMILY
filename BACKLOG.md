@@ -52157,3 +52157,24 @@ commits: DEADWEIGHT `49f5d29`, WOTAN `2597ce5`
 apples: #21362 (info/investigation), #21364 (info/follow-up), #21366 (completion, DEADWEIGHT)
 
 session: sess-20260923-1030-4a526255
+
+### S584 cont. 5 — IDUNA: relaxed per-IP guest-signup cap 3 -> 10 (for now)
+
+Founder real-time, hit while testing DEADWEIGHT's browser client: "it says too many accounts
+today can we relax that to like 10 a day for now."
+
+- [x] `IDUNA/internal/http/handlers/game_online.go`'s `maxSignupsPerIPPerDay` 3 -> 10. Shared
+      across every game on the generic `guestRegister` path (still per-IP-**per-game**, via
+      `game_signup_log`'s own `game = ?` filter) — affects BIG_O/BRAWLPIT/SLOWBOT_LEAGUE/etc too,
+      not a DEADWEIGHT-only carve-out. Explicitly named "for now" — a testing unblock, not a
+      reconsidered permanent anti-abuse posture.
+- [x] Stale comments in `game_online_test.go` hardcoding the old "3" fixed to reference the
+      constant instead. `go test ./internal/http/handlers/...` green.
+- [x] Binary rebuilt (`go build -o ~/.local/bin/iduna .`), `iduna.service` restarted (systemd
+      user unit, health-checked), live-verified: 4 fresh guest registrations succeeded against a
+      shared test IP that already had signups logged today (would have 429'd under the old cap).
+
+commits: IDUNA `0fa61b5`
+apples: #21377 (info), #21378 (completion, IDUNA)
+
+session: sess-20260923-1030-4a526255
