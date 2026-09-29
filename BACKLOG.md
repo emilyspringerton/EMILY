@@ -52180,3 +52180,48 @@ commits: IDUNA `0fa61b5`
 apples: #21377 (info), #21378 (completion, IDUNA)
 
 session: sess-20260923-1030-4a526255
+
+### S584 cont. 6 — IDUNA/DEADWEIGHT: SSO email-doxxing default fixed + choose-your-username + a real reload-required bug
+
+Founder real-time: "there is an issue with the iduna sso for DEADWEIGHT it just uses your email
+without the @gmail.com or whatever thats not good bro it could dox someone never show the email
+address data publicly / when they go back to deadweight they can choose their username / also
+after the first sso redirect it like didnt work i had to reload."
+
+- [x] Root cause: `IDUNA/internal/http/handlers/player_email_auth.go`'s `handleRegister`
+      defaulted `display_name` to the literal text before "@" in the email address whenever a
+      caller left it blank — which IDUNA's own unified SSO login page (`sso_login.go`,
+      iam.okemily.com) always does, so every real SSO signup got their email's local part as a
+      permanent, public leaderboard/profile name. Fixed to fall back to the same lore-friendly
+      generated name (`randomGuestName`) guest accounts already use — closes the leak for every
+      game on this shared endpoint, not just DEADWEIGHT.
+- [x] Remediated 3 real (non-test-fixture) already-exposed live rows found via direct query,
+      including the founder's own DEADWEIGHT account (`emilyspringerton` -> `Runner-8KZM`) —
+      reassigned to generated names; players can rename themselves normally from here on.
+- [x] New `POST /api/v1/games/{game}/set-display-name` — the first real display-name-update path
+      for any game on this handler (`steamLogin`'s own comment already named this exact gap).
+      Wired into DEADWEIGHT's web client as a new "Change username" control in Friends & Duels
+      (`web/src/account.ts`'s `setDisplayName`).
+- [x] Root-caused and fixed the reload bug: `web/src/main.ts`'s `enterGame()` is reachable from
+      three places, but only the guest-Connect flow (`start()`) ever awaited `initWasmProto()`
+      before `client.connect()` touched the wasm codec — the SSO-return and create-account paths
+      threw on first use. The reload only ever "worked" because the failed SSO attempt had
+      already persisted a usable account cookie via a different code path, and the follow-up
+      manual Connect click happened to go through the one path that initialized wasm correctly.
+      Fixed by making `initWasmProto()` idempotent and calling it unconditionally inside
+      `enterGame()` itself, closing the gap for all three paths at once.
+- [x] Also fixed a real gap found live in the prior signup-cap-relaxation pass (S584 cont. 5):
+      `TestSignupRateLimit_ThreePerIPPerDay` still hardcoded the OLD cap of 3 in its actual
+      assertions, not just a comment — `go test ./...` should have caught this at the time and
+      didn't. Renamed/fixed to the real cap of 10.
+- [x] `go build/test ./...` (IDUNA) clean; `npm run build` (tsc) + full native `bash
+      scripts/build.sh` (DEADWEIGHT) clean. IDUNA binary rebuilt, `iduna.service` restarted,
+      live-verified end to end (fresh register -> non-PII name; sso-exchange -> set-display-name
+      -> fresh token carries the new name). WOTAN redeployed through the proper
+      `WOTAN/DEADWEIGHT/` + `wotan-deploy.sh` path and byte-diffed against the live production
+      bundle, not just HTTP-200-checked.
+
+commits: IDUNA `093496a`, DEADWEIGHT `37e8c55`, WOTAN `f2b82d3`
+apples: #21384 (info), #21386 (completion, IDUNA)
+
+session: sess-20260923-1030-4a526255
