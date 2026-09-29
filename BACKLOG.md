@@ -51599,3 +51599,47 @@ commits: BIG_O `9cebcbc`
 apples: #21294 (observation), #21295 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 582 — MIXFORGE: client-side mix recorder + save to IDUNA account
+
+Founder real-time: "mixforge add a record button that works on the client side it lets you
+record the mix and then you can download it or save it to your IDUNA sso account."
+
+- [x] IDUNA: `internal/games.Registry["mixforge"]` row (`mixforge.play`, `RecordingsEnabled`) --
+      MIXFORGE had zero player identity before this, same narrow "PlayPerm only" cut
+      big_o/brawlpit already established. 3 new routes on the existing generic
+      `GameOnlineHandler` (`/api/v1/games/mixforge/recordings` POST/GET, `.../recordings/{id}`
+      GET) -- raw audio body, allowlisted Content-Type, 200MB cap, BLOB-in-SQLite storage
+      (mirrors `nock_sounds`' own real precedent for MediaRecorder audio). No new guest-account
+      bootstrap needed: the existing `ssoExchange` already claims a first-touch, unscoped IDUNA
+      identity for whichever game calls it first. `SSO_ALLOWED_REDIRECT_HOSTS` gained
+      `mixforge.okemily.com`/`iam.okemily.com`. 4 new handler tests, full `go test ./...` clean.
+      Rebuilt + restarted `iduna.service` (checked live connections first: 2, both loopback,
+      consistent with a local bot poll, not a real player) -- migrations applied automatically,
+      live-verified via real curl calls (guest-register -> save -> list -> row confirmed in
+      `var/iduna.db`).
+- [x] MIXFORGE: `web/recorder.mjs` -- Record button taps a `MediaStreamAudioDestinationNode`
+      fanned off the exact worklet output already reaching the speakers (added to
+      `mixforge-engine.mjs`'s `bootEngine` for `multiplayer.html`, and inline in `dj.html`'s own
+      `#start` handler) -- never a separate render, so it can't drift from what the DJ actually
+      heard. Download always works: live-verified in a real headless Chromium session (record ->
+      stop -> a real non-empty Blob, byte-for-byte fetchable off its own `blob:` URL).
+      `web/iduna.mjs` -- "Save to IDUNA" opens the hosted SSO login page in a popup (so the
+      in-memory recording survives the round trip rather than a full-page redirect losing it),
+      exchanges the returned identity via `sso-exchange`, uploads to the new endpoint, lists/
+      downloads saved mixes back.
+- [x] README/CHANGELOG updated honestly: download is fully verified; save-to-IDUNA is
+      code-complete and IDUNA-side verified, but not yet live end-to-end on
+      mixforge.okemily.com -- confirmed via a real Playwright run against **production** that the
+      popup/registration/token-return flow all work correctly, and that the one remaining gap is
+      a same-origin nginx `/api/` proxy to IDUNA that needs root to deploy.
+- [ ] **Needs the founder (or root access) to run**: `sudo-queue/96-mixforge-api-proxy-nginx.sh`
+      -- syncs `MIXFORGE/ops/nginx/mixforge-okemily.conf`'s new `/api/` proxy block to the live
+      vhost and reloads nginx. Two lines, same pattern already used twice for this exact vhost
+      (`sudo-queue/92`, `93`). Once run, "Save to IDUNA" goes fully live with no further code
+      changes needed -- verify with the command the script itself prints.
+
+commits: IDUNA `a372fb0`, MIXFORGE `079fac8`, monorepo (sudo-queue) `b60e91fed`
+apples: #21298 (observation), #21300 (completion, IDUNA), #21301 (completion, MIXFORGE)
+
+session: sess-20260923-1030-4a526255
