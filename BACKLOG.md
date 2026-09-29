@@ -51507,3 +51507,73 @@ commits: DEADWEIGHT `fec3204`
 apples: #21281 (observation), #21285 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 580 — DEADWEIGHT: real "blue vs blue" combat bug + a batch of client feature asks
+
+Founder real-time bug report, with a full client log attached: "there is something wrong ... i just
+died blue vs blue there is a game logic bug ... this shouldnt be possible" / "blue vs blue usually
+does no damage" / "the windows version is canonical the interactions it should be i parena the whole
+execution engine extract it from the windows client". Same session, several more real-time asks
+batched in: "also bring in the damage log" / "are the game recordings still happening?" / cookie-
+based account tracking / random in-universe names "like the windows client" / a victory animation
+and a separate defeat animation with particle effects and a safe screen flash / green Connect button,
+yellow IDUNA button / a 20-ticket guest cap (25 stays for Windows) with a ~24h refresh / a round timer
++ UTC clock on the display / (later, retracted) a font change on the DOM hand cards / a "futuristic ...
+readout screen" redesign of the reveal cards, refined to "1% more sqewmorphic ... a games tablet from
+the future".
+
+- [x] Root-caused the "blue vs blue" death from the founder's own pasted match log: the fatal round
+      (a genuine 0-damage Defense-vs-Defense mirror) wasn't the actual killer -- a burn DOT from an
+      *Operations*-mirror two rounds earlier was still ticking. `PARENA/stdlib/deadweight/
+      card_rules.prn`'s `fx-cond-ok` condition 01 ("landed") was `dealt > 0`, which Operations-mirror
+      jam damage (half power, a real, intentional mechanic) also satisfies -- so Logic Bomb's "if it
+      lands, opp burns 3 for 2 rounds" fired off a mirror it never should have.
+- [x] Checked directly and confirmed to the founder: `apps/gui/main.c` (Windows) does not link
+      `core/match.c` at all -- `dw_server` is the sole, shared, authoritative resolution engine for
+      every client. This was never a Windows-vs-web divergence; Windows would have hit the exact same
+      bug given the same cards.
+- [x] Fixed "landed" to require an actual triangle win (`kind-beats`) or an unopposed hit, explicitly
+      excluding all same-kind mirrors -- founder's confirmed call over leaving mirrors "landable."
+      Full suite green after regen (24681+4092+336148+821741+38710 checks); `dw_server` rebuilt and
+      redeployed live (checked for connected human players first -- none, bot pool only).
+- [x] Confirmed game recordings are still live: `dw_server` actively appending to
+      `matches.ndjson`/`decks.ndjson` (checked timestamps, seconds old).
+- [x] Damage/status log: `onRoundStart`/`onRoundResult` now surface burn/regen/hidden status ticks
+      in the web client's own log panel -- previously silent, the real reason the death above wasn't
+      traceable without a manual trace through `core/match.c`.
+- [x] Cookie-based guest identity (`web/src/account.ts`, replacing `localStorage`).
+- [x] Fixed a real, separate bug found along the way: the web client hardcoded its name fallback to
+      the literal string `"Runner"`, silently bypassing IDUNA's own `randomGuestName()` generator for
+      every guest who left the field blank -- Windows only ever sends a name when `--name` was passed
+      on the CLI. Web now matches exactly; live-verified assigning `Cipher-G8KA`, not `Runner`.
+- [x] Victory/defeat particle animations: new `fx_match_end()` in the shared `apps/gui/fx.c` (one
+      implementation, both hosts) -- a win (gold/green/white) or loss (red shards, grey smoke)
+      particle burst plus a brief, bounded screen tint reusing the EMP-disabled effect's own already
+      photosensitivity-reviewed envelope (peak 0.12 alpha, pulsed, never a solid flash) instead of
+      inventing new numbers, directly satisfying "keep it safe for our sensitive screen flash people."
+- [x] Connect button green, IDUNA button gold (flat fills, on-brand).
+- [x] Round timer (from the wire's own already-decoded, never-shown `deadlineMs`) + a live UTC clock,
+      both previously entirely missing from the web client.
+- [x] Reveal/hand/draft card "futuristic tablet readout" skin: a translucent overlay on the shared
+      `fx_draw_card_box()` (bezel, kind-coloured glow frame, HUD corner brackets, scanlines, glass
+      sheen) on top of the existing, unchanged text layout -- confirmed live via SDL2 screenshots.
+      An earlier, retracted ask (a DOM font-family change on hand cards) was implemented then
+      reverted same-session per founder follow-up ("i lied dont change the fonts").
+- [x] Verified: full native `scripts/build.sh --gui` green; `tsc` clean; a direct Node wasm-module
+      test ran the new win/loss export 60 frames with no trap; live Playwright against production
+      confirmed the blank name field, real assigned name, and cookie persistence before hitting
+      IDUNA's own daily per-IP guest-signup cap (429) on a further verification attempt.
+- [x] Deployed to `wotan.okemily.com/DEADWEIGHT/`, permissions re-checked after the S579 incident.
+
+**Honest, named, deliberately deferred scope**: (1) the 20-guest/25-Windows ticket split + ~24h
+refresh -- IDUNA's ticket cap (`effectiveDailyCap`) has no platform axis at all today, a real
+schema/API change, not a client tweak; not started. (2) The founder's "PARENA the whole execution
+engine, extract it from the windows client" -- checked directly: Windows has no execution engine of
+its own (there is nothing to extract; `dw_server`'s hand-written `core/match.c` is already the sole
+shared engine), so the real ask is "port `core/match.c` into PARENA," a large effort on the scale of
+the original `card_rules.prn`/`fx_rules.prn` work; not started, named as a real follow-up.
+
+commits: DEADWEIGHT `01a02d5`, `0cca444`; PARENA `9a51649`
+apples: #21288 (observation), #21291, #21293 (completion)
+
+session: sess-20260923-1030-4a526255
