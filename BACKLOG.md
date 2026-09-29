@@ -52032,3 +52032,41 @@ commits: PARENA `8db24cf`; EDGE.GAME `f54b68d` (local-only repo, no remote confi
 apples: #21349 (completion, PARENA), #21350 (completion, EDGE.GAME)
 
 session: sess-20260923-1030-4a526255
+
+### S584 cont. 2 — EDITOR.GAME/PARENA editor fork merged (Phase 2 prerequisite resolved)
+
+Continuing the same thread after the relay rewrite landed: the previous section named a real,
+unresolved blocker for Phase 2 (embedding the IDE feedback loop into EDGE.GAME) — `EDITOR.GAME`'s
+2026-09-25 widget-lifecycle refactor (`editor_widget_create`/`_dispatch_event`/`_render_frame`/
+etc.) and PARENA's own separate 2026-09-10 current-file/board-profile-aware AVR upload fix had
+been built independently in the two forks and never reconciled; neither fork had both.
+
+- [x] Ported PARENA's `shell_quote_single` + full current-file/`EDGE_AVR_UPLOAD_TARGET`-aware
+      `compile_and_upload_avr(Arena *a, const char *current_file)` onto `EDITOR.GAME`'s own
+      widget-refactored `examples/editor_main.c` file scope. One deliberate adaptation, not a
+      straight copy-paste: `EDITOR.GAME` has no `examples/avr/` tree or AVR toolchain of its own,
+      so the merged function resolves `current_file` to an absolute path and delegates via
+      `make -C ../PARENA <target> AVR_PRN_SOURCE=<abs path>` — the same sibling-`../PARENA`-
+      checkout dependency that repo's own `make regenerate` target already has.
+- [x] Live-verified headless, not just code-reviewed: built a standalone
+      `EDITOR_WIDGET_TEST_BUILD` binary (same real pattern `examples/editor_widget_test.c`
+      established), opened a `.prn` file living OUTSIDE any PARENA-tree path, injected a real
+      MouseMotion (reveal top bar) + MouseDown/MouseUp on the Upload button's real screen
+      coordinates under Xvfb. Confirmed via stderr: the command carried the scratch file's own
+      absolute path (not a hardcoded `examples/avr/blink.prn`), and `make -C ../PARENA
+      avr-blink-upload` really ran the full `parena build` → `avr-gcc` → `avr-objcopy` →
+      `avrdude` chain, failing only at avrdude's own port-open step (expected — no physical board
+      in this sandbox, same accepted limitation every other AVR target here already carries).
+      `make` (`./editor-game`) still `-Wall -Wextra -pedantic -Werror` clean.
+- [x] `EDITOR.GAME/NORTHSTAR.md` new "Fork divergence found and merged" section +
+      `CHANGELOG.md` entry; `EDGE.GAME/NORTHSTAR.md`'s own "Real, found-live correction" paragraph
+      updated with a "Resolved, 2026-09-29" note pointing back to it.
+- [x] Real, honest, still not done: the actual embedding of this merged widget into EDGE.GAME
+      itself (the top-bar buttons + bottom editor pane + non-blocking socket wired into a real
+      main loop — this thread's original ask) has not started. The pin-debug harness ("blink a
+      light from your end") is also not started. Both remain Phase 2's real next steps.
+
+commits: EDITOR.GAME `0f7bca5` (pushed); EDGE.GAME `6a6a704` (local-only repo, no remote configured)
+apples: #21354 (completion, EDITOR.GAME)
+
+session: sess-20260923-1030-4a526255
