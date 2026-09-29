@@ -4371,6 +4371,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: pasted a second AI-generated tutorial (Gemini-style, kiosk/kiosk-payments framing) covering Android-…** — obs `2026-09-29T06:37:02Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time, EDGE.GAME: 'usb to serial code goes in parena' -- directing that the Android-side USB-to-serial code…** — obs `2026-09-29T07:03:45Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time, EDGE.GAME architecture clarification: the Android-tablet/payment paste IS a real EDGE.GAME component…** — obs `2026-09-29T07:00:51Z`. CURATED: 2026-09-29.
+- [ ] **Founder real-time (EDGE.GAME): build the initial IDE feedback loop v0 -- open game -> top pane 4 buttons (compile/uploa…** — obs `2026-09-29T07:33:31Z`. CURATED: 2026-09-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
