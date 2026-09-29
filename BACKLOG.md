@@ -4376,6 +4376,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: reports possible damage-calculation bug in DEADWEIGHT card match (played red seat vs bot yellow/mirr…** — obs `2026-09-29T10:19:49Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time: DEADWEIGHT combat-log investigation (yellow/red match, seemingly-missing damage) resolved as NOT a b…** — obs `2026-09-29T10:28:43Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time: DEADWEIGHT browser client shows 'too many new accounts today' -- asks to relax IDUNA's per-IP daily …** — obs `2026-09-29T13:11:52Z`. CURATED: 2026-09-29.
+- [ ] **Founder real-time: DEADWEIGHT/IDUNA SSO uses bare email (no @domain) as default public username -- doxxing risk, must n…** — obs `2026-09-29T14:34:30Z`. CURATED: 2026-09-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
