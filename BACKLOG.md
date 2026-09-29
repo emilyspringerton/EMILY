@@ -4368,6 +4368,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: pasted a Gemini-style tutorial (has 'Use code with caution' boilerplate -- an AI chat transcript, no…** — obs `2026-09-29T04:17:13Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time (major EDGE.GAME expansion): wants the PARENA editor (EDITOR.GAME/PARENA examples/editor_main.c) inte…** — obs `2026-09-29T04:36:36Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time: resolving EDGE.GAME's Feather open question -- it's a Feather 32u4 (ATmega32u4, AVR family, so PAREN…** — obs `2026-09-29T04:32:35Z`. CURATED: 2026-09-29.
+- [ ] **Founder real-time: pasted a second AI-generated tutorial (Gemini-style, kiosk/kiosk-payments framing) covering Android-…** — obs `2026-09-29T06:37:02Z`. CURATED: 2026-09-29.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
