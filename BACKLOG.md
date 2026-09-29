@@ -52070,3 +52070,42 @@ commits: EDITOR.GAME `0f7bca5` (pushed); EDGE.GAME `6a6a704` (local-only repo, n
 apples: #21354 (completion, EDITOR.GAME)
 
 session: sess-20260923-1030-4a526255
+
+### S584 cont. 3 — CI/CD auto-release pipeline for the game client (Windows zip + PLAY.bat + exe)
+
+Founder real-time: "get CICD auto releases set up for the game client ensure we have windows zip
+files with sdl and play.bat and the exe." Real scope fork found and resolved via AskUserQuestion
+before building: `client/edge_client.c` is still Phase 1's headless NDJSON test client, zero SDL2
+dependency (its own header comment names SDL2 UI as Phase 2+) — bundling `SDL2.dll` would ship a
+library nothing calls. Founder chose: ship CI for the real client as it exists today.
+
+- [x] `EDGE.GAME/.github/workflows/ci.yml` — ported directly from `DEADWEIGHT_2`'s own proven
+      pattern (already named in EDGE.GAME's own CLAUDE.md as the recipe to copy). `version` job
+      auto-bumps a MINOR tag on green `main`; `build` job builds+tests on Linux (`make client`/
+      `make relay`/`make test-e2e`, checking out a sibling PARENA + a no-sudo LLVM toolchain);
+      new `windows` job cross-compiles via a new `client-windows` Makefile target; `release` job
+      tags and publishes a GitHub Release (`edge_client`/`edge_relay`/`edge_client_windows.zip`/
+      `EDGE_GAME_CONSTRUCT.txt`).
+- [x] New `EDGE.GAME/Makefile` target `client-windows`: `x86_64-w64-mingw32-gcc -DPARENA_NO_GRAPHICS`
+      (skips the shared runtime header's unconditional `<SDL2/SDL.h>` include — narrow, CI-only
+      carve-out; native `client` target untouched, same "unconditionally available, harmless if
+      unused" convention every other consumer of that header keeps). Live-verified locally BEFORE
+      writing it into CI: `-Wall -Wextra -pedantic -Werror` clean, produced a real
+      `PE32+ executable ... for MS Windows`. Windows zip is flat (exe + `PLAY.bat`, matching D2's
+      own layout), no `SDL2.dll`.
+- [x] New `EDGE.GAME/scripts/generate_construct.sh` (Principle 21, git-based, ported from
+      `DEADWEIGHT_2/scripts/generate_construct.sh`) — verified byte-for-byte deterministic across
+      two local runs.
+- [x] `EDGE.GAME/NORTHSTAR.md`'s existing (previously-unstarted) Phase 7 entry updated to
+      "written and locally verified"; `README.md`/new `CHANGELOG.md` updated per README Reality.
+- [x] Real, named blocker, not silently worked around: `EDGE.GAME` has no GitHub remote
+      (`git remote -v` empty, confirmed) and the one available `GITHUB_TOKEN`
+      (`EMILY/var/emily-secrets.env`) returns a real HTTP 403 on an actual repo-creation attempt
+      (read-only scope) — creating the upstream is the founder's own step, matching this repo's
+      own row in the root `CLAUDE.md`. The workflow is committed and ready; it has not run on
+      GitHub Actions yet.
+
+commits: EDGE.GAME `c093626` (local-only repo, no remote configured)
+apples: #21357 (completion, EDGE.GAME)
+
+session: sess-20260923-1030-4a526255
