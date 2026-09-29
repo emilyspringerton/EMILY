@@ -51633,13 +51633,25 @@ record the mix and then you can download it or save it to your IDUNA sso account
       mixforge.okemily.com -- confirmed via a real Playwright run against **production** that the
       popup/registration/token-return flow all work correctly, and that the one remaining gap is
       a same-origin nginx `/api/` proxy to IDUNA that needs root to deploy.
-- [ ] **Needs the founder (or root access) to run**: `sudo-queue/96-mixforge-api-proxy-nginx.sh`
-      -- syncs `MIXFORGE/ops/nginx/mixforge-okemily.conf`'s new `/api/` proxy block to the live
-      vhost and reloads nginx. Two lines, same pattern already used twice for this exact vhost
-      (`sudo-queue/92`, `93`). Once run, "Save to IDUNA" goes fully live with no further code
-      changes needed -- verify with the command the script itself prints.
+- [x] Founder ran `sudo-queue/96-mixforge-api-proxy-nginx.sh` -- confirmed live via curl (real
+      IDUNA JSON back from `mixforge.okemily.com/api/v1/...`, not nginx's generic 404). Re-testing
+      immediately with the same live Playwright script found two more real, live-only bugs, both
+      fixed the same session: (1) `web/iduna.mjs`'s SSO popup saved its exchanged session into
+      its *own* `sessionStorage`, not the opener's -- sessionStorage is scoped per top-level
+      browsing context and a popup's writes never reach the window that opened it, so "Save to
+      IDUNA" registered a real account via the popup but the main page still saw "not signed in".
+      Fixed by saving in the opener's own `postMessage` handler. (2) IDUNA's `recordingCreate`
+      rejected every real recording: a MediaRecorder's actual Content-Type
+      (`audio/webm;codecs=opus`) never exact-matched the server's bare-type allowlist. Fixed with
+      `mime.ParseMediaType`, storing the original header (codec param included) for accurate later
+      playback. Both fixes have new regression tests / were live-verified: rebuilt + restarted
+      `iduna.service` (checked connections first, all loopback), then re-ran the full Playwright
+      script end to end against **production** -- record -> stop -> sign in via the popup -> save
+      -> appears in "my mixes" with a working download button. Fully live, nothing pending.
 
-commits: IDUNA `a372fb0`, MIXFORGE `079fac8`, monorepo (sudo-queue) `b60e91fed`
-apples: #21298 (observation), #21300 (completion, IDUNA), #21301 (completion, MIXFORGE)
+commits: IDUNA `a372fb0`, `acba484`, `f525867`; MIXFORGE `079fac8`, `32943c7`, `32356b7`;
+monorepo (sudo-queue) `b60e91fed`
+apples: #21298 (observation), #21300/#21305 (completion, IDUNA), #21301/#21306 (completion,
+MIXFORGE)
 
 session: sess-20260923-1030-4a526255
