@@ -51577,3 +51577,23 @@ commits: DEADWEIGHT `01a02d5`, `0cca444`; PARENA `9a51649`
 apples: #21288 (observation), #21291, #21293 (completion)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 581 — BIG_O: opening scene (TYLER/Hana crossover cold open)
+
+Founder real-time: pasted a full screenplay-formatted opening scene for BIG_O (surveillance-van
+documentary crew filming Tyler and Hana, The Contractor's "DO NOT CHECK" card, The Archivist, the
+crew's own dailies footage editing itself).
+
+- [x] Added verbatim (screenplay formatting normalized only) as `BIG_O/docs/OPENING_SCENE.md`,
+      continuing the existing TYLER/HANA crossover thread (`docs/transcript/
+      04-espionage-the-men-tyler-crossover-hana.md`) as an actual scene rather than a second raw
+      design-chat capture -- filed alongside it, not appended into it.
+- [x] Narrative/flavor content, not an architecture doc -- correctly NOT added to
+      `EMILY/context/golden-docs-index.md`, matching TYLER's own episode scripts.
+- [x] CHANGELOG updated; commit rebased cleanly onto an unrelated concurrent PR merge (#4,
+      shoulder-surf stealth risk) that landed on `main` mid-session.
+
+commits: BIG_O `9cebcbc`
+apples: #21294 (observation), #21295 (completion)
+
+session: sess-20260923-1030-4a526255
