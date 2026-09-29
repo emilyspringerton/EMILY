@@ -51657,3 +51657,60 @@ apples: #21298 (observation), #21300/#21305 (completion, IDUNA), #21301/#21306 (
 MIXFORGE)
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 583 — IDUNA: QR-code Back Office login + two other real QR gaps found live
+
+Founder real-time, three related interrupts mid-session (while EDGE.GAME scoping was underway --
+see SECTION 584 for that, paused and resumed after this): (1) "i dont have the password manager
+set up i need a page in iDUNA admin that lets me scan a QR code to log in - we have this almost
+for nock tools but it doesnt work we need nock tools video uploader qr to work as well as an
+additional qr code passkey functionality (make there a button to create a login code just like
+the nock video uploader)"; (2) "also we built a whole infrastructure for QR codes in IDUNA but it
+never got shipped to the menu i think i supposed to be able to create arbitrary codes."
+
+- [x] New QR-code Back Office login: `admin_qr_login_codes` table +
+      `handlers/admin_qr_login.go`. Same real "mint a token, render it as a QR, a scoped URL does
+      the action" shape `nock_videos.go`'s own phone-upload-link flow already established, reused
+      for a materially different action. Real, deliberate security difference named and built,
+      not glossed over: the token itself is NEVER a bearer credential (unlike the NOCK
+      precedent, where that's fine for a low-stakes upload) -- `/admin/login/qr/approve/{token}`
+      requires an ALREADY-authenticated `iduna.admin` session, the exact same
+      `RequireCookieAuth`+`iduna.admin` gate every other admin route uses, so photographing/
+      shoulder-surfing the QR code alone can never grant access. The approving request's own JWT
+      claims are copied into a brand-new session token for the waiting browser (same agent, same
+      permissions, fresh expiry); the code is consumed the instant that cookie is delivered, so a
+      replayed poll can never mint a second session. New "Log in with QR code instead" section on
+      `/admin/login` itself. 9 new tests (full mint->QR->approve->cookie-delivery->replay-safety
+      round trip, deny, expiry, unauthenticated-approve-401s). `go build/test ./...` clean.
+      Live-verified end to end against production: minted a real code, logged in as a real
+      (disposable, immediately suspended afterward) test admin agent, approved with its real
+      cookie, polled status and got back a real, JWT-verified `iduna_session` cookie for the same
+      agent/permissions, polled again and confirmed "consumed" with no cookie re-delivered --
+      then confirmed the now-suspended test agent is immediately locked out (401) by the
+      existing live-status recheck, so the disposable credential used for testing can't linger.
+- [x] Root-caused and fixed the NOCK video-uploader QR "doesn't work" report: the admin side that
+      GENERATES the QR (`/admin/nock/api/video-upload-links/{id}/qr`) was always fine (`/admin/`
+      is proxied) -- but the URL that QR image actually ENCODES, `/nock/upload/{token}` (the
+      public phone page), had NO nginx location block on okemily.com at all, so every real phone
+      that scanned it hit the site's own static-file 404 fallback before the request ever reached
+      IDUNA. Fixed in `OKEMILY/ops/nginx-okemily.conf` (new `/nock/` proxy block, both server
+      blocks, matching the file's own established `/portal`/`/api/`/`/admin/` convention) --
+      needs the founder to run `sudo-queue/97-okemily-nock-upload-proxy-nginx.sh` (root-gated
+      nginx sync + reload).
+- [x] Root-caused and fixed "built a whole infrastructure for QR codes but it never got shipped
+      to the menu": `/admin/qr` (the dynamic, arbitrary-slug/arbitrary-URL QR registry --
+      create/retarget/delete, already fully built, already supports typing your own slug or
+      leaving it blank to auto-generate) was simply never added to the Back Office's own left nav
+      list in `admin.go` -- a real, one-line omission, not a missing feature. Added the `QR
+      Codes` nav link; live-verified a real logged-in admin session now renders it.
+- [x] IDUNA README.md/CLAUDE.md endpoint tables updated with the new QR-login routes and the
+      "Log in with QR code" mention on `/admin/login`.
+
+**Honest, named, still pending**: the NOCK video-uploader fix needs the founder to actually run
+`sudo-queue/97-...sh` (root-gated) before it's live -- the QR-login feature and the nav-menu fix
+are both already deployed and live-verified with no pending steps.
+
+commits: IDUNA `34cdc8a`; OKEMILY `e8aabdb`; monorepo (sudo-queue) `98a88126c`
+apples: #21314/#21316 (observation), #21317 (completion, IDUNA)
+
+session: sess-20260923-1030-4a526255
