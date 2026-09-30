@@ -48976,6 +48976,54 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   and #20631 (BIG_O feature).
   session: sess-20260923-1030-4a526255.
 
+- [x] **Founder real-time: "bring [TYLER's new VALHANNA cold open] to life with the shankpit
+  engine... write a new game mode called TYLER... this is a demo for BIG_O" -> "WE NEED TO MERGE
+  THE 2 ENGINES"** -- new `MODE_TYLER=109` (`SHANKPIT/packages/common/protocol.h`), a real, live,
+  end-to-end demo staging `TYLER/episodes/vh01_valhanna_coldopen.md` as a Half-Life
+  `scripted_sequence`-style cutscene, serving the same day(FPS)/night(third-person) dual-register
+  BIG_O's own day/night/lab loop needs. Made `STATE_SPECTATOR` real for the first time (defined for
+  years, never actually read by any collision/gravity code -- checked directly) -- a genuine,
+  mode-agnostic no-clip free-fly, the "wisp." New `packages/simulation/tyler_coldopen.{h,c}`: an
+  8-beat coordinator driving the *already-built* `story_ai_trigger_scripted`/`AI_MODE_SCRIPTED`
+  (S461-04) for Tyler+Hana mannequins, dispatching the new `REFLUX_ACTION_TYLER_BEAT` every
+  transition plus the *existing* `REFLUX_ACTION_BUTTON_PRESSED` on Tyler's own scripted "press the
+  button" beat -- REFLUX doesn't distinguish a scripted press from a real one, by design. New,
+  genuinely scriptable "exit" primitive: `story_force_level_transition` (factored straight out of
+  the already-proven `story_check_level_exits` transition body, S473/S477/S491) is called directly
+  by the coordinator's final beat -- no `LevelExit` trigger volume authored at all ("spawn but no
+  exit" is the literal absence of one, since a non-colliding wisp can't reliably walk into a
+  volume). Two real levels created live in IDUNA's own NOCK registry (not throwaway JSON, per
+  `SHANKPIT/CLAUDE.md`'s own "Level Registry Doubles as Living Documentation"): `TYLER_VALHANNA_
+  ICELAND_1986` (id 24) and `CONSTRUCT` (id 23, next_level_id-chained), via a new one-shot loader
+  (`IDUNA/cmd/nock_gen_tyler_levels`). Two real PARENA-generated procedural textures (institutional
+  floor tile, ECS terminal glow -- `PARENA/stdlib/shankpit/textures/*.prn`) compiled through the
+  real, already-existing procgen pipeline (`IDUNA/cmd/nock_gen_textures`, bypassing `texture-
+  generate`'s Vertex AI requirement by calling `CreateProceduralTexture` directly) -- one real bug
+  caught by actually looking at the rendered PNG (a `min`/`max` mixup produced corner-dots instead
+  of a grid). "Look into the BIG_O oooooooold construct fille" turned out to be a real, live
+  founder correction mid-build ("oh no ITS IN PAPERCRAFT" -> "THE OLD SHANKPIT CONSTRUCT WAS THE
+  ORIGINAL REBOOT OF THE ENGINE INTO PAPERCRAFT") -- the real third-person orbit camera this pass
+  ports in (`apps/lobby/src/main.c`, into the engine's own existing `cx`/`cz`/`cam_y` mechanism,
+  not a second camera path) is PAPERCRAFT's own, confirmed by reading `PAPERCRAFT/apps/client/src/
+  main.c` directly. The Duck renders as the real, existing two-legged/no-arm `AI_KIT_LEELA`
+  mannequin kit (S468, 17 joints vs. 43-47 for the others) -- `draw_player_3rd`'s `SKIN_MANNEQUIN`
+  dispatch, previously `is_bot`-only, now also honors a REAL player's own `forced_kit`, closing a
+  gap S492's own doc comment named but didn't implement. `make server`/`make lobby` both build
+  clean, zero new warnings. **Live-verified end to end, server-side**: a real running dedicated
+  server (`--tyler --level ...`) logs `MODE_SELECTED mode=109` -> `TYLER_COLDOPEN_STARTED` -> all 8
+  beats' real hold timers running -> `STORY_LEVEL_TRANSITION next_level_id=23 name=CONSTRUCT` --
+  the new exit primitive genuinely firing against the live IDUNA registry. Real, honest, not landed
+  this pass (all named in `docs2/specs/TYLER_VALHANNA_MODE_NORTHSTAR.md`): rigid body is a
+  forward-compatible marker only (the real backend, `packages/simulation/rigid_ragdoll.{h,c}`'s
+  XPBD solver, already exists from S527, wiring free interactable props to it is real, later work);
+  subtitle rendering + the coordinator itself only reach LOCAL single-player mode this pass (REFLUX
+  has no wire packet, and `local_game.h`'s own separate local-play path wasn't wired); the
+  screen/button props are found by hardcoded position, not name/material lookup; no client
+  rendering was visually verified (no GL driver in this sandbox, same standing limitation every
+  prior pass carries). `docs2/specs/TYLER_VALHANNA_MODE_NORTHSTAR.md` written, registered in
+  `golden-docs-index.md`, `GOLDEN_DOCS` resynced. Apple #21435 (observation) + completion Apple on
+  commit. session: sess-20260923-1030-4a526255.
+
 ## SECTION 537: ONLINE ACCOUNTS + SOCIAL FEATURES (PROFILES/FRIENDS/DUELS) FOR DEADWEIGHT + WOTAN (FOUNDER REAL-TIME)
 
 Founder real-time, 2026-09-24: "add iduna online accounts / add social features / profiles /
