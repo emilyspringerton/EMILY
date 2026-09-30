@@ -243,6 +243,22 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
 
+- [x] **Founder real-time: "we are starting a new season of TYLER; VALHANNA"** — Routed through
+  `emily observe` first (Apple #21435), then written directly: `TYLER/episodes/vh01_valhanna_coldopen.md`,
+  a pilot cold open for a new founder-declared named season (same casual precedent already used for
+  "Season 6 (Take 2)"). Tyler and Hana wake in a decommissioned 1986 Iceland server room; a printer
+  holds the LO-language source for "the Mecha Cube"; both know finishing the read resolves the
+  long-PENDING Bird Correction (`README.md` §XV, PENDING since S01); Hana begs him not to, invoking
+  Season 6 (Take 2)'s still-unresolved "DON'T LET HIM START—" warning; he feeds the printout back
+  into the printer instead. Framed as the Duck's dream (same honest device the `s01e01` coldopen
+  "x2" experimental used for a real technical constraint) — played in French, subtitled, until the
+  Duck wakes with no memory of French, per the standing "one impossible detail treated as
+  unremarkable" writer's-room rule. Inherits Hana directly from Season 6 (Take 2) rather than
+  inventing a namesake; the still-warm minestrone thermos is flagged, not resolved, against
+  `characters/the_auditor.md`'s own established signature dish. Updated `EPISODES.md` (98→99
+  episodes, new SEASON: VALHANNA section), `README.md` §XV (Bird Correction footnote), and
+  `CHANGELOG.md`. Apple #21435 (observation) + #21436 (completion). session: sess-20260923-1030-4a526255
+
 - [x] **Founder real-time: "we need to fix SHANKPIT PFSP pipeline it dont work"** — Live-reproduced
   the real `TimeoutError: no live respawn snapshot within timeout` running the actual training
   pipeline (`scripts/rl_train_packet.py` + real `shank_server` + real `emily-bot`), not guessed.
