@@ -49024,6 +49024,34 @@ here rather than building blind. Full account: SHANKPIT/docs2/specs/BIGO_ENGINE_
   `golden-docs-index.md`, `GOLDEN_DOCS` resynced. Apple #21435 (observation) + completion Apple on
   commit. session: sess-20260923-1030-4a526255.
 
+- [x] **Founder real-time: "continue to merge the 2 engines"** -- the real, checked-first follow-up
+  to the MODE_TYLER demo above. That pass proved the tech (PAPERCRAFT's real orbit camera ported
+  cleanly into SHANKPIT's own pre-existing `cx`/`cz`/`cam_y` mechanism) but shipped it gated on
+  `MODE_TYLER && forced_kit==AI_KIT_LEELA` -- two unrelated concerns (which game mode is running,
+  which skin a player wears) standing in for the one real thing that should gate a camera choice:
+  does *this player* want third person. Generalized: new, standalone, wire-synced
+  `PlayerState.third_person`/`NetPlayer.third_person` field (`SHANKPIT/packages/common/
+  protocol.h`), following `forced_kit`'s own exact established server-sets/serialize/deserialize
+  pattern (`apps/server/src/main.c`'s snapshot loop, `apps/lobby/src/main.c`'s deserialize). The
+  camera branch in `apps/lobby/src/main.c` now keys on `render_p->third_person` alone --
+  mode-agnostic, skin-agnostic -- so any future mode (the real target: `MODE_STORY`'s not-yet-built
+  night/social-stealth register, per `BIGO_ENGINE_MERGE_NORTHSTAR.md`) can request third person for
+  a real player by setting one field, no new camera branch needed. `tyler_apply_phase_override`
+  is still the only real caller this pass (Duck phase sets `third_person=1` alongside, not instead
+  of, `forced_kit=AI_KIT_LEELA`) -- unchanged behaviorally. `make server`/`make lobby` both build
+  clean, zero new warnings. **Re-verified live, end to end**: reran the exact same MODE_TYLER smoke
+  test on a non-conflicting port (`--port 16969`, so as not to touch the live `:6969`/`:6971`
+  services already running) -- identical log sequence (`MODE_SELECTED mode=109` ->
+  `TYLER_COLDOPEN_STARTED` -> `STORY_LEVEL_TRANSITION next_level_id=23 name=CONSTRUCT`), zero
+  behavior drift from the generalization. Real, honest, not landed this pass: `MODE_STORY` itself
+  does not yet set `third_person` for anyone -- there is no "night phase" gameplay concept built
+  yet (`lab_sim.c` still has zero UI/interaction model). No aiming/hitscan adjustment for a
+  hypothetical third-person combat mode -- every live combat mode still defaults `third_person` to
+  0 via the same zero-init `forced_kit` already relied on, so combat in regular SHANKPIT modes is
+  unchanged. `docs2/specs/TYLER_VALHANNA_MODE_NORTHSTAR.md` gained a new "Engine-merge
+  continuation" section. SHANKPIT commit pending, Apple #21447.
+  session: sess-20260923-1030-4a526255.
+
 ## SECTION 537: ONLINE ACCOUNTS + SOCIAL FEATURES (PROFILES/FRIENDS/DUELS) FOR DEADWEIGHT + WOTAN (FOUNDER REAL-TIME)
 
 Founder real-time, 2026-09-24: "add iduna online accounts / add social features / profiles /
