@@ -4395,6 +4395,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: DEADWEIGHT/IDUNA SSO uses bare email (no @domain) as default public username -- doxxing risk, must n…** — obs `2026-09-29T14:34:30Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time: IDUNA unified logging backend needs to actually be used -- log username changes and other game-accou…** — obs `2026-09-29T15:23:00Z`. CURATED: 2026-09-29.
 - [ ] **Founder real-time: TYLER next season direction -- Season 12 titled VALHANNA. Cold open: Hana and Tyler wake up in a ser…** — obs `2026-09-30T01:40:31Z`. CURATED: 2026-09-30.
+- [ ] **Founder real-time: new TYLER season 'VALHANNA' — Tyler and Hana wake in an abandoned 1986 server room in Iceland, a pri…** — obs `2026-09-30T01:59:55Z`. CURATED: 2026-09-30.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
