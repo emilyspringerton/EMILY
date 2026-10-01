@@ -4404,6 +4404,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: bullet holes — use the NOCK tools (PARENA texture generator + NOCK database) for the per-gun decal t…** — obs `2026-10-01T02:38:15Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: SHANKPIT bullet-hole decals generated with PARENA — never shipped; make it work like Half-Life, shoo…** — obs `2026-10-01T02:37:24Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: run MoneyPrinterTurbo over a huge batch of TYLER scripts — need a scriptable batch pipeline** — obs `2026-10-01T02:31:19Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: use NOCK texture generator (PARENA gentexture + NOCK DB) to enhance world gen — BIG_O/SHANKPIT terra…** — obs `2026-10-01T02:55:18Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: FULLY SHIP BIG_O end to end, all of it, working in SHANKPIT levels; use rigidbody ragdoll physics + …** — obs `2026-10-01T02:53:43Z`. CURATED: 2026-10-01.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
