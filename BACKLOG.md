@@ -4406,6 +4406,9 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: run MoneyPrinterTurbo over a huge batch of TYLER scripts — need a scriptable batch pipeline** — obs `2026-10-01T02:31:19Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: use NOCK texture generator (PARENA gentexture + NOCK DB) to enhance world gen — BIG_O/SHANKPIT terra…** — obs `2026-10-01T02:55:18Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: FULLY SHIP BIG_O end to end, all of it, working in SHANKPIT levels; use rigidbody ragdoll physics + …** — obs `2026-10-01T02:53:43Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: make the SHANKPIT release build clone down all the repos and build everything with Bazel (instead of…** — obs `2026-10-01T03:06:32Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: fix the failing build first (DEADWEIGHT dw_gui.exe link: undefined is_valid_password_length / min_pa…** — obs `2026-10-01T03:03:23Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: get PAPERCRAFT tech shipped into SHANKPIT — brick must be destructible.** — obs `2026-10-01T03:02:07Z`. CURATED: 2026-10-01.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
