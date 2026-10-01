@@ -4399,6 +4399,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: bring TYLER's new VALHANNA cold open to life as a real SHANKPIT game mode. Player is a floating wisp…** — obs `2026-09-30T02:21:36Z`. CURATED: 2026-09-30.
 - [ ] **Founder real-time: fix the SHANKPIT CI/CD build, then continue the SHANKPIT BIG_O unification** — obs `2026-10-01T01:22:25Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: ensure all TYLER mode affordances are built; check whether full VALHANNA pilot is scripted; if so, d…** — obs `2026-10-01T02:02:17Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: AFTER current requests — migrate ALL services to Google Cloud + Kubernetes with auto-deploy GitOps, …** — obs `2026-10-01T02:16:17Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: standing rule for ALL repos — always implement core deps in PARENA; when core deps are missing, impl…** — obs `2026-10-01T02:14:50Z`. CURATED: 2026-10-01.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
