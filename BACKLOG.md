@@ -52405,5 +52405,6 @@ Founder real-time: *"fix build first shankpit"* (DEADWEIGHT dw_gui.exe link fail
   - [x] 5. Bullet holes (done, S586).
   - [ ] 6. **BIG_O end-to-end ship** (S586; Phase 1 modules running).
   - [ ] 7. **PAPERCRAFT tech → SHANKPIT, brick destructible** (understand workflow running).
+  - [ ] 8. **Bazel-everything CI** (founder, after the build fix: "can we make the build clone down all the repos and build it all with bazel in case thats not how it works?"). Finding so far: SHANKPIT release.yml ALREADY checks out the sibling repos into os_apps/ (DEADWEIGHT, PITVIPER, IDUNA.GAME, REDGARDEN, EDITOR.GAME) but builds each with a hand-maintained gcc/go command (that drift caused the dw_gui.exe link failure, S587), and SHANKPIT has MODULE.bazel + per-package BUILD.bazel yet release.yml/Makefile keep separate hand-listed source lists. Plan: survey which repos have Bazel, design a Bazel build incl. mingw cross-compile (SDL2), then migrate.
 
 session: sess-20260923-1030-4a526255
