@@ -52377,3 +52377,15 @@ Founder real-time, 2026-10-01, in order (worked LIFO per founder): (1) *"ensure 
 - [ ] **GCP + Kubernetes migration (queued, starts after the above)**: move all services to Google Cloud on Kubernetes with automated GitOps deploys (Argo CD or Flux, repo-driven); then systematically move everything off this node, IDUNA last. Needs founder-side GCP project/billing/credentials (human-only Console steps; no confirmed access in this sandbox) before any cutover — plan first (service inventory, state/data migration, DNS cutover order), no destructive step without explicit go-ahead.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 586 — BIG_O fully shipped end to end in SHANKPIT (+ per-gun bullet holes landed)
+
+Founder real-time, 2026-10-01: *"fully ship BIG_O all of it ... make it work in shankpit levels however you need to - the whole thing needs to work end to end"*, *"use rigidbody ragdoll physics"*, *"and the models and animations available"*, *"be creative / full agency / assume this is for a DOD contract so try hard"*, *"use noc texture gen to enhance world gen"*, *"build all deps in PARENA first"*, *"plan it out then execute with many agents"*. Plan: `BIG_O/docs/SHIP_PLAN.md`.
+
+- [x] **Per-gun bullet-hole decals** (founder: "shooting a wall causes a bullet hole, different per gun ... like half life ... using the nock tools parena texture generator and database") — PARENA gentextures `bullet_hole_{magnum,ar,shotgun,sniper}.prn` → NOCK DB (ids 27-30) → client (live fetch, embedded fallback), multiply-blended; PARENA `png.prn` paletted decode + first `test-png`; IDUNA public by-name texture route (needs redeploy). Live-verified under Xvfb. Commits SHANKPIT `636edc0`, PARENA/IDUNA same day. Apple filed.
+- [ ] **Phase 1 (parallel, PARENA-first, new files only)**: W1 shadow_war · W2 campaign · W3 harvest/evidence · W4 ragdoll rules+pool · W5 worldgen · W6 NOCK world textures.
+- [ ] **Phase 2 (serial integration)**: I1 sim/server · I2 client · I3 headless end-to-end playthrough + Xvfb tour.
+- [ ] **Phase 3 (adversarial verification + docs)**: determinism · packet robustness/ASan · soft-lock · render/asset · docs-vs-reality; README/NORTHSTAR/CHANGELOG/golden-doc sync; Apples.
+- [ ] Named leftovers (honest, not dropped): IDUNA redeploy for the public texture route; 5 failed pushes from the CLAUDE.md rule rollout (founder remote/credential action); GCP/Kubernetes migration queue (S585); PARENA-native TTS stack (S585).
+
+session: sess-20260923-1030-4a526255
