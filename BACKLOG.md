@@ -4409,6 +4409,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: make the SHANKPIT release build clone down all the repos and build everything with Bazel (instead of…** — obs `2026-10-01T03:06:32Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: fix the failing build first (DEADWEIGHT dw_gui.exe link: undefined is_valid_password_length / min_pa…** — obs `2026-10-01T03:03:23Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: get PAPERCRAFT tech shipped into SHANKPIT — brick must be destructible.** — obs `2026-10-01T03:02:07Z`. CURATED: 2026-10-01.
+- [ ] **Founder real-time: continue and deliver value; ensure everything is actually shipped; all features must have menu items…** — obs `2026-10-01T07:01:32Z`. CURATED: 2026-10-01.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
