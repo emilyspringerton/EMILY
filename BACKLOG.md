@@ -52391,3 +52391,19 @@ Founder real-time, 2026-10-01: *"fully ship BIG_O all of it ... make it work in 
 - [ ] Named leftovers (honest, not dropped): IDUNA redeploy for the public texture route; 5 failed pushes from the CLAUDE.md rule rollout (founder remote/credential action); GCP/Kubernetes migration queue (S585); PARENA-native TTS stack (S585).
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 587 — Founder directive 2026-10-01: fix build first, then finish ALL outstanding requests FIFO
+
+Founder real-time: *"fix build first shankpit"* (DEADWEIGHT dw_gui.exe link failure in SHANKPIT release.yml) → *"finish all requests FIFO"*. (Earlier the order was LIFO; FIFO supersedes it.)
+
+- [x] **Build fix**: SHANKPIT release.yml's Windows `dw_gui.exe` source list lacked DEADWEIGHT `core/account_rules.c` (undefined `is_valid_password_length`/`min_password_len`); added, verified locally with the exact mingw command (SHANKPIT `49ec2c8`). Earlier same-day lobby/server link fix (`tyler_voice_mod.c`) is `d50e514`. CI status NOT confirmed — the available GITHUB_TOKEN returns "Bad credentials".
+- FIFO queue, oldest first (workflows already launched for later items keep running read-only/new-files; their integration phases wait their turn):
+  - [ ] 1. **TYLER / MODE_TYLER**: PARENA-native TTS stack replacing the Piper stopgap (VITS inference, French G2P, weight loader, playback) → client voice playback + coordinator wired into local_game.h; VALHANNA full-pilot scripting stays founder-owned (S585).
+  - [x] 2. Standing rule "core deps PARENA-first" rolled out (done; 5 push failures need founder).
+  - [ ] 3. **GCP + Kubernetes + GitOps migration**, then move everything off this node, IDUNA last (needs GCP project/billing/credentials from founder; plan + scaffold first, nothing destructive without explicit go-ahead).
+  - [ ] 4. **MoneyPrinterTurbo batch over TYLER scripts** (runner shipped TYLER `6237b4e`; live run needs MPT up on :8990, disk, Pexels/LLM quota, narration generation).
+  - [x] 5. Bullet holes (done, S586).
+  - [ ] 6. **BIG_O end-to-end ship** (S586; Phase 1 modules running).
+  - [ ] 7. **PAPERCRAFT tech → SHANKPIT, brick destructible** (understand workflow running).
+
+session: sess-20260923-1030-4a526255
