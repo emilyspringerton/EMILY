@@ -52582,3 +52582,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T59953150: EDGE.GAME PARENA stdlib/net/secure_channel: ML-KEM-768 handshake -> AEAD frames, LZ4-compressed (compress-then-encrypt), length-framed; hand-derived + interop tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T71362859: EDGE.GAME relay+client speak the secure channel (lz4+mlkem) on cabinet/operator ports; Windows mingw build incl. vendored mlkem + BCryptGenRandom** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
