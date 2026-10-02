@@ -52576,3 +52576,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T98319482: survival mode the guns will be items entities widgets that drop on the ground and you pick them up when you ooof a competitor this is a competitive multiplayer survival map in the style of FORTNITE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T51811947: survival map should use shankpit CITY map** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
