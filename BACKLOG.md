@@ -52528,3 +52528,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T66928143: ensure we have widgets gltf importer in nock** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T38577764: #464a SHANKPIT: level_boxes.h parses buggy_spawns, physics.h custom-level vehicle pads, scene_load spawns them (+test)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
