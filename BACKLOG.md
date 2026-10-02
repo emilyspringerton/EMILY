@@ -52500,3 +52500,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T02290316: CITY-3 SHANKPIT 3rd person camera/aim: diff vs Feb construct, fix regressions (parent card T62892945)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T47369837: fix the lighting make it work with lighting sources like unity and unreal but it needs to work with papercraft blocks with the shaders like look this block is a light but it doesnt light stuff up** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
