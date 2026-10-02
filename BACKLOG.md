@@ -709,6 +709,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: bring in the tech from Prompt-o-verse into newssite somehow …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:03:02Z.
 - [ ] **Founder real-time: (newssite sort continued) quick UI toggle to flip between di…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:03:02Z.
 - [ ] **Founder real-time: (newssite sort ordering continued) should have a settings op…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:02:38Z.
+- [ ] **Founder real-time: naming resolved — METALVERSE is now what the founder is call…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:44:14Z.
+- [ ] **Founder real-time: bring in the tech from Prompt-o-verse into newssite somehow …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:03:02Z.
+- [ ] **Founder real-time: (newssite freshness continued) unsure whether published/inge…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:02:11Z.
+- [ ] **Founder real-time: (newssite vision continued) build interactivity and widgets …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:01:02Z.
+- [ ] **Founder real-time: (newssite freshness complaint continued) product framing — n…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:00:45Z.
+- [ ] **Founder real-time: (FatBaby freshness check continued) expecting to see fresh d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:59:13Z.
+- [ ] **Founder real-time: (freshness check context) we are mid market week — relevant …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:58:59Z.
+- [ ] **Founder real-time: check all of FatBaby's (PRRJECT_FATBABY) data for freshness …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:58:55Z.
+- [ ] **Founder real-time: 'and check all' — message appears cut off/incomplete, not en…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:58:50Z.
+- [ ] **Founder real-time: (HUD config interface continued) founder thinks the underlyi…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:57:29Z.
+- [ ] **Founder real-time: (ecowar cards continued) card draw needs to be rolling/non-d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:39:28Z.
+- [ ] **Founder real-time: (ecowar cards continued) design rule — any affordance that d…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:38:54Z.
+- [ ] **Founder real-time: (context note) simple tower models already exist in the code…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:37:02Z.
+- [ ] **Founder real-time: (clarifying prior) real 3D models will eventually be sourced…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:36:58Z.
+- [ ] **Founder real-time: (clarifying prior) Prompt-o-verse reference-art use case inc…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:36:53Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1476,21 +1491,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
-- [ ] **Founder real-time: naming resolved — METALVERSE is now what the founder is calling the GFD FPS lobby client (apps2/batt…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: bring in the tech from Prompt-o-verse into newssite somehow (unspecified which part — image generati…** — obs `2026-08-20T04:03:02Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (newssite freshness continued) unsure whether published/ingested dates actually match the real PR da…** — obs `2026-08-20T04:02:11Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (newssite vision continued) build interactivity and widgets into the main site to expand functionali…** — obs `2026-08-20T04:01:02Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (newssite freshness complaint continued) product framing — newssite should be a hybrid of a Bloomber…** — obs `2026-08-20T04:00:45Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (FatBaby freshness check continued) expecting to see fresh data on some newssite pages specifically …** — obs `2026-08-20T03:59:13Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (freshness check context) we are mid market week — relevant baseline for what 'fresh' should look li…** — obs `2026-08-20T03:58:59Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: check all of FatBaby's (PRRJECT_FATBABY) data for freshness — full message, completing the earlier c…** — obs `2026-08-20T03:58:55Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: 'and check all' — message appears cut off/incomplete, not enough context to act on yet** — obs `2026-08-20T03:58:50Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (HUD config interface continued) founder thinks the underlying plumbing for a GUI-configurable HUD/l…** — obs `2026-08-20T03:57:29Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar cards continued) card draw needs to be rolling/non-depleting like Clash Royale's deck cycle …** — obs `2026-08-20T03:39:28Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar cards continued) design rule — any affordance that doesn't involve directly moving your hero…** — obs `2026-08-20T03:38:54Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (context note) simple tower models already exist in the codebase — relevant to ecowar's RTS building…** — obs `2026-08-20T03:37:02Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (clarifying prior) real 3D models will eventually be sourced/built for these use cases — Prompt-o-ve…** — obs `2026-08-20T03:36:58Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (clarifying prior) Prompt-o-verse reference-art use case includes something like a 3D card object fo…** — obs `2026-08-20T03:36:53Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: use the Prompt-o-verse pipeline to generate reference art wherever needed for upcoming implementatio…** — obs `2026-08-20T03:36:46Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (ecowar cards continued) base tier name is 'Normal', not 'Common'; ecowar card concepts/art can be f…** — obs `2026-08-20T03:36:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (ecowar cards continued) confirms 'Rare' as the obvious/base tier name** — obs `2026-08-20T03:35:36Z`. CURATED: 2026-08-20.
