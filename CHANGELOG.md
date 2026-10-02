@@ -1,3 +1,7 @@
+## 2026-10-02
+
+- Generic read-only collections API (/api/v1/emily/collections, IDUNA-JWT gated, fails closed) with golden docs as first collection — K8s migration VS0, replaces on-box file reads (sess-20260923-1030-4a526255)
+
 ## 2026-09-28
 
 - SECTION 572: DEADWEIGHT prod URL-field removal + real matchmaking auth-truncation bugfix, verified live (sess-20260923-1030-4a526255)
