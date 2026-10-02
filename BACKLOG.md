@@ -52644,8 +52644,10 @@ session: sess-20260923-1030-4a526255
 
 Founder real-time: *"ok lets build a plugin for IDUNA that supports cookie saving for mixforge and also password management"*.
 
-- [ ] **IDUNA cookie/password plugin** — kanban card in priority. Scope to be planned (existing IDUNA vault? plugin mechanism? MIXFORGE yt-dlp cookies.txt consumer).
+- [ ] **IDUNA cookie/password plugin** — kanban card #509 in priority. **Scope narrowed by founder (2026-10-02, same session): "password management can be done via the emily cli vault integration"** — passwords stay in the existing IDUNA Vault + `emily vault` CLI (no new password UI). Plugin = cookie saving for MIXFORGE: vault `cookie_jar` item type, non-loopback JWT-permissioned upload/read endpoints, MIXFORGE cookie-exporter extension "save to IDUNA", MIXFORGE server pulls from IDUNA (file env stays the fallback). **Also (founder, same session): "build it into IDUNA CICD auto release the extension or chrome plugin or whatever"** — the extension is packaged (zip/crx) and auto-released by IDUNA's CI/CD on green main, alongside the existing app-release flow.
 
 session: sess-20260923-1030-4a526255
 - [ ] **T03018020: IDUNA plugin: cookie saving for MIXFORGE (yt-dlp cookies) + password management (SECTION 593)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [ ] **T09329322: COOKIE-1 IDUNA: vault cookie_jar item type + JWT-permissioned (vault.cookies) upload/read endpoints (non-loopback) + tests (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
