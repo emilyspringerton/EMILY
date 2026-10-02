@@ -52492,3 +52492,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T37104206: add PARENA primativbullet_hole_sniper -- SHANKPIT's per-gun bullet-hole decal for the sniper : " look at that texture cos sin cos 1 cos 2 cos 3 whatever add to PARENA math** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T12363671: do the actual work for adding the hammer it needs to work with destructability and use the model in 3p** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
