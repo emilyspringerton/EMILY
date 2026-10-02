@@ -17,6 +17,7 @@
 package main
 
 import (
+	"emily-agent/collections"
 	"bufio"
 	"bytes"
 	"context"
@@ -2311,10 +2312,10 @@ func main() {
 	mux.HandleFunc("/api/v1/emily/archetype/status", srv.handleArchetypeStatus)
 	mux.HandleFunc("/api/v1/emily/archetype/spirits", srv.handleArchetypeSpirits)
 	// S125-07: health endpoint for gfdapi / PitViper / PITVIPER polling.
-	colls := NewCollectionRegistry(os.Getenv("IDUNA_JWKS_URL"))
-	colls.Register("golden", &goldenCollection{emilyRoot: envOr("EMILY_ROOT", "/home/fatbaby/EMILY")})
-	mux.HandleFunc("/api/v1/emily/collections", colls.handle)
-	mux.HandleFunc("/api/v1/emily/collections/", colls.handle)
+	colls := collections.New(os.Getenv("IDUNA_JWKS_URL"))
+	colls.Register("golden", collections.GoldenFromMonorepo(envOr("EMILY_ROOT", "/home/fatbaby/EMILY")))
+	mux.Handle("/api/v1/emily/collections", colls)
+	mux.Handle("/api/v1/emily/collections/", colls)
 	mux.HandleFunc("/health", srv.handleHealth)
 
 	// Start TRAPX ↔ Emily bridge: polls IDUNA for GoblinFoxDragon Apples → MUD world-events.

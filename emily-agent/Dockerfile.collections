@@ -1,0 +1,17 @@
+# collections-server image. UNVERIFIED: no Docker in the authoring sandbox (same honest gap as
+# PRRJECT_FATBABY/docker/dashboard.Dockerfile). Build context is assembled by
+# scripts/stage-collections-image.sh: ./emily-agent (this module) + ./golden (a GOLDEN_DOCS checkout).
+# Golden docs are baked in: no PVC, no git credentials in the pod; a docs change = new image tag,
+# rolled out by GitOps.
+FROM golang:1.25 AS build
+WORKDIR /src
+COPY emily-agent/ ./
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /collections-server ./cmd/collections-server
+
+FROM gcr.io/distroless/static-debian12:nonroot
+COPY --from=build /collections-server /collections-server
+COPY golden/context /golden/context
+COPY golden/docs /golden/docs
+ENV GOLDEN_DOCS_DIR=/golden PORT=8087
+EXPOSE 8087
+ENTRYPOINT ["/collections-server"]

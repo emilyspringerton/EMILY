@@ -1,4 +1,4 @@
-package main
+package collections
 
 import (
 	"crypto/ecdsa"
@@ -15,13 +15,13 @@ import (
 	"time"
 )
 
-func newGoldenFixture(t *testing.T) *goldenCollection {
+func newGoldenFixture(t *testing.T) *Golden {
 	root := filepath.Join(t.TempDir(), "EMILY")
 	os.MkdirAll(filepath.Join(root, "context"), 0o755)
 	os.WriteFile(filepath.Join(root, "context", "golden-docs-index.md"),
 		[]byte("| name | path | tier | budget | description |\n|---|---|---|---|---|\n| DOC1 | doc1.md | 1 | 0 | first |\n| EVIL | ../../etc/passwd | 1 | 0 | bad |\n"), 0o644)
 	os.WriteFile(filepath.Join(filepath.Dir(root), "doc1.md"), []byte("# hello"), 0o644)
-	return &goldenCollection{emilyRoot: root}
+	return GoldenFromMonorepo(root)
 }
 
 func TestGoldenCollection(t *testing.T) {
@@ -40,7 +40,7 @@ func TestGoldenCollection(t *testing.T) {
 }
 
 func TestCollectionsFailClosedWithoutJWKS(t *testing.T) {
-	r := NewCollectionRegistry("")
+	r := New("")
 	r.Register("golden", newGoldenFixture(t))
 	for _, hdr := range []string{"", "Bearer x"} {
 		req := httptest.NewRequest("GET", "/api/v1/emily/collections/golden/items", nil)
@@ -48,7 +48,7 @@ func TestCollectionsFailClosedWithoutJWKS(t *testing.T) {
 			req.Header.Set("Authorization", hdr)
 		}
 		w := httptest.NewRecorder()
-		r.handle(w, req)
+		r.ServeHTTP(w, req)
 		if w.Code != http.StatusServiceUnavailable {
 			t.Fatalf("hdr %q: code %d, want 503", hdr, w.Code)
 		}
@@ -77,7 +77,7 @@ func TestCollectionsAuthedFlow(t *testing.T) {
 			"x": base64.RawURLEncoding.EncodeToString(x), "y": base64.RawURLEncoding.EncodeToString(y)}}})
 	}))
 	defer jwks.Close()
-	r := NewCollectionRegistry(jwks.URL)
+	r := New(jwks.URL)
 	r.Register("golden", newGoldenFixture(t))
 
 	do := func(path, tok, inm string) *httptest.ResponseRecorder {
@@ -89,7 +89,7 @@ func TestCollectionsAuthedFlow(t *testing.T) {
 			req.Header.Set("If-None-Match", inm)
 		}
 		w := httptest.NewRecorder()
-		r.handle(w, req)
+		r.ServeHTTP(w, req)
 		return w
 	}
 	const p = "/api/v1/emily/collections/golden/items/DOC1"

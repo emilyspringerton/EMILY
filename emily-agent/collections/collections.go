@@ -12,7 +12,7 @@
 //
 // Auth: IDUNA ES256 JWT (Bearer) with permission "emily.collections.read".
 // Fails CLOSED (503) when IDUNA_JWKS_URL is unset: this is the internet-facing path.
-package main
+package collections
 
 import (
 	"crypto/sha256"
@@ -44,14 +44,15 @@ type Collection interface {
 	Get(id string) (body []byte, meta ItemMeta, ok bool, err error)
 }
 
-// CollectionRegistry holds named collections and the JWT verifier.
-type CollectionRegistry struct {
+// Registry holds named collections and the JWT verifier.
+type Registry struct {
 	verifier *idunaauth.Verifier
 	colls    map[string]Collection
 }
 
-func NewCollectionRegistry(jwksURL string) *CollectionRegistry {
-	r := &CollectionRegistry{colls: map[string]Collection{}}
+// New builds a Registry; an empty jwksURL makes every request fail closed (503).
+func New(jwksURL string) *Registry {
+	r := &Registry{colls: map[string]Collection{}}
 	if jwksURL != "" {
 		v, err := idunaauth.NewVerifier(jwksURL)
 		if err != nil {
@@ -63,9 +64,10 @@ func NewCollectionRegistry(jwksURL string) *CollectionRegistry {
 	return r
 }
 
-func (r *CollectionRegistry) Register(name string, c Collection) { r.colls[name] = c }
+// Register adds a named collection.
+func (r *Registry) Register(name string, c Collection) { r.colls[name] = c }
 
-func (r *CollectionRegistry) auth(w http.ResponseWriter, req *http.Request) bool {
+func (r *Registry) auth(w http.ResponseWriter, req *http.Request) bool {
 	if r.verifier == nil {
 		http.Error(w, "collections API disabled: IDUNA JWKS not configured", http.StatusServiceUnavailable)
 		return false
@@ -87,7 +89,7 @@ func (r *CollectionRegistry) auth(w http.ResponseWriter, req *http.Request) bool
 	return true
 }
 
-func (r *CollectionRegistry) handle(w http.ResponseWriter, req *http.Request) {
+func (r *Registry) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -146,17 +148,27 @@ func writeJSON(w http.ResponseWriter, v any) {
 
 // ---- golden docs collection ----
 
-// goldenCollection serves exactly the files named in golden-docs-index.md (all
+// Golden serves exactly the files named in golden-docs-index.md (all
 // tiers) plus the compiled context. IDs come from the index, never from the
 // caller's path, so there is no path traversal surface.
-type goldenCollection struct {
-	emilyRoot string
+// Golden: see above.
+type Golden struct {
+	// IndexPath is golden-docs-index.md; BaseDir is what each row's path is relative to.
+	// Monorepo: IndexPath=EMILY/context/golden-docs-index.md, BaseDir=/home/fatbaby.
+	// GOLDEN_DOCS checkout: IndexPath=context/golden-docs-index.md, BaseDir=docs.
+	IndexPath string
+	BaseDir   string
+}
+
+// GoldenFromMonorepo is the on-box layout (EMILY dir inside the monorepo).
+func GoldenFromMonorepo(emilyRoot string) *Golden {
+	return &Golden{IndexPath: emilyRoot + "/context/golden-docs-index.md", BaseDir: emilyRoot[:strings.LastIndex(emilyRoot, "/")]}
 }
 
 type goldenRow struct{ name, path, tier, desc string }
 
-func (g *goldenCollection) rows() []goldenRow {
-	data, err := os.ReadFile(g.emilyRoot + "/context/golden-docs-index.md")
+func (g *Golden) rows() []goldenRow {
+	data, err := os.ReadFile(g.IndexPath)
 	if err != nil {
 		return nil
 	}
@@ -179,8 +191,8 @@ func (g *goldenCollection) rows() []goldenRow {
 	return out
 }
 
-func (g *goldenCollection) read(row goldenRow) ([]byte, ItemMeta, bool) {
-	b, err := os.ReadFile(os_base(g.emilyRoot) + "/" + row.path)
+func (g *Golden) read(row goldenRow) ([]byte, ItemMeta, bool) {
+	b, err := os.ReadFile(g.BaseDir + "/" + row.path)
 	if err != nil {
 		return nil, ItemMeta{}, false
 	}
@@ -188,9 +200,7 @@ func (g *goldenCollection) read(row goldenRow) ([]byte, ItemMeta, bool) {
 	return b, ItemMeta{ID: row.name, Description: row.desc, Tier: row.tier, SHA256: hex.EncodeToString(sum[:]), Size: len(b)}, true
 }
 
-func os_base(emilyRoot string) string { return emilyRoot[:strings.LastIndex(emilyRoot, "/")] }
-
-func (g *goldenCollection) List() ([]ItemMeta, error) {
+func (g *Golden) List() ([]ItemMeta, error) {
 	var items []ItemMeta
 	for _, row := range g.rows() {
 		if _, m, ok := g.read(row); ok {
@@ -200,7 +210,7 @@ func (g *goldenCollection) List() ([]ItemMeta, error) {
 	return items, nil
 }
 
-func (g *goldenCollection) Get(id string) ([]byte, ItemMeta, bool, error) {
+func (g *Golden) Get(id string) ([]byte, ItemMeta, bool, error) {
 	for _, row := range g.rows() {
 		if row.name == id {
 			b, m, ok := g.read(row)
