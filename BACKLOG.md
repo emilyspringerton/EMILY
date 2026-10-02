@@ -4437,6 +4437,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: add comments to kanban cards (Claude leaves questions as comments, a kanban user replies, tracked by…** — obs `2026-10-02T13:10:30Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: password management can be done via the emily cli vault integration (so the IDUNA plugin scope narro…** — obs `2026-10-02T13:03:20Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: build a plugin for IDUNA that supports cookie saving for MIXFORGE and also password management** — obs `2026-10-02T13:02:46Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: bundle the streaming deps (ffmpeg) with SHANKPIT so STREAM works without the user installing ffmpeg** — obs `2026-10-02T17:28:27Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: prevent the director-mode broadcast camera from going through walls (SHANKPIT)** — obs `2026-10-02T17:27:39Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
