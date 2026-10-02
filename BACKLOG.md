@@ -694,6 +694,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: use Prompt-o-verse to generate textures for the destructible…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:17:56Z.
 - [ ] **Founder real-time: wants any data-science infrastructure needed exposed as real…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:46:25Z.
 - [ ] **Founder real-time: wants an Emiree gear-status analysis over the last 16 days, …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:45:10Z.
+- [ ] **Founder real-time: naming resolved — METALVERSE is now what the founder is call…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:44:14Z.
+- [ ] **Founder real-time: suggests trying the broker proxy (fatbaby-broker.service, :8…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:44:14Z.
+- [ ] **Founder real-time: noting they need to go find/locate the invented-language spe…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:07:19Z.
+- [ ] **Founder real-time: self-corrected — METALVERSE isn't a new subdirectory/repo af…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:07:12Z.
+- [ ] **Founder real-time: (Construct/multiverse continued) most game clients don't hav…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:06:20Z.
+- [ ] **Founder real-time: (Construct/multiverse portal continued) arcade cabinets as t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:06:01Z.
+- [ ] **Founder real-time: (naming continued) acknowledges 'the construct' will collide…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:05:35Z.
+- [ ] **Founder real-time: naming resolved — 'osaka garage' (mentioned earlier re: PITV…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:05:14Z.
+- [ ] **Founder real-time: (poker tournaments continued) poker tournaments can be built…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:04:45Z.
+- [ ] **Founder real-time: recalls a card game inside an old Square Enix game (unsure w…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:04:39Z.
+- [ ] **Founder real-time: build out tournaments into the GFD MUD GUI client** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:04:13Z.
+- [ ] **Founder real-time: (Prompt-o-verse into newssite continued) specifically articl…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:03:22Z.
+- [ ] **Founder real-time: bring in the tech from Prompt-o-verse into newssite somehow …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:03:02Z.
+- [ ] **Founder real-time: (newssite sort continued) quick UI toggle to flip between di…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:03:02Z.
+- [ ] **Founder real-time: (newssite sort ordering continued) should have a settings op…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:02:38Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1462,20 +1477,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [ ] **Founder real-time: naming resolved — METALVERSE is now what the founder is calling the GFD FPS lobby client (apps2/batt…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: suggests trying the broker proxy (fatbaby-broker.service, :8679) instead of hitting gpt2-serve direc…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: noting they need to go find/locate the invented-language spec themselves (action item for founder, n…** — obs `2026-08-20T04:07:19Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: self-corrected — METALVERSE isn't a new subdirectory/repo after all, it's a conceptual name for the …** — obs `2026-08-20T04:07:12Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (Construct/multiverse continued) most game clients don't have real logins yet, they self-mint connec…** — obs `2026-08-20T04:06:20Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (Construct/multiverse portal continued) arcade cabinets as the in-world affordance to jump between d…** — obs `2026-08-20T04:06:01Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (naming continued) acknowledges 'the construct' will collide with existing stack vocabulary but want…** — obs `2026-08-20T04:05:35Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: naming resolved — 'osaka garage' (mentioned earlier re: PITVIPER/multiverse portal) is being renamed…** — obs `2026-08-20T04:05:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (poker tournaments continued) poker tournaments can be built into the GFD MUD GUI client, same as th…** — obs `2026-08-20T04:04:45Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: recalls a card game inside an old Square Enix game (unsure which one, maybe FFIX) as a possible refe…** — obs `2026-08-20T04:04:39Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: build out tournaments into the GFD MUD GUI client** — obs `2026-08-20T04:04:13Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (Prompt-o-verse into newssite continued) specifically article thumbnails — AI-generated images with …** — obs `2026-08-20T04:03:22Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: bring in the tech from Prompt-o-verse into newssite somehow (unspecified which part — image generati…** — obs `2026-08-20T04:03:02Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (newssite sort continued) quick UI toggle to flip between different sort orderings** — obs `2026-08-20T04:03:02Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (newssite sort ordering continued) should have a settings option to configure sort ordering — defaul…** — obs `2026-08-20T04:02:38Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (newssite freshness continued) unsure whether published/ingested dates actually match the real PR da…** — obs `2026-08-20T04:02:11Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (newssite vision continued) build interactivity and widgets into the main site to expand functionali…** — obs `2026-08-20T04:01:02Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (newssite freshness complaint continued) product framing — newssite should be a hybrid of a Bloomber…** — obs `2026-08-20T04:00:45Z`. CURATED: 2026-08-20.
