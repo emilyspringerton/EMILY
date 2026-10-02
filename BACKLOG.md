@@ -52552,8 +52552,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T85239767: continue to add all of the BIG_O affordances to SHANKPIT port all of the sim server logic and smart phone affordances** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T02500640: EDGE.GAME PARENA-first: Bytes-safe AEAD (ChaCha20-Poly1305) in PARENA stdlib/crypto -- gap blocking the secure channel (aes.prn is openssl+String, not binary-safe, not on mingw)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T59953150: EDGE.GAME PARENA stdlib/net/secure_channel: ML-KEM-768 handshake -> AEAD frames, LZ4-compressed (compress-then-encrypt), length-framed; hand-derived + interop tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T71362859: EDGE.GAME relay+client speak the secure channel (lz4+mlkem) on cabinet/operator ports; Windows mingw build incl. vendored mlkem + BCryptGenRandom** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T65079291: EDGE.GAME terminal/serial capture: client streams Feather serial + terminal output through the relay as events so Claude reads it (replaces pasting); Feather 32u4 firmware USB-CDC<->Serial1 bridge + P** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T98319482: survival mode the guns will be items entities widgets that drop on the ground and you pick them up when you ooof a competitor this is a competitive multiplayer survival map in the style of FORTNITE** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T02500640: EDGE.GAME PARENA-first: Bytes-safe AEAD (ChaCha20-Poly1305) in PARENA stdlib/crypto -- gap blocking the secure channel (aes.prn is openssl+String, not binary-safe, not on mingw)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
