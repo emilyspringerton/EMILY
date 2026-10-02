@@ -52512,8 +52512,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T40149243: combine the interfaces for PARENA texture generator in NOCK and the QR code generator bring the interfaces into unity make them both have full capability (gen full code from NOCK and simplified in id)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T58128559: the buggy should be PARENA programmable and it should be placablein levels via the buggy spawn widget tiles OR via an actual buggy placed in a level** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [x] **T95731767: make the bug where the buggy goes through walls not work anymore; make wall destructibility work in multiplayer** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T47369837: fix the lighting make it work with lighting sources like unity and unreal but it needs to work with papercraft blocks with the shaders like look this block is a light but it doesnt light stuff up** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52535,4 +52533,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T87650954: #464c NOCK: '+ Add buggy spawn' tile in level editor and widget editor (name convention) + docs** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T18057774: #464d PARENA: buggy_rules.prn — buggy handling curve/tuning is a PARENA mod the physics reads (programmable buggy)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T58128559: the buggy should be PARENA programmable and it should be placablein levels via the buggy spawn widget tiles OR via an actual buggy placed in a level** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
