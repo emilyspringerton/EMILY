@@ -52566,8 +52566,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T98319482: survival mode the guns will be items entities widgets that drop on the ground and you pick them up when you ooof a competitor this is a competitive multiplayer survival map in the style of FORTNITE** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T51811947: survival map should use shankpit CITY map** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T02500640: EDGE.GAME PARENA-first: Bytes-safe AEAD (ChaCha20-Poly1305) in PARENA stdlib/crypto -- gap blocking the secure channel (aes.prn is openssl+String, not binary-safe, not on mingw)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T59953150: EDGE.GAME PARENA stdlib/net/secure_channel: ML-KEM-768 handshake -> AEAD frames, LZ4-compressed (compress-then-encrypt), length-framed; hand-derived + interop tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T92119194: build out shared components for the ui with PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T12354718: in zombie mode for now can we have the zombies just always start to hunt the player? its hard to find them in nextown its pretty big - spawn more intelligently near the player but like behind building** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T51811947: survival map should use shankpit CITY map** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
