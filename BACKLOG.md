@@ -52480,3 +52480,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T87547676: SHANKPIT-DESTRUCT-1 PARENA: brick_rules per-kind material+HP (brick/concrete/wood/glass), glass resist in paper_fragment_mod, on-glass-tint packed RGBA; tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T23087514: SHANKPIT-DESTRUCT-2 brick_fracture/brick_world: per-parent kind so concrete + wood + glass boxes are destructible (not only brick); tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
