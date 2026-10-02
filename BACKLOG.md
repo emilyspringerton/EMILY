@@ -52692,3 +52692,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T19887176: EDIT-1 IDUNA: live edit-session API -- POST /api/v1/shankpit-edit-sessions (level_id), join by id, GET events?since=seq, POST event {kind,spawner|avatar|box ops}; capability-token session id, in-memor** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T73271854: EDIT-2 SHANKPIT: EDIT MAP mode -- MODES tile, pick NOCK registry map or local var/maps file, fly cam, place/delete box at crosshair, move spawner, save via snapshot (parent #517)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
