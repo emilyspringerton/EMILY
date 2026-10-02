@@ -52514,3 +52514,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T97135208: a director environment should be able to see multiple cameras and real time for live stream editing for the comentators** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T05018437: cameras should serialize into whatever we ened to start to replace OBS with shankpit native streaming (we have some prior art but not really just dive intp PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
