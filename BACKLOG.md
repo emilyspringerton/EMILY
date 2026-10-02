@@ -52540,3 +52540,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T93812520: #457a SHANKPIT spectator + director: cycle cameras, multiview (program + preview tiles), auto-director cuts in the lobby** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T00692601: #456b SHANKPIT camera_rig.h — camera kinds (fixed/follow/orbit/drone) + cameramen update via PARENA rules + rig serialization (#458) + headless test** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
