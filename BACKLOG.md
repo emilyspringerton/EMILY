@@ -52639,3 +52639,13 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T30624561: LAB-4 SHANKPIT: parse lab_stations, enter LAB from phone LAB app, E-interact stations wired to PARENA rules + phone samples/clones; headless verify (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+
+## SECTION 593 — Founder real-time 2026-10-02: IDUNA plugin for cookie saving (MIXFORGE) + password management
+
+Founder real-time: *"ok lets build a plugin for IDUNA that supports cookie saving for mixforge and also password management"*.
+
+- [ ] **IDUNA cookie/password plugin** — kanban card in priority. Scope to be planned (existing IDUNA vault? plugin mechanism? MIXFORGE yt-dlp cookies.txt consumer).
+
+session: sess-20260923-1030-4a526255
+- [ ] **T03018020: IDUNA plugin: cookie saving for MIXFORGE (yt-dlp cookies) + password management (SECTION 593)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
