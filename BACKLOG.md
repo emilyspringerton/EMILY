@@ -52634,3 +52634,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T40696779: LAB-2 IDUNA tool: build LAB level = clone INTERRIOR_1 + programmatically created lab widgets (splice station, centrifuge, clone vat, sample fridge, console), export to SHANKPIT var/lab/lab.json (SECTI** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T04956953: LAB-3 PARENA: stdlib/big_o/lab_station_rules.prn -- station interaction decisions (splice/centrifuge/vat/fridge) + tests (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
