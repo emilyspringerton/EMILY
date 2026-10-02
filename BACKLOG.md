@@ -52554,8 +52554,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T54260250: we are developing the edge arcade cabinet the feather will also need to be able to talk to the android tablet over the OTG dongle but not at the same time the feather is either plugged android or wind** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T97453774: NEW AFFORDANCE FOR TOP LEVEL MENU SETTINGS TO TOGGLE ON LIVE LEVEL DOWNLOADING** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T41177164: ensure that the queue works intelligently it needs to start tracking what level the user is actually on** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T10347384: ensure we have a level for the SHANKPIT construct in the legacy PAPERCRAFT repo** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T51811947: survival map should use shankpit CITY map** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T15077349: we need to start baking all of the iduna levels from nock into the actual binary it should use the hard coded levels that are compiled in and there should be a setting in the top level menu settings** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T97453774: NEW AFFORDANCE FOR TOP LEVEL MENU SETTINGS TO TOGGLE ON LIVE LEVEL DOWNLOADING** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
