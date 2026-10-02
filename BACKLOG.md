@@ -679,6 +679,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: validate the CarePyre mesh-network research (CarePyre's real…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:44:50Z.
 - [ ] **Founder real-time: (accounts/funnel continued) build toward a feedback loop — g…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:12:08Z.
 - [ ] **Founder real-time: (EmilyOS continued) exploring whether EmilyOS is 'the bare m…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:09:33Z.
+- [ ] **Founder real-time: (GFD web client repo continued) floats EmilyOS as a possible…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:09:04Z.
+- [ ] **Founder real-time: (GFD web client continued) delegates exact repo placement to…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:08:44Z.
+- [ ] **Founder real-time, urgent ('we need it yesterday'): GFD GUI client (with login)…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:08:02Z.
+- [ ] **Founder real-time: (email integration continued) weighing the real tradeoff — e…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:21:18Z.
+- [ ] **Founder real-time: (privacy/scope continued) email integration should be treate…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:21:02Z.
+- [ ] **Founder real-time: explicit privacy boundary — do NOT automatically log email c…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:20:50Z.
+- [ ] **Founder real-time: emailed the invented-language spec to emilyspringerton@gmail…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:20:04Z.
+- [ ] **Founder real-time: (email integration continued) wants a real 'emily key gmail-…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:19:39Z.
+- [ ] **Founder real-time: retry the fine-tuned Emily GPT-2 generation for a follow-up …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:41:59Z.
+- [ ] **Founder real-time: (email integration continued) offers to provide a password a…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:18:52Z.
+- [ ] **Founder real-time: (email integration continued) make it work for the GCP accou…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:18:28Z.
+- [ ] **Founder real-time: we need to get the email integration fixed** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:18:09Z.
+- [ ] **Founder real-time: use Prompt-o-verse to generate textures for the destructible…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:17:56Z.
+- [ ] **Founder real-time: wants any data-science infrastructure needed exposed as real…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:46:25Z.
+- [ ] **Founder real-time: wants an Emiree gear-status analysis over the last 16 days, …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:45:10Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1446,21 +1461,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
-- [ ] **Founder real-time: (GFD web client repo continued) floats EmilyOS as a possible alternate home for the web client, but …** — obs `2026-08-20T04:09:04Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (GFD web client continued) delegates exact repo placement to Claude's judgment — 'build that into wh…** — obs `2026-08-20T04:08:44Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, urgent ('we need it yesterday'): GFD GUI client (with login) needs a web build — WASM or similar, fo…** — obs `2026-08-20T04:08:02Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (email integration continued) weighing the real tradeoff — either build real privacy guards around a…** — obs `2026-08-20T04:21:18Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (privacy/scope continued) email integration should be treated as a queryable source for now (on-dema…** — obs `2026-08-20T04:21:02Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: explicit privacy boundary — do NOT automatically log email contents into Apples or anywhere else. Ap…** — obs `2026-08-20T04:20:50Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: emailed the invented-language spec to emilyspringerton@gmail.com — once email read access works (app…** — obs `2026-08-20T04:20:04Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (email integration continued) wants a real 'emily key gmail-smtp' (or similar) CLI command to secure…** — obs `2026-08-20T04:19:39Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: retry the fine-tuned Emily GPT-2 generation for a follow-up brainstorming blog post — wait up to 4 m…** — obs `2026-08-20T04:41:59Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (email integration continued) offers to provide a password and use SMTP instead of the existing OAut…** — obs `2026-08-20T04:18:52Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (email integration continued) make it work for the GCP account we have attached; use Gary's email sp…** — obs `2026-08-20T04:18:28Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: we need to get the email integration fixed** — obs `2026-08-20T04:18:09Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: use Prompt-o-verse to generate textures for the destructible city being built in GFD's FPS 'lobby ed…** — obs `2026-08-20T04:17:56Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: wants any data-science infrastructure needed exposed as real IDUNA APIs, backed by Python or whateve…** — obs `2026-08-20T04:46:25Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: wants an Emiree gear-status analysis over the last 16 days, analyzing git commits and Apples as a ti…** — obs `2026-08-20T04:45:10Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: naming resolved — METALVERSE is now what the founder is calling the GFD FPS lobby client (apps2/batt…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: suggests trying the broker proxy (fatbaby-broker.service, :8679) instead of hitting gpt2-serve direc…** — obs `2026-08-20T04:44:14Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: noting they need to go find/locate the invented-language spec themselves (action item for founder, n…** — obs `2026-08-20T04:07:19Z`. CURATED: 2026-08-20.
