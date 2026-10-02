@@ -52560,8 +52560,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T41177164: ensure that the queue works intelligently it needs to start tracking what level the user is actually on** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T92119194: build out shared components for the ui with PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T10347384: ensure we have a level for the SHANKPIT construct in the legacy PAPERCRAFT repo** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T85239767: continue to add all of the BIG_O affordances to SHANKPIT port all of the sim server logic and smart phone affordances** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T69737477: EDITOR.GAME there is a weird carridge return every so often automatically its not how text editors usually work** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T78235991: build a game mode called survival and add it to the top level shankpit menu nest skins and spays under customize menu (add submenu affordances)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T92119194: build out shared components for the ui with PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
