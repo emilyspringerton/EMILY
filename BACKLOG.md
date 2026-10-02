@@ -52609,3 +52609,13 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T24872990: EDGE.GAME client: Windows USB/COM probe tooling -- enumerate USB devices+COM ports (VID/PID classify Feather 32u4 app/bootloader, Nano CH340/FTDI, Pi gadget), report via relay usb_probe command + stan** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+
+## SECTION 591 — Founder real-time 2026-10-02: ZOMBIES mode needs BIG_O unification
+
+Founder real-time: *"zombies mode in shankpit needs BIG_O unification"*. MODE_ZOMBIES (SECTION 590) runs its own day/night lifecycle; MODE_STORY holds the BIG_O phone, turn banner, food/cargo, lab. Unify so ZOMBIES gets the BIG_O affordances instead of a parallel set.
+
+- [ ] **ZOMBIES × BIG_O unification** — kanban card in priority. Slice 1: the BIG_O phone (+ ORB app, #485) and turn/clock banner available in MODE_ZOMBIES. Further slices to be found by diffing MODE_STORY vs MODE_ZOMBIES gating.
+
+session: sess-20260923-1030-4a526255
+- [ ] **T51825426: ZOMBIES mode BIG_O unification: phone, turn banner, food/cargo, lab affordances shared with MODE_STORY (SECTION 591)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
