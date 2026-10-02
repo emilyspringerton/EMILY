@@ -52484,3 +52484,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T77093521: SHANKPIT-DESTRUCT-3 SHANKPIT glass shader (transparent, cyan tint driven by PARENA on-glass-tint) + IDUNA glass material row; verify render** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T02674434: add hammer weapon ensure NOCK wiodgets page has a gltf importer so i can import the hammer from blender** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
