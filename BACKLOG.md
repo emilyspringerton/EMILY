@@ -4424,6 +4424,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: zombies must damage buildings/materials (nextown is mostly brick, only brick is destructible); and t…** — obs `2026-10-02T06:55:19Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: make citizens aware of walls — they must not constantly run into buildings** — obs `2026-10-02T06:53:45Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: SHANKPIT levels work — BIG_O day/night lifecycle, replace FINND CTF menu item with ZOMBIES sandbox, …** — obs `2026-10-02T06:53:08Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: clear the kanban priority queue, then fix SHANKPIT release artifacts not bundling the EDITOR.GAME DL…** — obs `2026-10-02T07:23:10Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: new standing rule, all repos — after founder observation, work from the KANBAN in the loop. New foun…** — obs `2026-10-02T07:21:09Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
