@@ -52694,3 +52694,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T73271854: EDIT-2 SHANKPIT: EDIT MAP mode -- MODES tile, pick NOCK registry map or local var/maps file, fly cam, place/delete box at crosshair, move spawner, save via snapshot (parent #517)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T03861192: EDIT-4 NOCK frontend: join/create live session from ShankpitLevelEditor, show SHANKPIT avatar marker, spawner drag posts to session and remote moves update spawner; Spawn-at spawner|crosshair toggle (** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
