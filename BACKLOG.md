@@ -52482,8 +52482,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T77093521: SHANKPIT-DESTRUCT-3 SHANKPIT glass shader (transparent, cyan tint driven by PARENA on-glass-tint) + IDUNA glass material row; verify render** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T02674434: add hammer weapon ensure NOCK wiodgets page has a gltf importer so i can import the hammer from blender** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [x] **T87547676: SHANKPIT-DESTRUCT-1 PARENA: brick_rules per-kind material+HP (brick/concrete/wood/glass), glass resist in paper_fragment_mod, on-glass-tint packed RGBA; tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T23087514: SHANKPIT-DESTRUCT-2 brick_fracture/brick_world: per-parent kind so concrete + wood + glass boxes are destructible (not only brick); tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52535,4 +52533,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T58128559: the buggy should be PARENA programmable and it should be placablein levels via the buggy spawn widget tiles OR via an actual buggy placed in a level** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T12363671: do the actual work for adding the hammer it needs to work with destructability and use the model in 3p** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T02674434: add hammer weapon ensure NOCK wiodgets page has a gltf importer so i can import the hammer from blender** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
