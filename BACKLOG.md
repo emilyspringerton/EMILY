@@ -52496,3 +52496,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T01909956: CITY-1 SHANKPIT: port procedural city geometry (grid/districts/highway ring/props/bounds) from 655b209 into current physics.h as SCENE_CITY** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T23109109: CITY-2 SHANKPIT: lobby level entry + render + tests for city scene (parent card T62892945)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
