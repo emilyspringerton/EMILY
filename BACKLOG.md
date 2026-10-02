@@ -52552,8 +52552,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T85239767: continue to add all of the BIG_O affordances to SHANKPIT port all of the sim server logic and smart phone affordances** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T71362859: EDGE.GAME relay+client speak the secure channel (lz4+mlkem) on cabinet/operator ports; Windows mingw build incl. vendored mlkem + BCryptGenRandom** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T24872990: EDGE.GAME client: Windows USB/COM probe tooling -- enumerate USB devices+COM ports (VID/PID classify Feather 32u4 app/bootloader, Nano CH340/FTDI, Pi gadget), report via relay usb_probe command + stan** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T29486054: port EDUVM and language and the philosophers orb from GFD shankpit lineage into SHANKPIT SHANKPIT for now add them to all modes but not queue multiplayer ensure we have APRENA mod bindings for EDUVM** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T59953150: EDGE.GAME PARENA stdlib/net/secure_channel: ML-KEM-768 handshake -> AEAD frames, LZ4-compressed (compress-then-encrypt), length-framed; hand-derived + interop tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T52953645: SUB MENU TOP LEVEL AFFORDANCE ADDED TO LINEN UI PARENA (NOT SURE IF THATS A THING IT SHOULD BE) START UNIFYING SHANKPIT UI** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T71362859: EDGE.GAME relay+client speak the secure channel (lz4+mlkem) on cabinet/operator ports; Windows mingw build incl. vendored mlkem + BCryptGenRandom** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
