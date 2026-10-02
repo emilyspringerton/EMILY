@@ -52690,3 +52690,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T30536749: we need chests that are destructable and drop weapons add to the shankpit widgets system and make scriptable in PARENA and EDUSCRIPT add a float system and integrate rare item spawns with WOTAN** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T19887176: EDIT-1 IDUNA: live edit-session API -- POST /api/v1/shankpit-edit-sessions (level_id), join by id, GET events?since=seq, POST event {kind,spawner|avatar|box ops}; capability-token session id, in-memor** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
