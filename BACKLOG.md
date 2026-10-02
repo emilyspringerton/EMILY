@@ -52557,8 +52557,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T85239767: continue to add all of the BIG_O affordances to SHANKPIT port all of the sim server logic and smart phone affordances** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T83300158: SHANKPIT PARENA EDUVM should tie into NOCK and shankpit widgets in the same way the texture geneator works saveable snippets attached to widgets** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T22577433: WORK ON THE 416 JAVASCRIPT ENGINE WE WANT TO TURN SHANKPIT INTO A HIGHLY CAPAVLE WEB BROWSER - USE CASE START USING TAILWIND CSS FOR SHANKPIT UI** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T19850644: SHANKPIT_ONLINE WASM CLIENT MAKE SHANKPIT PLAYABLE WASM ND OPENGL ABSTRACT EVERYTHING INTO PARENA SO WE CAN HAVE JAVA WORK FROM PRIMATIVES** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52679,4 +52677,6 @@ session: sess-20260923-1030-4a526255
 - [ ] **T83033933: build SHANKPIT phone app affordances into ZOMBIE mode GFD chat with TWITCH chat bridge** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T29486054: port EDUVM and language and the philosophers orb from GFD shankpit lineage into SHANKPIT SHANKPIT for now add them to all modes but not queue multiplayer ensure we have APRENA mod bindings for EDUVM** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T83300158: SHANKPIT PARENA EDUVM should tie into NOCK and shankpit widgets in the same way the texture geneator works saveable snippets attached to widgets** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
