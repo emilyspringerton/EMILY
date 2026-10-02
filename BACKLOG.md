@@ -52512,8 +52512,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T40149243: combine the interfaces for PARENA texture generator in NOCK and the QR code generator bring the interfaces into unity make them both have full capability (gen full code from NOCK and simplified in id)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T66928143: ensure we have widgets gltf importer in nock** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T58128559: the buggy should be PARENA programmable and it should be placablein levels via the buggy spawn widget tiles OR via an actual buggy placed in a level** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T95731767: make the bug where the buggy goes through walls not work anymore; make wall destructibility work in multiplayer** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52527,4 +52525,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T07638408: add gltf importer for shankpit levels** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T06506872: all gltf i,porters should work with blender files** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T66928143: ensure we have widgets gltf importer in nock** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
