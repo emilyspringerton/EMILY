@@ -52560,8 +52560,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T71362859: EDGE.GAME relay+client speak the secure channel (lz4+mlkem) on cabinet/operator ports; Windows mingw build incl. vendored mlkem + BCryptGenRandom** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T65079291: EDGE.GAME terminal/serial capture: client streams Feather serial + terminal output through the relay as events so Claude reads it (replaces pasting); Feather 32u4 firmware USB-CDC<->Serial1 bridge + P** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T24872990: EDGE.GAME client: Windows USB/COM probe tooling -- enumerate USB devices+COM ports (VID/PID classify Feather 32u4 app/bootloader, Nano CH340/FTDI, Pi gadget), report via relay usb_probe command + stan** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T29486054: port EDUVM and language and the philosophers orb from GFD shankpit lineage into SHANKPIT SHANKPIT for now add them to all modes but not queue multiplayer ensure we have APRENA mod bindings for EDUVM** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T59226492: end to end i want claude to be able to update the editor block in my game via the EDGE.GAME server and then compile and upload it to the FEATHER THEN it needs to talk to the feather over serial** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T10347384: ensure we have a level for the SHANKPIT construct in the legacy PAPERCRAFT repo** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T65079291: EDGE.GAME terminal/serial capture: client streams Feather serial + terminal output through the relay as events so Claude reads it (replaces pasting); Feather 32u4 firmware USB-CDC<->Serial1 bridge + P** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
