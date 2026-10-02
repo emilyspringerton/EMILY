@@ -52698,3 +52698,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T28454926: EDIT-3 SHANKPIT: live sync client -- background thread joins/creates an edit session, posts avatar pose+edits, applies remote spawner moves to the hero; crosshair-vs-spawner spawn toggle (parents #518** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T64685358: nock tools levels we need to be able to tint the floor so its not transparent it needs to be color selectable per level and alpha chanel setable for partialy transparency** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
