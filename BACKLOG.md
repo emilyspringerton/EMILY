@@ -52551,3 +52551,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T33875498: EDGE.GAME server gives claude api bindings to control the editor in EDITOR.GAME** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T69737477: EDITOR.GAME there is a weird carridge return every so often automatically its not how text editors usually work** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
