@@ -4427,6 +4427,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: clear the kanban priority queue, then fix SHANKPIT release artifacts not bundling the EDITOR.GAME DL…** — obs `2026-10-02T07:23:10Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: new standing rule, all repos — after founder observation, work from the KANBAN in the loop. New foun…** — obs `2026-10-02T07:21:09Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: card T96369615 (papercraft destructability for concrete/wood + new glass material w/ PARENA-programm…** — obs `2026-10-02T07:40:01Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: card T62892945 - port PAPERCRAFT cityscape into SHANKPIT levels (reset commit) and fix SHANKPIT 3rd …** — obs `2026-10-02T08:01:12Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
