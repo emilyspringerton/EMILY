@@ -52562,8 +52562,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T86286722: ENSURE SURVIVAL MODE HAS A MENU - NEST ZOMBIES AND QUEUE AND SURVIVAL AND LEVELS ALL INSIDE OF SHANKPIT AND TYLER TOO SUB MENU** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T52953645: SUB MENU TOP LEVEL AFFORDANCE ADDED TO LINEN UI PARENA (NOT SURE IF THATS A THING IT SHOULD BE) START UNIFYING SHANKPIT UI** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T22577433: WORK ON THE 416 JAVASCRIPT ENGINE WE WANT TO TURN SHANKPIT INTO A HIGHLY CAPAVLE WEB BROWSER - USE CASE START USING TAILWIND CSS FOR SHANKPIT UI** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T19850644: SHANKPIT_ONLINE WASM CLIENT MAKE SHANKPIT PLAYABLE WASM ND OPENGL ABSTRACT EVERYTHING INTO PARENA SO WE CAN HAVE JAVA WORK FROM PRIMATIVES** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T02500640: EDGE.GAME PARENA-first: Bytes-safe AEAD (ChaCha20-Poly1305) in PARENA stdlib/crypto -- gap blocking the secure channel (aes.prn is openssl+String, not binary-safe, not on mingw)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T59953150: EDGE.GAME PARENA stdlib/net/secure_channel: ML-KEM-768 handshake -> AEAD frames, LZ4-compressed (compress-then-encrypt), length-framed; hand-derived + interop tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T52953645: SUB MENU TOP LEVEL AFFORDANCE ADDED TO LINEN UI PARENA (NOT SURE IF THATS A THING IT SHOULD BE) START UNIFYING SHANKPIT UI** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
