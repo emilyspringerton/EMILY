@@ -52651,3 +52651,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T09329322: COOKIE-1 IDUNA: vault cookie_jar item type + JWT-permissioned (vault.cookies) upload/read endpoints (non-loopback) + tests (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T03918414: COOKIE-3 IDUNA CI/CD: auto-release the extension (test, deterministic zip, tag, GitHub Release) on green main (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
