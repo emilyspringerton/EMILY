@@ -52688,3 +52688,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T19838294: integrate the SHANKPIT weapons with SHANKPIT WIDGETS and BIG_O cargo affordances and nock tools i should be able to create survival maps and place weapons in the map** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T30536749: we need chests that are destructable and drop weapons add to the shankpit widgets system and make scriptable in PARENA and EDUSCRIPT add a float system and integrate rare item spawns with WOTAN** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
