@@ -52512,8 +52512,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T40149243: combine the interfaces for PARENA texture generator in NOCK and the QR code generator bring the interfaces into unity make them both have full capability (gen full code from NOCK and simplified in id)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T75098718: also the ambient lighting just needs to be adjusted - give us a slider in the menu (it should persist to a settings file) use parena the wall lighting is working as the sun goes up and down buttoodark** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T66928143: ensure we have widgets gltf importer in nock** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T07638408: add gltf importer for shankpit levels** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52527,4 +52525,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T47369837: fix the lighting make it work with lighting sources like unity and unreal but it needs to work with papercraft blocks with the shaders like look this block is a light but it doesnt light stuff up** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T39014221: even the flashlight shouldnt have a hard edge on the top if you hit a wall and flash it off into darkness it illuminates darkness and it fades off we need more of a guazian thing real lighting** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T75098718: also the ambient lighting just needs to be adjusted - give us a slider in the menu (it should persist to a settings file) use parena the wall lighting is working as the sun goes up and down buttoodark** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
