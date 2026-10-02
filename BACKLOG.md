@@ -52566,3 +52566,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T78235991: build a game mode called survival and add it to the top level shankpit menu nest skins and spays under customize menu (add submenu affordances)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T92119194: build out shared components for the ui with PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
