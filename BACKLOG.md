@@ -52568,3 +52568,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T92119194: build out shared components for the ui with PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T10347384: ensure we have a level for the SHANKPIT construct in the legacy PAPERCRAFT repo** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
