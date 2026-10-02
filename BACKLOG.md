@@ -52593,3 +52593,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T83300158: SHANKPIT PARENA EDUVM should tie into NOCK and shankpit widgets in the same way the texture geneator works saveable snippets attached to widgets** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T86286722: ENSURE SURVIVAL MODE HAS A MENU - NEST ZOMBIES AND QUEUE AND SURVIVAL AND LEVELS ALL INSIDE OF SHANKPIT AND TYLER TOO SUB MENU** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
