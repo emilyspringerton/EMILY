@@ -52514,8 +52514,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T66928143: ensure we have widgets gltf importer in nock** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T07638408: add gltf importer for shankpit levels** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T06506872: all gltf i,porters should work with blender files** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T58128559: the buggy should be PARENA programmable and it should be placablein levels via the buggy spawn widget tiles OR via an actual buggy placed in a level** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52527,4 +52525,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T39014221: even the flashlight shouldnt have a hard edge on the top if you hit a wall and flash it off into darkness it illuminates darkness and it fades off we need more of a guazian thing real lighting** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T75098718: also the ambient lighting just needs to be adjusted - give us a slider in the menu (it should persist to a settings file) use parena the wall lighting is working as the sun goes up and down buttoodark** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T07638408: add gltf importer for shankpit levels** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
