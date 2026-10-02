@@ -52528,11 +52528,11 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T66928143: ensure we have widgets gltf importer in nock** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T18057774: #464d PARENA: buggy_rules.prn — buggy handling curve/tuning is a PARENA mod the physics reads (programmable buggy)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [x] **T38577764: #464a SHANKPIT: level_boxes.h parses buggy_spawns, physics.h custom-level vehicle pads, scene_load spawns them (+test)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T84508259: #464b IDUNA: level export emits buggy_spawns from buggy_spawn*-named walls (incl. widget-flattened), yaw from name suffix (+test)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T87650954: #464c NOCK: '+ Add buggy spawn' tile in level editor and widget editor (name convention) + docs** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T18057774: #464d PARENA: buggy_rules.prn — buggy handling curve/tuning is a PARENA mod the physics reads (programmable buggy)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
