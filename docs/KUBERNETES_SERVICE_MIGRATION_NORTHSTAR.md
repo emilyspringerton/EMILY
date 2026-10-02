@@ -177,6 +177,37 @@ despite real pending demand, 32+ hours). This audit's own real value: confirming
 the blocker is NOT anything wrong with this monorepo's own real config (quota/network/cluster
 settings all check out clean) — it's upstream of that.
 
+## Networking cost rules (founder real-time, 2026-10-02: "make sure the networking doesn't blow all of our credits")
+
+Figures are approximate, from memory, **not verified against live GCP pricing** (no gcloud credentials
+in the authoring session) — confirm on the GCP pricing page before relying on them.
+
+1. **One external load balancer, total.** Every `Service type: LoadBalancer` gets its own forwarding
+   rule (roughly $18/mo each plus per-GB processing). 17+ FatBaby services as LBs ≈ $300+/mo of pure
+   plumbing. Rule: **every Service is `ClusterIP`**; exactly one internet entry point — a single
+   Gateway/Ingress (one external HTTP(S) LB, one IP, host/path routing to all services). Anyone adding
+   `type: LoadBalancer` to a manifest needs a written reason.
+2. **No private cluster, no Cloud NAT.** Private nodes need Cloud NAT (hourly gateway fee plus
+   per-GB processing on all outbound traffic, including every SEC/PR poll). Keep the cluster public:
+   Autopilot pods egress via node IPs, no NAT charge. Tradeoff: egress IPs are not stable; the SEC
+   needs a User-Agent, not an IP allowlist, so this is fine for the pipeline.
+3. **Egress is the metered direction; ingress is free.** Internet egress is ~$0.08–0.12/GB. The
+   cross-internet collections API should therefore return compact responses: ETag/304 (done),
+   and the streaming LZ4 channel (planned) directly cuts billed bytes. Never serve bulk data
+   (full `var/` stores, CONSTRUCT files) from the cluster to the internet — keep that on GCS/GitHub.
+4. **Keep chatty traffic in one zone/region.** Autopilot spreads pods across zones, and inter-zone
+   traffic is ~$0.01/GB each way. Co-locate Memorystore, GCS and the cluster in `us-central1`; use
+   topology-aware routing for high-volume pod-to-pod paths (event stream consumers).
+5. **Logging is the sleeper cost.** Cloud Logging ingestion is ~$0.50/GB past the free tier. The
+   plan to project all log streams into Google Cloud must go to GCS/BigQuery batch sinks or the
+   Redis Stream, **not** raw Cloud Logging ingestion. Exclude noisy system/container logs with
+   exclusion filters before the first workload is deployed.
+6. **UDP game servers stay off the cluster** (Group C/D above). Each needs its own L4 LB; that is the
+   most expensive networking shape in the whole plan. Unchanged recommendation: VPS until proven.
+7. **Guardrails before the first deploy:** a billing budget with alerts at 25/50/90% of the credit
+   balance, and a check that the dead `prrject-fatbaby` cluster is not billing while it has zero
+   nodes. Neither can be done from this box until `gcloud auth login` is run.
+
 ## Honest scope
 
 This is a **plan**, not a build — no service was migrated, no manifest written beyond what
