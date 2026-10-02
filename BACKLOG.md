@@ -52510,3 +52510,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T95731767: make the bug where the buggy goes through walls not work anymore; make wall destructibility work in multiplayer** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T98085776: add realistic cameras so we can have the client be a client where like if we want to have an esports stream we can set up different cameras and have realistic programmed cameramen etc - a spectator mo** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
