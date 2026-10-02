@@ -52453,3 +52453,19 @@ Founder real-time: *"make it so that F1 uploads a copy of the level to shankpit 
 - [ ] **Follow-ups**: real player/guest auth on the snapshot endpoint (currently unauthenticated, rate-limited, insert-only); networked-client F1 (needs server-side save, client only mirrors); cracked-cell hp persists but a match reset still clears damage; no HUD toast (pause-menu label + log only).
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 590 — Founder real-time 2026-10-02: ZOMBIES sandbox (replaces FIND CTF), BIG_O day/night lifecycle, zombies repository
+
+Founder real-time: *"replace FINND CTF menu item with ZOMBIES ... basic sandbox ... new button for set for zombies ... new repository of zombie levels ... implement zombies / citizens / the men ... unify the engines into shankpit ... use nextown by default"*, then mid-build: *"make sure they dont run into the buildings ... make the citizens at least aware of the walls"*, *"ensure that zombies can do damage to the buildings ... only brick is destructable currently"*, *"the birds should be there from day 1"*, *"use UAL animations and the manequin rigid body rag doll for the zombies and the citizens and the men"*.
+
+- [x] **ZOMBIES sandbox** — SHANKPIT `296baf1`: MODE_ZOMBIES=110, menu tile replaces FIND CTF, `shank_lobby --zombies`; day/night lifecycle (`witness_ai_zombies_tick`: citizens by day, zombie horde at night, burn-off at dawn, 2 Men); loads zombies-repo default → registry "nextown" → `var/zombie/nextown_zombies.json`. Live-run headless: DAY 08:58 citizens=8 men=2 zombies=1 birds=5.
+- [x] **Wall-aware AI** — whisker steering over the real collision boxes for every AI mover (citizens flee along walls instead of grinding; boxed-in = stand). `make test-witness-ai-zombies`.
+- [x] **Zombies damage buildings** — hunting zombies blocked by a wall plant and claw it via `brick_world_ai_wall_hit` (brick only — the engine's only destructible material; other materials remain indestructible, extending `BF_*_KIND` is the follow-up). Hole in 6 swings in `brick_world_test` §9.
+- [x] **Birds from day 1** — BIG_O `avian_values` ported; 5 birds seeded on the first tick, orbit the hero, observe-the-observer alert, beacon agitates zombies.
+- [x] **UAL + mannequin ragdoll** — citizens/men use UAL1 mannequin (tinted), zombies the UAL-derived `zombie_*` clips (attack clip while clawing), corpses = XPBD rigid-body ragdoll via `ragdoll_pool` (now linked into the lobby; those 3 files were untracked from another session and are committed here). Also fixed: GL glScalef had no effect on skinned NPCs (giant bug never scaled) → `gband_skel_npc_set_scale`.
+- [x] **Zombies repository + set-for-zombies** — IDUNA `50c89ea` (`collection` + `is_zombie_default`, `PATCH /{id}/zombie-default`, `?collection=zombies`, snapshot `collection=zombies&set_default`), NOCK "Set for ZOMBIES" button + ZOMBIE Levels list (dist rebuilt). F1/exit autosave in ZOMBIES files the wrecked level as the next zombies level.
+- [ ] **Deploy IDUNA** (migrations 202610020002 + 202610020003, new NOCK dist) — until then the zombies repo calls fall back to nextown and snapshots fail gracefully.
+- [ ] **Not eyeballed**: citizens/zombies/birds/ragdoll rendering ran headless without crashing but no screenshot of an NPC yet (needs input to aim the camera).
+- [ ] **Follow-ups**: networked ZOMBIES (server mode flag + role-aware client skins; the APPS-page ZOMBIES tile still launches the old :6971 server); capture the living clip pose for ragdoll spawn; only brick is destructible; citizens at night just despawn out of sight instead of sheltering; BIG_O lab/swarm/shadow-war systems still not merged.
+
+session: sess-20260923-1030-4a526255
