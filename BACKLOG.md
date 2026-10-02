@@ -52642,8 +52642,6 @@ Founder real-time: *"ok lets build a plugin for IDUNA that supports cookie savin
 - [ ] **IDUNA cookie/password plugin** — kanban card #509 in priority. **Scope narrowed by founder (2026-10-02, same session): "password management can be done via the emily cli vault integration"** — passwords stay in the existing IDUNA Vault + `emily vault` CLI (no new password UI). Plugin = cookie saving for MIXFORGE: vault `cookie_jar` item type, non-loopback JWT-permissioned upload/read endpoints, MIXFORGE cookie-exporter extension "save to IDUNA", MIXFORGE server pulls from IDUNA (file env stays the fallback). **Correction found while planning: the cookie-saving half already exists and is live** — `MIXFORGE/tools/cookie-exporter` (MV3 extension) uploads to `POST /api/v1/mixforge/cookies` (IDUNA `mixforge_cookies.go`, bearer token, live: returns 401 unauthenticated) which feeds `MIXFORGE_YTDLP_COOKIES`; passwords already live in the IDUNA Vault + `emily vault`. So the real remaining work is the CI/CD auto-release of the extension. **Also (founder, same session): "build it into IDUNA CICD auto release the extension or chrome plugin or whatever"** — the extension is packaged (zip/crx) and auto-released by IDUNA's CI/CD on green main, alongside the existing app-release flow.
 
 session: sess-20260923-1030-4a526255
-- [ ] **T03018020: IDUNA plugin: cookie saving for MIXFORGE (yt-dlp cookies) + password management (SECTION 593)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T09329322: COOKIE-1 IDUNA: vault cookie_jar item type + JWT-permissioned (vault.cookies) upload/read endpoints (non-loopback) + tests (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T03918414: COOKIE-3 IDUNA CI/CD: auto-release the extension (test, deterministic zip, tag, GitHub Release) on green main (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52679,4 +52677,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T21621622: upgrade shankpit queue multiplayer to use ragdoll physics and have them use the manequin player models colored yellow for the skin hard code for now models and animations and rigs swapable in future** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T11373294: LAB level: clone level INTERIOR into LAB, build lab affordances with PARENA + BIG_O + SHANKPIT widgets API (SECTION 592)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T03018020: IDUNA plugin: cookie saving for MIXFORGE (yt-dlp cookies) + password management (SECTION 593)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
