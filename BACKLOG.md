@@ -52657,5 +52657,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T31670069: COOKIE-4 MIXFORGE: room server pulls cookies from IDUNA cookie jar (file env stays fallback) (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T42027545: kanban card comments: Claude leaves questions, kanban users reply, tracked by login (IDUNA API + board UI + emily kanban comment)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **T42027545: kanban card comments: Claude leaves questions, kanban users reply, tracked by login (IDUNA API + board UI + emily kanban comment)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
