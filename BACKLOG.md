@@ -52545,3 +52545,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T05018437: cameras should serialize into whatever we ened to start to replace OBS with shankpit native streaming (we have some prior art but not really just dive intp PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T24273882: figure out where all the code went for the EDGE.GAME did it all go into EDITOR.GAME? or did it all go into shankpit? ensure all the code is comitted when the editor opens it should load the blink code** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
