@@ -724,6 +724,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: (context note) simple tower models already exist in the code…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:37:02Z.
 - [ ] **Founder real-time: (clarifying prior) real 3D models will eventually be sourced…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:36:58Z.
 - [ ] **Founder real-time: (clarifying prior) Prompt-o-verse reference-art use case inc…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:36:53Z.
+- [ ] **Founder real-time: use the Prompt-o-verse pipeline to generate reference art wh…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:36:46Z.
+- [ ] **Founder real-time: (ecowar cards continued) base tier name is 'Normal', not 'Co…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:36:15Z.
+- [ ] **Founder real-time: (ecowar cards continued) confirms 'Rare' as the obvious/base…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:35:36Z.
+- [ ] **Founder real-time: (ecowar cards continued) Prompt-o-verse-style selection algo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:35:30Z.
+- [ ] **Founder real-time: (ecowar design continued) card packs purchasable with Flow (…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:33:41Z.
+- [ ] **Founder real-time: (ecowar design continued) deckbuilding — some of the 22 card…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:33:36Z.
+- [ ] **Founder real-time: (ecowar design continued) full feature set — MOBA-style choo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:33:21Z.
+- [ ] **Founder real-time: (ecowar continued) ecowar will have hero mechanics** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:31:59Z.
+- [ ] **Founder real-time: build ecowar as its own separate binary, same model as the o…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:31:52Z.
+- [ ] **Founder real-time: comb TRAPX/EMILY/REDGARDEN wikis and docs to develop a compr…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:30:39Z.
+- [ ] **Founder real-time: 'make her fran' -- unclear referent, logging verbatim per Pr…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:54:33Z.
+- [ ] **Founder real-time, resolving the Google Doc/Drive access ask: the account needs…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:54:22Z.
+- [ ] **Founder real-time: for the Google Doc/Drive attachment (mentioned earlier, then…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:53:47Z.
+- [ ] **Founder real-time, additional requirement on the PITVIPER-on-Windows ask: copy/…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:53:11Z.
+- [ ] **Founder real-time, resolving the Windows-path worry from the prior clarificatio…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:53:05Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1491,21 +1506,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
-- [ ] **Founder real-time: use the Prompt-o-verse pipeline to generate reference art wherever needed for upcoming implementatio…** — obs `2026-08-20T03:36:46Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar cards continued) base tier name is 'Normal', not 'Common'; ecowar card concepts/art can be f…** — obs `2026-08-20T03:36:15Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar cards continued) confirms 'Rare' as the obvious/base tier name** — obs `2026-08-20T03:35:36Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar cards continued) Prompt-o-verse-style selection algo for card pack pulls — marble-bag weight…** — obs `2026-08-20T03:35:30Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar design continued) card packs purchasable with Flow (the in-universe currency)** — obs `2026-08-20T03:33:41Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar design continued) deckbuilding — some of the 22 cards are hero-specific, others are generic/…** — obs `2026-08-20T03:33:36Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar design continued) full feature set — MOBA-style choose-your-skills-to-upgrade for expressive…** — obs `2026-08-20T03:33:21Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (ecowar continued) ecowar will have hero mechanics** — obs `2026-08-20T03:31:59Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: build ecowar as its own separate binary, same model as the other REDGARDEN-family games (online matc…** — obs `2026-08-20T03:31:52Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: comb TRAPX/EMILY/REDGARDEN wikis and docs to develop a comprehensive 'ecowar' RTS model as a new nor…** — obs `2026-08-20T03:30:39Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: 'make her fran' -- unclear referent, logging verbatim per Principle 18 rather than guessing. Possibl…** — obs `2026-08-20T06:54:33Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, resolving the Google Doc/Drive access ask: the account needs to log in with Google (OAuth), and foun…** — obs `2026-08-20T06:54:22Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: for the Google Doc/Drive attachment (mentioned earlier, then explicitly tabled) -- founder now says …** — obs `2026-08-20T06:53:47Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, additional requirement on the PITVIPER-on-Windows ask: copy/paste has to work on Windows too (separa…** — obs `2026-08-20T06:53:11Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, resolving the Windows-path worry from the prior clarification: 'git bash figures it out' -- founder'…** — obs `2026-08-20T06:53:05Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time question: 'also the human blocked firebase stuff - dont you have extended gcloud capabilities now tha…** — obs `2026-08-20T07:09:40Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time question: does MJOLNIR have SSH capabilities? Logged per Principle 18, checking MJOLNIR's codebase ne…** — obs `2026-08-20T07:09:12Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'from BRAWLPIT' -- clarifies Raccoon is an existing character from the BRAWLPIT repo, not a persona …** — obs `2026-08-20T07:05:05Z`. CURATED: 2026-08-20.
