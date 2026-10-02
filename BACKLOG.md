@@ -52620,3 +52620,13 @@ Founder real-time: *"zombies mode in shankpit needs BIG_O unification"*. MODE_ZO
 session: sess-20260923-1030-4a526255
 - [ ] **T51825426: ZOMBIES mode BIG_O unification: phone, turn banner, food/cargo, lab affordances shared with MODE_STORY (SECTION 591)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+
+## SECTION 592 — Founder real-time 2026-10-02: LAB level cloned from INTERIOR, built out with PARENA + BIG_O + SHANKPIT widgets
+
+Founder real-time: *"we can add the LAB affordances in the game to the level INTERIOR - CLONE that level into LAB and start building out the lab using PARENA and BIGO and SHANKPIT WIDGETS system (just use the API to programatically create your own widgets for now)"*.
+
+- [ ] **LAB level** — clone registry level INTERIOR into a new level LAB (via the level-registry API), then add LAB affordances (splice station, centrifuge, clone vats, etc.) as programmatically created widgets, rules in PARENA, wired to the BIG_O phone LAB app / samples. Kanban card in priority.
+
+session: sess-20260923-1030-4a526255
+- [ ] **T11373294: LAB level: clone level INTERIOR into LAB, build lab affordances with PARENA + BIG_O + SHANKPIT widgets API (SECTION 592)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
