@@ -52604,3 +52604,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T74193029: 416 javascript engine is v16 javascript engine we can refer to them interchangable (project 416 is our own home bred military grade browser)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T21621622: upgrade shankpit queue multiplayer to use ragdoll physics and have them use the manequin player models colored yellow for the skin hard code for now models and animations and rigs swapable in future** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
