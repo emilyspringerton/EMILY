@@ -4431,6 +4431,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **STOPGAP -> PARENA (SHANKPIT native stream, card #458/#472): the encode + RTMP mux of the broadcast program feed is ffmp…**
 - [ ] **Founder real-time: uploaded flag.blend to NOCK glTF import, got 422 'invalid character B' -- .blend is not glTF; need c…** — obs `2026-10-02T10:15:37Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: Feather connects to Windows PC; terminal output readable via new EDITOR.GAME server tooling (EDGE.GA…** — obs `2026-10-02T10:57:36Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: build tooling into the EDGE.GAME client to probe Windows for the USB controller (Feather) -- batteri…** — obs `2026-10-02T11:00:07Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
