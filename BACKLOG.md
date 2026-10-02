@@ -52668,3 +52668,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T74902682: add new game mode to SHANKPIT called EDIT MAP - you can select a map from shankpit nock maps database or the local maps if that isnt available we need to make it so we can edit the map in shankpit** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T97106776: shankpit map editor needs to sync up live to NOCK tools so we can join a live editing session from either the shankpit side or the nock side so we can actually move the character around via thespawner** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
