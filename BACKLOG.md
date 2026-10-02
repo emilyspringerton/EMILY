@@ -52504,3 +52504,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T39014221: even the flashlight shouldnt have a hard edge on the top if you hit a wall and flash it off into darkness it illuminates darkness and it fades off we need more of a guazian thing real lighting** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T41307927: fire hydrants should work - water routing etfc real plumbing** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
