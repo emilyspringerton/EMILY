@@ -664,6 +664,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time, more GFD worldbuilding fragments arriving mid live-reload-em…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:08:52Z.
 - [ ] **Founder real-time, unrelated GFD worldbuilding request arriving during the live…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:08:47Z.
 - [ ] **Founder real-time, ALL CAPS, third report: 'LIVE RELOAD IS STILL BROKEN PRIORIT…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:07:14Z.
+- [ ] **Founder real-time: after a long stretch of garbled/bell-character input (stuck …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T19:51:09Z.
+- [ ] **Founder real-time: 'ensure all emily cli functionality is documented in the rea…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T21:27:45Z.
+- [ ] **Founder real-time: 'ok have tyler and the gang in a podcast as a blog post do a…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T22:14:34Z.
+- [ ] **Founder real-time, refining the cross-client-login ask from the previous observ…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-19T00:24:56Z.
+- [ ] **Founder real-time, DragonsNShit graphics quality thread: (1) core ask -- iterat…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-19T00:24:16Z.
+- [ ] **Founder real-time, rapid burst -- three more concrete asks arrived while invest…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-19T01:50:49Z.
+- [ ] **Founder real-time, SHANKPIT story mode spec consolidated: advance the entities …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-19T01:46:21Z.
+- [ ] **Founder real-time: 'continue on shankpit story mode' / 'advance the entities fo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-19T01:45:39Z.
+- [ ] **Founder real-time: (GFD HUD continued) buffs need to be positioned above the co…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:57:13Z.
+- [ ] **Founder real-time: (GFD graphics continued, important correction) use the ORIGI…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:56:42Z.
+- [ ] **Founder real-time: (GFD graphics continued) scope also includes spell visual st…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:55:51Z.
+- [ ] **Founder real-time: continue expanding GFD's MUD_GUI client graphics too — same …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:55:48Z.
+- [ ] **Founder real-time: validate the CarePyre mesh-network research (CarePyre's real…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T03:44:50Z.
+- [ ] **Founder real-time: (accounts/funnel continued) build toward a feedback loop — g…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:12:08Z.
+- [ ] **Founder real-time: (EmilyOS continued) exploring whether EmilyOS is 'the bare m…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T04:09:33Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1405,14 +1420,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
-- [ ] **Founder real-time: after a long stretch of garbled/bell-character input (stuck key or input device issue, not deliberat…** — obs `2026-08-18T19:51:09Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'ensure all emily cli functionality is documented in the readme' -- follow-up to the just-shipped do…** — obs `2026-08-18T21:27:45Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'ok have tyler and the gang in a podcast as a blog post do a deep dive on promptoverse stats - subje…** — obs `2026-08-18T22:14:34Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, refining the cross-client-login ask from the previous observation: specifically 'unify' SHANKPIT's o…** — obs `2026-08-19T00:24:56Z`. CURATED: 2026-08-19.
-- [ ] **Founder real-time, DragonsNShit graphics quality thread: (1) core ask -- iterate DragonsNShit's interface/graphics qual…** — obs `2026-08-19T00:24:16Z`. CURATED: 2026-08-19.
-- [ ] **Founder real-time, rapid burst -- three more concrete asks arrived while investigating SHANKPIT story mode abilities: (…** — obs `2026-08-19T01:50:49Z`. CURATED: 2026-08-19.
-- [ ] **Founder real-time, SHANKPIT story mode spec consolidated: advance the entities fought in story mode using REDGARDEN's s…** — obs `2026-08-19T01:46:21Z`. CURATED: 2026-08-19.
-- [ ] **Founder real-time: 'continue on shankpit story mode' / 'advance the entities fought in story mode' -- new direction, se…** — obs `2026-08-19T01:45:39Z`. CURATED: 2026-08-19.
 - [x] **Founder real-time: fourth piece queued -- 'emily do a blog post on system status i know i just spiked it but give a tru…** — obs `2026-08-20T03:11:20Z`. CURATED: 2026-08-20. → S182-02 (Emily Prime system-status blog).
 - [x] **Founder real-time: third piece queued -- 'claude as a blog post what do you think about promptoverse as a art generatio…** — obs `2026-08-20T03:10:41Z`. CURATED: 2026-08-20. → published earlier this session as the Claude/Prompt-o-verse opinion blog post (pre-S182, prior segment).
 - [x] **Founder real-time, big new ask arriving mid-Ada-module-work: 'as TYLER do a product update in the voice of a legendary …** — obs `2026-08-20T03:09:42Z`. CURATED: 2026-08-20. → S182-01 (TYLER keynote-followup blog).
@@ -1439,13 +1446,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
-- [ ] **Founder real-time: (GFD HUD continued) buffs need to be positioned above the combat log, not just 'right side tiles' — …** — obs `2026-08-20T03:57:13Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (GFD graphics continued, important correction) use the ORIGINAL 'Duck, Reportedly Telekinetic' FFXI-…** — obs `2026-08-20T03:56:42Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (GFD graphics continued) scope also includes spell visual styles / overall game artistry, not just e…** — obs `2026-08-20T03:55:51Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: continue expanding GFD's MUD_GUI client graphics too — same FFXI 'Duck, Reportedly Telekinetic' refe…** — obs `2026-08-20T03:55:48Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: validate the CarePyre mesh-network research (CarePyre's real source material so far is a single ReLU…** — obs `2026-08-20T03:44:50Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (accounts/funnel continued) build toward a feedback loop — get logins working on Prompt-o-verse firs…** — obs `2026-08-20T04:12:08Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: (EmilyOS continued) exploring whether EmilyOS is 'the bare metal of our stack' — same framing patter…** — obs `2026-08-20T04:09:33Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (GFD web client repo continued) floats EmilyOS as a possible alternate home for the web client, but …** — obs `2026-08-20T04:09:04Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: (GFD web client continued) delegates exact repo placement to Claude's judgment — 'build that into wh…** — obs `2026-08-20T04:08:44Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, urgent ('we need it yesterday'): GFD GUI client (with login) needs a web build — WASM or similar, fo…** — obs `2026-08-20T04:08:02Z`. CURATED: 2026-08-20.
