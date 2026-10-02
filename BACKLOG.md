@@ -52514,7 +52514,7 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T05018437: cameras should serialize into whatever we ened to start to replace OBS with shankpit native streaming (we have some prior art but not really just dive intp PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T40149243: combine the interfaces for PARENA texture generator in NOCK and the QR code generator bring the interfaces into unity make them both have full capability (gen full code from NOCK and simplified in id)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [x] **T57148983: glass alpha pass** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T40149243: combine the interfaces for PARENA texture generator in NOCK and the QR code generator bring the interfaces into unity make them both have full capability (gen full code from NOCK and simplified in id)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
