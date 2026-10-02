@@ -52580,3 +52580,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T02500640: EDGE.GAME PARENA-first: Bytes-safe AEAD (ChaCha20-Poly1305) in PARENA stdlib/crypto -- gap blocking the secure channel (aes.prn is openssl+String, not binary-safe, not on mingw)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T59953150: EDGE.GAME PARENA stdlib/net/secure_channel: ML-KEM-768 handshake -> AEAD frames, LZ4-compressed (compress-then-encrypt), length-framed; hand-derived + interop tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
