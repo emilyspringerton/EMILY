@@ -739,6 +739,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: for the Google Doc/Drive attachment (mentioned earlier, then…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:53:47Z.
 - [ ] **Founder real-time, additional requirement on the PITVIPER-on-Windows ask: copy/…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:53:11Z.
 - [ ] **Founder real-time, resolving the Windows-path worry from the prior clarificatio…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:53:05Z.
+- [ ] **Founder real-time question: 'also the human blocked firebase stuff - dont you h…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:09:40Z.
+- [ ] **Founder real-time question: does MJOLNIR have SSH capabilities? Logged per Prin…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:09:12Z.
+- [ ] **Founder real-time: 'from BRAWLPIT' -- clarifies Raccoon is an existing characte…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:05:05Z.
+- [ ] **Founder real-time, four in a row: (1) 'make sure i have a play bat and an sdl i…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:05:00Z.
+- [ ] **Founder real-time: 'but it better not be the only way to paste something in pit…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:03:35Z.
+- [ ] **Answering two founder real-time questions with real findings, not guesses: (1) …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:16:36Z.
+- [ ] **Founder real-time, confirming (not changing) existing behavior: 'to be clear pi…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:12:07Z.
+- [ ] **Founder real-time: 'oh that was on a different gcp i think' -- the Firebase con…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:10:09Z.
+- [ ] **Founder real-time, Firebase thread continued: 'for the record i started setting…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:09:55Z.
+- [ ] **Founder real-time, further clipboard requirement: middle-mouse paste (X11-prima…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:02:59Z.
+- [ ] **Founder real-time, copy-paste caveat: 'if copy paste has any quirks because of …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:02:51Z.
+- [ ] **Founder real-time, refining the PITVIPER README scope: 'do go crazy detail on h…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:02:28Z.
+- [ ] **Founder real-time: 'ensure we are ready to go build passing installable client …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:02:14Z.
+- [ ] **Smoke-testing the new apple signature after deploying signAppleBody -- this obs…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:59:32Z.
+- [ ] **Founder real-time, general guidance for this session's rapid-fire work: 'lets n…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:58:24Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1506,21 +1521,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
-- [ ] **Founder real-time question: 'also the human blocked firebase stuff - dont you have extended gcloud capabilities now tha…** — obs `2026-08-20T07:09:40Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time question: does MJOLNIR have SSH capabilities? Logged per Principle 18, checking MJOLNIR's codebase ne…** — obs `2026-08-20T07:09:12Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: 'from BRAWLPIT' -- clarifies Raccoon is an existing character from the BRAWLPIT repo, not a persona …** — obs `2026-08-20T07:05:05Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, four in a row: (1) 'make sure i have a play bat and an sdl i think i already said that but i dunno h…** — obs `2026-08-20T07:05:00Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: 'but it better not be the only way to paste something in pitviper' -- confirms middle-mouse-paste is…** — obs `2026-08-20T07:03:35Z`. CURATED: 2026-08-20.
-- [ ] **Answering two founder real-time questions with real findings, not guesses: (1) MJOLNIR SSH capability -- confirmed zero…** — obs `2026-08-20T07:16:36Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, confirming (not changing) existing behavior: 'to be clear pitviper needs to launch its own window no…** — obs `2026-08-20T07:12:07Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: 'oh that was on a different gcp i think' -- the Firebase console setup may be under a different GCP …** — obs `2026-08-20T07:10:09Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, Firebase thread continued: 'for the record i started setting it up on the console' / 'but i dont kno…** — obs `2026-08-20T07:09:55Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, further clipboard requirement: middle-mouse paste (X11-primary-selection-style: select text with the…** — obs `2026-08-20T07:02:59Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, copy-paste caveat: 'if copy paste has any quirks because of how terminal interrupts work etc' -- fla…** — obs `2026-08-20T07:02:51Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, refining the PITVIPER README scope: 'do go crazy detail on how to drive the terminal in the readme' …** — obs `2026-08-20T07:02:28Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: 'ensure we are ready to go build passing installable client just like we have for all our games pitv…** — obs `2026-08-20T07:02:14Z`. CURATED: 2026-08-20.
-- [ ] **Smoke-testing the new apple signature after deploying signAppleBody -- this observation's own auto-filed apple should c…** — obs `2026-08-20T06:59:32Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, general guidance for this session's rapid-fire work: 'lets not bike shed too much but do try to make…** — obs `2026-08-20T06:58:24Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'did we figure out how to set up iduna google logins once im logged in with fran?' Checked, not buil…** — obs `2026-08-20T07:49:57Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, self-flagged as uncertain: 'we need to do log streaming and then like idempotent commands or somethi…** — obs `2026-08-20T06:58:11Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, restating/confirming the Drive-ingest ask concretely: ensure a page exists in IDUNA's admin Back Off…** — obs `2026-08-20T06:57:49Z`. CURATED: 2026-08-20.
