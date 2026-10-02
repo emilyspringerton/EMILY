@@ -13,7 +13,7 @@ func TestGoldenAgainstRealCheckout(t *testing.T) {
 	}
 	g := &Golden{IndexPath: dir + "/context/golden-docs-index.md", BaseDir: dir + "/docs"}
 	items, _ := g.List()
-	if len(items) < 100 {
+	if len(items) < 250 { // index had 253 rows at last sync; a drop means the row parser is losing docs
 		t.Fatalf("only %d items served from real checkout", len(items))
 	}
 	t.Logf("%d golden docs served", len(items))

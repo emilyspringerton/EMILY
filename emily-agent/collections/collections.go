@@ -179,7 +179,7 @@ func (g *Golden) rows() []goldenRow {
 			continue
 		}
 		f := strings.Split(line, "|")
-		if len(f) < 7 {
+		if len(f) < 6 { // rows may omit the trailing "|", exactly like goldenbuild.go accepts
 			continue
 		}
 		row := goldenRow{strings.TrimSpace(f[1]), strings.TrimSpace(f[2]), strings.TrimSpace(f[3]), strings.TrimSpace(f[5])}

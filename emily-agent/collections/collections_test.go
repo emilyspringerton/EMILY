@@ -19,15 +19,16 @@ func newGoldenFixture(t *testing.T) *Golden {
 	root := filepath.Join(t.TempDir(), "EMILY")
 	os.MkdirAll(filepath.Join(root, "context"), 0o755)
 	os.WriteFile(filepath.Join(root, "context", "golden-docs-index.md"),
-		[]byte("| name | path | tier | budget | description |\n|---|---|---|---|---|\n| DOC1 | doc1.md | 1 | 0 | first |\n| EVIL | ../../etc/passwd | 1 | 0 | bad |\n"), 0o644)
+		[]byte("| name | path | tier | budget | description |\n|---|---|---|---|---|\n| DOC1 | doc1.md | 1 | 0 | first |\n| EVIL | ../../etc/passwd | 1 | 0 | bad |\n| NOPIPE | doc2.md | 2 | 0 | row with no trailing pipe\n"), 0o644)
 	os.WriteFile(filepath.Join(filepath.Dir(root), "doc1.md"), []byte("# hello"), 0o644)
+	os.WriteFile(filepath.Join(filepath.Dir(root), "doc2.md"), []byte("two"), 0o644)
 	return GoldenFromMonorepo(root)
 }
 
 func TestGoldenCollection(t *testing.T) {
 	g := newGoldenFixture(t)
 	items, _ := g.List()
-	if len(items) != 1 || items[0].ID != "DOC1" || items[0].Size != 7 {
+	if len(items) != 2 || items[0].ID != "DOC1" || items[0].Size != 7 || items[1].ID != "NOPIPE" {
 		t.Fatalf("list = %+v (traversal row must be dropped)", items)
 	}
 	b, m, ok, _ := g.Get("DOC1")
