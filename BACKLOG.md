@@ -4433,6 +4433,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: Feather connects to Windows PC; terminal output readable via new EDITOR.GAME server tooling (EDGE.GA…** — obs `2026-10-02T10:57:36Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: build tooling into the EDGE.GAME client to probe Windows for the USB controller (Feather) -- batteri…** — obs `2026-10-02T11:00:07Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: zombies mode in shankpit needs BIG_O unification** — obs `2026-10-02T12:39:51Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: add the LAB affordances in the game to the level INTERIOR - CLONE that level into LAB and start buil…** — obs `2026-10-02T12:45:56Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
