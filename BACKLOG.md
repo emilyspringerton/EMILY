@@ -52678,3 +52678,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T26117067: the characters in zombie mode are constantly getting stuck on the walls they should learn where the rooms are like a roomba to avoid hitting them they should learn the city little by little over time** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T83033933: build SHANKPIT phone app affordances into ZOMBIE mode GFD chat with TWITCH chat bridge** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
