@@ -52712,3 +52712,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T04692467: Enemy outline shader: yellow, turns red when enemy is in combat** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T64637977: Shield break: shatter particles + snare/cymbal sound** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
