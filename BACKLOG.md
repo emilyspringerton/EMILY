@@ -52474,3 +52474,5 @@ session: sess-20260923-1030-4a526255
 - [ ] **Kanban: add a `pending` lane (standing rule 9, CLAUDE.md)** — founder real-time 2026-10-02: after founder observation, work from the kanban; completed sprint cards move to a new `pending` queue, then check into `done` at sprint end (incrementally on large sprints). Rule is written into root CLAUDE.md + GOLDEN_DOCS. Still needed: add `pending` to `validKanbanQueues` in `IDUNA/internal/http/handlers/kanban.go:157`, a Pending column on `/admin/kanban`, tests, deploy. session: sess-20260923-1030-4a526255
 - [ ] **T38406393: SHANKPIT release artifacts don't bundle the required EDITOR.GAME DLLs** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T96369615: add papercraft destructability to concrete and wood and add a new one for glass (add a shader with glass transparency slight cyan tint - but make the tint parena programmable)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
