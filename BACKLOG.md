@@ -52547,3 +52547,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T24273882: figure out where all the code went for the EDGE.GAME did it all go into EDITOR.GAME? or did it all go into shankpit? ensure all the code is comitted when the editor opens it should load the blink code** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T17423415: once we get the blink code uploading correctly we need to use serial on the feather to check if the pi is actually working i have pi connected to the feather on serial i think its ready to go** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
