@@ -52550,8 +52550,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T33875498: EDGE.GAME server gives claude api bindings to control the editor in EDITOR.GAME** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T69737477: EDITOR.GAME there is a weird carridge return every so often automatically its not how text editors usually work** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T59226492: end to end i want claude to be able to update the editor block in my game via the EDGE.GAME server and then compile and upload it to the FEATHER THEN it needs to talk to the feather over serial** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T54260250: we are developing the edge arcade cabinet the feather will also need to be able to talk to the android tablet over the OTG dongle but not at the same time the feather is either plugged android or wind** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T37104206: add PARENA primativbullet_hole_sniper -- SHANKPIT's per-gun bullet-hole decal for the sniper : " look at that texture cos sin cos 1 cos 2 cos 3 whatever add to PARENA math** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T24273882: figure out where all the code went for the EDGE.GAME did it all go into EDITOR.GAME? or did it all go into shankpit? ensure all the code is comitted when the editor opens it should load the blink code** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T69737477: EDITOR.GAME there is a weird carridge return every so often automatically its not how text editors usually work** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
