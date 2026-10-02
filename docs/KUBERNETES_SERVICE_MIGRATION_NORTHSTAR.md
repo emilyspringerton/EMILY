@@ -226,6 +226,38 @@ replacement item). The renderer has no resource requests/limits, so Autopilot bi
 Dockerfile + image registry, the manifests repo (founder creates upstream), the reconciler's own
 Deployment + RBAC, and a working cluster (blocked on `gcloud auth login`).
 
+## What turns into an API, and the secure channel (2026-10-02)
+
+**Audit result:** services integrate through shared `var/<dir>` files (event store, entity-graph,
+eps, guidance, calendar, market data, commentary, ...), Emily's `signals/` queues, IDUNA's
+`agent-secrets.env`, and the APPLES git dir. None of that crosses a pod boundary. Direction: the event
+stream (Redis Streams, S498) plus a generic read API for derived read models.
+
+**Built (VS0):**
+- `emily-agent/collections` — generic read-only collection API (`/api/v1/emily/collections/...`), IDUNA
+  ES256 JWT gated (`emily.collections.read`, fails closed), ETag/304. Golden docs are collection #1.
+- `cmd/collections-server` — standalone off-box unit (emily-agent itself is a monolith with RSI cron and
+  shared-state writes). Golden docs baked into the image from a `GOLDEN_DOCS` checkout; a docs change is a
+  new image tag rolled out by GitOps (`Dockerfile.collections`, unverified: no Docker in the sandbox).
+- IDUNA: migration `202610020001` + `EMILY-COLLECTIONS-READER` agent. Not yet applied to the live instance.
+- `PARENA/stdlib/crypto/mlkem.prn` — ML-KEM-768 (FIPS 203), vendored pq-crystals `standard` reference,
+  cross-verified against Go `crypto/mlkem` both directions.
+- `emily-agent/securechan` — `net.Conn`/`net.Listener`: pinned static ML-KEM key authenticates the server;
+  ephemeral X25519 + ML-KEM give forward secrecy; AES-256-GCM records; LZ4 blocks when they shrink the
+  payload. LZ4 verified against liblz4 both ways; `net/http` runs over it unchanged. Wire format is in the
+  package doc comment.
+
+**Honest limits / open items:**
+- **Raw TCP vs one-LB rule.** GKE's HTTP(S) Ingress cannot front a raw TCP listener; a second L4 LB would
+  break the networking cost rule. Fix: tunnel securechan over a WebSocket through the single Ingress (the
+  channel is a generic `net.Conn`, so this is an adapter). Not built.
+- **Compress-then-encrypt** leaks lengths (CRIME/BREACH class); `DisableCompression` exists for streams
+  mixing untrusted data with secrets.
+- **Stopgaps:** the channel and its LZ4 are Go; PARENA-native wire-compatible streaming LZ4 and a PARENA
+  port of the channel (via burrow) are the replacement items. PARENA's current `lz4.prn` is LZ4-style only.
+- Client identity is IDUNA JWT one layer up; the channel authenticates only the server.
+- Not done: the `var/` read APIs (`newssite` still reads files), the IDUNA-side live grant, DNS, registry.
+
 ## Honest scope
 
 This is a **plan**, not a build — no service was migrated, no manifest written beyond what
