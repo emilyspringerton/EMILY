@@ -52560,3 +52560,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T15077349: we need to start baking all of the iduna levels from nock into the actual binary it should use the hard coded levels that are compiled in and there should be a setting in the top level menu settings** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T97453774: NEW AFFORDANCE FOR TOP LEVEL MENU SETTINGS TO TOGGLE ON LIVE LEVEL DOWNLOADING** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
