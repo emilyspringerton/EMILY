@@ -52549,3 +52549,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T17423415: once we get the blink code uploading correctly we need to use serial on the feather to check if the pi is actually working i have pi connected to the feather on serial i think its ready to go** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T33875498: EDGE.GAME server gives claude api bindings to control the editor in EDITOR.GAME** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
