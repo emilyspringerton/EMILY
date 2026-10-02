@@ -52520,3 +52520,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T75098718: also the ambient lighting just needs to be adjusted - give us a slider in the menu (it should persist to a settings file) use parena the wall lighting is working as the sun goes up and down buttoodark** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T66928143: ensure we have widgets gltf importer in nock** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
