@@ -52572,3 +52572,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T85239767: continue to add all of the BIG_O affordances to SHANKPIT port all of the sim server logic and smart phone affordances** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T12354718: in zombie mode for now can we have the zombies just always start to hunt the player? its hard to find them in nextown its pretty big - spawn more intelligently near the player but like behind building** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
