@@ -52700,3 +52700,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T64685358: nock tools levels we need to be able to tint the floor so its not transparent it needs to be color selectable per level and alpha chanel setable for partialy transparency** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T51779036: SHANKPIT director-mode broadcast camera must not clip through walls (founder real-time)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
