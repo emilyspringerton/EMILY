@@ -52626,8 +52626,6 @@ Founder real-time: *"we can add the LAB affordances in the game to the level INT
 - [ ] **LAB level** — clone registry level INTERIOR into a new level LAB (via the level-registry API), then add LAB affordances (splice station, centrifuge, clone vats, etc.) as programmatically created widgets, rules in PARENA, wired to the BIG_O phone LAB app / samples. Kanban card in priority.
 
 session: sess-20260923-1030-4a526255
-- [ ] **T07066171: LAB-1 IDUNA: export lab_stations from walls named lab_<kind> (like buggy_spawns) + test (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T40696779: LAB-2 IDUNA tool: build LAB level = clone INTERRIOR_1 + programmatically created lab widgets (splice station, centrifuge, clone vat, sample fridge, console), export to SHANKPIT var/lab/lab.json (SECTI** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T04956953: LAB-3 PARENA: stdlib/big_o/lab_station_rules.prn -- station interaction decisions (splice/centrifuge/vat/fridge) + tests (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52679,4 +52677,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T11373294: LAB level: clone level INTERIOR into LAB, build lab affordances with PARENA + BIG_O + SHANKPIT widgets API (SECTION 592)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T03018020: IDUNA plugin: cookie saving for MIXFORGE (yt-dlp cookies) + password management (SECTION 593)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T07066171: LAB-1 IDUNA: export lab_stations from walls named lab_<kind> (like buggy_spawns) + test (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
