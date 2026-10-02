@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collections-server
+  namespace: emily
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collections-server
+  template:
+    metadata:
+      labels:
+        app: collections-server
+    spec:
+      containers:
+        - name: collections-server
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/collections-server:0.1.0
+          ports:
+            - containerPort: 8087
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: collections-server
+  namespace: emily
+spec:
+  selector:
+    app: collections-server
+  ports:
+    - port: 8087
+      targetPort: 8087
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: collections-server
+  namespace: emily
+  annotations:
+    kubernetes.io/ingress.class: gce
+spec:
+  rules:
+    - host: golden.okemily.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: collections-server
+                port:
+                  number: 8087
