@@ -754,6 +754,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time: 'ensure we are ready to go build passing installable client …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:02:14Z.
 - [ ] **Smoke-testing the new apple signature after deploying signAppleBody -- this obs…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:59:32Z.
 - [ ] **Founder real-time, general guidance for this session's rapid-fire work: 'lets n…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:58:24Z.
+- [ ] **Founder real-time: 'did we figure out how to set up iduna google logins once im…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T07:49:57Z.
+- [ ] **Founder real-time, self-flagged as uncertain: 'we need to do log streaming and …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:58:11Z.
+- [ ] **Founder real-time, restating/confirming the Drive-ingest ask concretely: ensure…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:57:49Z.
+- [ ] **Founder real-time, NEW STANDING ORDER: all Apples must be signed with an anchor…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:57:09Z.
+- [ ] **Founder real-time, stream-of-consciousness: 'i could just upload it but i need …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:56:24Z.
+- [ ] **Founder real-time, major new feature ask: chess. 'also chess' / 'metalverse vs0…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T08:01:23Z.
+- [ ] **Founder real-time, pushing back on S187-04 being marked too-vague-to-scope: 'bu…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T08:01:18Z.
+- [ ] **Founder real-time, resolving the Google-login-vs-service-account fork from my l…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T08:01:15Z.
+- [ ] **Founder real-time: 'double click enforced check emily os' -- read as: the Inges…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:56:14Z.
+- [ ] **Founder real-time, scoping the Drive-ingest ask further: UI affordances needed …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:56:14Z.
+- [ ] **Founder real-time, further constraint on the PITVIPER SSH ask: it has to work o…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:52:55Z.
+- [ ] **Founder real-time, clarifying the PITVIPER SSH ask: have it use the regular/def…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:52:48Z.
+- [ ] **Founder real-time, priority override ('above all else'): get PITVIPER SSH worki…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:52:44Z.
+- [ ] **Founder real-time: flagged that the other Claude session (PID 2584, reboot-reco…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T06:52:35Z.
+- [ ] **Founder real-time, two build failures surfacing from the 'check all the recent …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-20T09:56:25Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1521,21 +1536,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: confirmed gpt2 model calls usually take ~4 minutes (matches the documented known-slow-cold-request i…** — obs `2026-08-20T03:49:43Z`. CURATED: 2026-08-20. → incorporated into S183-01 (gpt2-serve diagnosis).
 - [x] **Founder real-time: (CarePyre mesh network continued) the existing plan was partly written by Gemini Flash — good but ma…** — obs `2026-08-20T03:46:57Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
 - [x] **Founder real-time: (CarePyre mesh network continued) key open question to validate — how do participants interact with …** — obs `2026-08-20T03:46:50Z`. CURATED: 2026-08-20. → S184-02 (CarePyre mesh network research).
-- [ ] **Founder real-time: 'did we figure out how to set up iduna google logins once im logged in with fran?' Checked, not buil…** — obs `2026-08-20T07:49:57Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, self-flagged as uncertain: 'we need to do log streaming and then like idempotent commands or somethi…** — obs `2026-08-20T06:58:11Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, restating/confirming the Drive-ingest ask concretely: ensure a page exists in IDUNA's admin Back Off…** — obs `2026-08-20T06:57:49Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, NEW STANDING ORDER: all Apples must be signed with an anchor emoji (⚓) and a UTF-8 snowman (☃) going…** — obs `2026-08-20T06:57:09Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, stream-of-consciousness: 'i could just upload it but i need to find the mouse' / 'hmm' -- reads as f…** — obs `2026-08-20T06:56:24Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, major new feature ask: chess. 'also chess' / 'metalverse vs0 bots from osaka garage in FGD into 1v1 …** — obs `2026-08-20T08:01:23Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, pushing back on S187-04 being marked too-vague-to-scope: 'but i had also specified idempotent and lo…** — obs `2026-08-20T08:01:18Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, resolving the Google-login-vs-service-account fork from my last question: 'i guess we need per agent…** — obs `2026-08-20T08:01:15Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'double click enforced check emily os' -- read as: the Ingest action should require a double-click (…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, scoping the Drive-ingest ask further: UI affordances needed are (1) list the files (from IDUNA's exi…** — obs `2026-08-20T06:56:14Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, further constraint on the PITVIPER SSH ask: it has to work on Windows too, not just Linux. Combined …** — obs `2026-08-20T06:52:55Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, clarifying the PITVIPER SSH ask: have it use the regular/default ssh key location (~/.ssh, standard …** — obs `2026-08-20T06:52:48Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, priority override ('above all else'): get PITVIPER SSH working. Prior BACKLOG entry (S127 area, SECT…** — obs `2026-08-20T06:52:44Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time: flagged that the other Claude session (PID 2584, reboot-recovery session running in tmux pts/1, star…** — obs `2026-08-20T06:52:35Z`. CURATED: 2026-08-20.
-- [ ] **Founder real-time, two build failures surfacing from the 'check all the recent builds' instruction: 'the build is faili…** — obs `2026-08-20T09:56:25Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time, two more details on GFD web exposure: 'use the regular iduna styleguide' (visual design should match…** — obs `2026-08-20T09:56:03Z`. CURATED: 2026-08-20.
 - [ ] **Founder real-time: 'right into the footer' -- continuing the GFD-web-exposure ask, sounds like a link/embed for GFD's w…** — obs `2026-08-20T09:55:54Z`. CURATED: 2026-08-20.
 - [ ] **Four Kings investigation complete (Explore agent, thorough, file:line-verified). VERDICT: real bug, not deploy-lag or d…** — obs `2026-08-20T09:55:52Z`. CURATED: 2026-08-20.
