@@ -52670,3 +52670,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T97106776: shankpit map editor needs to sync up live to NOCK tools so we can join a live editing session from either the shankpit side or the nock side so we can actually move the character around via thespawner** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T57183727: when you are synced up with nock tools with SHANKPIT map editor you move the spawner around in nock and it moves your character in shankpit - move your character in shankpit it moves the spawner** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
