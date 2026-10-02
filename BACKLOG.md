@@ -52708,3 +52708,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T17575593: LIGHTING SOURCES INCLUDING FLASHLIGHT SHOULD CAST SHADOWS USE SHADERS** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T10380805: Characters walk backwards: model facing flipped for mannequins and default ronin skins** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
