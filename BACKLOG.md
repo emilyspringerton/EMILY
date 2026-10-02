@@ -52487,3 +52487,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T23087514: SHANKPIT-DESTRUCT-2 brick_fracture/brick_world: per-parent kind so concrete + wood + glass boxes are destructible (not only brick); tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T62892945: https://github.com/emilyspringerton/PAPERCRAFT/blob/main/SHANKPIT_CONSTRUCT.txt ADD THE CITYSCAPE TO SHANKPIT LEVELS THIS IS A COMMIT THAT GOT RESET IMPLEMENT THE CIRYSCAPE AND FIX OUR 3rd PERSON** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
