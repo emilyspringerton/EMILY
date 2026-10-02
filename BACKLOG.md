@@ -52682,3 +52682,5 @@ Founder real-time: *"ok lets build a plugin for IDUNA that supports cookie savin
 session: sess-20260923-1030-4a526255
 - [ ] **T04747851: we need to start using parena to generate textures we need a mata portal construct for the different TYLER stories add a beautiful swirling nebula black whole fractal awesome looking portal shader** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T68235306: the director mode affordances only sorta work manual mode doesnt work and also i cant change the subjects with tab or anything like that also i need to be able to cycle between the views in auto** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
