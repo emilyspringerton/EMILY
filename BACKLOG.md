@@ -52702,3 +52702,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T51779036: SHANKPIT director-mode broadcast camera must not clip through walls (founder real-time)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T62190253: SHANKPIT: bundle ffmpeg (streaming dep) in release builds so STREAM works out of the box** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
