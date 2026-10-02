@@ -649,6 +649,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 - [ ] **Founder real-time, sequencing correction: 'write them as heroes into the TYLER …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:57:43Z.
 - [ ] **Founder real-time, gameplay requirement: 'give them uinque b abilities like up …** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:57:29Z.
 - [ ] **Founder real-time, further hint: 'and particle effects' -- wants particle effec…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:56:08Z.
+- [ ] **Founder real-time, technique hint: 'use shaders' -- likely: apply a pixelation/…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:56:00Z.
+- [ ] **Founder real-time, tooling hint: 'use google apis to get intellgence from the i…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:55:53Z.
+- [ ] **Founder real-time: 'can we add pixel art to the brawlpit engine? use the 5 pixe…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:55:47Z.
+- [ ] **Founder real-time, fragment (logged, unclear scope): 'updating the vs0 descript…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:38:26Z.
+- [ ] **Founder real-time: 'ok where is my social funnel? at least a login button at th…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:38:08Z.
+- [ ] **Founder real-time, fragment (unclear, logged not acted on, staying on live-relo…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:22:08Z.
+- [ ] **MAJOR FINDING, real root cause of the recurring live-reload complaints: setInte…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:18:05Z.
+- [ ] **MTG crossover result: 'Pinup Power' did NOT carry over -- the generated card go…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:17:10Z.
+- [ ] **Founder real-time, rapid burst: 'but we need the context to shmerar over from t…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:16:40Z.
+- [ ] **Founder real-time, reframing 'Pinup Power' from bug to feature: 'how can we gen…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:13:48Z.
+- [ ] **Founder real-time, real bug report: 'check promptoverse for pinup girl - 2 diff…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:13:20Z.
+- [ ] **Founder real-time, more GFD/Waynizm context (still deferred, not acted on): 'us…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:10:49Z.
+- [ ] **Founder real-time, more GFD worldbuilding fragments arriving mid live-reload-em…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:08:52Z.
+- [ ] **Founder real-time, unrelated GFD worldbuilding request arriving during the live…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:08:47Z.
+- [ ] **Founder real-time, ALL CAPS, third report: 'LIVE RELOAD IS STILL BROKEN PRIORIT…** — Awaiting full classification — run emily backlog promote with ANTHROPIC_API_KEY. Obs: 2026-08-18T04:07:14Z.
 ---
 
 ## SECTION 6: RSI TIGHTENING (next horizon)
@@ -1390,21 +1405,6 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Founder real-time: 'can we get the frog to do a blog post on recent ecosystem updates?' -- wants a blog post authored b…** — obs `2026-08-15T22:20:27Z`. CURATED: 2026-08-15. Duplicate of the hand-closed entry above ("Founder real-time: 'can we get the frog...'" near "Tyler IDUNA agent registration") -- same ask, auto-curated separately. Already published: https://okemily.com/blog/ask-the-frog-about-the-changelog-this-time/. Apple #13739. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: continue (standard reaffirmation, keep working the backlog queue autonomously; 10v10 training now ~9…** — obs `2026-08-15T22:54:34Z`. CURATED: 2026-08-15. Work continued; see S165-03 (fedwatch) shipped this same pass, and the 10v10 training completion (Apple #13748) reported shortly after. session: sess-20260813-2154-dda37e8b
 - [x] **Founder real-time: repeated UNAUTHENTICATED errors from the promptoverse tool. Diagnosed as a stale cached JWT -- IDUNA…** — obs `2026-08-18T00:46:04Z`. CURATED: 2026-08-18. Fixed: `Client.Auth()` no longer trusts its own cached token's claimed exp, always fetches fresh. emily.cli `6ef3945`. Apple #14095. (sess-20260813-2154-dda37e8b)
-- [ ] **Founder real-time, technique hint: 'use shaders' -- likely: apply a pixelation/color-quantization shader at render time…** — obs `2026-08-18T04:56:00Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, tooling hint: 'use google apis to get intellgence from the images if necessary' -- if needed, use Go…** — obs `2026-08-18T04:55:53Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'can we add pixel art to the brawlpit engine? use the 5 pixel art generated (or skip baseball man if…** — obs `2026-08-18T04:55:47Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, fragment (logged, unclear scope): 'updating the vs0 description at the top' -- possibly the index pa…** — obs `2026-08-18T04:38:26Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time: 'ok where is my social funnel? at least a login button at the top?' -- this was already built (site-…** — obs `2026-08-18T04:38:08Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, fragment (unclear, logged not acted on, staying on live-reload verification): 'ok we need a forced f…** — obs `2026-08-18T04:22:08Z`. CURATED: 2026-08-18.
-- [ ] **MAJOR FINDING, real root cause of the recurring live-reload complaints: setInterval/insertNewCards/GALLERY_POLL_MS exis…** — obs `2026-08-18T04:18:05Z`. CURATED: 2026-08-18.
-- [ ] **MTG crossover result: 'Pinup Power' did NOT carry over -- the generated card got an unrelated fictional name ('Kirads F…** — obs `2026-08-18T04:17:10Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, rapid burst: 'but we need the context to shmerar over from the Tops cards how do we do that?' -- rea…** — obs `2026-08-18T04:16:40Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, reframing 'Pinup Power' from bug to feature: 'how can we generate more pinup power content?' -- two …** — obs `2026-08-18T04:13:48Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, real bug report: 'check promptoverse for pinup girl - 2 different tops cards have settled on the the…** — obs `2026-08-18T04:13:20Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, more GFD/Waynizm context (still deferred, not acted on): 'use the lil wayne stained glass output for…** — obs `2026-08-18T04:10:49Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, more GFD worldbuilding fragments arriving mid live-reload-emergency, still not acted on per the expl…** — obs `2026-08-18T04:08:52Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, unrelated GFD worldbuilding request arriving during the live-reload emergency: 'Add Waynizm as a rel…** — obs `2026-08-18T04:08:47Z`. CURATED: 2026-08-18.
-- [ ] **Founder real-time, ALL CAPS, third report: 'LIVE RELOAD IS STILL BROKEN PRIORITIZE THAT ABOVE ALL ELSE' -- previous fix…** — obs `2026-08-18T04:07:14Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: after a long stretch of garbled/bell-character input (stuck key or input device issue, not deliberat…** — obs `2026-08-18T19:51:09Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'ensure all emily cli functionality is documented in the readme' -- follow-up to the just-shipped do…** — obs `2026-08-18T21:27:45Z`. CURATED: 2026-08-18.
 - [ ] **Founder real-time: 'ok have tyler and the gang in a podcast as a blog post do a deep dive on promptoverse stats - subje…** — obs `2026-08-18T22:14:34Z`. CURATED: 2026-08-18.
