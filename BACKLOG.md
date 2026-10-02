@@ -52439,3 +52439,13 @@ session: sess-20260923-1030-4a526255
 - [ ] **In flight 2026-10-01**: (a) MODE_TYLER voiced + lobby tile + pause VOICE toggle (agent a474be99, plan docs2/specs/TYLER_VOICE_INTEGRATION_PLAN.md); (b) BIG_O phase 1 workflow wf_b7e54f15-de9 (W1 shadow_war, W2 campaign, W5 worldgen, W6 worldtex, W4 ragdoll; W3 harvest done inline: PARENA `deefb19`); (c) TTS: PARENA VITS port plan docs/TTS_VITS_PORT_PLAN.md (T-A done; T-B numerics/T-C G2P/T-E oracle partial scratch data survived, need re-run) — first PARENA gap is an F32/raw-float kernel substrate.
 
 session: sess-20260923-1030-4a526255
+
+## SECTION 589 — Founder real-time 2026-10-02: F1 level snapshot + persisted brick damage + exit autosave
+
+Founder real-time: *"make it so that F1 uploads a copy of the level to shankpit levels ... iso timestamp down to the second so if you spam it it only uploads 1 ... preserve the level damage ... destructable brick is basically like mining in minecraft ... save that geometry ... when you exit it auto saves your level to NOCK cloud."*
+
+- [x] **F1 snapshot upload + persisted brick damage + exit autosave** — IDUNA `f38e8ee` (POST /api/v1/shankpit-levels/snapshots, `brick_damage_json` column + export), SHANKPIT `a8a63a5` + pause-menu item. Design call: store the engine's damage *records* (wall, cell key, hp), not baked boxes — walls stay editable in NOCK, the 100-wall cap is never hit, vertices/edges/faces/normals regenerate from box+cell grid on load. Round-trip test in brick_world_test. Apple #21682. (sess-20260923-1030-4a526255)
+- [ ] **Deploy IDUNA** so the snapshot endpoint + migration 202610020002 are live (F1 fails gracefully until then).
+- [ ] **Follow-ups**: real player/guest auth on the snapshot endpoint (currently unauthenticated, rate-limited, insert-only); networked-client F1 (needs server-side save, client only mirrors); cracked-cell hp persists but a match reset still clears damage; no HUD toast (pause-menu label + log only).
+
+session: sess-20260923-1030-4a526255
