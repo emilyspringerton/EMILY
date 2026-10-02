@@ -52536,3 +52536,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T02674434: add hammer weapon ensure NOCK wiodgets page has a gltf importer so i can import the hammer from blender** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T36992448: #456a PARENA camera_rules.prn — realistic cameraman decision rules (spring smoothing, framing/lead room, shot scoring, cut hold, shake) + hand-derived test** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
