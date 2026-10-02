@@ -208,6 +208,24 @@ in the authoring session) — confirm on the GCP pricing page before relying on 
    balance, and a check that the dead `prrject-fatbaby` cluster is not billing while it has zero
    nodes. Neither can be done from this box until `gcloud auth login` is run.
 
+## GitOps (founder real-time, 2026-10-02: "use the helm parena stuff to set up git ops... the parena tool would be fine")
+
+Pull-based, built in PARENA (`PARENA/stdlib/k8s/gitops.prn`), no Flux/Argo:
+
+- **`parena-k8s-render`** prints Deployment + ClusterIP Service (+ the one shared Ingress) for an app.
+  Output is committed to a manifests repo (`clusters/<cluster>/...`).
+- **`parena-gitops`** runs in-cluster (or anywhere with a kubeconfig): `git pull`, compare HEAD to the
+  last applied revision, `gitops_decide` (PARENA) → apply / backoff-retry / hold-and-alert. A new commit
+  always breaks out of a hold. Verified end to end against a fake `kubectl` (`make test-k8s-gitops`).
+- Pull beats push for this team: no cluster credentials stored in GitHub Actions, and nothing to
+  open inbound to the cluster.
+
+**Stopgaps / not done:** shells out to `git` and `kubectl` (labeled; a PARENA apply client is the
+replacement item). The renderer has no resource requests/limits, so Autopilot bills its defaults — add
+`resources` to `Container` before the first real deploy. Needs: a Namespace emitter, an emily-agent
+Dockerfile + image registry, the manifests repo (founder creates upstream), the reconciler's own
+Deployment + RBAC, and a working cluster (blocked on `gcloud auth login`).
+
 ## Honest scope
 
 This is a **plan**, not a build — no service was migrated, no manifest written beyond what
