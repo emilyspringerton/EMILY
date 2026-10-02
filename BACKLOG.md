@@ -52674,3 +52674,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T64286272: NOCK tools needs a toggle between Spawning on spawner OR spawning where the characters crosshairs is in shankpit live so we need to do the ray casting and everything just make it work** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T18249984: build all the deps in parena** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
