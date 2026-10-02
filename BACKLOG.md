@@ -52606,3 +52606,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T21621622: upgrade shankpit queue multiplayer to use ragdoll physics and have them use the manequin player models colored yellow for the skin hard code for now models and animations and rigs swapable in future** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T03794170: build double click for auto lock in to DEADWEIGHT WASM and WINDOWS ( double clicking a card plays it instead of having to click lock in** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
