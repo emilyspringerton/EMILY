@@ -52470,9 +52470,9 @@ Founder real-time: *"replace FINND CTF menu item with ZOMBIES ... basic sandbox 
 - [ ] **Not eyeballed**: citizens/zombies/birds/ragdoll rendering ran headless without crashing but no screenshot of an NPC yet (needs input to aim the camera).
 - [ ] **Follow-ups**: networked ZOMBIES (server mode flag + role-aware client skins; the APPS-page ZOMBIES tile still launches the old :6971 server); capture the living clip pose for ragdoll spawn; only brick is destructible; citizens at night just despawn out of sight instead of sheltering; BIG_O lab/swarm/shadow-war systems still not merged.
 
-session: sess-20260923-1030-4a526255 Fixed f19b896; verified SDL2_ttf.dll in v0.146.0 ShankPit_Client zip. Apple . session: sess-20260923-1030-4a526255
+session: sess-20260923-1030-4a526255
 - [ ] **Kanban: add a `pending` lane (standing rule 9, CLAUDE.md)** — founder real-time 2026-10-02: after founder observation, work from the kanban; completed sprint cards move to a new `pending` queue, then check into `done` at sprint end (incrementally on large sprints). Rule is written into root CLAUDE.md + GOLDEN_DOCS. Still needed: add `pending` to `validKanbanQueues` in `IDUNA/internal/http/handlers/kanban.go:157`, a Pending column on `/admin/kanban`, tests, deploy. session: sess-20260923-1030-4a526255
-- [ ] **T38406393: SHANKPIT release artifacts don't bundle the required EDITOR.GAME DLLs** Added via the IDUNA kanban interface, not yet triaged into a real section.
+- [x] **T38406393: SHANKPIT release artifacts don't bundle the required EDITOR.GAME DLLs** Added via the IDUNA kanban interface, not yet triaged into a real section. Fixed in SHANKPIT f19b896 (SDL2_ttf.dll bundled into ShankPit_Client/Debug zips); verified in v0.146.0 asset. Apple #21696. session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T96369615: add papercraft destructability to concrete and wood and add a new one for glass (add a shader with glass transparency slight cyan tint - but make the tint parena programmable)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
