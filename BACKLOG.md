@@ -52550,8 +52550,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T41177164: ensure that the queue works intelligently it needs to start tracking what level the user is actually on** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T10347384: ensure we have a level for the SHANKPIT construct in the legacy PAPERCRAFT repo** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T85239767: continue to add all of the BIG_O affordances to SHANKPIT port all of the sim server logic and smart phone affordances** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T98319482: survival mode the guns will be items entities widgets that drop on the ground and you pick them up when you ooof a competitor this is a competitive multiplayer survival map in the style of FORTNITE** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T33875498: EDGE.GAME server gives claude api bindings to control the editor in EDITOR.GAME** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T59226492: end to end i want claude to be able to update the editor block in my game via the EDGE.GAME server and then compile and upload it to the FEATHER THEN it needs to talk to the feather over serial** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T10347384: ensure we have a level for the SHANKPIT construct in the legacy PAPERCRAFT repo** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
