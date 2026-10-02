@@ -4420,6 +4420,10 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: k8s migration networking must not burn credits — single egress/ingress, avoid per-service load balan…** — obs `2026-10-02T05:38:24Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time (k8s migration): STOPGAPS to replace with PARENA — (1) securechan LZ4 block codec is Go (EMILY/emily-…** — obs `2026-10-02T05:55:24Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: SHANKPIT F1 uploads level copy to shankpit levels (ISO-second timestamp name, debounced), preserve d…** — obs `2026-10-02T06:10:07Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: use UAL animations and the mannequin rigid-body ragdoll for zombies, citizens, and the men** — obs `2026-10-02T06:56:20Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: zombies must damage buildings/materials (nextown is mostly brick, only brick is destructible); and t…** — obs `2026-10-02T06:55:19Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: make citizens aware of walls — they must not constantly run into buildings** — obs `2026-10-02T06:53:45Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: SHANKPIT levels work — BIG_O day/night lifecycle, replace FINND CTF menu item with ZOMBIES sandbox, …** — obs `2026-10-02T06:53:08Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
