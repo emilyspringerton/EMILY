@@ -52546,8 +52546,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T05018437: cameras should serialize into whatever we ened to start to replace OBS with shankpit native streaming (we have some prior art but not really just dive intp PARENA** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T17423415: once we get the blink code uploading correctly we need to use serial on the feather to check if the pi is actually working i have pi connected to the feather on serial i think its ready to go** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T33875498: EDGE.GAME server gives claude api bindings to control the editor in EDITOR.GAME** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T59226492: end to end i want claude to be able to update the editor block in my game via the EDGE.GAME server and then compile and upload it to the FEATHER THEN it needs to talk to the feather over serial** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52608,4 +52606,6 @@ session: sess-20260923-1030-4a526255
 - [x] **T15077349: we need to start baking all of the iduna levels from nock into the actual binary it should use the hard coded levels that are compiled in and there should be a setting in the top level menu settings** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T97453774: NEW AFFORDANCE FOR TOP LEVEL MENU SETTINGS TO TOGGLE ON LIVE LEVEL DOWNLOADING** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T17423415: once we get the blink code uploading correctly we need to use serial on the feather to check if the pi is actually working i have pi connected to the feather on serial i think its ready to go** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
