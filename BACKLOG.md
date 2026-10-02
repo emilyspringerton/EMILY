@@ -52553,3 +52553,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T69737477: EDITOR.GAME there is a weird carridge return every so often automatically its not how text editors usually work** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T59226492: end to end i want claude to be able to update the editor block in my game via the EDGE.GAME server and then compile and upload it to the FEATHER THEN it needs to talk to the feather over serial** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
