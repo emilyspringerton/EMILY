@@ -52506,8 +52506,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T62892945: https://github.com/emilyspringerton/PAPERCRAFT/blob/main/SHANKPIT_CONSTRUCT.txt ADD THE CITYSCAPE TO SHANKPIT LEVELS THIS IS A COMMIT THAT GOT RESET IMPLEMENT THE CIRYSCAPE AND FIX OUR 3rd PERSON** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T95731767: make the bug where the buggy goes through walls not work anymore; make wall destructibility work in multiplayer** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T98085776: add realistic cameras so we can have the client be a client where like if we want to have an esports stream we can set up different cameras and have realistic programmed cameramen etc - a spectator mo** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T97135208: a director environment should be able to see multiple cameras and real time for live stream editing for the comentators** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52527,4 +52525,6 @@ session: sess-20260923-1030-4a526255
 - [ ] **T06506872: all gltf i,porters should work with blender files** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T58128559: the buggy should be PARENA programmable and it should be placablein levels via the buggy spawn widget tiles OR via an actual buggy placed in a level** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T95731767: make the bug where the buggy goes through walls not work anymore; make wall destructibility work in multiplayer** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
