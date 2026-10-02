@@ -52626,16 +52626,6 @@ Founder real-time: *"we can add the LAB affordances in the game to the level INT
 - [ ] **LAB level** — clone registry level INTERIOR into a new level LAB (via the level-registry API), then add LAB affordances (splice station, centrifuge, clone vats, etc.) as programmatically created widgets, rules in PARENA, wired to the BIG_O phone LAB app / samples. Kanban card in priority.
 
 session: sess-20260923-1030-4a526255
-- [ ] **T30624561: LAB-4 SHANKPIT: parse lab_stations, enter LAB from phone LAB app, E-interact stations wired to PARENA rules + phone samples/clones; headless verify (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
-
-## SECTION 593 — Founder real-time 2026-10-02: IDUNA plugin for cookie saving (MIXFORGE) + password management
-
-Founder real-time: *"ok lets build a plugin for IDUNA that supports cookie saving for mixforge and also password management"*.
-
-- [ ] **IDUNA cookie/password plugin** — kanban card #509 in priority. **Scope narrowed by founder (2026-10-02, same session): "password management can be done via the emily cli vault integration"** — passwords stay in the existing IDUNA Vault + `emily vault` CLI (no new password UI). Plugin = cookie saving for MIXFORGE: vault `cookie_jar` item type, non-loopback JWT-permissioned upload/read endpoints, MIXFORGE cookie-exporter extension "save to IDUNA", MIXFORGE server pulls from IDUNA (file env stays the fallback). **Correction found while planning: the cookie-saving half already exists and is live** — `MIXFORGE/tools/cookie-exporter` (MV3 extension) uploads to `POST /api/v1/mixforge/cookies` (IDUNA `mixforge_cookies.go`, bearer token, live: returns 401 unauthenticated) which feeds `MIXFORGE_YTDLP_COOKIES`; passwords already live in the IDUNA Vault + `emily vault`. So the real remaining work is the CI/CD auto-release of the extension. **Also (founder, same session): "build it into IDUNA CICD auto release the extension or chrome plugin or whatever"** — the extension is packaged (zip/crx) and auto-released by IDUNA's CI/CD on green main, alongside the existing app-release flow.
-
-session: sess-20260923-1030-4a526255
 - [ ] **T09329322: COOKIE-1 IDUNA: vault cookie_jar item type + JWT-permissioned (vault.cookies) upload/read endpoints (non-loopback) + tests (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T96032808: COOKIE-2 IDUNA extension: iduna-cookies Chrome MV3 extension (from MIXFORGE cookie-exporter) with Save to IDUNA, tests (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52680,3 +52670,13 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T03918414: COOKIE-3 IDUNA CI/CD: auto-release the extension (test, deterministic zip, tag, GitHub Release) on green main (SECTION 593, parent #509)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [x] **T30624561: LAB-4 SHANKPIT: parse lab_stations, enter LAB from phone LAB app, E-interact stations wired to PARENA rules + phone samples/clones; headless verify (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+
+## SECTION 593 — Founder real-time 2026-10-02: IDUNA plugin for cookie saving (MIXFORGE) + password management
+
+Founder real-time: *"ok lets build a plugin for IDUNA that supports cookie saving for mixforge and also password management"*.
+
+- [ ] **IDUNA cookie/password plugin** — kanban card #509 in priority. **Scope narrowed by founder (2026-10-02, same session): "password management can be done via the emily cli vault integration"** — passwords stay in the existing IDUNA Vault + `emily vault` CLI (no new password UI). Plugin = cookie saving for MIXFORGE: vault `cookie_jar` item type, non-loopback JWT-permissioned upload/read endpoints, MIXFORGE cookie-exporter extension "save to IDUNA", MIXFORGE server pulls from IDUNA (file env stays the fallback). **Correction found while planning: the cookie-saving half already exists and is live** — `MIXFORGE/tools/cookie-exporter` (MV3 extension) uploads to `POST /api/v1/mixforge/cookies` (IDUNA `mixforge_cookies.go`, bearer token, live: returns 401 unauthenticated) which feeds `MIXFORGE_YTDLP_COOKIES`; passwords already live in the IDUNA Vault + `emily vault`. So the real remaining work is the CI/CD auto-release of the extension. **Also (founder, same session): "build it into IDUNA CICD auto release the extension or chrome plugin or whatever"** — the extension is packaged (zip/crx) and auto-released by IDUNA's CI/CD on green main, alongside the existing app-release flow.
+
+session: sess-20260923-1030-4a526255
