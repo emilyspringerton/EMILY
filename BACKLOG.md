@@ -52601,3 +52601,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T19850644: SHANKPIT_ONLINE WASM CLIENT MAKE SHANKPIT PLAYABLE WASM ND OPENGL ABSTRACT EVERYTHING INTO PARENA SO WE CAN HAVE JAVA WORK FROM PRIMATIVES** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T74193029: 416 javascript engine is v16 javascript engine we can refer to them interchangable (project 416 is our own home bred military grade browser)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
