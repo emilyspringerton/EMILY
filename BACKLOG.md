@@ -52555,3 +52555,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T59226492: end to end i want claude to be able to update the editor block in my game via the EDGE.GAME server and then compile and upload it to the FEATHER THEN it needs to talk to the feather over serial** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T54260250: we are developing the edge arcade cabinet the feather will also need to be able to talk to the android tablet over the OTG dongle but not at the same time the feather is either plugged android or wind** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
