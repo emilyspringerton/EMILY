@@ -4440,6 +4440,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: bundle the streaming deps (ffmpeg) with SHANKPIT so STREAM works without the user installing ffmpeg** — obs `2026-10-02T17:28:27Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: prevent the director-mode broadcast camera from going through walls (SHANKPIT)** — obs `2026-10-02T17:27:39Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: shader outline on enemies (yellow, red when in combat); shield-damage shader + blue shield effect + …** — obs `2026-10-02T20:16:42Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: buggy should behave like the warthog (camera-locked chase view, buggy rotates relative to camera, ne…** — obs `2026-10-02T20:37:58Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
