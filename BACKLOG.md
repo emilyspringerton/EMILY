@@ -52587,3 +52587,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T65079291: EDGE.GAME terminal/serial capture: client streams Feather serial + terminal output through the relay as events so Claude reads it (replaces pasting); Feather 32u4 firmware USB-CDC<->Serial1 bridge + P** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T24872990: EDGE.GAME client: Windows USB/COM probe tooling -- enumerate USB devices+COM ports (VID/PID classify Feather 32u4 app/bootloader, Nano CH340/FTDI, Pi gadget), report via relay usb_probe command + stan** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
