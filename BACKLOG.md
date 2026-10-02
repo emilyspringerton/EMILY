@@ -4412,6 +4412,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: continue and deliver value; ensure everything is actually shipped; all features must have menu items…** — obs `2026-10-01T07:01:32Z`. CURATED: 2026-10-01.
 - [ ] **Founder real-time: ensure TYLER mode has a menu icon in shankpit, replace CTFB button on the main menu** — obs `2026-10-02T00:43:56Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: make TYLER mode playable locally from the menu tile** — obs `2026-10-02T01:00:18Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: k8s migration — add generic APIs to IDUNA and Emily (golden docs become an API, moved off box); infr…** — obs `2026-10-02T05:27:04Z`. CURATED: 2026-10-02.
+- [ ] **Founder real-time: for the kubernetes migration, figure out what needs to turn into APIs (file/socket/host-path couplin…** — obs `2026-10-02T05:24:45Z`. CURATED: 2026-10-02.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
