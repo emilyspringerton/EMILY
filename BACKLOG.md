@@ -52630,3 +52630,5 @@ Founder real-time: *"we can add the LAB affordances in the game to the level INT
 session: sess-20260923-1030-4a526255
 - [ ] **T11373294: LAB level: clone level INTERIOR into LAB, build lab affordances with PARENA + BIG_O + SHANKPIT widgets API (SECTION 592)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T07066171: LAB-1 IDUNA: export lab_stations from walls named lab_<kind> (like buggy_spawns) + test (SECTION 592, parent #504)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
