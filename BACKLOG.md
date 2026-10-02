@@ -52494,8 +52494,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T12363671: do the actual work for adding the hammer it needs to work with destructability and use the model in 3p** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T02290316: CITY-3 SHANKPIT 3rd person camera/aim: diff vs Feb construct, fix regressions (parent card T62892945)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T47369837: fix the lighting make it work with lighting sources like unity and unreal but it needs to work with papercraft blocks with the shaders like look this block is a light but it doesnt light stuff up** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **T01909956: CITY-1 SHANKPIT: port procedural city geometry (grid/districts/highway ring/props/bounds) from 655b209 into current physics.h as SCENE_CITY** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52507,4 +52505,6 @@ session: sess-20260923-1030-4a526255
 - [ ] **T41307927: fire hydrants should work - water routing etfc real plumbing** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T57148983: glass alpha pass** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T02290316: CITY-3 SHANKPIT 3rd person camera/aim: diff vs Feb construct, fix regressions (parent card T62892945)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
