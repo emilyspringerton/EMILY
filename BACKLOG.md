@@ -52684,3 +52684,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T68235306: the director mode affordances only sorta work manual mode doesnt work and also i cant change the subjects with tab or anything like that also i need to be able to cycle between the views in auto** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T27765836: survival mode spread the weapons out from the spawn like they are in good positions move them all radially farther into the city** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
