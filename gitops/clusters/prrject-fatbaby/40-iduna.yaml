@@ -60,6 +60,37 @@ spec:
               cpu: 500m
               memory: 1024Mi
               ephemeral-storage: 256Mi
+        - name: iduna-tunnel
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/sc-tunnel:v3
+          command:
+            - /sc_tunnel
+          args:
+            - "server"
+            - "8443"
+            - "127.0.0.1"
+            - "8080"
+            - "/app/var/sc-tunnel.key"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/iduna/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: iduna-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/iduna
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
       volumes:
         - name: var
           persistentVolumeClaim:
@@ -80,3 +111,20 @@ spec:
       port: 8080
       targetPort: 8080
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iduna-tcp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 34.63.32.219
+  selector:
+    app: iduna
+  ports:
+    - name: t8443
+      protocol: TCP
+      port: 8443
+      targetPort: 8443

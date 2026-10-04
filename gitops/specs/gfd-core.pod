@@ -1,15 +1,11 @@
 # gfd-core — DragonsNShit (GoblinFoxDragon): the MUD (telnet 2323 / ssh 2222 / events API 7171) and the real Go
 # backend server-go (UDP 6970, worldapi 7070, TRAPX 7071) as ONE pod sharing the var/ PVC (mud-chars.json,
-# mud-player-ids.json, ssh host key). IDUNA stays on the box (plain HTTP :8080): the iduna-tunnel sidecar is
-# PARENA's net/secure_channel (ML-KEM-768 pinned handshake + LZ4 + XChaCha20-Poly1305) and listens on
-# 127.0.0.1:8080, so IDUNA_BASE_URL=http://127.0.0.1:8080 (secret gfd-env) works unchanged and nothing
-# crosses the internet in clear. The pin is the box tunnel's public ML-KEM key fingerprint (not a secret).
+# mud-player-ids.json, ssh host key). IDUNA is in-cluster too (K8S-MV-01): secret gfd-env has IDUNA_BASE_URL=http://iduna:8080.
 # Images: GoblinFoxDragon/scripts/build-image.sh (gfd), EDGE.GAME/tools/build-sc-tunnel-image.sh (sc-tunnel).
 pod name=gfd-core namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd:IMAGE_TAG pvc=gfd-var pvc-gb=5 secret=gfd-env var=/app/var run=/run/gfd replicas=1
 
 container name=mud command=/app/mud args=-port,2323,-api-port,7171,-ssh-port,2222 port=2323 cpu=250 mem=512
 container name=server-go command=/app/server-go args=-udp-port,6970,-worldapi-port,7070,-trapx-port,7071 port=7070 cpu=250 mem=512
-container name=iduna-tunnel image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/sc-tunnel:v3 command=/sc_tunnel args=client,8080,198.58.107.85,8443,921d1615bca4f92a1b6100038bb9990c97e26ad3fa44d597830a0ea63c1db63e cpu=50 mem=256
 service ports=7171,7070,7071
 service-udp ports=6970 ip=34.63.32.219
 service-tcp ports=2323,2222,7171,7070 ip=34.63.32.219

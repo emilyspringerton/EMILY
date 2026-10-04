@@ -36,3 +36,56 @@ SP_TAG="${SHANKPIT_TAG:-v1}"
 # IDUNA (K8S-MV-01): the IAM hub on a PVC; ClusterIP only (front-door pod fronts it). Image: IDUNA/scripts/build-image.sh.
 ID_TAG="${IDUNA_TAG:-v1}"
 "$P" "$(dirname "$0")/specs/iduna.pod" | sed "s/:IMAGE_TAG\$/:$ID_TAG/" > "$OUT/40-iduna.yaml"
+
+# IDUNA public front door (K8S-MV-01): iam./console.okemily.com on the edge Gateway (cert: okemily-com-wild in certmap
+# edge-certs). The renderer emits one HTTPRoute per service, so this one (two hosts + iam's "/" -> SSO login rewrite,
+# as a 302 to the SSO login instead of nginx's internal rewrite - GKE Gateway only allows ReplacePrefixMatch rewrites) is written here. 1h backend timeout for console websockets.
+cat > "$OUT/92-iduna-routes.yaml" <<'YAML'
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: iduna
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - iam.okemily.com
+    - console.okemily.com
+  rules:
+    - backendRefs:
+        - name: iduna
+          port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: iduna-iam-root
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - iam.okemily.com
+  rules:
+    - matches:
+        - path: {type: Exact, value: /}
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path: {type: ReplaceFullPath, replaceFullPath: /api/v1/auth/sso/login}
+            statusCode: 302
+---
+apiVersion: networking.gke.io/v1
+kind: GCPBackendPolicy
+metadata:
+  name: iduna
+  namespace: emily
+spec:
+  default:
+    timeoutSec: 3600
+  targetRef:
+    group: ""
+    kind: Service
+    name: iduna
+YAML
