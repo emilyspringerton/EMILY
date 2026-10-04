@@ -1,4 +1,5 @@
 ## 2026-10-04
+- gitops-sync CronJob (every 3 min) auto-applies gitops/clusters/prrject-fatbaby from the public repo; phase 1 of K8S-CD-01 (image build/tag-bump automation still manual) (sess-20260923-1030-4a526255)
 - gitops: okemily.com apex/www cut over to GKE — nginx sidecar (okemily-web:v1) in the iduna pod serves /app/var/www on IDUNA's PVC, route 95-okemily-apex, DNS flipped; golden.okemily.com DNS added; iduna requests trimmed (768Mi) after a ~9min Recreate outage (zone-f node full) (sess-20260923-1030-4a526255)
 - gitops: collections-server image built (Cloud Build 0.1.0) + HealthCheckPolicy /healthz; golden.okemily.com route serves 200 via Gateway (was ImagePullBackOff/503) (sess-20260923-1030-4a526255)
 
