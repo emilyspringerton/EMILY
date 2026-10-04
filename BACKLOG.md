@@ -4448,6 +4448,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: zombie AI isn't really working — add more heuristics so they wander around more, plus the hunger met…** — obs `2026-10-04T08:38:06Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: survival mode — spawn a new zombie every 15 seconds** — obs `2026-10-04T08:35:31Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: new bug — levels list is getting truncated, can't load a bunch of levels** — obs `2026-10-04T08:42:56Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: NOCK shankpit editor — checkbox on a cube turns it into a ramp (still a cube in data, renders/collid…** — obs `2026-10-04T09:34:35Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: NOCK level editor needs rotate — 15° snap, checkbox for arbitrary rotation, Blender-style rotate giz…** — obs `2026-10-04T09:29:11Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
