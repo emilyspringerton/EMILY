@@ -1,0 +1,8 @@
+# carepyre (K8S-MV-05): carepyre.org static site + CarePyre console backend (IDUNA_PRO) in one pod, so nginx reaches idunapro on 127.0.0.1.
+# State (iduna.db, mailinglist.db, eventlog, idunapro-key.json) on PVC carepyre-var. Webmail (mail.carepyre.org) and SIP/webphone are NOT moved.
+# Secret carepyre-env = box ~/.config/idunapro/env + KEY_FILE (created out of band, never in git). Images: images/carepyre-{pro,web}/build.sh.
+pod name=carepyre namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/carepyre-pro:IMAGE_TAG pvc=carepyre-var pvc-gb=2 secret=carepyre-env var=/app/var run=/run/carepyre replicas=1
+
+container name=idunapro command=/app/idunapro port=8081 cpu=100 mem=256
+container name=web image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/carepyre-web:v2 command=/run-nginx.sh port=80 cpu=25 mem=64
+service ports=80

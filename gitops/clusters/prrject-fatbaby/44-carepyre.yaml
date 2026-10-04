@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: carepyre-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carepyre
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: carepyre
+  template:
+    metadata:
+      labels:
+        app: carepyre
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: idunapro
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/carepyre-pro:v1
+          command:
+            - /app/idunapro
+          ports:
+            - containerPort: 8081
+          readinessProbe:
+            tcpSocket:
+              port: 8081
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/carepyre/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: carepyre-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/carepyre
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: web
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/carepyre-web:v2
+          command:
+            - /run-nginx.sh
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 80
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/carepyre/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: carepyre-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/carepyre
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: carepyre-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: carepyre
+  namespace: emily
+spec:
+  selector:
+    app: carepyre
+  ports:
+    - name: p80
+      port: 80
+      targetPort: 80
+  type: ClusterIP

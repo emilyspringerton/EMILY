@@ -294,3 +294,24 @@ spec:
                 requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
                 limits: {memory: 128Mi, ephemeral-storage: 512Mi}
 YAML
+
+# CarePyre (K8S-MV-05): carepyre.org + www on the edge Gateway (cert carepyre-org-wild in certmap edge-certs). Site + idunapro in one pod.
+CP_TAG="${CAREPYRE_TAG:-v1}"
+"$P" "$(dirname "$0")/specs/carepyre.pod" | sed "s/:IMAGE_TAG\$/:$CP_TAG/" > "$OUT/44-carepyre.yaml"
+cat > "$OUT/97-carepyre-routes.yaml" <<'YAML'
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: carepyre
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - carepyre.org
+    - www.carepyre.org
+  rules:
+    - backendRefs:
+        - name: carepyre
+          port: 80
+YAML
