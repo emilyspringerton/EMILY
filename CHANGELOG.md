@@ -1,4 +1,9 @@
+## 2026-10-04
+
+- gitops: GFD + SHANKPIT pods on GKE, all game LoadBalancers share one static IP (34.63.32.219); IDUNA redeployed (sess-20260923-1030-4a526255)
+
 ## 2026-10-02
+- EDGE.GAME secure-channel plan: Feather(32u4)->Windows; lz4+ML-KEM wire; terminal capture via relay (cards for #474/#475/#477) (sess-20260923-1030-4a526255)
 - GitOps v0: PARENA renderer + parena-gitops reconciler; collections-server (standalone, Dockerfile unverified); first rendered manifests in gitops/clusters/prrject-fatbaby (sess-20260923-1030-4a526255)
 
 - Generic read-only collections API (/api/v1/emily/collections, IDUNA-JWT gated, fails closed) with golden docs as first collection — K8s migration VS0, replaces on-box file reads (sess-20260923-1030-4a526255)
