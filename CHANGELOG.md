@@ -1,4 +1,5 @@
 ## 2026-10-04
+- gitops: collections-server image built (Cloud Build 0.1.0) + HealthCheckPolicy /healthz; golden.okemily.com route serves 200 via Gateway (was ImagePullBackOff/503) (sess-20260923-1030-4a526255)
 
 - gitops: GFD + SHANKPIT pods on GKE, all game LoadBalancers share one static IP (34.63.32.219); IDUNA redeployed (sess-20260923-1030-4a526255)
 
