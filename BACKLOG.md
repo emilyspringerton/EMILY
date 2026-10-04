@@ -52735,3 +52735,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-04: FatBaby→k8s: local pod-simulator harness — run core-pod containers as isolated procs on shared socket dir, verify UDS wiring end to end (fully isolated, no live paths)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-03: FatBaby→k8s: unixgram append-notify wakeups (writers→tailers) with poll fallback, replaces 15-30s tail latency in-pod** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
