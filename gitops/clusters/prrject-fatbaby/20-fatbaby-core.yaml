@@ -48,6 +48,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -75,6 +76,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -104,6 +106,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -133,6 +136,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -158,6 +162,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -192,6 +197,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -236,6 +242,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -267,6 +274,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -298,6 +306,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -331,6 +340,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -364,6 +374,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -395,6 +406,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -428,6 +440,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -463,6 +476,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -498,6 +512,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -529,6 +544,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -562,6 +578,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -597,6 +614,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
@@ -630,6 +648,7 @@ spec:
               value: /run/fatbaby/notify
           envFrom:
             - secretRef:
+                optional: true
                 name: fatbaby-env
           volumeMounts:
             - name: var
