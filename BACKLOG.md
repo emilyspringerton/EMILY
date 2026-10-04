@@ -4463,6 +4463,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: set up auto deploys for all GKE services (we started already)** — obs `2026-10-04T18:03:10Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: go ahead with golden dns and continue apex (okemily.com cutover to GKE)** — obs `2026-10-04T18:01:05Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: move CarePyre and CarePyre console to k8s; only login + resume builders must work, webmail/sip phone…** — obs `2026-10-04T18:40:13Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: move EINHORN_SURVIVAL (minecraft :25565) and MIXFORGE room server to GKE (K8S-MV-06/07)** — obs `2026-10-04T19:06:28Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
