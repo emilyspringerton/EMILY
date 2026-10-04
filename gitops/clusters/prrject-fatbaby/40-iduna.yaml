@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: iduna-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iduna
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: iduna
+  template:
+    metadata:
+      labels:
+        app: iduna
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: iduna
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/iduna:v1
+          command:
+            - /app/iduna
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/iduna/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: iduna-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/iduna
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1024Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: iduna-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iduna
+  namespace: emily
+spec:
+  selector:
+    app: iduna
+  ports:
+    - name: p8080
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

@@ -32,3 +32,7 @@ GFD_TAG="${GFD_TAG:-v2}"
 # SHANKPIT (UDP FPS server + zombie sandbox + queue bot pool): one stateless pod, UDP LoadBalancer (image: SHANKPIT/scripts/build-image.sh).
 SP_TAG="${SHANKPIT_TAG:-v1}"
 "$P" "$(dirname "$0")/specs/shankpit.pod" | sed "s/:IMAGE_TAG\$/:$SP_TAG/" > "$OUT/34-shankpit.yaml"
+
+# IDUNA (K8S-MV-01): the IAM hub on a PVC; ClusterIP only (front-door pod fronts it). Image: IDUNA/scripts/build-image.sh.
+ID_TAG="${IDUNA_TAG:-v1}"
+"$P" "$(dirname "$0")/specs/iduna.pod" | sed "s/:IMAGE_TAG\$/:$ID_TAG/" > "$OUT/40-iduna.yaml"

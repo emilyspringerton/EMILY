@@ -1,0 +1,8 @@
+# iduna — platform IAM / Apples ledger / portal, moved off the box (K8S-MV-01). One pod on a PVC holding var/
+# (iduna.db, statuspage.db, blog.db, nock projects, checkpoints, agent-secrets.env). Internal ClusterIP only until
+# cutover; public hosts (iam/console/okemily.com) reach it through the front-door pod.
+# Image: IDUNA/scripts/build-image.sh. Secret iduna-env = box ~/.config/iduna/env minus APPLES_GIT_DIR.
+pod name=iduna namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/iduna:IMAGE_TAG pvc=iduna-var pvc-gb=20 secret=iduna-env var=/app/var run=/run/iduna replicas=1
+
+container name=iduna command=/app/iduna port=8080 cpu=500 mem=1024
+service ports=8080
