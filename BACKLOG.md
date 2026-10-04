@@ -4452,6 +4452,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: NOCK level editor needs rotate — 15° snap, checkbox for arbitrary rotation, Blender-style rotate giz…** — obs `2026-10-04T09:29:11Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: deploy IDUNA (rotate/ramp editor) and build a tutorial level (ramp + rotated cube) in the live NOCK …** — obs `2026-10-04T11:35:18Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: ensure all our stuff is backed up into GCS (existing emily backup pipeline; bucket currently empty a…** — obs `2026-10-04T11:44:38Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: stop the observation watcher and clear out the logs** — obs `2026-10-04T12:56:07Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: get FatBaby off the box (into GKE prrject-fatbaby) and ensure it uses a persistent disk (PVC)** — obs `2026-10-04T12:55:25Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
