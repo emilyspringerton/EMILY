@@ -369,6 +369,35 @@ spec:
     - signals.okemily.com
   rules:
     - backendRefs:
-        - name: fatbaby-core
+        - name: fatbaby-signals
           port: 9091
+---
+# Own Service so its HealthCheckPolicy (signalapi 404s on "/") doesn't change newssite's probe on fatbaby-core.
+apiVersion: v1
+kind: Service
+metadata:
+  name: fatbaby-signals
+  namespace: emily
+spec:
+  selector:
+    app: fatbaby-core
+  ports:
+    - {name: http, port: 9091, targetPort: 9091}
+---
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: fatbaby-signals
+  namespace: emily
+spec:
+  default:
+    config:
+      type: HTTP
+      httpHealthCheck:
+        port: 9091
+        requestPath: /v1/governance-signals?limit=1
+  targetRef:
+    group: ""
+    kind: Service
+    name: fatbaby-signals
 YAML
