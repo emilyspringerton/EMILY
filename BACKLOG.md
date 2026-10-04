@@ -52772,9 +52772,9 @@ session: sess-20260923-1030-4a526255
 - [ ] "can we get the enemy outline feature to work in QUEUE mode for shankpit?" — cause: outline_mode_for's teammate check read QUEUE players' zeroed team_id (0 == TDMB_RED_TEAM, "valid") as same-team for everyone; fixed to apply only in team modes (#544). Not yet seen live. (sess-20260923-1030-4a526255)
 - [ ] **T96809653: SHANKPIT: enemy outline in QUEUE mode (#538 follow-up)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **T55049519: NOCK level editor: cube rotation (15° snap, arbitrary checkbox, 3-ring gizmo, rot fields)** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **T74439942: SHANKPIT native rotated-box (OBB) collision + render from wall rot_x/y/z** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **T01528426: NOCK: ramp checkbox on cube (data flag, editor render, native ramp render+collision)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **T55049519: NOCK level editor: cube rotation (15° snap, arbitrary checkbox, 3-ring gizmo, rot fields)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
