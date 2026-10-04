@@ -1,4 +1,5 @@
 ## 2026-10-04
+- CarePyre moved to GKE (K8S-MV-05): carepyre.org + console backend, DNS flipped; webmail/SIP left on box (sess-20260923-1030-4a526255)
 - CarePyre (carepyre.org site + IDUNA_PRO console backend) staged on GKE as one pod/PVC (K8S-MV-05); cert carepyre-org-wild + routes; DNS not flipped yet (sess-20260923-1030-4a526255)
 - fatbaby-core: restore startup-spiky cursor watchers (guidance, pr-reaction, dividend, buyback, eps-processor, processor) after OOMKills; net 10.5Gi -> ~7.8Gi (sess-20260923-1030-4a526255)
 - fatbaby-core: pr-indexer OOMKilled at 192Mi on startup -> back to 384Mi, signalapi back to 1280Mi (total ~6.6Gi) (sess-20260923-1030-4a526255)
