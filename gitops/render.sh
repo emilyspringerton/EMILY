@@ -339,3 +339,21 @@ spec:
         - name: mixforge
           port: 80
 YAML
+
+# FATBABY newssite (K8S-MV-FB): news.okemily.com on the edge Gateway -> fatbaby-core:8082 (wildcard cert covers it). Replaces nginx news-okemily's proxy to the box.
+cat > "$OUT/99-fatbaby-routes.yaml" <<'YAML'
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: fatbaby-news
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - news.okemily.com
+  rules:
+    - backendRefs:
+        - name: fatbaby-core
+          port: 8082
+YAML
