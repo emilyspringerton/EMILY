@@ -52722,3 +52722,7 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T75150778: Vehicles: buggy warthog-style locked chase cam; PARENA realistic helicopter flight model; duck steers like buggy** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **Observer/editor mode WASD friction: free-fly camera keeps drifting after key release; add eased slowdown so it stops on release** Founder real-time 2026-10-04 (TYLER observer mode + editor mode).
+  (sess-20260923-1030-4a526255)
+- [ ] **T19811413: Observer/editor free-fly WASD friction: ease to stop on key release** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
