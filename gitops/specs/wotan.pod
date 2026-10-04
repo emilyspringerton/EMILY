@@ -1,0 +1,4 @@
+# WOTAN (K8S-MV-03): static esports hub. Stateless nginx; /api and /DEADWEIGHT/ws are Gateway routes (render.sh 92-*).
+pod name=wotan namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/wotan:IMAGE_TAG secret=wotan-env var=/var/cache/nginx run=/run/wotan replicas=1
+container name=wotan command=/run-nginx.sh port=80 cpu=50 mem=64
+service ports=80

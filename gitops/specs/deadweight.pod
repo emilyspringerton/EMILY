@@ -1,0 +1,14 @@
+# DEADWEIGHT (K8S-MV-04): dw_server (TCP 7180, match logs on the PVC = live data, copied not cleaned), the 6 box bots
+# (mirror/ripper/wall x match/draft) and the Node ws<->tcp bridge (8765, reached via the wotan.okemily.com/DEADWEIGHT/ws Gateway route).
+# One pod => bots/bridge reach the server on 127.0.0.1. IDUNA in-cluster; agent secrets live on the PVC (var/*.secret).
+# Image: DEADWEIGHT/scripts/build-image.sh.
+pod name=deadweight namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:IMAGE_TAG pvc=deadweight-var pvc-gb=10 secret=deadweight-env var=/app/var run=/run/deadweight replicas=1
+container name=server command=/app/dw_server args=--port,7180,--bind,0.0.0.0,--match-log,/app/var/matches,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/server.secret port=7180 cpu=250 mem=512
+container name=bridge command=node args=/app/bridge/ws-tcp-bridge.js,--ws-host,0.0.0.0,--ws-port,8765,--tcp-host,127.0.0.1,--tcp-port,7180 port=8765 cpu=50 mem=128
+container name=bot-mirror command=/app/dw_bot args=--archetype,mirror,--name,bot-mirror,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
+container name=bot-ripper command=/app/dw_bot args=--archetype,ripper,--name,bot-ripper,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
+container name=bot-wall command=/app/dw_bot args=--archetype,wall,--name,bot-wall,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
+container name=draft-mirror command=/app/dw_bot args=--archetype,mirror,--name,bot-mirror-d,--mode,draft,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
+container name=draft-ripper command=/app/dw_bot args=--archetype,ripper,--name,bot-ripper-d,--mode,draft,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
+container name=draft-wall command=/app/dw_bot args=--archetype,wall,--name,bot-wall-d,--mode,draft,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
+service ports=8765,7180

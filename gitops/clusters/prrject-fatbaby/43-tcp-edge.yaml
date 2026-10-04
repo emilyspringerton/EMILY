@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-edge
+  namespace: emily
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tcp-edge
+  template:
+    metadata:
+      labels:
+        app: tcp-edge
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: tcp-edge
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/tcp-edge:v1
+          command:
+            - /run-nginx.sh
+          ports:
+            - containerPort: 7180
+          readinessProbe:
+            tcpSocket:
+              port: 7180
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/tcp-edge/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: tcp-edge-env
+          volumeMounts:
+            - name: var
+              mountPath: /var/cache/nginx
+            - name: run
+              mountPath: /run/tcp-edge
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tcp-edge-tcp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 34.63.32.219
+  selector:
+    app: tcp-edge
+  ports:
+    - name: t2323
+      protocol: TCP
+      port: 2323
+      targetPort: 2323
+    - name: t2222
+      protocol: TCP
+      port: 2222
+      targetPort: 2222
+    - name: t7171
+      protocol: TCP
+      port: 7171
+      targetPort: 7171
+    - name: t7070
+      protocol: TCP
+      port: 7070
+      targetPort: 7070
+    - name: t8443
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
+    - name: t7180
+      protocol: TCP
+      port: 7180
+      targetPort: 7180

@@ -6,6 +6,5 @@ pod name=gfd-core namespace=emily image=us-central1-docker.pkg.dev/project-d24a7
 
 container name=mud command=/app/mud args=-port,2323,-api-port,7171,-ssh-port,2222 port=2323 cpu=250 mem=512
 container name=server-go command=/app/server-go args=-udp-port,6970,-worldapi-port,7070,-trapx-port,7071 port=7070 cpu=250 mem=512
-service ports=7171,7070,7071
+service ports=2323,2222,7171,7070,7071
 service-udp ports=6970 ip=34.63.32.219
-service-tcp ports=2323,2222,7171,7070 ip=34.63.32.219

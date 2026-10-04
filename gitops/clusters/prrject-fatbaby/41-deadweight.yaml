@@ -1,0 +1,382 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: deadweight-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deadweight
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: deadweight
+  template:
+    metadata:
+      labels:
+        app: deadweight
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: server
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - /app/dw_server
+          args:
+            - "--port"
+            - "7180"
+            - "--bind"
+            - "0.0.0.0"
+            - "--match-log"
+            - "/app/var/matches"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/server.secret"
+          ports:
+            - containerPort: 7180
+          readinessProbe:
+            tcpSocket:
+              port: 7180
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+        - name: bridge
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - node
+          args:
+            - "/app/bridge/ws-tcp-bridge.js"
+            - "--ws-host"
+            - "0.0.0.0"
+            - "--ws-port"
+            - "8765"
+            - "--tcp-host"
+            - "127.0.0.1"
+            - "--tcp-port"
+            - "7180"
+          ports:
+            - containerPort: 8765
+          readinessProbe:
+            tcpSocket:
+              port: 8765
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: bot-mirror
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - /app/dw_bot
+          args:
+            - "--archetype"
+            - "mirror"
+            - "--name"
+            - "bot-mirror"
+            - "--host"
+            - "127.0.0.1"
+            - "--port"
+            - "7180"
+            - "--think-ms"
+            - "300"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/bots.secret"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+        - name: bot-ripper
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - /app/dw_bot
+          args:
+            - "--archetype"
+            - "ripper"
+            - "--name"
+            - "bot-ripper"
+            - "--host"
+            - "127.0.0.1"
+            - "--port"
+            - "7180"
+            - "--think-ms"
+            - "300"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/bots.secret"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+        - name: bot-wall
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - /app/dw_bot
+          args:
+            - "--archetype"
+            - "wall"
+            - "--name"
+            - "bot-wall"
+            - "--host"
+            - "127.0.0.1"
+            - "--port"
+            - "7180"
+            - "--think-ms"
+            - "300"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/bots.secret"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+        - name: draft-mirror
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - /app/dw_bot
+          args:
+            - "--archetype"
+            - "mirror"
+            - "--name"
+            - "bot-mirror-d"
+            - "--mode"
+            - "draft"
+            - "--host"
+            - "127.0.0.1"
+            - "--port"
+            - "7180"
+            - "--think-ms"
+            - "300"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/bots.secret"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+        - name: draft-ripper
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - /app/dw_bot
+          args:
+            - "--archetype"
+            - "ripper"
+            - "--name"
+            - "bot-ripper-d"
+            - "--mode"
+            - "draft"
+            - "--host"
+            - "127.0.0.1"
+            - "--port"
+            - "7180"
+            - "--think-ms"
+            - "300"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/bots.secret"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+        - name: draft-wall
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:v1
+          command:
+            - /app/dw_bot
+          args:
+            - "--archetype"
+            - "wall"
+            - "--name"
+            - "bot-wall-d"
+            - "--mode"
+            - "draft"
+            - "--host"
+            - "127.0.0.1"
+            - "--port"
+            - "7180"
+            - "--think-ms"
+            - "300"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/bots.secret"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: deadweight-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deadweight
+  namespace: emily
+spec:
+  selector:
+    app: deadweight
+  ports:
+    - name: p8765
+      port: 8765
+      targetPort: 8765
+    - name: p7180
+      port: 7180
+      targetPort: 7180
+  type: ClusterIP

@@ -89,3 +89,52 @@ spec:
     kind: Service
     name: iduna
 YAML
+
+# DEADWEIGHT + WOTAN (K8S-MV-04 / K8S-MV-03). Images: DEADWEIGHT/scripts/build-image.sh, WOTAN/scripts/build-image.sh.
+DW_TAG="${DEADWEIGHT_TAG:-v1}"; WO_TAG="${WOTAN_TAG:-v4}"
+"$P" "$(dirname "$0")/specs/deadweight.pod" | sed "s/:IMAGE_TAG\$/:$DW_TAG/" > "$OUT/41-deadweight.yaml"
+"$P" "$(dirname "$0")/specs/wotan.pod" | sed "s/:IMAGE_TAG\$/:$WO_TAG/" > "$OUT/42-wotan.yaml"
+# wotan.okemily.com on the edge Gateway: path routes replace nginx-wotan.conf's proxy locations (/api -> IDUNA, /DEADWEIGHT/ws -> bridge).
+cat > "$OUT/93-wotan-routes.yaml" <<'YAML'
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: wotan
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - wotan.okemily.com
+  rules:
+    - matches:
+        - path: {type: PathPrefix, value: /api/}
+      backendRefs:
+        - name: iduna
+          port: 8080
+    - matches:
+        - path: {type: PathPrefix, value: /DEADWEIGHT/ws}
+      backendRefs:
+        - name: deadweight
+          port: 8765
+    - backendRefs:
+        - name: wotan
+          port: 80
+---
+apiVersion: networking.gke.io/v1
+kind: GCPBackendPolicy
+metadata:
+  name: deadweight
+  namespace: emily
+spec:
+  default:
+    timeoutSec: 3600
+  targetRef:
+    group: ""
+    kind: Service
+    name: deadweight
+YAML
+
+# tcp-edge: the single TCP LB rule for every raw-TCP service (gfd 2323/2222/7171/7070, iduna tunnel 8443, deadweight 7180).
+TE_TAG="${TCP_EDGE_TAG:-v1}"
+"$P" "$(dirname "$0")/specs/tcp-edge.pod" | sed "s/:IMAGE_TAG\$/:$TE_TAG/" > "$OUT/43-tcp-edge.yaml"
