@@ -52744,3 +52744,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-08: FatBaby→k8s: zero-downtime cutover runbook + parallel-run verification script (old systemd + new pod, ID-dedup check)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-07: FatBaby→k8s: Secret templates from env files (no secret values in git) + single Ingress/ManagedCertificate for newssite/signalapi** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
