@@ -4,9 +4,12 @@
 # Image: IDUNA/scripts/build-image.sh. Secret iduna-env = box ~/.config/iduna/env minus APPLES_GIT_DIR.
 pod name=iduna namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/iduna:IMAGE_TAG pvc=iduna-var pvc-gb=20 secret=iduna-env var=/app/var run=/run/iduna replicas=1
 
-container name=iduna command=/app/iduna port=8080 cpu=500 mem=1024
-service ports=8080,8443
+container name=iduna command=/app/iduna port=8080 cpu=500 mem=768
+service ports=8080,8443,80
 # Box-side consumers (emily-agent, obs-watcher, nginx, EMILY tooling) keep talking to http://localhost:8080: on the box that port
 # becomes a PARENA secure-channel tunnel CLIENT to this sidecar (ML-KEM-768 pin + LZ4 + XChaCha20-Poly1305). Server key lives on the
 # PVC (var/sc-tunnel.key, same key => same pin 921d1615... as the retired box-side tunnel).
-container name=iduna-tunnel image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/sc-tunnel:v3 command=/sc_tunnel args=server,8443,127.0.0.1,8080,/app/var/sc-tunnel.key cpu=50 mem=256
+container name=iduna-tunnel image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/sc-tunnel:v3 command=/sc_tunnel args=server,8443,127.0.0.1,8080,/app/var/sc-tunnel.key cpu=25 mem=128
+# okemily.com static site (K8S-MV-02): nginx sidecar serving /app/var/www on the PVC. IDUNA writes blog/tyler/prompt-o-verse output
+# there (BLOG_OUTPUT_DIR etc. in iduna-env), so site + generator must share the volume => same pod.
+container name=web image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/okemily-web:v1 command=/run-nginx.sh port=80 cpu=25 mem=64

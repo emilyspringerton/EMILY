@@ -54,11 +54,11 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 1024Mi
+              memory: 768Mi
               ephemeral-storage: 256Mi
             limits:
               cpu: 500m
-              memory: 1024Mi
+              memory: 768Mi
               ephemeral-storage: 256Mi
         - name: iduna-tunnel
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/sc-tunnel:v3
@@ -84,12 +84,42 @@ spec:
               mountPath: /run/iduna
           resources:
             requests:
-              cpu: 50m
-              memory: 256Mi
+              cpu: 25m
+              memory: 128Mi
               ephemeral-storage: 256Mi
             limits:
-              cpu: 50m
-              memory: 256Mi
+              cpu: 25m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: web
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/okemily-web:v1
+          command:
+            - /run-nginx.sh
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 80
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/iduna/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: iduna-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/iduna
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 25m
+              memory: 64Mi
               ephemeral-storage: 256Mi
       volumes:
         - name: var
@@ -113,4 +143,7 @@ spec:
     - name: p8443
       port: 8443
       targetPort: 8443
+    - name: p80
+      port: 80
+      targetPort: 80
   type: ClusterIP

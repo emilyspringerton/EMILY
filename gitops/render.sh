@@ -172,3 +172,47 @@ spec:
     kind: Service
     name: collections-server
 YAML
+
+# okemily.com apex + www (K8S-MV-02): IDUNA API paths -> iduna:8080, /gfd-ws/<port> -> gfd-wsrelay (path mode), /news -> news.okemily.com,
+# everything else -> the nginx sidecar (iduna:80) that serves the static site off IDUNA's PVC.
+cat > "$OUT/95-okemily-apex.yaml" <<'YAML'
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: okemily-apex
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - okemily.com
+    - www.okemily.com
+  rules:
+    - matches:
+        - path: {type: Exact, value: /.well-known/jwks.json}
+        - path: {type: PathPrefix, value: /api}
+        - path: {type: PathPrefix, value: /services}
+        - path: {type: PathPrefix, value: /admin}
+        - path: {type: PathPrefix, value: /portal}
+        - path: {type: PathPrefix, value: /q}
+        - path: {type: PathPrefix, value: /nock}
+      backendRefs:
+        - name: iduna
+          port: 8080
+    - matches:
+        - path: {type: PathPrefix, value: /gfd-ws}
+      backendRefs:
+        - name: gfd-wsrelay
+          port: 8081
+    - matches:
+        - path: {type: PathPrefix, value: /news}
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            hostname: news.okemily.com
+            path: {type: ReplacePrefixMatch, replacePrefixMatch: /}
+            statusCode: 301
+    - backendRefs:
+        - name: iduna
+          port: 80
+YAML
