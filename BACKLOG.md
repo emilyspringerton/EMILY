@@ -52727,3 +52727,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T19811413: Observer/editor free-fly WASD friction: ease to stop on key release** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-00: FatBaby→k8s: northstar (pod topology, UDS-in-pod IPC rule, phases) + golden-index registration** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
