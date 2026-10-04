@@ -52742,3 +52742,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-06: FatBaby→k8s: Helm chart fatbaby-core — one pod, N containers, emptyDir /run/fatbaby sockets, RWO PVC var, resources, probes, ClusterIP only** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-08: FatBaby→k8s: zero-downtime cutover runbook + parallel-run verification script (old systemd + new pod, ID-dedup check)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
