@@ -216,3 +216,81 @@ spec:
         - name: iduna
           port: 80
 YAML
+
+# gitops-sync (K8S-CD-01): auto-deploy. A CronJob pulls the public EMILY repo and kubectl-applies this very directory
+# (minus 00-namespace) every 3 min. Namespaced Role, named kinds only (no secrets), no prune. Image: images/gitops-sync/build.sh.
+SYNC_TAG="${GITOPS_SYNC_TAG:-v1}"
+cat > "$OUT/96-gitops-sync.yaml" <<YAML
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitops-sync
+  namespace: emily
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gitops-sync
+  namespace: emily
+rules:
+  - apiGroups: [""]
+    resources: [services, persistentvolumeclaims]
+    verbs: [get, list, create, update, patch]
+  - apiGroups: [apps]
+    resources: [deployments]
+    verbs: [get, list, create, update, patch]
+  - apiGroups: [batch]
+    resources: [cronjobs]
+    verbs: [get, list, create, update, patch]
+  - apiGroups: [gateway.networking.k8s.io]
+    resources: [gateways, httproutes]
+    verbs: [get, list, create, update, patch]
+  - apiGroups: [networking.gke.io]
+    resources: [healthcheckpolicies, gcpbackendpolicies]
+    verbs: [get, list, create, update, patch]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [roles, rolebindings]
+    verbs: [get, list, create, update, patch]
+  - apiGroups: [""]
+    resources: [serviceaccounts]
+    verbs: [get, list, create, update, patch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitops-sync
+  namespace: emily
+subjects:
+  - kind: ServiceAccount
+    name: gitops-sync
+    namespace: emily
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gitops-sync
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitops-sync
+  namespace: emily
+spec:
+  schedule: "*/3 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 240
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: gitops-sync
+          restartPolicy: Never
+          containers:
+            - name: sync
+              image: $REG/gitops-sync:$SYNC_TAG
+              resources:
+                requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
+                limits: {memory: 128Mi, ephemeral-storage: 512Mi}
+YAML
