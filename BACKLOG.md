@@ -52750,3 +52750,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-10: FatBaby→k8s BLOCKED(Memorystore+cluster): wire RedisStreamSink/Consumer into secwatch/processor to peel processes out of the shared-PVC core pod** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-11: FatBaby→k8s BLOCKED(docker/registry): build+push image, helm install to cluster, staged cutover per process** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
