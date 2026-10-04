@@ -52733,3 +52733,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-02: FatBaby→k8s: UDS for every intra-node HTTP coupling (newssite→signalapi, movers→newssite commentary, newssite→emily-agent/asklily, emily-agent→newssite); unix:// URLs + -listen flag; dual-mo** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-04: FatBaby→k8s: local pod-simulator harness — run core-pod containers as isolated procs on shared socket dir, verify UDS wiring end to end (fully isolated, no live paths)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
