@@ -52728,8 +52728,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T19811413: Observer/editor free-fly WASD friction: ease to stop on key release** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **K8S-FB-01: FatBaby→k8s: internal/udsipc — unix socket listen/dial, HTTP-over-UDS client+server, stale-socket cleanup, 0660 perms, SO_PEERCRED, tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-02: FatBaby→k8s: UDS for every intra-node HTTP coupling (newssite→signalapi, movers→newssite commentary, newssite→emily-agent/asklily, emily-agent→newssite); unix:// URLs + -listen flag; dual-mo** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-04: FatBaby→k8s: local pod-simulator harness — run core-pod containers as isolated procs on shared socket dir, verify UDS wiring end to end (fully isolated, no live paths)** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52757,4 +52755,6 @@ session: sess-20260923-1030-4a526255
 - [ ] **K8S-FB-14: FatBaby→k8s: movers-watcher/bond-watcher are systemd timers (oneshot) — a CronJob pod can't reach core-pod sockets; add in-pod loop mode or run as sidecar** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **K8S-FB-00: FatBaby→k8s: northstar (pod topology, UDS-in-pod IPC rule, phases) + golden-index registration** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **K8S-FB-01: FatBaby→k8s: internal/udsipc — unix socket listen/dial, HTTP-over-UDS client+server, stale-socket cleanup, 0660 perms, SO_PEERCRED, tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
