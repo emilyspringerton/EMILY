@@ -52730,8 +52730,6 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-08: FatBaby→k8s: zero-downtime cutover runbook + parallel-run verification script (old systemd + new pod, ID-dedup check)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
-- [ ] **K8S-FB-07: FatBaby→k8s: Secret templates from env files (no secret values in git) + single Ingress/ManagedCertificate for newssite/signalapi** Added via the IDUNA kanban interface, not yet triaged into a real section.
-  (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-09: FatBaby→k8s BLOCKED(human): gcloud auth login + confirm prrject-fatbaby Autopilot can schedule nodes (was 0 nodes 32h+); billing budget alerts** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-10: FatBaby→k8s BLOCKED(Memorystore+cluster): wire RedisStreamSink/Consumer into secwatch/processor to peel processes out of the shared-PVC core pod** Added via the IDUNA kanban interface, not yet triaged into a real section.
@@ -52757,4 +52755,6 @@ session: sess-20260923-1030-4a526255
 - [x] **K8S-FB-05: FatBaby→k8s: one multi-binary static Dockerfile + build script for all pipeline binaries** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
 - [x] **K8S-FB-06: FatBaby→k8s: Helm chart fatbaby-core — one pod, N containers, emptyDir /run/fatbaby sockets, RWO PVC var, resources, probes, ClusterIP only** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
+- [x] **K8S-FB-07: FatBaby→k8s: Secret templates from env files (no secret values in git) + single Ingress/ManagedCertificate for newssite/signalapi** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
