@@ -1,4 +1,5 @@
 ## 2026-10-04
+- gitops: EINHORN_SURVIVAL (Paper MC, Java via tcp-edge :25565, Bedrock UDP :19133) and MIXFORGE (nginx+room server) moved to GKE, DNS flipped, box services stopped (K8S-MV-06/07) (sess-20260923-1030-4a526255)
 - CarePyre moved to GKE (K8S-MV-05): carepyre.org + console backend, DNS flipped; webmail/SIP left on box (sess-20260923-1030-4a526255)
 - CarePyre (carepyre.org site + IDUNA_PRO console backend) staged on GKE as one pod/PVC (K8S-MV-05); cert carepyre-org-wild + routes; DNS not flipped yet (sess-20260923-1030-4a526255)
 - fatbaby-core: restore startup-spiky cursor watchers (guidance, pr-reaction, dividend, buyback, eps-processor, processor) after OOMKills; net 10.5Gi -> ~7.8Gi (sess-20260923-1030-4a526255)
