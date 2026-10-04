@@ -4443,6 +4443,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: buggy should behave like the warthog (camera-locked chase view, buggy rotates relative to camera, ne…** — obs `2026-10-02T20:37:58Z`. CURATED: 2026-10-02.
 - [ ] **Founder real-time: observer mode (TYLER) and editor mode WASD has zero friction — you keep flying after release; needs …** — obs `2026-10-04T04:34:37Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: move FatBaby off this node into Kubernetes; use unix domain sockets for same-node IPC between proces…** — obs `2026-10-04T04:53:56Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: raise SHANKPIT level box cap 100 -> 2048 (nextown export fails at 169 boxes)** — obs `2026-10-04T07:36:58Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
