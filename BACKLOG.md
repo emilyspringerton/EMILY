@@ -52731,3 +52731,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-01: FatBaby→k8s: internal/udsipc — unix socket listen/dial, HTTP-over-UDS client+server, stale-socket cleanup, 0660 perms, SO_PEERCRED, tests** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-02: FatBaby→k8s: UDS for every intra-node HTTP coupling (newssite→signalapi, movers→newssite commentary, newssite→emily-agent/asklily, emily-agent→newssite); unix:// URLs + -listen flag; dual-mo** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
