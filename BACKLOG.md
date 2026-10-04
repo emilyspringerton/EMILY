@@ -4458,6 +4458,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: let prwatch-body and pr-reaction-watcher catch up (in the GKE pod) so FatBaby data is consistent** — obs `2026-10-04T14:12:17Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: also move DEADWEIGHT to Kubernetes (with IDUNA, WOTAN, OKEMILY)** — obs `2026-10-04T16:20:40Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: move IDUNA, WOTAN and OKEMILY to Kubernetes (GKE), same PARENA-gitops pattern** — obs `2026-10-04T16:20:31Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: ok fully move IDUNA over, we dont have time to wait, cut it over (K8S-MV-01, card #563)** — obs `2026-10-04T16:36:31Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
