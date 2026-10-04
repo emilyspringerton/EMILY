@@ -19,7 +19,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: room
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-room:v2
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-room:v3
           command:
             - /run-room.sh
           ports:
@@ -49,7 +49,7 @@ spec:
               memory: 512Mi
               ephemeral-storage: 256Mi
         - name: web
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-web:v2
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-web:v3
           command:
             - /run-nginx.sh
           ports:

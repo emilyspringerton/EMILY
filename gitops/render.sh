@@ -321,7 +321,7 @@ ES_TAG="${EINHORN_TAG:-v1}"
 "$P" "$(dirname "$0")/specs/einhorn-survival.pod" | sed "s/:IMAGE_TAG\$/:$ES_TAG/" > "$OUT/45-einhorn-survival.yaml"
 
 # MIXFORGE (K8S-MV-07): mixforge.okemily.com on the edge Gateway (wildcard cert okemily-com-wild already in certmap edge-certs).
-MF_TAG="${MIXFORGE_TAG:-v2}"
+MF_TAG="${MIXFORGE_TAG:-v3}"
 "$P" "$(dirname "$0")/specs/mixforge.pod" | sed "s/:IMAGE_TAG\$/:$MF_TAG/" > "$OUT/46-mixforge.yaml"
 cat > "$OUT/98-mixforge-routes.yaml" <<'YAML'
 apiVersion: gateway.networking.k8s.io/v1
