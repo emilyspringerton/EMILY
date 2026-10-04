@@ -122,7 +122,7 @@ spec:
               memory: 64Mi
               ephemeral-storage: 256Mi
         - name: logsync
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/dwlogs:v1
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/dwlogs:v2
           command:
             - /logsync.sh
           env:

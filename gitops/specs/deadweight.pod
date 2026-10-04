@@ -12,5 +12,5 @@ container name=draft-mirror command=/app/dw_bot args=--archetype,mirror,--name,b
 container name=draft-ripper command=/app/dw_bot args=--archetype,ripper,--name,bot-ripper-d,--mode,draft,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
 container name=draft-wall command=/app/dw_bot args=--archetype,wall,--name,bot-wall-d,--mode,draft,--host,127.0.0.1,--port,7180,--think-ms,300,--iduna-url,http://iduna:8080,--agent-secret-file,/app/var/bots.secret cpu=50 mem=64
 # logserve: read-only cluster-internal :8081 for matches/decks.ndjson; IDUNA's logsync sidecar mirrors them (K8S-MV-DWLOGS, WOTAN decks/matches stats).
-container name=logserve image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/dwlogs:v1 command=/logserve.sh port=8081 cpu=25 mem=64
+container name=logserve image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/dwlogs:v2 command=/logserve.sh port=8081 cpu=25 mem=64
 service ports=8765,7180,8081
