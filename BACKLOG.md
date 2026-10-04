@@ -4459,6 +4459,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: also move DEADWEIGHT to Kubernetes (with IDUNA, WOTAN, OKEMILY)** — obs `2026-10-04T16:20:40Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: move IDUNA, WOTAN and OKEMILY to Kubernetes (GKE), same PARENA-gitops pattern** — obs `2026-10-04T16:20:31Z`. CURATED: 2026-10-04.
 - [x] **Founder real-time: ok fully move IDUNA over, we dont have time to wait, cut it over (K8S-MV-01, card #563)** — obs `2026-10-04T16:36:31Z`. CURATED: 2026-10-04. DONE 2026-10-04 (Apple #22133): cut over — iam/console DNS on edge Gateway, box :8080 = sc_tunnel client, JWKS identical, box copy kept. Known gaps: statuspage localhost probes, nock robot sync, vault locked. [sess-20260923-1030-4a526255]
+- [ ] **Founder real-time: continue the full cutover DEADWEIGHT WOTAN NOCK IDUNA (K8S-MV-02..04 cards #564-566 in priority; NOC…** — obs `2026-10-04T16:55:26Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
