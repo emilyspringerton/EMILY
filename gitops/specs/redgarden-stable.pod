@@ -8,4 +8,4 @@ pod name=redgarden-stable namespace=emily image=us-central1-docker.pkg.dev/proje
 
 container name=matchmaker command=/app/build/red_garden_matchmaker args=--listen-port,8778,--lobby-size,20,--server-bin,/app/build/red_garden_arena_server,--first-game-port,8300,--game-port-range,20 cpu=250 mem=256
 container name=bot-pool command=/app/scripts/run_bot_pool.sh args=19,8778 cpu=250 mem=256
-service-udp ports=8778,8300,8301,8302,8303,8304,8305,8306,8307,8308,8309,8310,8311,8312,8313,8314,8315,8316,8317,8318,8319 ip=136.80.41.29
+service-udp ports=8778,8300,8301,8302,8303,8304,8305,8306,8307,8308,8309,8310,8311,8312,8313,8314,8315,8316,8317,8318,8319 ip=34.63.32.219

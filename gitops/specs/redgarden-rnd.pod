@@ -8,4 +8,4 @@ container name=mm-players command=/app/build/red_garden_matchmaker args=--listen
 container name=mm-3v3 command=/app/build/red_garden_matchmaker args=--listen-port,7780,--lobby-size,6,--server-bin,/app/build/red_garden_arena_server,--first-game-port,7400,--game-port-range,10 cpu=100 mem=128
 container name=pool-bots command=/app/scripts/run_bot_pool.sh args=19 cpu=250 mem=256
 container name=pool-3v3 command=/app/scripts/run_bot_pool.sh args=5,7780 cpu=100 mem=128
-service-udp ports=7778,7779,7780,7300,7301,7302,7303,7304,7305,7306,7307,7308,7309,7310,7311,7312,7313,7314,7315,7316,7317,7318,7319,7600,7601,7602,7603,7604,7605,7606,7607,7608,7609,7400,7401,7402,7403,7404,7405,7406,7407,7408,7409 ip=136.71.82.36
+service-udp ports=7778,7779,7780,7300,7301,7302,7303,7304,7305,7306,7307,7308,7309,7310,7311,7312,7313,7314,7315,7316,7317,7318,7319,7600,7601,7602,7603,7604,7605,7606,7607,7608,7609,7400,7401,7402,7403,7404,7405,7406,7407,7408,7409 ip=34.63.32.219

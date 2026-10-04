@@ -1,0 +1,10 @@
+# shankpit — SHANKPIT UDP FPS servers, moved off the box 2026-10-04 (founder: "deploy IDUNA and then move shankpit servers").
+# Mirrors shankpit-server (UDP :6969 --deathmatch) + shankpit-bot-pool (4 heuristic QUEUE bots) + shankpit-zombie (UDP :6968 (was 6971 on the box; moved so the LB port range does not overlap GFD 6970 on the shared IP)).
+# One pod => bots reach the server on 127.0.0.1 as on the box. Stateless (emptyDir). Levels fetched live from okemily.com.
+# Bot pool is the heuristic branch only (the box's frozen-policy branch needs python+torch; box pool ran heuristic anyway).
+pod name=shankpit namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/shankpit:IMAGE_TAG secret=shankpit-env var=/app/var run=/run/shankpit replicas=1
+
+container name=server command=/app/shank_server args=--deathmatch cpu=500 mem=512
+container name=zombie command=/app/shank_server args=--port,6968,--level,/app/var/zombie/nextown_zombies.json cpu=250 mem=256
+container name=bot-pool command=/app/bot-pool.sh args=4,6969 cpu=250 mem=256
+service-udp ports=6968,6969 ip=34.63.32.219

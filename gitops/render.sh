@@ -24,3 +24,11 @@ RG_TAG="${RG_STABLE_TAG:-3e55798}"; RGR_TAG="${RG_RND_TAG:-3e55798}"
 "$P" "$(dirname "$0")/specs/redgarden-rnd.pod" | sed "s/:IMAGE_TAG\$/:$RGR_TAG/" > "$OUT/31-redgarden-rnd.yaml"
 "$P" "$(dirname "$0")/specs/gfd-wsrelay.pod" > "$OUT/32-gfd-wsrelay.yaml"
 "$P" "$(dirname "$0")/specs/edge.gateway" > "$OUT/91-edge-gateway.yaml"
+
+# GFD (DragonsNShit MUD + server-go): one pod on a PVC, TCP+UDP LoadBalancers, IDUNA via the PARENA secure-channel sidecar.
+GFD_TAG="${GFD_TAG:-v2}"
+"$P" "$(dirname "$0")/specs/gfd-core.pod" | sed "s/:IMAGE_TAG\$/:$GFD_TAG/" > "$OUT/33-gfd-core.yaml"
+
+# SHANKPIT (UDP FPS server + zombie sandbox + queue bot pool): one stateless pod, UDP LoadBalancer (image: SHANKPIT/scripts/build-image.sh).
+SP_TAG="${SHANKPIT_TAG:-v1}"
+"$P" "$(dirname "$0")/specs/shankpit.pod" | sed "s/:IMAGE_TAG\$/:$SP_TAG/" > "$OUT/34-shankpit.yaml"

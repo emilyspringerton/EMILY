@@ -1,0 +1,209 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gfd-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gfd-core
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: gfd-core
+  template:
+    metadata:
+      labels:
+        app: gfd-core
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: mud
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd:v2
+          command:
+            - /app/mud
+          args:
+            - "-port"
+            - "2323"
+            - "-api-port"
+            - "7171"
+            - "-ssh-port"
+            - "2222"
+          ports:
+            - containerPort: 2323
+          readinessProbe:
+            tcpSocket:
+              port: 2323
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/gfd/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: gfd-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/gfd
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+        - name: server-go
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd:v2
+          command:
+            - /app/server-go
+          args:
+            - "-udp-port"
+            - "6970"
+            - "-worldapi-port"
+            - "7070"
+            - "-trapx-port"
+            - "7071"
+          ports:
+            - containerPort: 7070
+          readinessProbe:
+            tcpSocket:
+              port: 7070
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/gfd/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: gfd-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/gfd
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+        - name: iduna-tunnel
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/sc-tunnel:v3
+          command:
+            - /sc_tunnel
+          args:
+            - "client"
+            - "8080"
+            - "198.58.107.85"
+            - "8443"
+            - "921d1615bca4f92a1b6100038bb9990c97e26ad3fa44d597830a0ea63c1db63e"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/gfd/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: gfd-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/gfd
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: gfd-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gfd-core
+  namespace: emily
+spec:
+  selector:
+    app: gfd-core
+  ports:
+    - name: p7171
+      port: 7171
+      targetPort: 7171
+    - name: p7070
+      port: 7070
+      targetPort: 7070
+    - name: p7071
+      port: 7071
+      targetPort: 7071
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gfd-core-udp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 34.63.32.219
+  selector:
+    app: gfd-core
+  ports:
+    - name: u6970
+      protocol: UDP
+      port: 6970
+      targetPort: 6970
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gfd-core-tcp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 34.63.32.219
+  selector:
+    app: gfd-core
+  ports:
+    - name: t2323
+      protocol: TCP
+      port: 2323
+      targetPort: 2323
+    - name: t2222
+      protocol: TCP
+      port: 2222
+      targetPort: 2222
+    - name: t7171
+      protocol: TCP
+      port: 7171
+      targetPort: 7171
+    - name: t7070
+      protocol: TCP
+      port: 7070
+      targetPort: 7070

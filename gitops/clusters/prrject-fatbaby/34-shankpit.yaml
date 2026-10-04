@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shankpit
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: shankpit
+  template:
+    metadata:
+      labels:
+        app: shankpit
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: server
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/shankpit:v1
+          command:
+            - /app/shank_server
+          args:
+            - "--deathmatch"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/shankpit/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: shankpit-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/shankpit
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+        - name: zombie
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/shankpit:v1
+          command:
+            - /app/shank_server
+          args:
+            - "--port"
+            - "6968"
+            - "--level"
+            - "/app/var/zombie/nextown_zombies.json"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/shankpit/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: shankpit-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/shankpit
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: bot-pool
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/shankpit:v1
+          command:
+            - /app/bot-pool.sh
+          args:
+            - "4"
+            - "6969"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/shankpit/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: shankpit-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/shankpit
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shankpit-udp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 34.63.32.219
+  selector:
+    app: shankpit
+  ports:
+    - name: u6968
+      protocol: UDP
+      port: 6968
+      targetPort: 6968
+    - name: u6969
+      protocol: UDP
+      port: 6969
+      targetPort: 6969

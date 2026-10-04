@@ -96,7 +96,7 @@ metadata:
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
-  loadBalancerIP: 136.80.41.29
+  loadBalancerIP: 34.63.32.219
   selector:
     app: redgarden-stable
   ports:
