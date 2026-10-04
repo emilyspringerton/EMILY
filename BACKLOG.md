@@ -52783,3 +52783,15 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [x] **T01528426: NOCK: ramp checkbox on cube (data flag, editor render, native ramp render+collision)** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+
+## SECTION 595 — Founder real-time 2026-10-04: game servers off the box onto Kubernetes, REDGARDEN first (PARENA gitops, Certificate Manager)
+
+Founder: "start moving the game services off box - REDGARDEN game servers first - fully switch over DNS ... new subdomain ... yolo, no waiting ... guarantee our game servers are fully on kubernetes" / "parena gitops everything" / "use google cloud certificate manager for the kubes certs ... wildcard" / "client updated to use the new kubernetes server so i can test it". session: sess-20260923-1030-4a526255
+
+- [x] **K8S-GS-01: REDGARDEN stable + R&D game servers on GKE.** Pods `redgarden-stable` (matchmaker :8778, 19-bot pool) and `redgarden-rnd` (:7778 10v10, :7779 1v1, :7780 3v3 + pools), stateless, UDP LoadBalancers on reserved IPs (136.80.41.29 / 136.71.82.36), game-port cycle bounded via new matchmaker `--game-port-range`. External client verified end to end (matched, connected, draft, match live) on both. Box units stopped+disabled.
+- [x] **K8S-GS-02: DNS.** `rg.okemily.com` (+ `*.rg`) → stable, `rnd.rg.okemily.com` → R&D, `ws.rg.okemily.com` → Gateway. GFD mud `REDGARDEN_MATCHMAKER_HOST=rg.okemily.com`; PLAY.bat in REDGARDEN CI → rnd.rg, GFD CI → rg.
+- [x] **K8S-GS-03: PARENA renders it all.** pod renderer: stateless pods, `service-udp`, `gateway` (Gateway API + Certificate Manager certmap + HTTPRoute + GCPBackendPolicy); specs in EMILY/gitops/specs, tests in PARENA/tests/test_k8s_pod.c.
+- [x] **K8S-GS-04: Certificate Manager wildcard** (`*.rg.okemily.com`, DNS-auth CNAME in Cloudflare) on the Gateway; wss relay `gfd-wsrelay` (new wsudprelay `--path-mode-port`) live at wss://ws.rg.okemily.com/gfd-ws/<port>; WASM client repointed. Finding: GCE *Ingress* cannot use Certificate Manager (FrontendConfig has no cert-map) — Gateway API only.
+- [ ] **K8S-GS-05:** redeploy GFD WASM web build, then stop box gfd-wsudprelay + remove nginx /gfd-ws block (needs sudo-queue). Box relay currently still runs, pointed at the k8s UDP LB.
+- [ ] **K8S-GS-06:** ECOWAR (:9779), SHANKPIT, PAPERCRAFT (:7799), WEAKNIGHT racers (:7788), BRAWLPIT, D2, GFD-mud, EINHORN_SURVIVAL — same pattern (their matchmaker lacks --game-port-range for ECOWAR).
+- [ ] **K8S-GS-07:** arena_server match-result reporting to IDUNA is disabled in-pod (IDUNA_AGENT_* unset; IDUNA is plain-HTTP on the box) — wire once IDUNA is reachable from the cluster. Also: collections-server image missing in AR (ImagePullBackOff); migrate the fatbaby edge Ingress hosts to the Gateway.
