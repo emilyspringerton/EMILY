@@ -52737,3 +52737,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-03: FatBaby→k8s: unixgram append-notify wakeups (writers→tailers) with poll fallback, replaces 15-30s tail latency in-pod** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-05: FatBaby→k8s: one multi-binary static Dockerfile + build script for all pipeline binaries** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
