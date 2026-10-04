@@ -17,3 +17,9 @@ P="${PARENA_POD_RENDER:-/home/fatbaby/PARENA/parena-pod-render}"
 FB_TAG="${FATBABY_TAG:-0.1.0}"
 "$P" "$(dirname "$0")/specs/fatbaby-core.pod" | sed "s/:IMAGE_TAG\$/:$FB_TAG/" > "$OUT/20-fatbaby-core.yaml"
 "$P" "$(dirname "$0")/specs/edge.ingress" > "$OUT/90-edge-ingress.yaml"
+
+# REDGARDEN game servers (stateless pods, UDP LoadBalancer each; images from REDGARDEN/scripts/build-image.sh).
+RG_TAG="${RG_STABLE_TAG:-3e55798}"; RGR_TAG="${RG_RND_TAG:-3e55798}"
+"$P" "$(dirname "$0")/specs/redgarden-stable.pod" | sed "s/:IMAGE_TAG\$/:$RG_TAG/" > "$OUT/30-redgarden-stable.yaml"
+"$P" "$(dirname "$0")/specs/redgarden-rnd.pod" | sed "s/:IMAGE_TAG\$/:$RGR_TAG/" > "$OUT/31-redgarden-rnd.yaml"
+"$P" "$(dirname "$0")/specs/gfd-wsrelay.pod" > "$OUT/32-gfd-wsrelay.yaml"

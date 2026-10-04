@@ -1,3 +1,3 @@
 # The cluster's ONE Ingress (one external HTTP(S) LB). Backends must be in this namespace, so every
 # app behind the edge lives in namespace emily. Add a rule here, never a second Ingress object.
-ingress name=edge namespace=emily rules=golden.okemily.com@collections-server@8087,fatbaby.io@fatbaby-core@8082,api.fatbaby.io@fatbaby-core@9091
+ingress name=edge namespace=emily rules=golden.okemily.com@collections-server@8087,fatbaby.io@fatbaby-core@8082,api.fatbaby.io@fatbaby-core@9091,ws.rg.okemily.com@gfd-wsrelay@8081 certmap=edge-certs ip-name=edge-ingress

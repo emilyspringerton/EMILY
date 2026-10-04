@@ -1,0 +1,186 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redgarden-stable
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redgarden-stable
+  template:
+    metadata:
+      labels:
+        app: redgarden-stable
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: matchmaker
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/redgarden-stable:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "8778"
+            - "--lobby-size"
+            - "20"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "8300"
+            - "--game-port-range"
+            - "20"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: bot-pool
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/redgarden-stable:3e55798
+          command:
+            - /app/scripts/run_bot_pool.sh
+          args:
+            - "19"
+            - "8778"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redgarden-stable-udp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 136.80.41.29
+  selector:
+    app: redgarden-stable
+  ports:
+    - name: u8778
+      protocol: UDP
+      port: 8778
+      targetPort: 8778
+    - name: u8300
+      protocol: UDP
+      port: 8300
+      targetPort: 8300
+    - name: u8301
+      protocol: UDP
+      port: 8301
+      targetPort: 8301
+    - name: u8302
+      protocol: UDP
+      port: 8302
+      targetPort: 8302
+    - name: u8303
+      protocol: UDP
+      port: 8303
+      targetPort: 8303
+    - name: u8304
+      protocol: UDP
+      port: 8304
+      targetPort: 8304
+    - name: u8305
+      protocol: UDP
+      port: 8305
+      targetPort: 8305
+    - name: u8306
+      protocol: UDP
+      port: 8306
+      targetPort: 8306
+    - name: u8307
+      protocol: UDP
+      port: 8307
+      targetPort: 8307
+    - name: u8308
+      protocol: UDP
+      port: 8308
+      targetPort: 8308
+    - name: u8309
+      protocol: UDP
+      port: 8309
+      targetPort: 8309
+    - name: u8310
+      protocol: UDP
+      port: 8310
+      targetPort: 8310
+    - name: u8311
+      protocol: UDP
+      port: 8311
+      targetPort: 8311
+    - name: u8312
+      protocol: UDP
+      port: 8312
+      targetPort: 8312
+    - name: u8313
+      protocol: UDP
+      port: 8313
+      targetPort: 8313
+    - name: u8314
+      protocol: UDP
+      port: 8314
+      targetPort: 8314
+    - name: u8315
+      protocol: UDP
+      port: 8315
+      targetPort: 8315
+    - name: u8316
+      protocol: UDP
+      port: 8316
+      targetPort: 8316
+    - name: u8317
+      protocol: UDP
+      port: 8317
+      targetPort: 8317
+    - name: u8318
+      protocol: UDP
+      port: 8318
+      targetPort: 8318
+    - name: u8319
+      protocol: UDP
+      port: 8319
+      targetPort: 8319

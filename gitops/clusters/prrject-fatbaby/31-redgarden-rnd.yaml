@@ -1,0 +1,373 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redgarden-rnd
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redgarden-rnd
+  template:
+    metadata:
+      labels:
+        app: redgarden-rnd
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: mm-bots
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/redgarden-rnd:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "7778"
+            - "--lobby-size"
+            - "20"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "7300"
+            - "--game-port-range"
+            - "20"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: mm-players
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/redgarden-rnd:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "7779"
+            - "--lobby-size"
+            - "2"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "7600"
+            - "--game-port-range"
+            - "10"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: mm-3v3
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/redgarden-rnd:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "7780"
+            - "--lobby-size"
+            - "6"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "7400"
+            - "--game-port-range"
+            - "10"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: pool-bots
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/redgarden-rnd:3e55798
+          command:
+            - /app/scripts/run_bot_pool.sh
+          args:
+            - "19"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: pool-3v3
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/redgarden-rnd:3e55798
+          command:
+            - /app/scripts/run_bot_pool.sh
+          args:
+            - "5"
+            - "7780"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redgarden-rnd-udp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 136.71.82.36
+  selector:
+    app: redgarden-rnd
+  ports:
+    - name: u7778
+      protocol: UDP
+      port: 7778
+      targetPort: 7778
+    - name: u7779
+      protocol: UDP
+      port: 7779
+      targetPort: 7779
+    - name: u7780
+      protocol: UDP
+      port: 7780
+      targetPort: 7780
+    - name: u7300
+      protocol: UDP
+      port: 7300
+      targetPort: 7300
+    - name: u7301
+      protocol: UDP
+      port: 7301
+      targetPort: 7301
+    - name: u7302
+      protocol: UDP
+      port: 7302
+      targetPort: 7302
+    - name: u7303
+      protocol: UDP
+      port: 7303
+      targetPort: 7303
+    - name: u7304
+      protocol: UDP
+      port: 7304
+      targetPort: 7304
+    - name: u7305
+      protocol: UDP
+      port: 7305
+      targetPort: 7305
+    - name: u7306
+      protocol: UDP
+      port: 7306
+      targetPort: 7306
+    - name: u7307
+      protocol: UDP
+      port: 7307
+      targetPort: 7307
+    - name: u7308
+      protocol: UDP
+      port: 7308
+      targetPort: 7308
+    - name: u7309
+      protocol: UDP
+      port: 7309
+      targetPort: 7309
+    - name: u7310
+      protocol: UDP
+      port: 7310
+      targetPort: 7310
+    - name: u7311
+      protocol: UDP
+      port: 7311
+      targetPort: 7311
+    - name: u7312
+      protocol: UDP
+      port: 7312
+      targetPort: 7312
+    - name: u7313
+      protocol: UDP
+      port: 7313
+      targetPort: 7313
+    - name: u7314
+      protocol: UDP
+      port: 7314
+      targetPort: 7314
+    - name: u7315
+      protocol: UDP
+      port: 7315
+      targetPort: 7315
+    - name: u7316
+      protocol: UDP
+      port: 7316
+      targetPort: 7316
+    - name: u7317
+      protocol: UDP
+      port: 7317
+      targetPort: 7317
+    - name: u7318
+      protocol: UDP
+      port: 7318
+      targetPort: 7318
+    - name: u7319
+      protocol: UDP
+      port: 7319
+      targetPort: 7319
+    - name: u7600
+      protocol: UDP
+      port: 7600
+      targetPort: 7600
+    - name: u7601
+      protocol: UDP
+      port: 7601
+      targetPort: 7601
+    - name: u7602
+      protocol: UDP
+      port: 7602
+      targetPort: 7602
+    - name: u7603
+      protocol: UDP
+      port: 7603
+      targetPort: 7603
+    - name: u7604
+      protocol: UDP
+      port: 7604
+      targetPort: 7604
+    - name: u7605
+      protocol: UDP
+      port: 7605
+      targetPort: 7605
+    - name: u7606
+      protocol: UDP
+      port: 7606
+      targetPort: 7606
+    - name: u7607
+      protocol: UDP
+      port: 7607
+      targetPort: 7607
+    - name: u7608
+      protocol: UDP
+      port: 7608
+      targetPort: 7608
+    - name: u7609
+      protocol: UDP
+      port: 7609
+      targetPort: 7609
+    - name: u7400
+      protocol: UDP
+      port: 7400
+      targetPort: 7400
+    - name: u7401
+      protocol: UDP
+      port: 7401
+      targetPort: 7401
+    - name: u7402
+      protocol: UDP
+      port: 7402
+      targetPort: 7402
+    - name: u7403
+      protocol: UDP
+      port: 7403
+      targetPort: 7403
+    - name: u7404
+      protocol: UDP
+      port: 7404
+      targetPort: 7404
+    - name: u7405
+      protocol: UDP
+      port: 7405
+      targetPort: 7405
+    - name: u7406
+      protocol: UDP
+      port: 7406
+      targetPort: 7406
+    - name: u7407
+      protocol: UDP
+      port: 7407
+      targetPort: 7407
+    - name: u7408
+      protocol: UDP
+      port: 7408
+      targetPort: 7408
+    - name: u7409
+      protocol: UDP
+      port: 7409
+      targetPort: 7409
