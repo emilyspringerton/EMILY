@@ -357,6 +357,36 @@ spec:
               cpu: 50m
               memory: 64Mi
               ephemeral-storage: 256Mi
+        - name: logserve
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/dwlogs:v1
+          command:
+            - /logserve.sh
+          ports:
+            - containerPort: 8081
+          readinessProbe:
+            tcpSocket:
+              port: 8081
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
       volumes:
         - name: var
           persistentVolumeClaim:
@@ -379,4 +409,7 @@ spec:
     - name: p7180
       port: 7180
       targetPort: 7180
+    - name: p8081
+      port: 8081
+      targetPort: 8081
   type: ClusterIP

@@ -13,3 +13,6 @@ container name=iduna-tunnel image=us-central1-docker.pkg.dev/project-d24a71e9-2d
 # okemily.com static site (K8S-MV-02): nginx sidecar serving /app/var/www on the PVC. IDUNA writes blog/tyler/prompt-o-verse output
 # there (BLOG_OUTPUT_DIR etc. in iduna-env), so site + generator must share the volume => same pod.
 container name=web image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/okemily-web:v1 command=/run-nginx.sh port=80 cpu=25 mem=64
+# DEADWEIGHT match/deck logs (K8S-MV-DWLOGS): mirrored from the deadweight pod's logserve (curl -C - resume, ~30s lag) into var/dwlogs;
+# iduna-env DEADWEIGHT_MATCH_LOG/DEADWEIGHT_DECK_LOG point there so WOTAN's matches/decks/card-stats work.
+container name=logsync image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/dwlogs:v1 command=/logsync.sh cpu=25 mem=64
