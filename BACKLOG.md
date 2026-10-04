@@ -4465,6 +4465,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: move CarePyre and CarePyre console to k8s; only login + resume builders must work, webmail/sip phone…** — obs `2026-10-04T18:40:13Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: move EINHORN_SURVIVAL (minecraft :25565) and MIXFORGE room server to GKE (K8S-MV-06/07)** — obs `2026-10-04T19:06:28Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: 'migrate the kubernetes' — finish FatBaby cutover: repoint box consumers (watchdog, statuspage, EDIS…** — obs `2026-10-04T21:07:57Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: cannot join SHANKPIT queue (post-GKE move 2026-10-04). Server pod, DNS 34.63.32.219 UDP:6969, join e…** — obs `2026-10-04T21:54:11Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
