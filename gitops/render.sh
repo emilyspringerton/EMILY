@@ -356,4 +356,19 @@ spec:
     - backendRefs:
         - name: fatbaby-core
           port: 8082
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: fatbaby-signals
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - signals.okemily.com
+  rules:
+    - backendRefs:
+        - name: fatbaby-core
+          port: 9091
 YAML
