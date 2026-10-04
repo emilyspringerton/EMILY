@@ -52746,3 +52746,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-07: FatBaby→k8s: Secret templates from env files (no secret values in git) + single Ingress/ManagedCertificate for newssite/signalapi** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-09: FatBaby→k8s BLOCKED(human): gcloud auth login + confirm prrject-fatbaby Autopilot can schedule nodes (was 0 nodes 32h+); billing budget alerts** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
