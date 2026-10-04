@@ -52754,3 +52754,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-12: FatBaby→k8s: extend PARENA stdlib/k8s + parena-k8s-render for multi-container pods (emptyDir socket vol, PVC mount, env/args/probes) — golden-docs GitOps pattern** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-13: FatBaby→k8s PREREQ: entity-graph accuracy.ndjson is 15GB / 58.5M lines (~100x duplicate appends; box disk 99% full) — dedupe + fix writer before migrating data to a 20Gi PVC** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
