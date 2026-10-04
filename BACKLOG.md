@@ -52739,3 +52739,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-05: FatBaby→k8s: one multi-binary static Dockerfile + build script for all pipeline binaries** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-06: FatBaby→k8s: Helm chart fatbaby-core — one pod, N containers, emptyDir /run/fatbaby sockets, RWO PVC var, resources, probes, ClusterIP only** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
