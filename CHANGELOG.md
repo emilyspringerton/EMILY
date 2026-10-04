@@ -1,4 +1,5 @@
 ## 2026-10-04
+- gitops: signals.okemily.com -> fatbaby-signals:9091 (own Service + HealthCheckPolicy, DNS A -> 136.68.242.3); verified 200 via Gateway (sess-20260923-1030-4a526255)
 - gitops: news.okemily.com HTTPRoute -> fatbaby-core (b410b15a); fatbaby-core mem bump secwatch/earnings-calendar 1024 (bcbe4d51), newssite 500m/2048Mi (41dd8c28); news.okemily.com DNS moved to Gateway (sess-20260923-1030-4a526255)
 - gitops: EINHORN_SURVIVAL (Paper MC, Java via tcp-edge :25565, Bedrock UDP :19133) and MIXFORGE (nginx+room server) moved to GKE, DNS flipped, box services stopped (K8S-MV-06/07) (sess-20260923-1030-4a526255)
 - CarePyre moved to GKE (K8S-MV-05): carepyre.org + console backend, DNS flipped; webmail/SIP left on box (sess-20260923-1030-4a526255)
