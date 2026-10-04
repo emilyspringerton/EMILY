@@ -58,10 +58,12 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 128Mi
+              memory: 512Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 100m
-              memory: 128Mi
+              memory: 512Mi
+              ephemeral-storage: 256Mi
         - name: prwatch
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -87,9 +89,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: prwatch-body
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -116,10 +120,12 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 96Mi
+              memory: 192Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
-              memory: 96Mi
+              memory: 192Mi
+              ephemeral-storage: 256Mi
         - name: processor
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -146,10 +152,12 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 96Mi
+              memory: 384Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
-              memory: 96Mi
+              memory: 384Mi
+              ephemeral-storage: 256Mi
         - name: entity-graph
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -172,10 +180,12 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 192Mi
+              memory: 1536Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 100m
-              memory: 192Mi
+              memory: 1536Mi
+              ephemeral-storage: 256Mi
         - name: signalapi
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -207,10 +217,12 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 256Mi
+              memory: 1280Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 100m
-              memory: 256Mi
+              memory: 1280Mi
+              ephemeral-storage: 256Mi
         - name: newssite
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -252,10 +264,12 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 256Mi
+              memory: 1536Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 100m
-              memory: 256Mi
+              memory: 1536Mi
+              ephemeral-storage: 256Mi
         - name: eps-processor
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -284,10 +298,12 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 96Mi
+              memory: 192Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
-              memory: 96Mi
+              memory: 192Mi
+              ephemeral-storage: 256Mi
         - name: eps-reconciler
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -317,9 +333,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: guidance-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -351,9 +369,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: pr-indexer
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -385,9 +405,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: pr-reaction-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -416,10 +438,12 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 96Mi
+              memory: 768Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
-              memory: 96Mi
+              memory: 768Mi
+              ephemeral-storage: 256Mi
         - name: form4-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -451,9 +475,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: dividend-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -487,9 +513,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: buyback-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -523,9 +551,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: nt-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -555,9 +585,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: schd13-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -589,9 +621,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
         - name: earnings-calendar
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -624,10 +658,12 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 96Mi
+              memory: 1024Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
-              memory: 96Mi
+              memory: 1024Mi
+              ephemeral-storage: 256Mi
         - name: market-data-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
           command:
@@ -659,9 +695,11 @@ spec:
             requests:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
             limits:
               cpu: 50m
               memory: 96Mi
+              ephemeral-storage: 256Mi
       volumes:
         - name: var
           persistentVolumeClaim:
