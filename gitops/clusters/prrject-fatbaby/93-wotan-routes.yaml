@@ -35,3 +35,19 @@ spec:
     group: ""
     kind: Service
     name: deadweight
+---
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: deadweight
+  namespace: emily
+spec:
+  default:
+    config:
+      type: TCP
+      tcpHealthCheck:
+        port: 8765
+  targetRef:
+    group: ""
+    kind: Service
+    name: deadweight
