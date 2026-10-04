@@ -4456,6 +4456,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: get FatBaby off the box (into GKE prrject-fatbaby) and ensure it uses a persistent disk (PVC)** — obs `2026-10-04T12:55:25Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: move game services off box to GKE, REDGARDEN game servers first; fully switch DNS to new subdomain, …** — obs `2026-10-04T14:23:36Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: let prwatch-body and pr-reaction-watcher catch up (in the GKE pod) so FatBaby data is consistent** — obs `2026-10-04T14:12:17Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: also move DEADWEIGHT to Kubernetes (with IDUNA, WOTAN, OKEMILY)** — obs `2026-10-04T16:20:40Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: move IDUNA, WOTAN and OKEMILY to Kubernetes (GKE), same PARENA-gitops pattern** — obs `2026-10-04T16:20:31Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
@@ -52798,3 +52800,7 @@ Founder: "start moving the game services off box - REDGARDEN game servers first 
 - [x] **K8S-GS-10:** SHANKPIT servers (queue :6969, zombie sandbox now :6968, 4 heuristic queue bots) moved to GKE as `shankpit`; ALL game LBs (REDGARDEN stable/rnd, GFD, SHANKPIT) consolidated onto ONE shared static IP `game` 34.63.32.219 (founder: use 1 LB). DNS: shankpit.okemily.com, gfd/rg/*.rg/rnd.rg -> that IP. Box shankpit-* units stopped+disabled. IDUNA redeployed (statuspage gfd-mud URL). (session: sess-20260923-1030-4a526255)
 - [ ] **K8S-GS-09:** gate unauthenticated public MUD :7171 /api/town/command; statuspage shankpit460 UDP check still probes localhost (now stale); frozen-policy bot branch not in pod image. (session: sess-20260923-1030-4a526255)
 - [ ] **K8S-GS-07:** arena_server match-result reporting to IDUNA is disabled in-pod (IDUNA_AGENT_* unset; IDUNA is plain-HTTP on the box) — wire once IDUNA is reachable from the cluster. Also: collections-server image missing in AR (ImagePullBackOff); migrate the fatbaby edge Ingress hosts to the Gateway.
+- [ ] **K8S-MV-01: move IDUNA to GKE** (founder: "move IDUNA and WOTAN and OKEMILY ... AND DEADWEIGHT"). Stateful hub: 350MB iduna.db + 387MB statuspage.db + blog/mailing/promptoverse dbs + nock-projects/videos + checkpoints (1.7G var). Plan: image + PVC, stage with a COPY of the DB, verify, then final-cutover (stop box unit, rsync final DB, flip DNS iam/console/okemily). Box agents (emily-agent, obs-watcher, sc-tunnel) move to the public https endpoint.
+- [ ] **K8S-MV-02: move OKEMILY** (okemily.com static site 894M /var/www/okemily + nginx proxies to IDUNA) to a nginx pod / Gateway route.
+- [ ] **K8S-MV-03: move WOTAN** (static site, WOTAN/ops/nginx-wotan.conf) to GKE.
+- [ ] **K8S-MV-04: move DEADWEIGHT** (dw_server TCP :6980, dw-ws-bridge, dw-bot@/dw-draft-bot@ x3; var/matches is LIVE data -- copy, never clean).
