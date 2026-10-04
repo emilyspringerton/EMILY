@@ -217,11 +217,11 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 1024Mi
+              memory: 1280Mi
               ephemeral-storage: 256Mi
             limits:
               cpu: 100m
-              memory: 1024Mi
+              memory: 1280Mi
               ephemeral-storage: 256Mi
         - name: newssite
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
@@ -404,11 +404,11 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 192Mi
+              memory: 384Mi
               ephemeral-storage: 256Mi
             limits:
               cpu: 50m
-              memory: 192Mi
+              memory: 384Mi
               ephemeral-storage: 256Mi
         - name: pr-reaction-watcher
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
