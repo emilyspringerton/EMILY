@@ -4454,6 +4454,8 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: ensure all our stuff is backed up into GCS (existing emily backup pipeline; bucket currently empty a…** — obs `2026-10-04T11:44:38Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: stop the observation watcher and clear out the logs** — obs `2026-10-04T12:56:07Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: get FatBaby off the box (into GKE prrject-fatbaby) and ensure it uses a persistent disk (PVC)** — obs `2026-10-04T12:55:25Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: move game services off box to GKE, REDGARDEN game servers first; fully switch DNS to new subdomain, …** — obs `2026-10-04T14:23:36Z`. CURATED: 2026-10-04.
+- [ ] **Founder real-time: let prwatch-body and pr-reaction-watcher catch up (in the GKE pod) so FatBaby data is consistent** — obs `2026-10-04T14:12:17Z`. CURATED: 2026-10-04.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
