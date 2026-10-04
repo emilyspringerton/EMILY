@@ -52773,3 +52773,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **T74439942: SHANKPIT native rotated-box (OBB) collision + render from wall rot_x/y/z** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **T01528426: NOCK: ramp checkbox on cube (data flag, editor render, native ramp render+collision)** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
