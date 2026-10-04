@@ -2,4 +2,4 @@
 # overlapping port ranges collide, so one rule for ALL TCP). Routes by port to ClusterIP services; see images/tcp-edge/nginx.conf.
 pod name=tcp-edge namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/tcp-edge:IMAGE_TAG secret=tcp-edge-env var=/var/cache/nginx run=/run/tcp-edge replicas=2
 container name=tcp-edge command=/run-nginx.sh port=7180 cpu=100 mem=128
-service-tcp ports=2323,2222,7171,7070,8443,7180 ip=34.63.32.219
+service-tcp ports=2323,2222,7171,7070,8443,7180,25565 ip=34.63.32.219

@@ -150,7 +150,7 @@ spec:
 YAML
 
 # tcp-edge: the single TCP LB rule for every raw-TCP service (gfd 2323/2222/7171/7070, iduna tunnel 8443, deadweight 7180).
-TE_TAG="${TCP_EDGE_TAG:-v1}"
+TE_TAG="${TCP_EDGE_TAG:-v2}"
 "$P" "$(dirname "$0")/specs/tcp-edge.pod" | sed "s/:IMAGE_TAG\$/:$TE_TAG/" > "$OUT/43-tcp-edge.yaml"
 
 # collections-server answers 404 on / (the Gateway's default probe) -> probe /healthz so the backend is healthy.
@@ -313,5 +313,29 @@ spec:
   rules:
     - backendRefs:
         - name: carepyre
+          port: 80
+YAML
+
+# EINHORN_SURVIVAL (K8S-MV-06): Paper MC. Java 25565 is added to tcp-edge (images/tcp-edge/nginx.conf); Bedrock UDP 19133 on the game IP.
+ES_TAG="${EINHORN_TAG:-v1}"
+"$P" "$(dirname "$0")/specs/einhorn-survival.pod" | sed "s/:IMAGE_TAG\$/:$ES_TAG/" > "$OUT/45-einhorn-survival.yaml"
+
+# MIXFORGE (K8S-MV-07): mixforge.okemily.com on the edge Gateway (wildcard cert okemily-com-wild already in certmap edge-certs).
+MF_TAG="${MIXFORGE_TAG:-v2}"
+"$P" "$(dirname "$0")/specs/mixforge.pod" | sed "s/:IMAGE_TAG\$/:$MF_TAG/" > "$OUT/46-mixforge.yaml"
+cat > "$OUT/98-mixforge-routes.yaml" <<'YAML'
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mixforge
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - mixforge.okemily.com
+  rules:
+    - backendRefs:
+        - name: mixforge
           port: 80
 YAML

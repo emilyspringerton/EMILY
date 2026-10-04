@@ -1,0 +1,9 @@
+# mixforge (K8S-MV-07): mixforge.okemily.com — static client + room_server.mjs (WebSocket DJ room, yt-dlp audio fetch) in one pod.
+# nginx (web) serves the baked client, proxies /ws to the room server on 127.0.0.1:8973 and /api/ to in-cluster IDUNA; downloaded audio goes
+# Secret mixforge-env is a placeholder (yt-dlp cookies etc. can go here later, never in git).
+# through the shared emptyDir /run/mixforge/cache served at /room-cache/. Stateless. Images: images/mixforge-{room,web}/build.sh.
+pod name=mixforge namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-room:IMAGE_TAG secret=mixforge-env var=/app/var run=/run/mixforge replicas=1
+
+container name=room command=/run-room.sh port=8973 cpu=250 mem=512
+container name=web image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-web:IMAGE_TAG command=/run-nginx.sh port=80 cpu=50 mem=64
+service ports=80

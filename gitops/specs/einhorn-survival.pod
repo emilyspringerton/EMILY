@@ -1,0 +1,8 @@
+# einhorn-survival (K8S-MV-06): EINHORN_INDUSTRIAL Paper 26.2 Minecraft server (Java :25565 via tcp-edge, Bedrock/Geyser UDP :19133 on the shared game IP).
+# Server dir (paper jar, libraries, world, plugins, whitelist/ops) on PVC einhorn-var mounted at /data. Image bakes only JRE 25 + /run-paper.sh
+# (same Aikar flags / 3G heap as the box start.sh). Image: images/einhorn-survival/build.sh. Disk-backed => Recreate, one replica.
+pod name=einhorn-survival namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/einhorn-survival:IMAGE_TAG pvc=einhorn-var pvc-gb=5 secret=einhorn-env var=/data run=/run/einhorn replicas=1
+
+container name=paper command=/run-paper.sh port=25565 cpu=1000 mem=4096
+service ports=25565
+service-udp ports=19133 ip=34.63.32.219

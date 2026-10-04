@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mixforge
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mixforge
+  template:
+    metadata:
+      labels:
+        app: mixforge
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: room
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-room:v2
+          command:
+            - /run-room.sh
+          ports:
+            - containerPort: 8973
+          readinessProbe:
+            tcpSocket:
+              port: 8973
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/mixforge/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: mixforge-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/mixforge
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+              ephemeral-storage: 256Mi
+        - name: web
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-web:v2
+          command:
+            - /run-nginx.sh
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 80
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/mixforge/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: mixforge-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/mixforge
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mixforge
+  namespace: emily
+spec:
+  selector:
+    app: mixforge
+  ports:
+    - name: p80
+      port: 80
+      targetPort: 80
+  type: ClusterIP

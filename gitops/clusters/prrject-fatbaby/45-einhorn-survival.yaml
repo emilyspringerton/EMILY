@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: einhorn-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: einhorn-survival
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: einhorn-survival
+  template:
+    metadata:
+      labels:
+        app: einhorn-survival
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: paper
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/einhorn-survival:v1
+          command:
+            - /run-paper.sh
+          ports:
+            - containerPort: 25565
+          readinessProbe:
+            tcpSocket:
+              port: 25565
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/einhorn/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: einhorn-env
+          volumeMounts:
+            - name: var
+              mountPath: /data
+            - name: run
+              mountPath: /run/einhorn
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 4096Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 4096Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: einhorn-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: einhorn-survival
+  namespace: emily
+spec:
+  selector:
+    app: einhorn-survival
+  ports:
+    - name: p25565
+      port: 25565
+      targetPort: 25565
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: einhorn-survival-udp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 34.63.32.219
+  selector:
+    app: einhorn-survival
+  ports:
+    - name: u19133
+      protocol: UDP
+      port: 19133
+      targetPort: 19133

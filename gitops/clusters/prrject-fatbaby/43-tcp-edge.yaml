@@ -19,7 +19,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: tcp-edge
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/tcp-edge:v1
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/tcp-edge:v2
           command:
             - /run-nginx.sh
           ports:
@@ -90,3 +90,7 @@ spec:
       protocol: TCP
       port: 7180
       targetPort: 7180
+    - name: t25565
+      protocol: TCP
+      port: 25565
+      targetPort: 25565
