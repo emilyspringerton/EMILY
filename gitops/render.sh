@@ -152,3 +152,23 @@ YAML
 # tcp-edge: the single TCP LB rule for every raw-TCP service (gfd 2323/2222/7171/7070, iduna tunnel 8443, deadweight 7180).
 TE_TAG="${TCP_EDGE_TAG:-v1}"
 "$P" "$(dirname "$0")/specs/tcp-edge.pod" | sed "s/:IMAGE_TAG\$/:$TE_TAG/" > "$OUT/43-tcp-edge.yaml"
+
+# collections-server answers 404 on / (the Gateway's default probe) -> probe /healthz so the backend is healthy.
+cat > "$OUT/94-collections-health.yaml" <<'YAML'
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: collections-server
+  namespace: emily
+spec:
+  default:
+    config:
+      type: HTTP
+      httpHealthCheck:
+        port: 8087
+        requestPath: /healthz
+  targetRef:
+    group: ""
+    kind: Service
+    name: collections-server
+YAML
