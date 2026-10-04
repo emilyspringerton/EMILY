@@ -52752,3 +52752,5 @@ session: sess-20260923-1030-4a526255
   (sess-20260923-1030-4a526255)
 - [ ] **K8S-FB-11: FatBaby→k8s BLOCKED(docker/registry): build+push image, helm install to cluster, staged cutover per process** Added via the IDUNA kanban interface, not yet triaged into a real section.
   (sess-20260923-1030-4a526255)
+- [ ] **K8S-FB-12: FatBaby→k8s: extend PARENA stdlib/k8s + parena-k8s-render for multi-container pods (emptyDir socket vol, PVC mount, env/args/probes) — golden-docs GitOps pattern** Added via the IDUNA kanban interface, not yet triaged into a real section.
+  (sess-20260923-1030-4a526255)
