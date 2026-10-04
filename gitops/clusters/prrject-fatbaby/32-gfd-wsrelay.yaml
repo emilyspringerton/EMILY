@@ -70,8 +70,6 @@ kind: Service
 metadata:
   name: gfd-wsrelay
   namespace: emily
-  annotations:
-    cloud.google.com/backend-config: '{"default": "ws-long"}'
 spec:
   selector:
     app: gfd-wsrelay
@@ -80,11 +78,3 @@ spec:
       port: 8081
       targetPort: 8081
   type: ClusterIP
----
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
-metadata:
-  name: ws-long
-  namespace: emily
-spec:
-  timeoutSec: 3600

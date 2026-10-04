@@ -5,5 +5,4 @@
 pod name=gfd-wsrelay namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd-wsudprelay:0.1.0 secret=redgarden-env var=/app/var run=/run/redgarden replicas=1
 
 container name=relay command=/wsudprelay args=--path-mode-port,8081,--udp-host,redgarden-stable-udp.emily.svc.cluster.local,--matchmaker-port,8778,--game-port-start,8300,--game-port-count,20 port=8081 cpu=100 mem=128
-backendconfig name=ws-long timeout=3600
-service ports=8081 backend-config=ws-long
+service ports=8081

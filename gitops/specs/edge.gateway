@@ -1,0 +1,4 @@
+# Gateway API edge for hosts that need Certificate Manager TLS (wildcard *.rg.okemily.com). GCE Ingress can't use
+# Certificate Manager (its FrontendConfig has no cert-map field), Gateway can: networking.gke.io/certmap.
+# ip-name is a reserved GLOBAL address (gcloud compute addresses create gateway-edge --global).
+gateway name=edge-gw namespace=emily certmap=edge-certs ip-name=gateway-edge routes=ws.rg.okemily.com@gfd-wsrelay@8081 timeout=3600
