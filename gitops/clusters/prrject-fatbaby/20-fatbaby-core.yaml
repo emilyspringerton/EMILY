@@ -1,0 +1,668 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fatbaby-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fatbaby-core
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: fatbaby-core
+  template:
+    metadata:
+      labels:
+        app: fatbaby-core
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: secwatch
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/secwatch
+          args:
+            - "-watchlist"
+            - "/app/config/watchlist.json"
+            - "-store"
+            - "/app/var/secwatch"
+            - "-poll-interval"
+            - "5m"
+            - "-rate-rps"
+            - "2"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        - name: prwatch
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/prwatch
+          args:
+            - "-store"
+            - "/app/var/prwatch"
+            - "-poll-interval"
+            - "30s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: prwatch-body
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/prwatch-body
+          args:
+            - "-discovery-store"
+            - "/app/var/prwatch"
+            - "-body-store"
+            - "/app/var/prwatch-body"
+            - "-poll-interval"
+            - "15s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: processor
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/processor
+          args:
+            - "-store"
+            - "/app/var/secwatch"
+            - "-workers"
+            - "4"
+            - "-poll-interval"
+            - "15s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: entity-graph
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/entity-graph
+          args:
+            - "-store"
+            - "/app/var/secwatch"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 100m
+              memory: 192Mi
+            limits:
+              cpu: 100m
+              memory: 192Mi
+        - name: signalapi
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/signalapi
+          args:
+            - "-addr"
+            - ":9091"
+            - "-also-listen"
+            - "unix:///run/fatbaby/signalapi.sock"
+            - "-store"
+            - "/app/var/secwatch"
+          ports:
+            - containerPort: 9091
+          readinessProbe:
+            tcpSocket:
+              port: 9091
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+        - name: newssite
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/newssite
+          args:
+            - "-store"
+            - "/app/var/secwatch"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-eps-dir"
+            - "/app/var/eps"
+            - "-commentary-dir"
+            - "/app/var/commentary"
+            - "-guidance-dir"
+            - "/app/var/guidance"
+            - "-earnings-cal-dir"
+            - "/app/var/earnings-calendar"
+            - "-also-listen"
+            - "unix:///run/fatbaby/newssite.sock"
+            - "-signalapi-url"
+            - "unix:///run/fatbaby/signalapi.sock"
+          ports:
+            - containerPort: 8082
+          readinessProbe:
+            tcpSocket:
+              port: 8082
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+        - name: eps-processor
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/eps-processor
+          args:
+            - "-discovery-store"
+            - "/app/var/prwatch"
+            - "-body-store"
+            - "/app/var/prwatch-body"
+            - "-eps-dir"
+            - "/app/var/eps"
+            - "-poll-interval"
+            - "30s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: eps-reconciler
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/eps-reconciler
+          args:
+            - "-store"
+            - "/app/var/secwatch"
+            - "-eps-dir"
+            - "/app/var/eps"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-poll-interval"
+            - "6h"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: guidance-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/guidance-watcher
+          args:
+            - "-discovery-store"
+            - "/app/var/prwatch"
+            - "-body-store"
+            - "/app/var/prwatch-body"
+            - "-out-dir"
+            - "/app/var/guidance"
+            - "-cursor"
+            - "/app/var/guidance-watcher/.cursor"
+            - "-poll-interval"
+            - "30s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: pr-indexer
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/pr-indexer
+          args:
+            - "-discovery-store"
+            - "/app/var/prwatch"
+            - "-body-store"
+            - "/app/var/prwatch-body"
+            - "-out-store"
+            - "/app/var/secwatch"
+            - "-cursor"
+            - "/app/var/pr-indexer/.cursor"
+            - "-poll-interval"
+            - "30s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: pr-reaction-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/pr-reaction-watcher
+          args:
+            - "-secwatch-store"
+            - "/app/var/secwatch"
+            - "-prwatch-store"
+            - "/app/var/prwatch"
+            - "-store"
+            - "/app/var/pr-reaction"
+            - "-poll-interval"
+            - "60s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: form4-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/form4-watcher
+          args:
+            - "-watchlist"
+            - "/app/config/watchlist.json"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-out-dir"
+            - "/app/var/form4"
+            - "-lookback"
+            - "90"
+            - "-poll-interval"
+            - "6h"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: dividend-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/dividend-watcher
+          args:
+            - "-discovery-store"
+            - "/app/var/prwatch"
+            - "-body-store"
+            - "/app/var/prwatch-body"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-out-dir"
+            - "/app/var/dividends"
+            - "-cursor"
+            - "/app/var/dividend-watcher/.cursor"
+            - "-poll-interval"
+            - "30s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: buyback-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/buyback-watcher
+          args:
+            - "-discovery-store"
+            - "/app/var/prwatch"
+            - "-body-store"
+            - "/app/var/prwatch-body"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-out-dir"
+            - "/app/var/buybacks"
+            - "-cursor"
+            - "/app/var/buyback-watcher/.cursor"
+            - "-poll-interval"
+            - "30s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: nt-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/nt-watcher
+          args:
+            - "-watchlist"
+            - "/app/config/watchlist.json"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-out-dir"
+            - "/app/var/nt-filings"
+            - "-poll-interval"
+            - "12h"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: schd13-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/schd13-watcher
+          args:
+            - "-watchlist"
+            - "/app/config/watchlist.json"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-out-dir"
+            - "/app/var/schd13"
+            - "-lookback"
+            - "90"
+            - "-poll-interval"
+            - "6h"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: earnings-calendar
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/earnings-calendar
+          args:
+            - "-eps-dir"
+            - "/app/var/eps"
+            - "-body-store"
+            - "/app/var/prwatch-body"
+            - "-sec-store"
+            - "/app/var/secwatch"
+            - "-out-dir"
+            - "/app/var/earnings-calendar"
+            - "-watchlist"
+            - "/app/config/watchlist.json"
+            - "-poll-interval"
+            - "60s"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+        - name: market-data-watcher
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          command:
+            - /app/bin/market-data-watcher
+          args:
+            - "-watchlist"
+            - "/app/config/watchlist.json"
+            - "-out-dir"
+            - "/app/var/market-data"
+            - "-cursor-dir"
+            - "/app/var/market-data-watcher"
+            - "-poll-interval"
+            - "24h"
+            - "-request-delay"
+            - "600ms"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 50m
+              memory: 96Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: fatbaby-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fatbaby-core
+  namespace: emily
+spec:
+  selector:
+    app: fatbaby-core
+  ports:
+    - name: p8082
+      port: 8082
+      targetPort: 8082
+    - name: p9091
+      port: 9091
+      targetPort: 9091
+  type: ClusterIP

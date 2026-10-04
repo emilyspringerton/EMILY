@@ -1,0 +1,30 @@
+# fatbaby-core — the whole PRRJECT_FATBABY pipeline as ONE pod (docs/northstar/FATBABY_K8S_UDS_NORTHSTAR.md).
+# Generated from PRRJECT_FATBABY/ops/systemd/*.service ExecStart lines, then hand-curated: this file is
+# the source of truth; EMILY/gitops/render.sh turns it into clusters/prrject-fatbaby/20-fatbaby-core.yaml.
+# Why one pod: the processors share the var/ event store (RWO PVC) and talk over unix sockets in the
+# emptyDir at /run/fatbaby (sockets only connect containers that share a volume).
+# Requests==limits (Autopilot bills per request); sized from live RSS on the box (all < 85 MB).
+# Left out on purpose: broker (EMILY/gpt2 path coupling), kgraph-server, bond-/movers-watcher (systemd
+# timers — a CronJob pod cannot reach the core pod's sockets; need an in-pod loop mode, see K8S-FB-13).
+pod name=fatbaby-core namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:IMAGE_TAG pvc=fatbaby-var pvc-gb=20 secret=fatbaby-env var=/app/var run=/run/fatbaby replicas=1
+
+container name=secwatch command=/app/bin/secwatch args=-watchlist,/app/config/watchlist.json,-store,/app/var/secwatch,-poll-interval,5m,-rate-rps,2 cpu=100 mem=128
+container name=prwatch command=/app/bin/prwatch args=-store,/app/var/prwatch,-poll-interval,30s cpu=50 mem=96
+container name=prwatch-body command=/app/bin/prwatch-body args=-discovery-store,/app/var/prwatch,-body-store,/app/var/prwatch-body,-poll-interval,15s cpu=50 mem=96
+container name=processor command=/app/bin/processor args=-store,/app/var/secwatch,-workers,4,-poll-interval,15s cpu=50 mem=96
+container name=entity-graph command=/app/bin/entity-graph args=-store,/app/var/secwatch cpu=100 mem=192
+container name=signalapi command=/app/bin/signalapi args=-addr,:9091,-also-listen,unix:///run/fatbaby/signalapi.sock,-store,/app/var/secwatch port=9091 cpu=100 mem=256
+container name=newssite command=/app/bin/newssite args=-store,/app/var/secwatch,-graph-dir,/app/var/entity-graph,-eps-dir,/app/var/eps,-commentary-dir,/app/var/commentary,-guidance-dir,/app/var/guidance,-earnings-cal-dir,/app/var/earnings-calendar,-also-listen,unix:///run/fatbaby/newssite.sock,-signalapi-url,unix:///run/fatbaby/signalapi.sock port=8082 cpu=100 mem=256
+container name=eps-processor command=/app/bin/eps-processor args=-discovery-store,/app/var/prwatch,-body-store,/app/var/prwatch-body,-eps-dir,/app/var/eps,-poll-interval,30s cpu=50 mem=96
+container name=eps-reconciler command=/app/bin/eps-reconciler args=-store,/app/var/secwatch,-eps-dir,/app/var/eps,-graph-dir,/app/var/entity-graph,-poll-interval,6h cpu=50 mem=96
+container name=guidance-watcher command=/app/bin/guidance-watcher args=-discovery-store,/app/var/prwatch,-body-store,/app/var/prwatch-body,-out-dir,/app/var/guidance,-cursor,/app/var/guidance-watcher/.cursor,-poll-interval,30s cpu=50 mem=96
+container name=pr-indexer command=/app/bin/pr-indexer args=-discovery-store,/app/var/prwatch,-body-store,/app/var/prwatch-body,-out-store,/app/var/secwatch,-cursor,/app/var/pr-indexer/.cursor,-poll-interval,30s cpu=50 mem=96
+container name=pr-reaction-watcher command=/app/bin/pr-reaction-watcher args=-secwatch-store,/app/var/secwatch,-prwatch-store,/app/var/prwatch,-store,/app/var/pr-reaction,-poll-interval,60s cpu=50 mem=96
+container name=form4-watcher command=/app/bin/form4-watcher args=-watchlist,/app/config/watchlist.json,-graph-dir,/app/var/entity-graph,-out-dir,/app/var/form4,-lookback,90,-poll-interval,6h cpu=50 mem=96
+container name=dividend-watcher command=/app/bin/dividend-watcher args=-discovery-store,/app/var/prwatch,-body-store,/app/var/prwatch-body,-graph-dir,/app/var/entity-graph,-out-dir,/app/var/dividends,-cursor,/app/var/dividend-watcher/.cursor,-poll-interval,30s cpu=50 mem=96
+container name=buyback-watcher command=/app/bin/buyback-watcher args=-discovery-store,/app/var/prwatch,-body-store,/app/var/prwatch-body,-graph-dir,/app/var/entity-graph,-out-dir,/app/var/buybacks,-cursor,/app/var/buyback-watcher/.cursor,-poll-interval,30s cpu=50 mem=96
+container name=nt-watcher command=/app/bin/nt-watcher args=-watchlist,/app/config/watchlist.json,-graph-dir,/app/var/entity-graph,-out-dir,/app/var/nt-filings,-poll-interval,12h cpu=50 mem=96
+container name=schd13-watcher command=/app/bin/schd13-watcher args=-watchlist,/app/config/watchlist.json,-graph-dir,/app/var/entity-graph,-out-dir,/app/var/schd13,-lookback,90,-poll-interval,6h cpu=50 mem=96
+container name=earnings-calendar command=/app/bin/earnings-calendar args=-eps-dir,/app/var/eps,-body-store,/app/var/prwatch-body,-sec-store,/app/var/secwatch,-out-dir,/app/var/earnings-calendar,-watchlist,/app/config/watchlist.json,-poll-interval,60s cpu=50 mem=96
+container name=market-data-watcher command=/app/bin/market-data-watcher args=-watchlist,/app/config/watchlist.json,-out-dir,/app/var/market-data,-cursor-dir,/app/var/market-data-watcher,-poll-interval,24h,-request-delay,600ms cpu=50 mem=96
+service ports=8082,9091

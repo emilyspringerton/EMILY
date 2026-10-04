@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: edge
+  namespace: emily
+  annotations:
+    kubernetes.io/ingress.class: gce
+spec:
+  rules:
+    - host: golden.okemily.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: collections-server
+                port:
+                  number: 8087
+    - host: fatbaby.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fatbaby-core
+                port:
+                  number: 8082
+    - host: api.fatbaby.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fatbaby-core
+                port:
+                  number: 9091

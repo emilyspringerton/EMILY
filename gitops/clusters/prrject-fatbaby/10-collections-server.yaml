@@ -38,23 +38,3 @@ spec:
     - port: 8087
       targetPort: 8087
   type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: collections-server
-  namespace: emily
-  annotations:
-    kubernetes.io/ingress.class: gce
-spec:
-  rules:
-    - host: golden.okemily.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: collections-server
-                port:
-                  number: 8087
