@@ -14,15 +14,16 @@
 #
 # Runs IN the cluster, as the gitops-autodeploy CronJob (images/gitops-autodeploy/), NOT on the
 # box: the box is ephemeral, so nothing about this loop's ability to run can depend on it staying
-# up. The image bakes in the PARENA render binaries (copied from a box that has them built, at
-# image-build time only); gcloud auth comes from Workload Identity and git push creds from a
-# Secret -- see gitops/secrets/README.md's own "gitops-autodeploy" section for both one-time
-# setup steps.
+# up. The image bakes in the PARENA render binaries, built from PARENA's own committed source at
+# image-build time (no box involved -- verified 2026-10-05: a from-source build's output is
+# byte-identical to every committed manifest). gcloud auth comes from Workload Identity (live:
+# gitops-autodeploy@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com, artifactregistry.reader)
+# and git push creds from a Secret (not yet created -- a real GitHub PAT, needs a human) -- see
+# gitops/secrets/README.md's own "gitops-autodeploy" section.
 #
-# Caveat: the exact `gcloud artifacts docker tags list` invocation below is written from gcloud's
-# documented flags, not live-tested (no gcloud in the authoring sandbox) -- verify it against the
-# real registry before trusting the timer unattended; `bash gitops/watch-tags.sh` run by hand is
-# the way to check.
+# newest_tag() was live-tested against the real registry (2026-10-05, Cloud Shell with the
+# founder's own gcloud session) and cross-checked against every service's currently-committed
+# tag -- all matched, including catching and fixing a real bug (see newest_tag()'s own comment).
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REG="us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily"
@@ -52,8 +53,12 @@ MIXFORGE_TAG mixforge-room mixforge-web
 "
 
 newest_tag() {
-  gcloud artifacts docker tags list "$REG/$1" \
-    --sort-by=~CREATE_TIME --limit=1 --format='value(TAG)' 2>/dev/null
+  # `docker tags list` does NOT populate CREATE_TIME (sorting by it is a silent no-op, found live
+  # 2026-10-05 -- every tag came back with the SAME, oldest-looking answer). `docker images list
+  # --include-tags` carries real per-tag CREATE_TIME; verified against the actual registry that
+  # this returns exactly what's already committed for every service (wotan->v4, iduna->v2, etc).
+  gcloud artifacts docker images list "$REG/$1" --include-tags \
+    --sort-by=~CREATE_TIME --limit=1 --format='value(TAGS)' 2>/dev/null
 }
 
 changed=0

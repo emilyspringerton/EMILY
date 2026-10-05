@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitops-autodeploy
+  namespace: emily
+  annotations:
+    iam.gke.io/gcp-service-account: gitops-autodeploy@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitops-autodeploy
+  namespace: emily
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 240
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: gitops-autodeploy
+          restartPolicy: Never
+          containers:
+            - name: autodeploy
+              image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-autodeploy:v1
+              env:
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitops-autodeploy-git
+                      key: token
+              resources:
+                requests: {cpu: 50m, memory: 128Mi, ephemeral-storage: 256Mi}
+                limits: {memory: 256Mi, ephemeral-storage: 512Mi}

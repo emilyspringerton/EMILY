@@ -21,9 +21,8 @@ git config user.email "gitops-autodeploy@users.noreply.github.com"
 # Keep the push remote authenticated but never print it (it would leak the token into job logs).
 git remote set-url origin "$AUTH_REPO" >/dev/null
 
-# The render binaries are baked into this image (see build.sh -- copied from a box that has them
-# built, same as every other image here copies a locally-built artifact into its Cloud Build
-# context); the checkout itself never carries them.
+# The render binaries are baked into this image (see build.sh -- built from PARENA's own
+# committed source at image-build time, no box involved); the checkout itself never carries them.
 export PARENA_K8S_RENDER=/usr/local/bin/parena-k8s-render
 export PARENA_POD_RENDER=/usr/local/bin/parena-pod-render
 

@@ -1,0 +1,40 @@
+name: Build gitops-autodeploy image
+
+# K8S-CD-01: builds parena-k8s-render/parena-pod-render from PARENA's own committed source
+# (no box involved -- verified 2026-10-05 that a from-source build's output is byte-identical
+# to every committed manifest) and pushes the gitops-autodeploy image via Cloud Build. See
+# gitops/CI_SETUP.md for the one-time GCP Workload Identity setup this needs.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'gitops/images/gitops-autodeploy/**'
+      - 'gitops/watch-tags.sh'
+      - 'gitops/bump-tag.sh'
+      - 'gitops/render.sh'
+      - 'gitops/tags.env'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auth to GCP (Workload Identity, no stored key)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_CI_SERVICE_ACCOUNT }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: PARENA's own build deps (parena compiler links SDL2 unconditionally)
+        run: sudo apt-get update && sudo apt-get install -y libsdl2-dev libsdl2-ttf-dev
+
+      - name: Build + push
+        run: gitops/images/gitops-autodeploy/build.sh "$(git rev-parse --short HEAD)"

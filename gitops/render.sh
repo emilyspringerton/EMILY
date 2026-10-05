@@ -307,14 +307,14 @@ YAML
 # deploy pod lives in the actual cluster"). A CronJob polls Artifact Registry for each service's
 # newest pushed tag and, on a change, bumps gitops/tags.env + re-renders + commits + pushes --
 # gitops-sync above then applies it within 3 min. No in-cluster RBAC needed (it never calls
-# kubectl, only the GitHub/Artifact-Registry APIs), but it DOES need two real credentials that
-# can't be rendered here: Artifact Registry read via Workload Identity (bind the
-# gitops-autodeploy KSA below to a GCP service account with roles/artifactregistry.reader, a
-# one-time `gcloud iam service-accounts add-iam-policy-binding` step) and git push access to this
-# repo (a GitHub PAT, installed via gitops/secrets/make-gitops-autodeploy-secret.sh, same
-# out-of-band convention as every other secret in gitops/secrets/README.md). Image:
-# images/gitops-autodeploy/build.sh (copies the box-built PARENA render binaries INTO the image,
-# so the running CronJob depends on nothing about the box once the image is pushed).
+# kubectl, only the GitHub/Artifact-Registry APIs). Artifact Registry read is live via Workload
+# Identity (gitops-autodeploy@...iam.gserviceaccount.com, bound to this KSA, done 2026-10-05); the
+# one remaining credential is git push access to this repo (a GitHub PAT, installed via
+# gitops/secrets/make-gitops-autodeploy-secret.sh -- the pod will CrashLoopBackOff until that
+# Secret exists, same out-of-band convention as every other secret in gitops/secrets/README.md).
+# Image: images/gitops-autodeploy/build.sh, built from PARENA's own committed source (verified
+# 2026-10-05 -- no box dependency anywhere in this chain anymore), pushed by CI
+# (.github/workflows/build-gitops-autodeploy.yml) via Workload Identity, no stored key.
 AD_TAG="${GITOPS_AUTODEPLOY_TAG:-v1}"
 cat > "$OUT/96b-gitops-autodeploy.yaml" <<YAML
 apiVersion: v1
@@ -323,7 +323,7 @@ metadata:
   name: gitops-autodeploy
   namespace: emily
   annotations:
-    iam.gke.io/gcp-service-account: CHANGEME@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com
+    iam.gke.io/gcp-service-account: gitops-autodeploy@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com
 ---
 apiVersion: batch/v1
 kind: CronJob
