@@ -31,7 +31,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: secwatch
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/secwatch
           args:
@@ -65,7 +65,7 @@ spec:
               memory: 1024Mi
               ephemeral-storage: 256Mi
         - name: prwatch
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/prwatch
           args:
@@ -95,7 +95,7 @@ spec:
               memory: 96Mi
               ephemeral-storage: 256Mi
         - name: prwatch-body
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/prwatch-body
           args:
@@ -127,7 +127,7 @@ spec:
               memory: 192Mi
               ephemeral-storage: 256Mi
         - name: processor
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/processor
           args:
@@ -159,7 +159,7 @@ spec:
               memory: 384Mi
               ephemeral-storage: 256Mi
         - name: entity-graph
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/entity-graph
           args:
@@ -187,7 +187,7 @@ spec:
               memory: 768Mi
               ephemeral-storage: 256Mi
         - name: signalapi
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/signalapi
           args:
@@ -224,7 +224,7 @@ spec:
               memory: 1280Mi
               ephemeral-storage: 256Mi
         - name: newssite
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/newssite
           args:
@@ -271,7 +271,7 @@ spec:
               memory: 2048Mi
               ephemeral-storage: 256Mi
         - name: eps-processor
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/eps-processor
           args:
@@ -305,7 +305,7 @@ spec:
               memory: 384Mi
               ephemeral-storage: 256Mi
         - name: eps-reconciler
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/eps-reconciler
           args:
@@ -339,7 +339,7 @@ spec:
               memory: 96Mi
               ephemeral-storage: 256Mi
         - name: guidance-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/guidance-watcher
           args:
@@ -375,7 +375,7 @@ spec:
               memory: 384Mi
               ephemeral-storage: 256Mi
         - name: pr-indexer
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/pr-indexer
           args:
@@ -411,7 +411,7 @@ spec:
               memory: 384Mi
               ephemeral-storage: 256Mi
         - name: pr-reaction-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/pr-reaction-watcher
           args:
@@ -445,7 +445,7 @@ spec:
               memory: 768Mi
               ephemeral-storage: 256Mi
         - name: form4-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/form4-watcher
           args:
@@ -481,7 +481,7 @@ spec:
               memory: 96Mi
               ephemeral-storage: 256Mi
         - name: dividend-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/dividend-watcher
           args:
@@ -519,7 +519,7 @@ spec:
               memory: 384Mi
               ephemeral-storage: 256Mi
         - name: buyback-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/buyback-watcher
           args:
@@ -557,7 +557,7 @@ spec:
               memory: 384Mi
               ephemeral-storage: 256Mi
         - name: nt-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/nt-watcher
           args:
@@ -591,7 +591,7 @@ spec:
               memory: 96Mi
               ephemeral-storage: 256Mi
         - name: schd13-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/schd13-watcher
           args:
@@ -627,7 +627,7 @@ spec:
               memory: 96Mi
               ephemeral-storage: 256Mi
         - name: earnings-calendar
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/earnings-calendar
           args:
@@ -665,7 +665,7 @@ spec:
               memory: 1024Mi
               ephemeral-storage: 256Mi
         - name: market-data-watcher
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:0.1.0
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
             - /app/bin/market-data-watcher
           args:

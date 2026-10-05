@@ -31,7 +31,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: iduna
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/iduna:v2
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/iduna:b6c2d7f
           command:
             - /app/iduna
           ports:
