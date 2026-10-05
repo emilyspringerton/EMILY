@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 # Regenerate gitops/clusters/prrject-fatbaby/*.yaml with PARENA's renderers (make -C PARENA parena-k8s-render parena-pod-render).
 # Manifests are generated, never hand-edited: change the flags here, rerun, commit.
+# Tags are generated too, from tags.env (K8S-CD-01) -- use bump-tag.sh to change one, don't hand-edit
+# the *_TAG defaults below. An already-exported env var (e.g. a one-off manual override) still wins.
 set -euo pipefail
+HERE="$(cd "$(dirname "$0")" && pwd)"
+while IFS='=' read -r k v; do
+  [[ -z "$k" || "$k" == \#* ]] && continue
+  [[ -v "$k" ]] || export "$k=$v"
+done < "$HERE/tags.env"
 R="${PARENA_K8S_RENDER:-/home/fatbaby/PARENA/parena-k8s-render}"
 OUT="$(cd "$(dirname "$0")" && pwd)/clusters/prrject-fatbaby"
 REG="us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily"
@@ -293,6 +300,61 @@ spec:
               resources:
                 requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
                 limits: {memory: 128Mi, ephemeral-storage: 512Mi}
+YAML
+
+# gitops-autodeploy (K8S-CD-01 Phase 2): the OTHER half of auto-deploy, also in-cluster (founder,
+# 2026-10-05: "auto deploy cant be set up on this box this box is ephemeral make sure the auto
+# deploy pod lives in the actual cluster"). A CronJob polls Artifact Registry for each service's
+# newest pushed tag and, on a change, bumps gitops/tags.env + re-renders + commits + pushes --
+# gitops-sync above then applies it within 3 min. No in-cluster RBAC needed (it never calls
+# kubectl, only the GitHub/Artifact-Registry APIs), but it DOES need two real credentials that
+# can't be rendered here: Artifact Registry read via Workload Identity (bind the
+# gitops-autodeploy KSA below to a GCP service account with roles/artifactregistry.reader, a
+# one-time `gcloud iam service-accounts add-iam-policy-binding` step) and git push access to this
+# repo (a GitHub PAT, installed via gitops/secrets/make-gitops-autodeploy-secret.sh, same
+# out-of-band convention as every other secret in gitops/secrets/README.md). Image:
+# images/gitops-autodeploy/build.sh (copies the box-built PARENA render binaries INTO the image,
+# so the running CronJob depends on nothing about the box once the image is pushed).
+AD_TAG="${GITOPS_AUTODEPLOY_TAG:-v1}"
+cat > "$OUT/96b-gitops-autodeploy.yaml" <<YAML
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitops-autodeploy
+  namespace: emily
+  annotations:
+    iam.gke.io/gcp-service-account: CHANGEME@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitops-autodeploy
+  namespace: emily
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 240
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: gitops-autodeploy
+          restartPolicy: Never
+          containers:
+            - name: autodeploy
+              image: $REG/gitops-autodeploy:$AD_TAG
+              env:
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitops-autodeploy-git
+                      key: token
+              resources:
+                requests: {cpu: 50m, memory: 128Mi, ephemeral-storage: 256Mi}
+                limits: {memory: 256Mi, ephemeral-storage: 512Mi}
 YAML
 
 # CarePyre (K8S-MV-05): carepyre.org + www on the edge Gateway (cert carepyre-org-wild in certmap edge-certs). Site + idunapro in one pod.
