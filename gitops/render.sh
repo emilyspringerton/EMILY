@@ -309,7 +309,9 @@ YAML
 # gitops-sync above then applies it within 3 min. No in-cluster RBAC needed (it never calls
 # kubectl, only the GitHub/Artifact-Registry APIs). Artifact Registry read is live via Workload
 # Identity (gitops-autodeploy@...iam.gserviceaccount.com, bound to this KSA, done 2026-10-05); the
-# one remaining credential is git push access to this repo (a GitHub PAT, installed via
+# one remaining credential is git push access to this repo, an SSH deploy key (founder,
+# 2026-10-05: "use the box ssh key why are you using a PAT?" -- the box's own account-level key,
+# same one every `git push` in this repo's own operator/CI flow already uses), installed via
 # gitops/secrets/make-gitops-autodeploy-secret.sh -- the pod will CrashLoopBackOff until that
 # Secret exists, same out-of-band convention as every other secret in gitops/secrets/README.md).
 # Image: images/gitops-autodeploy/build.sh, built from PARENA's own committed source (verified
@@ -343,15 +345,27 @@ spec:
         spec:
           serviceAccountName: gitops-autodeploy
           restartPolicy: Never
+          # fsGroup so the secret-mounted key is group-readable by the image's non-root
+          # 'gitops' user (uid/gid 10001, images/gitops-autodeploy/Dockerfile) -- a Secret
+          # volume is root-owned by default, and 0600 alone leaves a non-root container unable
+          # to read it at all (found live, 2026-10-05: "Permission denied" loading the key).
+          securityContext:
+            fsGroup: 10001
+          volumes:
+            - name: ssh-key
+              secret:
+                secretName: gitops-autodeploy-git
+                defaultMode: 0440
           containers:
             - name: autodeploy
               image: $REG/gitops-autodeploy:$AD_TAG
-              env:
-                - name: GITHUB_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: gitops-autodeploy-git
-                      key: token
+              volumeMounts:
+                # subPath so this mount adds the key alongside the image's own baked-in
+                # known_hosts (see images/gitops-autodeploy/Dockerfile) instead of hiding it.
+                - name: ssh-key
+                  mountPath: /etc/gitops-autodeploy/ssh/id_ed25519
+                  subPath: id_ed25519
+                  readOnly: true
               resources:
                 requests: {cpu: 50m, memory: 128Mi, ephemeral-storage: 256Mi}
                 limits: {memory: 256Mi, ephemeral-storage: 512Mi}

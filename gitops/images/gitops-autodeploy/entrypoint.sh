@@ -8,18 +8,22 @@
 # no-inbound-creds design as that job, just pointed the other direction (detect + regenerate
 # instead of apply).
 set -euo pipefail
-REPO="${GITOPS_REPO:-https://github.com/emilyspringerton/EMILY.git}"
-: "${GITHUB_TOKEN:?GITHUB_TOKEN env var required (from the gitops-autodeploy-git Secret)}"
+REPO="${GITOPS_REPO:-git@github.com:emilyspringerton/EMILY.git}"
+SSH_KEY="${GITOPS_SSH_KEY:-/etc/gitops-autodeploy/ssh/id_ed25519}"
+[ -f "$SSH_KEY" ] || { echo "missing SSH key at $SSH_KEY (from the gitops-autodeploy-git Secret)" >&2; exit 1; }
 W="$(mktemp -d)"
 trap 'rm -rf "$W"' EXIT
 
-AUTH_REPO="$(echo "$REPO" | sed "s#https://#https://x-access-token:${GITHUB_TOKEN}@#")"
-git clone --depth 1 --quiet "$AUTH_REPO" "$W/EMILY"
+# Switched from a GitHub PAT to this box's own account-level SSH deploy key (founder, 2026-10-05:
+# "use the box ssh key why are you using a PAT?") -- same key every `git push` in this repo's own
+# CI/operator flow already uses, so no new GitHub-side credential to create or scope. Pin the host
+# key rather than StrictHostKeyChecking=no: avoids trusting whatever github.com happens to answer
+# with on a given run.
+export GIT_SSH_COMMAND="ssh -i $SSH_KEY -o IdentitiesOnly=yes -o UserKnownHostsFile=/etc/gitops-autodeploy/ssh/known_hosts -o StrictHostKeyChecking=yes"
+git clone --depth 1 --quiet "$REPO" "$W/EMILY"
 cd "$W/EMILY"
 git config user.name "gitops-autodeploy"
 git config user.email "gitops-autodeploy@users.noreply.github.com"
-# Keep the push remote authenticated but never print it (it would leak the token into job logs).
-git remote set-url origin "$AUTH_REPO" >/dev/null
 
 # The render binaries are baked into this image (see build.sh -- built from PARENA's own
 # committed source at image-build time, no box involved); the checkout itself never carries them.

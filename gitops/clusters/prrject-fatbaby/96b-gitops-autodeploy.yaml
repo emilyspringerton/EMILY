@@ -24,15 +24,21 @@ spec:
         spec:
           serviceAccountName: gitops-autodeploy
           restartPolicy: Never
+          volumes:
+            - name: ssh-key
+              secret:
+                secretName: gitops-autodeploy-git
+                defaultMode: 0600
           containers:
             - name: autodeploy
               image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-autodeploy:v1
-              env:
-                - name: GITHUB_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: gitops-autodeploy-git
-                      key: token
+              volumeMounts:
+                # subPath so this mount adds the key alongside the image's own baked-in
+                # known_hosts (see images/gitops-autodeploy/Dockerfile) instead of hiding it.
+                - name: ssh-key
+                  mountPath: /etc/gitops-autodeploy/ssh/id_ed25519
+                  subPath: id_ed25519
+                  readOnly: true
               resources:
                 requests: {cpu: 50m, memory: 128Mi, ephemeral-storage: 256Mi}
                 limits: {memory: 256Mi, ephemeral-storage: 512Mi}

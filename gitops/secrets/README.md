@@ -23,14 +23,19 @@ The CronJob (`gitops/render.sh`'s own `96b-gitops-autodeploy.yaml` output) needs
    bound via Workload Identity to the in-cluster KSA (`project-d24a71e9-2daf-4b2d-917.svc.id.goog
    [emily/gitops-autodeploy]`). The ServiceAccount in the rendered manifest carries the real
    annotation, not a placeholder.
-2. **Git push access** (a GitHub PAT with `repo` scope on `emilyspringerton/EMILY`) -- **not yet
-   done**, needs a real GitHub account action no sandbox/CI identity can perform. Create the PAT,
-   then:
+2. **Git push access** -- an SSH deploy key, not a PAT (founder, 2026-10-05: "use the box ssh key
+   why are you using a PAT?"). Use the box's own account-level key (`~/.ssh/id_ed25519` --
+   already the key every `git push` in this repo's own operator/CI flow uses, confirmed working
+   against `emilyspringerton/EMILY`), no new GitHub-side credential to create or scope:
    ```bash
-   ./make-gitops-autodeploy-secret.sh <the-PAT> | kubectl apply -f -
+   ./make-gitops-autodeploy-secret.sh ~/.ssh/id_ed25519 | kubectl apply -f -
    ```
    The pod `CrashLoopBackOff`s every 5 min until this exists -- expected, bounded
    (`failedJobsHistoryLimit: 3`), and resolves itself the next scheduled run once the Secret lands.
+   (A GitHub fine-grained PAT was tried first and found live, 2026-10-05, to be read-only despite
+   the account itself having push access -- the repo API's `permissions.push` reflects the
+   account's role, not what a given fine-grained token was actually scoped to. Switched to the SSH
+   key rather than minting a new PAT with broader scope.)
 
 Image build is automatic (`.github/workflows/build-gitops-autodeploy.yml`, CI auth via the
 `github` Workload Identity pool -- see `gitops/CI_SETUP.md`), and was also verified by a real,
