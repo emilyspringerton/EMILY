@@ -70,6 +70,50 @@ gcloud iam service-accounts add-iam-policy-binding "github-ci@$PROJECT.iam.gserv
 (The `gitops-autodeploy` service account + its GKE Workload Identity binding is documented
 separately in `gitops/secrets/README.md` -- different purpose, different trust relationship.)
 
+## `gcloud builds submit` needs more than the two base roles (found live, 2026-10-05)
+
+`roles/cloudbuild.builds.editor` + `roles/artifactregistry.writer` are NOT sufficient on their
+own for `gcloud builds submit` to work end to end as a non-Viewer/Owner CI SA. Three more real
+gaps, found live debugging SHANKPIT's first CI run, now fixed in every `build-image.sh`/
+`build.sh` that calls `gcloud builds submit` (SHANKPIT, IDUNA, PRRJECT_FATBABY,
+`gitops/images/gitops-autodeploy/build.sh`):
+
+1. **Staging bucket access.** `github-ci` needs write/read access to the Cloud Build default
+   staging bucket (`gs://<PROJECT>_cloudbuild`), which has Uniform Bucket-Level Access enabled so
+   it must be granted via `gsutil iam ch`, not legacy ACLs:
+   ```bash
+   PROJECT=project-d24a71e9-2daf-4b2d-917
+   SA="github-ci@$PROJECT.iam.gserviceaccount.com"
+   for role in storage.objectAdmin storage.legacyBucketReader storage.legacyBucketWriter; do
+     gsutil iam ch "serviceAccount:$SA:roles/$role" "gs://${PROJECT}_cloudbuild"
+   done
+   gcloud projects add-iam-policy-binding "$PROJECT" --condition=None \
+     --member="serviceAccount:$SA" --role="roles/serviceusage.serviceUsageConsumer"
+   ```
+
+2. **Auto-detecting the staging bucket requires a project-level `storage.buckets.list` call**
+   that the bucket-scoped bindings above don't satisfy -- `gcloud builds submit` does
+   `GET /storage/v1/b?project=...&prefix=...` to find the bucket, a 403 there is misleadingly
+   reported as `"forbidden ... serviceusage.services.use"`. Fix: every build script passes
+   `--gcs-source-staging-dir="gs://${PROJECT}_cloudbuild/source"` explicitly, which skips that
+   list call entirely. Granting a project-level `roles/storage.admin` (which includes
+   `buckets.list`) would also work but is broader than this CI SA should hold.
+
+3. **Cloud Build runs the worker as the Compute Engine default service account**
+   (`<PROJECT_NUMBER>-compute@developer.gserviceaccount.com`) unless a custom build SA is
+   configured. Submitting a build means "acting as" that SA, so `github-ci` needs:
+   ```bash
+   gcloud iam service-accounts add-iam-policy-binding \
+     "${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" --project "$PROJECT" \
+     --member="serviceAccount:$SA" --role="roles/iam.serviceAccountUser"
+   ```
+
+4. **Log streaming requires a project Viewer/Owner primitive role**, which `github-ci` is
+   deliberately not. `gcloud builds submit` blocks on `--suppress-logs` the same way (still
+   polls/waits, still exits 1) -- the real fix is `--async` + manually polling
+   `gcloud builds describe <id> --format="value(status)"` for a terminal status, never
+   streaming logs. See any of the `build-image.sh` scripts above for the pattern.
+
 ## What's still manual
 
 Only the things that need a human with GitHub account access, which no CI identity or GCP
