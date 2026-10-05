@@ -37,7 +37,7 @@ spec:
                 defaultMode: 0440
           containers:
             - name: autodeploy
-              image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-autodeploy:v1
+              image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-autodeploy:e5e015be
               volumeMounts:
                 # subPath so this mount adds the key alongside the image's own baked-in
                 # known_hosts (see images/gitops-autodeploy/Dockerfile) instead of hiding it.
