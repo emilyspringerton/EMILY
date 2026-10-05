@@ -24,11 +24,17 @@ spec:
         spec:
           serviceAccountName: gitops-autodeploy
           restartPolicy: Never
+          # fsGroup so the secret-mounted key is group-readable by the image's non-root
+          # 'gitops' user (uid/gid 10001, images/gitops-autodeploy/Dockerfile) -- a Secret
+          # volume is root-owned by default, and 0600 alone leaves a non-root container unable
+          # to read it at all (found live, 2026-10-05: "Permission denied" loading the key).
+          securityContext:
+            fsGroup: 10001
           volumes:
             - name: ssh-key
               secret:
                 secretName: gitops-autodeploy-git
-                defaultMode: 0600
+                defaultMode: 0440
           containers:
             - name: autodeploy
               image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-autodeploy:v1
