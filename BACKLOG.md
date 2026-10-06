@@ -52839,3 +52839,34 @@ Founder: "start moving the game services off box - REDGARDEN game servers first 
 ## SECTION 596 — Founder real-time 2026-10-05: NOCK level editor only renders ONE level of nested objects
 
 - [x] **NOCK-NEST-01: SHANKPIT NOCK level editor — arbitrary-depth nested level/widget objects now render in the editor's own 3D preview.** Founder real-time: "currently nesting 1 deep is fine but if you nest level 1 into level 2 and then 2 into 3 you dont see level 1 in the level 3 editor or if you place level 3 in a new level." Root cause, confirmed directly in code (frontend/nock/src/ShankpitLevelEditor.tsx): `useReferencedLevelWalls`/`useReferencedWidgetWalls` only ever fetched the DIRECTLY-placed object's own wall list (`shankpitLevels.get(id).walls`) — a real, deliberate v0 scope limit named in that hook's own doc comment at the time ("only the DIRECT child's own walls render... not recursively resolved here"), unlike the server-side export path (`internal/shankpit/level_store.go`'s `flattenObjects`), which already recurses through a placed object's own further-nested objects with a real cycle guard (`visited`) and depth guard (`MaxLevelObjectDepth = 6`). Fixed by porting that same recursion client-side: new `useReferencedLevelsDeep` hook walks outward from the draft's own objects breadth-first, one nesting round at a time, fetching the FULL level (walls + its own `.objects`) for every newly-discovered `ref_level_id` and the leaf widget data for every newly-discovered `ref_widget_id` (a widget is always a leaf, matching `flattenObjects`' own widget branch), bounded by the same `MAX_LEVEL_OBJECT_DEPTH = 6` mirrored from the server constant, naturally cycle-safe since an already-cached id is never re-fetched or re-walked. New `buildComposedObjectGroup` recursively builds each placed object's own `THREE.Group`, adding a nested object's group as a CHILD of its parent's `contentGroup` — three.js's own ordinary parent/child transform inheritance composes every ancestor's position + Y-rotation for free, so this function only ever applies ONE object's own local transform, same as the original single-level-deep version did. `rootLevelId` (the level currently open in the editor) seeds the recursion's own `visited` set, matching Export's own top-level `flattenObjects` call (`map[int64]bool{id: true}`), so a placed object that loops back around to the currently-open level stops there instead of recursing forever. `npx tsc -b` + `npm run build` (vite) both clean. No server-side change needed — `flattenObjects`/Export already handled arbitrary depth correctly; this was a client-preview-only gap. session: sess-20261005-0856-dc2e56d0
+
+## SECTION 597 — Founder real-time 2026-10-06: SHANKPIT/REDGARDEN/GFD "same product, different scales" shared-engine + ECOWAR/DEADWEIGHT/BIG_O "empire of worlds"
+
+Founder, verbatim: "SHANKPIT REDGARDEN GFD - they are all actually the same product at different
+scales we need to full share the technology of the platform and engine impprovements across then
+engine - write the northstar more parena powered" then, mid-turn: "and then write the northstar
+for merging ECOWAR DEADWEIGHT2 and BIG_O main repo" / "its all the same its like an empire of
+worlds." Routed via `emily observe -s info` first per Principle 18 (obs
+`2026-10-06T17-15-40Z.json`). session: sess-20260923-1030-4a526255
+
+- [x] **S597-01: SHARED_ENGINE_NORTHSTAR for SHANKPIT/REDGARDEN/GFD.** `SHANKPIT/docs2/SHARED_ENGINE_NORTHSTAR.md`
+  (golden-indexed SHARED-ENGINE-NORTH). PARENA-first (per Core Deps standing instruction)
+  `engine/{netcode,reconcile,humanness,itemstat,matchmaking}` layer proposed to replace the manual
+  "canonical / reference copy" convention on SHANKPIT-NETCODE/SHANKPIT-PREDICT. Real capability
+  ceiling named: BURROW's Go emission is scalar+flat-struct only today — the actual blocker for
+  REDGARDEN/GFD cutover, not anything SHANKPIT-specific. SHANKPIT itself unblocked today via
+  PARENA's C emitter; phased plan starts there. Design only, no code moved. SHANKPIT `f1d230e`.
+  **Apple not filed** — `emily apples post` failed (`IDUNA_AGENT_SECRET not set`; IDUNA not
+  reachable/configured in this sandbox). Flagging per protocol rather than fabricating an Apple ID.
+- [x] **S597-02: EMPIRE NORTHSTAR for ECOWAR/DEADWEIGHT/BIG_O.** New local repo `EMPIRE/NORTHSTAR.md`
+  (golden-indexed EMPIRE-NORTH, no upstream yet — founder creates it, same precedent as
+  BIG_O/SLOWBOT_LEAGUE). Scopes the real shared layer as competitive-PvP meta (guest identity,
+  ladder, shared bot pool, WOTAN-pattern economy portal) rather than merging engine/client code.
+  Found ECOWAR's real `:9779` matchmaker+bot-pool is already the thing DEADWEIGHT's own spec
+  explicitly asked to reuse by name; IDUNA's `players` table has no guest/anonymous provider yet
+  (genuinely new work, not duplicated per-game). **Named discrepancy, not resolved**: "DEADWEIGHT2"
+  does not exist anywhere in the golden-docs-index or repo table — only `DEADWEIGHT` does; treated
+  as `DEADWEIGHT` with the gap flagged for the founder to confirm. **Also honest**: `ECOWAR` is not
+  checked out in this sandbox at all — doc is grounded only in its `CLAUDE.md`/`DEADWEIGHT`-doc
+  description, not a direct read of its code. Local commit `e2ab755`, no remote push (no upstream
+  configured). **Apple not filed** — same IDUNA-unreachable block as S597-01.
