@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-10-06T22:45:13Z",
+  "from": "operator-cli",
+  "to": "emily-prime",
+  "task_id": "task-mpt-detroit-1901-handwash-20261006",
+  "task_type": "mpt_render_job_queued",
+  "priority": "normal",
+  "description": "Founder-supplied MoneyPrinterTurbo job config, queued as a signal rather than rendered -- neither the TYLER repo (82 episode scripts + universe engine, the real source of MPT video_subject text per IDUNA/docs/kikoryu/VS11_TYLER_SYNDICATION.md) nor the MoneyPrinterTurbo repo itself is checked out in this sandbox. The config matches MoneyPrinterTurbo's own config.json schema exactly (video_subject/voice_name/video_aspect/etc.) and is a real, usable job -- just not executable here. Filed verbatim below for whichever session next has both repos checked out to pick up.",
+  "mpt_job": {
+    "video_subject": "A camera crew follows a man through a Detroit apartment building at night. He washes his hands at the kitchen sink with methodical care -- too much care, like someone practicing ordinariness. A 1901 security camera timestamp appears on footage shot tonight. The crew keeps rolling.",
+    "video_language": "en",
+    "voice_name": "en-GB-RyanNeural",
+    "video_aspect": "portrait",
+    "video_size": "1080x1920",
+    "video_count": 3,
+    "video_clip_duration": 3,
+    "subtitle_enabled": true,
+    "subtitle_font": "Anton",
+    "subtitle_color": "#FFFFFF",
+    "subtitle_size": 72,
+    "subtitle_position": "bottom",
+    "bgm_type": "random",
+    "bgm_volume": 0.06
+  },
+  "acceptance_criteria": [
+    "TYLER repo cloned/checked out and this scene cross-referenced against its own episode canon (the 1901 Detroit timestamp ties to TYLER-004, the still-unanswered 'what happened in Detroit in 1901' thread from lore/tyler_1978_archive.md footnote 12)",
+    "MoneyPrinterTurbo checked out and this exact config run through it, OR the job re-filed against whatever render path TYLER actually uses today if MPT has been superseded",
+    "Resulting clip(s) linked back into this task's own BACKLOG entry"
+  ],
+  "context": "Not routed to BIG_O's ARPANET terminal or SHANKPIT's TYLER MODE_TYLER coordinator -- this is neither Eastwind Owl archive prose nor a Tyler/Hana engine blocking scene, it's a literal MoneyPrinterTurbo render job spec. Queued here (EMILY/signals/tasks/, the existing task-signal convention) instead of guessed into a destination that can't actually execute it."
+}
