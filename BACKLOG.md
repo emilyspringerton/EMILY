@@ -46948,6 +46948,24 @@ IDUNA commit `d7197eb` (Apple #20270), DEADWEIGHT commit `754ae57` (Apple #20271
 
 session: sess-20260920-1908-24cb3558
 
+- [x] **Follow-up fix (founder report, Windows client, 2026-10-06): "draft mode eats my ticket and
+  disconnects me"**. Root cause: `start_draft_run()`'s ticket spend (`draft-run/start`, this
+  section above) and the `dw_server` TCP connect are two non-atomic steps — a connect failure left
+  the ticket spent, the IDUNA-side run stuck `active`, and no refund path, since `cashOutDraftRun`'s
+  reward table (`draftRunReward(0)`) returns 0 for a 0-win run, same as a genuine played-and-lost
+  run. Exposed far more often since SECTION K8S-MV-04 (`dw_server` now a single-replica GKE pod
+  behind the automatic `watch-tags.sh` + `gitops-sync` redeploy loop, which can bounce the pod
+  mid-connect with zero human action). Fixed both sides: IDUNA's `cashOutDraftRun` now special-cases
+  `wins==0 && losses==0` as a full 1-ticket refund; DEADWEIGHT's `start_draft_run()` now checks
+  `A.connected` after `do_connect()` and calls `dwi_draft_run_abort()` to claim that refund on
+  failure. IDUNA commit `40a3d56` (Apple #22184), DEADWEIGHT commit `a9f2940` (Apple #22185).
+  **Named, not done this pass**: the underlying infra risk (single-replica `dw_server`/`tcp-edge`
+  getting auto-redeployed out from under live connections) is unaddressed — would need a
+  `replicas`/rollout-strategy change in `EMILY/gitops/specs/deadweight.pod`, a separate, deliberate
+  call, not bundled into this client-side fix.
+
+session: sess-20260923-1030-4a526255
+
 ## SECTION 512: DEADWEIGHT — ZERO-FRICTION BOOT, LORE NAMES, VERIFIED TICKET GRANT (FOUNDER REAL-TIME)
 
 *⚠️ This section's own ticket-refresh design (rolling 24h window) was REVERSED same-week by*
