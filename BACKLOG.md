@@ -52870,3 +52870,30 @@ worlds." Routed via `emily observe -s info` first per Principle 18 (obs
   checked out in this sandbox at all — doc is grounded only in its `CLAUDE.md`/`DEADWEIGHT`-doc
   description, not a direct read of its code. Local commit `e2ab755`, no remote push (no upstream
   configured). **Apple not filed** — same IDUNA-unreachable block as S597-01.
+
+## SECTION 598 — Founder real-time 2026-10-06: EMPIRE fusion cook + ship-first priority
+
+Founder, same session as SECTION 597, rapid-fire: "cook on EMPIRE - merge ECOWAR and BIG_O via a
+RTS clash of clans like interface take any bits from DEADWEIGHT [confirmed: 'DEADSPACE1' was a
+typo] and build out a DEADWEIGHT_2 full RTS style shipping and world ecology management sim... play
+cards to organize the resources of the runners... mix in BIG_O, all the factions are there... TRAPX
+is the glue" / "ship ship fast iterate on DEADWEIGHT + ECOWAR + DEADWEIGHT_2 is built but not
+shipped REDGARDEN [has] no auth model". session: sess-20260923-1030-4a526255
+
+- [x] **S598-01: EMPIRE fusion design + ship-first reorder.** `EMPIRE/NORTHSTAR.md` §2a/§3 (local
+  commit `61b1477`, no remote). Maps the Clash-of-Clans ask onto BIG_O's own existing
+  day/night/basement loop (base-view = CoC home base; raids resolved by ECOWAR's real 16-card
+  system, same relationship Clash Royale combat has to CoC base-building); repoints DEADWEIGHT's
+  grid/fragmentation-tax knapsack at shipping/runner logistics for DEADWEIGHT_2 instead of combat;
+  names TRAPX's existing faction/Fame table (`SHANKPIT/docs2/TRAPX_NORTHSTAR.md`) as the shared
+  reputation substrate — real retrofit work (ECOWAR/DEADWEIGHT cards aren't faction-tagged today),
+  not assumed free. Reorders priority: ship `DEADWEIGHT_2` first (already built per founder, next
+  real action is auditing it directly — not in this sandbox, path/location needed from founder)
+  before new fusion build-out. **Correction made**: an earlier assumption that DEADWEIGHT's
+  guest-identity ask could reuse "the REDGARDEN model" was wrong — founder confirms REDGARDEN has
+  no auth model at all; flagged as an open risk for ECOWAR too (forked from REDGARDEN, unknown
+  whether it inherited the same gap). **Not done, named honestly**: `DEADWEIGHT_2`, `ECOWAR`, and
+  `REDGARDEN` are not checked out in this sandbox — nothing above is a code-level audit of any of
+  the three; this is design/mapping only, next real step is getting them into a sandbox or reading
+  them directly. **Apple not filed** — IDUNA unreachable in this sandbox (`IDUNA_AGENT_SECRET not
+  set`), same block as S597-01/02.
