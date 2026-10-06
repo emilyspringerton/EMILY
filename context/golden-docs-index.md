@@ -39,6 +39,8 @@
 | THE-FIELD | EMILY/docs/THE_FIELD.md | 2 | 3000 | Synthetic consciousness architecture; dual-persona harmonic engine; informs Emiree |
 | THE-EMILY-WAY | EMILY/docs/THE_EMILY_WAY.md | 1 | 0 | Operating procedure; how we work; RSI loop discipline; commit/Apple/CHANGELOG protocol |
 | GFD-NORTH | GoblinFoxDragon/docs/NORTHSTAR.md | 2 | 2000 | GoblinFoxDragon studio umbrella; Dragonfly fork identity; shared game engine foundation |
+| SHARED-ENGINE-NORTH | SHANKPIT/docs2/SHARED_ENGINE_NORTHSTAR.md | 1 | 3000 | SHANKPIT/REDGARDEN/GFD "same product at different scales" — PARENA-first shared engine layer (netcode, reconcile, humanness, itemstat, matchmaking) under all three, replacing the manual "canonical / reference copy" convention; BURROW struct/enum/Vec Go emission named as the real blocking dependency for REDGARDEN/GFD cutover |
+| EMPIRE-NORTH | EMPIRE/NORTHSTAR.md | 2 | 2000 | New repo, NORTHSTAR only — ladder/guest-identity/bot-pool/economy backbone unifying ECOWAR+DEADWEIGHT (+BIG_O's async shadow war, evaluated separately) as "worlds"; does not merge their engine/client code, only the competitive-PvP-meta layer; flags "DEADWEIGHT2" as unconfirmed, ECOWAR not checked out in this sandbox |
 | EMILY-TOOLS | EMILY/docs/emily-prime-agent-tools-spec.md | 2 | 2000 | Emily Prime tool surface; all emily_* tool definitions and permissions |
 | EMILY-PROTOCOL | EMILY/docs/emily-agent-protocol.md | 2 | 2000 | Emily Prime agentic loop protocol; how tool calls flow |
 | EMILY-FRAMEWORK | EMILY/docs/emily-agent-framework.md | 2 | 2000 | Emily Prime framework-level design; overall agent architecture |
