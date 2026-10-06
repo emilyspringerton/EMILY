@@ -52897,3 +52897,44 @@ shipped REDGARDEN [has] no auth model". session: sess-20260923-1030-4a526255
   the three; this is design/mapping only, next real step is getting them into a sandbox or reading
   them directly. **Apple not filed** — IDUNA unreachable in this sandbox (`IDUNA_AGENT_SECRET not
   set`), same block as S597-01/02.
+
+## SECTION 599 — Founder real-time 2026-10-06: EMPIRE correction — layered merge, not shared backend, + BURNER UI
+
+Founder, same session, correcting SECTION 598's framing: "you kind of fucked up my instructions —
+EMPIRE is literally a merging of BIG_O ECOWAR and DEADWEIGHT 1+2 — full ECOWAR RTS style card
+places units Clash Royale style but the factions are actually the BIG_O simulation, the game is
+ECOWAR, BIG_O is the tech tree, TRAPX is the universe, TYLER is the lore, SHANKPIT is the operating
+system, REDGARDEN is the hero UI, DEADWEIGHT is the card language — ensure we have all of
+github.com/emilyspringerton/* — merge ECOWAR and BIG_O first, ECOWAR is the client, BIG_O is the
+headless sim that needs a GUI resource management sim [wrapped in] TRAPX doctrine" then: "build
+all of the ingame affordances through the 'BURNER UI' (BIG_O smartphone) — tech tree is in the
+phone, units are in the phone, unify the design language." session: sess-20260923-1030-4a526255
+
+- [x] **S599-01: Full emilyspringerton org inventory + local checkout.** Pulled the real,
+  authoritative repo list via `gh repo list emilyspringerton --limit 200` (91 repos, not the
+  hand-maintained root `CLAUDE.md` table). Cloned `ECOWAR`, `REDGARDEN`, `TRAPX`, `MONOREPO` fresh
+  into this sandbox (depth 50); found `DEADWEIGHT_2` was already present locally (missed earlier
+  by spelling — "DEADWEIGHT2"/"DEADSPACE1" vs the real `DEADWEIGHT_2`). Confirmed: `DEADWEIGHT_2`
+  is real and distinct (own CI, v0.3.0 release, "CRASH_OVERRIDE"), `MONOREPO` is unrelated
+  operational glue (go.work/deploy scripts), no other org repo already attempts this merge.
+- [x] **S599-02: Corrected EMPIRE/NORTHSTAR.md — layered merge, not shared backend.** (local
+  commit `c9f6e56`, no remote). Rewrote around the real architecture: ECOWAR = the game (real,
+  shipped 16-card system, `card_effect_mod.prn`, but confirmed no deck/hand/unit-placement UI yet
+  — per ECOWAR's own README), BIG_O = headless faction/tech-tree sim (`core/lab_sim.h/.c`,
+  Attention/Heat module — real headless-plus-tiny-text-sim precedent), DEADWEIGHT/DEADWEIGHT_2 =
+  card language (`core/card_rules.c`), TRAPX = universe doctrine (real standalone repo: grid/
+  alignment/pressure/deck-of-operations, BLOCK ZERO spec — distinct from and only partially
+  overlapping `SHANKPIT/docs2/TRAPX_NORTHSTAR.md`'s derivative, flagged not reconciled), TYLER =
+  lore (already live as ECOWAR's card-content source), SHANKPIT = OS substrate, REDGARDEN = hero
+  UI (real `HEROES_VS0.md` kits to lift). Merge order: ECOWAR+BIG_O first — both halves of a
+  client<->sim link exist independently, neither wired to the other yet.
+- [x] **S599-03: BURNER UI — unify all new affordances on BIG_O's existing phone shell.** Corrected
+  §3.2: BIG_O is NOT GUI-less — `day/packages/common/bigo_phone.h`'s `BigoPhone`/`BP_APP_*`
+  home-screen app grid (MESSAGES/CONTACTS/MAP/CAMERA/NOTES/LAB/CARGO/SKILLS/LOADOUT/WARDROBE/
+  STATUS) is real and shipped. Per founder's own naming ("BURNER UI"), BIG_O's new tech-tree
+  screen and ECOWAR's new deck/unit-placement UI both ship as new phone apps on this same shell
+  (same home-grid, same `BP_UP/DOWN/LEFT/RIGHT/SELECT/BACK` input model) instead of a parallel UI
+  stack — resolves an open question from S599-02's own first draft (whether "tech tree" meant a
+  literal RTS tech-tree UI) down to "app content/layout not yet designed, shell is settled."
+  **Not done**: no new `BP_APP_TECHTREE`/`BP_APP_DECK`/`BP_APP_UNITS` code written — design only.
+  **Apple not filed** — IDUNA unreachable in this sandbox, same block as S597/S598.
