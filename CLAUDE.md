@@ -24,8 +24,12 @@ after each cycle, and sends FCM push notifications to MJOLNIR on critical events
 
 ```
 ANTHROPIC_API_KEY   — required for all LLM calls (haiku + sonnet)
-IDUNA_BASE_URL      — e.g. http://localhost:8080
-IDUNA_AGENT_NAME    — EMILY_PRIME
+IDUNA_BASE_URL      — IDUNA runs in Kubernetes now (GKE namespace `emily`, svc/iduna, no
+                      ingress) — in-cluster use http://iduna.emily.svc.cluster.local:8080;
+                      from outside, http://localhost:<port> after
+                      `kubectl port-forward -n emily svc/iduna <port>:8080`. See root
+                      CLAUDE.md's "Kubernetes Operations" section.
+IDUNA_AGENT_NAME    — EMILY-PRIME
 IDUNA_AGENT_SECRET  — M2M credential
 APPLES_GIT_DIR      — /home/fatbaby/APPLES (triggers auto-sync after each Apple POST)
 FCM_PROJECT_ID      — Firebase project for MJOLNIR push notifications

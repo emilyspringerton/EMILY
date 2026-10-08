@@ -52959,3 +52959,35 @@ put cards into priority KANBAN"). IDUNA is now a Kubernetes-hosted API (`svc/idu
   #22187 filed (completion, repo EMPIRE). **Not done**: no EMPIRE code written — this is the
   priority queue populated from the plan, not the merge itself; #576 (ECOWAR<->BIG_O bridge) is
   next up per NORTHSTAR's own sequencing.
+
+## SECTION 601 — Founder real-time 2026-10-08: "EVERYTHING IS KUBERNETES DOCUMENT IT ALL"
+
+Confirmed live via `kubectl` (real cluster access in this sandbox, not assumed):
+`gke_project-d24a71e9-2daf-4b2d-917_us-central1_prrject-fatbaby`, namespace `emily`, ~15
+services running as real GKE Deployments (iduna, fatbaby-core/signals, shankpit, gfd-core/
+wsrelay, deadweight, einhorn-survival, redgarden-rnd/stable, wotan, mixforge, carepyre,
+collections-server, tcp-edge). Every repo's docs still describe the pre-k8s
+systemd/`localhost` operating model. session: sess-20261008-0056-77bba21e
+
+- [x] **S601-01: Root CLAUDE.md "Kubernetes Operations" section.** New standing section (after
+  System Architecture): full live service map (k8s Service → repo → ports), the
+  `kubectl port-forward` + live-secret-from-pod pattern replacing `emily start --iduna` +
+  `localhost:8080`, and a corrected "Key Env Vars" block for `IDUNA_BASE_URL`/`IDUNA_AGENT_SECRET`.
+  Verified live: port-forwarded `svc/iduna`, pulled the current `IDUNA_SECRET_EMILY_PRIME` from
+  the running pod (found the checked-in local `agent-secrets.env` was stale against it), and
+  filed Apple #22187 + the 9 S600 kanban cards through it end to end.
+- [x] **S601-02: IDUNA, EMILY, emily.cli, PRRJECT_FATBABY, SHANKPIT, DEADWEIGHT, REDGARDEN
+  CLAUDE.md — Kubernetes callouts.** Added a short "runs in Kubernetes" note (service name,
+  ports, how to reach it) to each of these seven repos' own CLAUDE.md, next to their existing
+  "Listening on"/"Key Env Vars"/intro sections. Local dev commands (`go run ./cmd/...`, etc.)
+  are left intact — they're still correct for local dev, just no longer how the live/production
+  instance is reached.
+- [ ] **S601-03: Remaining per-repo doc sweep.** Not yet touched, real and named rather than
+  silently dropped: GoblinFoxDragon/EINHORN_SURVIVAL/WOTAN/MIXFORGE/CarePyre have no `CLAUDE.md`
+  at all (check `README.md` instead or whether one should be created); `emily.cli/docs/
+  COMMANDS.md`, `EMILY/docs/REBOOT_RUNBOOK.md`, `EMILY/docs/DESKTOP_QUEUE.md`,
+  `IDUNA/docs/NORTHSTAR_INVENTORY.md`, and other docs matched by `grep -rl "localhost:8080\|
+  systemctl --user start iduna"` (see root CLAUDE.md's "Known doc debt" note) still describe the
+  pre-k8s model and haven't been checked one by one. Do this opportunistically per the
+  GOLDEN_DOCS-sync precedent (touch a doc when you're already working in that repo), not as one
+  giant pass.
