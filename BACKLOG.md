@@ -52999,3 +52999,5 @@ Founder real-time, 2026-10-08: "work on the work already discussed break the tas
 - [ ] **SHIP-LINUX-02: Linux OS apps.** Linux equivalents of bundled/*.exe (pitviper/idunagame/editor-game/dw_gui/red_garden_arena) so the APPS page works on Linux. Not started.
 - [x] **SHIP-LINUX-03: Runtime smoke test of the Linux client** under Xvfb in CI, gating the release job (SHANKPIT `scripts/ux_screenshot_test.sh` + release.yml). First run failed on a black boot frame at 3s (lobby still loading assets); fixed by polling up to 20s for the first real frame, then green and released. Open cosmetic question: why the boot frame is black for the first seconds (SHIP-LINUX-04).
 - [ ] **T62190253 follow-up: bundle ffmpeg for Linux** (Windows already ships ffmpeg.exe as of 4c85e84). Not started.
+
+- [x] **SHIP-LINUX-02a: Linux dw_gui in Linux client zip** — shipped v0.195.0, Apple filed.
