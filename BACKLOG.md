@@ -52938,3 +52938,24 @@ phone, units are in the phone, unify the design language." session: sess-2026092
   literal RTS tech-tree UI) down to "app content/layout not yet designed, shell is settled."
   **Not done**: no new `BP_APP_TECHTREE`/`BP_APP_DECK`/`BP_APP_UNITS` code written — design only.
   **Apple not filed** — IDUNA unreachable in this sandbox, same block as S597/S598.
+
+## SECTION 600 — EMPIRE NORTHSTAR -> priority kanban cards (Apple #22187)
+
+Worked kanban card #575 ("work on project EMPIRE work from that northstar and create a plan and
+put cards into priority KANBAN"). IDUNA is now a Kubernetes-hosted API (`svc/iduna` in namespace
+`emily`, ClusterIP, no ingress) rather than a local `systemctl --user` service on
+`localhost:8080` — reached it via `kubectl port-forward -n emily svc/iduna 18080:8080`. The local
+`IDUNA/var/agent-secrets.env` was stale against the live cluster secret; pulled the current
+`IDUNA_SECRET_EMILY_PRIME` straight from the running pod's own `/app/var/agent-secrets.env` via
+`kubectl exec`. session: sess-20261008-0056-77bba21e
+
+- [x] **S600-01: EMPIRE NORTHSTAR §3/§5 -> 9 priority kanban cards.** Filed #576-584 (all
+  `priority` queue, per card #575's own instruction), one per NORTHSTAR merge-order step and open
+  question: ECOWAR<->BIG_O state bridge (§3.1, #576), BURNER UI tech-tree app (§3.2, #577),
+  BURNER UI deck/unit apps (§3.2/3.3, #578), wiring deck/unit UI to faction state (§3.3, #579),
+  DEADWEIGHT_2 ship audit (open Q2, #580), TRAPX doctrine reconciliation (open Q4, #581),
+  BIG_O/ECOWAR data-shape compat check (open Q1, #582), DEADWEIGHT card-language formalization
+  (§3.4, #583), REDGARDEN hero-UI lift (§3.4, #584). Moved originating card #575 to `done`. Apple
+  #22187 filed (completion, repo EMPIRE). **Not done**: no EMPIRE code written — this is the
+  priority queue populated from the plan, not the merge itself; #576 (ECOWAR<->BIG_O bridge) is
+  next up per NORTHSTAR's own sequencing.
