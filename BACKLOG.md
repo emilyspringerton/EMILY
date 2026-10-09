@@ -53092,3 +53092,31 @@ founder question: `HRIP/NORTHSTAR.md` (golden doc `HRIP-NORTH`). Planned into ka
   `-Wall -Wextra -pedantic -Werror`; mingw cross-compile not re-verified in this sandbox (no mingw
   toolchain here) — relying on CI's `client-windows` job on push. Apple #22224, kanban #609.
   session: sess-20261009-1745-ee80b668
+- [x] **IDUNA-PERM-01: fix real bug — `PlayerEmailAuthHandler` never minted a permissions claim.**
+  Founder correctly intuited "IDUNA SSO isn't set up so I can give the user IAM roles" — confirmed
+  live: every WOTAN/SHANKPIT email+password login (including IDUNA's own unified SSO page) issued
+  a JWT with no `permissions` claim at all, so `middleware.RequirePermission(...)` could never
+  pass for any such account. Fixed with `playerPermissions(email)` (same hardcoded-allowlist shape
+  `local_auth.go`'s `localUserPermissions` already uses), granting `edge.game.operator` to
+  `emilyspringerton@gmail.com` (confirmed live in `players`/`player_credentials`,
+  `a3338fa1-062e-43e0-9493-b2e19bda7583`) — this is the permission EDGE-599's `exec` command will
+  eventually gate on (not yet enforced relay-side — see follow-ups below). New test
+  `TestEmailAuth_PermissionsClaimGrantedByEmail`; full `internal/http/handlers` suite green.
+  IDUNA `0aa0126`. Apple #22225, kanban #610. Takes effect on next login after this deploys (image
+  build + K8S-CD-01 auto-bump, not manually triggered this pass).
+  session: sess-20261009-1745-ee80b668
+- [ ] **EDGE-599-FOLLOWUP-1: relay-side JWT verification + `edge.game.operator` enforcement.**
+  EDGE.GAME's relay still accepts the static `EDGE_CLIENT_TOKEN`/`EDGE_OPERATOR_TOKEN` shared
+  secrets for the `exec` command — it does not yet verify an IDUNA JWT or check a permission. No
+  ES256/JWT-verification crypto exists in PARENA's stdlib today (checked); likely path is relay-
+  side introspection against IDUNA (e.g. a call to `/api/v1/identities/me` or a new dedicated
+  introspect endpoint) rather than reimplementing ES256 verify in C/PARENA from scratch — not
+  decided, not started.
+- [ ] **EDGE-599-FOLLOWUP-2: batteries-included browser login in the EDGE.GAME client.** Run the
+  exe with no args, it opens the default browser to IDUNA's existing SSO login page
+  (`localhost`/`127.0.0.1` already allowlisted in `SSO_ALLOWED_REDIRECT_HOSTS`), a small local
+  HTTP listener captures the JWT back from the redirect fragment (classic desktop-OAuth loopback
+  pattern — the SSO page hands the token back via URL fragment, which needs a tiny served
+  callback page with JS to read `location.hash` and POST it back same-origin), replacing the
+  current `edge_client.exe <host> <port> <token>` manual-args usage. Not started; depends on
+  FOLLOWUP-1 existing for the token to actually mean anything to the relay.
