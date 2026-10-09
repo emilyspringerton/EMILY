@@ -53129,11 +53129,15 @@ founder question: `HRIP/NORTHSTAR.md` (golden doc `HRIP-NORTH`). Planned into ka
   pre-existing, unrelated failure confirmed on a clean tree (no `parena` binary in this sandbox's
   `$PATH`). IDUNA `513eb64`. Apple #22227, kanban #612.
   session: sess-20261009-1745-ee80b668
-- [ ] **EDGE-599-FOLLOWUP-2: batteries-included browser login in the EDGE.GAME client.** Run the
-  exe with no args, it opens the default browser to IDUNA's existing SSO login page
-  (`localhost`/`127.0.0.1` already allowlisted in `SSO_ALLOWED_REDIRECT_HOSTS`), a small local
-  HTTP listener captures the JWT back from the redirect fragment (classic desktop-OAuth loopback
-  pattern — the SSO page hands the token back via URL fragment, which needs a tiny served
-  callback page with JS to read `location.hash` and POST it back same-origin), replacing the
-  current `edge_client.exe <host> <port> <token>` manual-args usage. Not started; depends on
-  FOLLOWUP-1 existing for the token to actually mean anything to the relay.
+- [x] **EDGE-599-FOLLOWUP-2: batteries-included browser login in the EDGE.GAME client.** Founder
+  real-time (v12 still showed the old usage message): `edge_client.exe <host> <port>` with no
+  token now opens the default browser to IDUNA's SSO page and captures the JWT via a loopback
+  HTTP listener (`obtain_token_via_browser`, `client/edge_client.c`) — the classic desktop-OAuth
+  pattern, since the SSO page hands the token back as a URL fragment a browser never sends to a
+  server. `relay_main.c`'s `jwt_authorized` (previously operator-only) now also gates the cabinet
+  hello — one real IDUNA identity/permission (`edge.game.operator`) covers both
+  `edge_client.exe` and `edge_ctl`. Live-verified in this sandbox (simulated the browser's own two
+  requests via curl): correct login-URL, correct token capture, correct use of the captured token
+  in the relay hello. `client-windows` now links `-lshell32`. EDGE.GAME `97d0e83`. Apple #22228,
+  kanban #614.
+  session: sess-20261009-1745-ee80b668
