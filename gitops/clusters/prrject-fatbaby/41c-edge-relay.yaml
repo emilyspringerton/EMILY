@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: edge-relay-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-relay
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: edge-relay
+  template:
+    metadata:
+      labels:
+        app: edge-relay
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: relay
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/edge-relay:v2
+          command:
+            - /app/edge_relay
+          ports:
+            - containerPort: 8091
+          readinessProbe:
+            tcpSocket:
+              port: 8091
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/edge-relay/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: edge-relay-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/edge-relay
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: edge-relay-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge-relay
+  namespace: emily
+spec:
+  selector:
+    app: edge-relay
+  ports:
+    - name: p8091
+      port: 8091
+      targetPort: 8091
+    - name: p8092
+      port: 8092
+      targetPort: 8092
+  type: ClusterIP

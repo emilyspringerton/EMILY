@@ -161,6 +161,10 @@ YAML
 D2_TAG="${DEADWEIGHT2_TAG:-v1}"
 "$P" "$(dirname "$0")/specs/deadweight2.pod" | sed "s/:IMAGE_TAG\$/:$D2_TAG/" > "$OUT/41b-deadweight2.yaml"
 
+# edge-relay (EDGE.GAME relay; reached via tcp-edge 8091/8092) -- see specs/edge-relay.pod
+ER_TAG="${EDGE_RELAY_TAG:-v2}"
+"$P" "$(dirname "$0")/specs/edge-relay.pod" | sed "s/:IMAGE_TAG\$/:$ER_TAG/" > "$OUT/41c-edge-relay.yaml"
+
 # tcp-edge: the single TCP LB rule for every raw-TCP service (gfd 2323/2222/7171/7070, iduna tunnel 8443, deadweight 7180, deadweight2 7800).
 TE_TAG="${TCP_EDGE_TAG:-v2}"
 "$P" "$(dirname "$0")/specs/tcp-edge.pod" | sed "s/:IMAGE_TAG\$/:$TE_TAG/" > "$OUT/43-tcp-edge.yaml"

@@ -1,0 +1,12 @@
+# edge-relay: the EDGE.GAME relay (cabinet client port 8091 + operator port 8092), ML-KEM-768 +
+# XChaCha20-Poly1305 on both; accepts either the static shared tokens in secret edge-relay-env or a
+# real IDUNA ES256 JWT carrying edge.game.operator (common/jwt_verify.c; JWKS baked into the image,
+# EDGE_IDUNA_JWKS_FILE set in the Dockerfile). Reached externally through tcp-edge (the one shared
+# TCP LB rule on the game IP) -- NOT its own LoadBalancer (an earlier hand-applied spec made one,
+# 136.64.148.153, violating the one-ingress rule; replaced 2026-10-09). The PVC keeps the relay's
+# ML-KEM key (and so the fingerprint clients pin) stable across pod restarts.
+# Image: EDGE.GAME/scripts/build-image.sh (binary-staging stopgap).
+pod name=edge-relay namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/edge-relay:IMAGE_TAG pvc=edge-relay-var pvc-gb=1 secret=edge-relay-env var=/app/var run=/run/edge-relay replicas=1
+
+container name=relay command=/app/edge_relay port=8091 cpu=50 mem=64
+service ports=8091,8092
