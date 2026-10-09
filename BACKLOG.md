@@ -53105,13 +53105,26 @@ founder question: `HRIP/NORTHSTAR.md` (golden doc `HRIP-NORTH`). Planned into ka
   IDUNA `0aa0126`. Apple #22225, kanban #610. Takes effect on next login after this deploys (image
   build + K8S-CD-01 auto-bump, not manually triggered this pass).
   session: sess-20261009-1745-ee80b668
-- [ ] **EDGE-599-FOLLOWUP-1: relay-side JWT verification + `edge.game.operator` enforcement.**
-  EDGE.GAME's relay still accepts the static `EDGE_CLIENT_TOKEN`/`EDGE_OPERATOR_TOKEN` shared
-  secrets for the `exec` command — it does not yet verify an IDUNA JWT or check a permission. No
-  ES256/JWT-verification crypto exists in PARENA's stdlib today (checked); likely path is relay-
-  side introspection against IDUNA (e.g. a call to `/api/v1/identities/me` or a new dedicated
-  introspect endpoint) rather than reimplementing ES256 verify in C/PARENA from scratch — not
-  decided, not started.
+- [x] **EDGE-599-FOLLOWUP-1: relay-side JWT verification + `edge.game.operator` enforcement.**
+  New `common/jwt_verify.{h,c}` (real OpenSSL EC/ECDSA, not an introspection round-trip to IDUNA —
+  `/api/v1/identities/me` can't resolve a player-table subject anyway, checked directly): parses a
+  pinned local JWKS file, verifies ES256 signature, checks `permissions` claim for
+  `edge.game.operator`. Falls back to the static `EDGE_OPERATOR_TOKEN` unchanged — fully backward
+  compatible; `edge_ctl` needed zero changes. Live-verified against a real IDUNA-issued JWT from
+  the live `wotan.okemily.com` API (correct verify, correct permission extraction, correctly
+  rejects a forged-permissions token and garbage input). Named limits: no `exp` check, one pinned
+  key, no JWKS rotation. `make relay` not rebuilt end to end here (missing `llc`); both changed
+  files compiled standalone and `-Wall -Wextra -pedantic -Werror` clean — relying on CI's `relay`
+  job. EDGE.GAME `03e57ca`. Apple #22226, kanban #611.
+  session: sess-20261009-1745-ee80b668
+- [ ] **IDUNA-PERM-02: Back Office UI for granting roles/permissions to email/player accounts.**
+  Founder real-time: the hardcoded `playerPermissions(email)` allowlist added in IDUNA-PERM-01 is
+  a stopgap (same shape `local_auth.go`'s own `localUserPermissions` already is) — needs a real
+  admin UI to grant/revoke permissions on `players`/`player_credentials` accounts by email,
+  mirroring the existing Google-auth `/admin/users` role-assign UI (`AdminHandler.userAction`) but
+  for the separate player-account system. Not started — needs its own scoping pass (what UI
+  surface, what permission catalog, audit-log wiring consistent with
+  `iduna:admin.role.assign`/`.revoke`).
 - [ ] **EDGE-599-FOLLOWUP-2: batteries-included browser login in the EDGE.GAME client.** Run the
   exe with no args, it opens the default browser to IDUNA's existing SSO login page
   (`localhost`/`127.0.0.1` already allowlisted in `SSO_ALLOWED_REDIRECT_HOSTS`), a small local
