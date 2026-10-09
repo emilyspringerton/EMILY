@@ -156,7 +156,12 @@ spec:
     name: deadweight
 YAML
 
-# tcp-edge: the single TCP LB rule for every raw-TCP service (gfd 2323/2222/7171/7070, iduna tunnel 8443, deadweight 7180).
+# DEADWEIGHT_2 (D2): dw2_server, first real cluster deployment (2026-10-09) -- see specs/deadweight2.pod
+# for why it was never deployed before now. Image: DEADWEIGHT_2/scripts/build-image.sh.
+D2_TAG="${DEADWEIGHT2_TAG:-v1}"
+"$P" "$(dirname "$0")/specs/deadweight2.pod" | sed "s/:IMAGE_TAG\$/:$D2_TAG/" > "$OUT/41b-deadweight2.yaml"
+
+# tcp-edge: the single TCP LB rule for every raw-TCP service (gfd 2323/2222/7171/7070, iduna tunnel 8443, deadweight 7180, deadweight2 7800).
 TE_TAG="${TCP_EDGE_TAG:-v2}"
 "$P" "$(dirname "$0")/specs/tcp-edge.pod" | sed "s/:IMAGE_TAG\$/:$TE_TAG/" > "$OUT/43-tcp-edge.yaml"
 

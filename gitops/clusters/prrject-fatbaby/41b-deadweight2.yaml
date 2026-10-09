@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deadweight2
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: deadweight2
+  template:
+    metadata:
+      labels:
+        app: deadweight2
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: server
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:25a8252
+          command:
+            - /app/dw2_server
+          args:
+            - "--port"
+            - "7800"
+            - "--bind"
+            - "0.0.0.0"
+            - "--no-auth"
+          ports:
+            - containerPort: 7800
+          readinessProbe:
+            tcpSocket:
+              port: 7800
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight2/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight2-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight2
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deadweight2
+  namespace: emily
+spec:
+  selector:
+    app: deadweight2
+  ports:
+    - name: p7800
+      port: 7800
+      targetPort: 7800
+  type: ClusterIP

@@ -1,0 +1,14 @@
+# deadweight2 (D2): dw2_server, the server-authoritative 1v1 backpack-battler match server for
+# DEADWEIGHT_2 -- built and live-verified locally for weeks but never actually deployed to the
+# cluster (found live, 2026-10-09: no image, no manifest, no service existed anywhere -- this is
+# its first real deployment). Stateless (no match-log PVC yet, unlike DEADWEIGHT's own
+# deadweight-var -- D2 has no --match-log flag wired to a mounted path yet, real deferred
+# follow-up). Runs --no-auth for this first live deployment: no IDUNA M2M agent/secret has been
+# provisioned for deadweight_2 yet -- named follow-up (wire real IDUNA auth), not an oversight;
+# matches the documented local-dev/CI convention (DEADWEIGHT_2/scripts/build.sh already uses
+# --no-auth). Reached externally through tcp-edge (the one shared TCP LB rule on the game IP),
+# not its own LoadBalancer -- see images/tcp-edge/nginx.conf. Image: DEADWEIGHT_2/scripts/build-image.sh.
+pod name=deadweight2 namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:IMAGE_TAG secret=deadweight2-env var=/app/var run=/run/deadweight2 replicas=1
+
+container name=server command=/app/dw2_server args=--port,7800,--bind,0.0.0.0,--no-auth port=7800 cpu=250 mem=256
+service ports=7800
