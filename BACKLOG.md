@@ -53117,14 +53117,18 @@ founder question: `HRIP/NORTHSTAR.md` (golden doc `HRIP-NORTH`). Planned into ka
   files compiled standalone and `-Wall -Wextra -pedantic -Werror` clean — relying on CI's `relay`
   job. EDGE.GAME `03e57ca`. Apple #22226, kanban #611.
   session: sess-20261009-1745-ee80b668
-- [ ] **IDUNA-PERM-02: Back Office UI for granting roles/permissions to email/player accounts.**
-  Founder real-time: the hardcoded `playerPermissions(email)` allowlist added in IDUNA-PERM-01 is
-  a stopgap (same shape `local_auth.go`'s own `localUserPermissions` already is) — needs a real
-  admin UI to grant/revoke permissions on `players`/`player_credentials` accounts by email,
-  mirroring the existing Google-auth `/admin/users` role-assign UI (`AdminHandler.userAction`) but
-  for the separate player-account system. Not started — needs its own scoping pass (what UI
-  surface, what permission catalog, audit-log wiring consistent with
-  `iduna:admin.role.assign`/`.revoke`).
+- [x] **IDUNA-PERM-02: Back Office UI for granting roles/permissions to email/player accounts.**
+  New migration `202610090002_player_permissions.sql`; `admin_gm.go` (the existing GM
+  account-search tool) gets `grant_permission`/`revoke_permission` actions, validated against
+  `permissionNameRe`, audit-logged (`iduna:admin.player_permission.grant`/`.revoke`).
+  `player_email_auth.go`'s `issueJWT` now reads this table directly, replacing IDUNA-PERM-01's
+  hardcoded allowlist — a grant takes effect on the account's next login. New tests:
+  `TestAdminGM_GrantRevokePermission_EmitsEventsAndPersists`, `TestAdminGM_GrantPermission_
+  RejectsBadNames`, `TestAdminGM_Search_ShowsGrantedPermissions`, `TestEmailAuth_
+  PermissionsClaimIsRealAndGrantable`. Full `internal/http/handlers` suite green except one
+  pre-existing, unrelated failure confirmed on a clean tree (no `parena` binary in this sandbox's
+  `$PATH`). IDUNA `513eb64`. Apple #22227, kanban #612.
+  session: sess-20261009-1745-ee80b668
 - [ ] **EDGE-599-FOLLOWUP-2: batteries-included browser login in the EDGE.GAME client.** Run the
   exe with no args, it opens the default browser to IDUNA's existing SSO login page
   (`localhost`/`127.0.0.1` already allowlisted in `SSO_ALLOWED_REDIRECT_HOSTS`), a small local
