@@ -53077,3 +53077,18 @@ founder question: `HRIP/NORTHSTAR.md` (golden doc `HRIP-NORTH`). Planned into ka
 - [ ] **HRIP-11: CI/CD auto-release** — mirror `SHANKPIT/.github/workflows/release.yml` (tag-
   triggered, mingw cross-compile, zip `hrip.exe` + `run.bat` + log dir, auto-tag + `gh release
   create`).
+- [x] **EDGE-599: EDGE.GAME generic `exec` command — bridge to the founder's real Windows machine
+  for HRIP work.** Founder asked to use EDGE.GAME's relay/client pair (already riding its real
+  ML-KEM-768+XChaCha20-Poly1305 `secure_channel` transport) so Claude can run commands on the
+  founder's actual Windows PC for HRIP-01/02/06 (locate the real install, inspect the real bundle
+  format). Presented a narrower, HRIP-specific command set (locate/list/pull-from-one-allowlisted-
+  path, mirroring `editor_name_ok`'s existing no-arbitrary-paths design) against full generic
+  shell-exec; founder explicitly chose full exec, consciously widening EDGE.GAME's own "no remote
+  control" access model. Shipped `client/edge_client.c` `handle_exec` — found and fixed a real bug
+  before shipping (naive `cmd 2>&1` only redirected the last statement of a `;`/`&&` chain, silently
+  dropping earlier stderr; fixed by wrapping the whole command in a subshell). Live-verified end to
+  end over a real relay+client pair on loopback (`edge_ctl`): correct combined stdout+stderr,
+  correct nonzero exit code on a multi-statement command. Native build clean under
+  `-Wall -Wextra -pedantic -Werror`; mingw cross-compile not re-verified in this sandbox (no mingw
+  toolchain here) — relying on CI's `client-windows` job on push. Apple #22224, kanban #609.
+  session: sess-20261009-1745-ee80b668
