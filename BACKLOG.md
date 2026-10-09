@@ -53033,3 +53033,47 @@ Founder: "I WANT TO CREATE A HEARTHSTONE DECK SECTION ON WOTAN ... segment WOTAN
 - [ ] **HS-11: PARENA replacement for `internal/hsdeck`** (Core-Deps-PARENA-First stopgap; BURROW's Go emitter is scalar-only, a varint-stream codec needs loops/Vec).
 - [ ] **HS-12: small follow-ups** — wall-comment delete button in the UI (endpoint `DELETE /api/v1/hs/post-comments/{id}` exists); the "Sign in" text hints on Submit/Feed pages could be plain text instead of an anchor; moderation view over `hs_reports`; real-browser/touch/clipboard check.
 - [ ] **HS-13: found, pre-existing, not fixed here** — `go test ./...` in IDUNA has failing `game_online` ticket tests (3 re-verified failing on a clean tree) and the `IDUNA Construct` CI workflow fails on `main` before this work.
+
+## SECTION 605 — Founder real-time 2026-10-09: new repo HRIP — pure-PARENA Hearthstone card-data ripper
+
+Founder real-time (routed via `emily observe`, Apple #22222): new repo HRIP — a pure-PARENA,
+batteries-included Windows app that finds the local Hearthstone install, rips card data out of its
+own Unity asset bundles "from scratch" (self-extraction is the product; community dumps like
+HearthstoneJSON are a verification/feedback-loop reference only, used as the real shipped data path
+only if self-extraction utterly fails — founder correction, binding), emits JSON shaped to WOTAN's
+`hs_cards` table, and ships a second screen to upsert it with log streaming + a projected summary
+view. CI/CD auto-releases a Windows zip (`run.bat` + exe, mirroring SHANKPIT's release.yml shape);
+the app always writes crash/error logs to a file next to the exe (REDGARDEN's signal-handler
+pattern, ported to Windows) since the founder won't use the command line to diagnose a failure.
+Directly feeds **HS-10** above. Scope + checked PARENA-capability audit + V0 cut + one open
+founder question: `HRIP/NORTHSTAR.md` (golden doc `HRIP-NORTH`). Planned into kanban cards
+(HRIP-01..11) before any implementation, per founder instruction.
+
+- [ ] **HRIP-01: RE spike — Hearthstone's real on-disk bundle format.** Throwaway investigation
+  (not shipped code): which file(s) under `Hearthstone\Data\Win\` hold card defs, real compression
+  scheme, real payload shape. Output is a written format doc.
+- [ ] **HRIP-02: PARENA core dep — AssetBundle reader + decompression.** Prove `stdlib/compress/
+  lz4.prn` (or whatever HRIP-01 finds) actually executes end-to-end against a real captured bundle;
+  write the container parser. Likely to hit real PARENA emitter limits (`STDLIB.md`'s own
+  "source exists, not confirmed executing" caveat) — if so, the fix is logged as its own PARENA
+  compiler/stdlib sub-item, not routed around (Core-Deps-PARENA-First).
+- [ ] **HRIP-03: PARENA core dep — card-defs parser** into `(defstruct Card ...)`, indexed in a
+  `map` by `dbf_id`.
+- [ ] **HRIP-04: JSON emission matching `hs_cards`** (`stdlib/json.prn` + `stdlib/io.prn`).
+- [ ] **HRIP-05: verification feedback loop** — diff HRIP's own output against a community
+  reference (e.g. HearthstoneJSON); a mismatch report, never a data merge.
+- [ ] **HRIP-06: Windows install discovery** (Program Files / Program Files (x86) / registry
+  uninstall-key fallback, via `stdlib/io.prn`).
+- [ ] **HRIP-07: crash/error file logging** — Windows port of REDGARDEN's
+  `apps/arena_server/src/main.c:924-974` signal-handler-writes-JSON-line idiom
+  (`SetUnhandledExceptionFilter` via FFI), always-on log file next to the exe.
+- [ ] **HRIP-08: SDL2 GUI — scan/extract/progress screen** (batteries-included main window, visible
+  log-file path on screen).
+- [ ] **HRIP-09: upsert page + log streaming with projection** — review extracted cards, push to
+  HRIP-10's endpoint; live log tail plus a parsed/projected summary view (counts, current bundle,
+  errors) — no existing precedent in this monorepo, invented fresh for this card.
+- [ ] **HRIP-10: IDUNA `hs_cards` upsert endpoint** (Go, IDUNA repo, not HRIP — tracked separately
+  so it isn't silently assumed; feeds HS-10 above).
+- [ ] **HRIP-11: CI/CD auto-release** — mirror `SHANKPIT/.github/workflows/release.yml` (tag-
+  triggered, mingw cross-compile, zip `hrip.exe` + `run.bat` + log dir, auto-tag + `gh release
+  create`).
