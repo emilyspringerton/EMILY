@@ -53141,3 +53141,13 @@ founder question: `HRIP/NORTHSTAR.md` (golden doc `HRIP-NORTH`). Planned into ka
   in the relay hello. `client-windows` now links `-lshell32`. EDGE.GAME `97d0e83`. Apple #22228,
   kanban #614.
   session: sess-20261009-1745-ee80b668
+
+## SECTION 606 — Founder real-time 2026-10-10: REDGARDEN gets IDUNA login + its stats move to WOTAN as a third tab
+
+Founder: "update REDGARDEN for IDUNA OAUTH, same pattern as the deck tracker, same patterns as DEADWEIGHT where it gives you a name and allows you to save progress / login with IDUNA" and "move all of the REDGARDEN stats to wotan, make it nice like the hearthstone decks, keep the profiles different for HS vs REDGARDEN, REDGARDEN can be a third tab like deadweight and hearthstone".
+
+- [x] **RG-ID-01: IDUNA side** — `redgarden` game row (`redgarden.play`, guest-register/login/upgrade/sso-exchange), `self-ticket` accepts a game token (no DnS character), `game-result` takes `hero_id` -> `redgarden_player_matches`, public `GET /api/v1/redgarden/players/{id}`, leaderboard sums `redgarden`+`redgarden-arena` (arena results were invisible: found bug) + `?q=`. IDUNA `ad162e8`. (session: sess-20261009-1745-ee80b668)
+- [x] **RG-ID-02: WOTAN REDGARDEN tab** — `/redgarden/` leaderboard, `heroes.html`, `u.html` profile, `play.html`, `connect.html`; third game-switch tab, own skin, per-game account-menu profile link. WOTAN `9789c04`, `fa5f167`. (session: sess-20261009-1745-ee80b668)
+- [x] **RG-ID-03: client account flow** — `packages/common/rg_account.h` (saved guest creds -> guest-login, else WOTAN connect page + loopback callback, self-ticket mint via curl), `--account`; `arena_server` sends `hero_id`. Account module tested end to end vs stub IDUNA (`tests/test_rg_account.py`). REDGARDEN `cf6476e`. (session: sess-20261009-1745-ee80b668)
+- [ ] **RG-ID-04: set `REDGARDEN_TICKET_SECRET` in IDUNA's `iduna-env`** to the value in `redgarden-env` (today ABSENT -> `self-ticket` 503s). Both live servers currently verify with the PLAY.bat test secret, which is public in the shipped zip: rotate it in both secrets, then drop it from `ci.yml`'s PLAY.bat and point the client at `--iduna-url`. Needs the founder's go-ahead (prod secret + IDUNA restart).
+- [ ] **RG-ID-05: build + run the SDL client** (this sandbox has no SDL2 headers) and test on Windows: curl.exe popen path, browser open, loopback callback. Until then only `rg_account.h` + `arena_server` are compiled/run.
