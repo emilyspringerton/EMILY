@@ -46,6 +46,7 @@ IDUNA_TAG iduna
 DEADWEIGHT_TAG deadweight
 WOTAN_TAG wotan
 TCP_EDGE_TAG tcp-edge
+EDGE_RELAY_TAG edge-relay
 GITOPS_SYNC_TAG gitops-sync
 CAREPYRE_TAG carepyre-pro
 EINHORN_TAG einhorn-survival
