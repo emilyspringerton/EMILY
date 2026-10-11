@@ -53198,6 +53198,24 @@ the full terms and privacy policy."
   (`webmaster@okemily.com`) turned out to be an IDUNA admin account's login identity, not a public
   contact inbox, and using it in a public legal doc would have been misleading. Needs a founder
   decision: stand up that real inbox, or point it at a different existing one.
+- [x] **HS-TRACKER-ME-03: hero-transform effects ("dragon soul essence") defeated the hero-class
+  cross-check from HS-TRACKER-ME-01.** Founder, live mid-game, two games in a row: "its still
+  glitched out ... its the dragon soul essences really fucks the tracker up." Root cause:
+  `game_state.prn`'s `card-of` always returns an entity's LATEST known card id; a mid-game
+  "become a new hero" effect overwrites the SAME hero entity's id via a second `SHOW_ENTITY`, so
+  `classOfPlayer` resolved the transformed hero (usually unmapped to any class) instead of the
+  original, both sides stopped matching our deck's class, and the cross-check silently fell back
+  to the exact reveal-count heuristic it was built to replace. Fix: `entities-json` now also emits
+  `card0` (first-revealed id, set once at `CREATE_GAME`, immune to later transforms);
+  `classOfPlayer` reads `Card0` not `Card`. Second, related bug found/fixed in the same pass:
+  `storeLiveGame` was persisting the raw heuristic (`rec.Me`) rather than the already-resolved
+  `me`, so a correctly-DISPLAYED game could still be saved under the wrong player in deck/match
+  history -- `resolveMe` is now computed once and threaded through. New regression test
+  `TestHS_LiveMeSurvivesMidGameHeroTransform`, confirmed failing pre-fix (30 left/0 drawn, the
+  exact bug signature) / passing post-fix via a non-destructive temporary revert. All `TestHS_*`
+  green across 3 repeated runs; confirmed via `git stash` that the full suite's other failures
+  (guest/draft-run/top-up flakiness, `internal/nock` missing SDL2/ImageMagick) are pre-existing
+  and unrelated. IDUNA `65ecfe9`. Apple #22233. (session: sess-20261009-1745-ee80b668)
 - [ ] **WOTAN-LEGAL-04 (found, not fixed): `IDUNA/CLAUDE.md`'s endpoint table claims a GDPR
   export/erasure module exists (`/api/v1/gdpr/`, `internal/gdpr/`).** Checked directly while
   researching this section's privacy policy: neither the route nor the package exists anywhere in
