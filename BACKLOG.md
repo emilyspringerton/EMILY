@@ -53163,6 +53163,31 @@ Founder, live mid-game: "it is confused its showing my cards as his cards and hi
   ~5-10 min cycle. Verified live: `deploy/iduna` image tag = `40634e1`, pod
   `iduna-7c678ff98c-j8n59` `4/4 Running`, fresh `kubectl port-forward` + `GET /health` -> 200.
   Apple #22230. (session: sess-20261009-1745-ee80b668)
+- [x] **HS-TRACKER-ME-03: the SAME bug in the STORED game record, missed by -01/-02.** Founder,
+  after that fix was live: "the deck tracker still isnt working." The live page itself was fine
+  (`/live/state` math checked out against a pasted snapshot); the win/loss record wasn't.
+  `kubectl cp`'d the live `var/iduna.db` out and inspected it directly (no `sqlite3` CLI in the
+  pod, no per-request logging -- this was the only way to see real data): 8 games correctly
+  recorded today, 2 corrupted (`hs_games` ids 8 and 12 -- blank `my_class`, one also
+  `result=0`/unknown). Root cause: `hs_games.go`'s `classOf` -- used whenever a finished game is
+  *persisted* (`storeLiveGame` and the direct `POST /api/v1/hs/games` ingest path both) --
+  independently decodes its own `hsGameRecord` type and reads the plain `Card` field for each
+  side's `HERO_*` reveal. `-01` fixed `hs_live.go`'s `classOfPlayer` (the live page) to read the
+  new `Card0` instead, but never touched this sibling function, even though its own code comment
+  cites `classOf` as the precedent the live fix was modeled on. A mid-game hero transform (Dragon
+  Soul Essence etc.) mutates `Card` after reveal, so `classOf` either finds nothing (blank
+  `my_class`) or the wrong class -- live page correct, saved record wrong. Fixed: added `Card0` to
+  `hsGameRecord.Entities`, switched `classOf` to read it, same as `classOfPlayer`. New
+  `hs_games_test.go` (`TestHS_CreateGameClassSurvivesHeroTransform`,
+  `TestHS_CreateGameClassFallsBackWithoutTransform`) drives the real `POST /api/v1/hs/games` path.
+  Full `internal/http/handlers` suite green except the same pre-existing, unrelated
+  `TestNockDoorScriptsHandler_CreateListGet`/`internal/nock` failures (no `parena` on this
+  sandbox's `$PATH`). Checked both historical rows for a safe backfill and left them as-is: row 8
+  predates the original `card0` fix entirely (no `card0` key anywhere in its stored
+  `record_json` -- the reveal data needed is genuinely gone); row 12 postdates it but its own
+  player's hero entity still has no `HERO_`-prefixed `card0` in its record -- a distinct,
+  not-yet-diagnosed capture gap, not this bug, not guessed at. Apple #22234. (session:
+  sess-20261009-1745-ee80b668)
 
 ## SECTION 608 — Founder real-time 2026-10-11: WOTAN Terms/Privacy + sitewide cookie-consent banner
 
