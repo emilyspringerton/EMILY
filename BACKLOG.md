@@ -53157,4 +53157,51 @@ Founder: "update REDGARDEN for IDUNA OAUTH, same pattern as the deck tracker, sa
 Founder, live mid-game: "it is confused its showing my cards as his cards and his cards as my cards in the tracker." Routed via `emily observe` (Apple #22229 below carries the fix).
 
 - [x] **HS-TRACKER-ME-01: fix the me/opponent swap.** Root cause: `hstracker`'s reveal-count heuristic (`game_state.prn`'s `me-of`) picks whichever `PlayerID` has more cards known-by-turn-1 as "me" -- a real game can tip that the wrong way (e.g. "The Coin" reveals its CardID on the opponent's side too, same as any own-hand card). `IDUNA/internal/http/handlers/hs_live.go`'s new `resolveMe`/`classOfPlayer` cross-check `rec.Me` against each side's revealed `HERO_*` card matched against the class of the deck actually queued (`hs_games.go`'s `classOf` already proved this same `hs_cards` lookup live, for finished games) -- deterministic, since heroes reveal at `CREATE_GAME`. Only overrides when exactly one side's resolved class matches ours; defers to the heuristic otherwise. New regression test `TestHS_LiveMeCrossCheckedAgainstHeroClass` constructs a game where the bare heuristic would pick the opponent (3 reveals-by-turn-1 vs our 2) and confirms the override corrects it -- confirmed failing without the fix (30 left/0 drawn instead of 28/2, own drawn cards leaking into the opponent panel). Full `internal/http/handlers` suite green except the pre-existing, unrelated `TestNockDoorScriptsHandler_CreateListGet`/`internal/nock` failures (no `parena` on this sandbox's `$PATH`). IDUNA `40634e1`. Apple #22229. (session: sess-20261009-1745-ee80b668)
-- [ ] **HS-TRACKER-ME-02: get the fix actually live.** Code is pushed to `IDUNA` `main` but the running `iduna` pod (GKE `emily` namespace) has not been rebuilt/redeployed with it yet -- needs an image build + push to Artifact Registry + deployment rollout (`K8S-CD-01`), which this session has not located a one-command trigger for. Founder was mid-game when this was reported; confirm whether to deploy immediately (restarts `iduna.service`'s in-memory live sessions -- the uplink auto-resyncs, but it's a live game) or hold for a natural break.
+- [x] **HS-TRACKER-ME-02: get the fix actually live.** Turned out to need no manual trigger:
+  `K8S-CD-01`'s own pipeline (GitHub Actions build -> Artifact Registry push ->
+  `gitops-autodeploy` -> `gitops-sync` CronJobs) rolled `40634e1` out on its own within the normal
+  ~5-10 min cycle. Verified live: `deploy/iduna` image tag = `40634e1`, pod
+  `iduna-7c678ff98c-j8n59` `4/4 Running`, fresh `kubectl port-forward` + `GET /health` -> 200.
+  Apple #22230. (session: sess-20261009-1745-ee80b668)
+
+## SECTION 608 — Founder real-time 2026-10-11: WOTAN Terms/Privacy + sitewide cookie-consent banner
+
+Founder: "can we update terms of service and privacy policy for wotan and also put something on
+the top of iduna iam and wotan that says by continuing use you consent to cookies with links to
+the full terms and privacy policy."
+
+- [x] **WOTAN-LEGAL-01: Terms of Service + Privacy Policy pages.** `terms.html`/`privacy.html`:
+  real, plain-English pages describing what WOTAN actually does today (IDUNA SSO sign-in,
+  decks/social/leaderboards/friends-duels, the Flow cosmetic hat store, no real-money payments
+  yet) -- explicitly marked not-lawyer-reviewed, same honesty convention as
+  `EMILY_FOR_BUSINESS/LICENSE.md`. WOTAN `409a390`. Apple #22231. (session: sess-20261009-1745-ee80b668)
+- [x] **WOTAN-LEGAL-02: sitewide cookie-consent banner + legal footer.** `js/cookie-consent.js`
+  -- self-contained (no dependency on `iduna-sso.js`/`wotan-nav.js`), so it works unmodified on
+  every page including `DEADWEIGHT/index.html`, which loads neither. Dismissible top banner
+  ("by continuing to use this site, you consent to cookies," links to Terms/Privacy, remembered
+  via `localStorage`) plus a permanent footer with the same two links so they stay reachable after
+  the banner is dismissed. Inserted as the first child of `<body>` (not `position:fixed`) so it
+  pushes the existing sticky topbar down instead of overlapping it. Wired into all 22 pages. WOTAN
+  `409a390`. Apple #22231. (session: sess-20261009-1745-ee80b668)
+- [x] **IDUNA-LEGAL-01: matching banner on the hosted IAM login page.** `sso_login.go`'s
+  `iam.okemily.com` page now shows the same banner, styled to its own cream/gold identity (not
+  WOTAN's neon-brutalist palette), linking to WOTAN's `https://wotan.okemily.com/terms.html` and
+  `/privacy.html` -- IDUNA has no separate public ToS/Privacy of its own (`docs/NORTHSTAR.md`'s
+  "not a product, it is the backbone" framing), so this reuses the one real pair of legal pages
+  rather than inventing a redundant second set. Consent remembered via `localStorage`
+  (`iduna_cookie_consent`), same idiom as this page's own existing `iduna_sso_session`. IDUNA
+  `76a0354`. Apple #22232. (session: sess-20261009-1745-ee80b668)
+- [ ] **WOTAN-LEGAL-03: replace the placeholder contact address.** Both pages currently list
+  `legal@wotan.okemily.com`, which does not exist yet as a real monitored inbox -- picked as a
+  plausible placeholder (matching the `wotan.okemily.com` subdomain convention) specifically
+  because the only existing `@okemily.com` address found in this repo's own history
+  (`webmaster@okemily.com`) turned out to be an IDUNA admin account's login identity, not a public
+  contact inbox, and using it in a public legal doc would have been misleading. Needs a founder
+  decision: stand up that real inbox, or point it at a different existing one.
+- [ ] **WOTAN-LEGAL-04 (found, not fixed): `IDUNA/CLAUDE.md`'s endpoint table claims a GDPR
+  export/erasure module exists (`/api/v1/gdpr/`, `internal/gdpr/`).** Checked directly while
+  researching this section's privacy policy: neither the route nor the package exists anywhere in
+  the IDUNA repo. The Privacy Policy written for WOTAN-LEGAL-01 deliberately does NOT claim a
+  self-serve export/delete tool exists (it describes the real, manual, email-based process
+  instead) -- this item is only to correct the stale `CLAUDE.md` claim itself, out of scope for
+  this session's actual ask.
