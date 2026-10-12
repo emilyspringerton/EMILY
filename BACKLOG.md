@@ -4474,6 +4474,11 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [x] **Fix live Hearthstone deck tracker: duplicate CREATE_GAME logging fractured every game, hiding the player's own drawn ca…** [Apple #22236, 2026-10-12]
 - [x] **Fix live Hearthstone deck tracker: duplicate STATE=COMPLETE logging spawned a phantom empty record right after every ga…** [Apple #22243, 2026-10-12]
 - [x] **Fix live Hearthstone tracker: session line buffer trim silently dropped the opening CREATE_GAME/hero/deck burst on long…** [Apple #22244, 2026-10-12]
+- [ ] **Founder real-time: get Google OAuth working for IDUNA's own SSO login (the Google button on /api/v1/auth/sso/login) usi…** — obs `2026-10-12T16:11:46Z`. CURATED: 2026-10-12.
+- [ ] **Founder real-time: ingest Battle.net/Twitch/Google account-linking convo into WOTAN Clubs Phase 2 — Blizzard OAuth as c…** — obs `2026-10-12T14:05:55Z`. CURATED: 2026-10-12.
+- [ ] **Founder real-time: add SIGN IN WITH GOOGLE button to IDUNA IAM (iam.okemily.com SSO login page) — shipped SSOGoogleHand…** — obs `2026-10-12T13:29:36Z`. CURATED: 2026-10-12.
+- [ ] **Founder real-time: WOTAN Phase 2 = Clubs (teams): 3-tier privacy (secret/private/social)+exclusive flag, manager/coach/…** — obs `2026-10-12T13:24:44Z`. CURATED: 2026-10-12.
+- [ ] **Founder real-time: add a full stack rundown of the WOTAN PowerShell uplink script to HRIP/tracker/README.md so players …** — obs `2026-10-12T12:10:01Z`. CURATED: 2026-10-12.
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
