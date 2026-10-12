@@ -53287,3 +53287,21 @@ the full terms and privacy policy."
   self-serve export/delete tool exists (it describes the real, manual, email-based process
   instead) -- this item is only to correct the stale `CLAUDE.md` claim itself, out of scope for
   this session's actual ask.
+- [x] **WOTAN-LEGAL-05: full PC-side rundown of the WOTAN PowerShell uplink script, in
+  `HRIP/tracker/README.md`.** Founder: "update the HRIP/tracker readme with a full stack rundown
+  of how the powershell script works so users understand what they are opting into when they run
+  the script on their PC." The Terms/Privacy pages from WOTAN-LEGAL-01 describe the uplink in
+  general terms; this is the concrete, technical companion -- read directly from the live script
+  source (`IDUNA/internal/http/handlers/hs_live.go`'s `hsInstallerScript`/`hsUplinkScript`
+  constants and their routes in `hs_social.go`), not summarized from memory. New README section
+  "The WOTAN uplink -- what it does on your PC" covers: how the installer/launcher work and that
+  every run re-fetches the script fresh from WOTAN; the loopback-only (127.0.0.1) browser sign-in
+  and the resulting token's narrow scope (`hs.live.upload` only, 12h TTL); the one `client.config`
+  edit it makes to lift Hearthstone's ~10MB log cap (and its UAC fallback / `-NoConfigFix` opt-out);
+  exactly which two files it reads and that non-matching lines are discarded before anything is
+  queued; exactly what leaves the PC (both players' BattleTags, revealed cards, zone changes,
+  turns, result) and why; retry/resync behavior; and how to fully undo it. Also corrected a stale
+  "Not done yet" line in the same README claiming a Windows build of this engine was outstanding --
+  the live path never builds `host.c` for Windows, it ships matched log lines to this same tracker
+  running server-side in IDUNA instead. Docs-only, no code changed. HRIP `4b70ae4`. Apple #22246.
+  (session: sess-20261009-1745-ee80b668)
