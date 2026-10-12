@@ -53321,3 +53321,13 @@ Founder: ingest the Clubs/Teams spec chat into a Phase 2 doc; "clubs (teams), gr
 - [ ] **CLUBS-09: PARENA replacement of the plain-Go `internal/clubs` authz stopgap** (Core-Deps-PARENA-First; scalar-only logic is a plausible BURROW Go-emitter fit).
 - [ ] **CLUBS-10: Back Office cross-club reports queue index; confirm OQ-1..5 in the doc §10 with founder.**
 - [ ] **CLUBS-11 (found): 9 `game_online` ticket tests + `nock` door-script test fail on `main` before Phase 2** (verified identical on `80fd135`).
+
+## SECTION 610 — Founder real-time 2026-10-12: WOTAN Phase 2b — Identity federation (directly impacts Clubs)
+
+Founder: ingest the Google/Battle.net/Twitch account-linking chat; "INGEST AND PLAN THE FULL INTEGRATION". Spec: `WOTAN/IDENTITY_NORTHSTAR.md` (corrects: smurfs are separate Battle.net accounts not regions; "verified Legend" is leaderboard-matched not cryptographic; never request Twitch stream-key scope).
+
+- [ ] **IDENT-01: backend** — migration `202610130001_wotan_identity.sql`, Battle.net SSO (login+link), Twitch link, identities API, hashed upload keys + exchange, ingest BattleTag binding, gates on club creation/key minting, Back Office `/admin/identities`. (IDUNA, agent ID-A)
+- [ ] **IDENT-02: front end + uplink** — linked-accounts/upload-keys settings, verification gate modal, display-name resolution, uplink key exchange. (WOTAN/HRIP, agent ID-B)
+- [ ] **IDENT-03: rank verification job** — leaderboard poll → `hs_player_rank.verified` (this is CLUBS-08 with a real identity).
+- [ ] **IDENT-04 (human): register Battle.net + Twitch developer apps**, set `BNET_CLIENT_ID/SECRET` + Twitch creds in `iduna-env`, add redirect URIs; then real OAuth round trip + deploy (with CLUBS-07).
+- [ ] **IDENT-05: confirm IQ-1..5** in `IDENTITY_NORTHSTAR.md` §10 with founder (grace window, Twitch-as-login, self-serve merge, public BattleTag, region endpoint).
