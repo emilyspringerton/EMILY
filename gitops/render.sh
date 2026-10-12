@@ -18,10 +18,8 @@ printf 'apiVersion: v1\nkind: Namespace\nmetadata:\n  name: emily\n' > "$OUT/00-
 "$R" --name collections-server --namespace emily --image "$REG/collections-server:$TAG" \
      --port 8087 --cpu-milli 100 --memory-mi 128 > "$OUT/10-collections-server.yaml"
 
-# FatBaby: the whole pipeline as one multi-container pod (unix sockets in a shared emptyDir).
+# FatBaby core pod + PVC removed 2026-10-12 (data exported to gs://fatbaby2026-10-12/var); Services/routes below are intentionally left.
 P="${PARENA_POD_RENDER:-/home/fatbaby/PARENA/parena-pod-render}"
-FB_TAG="${FATBABY_TAG:-0.1.0}"
-"$P" "$(dirname "$0")/specs/fatbaby-core.pod" | sed "s/:IMAGE_TAG\$/:$FB_TAG/" > "$OUT/20-fatbaby-core.yaml"
 
 # REDGARDEN game servers (stateless pods, UDP LoadBalancer each; images from REDGARDEN/scripts/build-image.sh).
 RG_TAG="${RG_STABLE_TAG:-3e55798}"; RGR_TAG="${RG_RND_TAG:-3e55798}"
@@ -485,66 +483,4 @@ spec:
     group: ""
     kind: Service
     name: fatbaby-signals
-YAML
-
-# fatbaby-sync (2026-10-12, founder: "stop fatbaby pods, create a sync pod with GCS access and sync
-# the FATBABY PVC into GCS, bucket FATBABY<ISODATE>"): one-shot PVC -> GCS export. A Deployment, not a
-# Job, because gitops-sync's Role can create deployments/cronjobs but not batch Jobs. Copies once
-# (rsync, idempotent), logs the result, then idles so a restart never loops a failed copy hot.
-# The PVC is mounted READ-ONLY. Needs fatbaby-core at replicas=0 (RWO volume, and a quiescent event store).
-# GCS access: GKE Workload Identity -> fatbaby-sync@ GSA, roles/storage.objectAdmin on that one bucket only.
-# Bucket names must be lowercase, so FATBABY<ISODATE> is gs://fatbaby2026-10-12. Scale to 0 / delete when done.
-cat > "$OUT/21-fatbaby-sync.yaml" <<'YAML'
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: fatbaby-sync
-  namespace: emily
-  annotations:
-    iam.gke.io/gcp-service-account: fatbaby-sync@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: fatbaby-sync
-  namespace: emily
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: fatbaby-sync
-  template:
-    metadata:
-      labels:
-        app: fatbaby-sync
-    spec:
-      serviceAccountName: fatbaby-sync
-      containers:
-        - name: sync
-          image: gcr.io/google.com/cloudsdktool/google-cloud-cli:slim
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              set -u
-              export CLOUDSDK_STORAGE_PROCESS_COUNT=2 CLOUDSDK_STORAGE_THREAD_COUNT=4
-              echo "fatbaby-sync: start $(date -u +%FT%TZ)"
-              du -sh /app/var || true
-              gcloud storage rsync --recursive /app/var gs://fatbaby2026-10-12/var
-              rc=$?
-              echo "fatbaby-sync: rsync rc=$rc $(date -u +%FT%TZ)"
-              exec sleep infinity
-          resources:
-            requests: {cpu: 500m, memory: 2Gi, ephemeral-storage: 1Gi}
-            limits: {cpu: 500m, memory: 2Gi, ephemeral-storage: 1Gi}
-          volumeMounts:
-            - name: var
-              mountPath: /app/var
-              readOnly: true
-      volumes:
-        - name: var
-          persistentVolumeClaim:
-            claimName: fatbaby-var
-            readOnly: true
 YAML
