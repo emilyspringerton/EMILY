@@ -486,3 +486,64 @@ spec:
     kind: Service
     name: fatbaby-signals
 YAML
+
+# fatbaby-sync (2026-10-12, founder: "stop fatbaby pods, create a sync pod with GCS access and sync
+# the FATBABY PVC into GCS, bucket FATBABY<ISODATE>"): one-shot PVC -> GCS export. A Deployment, not a
+# Job, because gitops-sync's Role can create deployments/cronjobs but not batch Jobs. Copies once
+# (rsync, idempotent), logs the result, then idles so a restart never loops a failed copy hot.
+# The PVC is mounted READ-ONLY. Needs fatbaby-core at replicas=0 (RWO volume, and a quiescent event store).
+# GCS access: GKE Workload Identity -> fatbaby-sync@ GSA, roles/storage.objectAdmin on that one bucket only.
+# Bucket names must be lowercase, so FATBABY<ISODATE> is gs://fatbaby2026-10-12. Scale to 0 / delete when done.
+cat > "$OUT/21-fatbaby-sync.yaml" <<'YAML'
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fatbaby-sync
+  namespace: emily
+  annotations:
+    iam.gke.io/gcp-service-account: fatbaby-sync@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fatbaby-sync
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: fatbaby-sync
+  template:
+    metadata:
+      labels:
+        app: fatbaby-sync
+    spec:
+      serviceAccountName: fatbaby-sync
+      containers:
+        - name: sync
+          image: gcr.io/google.com/cloudsdktool/google-cloud-cli:slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -u
+              echo "fatbaby-sync: start $(date -u +%FT%TZ)"
+              du -sh /app/var || true
+              gcloud storage rsync --recursive /app/var gs://fatbaby2026-10-12/var
+              rc=$?
+              echo "fatbaby-sync: rsync rc=$rc $(date -u +%FT%TZ)"
+              exec sleep infinity
+          resources:
+            requests: {cpu: 500m, memory: 512Mi, ephemeral-storage: 1Gi}
+            limits: {cpu: 500m, memory: 512Mi, ephemeral-storage: 1Gi}
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+              readOnly: true
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: fatbaby-var
+            readOnly: true
+YAML

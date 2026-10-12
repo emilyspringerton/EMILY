@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fatbaby-sync
+  namespace: emily
+  annotations:
+    iam.gke.io/gcp-service-account: fatbaby-sync@project-d24a71e9-2daf-4b2d-917.iam.gserviceaccount.com
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fatbaby-sync
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: fatbaby-sync
+  template:
+    metadata:
+      labels:
+        app: fatbaby-sync
+    spec:
+      serviceAccountName: fatbaby-sync
+      containers:
+        - name: sync
+          image: gcr.io/google.com/cloudsdktool/google-cloud-cli:slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -u
+              echo "fatbaby-sync: start $(date -u +%FT%TZ)"
+              du -sh /app/var || true
+              gcloud storage rsync --recursive /app/var gs://fatbaby2026-10-12/var
+              rc=$?
+              echo "fatbaby-sync: rsync rc=$rc $(date -u +%FT%TZ)"
+              exec sleep infinity
+          resources:
+            requests: {cpu: 500m, memory: 512Mi, ephemeral-storage: 1Gi}
+            limits: {cpu: 500m, memory: 512Mi, ephemeral-storage: 1Gi}
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+              readOnly: true
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: fatbaby-var
+            readOnly: true
