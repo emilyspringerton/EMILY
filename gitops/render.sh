@@ -38,7 +38,8 @@ SP_TAG="${SHANKPIT_TAG:-v1}"
 
 # IDUNA (K8S-MV-01): the IAM hub on a PVC; ClusterIP only (front-door pod fronts it). Image: IDUNA/scripts/build-image.sh.
 ID_TAG="${IDUNA_TAG:-v2}"
-"$P" "$(dirname "$0")/specs/iduna.pod" | sed "s/:IMAGE_TAG\$/:$ID_TAG/" > "$OUT/40-iduna.yaml"
+OKEMILY_WEB_TAG="${OKEMILY_TAG:-v1}"
+"$P" "$(dirname "$0")/specs/iduna.pod" | sed -e "s/:IMAGE_TAG\$/:$ID_TAG/" -e "s/:WEB_TAG\$/:$OKEMILY_WEB_TAG/" > "$OUT/40-iduna.yaml"
 
 # IDUNA public front door (K8S-MV-01): iam./console.okemily.com on the edge Gateway (cert: okemily-com-wild in certmap
 # edge-certs). The renderer emits one HTTPRoute per service, so this one (two hosts + iam's "/" -> SSO login rewrite,

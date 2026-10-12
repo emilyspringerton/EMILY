@@ -33,7 +33,7 @@ REG="us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily"
 #
 # NOT listed here because they're still hardcoded directly in gitops/specs/*.pod, not driven by
 # any tags.env var yet (bump these by hand in the spec file until they get their own var):
-# dwlogs, sc-tunnel, okemily-web (all in iduna.pod / deadweight.pod), gfd-wsudprelay
+# dwlogs, sc-tunnel (iduna.pod / deadweight.pod), gfd-wsudprelay
 # (gfd-wsrelay.pod), carepyre-web (carepyre.pod).
 MAP="
 COLLECTIONS_TAG collections-server
@@ -51,6 +51,7 @@ GITOPS_SYNC_TAG gitops-sync
 CAREPYRE_TAG carepyre-pro
 EINHORN_TAG einhorn-survival
 MIXFORGE_TAG mixforge-room mixforge-web
+OKEMILY_TAG okemily-web
 "
 
 newest_tag() {
