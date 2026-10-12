@@ -53241,6 +53241,42 @@ the full terms and privacy policy."
   green across 3 repeated runs; confirmed via `git stash` that the full suite's other failures
   (guest/draft-run/top-up flakiness, `internal/nock` missing SDL2/ImageMagick) are pre-existing
   and unrelated. IDUNA `65ecfe9`. Apple #22233. (session: sess-20261009-1745-ee80b668)
+- [x] **HS-TRACKER-ME-04: ME-03 was real but insufficient -- founder, still mid-game: "agon soule
+  essence cards still screw up the tracker ... showing my cards as the opponents."** Live-debugged
+  against the founder's own actual game this time, not a guessed repro: read their real Power.log
+  via EDGE.GAME's operator `exec`/`file_get` path (a pre-existing capability, not built for this),
+  and cross-checked against IDUNA's live `hs_games` table. The founder's client initially reported
+  that relay connection as failing; the relay and its static token/pin were confirmed healthy
+  server-side (a Linux test cabinet authenticated instantly), and the founder's own retry with an
+  explicit static token connected -- the original failure mode (most likely the no-token
+  browser-SSO path) was never root-caused, a real, named gap, not claimed fixed. Two real root
+  causes for the tracker bug itself:
+  (1) `handle-payload` had no `CHANGE_ENTITY` branch -- the real Hearthstone event for a card
+  transforming IN PLACE (confirmed in the real log: a Frail Ghoul/`HERO_11bpt`->`CS2_tk1`
+  transform), as opposed to `SHOW_ENTITY`'s first-reveal. Unhandled, it left `cur` stuck on
+  whatever entity was last seen, so the transform's own re-declared `CONTROLLER` tag landed on
+  that stale, unrelated entity -- the actual mechanism of "my card shows up under the opponent."
+  (2) Bigger finding: on the founder's current Hearthstone client build, `CREATE_GAME` itself --
+  and whole nested TRIGGER/POWER sub-blocks of Dragon Soul Shattered's own Aspect Essence attack
+  sequence -- are logged ONLY under `PowerTaskList.DebugPrintPower()`, never duplicated under
+  `GameState`, contradicting this package's own long-standing "PowerTaskList lines are exact
+  duplicates" assumption. Verified by replaying the founder's real captured game at increasing
+  cutoffs: every partial prefix produced ZERO tracker output before the fix (the live page would
+  have read "waiting for the game to start" the entire match), `me` resolved correctly and stably
+  after it -- and this is exactly why every prior fix, including ME-03's, tested only against
+  FINISHED games (`STATE=COMPLETE` is independently GameState-logged, so a finished game always
+  looked fine regardless) and never caught it. Fix: `PowerTaskList.DebugPrint{Power,Game}()` now
+  read on equal footing with `GameState`'s, in `game_state.prn` and `hs_live.go` (regex, the
+  `CREATE_GAME` reset check, and the embedded uplink script's own copies of both). New
+  `internal/hstracker/hstracker_test.go`, both confirmed failing pre-fix via `git stash`. Also
+  fixed, found along the way: two pre-existing regressions from ME-03's own `card0` change
+  (`hs_social_test.go`'s `TestHS_GameRecordsAndMatchups`, `HRIP/tracker/tests/e2e.sh`'s substring
+  check) and `HRIP/CLAUDE.md`'s stale "no code yet" claim (the real `tracker/` subsystem this fix
+  lives in, vendored into IDUNA, isn't mentioned there at all). Real, honest, deliberately not
+  fixed this pass: Aspect Essence's own `GRAVEYARD` zone-exits are ALSO PowerTaskList-only in the
+  founder's log, so Left-vs-Drawn accounting for that card family may still undercount Drawn
+  mid-game -- an accounting gap, not a misattribution, not yet verified against a second real
+  game. IDUNA `6b0778b`, HRIP `cd6d7bf`. Apple #22235. (session: sess-20261009-1745-ee80b668)
 - [ ] **WOTAN-LEGAL-04 (found, not fixed): `IDUNA/CLAUDE.md`'s endpoint table claims a GDPR
   export/erasure module exists (`/api/v1/gdpr/`, `internal/gdpr/`).** Checked directly while
   researching this section's privacy policy: neither the route nor the package exists anywhere in
