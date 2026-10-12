@@ -53310,12 +53310,12 @@ the full terms and privacy policy."
 
 Founder: ingest the Clubs/Teams spec chat into a Phase 2 doc; "clubs (teams), granular controls, ensure we have the full admin interfaces and the full granular iduna stuff"; plan, then execute with a few parallel agents. Spec: `WOTAN/CLUBS_NORTHSTAR.md`.
 
-- [x] **CLUBS-01: Phase 2 doc** reconciling the chat (R1–R9: 3-tier model supersedes Public/Stealth, multi vs exclusive, server-side permission+club_id vs JWT, rank-verification honesty). WOTAN `1e58827`.
-- [x] **CLUBS-02: backend core** — migration, `internal/clubs` authz (STOPGAP plain Go), clubs API, invites, feed, audit, club-context token, admin JSON API. IDUNA `1dbc354`.
-- [x] **CLUBS-03: front end** — `/clubs/*` pages. WOTAN `5c17ab1`.
-- [x] **CLUBS-04: telemetry sync target + ingest routing, rank, analytics, public-aggregate leak fixes.** IDUNA `ccc14ca`.
-- [x] **CLUBS-05: Back Office `/admin/clubs`** console, settings, catalog, reasoned+audited actions. IDUNA `db8ca8d`.
-- [x] **CLUBS-06: shared auth refuses `aud=wotan-club` tokens.** IDUNA `9078894`.
+- [x] **CLUBS-01: Phase 2 doc** reconciling the chat (R1–R9: 3-tier model supersedes Public/Stealth, multi vs exclusive, server-side permission+club_id vs JWT, rank-verification honesty). WOTAN `1e58827`. Apple #22248 (sess-20261009-1745-ee80b668)
+- [x] **CLUBS-02: backend core** — migration, `internal/clubs` authz (STOPGAP plain Go), clubs API, invites, feed, audit, club-context token, admin JSON API. IDUNA `1dbc354`. Apple #22248 (sess-20261009-1745-ee80b668)
+- [x] **CLUBS-03: front end** — `/clubs/*` pages. WOTAN `5c17ab1`. Apple #22248 (sess-20261009-1745-ee80b668)
+- [x] **CLUBS-04: telemetry sync target + ingest routing, rank, analytics, public-aggregate leak fixes.** IDUNA `ccc14ca`. Apple #22248 (sess-20261009-1745-ee80b668)
+- [x] **CLUBS-05: Back Office `/admin/clubs`** console, settings, catalog, reasoned+audited actions. IDUNA `db8ca8d`. Apple #22248 (sess-20261009-1745-ee80b668)
+- [x] **CLUBS-06: shared auth refuses `aud=wotan-club` tokens.** IDUNA `9078894`. Apple #22248 (sess-20261009-1745-ee80b668)
 - [ ] **CLUBS-07: deploy** — rebuild/deploy IDUNA with migration `202610120001_wotan_clubs.sql` (verify on MySQL if prod uses it), deploy WOTAN via `~/wotan-deploy.sh`, then a real headless-browser pass (none available in this sandbox).
 - [ ] **CLUBS-08: verified legend rank** — ingest Blizzard public leaderboards, match on (already provable) BattleTag; until then rank is self-declared/unverified.
 - [ ] **CLUBS-09: PARENA replacement of the plain-Go `internal/clubs` authz stopgap** (Core-Deps-PARENA-First; scalar-only logic is a plausible BURROW Go-emitter fit).
@@ -53326,8 +53326,8 @@ Founder: ingest the Clubs/Teams spec chat into a Phase 2 doc; "clubs (teams), gr
 
 Founder: ingest the Google/Battle.net/Twitch account-linking chat; "INGEST AND PLAN THE FULL INTEGRATION". Spec: `WOTAN/IDENTITY_NORTHSTAR.md` (corrects: smurfs are separate Battle.net accounts not regions; "verified Legend" is leaderboard-matched not cryptographic; never request Twitch stream-key scope).
 
-- [ ] **IDENT-01: backend** — migration `202610130001_wotan_identity.sql`, Battle.net SSO (login+link), Twitch link, identities API, hashed upload keys + exchange, ingest BattleTag binding, gates on club creation/key minting, Back Office `/admin/identities`. (IDUNA, agent ID-A)
-- [ ] **IDENT-02: front end + uplink** — linked-accounts/upload-keys settings, verification gate modal, display-name resolution, uplink key exchange. (WOTAN/HRIP, agent ID-B)
+- [x] **IDENT-01: backend** — migration `202610130001_wotan_identity.sql`, Battle.net SSO (login+link), Twitch link, identities API, hashed upload keys + exchange, ingest BattleTag binding, gates on club creation/key minting, Back Office `/admin/identities`. (IDUNA, agent ID-A) IDUNA `6bfe293`, `7b3aab5`. Apple #22249 (sess-20261009-1745-ee80b668)
+- [x] **IDENT-02: front end + uplink** — linked-accounts/upload-keys settings, verification gate modal, display-name resolution, uplink key exchange. (WOTAN/HRIP, agent ID-B) WOTAN `cebacb7`, HRIP `c318368`; uplink patch applied IDUNA `7b3aab5`. Apple #22249 (sess-20261009-1745-ee80b668)
 - [ ] **IDENT-03: rank verification job** — leaderboard poll → `hs_player_rank.verified` (this is CLUBS-08 with a real identity).
 - [ ] **IDENT-04 (human): register Battle.net + Twitch developer apps**, set `BNET_CLIENT_ID/SECRET` + Twitch creds in `iduna-env`, add redirect URIs; then real OAuth round trip + deploy (with CLUBS-07).
 - [ ] **IDENT-05: confirm IQ-1..5** in `IDENTITY_NORTHSTAR.md` §10 with founder (grace window, Twitch-as-login, self-serve merge, public BattleTag, region endpoint).
