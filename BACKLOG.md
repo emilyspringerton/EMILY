@@ -4472,6 +4472,7 @@ Run: `emily backlog promote --limit=50 --batch=15`
 - [ ] **Founder real-time: 'migrate the kubernetes' — finish FatBaby cutover: repoint box consumers (watchdog, statuspage, EDIS…** — obs `2026-10-04T21:07:57Z`. CURATED: 2026-10-04.
 - [ ] **Founder real-time: cannot join SHANKPIT queue (post-GKE move 2026-10-04). Server pod, DNS 34.63.32.219 UDP:6969, join e…** — obs `2026-10-04T21:54:11Z`. CURATED: 2026-10-04.
 - [x] **Fix live Hearthstone deck tracker: duplicate CREATE_GAME logging fractured every game, hiding the player's own drawn ca…** [Apple #22236, 2026-10-12]
+- [x] **Fix live Hearthstone deck tracker: duplicate STATE=COMPLETE logging spawned a phantom empty record right after every ga…** [Apple #22243, 2026-10-12]
 ## SECTION 23: EDIS — WORDPRESS INTELLIGENCE PRODUCT (public face of FatBaby)
 
 *Northstar: WordPress site with three plugins that call signalapi. SEO-optimized, community-ready.*
