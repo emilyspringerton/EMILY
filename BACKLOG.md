@@ -53305,3 +53305,19 @@ the full terms and privacy policy."
   the live path never builds `host.c` for Windows, it ships matched log lines to this same tracker
   running server-side in IDUNA instead. Docs-only, no code changed. HRIP `4b70ae4`. Apple #22246.
   (session: sess-20261009-1745-ee80b668)
+
+## SECTION 609 — Founder real-time 2026-10-12: WOTAN Phase 2 — Clubs (teams)
+
+Founder: ingest the Clubs/Teams spec chat into a Phase 2 doc; "clubs (teams), granular controls, ensure we have the full admin interfaces and the full granular iduna stuff"; plan, then execute with a few parallel agents. Spec: `WOTAN/CLUBS_NORTHSTAR.md`.
+
+- [x] **CLUBS-01: Phase 2 doc** reconciling the chat (R1–R9: 3-tier model supersedes Public/Stealth, multi vs exclusive, server-side permission+club_id vs JWT, rank-verification honesty). WOTAN `1e58827`.
+- [x] **CLUBS-02: backend core** — migration, `internal/clubs` authz (STOPGAP plain Go), clubs API, invites, feed, audit, club-context token, admin JSON API. IDUNA `1dbc354`.
+- [x] **CLUBS-03: front end** — `/clubs/*` pages. WOTAN `5c17ab1`.
+- [x] **CLUBS-04: telemetry sync target + ingest routing, rank, analytics, public-aggregate leak fixes.** IDUNA `ccc14ca`.
+- [x] **CLUBS-05: Back Office `/admin/clubs`** console, settings, catalog, reasoned+audited actions. IDUNA `db8ca8d`.
+- [x] **CLUBS-06: shared auth refuses `aud=wotan-club` tokens.** IDUNA `9078894`.
+- [ ] **CLUBS-07: deploy** — rebuild/deploy IDUNA with migration `202610120001_wotan_clubs.sql` (verify on MySQL if prod uses it), deploy WOTAN via `~/wotan-deploy.sh`, then a real headless-browser pass (none available in this sandbox).
+- [ ] **CLUBS-08: verified legend rank** — ingest Blizzard public leaderboards, match on (already provable) BattleTag; until then rank is self-declared/unverified.
+- [ ] **CLUBS-09: PARENA replacement of the plain-Go `internal/clubs` authz stopgap** (Core-Deps-PARENA-First; scalar-only logic is a plausible BURROW Go-emitter fit).
+- [ ] **CLUBS-10: Back Office cross-club reports queue index; confirm OQ-1..5 in the doc §10 with founder.**
+- [ ] **CLUBS-11 (found): 9 `game_online` ticket tests + `nock` door-script test fail on `main` before Phase 2** (verified identical on `80fd135`).
