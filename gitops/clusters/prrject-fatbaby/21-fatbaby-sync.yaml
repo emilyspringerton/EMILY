@@ -31,6 +31,7 @@ spec:
           args:
             - |
               set -u
+              export CLOUDSDK_STORAGE_PROCESS_COUNT=2 CLOUDSDK_STORAGE_THREAD_COUNT=4
               echo "fatbaby-sync: start $(date -u +%FT%TZ)"
               du -sh /app/var || true
               gcloud storage rsync --recursive /app/var gs://fatbaby2026-10-12/var
@@ -38,8 +39,8 @@ spec:
               echo "fatbaby-sync: rsync rc=$rc $(date -u +%FT%TZ)"
               exec sleep infinity
           resources:
-            requests: {cpu: 500m, memory: 512Mi, ephemeral-storage: 1Gi}
-            limits: {cpu: 500m, memory: 512Mi, ephemeral-storage: 1Gi}
+            requests: {cpu: 500m, memory: 2Gi, ephemeral-storage: 1Gi}
+            limits: {cpu: 500m, memory: 2Gi, ephemeral-storage: 1Gi}
           volumeMounts:
             - name: var
               mountPath: /app/var
