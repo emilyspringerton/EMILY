@@ -6,7 +6,7 @@
 # Requests==limits (Autopilot bills per request); sized from live RSS on the box, then raised after OOMKills on the real PVC data (2026-10-04: newssite ~490 MB RSS, entity-graph loads accuracy.ndjson).
 # Left out on purpose: broker (EMILY/gpt2 path coupling), kgraph-server, bond-/movers-watcher (systemd
 # timers — a CronJob pod cannot reach the core pod's sockets; need an in-pod loop mode, see K8S-FB-13).
-pod name=fatbaby-core namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:IMAGE_TAG pvc=fatbaby-var pvc-gb=20 secret=fatbaby-env var=/app/var run=/run/fatbaby replicas=1
+pod name=fatbaby-core namespace=emily image=us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:IMAGE_TAG pvc=fatbaby-var pvc-gb=20 secret=fatbaby-env var=/app/var run=/run/fatbaby replicas=0
 
 container name=secwatch command=/app/bin/secwatch args=-watchlist,/app/config/watchlist.json,-store,/app/var/secwatch,-poll-interval,5m,-rate-rps,2 cpu=100 mem=1024
 container name=prwatch command=/app/bin/prwatch args=-store,/app/var/prwatch,-poll-interval,30s cpu=50 mem=96
