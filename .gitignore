@@ -42,3 +42,7 @@ var/*.pid
 
 # raw DB backups/snapshots taken during ops work — real PII, never belongs in git history
 var/backups/
+
+# GitHub PAT dropped by the founder on new boxes
+var/pat
+var/iduna-admin.env
