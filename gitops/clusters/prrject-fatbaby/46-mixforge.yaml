@@ -45,8 +45,8 @@ spec:
           env:
             - name: FATBABY_NOTIFY_DIR
               value: /run/mixforge/notify
-            - name: MIXFORGE_YTDLP_COOKIES
-              value: /app/var/ytdlp-cookies.txt
+            # Re-add MIXFORGE_YTDLP_COOKIES=/app/var/ytdlp-cookies.txt to use the cookies. Left off: cookies exported from
+            # a home IP are rejected by YouTube from GKE ("page needs to be reloaded") and break downloads that work without.
           envFrom:
             - secretRef:
                 optional: true
