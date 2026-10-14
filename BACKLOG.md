@@ -53346,3 +53346,18 @@ Founder: ingest the Google/Battle.net/Twitch account-linking chat; "INGEST AND P
 - [ ] **SHANKPIT-CI-GUARD: catch "source in a test .mk but not LOBBY_SRC" before release day.** The 71b93a3 class of bug passed `tests.yml`'s unit targets and only died in the Windows link. Add a cheap CI step (link-check or a script diffing `mk/*.mk` source lists against `LOBBY_SRC`). Found 2026-10-13. session: sess-20261013-2122-ded60695
 - [ ] **SHANKPIT-RELEASE-v0.199-REVIEW: founder said the current release "is jacked up" — deferred until newest code shipped (now done, v0.200.0).** Inspect v0.200.0/v0.199.0 assets and report what's wrong. session: sess-20261013-2122-ded60695
 - [ ] **BOX-BOOTSTRAP-2026-10-13 follow-ups:** `EMILY/var/pat` was untracked+unignored (now in `.gitignore`) and is mode 644 root-owned; `~/go.work` lists uncloned EDIS/gpt2-alpine-c (emily.cli builds need `GOWORK=off`); emily.cli defaults to `/home/fatbaby` paths (worked around via exported *_ROOT env in `~/.bashrc`). session: sess-20261013-2122-ded60695
+
+## SECTION 611 — Founder real-time 2026-10-14: PELLEGRINO (all-gas-no-brakes browser/terminal shell, pure PARENA)
+
+Founder (verbatim intent): Gemini "is getting the vibes but its totally a crack head" — ingest the conversation, write the NORTHSTAR from the vibes not the implementation; then: "be pragmatic... bare metal --dangerously-skip-checks speed demon, agile, working software above all; as pure PARENA as possible, slimmest C harness, NO MALLOC; v0 with the borderless SDL; CI/CD from day 1 like the SHANKPIT factory, auto-publish artifacts + releases; SDL + needed DLLs and RUN.bat in the client artifacts; logs to a real text file not a terminal that closes after 1s; use BAZEL; this [landing page] is the product, build it."
+
+- [ ] **PELLEGRINO-V0 shipped (63bdfe4, PARENA 523d36e):** borderless SDL2 streaming renderer, NO_MALLOC, file logs, Bazel, smoke test, CI auto-release (Linux bundle + flat Windows zip w/ SDL2.dll + RUN.bat), landing page `site/`. Verified locally (Bazel build+test, Xvfb screenshot, mingw cross-build PE32+). **Open: confirm first CI run + auto-release green, then Apple + mark [x].**
+- [ ] **PELLEGRINO-NET:** live HTTP fetch. PARENA `net/tcp` is POSIX-only → PARENA winsock backend (core dep, PARENA-first), then HTTP/1.1 streaming into the arena, then HTTP/2 (+HPACK), then HTTP/3/QUIC (own NORTHSTAR).
+- [ ] **PELLEGRINO-TERM:** ANSI/SSH viewport over the same layout array + terminal↔SDL2 hot-swap.
+- [ ] **PELLEGRINO-BENCH:** benchmark harness (DNS/connect/TLS/first byte/first glyph/full layout) — no number in any doc until it exists.
+- [ ] **PELLEGRINO-NAME:** founder decision — "Pellegrino" is a real mineral-water trademark (Unlicense covers copyright, not trademark); keep/quiet/rename. Also the `<4 America` strings in headers/banners.
+- [ ] **PELLEGRINO-IDUNA-SLUG:** register app_slug `pellegrino` in IDUNA's app-release registry so CI's signing step can publish; secrets still human-only.
+- [ ] **PELLEGRINO-PAGES:** enable GitHub Pages (Source: GitHub Actions) so the `pages` job deploys `site/`.
+- [ ] **PARENA-UPSTREAM:** `create-window-borderless` + `PARENA_NO_TTF` landed in PARENA@523d36e; add tests to PARENA's own suite.
+- [ ] **PELLEGRINO-GOLDEN-SYNC:** add PELLEGRINO row to root CLAUDE.md repo table and resync GOLDEN_DOCS (repo not cloned on this box).
+session: sess-20261014-2017-b6e4f6dc
