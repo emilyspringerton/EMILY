@@ -53355,7 +53355,6 @@ Founder (verbatim intent): Gemini "is getting the vibes but its totally a crack 
 - [ ] **PELLEGRINO-NET:** live HTTP fetch. PARENA `net/tcp` is POSIX-only → PARENA winsock backend (core dep, PARENA-first), then HTTP/1.1 streaming into the arena, then HTTP/2 (+HPACK), then HTTP/3/QUIC (own NORTHSTAR).
 - [ ] **PELLEGRINO-TERM:** ANSI/SSH viewport over the same layout array + terminal↔SDL2 hot-swap.
 - [ ] **PELLEGRINO-BENCH:** benchmark harness (DNS/connect/TLS/first byte/first glyph/full layout) — no number in any doc until it exists.
-- [ ] **PELLEGRINO-NAME:** founder decision — "Pellegrino" is a real mineral-water trademark (Unlicense covers copyright, not trademark); keep/quiet/rename. Also the `<4 America` strings in headers/banners.
 - [ ] **PELLEGRINO-IDUNA-SLUG:** register app_slug `pellegrino` in IDUNA's app-release registry so CI's signing step can publish; secrets still human-only.
 - [ ] **PELLEGRINO-PAGES:** enable GitHub Pages (Source: GitHub Actions) so the `pages` job deploys `site/`.
 - [ ] **PARENA-UPSTREAM:** `create-window-borderless` + `PARENA_NO_TTF` landed in PARENA@523d36e; add tests to PARENA's own suite.
