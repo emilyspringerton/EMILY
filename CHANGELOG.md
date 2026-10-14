@@ -1,3 +1,7 @@
+## 2026-10-14
+
+- fix(mixforge): gitops `46-mixforge.yaml` stages uploaded yt-dlp cookies into the room pod from the `mixforge-cookies` Secret (initContainer copy). Cookies exported from a home IP are rejected from GKE (`page needs to be reloaded`) while cookie-less downloads work, so `MIXFORGE_YTDLP_COOKIES` is left unset. IDUNA's upload still lands only in IDUNA's pod; no auto-forward yet. (session: claude-session_01BFP4dwdMi5xepEyH9sH5fB)
+
 ## 2026-10-13
 
 - feat(tyler): VALHANNA VH04 "Les Chaises Pliantes" (TYLER Build 0142, TYLER@9feebb9) written after reading the whole TYLER repo, and VH03 + VH04 wired into SHANKPIT MODE_TYLER (SHANKPIT@6c4720a; VH03 had been written but never wired). The person at VH02's door is the Auditor (first placement): seven chairs for a list of six, nine-of-ten minestrone with an unattributed tenth ingredient, a 28.7 Hz "remainder", a sealed notebook he will not mirror, a battery due on a day that is not a weekday. New lore receipts (folding-chair roster, VALHANNA receipt index, TYLER-VH-001..004, sealed-log ENTRY 23/24 (VH), MEMO #081-R1, ledger Day —, ACTIVATION VH-001). `make test-tyler-vo`: 102 pass headless, 447 with a stand-in Piper; lobby binary not built here. Apple #22254, card 616.
