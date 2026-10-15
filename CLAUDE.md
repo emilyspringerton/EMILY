@@ -174,3 +174,10 @@ always implement the core deps in PARENA first."*
 - **Not a license to reimplement the OS.** Core deps = what the product's own behavior depends on.
   Compilers, kernels, system libraries and the like stay as-is; a repo's own CLAUDE.md may record a
   considered, specific exception (same standard as the LZ4 compression convention).
+
+## Git Identity (standing, every box)
+
+Commit as **Emily Springerton <emilyspringerton@gmail.com>**; a fresh box has none configured:
+`git config user.name "Emily Springerton" && git config user.email "emilyspringerton@gmail.com"`
+(per repo). Commit + push at the end of EVERY turn — a box can vanish at any time (founder,
+2026-10-15). Full snippet in the monorepo `CLAUDE.md`.
