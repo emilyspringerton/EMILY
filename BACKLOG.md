@@ -242,6 +242,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 ---
 
 ## SECTION 4: SHANKPIT / TYLER GAME ENGINE (lower priority)
+- [x-pending-apple] SHANKPIT: ctrl-crouch-slide wall ride (Lucio-style wall magnet, existing slide physics unchanged) — kanban #648; `phys_wall_ride_*` in physics.h + update_entity hook + `make test-wall-ride`; headless-verified only, not feel-tested (session: unknown)
 
 - [x] **Founder real-time: "we are starting a new season of TYLER; VALHANNA"** — Routed through
   `emily observe` first (Apple #21435), then written directly: `TYLER/episodes/vh01_valhanna_coldopen.md`,
