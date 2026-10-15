@@ -53389,3 +53389,14 @@ Founder (verbatim): "ensure we support these tags: p, em, strong, br, div, span"
 - [ ] **PELLEGRINO-NEXT:** word-wrap, descendant selectors, `height`, nested flex, multi-line `<textarea>`, `<select>` popup/`multiple`, `colspan`/`rowspan`/table borders, markdown images.
 - [ ] **PELLEGRINO-CI-CHECK:** confirm CI green for PELLEGRINO 71049b0 and PARENA 575bdf5 (PARENA run 38682672345 failed only on "Build Editor (Windows)" -> "Self-hosting domains 1-3 ... real Windows link+run", cause unexamined).
 session: sess-20261015-pellegrino-html5
+
+## SECTION 614 — Founder real-time 2026-10-15: full Unicode support (PARENA first, then PELLEGRINO)
+
+Founder (verbatim): "we need to add full unicode support so we are gonna need to add that to PARENA first".
+
+**Process note:** `emily` CLI still absent — hand-logged; no Apple/kanban card. Mark `[x]` only after an Apple exists.
+
+- [ ] **UNICODE-PARENA (built; PARENA 1f616f9):** `stdlib/unicode.prn` + generated `stdlib/unicode/ucd.prn` (Unicode 15.1; `tools/gen_ucd.py`): strict UTF-8 decode/validate/encode, codepoint count/offset/prev, properties, simple case mapping, display width; lexer `\u{...}`/`\xHH` escapes (C + selfhost). `make test-unicode`; tables verified over all 1,114,112 codepoints. Not run here: Bazel, selfhost-emit/main + json test targets (need SDL/openssl dev headers; json test also fails identically before the change).
+- [ ] **UNICODE-PARENA-NEXT:** NFC/NFD normalization, grapheme-cluster segmentation, bidi, full case folding, non-ASCII identifiers in `.prn` source, BURROW lexer parity for `\u{}`.
+- [ ] **UNICODE-PELLEGRINO:** decode UTF-8 in page text, entities > U+00FF, glyph rendering beyond the built-in ASCII font (font strategy to decide), wide/combining-aware cursor advance (`cp-width`), `<meta charset>` / Content-Type handling, form-value encoding of non-ASCII.
+session: sess-20261015-parena-unicode
