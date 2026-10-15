@@ -53400,3 +53400,14 @@ Founder (verbatim): "we need to add full unicode support so we are gonna need to
 - [ ] **UNICODE-PARENA-NEXT:** NFC/NFD normalization, grapheme-cluster segmentation, bidi, full case folding, non-ASCII identifiers in `.prn` source, BURROW lexer parity for `\u{}`.
 - [ ] **UNICODE-PELLEGRINO:** decode UTF-8 in page text, entities > U+00FF, glyph rendering beyond the built-in ASCII font (font strategy to decide), wide/combining-aware cursor advance (`cp-width`), `<meta charset>` / Content-Type handling, form-value encoding of non-ASCII.
 session: sess-20261015-parena-unicode
+
+## SECTION 615 — Founder real-time 2026-10-15: CSS3, asynchronously, embrace the layout shifts (PELLEGRINO)
+
+Founder (verbatim): "ensure we support css3 on an asynchronous basis; remember embrace the layout shifts".
+
+**Process note:** `emily` CLI still absent — hand-logged; no Apple/kanban card. Mark `[x]` only after an Apple exists.
+
+- [ ] **CSS3-ASYNC (built; PELLEGRINO 7585a82 v1.9, PARENA 86bb47c):** `<link rel=stylesheet>` + `@import` fetched without blocking a frame (page paints first, restyles from byte 0 when a sheet lands, sheets apply in document order); selectors (descendant/child/attribute/`:nth-child`/`:not`/`:is`, specificity, `!important`), `@media`/`@supports`/`@layer`, `rgba`/`hsl`/all named colours, `calc()`, `var()`, `vw`/`vh`/..., `box-sizing`, `text-transform`, author link colours. Smoke sections 20/20b pass (non-TLS sections only on this box). Not run: Bazel, HTTPS sheets (no mbedTLS dev), PARENA CI.
+- [ ] **CSS3-NEXT:** `+`/`~` combinators, `:last-child`, `::before/::after`, `grid`, float/position, `text-align`, `height`/`min-*`, `opacity`/`border-radius` rendering, per-scope custom properties, `var()` in `display`, true concurrent sheet fetch (single TLS session today), PELLEGRINO-CI-CHECK for v1.8/v1.9.
+session: sess-20261015-pellegrino-css3
+
