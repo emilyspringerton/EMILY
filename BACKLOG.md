@@ -53485,3 +53485,4 @@ session: unknown
 session: unknown
 - [x-pending-apple] **D2-CLIENT-LOG-01** (card #613) dw2_client logs to dw2_client.log, defaults to live dw.okemily.com:7800, startup failures show a message box + stay in log, PLAY.bat pauses on error (`DEADWEIGHT_2@08edf07`). Verified headless Linux vs live server; real Windows double-click NOT verified; no bot opponent on live server yet (lone player stays queued).
 session: unknown
+- [x-pending-apple] **TJ-124** (card #253) TIPJAR level now 3 floors (basement/ground/upper) x 120 wide: STAGE_TIPJAR + data/levels/tipjar.json, 9 customers across floors, doors both ends; tests/test_tipjar.c 9/9 pass. Live GUI play-test by a human not done (no GLU link on this box). (`BRAWLPIT@e4fca41`) session: unknown
