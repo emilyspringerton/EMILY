@@ -1,5 +1,6 @@
 ## 2026-10-15
 
+- feat(ci/client): SHANKPIT slim-client release artifacts (card #621, SHANKPIT@d982428) and DEADWEIGHT_2 client log file/live default/no-vanish startup (card #613). See each repo's CHANGELOG.
 - fix(gitops): DEADWEIGHT clients couldn't connect (card #625) -- `logserve` sidecar crashlooped for 10d (nginx `user nginx 65532` -> `getgrnam("65532") failed`), pod stuck 8/9, `svc/deadweight` had no endpoints, so tcp-edge accepted then dropped every connection. dwlogs:v3 creates a named group first (082d6812). Live-verified: pod 9/9, endpoints populated, headless dw_client played a full match vs bot-ripper through dw.okemily.com:7180, no more IDUNA match-result report failures. Not verified: GUI/Android on a real device.
 
 ## 2026-10-14

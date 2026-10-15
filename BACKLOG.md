@@ -53481,3 +53481,7 @@ session: unknown
 session: unknown
 - [x-pending-apple] **DW-CONNECT-01** (card #625) DEADWEIGHT desktop+Android could not reach the server: logserve sidecar nginx crashloop kept svc/deadweight endpoint-less; fixed via dwlogs:v3 (`EMILY@082d6812`), live headless client match verified. GUI/Android device run not verified.
 session: unknown
+- [x-pending-apple] **SHANKPIT-SLIM-CLIENT-01** (card #621) release.yml now bundles/uploads/releases ShankPit_SlimClient_{Windows,Linux}_<build>.zip (client+SDL libs+assets+CONSTRUCT only; no World/Bots/OS apps). Bundle logic simulated locally; real CI run not yet observed (`SHANKPIT@d982428`).
+session: unknown
+- [x-pending-apple] **D2-CLIENT-LOG-01** (card #613) dw2_client logs to dw2_client.log, defaults to live dw.okemily.com:7800, startup failures show a message box + stay in log, PLAY.bat pauses on error (`DEADWEIGHT_2@08edf07`). Verified headless Linux vs live server; real Windows double-click NOT verified; no bot opponent on live server yet (lone player stays queued).
+session: unknown
