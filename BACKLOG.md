@@ -53479,3 +53479,5 @@ session: unknown
 - [x-pending-apple] **IDUNA-SDK-02 / #631 REDGARDEN half**: `--login-iduna` via vendored SDK, stub-IDUNA test case F passes (`REDGARDEN@e613339`). #614 EDGE.GAME browser login re-verified (Linux build -Werror clean, loopback capture + URL against live IDUNA via port-forward) -- already shipped as `EDGE.GAME@97d0e83`.
 - [ ] Note: node is now obtainable on this box (nodejs.org tarball to scratch) -- `IDUNA/sdk/web/iduna-login.js` passes `node --check` only; behavioural browser test still open.
 session: unknown
+- [x-pending-apple] **DW-CONNECT-01** (card #625) DEADWEIGHT desktop+Android could not reach the server: logserve sidecar nginx crashloop kept svc/deadweight endpoint-less; fixed via dwlogs:v3 (`EMILY@082d6812`), live headless client match verified. GUI/Android device run not verified.
+session: unknown

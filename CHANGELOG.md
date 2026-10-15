@@ -1,3 +1,7 @@
+## 2026-10-15
+
+- fix(gitops): DEADWEIGHT clients couldn't connect (card #625) -- `logserve` sidecar crashlooped for 10d (nginx `user nginx 65532` -> `getgrnam("65532") failed`), pod stuck 8/9, `svc/deadweight` had no endpoints, so tcp-edge accepted then dropped every connection. dwlogs:v3 creates a named group first (082d6812). Live-verified: pod 9/9, endpoints populated, headless dw_client played a full match vs bot-ripper through dw.okemily.com:7180, no more IDUNA match-result report failures. Not verified: GUI/Android on a real device.
+
 ## 2026-10-14
 
 - fix(mixforge): gitops `46-mixforge.yaml` stages uploaded yt-dlp cookies into the room pod from the `mixforge-cookies` Secret (initContainer copy). Cookies exported from a home IP are rejected from GKE (`page needs to be reloaded`) while cookie-less downloads work, so `MIXFORGE_YTDLP_COOKIES` is left unset. IDUNA's upload still lands only in IDUNA's pod; no auto-forward yet. (session: claude-session_01BFP4dwdMi5xepEyH9sH5fB)
