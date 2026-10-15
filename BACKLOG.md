@@ -53501,3 +53501,5 @@ session: unknown
 - [ ] SHANKPIT-EDU-WIDGETS-02: author `edu_widgets` in NOCK -- IDUNA level store/export schema + ShankpitLevelEditor.tsx tab, register TUTORIAL_PROGRAMMABLE in the live shankpit_levels registry (SHANKPIT/CLAUDE.md "registry as living docs"); then destructible-brick barrier variant + networked widget state (session: unknown)
 
 - [x-pending-apple] DEADWEIGHT-WEB-DRAFT-SSO-01: web Draft button never enabled after connect (fixed); web client drops email/password forms in favour of IDUNA SSO. Uncompiled/untested in browser (no node here). (session: unknown)
+- [x-pending-apple] IDUNA-DAILY-TICKET-STACK-01: daily UTC-midnight ticket grant now stacks onto held tickets (premium keeps raise-to-cap); tests pinned. Not deployed until IDUNA CI image rolls. (session: unknown)
+- [x-pending-apple] DEADWEIGHT-AUTODEPLOY-01: DEADWEIGHT `.github/workflows/deploy.yml` builds + pushes emily/deadweight:<sha> on every main push (IDUNA's WIF pipeline); never run yet, needs GCP_WIF_PROVIDER/GCP_CI_SERVICE_ACCOUNT Variables on the repo. (session: unknown)
