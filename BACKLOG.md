@@ -53469,3 +53469,8 @@ session: unknown
 - [ ] **#631** dogfood: SHANKPIT half = #623; REDGARDEN repo not checked out on this box -- web profile ready to drop in. Card stays in priority.
 - [ ] Follow-ups: persist session (0600 file) + use token for connect-ticket; unify device-flow HS256 token with ES256 player JWT; add callback hosts to `SSO_ALLOWED_REDIRECT_HOSTS` for new web apps.
 session: unknown
+
+## SECTION 622 — Priority-queue sprint 2026-10-15 (OS menu on HTML/CSS + PELLEGRINO)
+- [x-pending-apple] **SHANKPIT-OS-MENU-HTML-01** (card #627) lobby tile grid (all 5 pages) = generated HTML + CSS painted by PELLEGRINO via a new embed API (`PELLEGRINO@1802938..9b50f15`: `embed-open/-draw/-click/-key/-action-*`; `PARENA@aa48abf`: offscreen surface renderer). SHANKPIT `packages/pellegrino_embed/` + `main.c` hook; `make test-os-menu` + `test-os-menu-gl` pass (Mesa/Xvfb). Engine fix found dogfooding: `text-decoration:none` now removes link underline. NOT verified: full lobby link/run (no SDL2_ttf/GLU/EDITOR.GAME here), mingw, Bazel, human click-through.
+- [ ] Follow-ups: migrate skin/level/spray overlays, title, corner buttons (SETTINGS/APPS/LOGIN IDUNA) and the in-game pause menu to the same HTML path; keyboard hover/focus styling via `:hover`/`:focus` (engine doesn't match them yet); CSS-driven tile layout beyond 2 columns; `make test-os-menu` into tests.yml (needs libsdl2-dev step); re-run PELLEGRINO's full smoke suite (Bazel absent here); repo-table row for PELLEGRINO in root CLAUDE.md + GOLDEN_DOCS resync still open (PELLEGRINO-GOLDEN-SYNC).
+session: unknown
