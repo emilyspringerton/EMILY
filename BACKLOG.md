@@ -53420,3 +53420,32 @@ Founder (paraphrased): browsers render h1 etc. with default margins; devs reset 
 
 - [ ] **UA-DEFAULTS (built; PELLEGRINO 054c688 v1.10):** default vertical margins for h1-h6/p/ul/ol/pre/blockquote/dl/figure with margin collapsing, list/dd/figure indents, HTML-document whitespace collapsing (pre keeps it), author resets now really reset; smoke 20c (13 rows minified == pretty, 7 reset). Not done: em-accurate margins (row granularity), `hr`/`fieldset`/`table` defaults, `text-align` for `center`/`th`, `white-space`.
 session: sess-20261015-pellegrino-ua
+
+## SECTION 617 — Founder real-time 2026-10-15: social NOCK tools (WOTAN multi-tenant; sprays gallery; levels later)
+
+Founder (quoted): "we need to make the nock tools social; vs0 is port the nock tools into WOTAN as a multi tenant; users can use the nock texture editor (it has layers) to edit and upload sprays; sprays need to go into a gallery; affordances for my sprays vs all sprays" -> "northstar it first; users will be able to edit levels etc."
+
+**Process note:** `emily` CLI absent on this box -- hand-logged, no observe/Apple/kanban card yet. Mark `[x]` only after an Apple exists. Not yet in a kanban priority lane (rule 9).
+
+- [x-pending-apple] **NOCKSOC-00 NORTHSTAR written:** `WOTAN/NOCK_SOCIAL_NORTHSTAR.md` (golden doc `NOCK-SOCIAL-NORTH`). Key calls: client-side canvas editor porting NOCK's layer *model* (not the admin-only ImageMagick/PARENA-procedural engine); new `wotan_sprays` table separate from the curated `shankpit_sprays` registry (admin promote); owner = JWT sub; private/public visibility; report/hide moderation in VS0; guests private-only (open question).
+- [ ] **NOCKSOC-01** IDUNA: `wotan_sprays` + reports migration, owner-scoped store, re-encode/caps/quota, handlers + tests (ownership isolation, 404-not-403).
+- [ ] **NOCKSOC-02** WOTAN: layered spray editor (`sprays/editor.html`, `js/nock-*.js`) -- layers, opacity/visible/transform/z-order/mask/hue-sat, undo, flatten->PNG + `source_json`.
+- [ ] **NOCKSOC-03** WOTAN: gallery (`sprays/index.html`) -- My sprays vs All sprays, publish/unpublish, clone, report.
+- [ ] **NOCKSOC-04** IDUNA back office: sprays moderation list (hide/unhide) + promote to official registry.
+- [ ] **NOCKSOC-05** Verify DoD in a real browser with two accounts; README/CHANGELOG/CLAUDE.md in WOTAN.
+- [ ] **NOCKSOC-VS1..VS3 (later):** textures library, equipped spray in SHANKPIT, player levels (`wotan_levels`, server validator, no player door scripts).
+session: unknown
+
+## SECTION 618 — Founder real-time 2026-10-15: BRAWLPIT modable; characters via REFLUX + PARENA
+
+Founder (quoted): "lets make BRAWLPIT modable; make the characters work via reflux PARENA; abstract the interfaces for the character mechanics; it still should be spooky spagheti code for the characters but there should be a standardized way to add characters to the game" -> "we should be able to program character mechanics via PARENA".
+
+**Process note:** `emily` CLI absent -- hand-logged, no observe/Apple/kanban card; no kanban priority card yet (rule 9). BRAWLPIT repo NOT checked out on this box and no GitHub credentials -- NORTHSTAR written from BACKLOG + PARENA sources only.
+
+- [x-pending-apple] **BPMOD-00 NORTHSTAR:** `EMILY/docs/BRAWLPIT_MOD_API_NORTHSTAR.md` (golden `BRAWLPIT-MOD-API-NORTH`). Finding: REDGARDEN character mods are trigger shells (logic in host C) -- BRAWLPIT must put mechanics in PARENA, host = primitives only.
+- [ ] **BPMOD-M0** get BRAWLPIT checkout; inventory per-CharacterId branches in physics.h; write one real mechanic (Medusa gaze / Raccoon dash) in pure PARENA vs stub host; record gaps.
+- [ ] **BPMOD-M0.5** close proven PARENA gaps (host.prn primitives, state packing, fixed-point, stub host).
+- [ ] **BPMOD-M1** BRAWLPIT-local reflux_runtime.c + BP_EVT_/BP_FX_ constants + accessor API + effect drain.
+- [ ] **BPMOD-M2..M4** hook dispatch+generator, pilot migration with golden replays, roster migration, `bp new-character`.
+- [ ] **BPMOD-M5 (later)** user-submitted characters -- needs an execution sandbox first.
+session: unknown
