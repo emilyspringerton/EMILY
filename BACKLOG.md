@@ -53411,3 +53411,12 @@ Founder (verbatim): "ensure we support css3 on an asynchronous basis; remember e
 - [ ] **CSS3-NEXT:** `+`/`~` combinators, `:last-child`, `::before/::after`, `grid`, float/position, `text-align`, `height`/`min-*`, `opacity`/`border-radius` rendering, per-scope custom properties, `var()` in `display`, true concurrent sheet fetch (single TLS session today), PELLEGRINO-CI-CHECK for v1.8/v1.9.
 session: sess-20261015-pellegrino-css3
 
+
+## SECTION 616 — Founder real-time 2026-10-15: default styling on DOM elements (PELLEGRINO)
+
+Founder (paraphrased): browsers render h1 etc. with default margins; devs reset them or rely on them -- the reliance cases render weirdly in PELLEGRINO.
+
+**Process note:** `emily` CLI still absent — hand-logged; no Apple/kanban card. Mark `[x]` only after an Apple exists.
+
+- [ ] **UA-DEFAULTS (built; PELLEGRINO 054c688 v1.10):** default vertical margins for h1-h6/p/ul/ol/pre/blockquote/dl/figure with margin collapsing, list/dd/figure indents, HTML-document whitespace collapsing (pre keeps it), author resets now really reset; smoke 20c (13 rows minified == pretty, 7 reset). Not done: em-accurate margins (row granularity), `hr`/`fieldset`/`table` defaults, `text-align` for `center`/`th`, `white-space`.
+session: sess-20261015-pellegrino-ua
