@@ -53462,3 +53462,10 @@ session: unknown
 - [ ] Still in priority lane, not started: #627 (OS menu -> HTML/CSS + Pellegrino rendering), #626 (DEADWEIGHT web draft mode via PARENA), #623/#631/#630 (IDUNA SSO login button + SDK), #614 (EDGE.GAME browser login), #637 (MIXFORGE on Pellegrino).
 **Process note:** `emily` CLI absent -- hand-logged; cards moved to pending via IDUNA API (`PATCH /api/v1/kanban/cards/<id>`); no Apple filed.
 session: unknown
+
+## SECTION 621 — Priority-queue sprint 2026-10-15 (IDUNA login SDK + SHANKPIT login)
+- [x-pending-apple] **IDUNA-SDK-01** (card #630) `IDUNA/sdk/`: one SSO contract (README) + two profiles -- `c/iduna_login.h` (native loopback, non-blocking begin/poll, state + Host guards, round-trip test passes under -Werror; Windows branch written, not built) and `web/iduna-login.js` (browser; NOT run -- no node on this box). Live check: real IDUNA accepts a 127.0.0.1 redirect_uri and 400s a foreign host.
+- [x-pending-apple] **SHANKPIT-IDUNA-LOGIN-01** (card #623) lobby "LOGIN IDUNA" button (under SETTINGS) using the C SDK (vendored `SHANKPIT/packages/iduna_login/`). Button block compiled standalone with stubs; lobby itself NOT built (no SDL2 here), no human browser round-trip yet. Token is in-memory only, nothing consumes it yet.
+- [ ] **#631** dogfood: SHANKPIT half = #623; REDGARDEN repo not checked out on this box -- web profile ready to drop in. Card stays in priority.
+- [ ] Follow-ups: persist session (0600 file) + use token for connect-ticket; unify device-flow HS256 token with ES256 player JWT; add callback hosts to `SSO_ALLOWED_REDIRECT_HOSTS` for new web apps.
+session: unknown
