@@ -53376,3 +53376,16 @@ Founder (verbatim, in order): "we need to add href to PELLEGRINO" -> "think abou
 - [ ] **V16-NEXT:** (1) `this`/prototype objects + user `new`; (2) per-call frame regions with copy-out so long-lived scripts are safe (the real answer to NORTHSTAR Phase 4 beyond one-arena-per-run); (3) `Date`/`Math.random` as an explicit optional host import; (4) ECMAScript number-to-string in PARENA instead of snprintf; (5) template literals, destructuring, spread, `finally`; (6) PELLEGRINO integration (script tags -> engine) — needs a DOM story first; (7) real benchmark harness.
 - [ ] **V16-GOLDEN-SYNC:** `V16-JS-ENGINE-NORTH` row updated in `context/golden-docs-index.md`; GOLDEN_DOCS received a targeted update (V16_NORTHSTAR.md + PELLEGRINO NORTHSTAR + the index) — no full resync (most source repos are not checked out here). Root CLAUDE.md PARENA row still says "VS0 (parena-c compiler) ... not yet built" style text that predates this; refresh it from a box with the whole monorepo.
 session: sess-20261015-v16-wasm
+
+## SECTION 613 — Founder real-time 2026-10-15: PELLEGRINO box model / flexbox / images / forms / HTML5 (intake after the fact)
+
+Founder (verbatim): "ensure we support these tags: p, em, strong, br, div, span" -> "ensure we support br and all html5 tags" -> "fix all the gaps found in the html5 work". Earlier asks in this block: box-model width/margin auto, flexbox, `<img>` PNG, forms + POST, PageUp/PageDown/Home/End, HTML entities/fancy quotes, window move (Shift+J/L/I/K).
+
+**Process note:** `emily` CLI still absent on this box — no `emily observe`, no Apples, no kanban card; hand-logged here, built and pushed. Mark `[x]` only after an Apple exists.
+
+- [ ] **PELLEGRINO-BOX-FLEX-IMG (built; PELLEGRINO 6fbefca..b7ee340, PARENA 7a03498):** box model (`width`/`max-width`, `margin: auto`, padding/border respected by wrapping), single-level flexbox (`display:flex`, `flex-direction`, `gap`), `<img>` PNG (placeholder -> decoded, nearest-neighbour). Smoke sections through 18.
+- [ ] **PELLEGRINO-FORMS-ENTITIES (built; PELLEGRINO 0001606, PARENA 575bdf5):** `<form>`/`<input>`/`<button>` GET+POST, entities + curly quotes, scroll keys, window move, body-tag styling. Smoke 19, 19b.
+- [ ] **PELLEGRINO-HTML5 (built; PELLEGRINO ea02909 v1.7, 71049b0 v1.8):** every HTML5 element recognised; void/self-closer leak fixed; hidden defaults; underline/strike lines, `<q>`, `<details>` toggle, aligned table columns, `<select>`/`<textarea>`/`<progress>`/`<meter>`, head hidden, block-after-text gap; hidden blocks no longer clobber the cursor. Smoke 1, 15-19c pass; flex/box screenshots unchanged. Not run here: Bazel build/tests, HTTPS paths, Windows/Wine.
+- [ ] **PELLEGRINO-NEXT:** word-wrap, descendant selectors, `height`, nested flex, multi-line `<textarea>`, `<select>` popup/`multiple`, `colspan`/`rowspan`/table borders, markdown images.
+- [ ] **PELLEGRINO-CI-CHECK:** confirm CI green for PELLEGRINO 71049b0 and PARENA 575bdf5 (PARENA run 38682672345 failed only on "Build Editor (Windows)" -> "Self-hosting domains 1-3 ... real Windows link+run", cause unexamined).
+session: sess-20261015-pellegrino-html5
