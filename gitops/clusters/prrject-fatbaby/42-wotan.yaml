@@ -19,7 +19,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: wotan
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/wotan:80315cb
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/wotan:dw-3c4197a
           command:
             - /run-nginx.sh
           ports:
