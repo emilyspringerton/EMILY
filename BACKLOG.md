@@ -53504,3 +53504,4 @@ session: unknown
 - [x-pending-apple] IDUNA-DAILY-TICKET-STACK-01: daily UTC-midnight ticket grant now stacks onto held tickets (premium keeps raise-to-cap); tests pinned. Not deployed until IDUNA CI image rolls. (session: unknown)
 - [x-pending-apple] DEADWEIGHT-AUTODEPLOY-01: DEADWEIGHT `.github/workflows/deploy.yml` builds + pushes emily/deadweight:<sha> on every main push (IDUNA's WIF pipeline); never run yet, needs GCP_WIF_PROVIDER/GCP_CI_SERVICE_ACCOUNT Variables on the repo. (session: unknown)
 - [x-pending-apple] DEADWEIGHT-WEB-ACCT-01: web setup 3 buttons + Save progress with IDUNA (guest-link-sso); queue reconnect (session: unknown)
+- [x-pending-apple] DEADWEIGHT-WEB-DEPLOY-01: web client auto-deploy via WOTAN image overlay (deploy-web.yml); needs GCP_WIF_PROVIDER/GCP_CI_SERVICE_ACCOUNT Variables on DEADWEIGHT repo (session: unknown)
