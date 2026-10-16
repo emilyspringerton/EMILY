@@ -1,5 +1,15 @@
-# PVC einhorn-var (5Gi) deleted 2026-10-15 at founder's direction; world data discarded.
-# Deployment is dormant at replicas 0; re-add a PVC before scaling up.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: einhorn-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -70,4 +80,20 @@ spec:
       port: 25565
       targetPort: 25565
   type: ClusterIP
-# Service einhorn-survival-udp (LoadBalancer, UDP 19133) deleted 2026-10-15 at founder's direction.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: einhorn-survival-udp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  loadBalancerIP: 34.63.32.219
+  selector:
+    app: einhorn-survival
+  ports:
+    - name: u19133
+      protocol: UDP
+      port: 19133
+      targetPort: 19133

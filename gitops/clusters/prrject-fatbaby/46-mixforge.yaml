@@ -17,21 +17,6 @@ spec:
     spec:
       securityContext:
         fsGroup: 65532
-      initContainers:
-        # yt-dlp rewrites its cookie jar on exit, so the Secret (read-only) is copied to the writable var volume.
-        # Refresh: kubectl create secret generic mixforge-cookies -n emily --from-file=ytdlp-cookies.txt=<file> --dry-run=client -o yaml | kubectl apply -f - ; kubectl rollout restart deploy/mixforge -n emily
-        - name: cookies
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-room:v3
-          command: ["/bin/sh", "-c", "if [ -f /cookies-src/ytdlp-cookies.txt ]; then cp /cookies-src/ytdlp-cookies.txt /app/var/ytdlp-cookies.txt && chmod 0600 /app/var/ytdlp-cookies.txt; fi"]
-          volumeMounts:
-            - name: var
-              mountPath: /app/var
-            - name: cookies-src
-              mountPath: /cookies-src
-              readOnly: true
-          resources:
-            requests: {cpu: 10m, memory: 16Mi, ephemeral-storage: 64Mi}
-            limits: {cpu: 50m, memory: 32Mi, ephemeral-storage: 64Mi}
       containers:
         - name: room
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/mixforge-room:v3
@@ -45,8 +30,6 @@ spec:
           env:
             - name: FATBABY_NOTIFY_DIR
               value: /run/mixforge/notify
-            # Re-add MIXFORGE_YTDLP_COOKIES=/app/var/ytdlp-cookies.txt to use the cookies. Left off: cookies exported from
-            # a home IP are rejected by YouTube from GKE ("page needs to be reloaded") and break downloads that work without.
           envFrom:
             - secretRef:
                 optional: true
@@ -100,10 +83,6 @@ spec:
           emptyDir: {}
         - name: run
           emptyDir: {}
-        - name: cookies-src
-          secret:
-            secretName: mixforge-cookies
-            optional: true
 ---
 apiVersion: v1
 kind: Service
