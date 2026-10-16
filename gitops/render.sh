@@ -168,6 +168,28 @@ ER_TAG="${EDGE_RELAY_TAG:-v2}"
 TE_TAG="${TCP_EDGE_TAG:-v2}"
 "$P" "$(dirname "$0")/specs/tcp-edge.pod" | sed "s/:IMAGE_TAG\$/:$TE_TAG/" > "$OUT/43-tcp-edge.yaml"
 
+# gfd-ssh: public port 22 -> tcp-edge:2222 -> gfd-core:2222 (GFD is played over ssh; players type `ssh <host>`
+# with no -p). Shares the game IP with every other tcp-edge port; lives here, not in tcp-edge.pod, because the
+# pod renderer has no port != targetPort mapping. 2222 stays published too.
+cat > "$OUT/44-gfd-ssh.yaml" <<'YAML'
+apiVersion: v1
+kind: Service
+metadata:
+  name: gfd-ssh-tcp
+  namespace: emily
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 34.63.32.219
+  externalTrafficPolicy: Local
+  selector:
+    app: tcp-edge
+  ports:
+    - name: ssh
+      protocol: TCP
+      port: 22
+      targetPort: 2222
+YAML
+
 # collections-server answers 404 on / (the Gateway's default probe) -> probe /healthz so the backend is healthy.
 cat > "$OUT/94-collections-health.yaml" <<'YAML'
 apiVersion: networking.gke.io/v1
