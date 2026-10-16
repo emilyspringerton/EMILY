@@ -53559,3 +53559,31 @@ if we have it i dunno it should at least have tls".
   touched; `README.md`/`CHANGELOG.md` not updated. The lobby-launcher tile from APP-01 is left as-is,
   a separate, legitimate feature -- its own missing-TLS build issue is a separate, not-yet-filed item.
 session: sess-20261016-0725-2426ab81
+
+Founder real-time, 2026-10-16: "ok we need to calculate mass of the different materials, have it
+configurable on the NOCK material; just make it up for now so we can calculate rigid body physics for
+the geometry that becomes disconnected (if you shoot a circle in glass and it is totally unconnected to
+anything the pieces shouldnt float in the air, they should fall with rigid body physics)" -- then, a
+Gemini-sourced steer the founder relayed ("i dunno for sure this is from gemini it should tell you what
+we are tryna do"): broken bricks should be real bodies with mass (~15 kg), inheriting a fraction of the
+impact velocity, dropping/piling/rolling down TUTORIAL_RAMP on GOLDENBAND's existing XPBD solver, plus
+"a bit of rotation so they dont all fall straight down ... you can fake it", plus a perf sketch
+(sleeping, only-disturbed-geometry). (`emily observe` not posted: IDUNA unreachable from this box.)
+
+- [ ] **SHANKPIT-BRICK-PHYS-01: physical broken brick + falling disconnected geometry (grb), per-material
+  density on NOCK.** SHIPPED, pending Apple (IDUNA not port-forwarded here, so none filed and this is
+  deliberately NOT checked off): `SHANKPIT@a3d7f20` (`packages/simulation/brick_bodies.{h,c}` on
+  `goldenband/grb.c`; `brick_fracture.h` `bf_detect_detached` bounded flood fill, shard/chunk queues, chunk id on the
+  `PACKET_BRICK_STATE` pad byte; `level_boxes.h` density; server + lobby tick, lobby draws), `IDUNA@78a1cb8`
+  (`shankpit_materials.density`, migration `202610160005`, Materials screen field, level export). Verified:
+  `make test-brick` (mass 15.2 kg, fall, heap, 35-degree ramp slide, detachment via ground/frame probe/floating/
+  client mirror, a real-engine glass-disc chunk 13500 kg that tumbles and lands) -- ASan/UBSan clean; `make lobby` and
+  `make server` build, the server boots, the lobby runs frames in MODE_ZOMBIES. A real bug was caught by the new
+  test (a flood meeting an earlier flood's cells wrongly detached the top of a pane) and fixed.
+  **Not done / honest limits:** no live visual confirmation (scripted input under Xvfb wouldn't reliably aim); bodies
+  are per-client cosmetic and NOT synced (a snapshot packet would be the server-authoritative follow-up -- needed
+  before bodies can block players); no body-vs-player / chunk-vs-body collision; chunk shape = bounding box; shards
+  pile as cubes (fake); chunks >256 cells stay put; IDUNA change not yet deployed to the cluster (K8S-CD-01
+  auto-deploy unconfirmed) so the NOCK field isn't live until then; Bazel wiring added but unbuilt (no bazel here);
+  Windows compiles the same code but is CI-only. Not taken from the perf sketch: the full macro/meso/micro tree and
+  the "60% of connections" collapse rule (the sparse grid + bounded flood + sleeping already give O(damage) cost).
