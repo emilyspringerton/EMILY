@@ -53525,3 +53525,37 @@ session: sess-20261016-0725-2426ab81
 ## SECTION 624 -- Founder real-time 2026-10-16: PELLEGRINO as a real, launchable SHANKPIT lobby app
 - [x-pending-apple] **SHANKPIT-PELLEGRINO-APP-01** (founder real-time, verbatim: "ok SHANKPIT add another phone app for PELLEGRINO (clone it down) have it match the ui of all the other phone apps and give it the keybinds from pellegrino" -> mid-task: "it must function as a real browser"). Routed through `emily observe` first (Principle 1a). PELLEGRINO (`emilyspringerton/PELLEGRINO`) was not previously cloned on this box (a named gap in its own `PELLEGRINO-GOLDEN-SYNC`/`V16-GOLDEN-SYNC` backlog items) -- cloned down as a new sibling repo. `SHANKPIT/apps/lobby/src/main.c` gained `APP_PELLEGRINO` in the APPS launcher page's enum/label/switch (`AppsAction`/`APPS_LABELS`/`lobby_launch_app`), following the exact same "spawn the real, unmodified native binary as a child process, never reimplement its UI" convention PITVIPER/IDUNA.GAME/REDGARDEN already use -- this is literally how "match the UI of all the other phone apps" and "give it the keybinds from PELLEGRINO" both get satisfied for free: the launcher tile UI is the shared generic menu grid every app entry already renders through, and PELLEGRINO's own real keybinds (`:` address bar, Tab/Shift+Tab link select, Enter/Space follow, F11/`p` markdown toggle, F12/`x` CSS toggle, Esc/q quit, Shift+J/L/I/K window move, scroll keys) come along automatically with the real binary, no remapping layer needed or wanted. "It must function as a real browser" verified for real, not assumed: this sandbox had no Bazel, no SDL2/SDL2_ttf/GLU dev headers, no Xvfb, no ImageMagick, and (at the start of this task) 0 free bytes on `/home` -- all fixed/installed (safe, reproducible caches cleared: `.npm/_cacache`, `.cache/go-build`, `.cache/pip`, ~400M reclaimed; then `libsdl2-dev`/`libsdl2-ttf-dev`/`libglu1-mesa-dev`/`xvfb`/`imagemagick` installed). Built PELLEGRINO from source outside Bazel: this sandbox's own live PARENA checkout is newer than PELLEGRINO's pin (`c146f7e`) and fails compiling `net/stream.prn` under a stricter `let`-placement rule added since, so the `parena` compiler was rebuilt from a separate checkout pinned to that exact commit; `pellegrino.prn` + its full stdlib dep chain (including `net/quic_*`/`crypto/quic_crypto` for symbol declarations even though this build has no mbedTLS/TLS/QUIC -- plain HTTP only, matching the product's own staged feature rollout) compiled clean to C, then linked directly with `gcc` against the pinned PARENA runtime + Monocypher + SDL2/SDL2_ttf. Live-verified under Xvfb against `http://example.com/`: real network fetch, real rendered page text, real URL/keybind status bar -- screenshot confirms a working browser, not a blank or crashed window. The verified binary sits at `PELLEGRINO/pellegrino` (now gitignored) so the lobby's `dev_relative_path = "../../PELLEGRINO/pellegrino"` resolves on this box; it's a local sandbox build (no HTTPS/QUIC, debug flags), not the reproducible CI/Bazel release build, which still ships separately. `apps/lobby/src/main.c` syntax-checked clean (`gcc -fsyntax-only`, zero new errors); a full `make lobby` link was not attempted -- pre-existing, unrelated gap (no `EDITOR.GAME` sibling checkout on this box, needed by `editor_widget_bridge.c`). `SHANKPIT/README.md`'s Apps-page section and `CHANGELOG.md` updated (README Reality). Real, named follow-up, not done here: add PELLEGRINO to `release.yml`'s CI checkout/cross-compile/bundle list (currently five sibling apps, not six) so a real shipped release actually includes it.
 session: sess-20261016-0725-2426ab81
+
+## SECTION 625 -- Founder real-time 2026-10-16: PELLEGRINO as the REAL in-match zombies phone browser (not the lobby launcher tile)
+
+Founder clarified mid-conversation that SHANKPIT-PELLEGRINO-APP-01 (SECTION 624, the lobby Apps-page
+launcher tile spawning a separate window) was not what was asked for: "in zombies there is a phone;
+the phone needs to have an app called pellegrino and it needs to actually function as a real web
+browser from inside the game" -- plus "ehh no tls i dont effing know use all the fancy http2 and http3
+if we have it i dunno it should at least have tls".
+
+- [ ] **SHANKPIT-PELLEGRINO-APP-02: real embedded browser on the in-fiction phone (`BP_APP_PELLEGRINO`,
+  `packages/common/phone.h`), used mid-match in MODE_ZOMBIES -- not the main-menu launcher tile.** Full
+  status/handoff doc: `SHANKPIT/docs2/specs/PELLEGRINO_PHONE_BROWSER_STATUS.md` (golden-indexed as
+  `PELLEGRINO-PHONE-BROWSER-STATUS`) -- READ IT FIRST, don't re-derive this from scratch. Summary: added
+  a new `embed-nav-*` API to `PELLEGRINO/pellegrino.prn` (reuses real `start-nav`/`frame-loop` pump
+  machinery -- TLS 1.2/1.3 + HTTP/3 over QUIC included, verified live against `https://example.com/`
+  and `h3://cloudflare-quic.com/`, no subprocess); fixed several pre-existing PARENA-compiler
+  `do(...)`-emission bugs hit along the way (`PELLEGRINO/pellegrino.prn` + `PARENA/stdlib/net/
+  quic_client.prn`, same documented VS0-quirk fix each time: extract into a helper fn); added
+  `SHANKPIT/packages/pellegrino_browser_embed/` (sibling to the no-network `packages/pellegrino_embed`
+  OS-menu skin, `pgb_<name>` renamed vs. that one's `pgm_<name>`, zero symbol collisions checked via
+  `nm`) wrapping the new API, plus `BP_APP_PELLEGRINO` in phone.h and the real `draw_phone_app`/input
+  wiring in `apps/lobby/src/main.c`. HTTP/2 explicitly NOT claimed -- PELLEGRINO doesn't have it yet,
+  real pre-existing gap (`PELLEGRINO/NORTHSTAR.md` protocol-ladder rung 3), this work doesn't change
+  that. Commits: `PELLEGRINO@b8a421a`, `PARENA@f7771b7`, `SHANKPIT@89437ec`.
+  **Not done yet** (see the status doc for the full list): no Makefile/BUILD.bazel wiring for the new
+  package (needs the same pre-built-object-then-linked-at-the-end pattern `EDITOR_GAME_OBJS` already
+  uses, NOT folded into the shared `LOBBY_SRC` gcc invocation -- it needs its own TLS/mbedTLS flags);
+  no full `make lobby` link attempted (pre-existing, unrelated gap: no `../EDITOR.GAME` sibling
+  checkout on this box, same blocker APP-01 hit); no live in-game screenshot in a running MODE_ZOMBIES
+  match; keyboard-only, no mouse-click wiring (no existing mouse precedent anywhere in the phone's own
+  input model to extend -- a real design decision, not an oversight, left open); CI/`release.yml` not
+  touched; `README.md`/`CHANGELOG.md` not updated. The lobby-launcher tile from APP-01 is left as-is,
+  a separate, legitimate feature -- its own missing-TLS build issue is a separate, not-yet-filed item.
+session: sess-20261016-0725-2426ab81
