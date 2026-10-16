@@ -41,6 +41,9 @@ spec:
             - "7171"
             - "-ssh-port"
             - "2222"
+            - "-web-port"
+            - "8480"
+            - "-web-trust-xff"
           ports:
             - containerPort: 2323
           readinessProbe:
@@ -135,6 +138,9 @@ spec:
     - name: p7071
       port: 7071
       targetPort: 7071
+    - name: p8480
+      port: 8480
+      targetPort: 8480
   type: ClusterIP
 ---
 apiVersion: v1

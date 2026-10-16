@@ -121,6 +121,11 @@ spec:
       backendRefs:
         - name: deadweight
           port: 8765
+    - matches:
+        - path: {type: PathPrefix, value: /GFD/ws}
+      backendRefs:
+        - name: gfd-core
+          port: 8480
     - backendRefs:
         - name: wotan
           port: 80
@@ -153,6 +158,36 @@ spec:
     group: ""
     kind: Service
     name: deadweight
+---
+# gfd-core: WebSocket sessions (the browser MUD client) outlive the LB's 30s default timeout.
+apiVersion: networking.gke.io/v1
+kind: GCPBackendPolicy
+metadata:
+  name: gfd-core
+  namespace: emily
+spec:
+  default:
+    timeoutSec: 3600
+  targetRef:
+    group: ""
+    kind: Service
+    name: gfd-core
+---
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: gfd-core
+  namespace: emily
+spec:
+  default:
+    config:
+      type: TCP
+      tcpHealthCheck:
+        port: 8480
+  targetRef:
+    group: ""
+    kind: Service
+    name: gfd-core
 YAML
 
 # DEADWEIGHT_2 (D2): dw2_server, first real cluster deployment (2026-10-09) -- see specs/deadweight2.pod
