@@ -19,7 +19,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:6ca5631
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:b1f5073
           command:
             - /app/dw2_server
           args:
@@ -55,7 +55,7 @@ spec:
               memory: 256Mi
               ephemeral-storage: 256Mi
         - name: bots
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:6ca5631
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:b1f5073
           command:
             - /app/dw2_bot
           args:
