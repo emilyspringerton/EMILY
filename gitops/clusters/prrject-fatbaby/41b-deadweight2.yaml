@@ -19,7 +19,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:3879260
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:9fd8c7d
           command:
             - /app/dw2_server
           args:
@@ -55,7 +55,7 @@ spec:
               memory: 256Mi
               ephemeral-storage: 256Mi
         - name: bots
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:3879260
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight2:9fd8c7d
           command:
             - /app/dw2_bot
           args:
@@ -64,7 +64,13 @@ spec:
             - "--port"
             - "7800"
             - "--count"
-            - "6"
+            - "4"
+            - "--min"
+            - "4"
+            - "--max"
+            - "24"
+            - "--spare"
+            - "2"
           env:
             - name: FATBABY_NOTIFY_DIR
               value: /run/deadweight2/notify

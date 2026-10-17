@@ -14,5 +14,5 @@ container name=server command=/app/dw2_server args=--port,7800,--bind,0.0.0.0,--
 # The bot pool (DEADWEIGHT_2/apps/bot, 2026-10-17): six persistent bot connections to the server next door (same pod, loopback). The server's own
 # pairing rule gives every human the oldest waiting bot, so a lone player is matched at once; web players come through IDUNA's gateway
 # (/d2/play.html), native players straight through tcp-edge. Same image as the server.
-container name=bots command=/app/dw2_bot args=--host,127.0.0.1,--port,7800,--count,6 cpu=100 mem=64
+container name=bots command=/app/dw2_bot args=--host,127.0.0.1,--port,7800,--count,4,--min,4,--max,24,--spare,2 cpu=100 mem=64
 service ports=7800
