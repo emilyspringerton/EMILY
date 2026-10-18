@@ -289,8 +289,9 @@ spec:
           port: 80
 YAML
 
-# gitops-sync (K8S-CD-01): auto-deploy. A CronJob pulls the public EMILY repo and kubectl-applies this very directory
-# (minus 00-namespace) every 3 min. Namespaced Role, named kinds only (no secrets), no prune. Image: images/gitops-sync/build.sh.
+# gitops-sync (K8S-CD-01): auto-deploy. PARENA's own reconciler (parena-gitops, stdlib/k8s/gitops.prn) runs as a
+# Deployment: it pulls the public EMILY repo every 3 min and kubectl-applies this very directory (minus 00-namespace)
+# when HEAD moves; failed revisions back off and HOLD after 6 tries. Namespaced Role, named kinds only (no secrets), no prune. Image: images/gitops-sync/build.sh.
 SYNC_TAG="${GITOPS_SYNC_TAG:-v1}"
 cat > "$OUT/96-gitops-sync.yaml" <<YAML
 apiVersion: v1
@@ -341,30 +342,30 @@ roleRef:
   kind: Role
   name: gitops-sync
 ---
-apiVersion: batch/v1
-kind: CronJob
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: gitops-sync
   namespace: emily
 spec:
-  schedule: "*/3 * * * *"
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 2
-  failedJobsHistoryLimit: 3
-  jobTemplate:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: gitops-sync
+  template:
+    metadata:
+      labels:
+        app: gitops-sync
     spec:
-      activeDeadlineSeconds: 240
-      backoffLimit: 0
-      template:
-        spec:
-          serviceAccountName: gitops-sync
-          restartPolicy: Never
-          containers:
-            - name: sync
-              image: $REG/gitops-sync:$SYNC_TAG
-              resources:
-                requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
-                limits: {memory: 128Mi, ephemeral-storage: 512Mi}
+      serviceAccountName: gitops-sync
+      containers:
+        - name: sync
+          image: $REG/gitops-sync:$SYNC_TAG
+          resources:
+            requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
+            limits: {memory: 128Mi, ephemeral-storage: 512Mi}
 YAML
 
 # gitops-autodeploy (K8S-CD-01 Phase 2): the OTHER half of auto-deploy, also in-cluster (founder,

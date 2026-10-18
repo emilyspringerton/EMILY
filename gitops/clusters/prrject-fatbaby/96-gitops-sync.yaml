@@ -46,27 +46,27 @@ roleRef:
   kind: Role
   name: gitops-sync
 ---
-apiVersion: batch/v1
-kind: CronJob
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: gitops-sync
   namespace: emily
 spec:
-  schedule: "*/3 * * * *"
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 2
-  failedJobsHistoryLimit: 3
-  jobTemplate:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: gitops-sync
+  template:
+    metadata:
+      labels:
+        app: gitops-sync
     spec:
-      activeDeadlineSeconds: 240
-      backoffLimit: 0
-      template:
-        spec:
-          serviceAccountName: gitops-sync
-          restartPolicy: Never
-          containers:
-            - name: sync
-              image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-sync:v1
-              resources:
-                requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
-                limits: {memory: 128Mi, ephemeral-storage: 512Mi}
+      serviceAccountName: gitops-sync
+      containers:
+        - name: sync
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-sync:7aa5dbc
+          resources:
+            requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
+            limits: {memory: 128Mi, ephemeral-storage: 512Mi}
