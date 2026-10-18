@@ -31,7 +31,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: server
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - /app/dw_server
           args:
@@ -72,7 +72,7 @@ spec:
               memory: 512Mi
               ephemeral-storage: 256Mi
         - name: bridge
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - node
           args:
@@ -112,7 +112,7 @@ spec:
               memory: 128Mi
               ephemeral-storage: 256Mi
         - name: bot-mirror
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - /app/dw_bot
           args:
@@ -152,7 +152,7 @@ spec:
               memory: 64Mi
               ephemeral-storage: 256Mi
         - name: bot-ripper
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - /app/dw_bot
           args:
@@ -192,7 +192,7 @@ spec:
               memory: 64Mi
               ephemeral-storage: 256Mi
         - name: bot-wall
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - /app/dw_bot
           args:
@@ -232,7 +232,7 @@ spec:
               memory: 64Mi
               ephemeral-storage: 256Mi
         - name: draft-mirror
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - /app/dw_bot
           args:
@@ -274,7 +274,7 @@ spec:
               memory: 64Mi
               ephemeral-storage: 256Mi
         - name: draft-ripper
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - /app/dw_bot
           args:
@@ -316,7 +316,7 @@ spec:
               memory: 64Mi
               ephemeral-storage: 256Mi
         - name: draft-wall
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:30674ba
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
           command:
             - /app/dw_bot
           args:
@@ -326,6 +326,42 @@ spec:
             - "bot-wall-d"
             - "--mode"
             - "draft"
+            - "--host"
+            - "127.0.0.1"
+            - "--port"
+            - "7180"
+            - "--think-ms"
+            - "300"
+            - "--iduna-url"
+            - "http://iduna:8080"
+            - "--agent-secret-file"
+            - "/app/var/bots.secret"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/deadweight/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: deadweight-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/deadweight
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+        - name: constructed-bots
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/deadweight:e5ab345
+          command:
+            - /app/constructed_bots.sh
+          args:
             - "--host"
             - "127.0.0.1"
             - "--port"
