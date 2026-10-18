@@ -223,6 +223,53 @@ spec:
               cpu: 100m
               memory: 1280Mi
               ephemeral-storage: 256Mi
+        - name: newssite
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
+          command:
+            - /app/bin/newssite
+          args:
+            - "-store"
+            - "/app/var/secwatch"
+            - "-graph-dir"
+            - "/app/var/entity-graph"
+            - "-eps-dir"
+            - "/app/var/eps"
+            - "-commentary-dir"
+            - "/app/var/commentary"
+            - "-guidance-dir"
+            - "/app/var/guidance"
+            - "-earnings-cal-dir"
+            - "/app/var/earnings-calendar"
+            - "-also-listen"
+            - "unix:///run/fatbaby/newssite.sock"
+            - "-signalapi-url"
+            - "unix:///run/fatbaby/signalapi.sock"
+          ports:
+            - containerPort: 8082
+          readinessProbe:
+            tcpSocket:
+              port: 8082
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/fatbaby/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: fatbaby-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/fatbaby
+          resources:
+            requests:
+              cpu: 500m
+              memory: 2048Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 500m
+              memory: 2048Mi
+              ephemeral-storage: 256Mi
         - name: eps-processor
           image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/fatbaby:bfbb85a
           command:
