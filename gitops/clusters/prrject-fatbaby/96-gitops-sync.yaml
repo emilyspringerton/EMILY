@@ -66,7 +66,7 @@ spec:
       serviceAccountName: gitops-sync
       containers:
         - name: sync
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-sync:7aa5dbc
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gitops-sync:26a2991
           resources:
             requests: {cpu: 20m, memory: 64Mi, ephemeral-storage: 256Mi}
             limits: {memory: 128Mi, ephemeral-storage: 512Mi}
