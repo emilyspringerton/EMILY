@@ -63,21 +63,37 @@ newest_tag() {
     --sort-by=~CREATE_TIME --limit=1 --format='value(TAGS)' 2>/dev/null
 }
 
-changed=0
-while read -r var images; do
-  [ -z "$var" ] && continue
-  current="$(grep "^${var}=" "$HERE/tags.env" | head -1 | cut -d= -f2-)"
-  first_image="$(awk '{print $1}' <<< "$images")"
-  latest="$(newest_tag "$first_image")"
-  if [ -n "$latest" ] && [ "$latest" != "$current" ]; then
-    echo "watch-tags.sh: $var $current -> $latest ($images)"
-    "$HERE/bump-tag.sh" "$var" "$latest"
-    changed=1
-  fi
-done <<< "$MAP"
+# One detect+bump pass against the current checkout. Idempotent: re-running after a reset to
+# origin/main re-derives the same bump on top of whatever landed upstream in the meantime.
+bump_pass() {
+  changed=0
+  while read -r var images; do
+    [ -z "$var" ] && continue
+    current="$(grep "^${var}=" "$HERE/tags.env" | head -1 | cut -d= -f2-)"
+    first_image="$(awk '{print $1}' <<< "$images")"
+    latest="$(newest_tag "$first_image")"
+    if [ -n "$latest" ] && [ "$latest" != "$current" ]; then
+      echo "watch-tags.sh: $var $current -> $latest ($images)"
+      "$HERE/bump-tag.sh" "$var" "$latest"
+      changed=1
+    fi
+  done <<< "$MAP"
+}
 
-if [ "$changed" = 1 ]; then
-  cd "$HERE/.."
+bump_pass
+if [ "$changed" = 0 ]; then
+  echo "watch-tags.sh: no new tags"
+  exit 0
+fi
+
+cd "$HERE/.."
+# Found live (2026-10-17/18): a push to EMILY between our clone and our push made `git push` fail
+# non-fast-forward, which failed the Job and dropped the bump until the next 5-min tick (and left
+# it failing for hours when upstream kept moving). On rejection: throw our commit away, take
+# origin/main, and redo the bump on top of it -- the rendered manifests are generated, so a
+# rebase would only invite conflicts.
+branch="$(git rev-parse --abbrev-ref HEAD)"
+for attempt in 1 2 3 4; do
   git add gitops/tags.env gitops/clusters
   git commit -m "$(cat <<'MSG'
 feat(gitops): auto-bump tag(s) from newest Artifact Registry push (K8S-CD-01)
@@ -85,7 +101,15 @@ feat(gitops): auto-bump tag(s) from newest Artifact Registry push (K8S-CD-01)
 automated-by: gitops/watch-tags.sh
 MSG
 )"
-  git push
-else
-  echo "watch-tags.sh: no new tags"
-fi
+  if git push origin "HEAD:$branch"; then
+    exit 0
+  fi
+  echo "watch-tags.sh: push rejected (attempt $attempt), resyncing to origin/$branch and redoing the bump" >&2
+  sleep $((attempt * 2))
+  git fetch --depth 1 --quiet origin "$branch"
+  git reset --hard "origin/$branch"
+  bump_pass
+  [ "$changed" = 1 ] || { echo "watch-tags.sh: upstream already has the bump"; exit 0; }
+done
+echo "watch-tags.sh: giving up after 4 push attempts" >&2
+exit 1
