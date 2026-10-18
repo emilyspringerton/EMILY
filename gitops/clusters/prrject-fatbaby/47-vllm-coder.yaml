@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-coder-engine
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: {app: vllm-coder-engine}
+  template:
+    metadata:
+      labels: {app: vllm-coder-engine}
+    spec:
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+        cloud.google.com/gke-accelerator: nvidia-l4
+      tolerations:
+        - {key: nvidia.com/gpu, operator: Exists, effect: NoSchedule}
+      terminationGracePeriodSeconds: 25
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:latest
+          args:
+            - --model=Qwen/Qwen2.5-Coder-14B-Instruct
+            - --quantization=fp8
+            - --max-model-len=8192
+            - --gpu-memory-utilization=0.90
+            - --port=8000
+          ports:
+            - containerPort: 8000
+          env:
+            - {name: HF_HOME, value: /root/.cache/huggingface}
+          resources:
+            requests: {nvidia.com/gpu: "1", cpu: "3", memory: 12Gi, ephemeral-storage: 60Gi}
+            limits:   {nvidia.com/gpu: "1", memory: 14Gi, ephemeral-storage: 60Gi}
+          volumeMounts:
+            - {name: hf-cache, mountPath: /root/.cache/huggingface}
+            - {name: shm, mountPath: /dev/shm}
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 90
+      volumes:
+        - name: hf-cache
+          emptyDir: {}
+        - name: shm
+          emptyDir: {medium: Memory, sizeLimit: 2Gi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coder-engine-service
+  namespace: emily
+spec:
+  type: ClusterIP
+  selector: {app: vllm-coder-engine}
+  ports:
+    - {port: 8000, targetPort: 8000}
