@@ -14,7 +14,6 @@ spec:
       labels: {app: vllm-coder-engine}
     spec:
       nodeSelector:
-        cloud.google.com/gke-spot: "true"
         cloud.google.com/gke-accelerator: nvidia-l4
       tolerations:
         - {key: nvidia.com/gpu, operator: Exists, effect: NoSchedule}

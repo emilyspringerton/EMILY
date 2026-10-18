@@ -547,7 +547,7 @@ spec:
     name: fatbaby-signals
 YAML
 
-# vLLM coder engine (Qwen2.5-Coder-14B, fp8) on a Spot L4 via Autopilot. Model downloads into emptyDir every start (no PVC).
+# vLLM coder engine (Qwen2.5-Coder-14B, fp8) on an on-demand L4 via Autopilot. Model downloads into emptyDir every start (no PVC).
 # Scale to 0 when idle: kubectl scale deploy/vllm-coder-engine -n emily --replicas=0 -- NOTE gitops re-applies replicas:1 whenever repo HEAD moves.
 cat > "$OUT/47-vllm-coder.yaml" <<'YAML'
 apiVersion: apps/v1
@@ -566,7 +566,6 @@ spec:
       labels: {app: vllm-coder-engine}
     spec:
       nodeSelector:
-        cloud.google.com/gke-spot: "true"
         cloud.google.com/gke-accelerator: nvidia-l4
       tolerations:
         - {key: nvidia.com/gpu, operator: Exists, effect: NoSchedule}
