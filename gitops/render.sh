@@ -18,8 +18,11 @@ printf 'apiVersion: v1\nkind: Namespace\nmetadata:\n  name: emily\n' > "$OUT/00-
 "$R" --name collections-server --namespace emily --image "$REG/collections-server:$TAG" \
      --port 8087 --cpu-milli 100 --memory-mi 128 > "$OUT/10-collections-server.yaml"
 
-# FatBaby core pod + PVC removed 2026-10-12 (data exported to gs://fatbaby2026-10-12/var); Services/routes below are intentionally left.
+# FatBaby core pod + PVC: removed 2026-10-12 (data exported to gs://fatbaby2026-10-12/var), restored 2026-10-18
+# (PVC repopulated from that bucket; newssite container held off in specs/fatbaby-core.pod until the pipelines catch up).
 P="${PARENA_POD_RENDER:-/home/fatbaby/PARENA/parena-pod-render}"
+FB_TAG="${FATBABY_TAG:-0.1.0}"
+"$P" "$(dirname "$0")/specs/fatbaby-core.pod" | sed "s/:IMAGE_TAG\$/:$FB_TAG/" > "$OUT/20-fatbaby-core.yaml"
 
 # REDGARDEN game servers (stateless pods, UDP LoadBalancer each; images from REDGARDEN/scripts/build-image.sh).
 RG_TAG="${RG_STABLE_TAG:-3e55798}"; RGR_TAG="${RG_RND_TAG:-3e55798}"
