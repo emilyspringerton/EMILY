@@ -76,3 +76,7 @@ The company's ethos should embody:
 13. Lifelong Learning: Cultivating a culture of continuous education and skill development.
 14. Pioneering Spirit: Courageously exploring uncharted territories in technology and human achievement.
 15. Global Citizenship: Recognizing our responsibility to contribute positively to the world at large.
+
+## Style Guide
+
+- [IDUNA style guide (NOCK)](https://github.com/emilyspringerton/IDUNA/blob/main/docs/NOCK_STYLE_GUIDE.md)
