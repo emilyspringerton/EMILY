@@ -79,4 +79,5 @@ The company's ethos should embody:
 
 ## Style Guide
 
-- [IDUNA style guide (NOCK)](https://github.com/emilyspringerton/IDUNA/blob/main/docs/NOCK_STYLE_GUIDE.md)
+- [IDUNA style guide — original institutional cream/gold design system](https://github.com/emilyspringerton/IDUNA/blob/main/styles.css) (`styles.css` + [`index.html`](https://github.com/emilyspringerton/IDUNA/blob/main/index.html))
+- [IDUNA NOCK style guide](https://github.com/emilyspringerton/IDUNA/blob/main/docs/NOCK_STYLE_GUIDE.md)
