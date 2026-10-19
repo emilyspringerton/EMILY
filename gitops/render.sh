@@ -578,6 +578,8 @@ spec:
             - --quantization=fp8
             - --max-model-len=8192
             - --gpu-memory-utilization=0.90
+            - --enable-auto-tool-choice
+            - --tool-call-parser=hermes
             - --port=8000
           ports:
             - containerPort: 8000
