@@ -31,7 +31,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: mud
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd:1878f3b
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd:98cd47b
           command:
             - /app/mud
           args:
@@ -71,7 +71,7 @@ spec:
               memory: 512Mi
               ephemeral-storage: 256Mi
         - name: server-go
-          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd:1878f3b
+          image: us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily/gfd:98cd47b
           command:
             - /app/server-go
           args:
