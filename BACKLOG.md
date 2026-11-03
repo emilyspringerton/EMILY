@@ -53698,9 +53698,18 @@ session: sess-20261016-0725-2426ab81
       ticket 401 unauthenticated, and full sign-up -> 36-byte connect ticket with an independently verified MAC.
 - [x] **`iduna.db` untracked** — it was tracked and is 0 bytes / 0 tables, so nothing leaked; a local run
       writes real accounts into it, so it is untracked and ignored now.
-- [ ] **Actually build the image and push it** — needs `docker` (absent here) and an `HF_TOKEN` + an existing
+- [x] **Make the runtime contract real, rootless** — booted as uid 65534 against a writable `/data` and a
+      write-bit-free `/app`: health 200, `guest-register`, 36-byte ticket with an independently verified MAC,
+      the same account after a restart, and 0 writable entries left behind. This found FOUR deploy bugs that
+      reading the Dockerfile cannot: a fresh cwd has no `var/`; `IDUNA_ROOT` is the base for BOTH
+      `migrations/truestore` and `var/` (a read-only `/app` dies on `var/user-events/state/latest-seq.tmp`);
+      `cp -a` cannot preserve ownership as uid 1000 and the `&&` then skipped the exec; and a re-used `/data`
+      can hold files the app cannot overwrite, so the seed is best-effort and the exec unconditional.
+- [ ] **Actually build the image and push it** — needs a container runtime (none here: no docker/podman/buildah/
+      nerdctl) (absent here) and an `HF_TOKEN` + an existing
       Space repo (`HF_SPACE=user/name`). Neither has been exercised: the image has never been built and
-      nothing has been pushed. Run `deploy/huggingface/verify.sh`, then `push.sh --dry-run`, then `push.sh`.
+      nothing has been pushed (`whoami-v2` answers 401 from this box, though `huggingface.co` is reachable).
+      Run `deploy/huggingface/verify.sh`, then `push.sh --dry-run`, then `push.sh`.
 - [ ] **Set `SHANKPIT_TICKET_SECRET` on the Space** — must equal the game server's or every minted ticket is
       refused at `PACKET_CONNECT`. Secrets are Space settings, not a `curl` endpoint (the pasted plan was wrong).
 - [ ] **Pure-Go LZ4 for brawlpit (PARENA-first)** — the only reason the Space image needs gcc. `PARENA`'s
