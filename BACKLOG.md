@@ -53735,7 +53735,7 @@ first; spec written, nothing implemented yet.
       (`ragdoll_pool_spawn`, `apps/lobby/src/main.c:9582`) and `salvage_rules.prn` /
       `vehicle_destruction.h` / `PACKET_VEHICLE_SHATTER` / `PACKET_COLLAB_BUILD` / `PACKET_LOOT_DROP`
       do not exist. Highest packet id is `PACKET_KIT_CALL` (19).
-- [ ] **SALVAGE-1** — `PARENA/stdlib/shankpit/vehicle_salvage_rules.prn` (5 components/vehicle: engine,
+- [ ] **SALVAGE-1 (BUILT+green 2026-11-03, SHANKPIT@7ccfd3f / PARENA@9765882; NOT checked — completion Apple blocked on `IDUNA_AGENT_SECRET`, BOOTSTRAP.md step 2)** — `PARENA/stdlib/shankpit/vehicle_salvage_rules.prn` (5 components/vehicle: engine,
       chassis, wheels, logic, tank; hp permille, BF_KIND_* material, integer local offsets, permille
       handling effects) + `scripts/gen_vehicle_salvage_rules.sh` + `mk/salvage.mk`
       (`regen-`/`check-`) + `packages/simulation/vehicle_salvage.h`, hull-conserving split, effects
