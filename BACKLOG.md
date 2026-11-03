@@ -53664,3 +53664,14 @@ session: sess-20261016-0725-2426ab81
 - [ ] **BR-WEB-07** Bedrock Racers reach: touch controls, Firefox and Safari, a physical gamepad, a frame-time guard (the smooth floor is ~2.2 ms of ~8.4). Verified in Node and headless Chromium only. (session: sess-20261016-0725-2426ab81)
 
 session: sess-20261016-0725-2426ab81
+
+## SESSION 2026-11-03 (later) — founder real-time, logged before working
+
+- [x] **NOOBTOPIA esports stage** — DONE 2026-11-03 (`NOOBTOPIA/src/deadweight_tournament.lua`, 56 checks; founder: "can we make a stage for esports tournoments inside of
+      noobtopia". A tournament stage in the Roblox place: a bracket seeded from the ladder's own
+      rating, matches played through the real sequencer (so results land on the ratings), spectators
+      around a raised stage, and a champion banner. Pure bracket logic in
+      `NOOBTOPIA/src/deadweight_tournament.lua` so it can be tested without Studio.
+- [x] **Publish the rating to WOTAN** — DONE 2026-11-03 (`dw_net` schema 2 + the ranked Citizens table, 58 checks) — the ladder's rating (PARENA/stdlib/deadweight/rating.prn,
+      `dw_rating.c`) added to `dw_net.c`'s schema-2 export and the Citizens page's ranked table.
+      (In progress at the time of writing.)
