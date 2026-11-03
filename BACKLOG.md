@@ -339,7 +339,16 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   records that survive a restart (`5d59969`), watched matches read round by round (`405630f`), the player
   choosing a deck by playstyle (`866bbce`), and DEADWEIGHT's rules + citizen policy emitted to Luau for
   NOOBTOPIA (`PARENA@085df4c`, `NOOBTOPIA@da01105`; `make test-emit-lua` 24/24, `lua
-  tests/deadweight_test.lua` 287 checks). NOT closed, and why: no Apple and no kanban card, because this box
+  tests/deadweight_test.lua` 287 checks). Then the NOOBTOPIA port's phase 1: the **sequencer** itself
+  (`NOOBTOPIA/src/deadweight_game.lua`, a whole match round by round) pinned to the C by data —
+  `PARENA/stdlib/deadweight/match_parity.txt`, five matches / 117 rounds, asserted by both
+  `make test-dw-parity` (SHANKPIT) and NOOBTOPIA's `tests/deadweight_match_test.lua` (903 checks, 0 failed).
+  **That fixture found two real bugs, one in each world:** PARENA's Lua emitter lowered `if` to
+  `(cond and then or else)`, so a false branch inside a nested Bool ladder fell through into the next `or`
+  and `fx-cond-ok` answered true whenever its final `roll >= PP` passed (`make test-emit-lua` now 27/27);
+  and SHANKPIT's `dw_match_step_policy` chose each card BEFORE the round dealt, so it read the previous
+  hand — and on a fresh match four zero-filled slots, so round 1 played card 0, a card neither seat held
+  (rounds are now BEGIN + FINISH; NOOBTOPIA's port had the same shape and bug, same fix). NOT closed, and why: no Apple and no kanban card, because this box
   runs no `emily` session and cannot reach IDUNA — so this line stays unchecked until one is filed. Full
   next-step lists: `SHANKPIT/docs/DEADWEIGHT_IN_SHANKPIT_NEXT_STEPS.md`,
   `NOOBTOPIA/docs/DEADWEIGHT_PORT.md`.
