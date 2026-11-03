@@ -326,6 +326,24 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   — Stale. Already done: VIRTUAL_W/H 1280×720, letterbox, toggle_fullscreen, SDL_WINDOW_RESIZABLE, shankpit_display.cfg. Commit 2026-06-14. Apple #836.
 ---
 
+- [ ] **DEADWEIGHT: the card game is in the game, watchable, and emitted to NOOBTOPIA — Apple + kanban still owed.**
+  Founder direction (2026-11-03), verbatim: "I WANT CITIZENS TO BE ABLE TO CHALLENGE EACHOTHER TO GAMES OF
+  DEADWEIGHT AND CITIZENS CAN CHALLENGE PLAYERS AND PLAYERS CAN CHALLENGE CITIZENS AND PLAYERS CAN
+  CHALLENGE PLAYERS CITIZENS WILL CRAFT THEIR OWN DECKS BASED ON THEIR WIN RATE AND THE CURRENT META", then
+  "use real wotan we need an internet of shankpit shim", then "use real iduna and real wotan the local ones
+  but shim me up skotti", then "start porting the whole thing to NOOBTOPIA clone it down use PARENA build out
+  any missing lua glue". Landed, each with its own tests: the PARENA rules behind a wasm-ready shim
+  (`SHANKPIT@5dd0d45`), every hand-lifecycle channel sequenced (`d3c4954`), the ladder with all four challenge
+  directions and decks that re-craft from record + meta, the internet-of-SHANKPIT shim (JSON producer + HTTP
+  daemon + real WOTAN page, `361ea41`), the player's phone app and its play log (`3abb674`, `e3ad19b`),
+  records that survive a restart (`5d59969`), watched matches read round by round (`405630f`), the player
+  choosing a deck by playstyle (`866bbce`), and DEADWEIGHT's rules + citizen policy emitted to Luau for
+  NOOBTOPIA (`PARENA@085df4c`, `NOOBTOPIA@da01105`; `make test-emit-lua` 24/24, `lua
+  tests/deadweight_test.lua` 287 checks). NOT closed, and why: no Apple and no kanban card, because this box
+  runs no `emily` session and cannot reach IDUNA — so this line stays unchecked until one is filed. Full
+  next-step lists: `SHANKPIT/docs/DEADWEIGHT_IN_SHANKPIT_NEXT_STEPS.md`,
+  `NOOBTOPIA/docs/DEADWEIGHT_PORT.md`.
+
 ## SECTION 5: FUTURE (Emily Prime decides when to promote)
 
 - [ ] **MySQL wire protocol embedded server** — go-mysql-server as in-process backend.
