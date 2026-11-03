@@ -53719,3 +53719,34 @@ session: sess-20261016-0725-2426ab81
       a Space has no filesystem from the world, so hosting it there needs a real ingest endpoint, not a copy
       of this Dockerfile. Not attempted.
 
+
+## SECTION 630 — Founder real-time 2026-11-03: vehicle salvage, destructible vehicles, garage missions (digital-twin sandbox)
+
+Founder pasted a design conversation proposing a "Half-Life style" procedural engine on SHANKPIT +
+PARENA, then narrowed it: garage accepting vehicles of questionable origin hooked to a mission, cars
+converted down to components "a bit variable like wow disenchanting", destructible vehicle physics with
+component drops in world, professional affordances for mapmakers/modmakers. Audited against the tree
+first; spec written, nothing implemented yet.
+
+- [ ] **SALVAGE-AUDIT (done, `SHANKPIT@docs2/specs/SALVAGE_AND_COMPONENT_DESTRUCTION_NORTHSTAR.md`)** —
+      verified which claimed systems exist: `vehicle_burn.{h}` hull ladder (300/150/75), `structure.h`
+      (2048 nodes, not 512), `brick_fracture.h`, `brick_bodies.{h,c}` on GRB, `widget_circuit.h` +
+      EduVM, `edit_sync.h`, `material_rules.prn`. Corrected two paste errors: the ragdoll IS wired
+      (`ragdoll_pool_spawn`, `apps/lobby/src/main.c:9582`) and `salvage_rules.prn` /
+      `vehicle_destruction.h` / `PACKET_VEHICLE_SHATTER` / `PACKET_COLLAB_BUILD` / `PACKET_LOOT_DROP`
+      do not exist. Highest packet id is `PACKET_KIT_CALL` (19).
+- [ ] **SALVAGE-1** — `PARENA/stdlib/shankpit/vehicle_salvage_rules.prn` (5 components/vehicle: engine,
+      chassis, wheels, logic, tank; hp permille, BF_KIND_* material, integer local offsets, permille
+      handling effects) + `scripts/gen_vehicle_salvage_rules.sh` + `mk/salvage.mk`
+      (`regen-`/`check-`) + `packages/simulation/vehicle_salvage.h`, hull-conserving split, effects
+      folded into the existing `PhysBuggyRules` hook, shards via `brick_bodies`. Test: hand-derived
+      integer cases, ASan+UBSan, `make test-vehicle-salvage`.
+- [ ] **SALVAGE-2** — seeded yield table (`vehicle_burn_hash` over entity/tick/component, never
+      wall-clock), quantity scaled by remaining component hp, mapped onto EXISTING kit/food items — no
+      new inventory, no salvage economy decision yet.
+- [ ] **SALVAGE-3** — `origin_tag` (CIVILIAN/STOLEN/MILITARY) on vehicle spawn entries, garage `PLATE`
+      widget, `garage_quest.prn` arbitrating against `mission.h`'s active objective. Requires the
+      provenance field first; nothing vehicle-aware exists in the mission layer today.
+- [ ] **SALVAGE-WIRE** — `PACKET_VEHICLE_STATE` at type 20, absolute/idempotent like
+      `PACKET_BRICK_STATE` (bitmask + per-component hp + seed), clients re-simulate cosmetic shards. Do
+      NOT sync shard velocities; do NOT add a second collab-build path beside `edit_sync.h`.
