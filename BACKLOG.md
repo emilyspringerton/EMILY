@@ -348,7 +348,21 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   and `fx-cond-ok` answered true whenever its final `roll >= PP` passed (`make test-emit-lua` now 27/27);
   and SHANKPIT's `dw_match_step_policy` chose each card BEFORE the round dealt, so it read the previous
   hand — and on a fresh match four zero-filled slots, so round 1 played card 0, a card neither seat held
-  (rounds are now BEGIN + FINISH; NOOBTOPIA's port had the same shape and bug, same fix). NOT closed, and why: no Apple and no kanban card, because this box
+  (rounds are now BEGIN + FINISH; NOOBTOPIA's port had the same shape and bug, same fix). Phase 2, from the
+  founder's follow-on direction ("port the internet of shankpit bits so there can be an on server IDUNA and
+  WOTAN leaderboard on ROBLOX until we get a permanent home the leaderboard can be per server and reset its
+  fine it lets players face the noobs and also eachother to climb the elos", then "we dont need iduna i
+  guess just the leaderboard for now whatever you think"): the **ladder** ported (`NOOBTOPIA/src/
+  deadweight_ladder.lua`) and pinned by `PARENA/stdlib/deadweight/ladder_parity.txt`, whose fixture carries
+  the SCRIPT as well as the outcomes so both worlds execute the same ops (2 scripts / 12 outcome lines here,
+  107 checks there); a **per-server leaderboard** (`src/deadweight_board.lua`) with a real, PARENA-defined
+  Elo (`PARENA/stdlib/deadweight/rating.prn`, 370 checks) that resets with the server and needs no IDUNA and
+  no HTTP. Two more real bugs found: `rating-loss` priced the loser's own point of view so a match's two ends
+  did not add up (a 1000 beating a 3000 gained 24 while the 3000 dropped 8 — zero-sum now, and asserted), and
+  PARENA's Lua emitter used `//` for `/`, so every negative dividend floored instead of truncating and the
+  two worlds printed different leaderboard numbers for the same server (emitter now lowers `/` to `__idiv`,
+  C truncation exactly). Still NOT drawn: no Roblox surface (table, prompt, board GUI), the board is not
+  published in WOTAN's schema, and the C ladder carries no rating yet. NOT closed, and why: no Apple and no kanban card, because this box
   runs no `emily` session and cannot reach IDUNA — so this line stays unchecked until one is filed. Full
   next-step lists: `SHANKPIT/docs/DEADWEIGHT_IN_SHANKPIT_NEXT_STEPS.md`,
   `NOOBTOPIA/docs/DEADWEIGHT_PORT.md`.
