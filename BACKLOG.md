@@ -53686,3 +53686,27 @@ session: sess-20261016-0725-2426ab81
       fold, `SHANKPIT/packages/simulation/dw_stage.c` as the world's bracket, `dw_net` schema 3, and the
       Stage section on WOTAN's Citizens page; 68 page checks). The stage survives its own move: the Roblox
       module now CALLS the generated fold instead of keeping one.
+## SECTION 629 -- Founder real-time 2026-11-03: "we ship iduna to hugging face"
+
+- [x] **IDUNA on a Hugging Face Space** — `IDUNA/deploy/huggingface/{Dockerfile,README.md,push.sh,verify.sh}` +
+      `IDUNA/docs/HF_SPACE_DEPLOY.md`. Space assembled from `git archive HEAD` (a Space repo is PUBLIC and
+      `iduna.db` was tracked), credential scan that refuses to publish, `CGO_ENABLED=1` because
+      `internal/brawlpit/lz4.go` is a cgo binding over PARENA-compiled LZ4, `0.0.0.0:7860` from `IDUNA_ADDR`,
+      state confined to `/data`, `var/` recreated in the entrypoint (a fresh cwd killed the first boot:
+      `mailinglist: failed to open store ... unable to open database file`). Verified on this box against the
+      real server on the Space's own port: health 200, `guest-register` 400 on bad body (route present),
+      ticket 401 unauthenticated, and full sign-up -> 36-byte connect ticket with an independently verified MAC.
+- [x] **`iduna.db` untracked** — it was tracked and is 0 bytes / 0 tables, so nothing leaked; a local run
+      writes real accounts into it, so it is untracked and ignored now.
+- [ ] **Actually build the image and push it** — needs `docker` (absent here) and an `HF_TOKEN` + an existing
+      Space repo (`HF_SPACE=user/name`). Neither has been exercised: the image has never been built and
+      nothing has been pushed. Run `deploy/huggingface/verify.sh`, then `push.sh --dry-run`, then `push.sh`.
+- [ ] **Set `SHANKPIT_TICKET_SECRET` on the Space** — must equal the game server's or every minted ticket is
+      refused at `PACKET_CONNECT`. Secrets are Space settings, not a `curl` endpoint (the pasted plan was wrong).
+- [ ] **Pure-Go LZ4 for brawlpit (PARENA-first)** — the only reason the Space image needs gcc. `PARENA`'s
+      `stdlib/compress/lz4.prn` already exists; a Go emission path for it would let `CGO_ENABLED=0` work
+      without hand-porting the codec, which S417-03 deliberately avoided.
+- [ ] **Real host for the esports ladder** — `SHANKPIT/tools/shankpit_netd.c` serves a file the world writes;
+      a Space has no filesystem from the world, so hosting it there needs a real ingest endpoint, not a copy
+      of this Dockerfile. Not attempted.
+
