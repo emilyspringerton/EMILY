@@ -53675,3 +53675,8 @@ session: sess-20261016-0725-2426ab81
 - [x] **Publish the rating to WOTAN** — DONE 2026-11-03 (`dw_net` schema 2 + the ranked Citizens table, 58 checks) — the ladder's rating (PARENA/stdlib/deadweight/rating.prn,
       `dw_rating.c`) added to `dw_net.c`'s schema-2 export and the Citizens page's ranked table.
       (In progress at the time of writing.)
+
+- [x] **Publish the NOOBTOPIA stage** — DONE 2026-11-03 (`PARENA/stdlib/deadweight/stage.prn` as the one
+      fold, `SHANKPIT/packages/simulation/dw_stage.c` as the world's bracket, `dw_net` schema 3, and the
+      Stage section on WOTAN's Citizens page; 68 page checks). The stage survives its own move: the Roblox
+      module now CALLS the generated fold instead of keeping one.
