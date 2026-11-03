@@ -53755,7 +53755,7 @@ first; spec written, nothing implemented yet.
       wall-clock), quantity scaled by remaining component hp, mapped onto EXISTING kit/food items — no
       new inventory, no salvage economy decision yet. (the roll, tier and condition-scaled quantity are already built in S1/S2; what is left here is the
 ground-item mapping decision, which is the one this item actually named)
-- [ ] **SALVAGE-3** — `origin_tag` (CIVILIAN/STOLEN/MILITARY) on vehicle spawn entries, garage `PLATE`
+- [ ] **SALVAGE-3 (S4 rules+plumbing BUILT+green 2026-11-03, SHANKPIT@5ca04fb; NOT checked — same Apple blocker; bay-side trigger still open: no vehicle-aware objective in `mission.h`)** — `origin_tag` (CIVILIAN/STOLEN/MILITARY) on vehicle spawn entries, garage `PLATE`
       widget, `garage_quest.prn` arbitrating against `mission.h`'s active objective. Requires the
       provenance field first; nothing vehicle-aware exists in the mission layer today.
 - [ ] **SALVAGE-WIRE (BUILT+green 2026-11-03, SHANKPIT@a5693f9; NOT checked — same Apple blocker)** — `PACKET_VEHICLE_STATE` at type 20, absolute/idempotent like
