@@ -53751,13 +53751,13 @@ first; spec written, nothing implemented yet.
       clean; the lobby's three binding lines are reviewed, not compiled (no SDL2 here); component
       state is not on the wire yet, so a networked client predicts parts from replicated hull
       until SALVAGE-WIRE.
-- [ ] **SALVAGE-2** — seeded yield table (`vehicle_burn_hash` over entity/tick/component, never
+- [ ] **SALVAGE-2 (S3+S5 BUILT+green 2026-11-03, SHANKPIT@a5693f9; NOT checked — same Apple blocker)** — seeded yield table (`vehicle_burn_hash` over entity/tick/component, never
       wall-clock), quantity scaled by remaining component hp, mapped onto EXISTING kit/food items — no
       new inventory, no salvage economy decision yet. (the roll, tier and condition-scaled quantity are already built in S1/S2; what is left here is the
 ground-item mapping decision, which is the one this item actually named)
 - [ ] **SALVAGE-3** — `origin_tag` (CIVILIAN/STOLEN/MILITARY) on vehicle spawn entries, garage `PLATE`
       widget, `garage_quest.prn` arbitrating against `mission.h`'s active objective. Requires the
       provenance field first; nothing vehicle-aware exists in the mission layer today.
-- [ ] **SALVAGE-WIRE** — `PACKET_VEHICLE_STATE` at type 20, absolute/idempotent like
+- [ ] **SALVAGE-WIRE (BUILT+green 2026-11-03, SHANKPIT@a5693f9; NOT checked — same Apple blocker)** — `PACKET_VEHICLE_STATE` at type 20, absolute/idempotent like
       `PACKET_BRICK_STATE` (bitmask + per-component hp + seed), clients re-simulate cosmetic shards. Do
       NOT sync shard velocities; do NOT add a second collab-build path beside `edit_sync.h`.
