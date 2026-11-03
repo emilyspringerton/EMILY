@@ -53741,9 +53741,20 @@ first; spec written, nothing implemented yet.
       (`regen-`/`check-`) + `packages/simulation/vehicle_salvage.h`, hull-conserving split, effects
       folded into the existing `PhysBuggyRules` hook, shards via `brick_bodies`. Test: hand-derived
       integer cases, ASan+UBSan, `make test-vehicle-salvage`.
+- [ ] **SALVAGE-1-WIRE (S2, BUILT+green 2026-11-03, SHANKPIT@338f4fe; NOT checked — same Apple blocker:**
+      `emily apples post` still reports `IDUNA_AGENT_SECRET` unset**) — `vehicle_salvage_sync`
+      reconciles the parts with the authority's hull every tick in both directions (sum(parts) ==
+      hull always; a repaired wreck cannot regrow a part it lost); `phys_set_buggy_salvage_permille`
+      folds the handling stack into the existing `PhysBuggyRules` getters with exact passthrough at
+      1000; a detached part is thrown through a host hook the lobby binds to `brick_bodies` (one
+      body, component material, seeded tumble) and the server leaves NULL. `make server` builds
+      clean; the lobby's three binding lines are reviewed, not compiled (no SDL2 here); component
+      state is not on the wire yet, so a networked client predicts parts from replicated hull
+      until SALVAGE-WIRE.
 - [ ] **SALVAGE-2** — seeded yield table (`vehicle_burn_hash` over entity/tick/component, never
       wall-clock), quantity scaled by remaining component hp, mapped onto EXISTING kit/food items — no
-      new inventory, no salvage economy decision yet.
+      new inventory, no salvage economy decision yet. (the roll, tier and condition-scaled quantity are already built in S1/S2; what is left here is the
+ground-item mapping decision, which is the one this item actually named)
 - [ ] **SALVAGE-3** — `origin_tag` (CIVILIAN/STOLEN/MILITARY) on vehicle spawn entries, garage `PLATE`
       widget, `garage_quest.prn` arbitrating against `mission.h`'s active objective. Requires the
       provenance field first; nothing vehicle-aware exists in the mission layer today.
