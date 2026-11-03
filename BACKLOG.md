@@ -53758,6 +53758,14 @@ ground-item mapping decision, which is the one this item actually named)
 - [ ] **SALVAGE-3 (S4 rules+plumbing BUILT+green 2026-11-03, SHANKPIT@5ca04fb; NOT checked — same Apple blocker; bay gated on an objective nothing supplies yet; plates now SEE cars and the packet has a real e2e)** — `origin_tag` (CIVILIAN/STOLEN/MILITARY) on vehicle spawn entries, garage `PLATE`
       widget, `garage_quest.prn` arbitrating against `mission.h`'s active objective. Requires the
       provenance field first; nothing vehicle-aware exists in the mission layer today.
+- [ ] **POST-CHAIN (BUILT+green 2026-11-03, SHANKPIT@f042931 / PARENA) -- NOT checked, same Apple blocker**
+      The program feed has a post stack: `PARENA/stdlib/shankpit/filter_rules.prn` (5 presets, fixed
+      point) -> `packages/render/stream_filters.h`, applied between glReadPixels and `stream_out_push`.
+      LUT levels/gamma, saturation, a 3x3 kernel with stack scanlines (no per-frame allocation),
+      vignette, deterministic grain; neutral is bit-identical and free. NOT built: authorable curve
+      control points and a .cube 3D LUT (the LUT struct is the seam), and no graded stream has been
+      watched -- ffmpeg is not installed here.
+
 - [ ] **SALVAGE-WIRE (BUILT+green+e2e 2026-11-03, SHANKPIT@000bd15, SHANKPIT@a5693f9; NOT checked — same Apple blocker)** — `PACKET_VEHICLE_STATE` at type 20, absolute/idempotent like
       `PACKET_BRICK_STATE` (bitmask + per-component hp + seed), clients re-simulate cosmetic shards. Do
       NOT sync shard velocities; do NOT add a second collab-build path beside `edit_sync.h`.
