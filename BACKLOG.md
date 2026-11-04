@@ -53836,11 +53836,18 @@ was finished and everything else is planned, not built.
       train tree, research-gated eras), `shankpit/mining_rules.prn` (pick tiers, veins, smelting, coal as
       fuel), `shankpit/citizen_day_rules.prn` (Sims day over the real `CILIFE_*` paths),
       `trapx/citizen_contact_rules.prn` (affinity, contact sharing, four services). C host + header +
-      `make test-frontend-rules`; **real wasm32 module** (5,568 bytes, 0 imports) with **143 node checks**
+      `make test-frontend-rules`; **real wasm32 module** (5,582 bytes, 0 imports) with **143 node checks**
       on the SAME sources (`PARENA/scripts/build_frontend_vs0_wasm.sh`, `frontend_vs0_wasm_test.mjs`).
-- [x] **FRONTEND-VS0-BUG (found live, worked around, NOT fixed)** — PARENA's wasm emitter evaluates both
-      `if` arms: `(if (<= b 0) 0 (/ a b))` runs in C and traps in wasm. All variable divisors in the slice
-      are guarded at the division; the emitter fix (branch, not select) is an open compiler item.
+- [x] **FRONTEND-VS0-BUG (FIXED same day, PARENA `.parena-bootstrap` rebuilt, `make test` 374/374)** —
+      PARENA's wasm emitter evaluated both `if` arms because it used "pure" as the test for "safe to
+      evaluate unconditionally", and a division is pure but can trap. Predicate is now `expr_is_speculable`
+      (pure AND `head_may_trap` clean: no `/`, no `mod`); dividing arms get real basic blocks. Verified by
+      `tests/test_emit_llvm.c` (branch, not select; non-trapping `if` still selects), and end to end in wasm
+      (`safe_div(7,0) = 0` instead of a trap). The slice's divisors stay guarded anyway -- defensive, and the
+      pattern the docs teach.
+- [ ] **AND/OR-STILL-EAGER (named, not fixed)** — `and`/`or` are documented as non-short-circuiting, so a
+      trapping division in an operand still fires: `(and (> b 0) (> (/ a b) 2))` traps at b=0. Fixing it is a
+      semantic change to a documented operator (short-circuit branches), deliberately left out of the bug fix.
 - [x] **DOCS (2026-11-04)** — `SHANKPIT/docs2/GFD_FRONTEND_VS0_NORTHSTAR.md` (the split, the bandwidth
       budget, what was built, what was not), `TRAPX/docs/URBAN_FARMING_NORTHSTAR.md` (cozy layer as
       farming), `SHANKPIT/docs/ONGOING_DEVELOPMENT_REPORT_2026-11-04.md` (named-not-built for both of
