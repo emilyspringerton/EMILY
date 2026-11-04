@@ -53815,3 +53815,45 @@ blocked on BOOTSTRAP.md step 2** (no credentialed gcloud account on this box, ID
       no WOTAN mirror of these rules (the street's rules have one).
 
     session: sess-20261103-0121-04484fc1
+
+## SECTION 632 — Founder real-time 2026-11-04 (later): GFD/MMO frontend in wasm, 1700s start, TYLER affordances, citizen quests + guild, actor goals, urban farming
+
+Long, fast-moving direction across several pasted specs. Founder: merge GFD + SHANKPIT with SHANKPIT as the
+MMO's frontend, bring REDGARDEN down, wasm VS0, "massive low bandwidth", citizen generation (VRoid/
+FORGEDINFACE) with Sims-like lives, traditional mining, start in the 1700s with a train tech tree; then
+TYLER mode's real affordances (actors using real widgets, wisp replaced after scene 0, killable actors,
+rigid-body props, seats, drawers→cargo, Tyler phone UI), Animal Crossing citizen interaction with contacts
+and services, emergent quests from citizens (including set-ups, surveillance, honey-pots), players able to
+issue quests through the same API with a questing guild to bound abuse ("smart contract meets the FFXI
+bazaar"), actor goals/priorities (farm → auction house) with RuneScape/EVE "play how you want", cultural
+influences (honour/elite, down-and-dirty, MPK) and bounded randomness, and a TRAPX urban-farming
+northstar (**not** planning — founder corrected it). Then, mid-work: **"dont worry about implementing
+finish your train scope do that work and then make a plan for all of the requests"** — so the train scope
+was finished and everything else is planned, not built.
+
+- [x] **FRONTEND-VS0 (BUILT+green 2026-11-04, PARENA + SHANKPIT; NOT checked — Apple blocked on
+      BOOTSTRAP.md step 2)** — 4 PARENA modules: `shankpit/era_tech_rules.prn` (1700s start, 6-node
+      train tree, research-gated eras), `shankpit/mining_rules.prn` (pick tiers, veins, smelting, coal as
+      fuel), `shankpit/citizen_day_rules.prn` (Sims day over the real `CILIFE_*` paths),
+      `trapx/citizen_contact_rules.prn` (affinity, contact sharing, four services). C host + header +
+      `make test-frontend-rules`; **real wasm32 module** (5,568 bytes, 0 imports) with **143 node checks**
+      on the SAME sources (`PARENA/scripts/build_frontend_vs0_wasm.sh`, `frontend_vs0_wasm_test.mjs`).
+- [x] **FRONTEND-VS0-BUG (found live, worked around, NOT fixed)** — PARENA's wasm emitter evaluates both
+      `if` arms: `(if (<= b 0) 0 (/ a b))` runs in C and traps in wasm. All variable divisors in the slice
+      are guarded at the division; the emitter fix (branch, not select) is an open compiler item.
+- [x] **DOCS (2026-11-04)** — `SHANKPIT/docs2/GFD_FRONTEND_VS0_NORTHSTAR.md` (the split, the bandwidth
+      budget, what was built, what was not), `TRAPX/docs/URBAN_FARMING_NORTHSTAR.md` (cozy layer as
+      farming), `SHANKPIT/docs/ONGOING_DEVELOPMENT_REPORT_2026-11-04.md` (named-not-built for both of
+      today's slices + the plan for every request below). All three golden-registered; GOLDEN_DOCS
+      resynced (targeted update, 267 → 270 docs, no shrink).
+- [ ] **PLAN-ONLY (see ONGOING_DEVELOPMENT_REPORT_2026-11-04.md §3)** — act/progress API in IDUNA as the
+      one foundation; TYLER actor affordances (`affordance_rules.prn`, wisp→FORGEDINFACE body, killable
+      actors, props, seats, drawers); services-as-acts and mercenary contracts; emergent quests + plot layer
+      + player-issued quests + the questing guild (escrow/stake/slash reputation market); actor goals and
+      priorities with the auction house; cultural priors and bounded randomness; urban farming. None built.
+- [ ] **OPEN QUESTIONS (blocking the above, not guessable)** — cell granularity (claim cell vs district vs
+      node); currency for escrow/fees (influence vs auction currency); item identity (`item_id`, needed for
+      borrowing tech and for an auction house); verification source of truth (receipts vs witnesses vs an
+      authority tick).
+
+    session: sess-20261103-0121-04484fc1
