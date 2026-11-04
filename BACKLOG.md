@@ -53769,3 +53769,49 @@ ground-item mapping decision, which is the one this item actually named)
 - [ ] **SALVAGE-WIRE (BUILT+green+e2e 2026-11-03, SHANKPIT@000bd15, SHANKPIT@a5693f9; NOT checked — same Apple blocker)** — `PACKET_VEHICLE_STATE` at type 20, absolute/idempotent like
       `PACKET_BRICK_STATE` (bitmask + per-component hp + seed), clients re-simulate cosmetic shards. Do
       NOT sync shard velocities; do NOT add a second collab-build path beside `edit_sync.h`.
+
+## SECTION 631 — Founder real-time 2026-11-04: SHANKPIT EMPIRE gets a city engine (PARENA mods, ECOWAR cloned in)
+
+Founder pasted a tick-by-tick city-simulation spec (11 subsystems + a Conway overlay, formula per loop)
+and asked for it in SHANKPIT EMPIRE, with ECOWAR cloned down, PARENA mods at least planned in the
+northstar, every concept mapped to current systems/affordances, and TRAPX doctrine kept going into
+PARENA mods. Audited the tree first: `EUWorld`/`PACKET_EMPIRE_STATE` (3 factions, 32 claim cells, 16
+nodes, 1 Hz) is the real territory layer; `citizen_life.c` is the real citizen-persona system; there is
+**no** casino, train/ship, power grid, federal layer or neighborhood personality anywhere in
+`packages/` (checked, not assumed). `emily observe` filed locally; **completion Apple + kanban are
+blocked on BOOTSTRAP.md step 2** (no credentialed gcloud account on this box, IDUNA unreachable).
+
+- [x] **CITY-ENGINE-RULES (BUILT+green 2026-11-04, PARENA + SHANKPIT; NOT checked — Apple blocked)** —
+      `PARENA/stdlib/trapx/city_engine_rules.prn`, 36 exports, I32 permille, total, no RNG (host
+      pre-rolls; intel chance takes `roll-milli`): population drift/step, money flow, faction siphon,
+      spread force/convert/decay, intel chance/transfer, train boost, ship falloff/resource shock, grid
+      stability, the six casino conversions, scrutiny/crime, federal pressure/investigation/seizure/
+      arrest/shock, neighborhood stage/grows/decays, Spire event, automata step. Generated to
+      `SHANKPIT/packages/simulation/trapx_city_rules.c` (`scripts/gen_trapx_city_rules.sh`), host header
+      with the 12-step tick order as the contract, `make test-trapx-city` = 60 hand-derived checks
+      (incl. the spec's money→casino→corruption→worse-money loop). Deliberately NOT in
+      LOBBY_SRC/SERVER_SRC — no host consumes it yet.
+- [x] **CITY-ENGINE-MAP (done 2026-11-04)** — `SHANKPIT/docs/EMPIRE_NORTHSTAR.md` §6: the tick order,
+      a subsystem→rule→real-system→gap table for all 12, the float→permille conversions, the ECOWAR
+      contribution (per-tick order, `livingmap/` creep, 16 cards), and the named gaps. §5/status
+      corrected: `EMPIRE`/`REDGARDEN` are not checked out on this box.
+- [ ] **CITY-ENGINE-CELL-DECISION (open, named not guessed)** — what a "cell" is: 32 wired claim cells
+      vs 72 sphere districts vs 16 nodes. Recommendation in §6.5: claim cell inside a loaded world,
+      district as the phone's aggregate. Needs a founder call before the host state is built, because it
+      decides the wire shape.
+- [ ] **CITY-ENGINE-HOST (next)** — `packages/simulation/trapx_city.{c,h}`: a `TrapxCitySim` cell array
+      (pop/stability/corruption/crime/scrutiny/pressure/money), seeded from `EUWorld.cells`, ticked at
+      1 Hz in the order §6.2 fixes. Shape to copy: `trapx.c`.
+- [ ] **CITY-ENGINE-WIRE** — population/pressure per claim cell in `PACKET_EMPIRE_STATE` (absolute and
+      idempotent, mutable-half only, like every other field in it). Real prerequisite for anything
+      multiplayer.
+- [ ] **CITY-ENGINE-SLICE** — the spec's own minimal cut on real surfaces: one `LevelBox` casino with a
+      widget door, one fixed cell-index "route" (there is no transit system — honest name, not a train),
+      one oversight row on `BP_APP_EMPIRE`, Spire events published to REFLUX with a documented action
+      type. Nothing built.
+- [ ] **CITY-ENGINE-NOT-BUILT (named)** — citizens do not move by economy (`citizen_life.c` is
+      persona-driven and correct); no ships (so `ce-ship-resource-shock` is unreachable); no power grid,
+      casino or transit object; `TRAPX_NEIGHBORHOOD_PERSONALITIES`' fear/trust/fatigue axes still prose;
+      no WOTAN mirror of these rules (the street's rules have one).
+
+    session: sess-20261103-0121-04484fc1
