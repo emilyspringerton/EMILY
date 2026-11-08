@@ -53902,10 +53902,20 @@ task is complete". `emily observe` / kanban not reachable (IDUNA blocked on `gcl
   keys reach the level as DOM codes, the world gets no input and never grabs the mouse while it is in front.
   Verified headless (41 + 41 checks) and in the real lobby under Xvfb with real X key events (18 checks). Not yet
   run on Windows / a real GPU. Apple pending (IDUNA unreachable).
-- [~] **T0-5** — Ctrl+Shift+J view-source: EDITOR.GAME 8ff1ac6 `editor_widget_open_file`, PARENA a95500f
-  `lm-world-input`; SHANKPIT shell + bridge + font in progress. D6 legacy-first: the PARENA-side widget split stays
-  queued (below).
-- [ ] **T0-6** — save → compile → swap on next entry (per DEC-B).
+- [x] **T0-5** — Ctrl+Shift+J view-source (EDITOR.GAME 8ff1ac6 `editor_widget_open_file`, 4c3f676 path fix; PARENA
+  a95500f `lm-world-input`; SHANKPIT 93eacdf + 1472c69): BRAWLPIT's `bp_level.prn` in EDITOR.GAME's overlay over the
+  world, Escape back into the level; JetBrains Mono now ships in `assets/fonts/`. The smoke test found two real bugs:
+  the widget's GL context froze the game window (the bridge restores the context, which also fixes the lobby NOTES
+  panel), and the widget kept the caller's path pointer, so autosave wrote a garbage-named file. Both fixed.
+- [x] **T0-6** — save → compile → swap (SHANKPIT 6f2e9ca; PARENA 69528e8 `lm-compile-now`/`lm-swap-on`): edit the
+  source, the game rebuilds it in the background and swaps the new build in on the next entry (LEVEL_SWAPPED); a
+  broken save shows the located `file:line` error and keeps the running build. Dev box only (DEC-B c). The build
+  reports through a status file because the widget's SIGCHLD=SIG_IGN broke `system()`.
+- [x] **T0-REVIEW-1** — milestone review, lifecycle lens: six findings, all fixed (SHANKPIT 1472c69; PARENA 8ab187f
+  `lm-cmd-suspend`). Trust and build lenses re-running. `make check-windows` passes with the SDL2 2.30.10 mingw kit
+  (155 sources, link symbols clean). **Not yet run on Windows or a real GPU.** Apples pending (IDUNA unreachable).
+  Test totals: test-level-manager 45, test-level-host 61, test-level-abi 53, test-wasm-host 26, level-smoke 34 (real
+  lobby under Xvfb, real X keys).
 - [ ] **PARENA-WASM-INTERP** — PARENA-native wasm interpreter to replace the vendored runtime stopgap.
 - [ ] **T0-D6-SPLIT** — split PARENA's own `editor_main.c` into the embeddable widget and repoint SHANKPIT at it (the
   EDITOR.GAME fork is the T0 working default; the two forks have diverged).
