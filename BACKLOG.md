@@ -53896,10 +53896,21 @@ task is complete". `emily observe` / kanban not reachable (IDUNA blocked on `gcl
   `make test-level-abi` 53 checks driving the committed module like a player. Two real PARENA bugs found and fixed on
   the way (PARENA 87e5ace: LEVEL_HIDDEN on the match-start step re-announced the match every paused step; PARENA
   ebd082d: `level-blur` left pending presses to fire on return). Apple pending (IDUNA unreachable, see above).
-- [ ] **T0-4** — BRAWLPIT v0 shell: boot, Shift+M toggle/pause/blur, close, load, assets, keyCode table, Xvfb smoke.
-- [ ] **T0-5** — VS0 widget split in PARENA + Ctrl+Shift+J overlay in game states + level manifest.
+- [x] **T0-4** — BRAWLPIT v0 shell (SHANKPIT 8c9774d level manager rules, 7768f92 level_host, fc85f70 level shell +
+  main.c hooks, 85a4feb `make level-smoke`; PARENA 0c0cc17 `level_manager_rules.prn`): BRAWLPIT boots in front of the
+  ZOMBIES world; Shift+M toggles (BRAWLPIT pauses its own match on LEVEL_HIDDEN), Shift+X closes, Shift+M reloads;
+  keys reach the level as DOM codes, the world gets no input and never grabs the mouse while it is in front.
+  Verified headless (41 + 41 checks) and in the real lobby under Xvfb with real X key events (18 checks). Not yet
+  run on Windows / a real GPU. Apple pending (IDUNA unreachable).
+- [~] **T0-5** — Ctrl+Shift+J view-source: EDITOR.GAME 8ff1ac6 `editor_widget_open_file`, PARENA a95500f
+  `lm-world-input`; SHANKPIT shell + bridge + font in progress. D6 legacy-first: the PARENA-side widget split stays
+  queued (below).
 - [ ] **T0-6** — save → compile → swap on next entry (per DEC-B).
 - [ ] **PARENA-WASM-INTERP** — PARENA-native wasm interpreter to replace the vendored runtime stopgap.
+- [ ] **T0-D6-SPLIT** — split PARENA's own `editor_main.c` into the embeddable widget and repoint SHANKPIT at it (the
+  EDITOR.GAME fork is the T0 working default; the two forks have diverged).
+- [ ] **T0-WORLD-UNDER-LEVEL** — founder decides: while a level is in front the world keeps simulating with no input,
+  so in ZOMBIES an idle player can be attacked (the contract's choice; pause the world instead?).
 - [ ] **DOCTRINE-IFC-3R.2** — proposed amendment: poll REFLUX via absolute cursor, not `log-size` (founder decides).
 
     session: sess-20261108-0652-6f534217
