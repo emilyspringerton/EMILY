@@ -53864,3 +53864,25 @@ was finished and everything else is planned, not built.
       authority tick).
 
     session: sess-20261103-0121-04484fc1
+
+## SECTION 633 — Founder real-time 2026-11-08: SHANKPIT spec 2026-11-08-0000 (Yggdrasil Doctrine) → T0 BRAWLPIT v0 as a WASM level
+
+Founder: "do a rebase pull on shankpit and work from the new spec that comes in as always parena first mods first
+api development"; then "check for any missing dependencies in the plan and update the plan". Plan:
+`SHANKPIT/docs/T0_LEVEL_WASM_CONTRACT.md` (rev 2, dependency-audited).
+
+- [x] **T0-M0** — audit: does PARENA's wasm target emit `level_*` exports and accept REFLUX imports? No; contract written.
+- [x] **T0-DEPS** — dependency audit (31/33 findings survived adversarial verify); plan rewritten with D1-D11.
+- [ ] **T0-DEC-A** — founder: wasm runtime (recommend wasm3, labeled STOPGAP per core-deps-PARENA-first).
+- [ ] **T0-DEC-B** — founder: where save→compile runs (recommend dev-box only for T0).
+- [ ] **T0-0** — LLVM 18 + lld-18 no-sudo toolchain, SDL/GL `-dev` headers, EDITOR.GAME + PELLEGRINO siblings.
+- [ ] **T0-1** — host runtime wrapper, fixture = committed `WOTAN/BRAWLPIT/brawlpit.wasm`, frame-budget timing.
+- [ ] **T0-2** — `reflux.prn` absolute-cursor trio; `bp_level.prn`; `build_brawlpit_level_wasm.sh` (explicit exports, import allowlist, non-node checker); reserve REFLUX 1000-1199.
+- [ ] **T0-3** — REFLUX import bridge, range-checked.
+- [ ] **T0-4** — BRAWLPIT v0 shell: boot, Shift+M toggle/pause/blur, close, load, assets, keyCode table, Xvfb smoke.
+- [ ] **T0-5** — VS0 widget split in PARENA + Ctrl+Shift+J overlay in game states + level manifest.
+- [ ] **T0-6** — save → compile → swap on next entry (per DEC-B).
+- [ ] **PARENA-WASM-INTERP** — PARENA-native wasm interpreter to replace the vendored runtime stopgap.
+- [ ] **DOCTRINE-IFC-3R.2** — proposed amendment: poll REFLUX via absolute cursor, not `log-size` (founder decides).
+
+    session: sess-20261108-0652-6f534217
