@@ -53885,13 +53885,17 @@ task is complete". `emily observe` / kanban not reachable (IDUNA blocked on `gcl
 - [x] **T0-1** — host runtime wrapper (SHANKPIT 607db9f): `packages/wasm_host`, bind-or-refuse via PARENA
   `stdlib/wasm/surface.prn` (PARENA 28aeb81), wasm3 vendored as labeled STOPGAP; `make test-wasm-host` 26 checks +
   WOTAN fixture (~13-19 ms/frame on this box); strict bar clean on gcc + mingw. Not yet run on Windows.
-- [~] **T0-2** — PARENA side done (PARENA 8d04ce3): `reflux/cursor.prn` (own file, not reflux.prn, so native
+- [x] **T0-2** — PARENA side (PARENA 8d04ce3): `reflux/cursor.prn` (own file, not reflux.prn, so native
   linkers of reflux.prn gain no undefined refs), `bp_level.prn`, `level.manifest`, generic `scripts/build_level_wasm.sh`
   (explicit exports, import allowlist, `wasm_surface_check --imports-allowed`, file:line errors), reproducible build,
-  `make test-level-wasm-build` 8 checks. **Next:** reserve REFLUX 1000-1199 in SHANKPIT `reflux_runtime.h`, commit the
-  built module + WOTAN art under `assets/levels/brawlpit/`, then T0-3 bridge.
+  `make test-level-wasm-build` 8 checks. SHANKPIT side (SHANKPIT e3a503a): REFLUX families reserved as ranges in
+  `reflux_runtime.h` (1000-1099 lifecycle, 1100-1199 BRAWLPIT, `reflux_action_is_level/_brawlpit`), module + WOTAN
+  art committed under `assets/levels/brawlpit/`, `make brawlpit-level` / byte-exact `make check-brawlpit-level`.
   Contract rev 3 (SHANKPIT ff3fdcc): host-held cursor via `level_poll`, split tick/render, `level_api`.
-- [ ] **T0-3** — REFLUX import bridge, range-checked.
+- [x] **T0-3** — REFLUX import bridge, range-checked (SHANKPIT e7def96): `packages/wasm_host/level_abi.{h,c}`,
+  `make test-level-abi` 53 checks driving the committed module like a player. Two real PARENA bugs found and fixed on
+  the way (PARENA 87e5ace: LEVEL_HIDDEN on the match-start step re-announced the match every paused step; PARENA
+  ebd082d: `level-blur` left pending presses to fire on return). Apple pending (IDUNA unreachable, see above).
 - [ ] **T0-4** — BRAWLPIT v0 shell: boot, Shift+M toggle/pause/blur, close, load, assets, keyCode table, Xvfb smoke.
 - [ ] **T0-5** — VS0 widget split in PARENA + Ctrl+Shift+J overlay in game states + level manifest.
 - [ ] **T0-6** — save → compile → swap on next entry (per DEC-B).
