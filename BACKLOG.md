@@ -53873,9 +53873,15 @@ api development"; then "check for any missing dependencies in the plan and updat
 
 - [x] **T0-M0** — audit: does PARENA's wasm target emit `level_*` exports and accept REFLUX imports? No; contract written.
 - [x] **T0-DEPS** — dependency audit (31/33 findings survived adversarial verify); plan rewritten with D1-D11.
-- [ ] **T0-DEC-A** — founder: wasm runtime (recommend wasm3, labeled STOPGAP per core-deps-PARENA-first).
-- [ ] **T0-DEC-B** — founder: where save→compile runs (recommend dev-box only for T0).
-- [ ] **T0-0** — LLVM 18 + lld-18 no-sudo toolchain, SDL/GL `-dev` headers, EDITOR.GAME + PELLEGRINO siblings.
+- [ ] **T0-DEC-A** — founder: wasm runtime. Founder said "implement" without picking (2026-11-08), so the
+  recommendation is taken as the working default: **wasm3, labeled STOPGAP**. Reversible: the wrapper hides it.
+- [ ] **T0-DEC-B** — founder: where save→compile runs. Working default taken the same way: **dev-box only for T0**.
+- [x] **T0-0** — LLVM 18 + lld-18 no-sudo toolchain (brawlpit.wasm rebuilds, 135149 B), SDL/GL/mbedtls `-dev`
+  prefix (MONOREPO cb2e330), EDITOR.GAME + PELLEGRINO siblings; `make lobby` links with real editor widgets.
+
+Founder 2026-11-08 (implementation go): "implement as always mods first parena first mods driven development as
+always commit and push in small chunks of work so we dont loose work and keep working with high agency until the
+task is complete". `emily observe` / kanban not reachable (IDUNA blocked on `gcloud auth login`), logged here instead.
 - [ ] **T0-1** — host runtime wrapper, fixture = committed `WOTAN/BRAWLPIT/brawlpit.wasm`, frame-budget timing.
 - [ ] **T0-2** — `reflux.prn` absolute-cursor trio; `bp_level.prn`; `build_brawlpit_level_wasm.sh` (explicit exports, import allowlist, non-node checker); reserve REFLUX 1000-1199.
 - [ ] **T0-3** — REFLUX import bridge, range-checked.
