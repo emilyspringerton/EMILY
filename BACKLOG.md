@@ -53882,8 +53882,15 @@ api development"; then "check for any missing dependencies in the plan and updat
 Founder 2026-11-08 (implementation go): "implement as always mods first parena first mods driven development as
 always commit and push in small chunks of work so we dont loose work and keep working with high agency until the
 task is complete". `emily observe` / kanban not reachable (IDUNA blocked on `gcloud auth login`), logged here instead.
-- [ ] **T0-1** — host runtime wrapper, fixture = committed `WOTAN/BRAWLPIT/brawlpit.wasm`, frame-budget timing.
-- [ ] **T0-2** — `reflux.prn` absolute-cursor trio; `bp_level.prn`; `build_brawlpit_level_wasm.sh` (explicit exports, import allowlist, non-node checker); reserve REFLUX 1000-1199.
+- [x] **T0-1** — host runtime wrapper (SHANKPIT 607db9f): `packages/wasm_host`, bind-or-refuse via PARENA
+  `stdlib/wasm/surface.prn` (PARENA 28aeb81), wasm3 vendored as labeled STOPGAP; `make test-wasm-host` 26 checks +
+  WOTAN fixture (~13-19 ms/frame on this box); strict bar clean on gcc + mingw. Not yet run on Windows.
+- [~] **T0-2** — PARENA side done (PARENA 8d04ce3): `reflux/cursor.prn` (own file, not reflux.prn, so native
+  linkers of reflux.prn gain no undefined refs), `bp_level.prn`, `level.manifest`, generic `scripts/build_level_wasm.sh`
+  (explicit exports, import allowlist, `wasm_surface_check --imports-allowed`, file:line errors), reproducible build,
+  `make test-level-wasm-build` 8 checks. **Next:** reserve REFLUX 1000-1199 in SHANKPIT `reflux_runtime.h`, commit the
+  built module + WOTAN art under `assets/levels/brawlpit/`, then T0-3 bridge.
+  Contract rev 3 (SHANKPIT ff3fdcc): host-held cursor via `level_poll`, split tick/render, `level_api`.
 - [ ] **T0-3** — REFLUX import bridge, range-checked.
 - [ ] **T0-4** — BRAWLPIT v0 shell: boot, Shift+M toggle/pause/blur, close, load, assets, keyCode table, Xvfb smoke.
 - [ ] **T0-5** — VS0 widget split in PARENA + Ctrl+Shift+J overlay in game states + level manifest.
