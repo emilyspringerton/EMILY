@@ -53948,6 +53948,9 @@ here), logged here instead.
 - [ ] **COV-REFLUX-IDS** — reserve the Collection's REFLUX action-type range (SHANKPIT holds 1-5, 101-128, 1000-1199).
 - [ ] **COV-DISPUTES** — founder rulings needed: D-4 (IDUNA GKE -> Vultr is a migration), D-7 (primitive set 23-29,
   49, 51, 74), D-8 (comms partition never publishable).
-- [ ] **COV-2..14** — per the spec, after COV-1's probe.
+- [x] **COV-2** — Lua backend extended for WoW (PARENA 3d4c666 `lua/` bridge + string escapes, e3e92fa `do`/`lua/set!`): executed under Lua 5.1. Apple pending.
+- [x] **COV-5/6a** — v1 event record + in-game SavedVariables journal as a REFLUX subscriber (PARENA 76a5d50, 32/32). Apple pending.
+- [ ] **COV-6b** — journal addon glue + .toc and the external SavedVariables reader (glue waits on the probe).
+- [ ] **COV-3, COV-7..14** — per the spec.
 
     session: sess-20261113-1035-3e560903
