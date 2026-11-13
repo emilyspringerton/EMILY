@@ -53924,3 +53924,30 @@ task is complete". `emily observe` / kanban not reachable (IDUNA blocked on `gcl
 - [ ] **DOCTRINE-IFC-3R.2** — proposed amendment: poll REFLUX via absolute cursor, not `log-size` (founder decides).
 
     session: sess-20261108-0652-6f534217
+
+## SECTION 634 — Founder real-time 2026-11-13: WoW Forever "Collection of Value" (PARENA + SHANKPIT tech, REFLUX mods)
+
+Founder: "use parena and shankpit tech to further enhance shankpit world building capabilities and to give the founder
+affordances for playing world of warcraft"; then the Collection of Value super spec (100 addons, 12 client locales,
+dependency steps 0-14, "never guess past a Confirm", source wins over spec and the conflict is logged). Later the same
+day: "build core reflux first the system needs to all be reflux ... only a few things like color correction will be
+non reflux core mods", and "make it all env variable driven ... all of our config ... generally". Working tree:
+`D:\WORKSPACE\MONOREPO` on the founder's Windows machine (MSYS2 UCRT64 gcc + Lua 5.1). Plan and disputes:
+`MONOREPO/docs/COLLECTION_OF_VALUE_STEP1_AND_DISPUTES.md`. `emily observe` not reachable (no IDUNA port-forward
+here), logged here instead.
+
+- [x] **COV-0** — translation core module (PARENA 8c54369): `tr`, `parena i18n extract|check`, `build --catalog`;
+  `make test-i18n` 44/44. Placeholder strings extract and check but are not lowerable yet. Apple pending.
+- [x] **COV-REFLUX** — REFLUX core on WoW / Lua 5.1 (PARENA f58f6cb): `:lua` keys on `reflux.prn`/`cursor.prn`,
+  `runtime/wow/reflux_host.lua`, `RefluxCore` packager (refuses without `WOW_INTERFACE`); fixed emit_lua's `//`
+  (a Lua 5.1 syntax error). `make test-reflux-wow` 37/37 + 5/5. Not yet loaded in the real client. Apple pending.
+- [x] **COV-ENV** — all Collection config env-driven (MONOREPO 366fa5d): `scripts/collection-env.sh`, env >
+  `collection.local.env` > defaults; unconfirmed facts get no default.
+- [~] **COV-1** — WoW Forever addon API: product/version/paths/macro file confirmed from disk; interface number and
+  macro limits need the founder's in-game probe (command in the doc).
+- [ ] **COV-REFLUX-IDS** — reserve the Collection's REFLUX action-type range (SHANKPIT holds 1-5, 101-128, 1000-1199).
+- [ ] **COV-DISPUTES** — founder rulings needed: D-4 (IDUNA GKE -> Vultr is a migration), D-7 (primitive set 23-29,
+  49, 51, 74), D-8 (comms partition never publishable).
+- [ ] **COV-2..14** — per the spec, after COV-1's probe.
+
+    session: sess-20261113-1035-3e560903
