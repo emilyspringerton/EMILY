@@ -53952,7 +53952,7 @@ here), logged here instead.
 - [x] **COV-5/6a** — v1 event record + in-game SavedVariables journal as a REFLUX subscriber (PARENA 76a5d50, 32/32). Apple pending.
 - [x] **COV-6b** — journal size cap (PARENA 11e57a0, `journal-trim`, 53/53) and the external SavedVariables reader (PARENA 7f95946, `scripts/collection-journal-read.sh` -> eventstore `Event` NDJSON, 38/38, Go-unmarshal checked). Apple pending.
 - [x] **COV-6c** — journal addon glue + `.toc`, installed in the founder's client with interface 16001 (probe run 2026-11-13); founder reports it working. Next: run read-journal.sh after a logout. Apple pending.
-- [ ] **COV-7-feed** — append the reader's NDJSON into the Go eventstore (`Append`), Step 7.
+- [x] **COV-7** — event store in PARENA (PARENA 9de8dc8, 915e8c2): port of the Go FileStore, same files, idempotent ingest; store_test 21/21, Go interop 4/4; founder's first 10 events stored. Apple pending.
 - [x] **COV-INV** — Fafnir's Bed, the inventory manager (spec addon 2, Unified Inventory): bags/bank/mail/gold for every character, net inventory, `/fafnir` who-has-this; changes dispatched as REFLUX 2010-2012 (PARENA f32974c, 1a4e173; client_test 36/36). Apple pending.
 - [x] **COV-CLIENT** — one packaged client (RefluxCore + CollectionJournal + FafnirsBed + reader), tested in PARENA CI on every push and attached to each auto-release (PARENA 1a4e173, 1daf0ba). Also fixed PARENA CI, red since 2026-10-02 (a70bf8a). Apple pending.
 - [ ] **COV-WOW-INTERFACE** — founder: set PARENA's repository variable `WOW_INTERFACE` from the in-game probe; until then CI tests the client but does not attach the zip.
