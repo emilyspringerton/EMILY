@@ -53945,12 +53945,14 @@ here), logged here instead.
   `collection.local.env` > defaults; unconfirmed facts get no default.
 - [~] **COV-1** — WoW Forever addon API: product/version/paths/macro file confirmed from disk; interface number and
   macro limits need the founder's in-game probe (command in the doc).
-- [ ] **COV-REFLUX-IDS** — reserve the Collection's REFLUX action-type range (SHANKPIT holds 1-5, 101-128, 1000-1199).
+- [x] **COV-REFLUX-IDS** — Collection holds REFLUX types 2000-2999, ten per addon (PARENA 33411fd `stdlib/collection/ids.prn`, 24/24; reserved in SHANKPIT dafa6fc). Renumberable until Step 9. Apple pending.
 - [ ] **COV-DISPUTES** — founder rulings needed: D-4 (IDUNA GKE -> Vultr is a migration), D-7 (primitive set 23-29,
   49, 51, 74), D-8 (comms partition never publishable).
 - [x] **COV-2** — Lua backend extended for WoW (PARENA 3d4c666 `lua/` bridge + string escapes, e3e92fa `do`/`lua/set!`): executed under Lua 5.1. Apple pending.
 - [x] **COV-5/6a** — v1 event record + in-game SavedVariables journal as a REFLUX subscriber (PARENA 76a5d50, 32/32). Apple pending.
-- [ ] **COV-6b** — journal addon glue + .toc and the external SavedVariables reader (glue waits on the probe).
+- [x] **COV-6b** — journal size cap (PARENA 11e57a0, `journal-trim`, 53/53) and the external SavedVariables reader (PARENA 7f95946, `scripts/collection-journal-read.sh` -> eventstore `Event` NDJSON, 38/38, Go-unmarshal checked). Apple pending.
+- [ ] **COV-6c** — journal addon glue + `.toc` (`## SavedVariablesPerCharacter: CollectionJournalDB`), installed and run in the real client. Waits on the in-game probe.
+- [ ] **COV-7-feed** — append the reader's NDJSON into the Go eventstore (`Append`), Step 7.
 - [ ] **COV-3, COV-7..14** — per the spec.
 
     session: sess-20261113-1035-3e560903
