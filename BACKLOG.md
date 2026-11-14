@@ -53994,7 +53994,14 @@ Branch `claude/happy-dijkstra-gh5k1x` in PARENA and SHANKPIT.
   PARENA's WebDriver client on a worker thread -- screenshots in, keys out, a few frames a second. Linux/macOS only.
   `make test-phone-chromium` (CI uses the runner's Chrome + chromedriver; SKIPs without one). NOT verified end to
   end here: this box's chromedriver (147) does not match its Chrome (153); the phone shows the driver's own reason.
-- [ ] **S635-4 (the PARENA replacement for S635-3)** — Pellegrino runs a web game itself: load the page's
+- [x] **S635-4a** — shankpit-460 off the stopgap: PARENA `stdlib/shankpit460/sp_level.prn` + `level.manifest` (the
+  WOTAN engine unchanged behind the T0 level surface; bot matches; arrows look, F fires, Q zooms), committed in SHANKPIT
+  as `assets/levels/shankpit460/shankpit460_level.wasm`; the phone lists it natively and keeps the web build as
+  SHANKPIT-460 ONLINE (human matchmaking needs the network a level lacks). test-phone-arcade 32/32, played in the
+  lobby under Xvfb (PARENA f3e166c). Apple pending.
+- [ ] **S635-4 (the PARENA replacement for S635-3)** — remaining: D2, REDGARDEN, Bedrock Racers as level modules the
+  same way (their engines are PARENA too: stdlib/d2/web, stdlib/redgarden, stdlib/bedrockracers), and a level network
+  surface so a level can matchmake (then SHANKPIT-460 ONLINE comes off the stopgap too). Original item: — Pellegrino runs a web game itself: load the page's
   WebAssembly with no JavaScript engine -- either a PARENA wasm interpreter/host in Pellegrino with each game's
   JS glue ported to a PARENA host ABI (the T0 level contract is the model: BRAWLPIT already runs that way), or the
   WOTAN games built as T0 level modules directly. Then delete `packages/chromium_bridge/`.
