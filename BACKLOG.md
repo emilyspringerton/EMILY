@@ -53962,5 +53962,14 @@ here), logged here instead.
   addon (hover = usage + what it does; `<...>` commands go to the chat box to finish), read from each addon's header
   comment by `scripts/wow-slash-actions.awk` at package time (PARENA 438f4ea, branch `claude/happy-dijkstra-gh5k1x`,
   hub_test 79/79). Not yet seen in the real client. Apple pending.
+- [x] **COV-CHARS** — founder real-time 2026-11-14: "i want to see the inv and levels and equip of the chars,
+  including monies -- ideally all from one in game screen". `/chars`: every character's level, xp, gold, gear by slot
+  (new: Fafnir's Bed records worn gear), bags, bank, mail, last week of level/gold, and a who-has-what Find box
+  (PARENA 5b3cc3e, c25aadf; hub_test 115). Not yet seen in the real client. Apple pending.
+- [x] **COV-FORGE** — founder real-time 2026-11-14: "a server we can run local with full cli interface for the plugin
+  forge -- i want to be able to see and plan kits for characters". `scripts/forge.sh` (Lua 5.1 CLI + localhost C
+  server + page): characters/show/history/find, macro-kit planning (`stdlib/collection/kits.prn`), `forge build`
+  bakes kits into MacroSync so /ascend writes them (PARENA 7d202f5, 69e070c; forge_test 43). Not yet run on Windows
+  or in the real client. Apple pending.
 
     session: sess-20261113-1035-3e560903
