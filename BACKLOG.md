@@ -53974,6 +53974,13 @@ here), logged here instead.
 
     session: sess-20261113-1035-3e560903
 
+- [x] **COV-FIRSTAID** — founder real-time 2026-11-14: "i need you to make a universal first aid macro intelligent".
+  MacroSync's FirstAid: one account macro for every character, rewritten live for whoever is logged in -- best bandage
+  carried AND usable at their First Aid skill (mouseover / friendly target / self), shift for the best potion their
+  level allows, else open First Aid; follows bags/skill/level, waits out combat; `/firstaid` explains
+  (`stdlib/collection/firstaid.prn`, PARENA 01f9824; macrosync 203/203). Simulated client only, not yet the live one.
+  Apple pending.
+
 ## SECTION 635 — Founder real-time 2026-11-14: SHANKPHONE PELLEGRINO plays the games (wasm in the phone, Chromium as a stopgap)
 
 Founder: "lets build pellegrino on the phone into a full app that can play the wasm games", "bring in chromium to fill
