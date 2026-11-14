@@ -53973,3 +53973,30 @@ here), logged here instead.
   or in the real client. Apple pending.
 
     session: sess-20261113-1035-3e560903
+
+## SECTION 635 — Founder real-time 2026-11-14: SHANKPHONE PELLEGRINO plays the games (wasm in the phone, Chromium as a stopgap)
+
+Founder: "lets build pellegrino on the phone into a full app that can play the wasm games", "bring in chromium to fill
+the gaps", "parenafy it", "and mods first everything"; answered: the phone is the in-game SHANKPHONE, Chromium is
+"Yes, stopgap". `emily observe` not reachable here (no IDUNA port-forward), logged here instead.
+Branch `claude/happy-dijkstra-gh5k1x` in PARENA and SHANKPIT.
+
+- [x] **S635-1** — the games app: PELLEGRINO opens a list (every game in the mod, then WEB BROWSER). The games are a
+  PARENA mod (`stdlib/shankpit/arcade_games.prn`), the app's behaviour PARENA rules (`arcade.prn`), generated into
+  SHANKPIT `packages/simulation/arcade_rules.c`. BRAWLPIT runs IN the phone on SHANKPIT's own wasm3 level host (its
+  own instance), Backspace back. `make test-phone-arcade` 24/24 with the real module; seen in the real lobby under
+  Xvfb (PARENA 26f8f65). Apple pending.
+- [x] **S635-2** — PARENA-first deps for the stopgap: `stdlib/base64.prn` (RFC 4648 decode, 13 checks, CI) and
+  `net/webdriver.prn` take-screenshot / perform-key / release-actions (fixture driver: real PNG decoded pixel-exact,
+  actions body checked) (PARENA 26f8f65). Apple pending.
+- [x] **S635-3 (STOPGAP)** — web games (shankpit-460, D2, REDGARDEN, Bedrock Racers) via headless Chromium:
+  SHANKPIT `packages/chromium_bridge/phone_chromium.c` starts chromedriver (subprocess) and drives Chromium through
+  PARENA's WebDriver client on a worker thread -- screenshots in, keys out, a few frames a second. Linux/macOS only.
+  `make test-phone-chromium` (CI uses the runner's Chrome + chromedriver; SKIPs without one). NOT verified end to
+  end here: this box's chromedriver (147) does not match its Chrome (153); the phone shows the driver's own reason.
+- [ ] **S635-4 (the PARENA replacement for S635-3)** — Pellegrino runs a web game itself: load the page's
+  WebAssembly with no JavaScript engine -- either a PARENA wasm interpreter/host in Pellegrino with each game's
+  JS glue ported to a PARENA host ABI (the T0 level contract is the model: BRAWLPIT already runs that way), or the
+  WOTAN games built as T0 level modules directly. Then delete `packages/chromium_bridge/`.
+- [ ] **S635-5** — Windows: the stopgap is Linux/macOS only (CreateProcess + a Windows chromedriver needed); moot
+  once S635-4 lands.
