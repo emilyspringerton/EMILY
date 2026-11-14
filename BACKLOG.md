@@ -53957,5 +53957,10 @@ here), logged here instead.
 - [x] **COV-CLIENT** — one packaged client (RefluxCore + CollectionJournal + FafnirsBed + reader), tested in PARENA CI on every push and attached to each auto-release (PARENA 1a4e173, 1daf0ba). Also fixed PARENA CI, red since 2026-10-02 (a70bf8a). Apple pending.
 - [ ] **COV-WOW-INTERFACE** — founder: set PARENA's repository variable `WOW_INTERFACE` from the in-game probe; until then CI tests the client but does not attach the zip.
 - [ ] **COV-3, COV-7..14** — per the spec.
+- [x] **COV-HUB-CONTROLS** — founder real-time 2026-11-14: "a flame addon control surface inside of wow, some kind of
+  window, as I discover the slash commands". `/collection` now has a button per documented command/subcommand of every
+  addon (hover = usage + what it does; `<...>` commands go to the chat box to finish), read from each addon's header
+  comment by `scripts/wow-slash-actions.awk` at package time (PARENA 438f4ea, branch `claude/happy-dijkstra-gh5k1x`,
+  hub_test 79/79). Not yet seen in the real client. Apple pending.
 
     session: sess-20261113-1035-3e560903
