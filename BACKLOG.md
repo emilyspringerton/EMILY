@@ -53999,8 +53999,12 @@ Branch `claude/happy-dijkstra-gh5k1x` in PARENA and SHANKPIT.
   as `assets/levels/shankpit460/shankpit460_level.wasm`; the phone lists it natively and keeps the web build as
   SHANKPIT-460 ONLINE (human matchmaking needs the network a level lacks). test-phone-arcade 32/32, played in the
   lobby under Xvfb (PARENA f3e166c). Apple pending.
-- [ ] **S635-4 (the PARENA replacement for S635-3)** — remaining: D2, REDGARDEN, Bedrock Racers as level modules the
-  same way (their engines are PARENA too: stdlib/d2/web, stdlib/redgarden, stdlib/bedrockracers), and a level network
+- [x] **S635-4b** — Bedrock Racers off the stopgap the same way (PARENA `stdlib/bedrockracers/web/br_level.prn`;
+  SHANKPIT `scripts/build_phone_levels.sh`); found and fixed a PARENA regression on the way (COV-0's `tr` swallowed the
+  typed binding `(tr : F32)`, breaking the Bedrock Racers web build) (PARENA a505a2c). test-phone-arcade 39/39.
+- [ ] **S635-4 (the PARENA replacement for S635-3)** — remaining: D2 and REDGARDEN as level modules (D2's web client
+  needs dw2_server for every match, REDGARDEN's needs the arena server: both need a level network surface first, or an
+  offline bot mode in their PARENA clients), and a level network
   surface so a level can matchmake (then SHANKPIT-460 ONLINE comes off the stopgap too). Original item: — Pellegrino runs a web game itself: load the page's
   WebAssembly with no JavaScript engine -- either a PARENA wasm interpreter/host in Pellegrino with each game's
   JS glue ported to a PARENA host ABI (the T0 level contract is the model: BRAWLPIT already runs that way), or the
