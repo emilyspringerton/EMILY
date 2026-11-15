@@ -54038,6 +54038,17 @@ unlisted tickers"; "we need to find places to track fraud lawsuits via fatbaby".
 - [ ] **S636-6** — FATBABY `cmd/litigation-watcher`: keep what `internal/prspam` rejects (~12% of PR Newswire headlines are
   securities-fraud / class-action solicitations) as structured lawsuit events; firms-per-ticker signal.
 - [ ] **S636-7** — FATBABY: 8-K Item 4.02 non-reliance + Item 3 legal-proceedings classifier on secwatch's filings.
-- [ ] **S636-8** — FATBABY `ipo-watcher` (S-1/F-1/424B) and CIK-only watchlist entries (unlisted / OTC / pre-IPO).
+- [x] **S636-8a** — FATBABY `internal/listing`: CIK-keyed unlisted -> listed stage machine from SEC forms (D, S-1/F-1, RW,
+  EFFECT, 424B4, 8-A12B, 25, 15) and ticker sightings; typed transitions (ipo_listed, uplisting, direct_listing, ...);
+  9 tests (FATBABY 1c5b653). SKULDMARK: `EncodeUnlisted` (ISO 10383 MIC XXXX), `IsUnlisted`, `SameIssuer` links a pre-IPO
+  id to the listed one (SKULDMARK 0d13092).
+- [ ] **S636-8** — FATBABY `ipo-watcher` feeding `internal/listing` from EDGAR (S-1/F-1/424B/8-A12B/25/15) and SEC's ticker
+  file, publishing `listing_transition` events; CIK-only watchlist entries; consumers that drop ticker-less events.
+- [ ] **S636-10** — Anthropic in SKULDMARK/FATBABY: confirm its SEC CIK on EDGAR (it exists only once it has filed: a Form D
+  or an S-1), then a CIK-only watchlist entry; `EncodeUnlisted(cik)` gives its id today. No CIK is guessed.
+- [ ] **S636-11** — restore okemily.com + wotan.okemily.com: their images build fine (OKEMILY deploy run 7, 2026-10-18,
+  green), so an outage is cluster-side (GKE), which this session cannot reach. Fallback that needs no cluster:
+  `WOTAN/scripts/deploy-cloudflare-pages.ps1` from the founder's Windows machine (reads the Cloudflare token from a file or
+  env var there, mints a 2-hour Pages-only token, deploys; `-Site ..\OKEMILY` for okemily). Not run yet.
 - [ ] **S636-9** — FATBABY `cmd/newsletter`: edition + movers + litigation digest via `internal/notify`; double opt-in,
   one-click unsubscribe, postal address, send log; archive auto-published, email behind an approve step at first.
