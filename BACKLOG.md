@@ -54018,3 +54018,19 @@ Branch `claude/happy-dijkstra-gh5k1x` in PARENA and SHANKPIT.
   WOTAN games built as T0 level modules directly. Then delete `packages/chromium_bridge/`.
 - [ ] **S635-5** — Windows: the stopgap is Linux/macOS only (CreateProcess + a Windows chromedriver needed); moot
   once S635-4 lands.
+
+## SECTION 636 — Founder real-time 2026-11-15: accessibility report; static games up; Slack; FATBABY tracking
+
+Founder: "write a full accessibility report into emily" (with Anthropic business implications, marked as a guess); "lets get
+the static games up i gave you a key"; "lets connect up to slack"; "continue to explore the prjct fatbaby and tracking
+unlisted tickers"; "we need to find places to track fraud lawsuits via fatbaby". `emily observe` not reachable here.
+
+- [x] **S636-1** — `docs/ACCESSIBILITY_REPORT_2026-11-15.md`: what blocked the agent this session and why (classifier,
+  privacy plugin, a rejected AWS key, no cluster access), WOTAN/game accessibility gaps by severity, and a labelled-speculation
+  section on business implications.
+- [x] **S636-2** — the three static WOTAN games (BRAWLPIT, shankpit-460, Bedrock Racers) published as a private Claude artifact
+  (bot play only). The real wotan.okemily.com deploy is blocked: the session's AWS key is rejected and there are no GKE credentials.
+- [ ] **S636-3** — accessibility fixes from the report: live-region text mirror for the wasm games, keyboard look for
+  shankpit-460 web, touch notice, ARIA pass over 8 pages, WCAG AA contrast measurement, one real screen-reader session.
+- [ ] **S636-4** — Slack connector for the session (founder: "that can be part of the way this works").
+- [ ] **S636-5** — PRRJECT_FATBABY: unlisted-ticker tracking and public fraud-lawsuit sources (repo not in this session yet).
