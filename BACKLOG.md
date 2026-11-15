@@ -54033,4 +54033,11 @@ unlisted tickers"; "we need to find places to track fraud lawsuits via fatbaby".
 - [ ] **S636-3** — accessibility fixes from the report: live-region text mirror for the wasm games, keyboard look for
   shankpit-460 web, touch notice, ARIA pass over 8 pages, WCAG AA contrast measurement, one real screen-reader session.
 - [ ] **S636-4** — Slack connector for the session (founder: "that can be part of the way this works").
-- [ ] **S636-5** — PRRJECT_FATBABY: unlisted-ticker tracking and public fraud-lawsuit sources (repo not in this session yet).
+- [x] **S636-5** — PRRJECT_FATBABY explored: `docs/FATBABY_EXPLORATION_2026-11-15.md` (fraud-lawsuit sources, CIK-only /
+  pre-IPO tracking, newsletter primitives). Read-only; nothing built in FATBABY.
+- [ ] **S636-6** — FATBABY `cmd/litigation-watcher`: keep what `internal/prspam` rejects (~12% of PR Newswire headlines are
+  securities-fraud / class-action solicitations) as structured lawsuit events; firms-per-ticker signal.
+- [ ] **S636-7** — FATBABY: 8-K Item 4.02 non-reliance + Item 3 legal-proceedings classifier on secwatch's filings.
+- [ ] **S636-8** — FATBABY `ipo-watcher` (S-1/F-1/424B) and CIK-only watchlist entries (unlisted / OTC / pre-IPO).
+- [ ] **S636-9** — FATBABY `cmd/newsletter`: edition + movers + litigation digest via `internal/notify`; double opt-in,
+  one-click unsubscribe, postal address, send log; archive auto-published, email behind an approve step at first.
