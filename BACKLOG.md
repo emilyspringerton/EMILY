@@ -54032,7 +54032,11 @@ unlisted tickers"; "we need to find places to track fraud lawsuits via fatbaby".
   (bot play only). The real wotan.okemily.com deploy is blocked: the session's AWS key is rejected and there are no GKE credentials.
 - [ ] **S636-3** — accessibility fixes from the report: live-region text mirror for the wasm games, keyboard look for
   shankpit-460 web, touch notice, ARIA pass over 8 pages, WCAG AA contrast measurement, one real screen-reader session.
-- [ ] **S636-4** — Slack connector for the session (founder: "that can be part of the way this works").
+- [x] **S636-4a** — WoW -> Slack: the rock (Hrungnir) reports after every save through `forge watch` +
+  `FORGE_SLACK_WEBHOOK` (`forge rockreport`, PARENA mod `stdlib/collection/rockreport.prn`, memory in
+  `FORGE_DIR/rock_memory.lua`); forge 130/130, test-reflux-wow green (PARENA 55f2256). Not tried on a real workspace.
+- [ ] **S636-4** — Slack connector for the Claude session (claude.ai/customize/connectors, then a new session).
+- [ ] **S636-12** — PARENA HTTPS client to replace the curl stopgap in `scripts/forge.sh` (Slack post).
 - [x] **S636-5** — PRRJECT_FATBABY explored: `docs/FATBABY_EXPLORATION_2026-11-15.md` (fraud-lawsuit sources, CIK-only /
   pre-IPO tracking, newsletter primitives). Read-only; nothing built in FATBABY.
 - [ ] **S636-6** — FATBABY `cmd/litigation-watcher`: keep what `internal/prspam` rejects (~12% of PR Newswire headlines are
@@ -54052,3 +54056,17 @@ unlisted tickers"; "we need to find places to track fraud lawsuits via fatbaby".
   env var there, mints a 2-hour Pages-only token, deploys; `-Site ..\OKEMILY` for okemily). Not run yet.
 - [ ] **S636-9** — FATBABY `cmd/newsletter`: edition + movers + litigation digest via `internal/notify`; double opt-in,
   one-click unsubscribe, postal address, send log; archive auto-published, email behind an approve step at first.
+
+## SECTION 637 — Founder real-time 2026-11-15: SHANK SHELL, an Electron killer (Chromium as glue, PARENA first, mods first)
+
+Founder: "lets ensure our shank client works from SPGF for a full stripped down real browser parena first mods first
+pragmatic chromium is the glue think about an electron killer". Design: `docs/SHANK_SHELL_DESIGN_2026-11-15.md`.
+Open question: what "SPGF" is (not found in any repository).
+
+- [ ] **S637-1** — `stdlib/shell/shell_apps.prn` (mod: apps, entry, window, capabilities) + `shell_rules.prn` (browser
+  search order, flags, MIME types).
+- [ ] **S637-2** — launcher: loopback server on PARENA `net/http_server.prn`, browser lookup + `--app` launch, exit with the
+  window; Linux + Windows; tested under Xvfb with the box's Chromium.
+- [ ] **S637-3** — first app: the WOTAN Arcade bundle; second: the SHANKPIT web client (pending "SPGF").
+- [ ] **S637-4** — native bridge: per-app capabilities from the mod, per-launch secret, off by default.
+- [ ] **S637-5** — Pellegrino fallback page; then no browser at all through the PARENA wasm host (with S635-4).
