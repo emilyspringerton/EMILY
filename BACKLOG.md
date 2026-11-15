@@ -54070,3 +54070,40 @@ Open question: what "SPGF" is (not found in any repository).
 - [ ] **S637-3** — first app: the WOTAN Arcade bundle; second: the SHANKPIT web client (pending "SPGF").
 - [ ] **S637-4** — native bridge: per-app capabilities from the mod, per-launch secret, off by default.
 - [ ] **S637-5** — Pellegrino fallback page; then no browser at all through the PARENA wasm host (with S635-4).
+
+## SECTION 638 — Founder real-time 2026-11-15: ship IDUNA with no cloud, EmilyOS on an Alpine Pi, buffs, SPGF console
+
+Founder, in order: "ship new iduna" / "we need esports and stats up asap i want the full wotan games suite available and we
+need to start tracking and training bots asap for our various esports leagues" / "ensure we ship with bazel" / "can we get
+matchmaking and bot queues up for our wotan arcade?" / "lets all get this running as emily os for raspi model 3 b 1.2 base it
+on alpine" / "a game console/game server/edge node" / "a generic internet cashing and acceleration layer" / "cache files there
+so we dont blow up our phone data" / "it needs to ship into bedrock racers at the top of a megapark style ramp park ...
+minecraft style procedural skatepark ... tracks and loops" / "basic environment functionality ... a window with a chat pane
+like world of warcraft ... a ui layer like world of warcraft ... the world is the world just like shankpit has it now ...
+settings ... reflux parena first ... SPGF based github.com/garyredg/SPGF" / "basic buff macros for all the classes" /
+"WOTAN Arcade this site needs to link to the github source". (session claude-session_01VwZYJZrv2q47k9ASt5NRGa)
+
+**Found:** GCP billing for the project is CLOSED: every IDUNA `deploy.yml` run since 2026-11-04 fails with Cloud Build 403
+("billing account ... disabled in state closed"). That is why GKE (okemily.com, WOTAN stats, esports) is down. Human-only fix.
+
+- [ ] S638-1 **Founder: re-enable billing on the GCP project** (Google Cloud console → Billing), then re-run IDUNA deploy.yml.
+- [x] S638-2 IDUNA run-anywhere release: `release.yml` (Linux, Windows, static arm64 zips + GHCR image, Release on main),
+      `wotan_site.go` (IDUNA serves the WOTAN arcade on :8090 with /api/ in-process), smoke + real 2-engine matchmaking test.
+- [ ] S638-3 Merge IDUNA + WOTAN `claude/happy-dijkstra-gh5k1x` to main so release.yml cuts the first GitHub Release.
+- [ ] S638-4 Pre-existing red on IDUNA main: 10 handler tests expect 25 guest/draft tickets, code grants 1 — decide which is right.
+- [ ] S638-5 DEADWEIGHT `web/src/sso.ts`: off okemily.com sign in at the page's own `/api/v1/auth/sso/login` (WOTAN iduna-sso.js rule).
+- [ ] S638-6 EmilyOS Alpine Pi image (`packaging/alpine-pi`, `alpine-pi.yml`): green build + QEMU `EMILYOS READY`; then real Pi 3 B.
+- [ ] S638-7 STOPGAP replacements: squid (HTTP cache) and dnsmasq (DNS cache) on EmilyOS → PARENA-native edge cache
+      (content-addressed, game-asset aware, prefetch for phones on the Pi's access point).
+- [ ] S638-8 STOPGAP replacement: the Pi console is Chromium in cage → the SPGF-based native console (next item).
+- [ ] S638-9 SPGF-based console environment (REFLUX + PARENA first): core modules = window, chat pane (WoW-style chat frame),
+      UI layer (WoW-style frames/addons — SPGF packages/ui has wow_api.h/addon_toc.h), the world (SHANKPIT's), settings.
+      Scope against garyredg/SPGF (a Bazel rebuild of the SHANKPIT engine; docs/SHANKPIT_OS_NORTHSTAR.md, PARENA_GAPS.md).
+- [ ] S638-10 Bedrock Racers MEGAPARK: procedural blocky skatepark (drop-in mega ramp, halfpipes, quarter pipes, loops, a race
+      track), spawn at the top of the mega ramp; needs surface-following physics on curved ramps in `stdlib/bedrockracers`.
+- [ ] S638-11 SHANKPIT BROWSER on PELLEGRINO (Bazel, config file, text-streaming mode, W3C WebDriver server, arcade home, CI zips).
+- [ ] S638-12 Esports leagues: bot tracking + training for the arcade games (shankpit-460 bots, Bedrock Racers bots) on the
+      run-anywhere IDUNA; persist shankpit-460 results (stats pass) so a ladder exists.
+- [x] S638-13 WoW MacroSync buff macros for every class + a Warlock set (PARENA 605fc07).
+- [x] S638-14 WOTAN Arcade artifact links its GitHub sources (WOTAN, PARENA per game, IDUNA).
+- [ ] S638-15 PARENA C bug: `(= s "lit")` on Strings emits a pointer comparison (`ext == "wasm"`); emit a string compare.
