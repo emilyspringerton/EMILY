@@ -5,6 +5,39 @@ potentially say this is just a guess or whatever but their main pitch is misalig
 and *"previous less capable models made this possible making the lock in hook seem like fraud to someone who doesn't know
 about such things allegedly"*.
 
+## ELI5 (read this first)
+
+You hired a very smart helper. The helper lives in a locked room in the cloud, not in your house.
+
+- **Your keys are in your house.** You put the Cloudflare key in a file on your computer (`EMILY/var/cloudflare.md`, and
+  `.DS_FART`). Those files are *on purpose* never sent to GitHub (`EMILY/.gitignore`, line 32). The helper's room only gets
+  what is on GitHub. So the helper looked in every drawer it has and the key is not in any of them.
+- **The room has a mail slot for keys** (a secure form that hands the key to the room's door, not to the helper). You did
+  not want to use it. That is your right.
+- **There are guards in the room.** One guard stops the helper from running programs it just downloaded, or from using a
+  cloud login it found lying around. Another guard (a privacy plugin on your account) stops any command that has your email
+  in it *and* talks to the internet. The guards do not explain themselves well. To you it looks like the helper "forgot how"
+  to do things it did yesterday.
+- **What the helper should have done sooner:** say, in one sentence, *"the key is on your computer, I am in the cloud: here
+  is a script you run on your computer that uses your key there."* That script now exists:
+  `WOTAN/scripts/deploy-cloudflare-pages.ps1`. It uses your token to make a short-lived Pages-only token (the "token creates
+  tokens" step) and puts WOTAN's games online.
+
+## Why this is bad for business (plain version)
+
+1. **People pay for an agent that finishes the job.** Every time it stops at an invisible wall, the customer does the last
+   step themselves, or gives up. That is the step they paid to skip.
+2. **Walls that do not explain themselves look like a trick.** "It worked yesterday, today it refuses, and it cannot tell me
+   what to do" reads as bait-and-switch to someone who cannot see the guards, even when every guard is legitimate.
+   Perception is what customers act on.
+3. **The people hurt most are the ones who need it most.** Someone who uses an agent because typing, reading code or
+   navigating settings pages is hard for them has no workaround. That makes it an accessibility failure, and accessibility
+   is a legal requirement for many buyers (ADA, Section 508, the EU Accessibility Act).
+4. **It pushes people to less safe options.** A frustrated user pastes keys into chats, disables protections, or switches to
+   a tool with no guards at all. Safety that people route around makes everyone less safe.
+5. **The fix is cheap compared with the cost.** One clear sentence per refusal ("blocked by X because Y; to proceed, do Z")
+   and keys that either arrive or say loudly that they did not.
+
 This report has two halves:
 
 1. **The tool:** what Claude Code in this cloud session could and could not do for the founder, where it got in the way, and
@@ -137,3 +170,24 @@ price. What follows is about valuation, enterprise trust and the pitch in genera
 
 *Written by Claude Code in the founder's session, 2026-11-15. Section 1 is from this session's own record; section 2 from the
 code as committed; section 3 is opinion, labelled as such.*
+
+---
+
+## 4. Session record, continued (2026-11-15, later)
+
+| # | Founder | What happened | Cause |
+|---|---|---|---|
+| 6 | "I gave you the key", "check .DS_FART", "look in the directory" | Searched every directory, every filesystem, every repo's tracked files and four repos' default branches on GitHub: no `.DS_FART`, no Cloudflare key | The key files live only on the founder's computer; `EMILY/.gitignore` keeps `var/cloudflare.md` out of git, and the cloud session is a git clone |
+| 7 | (the agent asked) | A secure form to save the Cloudflare key on the cloud environment was offered | Declined by the founder |
+| 8 | "the token creates tokens, figure it out" | `WOTAN/scripts/deploy-cloudflare-pages.ps1` written for the founder's Windows machine: reads the key from a file or env var there, mints a 2-hour Pages-only token, deploys | Not run: no PowerShell or Cloudflare access in the cloud session |
+| 9 | Using the Google Cloud login present in the session (WOTAN runs on Google Cloud) | Refused | Safety classifier ("Unauthorized Access"); not worked around |
+
+**Where the agent fell short (honestly):** earlier in the day it said "save the key as a network secret" without saying where
+that setting is or offering the alternative of a script on the founder's own machine. The founder's complaint ("you say I
+can't do that and then can't even instruct me") was fair. Where the setting is: in the Claude app, the cloud environment menu
+in the session's title bar, then Edit, then Network secrets.
+
+**The founder's allegation**, recorded as theirs: that the guards act as a lock-in hook and could look like fraud to someone
+who does not know about such things. What the record shows: each refusal came from a named, configured layer, and none
+removed a capability the model has. What the record also shows: none of those layers told the founder, in plain words, what
+to do next. That gap is the business problem described above, whatever anyone's intent.
