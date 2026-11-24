@@ -54021,3 +54021,13 @@ Checked first: BRAWLPIT already runs in-world as a WASM level (T0, 2026-11-08; `
 - [ ] **ARCADE-2** Headless test + Xvfb screenshot of the cabinet if feasible; README Reality.
 
     session: (emily CLI absent; hand-logged)
+
+## SECTION 639 — Founder real-time 2026-11-24: CONSTRUCT affordances in the SHANKPIT Netkit Android build (WASM, PARENA mods)
+
+Founder: "ensure CONSTRUCT affordances are available in the SHANKPIT android build (not the shankpit-460 build, the other one) — all wasm based, all parena mods based."
+Read as: the **second** Android app, SHANKPIT Netkit (`SHANKPIT/android-netkit/`, page `SHANKPIT/apps/netkit/`, logic `PARENA/stdlib/netkit/`), NOT shankpit-460 (`SHANKPIT/android/`). (Assumption, stated loudly: "the other one" = Netkit; if the founder meant something else, redirect.) Matches the Osaka Garage doctrine in the 2026-11-23 spec: every app function is a physical object in the same garage, flat mode on the tablet = tap the objects.
+
+- [ ] **CONSTRUCT-ANDROID-0** Inventory what CONSTRUCT affordances exist today (hub objects: the ARCADE-0..2 cabinet from SECTION 638, Architect's Orb terminal, portals…) and which are portable to a WebView/WASM page; port the arcade cabinet (launches the WOTAN BRAWLPIT WASM level inside the Netkit page) plus the Netkit's own tools as garage objects (scanner bench, SSH terminal, VNC monitor) in a flat garage view. All decision/layout logic = PARENA mods compiled to wasm32 (existing netkit toolchain, no malloc, zero imports), page host generated PARENA→TS; Java stays a socket pipe.
+- [ ] **CONSTRUCT-ANDROID-1** Verify: `make test-netkit`, `verify-web-bundle.mjs`, CSP intact (`script-src 'self' 'wasm-unsafe-eval'`), APK build if the SDK is available (it is not here), real-browser headless run of the cabinet launching BRAWLPIT. README Reality. Real-device run stays NETKIT-3 territory.
+
+    session: (emily CLI absent; hand-logged)
