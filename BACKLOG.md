@@ -54009,3 +54009,14 @@ Checked first: SHANKPIT lobby binds `1..9` to weapons today (1–6 arsenal, 7 fl
 - [ ] **BAR-2** Verify (PARENA tests, C round-trip, Xvfb screenshot if feasible), README Reality, golden-doc check. Open: wheel conflicts (zoom vs Minecraft-style hotbar scroll) — resolved as Alt+wheel cycles the bar, plain wheel stays zoom.
 
     session: (emily CLI absent; hand-logged)
+
+## SECTION 638 — Founder real-time 2026-11-24: arcade machine affordance in SHANKPIT → launches WOTAN BRAWLPIT via WASM
+
+Founder: "ensure we have an arcade machine affordance in SHANKPIT; ensure there is a menu option outside of survival for CONSTRUCT that has a machine and it launches the WOTAN BRAWLPIT via WASM."
+Checked first: BRAWLPIT already runs in-world as a WASM level (T0, 2026-11-08; `docs/T0_LEVEL_WASM_CONTRACT.md`, `apps/lobby/src/level_shell.c`, `packages/wasm_host/`, PARENA `stdlib/shankpit/level_manager_rules.prn`), but only via the Shift+M chord (booted in front of ZOMBIES). `TYLER_SCENE_CONSTRUCT` hub exists; no arcade-machine object and no menu entry that goes to CONSTRUCT outside SURVIVAL.
+
+- [ ] **ARCADE-0** Menu entry (not inside SURVIVAL) that starts the CONSTRUCT hub; the hub contains a physical arcade cabinet (Osaka Garage doctrine: a button with no object behind it does not exist) that you walk up to and press F on.
+- [ ] **ARCADE-1** F on the cabinet launches the WOTAN BRAWLPIT WASM level through the existing level manager (rules decision in PARENA first); leaving returns you to the hub in front of the cabinet.
+- [ ] **ARCADE-2** Headless test + Xvfb screenshot of the cabinet if feasible; README Reality.
+
+    session: (emily CLI absent; hand-logged)
