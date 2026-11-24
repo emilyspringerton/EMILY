@@ -54031,3 +54031,14 @@ Read as: the **second** Android app, SHANKPIT Netkit (`SHANKPIT/android-netkit/`
 - [ ] **CONSTRUCT-ANDROID-1** Verify: `make test-netkit`, `verify-web-bundle.mjs`, CSP intact (`script-src 'self' 'wasm-unsafe-eval'`), APK build if the SDK is available (it is not here), real-browser headless run of the cabinet launching BRAWLPIT. README Reality. Real-device run stays NETKIT-3 territory.
 
     session: (emily CLI absent; hand-logged)
+
+## SECTION 640 — Founder real-time 2026-11-24: PROP plane feel + controller + WoW-style key binding (3 binds/action)
+
+Founder: "the PROP plane is super jank can we make it behave more like a real flight simulator its super floppy currently ensure it has nice controls for the controller and we also need full wow like key binding mode with up to 3 key binds per operation such as activating the action bar, remap interact (F) etc"
+
+- [ ] **FLIGHT-0** C-110 (SHANKPIT/packages/simulation/airplane_flight.h + PARENA/stdlib/shankpit/airplane_rules.prn) handles like a flight sim: stick-to-attitude with proper damping, stability, trim, throttle lever, flaps/gear/brakes, stall, bounded rates; physics decisions in PARENA mod. Headless test of damping/no-oscillation/trim/stall.
+- [ ] **FLIGHT-1** Gamepad support for flying (SDL GameController): stick pitch/roll, triggers/shoulder for throttle/rudder, deadzone + response curve + invert-Y options, button map.
+- [ ] **KEYBIND-0** WoW-style keybinding mode: up to 3 binds per operation, rebind UI, conflict handling, persisted; PARENA-first (decision logic in a mod, `PARENA/stdlib/shankpit/keybind_*.prn`); covers action bar activation, interact (F), vehicle ops, camera; must coexist with the action-bar plugin bind (SECTION 637) and player-bind precedence.
+- [ ] **KEYBIND-1** Verify with headless tests; Apple before [x]; README/CHANGELOG.
+
+    session: (emily CLI absent; hand-logged)
