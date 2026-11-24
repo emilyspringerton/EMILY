@@ -53985,3 +53985,15 @@ here), logged here instead.
 - NETKIT note: "clone down PARENA / let them finish and then do a rewrite" was sent after the PARENA-first app was already built and pushed (PARENA is cloned at MONOREPO/PARENA). The stopped agents' hand-written Java v0 was never committed and was deleted; the workflow can be resumed if a Java v0 is still wanted.
 
     session: (emily CLI absent on this box; hand-logged)
+
+## SECTION 636 — Founder real-time 2026-11-24: unify REDGARDEN + SHANKPIT camera/movement (WoW zoom-to-first-person)
+
+Founder: "bring together the REDGARDEN and SHANKPIT paradigms: in REDGARDEN you zoom in and out with the mousewheel like WoW and when you zoom all the way in it's first person just like SHANKPIT, therefore we unify it all. SHANKPIT gets optional click-to-move just like WoW, and the same zoom in/out — zoom out to go into third person."
+Checked first: REDGARDEN `apps/arena/src/main.c` already has an orbit camera (`cam_dist` 4–30, wheel zoom, right-drag orbit, `cam_locked`) + click-to-move; SHANKPIT `apps/lobby` has first/third-person as a V toggle (`p->third_person`, fixed `THIRD_PERSON_CAM_DIST` 6, wall-clip + aim-bridging in `packages/common/third_person.h`) and WASD/mouselook, no click-to-move.
+
+- [ ] **UNIFY-0** Shared pure-C zoom-camera model (`zoom_cam.h`: zoom arm → first-person below a threshold, smooth distance/eye-height/pitch blend, wall-clip reuse) with a headless test. Lives in `SHANKPIT/packages/common/`, copied into `REDGARDEN/packages/` (monorepo repos are separate; no shared include path).
+- [ ] **UNIFY-1** REDGARDEN arena: wheel-zoom all the way in = first-person (mouselook, hero body hidden); zoom out returns to the orbit/MOBA view; click-to-move still works when zoomed out. Open: what click-to-move/attack means in first person.
+- [ ] **UNIFY-2** SHANKPIT lobby: wheel replaces the V toggle (V kept as a snap); zoom out = third person; optional WoW-style click-to-move (setting, default off; right-click or left-click-to-move over terrain, WASD cancels), server stays authoritative.
+- [ ] **UNIFY-3** Verify (headless tests; real windowed screenshot if Xvfb works), README Reality updates in both repos, golden-doc check.
+
+    session: (emily CLI absent on this box; hand-logged)
