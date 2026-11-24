@@ -53962,13 +53962,22 @@ here), logged here instead.
 
 ## SECTION 635 — Founder real-time 2026-11-24: Netkit app + Google Drive sync
 
-- [~] **NETKIT-0** — second Android app in SHANKPIT (`SHANKPIT/android-netkit/`, separate from the shankpit-460 APK): network scan, SSH, view-only VNC, per the founder's VNC-client affordances doc.
-  **Founder real-time 2026-11-24: "ensure its all parena based mods first dev"** → redirected mid-build from hand-written Java
-  (agents stopped; Java `core/` demoted to a thin host) to the monorepo's PARENA-first convention (`shankpit460`/BRAWLPIT web):
-  logic = PARENA → LLVM → wasm32 (no malloc, zero imports, fixed memory map), page host = PARENA → TypeScript, Java = socket pipe only.
-  Modules in `PARENA/stdlib/netkit/`: N1 scan planner/device table, N2 VNC (DES + RFB view-only), N3 SSH (PARENA-native: x25519,
-  chacha20-poly1305, sha256, transport; **PARENA has no I64 so field math uses 8-bit limbs in I32**), N4 terminal (reuse `gfd/term`),
-  N5 page host + thin Java shell. Until N3 lands, SSH transport is a labelled STOPGAP (JSch/libssh2) behind the same module boundary.
+- [x] **NETKIT-0** — SHANKPIT Netkit, a second Android app (`SHANKPIT/android-netkit/`, page in `SHANKPIT/apps/netkit/`, separate from the shankpit-460 APK): scan the LAN, SSH terminal, view-only VNC.
+  **Founder real-time 2026-11-24: "ensure its all parena based mods first dev"** — redirected mid-build from hand-written Java (those files deleted):
+  the logic is PARENA → LLVM → wasm32 (no malloc, zero imports, fixed memory; `PARENA/stdlib/netkit/`), the page host is PARENA → TypeScript → the
+  generated `nk-host.js`, and the Java (`shell/`, `app/`) is a socket pipe that never interprets a byte. No libssh2, no JSch, no hand-written JS.
+  PARENA gaps were closed in PARENA (no I64 → 8-bit-limb X25519/Ed25519 + SHA-512 over I32 pairs; no SSH-suitable terminal → `term/nk_term.prn`).
+  Verified headlessly vs a real OpenSSH 9.6 `sshd`, asyncssh, libvncserver and headless Chromium under the app's CSP: 488 checks in
+  `make test-netkit` (402 modules, 65 Node end-to-end of the generated page, 21 real-browser incl. pixel-exact canvas) + 16 JVM tests; the APK builds
+  (117 KB) with assets byte-identical to the vendored bundle. Commits: PARENA a917995/81d1abf (+ the series before), SHANKPIT b633e85, GOLDEN_DOCS 8f7fabf.
+  Golden doc `NETKIT-NORTH` (`SHANKPIT/docs/NETKIT_NORTHSTAR.md`) registered. **NOT yet run on a real tablet / router Pi / iMac** (no device or emulator
+  here) — that is NETKIT-3. Apple pending (the `emily` CLI is not installed on this box). Kanban card not filed (IDUNA unreachable from this box).
+- [ ] **NETKIT-1** — VS0 deliverable 1: `setup.bat` for the iMac (Windows 10 Home): install TightVNC as a service, open the firewall, set the password, write `vnc-log.txt`. Not started.
+- [ ] **NETKIT-2** — VS0 deliverable 2: router Pi on 64-bit Ubuntu — one idempotent script: Wi-Fi AP with the phone hotspot's SSID/password (2.4 GHz), DHCP + NAT over USB tethering, fixed address for the iMac. Not started. (Written in PARENA/`stdlib/shell.prn` where it can be; a labelled stopgap otherwise.)
+- [ ] **NETKIT-3** — the real-device pass: install `ShankPit_Netkit_<build>.apk` on the tablet; soft-keyboard typing, Back, rotation, Keystore store, scan on the real LAN (ARP is blocked on Android 10+), SSH into the Pi, VNC the iMac (TightVNC-for-Windows is a different server from libvncserver). Fix what it finds.
+- [ ] **NETKIT-4** — VNC Tight/ZRLE encodings (needs zlib inflate + JPEG in PARENA — its own modules first, per the PARENA-first rule); cursor-shape pseudo-encoding.
+- [ ] **NETKIT-5** — SSH public-key auth (ed25519 keys; the signing half of `nk_ed25519.prn`), more kex/ciphers if a real server needs them; NetBIOS/mDNS names for Windows PCs; a phone-size terminal.
+- [ ] **NETKIT-6** — the founder's later stages as PARENA modules: packet capture + Tap Pi (`stdlib/pentest/pcap.prn` exists), pager/Pi Zero W alerts, stream deck, AR/Quest (Osaka Garage doctrine); answer the module-interface question first.
 - [x] **DRIVE-SYNC-0** — founder: "sync all of this to google drive via a colab script". `scripts/monorepo_drive_sync.ipynb`: mounts Drive, clones/ff-pulls MONOREPO + sub-repos into `MyDrive/MONOREPO`, token via Colab Secrets. Not yet run by the founder.
 
     session: (emily CLI absent on this box; hand-logged)
