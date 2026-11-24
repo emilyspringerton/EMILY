@@ -54069,3 +54069,14 @@ Founder: "ensure we have basic items that we can pick up that are affordances fo
 - [ ] **ITEM-2** Host glue: world pickup objects drawn + prompt (interact key via keybinding SECTION 640), held item, use action, placed in the default sandbox/CONSTRUCT desk; headless tests. Apple before [x]; README/CHANGELOG.
 
     session: (emily CLI absent; hand-logged)
+
+## SECTION 644 — Founder real-time 2026-11-24: SHANKPIT rigid body playground (PARENA mods, gravity gun, materials)
+
+Founder: "lets beef up the SHANKPIT rigid body system make a rigid body playground use PARENA mods see what affordances are programmed into PARENA and SHANKPIT but not programmed into the game such that it surfaces the value to the users implement basic box that can be moved around with gravity gun implement boxes of different materials and use material estimation such that it simulates real rigid body simulation"
+
+- [ ] **RB-0** Affordance audit: what physics/material/rigid-body/brick/debris/gravity capability is already in PARENA stdlib and SHANKPIT packages but not surfaced in the game (ledger: surfaced / not surfaced / why).
+- [ ] **RB-1** PARENA rigid-body mod(s): box rigid body (mass from volume x density, inertia tensor, restitution/friction by material pair, angular dynamics, sleeping, stacking stability), material table (wood, steel, concrete, rubber, foam, ice, glass...), "material estimation" (derive mass/inertia/friction/bounce/break threshold from material + dimensions).
+- [ ] **RB-2** Gravity gun: pick up, hold at distance, carry with spring, throw/punt, drop; mass-limited by material estimation; works with the keybinding system (SECTION 640) and pickup items (SECTION 643).
+- [ ] **RB-3** Rigid body playground level/scene: boxes of every material, ramps, stack towers, seesaw, scale, a material legend; reachable from CONSTRUCT hub and the sandbox. Headless tests (energy, stacking, mass ratios, material pairs). Apple before [x]; README/CHANGELOG.
+
+    session: (emily CLI absent; hand-logged)
