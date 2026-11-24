@@ -53998,3 +53998,14 @@ Checked first: REDGARDEN `apps/arena/src/main.c` already has an orbit camera (`c
 - [ ] **UNIFY-3** Verify (headless tests; real windowed screenshot if Xvfb works), README Reality updates in both repos, golden-doc check.
 
     session: (emily CLI absent on this box; hand-logged)
+
+## SECTION 637 — Founder real-time 2026-11-24: ACTION BARS (Minecraft hotbar + WoW bars), mods/arsenal-based, PARENA plugins
+
+Founder: "WE NEED ACTION BARS JUST LIKE MINECRAFT AND WOW COMBINED, OPTIONAL, IN SHANKPIT, MODS BASED, ARSENAL BASED. 1 2 3 4 5 6 7 8 9 0 should be bound to the SHANKPIT defaults but we should get mod keys just like WoW — all plugins based, PARENA based."
+Checked first: SHANKPIT lobby binds `1..9` to weapons today (1–6 arsenal, 7 flashlight, 8 hammer, 9 spraycan; `wpn_req` in `apps/lobby/src/main.c`), has an existing player-bind system (binds checked before built-ins, `/cast`), `MAX_WEAPONS` 10. No `0` binding, no bar UI, no modifier banks.
+
+- [ ] **BAR-0** PARENA mod `PARENA/stdlib/actionbar/` — slot model + resolution (key + modifier → bank/slot → action), default bar = today's SHANKPIT bindings (1–6 weapons, 7 flashlight, 8 hammer, 9 spray can, 0 free), WoW-style modifier banks (Shift/Ctrl/Alt + 1..0), plugin contract so other PARENA mods can contribute actions/arsenal entries; fixed-point/int ABI per mod convention.
+- [ ] **BAR-1** SHANKPIT host glue: draw the bar (optional, setting; default hotkeys keep working with the bar hidden), click-to-activate, cooldown/ammo/selected state, hook into the existing bind system + `wpn_req`.
+- [ ] **BAR-2** Verify (PARENA tests, C round-trip, Xvfb screenshot if feasible), README Reality, golden-doc check. Open: wheel conflicts (zoom vs Minecraft-style hotbar scroll) — resolved as Alt+wheel cycles the bar, plain wheel stays zoom.
+
+    session: (emily CLI absent; hand-logged)
