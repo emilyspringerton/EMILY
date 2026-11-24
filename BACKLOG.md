@@ -54059,3 +54059,13 @@ Founder: "when we join the default zombie sandbox we hear the cop car and the ic
 - [ ] **VEH-VIS-0** Reproduce (headless server+client or sim test) and root-cause: audio loops in lobby main.c (~15759-15840) have no scene_id check while the draw loop (~16004) skips buggies whose scene_id != render_p->scene_id; also check server snapshot cap/flags, spawn height/anchor, cull/visibility. Fix, add a regression test (every sounding vehicle is also drawable: same scene/active predicate), verify local ZOMBIES and online (shankpit-zombie) paths.
 
     session: (emily CLI absent; hand-logged)
+
+## SECTION 643 — Founder real-time 2026-11-24: pick-up items as affordances (notebook, pencil, pencil sharpener, etc.)
+
+Founder: "ensure we have basic items that we can pick up that are affordances for notebook, pencil, pencil sharpener, etc"
+
+- [ ] **ITEM-0** Scout existing pickup/inventory/widget/affordance systems (inventory_mod, chest, widget_rules, phone, weapon slots, action bar SECTION 637, Osaka Garage "every affordance is a physical object").
+- [ ] **ITEM-1** PARENA mod `stdlib/shankpit/item_rules.prn` (integer ABI): item registry (notebook, pencil, pencil sharpener, + a small stationery/desk set: eraser, pen, ruler, scissors...), pick-up/drop/use decisions, combos (pencil + sharpener -> sharpened pencil; pencil + notebook -> writes a note; sharpener consumes pencil length), stackability, carry slots.
+- [ ] **ITEM-2** Host glue: world pickup objects drawn + prompt (interact key via keybinding SECTION 640), held item, use action, placed in the default sandbox/CONSTRUCT desk; headless tests. Apple before [x]; README/CHANGELOG.
+
+    session: (emily CLI absent; hand-logged)
