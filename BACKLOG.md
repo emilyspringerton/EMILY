@@ -54051,3 +54051,11 @@ Founder: "we need to get IDUNA up on VULTR i have to work on getting you a vultr
 - [ ] **VULTR-0** Blocked on founder providing a Vultr API key. Then: plan IDUNA deploy on Vultr (compute + Postgres/SQLite persistence, DNS, secrets), sprint cards, deploy.
 
     session: (emily CLI absent; hand-logged)
+
+## SECTION 642 — Founder real-time 2026-11-24: zombie sandbox — hear the cop car and ice cream truck, never see them
+
+Founder: "when we join the default zombie sandbox we hear the cop car and the ice cream truck but i dont see any cop cars or ice cream trucks"
+
+- [ ] **VEH-VIS-0** Reproduce (headless server+client or sim test) and root-cause: audio loops in lobby main.c (~15759-15840) have no scene_id check while the draw loop (~16004) skips buggies whose scene_id != render_p->scene_id; also check server snapshot cap/flags, spawn height/anchor, cull/visibility. Fix, add a regression test (every sounding vehicle is also drawable: same scene/active predicate), verify local ZOMBIES and online (shankpit-zombie) paths.
+
+    session: (emily CLI absent; hand-logged)
