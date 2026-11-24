@@ -53959,3 +53959,16 @@ here), logged here instead.
 - [ ] **COV-3, COV-7..14** — per the spec.
 
     session: sess-20261113-1035-3e560903
+
+## SECTION 635 — Founder real-time 2026-11-24: Netkit app + Google Drive sync
+
+- [~] **NETKIT-0** — second Android app in SHANKPIT (`SHANKPIT/android-netkit/`, separate from the shankpit-460 APK): network scan, SSH, view-only VNC, per the founder's VNC-client affordances doc.
+  **Founder real-time 2026-11-24: "ensure its all parena based mods first dev"** → redirected mid-build from hand-written Java
+  (agents stopped; Java `core/` demoted to a thin host) to the monorepo's PARENA-first convention (`shankpit460`/BRAWLPIT web):
+  logic = PARENA → LLVM → wasm32 (no malloc, zero imports, fixed memory map), page host = PARENA → TypeScript, Java = socket pipe only.
+  Modules in `PARENA/stdlib/netkit/`: N1 scan planner/device table, N2 VNC (DES + RFB view-only), N3 SSH (PARENA-native: x25519,
+  chacha20-poly1305, sha256, transport; **PARENA has no I64 so field math uses 8-bit limbs in I32**), N4 terminal (reuse `gfd/term`),
+  N5 page host + thin Java shell. Until N3 lands, SSH transport is a labelled STOPGAP (JSch/libssh2) behind the same module boundary.
+- [x] **DRIVE-SYNC-0** — founder: "sync all of this to google drive via a colab script". `scripts/monorepo_drive_sync.ipynb`: mounts Drive, clones/ff-pulls MONOREPO + sub-repos into `MyDrive/MONOREPO`, token via Colab Secrets. Not yet run by the founder.
+
+    session: (emily CLI absent on this box; hand-logged)
