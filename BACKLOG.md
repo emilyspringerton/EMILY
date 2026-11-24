@@ -54042,3 +54042,12 @@ Founder: "the PROP plane is super jank can we make it behave more like a real fl
 - [ ] **KEYBIND-1** Verify with headless tests; Apple before [x]; README/CHANGELOG.
 
     session: (emily CLI absent; hand-logged)
+
+## SECTION 641 — Founder real-time 2026-11-24: IDUNA on VULTR + home dir ↔ Google Drive via Colab (ubuntu user)
+
+Founder: "we need to get IDUNA up on VULTR i have to work on getting you a vultr key ... home drive here syncs into google drive ... on colab we are ubuntu user, default is root, drive mounts as root ... write the colab skrip ... put it in skripts".
+
+- [x] **DRIVE-0** `scripts/colab_drive_home_link.py` written (mount Drive, sudo fallback when kernel is not root, Drive holds real data at MyDrive/ubuntu-home, ~/<name> and /content/<name> symlinks, non-destructive migration). Link/migrate logic tested locally on temp dirs (idempotent); the Colab mount + root/ubuntu permission path is UNTESTED (no Colab here). Apple pending (CLI absent).
+- [ ] **VULTR-0** Blocked on founder providing a Vultr API key. Then: plan IDUNA deploy on Vultr (compute + Postgres/SQLite persistence, DNS, secrets), sprint cards, deploy.
+
+    session: (emily CLI absent; hand-logged)
