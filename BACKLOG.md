@@ -54028,7 +54028,7 @@ Founder: "ensure CONSTRUCT affordances are available in the SHANKPIT android bui
 Read as: the **second** Android app, SHANKPIT Netkit (`SHANKPIT/android-netkit/`, page `SHANKPIT/apps/netkit/`, logic `PARENA/stdlib/netkit/`), NOT shankpit-460 (`SHANKPIT/android/`). (Assumption, stated loudly: "the other one" = Netkit; if the founder meant something else, redirect.) Matches the Osaka Garage doctrine in the 2026-11-23 spec: every app function is a physical object in the same garage, flat mode on the tablet = tap the objects.
 
 - [x] **CONSTRUCT-ANDROID-0** Inventory what CONSTRUCT affordances exist today (hub objects: the ARCADE-0..2 cabinet from SECTION 638, Architect's Orb terminal, portals…) and which are portable to a WebView/WASM page; port the arcade cabinet (launches the WOTAN BRAWLPIT WASM level inside the Netkit page) plus the Netkit's own tools as garage objects (scanner bench, SSH terminal, VNC monitor) in a flat garage view. All decision/layout logic = PARENA mods compiled to wasm32 (existing netkit toolchain, no malloc, zero imports), page host generated PARENA→TS; Java stays a socket pipe. DONE: bundle regenerated (LLVM 18.1.3 + node 24), vendored, verify-web-bundle passes (SHANKPIT 99092d2). (2026-11-26 tie-up; Apple pending -- emily CLI absent on this box; session: sess-20261103-0121-04484fc1)
-- [ ] **CONSTRUCT-ANDROID-1** Verify: `make test-netkit`, `verify-web-bundle.mjs`, CSP intact (`script-src 'self' 'wasm-unsafe-eval'`), APK build if the SDK is available (it is not here), real-browser headless run of the cabinet launching BRAWLPIT. README Reality. Real-device run stays NETKIT-3 territory. **2026-11-26:** make-test-netkit legs that can run here all pass incl. the Node e2e of the generated page 94/94 (after 3 harness fixes, PARENA 1ef5471); STILL UNRUN: both Chromium legs (no playwright), APK build (no SDK), device.
+- [x] **CONSTRUCT-ANDROID-1** Verify: `make test-netkit`, `verify-web-bundle.mjs`, CSP intact (`script-src 'self' 'wasm-unsafe-eval'`), APK build if the SDK is available (it is not here), real-browser headless run of the cabinet launching BRAWLPIT. README Reality. Real-device run stays NETKIT-3 territory. **2026-11-26:** make-test-netkit legs that can run here all pass incl. the Node e2e of the generated page 94/94 (after 3 harness fixes, PARENA 1ef5471); STILL UNRUN: both Chromium legs (no playwright), APK build (no SDK), device. **DONE 2026-11-26 (SECTION 646 session):** Chromium legs run for the first time (garage+arcade 18/18, page 25/25, PARENA 95034dd); APK builds lint-clean (SHANKPIT 258f993); real device stays NETKIT-3. (Apple pending -- emily CLI absent; session: sess-20261103-0121-04484fc1)
 
     session: (emily CLI absent; hand-logged)
 
@@ -54094,3 +54094,40 @@ State found: each repo had one unverified `wip` commit on `wip2` (2026-11-24) ca
 - Still open by design (not loose ends of the 11-24 build, but unstarted work): VEH-VIS-0 (SECTION 642), RB-0..3 (SECTION 644), NETKIT-1..10 device/CI items, VULTR-0 (needs a key).
 
     session: sess-20261103-0121-04484fc1 (emily CLI absent; hand-logged)
+
+## SECTION 646 — Founder real-time 2026-11-26: the tablet kit — seven drops + a quick win, CLEAN BUILDS FIRST before each
+
+Founder (new direction after the SECTION 645 tie-up), a staged plan for the SHANKPIT Netkit tablet app: Drop One the network scanner plus
+names ("This is the bacon ... Done when: you can open the app, scan, and see the Pi labeled by name"); Drop Two the Wi-Fi scanner (passive:
+name, signal, channel, security, channel congestion, signal-over-time graph); Drop Three the BLE scanner (live signal bar to walk toward a
+device, labels, Android nearby-device/location permissions); Drop Four the mapping engine (GPS dots outdoors, tap-on-floor-plan indoors, any
+scan source feeds one map, saved named/dated maps); Drop Five everyday tools (voice recorder, notebook, doodle pad, local-first); Drop Six
+SHANKPIT's WebAssembly build as a tab, offline, single-player/simulated first, touch controls checked; Drop Seven the in-game mirror (a
+simulated network/BLE world, the same scanner/map screens pointed at a simulated data source); Quick Win a USB/SD text-file writer via the
+Android file picker (exact filenames, LF default with CRLF option, drive + free space, FAT32/exFAT boot partition, the Notebook reuses it).
+Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/netkit`, logic in PARENA (`PARENA/stdlib/netkit`).
+
+- [x] **KIT-0 Clean builds first.** Android SDK 34 + Gradle 8.7 installed locally; the Netkit APK built here for the first time; every javac
+  and lint warning fixed and made fatal (`-Xlint:all -Werror`, lint `warningsAsErrors`), CI runs `:app:lintRelease`. SHANKPIT 258f993.
+  (Apple pending -- emily CLI absent on this box; session: sess-20261103-0121-04484fc1)
+- [x] **KIT-1 Drop One: scanner + names.** Maker table (14,052 IEEE prefixes / 84 makers, `oui.bin`), private-MAC note, mDNS + NetBIOS name
+  lookups (new `udpQuery` native call; NetBIOS also yields the MAC on Android 10+), name ranks, Pi badge + Pi-first (all nine Raspberry Pi
+  OUIs; three were missing), Name dialog with labels in the encrypted store. PARENA d261ff3 + 95034dd, SHANKPIT 1d9c1ce. Tests: names 60,
+  scan 62, page e2e 108, Chromium 25 + 18, JVM 19, lint clean. NOT YET: the done-when on the real tablet + real Pi (and avahi/Windows as
+  real responders -- avahi could not run in the sandbox). (Apple pending; session: sess-20261103-0121-04484fc1)
+- [ ] **KIT-1b** Drop One on the real tablet: install the APK, scan, confirm the Pi shows as Pi by name; record the tablet's Android version
+  (it decides whether ARP/MACs are visible). Founder hands-on.
+- [ ] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
+  exact names (no added `.txt`: create with `application/octet-stream`), LF default + CRLF option, drives + free space, save confirmation.
+  Text/line-ending decisions in PARENA; Java owns only the SAF calls. Clean build gate.
+- [ ] **KIT-2 Drop Two: Wi-Fi scanner.** `WifiManager.getScanResults` (passive; throttling and location permission named), PARENA:
+  channel from frequency, security from capabilities, congestion per channel, quietest-channel pick, signal history. Clean build gate.
+- [ ] **KIT-3 Drop Three: BLE scanner.** `BluetoothLeScanner`, BLUETOOTH_SCAN (neverForLocation) / location on <= 11; PARENA: advert
+  parsing (name, manufacturer data -> company id table), RSSI smoothing for the walk-toward bar, labels. Clean build gate.
+- [ ] **KIT-4 Drop Four: mapping engine.** One map model fed by any scan source; GPS mode + floor-plan tap mode; saved maps. Clean build gate.
+- [ ] **KIT-5 Drop Five: everyday tools** (recorder, notebook on top of KIT-QW files, doodle pad), local-first. Clean build gate.
+- [ ] **KIT-6 Drop Six: SHANKPIT tab** (bundle the existing wasm build, offline, local mode first, touch check). Clean build gate.
+- [ ] **KIT-7 Drop Seven: in-game mirror** (scanner data-source interface: real | simulated; the same screens inside the game). Clean build gate.
+
+    session: sess-20261103-0121-04484fc1 (emily CLI absent; hand-logged)
+
