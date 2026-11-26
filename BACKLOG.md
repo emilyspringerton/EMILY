@@ -54145,9 +54145,12 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
   maybe we can work with windows file sharing to do that job".** Honest constraint: SMB alone cannot start a service or open the firewall;
   that needs admin credentials + DCE/RPC svcctl (psexec-style), and Windows 10 Home's UAC remote restrictions filter local admin accounts
   over the network (LocalAccountTokenFilterPolicy), so the realistic path stays "run setup.bat once at the iMac" (NETKIT-1, already written).
-  - [ ] S0 credential-free probe: `stdlib/netkit/nk_smb.prn` sans-IO SMB2 NEGOTIATE (dialect, signing, GUID, time) + SESSION_SETUP with
+  - [x] S0 credential-free probe: `stdlib/netkit/nk_smb.prn` sans-IO SMB2 NEGOTIATE (dialect, signing, GUID, time) + SESSION_SETUP with
         NTLMSSP NEGOTIATE -> parse the CHALLENGE (NetBIOS/DNS computer + domain names, Windows version + build); SCARAB spec incl. a trace
         frozen from a real Samba server; PARENA->TS node CLI `nk-smb-probe` (live socket pump).
+        DONE: PARENA 2b1dded (smb_spec 59 specs, mutation-checked; live-Samba leg; full test_netkit.sh green), SHANKPIT
+        00d94d3 (Windows README: why SMB cannot start VNC on Win10 Home). NOT yet run against a real Windows PC.
+        (Apple pending -- emily CLI absent; session: sess-20261103-0121-04484fc1)
   - [ ] S1 the probe in the tablet page: "Windows" card for devices answering 445.
   - [ ] S2 authenticated SMB: MD4/MD5/HMAC-MD5 in PARENA (NTLMv2), SMB2 signing (HMAC-SHA256, AES-CMAC for 3.x), tree connect, list
         shares (srvsvc over IPC$), read/write a file (e.g. drop setup.bat + setup.conf onto a share).
