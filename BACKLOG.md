@@ -43,7 +43,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
     created and its login verified. `wotan` (vc2-1c-1gb, ord, 64.177.15.59) serves wotan.okemily.com, with `/api/` going to
     iam. Both answer 200 through Cloudflare. Secrets and rollback files are off-repo in the founder's `~/secrets`.
   - [ ] M2M agents (EMILY-PRIME, ...) via `/admin/agents`; then re-enable `emily observe` / kanban / Apples.
-  - [ ] Next (founder): the WOTAN games (DEADWEIGHT, GFD, ...) -- ask per game.
+  - [x] shankpit-460 web matchmaking live (WOTAN nginx WS fix b697f94), 2026-11-26 (sess-20261126-1643-452c2f1a)
+  - [x] Game box play.okemily.com (vhp-4c-8gb-amd $48/mo, reserved IP 144.202.54.81): shankpit-460 server + 9 bots, WOTAN ad1570a; SHANKPIT_TICKET_SECRET set on IDUNA, 2026-11-26
+  - [ ] shankpit-460 native client: default host play.okemily.com, ticket from IDUNA /api/v1/shankpit/ticket (stop shipping the secret in PLAY.bat)
+  - [ ] shankpit-460 server M2M agent so match results reach IDUNA
+  - [ ] Next (founder): GFD on the game box (/GFD/ws), then DEADWEIGHT, D2, REDGARDEN, bot models -- ask per game.
   - [ ] VKE path (later, per service): API key, cluster + `game` pool, Container Registry, Cloudflare token;
     then `platform/vultr/README.md` "Bring-up".
   - [ ] Rebuild all ~25 images → VCR: every `scripts/build-image.sh` + `.github/workflows` use `gcloud builds submit`
