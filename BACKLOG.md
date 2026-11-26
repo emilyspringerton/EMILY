@@ -54122,6 +54122,17 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
   DONE: curate reproduced all 14,052 lines and pack reproduced oui.bin byte for byte on the real registry; Python deleted; bundle rebuilt
   identical; test_oui_gen 17; full netkit suite incl. Chromium passes. PARENA 329ffb3 + e74853f, SHANKPIT 2eaa76e. Remaining non-PARENA
   code is platform only (markup, Java socket/UDP/storage pipe) and tests. (Apple pending; session: sess-20261103-0121-04484fc1)
+- [ ] **KIT-T Founder real-time 2026-11-26: "can we convert the tests from node and python to SCARAB and LADYBUG?"** The C-target
+  scarab/ladybug cannot build for wasm (no structs/enums/Fn/arenas in the LLVM emitter) and every Netkit module is wasm-only, so: a wasm
+  flavour of both (`PARENA/stdlib/scarab/wasm.prn`, `stdlib/firefly/ladybug_wasm.prn`, host `stdlib/scarab/host.prn`, runner
+  `scripts/scarab_wasm.sh`), specs compiled into the module they test, then port suite by suite and delete each Python/Node file.
+  - [x] T1 framework + self-test (`tests/scarab/run_self_test.sh`) + names (59) / scan (61) / oui_gen (18) specs; Python deleted;
+        mutation-checked. PARENA bed47e2. (Apple pending; session: sess-20261103-0121-04484fc1)
+  - [ ] T2 pure wasm suites: des, crypto, x25519, ed25519, garage (+ garage IR), term, rfb (scripted server; chunking).
+  - [ ] T3 interop suites (asyncssh, real OpenSSH, libvncserver): the third-party servers stay as fixtures; the driver and assertions move
+        to PARENA (a node-host socket pump, PARENA -> TS).
+  - [ ] T4 page e2e (host_e2e.mjs, 108) and the two Chromium legs: driver in PARENA (stdlib webdriver / node host); Chromium stays the
+        fixture.
 - [ ] **KIT-1b** Drop One on the real tablet: install the APK, scan, confirm the Pi shows as Pi by name; record the tablet's Android version
   (it decides whether ARP/MACs are visible). Founder hands-on.
 - [ ] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
