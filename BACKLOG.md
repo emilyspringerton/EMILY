@@ -54140,6 +54140,19 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
         fixtures; needs a resumable spec shape (wasm cannot block on a socket) + a PARENA -> TS node host that pumps TCP for the spec.
   - [ ] T4 page e2e (host_e2e.mjs 108 + test_host_e2e.py) and the two Chromium legs (25 + 18): driver in PARENA (stdlib webdriver or the
         node host); Chromium and the servers stay as fixtures. Then nkharness.py / nkservers.py / browser_bridge.py go.
+- [ ] **KIT-SMB Founder real-time 2026-11-26: "windows file sharing is open on 445 can we add tools to the netkit for exploring those
+  capabilities? parena first mods first ... maybe we can write the scripts we need to run to start our vnc server and open the firewall
+  maybe we can work with windows file sharing to do that job".** Honest constraint: SMB alone cannot start a service or open the firewall;
+  that needs admin credentials + DCE/RPC svcctl (psexec-style), and Windows 10 Home's UAC remote restrictions filter local admin accounts
+  over the network (LocalAccountTokenFilterPolicy), so the realistic path stays "run setup.bat once at the iMac" (NETKIT-1, already written).
+  - [ ] S0 credential-free probe: `stdlib/netkit/nk_smb.prn` sans-IO SMB2 NEGOTIATE (dialect, signing, GUID, time) + SESSION_SETUP with
+        NTLMSSP NEGOTIATE -> parse the CHALLENGE (NetBIOS/DNS computer + domain names, Windows version + build); SCARAB spec incl. a trace
+        frozen from a real Samba server; PARENA->TS node CLI `nk-smb-probe` (live socket pump).
+  - [ ] S1 the probe in the tablet page: "Windows" card for devices answering 445.
+  - [ ] S2 authenticated SMB: MD4/MD5/HMAC-MD5 in PARENA (NTLMv2), SMB2 signing (HMAC-SHA256, AES-CMAC for 3.x), tree connect, list
+        shares (srvsvc over IPC$), read/write a file (e.g. drop setup.bat + setup.conf onto a share).
+  - [ ] S3 remote start (svcctl create/start service) -- only works with the built-in Administrator or LocalAccountTokenFilterPolicy=1;
+        decide with the founder before building.
 - [ ] **KIT-1b** Drop One on the real tablet: install the APK, scan, confirm the Pi shows as Pi by name; record the tablet's Android version
   (it decides whether ARP/MACs are visible). Founder hands-on.
 - [ ] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
