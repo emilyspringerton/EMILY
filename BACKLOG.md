@@ -45,7 +45,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   - [ ] M2M agents (EMILY-PRIME, ...) via `/admin/agents`; then re-enable `emily observe` / kanban / Apples.
   - [x] shankpit-460 web matchmaking live (WOTAN nginx WS fix b697f94), 2026-11-26 (sess-20261126-1643-452c2f1a)
   - [x] Game box play.okemily.com (vhp-4c-8gb-amd $48/mo, reserved IP 144.202.54.81): shankpit-460 server + 9 bots, WOTAN ad1570a; SHANKPIT_TICKET_SECRET set on IDUNA, 2026-11-26
-  - [ ] shankpit-460 native client: default host play.okemily.com, ticket from IDUNA /api/v1/shankpit/ticket (stop shipping the secret in PLAY.bat)
+  - [ ] shankpit-460 native client: default host play.okemily.com port 4600, ticket from IDUNA /api/v1/shankpit/ticket (stop shipping the secret in PLAY.bat)
   - [ ] shankpit-460 server M2M agent so match results reach IDUNA
   - [x] GFD on the game box: MUD + server-go, wotan /GFD/ws -> play.okemily.com:8443, DRAGONSNSHIT-MUD agent secret issued, 2026-11-26 (sess-20261126-1643-452c2f1a)
   - [ ] GFD: play through in a real browser (claim a character, check the hat store sees it); backups for /srv/games/gfd/var
@@ -54,6 +54,8 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   - [ ] REDGARDEN native client: resolve hostnames (apps/arena + apps/arena_bot use inet_addr) and drop the self-minted test secret from CI's PLAY.bat (use --account)
   - [ ] REDGARDEN arena match reporting: the C reporter speaks plain HTTP to IDUNA, which is HTTPS-only now (web matches are recorded by the gateway)
   - [ ] Rotate match logs under /srv/games/*/var on the game box
+  - [x] OG SHANKPIT on the game box: queue server :6969, zombie :6968, 4 queue bots; shankpit.okemily.com repointed; shankpit-460 moved to :4600, 2026-11-26 (sess-20261126-1643-452c2f1a)
+  - [ ] OG SHANKPIT: confirm the queue bots fight (0 kills seen in 50 s) and play a real client through queue + zombies
   - [ ] Next (founder): DEADWEIGHT, D2, bot models on the game box -- ask per game.
   - [ ] VKE path (later, per service): API key, cluster + `game` pool, Container Registry, Cloudflare token;
     then `platform/vultr/README.md` "Bring-up".
