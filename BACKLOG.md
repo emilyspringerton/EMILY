@@ -38,8 +38,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
     (built from EDGE.GAME; its only image died with Artifact Registry) + logsync; hosts iam/apex/www proxied,
     webmaster.json first admin, secrets over SSH only. 7 tests vs fake APIs; compose YAML + `nginx -t` checked.
   - [x] WOTAN box: existing `WOTAN/ops/vultr` (`wotan-vultr`) unchanged except `/DEADWEIGHT/ws` + `/GFD/ws` → 503.
-  - [ ] Founder: Vultr API key + SSH key id, Cloudflare token, webmaster.json; run `iduna-vultr plan`, then
-    `apply --dns`; then `wotan-vultr apply --dns` with `WOTAN_IDUNA_UPSTREAM=https://iam.okemily.com`.
+  - [x] **Both boxes live, 2026-11-26** (founder approved $10 + $5/month). `iduna` (vc2-1c-2gb, ord,
+    137.220.58.252) serves iam/apex/www; root admin uid 0 seeded from webmaster.json; Back Office agent **HOUSE**
+    created and its login verified. `wotan` (vc2-1c-1gb, ord, 64.177.15.59) serves wotan.okemily.com, with `/api/` going to
+    iam. Both answer 200 through Cloudflare. Secrets and rollback files are off-repo in the founder's `~/secrets`.
+  - [ ] M2M agents (EMILY-PRIME, ...) via `/admin/agents`; then re-enable `emily observe` / kanban / Apples.
   - [ ] Next (founder): the WOTAN games (DEADWEIGHT, GFD, ...) -- ask per game.
   - [ ] VKE path (later, per service): API key, cluster + `game` pool, Container Registry, Cloudflare token;
     then `platform/vultr/README.md` "Bring-up".
