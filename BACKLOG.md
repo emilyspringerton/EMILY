@@ -54152,6 +54152,15 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
         00d94d3 (Windows README: why SMB cannot start VNC on Win10 Home). NOT yet run against a real Windows PC.
         (Apple pending -- emily CLI absent; session: sess-20261103-0121-04484fc1)
   - [ ] S1 the probe in the tablet page: "Windows" card for devices answering 445.
+  - Founder real-time 2026-11-26: "ok the netkit doesnt do anything per the windows file sharing yet can we get that working so we can explore
+    what files are being shared? parena mods based". -> S2 now, with S1 folded in (the tablet is the point):
+    - [ ] S2a MD4, MD5, HMAC-MD5, HMAC-SHA256 in PARENA (`nk_md.prn`), RFC vectors.
+    - [ ] S2b sign-in: NTLMv2 + MIC in SPNEGO (mechListMIC), anonymous/guest too; SMB 2.0.2/2.1 for the browse session (HMAC-SHA256
+          signing; 3.x signing needs AES-CMAC + the KDF -- named gap, later); verify signed replies.
+    - [ ] S2c share list: IPC$ + srvsvc DCE/RPC bind + NetrShareEnumAll (level 1), multi-fragment.
+    - [ ] S2d folders: TREE_CONNECT + CREATE dir + QUERY_DIRECTORY (all pages) + CLOSE; text preview of a file (READ, first 60 KB).
+    - [ ] S2e node CLI `netkit_smb_browse.sh`; spec (MS-NLMP 4.2.4 vectors + replay of a recorded real-Samba session); live-Samba leg.
+    - [ ] S2f tablet: "Files" on a device answering 445 -> sign in -> shares -> folders -> preview. Rebuild + ship the SHANKPIT bundle.
   - [ ] S2 authenticated SMB: MD4/MD5/HMAC-MD5 in PARENA (NTLMv2), SMB2 signing (HMAC-SHA256, AES-CMAC for 3.x), tree connect, list
         shares (srvsvc over IPC$), read/write a file (e.g. drop setup.bat + setup.conf onto a share).
   - [ ] S3 remote start (svcctl create/start service) -- only works with the built-in Administrator or LocalAccountTokenFilterPolicy=1;
