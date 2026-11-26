@@ -47,7 +47,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   - [x] Game box play.okemily.com (vhp-4c-8gb-amd $48/mo, reserved IP 144.202.54.81): shankpit-460 server + 9 bots, WOTAN ad1570a; SHANKPIT_TICKET_SECRET set on IDUNA, 2026-11-26
   - [ ] shankpit-460 native client: default host play.okemily.com, ticket from IDUNA /api/v1/shankpit/ticket (stop shipping the secret in PLAY.bat)
   - [ ] shankpit-460 server M2M agent so match results reach IDUNA
-  - [ ] Next (founder): GFD on the game box (/GFD/ws), then DEADWEIGHT, D2, REDGARDEN, bot models -- ask per game.
+  - [x] GFD on the game box: MUD + server-go, wotan /GFD/ws -> play.okemily.com:8443, DRAGONSNSHIT-MUD agent secret issued, 2026-11-26 (sess-20261126-1643-452c2f1a)
+  - [ ] GFD: play through in a real browser (claim a character, check the hat store sees it); backups for /srv/games/gfd/var
+  - [ ] WOTAN box: allow 443 only from Cloudflare ranges (CF-Connecting-IP is trusted for GFD's per-IP caps)
+  - [ ] Next (founder): DEADWEIGHT, D2, REDGARDEN, bot models on the game box -- ask per game.
   - [ ] VKE path (later, per service): API key, cluster + `game` pool, Container Registry, Cloudflare token;
     then `platform/vultr/README.md` "Bring-up".
   - [ ] Rebuild all ~25 images → VCR: every `scripts/build-image.sh` + `.github/workflows` use `gcloud builds submit`
