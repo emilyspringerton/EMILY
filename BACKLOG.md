@@ -54128,11 +54128,18 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
   `scripts/scarab_wasm.sh`), specs compiled into the module they test, then port suite by suite and delete each Python/Node file.
   - [x] T1 framework + self-test (`tests/scarab/run_self_test.sh`) + names (59) / scan (61) / oui_gen (18) specs; Python deleted;
         mutation-checked. PARENA bed47e2. (Apple pending; session: sess-20261103-0121-04484fc1)
-  - [ ] T2 pure wasm suites: des, crypto, x25519, ed25519, garage (+ garage IR), term, rfb (scripted server; chunking).
-  - [ ] T3 interop suites (asyncssh, real OpenSSH, libvncserver): the third-party servers stay as fixtures; the driver and assertions move
-        to PARENA (a node-host socket pump, PARENA -> TS).
-  - [ ] T4 page e2e (host_e2e.mjs, 108) and the two Chromium legs: driver in PARENA (stdlib webdriver / node host); Chromium stays the
-        fixture.
+  - [x] T2 pure wasm suites -> specs: des 6, crypto 16, x25519 11, ed25519 8 (RFC vectors literal; library answers frozen in
+        `tests/netkit/vectors/*.vec`), garage 45 (IR-interpreter leg dropped), term 84 (pyte screens frozen), rfb 84 (independent
+        Hextile encoder in PARENA; a two-colour image closed a foreground-register coverage gap the Python test had). All mutation-
+        checked. Found + fixed on the way: the PARENA lexer cut string literals at 4095 bytes (PARENA 3fa643e), so the 8160-byte terminal
+        font lost glyphs 128..254 in every wasm build using it; SHANKPIT nkterm.wasm rebuilt (a1c60d4). Full test_netkit.sh green incl.
+        both Chromium legs. PARENA bed47e2..651755b. (Apple pending; session: sess-20261103-0121-04484fc1)
+  - [ ] T2b rebuild the other term_font users so they carry the whole font: WOTAN BRAWLPIT web build (then SHANKPIT's brawlpit.wasm copy;
+        ask before pushing WOTAN main), D2, EMPIRE, REDGARDEN, shankpit-460 web builds.
+  - [ ] T3 interop suites (test_ssh_interop.py vs asyncssh, test_ssh_openssh.py, test_rfb_interop.py vs libvncserver): the servers stay as
+        fixtures; needs a resumable spec shape (wasm cannot block on a socket) + a PARENA -> TS node host that pumps TCP for the spec.
+  - [ ] T4 page e2e (host_e2e.mjs 108 + test_host_e2e.py) and the two Chromium legs (25 + 18): driver in PARENA (stdlib webdriver or the
+        node host); Chromium and the servers stay as fixtures. Then nkharness.py / nkservers.py / browser_bridge.py go.
 - [ ] **KIT-1b** Drop One on the real tablet: install the APK, scan, confirm the Pi shows as Pi by name; record the tablet's Android version
   (it decides whether ARP/MACs are visible). Founder hands-on.
 - [ ] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
