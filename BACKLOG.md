@@ -54303,3 +54303,21 @@ Founder: "Add trees to zombie survival modes for shankpit og engine and shankpit
 - [ ] **TREE-5** OG engine: trunk collision (trunks as map boxes or a physics hook) and barricades from wood, to match the wasm engine.
 - [ ] **TREE-6** More resources through the same mod (stone from rubble, scrap from cars), plus spending beyond barricades; zombies clawing barricades down (`barricade-max-hp` is already in the rules).
 - [ ] **TREE-7** Frame budget: wasm survival went from 7 to 10 ms a frame with the forest (GF task E5); try canopy LOD or culling at distance.
+
+## SECTION 654 — Founder real-time 2026-11-26: GoblinFoxDragon in the SHANKPHONE, toward a GUI MMO
+
+Founder: "Can we start building the affordances for a Goblin, Fox, Dragon GUI into the Shank Phone app ... let's have it be the basic with the SSO login, etc. But then give us some basic buttons for north, south, east, and west, and then give us some basic affordances for ... whatever you think we would need to start building GFD as a MUD into something that's more of a gui mmo experience". (sess-20261126-1643-452c2f1a)
+
+- [x] **GFDP-1** `PARENA/stdlib/netkit/nk_gfd.prn`: the MUD's text as GUI state (room, exits, creatures, vitals, prompts, a styled log); 20 buttons with enable rules and commands. gfd_spec 28/28 on live fixtures. PARENA 97f4bc0.
+- [x] **GFDP-2** The SHANKPHONE GFD screen (`nk_host_gfd.prn`, garage object 6): guest over TCP 2323; IDUNA sign-in via the system browser -> WOTAN `shankphone/sso.html` (WOTAN 0e6a5d3, deployed) -> `shankphone://sso` -> wss `/GFD/ws` (CSP + `GFD_WS_ORIGINS` on the game box). Browser 45/45 with a guest on the live MUD; `test_gfd_ws_live.py` passes against production. SHANKPIT 4d573f1.
+- [x] **GFDP-0 (found)** The live MUD crashed on `map` (nil zone in cmdMap). Fixed and deployed (GoblinFoxDragon 32d88ec).
+- [ ] **GFDP-3** Structured data from the MUD: a GMCP-style side channel (Room.Info, Char.Vitals, Room.Mobs, Char.Inventory) so the GUI stops parsing prose. A server change in `apps2/mud`, plus a decoder in nk_gfd.
+- [ ] **GFDP-4** Inventory and equipment panels (items as tiles, tap to equip / use / eat), the shop, the loot pool with Lot / Pass buttons.
+- [ ] **GFDP-5** A mini-map from `map`/`explore` (zones as nodes, you-are-here), plus party and chat panels (say / tell / linkshell; signed-in only).
+- [ ] **GFDP-6** Combat feel: target frame (HP bar and its state), floating damage numbers, a weapon-skill button that lights at 100 TP, sound.
+- [ ] **GFDP-7** Hardening:
+  - verified Android App Links (assetlinks.json on wotan) instead of the custom scheme;
+  - token refresh;
+  - reconnect;
+  - first-time name claim from a proper dialog;
+  - test on a real phone.
