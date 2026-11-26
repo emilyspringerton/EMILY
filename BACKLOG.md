@@ -54261,3 +54261,13 @@ Founder: "how can we ship the OG shankpit c client that we currently compile for
 - [ ] **SPHONE-7** More OG modes as level + mod sets on the same surface (ZOMBIES, QUEUE online through play.okemily.com:6969 needs a UDP bridge in the Java shell).
 - [ ] **SPHONE-8** Have the C client generate C from `survival_rules.prn` (as it does for chest_rules) so both clients share one source of truth.
 - Note: WOTAN's and `SHANKPIT/apps/shankpit-460`'s vendored shankpit460.wasm were not rebuilt. The hooks do not change the arena's behaviour; rebuild them on the next shankpit-460 drop.
+
+## SECTION 651 — Founder real-time 2026-11-26: GF, the SHANKPIT rewrite from release 460, plus a playground
+
+Founder: "if we're doing a rewrite start with shankpit 460 and add features from there it lines up with a specific release on github (tag 460) ... create the full plan for the rewrite so i can have freebuff work while you are down ... lets get the menu system survival mode queue mode and engine stuff figured out first ... clone down garyredg/SPGF ... a clean room PARENA rewrite ... set up like gary's mod where we have a playground and we can test out all the physics and affordances ... it should be like goat simulator ... push the fork to the new repo emilyspringerton/GF". (sess-20261126-1643-452c2f1a)
+
+- [x] **GF-0** SPGF pushed with its full history (+ the `460` tag) to emilyspringerton/GF; local `MONOREPO/GF`, Gary's remote kept as `gary`.
+- [x] **GF-1** `gf/` seeded: the PARENA 460 engine + SURVIVAL + the 460 C reference + tests; `scripts/gf_test.sh` green (parity 5e-7, engine 73, soak, survival 31). GF 6dadbf2.
+- [x] **GF-2** Plan of record `GF/docs/GF_REWRITE_PLAN.md` + `FREEBUFF.md` + `docs/QUESTIONS.md`; golden index row GF-REWRITE-PLAN. GOLDEN_DOCS not resynced: no checkout on this box.
+- [ ] **GF-M1..M5** Work proceeds from the plan's §8 (Milestone 1: one game, three modes → 2: native → 3: queue → 4: playground physics → 5: survival parity). The plan's task ledger is the tracker; tick there.
+- Note: SECTION 644 (RB-0..3) is absorbed by GF P0/P2/P3/P4. SECTION 650 SPHONE-4..8 continue in GF as A1/E4/S2-S6/Q.
