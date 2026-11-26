@@ -54156,6 +54156,13 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
         shares (srvsvc over IPC$), read/write a file (e.g. drop setup.bat + setup.conf onto a share).
   - [ ] S3 remote start (svcctl create/start service) -- only works with the built-in Administrator or LocalAccountTokenFilterPolicy=1;
         decide with the founder before building.
+- [ ] **REL-300 Founder real-time 2026-11-26: "i cant tell if the build is down i think it is the last build im seeing on shankpit is build 300".**
+  Confirmed down: no SHANKPIT release since v0.300.0 (2026-11-24 22:13); release.yml red on every push since 99092d2 at "Build SHANKPIT OS Apps
+  (Windows)". Cause: REDGARDEN 676c5e3 (UNIFY camera) made apps/arena need packages/simulation/camera_unify_mod.c; SHANKPIT's hand-copied
+  arena recipe lacked it (16 undefined cam_*/zoom_cam_*/click_move_* at link). Fix SHANKPIT d7c82cc (native link verified on a fresh REDGARDEN
+  checkout). Open until a green release (v0.301.0) is confirmed. Root issue (drift class, again): the recipe should call REDGARDEN's own
+  build_arena.sh source list instead of a copy. Pre-existing, separate: tests.yml "Destructible brick", deploy.yml image push.
+  (session: sess-20261103-0121-04484fc1)
 - [ ] **KIT-1b** Drop One on the real tablet: install the APK, scan, confirm the Pi shows as Pi by name; record the tablet's Android version
   (it decides whether ARP/MACs are visible). Founder hands-on.
 - [ ] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
