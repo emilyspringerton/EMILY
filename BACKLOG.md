@@ -54247,3 +54247,17 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
 
     session: sess-20261103-0121-04484fc1 (emily CLI absent; hand-logged)
 
+
+## SECTION 650 — Founder real-time 2026-11-26: ship OG SHANKPIT on Android as the SHANKPHONE's Survival button (PARENA first)
+
+Founder: "how can we ship the OG shankpit c client that we currently compile for windows can we bundle that into an android app as much PARENA power mods first as possible? we can build it right into the shankpit net kit the shankpit net kit can be the shankphone and the shankphone itself can have a button for survival that launches OG shankpit as a level and collection of mods". The OG client draws with desktop GL 1.x (180 glBegin blocks, 69 GL calls), and Android has only GLES. Options given: our own GL shim, gl4es as a stopgap, or a PARENA rewrite. **Founder chose: PARENA rewrite.** (sess-20261126-1643-452c2f1a)
+
+- [x] **SPHONE-1** Engine mod surface: `PARENA/stdlib/shankpit460/sp_mods.prn` (14 hooks, no-op in the arena; parity 5e-7, engine 73/73, soak ok). PARENA ee07efe.
+- [x] **SPHONE-2** SURVIVAL as a level + mods: `stdlib/shankpit/survival_rules.prn`, `stdlib/shankpit_survival/` (CITY from init_city_geo 7x7, waves, zombies, knife start + guns on roads + 35% drops, chest_rules chests, game over). 232 KB wasm, 0 imports; `tests/shankpit_survival_test.mjs` 31/31. PARENA ee07efe.
+- [x] **SPHONE-3** Netkit -> SHANKPHONE: label/brand; garage object 5 Survival; `nk_host_survival.prn` (stick, drag-look, buttons, menu taps); full screen on a sideways phone. garage_spec 48/48, browser garage 30/30, test_netkit.sh green; release APK 650 KB builds. SHANKPIT 25f8248.
+- [ ] **SPHONE-4** Play it on a real Android phone: frame rate in the WebView, multi-finger feel, look sensitivity (`nk-survival-look-per-100px`).
+- [ ] **SPHONE-5** Sound: play the engine's sound ring in the SHANKPHONE (port sp_host.prn's WebAudio player into the netkit host).
+- [ ] **SPHONE-6** Close deviations from the C client: zombie moods/hunger/classes (zombie_brain_rules.prn), the ring highway, a bigger city, 16 zombie slots, the missile launcher, flashlight, day/night, katana hitting chests.
+- [ ] **SPHONE-7** More OG modes as level + mod sets on the same surface (ZOMBIES, QUEUE online through play.okemily.com:6969 needs a UDP bridge in the Java shell).
+- [ ] **SPHONE-8** Have the C client generate C from `survival_rules.prn` (as it does for chest_rules) so both clients share one source of truth.
+- Note: WOTAN's and `SHANKPIT/apps/shankpit-460`'s vendored shankpit460.wasm were not rebuilt. The hooks do not change the arena's behaviour; rebuild them on the next shankpit-460 drop.
