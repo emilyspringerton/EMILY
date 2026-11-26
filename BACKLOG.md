@@ -50,7 +50,11 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   - [x] GFD on the game box: MUD + server-go, wotan /GFD/ws -> play.okemily.com:8443, DRAGONSNSHIT-MUD agent secret issued, 2026-11-26 (sess-20261126-1643-452c2f1a)
   - [ ] GFD: play through in a real browser (claim a character, check the hat store sees it); backups for /srv/games/gfd/var
   - [ ] WOTAN box: allow 443 only from Cloudflare ranges (CF-Connecting-IP is trusted for GFD's per-IP caps)
-  - [ ] Next (founder): DEADWEIGHT, D2, REDGARDEN, bot models on the game box -- ask per game.
+  - [x] REDGARDEN on the game box: stable + R&D matchmakers, 19/19/5 bot pools, IDUNA web gateway (REDGARDEN_POOLS) + ticket secret, rg DNS repointed, 2026-11-26 (sess-20261126-1643-452c2f1a)
+  - [ ] REDGARDEN native client: resolve hostnames (apps/arena + apps/arena_bot use inet_addr) and drop the self-minted test secret from CI's PLAY.bat (use --account)
+  - [ ] REDGARDEN arena match reporting: the C reporter speaks plain HTTP to IDUNA, which is HTTPS-only now (web matches are recorded by the gateway)
+  - [ ] Rotate match logs under /srv/games/*/var on the game box
+  - [ ] Next (founder): DEADWEIGHT, D2, bot models on the game box -- ask per game.
   - [ ] VKE path (later, per service): API key, cluster + `game` pool, Container Registry, Cloudflare token;
     then `platform/vultr/README.md` "Bring-up".
   - [ ] Rebuild all ~25 images → VCR: every `scripts/build-image.sh` + `.github/workflows` use `gcloud builds submit`
