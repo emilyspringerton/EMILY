@@ -54089,7 +54089,7 @@ State found: each repo had one unverified `wip` commit on `wip2` (2026-11-24) ca
 - [x] **TIEUP-0** Verify wip2 in all three repos (gcc headless tests, full lobby/arena builds with locally-extracted SDL2/GL headers, Xvfb smoke runs, regenerate every checked-in mod from PARENA). Found + fixed: SHANKPIT lobby did not compile (CamView name collision) -> SHANKPIT 5c2b3f3.
 - [x] **TIEUP-1** Regenerate the stale Netkit bundle (LLVM 18 + node 24 fetched locally) and run the netkit suite; 3 test-harness bugs fixed (PARENA 1ef5471), page e2e 94/94.
 - [x] **TIEUP-2** CHANGELOG/README Reality for the unlogged 11-24 work (flight, keybinds, items, REDGARDEN camera); fast-forward wip2 -> main/master in all three repos (REDGARDEN 1f2f02c, SHANKPIT 99092d2, PARENA 1ef5471).
-- [ ] **TIEUP-3** GOLDEN_DOCS resync for the edited golden doc `NETKIT-NORTH` (`SHANKPIT/docs/NETKIT_NORTHSTAR.md`) -- GOLDEN_DOCS is not checked out on this box.
+- [x] **TIEUP-3** (done: GOLDEN_DOCS fd99f19, targeted copy + MANIFEST line) GOLDEN_DOCS resync for the edited golden doc `NETKIT-NORTH` (`SHANKPIT/docs/NETKIT_NORTHSTAR.md`) -- GOLDEN_DOCS is not checked out on this box.
 - [ ] **TIEUP-4** File the Apples / kanban moves for everything marked "Apple pending" above once the emily CLI + IDUNA are reachable.
 - Still open by design (not loose ends of the 11-24 build, but unstarted work): VEH-VIS-0 (SECTION 642), RB-0..3 (SECTION 644), NETKIT-1..10 device/CI items, VULTR-0 (needs a key).
 
