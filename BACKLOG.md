@@ -54174,9 +54174,23 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
   (session: sess-20261103-0121-04484fc1)
 - [ ] **KIT-1b** Drop One on the real tablet: install the APK, scan, confirm the Pi shows as Pi by name; record the tablet's Android version
   (it decides whether ARP/MACs are visible). Founder hands-on.
-- [ ] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
+- [x] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
   exact names (no added `.txt`: create with `application/octet-stream`), LF default + CRLF option, drives + free space, save confirmation.
   Text/line-ending decisions in PARENA; Java owns only the SAF calls. Clean build gate.
+  - Founder real-time 2026-11-26 (KIT-USB): "ok we need some kind of way to run the skrip to download our vnc server or whatever and open up
+    the firewall assume i am administrator and i have access to the keyboard but no screen so i have no feedback to see if its working we can
+    run that skrip off of a sd card but we have no way to write to the SD card so we need to build a text editor into netkit we can use the
+    PARENA stuff built into the example for the editor if possible give us a text editor that allows us to save to the usb drive connected
+    over usb c". -> KIT-QW now, plus a blind-run VNC kit:
+    - [x] U1 PARENA editor document `nk_edit.prn` (buffer.prn's model over linear memory: selection, undo, goal column, auto-indent, find,
+          CRLF/LF + BOM round-trip) + `nk_kit.prn` (password rules, setup.conf, NETKIT.TXT, Win+R launcher line); edit_spec 43 specs.
+    - [x] U2 USB tab (`nk_host_drive.prn`): list/open/edit/save/new file, soft-keyboard input, key bar, VNC kit form. Chromium vs an
+          in-memory drive, 34 checks (one-off; page legs -> KIT-T T4).
+    - [x] U3 Android `DriveStore.java` (picker, persisted grant, list/read/write, folders, truncate + fsync) + `DrivePath` test. APK builds,
+          lint clean.
+    - [x] U4 setup.bat v2 speaks each step (SPEAK=1) and ends with the address or "Setup failed"; NOPAUSE via setup.conf. Lint only.
+    - Not done from the original KIT-QW line: free space per drive. Not yet run on a real tablet + stick, nor the kit on the iMac (KIT-1b).
+    DONE: PARENA 4cf885e, SHANKPIT 36c14a4, GOLDEN_DOCS accb806. (Apple pending -- emily CLI absent; session: sess-20261103-0121-04484fc1)
 - [ ] **KIT-2 Drop Two: Wi-Fi scanner.** `WifiManager.getScanResults` (passive; throttling and location permission named), PARENA:
   channel from frequency, security from capabilities, congestion per channel, quietest-channel pick, signal history. Clean build gate.
 - [ ] **KIT-3 Drop Three: BLE scanner.** `BluetoothLeScanner`, BLUETOOTH_SCAN (neverForLocation) / location on <= 11; PARENA: advert
