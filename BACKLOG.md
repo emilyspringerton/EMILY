@@ -54284,3 +54284,22 @@ Founder: "c emitter cant handle typed let bindings can we fix that? ... quick wr
 - [x] **D2-UP D2 up** (done 2026-11-26, WOTAN 49067a3; live smoke 14/15, the stored-match ship detail fails: follow-up) (repo still named DEADWEIGHT_2 on GitHub): `dw2_server` is server-authoritative TCP 1v1 with built-in FIFO matchmaking. Build it, run it as a systemd unit on the game box, open its TCP port, verify with `dw2_client` from outside, and wire the IDUNA `D2-SERVER` agent for match writes.
 - [x] **BR-UP Bedrock Racers live** (already on WOTAN main + IDUNA; verified on the Vultr hosting, live smoke 11/11): it is a static PARENA wasm web game (`PARENA/stdlib/bedrockracers`, `scripts/build_bedrockracers_web.sh <out>`, about 215 KB, bots only, no matchmaking). Publish it on WOTAN the way `/shankpit-460/` is served. Per its HANDOFF, ask the founder before pushing to WOTAN main. Then the gate tests: physics 21, magnet 37, fire 40, engine and browser.
 - Order: SSO-1 → BR-UP (static, fastest) → D2-UP → DW-UP → PRN-C1 (it unblocks GF E0 and freebuff's Milestone 2).
+
+## SECTION 653 — Founder real-time 2026-11-26: trees in the zombie modes (OG engine + wasm), ultra low poly, a resource-collection mod, PARENA mods first
+
+Founder: "Add trees to zombie survival modes for shankpit og engine and shankpit wasm zombies ultra low poly models like our skins add resource collection mod parena based mods based dev". (sess-20261126-1643-452c2f1a)
+
+- [x] **TREE-1** One rule file, `PARENA/stdlib/shankpit/tree_rules.prn` (C-emitter subset), holds:
+  - the pine, oak and birch box models (at most 4 boxes, like the skins), placement, HP, chop damage per weapon, wood per hit plus a fell bonus, and regrowth;
+  - resources (wood) and barricade cost and size.
+  PARENA eeddc43.
+- [x] **TREE-2** wasm SURVIVAL (GF `gf/modes/survival/sv_trees.prn`, mirrored to PARENA `stdlib/shankpit_survival`):
+  - a forest grows from the spawn outward; trunks are colliding map boxes;
+  - chopping is on the shot ray; stumps grow back;
+  - a WOOD HUD, and B / pad Y builds a barricade for 5 wood.
+  survival 40/40; the GF suite is green together with the other agent's V/W work. GF c696463.
+- [x] **TREE-3** OG engine: `SHANKPIT/packages/simulation/trees.{c,h}` + the generated `tree_rules.c`; trees in SURVIVAL and ZOMBIES, low-poly drawing, chop hook, WOOD HUD. `make test-trees` 13/13; `make lobby` builds; Xvfb run shows 64 trees. SHANKPIT 97d2554.
+- [x] **TREE-4** SHANKPHONE bundle with trees, plus a touch "Build" button (browser 30/30).
+- [ ] **TREE-5** OG engine: trunk collision (trunks as map boxes or a physics hook) and barricades from wood, to match the wasm engine.
+- [ ] **TREE-6** More resources through the same mod (stone from rubble, scrap from cars), plus spending beyond barricades; zombies clawing barricades down (`barricade-max-hp` is already in the rules).
+- [ ] **TREE-7** Frame budget: wasm survival went from 7 to 10 ms a frame with the forest (GF task E5); try canopy LOD or culling at distance.
