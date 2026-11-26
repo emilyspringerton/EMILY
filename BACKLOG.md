@@ -54115,10 +54115,13 @@ Every drop ends "CLEAN BUILDS FIRST". Home: `SHANKPIT/android-netkit` + `apps/ne
   OUIs; three were missing), Name dialog with labels in the encrypted store. PARENA d261ff3 + 95034dd, SHANKPIT 1d9c1ce. Tests: names 60,
   scan 62, page e2e 108, Chromium 25 + 18, JVM 19, lint clean. NOT YET: the done-when on the real tablet + real Pi (and avahi/Windows as
   real responders -- avahi could not run in the sandbox). (Apple pending; session: sess-20261103-0121-04484fc1)
-- [ ] **KIT-P Founder real-time 2026-11-26: "ALL PARENA BASED MODS BASED DEVELOPMENT".** Standing rule for every drop: all decision logic
+- [x] **KIT-P Founder real-time 2026-11-26: "ALL PARENA BASED MODS BASED DEVELOPMENT".** Standing rule for every drop: all decision logic
   is PARENA (wasm mods + PARENA->TS host); Java/Android is a byte/permission pipe only; build-time tools that decide anything are PARENA too.
   Audit of Drop One: the only non-PARENA logic was `PARENA/tools/netkit_oui_gen.py` (maker curation + oui.bin packing) -> port to a PARENA
   wasm mod (`stdlib/netkit/nk_oui_gen.prn`) run by a PARENA->TS node host, prove byte-identical output, delete the Python.
+  DONE: curate reproduced all 14,052 lines and pack reproduced oui.bin byte for byte on the real registry; Python deleted; bundle rebuilt
+  identical; test_oui_gen 17; full netkit suite incl. Chromium passes. PARENA 329ffb3 + e74853f, SHANKPIT 2eaa76e. Remaining non-PARENA
+  code is platform only (markup, Java socket/UDP/storage pipe) and tests. (Apple pending; session: sess-20261103-0121-04484fc1)
 - [ ] **KIT-1b** Drop One on the real tablet: install the APK, scan, confirm the Pi shows as Pi by name; record the tablet's Android version
   (it decides whether ARP/MACs are visible). Founder hands-on.
 - [ ] **KIT-QW Quick win: USB/SD file writer.** SAF `ACTION_OPEN_DOCUMENT_TREE` + persisted permission, create/open/edit text files,
