@@ -1,0 +1,163 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redgarden-stable
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redgarden-stable
+  template:
+    metadata:
+      labels:
+        app: redgarden-stable
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: matchmaker
+          image: ewr.vultrcr.com/emily/redgarden-stable:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "8778"
+            - "--lobby-size"
+            - "20"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "8300"
+            - "--game-port-range"
+            - "20"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: bot-pool
+          image: ewr.vultrcr.com/emily/redgarden-stable:3e55798
+          command:
+            - /app/scripts/run_bot_pool.sh
+          args:
+            - "19"
+            - "8778"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: hostports
+          image: registry.k8s.io/pause:3.10
+          ports:
+            - containerPort: 8778
+              hostPort: 8778
+              protocol: UDP
+            - containerPort: 8300
+              hostPort: 8300
+              protocol: UDP
+            - containerPort: 8301
+              hostPort: 8301
+              protocol: UDP
+            - containerPort: 8302
+              hostPort: 8302
+              protocol: UDP
+            - containerPort: 8303
+              hostPort: 8303
+              protocol: UDP
+            - containerPort: 8304
+              hostPort: 8304
+              protocol: UDP
+            - containerPort: 8305
+              hostPort: 8305
+              protocol: UDP
+            - containerPort: 8306
+              hostPort: 8306
+              protocol: UDP
+            - containerPort: 8307
+              hostPort: 8307
+              protocol: UDP
+            - containerPort: 8308
+              hostPort: 8308
+              protocol: UDP
+            - containerPort: 8309
+              hostPort: 8309
+              protocol: UDP
+            - containerPort: 8310
+              hostPort: 8310
+              protocol: UDP
+            - containerPort: 8311
+              hostPort: 8311
+              protocol: UDP
+            - containerPort: 8312
+              hostPort: 8312
+              protocol: UDP
+            - containerPort: 8313
+              hostPort: 8313
+              protocol: UDP
+            - containerPort: 8314
+              hostPort: 8314
+              protocol: UDP
+            - containerPort: 8315
+              hostPort: 8315
+              protocol: UDP
+            - containerPort: 8316
+              hostPort: 8316
+              protocol: UDP
+            - containerPort: 8317
+              hostPort: 8317
+              protocol: UDP
+            - containerPort: 8318
+              hostPort: 8318
+              protocol: UDP
+            - containerPort: 8319
+              hostPort: 8319
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 1m
+              memory: 8Mi
+            limits:
+              memory: 16Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+      nodeSelector:
+        emily/pool: game

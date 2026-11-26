@@ -10,8 +10,18 @@ while IFS='=' read -r k v; do
   [[ -v "$k" ]] || export "$k=$v"
 done < "$HERE/tags.env"
 R="${PARENA_K8S_RENDER:-/home/fatbaby/PARENA/parena-k8s-render}"
-OUT="$(cd "$(dirname "$0")" && pwd)/clusters/prrject-fatbaby"
-REG="us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily"
+# PROVIDER=vultr renders Vultr Kubernetes Engine (clusters/vultr-emily, see platform/vultr/README.md). GCP was shut
+# off for billing on 2026-11-26; PROVIDER=gke (default) still regenerates clusters/prrject-fatbaby byte-for-byte.
+# Specs stay provider-neutral: the PARENA renderer switches on PARENA_K8S_PROVIDER, and the GKE-only objects in the
+# heredocs below are filtered by vultr_postprocess.py at the end.
+PROVIDER="${PROVIDER:-gke}"
+GKE_REG="us-central1-docker.pkg.dev/project-d24a71e9-2daf-4b2d-917/emily"
+case "$PROVIDER" in
+  gke)   OUT="$HERE/clusters/prrject-fatbaby"; REG="$GKE_REG" ;;
+  vultr) OUT="$HERE/clusters/vultr-emily"; REG="${VULTR_REGISTRY:-ewr.vultrcr.com/emily}"; export PARENA_K8S_PROVIDER=vultr ;;
+  *) echo "render.sh: PROVIDER=$PROVIDER, want gke or vultr" >&2; exit 2 ;;
+esac
+mkdir -p "$OUT"
 TAG="${COLLECTIONS_TAG:-0.1.0}"
 printf 'apiVersion: v1\nkind: Namespace\nmetadata:\n  name: emily\n' > "$OUT/00-namespace.yaml"
 # No app renders its own Ingress: every Ingress object is another billed external LB, so all hosts are
@@ -20,7 +30,10 @@ printf 'apiVersion: v1\nkind: Namespace\nmetadata:\n  name: emily\n' > "$OUT/00-
 
 # FatBaby core pod + PVC: removed 2026-10-12 (data exported to gs://fatbaby2026-10-12/var), restored 2026-10-18
 # (PVC repopulated from that bucket; newssite container held off in specs/fatbaby-core.pod until the pipelines catch up).
-P="${PARENA_POD_RENDER:-/home/fatbaby/PARENA/parena-pod-render}"
+PBIN="${PARENA_POD_RENDER:-/home/fatbaby/PARENA/parena-pod-render}"
+# Specs name images by the GKE registry path; swap in this provider's registry (identity for gke).
+pod_render() { "$PBIN" "$@" | sed "s#$GKE_REG/#$REG/#g"; }
+P=pod_render
 FB_TAG="${FATBABY_TAG:-0.1.0}"
 "$P" "$(dirname "$0")/specs/fatbaby-core.pod" | sed "s/:IMAGE_TAG\$/:$FB_TAG/" > "$OUT/20-fatbaby-core.yaml"
 
@@ -613,3 +626,11 @@ spec:
   ports:
     - {port: 8000, targetPort: 8000}
 YAML
+
+# PROVIDER=vultr: no GPU pool yet (founder 2026-11-26: vLLM "drop for now", CODER-AGENT stays parked), and
+# gitops-autodeploy polls Artifact Registry via GKE Workload Identity -- its Vultr Container Registry port is follow-up
+# work, so until then tags move by hand (bump-tag.sh, then PROVIDER=vultr ./render.sh).
+if [ "$PROVIDER" = vultr ]; then
+  rm -f "$OUT/47-vllm-coder.yaml" "$OUT/96b-gitops-autodeploy.yaml"
+  python3 "$HERE/vultr_postprocess.py" "$OUT"
+fi

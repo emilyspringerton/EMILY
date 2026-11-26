@@ -1,0 +1,328 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redgarden-rnd
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redgarden-rnd
+  template:
+    metadata:
+      labels:
+        app: redgarden-rnd
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: mm-bots
+          image: ewr.vultrcr.com/emily/redgarden-rnd:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "7778"
+            - "--lobby-size"
+            - "20"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "7300"
+            - "--game-port-range"
+            - "20"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: mm-players
+          image: ewr.vultrcr.com/emily/redgarden-rnd:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "7779"
+            - "--lobby-size"
+            - "2"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "7600"
+            - "--game-port-range"
+            - "10"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: mm-3v3
+          image: ewr.vultrcr.com/emily/redgarden-rnd:3e55798
+          command:
+            - /app/build/red_garden_matchmaker
+          args:
+            - "--listen-port"
+            - "7780"
+            - "--lobby-size"
+            - "6"
+            - "--server-bin"
+            - "/app/build/red_garden_arena_server"
+            - "--first-game-port"
+            - "7400"
+            - "--game-port-range"
+            - "10"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: pool-bots
+          image: ewr.vultrcr.com/emily/redgarden-rnd:3e55798
+          command:
+            - /app/scripts/run_bot_pool.sh
+          args:
+            - "19"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+              ephemeral-storage: 256Mi
+        - name: pool-3v3
+          image: ewr.vultrcr.com/emily/redgarden-rnd:3e55798
+          command:
+            - /app/scripts/run_bot_pool.sh
+          args:
+            - "5"
+            - "7780"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/redgarden/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: redgarden-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/redgarden
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: hostports
+          image: registry.k8s.io/pause:3.10
+          ports:
+            - containerPort: 7778
+              hostPort: 7778
+              protocol: UDP
+            - containerPort: 7779
+              hostPort: 7779
+              protocol: UDP
+            - containerPort: 7780
+              hostPort: 7780
+              protocol: UDP
+            - containerPort: 7300
+              hostPort: 7300
+              protocol: UDP
+            - containerPort: 7301
+              hostPort: 7301
+              protocol: UDP
+            - containerPort: 7302
+              hostPort: 7302
+              protocol: UDP
+            - containerPort: 7303
+              hostPort: 7303
+              protocol: UDP
+            - containerPort: 7304
+              hostPort: 7304
+              protocol: UDP
+            - containerPort: 7305
+              hostPort: 7305
+              protocol: UDP
+            - containerPort: 7306
+              hostPort: 7306
+              protocol: UDP
+            - containerPort: 7307
+              hostPort: 7307
+              protocol: UDP
+            - containerPort: 7308
+              hostPort: 7308
+              protocol: UDP
+            - containerPort: 7309
+              hostPort: 7309
+              protocol: UDP
+            - containerPort: 7310
+              hostPort: 7310
+              protocol: UDP
+            - containerPort: 7311
+              hostPort: 7311
+              protocol: UDP
+            - containerPort: 7312
+              hostPort: 7312
+              protocol: UDP
+            - containerPort: 7313
+              hostPort: 7313
+              protocol: UDP
+            - containerPort: 7314
+              hostPort: 7314
+              protocol: UDP
+            - containerPort: 7315
+              hostPort: 7315
+              protocol: UDP
+            - containerPort: 7316
+              hostPort: 7316
+              protocol: UDP
+            - containerPort: 7317
+              hostPort: 7317
+              protocol: UDP
+            - containerPort: 7318
+              hostPort: 7318
+              protocol: UDP
+            - containerPort: 7319
+              hostPort: 7319
+              protocol: UDP
+            - containerPort: 7600
+              hostPort: 7600
+              protocol: UDP
+            - containerPort: 7601
+              hostPort: 7601
+              protocol: UDP
+            - containerPort: 7602
+              hostPort: 7602
+              protocol: UDP
+            - containerPort: 7603
+              hostPort: 7603
+              protocol: UDP
+            - containerPort: 7604
+              hostPort: 7604
+              protocol: UDP
+            - containerPort: 7605
+              hostPort: 7605
+              protocol: UDP
+            - containerPort: 7606
+              hostPort: 7606
+              protocol: UDP
+            - containerPort: 7607
+              hostPort: 7607
+              protocol: UDP
+            - containerPort: 7608
+              hostPort: 7608
+              protocol: UDP
+            - containerPort: 7609
+              hostPort: 7609
+              protocol: UDP
+            - containerPort: 7400
+              hostPort: 7400
+              protocol: UDP
+            - containerPort: 7401
+              hostPort: 7401
+              protocol: UDP
+            - containerPort: 7402
+              hostPort: 7402
+              protocol: UDP
+            - containerPort: 7403
+              hostPort: 7403
+              protocol: UDP
+            - containerPort: 7404
+              hostPort: 7404
+              protocol: UDP
+            - containerPort: 7405
+              hostPort: 7405
+              protocol: UDP
+            - containerPort: 7406
+              hostPort: 7406
+              protocol: UDP
+            - containerPort: 7407
+              hostPort: 7407
+              protocol: UDP
+            - containerPort: 7408
+              hostPort: 7408
+              protocol: UDP
+            - containerPort: 7409
+              hostPort: 7409
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 1m
+              memory: 8Mi
+            limits:
+              memory: 16Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+      nodeSelector:
+        emily/pool: game

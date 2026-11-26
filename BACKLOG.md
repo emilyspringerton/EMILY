@@ -21,6 +21,24 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
 
 ## SECTION 1: FOUNDATION (current sprint)
 
+- [ ] **VULTR-01 — move the whole cluster from GKE to Vultr Kubernetes Engine (fresh start).** Founder real-time,
+  2026-11-26: "we need to convert everything to VULTR / VULTR has kubernetes"; "google is shut down due to billing
+  this is a fresh start"; Vultr access: "prep repo first"; vLLM: "drop for now"; UDP games: game node + Reserved IP.
+  GCP is gone (cluster, Artifact Registry, PVC data, gs:// buckets). Not routed through `emily observe` or the kanban,
+  and no Apple: there is no IDUNA to post to until this lands. Session sess-20261126-1643-452c2f1a.
+  - [x] Repo prep: PARENA renderer `PARENA_K8S_PROVIDER=vultr` (hostPort game pods on `emily/pool=game`, Envoy
+    Gateway + BackendTrafficPolicy edge, 10 GB PVC floor; `make test-k8s-pod` OK). `render.sh PROVIDER=vultr` →
+    `gitops/clusters/vultr-emily` (54 objects; kubeconform --strict, all valid). GKE output still byte-identical.
+    `gitops/platform/vultr/` (bootstrap.sh, attach-game-ip.sh, cert-manager DNS-01, game-ip DaemonSet, README).
+  - [ ] Founder: Vultr API key, VKE cluster + `game` node pool (label `emily/pool=game`), Container Registry,
+    Cloudflare DNS token; then `platform/vultr/README.md` "Bring-up".
+  - [ ] Rebuild all ~25 images → VCR: every `scripts/build-image.sh` + `.github/workflows` use `gcloud builds submit`
+    / Workload Identity Federation (dead). docker buildx + VCR secrets.
+  - [ ] gitops-autodeploy: poll VCR instead of Artifact Registry (not rendered on Vultr until then).
+  - [ ] `emily backup` → Vultr Object Storage (S3) instead of `gcloud storage cp gs://…-backups`.
+  - [ ] Verify on first deploy: hostPort on VKE Calico, node firewall for game ports, Envoy WebSocket idle timeout.
+  - [ ] Re-file this item's Apple once IDUNA is back.
+
 - [x] **TOP PRIORITY — dispatch the replay-fragility fix to Fable.** Founder instruction,
   2026-07-18, verbatim: "we need to fix the entity graph into memory thing, i dont know what to
   do, log it as the top priority to query fable against tomorrow while we still have fable

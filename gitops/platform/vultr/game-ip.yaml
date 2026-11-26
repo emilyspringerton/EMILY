@@ -1,0 +1,37 @@
+# Puts the game Reserved IP on the game node's main interface. Vultr's docs say an attached Reserved IP is a new
+# address on the instance's main interface but not whether the OS configures it; the hostPort DNAT that carries
+# every game port only matches addresses that are local to the node, so this makes it local either way
+# (idempotent: `ip addr add` of an address already present is a no-op here). attach-game-ip.sh fills GAME_IP.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: game-ip
+  namespace: emily
+spec:
+  selector:
+    matchLabels: {app: game-ip}
+  template:
+    metadata:
+      labels: {app: game-ip}
+    spec:
+      hostNetwork: true
+      nodeSelector:
+        emily/pool: game
+      containers:
+        - name: ip
+          image: busybox:1.36.1
+          env:
+            - {name: GAME_IP, value: "${GAME_IP}"}
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              while true; do
+                dev=$(ip route show default | awk '{print $5; exit}')
+                ip addr show dev "$dev" | grep -q " $GAME_IP/" || ip addr add "$GAME_IP/32" dev "$dev"
+                sleep 30
+              done
+          securityContext:
+            capabilities: {add: [NET_ADMIN]}
+          resources:
+            requests: {cpu: 1m, memory: 8Mi}
+            limits: {memory: 16Mi}

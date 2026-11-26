@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collections-server
+  namespace: emily
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collections-server
+  template:
+    metadata:
+      labels:
+        app: collections-server
+    spec:
+      containers:
+        - name: collections-server
+          image: ewr.vultrcr.com/emily/collections-server:0.1.0
+          ports:
+            - containerPort: 8087
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: collections-server
+  namespace: emily
+spec:
+  selector:
+    app: collections-server
+  ports:
+    - port: 8087
+      targetPort: 8087
+  type: ClusterIP

@@ -1,0 +1,18 @@
+# The edge Gateway's one TLS Secret (edge-tls, referenced by 91-edge-gateway.yaml). Covers every hostname the
+# HTTPRoutes in clusters/vultr-emily serve today; add a dnsName here when a route gains a host outside these.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: edge-tls
+  namespace: emily
+spec:
+  secretName: edge-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-dns
+  dnsNames:
+    - okemily.com
+    - "*.okemily.com"
+    - "*.rg.okemily.com"
+    - carepyre.org
+    - "*.carepyre.org"

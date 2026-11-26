@@ -1,0 +1,174 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: iduna-var
+  namespace: emily
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iduna
+  namespace: emily
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: iduna
+  template:
+    metadata:
+      labels:
+        app: iduna
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: iduna
+          image: ewr.vultrcr.com/emily/iduna:d2684db
+          command:
+            - /app/iduna
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/iduna/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: iduna-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/iduna
+          resources:
+            requests:
+              cpu: 500m
+              memory: 768Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi
+              ephemeral-storage: 256Mi
+        - name: iduna-tunnel
+          image: ewr.vultrcr.com/emily/sc-tunnel:v3
+          command:
+            - /sc_tunnel
+          args:
+            - "server"
+            - "8443"
+            - "127.0.0.1"
+            - "8080"
+            - "/app/var/sc-tunnel.key"
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/iduna/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: iduna-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/iduna
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 25m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: web
+          image: ewr.vultrcr.com/emily/okemily-web:a4864b2
+          command:
+            - /run-nginx.sh
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 80
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/iduna/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: iduna-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/iduna
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+        - name: logsync
+          image: ewr.vultrcr.com/emily/dwlogs:v2
+          command:
+            - /logsync.sh
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/iduna/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: iduna-env
+          volumeMounts:
+            - name: var
+              mountPath: /app/var
+            - name: run
+              mountPath: /run/iduna
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 25m
+              memory: 64Mi
+              ephemeral-storage: 256Mi
+      volumes:
+        - name: var
+          persistentVolumeClaim:
+            claimName: iduna-var
+        - name: run
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iduna
+  namespace: emily
+spec:
+  selector:
+    app: iduna
+  ports:
+    - name: p8080
+      port: 8080
+      targetPort: 8080
+    - name: p8443
+      port: 8443
+      targetPort: 8443
+    - name: p80
+      port: 80
+      targetPort: 80
+  type: ClusterIP

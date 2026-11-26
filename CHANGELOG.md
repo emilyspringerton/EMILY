@@ -1,3 +1,7 @@
+## 2026-11-26
+
+- feat(gitops): Vultr Kubernetes Engine target (GCP shut down for billing). `PROVIDER=vultr ./render.sh` → `gitops/clusters/vultr-emily` (registry swap, GKE-only policies stripped by `vultr_postprocess.py`, vLLM + gitops-autodeploy not rendered, gitops-sync watches the new dir); `gitops/platform/vultr/` holds bootstrap (Envoy Gateway v1.9.3, cert-manager v1.21.2, Let's Encrypt DNS-01 on Cloudflare), the game Reserved IP attach script + DaemonSet, and the README. Game UDP/TCP moves off LoadBalancers to hostPorts on a `game` node pool: Vultr LBs cap at 15 forwarding rules and health-check UDP Services over TCP. Rendered and kubeconform-validated, not deployed. Needs PARENA renderer change of the same day. (sess-20261126-1643-452c2f1a)
+
 ## 2026-10-15
 
 - feat(ci/client): SHANKPIT slim-client release artifacts (card #621, SHANKPIT@d982428) and DEADWEIGHT_2 client log file/live default/no-vanish startup (card #613). See each repo's CHANGELOG.

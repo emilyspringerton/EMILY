@@ -1,0 +1,63 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: edge-gw
+  namespace: emily
+spec:
+  gatewayClassName: eg
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: edge-tls
+      allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: edge-gw-timeouts
+  namespace: emily
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: edge-gw
+  timeout:
+    http:
+      requestTimeout: 3600s
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: gfd-wsrelay
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - ws.rg.okemily.com
+  rules:
+    - backendRefs:
+        - name: gfd-wsrelay
+          port: 8081
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: collections-server
+  namespace: emily
+spec:
+  parentRefs:
+    - name: edge-gw
+  hostnames:
+    - golden.okemily.com
+  rules:
+    - backendRefs:
+        - name: collections-server
+          port: 8087

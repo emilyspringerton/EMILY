@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-edge
+  namespace: emily
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tcp-edge
+  template:
+    metadata:
+      labels:
+        app: tcp-edge
+    spec:
+      securityContext:
+        fsGroup: 65532
+      containers:
+        - name: tcp-edge
+          image: ewr.vultrcr.com/emily/tcp-edge:v4
+          command:
+            - /run-nginx.sh
+          ports:
+            - containerPort: 7180
+          readinessProbe:
+            tcpSocket:
+              port: 7180
+          env:
+            - name: FATBABY_NOTIFY_DIR
+              value: /run/tcp-edge/notify
+          envFrom:
+            - secretRef:
+                optional: true
+                name: tcp-edge-env
+          volumeMounts:
+            - name: var
+              mountPath: /var/cache/nginx
+            - name: run
+              mountPath: /run/tcp-edge
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 256Mi
+        - name: hostports
+          image: registry.k8s.io/pause:3.10
+          ports:
+            - containerPort: 2323
+              hostPort: 2323
+              protocol: TCP
+            - containerPort: 2222
+              hostPort: 2222
+              protocol: TCP
+            - containerPort: 7171
+              hostPort: 7171
+              protocol: TCP
+            - containerPort: 7070
+              hostPort: 7070
+              protocol: TCP
+            - containerPort: 8443
+              hostPort: 8443
+              protocol: TCP
+            - containerPort: 7180
+              hostPort: 7180
+              protocol: TCP
+            - containerPort: 7800
+              hostPort: 7800
+              protocol: TCP
+            - containerPort: 8091
+              hostPort: 8091
+              protocol: TCP
+            - containerPort: 8092
+              hostPort: 8092
+              protocol: TCP
+            - containerPort: 25565
+              hostPort: 25565
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 1m
+              memory: 8Mi
+            limits:
+              memory: 16Mi
+      volumes:
+        - name: var
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+      nodeSelector:
+        emily/pool: game
