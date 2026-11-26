@@ -30,8 +30,19 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
     Gateway + BackendTrafficPolicy edge, 10 GB PVC floor; `make test-k8s-pod` OK). `render.sh PROVIDER=vultr` →
     `gitops/clusters/vultr-emily` (54 objects; kubeconform --strict, all valid). GKE output still byte-identical.
     `gitops/platform/vultr/` (bootstrap.sh, attach-game-ip.sh, cert-manager DNS-01, game-ip DaemonSet, README).
-  - [ ] Founder: Vultr API key, VKE cluster + `game` node pool (label `emily/pool=game`), Container Registry,
-    Cloudflare DNS token; then `platform/vultr/README.md` "Bring-up".
+  - **Per-service bring-up, not all at once** (founder 2026-11-26: "ask me on a per service basis ... we arent
+    bringing up fatbaby right now / we must get iduna and wotan up / i dont care if its kubernetes or not").
+    IDUNA + WOTAN go first on **plain Vultr VMs, one per service** (founder's pick over VKE); every other service
+    (FatBaby, games, CarePyre, MixForge, golden docs, ...) waits for its own go-ahead. The VKE prep stays for later.
+  - [x] IDUNA box tool `IDUNA/ops/vultr` (`iduna-vultr`): compose iduna (GHCR image) + okemily-web + sc-tunnel
+    (built from EDGE.GAME; its only image died with Artifact Registry) + logsync; hosts iam/apex/www proxied,
+    webmaster.json first admin, secrets over SSH only. 7 tests vs fake APIs; compose YAML + `nginx -t` checked.
+  - [x] WOTAN box: existing `WOTAN/ops/vultr` (`wotan-vultr`) unchanged except `/DEADWEIGHT/ws` + `/GFD/ws` → 503.
+  - [ ] Founder: Vultr API key + SSH key id, Cloudflare token, webmaster.json; run `iduna-vultr plan`, then
+    `apply --dns`; then `wotan-vultr apply --dns` with `WOTAN_IDUNA_UPSTREAM=https://iam.okemily.com`.
+  - [ ] Next (founder): the WOTAN games (DEADWEIGHT, GFD, ...) -- ask per game.
+  - [ ] VKE path (later, per service): API key, cluster + `game` pool, Container Registry, Cloudflare token;
+    then `platform/vultr/README.md` "Bring-up".
   - [ ] Rebuild all ~25 images → VCR: every `scripts/build-image.sh` + `.github/workflows` use `gcloud builds submit`
     / Workload Identity Federation (dead). docker buildx + VCR secrets.
   - [ ] gitops-autodeploy: poll VCR instead of Artifact Registry (not rendered on Vultr until then).
