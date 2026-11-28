@@ -58,7 +58,10 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
     - [x] GFD consumes it: setjob/combat-travel rules generated from wm_rules.prn; town.wmap + internal/wmap parser/validator. GFD dd54118, c3d7099.
     - [ ] BURROW still missing for bigger rules modules: struct construction, (Vec Struct) elements, match on a user defenum, F32 in Vec/loop bindings (loop bindings are I32 only).
     - [ ] Move more GFD rules into PARENA mods (combat formula, stats, drops) via BURROW; each with a C/Go parity test like worldmap.
-    - [ ] SHANKPIT engine: a .wmap loader (superset of map_loader.h; shankpit-460 + SHANKPIT + PARENA sp_map_data share it) and the town scene built from data/maps/town.wmap (the old GFD GUI town, from GoblinFoxDragon/apps2/battlegrounds_gui).
+    - [x] SHANKPIT .wmap reader (packages/world/wmap_level.h, `make test-wmap`) + GFD's SHANKPIT-style Town ported as maps/gfd_city.wmap (all 54 boxes of physics.h map_geo_city_base, 5 spawns, 3 telecrystals). SHANKPIT ddddb05; GFD 5b6aabc. (session: sess-20261128-0210-7f8701d8)
+    - [x] Telecrystals in SHANKPIT: packages/common/telecrystal.h over wm_rules_gen.h (generated from PARENA by BURROW), `make test-telecrystal`. SHANKPIT 462b153.
+    - [ ] Wire the town into apps/lobby (can't be built on this box: no SDL2 dev headers): `--level maps/gfd_city.wmap` smoke run, draw the crystal rings + G prompt from g_wmap_crystals, run tc_tick, send the cast to the GFD server and hop scene on its OK. Also the New Handington layout (26 buildings, data/maps/town.wmap) as a second scene.
+    - [ ] Telecrystal registry rows for scenes 2/3 (mines, docks) and their maps, so the jumps have somewhere to land in the SHANKPIT client.
     - [ ] SHANKPIT top-level menu: "GoblinFoxDragon" item connecting to the GFD server (wss://wotan.okemily.com/GFD/ws, IDUNA sign-in as the netkit GFD screen already does); server stays authoritative.
     - [ ] DragonsNShit: the same client delivered through the Netkit Android app as its own app (separate from the GFD MUD entry in the SHANKPHONE); delivery via the GFD repo CI, same deploy pattern.
   - [ ] GFD: play through in a real browser (claim a character, check the hat store sees it); backups for /srv/games/gfd/var
