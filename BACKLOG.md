@@ -52,6 +52,15 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   - [x] GFD auto-deploy one-time setup (founder: root on game box + repo admin): deploy key + `GFD_DEPLOY_SSH_KEY` secret, `GoblinFoxDragon/ops/deploy/README.md`; green first run 2026-11-28 (run 46098948795, f665ae9)
   - [x] Auto-deploy for the other Vultr services: IDUNA, okemily.com, WOTAN, SHANKPIT, shankpit-460, REDGARDEN, D2 (forced-command receivers, rollback; WOTAN/ops/deploy/README.md), 2026-11-28
   - [ ] Auto-deploy leftovers: PRRJECT_FATBABY deploy.yml is still dead GCP (nothing runs it on Vultr yet); deploy receivers have no tests in CI; no alert when a deploy goes red
+  - [ ] **GFD = server, SHANKPIT = client; one WORLDMAP contract** (founder real-time 2026-11-28: "bring together shankpit maps and GFD maps ... a contract in PARENA ... BURROW emit go via PARENA ... all PARENA mods based work in GFD ... bring back the old GFD GUI town but build it in the SHANKPIT engine, GFD a top level menu item in SHANKPIT ... deliver the client to the shankpit netkit android app as a separate app from GFD: DragonsNShit"). (session: sess-20261128-0210-7f8701d8)
+    - [x] Contract: PARENA stdlib/worldmap (CONTRACT.md + wm_rules.prn), `make test-worldmap` proves C and Go agree. PARENA 6867b38.
+    - [x] BURROW Go+C emit: F32, fabs/fmin2/fmax2, Bool literals in C. BURROW dfd03d5, 4fd9988.
+    - [x] GFD consumes it: setjob/combat-travel rules generated from wm_rules.prn; town.wmap + internal/wmap parser/validator. GFD dd54118, c3d7099.
+    - [ ] BURROW still missing for bigger rules modules: struct construction, (Vec Struct) elements, match on a user defenum, F32 in Vec/loop bindings (loop bindings are I32 only).
+    - [ ] Move more GFD rules into PARENA mods (combat formula, stats, drops) via BURROW; each with a C/Go parity test like worldmap.
+    - [ ] SHANKPIT engine: a .wmap loader (superset of map_loader.h; shankpit-460 + SHANKPIT + PARENA sp_map_data share it) and the town scene built from data/maps/town.wmap (the old GFD GUI town, from GoblinFoxDragon/apps2/battlegrounds_gui).
+    - [ ] SHANKPIT top-level menu: "GoblinFoxDragon" item connecting to the GFD server (wss://wotan.okemily.com/GFD/ws, IDUNA sign-in as the netkit GFD screen already does); server stays authoritative.
+    - [ ] DragonsNShit: the same client delivered through the Netkit Android app as its own app (separate from the GFD MUD entry in the SHANKPHONE); delivery via the GFD repo CI, same deploy pattern.
   - [ ] GFD: play through in a real browser (claim a character, check the hat store sees it); backups for /srv/games/gfd/var
   - [ ] WOTAN box: allow 443 only from Cloudflare ranges (CF-Connecting-IP is trusted for GFD's per-IP caps)
   - [x] REDGARDEN on the game box: stable + R&D matchmakers, 19/19/5 bot pools, IDUNA web gateway (REDGARDEN_POOLS) + ticket secret, rg DNS repointed, 2026-11-26 (sess-20261126-1643-452c2f1a)
