@@ -50,7 +50,8 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   - [x] GFD on the game box: MUD + server-go, wotan /GFD/ws -> play.okemily.com:8443, DRAGONSNSHIT-MUD agent secret issued, 2026-11-26 (sess-20261126-1643-452c2f1a)
   - [x] GFD auto-deploy on Vultr: push to master -> test, build, SSH tarball to play.okemily.com -> forced-command receiver installs, restarts, health-checks, rolls back (GoblinFoxDragon ea32c31), 2026-11-28 (sess-20261128-0210-7f8701d8)
   - [x] GFD auto-deploy one-time setup (founder: root on game box + repo admin): deploy key + `GFD_DEPLOY_SSH_KEY` secret, `GoblinFoxDragon/ops/deploy/README.md`; green first run 2026-11-28 (run 46098948795, f665ae9)
-  - [ ] Auto-deploy for the other Vultr services (WOTAN, IDUNA, SHANKPIT, REDGARDEN, D2): every deploy.yml still targets dead GCP; reuse the GFD receiver pattern
+  - [x] Auto-deploy for the other Vultr services: IDUNA, okemily.com, WOTAN, SHANKPIT, shankpit-460, REDGARDEN, D2 (forced-command receivers, rollback; WOTAN/ops/deploy/README.md), 2026-11-28
+  - [ ] Auto-deploy leftovers: PRRJECT_FATBABY deploy.yml is still dead GCP (nothing runs it on Vultr yet); deploy receivers have no tests in CI; no alert when a deploy goes red
   - [ ] GFD: play through in a real browser (claim a character, check the hat store sees it); backups for /srv/games/gfd/var
   - [ ] WOTAN box: allow 443 only from Cloudflare ranges (CF-Connecting-IP is trusted for GFD's per-IP caps)
   - [x] REDGARDEN on the game box: stable + R&D matchmakers, 19/19/5 bot pools, IDUNA web gateway (REDGARDEN_POOLS) + ticket secret, rg DNS repointed, 2026-11-26 (sess-20261126-1643-452c2f1a)
