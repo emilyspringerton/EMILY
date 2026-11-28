@@ -49,7 +49,7 @@ IDUNA (`POST /api/v1/apples`) before the item is considered closed. The Apple is
   - [ ] shankpit-460 server M2M agent so match results reach IDUNA
   - [x] GFD on the game box: MUD + server-go, wotan /GFD/ws -> play.okemily.com:8443, DRAGONSNSHIT-MUD agent secret issued, 2026-11-26 (sess-20261126-1643-452c2f1a)
   - [x] GFD auto-deploy on Vultr: push to master -> test, build, SSH tarball to play.okemily.com -> forced-command receiver installs, restarts, health-checks, rolls back (GoblinFoxDragon ea32c31), 2026-11-28 (sess-20261128-0210-7f8701d8)
-  - [ ] GFD auto-deploy one-time setup (founder: root on game box + repo admin): deploy key + `GFD_DEPLOY_SSH_KEY` secret, `GoblinFoxDragon/ops/deploy/README.md`; then a green first run
+  - [x] GFD auto-deploy one-time setup (founder: root on game box + repo admin): deploy key + `GFD_DEPLOY_SSH_KEY` secret, `GoblinFoxDragon/ops/deploy/README.md`; green first run 2026-11-28 (run 46098948795, f665ae9)
   - [ ] Auto-deploy for the other Vultr services (WOTAN, IDUNA, SHANKPIT, REDGARDEN, D2): every deploy.yml still targets dead GCP; reuse the GFD receiver pattern
   - [ ] GFD: play through in a real browser (claim a character, check the hat store sees it); backups for /srv/games/gfd/var
   - [ ] WOTAN box: allow 443 only from Cloudflare ranges (CF-Connecting-IP is trusted for GFD's per-IP caps)
